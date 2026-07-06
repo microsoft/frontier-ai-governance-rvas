@@ -27,6 +27,10 @@ labs/     Per-session takeaway kits (infra, scripts, policies, pipelines, runboo
 
 ## Build the site locally
 
+The fastest path is the **[dev container](.devcontainer/README.md)** — open the repo in VS Code (*Reopen in Container*) or GitHub Codespaces and every site + lab-lint tool is preinstalled.
+
+Or set it up manually:
+
 ```bash
 pip install -r requirements.txt
 mkdocs serve      # preview at http://127.0.0.1:8000
