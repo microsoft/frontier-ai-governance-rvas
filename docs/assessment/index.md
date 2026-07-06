@@ -37,6 +37,7 @@ The scorecard and auto‑scorer live in the S0 takeaway kit:
 
 - `labs/s0-foundations/assessment/scorecard.csv` — fill the `score` column (1–4) with the customer.
 - `labs/s0-foundations/assessment/score.py` — computes per‑domain and overall maturity and prints a **prioritized roadmap** (lowest‑maturity, highest‑impact domains first).
+- `labs/s0-foundations/assessment/compare.py` — at S6, computes the **baseline→exit lift** per domain and the residual‑gap backlog.
 
 ```bash
 python labs/s0-foundations/assessment/score.py labs/s0-foundations/assessment/scorecard.csv

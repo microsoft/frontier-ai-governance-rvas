@@ -1,0 +1,67 @@
+{
+  "summary": {
+    "registryCount": 3,
+    "inventoryCount": 3,
+    "matchedCount": 2,
+    "shadowAgentCount": 1,
+    "registryOnlyCount": 1,
+    "unmanagedOrOboCount": 3,
+    "missingSponsorCount": 1,
+    "lifecycleGapCount": 0
+  },
+  "matchedAgents": [
+    "Benefits Answer Bot",
+    "Sales Research Assistant"
+  ],
+  "shadowAgents": [
+    {
+      "key": "id:33333333-3333-3333-3333-333333333333",
+      "displayName": "Prototype Procurement Agent",
+      "source": "s1_inventory",
+      "entraAgentId": "33333333-3333-3333-3333-333333333333",
+      "reason": "present in S1 inventory but absent from Agent 365 registry"
+    }
+  ],
+  "registryOnlyAgents": [
+    {
+      "key": "name:legacy faq agent",
+      "displayName": "Legacy FAQ Agent",
+      "source": "registry",
+      "entraAgentId": null,
+      "reason": "present in registry but absent from S1 inventory"
+    }
+  ],
+  "unmanagedOrOboAgents": [
+    {
+      "key": "name:sales research assistant",
+      "displayName": "Sales Research Assistant",
+      "source": "registry",
+      "entraAgentId": null,
+      "reason": "executes on behalf of a user; managed=false; missing Entra Agent ID"
+    },
+    {
+      "key": "name:legacy faq agent",
+      "displayName": "Legacy FAQ Agent",
+      "source": "registry",
+      "entraAgentId": null,
+      "reason": "executes on behalf of a user; managed=false; missing Entra Agent ID"
+    },
+    {
+      "key": "id:22222222-2222-2222-2222-222222222222",
+      "displayName": "Sales Research Assistant",
+      "source": "s1_inventory",
+      "entraAgentId": "22222222-2222-2222-2222-222222222222",
+      "reason": "executes on behalf of a user"
+    }
+  ],
+  "missingSponsorFindings": [
+    {
+      "key": "id:33333333-3333-3333-3333-333333333333",
+      "displayName": "Prototype Procurement Agent",
+      "source": "s1_inventory",
+      "entraAgentId": "33333333-3333-3333-3333-333333333333",
+      "reason": "missing human sponsor"
+    }
+  ],
+  "lifecycleGaps": []
+}

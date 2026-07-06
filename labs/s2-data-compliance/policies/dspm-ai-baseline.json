@@ -1,0 +1,24 @@
+{
+  "exportedFrom": "Microsoft Purview DSPM for AI",
+  "schemaVersion": "2026-07-06",
+  "tenantId": "REPLACE-WITH-TENANT-ID",
+  "displayName": "RVAS S2 - DSPM for AI baseline review",
+  "state": "AuditOnly",
+  "scanScope": {
+    "aiApps": [
+      "Microsoft365Copilot",
+      "MicrosoftFoundry",
+      "CopilotStudio",
+      "EnterpriseChatGPT"
+    ],
+    "sensitiveDataSignals": [
+      "SensitiveDataInPrompts",
+      "OversharedFiles",
+      "PotentialExfiltration"
+    ]
+  },
+  "outputs": {
+    "findingsExport": "./evidence/dspm-ai-findings.json",
+    "owner": "REPLACE-WITH-COMPLIANCE-DATA-ADMIN-UPN"
+  }
+}

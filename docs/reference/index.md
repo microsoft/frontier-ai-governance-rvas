@@ -61,6 +61,6 @@ graph TD
 [^purview]: Microsoft Learn — [Microsoft Purview for AI](https://learn.microsoft.com/en-us/purview/ai-microsoft-purview); [DSPM](https://learn.microsoft.com/en-us/purview/data-security-posture-management-learn-about).
 [^defender]: Microsoft Learn — [AI security posture management](https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-security-posture); [AI threat protection](https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-threat-protection).
 [^contentsafety]: Microsoft Learn — [Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection).
-[^foundry]: Microsoft Learn — [Foundry Observability](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability); [azure-ai-evaluation](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/evaluation/azure-ai-evaluation/README.md).
-[^redteam]: Microsoft Learn — [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent); [github.com/Azure/PyRIT](https://github.com/Azure/PyRIT).
+[^foundry]: Microsoft Learn — [Foundry Observability](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/observability); [azure-ai-evaluation](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/evaluation/azure-ai-evaluation/README.md).
+[^redteam]: Microsoft Learn — [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/ai-red-teaming-agent); [github.com/Azure/PyRIT](https://github.com/Azure/PyRIT).
 [^caf]: Microsoft Learn — [CAF for AI](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai/strategy); [AI Center of Excellence](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai/center-of-excellence).

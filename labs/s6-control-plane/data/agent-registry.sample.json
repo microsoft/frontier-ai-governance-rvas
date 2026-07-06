@@ -1,0 +1,39 @@
+{
+  "capturedUtc": "2026-07-06T18:00:00Z",
+  "source": "Microsoft Agent 365 registry export (sample)",
+  "agents": [
+    {
+      "id": "agent-001",
+      "displayName": "Benefits Answer Bot",
+      "platform": "Copilot Studio",
+      "entraAgentId": "11111111-1111-1111-1111-111111111111",
+      "executionMode": "agent_identity",
+      "managed": true,
+      "lifecycleState": "active",
+      "owner": "HR Operations",
+      "sponsorEmail": "hr-ops@example.com"
+    },
+    {
+      "id": "agent-002",
+      "displayName": "Sales Research Assistant",
+      "platform": "Microsoft Foundry",
+      "entraAgentId": null,
+      "executionMode": "obo",
+      "managed": false,
+      "lifecycleState": "exception",
+      "owner": "Sales Ops",
+      "sponsorEmail": "sales-ops@example.com"
+    },
+    {
+      "id": "agent-003",
+      "displayName": "Legacy FAQ Agent",
+      "platform": "Custom Web App",
+      "entraAgentId": null,
+      "executionMode": "obo",
+      "managed": false,
+      "lifecycleState": "active",
+      "owner": "Support Engineering",
+      "sponsorEmail": ""
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+# Reference snippet only. Copy into .github/workflows/ after customer review.
+# Verify current microsoft/ai-agent-evals inputs before enabling enforcement.
+name: AI agent evaluation gate
+
+on:
+  pull_request:
+    paths:
+      - "agents/**"
+      - "evals/**"
+      - "labs/s4-evaluation/**"
+
+jobs:
+  evaluate-agent:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Microsoft AI Agent Evals
+        uses: microsoft/ai-agent-evals@v1
+        with:
+          azure-ai-project-endpoint: ${{ secrets.AZURE_AI_PROJECT_ENDPOINT }}
+          evaluation-config: labs/s4-evaluation/pipelines/azure-eval.py
+          data: labs/s4-evaluation/data/eval-dataset.jsonl
+          fail-on-regression: "false" # start report-only; switch to true after approval
+          output-path: labs/s4-evaluation/evidence/ci-eval-results.json

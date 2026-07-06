@@ -1,0 +1,26 @@
+{
+  "name": "rvas-s3-content-safety-runtime-baseline",
+  "description": "Baseline runtime safety settings to review with the customer before connecting AI workloads.",
+  "mode": "audit-first",
+  "contentSafetyAccount": "REPLACE-WITH-CONTENT-SAFETY-RESOURCE-ID",
+  "testScope": "REPLACE-WITH-CUSTOMER-OWNED-TEST-ENDPOINT",
+  "promptShields": {
+    "directAttackDetection": "enabled",
+    "indirectAttackDetection": "enabled",
+    "action": "record-result-only"
+  },
+  "categories": {
+    "hate": "review",
+    "sexual": "review",
+    "selfHarm": "review",
+    "violence": "review"
+  },
+  "groundedness": {
+    "status": "preview",
+    "action": "evaluate-before-production-use"
+  },
+  "protectedMaterial": {
+    "status": "available",
+    "action": "record-result-only"
+  }
+}

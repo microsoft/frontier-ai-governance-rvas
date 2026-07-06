@@ -1,0 +1,111 @@
+{
+  "generated_at": "2026-07-06T18:16:46.991571+00:00",
+  "dataset": "/home/marco/fy27-hackathons/frontier-ai-governance-rvas/labs/s4-evaluation/data/eval-dataset.jsonl",
+  "thresholds_file": "/home/marco/fy27-hackathons/frontier-ai-governance-rvas/labs/s4-evaluation/policies/thresholds.json",
+  "status": "pass",
+  "aggregate_metrics": {
+    "exact_match": 0.75,
+    "f1": 0.9584639498432602,
+    "keyword_groundedness": 0.9791666666666666,
+    "aggregate": 0.8958768721699756
+  },
+  "thresholds": {
+    "metrics": {
+      "exact_match": 0.5,
+      "f1": 0.75,
+      "keyword_groundedness": 0.8
+    },
+    "aggregate": 0.75
+  },
+  "failures": [],
+  "cases": [
+    {
+      "case_id": "case-001",
+      "query": "What should the agent do before changing a governance control?",
+      "response": "Confirm an approver, start in report-only or audit-first mode, and capture evidence before enforcement.",
+      "ground_truth": "Confirm an approver, start in report-only or audit-first mode, and capture evidence before enforcement.",
+      "metrics": {
+        "exact_match": 1.0,
+        "f1": 1.0,
+        "keyword_groundedness": 1.0
+      }
+    },
+    {
+      "case_id": "case-002",
+      "query": "Where should evaluation evidence be stored?",
+      "response": "Store evaluation scorecards and logs in labs/s4-evaluation/evidence.",
+      "ground_truth": "Store evaluation scorecards and logs in labs/s4-evaluation/evidence.",
+      "metrics": {
+        "exact_match": 1.0,
+        "f1": 1.0,
+        "keyword_groundedness": 1.0
+      }
+    },
+    {
+      "case_id": "case-003",
+      "query": "What target is safe for first-time evaluation?",
+      "response": "Use a non-production test agent or deterministic mock target for initial evaluation.",
+      "ground_truth": "Use a non-production test agent or deterministic mock target for initial evaluation.",
+      "metrics": {
+        "exact_match": 1.0,
+        "f1": 1.0,
+        "keyword_groundedness": 1.0
+      }
+    },
+    {
+      "case_id": "case-004",
+      "query": "Which SDK supports Microsoft Foundry Evaluations in Python?",
+      "response": "Use the azure-ai-evaluation Python SDK for Microsoft Foundry Evaluations.",
+      "ground_truth": "Use the azure-ai-evaluation Python SDK for Microsoft Foundry Evaluations.",
+      "metrics": {
+        "exact_match": 1.0,
+        "f1": 1.0,
+        "keyword_groundedness": 1.0
+      }
+    },
+    {
+      "case_id": "case-005",
+      "query": "What happens when a metric falls below threshold?",
+      "response": "The gate fails, writes evidence, and exits non-zero when a metric is below threshold.",
+      "ground_truth": "The gate fails, writes evidence, and exits non-zero when a metric is below threshold.",
+      "metrics": {
+        "exact_match": 1.0,
+        "f1": 1.0,
+        "keyword_groundedness": 1.0
+      }
+    },
+    {
+      "case_id": "case-006",
+      "query": "Name one quality metric used in this kit.",
+      "response": "F1 is one quality metric used by the offline mock evaluator.",
+      "ground_truth": "F1 is a quality metric used by the offline mock evaluator.",
+      "metrics": {
+        "exact_match": 0.0,
+        "f1": 0.9090909090909091,
+        "keyword_groundedness": 1.0
+      }
+    },
+    {
+      "case_id": "case-007",
+      "query": "How should CI/CD evaluation gates be introduced?",
+      "response": "Introduce CI/CD gates in report-only mode first, then enforce after governance approval.",
+      "ground_truth": "Start CI/CD evaluation gates in report-only mode and enforce only after governance approval.",
+      "metrics": {
+        "exact_match": 0.0,
+        "f1": 0.7586206896551724,
+        "keyword_groundedness": 0.8333333333333334
+      }
+    },
+    {
+      "case_id": "case-008",
+      "query": "What telemetry supports continuous evaluation?",
+      "response": "OpenTelemetry gen-ai tracing supports continuous evaluation and trend analysis.",
+      "ground_truth": "OpenTelemetry gen-ai tracing supports continuous evaluation and trend analysis.",
+      "metrics": {
+        "exact_match": 1.0,
+        "f1": 1.0,
+        "keyword_groundedness": 1.0
+      }
+    }
+  ]
+}
