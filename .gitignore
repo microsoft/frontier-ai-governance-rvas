@@ -1,0 +1,16 @@
+# Python / MkDocs
+site/
+.venv/
+__pycache__/
+*.pyc
+
+# Azure / azd
+.azure/
+.bicep/
+
+# Node
+node_modules/
+
+# OS / editor
+.DS_Store
+*.log

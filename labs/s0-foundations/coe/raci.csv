@@ -1,0 +1,8 @@
+activity,governance_lead,identity_admin,security_soc,compliance_data_admin,ai_developer
+S0 Baseline assessment & operating model,R,C,C,C,C
+S1 Identity & access (Entra Agent ID),A,R,C,C,C
+S2 Data & compliance (Purview),A,C,C,R,C
+S3 Security posture & runtime (Defender),A,C,R,C,C
+S4 Quality & safety evaluation (Foundry),A,C,C,C,R
+S5 Adversarial testing (PyRIT / AIRT),A,C,R,C,C
+S6 Control plane (Agent 365) & re-score,R,C,C,C,C

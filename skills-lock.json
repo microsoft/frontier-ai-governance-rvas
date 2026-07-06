@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "skills": {
+    "ai-slop-detector": {
+      "source": "olivomarco/ai-dev-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ai-slop-detector/SKILL.md",
+      "computedHash": "44648b6e95e25f105c1dd4f43d9533ed984106a404fd50449bac146d2a3f1e92"
+    },
+    "azure-ai": {
+      "source": "microsoft/azure-skills",
+      "sourceType": "github",
+      "skillPath": "skills/azure-ai/SKILL.md",
+      "computedHash": "4d6e69d68a30bf05988677616fb213f7c01d2d97e7d2bcec9ffabb1c3c6ada81"
+    },
+    "content-humanizer": {
+      "source": "olivomarco/ai-dev-skills",
+      "sourceType": "github",
+      "skillPath": "skills/content-humanizer/SKILL.md",
+      "computedHash": "7c4d0a099cef0f61153930f8f0dc45b6cbe70e949f54c2c52dfb71c38d6638be"
+    },
+    "copilot-sdk": {
+      "source": "microsoft/skills",
+      "sourceType": "github",
+      "skillPath": ".github/skills/copilot-sdk/SKILL.md",
+      "computedHash": "68cf61978927b44dbafa74133305fc37a0973774fc6e1e68fbe7ed02ed690b27"
+    },
+    "entra-agent-id": {
+      "source": "microsoft/azure-skills",
+      "sourceType": "github",
+      "skillPath": "skills/entra-agent-id/SKILL.md",
+      "computedHash": "db321d866f2d9418b17f7274e766368e9a0e592717dff74e9cccec428ee7a5cf"
+    },
+    "entra-app-registration": {
+      "source": "microsoft/azure-skills",
+      "sourceType": "github",
+      "skillPath": "skills/entra-app-registration/SKILL.md",
+      "computedHash": "793e83d36c7575710c5e29c84dc87367d989f0a0d0ffad2b1887e306066d97cc"
+    },
+    "frontend-design": {
+      "source": "olivomarco/ai-dev-skills",
+      "sourceType": "github",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "computedHash": "e9adb6f11161fba94ef38271a9aaa5f418e923b05d57ee9d5fca1f8e873af444"
+    },
+    "grill-me": {
+      "source": "olivomarco/ai-dev-skills",
+      "sourceType": "github",
+      "skillPath": "skills/grill-me/SKILL.md",
+      "computedHash": "f321507f77702a54af1db66549ec1685fc625390d06c57d7949cdcda8eb1b5c7"
+    },
+    "grilling": {
+      "source": "olivomarco/ai-dev-skills",
+      "sourceType": "github",
+      "skillPath": "skills/grilling/SKILL.md",
+      "computedHash": "ef685a6fa0bbe73b05bbd8dc1ec97258191587f07c6aa7dbc9006675ceb8f90f"
+    },
+    "microsoft-docs": {
+      "source": "microsoft/skills",
+      "sourceType": "github",
+      "skillPath": ".github/skills/microsoft-docs/SKILL.md",
+      "computedHash": "0acd8d2629937e021d605fd1426e641295909e13bab47cad1153793f5564e85e"
+    },
+    "microsoft-foundry": {
+      "source": "microsoft/azure-skills",
+      "sourceType": "github",
+      "skillPath": "skills/microsoft-foundry/SKILL.md",
+      "computedHash": "84c78f3a0e7cfe72f011cdaa41599c0aec6c988b7d8cb41b2168ada2f7650c15"
+    },
+    "roast-me": {
+      "source": "olivomarco/ai-dev-skills",
+      "sourceType": "github",
+      "skillPath": "skills/roast-me/SKILL.md",
+      "computedHash": "8a0c70bc2e3ff8e141371942b8804a1e8ab3bfbf00f1742041c437fc9c38a4f4"
+    },
+    "stale-code-check": {
+      "source": "olivomarco/ai-dev-skills",
+      "sourceType": "github",
+      "skillPath": "skills/stale-code-check/SKILL.md",
+      "computedHash": "9290e91119f31e05c58fe992fa1a996ee17128503f5366e5939280568488a158"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "displayName": "RVAS S1 - Agent baseline (report-only)",
+  "state": "enabledForReportingButNotEnforced",
+  "conditions": {
+    "clientAppTypes": [
+      "all"
+    ],
+    "applications": {
+      "includeApplications": [
+        "All"
+      ]
+    },
+    "users": {
+      "includeGuestsOrExternalUsers": null,
+      "includeUsers": [],
+      "excludeUsers": [],
+      "includeGroups": [
+        "REPLACE-WITH-AGENT-IDENTITY-GROUP-OBJECT-ID"
+      ],
+      "excludeGroups": [
+        "REPLACE-WITH-BREAK-GLASS-GROUP-OBJECT-ID"
+      ]
+    },
+    "locations": {
+      "includeLocations": [
+        "All"
+      ],
+      "excludeLocations": [
+        "AllTrusted"
+      ]
+    }
+  },
+  "grantControls": {
+    "operator": "OR",
+    "builtInControls": [
+      "block"
+    ]
+  }
+}
