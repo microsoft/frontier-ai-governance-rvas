@@ -19,7 +19,7 @@ The customer leaves with a **repeatable evaluation suite and CI/CD gate** for a 
 
 === "Tier A — Full production"
     - An Azure AI Foundry project and Azure OpenAI / judge-model deployment for evaluators that require a cloud judge.
-    - Python 3.11+ and permission to install `azure-ai-evaluation` (current stable line ~v1.18.0) on the operator workstation or CI runner.[^foundry]
+    - Python 3.11+ and permission to install `azure-ai-evaluation` (current stable line ~v1.17.x as of the last review — verify the latest on PyPI) on the operator workstation or CI runner.[^foundry]
     - A **non-production / test agent** endpoint or callable target. Do not run first-time evaluation gates against production traffic.
     - GitHub repository access to add a pull-request evaluation gate using `microsoft/ai-agent-evals`.[^aievals]
     - OpenTelemetry gen-ai tracing enabled if the customer will connect evaluation results to production monitoring.[^foundry]
@@ -48,7 +48,7 @@ The customer leaves with a **repeatable evaluation suite and CI/CD gate** for a 
 4. **Run the offline mock gate** — execute `python labs/s4-evaluation/pipelines/run_mock.py`. This creates `labs/s4-evaluation/evidence/eval-results.json` without network calls.
 5. **Inspect the scorecard** — use `labs/s4-evaluation/scripts/summarize.py` to render the JSON evidence as a table and record any failing cases.
 6. **Tier A path** — map the same dataset and target into `labs/s4-evaluation/pipelines/azure-eval.py` with Azure AI project environment variables.
-7. **CI/CD gate design** — adapt `labs/s4-evaluation/pipelines/github-action-example.yml` in a pull-request branch. Keep it report-only first; switch to fail-on-regression only after governance approval.
+7. **CI/CD gate design** — adapt `labs/s4-evaluation/pipelines/github-action-example.yml` in a pull-request branch. Keep it report-only first (do not block merges); enable enforcement — e.g. a `baseline-agent-id` regression comparison — only after governance approval.
 8. **Continuous evaluation plan** — define which production traces become future evaluation examples, using OpenTelemetry gen-ai spans and EvaluationRule monitoring.
 
 ## 5. Verification & evidence capture
@@ -77,7 +77,7 @@ Detailed steps are in `labs/s4-evaluation/rollback.md`.
 |----------|-------------|---------------|-----------|
 | Foundry evaluation suite + CI/CD gate | **Measure** | A.6 (verification & validation) | Art. 15 (accuracy), Art. 9 (risk mgmt) |
 | Offline mock-target scorecard | **Measure** | A.6 (verification & validation) | Art. 15 (accuracy) |
-| Continuous evaluation plan + trace lineage | **Measure**, **Manage** | A.10 (operations, monitoring) | Art. 17 (post-market monitoring), Art. 12 (logging) |
+| Continuous evaluation plan + trace lineage | **Measure**, **Manage** | A.10 (operations, monitoring) | Art. 72 (post-market monitoring), Art. 12 (logging) |
 
 Consolidated in [Reference — Governance Mapping](../reference/governance-mapping.md).
 

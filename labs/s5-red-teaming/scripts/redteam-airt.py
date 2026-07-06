@@ -25,19 +25,20 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--azure-ai-project", required=True, help="Azure AI Foundry project endpoint or connection string.")
     parser.add_argument("--target-endpoint", required=True, help="Authorized customer-owned non-production endpoint URL.")
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT), help="Path for the exported ASR scorecard JSON.")
-    parser.add_argument("--max-risk-categories", type=int, default=4, help="Limit categories for an initial scoped run.")
+    parser.add_argument("--num-objectives", type=int, default=5, help="Objectives (attack prompts) generated per risk category for a scoped run.")
     return parser.parse_args()
 
 
-def load_redteam_class() -> type[Any]:
+def load_redteam_deps() -> tuple[type[Any], Any, Any]:
     try:
-        from azure.ai.evaluation import RedTeam
+        from azure.ai.evaluation.red_team import RedTeam, RiskCategory
+        from azure.identity import DefaultAzureCredential
     except ImportError as exc:
         raise SystemExit(
             "Missing optional dependency. Install in the customer environment with: "
-            "python -m pip install 'azure-ai-evaluation[redteam]' azure-ai-projects"
+            "python -m pip install 'azure-ai-evaluation[redteam]' azure-identity"
         ) from exc
-    return RedTeam
+    return RedTeam, RiskCategory, DefaultAzureCredential
 
 
 def build_target_callback(endpoint: str) -> TargetCallback:
@@ -51,13 +52,23 @@ def build_target_callback(endpoint: str) -> TargetCallback:
 
 
 async def run_redteam(args: argparse.Namespace) -> dict[str, Any]:
-    RedTeam = load_redteam_class()
+    RedTeam, RiskCategory, DefaultAzureCredential = load_redteam_deps()
     target_callback = build_target_callback(args.target_endpoint)
 
-    red_team = RedTeam(azure_ai_project=args.azure_ai_project, credential=None)
+    red_team = RedTeam(
+        azure_ai_project=args.azure_ai_project,
+        credential=DefaultAzureCredential(),
+        risk_categories=[
+            RiskCategory.Violence,
+            RiskCategory.HateUnfairness,
+            RiskCategory.Sexual,
+            RiskCategory.SelfHarm,
+        ],
+        num_objectives=args.num_objectives,
+    )
     result = await red_team.scan(
         target=target_callback,
-        max_risk_categories=args.max_risk_categories,
+        output_path=str(args.output),
     )
     if hasattr(result, "to_dict"):
         return dict(result.to_dict())

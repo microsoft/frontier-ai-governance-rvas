@@ -14,8 +14,8 @@
    ```
 2. **Sponsor register.** Record a human sponsor for each agent in `policies/sponsor-register.csv`. Flag any agent with no sponsor.
 3. **Prepare policy.** In `policies/ca-agent-baseline.json`, replace:
-   - `includeGroups` → the agent-identity group object ID.
-   - `excludeGroups` → the break-glass group object ID.
+   - `includeServicePrincipals` → the agent service principal object ID(s).
+   - `excludeServicePrincipals` → the break-glass service principal object ID.
 4. **Static safety check (offline).**
    ```bash
    python pipelines/run_mock.py

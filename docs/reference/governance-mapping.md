@@ -19,7 +19,7 @@
 | S3 Security & Runtime | Defender AI‑SPM, threat protection, Content Safety | Measure, Manage | A.6, A.10 (operations) | Art. 15 (accuracy, robustness, cybersecurity) |
 | S4 Evaluation | Foundry evaluation suite + CI/CD gate | Measure | A.6 (verification & validation) | Art. 15 (accuracy), Art. 9 (risk mgmt) |
 | S5 Adversarial Testing | PyRIT / AI Red Teaming Agent scan + ASR scorecard | Measure, Manage | A.6, A.10 | Art. 15 (robustness, cybersecurity) |
-| S6 Control Plane | Agent 365 registry + capstone re‑score | Govern, Manage | A.2, A.3, A.10 | Art. 17 (post‑market monitoring) |
+| S6 Control Plane | Agent 365 registry + capstone re‑score | Govern, Manage | A.2, A.3, A.10 | Art. 72 (post‑market monitoring) |
 
 ## Consolidated artifact‑level matrix
 
@@ -41,12 +41,12 @@ Every durable artifact shipped across the seven sessions, mapped to the framewor
 | S3 | Content Safety Prompt Shields runtime test evidence | Measure | A.6, A.10 | Art. 15 |
 | S4 | Foundry evaluation suite + CI/CD gate | Measure | A.6 | Art. 15, Art. 9 |
 | S4 | Offline mock‑target scorecard | Measure | A.6 | Art. 15 |
-| S4 | Continuous evaluation plan + trace lineage | Measure, Manage | A.10 | Art. 17, Art. 12 |
+| S4 | Continuous evaluation plan + trace lineage | Measure, Manage | A.10 | Art. 72, Art. 12 |
 | S5 | PyRIT / AI Red Teaming scan + ASR scorecard | Measure, Manage | A.6, A.10 | Art. 15 |
 | S5 | Written scope, RoE, SOC notification | Govern, Manage | A.3, A.10 | Art. 9, Art. 12 |
 | S5 | Remediation backlog (categories above ASR threshold) | Manage | A.6, A.10 | Art. 15 |
-| S6 | Agent 365 registry reconciliation + capstone re‑score | Govern, Manage | A.2, A.3, A.10 | Art. 17 |
-| S6 | Shadow / OBO residual‑gap backlog | Map, Manage | A.6, A.10 | Art. 17 |
+| S6 | Agent 365 registry reconciliation + capstone re‑score | Govern, Manage | A.2, A.3, A.10 | Art. 72 |
+| S6 | Shadow / OBO residual‑gap backlog | Map, Manage | A.6, A.10 | Art. 72 |
 
 ## Coverage rollups
 
@@ -68,7 +68,8 @@ Every durable artifact shipped across the seven sessions, mapped to the framewor
 | Art. 12 | Record‑keeping / logging | S1, S2, S4, S5 |
 | Art. 14 | Human oversight | S1 |
 | Art. 15 | Accuracy, robustness, cybersecurity | S1, S3, S4, S5 |
-| Art. 17 | Quality management / post‑market monitoring | S0, S4, S6 |
+| Art. 17 | Quality management system | S0 |
+| Art. 72 | Post‑market monitoring | S4, S6 |
 
 !!! note "Legal review still required"
     These mappings are practitioner guidance, not a legal conformity assessment. NIST AI RMF alignment covers an estimated ~60–70% of EU AI Act obligations; classification (prohibited / high‑risk / limited‑risk) and formal conformity remain the customer's legal responsibility.

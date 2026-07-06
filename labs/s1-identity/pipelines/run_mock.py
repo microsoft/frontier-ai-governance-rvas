@@ -5,9 +5,9 @@ Statically asserts the report-only safety invariants WITHOUT touching any tenant
 so the takeaway kit's safety guarantees are enforced in CI:
 
   * policy state is report-only (enabledForReportingButNotEnforced)
-  * a break-glass exclusion group is present and not a placeholder
-  * the agent-identity include group is not a placeholder
-  * the JSON is well-formed and has the required shape
+  * a break-glass excluded service principal is present and not a placeholder
+  * the included agent service principal is not a placeholder
+  * the JSON is well-formed and has the required Workload Identity CA shape
 
 Exit code 0 = safe; non-zero = a safety invariant is violated.
 """
@@ -33,16 +33,20 @@ def main() -> int:
     if data.get("state") != REPORT_ONLY:
         fail(f"policy state must be {REPORT_ONLY!r}, got {data.get('state')!r}")
 
-    users = data.get("conditions", {}).get("users", {})
-    excluded = users.get("excludeGroups") or []
-    included = users.get("includeGroups") or []
+    # Agents are service principals, so target them via Workload Identity CA
+    # (clientApplications), not the user (includeGroups) condition.
+    client_apps = data.get("conditions", {}).get("clientApplications", {})
+    excluded = client_apps.get("excludeServicePrincipals") or []
+    included = client_apps.get("includeServicePrincipals") or []
 
+    if not included:
+        fail("no includeServicePrincipals: the policy must target the agent service principal(s)")
     if not excluded:
-        fail("no excludeGroups: a break-glass exclusion is mandatory")
-    if any("REPLACE-WITH" in g for g in excluded):
-        print("WARN: excludeGroups still has a placeholder — customer must set the real break-glass group ID before deploy.")
-    if any("REPLACE-WITH" in g for g in included):
-        print("WARN: includeGroups still has a placeholder — customer must set the real agent-identity group ID before deploy.")
+        fail("no excludeServicePrincipals: a break-glass exclusion is mandatory")
+    if any("REPLACE-WITH" in sp for sp in excluded):
+        print("WARN: excludeServicePrincipals still has a placeholder — customer must set the real break-glass SP object ID before deploy.")
+    if any("REPLACE-WITH" in sp for sp in included):
+        print("WARN: includeServicePrincipals still has a placeholder — customer must set the real agent SP object ID before deploy.")
 
     grant = data.get("grantControls", {}).get("builtInControls") or []
     if "block" not in grant:

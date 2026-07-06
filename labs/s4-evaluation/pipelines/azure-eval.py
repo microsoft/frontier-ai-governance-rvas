@@ -7,6 +7,7 @@ model configuration supplied through environment variables.
 
 Required environment variables for live use:
     AZURE_AI_PROJECT_ENDPOINT
+    AZURE_OPENAI_ENDPOINT
     AZURE_OPENAI_EVALUATION_DEPLOYMENT
 Optional:
     AZURE_SUBSCRIPTION_ID, AZURE_RESOURCE_GROUP, AZURE_AI_PROJECT_NAME
@@ -22,14 +23,17 @@ KIT_ROOT = Path(__file__).resolve().parents[1]
 DATASET = KIT_ROOT / "data" / "eval-dataset.jsonl"
 OUTPUT = KIT_ROOT / "evidence" / "azure-eval-results.json"
 
-QUALITY_EVALUATORS = (
+# AI-assisted quality evaluators: require a judge-model config (AzureOpenAIModelConfiguration).
+QUALITY_AI_EVALUATORS = (
     "RelevanceEvaluator",
     "CoherenceEvaluator",
     "FluencyEvaluator",
     "GroundednessEvaluator",
     "SimilarityEvaluator",
-    "F1ScoreEvaluator",
 )
+# NLP/statistical evaluators: no model config and no Azure resources.
+NLP_EVALUATORS = ("F1ScoreEvaluator",)
+# Risk & safety evaluators: require a credential + an Azure AI project (no model config).
 RISK_SAFETY_EVALUATORS = (
     "ViolenceEvaluator",
     "SexualEvaluator",
@@ -38,6 +42,7 @@ RISK_SAFETY_EVALUATORS = (
     "ProtectedMaterialEvaluator",
     "IndirectAttackEvaluator",
 )
+# Agent evaluators: require a judge-model config.
 AGENT_EVALUATORS = (
     "IntentResolutionEvaluator",
     "ToolCallAccuracyEvaluator",
@@ -59,8 +64,17 @@ def load_sdk() -> Any:
         raise SystemExit("Install azure-ai-evaluation before running Tier A live evaluations.") from exc
 
 
+def load_credential() -> Any:
+    try:
+        from azure.identity import DefaultAzureCredential
+    except ImportError as exc:
+        raise SystemExit("Install azure-identity before running Tier A live evaluations.") from exc
+    return DefaultAzureCredential()
+
+
 def evaluator_model_config() -> dict[str, str]:
     return {
+        "azure_endpoint": require_env("AZURE_OPENAI_ENDPOINT"),
         "azure_deployment": require_env("AZURE_OPENAI_EVALUATION_DEPLOYMENT"),
         "api_version": os.environ.get("AZURE_OPENAI_API_VERSION", "2024-10-21"),
     }
@@ -76,14 +90,15 @@ def azure_ai_project() -> dict[str, str]:
     return project | {key: value for key, value in optional.items() if value}
 
 
-def instantiate(module: Any, class_names: tuple[str, ...], model_config: dict[str, str]) -> dict[str, Any]:
+def instantiate(module: Any, class_names: tuple[str, ...], **kwargs: Any) -> dict[str, Any]:
+    """Instantiate a family of evaluators, passing only the kwargs that family needs."""
     evaluators: dict[str, Any] = {}
     for class_name in class_names:
         evaluator_type = getattr(module, class_name, None)
         if evaluator_type is None:
             print(f"WARN: {class_name} not available in installed azure-ai-evaluation version")
             continue
-        evaluators[class_name.removesuffix("Evaluator").lower()] = evaluator_type(model_config=model_config)
+        evaluators[class_name.removesuffix("Evaluator").lower()] = evaluator_type(**kwargs)
     return evaluators
 
 
@@ -96,10 +111,19 @@ def main() -> int:
     module = load_sdk()
     evaluate = getattr(module, "evaluate")
     model_config = evaluator_model_config()
-    evaluators = {}
-    evaluators.update(instantiate(module, QUALITY_EVALUATORS, model_config))
-    evaluators.update(instantiate(module, RISK_SAFETY_EVALUATORS, model_config))
-    evaluators.update(instantiate(module, AGENT_EVALUATORS, model_config))
+    credential = load_credential()
+    project = azure_ai_project()
+
+    evaluators: dict[str, Any] = {}
+    # NLP metrics take no configuration.
+    evaluators.update(instantiate(module, NLP_EVALUATORS))
+    # AI-assisted quality + agent evaluators take a judge-model config.
+    evaluators.update(instantiate(module, QUALITY_AI_EVALUATORS, model_config=model_config))
+    evaluators.update(instantiate(module, AGENT_EVALUATORS, model_config=model_config))
+    # Risk & safety evaluators take a credential + Azure AI project.
+    evaluators.update(
+        instantiate(module, RISK_SAFETY_EVALUATORS, credential=credential, azure_ai_project=project)
+    )
     if not evaluators:
         raise SystemExit("No evaluators were available from azure-ai-evaluation.")
 
@@ -107,7 +131,7 @@ def main() -> int:
         data=str(DATASET),
         target=target,
         evaluators=evaluators,
-        azure_ai_project=azure_ai_project(),
+        azure_ai_project=project,
         output_path=str(OUTPUT),
     )
     print(result)

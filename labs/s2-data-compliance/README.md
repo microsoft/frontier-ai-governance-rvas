@@ -11,7 +11,7 @@ scripts/
   New-AIDataLossPreventionPolicy.ps1    create a SIMULATION/TEST DLP policy (refuses enforce mode)
   Remove-AIDataLossPreventionPolicy.ps1 rollback: delete the simulation DLP policy
 policies/
-  dlp-ai-simulation.json                exported-style Purview DLP policy in simulation/test mode
+  dlp-ai-simulation.json                curriculum-template DLP policy (illustrative schema) in simulation/test mode
   dspm-ai-baseline.json                 exported-style DSPM for AI baseline config
 pipelines/
   run_mock.py                           static safety check of policy JSON invariants

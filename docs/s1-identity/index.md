@@ -18,9 +18,9 @@ The customer leaves with **agents governed as first‑class identities** in thei
 ## 2. Prerequisites
 
 === "Tier A — Full production"
-    - **Microsoft Entra ID P1** (Conditional Access) — **P2** recommended (ID Protection risk conditions).
+    - **Microsoft Entra ID P1** (Conditional Access) — **P2** recommended (ID Protection risk conditions). Targeting agent **service principals** additionally requires a **Microsoft Entra Workload ID Premium** license.
     - Roles held by the **customer's** admins (facilitator guides only): **Conditional Access Administrator** (or Security Administrator) to author policy; a **Privileged Role Administrator** on hand for exclusions.
-    - At least one **Entra Agent ID** present — auto‑provisioned when the customer builds an agent in Copilot Studio, Microsoft Foundry, or Security Copilot.[^entra]
+    - At least one **Entra Agent ID** present — typically provisioned when the customer builds an agent in Copilot Studio or Microsoft Foundry (verify current provisioning behavior for your workloads).[^entra]
     - A **break‑glass** account confirmed and **excluded** from the new policy.
     - Microsoft Graph PowerShell SDK (`Install-Module Microsoft.Graph`) on the operator workstation.
 
@@ -31,8 +31,8 @@ The customer leaves with **agents governed as first‑class identities** in thei
 ## 3. Concepts
 
 - **Agents are identities, not app registrations.** Microsoft Entra **Agent ID** models each agent with four object types — **blueprint**, **blueprint principal**, **agent identity**, and the **agent's user account** — and requires a **human sponsor** accountable for its lifecycle.[^entra]
-- **Auto‑provisioning.** Agent identities are created automatically when agents are built in **Copilot Studio, Microsoft Foundry, and Security Copilot** — so they can appear in the tenant without a deliberate governance step. Inventory is therefore the first control.[^entra]
-- **Existing controls extend to agents.** **Conditional Access** and **ID Protection** apply to agent identities the way they do to users — but agents are non‑interactive, so policy design differs (no MFA prompt; gate on network, risk, and app instead).
+- **Provisioning.** Agent identities are typically created when agents are built in surfaces such as **Copilot Studio and Microsoft Foundry** — so they can appear in the tenant without a deliberate governance step. Confirm the current behavior for each surface you use; inventory is therefore the first control.[^entra]
+- **Existing controls extend to agents — via the workload-identity path.** Because agents are **service principals**, Conditional Access governs them through **Workload Identity Conditional Access** (targeting service principals under `clientApplications`), not the user/group conditions used for people. Agents are non‑interactive, so policy design differs (no MFA prompt; gate on network, risk, and app instead), and workload-identity CA requires a **Microsoft Entra Workload ID Premium** license. Verify the current agent-CA experience, which is still evolving.[^entra]
 - **Report‑only is the safe default.** A report‑only Conditional Access policy logs what *would* happen without blocking anything — essential when the target is a non‑interactive identity that could break automation if wrongly scoped.
 - **Monitoring ≠ control.** Agents executing **on‑behalf‑of a user (OBO)** without their own Agent ID may be visible but not fully governable — flag these in the inventory.[^a365]
 
@@ -48,7 +48,7 @@ The customer leaves with **agents governed as first‑class identities** in thei
    ```
    This connects Microsoft Graph with least‑privilege read scopes and exports every agent identity + its sponsor.
 3. **Build the sponsor register** — for each agent in the inventory without a clear owner, record a human sponsor in `policies/sponsor-register.csv`. Agents with no sponsor are the first governance finding.
-4. **Author the Conditional Access policy** — review `policies/ca-agent-baseline.json` (targets agent identities, excludes break‑glass, report‑only). Adjust the excluded group object ID to the customer's break‑glass group.
+4. **Author the Conditional Access policy** — review `policies/ca-agent-baseline.json` (a Workload Identity CA policy that targets the agent **service principals** under `clientApplications`, excludes a break‑glass service principal, report‑only). Set `includeServicePrincipals` to the agent SP object ID(s) and `excludeServicePrincipals` to the customer's break‑glass service principal.
 5. **Create it report‑only** — the customer runs:
    ```powershell
    ./scripts/New-AgentConditionalAccess.ps1 -PolicyFile ./policies/ca-agent-baseline.json
@@ -60,7 +60,7 @@ The customer leaves with **agents governed as first‑class identities** in thei
 
 - [ ] `agent-inventory.json` exists and lists agent identities (or is documented empty at Tier B).
 - [ ] Every inventoried agent has a sponsor in `sponsor-register.csv`.
-- [ ] The Conditional Access policy exists in the tenant with state **report‑only** and the break‑glass group **excluded**.
+- [ ] The Conditional Access policy exists in the tenant with state **report‑only** and the break‑glass **service principal excluded**.
 
 **Evidence to capture** (into `labs/s1-identity/evidence/`): the inventory JSON, the created policy re‑exported from the tenant, and a screenshot‑free record (policy JSON + object IDs) of the report‑only state.
 

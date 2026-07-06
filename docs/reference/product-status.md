@@ -17,7 +17,7 @@
 | Runtime safety | Content Safety — Groundedness detection | <span class="rvas-badge rvas-preview">Preview</span> | [Groundedness](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/groundedness) |
 | Evaluation | `azure-ai-evaluation` SDK | <span class="rvas-badge rvas-ga">GA</span> (many evaluators <span class="rvas-badge rvas-preview">Preview</span>) | [Observability](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability) |
 | Evaluation | Continuous evaluation | <span class="rvas-badge rvas-preview">Preview</span> | [Monitor agents](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/how-to-monitor-agents-dashboard) |
-| Red teaming | PyRIT (open source) | <span class="rvas-badge rvas-ga">GA</span> (v0.14.x) | [github.com/Azure/PyRIT](https://github.com/Azure/PyRIT) |
+| Red teaming | PyRIT (open source) | <span class="rvas-badge rvas-static">Open source</span> (v0.14.x) | [github.com/Azure/PyRIT](https://github.com/Azure/PyRIT) |
 | Red teaming | AI Red Teaming Agent (local & cloud) | <span class="rvas-badge rvas-preview">Preview</span> | [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent) |
 | Admin governance | Copilot Control System | <span class="rvas-badge rvas-ga">GA</span> | [CCS overview](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-control-system/overview) |
 | Operating model | CAF for AI · WAF for AI · AI CoE | Current guidance | [CAF for AI](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai/strategy) |

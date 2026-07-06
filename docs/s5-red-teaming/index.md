@@ -9,7 +9,7 @@
 
 The customer leaves with an **authorized adversarial test of a customer-owned, non-production AI agent/endpoint** and a dated scorecard that can be reviewed by governance, security, and engineering:
 
-- A scoped red-team run using **AI Red Teaming Agent** <span class="rvas-badge rvas-preview">Preview</span> at Tier A, or **PyRIT-style local simulation** <span class="rvas-badge rvas-ga">GA</span> at Tier B.
+- A scoped red-team run using **AI Red Teaming Agent** <span class="rvas-badge rvas-preview">Preview</span> at Tier A, or **PyRIT-style local simulation** <span class="rvas-badge rvas-static">Open source</span> at Tier B.
 - An **Attack Success Rate (ASR) scorecard** by risk category and attack strategy.
 - A remediation backlog for categories above the agreed threshold.
 - Evidence artifacts captured in `labs/s5-red-teaming/evidence/`.
@@ -22,7 +22,7 @@ The customer leaves with an **authorized adversarial test of a customer-owned, n
     - Written authorization and rules of engagement for a **customer-owned NON-PRODUCTION test agent/endpoint ONLY**.
     - The **SOC is notified before any red-team / adversarial activity (S5)**, with a named contact and expected test window.
     - Azure subscription + Microsoft Foundry project with permission to run AI Red Teaming Agent <span class="rvas-badge rvas-preview">Preview</span>.[^airt]
-    - Python environment for `azure-ai-evaluation[redteam]` and `azure-ai-projects`; credentials configured by the customer's operator.
+    - Python environment for `azure-ai-evaluation[redteam]` (installs PyRIT); add `azure-ai-projects` only if uploading results to a Foundry project. Credentials configured by the customer's operator.
     - Test endpoint owner available to pause, disable, or reset the endpoint if alerts or unexpected behavior occur.
 
 === "Tier B — Baseline / simulation"
@@ -35,7 +35,7 @@ The customer leaves with an **authorized adversarial test of a customer-owned, n
 
 ## 3. Concepts
 
-- **PyRIT** <span class="rvas-badge rvas-ga">GA</span> is Microsoft's open-source Python Risk Identification Toolkit for adversarial probing and scoring. Core components include **Datasets, Attacks (orchestrators), Converters, Targets, Scoring, and Memory**.[^pyrit]
+- **PyRIT** <span class="rvas-badge rvas-static">Open source v0.14.x</span> is Microsoft's open-source Python Risk Identification Toolkit for adversarial probing and scoring. Core components include **Datasets, Attacks (orchestrators), Converters, Targets, Scoring, and Memory**.[^pyrit]
 - **Attack orchestrators** automate repeatable probes. PyRIT includes multi-turn strategies such as **Crescendo**, where an attacker gradually escalates over several turns rather than using one direct prompt.[^pyrit]
 - **AI Red Teaming Agent** <span class="rvas-badge rvas-preview">Preview</span> in Microsoft Foundry is a managed red-teaming capability that wraps PyRIT, supports local use through `azure-ai-evaluation[redteam]` (`RedTeam` class) and cloud use through `azure-ai-projects`, and produces **Attack Success Rate (ASR) scorecards** across risk categories and attack strategies.[^airt]
 - **ASR** is the proportion of adversarial attempts that succeed against the stated objective. It is a break-fix metric: lower is better, and thresholds must be agreed before the run.
@@ -106,5 +106,5 @@ Consolidated in [Reference — Governance Mapping](../reference/governance-mappi
     - *Alerts triggered during run* → stop, follow SOC procedure, annotate as authorized test if confirmed.
 - **Hand-off:** ASR findings feed S6 operationalization and the customer's ongoing evaluation gate.
 
-[^pyrit]: Azure/PyRIT — [Python Risk Identification Toolkit](https://github.com/Azure/PyRIT), open-source adversarial testing framework; product status tracked as GA v0.14.x in [Product Status](../reference/product-status.md).
+[^pyrit]: Azure/PyRIT — [Python Risk Identification Toolkit](https://github.com/Azure/PyRIT), open-source adversarial testing framework; latest release tracked as v0.14.x in [Product Status](../reference/product-status.md).
 [^airt]: Microsoft Learn — [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/ai-red-teaming-agent), Preview managed red-teaming in Microsoft Foundry with local `azure-ai-evaluation[redteam]` and cloud `azure-ai-projects` paths.

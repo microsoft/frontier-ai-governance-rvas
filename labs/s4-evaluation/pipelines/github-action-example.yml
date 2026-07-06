@@ -1,5 +1,6 @@
 # Reference snippet only. Copy into .github/workflows/ after customer review.
-# Verify current microsoft/ai-agent-evals inputs before enabling enforcement.
+# Verify current microsoft/ai-agent-evals inputs before enabling enforcement:
+# https://github.com/microsoft/ai-agent-evals
 name: AI agent evaluation gate
 
 on:
@@ -15,15 +16,26 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-      id-token: write
+      id-token: write # required for azure/login federated credentials
     steps:
       - uses: actions/checkout@v4
 
+      # Federated (OIDC) login to Azure so the action can reach the Foundry project.
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
       - name: Run Microsoft AI Agent Evals
-        uses: microsoft/ai-agent-evals@v1
+        uses: microsoft/ai-agent-evals@v3-beta
         with:
           azure-ai-project-endpoint: ${{ secrets.AZURE_AI_PROJECT_ENDPOINT }}
-          evaluation-config: labs/s4-evaluation/pipelines/azure-eval.py
-          data: labs/s4-evaluation/data/eval-dataset.jsonl
-          fail-on-regression: "false" # start report-only; switch to true after approval
-          output-path: labs/s4-evaluation/evidence/ci-eval-results.json
+          deployment-name: ${{ secrets.AZURE_OPENAI_EVALUATION_DEPLOYMENT }}
+          # One or more agents to evaluate, formatted as "agent-name:version".
+          agent-ids: ${{ secrets.AZURE_AI_AGENT_ID }}
+          # JSON eval file with "name", "evaluators", and "data" keys.
+          data-path: labs/s4-evaluation/data/agent-evaluation.json
+          # Optional: compare against a baseline agent to detect regressions.
+          # baseline-agent-id: ${{ secrets.AZURE_AI_BASELINE_AGENT_ID }}

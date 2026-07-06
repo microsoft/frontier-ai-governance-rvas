@@ -31,7 +31,7 @@ The customer leaves with the capstone operating view for AI-agent governance:
 
 ## 3. Concepts
 
-- **Agent 365 is the enterprise control plane.** Its five official pillars are **Registry, Access Control, Visualization, Interoperability, and Security**; Microsoft Learn also frames the work as **Observe / Govern / Secure**.[^a365]
+- **Agent 365 is the enterprise control plane.** At launch Microsoft described capability areas including **Registry, Access Control, Visualization, Interoperability, and Security**; Microsoft Learn also frames the work as **Observe / Govern / Secure**. Treat the exact pillar list as evolving and verify against current docs.[^a365]
 - <span class="rvas-badge rvas-ga">GA</span> **Agent 365 GA:** May 1, 2026. Pricing has been publicly announced around **$15/user/month**; always verify current licensing before a customer delivery.[^a365]
 - <span class="rvas-badge rvas-preview">Preview</span> Some Agent 365 expansion capabilities, such as AI teammate experiences and cross-cloud registry sync, may still be preview; do not make them delivery prerequisites.[^a365]
 - **Five pillars, not six.** Microsoft Entra Agent ID is the identity technology under **Access Control** and **Security** — not a separate Agent 365 pillar.[^entra]
@@ -83,8 +83,8 @@ If the customer later writes lifecycle state, owner, or access-control metadata 
 
 | Artifact | NIST AI RMF | ISO/IEC 42001 | EU AI Act |
 |----------|-------------|---------------|-----------|
-| Agent 365 registry + capstone re-score | **Govern**, **Manage** | A.2, A.3, A.10 | Art. 17 (post-market monitoring) |
-| Shadow/OBO residual-gap backlog | **Map**, **Manage** | A.6, A.10 | Art. 17 (post-market monitoring) |
+| Agent 365 registry + capstone re-score | **Govern**, **Manage** | A.2, A.3, A.10 | Art. 72 (post-market monitoring) |
+| Shadow/OBO residual-gap backlog | **Map**, **Manage** | A.6, A.10 | Art. 72 (post-market monitoring) |
 
 Consolidated in [Reference — Governance Mapping](../reference/governance-mapping.md).
 
