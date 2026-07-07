@@ -1,0 +1,15 @@
+{
+  "name": "rvas-diagrams",
+  "private": true,
+  "type": "module",
+  "description": "Excalidraw sources + builders for the RVAS docs diagrams.",
+  "scripts": {
+    "build": "node build-journey.mjs && node build-landscape.mjs && node build-assessment.mjs",
+    "render": "node render.mjs journey.excalidraw journey.svg && node render.mjs landscape.excalidraw landscape.svg && node render.mjs assessment.excalidraw assessment.svg",
+    "publish-svg": "cp journey.svg landscape.svg assessment.svg ../docs/assets/diagrams/",
+    "all": "npm run build && npm run render && npm run publish-svg"
+  },
+  "devDependencies": {
+    "playwright": "^1.0.0"
+  }
+}

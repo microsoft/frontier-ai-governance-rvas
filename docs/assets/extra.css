@@ -27,3 +27,19 @@
 [data-md-color-scheme="slate"] .rvas-preview { background: #713f12; color: #fef08a; }
 [data-md-color-scheme="slate"] .rvas-static { background: #312e81; color: #c7d2fe; }
 [data-md-color-scheme="slate"] .rvas-persona { background: #1e293b; color: #cbd5e1; border-color: #334155; }
+
+/* Bespoke Excalidraw diagrams — always render on a light "figure card"
+   so the dark-text vector art stays readable in both light and dark mode. */
+.md-typeset img[src*="diagrams/"] {
+  display: block;
+  margin: 1.2em auto;
+  max-width: 100%;
+  height: auto;
+  background: #ffffff;
+  padding: 1rem 1.25rem;
+  border-radius: 0.7rem;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
+}
+[data-md-color-scheme="slate"] .md-typeset img[src*="diagrams/"] {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}

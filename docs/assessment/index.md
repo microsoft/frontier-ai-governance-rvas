@@ -45,12 +45,6 @@ python labs/s0-foundations/assessment/score.py labs/s0-foundations/assessment/sc
 
 ## Reading the result
 
-```mermaid
-graph LR
-    A["Fill scorecard.csv<br/>(1-4 per question)"] --> B["score.py"]
-    B --> C["Per-domain maturity"]
-    B --> D["Overall maturity"]
-    B --> E["Prioritized roadmap<br/>(which sessions first)"]
-```
+![How the readiness score is produced: fill scorecard.csv (1–4 per question), run score.py, and get per-domain maturity, overall maturity, and a prioritized session roadmap.](../assets/diagrams/assessment.svg)
 
 Each session's durable artifacts map back to specific assessment questions (see section 7 of each session page), so **completing a session provably moves the score**.

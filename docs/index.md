@@ -16,17 +16,7 @@ This is a **co‑delivered curriculum** for putting Microsoft AI‑agent governa
 
 ## The governance stack you will implement
 
-```mermaid
-graph TD
-    B["Where agents are built<br/>Copilot Studio · Foundry · SDK · 3rd-party"] --> ID["S1 · Identity<br/>Entra Agent ID"]
-    ID --> DATA["S2 · Data & Compliance<br/>Purview"]
-    DATA --> SEC["S3 · Security Posture & Runtime<br/>Defender + Content Safety"]
-    SEC --> EVAL["S4 · Evaluation<br/>Foundry evals"]
-    EVAL --> RT["S5 · Adversarial Testing<br/>PyRIT / AI Red Teaming Agent"]
-    RT --> CP["S6 · Control Plane<br/>Agent 365 + Copilot Control System"]
-    FND["S0 · Foundations & Operating Model<br/>CAF for AI · AI CoE · Assessment"] -.frames.-> ID
-    CP -.iterate.-> EVAL
-```
+![The governance stack you implement, session by session: agents you build climb an identity → data → security → evaluation → control pipeline, framed by the S0 operating model and re-scored each loop.](assets/diagrams/journey.svg)
 
 ## The 7 sessions
 

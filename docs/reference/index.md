@@ -7,37 +7,7 @@ Microsoft ships a **first‑party control plane for governing AI agents end to e
 
 ## The stack on one page
 
-```mermaid
-graph TD
-    subgraph CP["Control Plane"]
-        A365["Microsoft Agent 365<br/>Registry · Access · Visualization<br/>Interoperability · Security"]
-    end
-    subgraph IDL["Identity"]
-        EID["Microsoft Entra Agent ID<br/>Blueprints · Agent identities<br/>Conditional Access · ID Protection"]
-    end
-    subgraph DATA["Data & Compliance"]
-        PUR["Microsoft Purview<br/>DSPM for AI · DLP · IRM<br/>Comm. Compliance · eDiscovery · Audit"]
-    end
-    subgraph SEC["Security Posture & Threats"]
-        DEF["Microsoft Defender for Cloud<br/>AI-SPM · AI Threat Protection"]
-        CS["Azure AI Content Safety<br/>Prompt Shields · Groundedness"]
-    end
-    subgraph QUAL["Quality, Safety & Adversarial Testing"]
-        EVAL["Microsoft Foundry Evaluations<br/>azure-ai-evaluation SDK"]
-        RT["AI Red Teaming Agent + PyRIT<br/>ASR scorecards"]
-    end
-    subgraph OP["Operating Model"]
-        CAF["CAF for AI · WAF for AI<br/>AI Center of Excellence<br/>Copilot Control System"]
-    end
-    EID --> A365
-    PUR --> A365
-    DEF --> A365
-    CS --> DEF
-    EVAL --> QUAL
-    RT --> QUAL
-    QUAL -.gates.-> A365
-    OP -.frames.-> CP
-```
+![The Microsoft AI-agent governance stack on one page: Entra Agent ID, Purview, Defender + Content Safety, and Foundry evaluation + red-teaming disciplines converge into the Microsoft Agent 365 control plane, framed by the operating model.](../assets/diagrams/landscape.svg)
 
 ## The pillars in brief
 
