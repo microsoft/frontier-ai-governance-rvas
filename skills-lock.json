@@ -37,6 +37,12 @@
       "skillPath": "skills/entra-app-registration/SKILL.md",
       "computedHash": "793e83d36c7575710c5e29c84dc87367d989f0a0d0ffad2b1887e306066d97cc"
     },
+    "excalidraw-diagram": {
+      "source": "coleam00/excalidraw-diagram-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "7313305537a3c6368c2d091bf243f32ce7d01750ba21e99891a34a5082fb441a"
+    },
     "frontend-design": {
       "source": "olivomarco/ai-dev-skills",
       "sourceType": "github",
