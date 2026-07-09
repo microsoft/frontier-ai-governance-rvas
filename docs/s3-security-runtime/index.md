@@ -37,6 +37,7 @@ The customer leaves with a **runtime security baseline for AI workloads** in the
 - **Content Safety is the runtime safety floor.** Azure AI Content Safety Prompt Shields <span class="rvas-badge rvas-ga">GA</span> detect direct attacks and indirect cross-prompt injection attacks (XPIA); related capabilities include harm categories, protected-material detection, and groundedness detection <span class="rvas-badge rvas-preview">Preview</span>.[^contentsafety]
 - **Control plane split matters.** The **Content Safety resource** and Azure-plane infrastructure are deployable with Bicep / `azd`. Defender plan enablement, AI Threat Protection onboarding, and connecting Content Safety signals to Defender may require Defender for Cloud, Graph, CLI, or portal steps; the runbook captures those customer-owned actions.
 - **Audit-first is safer than block-first.** S3 verifies detection and alert routing before any production enforcement. Runtime tests are scoped to a customer-owned test endpoint/string, never a live user workflow.
+- **This is Citadel Layer 4.** Defender and Content Safety form the **Security Fabric (Layer 4)** of the Foundry Citadel reference architecture - see [Reference Architectures](../reference/reference-architectures.md).[^citadel]
 
 ## 4. Co-delivery walkthrough
 
@@ -100,3 +101,4 @@ Consolidated in [Reference - Governance Mapping](../reference/governance-mapping
 
 [^defender]: Microsoft Learn - [AI security posture management](https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-security-posture); [AI threat protection](https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-threat-protection).
 [^contentsafety]: Microsoft Learn - [Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection).
+[^citadel]: Microsoft - [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-platform) (aka.ms/foundry-citadel) - Defender + Purview + Content Safety = Citadel Layer 4 (Security Fabric). See [Reference Architectures](../reference/reference-architectures.md).

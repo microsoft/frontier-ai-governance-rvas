@@ -35,6 +35,7 @@ The customer leaves with **agents governed as first-class identities** in their 
 - **Existing controls extend to agents - via the workload-identity path.** Because agents are **service principals**, Conditional Access governs them through **Workload Identity Conditional Access** (targeting service principals under `clientApplications`), not the user/group conditions used for people. Agents are non-interactive, so policy design differs (no MFA prompt; gate on network, risk, and app instead), and workload-identity CA requires a **Microsoft Entra Workload ID Premium** license. Verify the current agent-CA experience, which is still evolving.[^entra]
 - **Report-only is the safe default.** A report-only Conditional Access policy logs what *would* happen without blocking anything - essential when the target is a non-interactive identity that could break automation if wrongly scoped.
 - **Monitoring ≠ control.** Agents executing **on-behalf-of a user (OBO)** without their own Agent ID may be visible but not fully governable - flag these in the inventory.[^a365]
+- **This is Citadel Layer 3.** Entra Agent ID is **Layer 3 (Agent Identity)** of the Foundry Citadel reference architecture - see [Reference Architectures](../reference/reference-architectures.md).[^citadel]
 
 ## 4. Co-delivery walkthrough
 
@@ -101,3 +102,4 @@ Consolidated in [Reference - Governance Mapping](../reference/governance-mapping
 
 [^entra]: Microsoft Learn - [What is Microsoft Entra Agent ID?](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id); [Agent ID governance overview](https://learn.microsoft.com/en-us/entra/id-governance/agent-id-governance-overview).
 [^a365]: Microsoft 365 Blog - *Microsoft Agent 365: the control plane for AI agents* (2025-11-18); Microsoft Learn - [Agent 365 Overview](https://learn.microsoft.com/en-us/microsoft-agent-365/overview).
+[^citadel]: Microsoft - [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-platform) (aka.ms/foundry-citadel); [Entra Agent ID governance](https://learn.microsoft.com/en-us/entra/id-governance/agent-id-governance-overview) - Citadel Layer 3. See [Reference Architectures](../reference/reference-architectures.md).

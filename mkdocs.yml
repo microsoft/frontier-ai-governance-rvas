@@ -72,5 +72,6 @@ nav:
       - S6 · Control Plane & Operationalization: s6-control-plane/index.md
   - Reference:
       - Landscape: reference/index.md
+      - Reference Architectures: reference/reference-architectures.md
       - Product Status: reference/product-status.md
       - Governance Mapping: reference/governance-mapping.md

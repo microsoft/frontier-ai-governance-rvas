@@ -21,3 +21,6 @@
 | Red teaming | AI Red Teaming Agent (local & cloud) | <span class="rvas-badge rvas-preview">Preview</span> | [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent) |
 | Admin governance | Copilot Control System | <span class="rvas-badge rvas-ga">GA</span> | [CCS overview](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-control-system/overview) |
 | Operating model | CAF for AI · WAF for AI · AI CoE | Current guidance | [CAF for AI](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai/strategy) |
+| Reference architecture | Foundry Citadel Platform | <span class="rvas-badge rvas-static">Reference architecture</span> | [foundry-citadel-platform](https://github.com/Azure-Samples/foundry-citadel-platform) |
+| Reference architecture | Azure AI Landing Zones | <span class="rvas-badge rvas-ga">GA</span> (Nov 17, 2025) | [Azure/AI-Landing-Zones](https://github.com/Azure/AI-Landing-Zones) |
+| Runtime safety | Agent Governance Toolkit (AGT) | <span class="rvas-badge rvas-static">Open source</span> (Preview) | [agent-governance-toolkit](https://github.com/microsoft/agent-governance-toolkit) |

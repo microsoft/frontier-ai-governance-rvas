@@ -19,6 +19,7 @@ Microsoft ships a **first-party control plane for governing AI agents end to end
 - **Microsoft Foundry Evaluations** - the `azure-ai-evaluation` SDK: quality, risk/safety, and agent-specific evaluators; continuous evaluation; OpenTelemetry tracing; CI/CD gate via the `ai-agent-evals` GitHub Action.[^foundry]
 - **AI Red Teaming** - **PyRIT** (open-source framework) + the **AI Red Teaming Agent** (managed, preview) with Attack Success Rate (ASR) scorecards.[^redteam]
 - **Operating model** - Cloud Adoption Framework (CAF) for AI (Strategy → Plan → Ready → Govern → Secure → Manage), Well-Architected Framework for AI, and the **AI Center of Excellence** model, aligned to **NIST AI RMF / ISO 42001 / EU AI Act**.[^caf]
+- **Reference architecture** - the **Foundry Citadel Platform** is Microsoft's opinionated four-layer target design for AI Foundry governance (Governance Hub → AI Control Plane → Agent Identity → Security Fabric), with deployable accelerators (AI Landing Zones, AI Hub Gateway). RVAS operationalizes this stack session by session - see [Reference Architectures](reference-architectures.md).[^citadel]
 
 ## Framing notes to teach honestly
 
@@ -34,3 +35,4 @@ Microsoft ships a **first-party control plane for governing AI agents end to end
 [^foundry]: Microsoft Learn - [Foundry Observability](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/observability); [azure-ai-evaluation](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/evaluation/azure-ai-evaluation/README.md).
 [^redteam]: Microsoft Learn - [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/ai-red-teaming-agent); [github.com/Azure/PyRIT](https://github.com/Azure/PyRIT).
 [^caf]: Microsoft Learn - [CAF for AI](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai/strategy); [AI Center of Excellence](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai/center-of-excellence).
+[^citadel]: Microsoft - [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-platform) (aka.ms/foundry-citadel); [Azure AI Landing Zones](https://github.com/Azure/AI-Landing-Zones); [AI Hub Gateway](https://aka.ms/ai-hub-gateway); [Agent Governance Toolkit](https://github.com/microsoft/agent-governance-toolkit).

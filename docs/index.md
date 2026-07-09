@@ -2,7 +2,7 @@
 
 **Governing AI agents in your tenant, session by session.**
 
-This is a **co-delivered curriculum** for putting Microsoft AI-agent governance in place inside your own tenant. It is not training for its own sake - each session is a working session that leaves **durable governance artifacts** running in your environment.
+This is a **co-delivered curriculum** for putting Microsoft AI-agent governance in place inside your own tenant. It is not training for its own sake - each session is a working session that leaves **durable governance artifacts** running in your environment. It operationalizes Microsoft's **[Foundry Citadel Platform](reference/reference-architectures.md)** reference architecture, session by session.
 
 !!! info "Freshness"
     **Last reviewed:** 2026-07-06 · Capabilities marked <span class="rvas-badge rvas-preview">Preview</span> may change. Pricing is *publicly announced - verify current*.

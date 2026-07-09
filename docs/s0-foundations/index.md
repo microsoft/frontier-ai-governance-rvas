@@ -34,6 +34,7 @@ There are **no privileged changes** in S0 - it is discovery + planning, so it is
 - **Govern before you build.** NIST AI RMF's **Govern** function (culture, roles, accountability, inventory) is the foundation the other functions (Map, Measure, Manage) depend on - which is why this is S0.
 - **Maturity, not pass/fail.** We score on a 1–4 maturity scale (Ad-hoc → Repeatable → Defined → Optimized) so progress is measurable across the engagement.
 - **Agents change the risk surface.** Non-human identities, autonomous actions, and OBO execution mean human- and app-era governance has gaps this curriculum closes.[^a365]
+- **The target architecture.** The operating model governs a concrete reference architecture - Microsoft's **Foundry Citadel Platform** (four layers: Governance Hub → AI Control Plane → Agent Identity → Security Fabric). See [Reference Architectures](../reference/reference-architectures.md) for how each session maps to a Citadel layer.[^citadel]
 
 See the [Reference landscape](../reference/index.md) for the full stack and citations.
 
@@ -89,3 +90,4 @@ Consolidated in [Reference - Governance Mapping](../reference/governance-mapping
 
 [^caf]: Microsoft Learn - [CAF for AI](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai/strategy); [AI Center of Excellence](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai/center-of-excellence).
 [^a365]: Microsoft 365 Blog - *Microsoft Agent 365: the control plane for AI agents* (2025-11-18); Microsoft Learn - [Agent 365 Overview](https://learn.microsoft.com/en-us/microsoft-agent-365/overview).
+[^citadel]: Microsoft - [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-platform) (aka.ms/foundry-citadel) - the four-layer reference architecture for AI Foundry governance; see [Reference Architectures](../reference/reference-architectures.md).
