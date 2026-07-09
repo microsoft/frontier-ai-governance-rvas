@@ -1,8 +1,73 @@
 /* Frontier AI Governance — RVAS · site styling */
+/* RVAP brand tokens — Real Value Acceleration Program */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap');
 
 :root {
-  --md-primary-fg-color: #4338ca;
-  --md-accent-fg-color: #4f46e5;
+  /* RVAP core palette */
+  --rvap-blue: #1A77E3;
+  --rvap-ms-blue: #0078D4;
+  --rvap-navy: #032254;
+  --rvap-charcoal: #47494E;
+  --rvap-teal: #14868A;
+  --rvap-purple: #504092;
+  --rvap-neutral: #E3E6ED;
+  --rvap-surface: #F5F8FE;
+
+  --font-display: "Aptos Display", "Outfit", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Aptos", "Inter", "Segoe UI", system-ui, sans-serif;
+
+  /* Material theme overrides (light) */
+  --md-primary-fg-color: #1A77E3;
+  --md-primary-fg-color--light: #5B9BD5;
+  --md-primary-fg-color--dark: #032254;
+  --md-accent-fg-color: #0078D4;
+  --md-default-fg-color: #111827;
+  --md-default-bg-color: #FFFFFF;
+  --md-typeset-color: #47494E;
+  --md-typeset-a-color: #1A77E3;
+  --md-code-bg-color: #F5F8FE;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #1A77E3;
+  --md-primary-fg-color--light: #5B9BD5;
+  --md-primary-fg-color--dark: #032254;
+  --md-accent-fg-color: #5B9BD5;
+  --md-typeset-a-color: #5B9BD5;
+}
+
+/* Typography — display font for headings, body font for copy */
+.md-typeset,
+.md-typeset p,
+.md-typeset li {
+  font-family: var(--font-body);
+}
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4,
+.md-header__title,
+.md-nav__title {
+  font-family: var(--font-display);
+}
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  color: var(--rvap-navy);
+}
+[data-md-color-scheme="slate"] .md-typeset h1,
+[data-md-color-scheme="slate"] .md-typeset h2,
+[data-md-color-scheme="slate"] .md-typeset h3 {
+  color: #DDE6F7;
+}
+
+/* Header: keep the RVAP mark crisp on the navy/blue bar */
+.md-header {
+  background: linear-gradient(135deg, #032254 0%, #0F3A7A 60%, #1A77E3 100%);
+}
+.md-header__button.md-logo img {
+  height: 1.6rem;
+  width: auto;
 }
 
 /* Badge chips for Preview / GA / persona / verification */
