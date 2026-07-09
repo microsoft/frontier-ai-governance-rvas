@@ -1,7 +1,7 @@
 # S5 · Adversarial Testing
 
 !!! info "Freshness"
-    **Last reviewed:** 2026-07-06 · Concepts sourced from [Reference — Landscape](../reference/index.md). PyRIT status and AI Red Teaming Agent preview status in [Product Status](../reference/product-status.md).
+    **Last reviewed:** 2026-07-06 · Concepts sourced from [Reference - Landscape](../reference/index.md). PyRIT status and AI Red Teaming Agent preview status in [Product Status](../reference/product-status.md).
 
 <span class="rvas-badge rvas-persona">Security / SOC</span> <span class="rvas-badge rvas-persona">AI developer / maker</span>
 
@@ -14,18 +14,18 @@ The customer leaves with an **authorized adversarial test of a customer-owned, n
 - A remediation backlog for categories above the agreed threshold.
 - Evidence artifacts captured in `labs/s5-red-teaming/evidence/`.
 
-**Durable artifact:** `labs/s5-red-teaming/` — safe prompt dataset, ASR thresholds, mock red-team harness, Tier A AI Red Teaming Agent reference script, runbook, rollback, verification steps, and the generated scorecard.
+**Durable artifact:** `labs/s5-red-teaming/` - safe prompt dataset, ASR thresholds, mock red-team harness, Tier A AI Red Teaming Agent reference script, runbook, rollback, verification steps, and the generated scorecard.
 
 ## 2. Prerequisites
 
-=== "Tier A — Full production"
+=== "Tier A - Full production"
     - Written authorization and rules of engagement for a **customer-owned NON-PRODUCTION test agent/endpoint ONLY**.
     - The **SOC is notified before any red-team / adversarial activity (S5)**, with a named contact and expected test window.
     - Azure subscription + Microsoft Foundry project with permission to run AI Red Teaming Agent <span class="rvas-badge rvas-preview">Preview</span>.[^airt]
     - Python environment for `azure-ai-evaluation[redteam]` (installs PyRIT); add `azure-ai-projects` only if uploading results to a Foundry project. Credentials configured by the customer's operator.
     - Test endpoint owner available to pause, disable, or reset the endpoint if alerts or unexpected behavior occur.
 
-=== "Tier B — Baseline / simulation"
+=== "Tier B - Baseline / simulation"
     - No cloud, no live model, and no network required.
     - Run the local PyRIT-style mock harness against a deterministic echo target:
       ```bash
@@ -47,13 +47,13 @@ The customer leaves with an **authorized adversarial test of a customer-owned, n
 !!! danger "Authorized test endpoint only"
     Before any adversarial activity, confirm **SOC notification**, written authorization, and rules of engagement. The target must be a **customer-owned NON-PRODUCTION test agent/endpoint ONLY**. Do not test third-party systems, production agents, user-facing workloads, or endpoints outside the written scope. Stop if alerts, instability, or scope questions arise.
 
-1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">Security / SOC</span>)* — open `labs/s5-red-teaming/runbook.md`; confirm SOC notification, authorization, rules of engagement, target URI/name, time window, and rollback contact.
-2. **Choose the tier** — Tier A runs `labs/s5-red-teaming/scripts/redteam-airt.py` against the approved customer test deployment; Tier B runs `labs/s5-red-teaming/pipelines/run_mock.py` offline.
-3. **Review safe test data** — inspect `labs/s5-red-teaming/datasets/attack-prompts.jsonl`. It contains category-labeled, benign stand-ins for prompt injection, XPIA, system prompt exposure, and Crescendo-style multi-turn testing.
-4. **Agree thresholds** — review `labs/s5-red-teaming/policies/asr-thresholds.json` with Security/SOC and the endpoint owner before running anything.
-5. **Run the scan** — the customer operator runs the selected path and saves outputs under `labs/s5-red-teaming/evidence/`.
-6. **Triage findings** — compare ASR to thresholds, identify categories above tolerance, and open remediation items for prompt hardening, tool-output isolation, retrieval filtering, monitoring, or Content Safety controls.
-7. **Debrief** — SOC confirms whether any alerts were raised; endpoint owner confirms whether any test data, logs, or incidents need cleanup.
+1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">Security / SOC</span>)* - open `labs/s5-red-teaming/runbook.md`; confirm SOC notification, authorization, rules of engagement, target URI/name, time window, and rollback contact.
+2. **Choose the tier** - Tier A runs `labs/s5-red-teaming/scripts/redteam-airt.py` against the approved customer test deployment; Tier B runs `labs/s5-red-teaming/pipelines/run_mock.py` offline.
+3. **Review safe test data** - inspect `labs/s5-red-teaming/datasets/attack-prompts.jsonl`. It contains category-labeled, benign stand-ins for prompt injection, XPIA, system prompt exposure, and Crescendo-style multi-turn testing.
+4. **Agree thresholds** - review `labs/s5-red-teaming/policies/asr-thresholds.json` with Security/SOC and the endpoint owner before running anything.
+5. **Run the scan** - the customer operator runs the selected path and saves outputs under `labs/s5-red-teaming/evidence/`.
+6. **Triage findings** - compare ASR to thresholds, identify categories above tolerance, and open remediation items for prompt hardening, tool-output isolation, retrieval filtering, monitoring, or Content Safety controls.
+7. **Debrief** - SOC confirms whether any alerts were raised; endpoint owner confirms whether any test data, logs, or incidents need cleanup.
 
 ## 5. Verification & evidence capture
 
@@ -92,7 +92,7 @@ Use `labs/s5-red-teaming/rollback.md` to:
 | Written scope, rules of engagement, and SOC notification | **Govern**, **Manage** | A.3 (roles), A.10 (operations) | Art. 9 (risk management), Art. 12 (record-keeping / logging) |
 | Remediation backlog for categories above ASR threshold | **Manage** | A.6 (verification & validation), A.10 | Art. 15 (accuracy, robustness, cybersecurity) |
 
-Consolidated in [Reference — Governance Mapping](../reference/governance-mapping.md).
+Consolidated in [Reference - Governance Mapping](../reference/governance-mapping.md).
 
 ## 8. Facilitator notes
 
@@ -106,5 +106,5 @@ Consolidated in [Reference — Governance Mapping](../reference/governance-mappi
     - *Alerts triggered during run* → stop, follow SOC procedure, annotate as authorized test if confirmed.
 - **Hand-off:** ASR findings feed S6 operationalization and the customer's ongoing evaluation gate.
 
-[^pyrit]: Azure/PyRIT — [Python Risk Identification Toolkit](https://github.com/Azure/PyRIT), open-source adversarial testing framework; latest release tracked as v0.14.x in [Product Status](../reference/product-status.md).
-[^airt]: Microsoft Learn — [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/ai-red-teaming-agent), Preview managed red-teaming in Microsoft Foundry with local `azure-ai-evaluation[redteam]` and cloud `azure-ai-projects` paths.
+[^pyrit]: Azure/PyRIT - [Python Risk Identification Toolkit](https://github.com/Azure/PyRIT), open-source adversarial testing framework; latest release tracked as v0.14.x in [Product Status](../reference/product-status.md).
+[^airt]: Microsoft Learn - [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/ai-red-teaming-agent), Preview managed red-teaming in Microsoft Foundry with local `azure-ai-evaluation[redteam]` and cloud `azure-ai-projects` paths.

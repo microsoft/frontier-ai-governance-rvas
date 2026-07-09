@@ -3,18 +3,18 @@
 !!! info "Freshness"
     **Last reviewed:** 2026-07-06
 
-A single, reusable **AI‑agent governance maturity assessment**. Run it **twice**:
+A single, reusable **AI-agent governance maturity assessment**. Run it **twice**:
 
-- **S0 — baseline.** Establishes where the customer is today and produces a **prioritized session roadmap**.
-- **S6 — exit score.** Re‑run the same instrument to show measurable lift (the "lasting" proof) and a residual‑gap backlog.
+- **S0 - baseline.** Establishes where the customer is today and produces a **prioritized session roadmap**.
+- **S6 - exit score.** Re-run the same instrument to show measurable lift (the "lasting" proof) and a residual-gap backlog.
 
 ## How it works
 
-Seven domains — one per session — each scored on a **1–4 maturity scale** aligned to the CAF‑for‑AI maturity model and NIST AI RMF (**Govern · Map · Measure · Manage**).
+Seven domains - one per session - each scored on a **1–4 maturity scale** aligned to the CAF-for-AI maturity model and NIST AI RMF (**Govern · Map · Measure · Manage**).
 
 | Level | Name | Meaning |
 |-------|------|---------|
-| 1 | Ad‑hoc | No consistent control; reactive |
+| 1 | Ad-hoc | No consistent control; reactive |
 | 2 | Repeatable | Some controls exist but are manual / inconsistent |
 | 3 | Defined | Documented, enforced, and owned |
 | 4 | Optimized | Automated, measured, and continuously improved |
@@ -33,11 +33,11 @@ Seven domains — one per session — each scored on a **1–4 maturity scale** 
 
 ## Fillable scorecard
 
-The scorecard and auto‑scorer live in the S0 takeaway kit:
+The scorecard and auto-scorer live in the S0 takeaway kit:
 
-- `labs/s0-foundations/assessment/scorecard.csv` — fill the `score` column (1–4) with the customer.
-- `labs/s0-foundations/assessment/score.py` — computes per‑domain and overall maturity and prints a **prioritized roadmap** (lowest‑maturity, highest‑impact domains first).
-- `labs/s0-foundations/assessment/compare.py` — at S6, computes the **baseline→exit lift** per domain and the residual‑gap backlog.
+- `labs/s0-foundations/assessment/scorecard.csv` - fill the `score` column (1–4) with the customer.
+- `labs/s0-foundations/assessment/score.py` - computes per-domain and overall maturity and prints a **prioritized roadmap** (lowest-maturity, highest-impact domains first).
+- `labs/s0-foundations/assessment/compare.py` - at S6, computes the **baseline→exit lift** per domain and the residual-gap backlog.
 
 ```bash
 python labs/s0-foundations/assessment/score.py labs/s0-foundations/assessment/scorecard.csv

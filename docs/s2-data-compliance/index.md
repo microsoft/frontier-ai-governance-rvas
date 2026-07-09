@@ -1,7 +1,7 @@
 # S2 · Data & Compliance
 
 !!! info "Freshness"
-    **Last reviewed:** 2026-07-06 · Concepts sourced from [Reference — Landscape](../reference/index.md). Purview DSPM status in [Product Status](../reference/product-status.md).
+    **Last reviewed:** 2026-07-06 · Concepts sourced from [Reference - Landscape](../reference/index.md). Purview DSPM status in [Product Status](../reference/product-status.md).
 
 <span class="rvas-badge rvas-persona">Compliance / Data admin</span> <span class="rvas-badge rvas-persona">Governance lead</span>
 
@@ -13,18 +13,18 @@ The customer leaves with **AI data exposure governed in Microsoft Purview** in t
 - A **DLP for AI policy definition** authored in **test / simulation** mode, stored as exported JSON and ready for customer-owned deployment.
 - A **compliance evidence bundle** tying Purview Audit, eDiscovery, Insider Risk Management (IRM), and Communication Compliance signals to AI interactions.
 
-**Durable artifact:** `labs/s2-data-compliance/` — the read-only findings export script, simulation-mode DLP policy JSON + creation/rollback scripts, verification runbook, and `evidence/` folder for the customer's dated governance record.
+**Durable artifact:** `labs/s2-data-compliance/` - the read-only findings export script, simulation-mode DLP policy JSON + creation/rollback scripts, verification runbook, and `evidence/` folder for the customer's dated governance record.
 
 ## 2. Prerequisites
 
-=== "Tier A — Full production"
+=== "Tier A - Full production"
     - Microsoft Purview capabilities licensed for **DSPM for AI**, DLP, Audit, eDiscovery, IRM, and Communication Compliance.
     - Roles held by the **customer's** admins (facilitator guides only): **Compliance Administrator**, **Compliance Data Administrator**, or equivalent Purview role groups for DLP and audit export.
     - Microsoft Graph PowerShell SDK and Security & Compliance PowerShell available on the operator workstation.
     - A named **change window** and **approver** for policy creation. Break-glass is not directly in scope for DLP, but an escalation contact must be available.
     - At least one AI workload in scope, such as Microsoft 365 Copilot, Microsoft Foundry agents, Copilot Studio, Security Copilot, or approved enterprise ChatGPT connectors.
 
-=== "Tier B — Baseline / simulation"
+=== "Tier B - Baseline / simulation"
     - No live Purview DSPM for AI findings required. Validate the exported-style policy JSON offline and capture a documented "no findings / not licensed" Tier B note.
     - Author the DLP policy in **simulation / test** mode only; do not deploy enforcement.
     - Use the static mock pipeline to prove the policy cannot be promoted accidentally by the kit scripts.
@@ -33,34 +33,34 @@ The customer leaves with **AI data exposure governed in Microsoft Purview** in t
 
 - **Purview is the data-security layer for AI.** Microsoft Purview for AI extends compliance controls to AI apps and agents, including Copilot, Foundry, enterprise ChatGPT, and other connected AI apps.[^purview]
 - **DSPM for AI maps exposure before enforcement.** Data Security Posture Management for AI surfaces oversharing, user access risk, exfiltration paths, and sensitive data used in prompts/responses so teams can prioritize remediation.[^dspm] <span class="rvas-badge rvas-ga">GA</span>
-- **Sensitivity labels and DLP govern AI use.** Labels and DLP rules can govern what protected data agents can access or return. DLP is authored in **test / notify** mode first — the data-plane equivalent of report-only.[^purview] <span class="rvas-badge rvas-ga">GA</span>
+- **Sensitivity labels and DLP govern AI use.** Labels and DLP rules can govern what protected data agents can access or return. DLP is authored in **test / notify** mode first - the data-plane equivalent of report-only.[^purview] <span class="rvas-badge rvas-ga">GA</span>
 - **IRM and Communication Compliance extend the investigation surface.** Insider Risk Management and Communication Compliance can include AI interactions so risky prompt behavior and policy violations are reviewed through existing compliance workflows.[^purview]
 - **Audit and eDiscovery preserve discoverability.** Purview Audit and eDiscovery provide the evidence trail for prompts, responses, user context, and policy events where supported.[^purview]
-- **Tenant-plane is not ARM/Bicep.** Purview and M365 compliance configuration is administered through the **Microsoft Purview portal**, Microsoft Graph / PowerShell, and exported JSON — not Azure ARM or Bicep.
+- **Tenant-plane is not ARM/Bicep.** Purview and M365 compliance configuration is administered through the **Microsoft Purview portal**, Microsoft Graph / PowerShell, and exported JSON - not Azure ARM or Bicep.
 
 ## 4. Co-delivery walkthrough
 
 !!! warning "Report-only / audit-first"
     DLP policy creation in this session is **simulation / test only**. It must not block users or agents during the workshop. Promotion to enforcement is a separate, customer-owned change after findings review, legal/compliance approval, and communications.
 
-1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">Compliance / Data admin</span>)* — confirm the change window, approver, Purview roles, and evidence location. Open `labs/s2-data-compliance/rollback.md`.
-2. **Export DSPM for AI findings (read-only)** — the customer runs:
+1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">Compliance / Data admin</span>)* - confirm the change window, approver, Purview roles, and evidence location. Open `labs/s2-data-compliance/rollback.md`.
+2. **Export DSPM for AI findings (read-only)** - the customer runs:
    ```powershell
    ./scripts/Get-AISensitiveDataFindings.ps1 -OutFile ./evidence/dspm-ai-findings.json
    ```
    If the tenant has no findings or the feature is not licensed, capture that as Tier B evidence rather than forcing a live change.
-3. **Review the simulation policy** — inspect `policies/dlp-ai-simulation.json`. Replace tenant-specific IDs, sensitive information type IDs, and notification group placeholders.
-4. **Run the offline safety gate** — from `labs/s2-data-compliance/`:
+3. **Review the simulation policy** - inspect `policies/dlp-ai-simulation.json`. Replace tenant-specific IDs, sensitive information type IDs, and notification group placeholders.
+4. **Run the offline safety gate** - from `labs/s2-data-compliance/`:
    ```bash
    python pipelines/run_mock.py
    ```
    The check must print `PASS` and warn only about placeholders that the customer still needs to fill.
-5. **Create DLP in simulation mode** — the customer runs:
+5. **Create DLP in simulation mode** - the customer runs:
    ```powershell
    ./scripts/New-AIDataLossPreventionPolicy.ps1 -PolicyFile ./policies/dlp-ai-simulation.json
    ```
    The script refuses to proceed unless the policy mode is simulation/test.
-6. **Let it bake** — leave the policy in simulation while Purview collects policy matches and user notifications. Compliance review determines any later enforcement.
+6. **Let it bake** - leave the policy in simulation while Purview collects policy matches and user notifications. Compliance review determines any later enforcement.
 
 ## 5. Verification & evidence capture
 
@@ -83,7 +83,7 @@ Every tenant change is reversible. `labs/s2-data-compliance/rollback.md` removes
 ./scripts/Remove-AIDataLossPreventionPolicy.ps1 -DisplayName "RVAS S2 - AI sensitive data DLP (simulation)"
 ```
 
-DSPM exports, audit searches, and evidence files are read-only artifacts — nothing to revert in the tenant. Because the policy is simulation/test, deletion has no blocking impact.
+DSPM exports, audit searches, and evidence files are read-only artifacts - nothing to revert in the tenant. Because the policy is simulation/test, deletion has no blocking impact.
 
 ## 7. Governance mapping
 
@@ -93,7 +93,7 @@ DSPM exports, audit searches, and evidence files are read-only artifacts — not
 | DLP for AI policy in simulation/test | **Manage** (data-use controls) | A.7 (data), A.8 (impact) | Art. 10 (data governance) |
 | IRM, Communication Compliance, Audit/eDiscovery evidence | **Map**, **Manage** | A.7 (data), A.8 (impact) | Art. 12 (logging) |
 
-Consolidated in [Reference — Governance Mapping](../reference/governance-mapping.md): DSPM for AI, DLP, IRM, audit → Map, Manage → A.7 (data), A.8 (impact) → Art. 10 (data governance), Art. 12 (logging).
+Consolidated in [Reference - Governance Mapping](../reference/governance-mapping.md): DSPM for AI, DLP, IRM, audit → Map, Manage → A.7 (data), A.8 (impact) → Art. 10 (data governance), Art. 12 (logging).
 
 ## 8. Facilitator notes
 
@@ -106,5 +106,5 @@ Consolidated in [Reference — Governance Mapping](../reference/governance-mappi
     - *Audit retention insufficient* → document the gap and route to the governance backlog.
 - **Hand-off:** findings feed S3 security posture, S5 adversarial testing evidence, and S6 control-plane reconciliation.
 
-[^purview]: Microsoft Learn — [Microsoft Purview for AI](https://learn.microsoft.com/en-us/purview/ai-microsoft-purview).
-[^dspm]: Microsoft Learn — [Learn about Data Security Posture Management](https://learn.microsoft.com/en-us/purview/data-security-posture-management-learn-about).
+[^purview]: Microsoft Learn - [Microsoft Purview for AI](https://learn.microsoft.com/en-us/purview/ai-microsoft-purview).
+[^dspm]: Microsoft Learn - [Learn about Data Security Posture Management](https://learn.microsoft.com/en-us/purview/data-security-posture-management-learn-about).
