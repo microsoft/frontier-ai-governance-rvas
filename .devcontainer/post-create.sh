@@ -3,9 +3,8 @@
 # and lab kits locally exactly as GitHub Actions does.
 set -euo pipefail
 
-echo "==> Installing Python site + lint tooling"
+echo "==> Installing Python lint tooling"
 python -m pip install --upgrade pip
-pip install -r requirements.txt
 pip install ruff
 
 echo "==> Installing shellcheck (lab-lint: shell job)"
@@ -35,4 +34,4 @@ shellcheck --version | head -1
 bicep --version || true
 pwsh -NoProfile -Command '$PSVersionTable.PSVersion.ToString()'
 
-echo "==> Done. Try: mkdocs serve   |   ruff check labs   |   python labs/s1-identity/pipelines/run_mock.py"
+echo "==> Done. Try: node docs/build.js   |   ruff check labs   |   python labs/s1-identity/pipelines/run_mock.py"

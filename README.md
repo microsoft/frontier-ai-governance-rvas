@@ -21,7 +21,7 @@ The content is **public and source‑cited** (grounded in Microsoft Learn) and c
 ## Repository layout
 
 ```
-docs/     MkDocs Material site (sessions, reference, assessment)
+docs/     Static session site — build.js + HTML/CSS/JS (sessions, reference, assessment)
 labs/     Per-session takeaway kits (infra, scripts, policies, pipelines, runbooks)
 ```
 
@@ -32,9 +32,8 @@ The fastest path is the **[dev container](.devcontainer/README.md)** — open th
 Or set it up manually:
 
 ```bash
-pip install -r requirements.txt
-mkdocs serve      # preview at http://127.0.0.1:8000
-mkdocs build --strict
+node docs/build.js                 # transform markdown → docs/assets/data/
+python3 -m http.server -d docs 8000  # preview at http://127.0.0.1:8000
 ```
 
 ## How the labs are validated

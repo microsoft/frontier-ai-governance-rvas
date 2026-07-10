@@ -8,7 +8,10 @@
     "ghcr.io/devcontainers/features/azure-cli:1": {
       "version": "latest"
     },
-    "ghcr.io/devcontainers/features/github-cli:1": {}
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    }
   },
   "postCreateCommand": "bash .devcontainer/post-create.sh",
   "customizations": {
@@ -40,7 +43,7 @@
   ],
   "portsAttributes": {
     "8000": {
-      "label": "MkDocs dev server",
+      "label": "Docs dev server",
       "onAutoForward": "notify"
     }
   },

@@ -1,0 +1,286 @@
+/* =====================================================================
+   Frontier AI Governance — site-specific layer on top of the shared
+   RVAS visual system (styles.css + shell.css). Tokens come from styles.css.
+   ===================================================================== */
+
+/* ── Inline curriculum badges (carried over from the source content) ── */
+.rvas-badge {
+  display: inline-block;
+  padding: 0.12em 0.55em;
+  border-radius: var(--r-sm);
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  vertical-align: baseline;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+/* Semantic status sub-palette — preserved verbatim from the site's original
+   content styling. These hues encode go / caution / verified / tier meaning
+   that the mono-blue RVAP brand palette intentionally cannot express. */
+.rvas-ga       { background: #dcfce7; color: #166534; }
+.rvas-preview  { background: #fef9c3; color: #854d0e; }
+.rvas-static   { background: #e0e7ff; color: #3730a3; }
+.rvas-persona  { background: var(--c-700); color: var(--c-dim); border: 1px solid var(--c-line-soft); }
+.rvas-tierA    { background: #ede9fe; color: #5b21b6; }
+.rvas-tierB    { background: #e6f2fb; color: #075985; }
+
+/* ── Hero session pipeline (7 chips) ─────────────────────────────── */
+.hero-pipeline { grid-template-columns: repeat(2, 1fr); align-content: start; }
+.hero-mod-card { align-items: flex-start; text-align: left; gap: 4px; }
+.hero-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: #fff;
+  background: var(--mod-color, var(--c-gold));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+  margin-bottom: 6px;
+}
+.hero .hero-mod-card .mod-name { font-size: 0.92rem; line-height: 1.25; }
+
+/* ── Session cards (home + related) ──────────────────────────────── */
+.session-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+  margin-top: 34px;
+}
+.session-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--c-800);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r);
+  padding: 24px 22px 20px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.session-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--mod-color, var(--c-gold));
+}
+.session-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px -12px rgba(3, 34, 84, 0.28), 0 2px 6px rgba(3, 34, 84, 0.08);
+}
+.session-card:focus-visible { outline: 2px solid var(--c-gold); outline-offset: 3px; }
+.session-card-head { display: flex; align-items: center; gap: 12px; }
+.session-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 1rem;
+  color: #fff;
+  background: var(--mod-color, var(--c-gold));
+}
+.session-card-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1.2;
+  color: #032254;
+  letter-spacing: -0.01em;
+}
+.session-card-outcome {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--c-dim);
+  flex: 1;
+}
+.session-outcome-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-faint);
+  margin-bottom: 4px;
+}
+.session-card-foot { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* ── Persona / NIST badges (cards + session meta) ────────────────── */
+.badge-persona {
+  background: var(--c-700);
+  color: var(--c-dim);
+  border-color: var(--c-line-soft);
+}
+.badge-nist {
+  background: var(--c-gold-glow);
+  color: var(--c-gold-dim);
+  border-color: rgba(26, 119, 227, 0.2);
+}
+
+/* ── Figure card for the bespoke diagrams ────────────────────────── */
+.figure-card {
+  margin: 30px 0 0;
+  background: #fff;
+  border: 1px solid var(--c-line);
+  border-radius: var(--r);
+  padding: clamp(16px, 3vw, 32px);
+  box-shadow: var(--shadow-card);
+}
+.figure-card img { margin: 0 auto; max-width: 100%; height: auto; }
+
+/* ── "Start here" band ───────────────────────────────────────────── */
+.start-band {
+  display: grid;
+  grid-template-columns: 1.5fr auto;
+  gap: 28px 40px;
+  align-items: center;
+  margin-top: 30px;
+  background: linear-gradient(135deg, var(--c-700) 0%, var(--c-600) 100%);
+  border: 1px solid var(--c-line-soft);
+  border-radius: var(--r-lg);
+  padding: clamp(22px, 4vw, 40px);
+}
+.start-steps {
+  margin: 0;
+  padding-left: 1.3em;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  counter-reset: startc;
+}
+.start-steps li { font-size: 0.95rem; line-height: 1.65; color: var(--c-dim); }
+.start-steps li strong { color: var(--c-fg); }
+.start-steps a { color: var(--c-gold); text-decoration: underline; text-decoration-color: transparent; transition: text-decoration-color 0.2s; }
+.start-steps a:hover { text-decoration-color: var(--c-gold); }
+@media (max-width: 720px) { .start-band { grid-template-columns: 1fr; } }
+
+/* ── Session / page detail: meta row + facts panel bits ──────────── */
+.detail-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.session-hero-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: #fff;
+  background: var(--mod-color, var(--c-gold));
+  margin-bottom: 12px;
+}
+.fact-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--c-line);
+}
+.fact-row:last-child { border-bottom: none; }
+.fact-k { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-faint); }
+.fact-v { font-size: 0.9rem; color: var(--c-fg); }
+
+.spine-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.spine-list a {
+  display: block;
+  padding: 6px 8px;
+  border-radius: var(--r-sm);
+  font-size: 0.85rem;
+  color: var(--c-dim);
+  transition: background 0.15s, color 0.15s;
+}
+.spine-list a:hover { background: var(--c-600); color: var(--c-gold); }
+.spine-list a[aria-current="page"] { color: var(--c-gold); font-weight: 600; }
+
+/* ── "Last reviewed" meta, relocated from the old top-of-page alert ─ */
+.guide-meta {
+  margin-top: 44px;
+  padding-top: 16px;
+  border-top: 1px solid var(--c-line);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--c-faint);
+}
+.guide-meta .guide-meta-k { font-weight: 600; color: var(--c-dim); }
+.guide-meta time { font-variant-numeric: tabular-nums; }
+.guide-meta a { color: var(--c-dim); text-decoration: underline; text-underline-offset: 2px; }
+.guide-meta a:hover { color: var(--c-gold); }
+
+.session-nav { display: flex; gap: 10px; margin-top: 28px; }
+.session-nav a {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 16px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--r);
+  background: var(--c-800);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.session-nav a:hover { border-color: var(--c-gold); box-shadow: var(--shadow-card); }
+.session-nav .snav-dir { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-faint); }
+.session-nav .snav-title { font-size: 0.9rem; font-weight: 600; color: var(--c-fg); }
+.session-nav .snav-next { text-align: right; align-items: flex-end; }
+
+/* ── Footnote references + Sources ───────────────────────────────── */
+.guide-body sup.fn-ref { font-size: 0.7em; color: var(--c-gold); font-weight: 600; }
+
+/* ── GFM task lists (`- [ ]` in source) — drop the redundant bullet and
+      align a real checkbox with the text baseline ───────────────────── */
+.guide-body li:has(> input[type="checkbox"]) {
+  list-style: none;
+  position: relative;
+  padding-left: 1.7rem;
+}
+.guide-body li > input[type="checkbox"] {
+  position: absolute;
+  left: 0;
+  top: 0.34em;
+  width: 1.05rem;
+  height: 1.05rem;
+  margin: 0;
+  accent-color: var(--c-gold);
+  cursor: default;
+}
+/* When every item is a task, pull the whole list flush left like GitHub. */
+.guide-body ul:has(> li > input[type="checkbox"]) { padding-left: 0.25rem; }
+
+/* ── Standalone document page (page.html) reading column ─────────── */
+.doc-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; }
+.doc-layout.has-aside { grid-template-columns: minmax(0, 1fr) 240px; }
+.doc-body { max-width: 74ch; }
+.doc-aside { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 84px; align-self: start; }
+@media (max-width: 900px) { .doc-layout.has-aside { grid-template-columns: minmax(0, 1fr); } .doc-aside { position: static; } }
+
+/* ── Mermaid diagrams rendered client-side ───────────────────────── */
+.guide-body .mermaid,
+.doc-body .mermaid {
+  margin: 24px 0;
+  padding: clamp(14px, 3vw, 26px);
+  background: #fff;
+  border: 1px solid var(--c-line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+  overflow-x: auto;
+}
+.guide-body .mermaid svg { max-width: 100%; height: auto; }
+
+/* Wide reading imagery inside guides */
+.guide-body img { margin: 20px auto; border-radius: var(--r-sm); }

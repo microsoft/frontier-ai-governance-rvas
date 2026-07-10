@@ -10,11 +10,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          python-version: "3.13"
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-      - name: Strict build
-        run: mkdocs build --strict
+          node-version: '22'
+
+      - name: Build site data
+        run: node docs/build.js
