@@ -1,6 +1,6 @@
 # S4 Takeaway Kit — Quality & Safety Evaluation
 
-Runnable evaluation assets for a non-production AI-agent quality gate. The default path is a no-network mock target; the Tier A reference path shows how to wire Microsoft Foundry Evaluations.
+Runnable evaluation assets for a non-production AI-agent quality gate. Customer delivery uses Microsoft Foundry Evaluations; the no-network mock target is CI/static validation only.
 
 ## Contents
 
@@ -11,7 +11,7 @@ policies/
   thresholds.json                    per-metric pass thresholds for the gate
 pipelines/
   run_mock.py                        offline mock-target evaluator + CI gate demo
-  azure-eval.py                      Tier A reference script for azure-ai-evaluation
+  azure-eval.py                      reference script for azure-ai-evaluation
   github-action-example.yml          documented ai-agent-evals PR gate snippet
 scripts/
   summarize.py                       render evidence/eval-results.json as a table
@@ -24,7 +24,7 @@ runbook.md  rollback.md  verify.md
 
 - Python 3.11+ for the offline path.
 - No network, Azure subscription, or Azure SDK packages are required for `run_mock.py`.
-- Tier A requires an Azure AI Foundry project, judge model deployment, and `azure-ai-evaluation` installed in the runner.
+- Requires an Azure AI Foundry project, judge model deployment, and `azure-ai-evaluation` installed in the runner.
 
 ## Run order
 
@@ -38,7 +38,7 @@ runbook.md  rollback.md  verify.md
    ```bash
    python labs/s4-evaluation/scripts/summarize.py
    ```
-5. For Tier A, configure the environment variables documented in `pipelines/azure-eval.py` and adapt `pipelines/github-action-example.yml` in a PR branch.
+5. Configure the environment variables documented in `pipelines/azure-eval.py` and adapt `pipelines/github-action-example.yml` in a PR branch.
 6. Capture outputs per `verify.md`.
 
 <!-- Verified: static-only — ruff + py_compile + offline mock-target evaluation + JSON load. Live Foundry execution is the customer's co-delivery step. -->

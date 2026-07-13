@@ -2,7 +2,7 @@
 
 ## Verify
 
-- [ ] `evidence/deployment-output.json` records the Content Safety endpoint and resource ID, or deployment was intentionally skipped.
+- [ ] `evidence/citadel-runtime-safety.md` records the Citadel gateway endpoint, Content Safety / Prompt Shields configuration, and platform owner.
 - [ ] `evidence/defender-ai-recommendations.json` exists and contains AI-related Defender posture findings or an empty result documented by the SOC.
 - [ ] `evidence/ai-threat-protection-status.md` records AI Threat Protection status and Defender XDR routing.
 - [ ] `evidence/prompt-shield-result.json` contains a Prompt Shield response from a customer-owned test string.
@@ -16,4 +16,4 @@ CONTENT_SAFETY_ENDPOINT="https://<account>.cognitiveservices.azure.com" \
   ./scripts/test_prompt_shield.sh ./evidence/prompt-shield-result.json
 ```
 
-Commit the exported JSON, deployment output, and SOC status notes into `labs/s3-security-runtime/evidence/` when the customer wants the governance record retained.
+Commit the exported JSON, Citadel runtime safety note, and SOC status notes into `labs/s3-security-runtime/evidence/` when the customer wants the governance record retained.

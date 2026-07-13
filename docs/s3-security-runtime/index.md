@@ -11,32 +11,26 @@ The customer leaves with a **runtime security baseline for AI workloads** in the
 
 - A **Defender for Cloud AI-SPM review** exported from the customer subscription: AI bill of materials (AI-BOM), posture recommendations, and attack paths.
 - **AI Threat Protection** enabled or staged in an alerts-only operating mode so SOC correlation can happen in Defender XDR without blocking production traffic on day one.
-- An **Azure AI Content Safety** account deployed as the runtime safety floor, with Prompt Shields tested against a customer-owned test endpoint/string.
+- **Prompt Shields / Content Safety verified through Citadel Governance Hub** as the runtime safety floor.
 
-**Durable artifact:** `labs/s3-security-runtime/` - Bicep for Azure-plane resources, read-only Defender export scripts, Prompt Shield test scripts, JSON baseline configuration, runbook, rollback, verification, and evidence placeholders.
+**Durable artifact:** `labs/s3-security-runtime/` - read-only Defender export scripts, Prompt Shield test scripts, JSON baseline configuration, runbook, rollback, verification, and evidence placeholders. Runtime safety platform deployment belongs to Citadel Governance Hub.
 
 ## 2. Prerequisites
 
-=== "Tier A - Full production"
-    - An Azure subscription hosting Azure OpenAI / Microsoft Foundry / other AI workloads that Defender for Cloud can discover.
-    - Roles held by the **customer's** admins (facilitator guides only): **Security Administrator** or equivalent Defender for Cloud permissions; Contributor (or deployment rights) for the resource group that hosts Content Safety.
-    - Microsoft Defender for Cloud plan coverage appropriate for AI Security Posture Management and AI Threat Protection.
-    - Defender XDR access for SOC alert review and correlation.
-    - Azure CLI authenticated to the target subscription; Bicep CLI available locally or in CI.
-    - A **customer-owned non-production / test endpoint** for any runtime prompt tests.
-
-=== "Tier B - Baseline / simulation"
-    - No production AI workload required. Deploy only the Azure AI Content Safety resource to a sandbox subscription or resource group.
-    - Run static validation and the Prompt Shield test against a harmless test string; export Defender recommendations if available, or document "no AI assets discovered yet" in evidence.
-    - AI Threat Protection enablement is captured as a runbook decision and left staged until the customer has the right Defender plan and SOC intake path.
+- An Azure subscription hosting Azure OpenAI / Microsoft Foundry / other AI workloads that Defender for Cloud can discover.
+- Roles held by the **customer's** admins (facilitator guides only): **Security Administrator** or equivalent Defender for Cloud permissions.
+- Microsoft Defender for Cloud plan coverage appropriate for AI Security Posture Management and AI Threat Protection.
+- Defender XDR access for SOC alert review and correlation.
+- AI Hub Gateway / Citadel Governance Hub deployed or pre-provisioned, with gateway endpoint and Content Safety configuration available for evidence.
+- A **customer-owned non-production / test endpoint** for any runtime prompt tests.
 
 ## 3. Concepts
 
 - **AI-SPM is posture before runtime.** Microsoft Defender for Cloud **AI Security Posture Management** <span class="rvas-badge rvas-ga">GA</span> discovers AI workloads, builds an **AI-BOM**, surfaces misconfigurations and vulnerabilities in AI stacks such as Azure OpenAI and Foundry, and highlights attack paths that connect identity, network, data, and model exposure.[^defender]
 - **AI Threat Protection is runtime detection.** Defender for Cloud **AI Threat Protection** <span class="rvas-badge rvas-ga">GA</span> raises alerts for AI workloads, including jailbreak / prompt-injection signals, sensitive-data leakage, and wallet-abuse patterns. Alerts flow to **Defender XDR** for SOC correlation.[^defender]
 - **Content Safety is the runtime safety floor.** Azure AI Content Safety Prompt Shields <span class="rvas-badge rvas-ga">GA</span> detect direct attacks and indirect cross-prompt injection attacks (XPIA); related capabilities include harm categories, protected-material detection, and groundedness detection <span class="rvas-badge rvas-preview">Preview</span>.[^contentsafety]
-- **Content Safety can sit standalone or at the gateway.** This session deploys a standalone Content Safety account for tenants without a gateway. If the customer already has [AI Hub Gateway / Citadel Governance Hub (`citadel-v1`)](https://aka.ms/ai-hub-gateway), Content Safety and Prompt Shields may already be integrated at the APIM gateway; in that case, skip duplicate deployment and verify Prompt Shields through the gateway endpoint instead.[^citadel]
-- **Control plane split matters.** The **Content Safety resource** and Azure-plane infrastructure are deployable with Bicep / `azd`. Defender plan enablement, AI Threat Protection onboarding, and connecting Content Safety signals to Defender may require Defender for Cloud, Graph, CLI, or portal steps; the runbook captures those customer-owned actions.
+- **Content Safety lives at the gateway.** [AI Hub Gateway / Citadel Governance Hub (`citadel-v1`)](https://aka.ms/ai-hub-gateway) owns Prompt Shields and runtime safety deployment. RVAS verifies and evidences that configuration; it does not deploy a duplicate Content Safety path.[^citadel]
+- **Control plane split matters.** The **Content Safety resource** and Azure-plane infrastructure are deployed through Citadel Governance Hub. Defender plan enablement, AI Threat Protection onboarding, and connecting Content Safety signals to Defender may require Defender for Cloud, Graph, CLI, or portal steps; the runbook captures those customer-owned actions.
 - **Audit-first is safer than block-first.** S3 verifies detection and alert routing before any production enforcement. Runtime tests are scoped to a customer-owned test endpoint/string, never a live user workflow.
 - **This is Citadel Layer 4.** Defender and Content Safety form the **Security Fabric (Layer 4)** of the Foundry Citadel reference architecture - see [Reference Architectures](../reference/reference-architectures.md).[^citadel]
 
@@ -46,7 +40,7 @@ The customer leaves with a **runtime security baseline for AI workloads** in the
     Enable or stage Defender AI threat protection so it **alerts first**. Do not block, throttle, or red-team production traffic during S3. Prompt Shield tests use a customer-owned **test endpoint/string** and are coordinated with the SOC.
 
 1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">Security / SOC</span>)* - confirm change window, approver, SOC notification, target subscription, and non-production test scope. Open `labs/s3-security-runtime/rollback.md`.
-2. **Deploy or locate Azure-plane resources** - review `labs/s3-security-runtime/infra/main.bicep` and `main.parameters.json`; deploy or what-if the standalone Content Safety account only when the customer is not using gateway-level Content Safety. If AI Hub Gateway / Citadel Governance Hub is already deployed, capture the gateway endpoint and Content Safety configuration as evidence instead. Keep `enableDefenderAiPricing` explicit so the customer decides whether Defender plan changes are made by IaC or manually.
+2. **Locate Citadel runtime safety** - capture the AI Hub Gateway / Citadel Governance Hub endpoint and Content Safety / Prompt Shields configuration as evidence. If the hub is not deployed, stop and make Citadel deployment the prerequisite; do not create a parallel Content Safety deployment from RVAS.
 3. **Review Defender AI-SPM** - run `labs/s3-security-runtime/scripts/export_defender_ai_recommendations.sh` to export AI-related security recommendations and posture findings to `evidence/defender-ai-recommendations.json`.
 4. **Stage AI Threat Protection** - follow `labs/s3-security-runtime/runbook.md` to verify AI Threat Protection status, connect Content Safety / Prompt Shields where required, and confirm alerts route to Defender XDR.
 5. **Run Prompt Shield test** - run `labs/s3-security-runtime/scripts/test_prompt_shield.sh` with `CONTENT_SAFETY_ENDPOINT` set to the deployed account endpoint. Use only the shipped test string or another customer-approved non-production string.
@@ -54,13 +48,13 @@ The customer leaves with a **runtime security baseline for AI workloads** in the
 
 ## 5. Verification & evidence capture
 
-- [ ] Content Safety account deployment output records the endpoint and resource ID, or gateway-level Content Safety evidence records the APIM gateway endpoint and Prompt Shield path.
+- [ ] Gateway-level Content Safety evidence records the APIM gateway endpoint and Prompt Shield path.
 - [ ] Defender AI-SPM export exists, or the evidence file states that no AI resources were discovered.
 - [ ] AI Threat Protection status and Defender XDR routing path are documented.
 - [ ] Prompt Shield test result is captured from a customer-owned test string / endpoint.
 - [ ] Any posture findings have owner, severity, and due date.
 
-**Evidence to capture** (into `labs/s3-security-runtime/evidence/`): deployment output, Defender AI recommendations export, AI Threat Protection status notes, Prompt Shield result JSON, and SOC triage notes.
+**Evidence to capture** (into `labs/s3-security-runtime/evidence/`): Citadel runtime safety note, Defender AI recommendations export, AI Threat Protection status notes, Prompt Shield result JSON, and SOC triage notes.
 
 ```bash
 ./scripts/export_defender_ai_recommendations.sh ./evidence/defender-ai-recommendations.json
@@ -72,8 +66,8 @@ CONTENT_SAFETY_ENDPOINT="https://<account>.cognitiveservices.azure.com" \
 
 Every S3 change has a rollback path in `labs/s3-security-runtime/rollback.md`:
 
-- Disable or remove the Content Safety account deployed for the session if it is not needed.
-- Revert any Defender pricing / plan change made through the Bicep parameter or portal change record.
+- No Content Safety account is created by this kit. Runtime safety rollback belongs to the Citadel Governance Hub change path.
+- Revert any Defender pricing / plan change made through the customer-approved portal, CLI, or platform change record.
 - Remove only test artifacts and evidence files if the customer does not want them retained.
 
 Because S3 is audit-first, rollback should not affect production traffic unless the customer deliberately promoted a control outside the workshop.
@@ -90,12 +84,12 @@ Consolidated in [Reference - Governance Mapping](../reference/governance-mapping
 
 ## 8. Facilitator notes
 
-- **Timing:** ~half day. Pre-flight + concepts ~45 min, Bicep/Content Safety deployment ~45 min, Defender AI-SPM export + AI Threat Protection review ~75 min, Prompt Shield test + evidence ~45 min.
+- **Timing:** ~half day. Pre-flight + concepts ~45 min, Citadel runtime safety evidence ~30 min, Defender AI-SPM export + AI Threat Protection review ~75 min, Prompt Shield test + evidence ~45 min.
 - **RACI:** Security/SOC = **R**, Governance lead = **A**, AI developer / maker = **C** (test endpoint), Compliance / Data admin = **C** (sensitive data findings), Identity admin = **I**.
 - **Common blockers:**
-    - *Defender plan not enabled* → Tier B path; deploy Content Safety and capture a plan-enablement action item.
+    - *Defender plan not enabled* → stop S3 runtime validation and capture a plan-enablement action item.
     - *No AI workloads discovered* → evidence the empty AI-BOM and schedule a re-scan after S4/S6 deployments.
-    - *AI Hub Gateway already deployed* → do not create duplicate runtime safety infrastructure unless the customer wants a separate test account; run the harmless Prompt Shield test through the gateway endpoint and capture the gateway configuration as evidence.
+    - *AI Hub Gateway not deployed* → stop before Prompt Shield validation and route the prerequisite to the Citadel deployment workstream.
     - *No SOC intake path* → stop before runtime testing; define alert owner and triage queue first.
     - *Only production endpoint available* → do not test; create or nominate a non-production endpoint/string.
     - *Preview capability needed* → mark it explicitly and verify status against Microsoft Learn before delivery.

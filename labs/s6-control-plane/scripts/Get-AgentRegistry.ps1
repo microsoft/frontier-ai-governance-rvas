@@ -5,7 +5,7 @@
 .DESCRIPTION
     Connects to Microsoft Graph with read scopes and writes an Agent 365 registry
     export to JSON for evidence capture. Endpoint names can change as Agent 365
-    APIs evolve; treat this script as a Tier A reference pattern and verify the
+    APIs evolve; treat this script as a reference pattern and verify the
     current Microsoft Graph documentation before live use.
 
     Static-only: validated for syntax/style in CI. Live execution is the

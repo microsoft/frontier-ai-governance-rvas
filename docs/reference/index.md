@@ -20,6 +20,7 @@ Microsoft ships a **first-party control plane for governing AI agents end to end
 - **AI Red Teaming** - **PyRIT** (open-source framework) + the **AI Red Teaming Agent** (managed, preview) with Attack Success Rate (ASR) scorecards.[^redteam]
 - **Operating model** - Cloud Adoption Framework (CAF) for AI (Strategy → Plan → Ready → Govern → Secure → Manage), Well-Architected Framework for AI, and the **AI Center of Excellence** model, aligned to **NIST AI RMF / ISO 42001 / EU AI Act**.[^caf]
 - **Reference architecture** - the **Foundry Citadel Platform** is Microsoft's opinionated four-layer target design for AI Foundry governance (Governance Hub → AI Control Plane → Agent Identity → Security Fabric), with deployable accelerators (AI Landing Zones, AI Hub Gateway). RVAS operationalizes this stack session by session - see [Reference Architectures](reference-architectures.md).[^citadel]
+- **Citadel + RVAS playbook** - the AI Hub Gateway / Citadel Governance Hub is the deployable Azure-plane foundation; RVAS is the governance operating model around it. See [Citadel + RVAS Playbook](citadel-rvas-playbook.md) for how the two cooperate and where overlap is intentional.
 
 ## Framing notes to teach honestly
 

@@ -22,6 +22,6 @@
    python labs/s4-evaluation/scripts/summarize.py
    ```
 5. **Review failures.** Classify each failed case as target bug, dataset issue, threshold issue, or evaluator limitation.
-6. **Tier A mapping.** If an Azure AI project and judge model are available, adapt `pipelines/azure-eval.py` and the GitHub Action snippet.
+6. **Foundry mapping.** Adapt `pipelines/azure-eval.py` and the GitHub Action snippet for the customer's Azure AI project and judge model.
 7. **Capture evidence** per `verify.md`.
 8. **Decide promotion.** Blocking PR gates are a later, customer-owned enforcement decision.

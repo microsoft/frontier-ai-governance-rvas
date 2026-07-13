@@ -14,7 +14,7 @@ S4 changes are evaluation and release-gate changes. The default mock run has no 
 - Keep `evidence/eval-results.json` as audit evidence of the regression and fix.
 - Add the failing case to the dataset if it represents a real expected behavior.
 
-## Tier A cleanup
+## Live-run cleanup
 
 - Delete only temporary CI secrets or service connections created for the pilot.
 - Do not delete Foundry project-level evaluation history unless the customer's retention policy requires it.

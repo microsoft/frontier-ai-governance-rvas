@@ -6,7 +6,7 @@ artifacts, logs, alerts, and incident records.
 ## Stop an in-progress run
 
 - Cancel the local process with the terminal interrupt key.
-- For managed Tier A runs, stop the Foundry red-team job from the customer's
+- For managed runs, stop the Foundry red-team job from the customer's
   project interface or CLI according to local operating procedure.
 
 ## Clean up local artifacts

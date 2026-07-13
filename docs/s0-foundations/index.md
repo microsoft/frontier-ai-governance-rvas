@@ -17,14 +17,9 @@ By the end of this session the customer leaves with, **in their own repository /
 
 ## 2. Prerequisites
 
-=== "Tier A - Full production"
-    - Microsoft 365 E5/E7 and an Azure subscription (needed by later sessions, confirmed now).
-    - A named executive sponsor available for the operating-model conversation.
-    - <span class="rvas-badge rvas-persona">Governance lead</span> with **AI Administrator** or equivalent to inventory existing AI/agent usage.
-
-=== "Tier B - Baseline / simulation"
-    - No licenses required. The assessment and operating-model artifacts are authored from workshop inputs.
-    - A "what changes at Tier A" note is captured wherever a Tier-A signal (e.g. an existing agent inventory export) was unavailable.
+- Microsoft 365 E5/E7 and an Azure subscription (needed by later sessions, confirmed now).
+- A named executive sponsor available for the operating-model conversation.
+- <span class="rvas-badge rvas-persona">Governance lead</span> with **AI Administrator** or equivalent to inventory existing AI/agent usage.
 
 There are **no privileged changes** in S0 - it is discovery + planning, so it is safe to run first with any audience.
 

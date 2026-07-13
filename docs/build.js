@@ -54,6 +54,7 @@ const PAGES = [
   { slug: 'assessment',                   src: 'assessment/index.md',          title: 'Readiness Assessment',      nav: true,  group: null },
   { slug: 'reference',                    src: 'reference/index.md',           title: 'Reference · Landscape',     nav: true,  group: 'Reference' },
   { slug: 'reference-architectures',      src: 'reference/reference-architectures.md', title: 'Reference Architectures', nav: false, group: 'Reference' },
+  { slug: 'reference-citadel-rvas-playbook', src: 'reference/citadel-rvas-playbook.md', title: 'Citadel + RVAS Playbook', nav: false, group: 'Reference' },
   { slug: 'reference-product-status',     src: 'reference/product-status.md',  title: 'Product & Feature Status',  nav: false, group: 'Reference' },
   { slug: 'reference-governance-mapping', src: 'reference/governance-mapping.md', title: 'Governance Mapping',     nav: false, group: 'Reference' },
 ];
@@ -66,6 +67,7 @@ const ROUTES = {
   'assessment/index.md': 'page.html?p=assessment',
   'reference/index.md': 'page.html?p=reference',
   'reference/reference-architectures.md': 'page.html?p=reference-architectures',
+  'reference/citadel-rvas-playbook.md': 'page.html?p=reference-citadel-rvas-playbook',
   'reference/product-status.md': 'page.html?p=reference-product-status',
   'reference/governance-mapping.md': 'page.html?p=reference-governance-mapping',
 };

@@ -2,7 +2,7 @@
 
 ## Verify
 
-- [ ] Registry export or Tier B registry spreadsheet is present in `evidence/`.
+- [ ] Agent 365 registry export is present in `evidence/`.
 - [ ] Reconciliation report exists and is valid JSON.
 - [ ] Shadow agents, unmanaged/OBO agents, and missing sponsors were reviewed with owners.
 - [ ] Exit scorecard was filled using the same S0 seven-domain, 1-4 maturity instrument.

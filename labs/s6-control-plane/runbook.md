@@ -4,14 +4,14 @@
 
 ## Pre-flight
 
-- [ ] Agent 365 Tier A export path or Tier B registry spreadsheet agreed.
+- [ ] Agent 365 export path agreed.
 - [ ] S1 inventory export located or workshop inputs ready.
 - [ ] `evidence/` folder prepared for registry, reconciliation, and exit-score artifacts.
 - [ ] S0 baseline scorecard/output available for comparison.
 
 ## Steps
 
-1. **Export registry (Tier A).**
+1. **Export registry.**
    ```powershell
    ./scripts/Get-AgentRegistry.ps1 -OutFile ./evidence/agent-registry.json
    ```

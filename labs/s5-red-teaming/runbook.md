@@ -12,17 +12,7 @@
 - [ ] `rollback.md` open and endpoint owner available.
 - [ ] ASR thresholds reviewed in `policies/asr-thresholds.json`.
 
-## Tier B — offline baseline
-
-```bash
-python pipelines/run_mock.py
-```
-
-The harness reads `datasets/attack-prompts.jsonl`, runs benign placeholders
-against a deterministic mock target, prints the ASR scorecard, and writes
-`evidence/asr-scorecard.json`.
-
-## Tier A — customer test deployment
+## Customer test deployment
 
 1. Install dependencies in the customer's environment:
    ```bash
@@ -35,6 +25,8 @@ against a deterministic mock target, prints the ASR scorecard, and writes
    ```
 4. Run only against the authorized non-production test endpoint.
 5. Export the ASR scorecard and run metadata to `evidence/`.
+
+The local mock harness is CI/static validation only; do not use it as a customer delivery path.
 
 ## Stop conditions
 

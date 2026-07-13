@@ -1,7 +1,7 @@
 # S1 Verify & Capture Evidence
 
 ## Verify
-- [ ] `evidence/agent-inventory.json` exists (or is documented empty at Tier B).
+- [ ] `evidence/agent-inventory.json` exists and lists agent identities.
 - [ ] Every inventoried agent has a sponsor in `policies/sponsor-register.csv`.
 - [ ] The Conditional Access policy exists with state **report-only** and the break-glass group **excluded**.
 

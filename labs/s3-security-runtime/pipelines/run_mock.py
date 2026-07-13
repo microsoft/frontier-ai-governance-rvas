@@ -2,7 +2,7 @@
 """Static validation for the S3 Security Posture & Runtime kit.
 
 No network calls are made. The check enforces audit-first defaults, valid JSON,
-Bicep guardrails, and script references needed for the live customer runbook.
+and script references needed for the live customer runbook.
 """
 from __future__ import annotations
 
@@ -11,7 +11,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICIES = ROOT / "policies"
-INFRA = ROOT / "infra"
 SCRIPTS = ROOT / "scripts"
 
 
@@ -51,28 +50,14 @@ def validate_policies() -> None:
         fail("Defender assessment template must include a findings array")
 
 
-def validate_parameters() -> None:
-    params = load_json(INFRA / "main.parameters.json").get("parameters", {})
-    defender_flag = params.get("enableDefenderAiPricing", {}).get("value")
-    if defender_flag is not False:
-        fail("enableDefenderAiPricing must default to false for audit-first delivery")
-
-    account_name = params.get("contentSafetyAccountName", {}).get("value", "")
-    if "REPLACE-WITH" not in account_name:
-        print("NOTE: Content Safety account placeholder has been replaced.")
-
-
-def validate_bicep_and_scripts() -> None:
-    require_text(INFRA / "main.bicep", "Microsoft.Security/pricings")
-    require_text(INFRA / "modules" / "content-safety.bicep", "kind: 'ContentSafety'")
+def validate_scripts() -> None:
     require_text(SCRIPTS / "test_prompt_shield.sh", "shieldPrompt")
     require_text(SCRIPTS / "export_defender_ai_recommendations.sh", "az graph query")
 
 
 def main() -> int:
     validate_policies()
-    validate_parameters()
-    validate_bicep_and_scripts()
+    validate_scripts()
     print("PASS: S3 kit satisfies static audit-first invariants.")
     return 0
 

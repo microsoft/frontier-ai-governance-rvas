@@ -6,6 +6,7 @@
   const REFERENCE_GROUP = [
     { slug: 'reference', label: 'Landscape' },
     { slug: 'reference-architectures', label: 'Reference Architectures' },
+    { slug: 'reference-citadel-rvas-playbook', label: 'Citadel + RVAS Playbook' },
     { slug: 'reference-product-status', label: 'Product & Feature Status' },
     { slug: 'reference-governance-mapping', label: 'Governance Mapping' },
   ];

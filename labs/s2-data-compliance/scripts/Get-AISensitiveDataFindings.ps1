@@ -71,7 +71,7 @@ try {
 
     Write-Output "Exported $($aiFindings.Count) AI data-security finding(s) -> $OutFile"
     if ($aiFindings.Count -eq 0) {
-        Write-Warning "No AI findings matched. Capture this as Tier B/no-finding evidence if expected."
+        Write-Warning "No AI findings matched. Capture the empty result as evidence if expected."
     }
 }
 finally {

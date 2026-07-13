@@ -17,17 +17,11 @@ The customer leaves with the capstone operating view for AI-agent governance:
 
 ## 2. Prerequisites
 
-=== "Tier A - Full production"
-    - Microsoft Agent 365 licensed and available in the tenant - **GA May 1, 2026**, approximately **$15/user/month** *(publicly announced - verify current before delivery)*.[^a365]
-    - Customer admin/operator with permissions to export the Agent 365 registry and read Entra Agent ID inventory data.
-    - Completed S1 inventory export or sponsor register available for reconciliation.
-    - Governance lead empowered to assign lifecycle state and accountable owner for each finding.
-    - A pre-agreed evidence location: `labs/s6-control-plane/evidence/`.
-
-=== "Tier B - Baseline / simulation"
-    - No Agent 365 license required. Reconcile the S1 Entra Agent ID inventory, maker/admin workshop inputs, and any known agent lists into a registry spreadsheet.
-    - Use `labs/s6-control-plane/data/agent-registry.sample.json` and the offline reconciliation script to rehearse the method.
-    - Document "what changes at Tier A": replace the spreadsheet with the Agent 365 registry export and repeat the same reconciliation/evidence steps.
+- Microsoft Agent 365 licensed and available in the tenant - **GA May 1, 2026**, approximately **$15/user/month** *(publicly announced - verify current before delivery)*.[^a365]
+- Customer admin/operator with permissions to export the Agent 365 registry and read Entra Agent ID inventory data.
+- Completed S1 inventory export or sponsor register available for reconciliation.
+- Governance lead empowered to assign lifecycle state and accountable owner for each finding.
+- A pre-agreed evidence location: `labs/s6-control-plane/evidence/`.
 
 ## 3. Concepts
 
@@ -45,12 +39,11 @@ The customer leaves with the capstone operating view for AI-agent governance:
 !!! warning "Read-only reconciliation first"
     Start with export and reconciliation only. Do **not** write lifecycle metadata, ownership changes, or access controls until the customer reviews the findings, names an approver, and confirms rollback for any registry writes.
 
-1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">Governance lead</span>)* - confirm Agent 365 availability or Tier B spreadsheet path, evidence folder, approver, and the S0 baseline score location. Open `labs/s6-control-plane/rollback.md`.
-2. **Pull the registry** - Tier A customer operator exports Agent 365 registry data:
+1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">Governance lead</span>)* - confirm Agent 365 availability, evidence folder, approver, and the S0 baseline score location. Open `labs/s6-control-plane/rollback.md`.
+2. **Pull the registry** - the customer operator exports Agent 365 registry data:
    ```powershell
    ./scripts/Get-AgentRegistry.ps1 -OutFile ./evidence/agent-registry.json
    ```
-   Tier B uses the workshop registry spreadsheet converted to JSON/CSV and records the source.
 3. **Add gateway registry evidence when present** - if the customer has a pre-provisioned AI Hub Gateway / Citadel Governance Hub, capture API Center / Access Contract evidence as an adjacent Layer 1 input. Do not deploy the hub during S6; record the export or customer-provided artifact alongside the Agent 365 registry.
 4. **Reconcile S1 inventory** - compare the registry with the S1 Entra Agent ID inventory:
    ```bash
@@ -68,7 +61,7 @@ The customer leaves with the capstone operating view for AI-agent governance:
 
 ## 5. Verification & evidence capture
 
-- [ ] `evidence/agent-registry.json` or the Tier B registry spreadsheet/export is captured.
+- [ ] `evidence/agent-registry.json` is captured.
 - [ ] `evidence/reconciliation-report.json` exists and lists shadow agents, unmanaged/OBO agents, missing sponsors, and lifecycle gaps.
 - [ ] `evidence/exit-scorecard.csv` and the `score.py` terminal output are stored as the S6 exit score.
 - [ ] Lift versus the S0 baseline is documented per domain D0-D6, with residual gaps assigned to owners.
@@ -95,7 +88,7 @@ Consolidated in [Reference - Governance Mapping](../reference/governance-mapping
 - **Timing:** ~half day. Concepts + pre-flight ~30 min, registry export/reconciliation ~75 min, lifecycle ownership workshop ~60 min, exit re-score + backlog ~60 min, evidence hand-off ~15 min.
 - **RACI:** Governance lead = **R/A**; Identity admin = **C** for Entra Agent ID inventory; Security/SOC = **C** for unmanaged/OBO risk; AI developer / maker = **C** for agent provenance; executive sponsor = **I**.
 - **Common blockers:**
-    - *No Agent 365 license* → Tier B path: reconcile S1 inventory + workshop inputs in the registry spreadsheet.
+    - *No Agent 365 license* → stop S6 live delivery and route licensing / registry readiness to the prerequisite backlog.
     - *Citadel Governance Hub already deployed* → do not re-deploy it in S6. Capture API Center / Access Contract evidence as a Layer 1 input and reconcile it against Agent 365 / Entra Agent ID records.
     - *S1 inventory missing* → use maker/admin inputs for the workshop, but record this as a D1/D6 residual gap.
     - *OBO agents only* → mark them "visible but not fully controllable" and add migration to Entra Agent ID as the backlog action.

@@ -17,16 +17,11 @@ The customer leaves with **agents governed as first-class identities** in their 
 
 ## 2. Prerequisites
 
-=== "Tier A - Full production"
-    - **Microsoft Entra ID P1** (Conditional Access) - **P2** recommended (ID Protection risk conditions). Targeting agent **service principals** additionally requires a **Microsoft Entra Workload ID Premium** license.
-    - Roles held by the **customer's** admins (facilitator guides only): **Conditional Access Administrator** (or Security Administrator) to author policy; a **Privileged Role Administrator** on hand for exclusions.
-    - At least one **Entra Agent ID** present - typically provisioned when the customer builds an agent in Copilot Studio or Microsoft Foundry (verify current provisioning behavior for your workloads).[^entra]
-    - A **break-glass** account confirmed and **excluded** from the new policy.
-    - Microsoft Graph PowerShell SDK (`Install-Module Microsoft.Graph`) on the operator workstation.
-
-=== "Tier B - Baseline / simulation"
-    - No P2 / no live agents required. Author the Conditional Access policy JSON **offline** and validate it statically; the inventory script runs read-only and returns an empty set (documented).
-    - Policy is authored in **report-only** and left un-deployed, or deployed to a **sandbox tenant**. A "what changes at Tier A" note records the risk-based conditions you'd add with P2.
+- **Microsoft Entra ID P1** (Conditional Access) - **P2** recommended (ID Protection risk conditions). Targeting agent **service principals** additionally requires a **Microsoft Entra Workload ID Premium** license.
+- Roles held by the **customer's** admins (facilitator guides only): **Conditional Access Administrator** (or Security Administrator) to author policy; a **Privileged Role Administrator** on hand for exclusions.
+- At least one **Entra Agent ID** present - typically provisioned when the customer builds an agent in Copilot Studio or Microsoft Foundry (verify current provisioning behavior for your workloads).[^entra]
+- A **break-glass** account confirmed and **excluded** from the new policy.
+- Microsoft Graph PowerShell SDK (`Install-Module Microsoft.Graph`) on the operator workstation.
 
 ## 3. Concepts
 
@@ -60,7 +55,7 @@ The customer leaves with **agents governed as first-class identities** in their 
 
 ## 5. Verification & evidence capture
 
-- [ ] `agent-inventory.json` exists and lists agent identities (or is documented empty at Tier B).
+- [ ] `agent-inventory.json` exists and lists agent identities.
 - [ ] Every inventoried agent has a sponsor in `sponsor-register.csv`.
 - [ ] The Conditional Access policy exists in the tenant with state **report-only** and the break-glass **service principal excluded**.
 
@@ -95,7 +90,7 @@ Consolidated in [Reference - Governance Mapping](../reference/governance-mapping
 - **Timing:** ~half day. Pre-flight + concepts ~45 min, inventory + sponsor register ~60 min, policy authoring + report-only creation ~60 min, verification/evidence ~30 min.
 - **RACI:** Identity admin = **R**, Governance lead = **A**, Security/SOC = **C** (sign-in risk), AI developer = **I**.
 - **Common blockers:**
-    - *No agents in the tenant yet* → Tier B path; author the policy offline and stage it for when agents arrive.
+    - *No agents in the tenant yet* → stop S1 live delivery and route agent onboarding / Citadel deployment readiness to the prerequisite backlog.
     - *No Entra P2* → skip risk-based conditions; document them as the Tier-A upgrade.
     - *Break-glass not identified* → **stop**; do not create any Conditional Access policy until a break-glass account is confirmed and excluded.
     - *Agents running OBO* → they won't appear as distinct identities; note them as "visible but not fully controllable" and revisit in S6.

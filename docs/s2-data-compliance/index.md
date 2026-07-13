@@ -17,17 +17,11 @@ The customer leaves with **AI data exposure governed in Microsoft Purview** in t
 
 ## 2. Prerequisites
 
-=== "Tier A - Full production"
-    - Microsoft Purview capabilities licensed for **DSPM for AI**, DLP, Audit, eDiscovery, IRM, and Communication Compliance.
-    - Roles held by the **customer's** admins (facilitator guides only): **Compliance Administrator**, **Compliance Data Administrator**, or equivalent Purview role groups for DLP and audit export.
-    - Microsoft Graph PowerShell SDK and Security & Compliance PowerShell available on the operator workstation.
-    - A named **change window** and **approver** for policy creation. Break-glass is not directly in scope for DLP, but an escalation contact must be available.
-    - At least one AI workload in scope, such as Microsoft 365 Copilot, Microsoft Foundry agents, Copilot Studio, Security Copilot, or approved enterprise ChatGPT connectors.
-
-=== "Tier B - Baseline / simulation"
-    - No live Purview DSPM for AI findings required. Validate the exported-style policy JSON offline and capture a documented "no findings / not licensed" Tier B note.
-    - Author the DLP policy in **simulation / test** mode only; do not deploy enforcement.
-    - Use the static mock pipeline to prove the policy cannot be promoted accidentally by the kit scripts.
+- Microsoft Purview capabilities licensed for **DSPM for AI**, DLP, Audit, eDiscovery, IRM, and Communication Compliance.
+- Roles held by the **customer's** admins (facilitator guides only): **Compliance Administrator**, **Compliance Data Administrator**, or equivalent Purview role groups for DLP and audit export.
+- Microsoft Graph PowerShell SDK and Security & Compliance PowerShell available on the operator workstation.
+- A named **change window** and **approver** for policy creation. Break-glass is not directly in scope for DLP, but an escalation contact must be available.
+- At least one AI workload in scope, such as Microsoft 365 Copilot, Microsoft Foundry agents, Copilot Studio, Security Copilot, or approved enterprise ChatGPT connectors.
 
 ## 3. Concepts
 
@@ -49,7 +43,7 @@ The customer leaves with **AI data exposure governed in Microsoft Purview** in t
    ```powershell
    ./scripts/Get-AISensitiveDataFindings.ps1 -OutFile ./evidence/dspm-ai-findings.json
    ```
-   If the tenant has no findings or the feature is not licensed, capture that as Tier B evidence rather than forcing a live change.
+   If the tenant has no findings, capture the empty result as evidence. If the feature is not licensed, stop and route licensing to the prerequisite backlog.
 3. **Review the simulation policy** - inspect `policies/dlp-ai-simulation.json`. Replace tenant-specific IDs, sensitive information type IDs, and notification group placeholders.
 4. **Run the offline safety gate** - from `labs/s2-data-compliance/`:
    ```bash
@@ -65,7 +59,7 @@ The customer leaves with **AI data exposure governed in Microsoft Purview** in t
 
 ## 5. Verification & evidence capture
 
-- [ ] `dspm-ai-findings.json` exists, or a Tier B note documents no license/no findings.
+- [ ] `dspm-ai-findings.json` exists and documents findings or an empty result.
 - [ ] DLP policy exists in the Purview portal with mode **TestWithoutNotifications**, **TestWithNotifications**, or equivalent simulation/test state.
 - [ ] Audit/eDiscovery search can locate AI interaction records where the tenant supports them.
 - [ ] IRM and Communication Compliance reviewers know where AI interaction alerts will appear.
@@ -101,7 +95,7 @@ Consolidated in [Reference - Governance Mapping](../reference/governance-mapping
 - **Timing:** ~half day. Pre-flight + concepts ~45 min, DSPM review ~60 min, DLP simulation authoring ~60 min, verification/evidence ~30 min.
 - **RACI:** Compliance/Data admin = **R**, Governance lead = **A**, Security/SOC = **C** (IRM/Communication Compliance), AI developer = **I**.
 - **Common blockers:**
-    - *DSPM for AI not licensed or no findings* → Tier B path; keep the simulation policy JSON and capture the license/finding gap.
+    - *DSPM for AI not licensed* → stop S2 live delivery and route licensing to the prerequisite backlog. *No findings* → capture the empty export as evidence.
     - *Policy owner asks to enforce immediately* → **stop**; this session creates simulation/test only.
     - *Tenant-specific IDs unknown* → leave placeholders, capture warnings, and assign follow-up to the Compliance/Data admin.
     - *Customer asks about PII masking before the LLM call* → keep the S2 DLP simulation in scope, then point the platform team to the Citadel Governance Hub [PII masking guide](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/pii-masking-apim.md) for gateway-layer anonymization/deanonymization.

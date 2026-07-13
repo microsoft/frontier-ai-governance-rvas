@@ -4,15 +4,17 @@
 
 This is a **co-delivered curriculum** for putting Microsoft AI-agent governance in place inside your own tenant. It is not training for its own sake - each session is a working session that leaves **durable governance artifacts** running in your environment. It operationalizes Microsoft's **[Foundry Citadel Platform](reference/reference-architectures.md)** reference architecture, session by session.
 
+For the full production path, RVAS has one straight line: **deploy or connect [AI Hub Gateway / Citadel Governance Hub](reference/citadel-rvas-playbook.md), then build governance on top of it**. S0-S6 govern the agents, data, security posture, evaluation, red-team evidence, and lifecycle records around that platform.
+
 !!! info "Freshness"
     **Last reviewed:** 2026-07-06 · Capabilities marked <span class="rvas-badge rvas-preview">Preview</span> may change. Pricing is *publicly announced - verify current*.
 
 ## What makes this different
 
 - **Done *with* you, in *your* tenant.** A facilitator guides your admins through real configuration - not a demo tenant.
-- **Every session leaves something lasting:** Infrastructure as Code, exported policies, scripts, evaluation/red-team pipelines, runbooks, and a maturity scorecard.
+- **Every session leaves something lasting:** exported policies, scripts, evaluation/red-team pipelines, runbooks, evidence, and a maturity scorecard. Azure-plane platform IaC belongs to Citadel.
 - **Safe by default.** Report-only / audit-first, with a documented rollback for every change.
-- **Two prerequisite tiers.** <span class="rvas-badge rvas-tierA">Tier A</span> full production path · <span class="rvas-badge rvas-tierB">Tier B</span> baseline/simulation - so a session always produces an artifact even without every license.
+- **One integrated path.** Deploy/connect Citadel first, then run the governance playbook. Missing prerequisites become backlog items, not parallel platform paths.
 
 ## The governance stack you will implement
 
@@ -33,8 +35,9 @@ This is a **co-delivered curriculum** for putting Microsoft AI-agent governance 
 ## Start here
 
 1. Read **[How to Deliver](how-to-deliver.md)** - the delivery model, safety protocol, and room setup.
-2. Run the **[Readiness Assessment](assessment/index.md)** with the customer to baseline maturity and prioritize sessions.
-3. Deliver the sessions in the recommended order (or the order the assessment prioritizes).
+2. Read **[Citadel + RVAS Playbook](reference/citadel-rvas-playbook.md)** - how the deployable Governance Hub and RVAS operating model cooperate.
+3. Run the **[Readiness Assessment](assessment/index.md)** with the customer to baseline maturity and prioritize sessions.
+4. Deliver the sessions in the recommended order (or the order the assessment prioritizes).
 
 !!! note "Scope"
     All content references only **publicly documented** Microsoft capabilities, with citations in the [Reference](reference/index.md) section.

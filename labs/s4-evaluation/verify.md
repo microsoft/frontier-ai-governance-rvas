@@ -5,7 +5,7 @@
 - [ ] `python labs/s4-evaluation/pipelines/run_mock.py` exits `0` with the shipped dataset.
 - [ ] `evidence/eval-results.json` exists and includes aggregate scores, thresholds, and pass/fail status.
 - [ ] `python labs/s4-evaluation/scripts/summarize.py` prints a readable scorecard.
-- [ ] Tier A live runs, if used, target a non-production/test agent first.
+- [ ] Live runs target a non-production/test agent first.
 
 ## Capture evidence
 

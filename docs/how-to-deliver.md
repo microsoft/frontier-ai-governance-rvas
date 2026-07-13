@@ -33,12 +33,23 @@ Sessions and individual steps are tagged with the role that performs them.
 | <span class="rvas-badge rvas-persona">Compliance / Data admin</span> | Compliance Data Administrator, Purview roles | S2 |
 | <span class="rvas-badge rvas-persona">AI developer / maker</span> | Azure AI Developer, Copilot Studio maker | S4, S5, S6 |
 
-## Prerequisite tiers
+## Prerequisites
 
-Every session opens with a prerequisite checklist in two tiers:
+Every session opens with a prerequisite checklist. If a required platform capability is missing, the answer is not a parallel RVAS fallback: capture the gap, assign an owner, and complete the prerequisite before running that part of the playbook.
 
-- <span class="rvas-badge rvas-tierA">Tier A</span> **Full production** - the customer has the licenses (M365 E5→E7, Entra P1/P2, an Azure subscription with Microsoft Foundry) to implement the lasting production configuration.
-- <span class="rvas-badge rvas-tierB">Tier B</span> **Baseline / simulation** - when a license or preview feature is missing, the session still produces a durable artifact (policy authored in report-only mode, IaC deployed to a sandbox subscription, a scan run against a customer-owned test endpoint) plus a "what changes at Tier A" note.
+The production path is explicit: deploy/connect Citadel, confirm tenant-plane prerequisites, run S0-S6, then operate the evidence and backlog.
+
+## Phase 0 - Citadel platform foundation
+
+For the full integrated path, deploy or connect to [AI Hub Gateway / Citadel Governance Hub](reference/citadel-rvas-playbook.md) before the governance sessions begin. This is the Azure-plane foundation: APIM gateway, API Center registry, Access Contracts, gateway Content Safety, PII masking, telemetry, and private networking. RVAS then governs what runs through that platform.
+
+Phase 0 has three acceptable states:
+
+1. **Existing hub** - capture the gateway URL, API Center / Access Contract export, Content Safety configuration, telemetry location, and platform owner.
+2. **New hub** - the platform team pre-provisions the accelerator from `citadel-v1` before the live governance workshop, or runs it as a separate platform workstream.
+3. **No hub yet** - stop the integrated delivery and deploy or schedule Citadel first. Do not present RVAS artifacts as a substitute platform.
+
+Do not turn a governance session into an APIM deployment workshop. The hub is the platform substrate; S0-S6 are the governance operating motion around it. The default production sequence is: **deploy Citadel, build governance, prove evidence, then operate.**
 
 ## Safety protocol (applies to every session)
 
@@ -59,7 +70,7 @@ Every change has a documented rollback, and every session ends with a **verifica
 Each session follows the same 8-part spine:
 
 1. **Outcome & durable artifact** - what stays in your tenant.
-2. **Prerequisites** - Tier A / Tier B, licenses, roles, regions.
+2. **Prerequisites** - required platform state, licenses, roles, regions.
 3. **Concepts** - concise, cited, with Preview/GA caveats.
 4. **Co-delivery walkthrough** - step-by-step, report-only first.
 5. **Verification & evidence capture.**
@@ -69,11 +80,10 @@ Each session follows the same 8-part spine:
 
 ## Anatomy of a takeaway kit
 
-Each session ships a kit under `labs/sNN-*/`:
+Each session ships a kit under `labs/sNN-*/`. These kits are governance evidence and safety rails around the Citadel platform, not replacements for Citadel's platform IaC:
 
 ```
 README.md      run order
-infra/         Bicep + azd (Azure-plane resources)
 scripts/       Graph / PowerShell / CLI / Python (idempotent)
 policies/      Conditional Access / DLP / Azure Policy JSON exports
 pipelines/     eval + red-team CI (runs against a mock target)
@@ -84,4 +94,4 @@ evidence/      templated placeholders for captured proof
 ```
 
 !!! note "How lab assets are validated"
-    Lab assets are **statically validated** in CI (Bicep build/lint, PowerShell/Python/bash lint, JSON schema, mock-target pipeline runs) and carry a <span class="rvas-badge rvas-static">Verified: static-only</span> badge. Live execution is the customer's co-delivery step, not our test.
+    Lab assets are **statically validated** in CI (PowerShell/Python/bash lint, JSON schema, mock-target pipeline runs) and carry a <span class="rvas-badge rvas-static">Verified: static-only</span> badge. Live execution is the customer's co-delivery step, not our test.

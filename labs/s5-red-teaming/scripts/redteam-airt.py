@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tier A reference runner for Microsoft Foundry AI Red Teaming Agent.
+"""Reference runner for Microsoft Foundry AI Red Teaming Agent.
 
 This script is intentionally import-guarded so static validation does not require
 Azure packages. Run it only in the customer's environment, against the written-scope
@@ -21,7 +21,7 @@ TargetCallback = Callable[[str], Coroutine[Any, Any, str]]
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run a Tier A AI Red Teaming Agent scan.")
+    parser = argparse.ArgumentParser(description="Run an AI Red Teaming Agent scan.")
     parser.add_argument("--azure-ai-project", required=True, help="Azure AI Foundry project endpoint or connection string.")
     parser.add_argument("--target-endpoint", required=True, help="Authorized customer-owned non-production endpoint URL.")
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT), help="Path for the exported ASR scorecard JSON.")

@@ -1,7 +1,7 @@
 # S2 Verify & Capture Evidence
 
 ## Verify
-- [ ] `evidence/dspm-ai-findings.json` exists, or a Tier B note documents no license/no findings.
+- [ ] `evidence/dspm-ai-findings.json` exists and documents findings or an empty result.
 - [ ] The DLP policy exists with mode **TestWithoutNotifications**, **TestWithNotifications**, or equivalent simulation/test state.
 - [ ] The policy targets only the intended AI workload scope.
 - [ ] Purview Audit/eDiscovery search locations for AI prompts/responses are documented.

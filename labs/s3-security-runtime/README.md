@@ -1,14 +1,12 @@
 # S3 Takeaway Kit — Security Posture & Runtime
 
-Builds an audit-first security baseline for AI workloads: Defender for Cloud AI-SPM exports, AI Threat Protection status capture, and Azure AI Content Safety Prompt Shields testing.
+Builds an audit-first security baseline for AI workloads: Defender for Cloud AI-SPM exports, AI Threat Protection status capture, and Prompt Shields testing through AI Hub Gateway / Citadel Governance Hub.
+
+This kit does not deploy runtime safety infrastructure. Content Safety / Prompt Shields are owned by Citadel Governance Hub; RVAS verifies and captures evidence from that path.
 
 ## Contents
 
 ```
-infra/
-  main.bicep                  subscription-scope deployment wrapper
-  main.parameters.json        azd/ARM-style parameter example
-  modules/content-safety.bicep Azure AI Content Safety account module
 scripts/
   test_prompt_shield.sh       calls Content Safety Prompt Shields with a test string
   export_defender_ai_recommendations.sh read-only Defender AI recommendation export
@@ -24,28 +22,22 @@ runbook.md  rollback.md  verify.md
 ## Prerequisites
 
 - Azure CLI logged in to the customer subscription.
-- Deployment rights for the target resource group; Security/SOC permissions for Defender for Cloud exports.
-- Bicep CLI locally or in CI for `infra/main.bicep`.
+- Security/SOC permissions for Defender for Cloud exports.
+- AI Hub Gateway / Citadel Governance Hub deployed, with gateway endpoint and Prompt Shields / Content Safety configuration available.
 - A customer-owned non-production test endpoint/string for runtime checks.
 
 ## Run order
 
-1. Review `infra/main.parameters.json`; replace `REPLACE-WITH-...` values.
-2. Deploy or preview the Content Safety account:
-   ```bash
-   az deployment sub what-if --location westeurope \
-     --template-file infra/main.bicep \
-     --parameters @infra/main.parameters.json
-   ```
-3. Export Defender AI recommendations:
+1. Capture the Citadel Governance Hub gateway endpoint and Content Safety / Prompt Shields configuration.
+2. Export Defender AI recommendations:
    ```bash
    ./scripts/export_defender_ai_recommendations.sh ./evidence/defender-ai-recommendations.json
    ```
-4. Test Prompt Shields against the approved test string:
+3. Test Prompt Shields against the approved test string through the Citadel gateway / configured Content Safety endpoint:
    ```bash
    CONTENT_SAFETY_ENDPOINT="https://<account>.cognitiveservices.azure.com" \
      ./scripts/test_prompt_shield.sh ./evidence/prompt-shield-result.json
    ```
-5. Capture evidence per `verify.md`; rollback per `rollback.md` if needed.
+4. Capture evidence per `verify.md`; rollback per `rollback.md` if needed.
 
-<!-- Verified: static-only — ruff + py_compile + JSON/config invariants + optional Bicep build. Live execution is the customer's co-delivery step. -->
+<!-- Verified: static-only — ruff + py_compile + JSON/config invariants. Live execution is the customer's co-delivery step. -->

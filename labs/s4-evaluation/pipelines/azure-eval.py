@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tier A reference runner for Microsoft Foundry Evaluations.
+"""Reference runner for Microsoft Foundry Evaluations.
 
 This script documents the production path and is intentionally not executed by
 CI. It requires `azure-ai-evaluation`, an Azure AI Foundry project, and judge
@@ -61,14 +61,14 @@ def load_sdk() -> Any:
     try:
         return importlib.import_module("azure.ai.evaluation")
     except ImportError as exc:
-        raise SystemExit("Install azure-ai-evaluation before running Tier A live evaluations.") from exc
+        raise SystemExit("Install azure-ai-evaluation before running live evaluations.") from exc
 
 
 def load_credential() -> Any:
     try:
         from azure.identity import DefaultAzureCredential
     except ImportError as exc:
-        raise SystemExit("Install azure-identity before running Tier A live evaluations.") from exc
+        raise SystemExit("Install azure-identity before running live evaluations.") from exc
     return DefaultAzureCredential()
 
 

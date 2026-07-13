@@ -11,14 +11,6 @@
 
 ## Capture evidence
 
-Tier B:
-
-```bash
-python pipelines/run_mock.py
-```
-
-Tier A:
-
 - Export the AI Red Teaming Agent ASR scorecard.
 - Save run metadata: authorized target name, time window, operator, categories,
   and thresholds.
