@@ -15,7 +15,7 @@
  * Transforms (MkDocs → runtime dialect consumed by marked + core.js):
  *   - `!!! type "Title"` / `???` admonitions → GitHub-style alert blockquotes
  *   - `=== "Tab"` content tabs            → `#### Tab` sections
- *   - `[^id]` footnotes                   → superscript refs + a Sources list
+ *   - `[^id]` footnotes                   → linked refs + a Sources list
  *   - `mermaid` fences                    → left intact (rendered client-side)
  *   - image / internal `.md` links        → rewritten to the static routes
  *
@@ -163,14 +163,30 @@ function transformFootnotes(md) {
 
   const order = defs.map((d) => d.id);
   const num = (id) => order.indexOf(id) + 1;
+  const safeId = (id) => String(id).toLowerCase()
+    .replace(/[^a-z0-9_-]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'source';
+  const refCounts = new Map();
+  const firstRefs = new Map();
 
   // Replace inline references [^id] (not definitions, already removed).
   body = body.replace(/\[\^([^\]]+)\]/g, (whole, id) => {
     const n = num(id);
-    return n > 0 ? `<sup class="fn-ref">[${n}]</sup>` : whole;
+    if (n < 1) return whole;
+    const sourceId = `fn-${safeId(id)}`;
+    const count = (refCounts.get(id) || 0) + 1;
+    refCounts.set(id, count);
+    const refId = `fnref-${safeId(id)}-${count}`;
+    if (!firstRefs.has(id)) firstRefs.set(id, refId);
+    return `<sup class="fn-ref" id="${refId}"><a href="#${sourceId}" aria-label="Source ${n}">[${n}]</a></sup>`;
   });
 
-  const sources = defs.map((d, idx) => `${idx + 1}. ${d.text}`).join('\n');
+  const sources = defs.map((d, idx) => {
+    const sourceId = `fn-${safeId(d.id)}`;
+    const backRef = firstRefs.get(d.id);
+    const backLink = backRef ? ` [↩](#${backRef})` : '';
+    return `${idx + 1}. <span id="${sourceId}"></span>${d.text}${backLink}`;
+  }).join('\n');
   body += `\n\n## Sources\n\n${sources}\n`;
   return body;
 }

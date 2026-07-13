@@ -240,6 +240,8 @@
 
 /* ── Footnote references + Sources ───────────────────────────────── */
 .guide-body sup.fn-ref { font-size: 0.7em; color: var(--c-gold); font-weight: 600; }
+.guide-body sup.fn-ref a { color: inherit; text-decoration: none; }
+.guide-body sup.fn-ref a:hover { text-decoration: underline; }
 
 /* ── GFM task lists (`- [ ]` in source) — drop the redundant bullet and
       align a real checkbox with the text baseline ───────────────────── */
