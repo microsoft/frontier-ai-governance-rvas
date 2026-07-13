@@ -24,3 +24,6 @@ node_modules/
 
 # Diagram render artifacts (regenerated)
 diagrams/*.png
+
+# Graphify
+graphify-out/
