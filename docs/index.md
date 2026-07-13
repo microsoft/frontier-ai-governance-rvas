@@ -20,6 +20,14 @@ For the full production path, RVAS has one straight line: **deploy or connect [A
 
 ![The governance stack you implement, session by session: agents you build climb an identity → data → security → evaluation → control pipeline, framed by the S0 operating model and re-scored each loop.](assets/diagrams/journey.svg)
 
+## Before the sessions: what we provide
+
+Start with **[Governance Built on Citadel](governance-on-citadel.md)**. It explains the simple framing:
+
+- Citadel provides the governed AI runtime platform: gateway, access contracts, API Center, safety controls, PII masking, auth, telemetry, and FinOps.
+- RVAS provides the governance operating model on top: owners, policies, evidence, evaluation gates, red-team findings, registry reconciliation, maturity scoring, and backlog.
+- If a capability belongs to Citadel, RVAS does not duplicate it. Deploy/connect Citadel, build governance, profit.
+
 ## The 7 sessions
 
 | # | Session | Durable outcome |
@@ -35,9 +43,10 @@ For the full production path, RVAS has one straight line: **deploy or connect [A
 ## Start here
 
 1. Read **[How to Deliver](how-to-deliver.md)** - the delivery model, safety protocol, and room setup.
-2. Read **[Citadel + RVAS Playbook](reference/citadel-rvas-playbook.md)** - how the deployable Governance Hub and RVAS operating model cooperate.
-3. Run the **[Readiness Assessment](assessment/index.md)** with the customer to baseline maturity and prioritize sessions.
-4. Deliver the sessions in the recommended order (or the order the assessment prioritizes).
+2. Read **[Governance Built on Citadel](governance-on-citadel.md)** - the practical framing for what Citadel provides and what RVAS builds on top.
+3. Read **[Citadel + RVAS Playbook](reference/citadel-rvas-playbook.md)** - the detailed cooperation model for the deployable Governance Hub and RVAS operating model.
+4. Run the **[Readiness Assessment](assessment/index.md)** with the customer to baseline maturity and prioritize sessions.
+5. Deliver the sessions in the recommended order (or the order the assessment prioritizes).
 
 !!! note "Scope"
     All content references only **publicly documented** Microsoft capabilities, with citations in the [Reference](reference/index.md) section.

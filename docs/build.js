@@ -50,6 +50,7 @@ const SESSIONS = [
 ];
 
 const PAGES = [
+  { slug: 'governance-on-citadel',        src: 'governance-on-citadel.md',    title: 'Governance Built on Citadel', nav: true, group: null },
   { slug: 'how-to-deliver',               src: 'how-to-deliver.md',            title: 'How to Deliver',            nav: true,  group: null },
   { slug: 'assessment',                   src: 'assessment/index.md',          title: 'Readiness Assessment',      nav: true,  group: null },
   { slug: 'reference',                    src: 'reference/index.md',           title: 'Reference · Landscape',     nav: true,  group: 'Reference' },
@@ -63,6 +64,7 @@ const PAGES = [
 
 const ROUTES = {
   'index.md': 'index.html',
+  'governance-on-citadel.md': 'page.html?p=governance-on-citadel',
   'how-to-deliver.md': 'page.html?p=how-to-deliver',
   'assessment/index.md': 'page.html?p=assessment',
   'reference/index.md': 'page.html?p=reference',
