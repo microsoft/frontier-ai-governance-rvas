@@ -13,7 +13,7 @@ The customer leaves with **AI data exposure governed in Microsoft Purview** in t
 - A **DLP for AI policy definition** authored in **test / simulation** mode, stored as exported JSON and ready for customer-owned deployment.
 - A **compliance evidence bundle** tying Purview Audit, eDiscovery, Insider Risk Management (IRM), and Communication Compliance signals to AI interactions.
 
-**Durable artifact:** `labs/s2-data-compliance/` - the read-only findings export script, simulation-mode DLP policy JSON + creation/rollback scripts, verification runbook, and `evidence/` folder for the customer's dated governance record.
+**Durable artifact:** `labs/s2-data-compliance/` - the read-only findings export script, simulation-mode DLP policy definition, and verification runbook. Customer evidence remains local and is not committed to this repository.
 
 ## 2. Prerequisites
 
@@ -50,17 +50,13 @@ The customer leaves with **AI data exposure governed in Microsoft Purview** in t
    python pipelines/run_mock.py
    ```
    The check must print `PASS` and warn only about placeholders that the customer still needs to fill.
-5. **Create DLP in simulation mode** - the customer runs:
-   ```powershell
-   ./scripts/New-AIDataLossPreventionPolicy.ps1 -PolicyFile ./policies/dlp-ai-simulation.json
-   ```
-   The script refuses to proceed unless the policy mode is simulation/test.
-6. **Let it bake** - leave the policy in simulation while Purview collects policy matches and user notifications. Compliance review determines any later enforcement.
+5. **Hand it off for customer-owned change** - this kit intentionally does not create or remove tenant policy. The customer may apply the reviewed definition through its approved change process, retaining simulation/test mode.
+6. **Let it bake** - if the customer applies the policy, leave it in simulation while Purview collects policy matches and user notifications. Compliance review determines any later enforcement.
 
 ## 5. Verification & evidence capture
 
 - [ ] `dspm-ai-findings.json` exists and documents findings or an empty result.
-- [ ] DLP policy exists in the Purview portal with mode **TestWithoutNotifications**, **TestWithNotifications**, or equivalent simulation/test state.
+- [ ] If independently applied by the customer, the DLP policy remains in **TestWithoutNotifications**, **TestWithNotifications**, or equivalent simulation/test state.
 - [ ] Audit/eDiscovery search can locate AI interaction records where the tenant supports them.
 - [ ] IRM and Communication Compliance reviewers know where AI interaction alerts will appear.
 
@@ -70,15 +66,9 @@ The customer leaves with **AI data exposure governed in Microsoft Purview** in t
 ./scripts/Get-AISensitiveDataFindings.ps1 -OutFile ./evidence/dspm-ai-findings.json
 ```
 
-## 6. Rollback
+## 6. Customer-owned rollback
 
-Every tenant change is reversible. `labs/s2-data-compliance/rollback.md` removes only the simulation-mode DLP policy created by this kit:
-
-```powershell
-./scripts/Remove-AIDataLossPreventionPolicy.ps1 -DisplayName "RVAS S2 - AI sensitive data DLP (simulation)"
-```
-
-DSPM exports, audit searches, and evidence files are read-only artifacts - nothing to revert in the tenant. Because the policy is simulation/test, deletion has no blocking impact.
+This kit makes no tenant changes. If the customer independently applies a simulation/test policy, its approved change process owns reversal and confirmation. DSPM exports, audit searches, and evidence files are read-only artifacts - nothing to revert in the tenant.
 
 ## 7. Governance mapping
 

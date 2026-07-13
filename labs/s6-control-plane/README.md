@@ -18,6 +18,8 @@ policies/
 pipelines/
   run_mock.py                 static offline check of the reconciliation invariants
 evidence/                    registry export, reconciliation report, exit scorecard/output
+fixtures/
+  reconciliation-report.example.json shipped example reconciliation report
 runbook.md  rollback.md  verify.md
 ```
 
@@ -31,7 +33,7 @@ runbook.md  rollback.md  verify.md
 1. Export the Agent 365 registry.
 2. Copy the S1 inventory export into evidence, or point the script at the existing S1 file.
 3. Run `python scripts/reconcile-registry.py` for the sample, or pass `--registry` and `--inventory` for customer evidence.
-4. Review `evidence/reconciliation-report.json` for shadow, unmanaged/OBO, and missing-sponsor findings.
+4. Review the ignored `evidence/reconciliation-report.json` for shadow, unmanaged/OBO, and missing-sponsor findings. `fixtures/reconciliation-report.example.json` is a non-customer example.
 5. Follow `assessment/exit-rescore.md` to produce the S6 exit maturity score.
 6. Capture evidence per `verify.md` and use `rollback.md` before any optional registry writes.
 

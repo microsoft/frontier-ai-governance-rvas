@@ -1,6 +1,6 @@
 # S1 Runbook
 
-> **Safety:** report-only / audit-first. Confirm the break-glass exclusion before creating any policy.
+> **Safety:** report-only / audit-first. This kit does not create or remove tenant policy.
 
 ## Pre-flight
 - [ ] Break-glass account/group confirmed and its object ID recorded.
@@ -21,9 +21,6 @@
    python pipelines/run_mock.py
    ```
    Must print `PASS`.
-5. **Create report-only.**
-   ```powershell
-   ./scripts/New-AgentConditionalAccess.ps1 -PolicyFile ./policies/ca-agent-baseline.json
-   ```
-6. **Verify + capture evidence** (see `verify.md`).
+5. **Hand off the reviewed definition.** The customer's approved change process owns any policy creation. It must retain the report-only state and break-glass exclusion.
+6. **Verify + capture evidence** after the customer-owned change, if performed (see `verify.md`).
 7. **Leave in report-only.** Impact review + any promotion to enforce is a later, customer-owned decision.

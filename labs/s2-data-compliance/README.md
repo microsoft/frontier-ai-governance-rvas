@@ -3,19 +3,20 @@
 Governs AI-agent data exposure with Microsoft Purview. All privileged actions are
 the customer's; scripts default to read-only and simulation/test mode.
 
+The live export script is customer-operated evidence capture. Its output is
+ignored by Git and must remain in the customer's approved records system.
+
 ## Contents
 
 ```
 scripts/
   Get-AISensitiveDataFindings.ps1       read-only DSPM for AI findings export -> JSON
-  New-AIDataLossPreventionPolicy.ps1    create a SIMULATION/TEST DLP policy (refuses enforce mode)
-  Remove-AIDataLossPreventionPolicy.ps1 rollback: delete the simulation DLP policy
 policies/
   dlp-ai-simulation.json                curriculum-template DLP policy (illustrative schema) in simulation/test mode
   dspm-ai-baseline.json                 exported-style DSPM for AI baseline config
 pipelines/
   run_mock.py                           static safety check of policy JSON invariants
-evidence/                               captured DSPM findings, DLP export, approver/change record
+evidence/                               ignored DSPM findings, DLP export, approver/change record
 runbook.md  rollback.md  verify.md
 ```
 
@@ -31,9 +32,9 @@ runbook.md  rollback.md  verify.md
 1. `./scripts/Get-AISensitiveDataFindings.ps1 -OutFile ./evidence/dspm-ai-findings.json`
 2. Edit `policies/dlp-ai-simulation.json`: set tenant, reviewer group, AI workload, and sensitive information type IDs.
 3. `python pipelines/run_mock.py` *(offline safety check — must PASS)*
-4. `./scripts/New-AIDataLossPreventionPolicy.ps1 -PolicyFile ./policies/dlp-ai-simulation.json`
-5. Capture evidence per `verify.md` after the simulation policy bakes.
+4. Hand the reviewed simulation policy definition to the customer's approved change process. This kit intentionally does not create or remove tenant policy.
+5. Capture evidence per `verify.md` after the customer-created simulation policy bakes.
 
-Rollback any time with `./scripts/Remove-AIDataLossPreventionPolicy.ps1`.
+Use the customer's approved change process to reverse a policy change.
 
 <!-- Verified: static-only — ruff + py_compile + JSON load + mock pipeline in CI. Live execution is the customer's co-delivery step. -->

@@ -16,7 +16,9 @@ pipelines/
 scripts/
   summarize.py                       render evidence/eval-results.json as a table
 evidence/
-  .gitkeep                           scorecards and CI logs captured here
+  .gitkeep                           ignored customer-generated scorecards and CI logs
+fixtures/
+  eval-results.example.json          shipped example scorecard
 runbook.md  rollback.md  verify.md
 ```
 

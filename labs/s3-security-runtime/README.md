@@ -4,6 +4,10 @@ Builds an audit-first security baseline for AI workloads: Defender for Cloud AI-
 
 This kit does not deploy runtime safety infrastructure. Content Safety / Prompt Shields are owned by Citadel Governance Hub; RVAS verifies and captures evidence from that path.
 
+The live export and non-production test scripts are customer-operated evidence
+capture. Their output is ignored by Git and must remain in the customer's
+approved records system.
+
 ## Contents
 
 ```
@@ -15,7 +19,7 @@ policies/
   defender-ai-assessment-export-template.json Defender evidence schema/template
 pipelines/
   run_mock.py                 static safety/config validation, no network
-evidence/                     captured deployment output, exports, Prompt Shield results
+evidence/                     ignored customer-captured output, exports, Prompt Shield results
 runbook.md  rollback.md  verify.md
 ```
 

@@ -25,5 +25,9 @@ node_modules/
 # Diagram render artifacts (regenerated)
 diagrams/*.png
 
+# Customer and run-generated evidence
+labs/**/evidence/*
+!labs/**/evidence/.gitkeep
+
 # Graphify
 graphify-out/

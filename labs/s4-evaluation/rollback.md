@@ -11,7 +11,7 @@ S4 changes are evaluation and release-gate changes. The default mock run has no 
 ## Revert a regression
 
 - Revert the prompt, model, tool, or routing change that caused the score drop.
-- Keep `evidence/eval-results.json` as audit evidence of the regression and fix.
+- Keep the ignored `evidence/eval-results.json` in the customer's approved records system as audit evidence of the regression and fix.
 - Add the failing case to the dataset if it represents a real expected behavior.
 
 ## Live-run cleanup

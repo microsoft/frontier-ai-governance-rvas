@@ -4,7 +4,7 @@ S6 is read-only by default. Registry exports, reconciliation reports, and scorec
 
 ## Read-only artifacts
 
-To roll back documents, remove or supersede the affected files in `evidence/`:
+To roll back documents, remove or supersede the ignored affected files in `evidence/`:
 
 ```bash
 rm labs/s6-control-plane/evidence/agent-registry.json

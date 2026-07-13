@@ -21,7 +21,9 @@ pipelines/
   run_mock.py                offline no-network mock red-team harness -> evidence/asr-scorecard.json
 scripts/
   redteam-airt.py            reference script for azure-ai-evaluation RedTeam
-evidence/                   generated ASR scorecards and run notes
+evidence/                   ignored customer-generated ASR scorecards and run notes
+fixtures/
+  asr-scorecard.example.json shipped example scorecard
 runbook.md  rollback.md  verify.md
 ```
 

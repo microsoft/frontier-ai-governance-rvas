@@ -12,7 +12,7 @@ artifacts, logs, alerts, and incident records.
 ## Clean up local artifacts
 
 Keep required governance evidence first. If the customer approves deletion of
-local generated files, remove only S5 evidence artifacts:
+local generated files, remove only ignored S5 evidence artifacts:
 
 ```bash
 rm -f evidence/asr-scorecard.json

@@ -10,10 +10,10 @@
 The customer leaves with **agents governed as first-class identities** in their own tenant:
 
 - An **inventory of agent identities** (Entra Agent ID) present in the tenant, exported to JSON.
-- A **Conditional Access policy targeting agent identities**, created in **report-only** mode, exported as JSON and stored as code.
+- A **Conditional Access policy definition** targeting agent identities in **report-only** mode, ready for the customer's approved change process.
 - A **human-sponsor accountability record** for each agent (who owns it, lifecycle state).
 
-**Durable artifact:** `labs/s1-identity/` - the inventory export, the report-only Conditional Access policy JSON + creation/rollback scripts, and the sponsor register, committed to the customer's governance repo.
+**Durable artifact:** `labs/s1-identity/` - the inventory export, report-only Conditional Access policy definition, and sponsor register. Customer evidence remains local and is not committed to this repository.
 
 ## 2. Prerequisites
 
@@ -46,18 +46,14 @@ The customer leaves with **agents governed as first-class identities** in their 
    This connects Microsoft Graph with least-privilege read scopes and exports every agent identity + its sponsor.
 3. **Build the sponsor register** - for each agent in the inventory without a clear owner, record a human sponsor in `policies/sponsor-register.csv`. Agents with no sponsor are the first governance finding.
 4. **Author the Conditional Access policy** - review `policies/ca-agent-baseline.json` (a Workload Identity CA policy that targets the agent **service principals** under `clientApplications`, excludes a break-glass service principal, report-only). Set `includeServicePrincipals` to the agent SP object ID(s) and `excludeServicePrincipals` to the customer's break-glass service principal.
-5. **Create it report-only** - the customer runs:
-   ```powershell
-   ./scripts/New-AgentConditionalAccess.ps1 -PolicyFile ./policies/ca-agent-baseline.json
-   ```
-   The script refuses to proceed unless `state` is `enabledForReportingButNotEnforced`.
-6. **Let it bake** - leave the policy in report-only. Impact is reviewed over the following days via sign-in logs before any enforcement decision (a separate, customer-owned step).
+5. **Hand it off for customer-owned change** - this kit intentionally does not create or remove tenant policy. The customer may apply the reviewed definition through its approved change process, retaining `enabledForReportingButNotEnforced` and the break-glass exclusion.
+6. **Let it bake** - if the customer applies the policy, leave it in report-only. Impact is reviewed over the following days via sign-in logs before any enforcement decision.
 
 ## 5. Verification & evidence capture
 
 - [ ] `agent-inventory.json` exists and lists agent identities.
 - [ ] Every inventoried agent has a sponsor in `sponsor-register.csv`.
-- [ ] The Conditional Access policy exists in the tenant with state **report-only** and the break-glass **service principal excluded**.
+- [ ] If independently applied by the customer, the Conditional Access policy is **report-only** and excludes the break-glass **service principal**.
 
 **Evidence to capture** (into `labs/s1-identity/evidence/`): the inventory JSON, the created policy re-exported from the tenant, and a screenshot-free record (policy JSON + object IDs) of the report-only state.
 
@@ -65,15 +61,9 @@ The customer leaves with **agents governed as first-class identities** in their 
 ./scripts/Export-AgentConditionalAccess.ps1 -OutFile ./evidence/ca-agent-baseline.deployed.json
 ```
 
-## 6. Rollback
+## 6. Customer-owned rollback
 
-Every change is reversible. `labs/s1-identity/rollback.md` deletes the report-only policy by display name and confirms removal:
-
-```powershell
-./scripts/Remove-AgentConditionalAccess.ps1 -DisplayName "RVAS S1 - Agent baseline (report-only)"
-```
-
-Because the policy is report-only, deleting it has **no user impact**. The inventory and sponsor register are read-only artifacts - nothing to revert.
+This kit makes no tenant changes. If the customer independently applies a report-only policy, its approved change process owns reversal and confirmation. The inventory and sponsor register are read-only artifacts - nothing to revert in the tenant.
 
 ## 7. Governance mapping
 
