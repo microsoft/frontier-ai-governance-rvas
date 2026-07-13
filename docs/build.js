@@ -53,6 +53,7 @@ const PAGES = [
   { slug: 'how-to-deliver',               src: 'how-to-deliver.md',            title: 'How to Deliver',            nav: true,  group: null },
   { slug: 'assessment',                   src: 'assessment/index.md',          title: 'Readiness Assessment',      nav: true,  group: null },
   { slug: 'reference',                    src: 'reference/index.md',           title: 'Reference · Landscape',     nav: true,  group: 'Reference' },
+  { slug: 'reference-architectures',      src: 'reference/reference-architectures.md', title: 'Reference Architectures', nav: false, group: 'Reference' },
   { slug: 'reference-product-status',     src: 'reference/product-status.md',  title: 'Product & Feature Status',  nav: false, group: 'Reference' },
   { slug: 'reference-governance-mapping', src: 'reference/governance-mapping.md', title: 'Governance Mapping',     nav: false, group: 'Reference' },
 ];
@@ -64,6 +65,7 @@ const ROUTES = {
   'how-to-deliver.md': 'page.html?p=how-to-deliver',
   'assessment/index.md': 'page.html?p=assessment',
   'reference/index.md': 'page.html?p=reference',
+  'reference/reference-architectures.md': 'page.html?p=reference-architectures',
   'reference/product-status.md': 'page.html?p=reference-product-status',
   'reference/governance-mapping.md': 'page.html?p=reference-governance-mapping',
 };
@@ -76,6 +78,8 @@ const ADMONITION_MAP = {
   warning: 'WARNING', caution: 'WARNING', attention: 'WARNING',
   danger: 'CAUTION', error: 'CAUTION', failure: 'CAUTION', bug: 'CAUTION',
 };
+
+const unresolvedMdLinks = [];
 
 /* ─── Transform helpers ──────────────────────────────────────────────────── */
 
@@ -180,7 +184,10 @@ function rewriteLinks(md, srcRelPath) {
     const [rawPath, anchor] = trimmed.split('#');
     const resolved = path.posix.normalize(path.posix.join(srcDir === '.' ? '' : srcDir, rawPath));
     const route = ROUTES[resolved];
-    if (!route) return whole;
+    if (!route) {
+      unresolvedMdLinks.push({ source: srcRelPath, target: trimmed, resolved });
+      return whole;
+    }
     return `](${route}${anchor ? '#' + anchor : ''})`;
   });
 }
@@ -296,8 +303,16 @@ function main() {
   };
   fs.writeFileSync(path.join(DATA, 'site.json'), JSON.stringify(site, null, 2));
 
+  if (unresolvedMdLinks.length) {
+    console.error('✖ Unresolved local Markdown links:');
+    unresolvedMdLinks.forEach((link) => {
+      console.error(`  docs/${link.source}: ${link.target} → ${link.resolved}`);
+    });
+    process.exitCode = 1;
+  }
+
   if (process.exitCode) {
-    console.error('✖ Build completed with missing sources (see above).');
+    console.error('✖ Build completed with errors (see above).');
     return;
   }
   console.log(`✓ Built ${sessionMeta.length} sessions + ${pageMeta.length} pages → docs/assets/data/`);
