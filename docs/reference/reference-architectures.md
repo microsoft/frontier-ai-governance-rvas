@@ -65,7 +65,7 @@ graph LR
     S3[S3 Security] --> C4s[Layer 4 · Defender + Content Safety]
     S4[S4 Evaluation] --> C2[Layer 2 · Foundry Control Plane]
     S5[S5 Red teaming] --> C2
-    S6[S6 Control plane] --> C1[Layer 1 · Governance Hub · APIM + Agent 365]
+    S6[S6 Control plane] --> C1[Layer 1 registry + Layer 3 identity]
 ```
 
 ## Deployable accelerators
@@ -74,12 +74,19 @@ Citadel points to two Microsoft accelerators that turn the reference architectur
 
 | Resource | Citadel role | What it deploys | Link |
 |----------|--------------|-----------------|------|
-| **AI Hub Gateway solution accelerator** | Layer 1 - **Citadel Governance Hub** | APIM AI gateway, multi-region Azure OpenAI, Content Safety, Event Hub, Cosmos DB, Managed Identity, private networking | [aka.ms/ai-hub-gateway](https://aka.ms/ai-hub-gateway)[^ailz] |
+| **AI Hub Gateway / Citadel Governance Hub (`citadel-v1`)** | Layer 1 - **Governance Hub** | APIM AI gateway, API Center AI Registry, Access Contracts + Backend Contracts, multi-region Azure OpenAI / Foundry routing, gateway-level Content Safety + PII masking, Entra/JWT auth, Event Hub + Cosmos DB usage pipeline, Power BI FinOps dashboard, Managed Identity, private networking, resiliency | [aka.ms/ai-hub-gateway](https://aka.ms/ai-hub-gateway)[^ailz] |
 | **Azure AI Landing Zones** | **Citadel Agent Spoke** (per business unit) | AI Foundry + project, Zero-Trust networking (private endpoints, NSGs, Firewall, Bastion), Container Apps, Key Vault, monitoring - Bicep/Terraform via Azure Verified Modules | [Azure/AI-Landing-Zones](https://github.com/Azure/AI-Landing-Zones)[^ailz] |
 | **Agent Governance Toolkit (AGT)** | Layer 2/4 - in-process enforcement | Open-source policy engine (OPA/Rego + Cedar), MCP security gateway, cryptographic agent identity, tamper-evident audit; SDKs for Python/TypeScript/.NET/Go/Rust; covers 10/10 OWASP Agentic Top 10 | [microsoft/agent-governance-toolkit](https://github.com/microsoft/agent-governance-toolkit)[^agt] |
 
 !!! note "Where Citadel goes beyond RVAS scope"
-    Citadel introduces two topics RVAS deliberately does not teach as sessions: the **APIM AI Gateway** as a runtime enforcement/cost-attribution plane (Layer 1), and **deployable landing-zone IaC** with private networking and hub-spoke. Treat these as **adjacent reference architecture** a customer deploys alongside RVAS - not as new RVAS sessions - so the curriculum stays focused on tenant-plane governance.
+    Citadel Governance Hub is the **Azure-plane platform**; RVAS is the **tenant-plane operating model**. Citadel introduces topics RVAS deliberately does not teach as sessions: the **APIM AI Gateway** as a runtime enforcement/cost-attribution plane (Layer 1), and **deployable landing-zone IaC** with private networking and hub-spoke. Treat these as **adjacent reference architecture** a customer deploys alongside RVAS - not as new RVAS sessions - so the curriculum stays focused on tenant-plane governance.
+
+    Relevant `citadel-v1` guides:
+
+    - **Deploy:** [Quick Deployment Guide](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/quick-deployment-guide.md), [Full Deployment Guide](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/full-deployment-guide.md), [Network Approach](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/network-approach.md)
+    - **Identity:** [Entra ID auth validation](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/entraid-auth-validation.md), [JWT client identity & permissions](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/jwt-client-identity-permissions.md)
+    - **Data and runtime safety:** [PII masking at the gateway](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/pii-masking-apim.md), [Resiliency Guide](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/resiliency-guide.md), [Throttling events handling](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/throttling-events-handling.md)
+    - **Policy and operations:** [Agent Governance Toolkit integration](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/agent-governance-toolkit-integration.md), [Power BI dashboard](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/power-bi-dashboard.md), [LLM access guide](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/llm-access-guide.md)
 
 ## Key Microsoft documentation
 

@@ -34,6 +34,7 @@ The customer leaves with **AI data exposure governed in Microsoft Purview** in t
 - **Purview is the data-security layer for AI.** Microsoft Purview for AI extends compliance controls to AI apps and agents, including Copilot, Foundry, enterprise ChatGPT, and other connected AI apps.[^purview]
 - **DSPM for AI maps exposure before enforcement.** Data Security Posture Management for AI surfaces oversharing, user access risk, exfiltration paths, and sensitive data used in prompts/responses so teams can prioritize remediation.[^dspm] <span class="rvas-badge rvas-ga">GA</span>
 - **Sensitivity labels and DLP govern AI use.** Labels and DLP rules can govern what protected data agents can access or return. DLP is authored in **test / notify** mode first - the data-plane equivalent of report-only.[^purview] <span class="rvas-badge rvas-ga">GA</span>
+- **PII has compliance and gateway planes.** S2 covers the **compliance plane**: Purview sensitivity labels, DLP for AI, and audit trails. If the customer uses [AI Hub Gateway / Citadel Governance Hub (`citadel-v1`)](https://aka.ms/ai-hub-gateway), its APIM-layer PII masking pattern provides a complementary **gateway enforcement plane** that can anonymize sensitive values before requests reach model backends.[^citadel]
 - **IRM and Communication Compliance extend the investigation surface.** Insider Risk Management and Communication Compliance can include AI interactions so risky prompt behavior and policy violations are reviewed through existing compliance workflows.[^purview]
 - **Audit and eDiscovery preserve discoverability.** Purview Audit and eDiscovery provide the evidence trail for prompts, responses, user context, and policy events where supported.[^purview]
 - **Tenant-plane is not ARM/Bicep.** Purview and M365 compliance configuration is administered through the **Microsoft Purview portal**, Microsoft Graph / PowerShell, and exported JSON - not Azure ARM or Bicep.
@@ -103,8 +104,10 @@ Consolidated in [Reference - Governance Mapping](../reference/governance-mapping
     - *DSPM for AI not licensed or no findings* → Tier B path; keep the simulation policy JSON and capture the license/finding gap.
     - *Policy owner asks to enforce immediately* → **stop**; this session creates simulation/test only.
     - *Tenant-specific IDs unknown* → leave placeholders, capture warnings, and assign follow-up to the Compliance/Data admin.
+    - *Customer asks about PII masking before the LLM call* → keep the S2 DLP simulation in scope, then point the platform team to the Citadel Governance Hub [PII masking guide](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/pii-masking-apim.md) for gateway-layer anonymization/deanonymization.
     - *Audit retention insufficient* → document the gap and route to the governance backlog.
 - **Hand-off:** findings feed S3 security posture, S5 adversarial testing evidence, and S6 control-plane reconciliation.
 
 [^purview]: Microsoft Learn - [Microsoft Purview for AI](https://learn.microsoft.com/en-us/purview/ai-microsoft-purview).
 [^dspm]: Microsoft Learn - [Learn about Data Security Posture Management](https://learn.microsoft.com/en-us/purview/data-security-posture-management-learn-about).
+[^citadel]: Microsoft - [AI Hub Gateway / Citadel Governance Hub](https://aka.ms/ai-hub-gateway); see the `citadel-v1` [PII masking at the gateway guide](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/pii-masking-apim.md).

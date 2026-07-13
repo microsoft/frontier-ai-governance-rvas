@@ -38,7 +38,7 @@ The customer leaves with the capstone operating view for AI-agent governance:
 - <span class="rvas-badge rvas-ga">GA</span> **Entra Agent ID** provides first-class agent identities with human sponsors and lifecycle governance. The S6 registry must reconcile back to the S1 inventory.[^entra]
 - **Monitoring ≠ control.** Agents executing **on-behalf-of a user (OBO)** without their own Entra Agent ID may be visible in telemetry but **not fully controllable**. The registry must flag them for remediation.[^a365]
 - **Shadow agents** are agents not yet represented in the registry. Discovery and reconciliation are pillar 1's job: if the S1 inventory, maker list, or workshop identifies an agent absent from Agent 365, it becomes a shadow-agent finding.
-- **This is Citadel Layer 1.** The Agent 365 / API Center registry is the **Governance Hub (Layer 1)** of the Foundry Citadel reference architecture; the deployable [AI Hub Gateway](https://aka.ms/ai-hub-gateway) accelerator is its Azure-plane counterpart - see [Reference Architectures](../reference/reference-architectures.md).[^citadel]
+- **This bridges Citadel Layer 1 and Layer 3.** **API Center** is the AI Registry component inside the **Governance Hub (Layer 1)**, while **Agent 365 / Entra Agent ID** is the **Agent Identity (Layer 3)** control plane. S6 reconciles those registry and identity views into an operational governance record. The deployable [AI Hub Gateway / Citadel Governance Hub (`citadel-v1`)](https://aka.ms/ai-hub-gateway) accelerator is the Azure-plane Layer 1 implementation - see [Reference Architectures](../reference/reference-architectures.md).[^citadel]
 
 ## 4. Co-delivery walkthrough
 
@@ -51,19 +51,20 @@ The customer leaves with the capstone operating view for AI-agent governance:
    ./scripts/Get-AgentRegistry.ps1 -OutFile ./evidence/agent-registry.json
    ```
    Tier B uses the workshop registry spreadsheet converted to JSON/CSV and records the source.
-3. **Reconcile S1 inventory** - compare the registry with the S1 Entra Agent ID inventory:
+3. **Add gateway registry evidence when present** - if the customer has a pre-provisioned AI Hub Gateway / Citadel Governance Hub, capture API Center / Access Contract evidence as an adjacent Layer 1 input. Do not deploy the hub during S6; record the export or customer-provided artifact alongside the Agent 365 registry.
+4. **Reconcile S1 inventory** - compare the registry with the S1 Entra Agent ID inventory:
    ```bash
    python labs/s6-control-plane/scripts/reconcile-registry.py \
      --registry labs/s6-control-plane/evidence/agent-registry.json \
      --inventory labs/s1-identity/evidence/agent-inventory.json
    ```
-4. **Identify gaps** - review shadow agents, unmanaged/OBO agents, missing sponsors, and registry-only records that need owner confirmation.
-5. **Assign lifecycle state + owner** - mark each known agent as proposed, active, exception, suspended, retired, or decommissioned, and assign a human sponsor/accountable owner.
-6. **Re-run the assessment** - copy the S0 scorecard, fill the S6 exit scores, and run:
+5. **Identify gaps** - review shadow agents, unmanaged/OBO agents, missing sponsors, and registry-only records that need owner confirmation.
+6. **Assign lifecycle state + owner** - mark each known agent as proposed, active, exception, suspended, retired, or decommissioned, and assign a human sponsor/accountable owner.
+7. **Re-run the assessment** - copy the S0 scorecard, fill the S6 exit scores, and run:
    ```bash
    python labs/s0-foundations/assessment/score.py labs/s6-control-plane/evidence/exit-scorecard.csv
    ```
-7. **Create the residual-gap backlog** - domains still below target maturity become the post-workshop backlog for the AI CoE / governance board.
+8. **Create the residual-gap backlog** - domains still below target maturity become the post-workshop backlog for the AI CoE / governance board.
 
 ## 5. Verification & evidence capture
 
@@ -95,6 +96,7 @@ Consolidated in [Reference - Governance Mapping](../reference/governance-mapping
 - **RACI:** Governance lead = **R/A**; Identity admin = **C** for Entra Agent ID inventory; Security/SOC = **C** for unmanaged/OBO risk; AI developer / maker = **C** for agent provenance; executive sponsor = **I**.
 - **Common blockers:**
     - *No Agent 365 license* → Tier B path: reconcile S1 inventory + workshop inputs in the registry spreadsheet.
+    - *Citadel Governance Hub already deployed* → do not re-deploy it in S6. Capture API Center / Access Contract evidence as a Layer 1 input and reconcile it against Agent 365 / Entra Agent ID records.
     - *S1 inventory missing* → use maker/admin inputs for the workshop, but record this as a D1/D6 residual gap.
     - *OBO agents only* → mark them "visible but not fully controllable" and add migration to Entra Agent ID as the backlog action.
     - *No accountable owner* → do not mark the agent operationally complete; missing sponsor is a governance finding.
@@ -102,4 +104,4 @@ Consolidated in [Reference - Governance Mapping](../reference/governance-mapping
 
 [^a365]: Microsoft Learn - [Agent 365 Overview](https://learn.microsoft.com/en-us/microsoft-agent-365/overview); Microsoft 365 Blog - *Microsoft Agent 365: the control plane for AI agents* (2025-11-18); Microsoft Security Blog - *Agent 365 now generally available* (2026-05-01).
 [^entra]: Microsoft Learn - [What is Microsoft Entra Agent ID?](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id); [Agent ID governance overview](https://learn.microsoft.com/en-us/entra/id-governance/agent-id-governance-overview).
-[^citadel]: Microsoft - [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-platform) (aka.ms/foundry-citadel); [AI Hub Gateway](https://aka.ms/ai-hub-gateway) - Citadel Layer 1 (Governance Hub). See [Reference Architectures](../reference/reference-architectures.md).
+[^citadel]: Microsoft - [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-platform) (aka.ms/foundry-citadel); [AI Hub Gateway / Citadel Governance Hub](https://aka.ms/ai-hub-gateway) - Citadel Layer 1 (Governance Hub), API Center AI Registry, and Access Contracts. See [Reference Architectures](../reference/reference-architectures.md).

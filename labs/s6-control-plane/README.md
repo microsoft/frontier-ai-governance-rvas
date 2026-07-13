@@ -36,4 +36,10 @@ runbook.md  rollback.md  verify.md
 5. Follow `assessment/exit-rescore.md` to produce the S6 exit maturity score.
 6. Capture evidence per `verify.md` and use `rollback.md` before any optional registry writes.
 
+## Optional: Citadel Governance Hub evidence
+
+If the customer has a pre-provisioned [AI Hub Gateway / Citadel Governance Hub (`citadel-v1`)](https://aka.ms/ai-hub-gateway), treat its API Center / Access Contract exports as adjacent **Layer 1** evidence. Capture the customer-provided export in `evidence/` and reference it in the reconciliation notes, but do not deploy the hub or change the reconciliation script during the S6 workshop.
+
+This optional path is for Tier A environments only. Tier B remains the Agent 365-style registry sample plus S1 Entra Agent ID inventory sample.
+
 <!-- Verified: static-only — Python compile/ruff, JSON parse, and mock reconciliation run. Live execution is the customer's co-delivery step. -->

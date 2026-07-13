@@ -22,5 +22,6 @@
 | Admin governance | Copilot Control System | <span class="rvas-badge rvas-ga">GA</span> | [CCS overview](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-control-system/overview) |
 | Operating model | CAF for AI · WAF for AI · AI CoE | Current guidance | [CAF for AI](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai/strategy) |
 | Reference architecture | Foundry Citadel Platform | <span class="rvas-badge rvas-static">Reference architecture</span> | [foundry-citadel-platform](https://github.com/Azure-Samples/foundry-citadel-platform) |
+| Reference architecture | AI Hub Gateway / Citadel Governance Hub (`citadel-v1`) | <span class="rvas-badge rvas-static">Deployable accelerator</span> (`master-version` 1.0.0; gateway upgrade 1.0.0-preview - verify branch status) | [ai-hub-gateway-solution-accelerator](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/tree/citadel-v1) |
 | Reference architecture | Azure AI Landing Zones | <span class="rvas-badge rvas-ga">GA</span> (Nov 17, 2025) | [Azure/AI-Landing-Zones](https://github.com/Azure/AI-Landing-Zones) |
 | Runtime safety | Agent Governance Toolkit (AGT) | <span class="rvas-badge rvas-static">Open source</span> (Preview) | [agent-governance-toolkit](https://github.com/microsoft/agent-governance-toolkit) |
