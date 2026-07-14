@@ -1,16 +1,14 @@
 # RVAS docs diagrams (Excalidraw)
 
-Hand-crafted Excalidraw diagrams used in the docs, where a bespoke visual reads
-better than an auto-laid-out Mermaid graph. The remaining Mermaid diagram
-(the co-delivery **sequence** diagram in `how-to-deliver.md`) is intentionally
-left as Mermaid — lifelines and message ordering are what Mermaid does best.
+Hand-crafted Excalidraw diagrams used in the docs. They are the editable source
+of truth for the published SVG assets.
 
 ## What's here
 
 | Source (`.excalidraw`)   | Rendered SVG (in docs)                 | Used in                     |
 |--------------------------|----------------------------------------|-----------------------------|
-| `journey.excalidraw`     | `docs/assets/diagrams/journey.svg`     | `docs/index.md`             |
-| `landscape.excalidraw`   | `docs/assets/diagrams/landscape.svg`   | `docs/reference/index.md`   |
+| `journey.excalidraw`     | `docs/assets/diagrams/journey.svg`     | `docs/start/understand-rvas.md` |
+| `landscape.excalidraw`   | `docs/assets/diagrams/landscape.svg`   | `docs/reference/governance-capability-guide.md` |
 | `assessment.excalidraw`  | `docs/assets/diagrams/assessment.svg`  | `docs/assessment/index.md`  |
 
 The `.excalidraw` files are the editable source of truth — open them directly at

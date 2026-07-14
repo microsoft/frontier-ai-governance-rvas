@@ -29,8 +29,8 @@
       "fontFamily": 2,
       "textAlign": "left",
       "verticalAlign": "top",
-      "text": "How the readiness score is produced",
-      "originalText": "How the readiness score is produced",
+      "text": "How the S0 baseline becomes a session plan",
+      "originalText": "How the S0 baseline becomes a session plan",
       "lineHeight": 1.25,
       "baseline": 26,
       "containerId": null
@@ -61,8 +61,8 @@
       "fontFamily": 2,
       "textAlign": "left",
       "verticalAlign": "top",
-      "text": "Fill one instrument, run one script, get a prioritized roadmap.",
-      "originalText": "Fill one instrument, run one script, get a prioritized roadmap.",
+      "text": "Fill one instrument, run one script, then agree the priority sessions with the customer.",
+      "originalText": "Fill one instrument, run one script, then agree the priority sessions with the customer.",
       "lineHeight": 1.25,
       "baseline": 15,
       "containerId": null
@@ -511,8 +511,8 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "Prioritized roadmap\n(which sessions first)",
-      "originalText": "Prioritized roadmap\n(which sessions first)",
+      "text": "Prioritized session plan\n(agree what comes first)",
+      "originalText": "Prioritized session plan\n(agree what comes first)",
       "lineHeight": 1.25,
       "baseline": 16,
       "containerId": null
@@ -696,8 +696,8 @@
       "fontFamily": 3,
       "textAlign": "left",
       "verticalAlign": "top",
-      "text": "Prioritized roadmap (lowest maturity first):\n  1. S2 Data & Compliance  (maturity 2.00, gap 2.00)  ← start here\n  2. S1 Identity & Access  (maturity 2.00, gap 2.00)\n  3. S3 Security Posture & Runtime  (maturity 2.33)\n  …",
-      "originalText": "Prioritized roadmap (lowest maturity first):\n  1. S2 Data & Compliance  (maturity 2.00, gap 2.00)  ← start here\n  2. S1 Identity & Access  (maturity 2.00, gap 2.00)\n  3. S3 Security Posture & Runtime  (maturity 2.33)\n  …",
+      "text": "Priority recommendation (lowest maturity first):\n  1. S2 Data & Compliance  (maturity 2.00, gap 2.00)\n  2. S1 Identity & Access  (maturity 2.00, gap 2.00)\n  3. S3 Security Posture & Runtime  (maturity 2.33)\n  Customer and CoE confirm the delivery order.",
+      "originalText": "Priority recommendation (lowest maturity first):\n  1. S2 Data & Compliance  (maturity 2.00, gap 2.00)\n  2. S1 Identity & Access  (maturity 2.00, gap 2.00)\n  3. S3 Security Posture & Runtime  (maturity 2.33)\n  Customer and CoE confirm the delivery order.",
       "lineHeight": 1.25,
       "baseline": 11,
       "containerId": null

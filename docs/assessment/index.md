@@ -45,6 +45,6 @@ python labs/s0-foundations/assessment/score.py labs/s0-foundations/assessment/sc
 
 ## Reading the result
 
-![How the readiness score is produced: fill scorecard.csv (1–4 per question), run score.py, and get per-domain maturity, overall maturity, and a prioritized session roadmap.](../assets/diagrams/assessment.svg)
+![How the S0 baseline becomes a session plan: fill scorecard.csv (1–4 per question), run score.py, review per-domain and overall maturity, then agree the delivery order with the customer.](../assets/diagrams/assessment.svg)
 
 Session artifacts provide evidence for reassessing specific questions. Change a score only when the customer can show that the relevant control is in place and operating.

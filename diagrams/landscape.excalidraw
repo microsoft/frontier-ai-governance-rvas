@@ -29,8 +29,8 @@
       "fontFamily": 2,
       "textAlign": "left",
       "verticalAlign": "top",
-      "text": "The Microsoft AI-agent governance stack on one page",
-      "originalText": "The Microsoft AI-agent governance stack on one page",
+      "text": "Microsoft capabilities used across RVAS",
+      "originalText": "Microsoft capabilities used across RVAS",
       "lineHeight": 1.25,
       "baseline": 27,
       "containerId": null
@@ -61,8 +61,8 @@
       "fontFamily": 2,
       "textAlign": "left",
       "verticalAlign": "top",
-      "text": "Identity, data, security, and testing disciplines converge into one control plane — framed by an operating model.",
-      "originalText": "Identity, data, security, and testing disciplines converge into one control plane — framed by an operating model.",
+      "text": "Identity, data, security, evaluation, and testing records inform a shared governance view, anchored by an operating model.",
+      "originalText": "Identity, data, security, evaluation, and testing records inform a shared governance view, anchored by an operating model.",
       "lineHeight": 1.25,
       "baseline": 15,
       "containerId": null
@@ -1113,86 +1113,6 @@
       "originalText": "CAF for AI · WAF for AI · AI Center of Excellence · Copilot Control System",
       "lineHeight": 1.25,
       "baseline": 13,
-      "containerId": null
-    },
-    {
-      "id": "a_1441",
-      "type": "arrow",
-      "x": 170,
-      "y": 600,
-      "width": 360,
-      "height": 423,
-      "angle": 0,
-      "strokeColor": "#475569",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "dashed",
-      "roughness": 0,
-      "opacity": 100,
-      "seed": 1448,
-      "roundness": {
-        "type": 2
-      },
-      "groupIds": [],
-      "frameId": null,
-      "boundElements": [],
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0,
-          0
-        ],
-        [
-          -60,
-          0
-        ],
-        [
-          -60,
-          -423
-        ],
-        [
-          360,
-          -423
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": null,
-      "endBinding": null,
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "t_1455",
-      "type": "text",
-      "x": 70,
-      "y": 300,
-      "width": 90,
-      "height": 15,
-      "angle": 0,
-      "strokeColor": "#334155",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 1,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "seed": 1462,
-      "roundness": null,
-      "groupIds": [],
-      "frameId": null,
-      "boundElements": [],
-      "link": null,
-      "locked": false,
-      "fontSize": 12,
-      "fontFamily": 2,
-      "textAlign": "left",
-      "verticalAlign": "top",
-      "text": "frames",
-      "originalText": "frames",
-      "lineHeight": 1.25,
-      "baseline": 12,
       "containerId": null
     }
   ],

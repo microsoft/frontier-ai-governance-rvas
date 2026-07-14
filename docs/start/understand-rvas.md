@@ -26,6 +26,10 @@ Citadel is the recommended platform foundation for the integrated path. RVAS is 
 
 RVAS does not deploy or duplicate Citadel's gateway, networking, telemetry plumbing, or platform pipelines. It uses the resulting platform records as evidence where they are available.
 
+## The delivery shape
+
+![RVAS starts with the customer's current agents, owners, evidence, priorities, and platform path. S0 establishes the baseline, S1-S5 produce governance evidence, and S6 reconciles the records into an owned backlog for the next review.](../assets/diagrams/journey.svg)
+
 ## The seven-session outcome map
 
 Each session answers a customer question, brings the right people into the conversation, and leaves a usable record behind.
@@ -47,4 +51,3 @@ The sessions align with the governance intent of NIST AI RMF, ISO/IEC 42001, and
 Read [Plan the engagement](plan-engagement.md) for delivery roles, platform-readiness choices, the S0 baseline, safety rules, and the session sequence.
 
 For implementation details, use the [Platform technical guide](../reference/platform-technical-guide.md). For the Microsoft products and capabilities used in each session, use the [Governance capability guide](../reference/governance-capability-guide.md).
-

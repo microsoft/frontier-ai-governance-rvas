@@ -5,8 +5,8 @@ const els = [];
 const group = { bg: "#f8fafc", st: "#94a3b8", tx: "#475569" };
 
 // ---- Title ----
-els.push(text(150, 24, 1200, "The Microsoft AI-agent governance stack on one page", C.found, { size: 27, align: "left" }));
-els.push(text(150, 62, 1200, "Identity, data, security, and testing disciplines converge into one control plane — framed by an operating model.", C.neutral, { size: 15, align: "left" }));
+els.push(text(150, 24, 1200, "Microsoft capabilities used across RVAS", C.found, { size: 27, align: "left" }));
+els.push(text(150, 62, 1200, "Identity, data, security, evaluation, and testing records inform a shared governance view, anchored by an operating model.", C.neutral, { size: 15, align: "left" }));
 
 // ---- Hero: Agent 365 (control plane) ----
 const aX = 530, aY = 118, aW = 420, aH = 118, aBottom = aY + aH, aCx = aX + aW / 2;
@@ -60,11 +60,5 @@ els.push(rect(slabX, slabY, slabW, slabH, C.found, { id: "op" }));
 els.push(text(slabX, slabY + 16, slabW, "Operating Model", C.found, { size: 16 }));
 els.push(text(slabX, slabY + 44, slabW, "CAF for AI · WAF for AI · AI Center of Excellence · Copilot Control System", C.neutral, { size: 13 }));
 
-// frames: slab -> A365 via left gutter (dashed)
-els.push(arrow(slabX + 20, slabY, aX, aY + aH / 2, {
-  stroke: C.found.st, strokeWidth: 2, dashed: true,
-  points: [[0, 0], [-60, 0], [-60, -(slabY - (aY + aH / 2))], [aX - (slabX + 20), -(slabY - (aY + aH / 2))]],
-}));
-els.push(text(70, 300, 90, "frames", C.found, { size: 12, align: "left" }));
 
 write(new URL("./landscape.excalidraw", import.meta.url).pathname, els);

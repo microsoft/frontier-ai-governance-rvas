@@ -14,6 +14,10 @@ This guide maps the Microsoft capabilities used in RVAS to the governance questi
 | Adversarial testing · S5 | PyRIT and the AI Red Teaming Agent | Authorised test scope, findings, and remediation evidence. | Red Teaming Agent availability and approved target. |
 | Lifecycle · S6 | Microsoft Agent 365, Entra Agent ID, API Center, platform telemetry | Reconcile agent, identity, ownership, and platform records. | Agent 365 licensing and connector status. |
 
+## The capability map
+
+![Microsoft Entra Agent ID, Microsoft Purview, security controls, evaluations, and adversarial testing records inform Microsoft Agent 365, with the operating model beneath the entire governance view.](../assets/diagrams/landscape.svg)
+
 ## Product-status notes
 
 - Microsoft Agent 365 and Microsoft Entra Agent ID have general-availability announcements; some related access-control and connector features remain preview.

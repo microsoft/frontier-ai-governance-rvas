@@ -35,7 +35,7 @@ const { svg, png } = await page.evaluate(async (scene) => {
   const elements = ex.restoreElements(scene.elements, null);
   const common = {
     elements,
-    appState: { ...scene.appState, exportBackground: false, exportWithDarkMode: false },
+    appState: { ...scene.appState, exportBackground: true, exportWithDarkMode: false },
     files: scene.files || {},
     exportPadding: 24,
   };
