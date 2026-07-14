@@ -3,7 +3,7 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-06 · Confirm tenant licensing and product availability in the [Governance capability guide](../reference/governance-capability-guide.md).
 
-This page explains the compliance-plane controls used in S2. The [S2 Runbook](index.md) contains the safe delivery sequence.
+This page explains the compliance-plane controls used in S2. [S2 Prepare](index.md) starts the safe delivery sequence.
 
 ## The compliance plane answers a data question
 
@@ -15,13 +15,13 @@ S2 focuses on the tenant compliance plane: data classification, policy, investig
 
 Data Security Posture Management for AI helps surface oversharing, sensitive-data exposure, risky access patterns, and potential exfiltration paths. Its role is diagnostic: it gives the customer a prioritized view of where data risk may exist before a policy blocks or notifies users.[^dspm]
 
-**In the Runbook:** an empty export is still evidence. It can mean the tenant has no discovered in-scope workload, no findings, or a prerequisite gap that should be recorded and investigated.
+**In Co-deliver:** an empty export is still evidence. It can mean the tenant has no discovered in-scope workload, no findings, or a prerequisite gap that should be recorded and investigated.
 
 ## Labels and DLP turn classification into controls
 
 Sensitivity labels describe how data should be handled; DLP policies apply rules to prevent or govern inappropriate use of that data. For AI, this can mean detecting protected information in a prompt, response, or connected workflow. Policy scope and supported workloads must always be validated for the tenant.[^purview]
 
-The Runbook uses simulation or test mode first. This is the data-plane equivalent of report-only: the customer observes matches and false positives before deciding whether an enforcement rule is safe.
+The Co-deliver chapter uses simulation or test mode first. This is the data-plane equivalent of report-only: the customer observes matches and false positives before deciding whether an enforcement rule is safe.
 
 ## Investigation needs an evidence trail
 

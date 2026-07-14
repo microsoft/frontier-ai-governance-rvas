@@ -3,7 +3,7 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-06 · Check Defender and Content Safety availability in the [Governance capability guide](../reference/governance-capability-guide.md).
 
-This page separates the security ideas behind S3. Use the [S3 Runbook](index.md) to perform the customer-owned validation steps.
+This page separates the security ideas behind S3. Use [S3 Prepare](index.md) to begin the customer-owned validation steps.
 
 ## Posture management and runtime detection are different jobs
 
@@ -11,7 +11,7 @@ AI Security Posture Management (AI-SPM) discovers AI resources, assembles an AI 
 
 AI Threat Protection addresses a different question: “what suspicious behavior or attack signal is happening now?” It raises alerts that can be correlated in Defender XDR. A mature program needs both the preventive posture view and the operational detection view.[^defender]
 
-**In the Runbook:** export posture findings first, then verify alert routing. Do not treat a successful alert test as proof that the environment has no configuration risk.
+**In Co-deliver:** export posture findings first, then verify alert routing. Do not treat a successful alert test as proof that the environment has no configuration risk.
 
 ## An AI-BOM connects the risk picture
 

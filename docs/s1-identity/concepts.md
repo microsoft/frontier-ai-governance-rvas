@@ -3,13 +3,13 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-06 · Check Agent ID and Conditional Access availability in the [Governance capability guide](../reference/governance-capability-guide.md).
 
-These concepts explain why the S1 Runbook starts with inventory and report-only policy. Return to the [S1 Runbook](index.md) for the delivery sequence.
+These concepts explain why S1 starts with inventory and report-only policy. Return to [S1 Prepare](index.md) for the delivery sequence.
 
 ## An agent needs an accountable identity
 
 Microsoft Entra Agent ID models an agent through connected objects such as a blueprint, blueprint principal, agent identity, and agent user account. The important governance outcome is not the object taxonomy by itself: every agent needs a human sponsor who is accountable for its lifecycle and use.[^entra]
 
-This is why the Runbook begins with an inventory and sponsor register. A tenant cannot apply proportionate controls or investigate an incident if it cannot say which identity belongs to which agent and who owns it.
+This is why Prepare begins with an inventory and sponsor register. A tenant cannot apply proportionate controls or investigate an incident if it cannot say which identity belongs to which agent and who owns it.
 
 An agent identity is more than an app registration: its sponsor and lifecycle context belong in the governance record.
 
@@ -23,7 +23,7 @@ The S1 export is deliberately read-only. It lets the customer find missing spons
 
 Agents are non-interactive service principals, so their Conditional Access design differs from a user policy. There is no MFA prompt to satisfy; the relevant controls focus on the identity, network, risk, and application context. Workload Identity Conditional Access is the path that targets service principals, and licensing and feature behavior must be confirmed for the customer's tenant.[^entra]
 
-**In the Runbook:** the policy definition targets the agent service principals and explicitly excludes break-glass access. It is a reviewed starting point, not a universal policy to apply unchanged.
+**In Co-deliver:** the policy definition targets the agent service principals and explicitly excludes break-glass access. It is a reviewed starting point, not a universal policy to apply unchanged.
 
 ## Report-only protects the learning phase
 

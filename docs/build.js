@@ -49,6 +49,30 @@ const SESSIONS = [
   { slug: 's6-control-plane',    code: 'S6', accent: '#0078D4', persona: 'Governance lead',        nist: 'Govern · Manage',   outcome: 'Agent 365 registry + capstone re-score' },
 ];
 
+const SESSION_CHAPTERS = [
+  {
+    slug: 'prepare',
+    label: 'Prepare',
+    heading: /^(?:1\. Outcome|2\. Prerequisites|3\. Why)/i,
+  },
+  {
+    slug: 'co-deliver',
+    label: 'Co-deliver',
+    heading: /^4\. Co-delivery/i,
+  },
+  {
+    slug: 'verify-handover',
+    label: 'Verify and hand over',
+    heading: /^(?:5\. Verification|6\. (?:Customer-owned )?Rollback)/i,
+  },
+  {
+    slug: 'facilitator-notes',
+    label: 'Facilitator notes',
+    heading: /^7\. Facilitator notes/i,
+  },
+  { slug: 'concepts', label: 'Concepts' },
+];
+
 const PAGES = [
   { slug: 'start-understand-rvas',        src: 'start/understand-rvas.md',    title: 'About RVAS AI Governance', nav: true, group: 'Start here' },
   { slug: 'start-plan-engagement',        src: 'start/plan-engagement.md',    title: 'Plan the engagement',       nav: true, group: 'Start here' },
@@ -69,7 +93,7 @@ const ROUTES = {
 };
 SESSIONS.forEach((s) => {
   ROUTES[`${s.slug}/index.md`] = `session.html?s=${s.slug}`;
-  ROUTES[`${s.slug}/concepts.md`] = `session-concepts.html?s=${s.slug}`;
+  ROUTES[`${s.slug}/concepts.md`] = `session.html?s=${s.slug}&chapter=concepts`;
 });
 
 const ADMONITION_MAP = {
@@ -267,6 +291,26 @@ function transform(raw, srcRelPath) {
   return { title, md, hasMermaid: /```mermaid/.test(md), reviewed, reviewedNote };
 }
 
+function splitRunbookChapters(md, sessionSlug) {
+  const matches = [...md.matchAll(/^##\s+(.+)$/gm)];
+  const prefix = matches.length ? md.slice(0, matches[0].index).trim() : '';
+  const sections = matches.map((match, index) => ({
+    heading: match[1].trim(),
+    body: md.slice(match.index, matches[index + 1]?.index).trim(),
+  }));
+
+  return SESSION_CHAPTERS.filter((chapter) => chapter.slug !== 'concepts').map((chapter) => {
+    const body = sections
+      .filter((section) => chapter.heading.test(section.heading))
+      .map((section) => section.body);
+    if (chapter.slug === 'prepare' && prefix) body.unshift(prefix);
+    if (!body.length) {
+      throw new Error(`Could not build ${chapter.slug} chapter for ${sessionSlug}.`);
+    }
+    return { ...chapter, md: `${body.join('\n\n')}\n` };
+  });
+}
+
 /* ─── Build ──────────────────────────────────────────────────────────────── */
 
 function read(rel) {
@@ -292,11 +336,16 @@ function main() {
     const { title, md, hasMermaid, reviewed, reviewedNote } = transform(raw, rel);
     const concepts = transform(conceptsRaw, conceptsRel);
     const clean = title.replace(/^S\d+\s*·\s*/, '').trim() || title;
-    fs.writeFileSync(path.join(PAGES_OUT, `${s.slug}.md`), md);
+    const chapters = splitRunbookChapters(md, s.slug);
+    chapters.forEach((chapter) => {
+      fs.writeFileSync(path.join(PAGES_OUT, `${s.slug}-${chapter.slug}.md`), chapter.md);
+    });
     fs.writeFileSync(path.join(PAGES_OUT, `${s.slug}-concepts.md`), concepts.md);
     sessionMeta.push({
       slug: s.slug, code: s.code, title: clean, fullTitle: title || `${s.code} · ${clean}`,
-      accent: s.accent, persona: s.persona, nist: s.nist, outcome: s.outcome, hasMermaid,
+      accent: s.accent, persona: s.persona, nist: s.nist, outcome: s.outcome,
+      hasMermaid: hasMermaid || concepts.hasMermaid,
+      chapters: SESSION_CHAPTERS.map(({ slug, label }) => ({ slug, label })),
       reviewed, reviewedNote, conceptsTitle: concepts.title || `${s.code} · ${clean} Concepts`,
       conceptsHasMermaid: concepts.hasMermaid, conceptsReviewed: concepts.reviewed || reviewed,
       conceptsReviewedNote: concepts.reviewedNote,

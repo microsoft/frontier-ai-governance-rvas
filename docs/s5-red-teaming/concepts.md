@@ -3,7 +3,7 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-06 · Validate AI Red Teaming Agent availability in the [Governance capability guide](../reference/governance-capability-guide.md).
 
-This page explains the safety-testing model behind S5. The [S5 Runbook](index.md) contains the authorization gates and operational sequence.
+This page explains the safety-testing model behind S5. [S5 Prepare](index.md) contains the authorization gates and operational sequence.
 
 ## Red teaming tests a defined safety objective
 
@@ -21,7 +21,7 @@ An orchestrator can exercise multi-turn strategies such as Crescendo, where pres
 
 Attack Success Rate (ASR) is the proportion of attempts that meet the pre-agreed adversarial success condition. Lower is better, but an ASR number is meaningful only alongside its category, sample size, target version, and threshold.
 
-**In the Runbook:** agree thresholds before the scan. A result above tolerance becomes a remediation item with an owner; a result below tolerance is evidence for the tested scope, not a proof that the system is secure.
+**In Co-deliver:** agree thresholds before the scan. A result above tolerance becomes a remediation item with an owner; a result below tolerance is evidence for the tested scope, not a proof that the system is secure.
 
 ## Indirect prompt injection crosses a trust boundary
 

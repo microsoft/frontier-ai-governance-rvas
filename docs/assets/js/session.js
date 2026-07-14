@@ -1,9 +1,9 @@
-/* Frontier AI Governance — session detail page. */
+/* Frontier AI Governance - focused session chapter pages. */
 (function () {
   'use strict';
 
   const REPO = 'https://github.com/microsoft/frontier-ai-governance-rvas';
-  const view = document.body.dataset.sessionView === 'concepts' ? 'concepts' : 'runbook';
+  const DEFAULT_CHAPTER = 'prepare';
 
   async function init() {
     const slug = FP.qp('s');
@@ -17,119 +17,108 @@
     } catch (e) { return fail(e.message); }
 
     const sessions = site.sessions || [];
-    const idx = sessions.findIndex((s) => s.slug === slug);
-    if (idx === -1) return fail('Unknown session: ' + slug);
-    const s = sessions[idx];
+    const sessionIndex = sessions.findIndex((s) => s.slug === slug);
+    if (sessionIndex === -1) return fail('Unknown session: ' + slug);
+    const session = sessions[sessionIndex];
+    const chapters = session.chapters || [];
+    const requested = FP.qp('chapter') || DEFAULT_CHAPTER;
+    const chapterIndex = chapters.findIndex((chapter) => chapter.slug === requested);
+    const chapter = chapters[chapterIndex];
+    if (!chapter) return fail('Unknown session chapter.');
 
-    document.title = `${s.code} · ${s.title}${view === 'concepts' ? ' Concepts' : ''} — Frontier AI Governance`;
-    document.getElementById('sessionHero').style.setProperty('--mod-color', s.accent);
+    document.title = `${session.code} · ${session.title} · ${chapter.label} - Frontier AI Governance`;
+    document.getElementById('sessionHero').style.setProperty('--mod-color', session.accent);
+    document.getElementById('sessionCrumb').textContent = session.code;
+    document.getElementById('sessionChip').textContent = session.code;
+    document.getElementById('sessionChip').style.display = 'inline-flex';
+    document.getElementById('sessionTitle').textContent = session.title;
+    document.getElementById('sessionChapterLabel').textContent = chapter.label;
 
-    const crumb = document.getElementById('sessionCrumb');
-    if (crumb) crumb.textContent = s.code;
-
-    const chip = document.getElementById('sessionChip');
-    if (chip) { chip.textContent = s.code; chip.style.display = 'inline-flex'; }
-
-    document.getElementById('sessionTitle').textContent = `${s.title}${view === 'concepts' ? ' Concepts' : ''}`;
-
-    renderMeta(s);
-    renderFacts(s);
-    renderSessionPages(s);
-    renderKit(s);
-    renderSessionNav(sessions, idx);
-    await renderGuide(slug, s);
+    renderMeta(session);
+    renderFacts(session);
+    renderChapterNav(session, chapters, chapter.slug);
+    renderKit(session);
+    renderSessionNav(sessions, sessionIndex, chapters, chapterIndex);
+    await renderChapter(session, chapter);
   }
 
-  function renderMeta(s) {
+  function renderMeta(session) {
     const el = document.getElementById('sessionMeta');
     el.innerHTML =
-      `<span class="badge badge-persona">${FP.esc(s.persona)}</span>` +
-      `<span class="badge badge-nist">NIST · ${FP.esc(s.nist)}</span>`;
+      `<span class="badge badge-persona">${FP.esc(session.persona)}</span>` +
+      `<span class="badge badge-nist">NIST · ${FP.esc(session.nist)}</span>`;
   }
 
-  function renderFacts(s) {
-    const el = document.getElementById('factRows');
-    el.innerHTML = [
-      row('Durable outcome', s.outcome),
-      row('Primary persona', s.persona),
-      row('NIST AI RMF function', s.nist),
-      row('Session', `${s.code} of S0–S6`),
+  function renderFacts(session) {
+    document.getElementById('factRows').innerHTML = [
+      row('Durable outcome', session.outcome),
+      row('Primary persona', session.persona),
+      row('NIST AI RMF function', session.nist),
+      row('Session', `${session.code} of S0-S6`),
     ].join('');
   }
 
-  function renderSessionPages(s) {
-    const runbookHref = `session.html?s=${encodeURIComponent(s.slug)}`;
-    const conceptsHref = `session-concepts.html?s=${encodeURIComponent(s.slug)}`;
-    const links = [
-      { label: 'Runbook', href: runbookHref, active: view === 'runbook' },
-      { label: 'Concepts', href: conceptsHref, active: view === 'concepts' },
-    ];
-    const nav = document.getElementById('sessionViewNav');
-    if (nav) {
-      nav.innerHTML = links.map((link) =>
-        `<a href="${link.href}"${link.active ? ' aria-current="page"' : ''}>${link.label}</a>`
-      ).join('');
-    }
-    const sidebar = document.getElementById('sessionPageNav');
-    if (sidebar) {
-      sidebar.innerHTML = `<ul class="session-page-list">${links.map((link) =>
-        `<li><a href="${link.href}"${link.active ? ' aria-current="page"' : ''}>${link.label}</a></li>`
-      ).join('')}</ul>`;
-    }
+  function renderChapterNav(session, chapters, activeSlug) {
+    const links = chapters.map((chapter) =>
+      `<li><a href="${chapterHref(session.slug, chapter.slug)}"${chapter.slug === activeSlug ? ' aria-current="page"' : ''}>${FP.esc(chapter.label)}</a></li>`
+    ).join('');
+    document.getElementById('sessionChapterNav').innerHTML = `<ul class="session-page-list">${links}</ul>`;
+    document.getElementById('sessionMobileNav').innerHTML = `<ul class="session-mobile-list">${links}</ul>`;
   }
 
-  function row(k, v) {
-    return `<div class="fact-row"><span class="fact-k">${FP.esc(k)}</span><span class="fact-v">${FP.esc(v)}</span></div>`;
+  function row(key, value) {
+    return `<div class="fact-row"><span class="fact-k">${FP.esc(key)}</span><span class="fact-v">${FP.esc(value)}</span></div>`;
   }
 
-  function renderKit(s) {
-    const path = `labs/${s.slug}/`;
+  function renderKit(session) {
+    const path = `labs/${session.slug}/`;
     document.getElementById('kitPath').textContent = path;
     document.getElementById('kitLink').href = `${REPO}/tree/main/${path}`;
   }
 
-  function renderSessionNav(sessions, idx) {
+  function renderSessionNav(sessions, sessionIndex, chapters, chapterIndex) {
     const nav = document.getElementById('sessionNav');
-    const prev = sessions[idx - 1];
-    const next = sessions[idx + 1];
-    let html = '';
-    if (prev) {
-      html += `<a href="${pageHref(prev.slug)}"><span class="snav-dir">← ${FP.esc(prev.code)}</span><span class="snav-title">${FP.esc(prev.title)}</span></a>`;
-    }
-    if (next) {
-      html += `<a class="snav-next" href="${pageHref(next.slug)}"><span class="snav-dir">${FP.esc(next.code)} →</span><span class="snav-title">${FP.esc(next.title)}</span></a>`;
-    }
-
-    function pageHref(slug) {
-      const page = view === 'concepts' ? 'session-concepts.html' : 'session.html';
-      return `${page}?s=${encodeURIComponent(slug)}`;
-    }
-    nav.innerHTML = html;
+    const current = sessionIndex * chapters.length + chapterIndex;
+    const allChapters = sessions.flatMap((session) =>
+      chapters.map((chapter) => ({ session, chapter }))
+    );
+    const previous = allChapters[current - 1];
+    const next = allChapters[current + 1];
+    const links = [
+      previous && chapterLink(previous, '← Previous'),
+      next && chapterLink(next, 'Next →', true),
+    ].filter(Boolean);
+    nav.innerHTML = links.join('');
   }
 
-  async function renderGuide(slug, s) {
+  function chapterLink(entry, direction, next = false) {
+    return `<a${next ? ' class="snav-next"' : ''} href="${chapterHref(entry.session.slug, entry.chapter.slug)}">` +
+      `<span class="snav-dir">${direction}</span>` +
+      `<span class="snav-title">${FP.esc(entry.session.code)} · ${FP.esc(entry.chapter.label)}</span>` +
+      `</a>`;
+  }
+
+  function chapterHref(sessionSlug, chapterSlug) {
+    return `session.html?s=${encodeURIComponent(sessionSlug)}&chapter=${encodeURIComponent(chapterSlug)}`;
+  }
+
+  async function renderChapter(session, chapter) {
     const body = document.getElementById('guideBody');
     try {
-      const suffix = view === 'concepts' ? '-concepts' : '';
-      const res = await fetch(`assets/data/pages/${slug}${suffix}.md`, { cache: 'no-cache' });
-      if (!res.ok) throw new Error('Could not load session content (' + res.status + ')');
-      const md = await res.text();
-      FP.renderMd(md, body);
-      buildSpine(body);
+      const res = await fetch(`assets/data/pages/${session.slug}-${chapter.slug}.md`, { cache: 'no-cache' });
+      if (!res.ok) throw new Error('Could not load session chapter (' + res.status + ')');
+      FP.renderMd(await res.text(), body);
       if (FP.enhanceDiagrams) FP.enhanceDiagrams(body);
-      appendReviewed(body, s);
+      appendReviewed(body, session, chapter.slug);
     } catch (e) {
-      const label = view === 'concepts' ? 'session concepts' : 'session guide';
-      body.innerHTML = `<div class="empty" role="alert"><strong>Could not load ${label}.</strong><br>${FP.esc(e.message)}</div>`;
+      body.innerHTML = `<div class="empty" role="alert"><strong>Could not load this chapter.</strong><br>${FP.esc(e.message)}</div>`;
     }
   }
 
-  // Subtle "last reviewed" line at the very bottom of the guide, replacing the
-  // former prominent top-of-page Freshness alert.
-  function appendReviewed(body, s) {
-    const reviewed = view === 'concepts' ? s.conceptsReviewed : s.reviewed;
-    const reviewedNote = view === 'concepts' ? s.conceptsReviewedNote : s.reviewedNote;
-    if (!s || !reviewed) return;
+  function appendReviewed(body, session, chapterSlug) {
+    const reviewed = chapterSlug === 'concepts' ? session.conceptsReviewed : session.reviewed;
+    const reviewedNote = chapterSlug === 'concepts' ? session.conceptsReviewedNote : session.reviewedNote;
+    if (!reviewed) return;
     const note = reviewedNote ? ` · ${FP.renderInlineMd(reviewedNote)}` : '';
     const el = document.createElement('footer');
     el.className = 'guide-meta';
@@ -139,34 +128,13 @@
     body.appendChild(el);
   }
 
-  // Build the "In this session" TOC from the rendered H2s, adding anchor ids.
-  function buildSpine(body) {
-    const list = document.getElementById('spineList');
-    if (!list) return;
-    const heads = body.querySelectorAll('h2');
-    const items = [];
-    heads.forEach((h, i) => {
-      const label = (h.textContent || '').trim();
-      if (!label || /^sources$/i.test(label)) { if (/^sources$/i.test(label)) ensureId(h, 'sources'); return; }
-      const id = ensureId(h, 'sec-' + (i + 1));
-      items.push(`<li><a href="#${id}">${FP.esc(label)}</a></li>`);
-    });
-    list.innerHTML = items.join('') || '<li style="color:var(--c-faint);font-size:0.82rem;padding:6px 8px">No sections.</li>';
-  }
-
-  function ensureId(el, fallback) {
-    if (!el.id) {
-      const slug = (el.textContent || fallback).toLowerCase()
-        .replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '-').slice(0, 48) || fallback;
-      el.id = slug;
-    }
-    return el.id;
-  }
-
-  function fail(msg) {
-    const body = document.getElementById('guideBody');
+  function fail(message) {
     document.getElementById('sessionTitle').textContent = 'Session not found';
-    if (body) body.innerHTML = `<div class="empty" role="alert"><strong>${FP.esc(msg)}</strong><br><a href="index.html#sessions" style="color:var(--c-gold)">Back to all sessions →</a></div>`;
+    const body = document.getElementById('guideBody');
+    if (body) {
+      body.innerHTML = `<div class="empty" role="alert"><strong>${FP.esc(message)}</strong><br>` +
+        `<a href="index.html#sessions" style="color:var(--c-gold)">Back to all sessions →</a></div>`;
+    }
   }
 
   document.addEventListener('DOMContentLoaded', init);

@@ -3,7 +3,7 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-06 · Shared platform context is in the [Platform technical guide](../reference/platform-technical-guide.md).
 
-This page explains the ideas behind the S0 Runbook. Read it before the workshop if the operating-model vocabulary is unfamiliar; use the [S0 Runbook](index.md) to facilitate the session.
+This page explains the ideas behind S0. Read it before the workshop if the operating-model vocabulary is unfamiliar; use the [S0 Prepare chapter](index.md) to begin the session.
 
 ## Operating model before technology
 
@@ -19,7 +19,7 @@ NIST AI RMF's **Govern** function establishes culture, roles, accountability, an
 
 S0 therefore does not try to configure a tenant control. It establishes the conditions under which later controls can be made responsibly: who owns an agent, who accepts residual risk, where evidence lives, and what happens when a use case cannot meet the agreed bar.
 
-**In the Runbook:** use this model when framing the sponsor and RACI discussion. It explains why an executive sponsor and a governance lead are prerequisites rather than administrative overhead.
+**In Prepare:** use this model when framing the sponsor and RACI discussion. It explains why an executive sponsor and a governance lead are prerequisites rather than administrative overhead.
 
 ## Maturity is a baseline, not a pass/fail test
 

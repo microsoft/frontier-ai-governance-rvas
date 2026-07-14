@@ -3,7 +3,7 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-06 · Confirm individual evaluator availability in the [Governance capability guide](../reference/governance-capability-guide.md).
 
-This page explains the measurement model behind S4. The [S4 Runbook](index.md) is the delivery sequence and evidence checklist.
+This page explains the measurement model behind S4. [S4 Prepare](index.md) begins the delivery sequence and evidence checklist.
 
 ## Evaluation makes an expectation testable
 
@@ -15,7 +15,7 @@ Microsoft Foundry Evaluations provides SDK-based evaluators across quality, risk
 
 An evaluation dataset contains representative inputs and, where appropriate, expected outputs or reference facts. It turns a subjective claim such as “the agent should answer correctly” into cases that can be rerun after a change.
 
-The first dataset does not need to be large. It does need to reflect the customer’s real tasks, edge cases, and unacceptable outcomes. The Runbook starts from a mock-target dataset so the team can learn the workflow without sending live customer traffic.
+The first dataset does not need to be large. It does need to reflect the customer’s real tasks, edge cases, and unacceptable outcomes. Co-deliver starts from a mock-target dataset so the team can learn the workflow without sending live customer traffic.
 
 A high aggregate score may still hide an important failing scenario. Review failed cases and preserve the dataset version with the scorecard.
 
@@ -23,7 +23,7 @@ A high aggregate score may still hide an important failing scenario. Review fail
 
 Quality evaluators can measure characteristics such as relevance, coherence, groundedness, similarity, and task or tool-call accuracy. Safety evaluators test different failure modes. A metric is useful only when the team agrees what threshold, variance, and exception process is acceptable for that scenario.[^foundry]
 
-This is why the Runbook treats thresholds as governance artifacts. A threshold is not a magic constant copied from a sample; it is a decision about acceptable risk that must have an owner.
+This is why Co-deliver treats thresholds as governance artifacts. A threshold is not a magic constant copied from a sample; it is a decision about acceptable risk that must have an owner.
 
 ## CI gates turn evidence into release discipline
 

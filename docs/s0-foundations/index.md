@@ -27,7 +27,7 @@ There are no privileged changes in S0 - it is discovery + planning, so it is saf
 
 Before a customer enables controls, it needs an accountable operating model: named owners, a baseline, and a way to prioritize the gaps that matter most. S0 establishes that foundation so the later technical sessions become owned governance work rather than disconnected tooling exercises.
 
-Read the [S0 Concepts](concepts.md) for the operating-model, maturity, risk, and target-architecture context behind this Runbook.
+Read the [S0 Concepts](concepts.md) for the operating-model, maturity, risk, and target-architecture context before the delivery chapters.
 
 ## 4. Co-delivery walkthrough
 

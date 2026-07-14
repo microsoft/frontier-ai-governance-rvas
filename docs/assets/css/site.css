@@ -184,6 +184,15 @@
   background: var(--mod-color, var(--c-gold));
   margin-bottom: 12px;
 }
+.session-chapter-label {
+  margin: 0;
+  color: var(--c-gold);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.session-mobile-nav { display: none; }
 .fact-row {
   display: flex;
   flex-direction: column;
@@ -238,20 +247,41 @@
 .session-nav .snav-title { font-size: 0.9rem; font-weight: 600; color: var(--c-fg); }
 .session-nav .snav-next { text-align: right; align-items: flex-end; }
 
-.session-view-nav { display: flex; gap: 8px; margin-top: 18px; }
-.session-view-nav a {
-  padding: 7px 12px;
-  border: 1px solid var(--c-line);
-  border-radius: 999px;
-  color: var(--c-dim);
-  font-size: 0.8rem;
-  font-weight: 700;
-}
-.session-view-nav a:hover { border-color: var(--c-gold); color: var(--c-fg); }
-.session-view-nav a[aria-current="page"] { border-color: var(--c-gold); background: var(--c-gold); color: var(--c-900); }
 .session-page-list { margin: 0; padding: 0; list-style: none; }
 .session-page-list a { display: block; padding: 7px 8px; border-radius: var(--r-sm); }
 .session-page-list a[aria-current="page"] { background: var(--c-700); color: var(--c-fg); font-weight: 700; }
+
+@media (max-width: 899px) {
+  .session-mobile-nav {
+    display: block;
+    margin-top: 18px;
+    overflow-x: auto;
+  }
+  .session-mobile-list {
+    display: flex;
+    gap: 8px;
+    width: max-content;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .session-mobile-list a {
+    display: block;
+    padding: 7px 10px;
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
+    color: var(--c-dim);
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .session-mobile-list a[aria-current="page"] {
+    border-color: var(--c-gold);
+    background: var(--c-gold);
+    color: var(--c-900);
+  }
+  #sessionChaptersPanel { display: none; }
+}
 
 /* ── Footnote references + Sources ───────────────────────────────── */
 .guide-body sup.fn-ref { font-size: 0.7em; color: var(--c-gold); font-weight: 600; }

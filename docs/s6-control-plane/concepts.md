@@ -3,7 +3,7 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-06 · Confirm Agent 365 licensing and feature availability in the [Governance capability guide](../reference/governance-capability-guide.md).
 
-This page explains the operational model behind S6. Use the [S6 Runbook](index.md) to perform reconciliation and capture the exit evidence.
+This page explains the operational model behind S6. Use [S6 Prepare](index.md) to begin reconciliation and capture the exit evidence.
 
 ## A control plane is the operating view of the estate
 
@@ -17,7 +17,7 @@ For S6, the key question is practical: can the customer identify every known age
 
 Different inventories answer different questions. S1's Entra Agent ID export shows governed identities; an Agent 365 registry shows the control-plane view; API Center or Access Contract evidence can show the gateway/platform view. Reconciliation compares these sources to reveal records that are missing, duplicated, or contradictory.
 
-The Runbook treats a missing record as a finding, not an error to hide. A shadow agent may be unknown to the control plane; a registry-only record may need identity or owner confirmation.
+The delivery chapters treat a missing record as a finding, not an error to hide. A shadow agent may be unknown to the control plane; a registry-only record may need identity or owner confirmation.
 
 ## Ownership and lifecycle state make evidence actionable
 
