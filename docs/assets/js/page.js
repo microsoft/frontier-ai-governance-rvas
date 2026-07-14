@@ -9,6 +9,11 @@
     { slug: 'reference-citadel-rvas-playbook', label: 'Citadel + RVAS Playbook' },
     { slug: 'reference-product-status', label: 'Product & Feature Status' },
   ];
+  const START_HERE_GROUP = [
+    { slug: 'start-why-governance', label: 'Why AI-agent governance now' },
+    { slug: 'governance-on-citadel', label: 'Citadel + RVAS together' },
+    { slug: 'start-your-journey', label: 'Your journey' },
+  ];
 
   async function init() {
     const slug = FP.qp('p');
@@ -62,11 +67,35 @@
       ).join('');
       panels.push(panel('Reference set', `<ul class="spine-list">${links}</ul>`));
     }
+    if (page.group === 'Start here') {
+      const links = START_HERE_GROUP.map((r) =>
+        `<li><a href="page.html?p=${r.slug}"${r.slug === slug ? ' aria-current="page"' : ''}>${FP.esc(r.label)}</a></li>`
+      ).join('');
+      panels.push(panel('Start here', `<ul class="spine-list">${links}</ul>`));
+      appendSequenceNav(body, slug);
+    }
     if (!panels.length) return;
 
     aside.innerHTML = panels.join('');
     aside.hidden = false;
     layout.classList.add('has-aside');
+  }
+
+  function appendSequenceNav(body, slug) {
+    const index = START_HERE_GROUP.findIndex((page) => page.slug === slug);
+    if (index === -1) return;
+    const previous = START_HERE_GROUP[index - 1];
+    const next = START_HERE_GROUP[index + 1];
+    if (!previous && !next) return;
+    const links = [
+      previous && `<a href="page.html?p=${previous.slug}"><span class="snav-dir">← Previous</span><span class="snav-title">${FP.esc(previous.label)}</span></a>`,
+      next && `<a class="snav-next" href="page.html?p=${next.slug}"><span class="snav-dir">Next →</span><span class="snav-title">${FP.esc(next.label)}</span></a>`,
+    ].filter(Boolean).join('');
+    const nav = document.createElement('nav');
+    nav.className = 'session-nav';
+    nav.setAttribute('aria-label', 'Start here navigation');
+    nav.innerHTML = links;
+    body.appendChild(nav);
   }
 
   function panel(head, inner) {

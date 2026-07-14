@@ -4,7 +4,7 @@ Governing AI agents in your tenant, session by session.
 
 This is a **co-delivered curriculum** for putting Microsoft AI-agent governance in place inside your own tenant. It is not training for its own sake - each session is a working session that leaves durable governance artifacts running in your environment. It operationalizes Microsoft's [Foundry Citadel Platform](reference/reference-architectures.md) reference architecture, session by session.
 
-For the full production path, RVAS has one straight line: **deploy or connect [AI Hub Gateway / Citadel Governance Hub](reference/citadel-rvas-playbook.md), then build governance on top of it**. S0-S6 govern the agents, data, security posture, evaluation, red-team evidence, and lifecycle records around that platform.
+For the full integrated path, connect or deploy the recommended [AI Hub Gateway / Citadel Governance Hub](reference/citadel-rvas-playbook.md). Customers can also begin baseline and operating-model work while an equivalent foundation is connected or platform readiness is scheduled. S0-S6 govern the agents, data, security posture, evaluation, red-team evidence, and lifecycle records around that platform.
 
 !!! info "Freshness"
     Last reviewed: 2026-07-06 · Capabilities marked <span class="rvas-badge rvas-preview">Preview</span> may change. Pricing is *publicly announced - verify current*.
@@ -14,7 +14,7 @@ For the full production path, RVAS has one straight line: **deploy or connect [A
 - **Done *with* you, in *your* tenant.** A facilitator guides your admins through real configuration - not a demo tenant.
 - **Every session leaves something lasting:** exported policies, scripts, evaluation/red-team pipelines, runbooks, evidence, and a maturity scorecard. Azure-plane platform IaC belongs to Citadel.
 - **Safe by default.** Report-only / audit-first, with a documented rollback for every change.
-- **One integrated path.** Deploy/connect Citadel first, then run the governance playbook. Missing prerequisites become backlog items, not parallel platform paths.
+- **One integrated path.** Connect or deploy the recommended Citadel foundation when ready, then run the governance playbook. Platform readiness becomes an owned workstream, not a parallel RVAS platform.
 
 ## The governance stack you will implement
 
@@ -22,11 +22,11 @@ For the full production path, RVAS has one straight line: **deploy or connect [A
 
 ## Before the sessions: what we provide
 
-Start with [Governance Built on Citadel](governance-on-citadel.md). It explains the simple framing:
+Start with [Why AI-agent governance now](start/why-governance.md), then follow the introductory sequence. It explains the simple framing:
 
 - Citadel provides the governed AI runtime platform: gateway, access contracts, API Center, safety controls, PII masking, auth, telemetry, and FinOps.
 - RVAS provides the governance operating model on top: owners, policies, evidence, evaluation gates, red-team findings, registry reconciliation, maturity scoring, and backlog.
-- If a capability belongs to Citadel, RVAS does not duplicate it. Deploy/connect Citadel, build governance, profit.
+- If a capability belongs to Citadel, RVAS does not duplicate it. Connect or deploy the foundation when ready, then govern what runs through it.
 
 ## The 7 sessions
 
@@ -42,9 +42,9 @@ Start with [Governance Built on Citadel](governance-on-citadel.md). It explains 
 
 ## Start here
 
-1. Read **[How to Deliver](how-to-deliver.md)** - the delivery model, safety protocol, and room setup.
-2. Read [Governance Built on Citadel](governance-on-citadel.md) - the practical framing for what Citadel provides and what RVAS builds on top.
-3. Read [Citadel + RVAS Playbook](reference/citadel-rvas-playbook.md) - the detailed cooperation model for the deployable Governance Hub and RVAS operating model.
+1. Follow [Why AI-agent governance now](start/why-governance.md), [Citadel + RVAS together](governance-on-citadel.md), and [Your journey](start/your-journey.md).
+2. Read **[How to Deliver](how-to-deliver.md)** - the delivery model, safety protocol, and room setup.
+3. Use the [Citadel + RVAS Playbook](reference/citadel-rvas-playbook.md) when the platform team needs detailed cooperation guidance.
 4. Run the [Readiness Assessment](assessment/index.md) with the customer to baseline maturity and prioritize sessions.
 5. Deliver the sessions in the recommended order (or the order the assessment prioritizes).
 

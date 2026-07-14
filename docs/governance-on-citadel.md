@@ -1,135 +1,72 @@
-# Governance Built on Citadel
+# Citadel + RVAS together
 
-## The simple framing
+!!! info "Freshness"
+    Last reviewed: 2026-07-14 · Citadel capability and accelerator details change. Use [Reference Architectures](reference/reference-architectures.md) and [Product Status](reference/product-status.md) before a customer delivery.
 
-Citadel builds the governed road. RVAS writes the traffic rules, assigns owners, checks whether drivers obey them, and keeps the audit log.
+Citadel and RVAS solve different parts of the same problem. **Citadel** is the recommended technical foundation for the integrated path: it gives approved AI traffic a governed runtime path and produces platform evidence. **RVAS** is the operating model around that foundation: it assigns owners, tests controls, captures evidence, and turns unresolved risk into an accountable backlog.
 
-For a full production path, do not treat RVAS as a second platform. The straight line is:
+Neither replaces the other. A platform without ownership and operating evidence becomes an underused set of controls. Governance without a trusted runtime path cannot reliably see or influence what the platform is doing.
 
-1. **Deploy or connect AI Hub Gateway / Citadel Governance Hub.**
-2. Use RVAS to build the governance operating model around it.
-3. Leave the customer with evidence, owners, scorecards, and remediation backlog.
+## The simple model
 
-Citadel answers: "Where do AI calls flow, and which runtime controls are enforced?"
+| Citadel provides | RVAS provides |
+|------------------|---------------|
+| A governed AI runtime foundation: gateway, approved access paths, registry, runtime safety, identity enforcement, telemetry, and cost evidence. | A governance operating motion: sponsors, policy decisions, identity and data review, security evidence, evaluations, red-team learning, and lifecycle reconciliation. |
+| The question: **Where do AI calls flow, and what platform controls are applied?** | The question: **Who owns the agents, what risk is accepted, and what evidence proves the controls work?** |
 
-RVAS answers: "Who owns those agents, what data may they use, how are risks tested, and what evidence proves the controls work?"
+RVAS does not rebuild Citadel. It uses the platform’s evidence and connects it to the people, processes, and decisions needed to operate the estate responsibly.
 
-## What Citadel provides
+## How Citadel works
 
-AI Hub Gateway / Citadel Governance Hub is the Azure-plane platform foundation. It provides the runtime control point and platform evidence that governance can rely on.
+The Foundry Citadel Platform describes four connected layers.[^citadel] The details live in the [technical reference](reference/reference-architectures.md); this is the sponsor and facilitator mental model.
 
-| Citadel provides | Simple meaning |
-|---|---|
-| **APIM AI gateway** | All approved AI traffic has a central front door. |
-| **Access Contracts** | Teams/apps get an approved way to consume models and tools. |
-| **Backend Contracts** | Platform teams define which backends/models are exposed and under what policies. |
-| **API Center registry** | AI APIs, products, routes, and platform exposure are cataloged. |
-| **Gateway auth** | Entra/JWT/app-role checks protect the runtime gateway. |
-| **Prompt Shields / Content Safety** | Runtime safety checks happen before requests reach model backends. |
-| **PII masking** | Sensitive values can be masked at the gateway. |
-| **Telemetry and FinOps** | Usage, cost, routing, and safety signals are captured centrally. |
+```mermaid
+flowchart TB
+    L1[1 · Governance Hub<br/>APIM AI gateway · API Center · access contracts]
+    L2[2 · AI Control Plane<br/>Foundry evaluation · observability · policy signals]
+    L3[3 · Agent Identity<br/>Entra Agent ID · Agent 365 · sponsorship]
+    L4[4 · Security Fabric<br/>Defender · Purview · runtime safety]
+    L1 --> L2 --> L3 --> L4
+    L4 --> O[RVAS operating motion<br/>owners · evidence · improvement backlog]
+```
 
-## What RVAS provides
+### 1. Governance Hub — the approved runtime path
 
-RVAS turns that platform into an enterprise governance system.
+The Governance Hub uses components such as Azure API Management, API Center, Access Contracts, and Backend Contracts to provide a central entry point for approved AI calls. It can establish which applications or teams may consume which model or tool backends, and it creates a platform record of the exposed path.
 
-| RVAS provides | Simple meaning |
-|---|---|
-| Human ownership | Every important agent/use case has a sponsor and accountable owner. |
-| Identity governance | Agent identity, Conditional Access posture, and lifecycle state are reviewed. |
-| Data governance | Purview, DLP, audit, and information protection evidence show what data can be used. |
-| Security governance | Defender posture, threat protection, and runtime safety evidence are reviewed by SOC/security owners. |
-| Evaluation governance | Quality and safety tests become release gates, not informal checks. |
-| Red-team governance | Adversarial findings become tracked risks and remediation actions. |
-| Control-plane reconciliation | Citadel/API Center, Agent 365, Entra Agent ID, and owner records are compared so shadow or unowned agents surface. |
-| Maturity evidence | The customer can show what improved from baseline to exit score. |
+**Why it matters to RVAS:** the gateway and registry give S6 evidence to reconcile with the agent and ownership records. They are platform assets, not separate RVAS deliverables.
 
-## Practical examples
+### 2. AI Control Plane — observe and measure behavior
 
-### Example 1 - A team wants to use GPT-4.1
+The AI Control Plane brings together Foundry evaluation, traces, observability, and policy signals. It is where teams can learn how an agent behaves, measure quality and safety, and use real operating evidence to improve future checks.
 
-Citadel provides
+**Why it matters to RVAS:** S4 turns measurement into an owned evaluation and release discipline; S5 uses findings to drive remediation. RVAS does not replace the telemetry plumbing.
 
-- A gateway route through APIM.
-- A backend contract for the model.
-- An access contract for the consuming app/team.
-- Token limits, auth, routing, and telemetry.
+### 3. Agent Identity — make agents accountable
 
-RVAS builds governance
+Entra Agent ID and Agent 365 make agents visible as first-class enterprise entities, with sponsorship, lifecycle, and access context. The aim is to distinguish an agent from an anonymous automation or a user-delegated action.
 
-- Who owns the use case?
-- Which human sponsor approved it?
-- Which agent or app identity is allowed?
-- What data classification is permitted?
-- What DLP and security evidence must be reviewed?
-- What evaluation score must pass before production?
-- What residual risks are accepted or assigned?
+**Why it matters to RVAS:** S1 creates inventory and sponsorship evidence, while S6 reconciles identity and registry views so unmanaged or shadow agents become actionable findings.
 
-### Example 2 - An agent sends sensitive data
+### 4. Security Fabric — protect data and respond to risk
 
-Citadel provides
+Defender, Purview, Entra, and runtime safety controls create the security and data-governance fabric: security posture, threat signals, information protection, data-loss prevention, and safety checks at the runtime path.
 
-- Gateway PII masking.
-- Gateway telemetry showing the call path.
-- Runtime policy evidence.
+**Why it matters to RVAS:** S2 and S3 validate and evidence those controls with the people who own compliance and security response. A customer should not deploy duplicate protection paths just because it is running a governance workshop.
 
-RVAS builds governance
+## The platform boundary
 
-- Purview/DLP review of the data classes involved.
-- Evidence that sensitive-data policy is configured and tested.
-- A compliance owner for violations.
-- An audit trail showing what happened and who reviewed it.
+Citadel is recommended for the full integrated path, but it is not a reason to delay every governance decision. A customer may:
 
-### Example 3 - A jailbreak attempt hits the gateway
+- connect an existing Citadel or equivalent platform foundation;
+- run a platform workstream to deploy Citadel; or
+- schedule readiness work while using S0 to establish sponsorship, a baseline, and a delivery backlog.
 
-Citadel provides
+What must not happen is treating RVAS workshop artifacts as a substitute for a production runtime platform. Deployment, private networking, gateway configuration, telemetry plumbing, and platform resiliency remain platform-team responsibilities.
 
-- Prompt Shields / Content Safety controls.
-- Gateway logs and safety events.
-- The runtime enforcement point.
+## Go deeper or continue
 
-RVAS builds governance
+- Need the implementation detail? See [Reference Architectures](reference/reference-architectures.md) and the [Citadel + RVAS Playbook](reference/citadel-rvas-playbook.md).
+- Need to choose a path and start the engagement? Continue to [Your journey](start/your-journey.md).
 
-- SOC triage runbook.
-- Severity and escalation path.
-- Evidence capture for the safety hit.
-- Remediation item for the app/agent owner.
-- Follow-up evaluation or red-team test if needed.
-
-### Example 4 - Leadership asks "are we governed?"
-
-Citadel provides
-
-- Platform catalog.
-- Access contracts.
-- Gateway logs.
-- Usage and cost telemetry.
-
-RVAS builds governance
-
-- Baseline and exit maturity scores.
-- Sponsor and owner register.
-- Agent registry reconciliation.
-- Evaluation and red-team scorecards.
-- DLP, Defender, and runtime-safety evidence.
-- A prioritized backlog of gaps and accepted risks.
-
-## What we do not build here
-
-RVAS does not rebuild Citadel:
-
-- no duplicate APIM gateway path;
-- no duplicate Content Safety deployment;
-- no substitute API Center;
-- no alternate access-contract system;
-- no second telemetry platform.
-
-If the needed platform capability belongs to Citadel, the action is to deploy, connect, or fix Citadel first. RVAS then governs and evidences the environment built around it.
-
-## The takeaway
-
-Use Citadel to establish the governed AI runtime platform.
-
-Use RVAS to make that platform operationally governable: owned, data-aware, security-reviewed, evaluated, red-teamed, reconciled, and evidenced.
-
-For deeper architecture details, see the [Citadel + RVAS Playbook](reference/citadel-rvas-playbook.md).
+[^citadel]: Microsoft - [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-platform); [AI Hub Gateway / Citadel Governance Hub](https://aka.ms/ai-hub-gateway).
