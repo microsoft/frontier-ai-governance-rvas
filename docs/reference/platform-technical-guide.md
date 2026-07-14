@@ -1,6 +1,6 @@
 # Platform technical guide
 
-Use this guide with the customer platform team when they need to understand the technical foundation that supports an integrated RVAS path. It explains the Foundry Citadel Platform, the deployable accelerators, and the boundary between platform delivery and governance delivery.
+Use this guide with the customer platform team when they need to understand the technical foundation that supports an integrated AI Governance engagement. It explains the Foundry Citadel Platform, the deployable accelerators, and the boundary between platform delivery and governance delivery.
 
 ## The Citadel platform model
 
@@ -25,16 +25,16 @@ The platform team owns:
 - platform pipelines, access and backend contracts, and telemetry plumbing;
 - accelerator deployment and its operational support model.
 
-## Where RVAS uses platform evidence
+## Where the AI Governance programme uses platform evidence
 
-| Platform record | RVAS use |
+| Platform record | Programme use |
 |---|---|
 | API Center and access-contract records | S6 compares platform exposure with agent, identity, and ownership records. |
 | Gateway authentication and safety configuration | S1 and S3 review the corresponding identity and runtime-safety evidence. |
 | Gateway data-protection configuration | S2 considers it alongside Purview data and compliance controls. |
 | Traces, evaluations, usage, and cost telemetry | S4, S5, and S6 use it as evidence for review, remediation, and operating decisions. |
 
-RVAS does not rebuild these capabilities. It assigns owners, reviews the evidence, and records the decisions and gaps that follow.
+The AI Governance programme does not rebuild these capabilities. It assigns owners, reviews the evidence, and records the decisions and gaps that follow.
 
 ## Technical handoff checklist
 
@@ -46,4 +46,3 @@ Before an integrated session needs platform evidence, record:
 4. the current platform readiness gaps and their owners.
 
 For accelerator deployment, use the [AI Hub Gateway deployment guidance](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/tree/citadel-v1/guides) and the [Azure AI Landing Zones](https://github.com/Azure/AI-Landing-Zones) documentation. Confirm the selected branch, prerequisites, and product status before customer delivery.
-

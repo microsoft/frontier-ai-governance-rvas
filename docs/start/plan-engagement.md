@@ -1,6 +1,6 @@
 # Plan the engagement
 
-Use this guide to prepare and deliver RVAS. The work is co-delivered: the facilitator frames the outcome and guides the process, while the customer's administrators perform privileged steps and approve changes in their own environment.
+Use this guide to prepare and deliver the AI Governance engagement. The work is co-delivered: the facilitator frames the outcome and guides the process, while the customer's administrators perform privileged steps and approve changes in their own environment.
 
 ## Bring the right people
 
@@ -52,4 +52,3 @@ The assessment may change the order after S0. Keep the dependencies visible: a s
 ## Start the curriculum
 
 Begin with [S0 · Foundations & Operating Model](../s0-foundations/index.md). Each session page contains the prerequisites, co-delivery walkthrough, evidence capture, rollback, and facilitator notes.
-

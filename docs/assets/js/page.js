@@ -8,7 +8,7 @@
     { slug: 'reference-governance-capabilities', label: 'Governance capability guide' },
   ];
   const START_HERE_GROUP = [
-    { slug: 'start-understand-rvas', label: 'Understand RVAS' },
+    { slug: 'start-understand-rvas', label: 'About RVAS AI Governance' },
     { slug: 'start-plan-engagement', label: 'Plan the engagement' },
   ];
 

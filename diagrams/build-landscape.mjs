@@ -5,7 +5,7 @@ const els = [];
 const group = { bg: "#f8fafc", st: "#94a3b8", tx: "#475569" };
 
 // ---- Title ----
-els.push(text(150, 24, 1200, "Microsoft capabilities used across RVAS", C.found, { size: 27, align: "left" }));
+els.push(text(150, 24, 1200, "Microsoft capabilities used across the AI Governance programme", C.found, { size: 27, align: "left" }));
 els.push(text(150, 62, 1200, "Identity, data, security, evaluation, and testing records inform a shared governance view, anchored by an operating model.", C.neutral, { size: 15, align: "left" }));
 
 // ---- Hero: Agent 365 (control plane) ----

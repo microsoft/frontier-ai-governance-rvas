@@ -29,7 +29,7 @@ Prompt Shields help detect direct prompt attacks and indirect cross-prompt injec
 
 Azure AI Content Safety includes capabilities such as Prompt Shields, harm-category analysis, protected-material detection, and groundedness-related features. Availability differs by capability and must be checked before relying on a control in production.[^contentsafety]
 
-S3 verifies the customer’s deployed path rather than creating a parallel one. In the Citadel model, the gateway and Content Safety configuration are part of the Security Fabric; RVAS captures the evidence and operating ownership.[^citadel]
+S3 verifies the customer’s deployed path rather than creating a parallel one. In the Citadel model, the gateway and Content Safety configuration are part of the Security Fabric; the AI Governance programme captures the evidence and operating ownership.[^citadel]
 
 ## Alert-first is safer than block-first
 

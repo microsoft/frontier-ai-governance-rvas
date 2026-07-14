@@ -4,7 +4,7 @@ import { C, rect, ellipse, text, labelIn, arrow, line, write } from "./lib.mjs";
 const els = [];
 
 // ---- Title ----
-els.push(text(40, 24, 1500, "How RVAS moves from a baseline to an owned backlog", C.found, { size: 27, align: "left" }));
+els.push(text(40, 24, 1500, "How the AI Governance programme moves from a baseline to an owned backlog", C.found, { size: 27, align: "left" }));
 els.push(text(40, 62, 1500, "S0 establishes ownership and the baseline. S1-S5 generate evidence. S6 reconciles the records and assigns the remaining work.", C.neutral, { size: 15, align: "left" }));
 
 // ---- Input: the customer starts with a known situation, not a blank slate ----

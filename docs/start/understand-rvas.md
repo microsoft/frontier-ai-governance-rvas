@@ -1,6 +1,6 @@
-# Understand RVAS
+# About RVAS AI Governance
 
-RVAS is a co-delivered delivery method built around a practical curriculum for AI-agent governance. A facilitator works with the customer's administrators in the customer's environment. Together they establish ownership, review controls, capture evidence, and assign the work that remains.
+RVAS AI Governance is an offering in the Real Value Acceleration Solution (RVAS). It is a co-delivered programme and practical curriculum for AI-agent governance. A facilitator works with the customer's administrators in the customer's environment. Together they establish ownership, review controls, capture evidence, and assign the work that remains.
 
 ## Why AI-agent governance needs its own approach
 
@@ -11,24 +11,24 @@ An AI agent can retrieve enterprise information, call tools, take actions, and o
 - Which controls have been tested, and where is the evidence?
 - Who investigates a failure or accepts the remaining risk?
 
-Identity, data protection, security operations, quality evaluation, and lifecycle management are often managed separately. RVAS brings the relevant people and evidence together around each agent use case.
+Identity, data protection, security operations, quality evaluation, and lifecycle management are often managed separately. The AI Governance programme brings the relevant people and evidence together around each agent use case.
 
-## What Citadel and RVAS each do
+## What Citadel and RVAS AI Governance each do
 
-Citadel is the recommended platform foundation for the integrated path. RVAS is the delivery method that helps the customer govern the agents and controls around that foundation.
+Citadel is the recommended platform foundation for the integrated path. RVAS AI Governance is the programme that helps the customer govern the agents and controls around that foundation.
 
-| Citadel's practical jobs | RVAS's practical jobs |
+| Citadel's practical jobs | RVAS AI Governance's practical jobs |
 |---|---|
 | Route approved AI traffic through a managed path. | Establish sponsors, owners, and review decisions. |
 | Record exposed models, tools, and platform activity. | Connect control evidence to the relevant agent and owner. |
 | Apply shared runtime safeguards such as authentication, safety checks, and data masking. | Run the customer-facing identity, data, security, evaluation, and testing work. |
 | Provide telemetry and platform records for the platform team. | Turn findings into an agreed backlog and operating cadence. |
 
-RVAS does not deploy or duplicate Citadel's gateway, networking, telemetry plumbing, or platform pipelines. It uses the resulting platform records as evidence where they are available.
+The AI Governance programme does not deploy or duplicate Citadel's gateway, networking, telemetry plumbing, or platform pipelines. It uses the resulting platform records as evidence where they are available.
 
 ## The delivery shape
 
-![RVAS starts with the customer's current agents, owners, evidence, priorities, and platform path. S0 establishes the baseline, S1-S5 produce governance evidence, and S6 reconciles the records into an owned backlog for the next review.](../assets/diagrams/journey.svg)
+![The AI Governance programme starts with the customer's current agents, owners, evidence, priorities, and platform path. S0 establishes the baseline, S1-S5 produce governance evidence, and S6 reconciles the records into an owned backlog for the next review.](../assets/diagrams/journey.svg)
 
 ## The seven-session outcome map
 

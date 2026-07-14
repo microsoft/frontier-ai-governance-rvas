@@ -1,8 +1,8 @@
-# Frontier AI Governance - RVAS
+# Frontier AI Governance - RVAS AI Governance
 
-RVAS is a facilitator-led delivery method and practical curriculum for establishing AI-agent governance in a customer's own environment.
+RVAS AI Governance is an offering in the Real Value Acceleration Solution (RVAS). It provides a facilitator-led programme and practical curriculum for establishing AI-agent governance in a customer's own environment.
 
-Start with [Understand RVAS](start/understand-rvas.md). It explains the governance problem, Citadel's role in the integrated path, and the outcomes of the seven sessions. Then read [Plan the engagement](start/plan-engagement.md) before running [S0 · Foundations & Operating Model](s0-foundations/index.md).
+Start with [About RVAS AI Governance](start/understand-rvas.md). It explains the governance problem, Citadel's role in the integrated path, and the outcomes of the seven sessions. Then read [Plan the engagement](start/plan-engagement.md) before running [S0 · Foundations & Operating Model](s0-foundations/index.md).
 
 The two shared references support customer and facilitator conversations:
 

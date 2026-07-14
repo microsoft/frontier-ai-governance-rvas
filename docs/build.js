@@ -33,8 +33,8 @@ const PAGES_OUT = path.join(DATA, 'pages');
 /* ─── Curriculum config (curated metadata, mirrors docs/index.md) ─────────── */
 
 const SITE = {
-  name: 'Frontier AI Governance',
-  tagline: 'Governing AI agents in your tenant, session by session.',
+  name: 'RVAS AI Governance',
+  tagline: 'The AI Governance offering in the Real Value Acceleration Solution.',
   lastReviewed: '2026-07-06',
   repo: 'https://github.com/microsoft/frontier-ai-governance-rvas',
 };
@@ -50,7 +50,7 @@ const SESSIONS = [
 ];
 
 const PAGES = [
-  { slug: 'start-understand-rvas',        src: 'start/understand-rvas.md',    title: 'Understand RVAS',           nav: true, group: 'Start here' },
+  { slug: 'start-understand-rvas',        src: 'start/understand-rvas.md',    title: 'About RVAS AI Governance', nav: true, group: 'Start here' },
   { slug: 'start-plan-engagement',        src: 'start/plan-engagement.md',    title: 'Plan the engagement',       nav: true, group: 'Start here' },
   { slug: 'assessment',                   src: 'assessment/index.md',          title: 'Readiness Assessment',      nav: true,  group: null },
   { slug: 'reference-platform-technical', src: 'reference/platform-technical-guide.md', title: 'Platform technical guide', nav: true, group: 'Reference' },

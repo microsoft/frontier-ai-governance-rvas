@@ -1,6 +1,6 @@
 # Governance capability guide
 
-This guide maps the Microsoft capabilities used in RVAS to the governance question each session addresses. Capability availability changes, so verify the linked Microsoft documentation and tenant licensing before delivery.
+This guide maps the Microsoft capabilities used in the AI Governance curriculum to the governance question each session addresses. Capability availability changes, so verify the linked Microsoft documentation and tenant licensing before delivery.
 
 ## Capabilities by governance domain
 
