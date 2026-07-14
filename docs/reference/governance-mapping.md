@@ -1,13 +1,13 @@
 # Reference - Governance Mapping
 
 !!! info "Freshness"
-    **Last reviewed:** 2026-07-06 · This page cross-references every session's durable artifacts to the control frameworks customers are audited against. Each session also repeats its own mapping in section 7 of its page.
+    Last reviewed: 2026-07-06 · This page cross-references every session's durable artifacts to the control frameworks customers are audited against. Each session also repeats its own mapping in section 7 of its page.
 
 ## Frameworks in scope
 
-- **NIST AI RMF** - functions **Govern · Map · Measure · Manage**.
-- **ISO/IEC 42001** - AI management system (AIMS) controls.
-- **EU AI Act** - obligations for prohibited / high-risk / limited-risk AI. *(NIST alignment covers ~60–70% of EU AI Act obligations - legal review still required.)*
+- NIST AI RMF - functions Govern · Map · Measure · Manage.
+- ISO/IEC 42001 - AI management system (AIMS) controls.
+- EU AI Act - obligations for prohibited / high-risk / limited-risk AI. *(NIST alignment covers ~60–70% of EU AI Act obligations - legal review still required.)*
 
 ## Session → framework matrix
 
@@ -23,7 +23,7 @@
 
 ## Consolidated artifact-level matrix
 
-Every durable artifact shipped across the seven sessions, mapped to the framework line items it satisfies. This is the auditor-facing index; each row is authored in **section 7** of the corresponding session page.
+Every durable artifact shipped across the seven sessions is mapped to the framework line items it satisfies. This is the auditor-facing index; each row is authored in section 7 of the corresponding session page.
 
 | Session | Durable artifact | NIST AI RMF | ISO/IEC 42001 | EU AI Act |
 |---------|------------------|-------------|---------------|-----------|
@@ -50,16 +50,16 @@ Every durable artifact shipped across the seven sessions, mapped to the framewor
 
 ## Coverage rollups
 
-**NIST AI RMF function → sessions that contribute evidence**
+NIST AI RMF function → sessions that contribute evidence
 
 | Function | Sessions |
 |----------|----------|
-| **Govern** | S0, S1, S5, S6 |
-| **Map** | S0, S1, S2, S6 |
-| **Measure** | S1, S3, S4, S5 |
-| **Manage** | S1, S2, S3, S4, S5, S6 |
+| Govern | S0, S1, S5, S6 |
+| Map | S0, S1, S2, S6 |
+| Measure | S1, S3, S4, S5 |
+| Manage | S1, S2, S3, S4, S5, S6 |
 
-**EU AI Act article → sessions that contribute evidence**
+EU AI Act article → sessions that contribute evidence
 
 | Article | Theme | Sessions |
 |---------|-------|----------|

@@ -1,20 +1,20 @@
 # Citadel + RVAS Governance Playbook
 
 !!! info "Freshness"
-    **Last reviewed:** 2026-07-13 · This page explains how RVAS and the AI Hub Gateway / Citadel Governance Hub (`citadel-v1`) work together. Re-verify the accelerator branch and product status before a customer delivery.
+    Last reviewed: 2026-07-13 · This page explains how RVAS and the AI Hub Gateway / Citadel Governance Hub (`citadel-v1`) work together. Re-verify the accelerator branch and product status before a customer delivery.
 
 ## Executive positioning
 
-**Citadel Governance Hub is the Azure-plane platform. RVAS is the governance playbook that makes that platform adopted, evidenced, and operated.** In the full RVAS path, the customer either deploys or connects to [AI Hub Gateway / Citadel Governance Hub (`citadel-v1`)](https://aka.ms/ai-hub-gateway) as the platform foundation, then runs RVAS sessions to put identity, data, security, evaluation, red-team, and lifecycle governance around it.[^citadel]
+Citadel Governance Hub is the Azure-plane platform. RVAS is the governance playbook that makes that platform adopted, evidenced, and operated. In the full RVAS path, the customer either deploys or connects to [AI Hub Gateway / Citadel Governance Hub (`citadel-v1`)](https://aka.ms/ai-hub-gateway) as the platform foundation, then runs RVAS sessions to put identity, data, security, evaluation, red-team, and lifecycle governance around it.[^citadel]
 
-Citadel answers: **"What platform do AI calls flow through?"** RVAS answers: **"How do we govern the agents, people, data, policies, evidence, and operating model around that platform?"**
+Citadel answers: "What platform do AI calls flow through?" RVAS answers: "How do we govern the agents, people, data, policies, evidence, and operating model around that platform?"
 
 !!! note "Recommended full-path stance"
-    For a full production engagement, treat Citadel Governance Hub as **Phase 0 - platform foundation**: deploy it in a sandbox or production landing-zone subscription, or connect to an existing deployment. Then run S0-S6 to govern what the hub exposes and what agents do through it. If the hub is not available, the next step is to deploy or schedule Citadel - not to build a parallel platform from RVAS assets.
+    For a full production engagement, treat Citadel Governance Hub as Phase 0, the platform foundation: deploy it in a sandbox or production landing-zone subscription, or connect to an existing deployment. Then run S0-S6 to govern what the hub exposes and what agents do through it. If the hub is not available, the next step is to deploy or schedule Citadel - not to build a parallel platform from RVAS assets.
 
 ## What Citadel provides
 
-AI Hub Gateway / Citadel Governance Hub (`citadel-v1`) is the deployable **Layer 1 - Governance Hub** accelerator in the Foundry Citadel architecture.[^citadel] It provides the runtime control plane in front of AI services:
+AI Hub Gateway / Citadel Governance Hub (`citadel-v1`) is the deployable Layer 1, Governance Hub accelerator in the Foundry Citadel architecture.[^citadel] It provides the runtime control plane in front of AI services:
 
 | Citadel capability | What it provides | RVAS touchpoint |
 |--------------------|------------------|-----------------|
@@ -29,19 +29,19 @@ AI Hub Gateway / Citadel Governance Hub (`citadel-v1`) is the deployable **Layer
 
 ## What RVAS adds
 
-RVAS does not compete with Citadel. It adds the **governance operating system** around Citadel:
+RVAS does not compete with Citadel. It adds the governance operating system around Citadel:
 
 | RVAS layer | What RVAS adds beyond the platform |
 |------------|------------------------------------|
-| **S0 - Foundations** | Baseline maturity assessment, roles, operating model, prioritized roadmap, governance board backlog |
-| **S1 - Identity** | Entra Agent ID inventory, sponsor register, report-only Conditional Access posture |
-| **S2 - Data** | Purview DSPM for AI review, DLP simulation, audit/eDiscovery/IRM evidence |
-| **S3 - Security** | Defender AI-SPM export, AI Threat Protection status, Prompt Shield evidence and SOC triage |
-| **S4 - Evaluation** | Foundry evaluation suite, CI/CD quality gate, trace/evaluation evidence |
-| **S5 - Red Teaming** | PyRIT / AI Red Teaming Agent evidence, adversarial findings, SOC-safe test plan |
-| **S6 - Control Plane** | Agent 365/API Center/Entra reconciliation, lifecycle state, ownership gaps, exit maturity score |
+| S0 - Foundations | Baseline maturity assessment, roles, operating model, prioritized roadmap, governance board backlog |
+| S1 - Identity | Entra Agent ID inventory, sponsor register, report-only Conditional Access posture |
+| S2 - Data | Purview DSPM for AI review, DLP simulation, audit/eDiscovery/IRM evidence |
+| S3 - Security | Defender AI-SPM export, AI Threat Protection status, Prompt Shield evidence and SOC triage |
+| S4 - Evaluation | Foundry evaluation suite, CI/CD quality gate, trace/evaluation evidence |
+| S5 - Red Teaming | PyRIT / AI Red Teaming Agent evidence, adversarial findings, SOC-safe test plan |
+| S6 - Control Plane | Agent 365/API Center/Entra reconciliation, lifecycle state, ownership gaps, exit maturity score |
 
-The value is the **playbook and evidence trail**: who signs off, what is report-only, what is test-only, what gets captured, how findings become backlog items, and how maturity improves from S0 to S6.
+The value is the playbook and evidence trail: who signs off, what is report-only, what is test-only, what gets captured, how findings become backlog items, and how maturity improves from S0 to S6.
 
 ## Where they overlap
 
@@ -82,8 +82,8 @@ flowchart TD
 
 Before or alongside S0, decide whether the customer will use:
 
-1. **Existing Citadel Governance Hub** - collect gateway URL, API Center/Access Contract export, Content Safety configuration, telemetry location, and platform owner.
-2. **New Citadel Governance Hub deployment** - platform team deploys or pre-provisions the accelerator from `citadel-v1`; RVAS does not turn the workshop into an APIM deployment exercise.
+1. Existing Citadel Governance Hub - collect gateway URL, API Center/Access Contract export, Content Safety configuration, telemetry location, and platform owner.
+2. New Citadel Governance Hub deployment - platform team deploys or pre-provisions the accelerator from `citadel-v1`; RVAS does not turn the workshop into an APIM deployment exercise.
 3. **No hub yet** - deploy or schedule Citadel first. Do not use RVAS assets as a substitute platform.
 
 ### S0-S6 - governance operating motion
@@ -111,11 +111,11 @@ Do **not** rebuild Citadel inside RVAS:
 
 | Mode | When to use | What RVAS does |
 |------|-------------|----------------|
-| **Full integrated path** | Customer is ready to deploy or already has Citadel Governance Hub | Treat Citadel as Phase 0, then run S0-S6 with gateway/API Center evidence feeding S1/S2/S3/S6 |
-| **Platform remediation path** | Customer deployed Citadel but lacks governance process | Use RVAS to add sponsorship, DLP, Defender evidence, eval/red-team gates, registry reconciliation, and maturity tracking |
+| Full integrated path | Customer is ready to deploy or already has Citadel Governance Hub | Treat Citadel as Phase 0, then run S0-S6 with gateway/API Center evidence feeding S1/S2/S3/S6 |
+| Platform remediation path | Customer deployed Citadel but lacks governance process | Use RVAS to add sponsorship, DLP, Defender evidence, eval/red-team gates, registry reconciliation, and maturity tracking |
 
 ## Bottom line
 
-Use **Citadel** to establish the governed AI runtime platform. Use **RVAS** to make that platform governable in the customer organization: identity-owned, data-aware, security-monitored, evaluated, red-teamed, reconciled, and evidenced.
+Use Citadel to establish the governed AI runtime platform. Use RVAS to make that platform governable in the customer organization: identity-owned, data-aware, security-monitored, evaluated, red-teamed, reconciled, and evidenced.
 
 [^citadel]: Microsoft - [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-platform) (aka.ms/foundry-citadel); [AI Hub Gateway / Citadel Governance Hub](https://aka.ms/ai-hub-gateway); [Azure AI Landing Zones](https://github.com/Azure/AI-Landing-Zones); [Agent Governance Toolkit](https://github.com/microsoft/agent-governance-toolkit). See also [Reference Architectures](reference-architectures.md) and [Product Status](product-status.md).

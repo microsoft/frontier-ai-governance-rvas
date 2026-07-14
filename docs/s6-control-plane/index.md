@@ -1,7 +1,7 @@
 # S6 · Control Plane & Operationalization
 
 !!! info "Freshness"
-    **Last reviewed:** 2026-07-06 · Concepts sourced from [Reference - Landscape](../reference/index.md). Agent 365 status and pricing must be re-verified in [Product Status](../reference/product-status.md) before delivery.
+    Last reviewed: 2026-07-06 · Concepts sourced from [Reference - Landscape](../reference/index.md). Agent 365 status and pricing must be re-verified in [Product Status](../reference/product-status.md) before delivery.
 
 <span class="rvas-badge rvas-persona">Governance lead</span> <span class="rvas-badge rvas-persona">AI developer / maker</span> <span class="rvas-badge rvas-persona">Security / SOC</span>
 
@@ -9,15 +9,15 @@
 
 The customer leaves with the capstone operating view for AI-agent governance:
 
-- An **agent registry reconciliation** that compares Microsoft Agent 365's control-plane registry with the S1 Entra Agent ID inventory, including **shadow agents**, OBO agents, unmanaged agents, missing owners, and lifecycle state.
-- The **S6 exit maturity re-score**: the same S0 assessment re-run after S1-S6, showing measurable lift versus the baseline and a residual-gap backlog.
+- An **agent registry reconciliation** that compares Microsoft Agent 365's control-plane registry with the S1 Entra Agent ID inventory, including shadow agents, OBO agents, unmanaged agents, missing owners, and lifecycle state.
+- The S6 exit maturity re-score: the same S0 assessment re-run after S1-S6, showing measurable lift versus the baseline and a residual-gap backlog.
 - A named operational owner and lifecycle state for every known agent, so the registry becomes the single source of truth rather than another dashboard.
 
-**Durable artifact:** `labs/s6-control-plane/` - registry export/reference script, offline reconciliation tooling, evidence templates, and the exit re-score runbook committed to the customer's governance repo.
+Durable artifact: `labs/s6-control-plane/` - registry export/reference script, offline reconciliation tooling, evidence templates, and the exit re-score runbook committed to the customer's governance repo.
 
 ## 2. Prerequisites
 
-- Microsoft Agent 365 licensed and available in the tenant - **GA May 1, 2026**, approximately **$15/user/month** *(publicly announced - verify current before delivery)*.[^a365]
+- Microsoft Agent 365 licensed and available in the tenant - GA May 1, 2026, approximately $15/user/month *(publicly announced - verify current before delivery)*.[^a365]
 - Customer admin/operator with permissions to export the Agent 365 registry and read Entra Agent ID inventory data.
 - Completed S1 inventory export or sponsor register available for reconciliation.
 - Governance lead empowered to assign lifecycle state and accountable owner for each finding.
@@ -25,14 +25,14 @@ The customer leaves with the capstone operating view for AI-agent governance:
 
 ## 3. Concepts
 
-- **Agent 365 is the enterprise control plane.** At launch Microsoft described capability areas including **Registry, Access Control, Visualization, Interoperability, and Security**; Microsoft Learn also frames the work as **Observe / Govern / Secure**. Treat the exact pillar list as evolving and verify against current docs.[^a365]
-- <span class="rvas-badge rvas-ga">GA</span> **Agent 365 GA:** May 1, 2026. Pricing has been publicly announced around **$15/user/month**; always verify current licensing before a customer delivery.[^a365]
+- **Agent 365 is the enterprise control plane.** At launch Microsoft described capability areas including Registry, Access Control, Visualization, Interoperability, and Security; Microsoft Learn also frames the work as Observe / Govern / Secure. Treat the exact pillar list as evolving and verify against current docs.[^a365]
+- <span class="rvas-badge rvas-ga">GA</span> **Agent 365 GA:** May 1, 2026. Pricing has been publicly announced around $15/user/month; always verify current licensing before a customer delivery.[^a365]
 - <span class="rvas-badge rvas-preview">Preview</span> Some Agent 365 expansion capabilities, such as AI teammate experiences and cross-cloud registry sync, may still be preview; do not make them delivery prerequisites.[^a365]
-- **Five pillars, not six.** Microsoft Entra Agent ID is the identity technology under **Access Control** and **Security** - not a separate Agent 365 pillar.[^entra]
+- **Five pillars, not six.** Microsoft Entra Agent ID is the identity technology under Access Control and Security - not a separate Agent 365 pillar.[^entra]
 - <span class="rvas-badge rvas-ga">GA</span> **Entra Agent ID** provides first-class agent identities with human sponsors and lifecycle governance. The S6 registry must reconcile back to the S1 inventory.[^entra]
-- **Monitoring ≠ control.** Agents executing **on-behalf-of a user (OBO)** without their own Entra Agent ID may be visible in telemetry but **not fully controllable**. The registry must flag them for remediation.[^a365]
+- **Monitoring ≠ control.** Agents executing on-behalf-of a user (OBO) without their own Entra Agent ID may be visible in telemetry but not fully controllable. The registry must flag them for remediation.[^a365]
 - **Shadow agents** are agents not yet represented in the registry. Discovery and reconciliation are pillar 1's job: if the S1 inventory, maker list, or workshop identifies an agent absent from Agent 365, it becomes a shadow-agent finding.
-- **This bridges Citadel Layer 1 and Layer 3.** **API Center** is the AI Registry component inside the **Governance Hub (Layer 1)**, while **Agent 365 / Entra Agent ID** is the **Agent Identity (Layer 3)** control plane. S6 reconciles those registry and identity views into an operational governance record. The deployable [AI Hub Gateway / Citadel Governance Hub (`citadel-v1`)](https://aka.ms/ai-hub-gateway) accelerator is the Azure-plane Layer 1 implementation - see [Reference Architectures](../reference/reference-architectures.md).[^citadel]
+- **This bridges Citadel Layer 1 and Layer 3.** API Center is the AI Registry component inside the Governance Hub (Layer 1), while Agent 365 / Entra Agent ID is the Agent Identity (Layer 3) control plane. S6 reconciles those registry and identity views into an operational governance record. The deployable [AI Hub Gateway / Citadel Governance Hub (`citadel-v1`)](https://aka.ms/ai-hub-gateway) accelerator is the Azure-plane Layer 1 implementation - see [Reference Architectures](../reference/reference-architectures.md).[^citadel]
 
 ## 4. Co-delivery walkthrough
 
@@ -78,15 +78,15 @@ If the customer later writes lifecycle state, owner, or access-control metadata 
 
 | Artifact | NIST AI RMF | ISO/IEC 42001 | EU AI Act |
 |----------|-------------|---------------|-----------|
-| Agent 365 registry + capstone re-score | **Govern**, **Manage** | A.2, A.3, A.10 | Art. 72 (post-market monitoring) |
-| Shadow/OBO residual-gap backlog | **Map**, **Manage** | A.6, A.10 | Art. 72 (post-market monitoring) |
+| Agent 365 registry + capstone re-score | Govern, Manage | A.2, A.3, A.10 | Art. 72 (post-market monitoring) |
+| Shadow/OBO residual-gap backlog | Map, Manage | A.6, A.10 | Art. 72 (post-market monitoring) |
 
 Consolidated in [Reference - Governance Mapping](../reference/governance-mapping.md).
 
 ## 8. Facilitator notes
 
 - **Timing:** ~half day. Concepts + pre-flight ~30 min, registry export/reconciliation ~75 min, lifecycle ownership workshop ~60 min, exit re-score + backlog ~60 min, evidence hand-off ~15 min.
-- **RACI:** Governance lead = **R/A**; Identity admin = **C** for Entra Agent ID inventory; Security/SOC = **C** for unmanaged/OBO risk; AI developer / maker = **C** for agent provenance; executive sponsor = **I**.
+- **RACI:** Governance lead = R/A; Identity admin = C for Entra Agent ID inventory; Security/SOC = C for unmanaged/OBO risk; AI developer / maker = C for agent provenance; executive sponsor = I.
 - **Common blockers:**
     - *No Agent 365 license* → stop S6 live delivery and route licensing / registry readiness to the prerequisite backlog.
     - *Citadel Governance Hub already deployed* → do not re-deploy it in S6. Capture API Center / Access Contract evidence as a Layer 1 input and reconcile it against Agent 365 / Entra Agent ID records.

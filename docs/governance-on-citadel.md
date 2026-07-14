@@ -2,17 +2,17 @@
 
 ## The simple framing
 
-**Citadel builds the governed road. RVAS writes the traffic rules, assigns owners, checks whether drivers obey them, and keeps the audit log.**
+Citadel builds the governed road. RVAS writes the traffic rules, assigns owners, checks whether drivers obey them, and keeps the audit log.
 
 For a full production path, do not treat RVAS as a second platform. The straight line is:
 
 1. **Deploy or connect AI Hub Gateway / Citadel Governance Hub.**
-2. **Use RVAS to build the governance operating model around it.**
-3. **Leave the customer with evidence, owners, scorecards, and remediation backlog.**
+2. Use RVAS to build the governance operating model around it.
+3. Leave the customer with evidence, owners, scorecards, and remediation backlog.
 
-Citadel answers: **"Where do AI calls flow, and which runtime controls are enforced?"**
+Citadel answers: "Where do AI calls flow, and which runtime controls are enforced?"
 
-RVAS answers: **"Who owns those agents, what data may they use, how are risks tested, and what evidence proves the controls work?"**
+RVAS answers: "Who owns those agents, what data may they use, how are risks tested, and what evidence proves the controls work?"
 
 ## What Citadel provides
 
@@ -35,27 +35,27 @@ RVAS turns that platform into an enterprise governance system.
 
 | RVAS provides | Simple meaning |
 |---|---|
-| **Human ownership** | Every important agent/use case has a sponsor and accountable owner. |
-| **Identity governance** | Agent identity, Conditional Access posture, and lifecycle state are reviewed. |
-| **Data governance** | Purview, DLP, audit, and information protection evidence show what data can be used. |
-| **Security governance** | Defender posture, threat protection, and runtime safety evidence are reviewed by SOC/security owners. |
-| **Evaluation governance** | Quality and safety tests become release gates, not informal checks. |
-| **Red-team governance** | Adversarial findings become tracked risks and remediation actions. |
-| **Control-plane reconciliation** | Citadel/API Center, Agent 365, Entra Agent ID, and owner records are compared so shadow or unowned agents surface. |
-| **Maturity evidence** | The customer can show what improved from baseline to exit score. |
+| Human ownership | Every important agent/use case has a sponsor and accountable owner. |
+| Identity governance | Agent identity, Conditional Access posture, and lifecycle state are reviewed. |
+| Data governance | Purview, DLP, audit, and information protection evidence show what data can be used. |
+| Security governance | Defender posture, threat protection, and runtime safety evidence are reviewed by SOC/security owners. |
+| Evaluation governance | Quality and safety tests become release gates, not informal checks. |
+| Red-team governance | Adversarial findings become tracked risks and remediation actions. |
+| Control-plane reconciliation | Citadel/API Center, Agent 365, Entra Agent ID, and owner records are compared so shadow or unowned agents surface. |
+| Maturity evidence | The customer can show what improved from baseline to exit score. |
 
 ## Practical examples
 
 ### Example 1 - A team wants to use GPT-4.1
 
-**Citadel provides**
+Citadel provides
 
 - A gateway route through APIM.
 - A backend contract for the model.
 - An access contract for the consuming app/team.
 - Token limits, auth, routing, and telemetry.
 
-**RVAS builds governance**
+RVAS builds governance
 
 - Who owns the use case?
 - Which human sponsor approved it?
@@ -67,13 +67,13 @@ RVAS turns that platform into an enterprise governance system.
 
 ### Example 2 - An agent sends sensitive data
 
-**Citadel provides**
+Citadel provides
 
 - Gateway PII masking.
 - Gateway telemetry showing the call path.
 - Runtime policy evidence.
 
-**RVAS builds governance**
+RVAS builds governance
 
 - Purview/DLP review of the data classes involved.
 - Evidence that sensitive-data policy is configured and tested.
@@ -82,13 +82,13 @@ RVAS turns that platform into an enterprise governance system.
 
 ### Example 3 - A jailbreak attempt hits the gateway
 
-**Citadel provides**
+Citadel provides
 
 - Prompt Shields / Content Safety controls.
 - Gateway logs and safety events.
 - The runtime enforcement point.
 
-**RVAS builds governance**
+RVAS builds governance
 
 - SOC triage runbook.
 - Severity and escalation path.
@@ -98,14 +98,14 @@ RVAS turns that platform into an enterprise governance system.
 
 ### Example 4 - Leadership asks "are we governed?"
 
-**Citadel provides**
+Citadel provides
 
 - Platform catalog.
 - Access contracts.
 - Gateway logs.
 - Usage and cost telemetry.
 
-**RVAS builds governance**
+RVAS builds governance
 
 - Baseline and exit maturity scores.
 - Sponsor and owner register.
@@ -116,7 +116,7 @@ RVAS turns that platform into an enterprise governance system.
 
 ## What we do not build here
 
-RVAS does **not** rebuild Citadel:
+RVAS does not rebuild Citadel:
 
 - no duplicate APIM gateway path;
 - no duplicate Content Safety deployment;
@@ -128,8 +128,8 @@ If the needed platform capability belongs to Citadel, the action is to deploy, c
 
 ## The takeaway
 
-Use **Citadel** to establish the governed AI runtime platform.
+Use Citadel to establish the governed AI runtime platform.
 
-Use **RVAS** to make that platform operationally governable: owned, data-aware, security-reviewed, evaluated, red-teamed, reconciled, and evidenced.
+Use RVAS to make that platform operationally governable: owned, data-aware, security-reviewed, evaluated, red-teamed, reconciled, and evidenced.
 
 For deeper architecture details, see the [Citadel + RVAS Playbook](reference/citadel-rvas-playbook.md).

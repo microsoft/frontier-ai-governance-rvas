@@ -3,11 +3,11 @@
 This page is the facilitator's operating manual. Read it before delivering any session.
 
 !!! info "Freshness"
-    **Last reviewed:** 2026-07-06
+    Last reviewed: 2026-07-06
 
 ## Delivery model - done *with* you
 
-Each session is **co-delivered**: one **facilitator** guides the customer's own admins, who hold the tenant privileges and perform the privileged steps. The facilitator drives the narrative, the customer drives the clicks. Nothing is done in a demo tenant - the whole point is that the configuration **stays** in the customer's environment.
+Each session is **co-delivered**: one facilitator guides the customer's own admins, who hold the tenant privileges and perform the privileged steps. The facilitator drives the narrative, the customer drives the clicks. Nothing is done in a demo tenant - the whole point is that the configuration stays in the customer's environment.
 
 ```mermaid
 sequenceDiagram
@@ -54,29 +54,29 @@ Do not turn a governance session into an APIM deployment workshop. The hub is th
 ## Safety protocol (applies to every session)
 
 !!! warning "Report-only / audit-first by default"
-    No session enforces a control on first run. Conditional Access is created **report-only**, DLP in **test/notify** mode, evaluations and red-team scans target a **non-production / test agent**. Promoting to enforcement is a separate, deliberate step the customer takes after reviewing impact.
+    No session enforces a control on first run. Conditional Access is created **report-only**, DLP in test/notify mode, and evaluations and red-team scans target a non-production/test agent. Promoting to enforcement is a separate, deliberate step the customer takes after reviewing impact.
 
 Pre-flight checklist (facilitator confirms before any change):
 
-- [ ] A **break-glass** admin account exists and is **excluded** from any Conditional Access policy created today.
-- [ ] A **change window** and named **approver** are agreed.
+- [ ] A **break-glass** admin account exists and is excluded from any Conditional Access policy created today.
+- [ ] A **change window** and named approver are agreed.
 - [ ] The **SOC is notified** before any red-team / adversarial activity (S5).
 - [ ] The relevant **rollback** (`labs/sNN-*/rollback.md`) is open and understood.
 
-Every change has a documented rollback, and every session ends with a **verification + evidence-capture** step. The captured evidence (exports, logs, policy JSON) becomes the customer's governance record in the takeaway kit's `evidence/` folder.
+Every change has a documented rollback, and every session ends with a verification and evidence-capture step. The captured evidence (exports, logs, policy JSON) becomes the customer's governance record in the takeaway kit's `evidence/` folder.
 
 ## Anatomy of a session page
 
 Each session follows the same 8-part spine:
 
 1. **Outcome & durable artifact** - what stays in your tenant.
-2. **Prerequisites** - required platform state, licenses, roles, regions.
-3. **Concepts** - concise, cited, with Preview/GA caveats.
-4. **Co-delivery walkthrough** - step-by-step, report-only first.
-5. **Verification & evidence capture.**
-6. **Rollback.**
-7. **Governance mapping** - NIST AI RMF / ISO 42001 / EU AI Act line items satisfied.
-8. **Facilitator notes** - timings, RACI, common blockers.
+2. Prerequisites - required platform state, licenses, roles, regions.
+3. Concepts - concise, cited, with Preview/GA caveats.
+4. Co-delivery walkthrough - step-by-step, report-only first.
+5. Verification and evidence capture.
+6. Rollback.
+7. Governance mapping - NIST AI RMF / ISO 42001 / EU AI Act line items satisfied.
+8. Facilitator notes - timings, RACI, common blockers.
 
 ## Anatomy of a takeaway kit
 
@@ -94,4 +94,4 @@ evidence/      templated placeholders for captured proof
 ```
 
 !!! note "How lab assets are validated"
-    Lab assets are **statically validated** in CI (PowerShell/Python/bash lint, JSON schema, mock-target pipeline runs) and carry a <span class="rvas-badge rvas-static">Verified: static-only</span> badge. Live execution is the customer's co-delivery step, not our test.
+    Lab assets are statically validated in CI (PowerShell/Python/bash lint, JSON schema, mock-target pipeline runs) and carry a <span class="rvas-badge rvas-static">Verified: static-only</span> badge. Live execution is the customer's co-delivery step, not our test.

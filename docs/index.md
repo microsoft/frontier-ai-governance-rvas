@@ -1,13 +1,13 @@
 # Frontier AI Governance - RVAS
 
-**Governing AI agents in your tenant, session by session.**
+Governing AI agents in your tenant, session by session.
 
-This is a **co-delivered curriculum** for putting Microsoft AI-agent governance in place inside your own tenant. It is not training for its own sake - each session is a working session that leaves **durable governance artifacts** running in your environment. It operationalizes Microsoft's **[Foundry Citadel Platform](reference/reference-architectures.md)** reference architecture, session by session.
+This is a **co-delivered curriculum** for putting Microsoft AI-agent governance in place inside your own tenant. It is not training for its own sake - each session is a working session that leaves durable governance artifacts running in your environment. It operationalizes Microsoft's [Foundry Citadel Platform](reference/reference-architectures.md) reference architecture, session by session.
 
 For the full production path, RVAS has one straight line: **deploy or connect [AI Hub Gateway / Citadel Governance Hub](reference/citadel-rvas-playbook.md), then build governance on top of it**. S0-S6 govern the agents, data, security posture, evaluation, red-team evidence, and lifecycle records around that platform.
 
 !!! info "Freshness"
-    **Last reviewed:** 2026-07-06 · Capabilities marked <span class="rvas-badge rvas-preview">Preview</span> may change. Pricing is *publicly announced - verify current*.
+    Last reviewed: 2026-07-06 · Capabilities marked <span class="rvas-badge rvas-preview">Preview</span> may change. Pricing is *publicly announced - verify current*.
 
 ## What makes this different
 
@@ -22,7 +22,7 @@ For the full production path, RVAS has one straight line: **deploy or connect [A
 
 ## Before the sessions: what we provide
 
-Start with **[Governance Built on Citadel](governance-on-citadel.md)**. It explains the simple framing:
+Start with [Governance Built on Citadel](governance-on-citadel.md). It explains the simple framing:
 
 - Citadel provides the governed AI runtime platform: gateway, access contracts, API Center, safety controls, PII masking, auth, telemetry, and FinOps.
 - RVAS provides the governance operating model on top: owners, policies, evidence, evaluation gates, red-team findings, registry reconciliation, maturity scoring, and backlog.
@@ -43,10 +43,10 @@ Start with **[Governance Built on Citadel](governance-on-citadel.md)**. It expla
 ## Start here
 
 1. Read **[How to Deliver](how-to-deliver.md)** - the delivery model, safety protocol, and room setup.
-2. Read **[Governance Built on Citadel](governance-on-citadel.md)** - the practical framing for what Citadel provides and what RVAS builds on top.
-3. Read **[Citadel + RVAS Playbook](reference/citadel-rvas-playbook.md)** - the detailed cooperation model for the deployable Governance Hub and RVAS operating model.
-4. Run the **[Readiness Assessment](assessment/index.md)** with the customer to baseline maturity and prioritize sessions.
+2. Read [Governance Built on Citadel](governance-on-citadel.md) - the practical framing for what Citadel provides and what RVAS builds on top.
+3. Read [Citadel + RVAS Playbook](reference/citadel-rvas-playbook.md) - the detailed cooperation model for the deployable Governance Hub and RVAS operating model.
+4. Run the [Readiness Assessment](assessment/index.md) with the customer to baseline maturity and prioritize sessions.
 5. Deliver the sessions in the recommended order (or the order the assessment prioritizes).
 
 !!! note "Scope"
-    All content references only **publicly documented** Microsoft capabilities, with citations in the [Reference](reference/index.md) section.
+    All content references only publicly documented Microsoft capabilities, with citations in the [Reference](reference/index.md) section.

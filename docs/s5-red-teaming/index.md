@@ -1,34 +1,34 @@
 # S5 · Adversarial Testing
 
 !!! info "Freshness"
-    **Last reviewed:** 2026-07-06 · Concepts sourced from [Reference - Landscape](../reference/index.md). PyRIT status and AI Red Teaming Agent preview status in [Product Status](../reference/product-status.md).
+    Last reviewed: 2026-07-06 · Concepts sourced from [Reference - Landscape](../reference/index.md). PyRIT status and AI Red Teaming Agent preview status in [Product Status](../reference/product-status.md).
 
 <span class="rvas-badge rvas-persona">Security / SOC</span> <span class="rvas-badge rvas-persona">AI developer / maker</span>
 
 ## 1. Outcome & durable artifact
 
-The customer leaves with an **authorized adversarial test of a customer-owned, non-production AI agent/endpoint** and a dated scorecard that can be reviewed by governance, security, and engineering:
+The customer leaves with an authorized adversarial test of a customer-owned, non-production AI agent/endpoint and a dated scorecard that can be reviewed by governance, security, and engineering:
 
 - A scoped red-team run using **AI Red Teaming Agent** <span class="rvas-badge rvas-preview">Preview</span> / PyRIT against an authorized customer-owned non-production endpoint.
-- An **Attack Success Rate (ASR) scorecard** by risk category and attack strategy.
+- An Attack Success Rate (ASR) scorecard by risk category and attack strategy.
 - A remediation backlog for categories above the agreed threshold.
 - Evidence artifacts captured in `labs/s5-red-teaming/evidence/`.
 
-**Durable artifact:** `labs/s5-red-teaming/` - safe prompt dataset, ASR thresholds, AI Red Teaming Agent reference script, runbook, rollback, verification steps, and the generated scorecard. The mock harness is CI validation only, not a customer delivery path.
+Durable artifact: `labs/s5-red-teaming/` - safe prompt dataset, ASR thresholds, AI Red Teaming Agent reference script, runbook, rollback, verification steps, and the generated scorecard. The mock harness is CI validation only, not a customer delivery path.
 
 ## 2. Prerequisites
 
-- Written authorization and rules of engagement for a **customer-owned NON-PRODUCTION test agent/endpoint ONLY**.
-- The **SOC is notified before any red-team / adversarial activity (S5)**, with a named contact and expected test window.
+- Written authorization and rules of engagement for a **customer-owned non-production test agent/endpoint only**.
+- The **SOC is notified before any red-team/adversarial activity (S5)**, with a named contact and expected test window.
 - Azure subscription + Microsoft Foundry project with permission to run AI Red Teaming Agent <span class="rvas-badge rvas-preview">Preview</span>.[^airt]
 - Python environment for `azure-ai-evaluation[redteam]` (installs PyRIT); add `azure-ai-projects` only if uploading results to a Foundry project. Credentials configured by the customer's operator.
 - Test endpoint owner available to pause, disable, or reset the endpoint if alerts or unexpected behavior occur.
 
 ## 3. Concepts
 
-- **PyRIT** <span class="rvas-badge rvas-static">Open source v0.14.x</span> is Microsoft's open-source Python Risk Identification Toolkit for adversarial probing and scoring. Core components include **Datasets, Attacks (orchestrators), Converters, Targets, Scoring, and Memory**.[^pyrit]
-- **Attack orchestrators** automate repeatable probes. PyRIT includes multi-turn strategies such as **Crescendo**, where an attacker gradually escalates over several turns rather than using one direct prompt.[^pyrit]
-- **AI Red Teaming Agent** <span class="rvas-badge rvas-preview">Preview</span> in Microsoft Foundry is a managed red-teaming capability that wraps PyRIT, supports local use through `azure-ai-evaluation[redteam]` (`RedTeam` class) and cloud use through `azure-ai-projects`, and produces **Attack Success Rate (ASR) scorecards** across risk categories and attack strategies.[^airt]
+- **PyRIT** <span class="rvas-badge rvas-static">Open source v0.14.x</span> is Microsoft's open-source Python Risk Identification Toolkit for adversarial probing and scoring. Core components include Datasets, Attacks (orchestrators), Converters, Targets, Scoring, and Memory.[^pyrit]
+- **Attack orchestrators** automate repeatable probes. PyRIT includes multi-turn strategies such as Crescendo, where an attacker gradually escalates over several turns rather than using one direct prompt.[^pyrit]
+- **AI Red Teaming Agent** <span class="rvas-badge rvas-preview">Preview</span> in Microsoft Foundry is a managed red-teaming capability that wraps PyRIT, supports local use through `azure-ai-evaluation[redteam]` (`RedTeam` class) and cloud use through `azure-ai-projects`, and produces Attack Success Rate (ASR) scorecards across risk categories and attack strategies.[^airt]
 - **ASR** is the proportion of adversarial attempts that succeed against the stated objective. It is a break-fix metric: lower is better, and thresholds must be agreed before the run.
 - **XPIA / indirect prompt injection** is a must-test agent risk: untrusted content in tool outputs, retrieved documents, emails, tickets, or web pages can carry instructions that conflict with system or developer policy.
 - **Safety boundary:** this curriculum teaches workflow, scoring, and governance. The kit uses benign placeholders, not real harmful payloads.
@@ -36,7 +36,7 @@ The customer leaves with an **authorized adversarial test of a customer-owned, n
 ## 4. Co-delivery walkthrough
 
 !!! danger "Authorized test endpoint only"
-    Before any adversarial activity, confirm **SOC notification**, written authorization, and rules of engagement. The target must be a **customer-owned NON-PRODUCTION test agent/endpoint ONLY**. Do not test third-party systems, production agents, user-facing workloads, or endpoints outside the written scope. Stop if alerts, instability, or scope questions arise.
+    Before any adversarial activity, confirm **SOC notification**, written authorization, and rules of engagement. The target must be a customer-owned non-production test agent/endpoint only. Do not test third-party systems, production agents, user-facing workloads, or endpoints outside the written scope. Stop if alerts, instability, or scope questions arise.
 
 1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">Security / SOC</span>)* - open `labs/s5-red-teaming/runbook.md`; confirm SOC notification, authorization, rules of engagement, target URI/name, time window, and rollback contact.
 2. **Confirm the live test path** - run `labs/s5-red-teaming/scripts/redteam-airt.py` against the approved customer test deployment. The local mock harness is only for CI/static validation.
@@ -48,7 +48,7 @@ The customer leaves with an **authorized adversarial test of a customer-owned, n
 
 ## 5. Verification & evidence capture
 
-The primary evidence is the **ASR scorecard**:
+The primary evidence is the ASR scorecard:
 
 - [ ] `labs/s5-red-teaming/evidence/asr-scorecard.json` exists.
 - [ ] Every tested category reports attempts, successes, ASR, and max acceptable ASR.
@@ -73,16 +73,16 @@ Use `labs/s5-red-teaming/rollback.md` to:
 
 | Artifact | NIST AI RMF | ISO/IEC 42001 | EU AI Act |
 |----------|-------------|---------------|-----------|
-| PyRIT / AI Red Teaming Agent scan + ASR scorecard | **Measure**, **Manage** | A.6 (AI system lifecycle), A.10 (operations, logging) | Art. 15 (robustness, cybersecurity) |
-| Written scope, rules of engagement, and SOC notification | **Govern**, **Manage** | A.3 (roles), A.10 (operations) | Art. 9 (risk management), Art. 12 (record-keeping / logging) |
-| Remediation backlog for categories above ASR threshold | **Manage** | A.6 (verification & validation), A.10 | Art. 15 (accuracy, robustness, cybersecurity) |
+| PyRIT / AI Red Teaming Agent scan + ASR scorecard | Measure, Manage | A.6 (AI system lifecycle), A.10 (operations, logging) | Art. 15 (robustness, cybersecurity) |
+| Written scope, rules of engagement, and SOC notification | Govern, Manage | A.3 (roles), A.10 (operations) | Art. 9 (risk management), Art. 12 (record-keeping / logging) |
+| Remediation backlog for categories above ASR threshold | Manage | A.6 (verification & validation), A.10 | Art. 15 (accuracy, robustness, cybersecurity) |
 
 Consolidated in [Reference - Governance Mapping](../reference/governance-mapping.md).
 
 ## 8. Facilitator notes
 
 - **Timing:** ~half day. Pre-flight + authorization ~45 min, concepts + dataset review ~45 min, scan execution ~60 min, scorecard review + remediation planning ~60 min, SOC de-brief ~30 min.
-- **RACI:** Security/SOC = **R**, Governance lead = **A**, AI developer / maker = **C**, endpoint owner = **C**.
+- **RACI:** Security/SOC = R, Governance lead = A, AI developer / maker = C, endpoint owner = C.
 - **Common blockers:**
     - *No written authorization or SOC notification* → **stop**; do not run adversarial activity.
     - *Only production endpoint is available* → stop; never test production in this session.

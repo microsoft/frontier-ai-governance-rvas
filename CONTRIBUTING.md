@@ -13,6 +13,12 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/)
 or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
+## Documentation authoring
+
+Use bold only when it adds semantic or navigational value, such as naming a defined
+term, an explicit action or decision, or a short warning. Use at most one bold span
+in a prose paragraph or list item; do not use bold for decorative emphasis.
+
 ## Content architecture contract
 
 Challenge content lives under `modules/<moduleId>/challenges/<slug>/`. The build reads

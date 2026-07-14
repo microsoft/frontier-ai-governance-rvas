@@ -1,7 +1,7 @@
 # Reference - Product & Feature Status
 
 !!! info "Freshness"
-    **Last reviewed:** 2026-07-06 · Status changes monthly. Always re-verify against Microsoft Learn before a delivery. Pricing is *publicly announced - verify current*.
+    Last reviewed: 2026-07-06 · Status changes monthly. Always re-verify against Microsoft Learn before a delivery. Pricing is *publicly announced - verify current*.
 
 | Layer | Product / asset | Status | Source |
 |-------|-----------------|--------|--------|
