@@ -23,13 +23,11 @@ Durable artifact: `labs/s4-evaluation/` - dataset, thresholds, Foundry evaluatio
 - GitHub repository access to add a pull-request evaluation gate using `microsoft/ai-agent-evals`.[^aievals]
 - OpenTelemetry gen-ai tracing enabled if the customer will connect evaluation results to production monitoring.[^foundry]
 
-## 3. Concepts
+## 3. Why this session
 
-- <span class="rvas-badge rvas-ga">GA</span> **Foundry Evaluations** are exposed through the `azure-ai-evaluation` Python SDK. Evaluator families include quality (relevance, coherence, fluency, groundedness, similarity, F1), NLP (BLEU, ROUGE, METEOR), risk and safety (violence, sexual, self-harm, hate/unfairness, protected material, indirect attack / XPIA), and agent-specific checks (intent resolution, tool-call accuracy, task adherence). Some individual evaluators remain <span class="rvas-badge rvas-preview">Preview</span>; verify status before production use.[^foundry]
-- <span class="rvas-badge rvas-ga">GA</span> **Quality and NLP evaluators** can be run as repeatable batch tests over a fixed dataset. This makes quality measurable before a prompt, tool, or model change ships.[^foundry]
-- <span class="rvas-badge rvas-preview">Preview</span> **Risk/safety and continuous evaluation** normally require an Azure AI project plus a judge model. Treat the first rollout as observe-only: collect failures, tune thresholds, and document exceptions before blocking releases.[^foundry]
-- **CI/CD gates are governance controls.** The `microsoft/ai-agent-evals` GitHub Action runs evaluations on pull requests and can fail the build on score regression, turning the evaluation suite into a release gate.[^aievals]
-- **Continuous evaluation closes the loop.** Production monitoring can combine the EvaluationRule API with OpenTelemetry gen-ai tracing so live agent behavior feeds dashboards, trend analysis, and future regression datasets.[^foundry]
+An evaluation makes expected agent behavior repeatable and reviewable before a prompt, model, or tool change reaches users. S4 turns that expectation into a dataset, scorecard, and initially non-blocking release check that the customer can tune over time.
+
+Read the [S4 Concepts](concepts.md) for evaluation datasets, metrics, CI gates, and the production-feedback loop.
 
 ## 4. Co-delivery walkthrough
 
@@ -67,7 +65,7 @@ Detailed steps are in `labs/s4-evaluation/rollback.md`.
 
 ## 7. Facilitator notes
 
-- **Timing:** ~half day. Concepts + safety ~45 min, dataset/threshold review ~60 min, Foundry evaluation evidence ~45 min, CI design ~75 min, wrap-up ~30 min.
+- **Timing:** ~half day. Session context + safety ~45 min, dataset/threshold review ~60 min, Foundry evaluation evidence ~45 min, CI design ~75 min, wrap-up ~30 min.
 - **RACI:** AI developer / maker = R, Governance lead = A, Security / SOC = C (risk/safety thresholds), Compliance / Data admin = C (dataset handling), Identity admin = I.
 - **Common blockers:**
     - *No Azure AI project or judge model* → stop S4 live delivery and route Foundry/evaluator provisioning to the prerequisite backlog.
@@ -76,5 +74,5 @@ Detailed steps are in `labs/s4-evaluation/rollback.md`.
     - *CI secrets unavailable* → keep the GitHub Action as a documented snippet and run the local mock gate in PR validation.
 - **Hand-off:** S4 evidence feeds S5 adversarial testing and S6 operationalization; failed cases become regression rows for the next evaluation dataset.
 
-[^foundry]: Microsoft Learn - [Foundry Observability](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/observability); Azure SDK for Python - [`azure-ai-evaluation` README](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/evaluation/azure-ai-evaluation/README.md).
+[^foundry]: Microsoft Learn - [Foundry Observability](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability); Azure SDK for Python - [`azure-ai-evaluation` README](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/evaluation/azure-ai-evaluation/README.md).
 [^aievals]: GitHub Marketplace / repository - [`microsoft/ai-agent-evals`](https://github.com/microsoft/ai-agent-evals), a GitHub Action for running agent evaluations in CI/CD.

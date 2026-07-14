@@ -23,15 +23,11 @@ Durable artifact: `labs/s1-identity/` - the inventory export, report-only Condit
 - A **break-glass** account confirmed and excluded from the new policy.
 - Microsoft Graph PowerShell SDK (`Install-Module Microsoft.Graph`) on the operator workstation.
 
-## 3. Concepts
+## 3. Why this session
 
-- **Agents are identities, not app registrations.** Microsoft Entra Agent ID models each agent with four object types - blueprint, blueprint principal, agent identity, and the agent's user account - and requires a human sponsor accountable for its lifecycle.[^entra]
-- **Provisioning.** Agent identities are typically created when agents are built in surfaces such as Copilot Studio and Microsoft Foundry - so they can appear in the tenant without a deliberate governance step. Confirm the current behavior for each surface you use; inventory is therefore the first control.[^entra]
-- **Existing controls extend to agents - via the workload-identity path.** Because agents are service principals, Conditional Access governs them through Workload Identity Conditional Access (targeting service principals under `clientApplications`), not the user/group conditions used for people. Agents are non-interactive, so policy design differs (no MFA prompt; gate on network, risk, and app instead), and workload-identity CA requires a Microsoft Entra Workload ID Premium license. Verify the current agent-CA experience, which is still evolving.[^entra]
-- **Report-only is the safe default.** A report-only Conditional Access policy logs what *would* happen without blocking anything - essential when the target is a non-interactive identity that could break automation if wrongly scoped.
-- **Monitoring ≠ control.** Agents executing on-behalf-of a user (OBO) without their own Agent ID may be visible but not fully governable - flag these in the inventory.[^a365]
-- **Gateway authentication is a separate enforcement point.** S1 governs agents in the tenant identity plane: Agent ID objects, sponsors, and report-only Conditional Access. If the customer also uses [AI Hub Gateway / Citadel Governance Hub (`citadel-v1`)](https://aka.ms/ai-hub-gateway), APIM-layer Entra/JWT validation and app-role authorization protect gateway access at runtime; treat that as complementary platform enforcement, not a replacement for Agent ID governance.[^citadel]
-- **This is Citadel Layer 3.** Entra Agent ID is Layer 3 (Agent Identity) of the Foundry Citadel reference architecture - see [Reference Architectures](../reference/reference-architectures.md).[^citadel]
+An agent cannot be governed reliably until the customer can identify it, name its human sponsor, and observe how a proposed access policy would affect it. S1 creates that evidence first and keeps Conditional Access in report-only mode while the customer learns its impact.
+
+Read the [S1 Concepts](concepts.md) for Agent ID, workload-identity Conditional Access, report-only policy, OBO, and gateway-boundary context.
 
 ## 4. Co-delivery walkthrough
 
@@ -67,7 +63,7 @@ This kit makes no tenant changes. If the customer independently applies a report
 
 ## 7. Facilitator notes
 
-- **Timing:** ~half day. Pre-flight + concepts ~45 min, inventory + sponsor register ~60 min, policy authoring + report-only creation ~60 min, verification/evidence ~30 min.
+- **Timing:** ~half day. Pre-flight + session context ~45 min, inventory + sponsor register ~60 min, policy authoring + report-only creation ~60 min, verification/evidence ~30 min.
 - **RACI:** Identity admin = R, Governance lead = A, Security/SOC = C (sign-in risk), AI developer = I.
 - **Common blockers:**
     - *No agents in the tenant yet* → stop S1 live delivery and route agent onboarding / Citadel deployment readiness to the prerequisite backlog.
@@ -78,5 +74,3 @@ This kit makes no tenant changes. If the customer independently applies a report
 - **Hand-off:** the inventory feeds S6 (Agent 365 registry reconciliation); the report-only policy is the customer's to promote to enforce after impact review.
 
 [^entra]: Microsoft Learn - [What is Microsoft Entra Agent ID?](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id); [Agent ID governance overview](https://learn.microsoft.com/en-us/entra/id-governance/agent-id-governance-overview).
-[^a365]: Microsoft 365 Blog - *Microsoft Agent 365: the control plane for AI agents* (2025-11-18); Microsoft Learn - [Agent 365 Overview](https://learn.microsoft.com/en-us/microsoft-agent-365/overview).
-[^citadel]: Microsoft - [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-platform) (aka.ms/foundry-citadel); [Entra Agent ID governance](https://learn.microsoft.com/en-us/entra/id-governance/agent-id-governance-overview) - Citadel Layer 3. For gateway-layer auth, see [AI Hub Gateway / Citadel Governance Hub](https://aka.ms/ai-hub-gateway), [Entra ID auth validation](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/entraid-auth-validation.md), and [JWT client identity & permissions](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/jwt-client-identity-permissions.md). See [Reference Architectures](../reference/reference-architectures.md).

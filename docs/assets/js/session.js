@@ -3,6 +3,7 @@
   'use strict';
 
   const REPO = 'https://github.com/microsoft/frontier-ai-governance-rvas';
+  const view = document.body.dataset.sessionView === 'concepts' ? 'concepts' : 'runbook';
 
   async function init() {
     const slug = FP.qp('s');
@@ -20,7 +21,7 @@
     if (idx === -1) return fail('Unknown session: ' + slug);
     const s = sessions[idx];
 
-    document.title = `${s.code} · ${s.title} — Frontier AI Governance`;
+    document.title = `${s.code} · ${s.title}${view === 'concepts' ? ' Concepts' : ''} — Frontier AI Governance`;
     document.getElementById('sessionHero').style.setProperty('--mod-color', s.accent);
 
     const crumb = document.getElementById('sessionCrumb');
@@ -29,10 +30,11 @@
     const chip = document.getElementById('sessionChip');
     if (chip) { chip.textContent = s.code; chip.style.display = 'inline-flex'; }
 
-    document.getElementById('sessionTitle').textContent = s.title;
+    document.getElementById('sessionTitle').textContent = `${s.title}${view === 'concepts' ? ' Concepts' : ''}`;
 
     renderMeta(s);
     renderFacts(s);
+    renderSessionPages(s);
     renderKit(s);
     renderSessionNav(sessions, idx);
     await renderGuide(slug, s);
@@ -55,6 +57,27 @@
     ].join('');
   }
 
+  function renderSessionPages(s) {
+    const runbookHref = `session.html?s=${encodeURIComponent(s.slug)}`;
+    const conceptsHref = `session-concepts.html?s=${encodeURIComponent(s.slug)}`;
+    const links = [
+      { label: 'Runbook', href: runbookHref, active: view === 'runbook' },
+      { label: 'Concepts', href: conceptsHref, active: view === 'concepts' },
+    ];
+    const nav = document.getElementById('sessionViewNav');
+    if (nav) {
+      nav.innerHTML = links.map((link) =>
+        `<a href="${link.href}"${link.active ? ' aria-current="page"' : ''}>${link.label}</a>`
+      ).join('');
+    }
+    const sidebar = document.getElementById('sessionPageNav');
+    if (sidebar) {
+      sidebar.innerHTML = `<ul class="session-page-list">${links.map((link) =>
+        `<li><a href="${link.href}"${link.active ? ' aria-current="page"' : ''}>${link.label}</a></li>`
+      ).join('')}</ul>`;
+    }
+  }
+
   function row(k, v) {
     return `<div class="fact-row"><span class="fact-k">${FP.esc(k)}</span><span class="fact-v">${FP.esc(v)}</span></div>`;
   }
@@ -71,10 +94,15 @@
     const next = sessions[idx + 1];
     let html = '';
     if (prev) {
-      html += `<a href="session.html?s=${encodeURIComponent(prev.slug)}"><span class="snav-dir">← ${FP.esc(prev.code)}</span><span class="snav-title">${FP.esc(prev.title)}</span></a>`;
+      html += `<a href="${pageHref(prev.slug)}"><span class="snav-dir">← ${FP.esc(prev.code)}</span><span class="snav-title">${FP.esc(prev.title)}</span></a>`;
     }
     if (next) {
-      html += `<a class="snav-next" href="session.html?s=${encodeURIComponent(next.slug)}"><span class="snav-dir">${FP.esc(next.code)} →</span><span class="snav-title">${FP.esc(next.title)}</span></a>`;
+      html += `<a class="snav-next" href="${pageHref(next.slug)}"><span class="snav-dir">${FP.esc(next.code)} →</span><span class="snav-title">${FP.esc(next.title)}</span></a>`;
+    }
+
+    function pageHref(slug) {
+      const page = view === 'concepts' ? 'session-concepts.html' : 'session.html';
+      return `${page}?s=${encodeURIComponent(slug)}`;
     }
     nav.innerHTML = html;
   }
@@ -82,28 +110,32 @@
   async function renderGuide(slug, s) {
     const body = document.getElementById('guideBody');
     try {
-      const res = await fetch(`assets/data/pages/${slug}.md`, { cache: 'no-cache' });
-      if (!res.ok) throw new Error('Could not load session guide (' + res.status + ')');
+      const suffix = view === 'concepts' ? '-concepts' : '';
+      const res = await fetch(`assets/data/pages/${slug}${suffix}.md`, { cache: 'no-cache' });
+      if (!res.ok) throw new Error('Could not load session content (' + res.status + ')');
       const md = await res.text();
       FP.renderMd(md, body);
       buildSpine(body);
       if (FP.enhanceDiagrams) FP.enhanceDiagrams(body);
       appendReviewed(body, s);
     } catch (e) {
-      body.innerHTML = `<div class="empty" role="alert"><strong>Could not load the session guide.</strong><br>${FP.esc(e.message)}</div>`;
+      const label = view === 'concepts' ? 'session concepts' : 'session guide';
+      body.innerHTML = `<div class="empty" role="alert"><strong>Could not load ${label}.</strong><br>${FP.esc(e.message)}</div>`;
     }
   }
 
   // Subtle "last reviewed" line at the very bottom of the guide, replacing the
   // former prominent top-of-page Freshness alert.
   function appendReviewed(body, s) {
-    if (!s || !s.reviewed) return;
-    const note = s.reviewedNote ? ` · ${FP.renderInlineMd(s.reviewedNote)}` : '';
+    const reviewed = view === 'concepts' ? s.conceptsReviewed : s.reviewed;
+    const reviewedNote = view === 'concepts' ? s.conceptsReviewedNote : s.reviewedNote;
+    if (!s || !reviewed) return;
+    const note = reviewedNote ? ` · ${FP.renderInlineMd(reviewedNote)}` : '';
     const el = document.createElement('footer');
     el.className = 'guide-meta';
     el.innerHTML =
       `<span class="guide-meta-k">Last reviewed</span> ` +
-      `<time datetime="${FP.esc(s.reviewed)}">${FP.esc(s.reviewed)}</time>${note}`;
+      `<time datetime="${FP.esc(reviewed)}">${FP.esc(reviewed)}</time>${note}`;
     body.appendChild(el);
   }
 

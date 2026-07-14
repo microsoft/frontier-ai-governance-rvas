@@ -23,16 +23,11 @@ Durable artifact: `labs/s6-control-plane/` - registry export/reference script, o
 - Governance lead empowered to assign lifecycle state and accountable owner for each finding.
 - A pre-agreed evidence location: `labs/s6-control-plane/evidence/`.
 
-## 3. Concepts
+## 3. Why this session
 
-- **Agent 365 is the enterprise control plane.** At launch Microsoft described capability areas including Registry, Access Control, Visualization, Interoperability, and Security; Microsoft Learn also frames the work as Observe / Govern / Secure. Treat the exact pillar list as evolving and verify against current docs.[^a365]
-- <span class="rvas-badge rvas-ga">GA</span> **Agent 365 GA:** May 1, 2026. Pricing has been publicly announced around $15/user/month; always verify current licensing before a customer delivery.[^a365]
-- <span class="rvas-badge rvas-preview">Preview</span> Some Agent 365 expansion capabilities, such as AI teammate experiences and cross-cloud registry sync, may still be preview; do not make them delivery prerequisites.[^a365]
-- **Five pillars, not six.** Microsoft Entra Agent ID is the identity technology under Access Control and Security - not a separate Agent 365 pillar.[^entra]
-- <span class="rvas-badge rvas-ga">GA</span> **Entra Agent ID** provides first-class agent identities with human sponsors and lifecycle governance. The S6 registry must reconcile back to the S1 inventory.[^entra]
-- **Monitoring ≠ control.** Agents executing on-behalf-of a user (OBO) without their own Entra Agent ID may be visible in telemetry but not fully controllable. The registry must flag them for remediation.[^a365]
-- **Shadow agents** are agents not yet represented in the registry. Discovery and reconciliation are pillar 1's job: if the S1 inventory, maker list, or workshop identifies an agent absent from Agent 365, it becomes a shadow-agent finding.
-- **This bridges Citadel Layer 1 and Layer 3.** API Center is the AI Registry component inside the Governance Hub (Layer 1), while Agent 365 / Entra Agent ID is the Agent Identity (Layer 3) control plane. S6 reconciles those registry and identity views into an operational governance record. The deployable [AI Hub Gateway / Citadel Governance Hub (`citadel-v1`)](https://aka.ms/ai-hub-gateway) accelerator is the Azure-plane Layer 1 implementation - see [Reference Architectures](../reference/reference-architectures.md).[^citadel]
+Governance becomes operational only when the customer can reconcile its known agents, sponsors, lifecycle state, and unresolved gaps into one accountable record. S6 brings the registry and identity views together, re-runs the baseline, and turns residual gaps into an owned backlog.
+
+Read the [S6 Concepts](concepts.md) for control-plane reconciliation, lifecycle ownership, shadow and OBO agents, and Citadel's adjacent registry view.
 
 ## 4. Co-delivery walkthrough
 
@@ -76,7 +71,7 @@ If the customer later writes lifecycle state, owner, or access-control metadata 
 
 ## 7. Facilitator notes
 
-- **Timing:** ~half day. Concepts + pre-flight ~30 min, registry export/reconciliation ~75 min, lifecycle ownership workshop ~60 min, exit re-score + backlog ~60 min, evidence hand-off ~15 min.
+- **Timing:** ~half day. Session context + pre-flight ~30 min, registry export/reconciliation ~75 min, lifecycle ownership workshop ~60 min, exit re-score + backlog ~60 min, evidence hand-off ~15 min.
 - **RACI:** Governance lead = R/A; Identity admin = C for Entra Agent ID inventory; Security/SOC = C for unmanaged/OBO risk; AI developer / maker = C for agent provenance; executive sponsor = I.
 - **Common blockers:**
     - *No Agent 365 license* → stop S6 live delivery and route licensing / registry readiness to the prerequisite backlog.
@@ -87,5 +82,3 @@ If the customer later writes lifecycle state, owner, or access-control metadata 
 - **Close the loop:** S6 proves the lift opened in S0 by re-running the exact same seven-domain, 1-4 maturity instrument and turning remaining gaps into an owned backlog.
 
 [^a365]: Microsoft Learn - [Agent 365 Overview](https://learn.microsoft.com/en-us/microsoft-agent-365/overview); Microsoft 365 Blog - *Microsoft Agent 365: the control plane for AI agents* (2025-11-18); Microsoft Security Blog - *Agent 365 now generally available* (2026-05-01).
-[^entra]: Microsoft Learn - [What is Microsoft Entra Agent ID?](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id); [Agent ID governance overview](https://learn.microsoft.com/en-us/entra/id-governance/agent-id-governance-overview).
-[^citadel]: Microsoft - [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-platform) (aka.ms/foundry-citadel); [AI Hub Gateway / Citadel Governance Hub](https://aka.ms/ai-hub-gateway) - Citadel Layer 1 (Governance Hub), API Center AI Registry, and Access Contracts. See [Reference Architectures](../reference/reference-architectures.md).

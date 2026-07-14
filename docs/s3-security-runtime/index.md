@@ -24,15 +24,11 @@ Durable artifact: `labs/s3-security-runtime/` - read-only Defender export script
 - AI Hub Gateway / Citadel Governance Hub deployed or pre-provisioned, with gateway endpoint and Content Safety configuration available for evidence.
 - A **customer-owned non-production/test endpoint** for any runtime prompt tests.
 
-## 3. Concepts
+## 3. Why this session
 
-- **AI-SPM is posture before runtime.** Microsoft Defender for Cloud AI Security Posture Management <span class="rvas-badge rvas-ga">GA</span> discovers AI workloads, builds an AI-BOM, surfaces misconfigurations and vulnerabilities in AI stacks such as Azure OpenAI and Foundry, and highlights attack paths that connect identity, network, data, and model exposure.[^defender]
-- **AI Threat Protection is runtime detection.** Defender for Cloud AI Threat Protection <span class="rvas-badge rvas-ga">GA</span> raises alerts for AI workloads, including jailbreak / prompt-injection signals, sensitive-data leakage, and wallet-abuse patterns. Alerts flow to Defender XDR for SOC correlation.[^defender]
-- **Content Safety is the runtime safety floor.** Azure AI Content Safety Prompt Shields <span class="rvas-badge rvas-ga">GA</span> detect direct attacks and indirect cross-prompt injection attacks (XPIA); related capabilities include harm categories, protected-material detection, and groundedness detection <span class="rvas-badge rvas-preview">Preview</span>.[^contentsafety]
-- **Content Safety lives at the gateway.** [AI Hub Gateway / Citadel Governance Hub (`citadel-v1`)](https://aka.ms/ai-hub-gateway) owns Prompt Shields and runtime safety deployment. RVAS verifies and evidences that configuration; it does not deploy a duplicate Content Safety path.[^citadel]
-- **Control plane split matters.** The Content Safety resource and Azure-plane infrastructure are deployed through Citadel Governance Hub. Defender plan enablement, AI Threat Protection onboarding, and connecting Content Safety signals to Defender may require Defender for Cloud, Graph, CLI, or portal steps; the runbook captures those customer-owned actions.
-- **Audit-first is safer than block-first.** S3 verifies detection and alert routing before any production enforcement. Runtime tests are scoped to a customer-owned test endpoint/string, never a live user workflow.
-- **This is Citadel Layer 4.** Defender and Content Safety form the Security Fabric (Layer 4) of the Foundry Citadel reference architecture - see [Reference Architectures](../reference/reference-architectures.md).[^citadel]
+Runtime protection needs both a posture view of the environment and a tested path for detecting and triaging suspicious behavior. S3 records that security evidence and validates alert-first controls without changing production traffic.
+
+Read the [S3 Concepts](concepts.md) for AI-SPM, runtime detection, prompt injection, Content Safety, and the alert-first operating model.
 
 ## 4. Co-delivery walkthrough
 
@@ -74,7 +70,7 @@ Because S3 is audit-first, rollback should not affect production traffic unless 
 
 ## 7. Facilitator notes
 
-- **Timing:** ~half day. Pre-flight + concepts ~45 min, Citadel runtime safety evidence ~30 min, Defender AI-SPM export + AI Threat Protection review ~75 min, Prompt Shield test + evidence ~45 min.
+- **Timing:** ~half day. Pre-flight + session context ~45 min, Citadel runtime safety evidence ~30 min, Defender AI-SPM export + AI Threat Protection review ~75 min, Prompt Shield test + evidence ~45 min.
 - **RACI:** Security/SOC = R, Governance lead = A, AI developer / maker = C (test endpoint), Compliance / Data admin = C (sensitive data findings), Identity admin = I.
 - **Common blockers:**
     - *Defender plan not enabled* → stop S3 runtime validation and capture a plan-enablement action item.
@@ -84,7 +80,3 @@ Because S3 is audit-first, rollback should not affect production traffic unless 
     - *Only production endpoint available* → do not test; create or nominate a non-production endpoint/string.
     - *Preview capability needed* → mark it explicitly and verify status against Microsoft Learn before delivery.
 - **Hand-off:** S3 findings feed S5 adversarial testing scope and S6 control-plane reconciliation.
-
-[^defender]: Microsoft Learn - [AI security posture management](https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-security-posture); [AI threat protection](https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-threat-protection).
-[^contentsafety]: Microsoft Learn - [Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection).
-[^citadel]: Microsoft - [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-platform) (aka.ms/foundry-citadel) - Defender + Purview + Content Safety = Citadel Layer 4 (Security Fabric). See [Reference Architectures](../reference/reference-architectures.md).

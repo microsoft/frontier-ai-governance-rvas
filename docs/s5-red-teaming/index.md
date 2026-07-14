@@ -24,14 +24,11 @@ Durable artifact: `labs/s5-red-teaming/` - safe prompt dataset, ASR thresholds, 
 - Python environment for `azure-ai-evaluation[redteam]` (installs PyRIT); add `azure-ai-projects` only if uploading results to a Foundry project. Credentials configured by the customer's operator.
 - Test endpoint owner available to pause, disable, or reset the endpoint if alerts or unexpected behavior occur.
 
-## 3. Concepts
+## 3. Why this session
 
-- **PyRIT** <span class="rvas-badge rvas-static">Open source v0.14.x</span> is Microsoft's open-source Python Risk Identification Toolkit for adversarial probing and scoring. Core components include Datasets, Attacks (orchestrators), Converters, Targets, Scoring, and Memory.[^pyrit]
-- **Attack orchestrators** automate repeatable probes. PyRIT includes multi-turn strategies such as Crescendo, where an attacker gradually escalates over several turns rather than using one direct prompt.[^pyrit]
-- **AI Red Teaming Agent** <span class="rvas-badge rvas-preview">Preview</span> in Microsoft Foundry is a managed red-teaming capability that wraps PyRIT, supports local use through `azure-ai-evaluation[redteam]` (`RedTeam` class) and cloud use through `azure-ai-projects`, and produces Attack Success Rate (ASR) scorecards across risk categories and attack strategies.[^airt]
-- **ASR** is the proportion of adversarial attempts that succeed against the stated objective. It is a break-fix metric: lower is better, and thresholds must be agreed before the run.
-- **XPIA / indirect prompt injection** is a must-test agent risk: untrusted content in tool outputs, retrieved documents, emails, tickets, or web pages can carry instructions that conflict with system or developer policy.
-- **Safety boundary:** this curriculum teaches workflow, scoring, and governance. The kit uses benign placeholders, not real harmful payloads.
+Adversarial testing is useful only when the target, success criteria, safety limits, and response path are agreed before the first probe. S5 creates a repeatable, authorized way to measure weaknesses and assign remediation without testing production or third-party systems.
+
+Read the [S5 Concepts](concepts.md) for PyRIT, Attack Success Rate, indirect prompt injection, and the managed versus open-source testing paths.
 
 ## 4. Co-delivery walkthrough
 
@@ -71,7 +68,7 @@ Use `labs/s5-red-teaming/rollback.md` to:
 
 ## 7. Facilitator notes
 
-- **Timing:** ~half day. Pre-flight + authorization ~45 min, concepts + dataset review ~45 min, scan execution ~60 min, scorecard review + remediation planning ~60 min, SOC de-brief ~30 min.
+- **Timing:** ~half day. Pre-flight + authorization ~45 min, session context + dataset review ~45 min, scan execution ~60 min, scorecard review + remediation planning ~60 min, SOC de-brief ~30 min.
 - **RACI:** Security/SOC = R, Governance lead = A, AI developer / maker = C, endpoint owner = C.
 - **Common blockers:**
     - *No written authorization or SOC notification* → **stop**; do not run adversarial activity.
@@ -81,5 +78,4 @@ Use `labs/s5-red-teaming/rollback.md` to:
     - *Alerts triggered during run* → stop, follow SOC procedure, annotate as authorized test if confirmed.
 - **Hand-off:** ASR findings feed S6 operationalization and the customer's ongoing evaluation gate.
 
-[^pyrit]: Azure/PyRIT - [Python Risk Identification Toolkit](https://github.com/Azure/PyRIT), open-source adversarial testing framework; latest release tracked as v0.14.x in [Product Status](../reference/product-status.md).
-[^airt]: Microsoft Learn - [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/ai-red-teaming-agent), Preview managed red-teaming in Microsoft Foundry with local `azure-ai-evaluation[redteam]` and cloud `azure-ai-projects` paths.
+[^airt]: Microsoft Learn - [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent), Preview managed red-teaming in Microsoft Foundry with local `azure-ai-evaluation[redteam]` and cloud `azure-ai-projects` paths.

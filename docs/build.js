@@ -71,7 +71,10 @@ const ROUTES = {
   'reference/citadel-rvas-playbook.md': 'page.html?p=reference-citadel-rvas-playbook',
   'reference/product-status.md': 'page.html?p=reference-product-status',
 };
-SESSIONS.forEach((s) => { ROUTES[`${s.slug}/index.md`] = `session.html?s=${s.slug}`; });
+SESSIONS.forEach((s) => {
+  ROUTES[`${s.slug}/index.md`] = `session.html?s=${s.slug}`;
+  ROUTES[`${s.slug}/concepts.md`] = `session-concepts.html?s=${s.slug}`;
+});
 
 const ADMONITION_MAP = {
   info: 'NOTE', note: 'NOTE', abstract: 'NOTE', summary: 'NOTE', example: 'NOTE', quote: 'NOTE',
@@ -286,15 +289,20 @@ function main() {
   const sessionMeta = [];
   for (const s of SESSIONS) {
     const rel = `${s.slug}/index.md`;
-    const raw = read(rel);
-    if (raw == null) continue;
+    const conceptsRel = `${s.slug}/concepts.md`;
+    const [raw, conceptsRaw] = [read(rel), read(conceptsRel)];
+    if (raw == null || conceptsRaw == null) continue;
     const { title, md, hasMermaid, reviewed, reviewedNote } = transform(raw, rel);
+    const concepts = transform(conceptsRaw, conceptsRel);
     const clean = title.replace(/^S\d+\s*·\s*/, '').trim() || title;
     fs.writeFileSync(path.join(PAGES_OUT, `${s.slug}.md`), md);
+    fs.writeFileSync(path.join(PAGES_OUT, `${s.slug}-concepts.md`), concepts.md);
     sessionMeta.push({
       slug: s.slug, code: s.code, title: clean, fullTitle: title || `${s.code} · ${clean}`,
       accent: s.accent, persona: s.persona, nist: s.nist, outcome: s.outcome, hasMermaid,
-      reviewed, reviewedNote,
+      reviewed, reviewedNote, conceptsTitle: concepts.title || `${s.code} · ${clean} Concepts`,
+      conceptsHasMermaid: concepts.hasMermaid, conceptsReviewed: concepts.reviewed || reviewed,
+      conceptsReviewedNote: concepts.reviewedNote,
     });
   }
 
