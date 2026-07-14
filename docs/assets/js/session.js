@@ -62,8 +62,7 @@
     const links = chapters.map((chapter) =>
       `<li><a href="${chapterHref(session.slug, chapter.slug)}"${chapter.slug === activeSlug ? ' aria-current="page"' : ''}>${FP.esc(chapter.label)}</a></li>`
     ).join('');
-    document.getElementById('sessionChapterNav').innerHTML = `<ul class="session-page-list">${links}</ul>`;
-    document.getElementById('sessionMobileNav').innerHTML = `<ul class="session-mobile-list">${links}</ul>`;
+    document.getElementById('sessionChapterNav').innerHTML = `<ul class="session-chapter-list">${links}</ul>`;
   }
 
   function row(key, value) {
