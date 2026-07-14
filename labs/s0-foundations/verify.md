@@ -6,6 +6,7 @@
 - [ ] `score.py` prints per-domain maturity, an overall score, and a 7-item prioritized roadmap.
 - [ ] `coe/operating-model.md` names a real CoE owner and executive sponsor.
 - [ ] `coe/raci.csv` has a named holder for each persona.
+- [ ] `evidence/tenant-readiness.json` was reviewed and unavailable prerequisites have owners.
 
 ## Capture evidence
 

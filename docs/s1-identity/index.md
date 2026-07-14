@@ -17,7 +17,7 @@ Durable artifact: `labs/s1-identity/` - the inventory export, report-only Condit
 
 ## 2. Prerequisites
 
-- **Microsoft Entra ID P1** (Conditional Access) - P2 recommended (ID Protection risk conditions). Targeting agent service principals additionally requires a Microsoft Entra Workload ID Premium license.
+- **Microsoft Entra ID P1** for baseline Conditional Access. Risk-based workload identity controls require **Microsoft Entra Workload Identities Premium**.
 - Roles held by the customer's admins (facilitator guides only): Conditional Access Administrator (or Security Administrator) to author policy; a Privileged Role Administrator on hand for exclusions.
 - At least one **Entra Agent ID** present - typically provisioned when the customer builds an agent in Copilot Studio or Microsoft Foundry (verify current provisioning behavior for your workloads).[^entra]
 - A **break-glass** account confirmed and excluded from the new policy.
@@ -41,7 +41,7 @@ Read the [S1 Concepts](concepts.md) for Agent ID, workload-identity Conditional 
    ```
    This connects Microsoft Graph with least-privilege read scopes and exports every agent identity + its sponsor.
 3. **Build the sponsor register** - for each agent in the inventory without a clear owner, record a human sponsor in `policies/sponsor-register.csv`. Agents with no sponsor are the first governance finding.
-4. **Author the Conditional Access policy** - review `policies/ca-agent-baseline.json` (a Workload Identity CA policy that targets the agent service principals under `clientApplications`, excludes a break-glass service principal, report-only). Set `includeServicePrincipals` to the agent SP object ID(s) and `excludeServicePrincipals` to the customer's break-glass service principal.
+4. **Author the Conditional Access policy** - review `policies/ca-agent-baseline.json` for the baseline path. For eligible single-tenant service principals with Workload Identities Premium, review `policies/ca-agent-id-protection.json` for the report-only high-risk path. Set `includeServicePrincipals` to the agent SP object ID(s) and `excludeServicePrincipals` to the customer's break-glass service principal.
 5. **Hand it off for customer-owned change** - this kit intentionally does not create or remove tenant policy. The customer may apply the reviewed definition through its approved change process, retaining `enabledForReportingButNotEnforced` and the break-glass exclusion.
 6. **Observe report-only results** - if the customer applies the policy, agree an observation period and review the affected sign-in records before deciding whether to enforce it.
 
@@ -67,7 +67,7 @@ This kit makes no tenant changes. If the customer independently applies a report
 - **RACI:** Identity admin = R, Governance lead = A, Security/SOC = C (sign-in risk), AI developer = I.
 - **Common blockers:**
     - *No agents in the tenant yet* → stop S1 live delivery and route agent onboarding / Citadel deployment readiness to the prerequisite backlog.
-    - *No Entra P2* → skip risk-based conditions; document them as the Tier-A upgrade.
+    - *No Workload Identities Premium* → skip risk-based conditions; document them as a prerequisite.
     - *Break-glass not identified* → **stop**; do not create any Conditional Access policy until a break-glass account is confirmed and excluded.
     - *Agents running OBO* → they won't appear as distinct identities; note them as "visible but not fully controllable" and revisit in S6.
     - *Customer asks how Entra governs access through an APIM AI gateway* → keep S1 focused on Agent ID inventory and report-only CA, then point the platform team to the Citadel Governance Hub [Entra ID auth validation](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/entraid-auth-validation.md) and [JWT client identity & permissions](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/jwt-client-identity-permissions.md) guides.

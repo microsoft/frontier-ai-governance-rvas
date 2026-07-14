@@ -14,6 +14,10 @@
 
 ## Customer test deployment
 
+The managed AI Red Teaming Agent covers content-harm categories. The offline mock
+harness covers jailbreak and injection scenarios. Review both scopes for a complete
+adversarial assessment; they are complementary measurements.
+
 1. Install dependencies in the customer's environment:
    ```bash
    python -m pip install "azure-ai-evaluation[redteam]" azure-ai-projects

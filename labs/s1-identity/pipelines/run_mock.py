@@ -16,7 +16,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-POLICY = Path(__file__).resolve().parents[1] / "policies" / "ca-agent-baseline.json"
+POLICIES = Path(__file__).resolve().parents[1] / "policies"
 REPORT_ONLY = "enabledForReportingButNotEnforced"
 
 
@@ -25,10 +25,10 @@ def fail(msg: str) -> None:
     raise SystemExit(1)
 
 
-def main() -> int:
-    if not POLICY.exists():
-        fail(f"policy not found: {POLICY}")
-    data = json.loads(POLICY.read_text(encoding="utf-8"))
+def validate_policy(path: Path, require_risk_condition: bool = False) -> None:
+    if not path.exists():
+        fail(f"policy not found: {path}")
+    data = json.loads(path.read_text(encoding="utf-8"))
 
     if data.get("state") != REPORT_ONLY:
         fail(f"policy state must be {REPORT_ONLY!r}, got {data.get('state')!r}")
@@ -52,7 +52,16 @@ def main() -> int:
     if "block" not in grant:
         print("NOTE: baseline grant is not 'block'; confirm this is intended.")
 
-    print("PASS: S1 Conditional Access policy satisfies report-only + break-glass invariants (static).")
+    if require_risk_condition and not data.get("conditions", {}).get("servicePrincipalRiskLevels"):
+        fail("risk-based policy must define servicePrincipalRiskLevels")
+    print(f"PASS: {path.name} satisfies report-only + break-glass invariants (static).")
+
+
+def main() -> int:
+    validate_policy(POLICIES / "ca-agent-baseline.json")
+    risk_policy = POLICIES / "ca-agent-id-protection.json"
+    if risk_policy.exists():
+        validate_policy(risk_policy, require_risk_condition=True)
     return 0
 
 

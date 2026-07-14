@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-07-06T18:16:46.991571+00:00",
-  "dataset": "/home/marco/fy27-hackathons/frontier-ai-governance-rvas/labs/s4-evaluation/data/eval-dataset.jsonl",
-  "thresholds_file": "/home/marco/fy27-hackathons/frontier-ai-governance-rvas/labs/s4-evaluation/policies/thresholds.json",
+  "dataset": "labs/s4-evaluation/data/eval-dataset.jsonl",
+  "thresholds_file": "labs/s4-evaluation/policies/thresholds.json",
   "status": "pass",
   "aggregate_metrics": {
     "exact_match": 0.75,

@@ -28,7 +28,7 @@ Use the [Platform technical guide](../reference/platform-technical-guide.md) wit
 
 ## Start with S0
 
-The readiness assessment is performed during S0, not as a pre-engagement gate. The room reviews the seven governance domains, records evidence for each score, and agrees the session order with the customer.
+The readiness assessment is performed during S0, not as a pre-engagement gate. Run the read-only tenant readiness report first and convert unavailable prerequisites into owned backlog items. The room then reviews the seven governance domains, records evidence for each score, and agrees the session order with the customer.
 
 The detailed [Readiness Assessment](../assessment/index.md) explains the scoring scale and links to the fillable scorecard. S6 repeats the instrument to document the current state and remaining gaps.
 
@@ -48,6 +48,17 @@ Before a privileged change, confirm a break-glass account, change window, named 
 S0 establishes ownership and the baseline. S1 through S5 address the priority domains: identity, data, security, evaluation, and adversarial testing. S6 reconciles records across the platform and governance work, then records the remaining backlog.
 
 The assessment may change the order after S0. Keep the dependencies visible: a session that relies on a missing role, license, platform record, or safe test target becomes an owned readiness item rather than an improvised workshop activity.
+
+## Evidence flow between sessions
+
+| From | Evidence | Used in |
+|---|---|---|
+| S0 | Baseline scorecard | S6 maturity comparison |
+| S1 | Agent inventory | S6 registry reconciliation |
+| S2 | Compliance findings | S3 posture context and S6 backlog |
+| S3 | Defender recommendations | S5 scope and S6 backlog |
+| S4 | Evaluation results | S5 scope and S6 exit assessment |
+| S5 | ASR scorecard | S6 backlog and exit assessment |
 
 ## Start the curriculum
 

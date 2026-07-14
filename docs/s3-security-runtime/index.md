@@ -36,11 +36,10 @@ Read the [S3 Concepts](concepts.md) for AI-SPM, runtime detection, prompt inject
     Enable or stage Defender AI threat protection so it **alerts first**. Do not block, throttle, or red-team production traffic during S3. Prompt Shield tests use a customer-owned test endpoint/string and are coordinated with the SOC.
 
 1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">Security / SOC</span>)* - confirm change window, approver, SOC notification, target subscription, and non-production test scope. Open `labs/s3-security-runtime/rollback.md`.
-2. **Locate Citadel runtime safety** - capture the AI Hub Gateway / Citadel Governance Hub endpoint and Content Safety / Prompt Shields configuration as evidence. If the hub is not deployed, stop and make Citadel deployment the prerequisite; do not create a parallel Content Safety deployment through the AI Governance programme.
-3. **Review Defender AI-SPM** - run `labs/s3-security-runtime/scripts/export_defender_ai_recommendations.sh` to export AI-related security recommendations and posture findings to `evidence/defender-ai-recommendations.json`.
-4. **Stage AI Threat Protection** - follow `labs/s3-security-runtime/runbook.md` to verify AI Threat Protection status, connect Content Safety / Prompt Shields where required, and confirm alerts route to Defender XDR.
-5. **Run Prompt Shield test** - run `labs/s3-security-runtime/scripts/test_prompt_shield.sh` with `CONTENT_SAFETY_ENDPOINT` set to the deployed account endpoint. Use only the shipped test string or another customer-approved non-production string.
-6. **Triage findings** - SOC reviews Defender recommendations and Prompt Shield output. Record owners, severity, and next actions in the evidence folder; do not remediate production controls during the workshop unless the customer opens a separate change.
+2. **Track A - Review Defender AI-SPM** - run `labs/s3-security-runtime/scripts/export_defender_ai_recommendations.sh` to export AI-related security recommendations and posture findings to `evidence/defender-ai-recommendations.json`, then confirm alert routing to Defender XDR.
+3. **Track B - Locate Citadel runtime safety** - capture the AI Hub Gateway / Citadel Governance Hub endpoint and Content Safety / Prompt Shields configuration as evidence. If the hub is not deployed, record Track B as blocked; Track A can still proceed.
+4. **Track B - Run Prompt Shield test** - run `labs/s3-security-runtime/scripts/test_prompt_shield.sh` with `CONTENT_SAFETY_ENDPOINT` set to the deployed account endpoint. Use only the shipped test string or another customer-approved non-production string.
+5. **Triage findings** - SOC reviews the applicable track outputs. Record owners, severity, and next actions in the evidence folder; do not remediate production controls during the workshop unless the customer opens a separate change.
 
 ## 5. Verification & evidence capture
 

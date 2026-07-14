@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts" / "reconcile-registry.py"
 REGISTRY = ROOT / "data" / "agent-registry.sample.json"
 INVENTORY = ROOT / "data" / "s1-agent-inventory.sample.json"
+LIFECYCLE_STATES = ROOT / "policies" / "lifecycle-states.json"
 
 
 def load_reconcile_module() -> ModuleType:
@@ -37,7 +38,14 @@ def main() -> int:
     module = load_reconcile_module()
     registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
     inventory = json.loads(INVENTORY.read_text(encoding="utf-8"))
-    report = module.reconcile(registry, inventory)
+    lifecycle_policy = json.loads(LIFECYCLE_STATES.read_text(encoding="utf-8"))
+    allowed_states = {item["name"] for item in lifecycle_policy["states"]}
+    for agent in registry["agents"]:
+        state = agent.get("lifecycleState")
+        if state is not None and state not in allowed_states:
+            fail(f"sample registry has lifecycle state outside policy: {state}")
+
+    report = module.reconcile(registry, inventory, {state.casefold() for state in allowed_states})
     summary = report.get("summary", {})
 
     if summary.get("matchedCount", 0) < 1:

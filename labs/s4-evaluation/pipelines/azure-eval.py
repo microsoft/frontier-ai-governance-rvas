@@ -104,7 +104,9 @@ def instantiate(module: Any, class_names: tuple[str, ...], **kwargs: Any) -> dic
 
 def target(query: str) -> dict[str, str]:
     """Replace this stub with a call to the customer's non-production test agent."""
-    return {"response": f"Test-agent placeholder response for: {query}"}
+    raise NotImplementedError(
+        "Replace target() with a call to the customer's approved non-production test endpoint."
+    )
 
 
 def main() -> int:

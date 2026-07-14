@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = ROOT / "data" / "agent-registry.sample.json"
 DEFAULT_INVENTORY = ROOT / "data" / "s1-agent-inventory.sample.json"
 DEFAULT_OUT = ROOT / "evidence" / "reconciliation-report.json"
+DEFAULT_LIFECYCLE_STATES = ROOT / "policies" / "lifecycle-states.json"
 OBO_MODES = {"obo", "on_behalf_of", "on-behalf-of", "user_delegated", "user-delegated"}
 
 
@@ -63,6 +64,18 @@ def load_json(path: Path) -> dict[str, Any]:
     if not isinstance(data, dict):
         raise SystemExit(f"expected JSON object at top level: {path}")
     return data
+
+
+def load_lifecycle_states(path: Path) -> set[str]:
+    data = load_json(path)
+    states = data.get("states")
+    if not isinstance(states, list):
+        raise SystemExit(f"lifecycle policy must contain a states array: {path}")
+    return {
+        str(item["name"]).casefold()
+        for item in states
+        if isinstance(item, dict) and isinstance(item.get("name"), str)
+    }
 
 
 def normalize_key(display_name: str | None, entra_agent_id: str | None) -> str:
@@ -155,7 +168,11 @@ def finding(record: AgentRecord, reason: str) -> dict[str, Any]:
     }
 
 
-def reconcile(registry_data: dict[str, Any], inventory_data: dict[str, Any]) -> dict[str, Any]:
+def reconcile(
+    registry_data: dict[str, Any],
+    inventory_data: dict[str, Any],
+    lifecycle_states: set[str] | None = None,
+) -> dict[str, Any]:
     registry = normalize_registry(registry_data)
     inventory = normalize_inventory(inventory_data)
     registry_by_key = {agent.key: agent for agent in registry}
@@ -186,6 +203,7 @@ def reconcile(registry_data: dict[str, Any], inventory_data: dict[str, Any]) -> 
     unmanaged_or_obo: list[dict[str, Any]] = []
     missing_sponsors: list[dict[str, Any]] = []
     lifecycle_gaps: list[dict[str, Any]] = []
+    invalid_lifecycle_states: list[dict[str, Any]] = []
     for record in [*registry, *inventory]:
         if record.is_obo or not record.managed or not record.entra_agent_id:
             reason_parts = []
@@ -200,6 +218,15 @@ def reconcile(registry_data: dict[str, Any], inventory_data: dict[str, Any]) -> 
             missing_sponsors.append(finding(record, "missing human sponsor"))
         if record.source == "registry" and not record.lifecycle_state:
             lifecycle_gaps.append(finding(record, "missing lifecycle state"))
+        elif (
+            record.source == "registry"
+            and lifecycle_states is not None
+            and record.lifecycle_state
+            and record.lifecycle_state.casefold() not in lifecycle_states
+        ):
+            invalid_lifecycle_states.append(
+                finding(record, f"invalid lifecycle state: {record.lifecycle_state}")
+            )
 
     return {
         "summary": {
@@ -211,6 +238,7 @@ def reconcile(registry_data: dict[str, Any], inventory_data: dict[str, Any]) -> 
             "unmanagedOrOboCount": len(unmanaged_or_obo),
             "missingSponsorCount": len(missing_sponsors),
             "lifecycleGapCount": len(lifecycle_gaps),
+            "invalidLifecycleStateCount": len(invalid_lifecycle_states),
         },
         "matchedAgents": sorted(
             {registry_by_key[key].display_name for key in matched_registry_keys},
@@ -221,6 +249,7 @@ def reconcile(registry_data: dict[str, Any], inventory_data: dict[str, Any]) -> 
         "unmanagedOrOboAgents": unmanaged_or_obo,
         "missingSponsorFindings": missing_sponsors,
         "lifecycleGaps": lifecycle_gaps,
+        "invalidLifecycleStateFindings": invalid_lifecycle_states,
     }
 
 
@@ -229,12 +258,22 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY, help="Agent 365 registry export JSON")
     parser.add_argument("--inventory", type=Path, default=DEFAULT_INVENTORY, help="S1 Entra Agent ID inventory JSON")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="reconciliation report JSON output")
+    parser.add_argument(
+        "--lifecycle-states",
+        type=Path,
+        default=DEFAULT_LIFECYCLE_STATES,
+        help="lifecycle-state policy JSON",
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    report = reconcile(load_json(args.registry), load_json(args.inventory))
+    report = reconcile(
+        load_json(args.registry),
+        load_json(args.inventory),
+        load_lifecycle_states(args.lifecycle_states),
+    )
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 

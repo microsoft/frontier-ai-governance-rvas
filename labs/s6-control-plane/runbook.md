@@ -5,7 +5,7 @@
 ## Pre-flight
 
 - [ ] Agent 365 export path agreed.
-- [ ] S1 inventory export located or workshop inputs ready.
+- [ ] `../s1-identity/evidence/agent-inventory.json` exists or a customer-approved equivalent is identified.
 - [ ] `evidence/` folder prepared for registry, reconciliation, and exit-score artifacts.
 - [ ] S0 baseline scorecard/output available for comparison.
 
@@ -15,7 +15,7 @@
    ```powershell
    ./scripts/Get-AgentRegistry.ps1 -OutFile ./evidence/agent-registry.json
    ```
-2. **Collect S1 inventory.** Use `labs/s1-identity/evidence/agent-inventory.json` or a customer-approved equivalent.
+2. **Collect S1 inventory.** Use `labs/s1-identity/evidence/agent-inventory.json` or a customer-approved equivalent. If it was not captured in S1, run `labs/s1-identity/scripts/Get-AgentIdentities.ps1` before proceeding.
 3. **Reconcile offline.**
    ```bash
    python scripts/reconcile-registry.py \

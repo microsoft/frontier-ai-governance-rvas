@@ -3,11 +3,11 @@
     Export Microsoft Purview for AI / DSPM findings for sensitive data in AI interactions (read-only).
 
 .DESCRIPTION
-    Connects to Microsoft Graph with read-only security scopes and writes AI-related
-    data-security findings to JSON evidence. The default Graph URI is intentionally
-    configurable because DSPM for AI export endpoints can vary by tenant rollout;
-    customers may paste the Microsoft Purview portal export URI or use a saved Graph
-    query approved by their compliance team.
+    Queries a customer-approved Microsoft Graph security or audit endpoint and writes
+    AI-related signals to JSON evidence. Microsoft Purview does not provide an API for
+    exporting DSPM for AI findings or analytics, so this script deliberately has no
+    default endpoint. Obtain an approved query from the compliance team, or export
+    the findings through the Purview portal.
 
     Static-only: validated in CI. Live export is the customer's co-delivery step.
 
@@ -15,18 +15,19 @@
     Path to write the JSON evidence. Defaults to ./evidence/dspm-ai-findings.json.
 
 .PARAMETER GraphUri
-    Microsoft Graph URI used for read-only findings export.
+    Customer-approved Microsoft Graph URI for a read-only security or audit query.
 
 .EXAMPLE
-    ./Get-AISensitiveDataFindings.ps1 -OutFile ./evidence/dspm-ai-findings.json
+    ./Get-AISensitiveDataFindings.ps1 -GraphUri '/beta/security/alerts_v2?$top=50'
 #>
 [CmdletBinding()]
 param(
     [Parameter()]
     [string]$OutFile = "./evidence/dspm-ai-findings.json",
 
-    [Parameter()]
-    [string]$GraphUri = "/beta/security/alerts_v2?`$top=50"
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [string]$GraphUri
 )
 
 Set-StrictMode -Version Latest

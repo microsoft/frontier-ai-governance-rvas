@@ -31,8 +31,8 @@ Use consistent inline badges next to capability names:
 `docs/reference/` is derived from a structured research pass over official Microsoft sources. To refresh it, re‑run the research workflow that produced the original report (multiple focused searches across Microsoft Learn, the Microsoft 365 / Security blogs, and product GitHub repos), then update:
 
 1. `docs/reference/index.md` — landscape narrative.
-2. `docs/reference/product-status.md` — the product/status table.
-3. `docs/reference/governance-mapping.md` — NIST AI RMF / ISO 42001 / EU AI Act mapping.
+2. `docs/reference/governance-capability-guide.md` — capabilities, availability notes, and framework alignment.
+3. `docs/reference/platform-technical-guide.md` — platform model and implementation boundaries.
 
 ## No screenshots
 

@@ -15,8 +15,7 @@
     Path to write the registry export JSON. Defaults to ./evidence/agent-registry.json.
 
 .PARAMETER ApiPath
-    Microsoft Graph API path for the Agent 365 registry. Defaults to a placeholder
-    beta path that must be verified before production use.
+    Microsoft Graph API path for the Agent 365 package inventory.
 
 .EXAMPLE
     ./Get-AgentRegistry.ps1 -OutFile ./evidence/agent-registry.json
@@ -27,16 +26,13 @@ param(
     [string]$OutFile = "./evidence/agent-registry.json",
 
     [Parameter()]
-    [string]$ApiPath = "/beta/agent365/agents"
+    [string]$ApiPath = "/v1.0/copilot/admin/catalog/packages"
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-$scopes = @(
-    'Directory.Read.All',
-    'Application.Read.All'
-)
+$scopes = @('CopilotPackages.Read.All')
 
 Write-Verbose 'Connecting to Microsoft Graph with read-only scopes...'
 Connect-MgGraph -Scopes $scopes -NoWelcome
@@ -46,8 +42,8 @@ try {
     $response = Invoke-MgGraphRequest -Method GET -Uri $ApiPath
     $agents = @()
 
-    if ($response.ContainsKey('value')) {
-        $agents = @($response['value'])
+    if ($null -ne $response.value) {
+        $agents = @($response.value)
     } else {
         $agents = @($response)
     }
@@ -67,6 +63,13 @@ try {
 
     $result | ConvertTo-Json -Depth 10 | Set-Content -Path $OutFile -Encoding utf8
     Write-Output "Exported $($agents.Count) registry agent(s) -> $OutFile"
+}
+catch {
+    $statusCode = $_.Exception.Response.StatusCode.value__
+    if ($statusCode -eq 403 -or $statusCode -eq 404) {
+        throw "Agent 365 package inventory request returned HTTP $statusCode. Verify the tenant has an Agent 365 license and that the operator has AI admin or Global admin. For Entra identity-only inventory, use labs/s1-identity/scripts/Get-AgentIdentities.ps1."
+    }
+    throw
 }
 finally {
     Disconnect-MgGraph | Out-Null

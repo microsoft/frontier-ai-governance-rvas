@@ -34,15 +34,16 @@ Read the [S0 Concepts](concepts.md) for the operating-model, maturity, risk, and
 !!! warning "Report-only / audit-first"
     S0 makes no tenant changes. Everything produced here is documentation and a score. Privileged work begins in S1.
 
-1. **Frame the operating model** *(facilitator + <span class="rvas-badge rvas-persona">Governance lead</span> + sponsor)* - walk the CAF-for-AI phases; agree who owns AI governance (the CoE) and confirm the executive sponsor.
-2. **Stand up the CoE stub** - copy `labs/s0-foundations/coe/operating-model.md` and `raci.csv` into the customer's governance repo; fill owner, sponsor, and the five persona role holders.
-3. **Run the baseline assessment** *(whole room)* - open `labs/s0-foundations/assessment/scorecard.csv`; for each of the 21 questions across 7 domains, agree a 1–4 score. Record evidence for the score so S6 can compare the current state with this baseline.
-4. **Generate the roadmap** - run:
+1. **Run the readiness report** *(read-only)* - run `labs/s0-foundations/scripts/Test-TenantReadiness.ps1`. Turn unavailable licensing, roles, platform paths, or test targets into owned prerequisites.
+2. **Frame the operating model** *(facilitator + <span class="rvas-badge rvas-persona">Governance lead</span> + sponsor)* - walk the CAF-for-AI phases; agree who owns AI governance (the CoE) and confirm the executive sponsor.
+3. **Stand up the CoE stub** - copy `labs/s0-foundations/coe/operating-model.md` and `raci.csv` into the customer's governance repo; fill owner, sponsor, and the five persona role holders.
+4. **Run the baseline assessment** *(whole room)* - open `labs/s0-foundations/assessment/scorecard.csv`; for each of the 21 questions across 7 domains, agree a 1–4 score. Record evidence for the score so S6 can compare the current state with this baseline.
+5. **Generate the roadmap** - run:
    ```bash
    python labs/s0-foundations/assessment/score.py labs/s0-foundations/assessment/scorecard.csv
    ```
    The output ranks lower-scoring domains first; total question weight breaks ties.
-5. **Agree the sequence** - the roadmap is a recommendation; the CoE decides the actual order and records it in `operating-model.md`.
+6. **Agree the sequence** - the roadmap is a recommendation; the CoE decides the actual order and records it in `operating-model.md`.
 
 ## 5. Verification & evidence capture
 

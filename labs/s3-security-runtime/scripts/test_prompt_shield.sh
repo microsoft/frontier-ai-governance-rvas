@@ -31,7 +31,7 @@ az rest \
   --method post \
   --url "${CONTENT_SAFETY_ENDPOINT%/}/contentsafety/text:shieldPrompt?api-version=2024-09-01" \
   --headers "Content-Type=application/json" \
-  --headers "Authorization=Bearer ${TOKEN}" \
+  --headers "Authorization=Bearer $TOKEN" \
   --body "$BODY" \
   --output json > "$OUT_FILE"
 

@@ -36,7 +36,7 @@ Read the [S5 Concepts](concepts.md) for PyRIT, Attack Success Rate, indirect pro
     Before any adversarial activity, confirm **SOC notification**, written authorization, and rules of engagement. The target must be a customer-owned non-production test agent/endpoint only. Do not test third-party systems, production agents, user-facing workloads, or endpoints outside the written scope. Stop if alerts, instability, or scope questions arise.
 
 1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">Security / SOC</span>)* - open `labs/s5-red-teaming/runbook.md`; confirm SOC notification, authorization, rules of engagement, target URI/name, time window, and rollback contact.
-2. **Confirm the live test path** - run `labs/s5-red-teaming/scripts/redteam-airt.py` against the approved customer test deployment. The local mock harness is only for CI/static validation.
+2. **Confirm the live test path** - run `labs/s5-red-teaming/scripts/redteam-airt.py` against the approved customer test deployment for content-harm categories. The local mock harness separately covers jailbreak and injection categories; the two scopes are complementary.
 3. **Review safe test data** - inspect `labs/s5-red-teaming/datasets/attack-prompts.jsonl`. It contains category-labeled, benign stand-ins for prompt injection, XPIA, system prompt exposure, and Crescendo-style multi-turn testing.
 4. **Agree thresholds** - review `labs/s5-red-teaming/policies/asr-thresholds.json` with Security/SOC and the endpoint owner before running anything.
 5. **Run the scan** - the customer operator runs the selected path and saves outputs under `labs/s5-red-teaming/evidence/`.

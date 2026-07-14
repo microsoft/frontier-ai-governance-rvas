@@ -9,9 +9,9 @@
 - [ ] Evidence folder agreed: `labs/s2-data-compliance/evidence/`.
 
 ## Steps
-1. **Export DSPM for AI findings (read-only).**
+1. **Capture DSPM for AI findings (read-only).** Export from the Purview portal. Microsoft Purview does not provide an API for exporting DSPM for AI findings or analytics. Use the script only with a compliance-approved security or audit query:
    ```powershell
-   ./scripts/Get-AISensitiveDataFindings.ps1 -OutFile ./evidence/dspm-ai-findings.json
+   ./scripts/Get-AISensitiveDataFindings.ps1 -GraphUri '<approved-read-only-graph-uri>' -OutFile ./evidence/dspm-ai-findings.json
    ```
 2. **Prepare DLP simulation policy.** In `policies/dlp-ai-simulation.json`, replace tenant-specific placeholders for reviewer group, sensitive information type, and AI workload identifiers.
 3. **Static safety check (offline).**

@@ -17,6 +17,10 @@ python scripts/reconcile-registry.py \
   --out evidence/reconciliation-report.json
 
 python ../../labs/s0-foundations/assessment/score.py evidence/exit-scorecard.csv | tee evidence/exit-score-output.txt
+
+python ../../labs/s0-foundations/assessment/compare.py \
+  ../../labs/s0-foundations/evidence/scorecard-baseline-*.csv \
+  evidence/exit-scorecard.csv --target 3.0 | tee evidence/maturity-lift.txt
 ```
 
 Store `agent-registry.json`, `reconciliation-report.json`, `exit-scorecard.csv`, `exit-score-output.txt`, and the residual-gap backlog in `evidence/` or the customer's approved records system.

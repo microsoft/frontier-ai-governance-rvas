@@ -9,7 +9,7 @@
 
 The customer leaves with AI data exposure governed in Microsoft Purview in their own tenant:
 
-- A **DSPM for AI findings export** showing oversharing, exfiltration, and sensitive-data-in-prompts risk across AI apps and agents.
+- A reviewed DSPM for AI findings export from the Purview portal, or a customer-approved security/audit query where appropriate.
 - A DLP for AI policy definition authored in test/simulation mode, stored as exported JSON and ready for customer-owned deployment.
 - A compliance evidence bundle tying Purview Audit, eDiscovery, Insider Risk Management (IRM), and Communication Compliance signals to AI interactions.
 
@@ -35,11 +35,11 @@ Read the [S2 Concepts](concepts.md) for DSPM, labels and DLP, investigation evid
     DLP policy creation in this session is **simulation/test only**. It must not block users or agents during the workshop. Promotion to enforcement is a separate, customer-owned change after findings review, legal/compliance approval, and communications.
 
 1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">Compliance / Data admin</span>)* - confirm the change window, approver, Purview roles, and evidence location. Open `labs/s2-data-compliance/rollback.md`.
-2. **Export DSPM for AI findings (read-only)** - the customer runs:
+2. **Capture DSPM for AI findings (read-only)** - export from the Purview portal. If the compliance team approves a security or audit Graph query, the customer can run:
    ```powershell
-   ./scripts/Get-AISensitiveDataFindings.ps1 -OutFile ./evidence/dspm-ai-findings.json
+   ./scripts/Get-AISensitiveDataFindings.ps1 -GraphUri '<approved-read-only-graph-uri>' -OutFile ./evidence/dspm-ai-findings.json
    ```
-   If the tenant has no findings, capture the empty result as evidence. If the feature is not licensed, stop and route licensing to the prerequisite backlog.
+   Microsoft Purview does not provide an API for exporting DSPM for AI findings or analytics. If the tenant has no findings, capture the empty result as evidence. If the feature is not licensed, stop and route licensing to the prerequisite backlog.
 3. **Review the simulation policy** - inspect `policies/dlp-ai-simulation.json`. Replace tenant-specific IDs, sensitive information type IDs, and notification group placeholders.
 4. **Run the offline safety gate** - from `labs/s2-data-compliance/`:
    ```bash
@@ -59,7 +59,7 @@ Read the [S2 Concepts](concepts.md) for DSPM, labels and DLP, investigation evid
 Evidence to capture (into `labs/s2-data-compliance/evidence/`): DSPM for AI findings export, deployed DLP policy export, policy match summary after bake time, and the named approver/change record.
 
 ```powershell
-./scripts/Get-AISensitiveDataFindings.ps1 -OutFile ./evidence/dspm-ai-findings.json
+./scripts/Get-AISensitiveDataFindings.ps1 -GraphUri '<approved-read-only-graph-uri>' -OutFile ./evidence/dspm-ai-findings.json
 ```
 
 ## 6. Customer-owned rollback

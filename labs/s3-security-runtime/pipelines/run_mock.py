@@ -51,8 +51,11 @@ def validate_policies() -> None:
 
 
 def validate_scripts() -> None:
-    require_text(SCRIPTS / "test_prompt_shield.sh", "shieldPrompt")
     require_text(SCRIPTS / "export_defender_ai_recommendations.sh", "az graph query")
+    print("PASS: Track A (Defender) script references Azure Resource Graph.")
+    require_text(SCRIPTS / "test_prompt_shield.sh", "shieldPrompt")
+    require_text(SCRIPTS / "test_prompt_shield.sh", "Authorization=Bearer $TOKEN")
+    print("PASS: Track B (Citadel) script uses the acquired bearer token.")
 
 
 def main() -> int:

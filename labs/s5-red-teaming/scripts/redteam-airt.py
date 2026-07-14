@@ -55,6 +55,9 @@ async def run_redteam(args: argparse.Namespace) -> dict[str, Any]:
     RedTeam, RiskCategory, DefaultAzureCredential = load_redteam_deps()
     target_callback = build_target_callback(args.target_endpoint)
 
+    # Managed Red Teaming covers content-harm categories. The offline S5 mock
+    # harness separately covers jailbreak and injection scenarios; the scopes
+    # are complementary and must not be treated as the same measurement.
     red_team = RedTeam(
         azure_ai_project=args.azure_ai_project,
         credential=DefaultAzureCredential(),
