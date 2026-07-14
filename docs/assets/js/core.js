@@ -236,11 +236,39 @@
     }
   }
 
+  var LAB_REPOSITORY_URL = 'https://github.com/microsoft/frontier-ai-governance-rvas';
+  var LAB_PATH_RE = /^labs\/[A-Za-z0-9._/-]+\/?$/;
+
+  function decorateLabLinks(root) {
+    var codes = root.querySelectorAll('code');
+    for (var i = 0; i < codes.length; i++) {
+      var code = codes[i];
+      if (code.closest('pre') || code.closest('a')) continue;
+
+      var path = (code.textContent || '').trim();
+      var segments = path.replace(/\/$/, '').split('/');
+      if (!LAB_PATH_RE.test(path) || segments.some((segment) => segment === '.' || segment === '..')) continue;
+
+      var isDirectory = path.endsWith('/') || !segments[segments.length - 1].includes('.');
+      var encodedPath = path.replace(/\/$/, '').split('/').map(encodeURIComponent).join('/');
+      var link = document.createElement('a');
+      link.className = 'lab-artifact-link';
+      link.href = LAB_REPOSITORY_URL + '/' + (isDirectory ? 'tree' : 'blob') + '/main/' + encodedPath;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.title = 'Open ' + path + ' in GitHub';
+      link.setAttribute('aria-label', 'Open ' + path + ' in GitHub (new tab)');
+      link.textContent = path;
+      code.replaceWith(link);
+    }
+  }
+
   FP.renderMd = function (rawMd, targetEl) {
     if (!rawMd) { targetEl.innerHTML = '<p class="text-dim">No content.</p>'; return; }
     if (window.marked) {
       targetEl.innerHTML = window.marked.parse(rawMd, { breaks: false, gfm: true });
       try { decorateAlerts(targetEl); } catch (e) { /* non-fatal */ }
+      try { decorateLabLinks(targetEl); } catch (e) { /* non-fatal */ }
     } else {
       // Fallback: wrap in <pre> if marked not available
       const pre = document.createElement('pre');
