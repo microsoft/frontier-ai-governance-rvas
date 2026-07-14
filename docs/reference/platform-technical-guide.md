@@ -1,0 +1,49 @@
+# Platform technical guide
+
+Use this guide with the customer platform team when they need to understand the technical foundation that supports an integrated RVAS path. It explains the Foundry Citadel Platform, the deployable accelerators, and the boundary between platform delivery and governance delivery.
+
+## The Citadel platform model
+
+The [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-platform) is a Microsoft reference architecture for enterprise AI security, compliance, and scale. It describes four connected layers and points to deployable accelerators; it is not itself a deployment package.
+
+| Layer | Platform purpose | Typical technologies |
+|---|---|---|
+| Governance Hub | Route approved AI calls and apply shared gateway controls. | Azure API Management, Azure API Center, access and backend contracts. |
+| AI Control Plane | Observe, trace, and evaluate AI behavior. | Microsoft Foundry, evaluation and observability services. |
+| Agent Identity | Associate agents with sponsors, lifecycle, and access context. | Microsoft Entra Agent ID, Microsoft Agent 365. |
+| Security Fabric | Protect data and respond to security and runtime-safety risk. | Microsoft Defender, Microsoft Purview, Microsoft Entra, Content Safety. |
+
+## What the platform team provides
+
+The [AI Hub Gateway / Citadel Governance Hub](https://aka.ms/ai-hub-gateway) is a deployable accelerator for the Governance Hub. Its `citadel-v1` branch includes an APIM AI gateway, API Center registry, access contracts, gateway safety and PII-masking patterns, Entra/JWT authentication, telemetry, and private-networking options.
+
+Azure AI Landing Zones provide the application landing-zone foundation for AI workloads. The [Agent Governance Toolkit](https://github.com/microsoft/agent-governance-toolkit) provides open-source in-process policy and agent-security capabilities.
+
+The platform team owns:
+
+- gateway, private-networking, backend-pool, and resiliency design;
+- platform pipelines, access and backend contracts, and telemetry plumbing;
+- accelerator deployment and its operational support model.
+
+## Where RVAS uses platform evidence
+
+| Platform record | RVAS use |
+|---|---|
+| API Center and access-contract records | S6 compares platform exposure with agent, identity, and ownership records. |
+| Gateway authentication and safety configuration | S1 and S3 review the corresponding identity and runtime-safety evidence. |
+| Gateway data-protection configuration | S2 considers it alongside Purview data and compliance controls. |
+| Traces, evaluations, usage, and cost telemetry | S4, S5, and S6 use it as evidence for review, remediation, and operating decisions. |
+
+RVAS does not rebuild these capabilities. It assigns owners, reviews the evidence, and records the decisions and gaps that follow.
+
+## Technical handoff checklist
+
+Before an integrated session needs platform evidence, record:
+
+1. the platform owner and the expected deployment or connection path;
+2. the gateway and registry locations, if available;
+3. the safety configuration and telemetry location;
+4. the current platform readiness gaps and their owners.
+
+For accelerator deployment, use the [AI Hub Gateway deployment guidance](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/tree/citadel-v1/guides) and the [Azure AI Landing Zones](https://github.com/Azure/AI-Landing-Zones) documentation. Confirm the selected branch, prerequisites, and product status before customer delivery.
+

@@ -1,7 +1,7 @@
 # S1 · Identity & Access Concepts
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-06 · Check current Agent ID and workload-identity Conditional Access status in [Product Status](../reference/product-status.md).
+    Last reviewed: 2026-07-06 · Check Agent ID and Conditional Access availability in the [Governance capability guide](../reference/governance-capability-guide.md).
 
 These concepts explain why the S1 Runbook starts with inventory and report-only policy. Return to the [S1 Runbook](index.md) for the delivery sequence.
 
@@ -11,7 +11,7 @@ Microsoft Entra Agent ID models an agent through connected objects such as a blu
 
 This is why the Runbook begins with an inventory and sponsor register. A tenant cannot apply proportionate controls or investigate an incident if it cannot say which identity belongs to which agent and who owns it.
 
-**Common misconception:** an agent identity is not just another app registration. Its sponsor and lifecycle context are part of the governance record.
+An agent identity is more than an app registration: its sponsor and lifecycle context belong in the governance record.
 
 ## Inventory is the first control
 

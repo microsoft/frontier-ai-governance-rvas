@@ -1,7 +1,7 @@
 # S3 · Security Posture & Runtime
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-06 · Concepts sourced from [Reference - Landscape](../reference/index.md). Defender AI-SPM, AI Threat Protection, and Prompt Shields status in [Product Status](../reference/product-status.md).
+    Last reviewed: 2026-07-06 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).
 
 <span class="rvas-badge rvas-persona">Security / SOC</span> <span class="rvas-badge rvas-persona">Governance lead</span>
 

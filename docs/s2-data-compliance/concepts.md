@@ -1,7 +1,7 @@
 # S2 · Data & Compliance Concepts
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-06 · Confirm tenant licensing and product availability in [Product Status](../reference/product-status.md).
+    Last reviewed: 2026-07-06 · Confirm tenant licensing and product availability in the [Governance capability guide](../reference/governance-capability-guide.md).
 
 This page explains the compliance-plane controls used in S2. The [S2 Runbook](index.md) contains the safe delivery sequence.
 
@@ -27,7 +27,7 @@ The Runbook uses simulation or test mode first. This is the data-plane equivalen
 
 Audit, eDiscovery, Insider Risk Management, and Communication Compliance serve different investigation needs, but together they help preserve discoverability and route concerning activity through established compliance processes where supported.[^purview]
 
-**Common misconception:** a DLP policy by itself is not an evidence strategy. The customer must know which logs, exports, and review queues are available and who owns them.
+A DLP policy alone is not an evidence strategy. The customer must know which logs, exports, and review queues are available and who owns them.
 
 ## Gateway masking complements, but does not replace, compliance
 

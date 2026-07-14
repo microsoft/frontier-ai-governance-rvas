@@ -6,7 +6,7 @@
 A single, reusable **AI-agent governance maturity assessment**. Run it twice:
 
 - **S0 - baseline.** Establishes where the customer is today and produces a prioritized session roadmap.
-- **S6 - exit score.** Re-run the same instrument to show measurable lift (the "lasting" proof) and a residual-gap backlog.
+- **S6 - exit score.** Re-run the same instrument to compare the current state with the baseline and record the remaining gaps.
 
 ## How it works
 
@@ -36,7 +36,7 @@ Seven domains - one per session - each scored on a 1–4 maturity scale aligned 
 The scorecard and auto-scorer live in the S0 takeaway kit:
 
 - `labs/s0-foundations/assessment/scorecard.csv` - fill the `score` column (1–4) with the customer.
-- `labs/s0-foundations/assessment/score.py` - computes per-domain and overall maturity and prints a prioritized roadmap (lowest-maturity, highest-impact domains first).
+- `labs/s0-foundations/assessment/score.py` - computes per-domain and overall weighted maturity and ranks lower-scoring domains first; total question weight breaks ties.
 - `labs/s0-foundations/assessment/compare.py` - at S6, computes the baseline-to-exit lift per domain and the residual-gap backlog.
 
 ```bash
@@ -47,4 +47,4 @@ python labs/s0-foundations/assessment/score.py labs/s0-foundations/assessment/sc
 
 ![How the readiness score is produced: fill scorecard.csv (1–4 per question), run score.py, and get per-domain maturity, overall maturity, and a prioritized session roadmap.](../assets/diagrams/assessment.svg)
 
-Each session's durable artifacts map back to specific assessment questions (see section 7 of each session page), so completing a session provably moves the score.
+Session artifacts provide evidence for reassessing specific questions. Change a score only when the customer can show that the relevant control is in place and operating.

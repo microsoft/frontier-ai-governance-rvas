@@ -1,13 +1,13 @@
 # S4 · Quality & Safety Evaluation Concepts
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-06 · Confirm individual evaluator availability in [Product Status](../reference/product-status.md).
+    Last reviewed: 2026-07-06 · Confirm individual evaluator availability in the [Governance capability guide](../reference/governance-capability-guide.md).
 
 This page explains the measurement model behind S4. The [S4 Runbook](index.md) is the delivery sequence and evidence checklist.
 
 ## Evaluation makes an expectation testable
 
-An evaluation compares an agent's observed behavior with an agreed expectation. That expectation may concern answer quality, safety, groundedness, tool use, or task completion. The value is not a single “AI quality” number; it is a repeatable way to detect whether a prompt, model, retrieval source, or tool change makes a known behavior better or worse.
+An evaluation compares an agent's observed behavior with an agreed expectation. That expectation may concern answer quality, safety, groundedness, tool use, or task completion. Repeated evaluation detects whether a prompt, model, retrieval source, or tool change makes a known behavior better or worse.
 
 Microsoft Foundry Evaluations provides SDK-based evaluators across quality, risk and safety, and agent-specific behavior. Individual evaluators and their availability can differ, so the customer should validate the exact capability they intend to rely on.[^foundry]
 
@@ -17,7 +17,7 @@ An evaluation dataset contains representative inputs and, where appropriate, exp
 
 The first dataset does not need to be large. It does need to reflect the customer’s real tasks, edge cases, and unacceptable outcomes. The Runbook starts from a mock-target dataset so the team can learn the workflow without sending live customer traffic.
 
-**Common misconception:** a high aggregate score does not prove every important scenario is safe. Review failed cases and preserve the dataset version with the scorecard.
+A high aggregate score may still hide an important failing scenario. Review failed cases and preserve the dataset version with the scorecard.
 
 ## Metrics guide a decision; they do not make it
 

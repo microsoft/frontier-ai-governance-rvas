@@ -1,7 +1,7 @@
 # S4 · Quality & Safety Evaluation
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-06 · Concepts sourced from [Reference - Landscape](../reference/index.md) and status in [Product Status](../reference/product-status.md).
+    Last reviewed: 2026-07-06 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).
 
 <span class="rvas-badge rvas-persona">AI developer / maker</span> <span class="rvas-badge rvas-persona">Governance lead</span>
 
@@ -41,7 +41,7 @@ Read the [S4 Concepts](concepts.md) for evaluation datasets, metrics, CI gates, 
 5. **Inspect the scorecard** - use `labs/s4-evaluation/scripts/summarize.py` to render the JSON evidence as a table and record any failing cases.
 6. **Foundry path** - map the same dataset and target into `labs/s4-evaluation/pipelines/azure-eval.py` with Azure AI project environment variables.
 7. **CI/CD gate design** - adapt `labs/s4-evaluation/pipelines/github-action-example.yml` in a pull-request branch. Keep it report-only first (do not block merges); enable enforcement - e.g. a `baseline-agent-id` regression comparison - only after governance approval.
-8. **Continuous evaluation plan** - define which production traces become future evaluation examples, using OpenTelemetry gen-ai spans and EvaluationRule monitoring.
+8. **Continuous evaluation plan** - define which production traces can become future evaluation examples, using OpenTelemetry gen-ai spans and the customer's approved monitoring process.
 
 ## 5. Verification & evidence capture
 

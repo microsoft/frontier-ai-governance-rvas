@@ -1,7 +1,7 @@
 # S2 · Data & Compliance
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-06 · Concepts sourced from [Reference - Landscape](../reference/index.md). Purview DSPM status in [Product Status](../reference/product-status.md).
+    Last reviewed: 2026-07-06 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).
 
 <span class="rvas-badge rvas-persona">Compliance / Data admin</span> <span class="rvas-badge rvas-persona">Governance lead</span>
 
@@ -47,7 +47,7 @@ Read the [S2 Concepts](concepts.md) for DSPM, labels and DLP, investigation evid
    ```
    The check must print `PASS` and warn only about placeholders that the customer still needs to fill.
 5. **Hand it off for customer-owned change** - this kit intentionally does not create or remove tenant policy. The customer may apply the reviewed definition through its approved change process, retaining simulation/test mode.
-6. **Let it bake** - if the customer applies the policy, leave it in simulation while Purview collects policy matches and user notifications. Compliance review determines any later enforcement.
+6. **Review simulation results** - if the customer applies the policy, leave it in simulation for an agreed observation period. Compliance reviews policy matches and notifications before deciding whether to enforce it.
 
 ## 5. Verification & evidence capture
 

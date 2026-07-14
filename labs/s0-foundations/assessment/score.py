@@ -3,7 +3,8 @@
 
 Reads a scorecard CSV (see scorecard.csv) where each row has a 1-4 ``score``
 and a ``weight``. Prints per-domain weighted maturity, overall maturity, and a
-prioritized session roadmap (lowest maturity + highest weight first).
+session roadmap ordered by lowest weighted maturity; total question weight
+breaks ties.
 
 Usage:
     python score.py [path/to/scorecard.csv]
@@ -107,7 +108,7 @@ def main(argv: list[str]) -> int:
     print("-" * 52)
     print(f"Overall maturity: {overall:.2f} / {MAX_SCORE}  [{bar(overall)}]")
 
-    print("\nPrioritized roadmap (lowest maturity + highest weight first):")
+    print("\nPrioritized roadmap (lowest weighted maturity first; total question weight breaks ties):")
     ranked = sorted(scored, key=lambda d: (d.maturity, -d.weight_total))
     for rank, dom in enumerate(ranked, 1):
         gap = MAX_SCORE - (dom.maturity or MAX_SCORE)

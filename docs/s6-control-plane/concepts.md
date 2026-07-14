@@ -1,7 +1,7 @@
 # S6 · Control Plane & Operationalization Concepts
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-06 · Confirm Agent 365 licensing and feature availability in [Product Status](../reference/product-status.md).
+    Last reviewed: 2026-07-06 · Confirm Agent 365 licensing and feature availability in the [Governance capability guide](../reference/governance-capability-guide.md).
 
 This page explains the operational model behind S6. Use the [S6 Runbook](index.md) to perform reconciliation and capture the exit evidence.
 

@@ -3,9 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <title>Frontier AI Governance · RVAS</title>
-  <meta name="description" content="Govern AI agents in your own tenant, session by session. A co-delivered RVAS curriculum that leaves durable governance artifacts (identity, data, security, evaluation, red-teaming, and a control plane) running in production." />
+  <meta name="description" content="A facilitator-first delivery method and practical curriculum for AI-agent governance." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -15,7 +14,6 @@
   <link rel="icon" href="assets/img/logo-mark-white.png" />
 </head>
 <body>
-
   <header class="nav" role="banner">
     <div class="nav-inner">
       <a class="brand" href="index.html" aria-label="RVAS · Frontier AI Governance">
@@ -23,12 +21,10 @@
       </a>
       <nav class="nav-links" aria-label="Primary" id="navLinks">
         <a href="index.html" aria-current="page">Home</a>
-        <a href="page.html?p=start-why-governance">Start here</a>
+        <a href="page.html?p=start-understand-rvas">Understand RVAS</a>
         <a href="index.html#sessions">Sessions</a>
-        <a href="page.html?p=how-to-deliver">How to Deliver</a>
-        <a href="page.html?p=assessment">Assessment</a>
-        <a href="page.html?p=reference">Reference</a>
-        <a class="cta" href="page.html?p=assessment">Run the assessment →</a>
+        <a href="page.html?p=start-plan-engagement">Plan the engagement</a>
+        <a href="page.html?p=reference-platform-technical">Reference</a>
         <a class="gh" href="https://github.com/microsoft/frontier-ai-governance-rvas" target="_blank" rel="noopener" aria-label="View source on GitHub">GitHub ↗</a>
       </nav>
       <div class="nav-actions">
@@ -40,264 +36,86 @@
   </header>
 
   <main>
-
-    <!-- ═══════════════════════ HERO ══════════════════════════════ -->
     <section class="hero" aria-labelledby="heroHeading">
-
-      <!-- Governance stack backdrop (signature element) -->
-      <svg class="hero-compass hero-stack" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-        <circle cx="200" cy="200" r="184" stroke="currentColor" stroke-width="0.6" stroke-opacity="0.14" stroke-dasharray="4 8"/>
-        <circle cx="200" cy="200" r="150" stroke="currentColor" stroke-width="0.4" stroke-opacity="0.10"/>
-        <circle cx="200" cy="200" r="112" stroke="currentColor" stroke-width="0.4" stroke-opacity="0.10"/>
-        <circle cx="200" cy="200" r="74"  stroke="currentColor" stroke-width="0.4" stroke-opacity="0.12"/>
-        <!-- Ascending pipeline arc, S1 → S6 accents -->
-        <path d="M200 40 A160 160 0 0 1 338 120"  stroke="#1A77E3" stroke-width="2.5" stroke-opacity="0.6" stroke-linecap="round"/>
-        <path d="M338 120 A160 160 0 0 1 338 280"  stroke="#14868A" stroke-width="2.5" stroke-opacity="0.6" stroke-linecap="round"/>
-        <path d="M338 280 A160 160 0 0 1 200 360"  stroke="#DC2626" stroke-width="2.5" stroke-opacity="0.55" stroke-linecap="round"/>
-        <path d="M200 360 A160 160 0 0 1 62 280"   stroke="#7C6BC6" stroke-width="2.5" stroke-opacity="0.6" stroke-linecap="round"/>
-        <path d="M62 280 A160 160 0 0 1 62 120"    stroke="#EA580C" stroke-width="2.5" stroke-opacity="0.55" stroke-linecap="round"/>
-        <path d="M62 120 A160 160 0 0 1 200 40"    stroke="#5AA6F0" stroke-width="2.5" stroke-opacity="0.6" stroke-linecap="round"/>
-        <!-- Axis + centre control node (S0/S6 operating model) -->
-        <line x1="200" y1="20"  x2="200" y2="380" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.08"/>
-        <line x1="20"  y1="200" x2="380" y2="200" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.08"/>
-        <circle cx="200" cy="200" r="6"  fill="#BFDBFE" fill-opacity="0.9"/>
-        <circle cx="200" cy="200" r="14" stroke="#BFDBFE" stroke-width="1" stroke-opacity="0.35"/>
-        <circle cx="200" cy="40"  r="5" fill="#1A77E3" fill-opacity="0.8"/>
-        <circle cx="338" cy="120" r="5" fill="#14868A" fill-opacity="0.8"/>
-        <circle cx="338" cy="280" r="5" fill="#DC2626" fill-opacity="0.75"/>
-        <circle cx="200" cy="360" r="5" fill="#7C6BC6" fill-opacity="0.8"/>
-        <circle cx="62"  cy="280" r="5" fill="#EA580C" fill-opacity="0.75"/>
-        <circle cx="62"  cy="120" r="5" fill="#5AA6F0" fill-opacity="0.8"/>
-      </svg>
-
       <div class="wrap hero-grid">
         <div>
-          <span class="eyebrow">Microsoft AI-Agent Governance · RVAS</span>
-          <h1 id="heroHeading">Govern AI agents<br><span class="accent">in your own tenant</span></h1>
-          <p class="lede">
-            A co-delivered curriculum that puts Microsoft's AI-agent governance stack into
-            production: identity, data, security, evaluation, red-teaming, and a control
-            plane, one working session at a time.
-          </p>
-          <p class="lede byo-lede">
-            <strong>Done with you, not to a demo.</strong> A facilitator guides <em>your</em>
-            admins through real configuration in <em>your</em> tenant. Every session is
-            report-only by default, ships a rollback, and leaves a durable artifact behind.
-          </p>
+          <span class="eyebrow">Microsoft AI-agent governance · RVAS</span>
+          <h1 id="heroHeading">Make AI-agent<br><span class="accent">governance workable.</span></h1>
+          <p class="lede">RVAS is a facilitator-led delivery method and practical curriculum for establishing AI-agent governance in a customer's own environment.</p>
+          <p class="lede byo-lede">Start with the concepts, agree the delivery path, then run the sessions that produce the decisions, evidence, and ownership records the customer needs.</p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="page.html?p=assessment">
-              Run the readiness assessment
+            <a class="btn btn-primary" href="page.html?p=start-understand-rvas">
+              Understand RVAS
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
-            <a class="btn btn-ghost" href="page.html?p=start-why-governance">Start here</a>
+            <a class="btn btn-ghost" href="#sessions">View the sessions</a>
           </div>
-
           <div class="stats stats-4" aria-label="Curriculum statistics">
-            <div class="stat">
-              <span class="stat-num" id="stat-sessions">7</span>
-              <span class="stat-lbl">Working sessions</span>
-            </div>
-            <div class="stat">
-              <span class="stat-num" id="stat-domains">7</span>
-              <span class="stat-lbl">Maturity domains</span>
-            </div>
-            <div class="stat">
-              <span class="stat-num" id="stat-frameworks">3</span>
-              <span class="stat-lbl">Mapped frameworks</span>
-            </div>
-            <div class="stat">
-              <span class="stat-num" id="stat-personas">5</span>
-              <span class="stat-lbl">Delivery personas</span>
-            </div>
+            <div class="stat"><span class="stat-num" id="stat-sessions">7</span><span class="stat-lbl">Working sessions</span></div>
+            <div class="stat"><span class="stat-num" id="stat-domains">7</span><span class="stat-lbl">Maturity domains</span></div>
+            <div class="stat"><span class="stat-num" id="stat-frameworks">3</span><span class="stat-lbl">Aligned frameworks</span></div>
+            <div class="stat"><span class="stat-num" id="stat-personas">5</span><span class="stat-lbl">Delivery roles</span></div>
           </div>
         </div>
 
-        <!-- Session pipeline preview -->
-        <div class="hero-modules hero-pipeline" aria-label="The seven sessions">
-          <a href="session.html?s=s0-foundations" class="hero-mod-card" style="--mod-color:#032254">
-            <span class="hero-chip">S0</span>
-            <div class="mod-name">Foundations &amp; Operating Model</div>
-            <div class="mod-count">Baseline maturity + roadmap</div>
+        <div class="hero-modules" aria-label="Facilitator guide">
+          <a href="page.html?p=start-understand-rvas" class="hero-mod-card" style="--mod-color:#032254">
+            <span class="hero-chip">01</span>
+            <div class="mod-name">Understand RVAS</div>
+            <div class="mod-count">Governance problem · Citadel · outcomes</div>
           </a>
-          <a href="session.html?s=s1-identity" class="hero-mod-card" style="--mod-color:#1A77E3">
-            <span class="hero-chip">S1</span>
-            <div class="mod-name">Identity &amp; Access</div>
-            <div class="mod-count">Entra Agent ID + Conditional Access</div>
+          <a href="page.html?p=start-plan-engagement" class="hero-mod-card" style="--mod-color:#14868A">
+            <span class="hero-chip">02</span>
+            <div class="mod-name">Plan the engagement</div>
+            <div class="mod-count">Roles · safety · S0 baseline · sequence</div>
           </a>
-          <a href="session.html?s=s2-data-compliance" class="hero-mod-card" style="--mod-color:#14868A">
-            <span class="hero-chip">S2</span>
-            <div class="mod-name">Data &amp; Compliance</div>
-            <div class="mod-count">Purview DSPM · DLP · IRM</div>
-          </a>
-          <a href="session.html?s=s3-security-runtime" class="hero-mod-card" style="--mod-color:#DC2626">
-            <span class="hero-chip">S3</span>
-            <div class="mod-name">Security Posture &amp; Runtime</div>
-            <div class="mod-count">Defender AI-SPM + Content Safety</div>
-          </a>
-          <a href="session.html?s=s4-evaluation" class="hero-mod-card" style="--mod-color:#504092">
-            <span class="hero-chip">S4</span>
-            <div class="mod-name">Quality &amp; Safety Evaluation</div>
-            <div class="mod-count">Foundry evals + CI/CD gate</div>
-          </a>
-          <a href="session.html?s=s5-red-teaming" class="hero-mod-card" style="--mod-color:#EA580C">
-            <span class="hero-chip">S5</span>
-            <div class="mod-name">Adversarial Testing</div>
-            <div class="mod-count">PyRIT + ASR scorecard</div>
-          </a>
-          <a href="session.html?s=s6-control-plane" class="hero-mod-card" style="--mod-color:#0078D4">
-            <span class="hero-chip">S6</span>
-            <div class="mod-name">Control Plane &amp; Operationalization</div>
-            <div class="mod-count">Agent 365 registry + re-score</div>
+          <a href="#sessions" class="hero-mod-card" style="--mod-color:#504092">
+            <span class="hero-chip">03</span>
+            <div class="mod-name">Run the curriculum</div>
+            <div class="mod-count">Seven sessions · evidence · owned backlog</div>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- ═══════════════════════ GOVERNANCE MODEL ═════════════════ -->
-    <section class="section-tight" id="governance-model" aria-labelledby="governanceHeading">
+    <section class="section-tight" aria-labelledby="guideHeading">
       <div class="wrap">
         <div class="shead reveal">
           <div>
-            <span class="eyebrow">Before the sessions</span>
-            <h2 id="governanceHeading" style="margin-top:14px">Start with the governance problem. Then choose the platform path.</h2>
-            <p>Citadel is the recommended runtime foundation for the integrated path: gateway, access contracts, API Center, safety controls, PII masking, auth, telemetry, and FinOps. RVAS turns that foundation into an operating model with owners, evidence, evaluation gates, findings, and a continuous-improvement backlog.</p>
+            <span class="eyebrow">Facilitator guide</span>
+            <h2 id="guideHeading" style="margin-top:14px">Two pages before the work begins.</h2>
+            <p>Use the first page to explain the programme. Use the second to prepare the people, safety conditions, and platform path.</p>
           </div>
-          <a class="link" href="page.html?p=start-why-governance">
-            Start the introduction
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
         </div>
         <div class="steps-grid reveal">
-          <div class="step-item">
+          <a class="step-item" href="page.html?p=start-understand-rvas">
             <div class="step-num">01</div>
-            <div class="step-title">Understand the governance gap</div>
-            <p class="step-desc">See why agent identity, data, runtime behavior, and evidence need to work together before adoption can scale safely.</p>
-          </div>
-          <div class="step-item">
+            <div class="step-title">Understand RVAS</div>
+            <p class="step-desc">Explain the governance problem, Citadel's practical role, and the decision, role, and evidence outcome of each session.</p>
+          </a>
+          <a class="step-item" href="page.html?p=start-plan-engagement">
             <div class="step-num">02</div>
-            <div class="step-title">Choose the foundation</div>
-            <p class="step-desc">Connect an existing Citadel or equivalent platform, deploy Citadel, or schedule readiness while you establish the governance baseline.</p>
-          </div>
-          <div class="step-item">
-            <div class="step-num">03</div>
-            <div class="step-title">Operate and improve</div>
-            <p class="step-desc">RVAS assigns ownership, captures evidence, tests quality and safety, and turns gaps into an accountable improvement backlog.</p>
-          </div>
+            <div class="step-title">Plan the engagement</div>
+            <p class="step-desc">Confirm ownership, readiness, safety, S0 baseline work, and the sequence for the customer.</p>
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- ═══════════════════════ SESSIONS ═══════════════════════════ -->
     <section class="section" id="sessions" aria-labelledby="sessionsHeading">
       <div class="wrap">
         <div class="shead reveal">
           <div>
             <span class="eyebrow">The curriculum</span>
-            <h2 id="sessionsHeading" style="margin-top:14px">Seven sessions. Seven durable outcomes.</h2>
-            <p>Each session is a hands-on working session that leaves something lasting in your environment: Infrastructure as Code, exported policies, evaluation and red-team pipelines, runbooks, and a maturity score that provably moves.</p>
+            <h2 id="sessionsHeading" style="margin-top:14px">Seven sessions, each with a concrete outcome.</h2>
+            <p>Each runbook covers the prerequisites, co-delivery walkthrough, verification, evidence capture, rollback, and facilitator notes. Its companion Concepts page explains why the work matters.</p>
           </div>
-          <a class="link" href="page.html?p=how-to-deliver">
-            How to deliver
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
         </div>
         <div class="session-grid" id="sessionGrid">
           <div class="empty">Loading sessions…</div>
         </div>
       </div>
     </section>
-
-    <!-- ═══════════════════════ HOW IT WORKS ══════════════════════ -->
-    <section class="how-it-works section" id="how-it-works" aria-labelledby="howHeading">
-      <div class="wrap">
-        <div class="shead reveal">
-          <div>
-            <span class="eyebrow">The delivery model</span>
-            <h2 id="howHeading" style="margin-top:14px">Co-delivered, report-only, evidence-backed.</h2>
-            <p>The facilitator drives the narrative; your admins hold the privileges and make the changes. Nothing runs in a demo tenant; the whole point is that the configuration stays with you.</p>
-          </div>
-        </div>
-        <div class="steps-grid reveal">
-          <div class="step-item">
-            <div class="step-num">01</div>
-            <div class="step-title">Frame the outcome</div>
-            <p class="step-desc">Agree the durable artifact and the safety protocol. Confirm a break-glass account, a change window, and a named approver before any change.</p>
-          </div>
-          <div class="step-item">
-            <div class="step-num">02</div>
-            <div class="step-title">Apply in your tenant</div>
-            <p class="step-desc">Your admins make the change: Conditional Access report-only, DLP in test, scans against a non-production agent. Enforcement is a later, deliberate step.</p>
-          </div>
-          <div class="step-item">
-            <div class="step-num">03</div>
-            <div class="step-title">Verify &amp; capture evidence</div>
-            <p class="step-desc">Confirm it worked and capture proof (exports, logs, policy JSON) into the takeaway kit's evidence folder. That becomes your governance record.</p>
-          </div>
-          <div class="step-item">
-            <div class="step-num">04</div>
-            <div class="step-title">Take home the kit</div>
-            <p class="step-desc">Every session ships IaC, scripts, policies, pipelines, a runbook, and a rollback under <span class="mono">labs/sNN-*/</span>, yours to keep running in production.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════ THE STACK ═════════════════════════ -->
-    <section class="section-tight" id="stack" aria-labelledby="stackHeading">
-      <div class="wrap">
-        <div class="shead reveal">
-          <div>
-            <span class="eyebrow">The governance stack</span>
-            <h2 id="stackHeading" style="margin-top:14px">What you implement, session by session.</h2>
-            <p>The agents you build climb an identity → data → security → evaluation → control pipeline, framed by the S0 operating model and re-scored each loop.</p>
-          </div>
-          <a class="link" href="page.html?p=reference">
-            Explore the landscape
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-        </div>
-        <figure class="figure-card reveal">
-          <img src="assets/diagrams/journey.svg" alt="The governance stack you implement, session by session: agents climb an identity → data → security → evaluation → control pipeline, framed by the S0 operating model and re-scored each loop." loading="lazy" />
-        </figure>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════ START HERE ════════════════════════ -->
-    <section class="section-tight" id="start" aria-labelledby="startHeading">
-      <div class="wrap">
-        <div class="shead reveal">
-          <div>
-            <span class="eyebrow">Start here</span>
-            <h2 id="startHeading" style="margin-top:14px">Understand the path, baseline the tenant, then deliver.</h2>
-          </div>
-        </div>
-        <div class="start-band reveal">
-          <ol class="start-steps">
-            <li>
-              <strong>Follow the <a href="page.html?p=start-why-governance">Start here</a> sequence.</strong>
-              Understand the governance gap, the Citadel + RVAS model, and the readiness path.
-            </li>
-            <li>
-              <strong>Read <a href="page.html?p=how-to-deliver">How to Deliver</a>.</strong>
-              Confirm the delivery model, the five personas, safety protocol, and room setup.
-            </li>
-            <li>
-              <strong>Run the <a href="page.html?p=assessment">Readiness Assessment</a>.</strong>
-              Baseline maturity across seven domains and generate a prioritized session roadmap.
-            </li>
-            <li>
-              <strong>Deliver the sessions</strong> in the recommended order, or the order the
-              assessment prioritizes, then re-score at S6 to prove the lift.
-            </li>
-          </ol>
-          <a class="btn btn-primary" href="page.html?p=assessment">
-            Open the readiness assessment
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-        </div>
-      </div>
-    </section>
-
   </main>
 
   <footer class="footer" role="contentinfo">
@@ -305,13 +123,12 @@
       <a class="brand" href="index.html" aria-label="RVAS · Frontier AI Governance">
         <img src="assets/img/logo-full.png" alt="RVAP" class="rvap-nav-logo" height="32">
       </a>
-      <p>All content references publicly documented Microsoft capabilities, with citations in the Reference section. MIT licensed.</p>
+      <p>All content references publicly documented Microsoft capabilities. MIT licensed.</p>
       <nav class="footer-links" aria-label="Footer">
         <a href="index.html#sessions">Sessions</a>
-        <a href="page.html?p=start-why-governance">Start here</a>
-        <a href="page.html?p=how-to-deliver">How to Deliver</a>
-        <a href="page.html?p=assessment">Assessment</a>
-        <a href="page.html?p=reference">Reference</a>
+        <a href="page.html?p=start-understand-rvas">Understand RVAS</a>
+        <a href="page.html?p=start-plan-engagement">Plan the engagement</a>
+        <a href="page.html?p=reference-platform-technical">Reference</a>
       </nav>
     </div>
   </footer>

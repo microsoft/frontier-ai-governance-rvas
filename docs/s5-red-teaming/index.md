@@ -1,7 +1,7 @@
 # S5 · Adversarial Testing
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-06 · Concepts sourced from [Reference - Landscape](../reference/index.md). PyRIT status and AI Red Teaming Agent preview status in [Product Status](../reference/product-status.md).
+    Last reviewed: 2026-07-06 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).
 
 <span class="rvas-badge rvas-persona">Security / SOC</span> <span class="rvas-badge rvas-persona">AI developer / maker</span>
 

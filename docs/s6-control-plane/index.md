@@ -1,7 +1,7 @@
 # S6 · Control Plane & Operationalization
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-06 · Concepts sourced from [Reference - Landscape](../reference/index.md). Agent 365 status and pricing must be re-verified in [Product Status](../reference/product-status.md) before delivery.
+    Last reviewed: 2026-07-06 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).
 
 <span class="rvas-badge rvas-persona">Governance lead</span> <span class="rvas-badge rvas-persona">AI developer / maker</span> <span class="rvas-badge rvas-persona">Security / SOC</span>
 
@@ -10,8 +10,8 @@
 The customer leaves with the capstone operating view for AI-agent governance:
 
 - An **agent registry reconciliation** that compares Microsoft Agent 365's control-plane registry with the S1 Entra Agent ID inventory, including shadow agents, OBO agents, unmanaged agents, missing owners, and lifecycle state.
-- The S6 exit maturity re-score: the same S0 assessment re-run after S1-S6, showing measurable lift versus the baseline and a residual-gap backlog.
-- A named operational owner and lifecycle state for every known agent, so the registry becomes the single source of truth rather than another dashboard.
+- The S6 exit maturity re-score: the same S0 assessment re-run after S1-S6 to compare the current state with the baseline and produce a residual-gap backlog.
+- A named operational owner and lifecycle state for every known agent, maintained through a reviewed registry process rather than an unmanaged dashboard.
 
 Durable artifact: `labs/s6-control-plane/` - registry export/reference script, offline reconciliation tooling, evidence templates, and the exit re-score runbook committed to the customer's governance repo.
 
@@ -59,7 +59,7 @@ Read the [S6 Concepts](concepts.md) for control-plane reconciliation, lifecycle 
 - [ ] `evidence/agent-registry.json` is captured.
 - [ ] `evidence/reconciliation-report.json` exists and lists shadow agents, unmanaged/OBO agents, missing sponsors, and lifecycle gaps.
 - [ ] `evidence/exit-scorecard.csv` and the `score.py` terminal output are stored as the S6 exit score.
-- [ ] Lift versus the S0 baseline is documented per domain D0-D6, with residual gaps assigned to owners.
+- [ ] Changes from the S0 baseline are documented per domain D0-D6, with residual gaps assigned to owners.
 
 Evidence belongs in `labs/s6-control-plane/evidence/` so it can be reviewed without screenshots and committed or archived according to the customer's governance-record policy.
 
@@ -79,6 +79,6 @@ If the customer later writes lifecycle state, owner, or access-control metadata 
     - *S1 inventory missing* → use maker/admin inputs for the workshop, but record this as a D1/D6 residual gap.
     - *OBO agents only* → mark them "visible but not fully controllable" and add migration to Entra Agent ID as the backlog action.
     - *No accountable owner* → do not mark the agent operationally complete; missing sponsor is a governance finding.
-- **Close the loop:** S6 proves the lift opened in S0 by re-running the exact same seven-domain, 1-4 maturity instrument and turning remaining gaps into an owned backlog.
+- **Close the loop:** S6 re-runs the same seven-domain, 1-4 maturity instrument, records the change from S0, and assigns the remaining gaps.
 
 [^a365]: Microsoft Learn - [Agent 365 Overview](https://learn.microsoft.com/en-us/microsoft-agent-365/overview); Microsoft 365 Blog - *Microsoft Agent 365: the control plane for AI agents* (2025-11-18); Microsoft Security Blog - *Agent 365 now generally available* (2026-05-01).

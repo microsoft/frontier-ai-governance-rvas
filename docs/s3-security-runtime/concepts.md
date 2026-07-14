@@ -1,7 +1,7 @@
 # S3 · Security Posture & Runtime Concepts
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-06 · Check Defender and Content Safety availability in [Product Status](../reference/product-status.md).
+    Last reviewed: 2026-07-06 · Check Defender and Content Safety availability in the [Governance capability guide](../reference/governance-capability-guide.md).
 
 This page separates the security ideas behind S3. Use the [S3 Runbook](index.md) to perform the customer-owned validation steps.
 
@@ -35,7 +35,7 @@ S3 verifies the customer’s deployed path rather than creating a parallel one. 
 
 A new runtime control can create false positives, blind spots, or unexpected service disruption. S3 therefore starts with scoped, customer-owned non-production tests and alert routing. The SOC can then validate triage, ownership, and evidence before anyone proposes an enforcement change.
 
-**Common misconception:** blocking production traffic is not a proof that a control is mature. A control is mature when its scope, owner, failure mode, and response process are understood.
+A control is mature when its scope, owner, failure mode, and response process are understood. Blocking production traffic does not establish that.
 
 [^defender]: Microsoft Learn - [AI security posture management](https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-security-posture); [AI threat protection](https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-threat-protection).
 [^contentsafety]: Microsoft Learn - [Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection).

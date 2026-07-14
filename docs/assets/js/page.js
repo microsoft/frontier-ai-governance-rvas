@@ -4,15 +4,12 @@
   'use strict';
 
   const REFERENCE_GROUP = [
-    { slug: 'reference', label: 'Landscape' },
-    { slug: 'reference-architectures', label: 'Reference Architectures' },
-    { slug: 'reference-citadel-rvas-playbook', label: 'Citadel + RVAS Playbook' },
-    { slug: 'reference-product-status', label: 'Product & Feature Status' },
+    { slug: 'reference-platform-technical', label: 'Platform technical guide' },
+    { slug: 'reference-governance-capabilities', label: 'Governance capability guide' },
   ];
   const START_HERE_GROUP = [
-    { slug: 'start-why-governance', label: 'Why AI-agent governance now' },
-    { slug: 'governance-on-citadel', label: 'Citadel + RVAS together' },
-    { slug: 'start-your-journey', label: 'Your journey' },
+    { slug: 'start-understand-rvas', label: 'Understand RVAS' },
+    { slug: 'start-plan-engagement', label: 'Plan the engagement' },
   ];
 
   async function init() {

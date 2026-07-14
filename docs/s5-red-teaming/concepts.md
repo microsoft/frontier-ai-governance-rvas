@@ -1,7 +1,7 @@
 # S5 · Adversarial Testing Concepts
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-06 · Validate AI Red Teaming Agent availability before use in [Product Status](../reference/product-status.md).
+    Last reviewed: 2026-07-06 · Validate AI Red Teaming Agent availability in the [Governance capability guide](../reference/governance-capability-guide.md).
 
 This page explains the safety-testing model behind S5. The [S5 Runbook](index.md) contains the authorization gates and operational sequence.
 
@@ -33,7 +33,7 @@ Testing it helps teams assess whether their application separates trusted instru
 
 Microsoft Foundry's AI Red Teaming Agent is a managed, preview capability that can produce ASR-oriented results across categories and strategies. PyRIT remains the underlying open-source toolkit and can be used through local and cloud-supported paths.[^airt]
 
-**Common misconception:** a managed scan removes the need for governance. The customer still owns authorization, target scope, safe data, alert handling, evidence retention, and remediation decisions.
+A managed scan does not remove the need for governance. The customer still owns authorization, target scope, safe data, alert handling, evidence retention, and remediation decisions.
 
 [^pyrit]: Azure/PyRIT - [Python Risk Identification Toolkit](https://github.com/Azure/PyRIT).
 [^airt]: Microsoft Learn - [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent).

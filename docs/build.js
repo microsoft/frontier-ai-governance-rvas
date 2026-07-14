@@ -50,30 +50,22 @@ const SESSIONS = [
 ];
 
 const PAGES = [
-  { slug: 'start-why-governance',         src: 'start/why-governance.md',     title: 'Why AI-agent governance now', nav: true, group: 'Start here' },
-  { slug: 'governance-on-citadel',        src: 'governance-on-citadel.md',    title: 'Citadel + RVAS together', nav: true, group: 'Start here' },
-  { slug: 'start-your-journey',           src: 'start/your-journey.md',       title: 'Your journey', nav: true, group: 'Start here' },
-  { slug: 'how-to-deliver',               src: 'how-to-deliver.md',            title: 'How to Deliver',            nav: true,  group: null },
+  { slug: 'start-understand-rvas',        src: 'start/understand-rvas.md',    title: 'Understand RVAS',           nav: true, group: 'Start here' },
+  { slug: 'start-plan-engagement',        src: 'start/plan-engagement.md',    title: 'Plan the engagement',       nav: true, group: 'Start here' },
   { slug: 'assessment',                   src: 'assessment/index.md',          title: 'Readiness Assessment',      nav: true,  group: null },
-  { slug: 'reference',                    src: 'reference/index.md',           title: 'Reference · Landscape',     nav: true,  group: 'Reference' },
-  { slug: 'reference-architectures',      src: 'reference/reference-architectures.md', title: 'Reference Architectures', nav: false, group: 'Reference' },
-  { slug: 'reference-citadel-rvas-playbook', src: 'reference/citadel-rvas-playbook.md', title: 'Citadel + RVAS Playbook', nav: false, group: 'Reference' },
-  { slug: 'reference-product-status',     src: 'reference/product-status.md',  title: 'Product & Feature Status',  nav: false, group: 'Reference' },
+  { slug: 'reference-platform-technical', src: 'reference/platform-technical-guide.md', title: 'Platform technical guide', nav: true, group: 'Reference' },
+  { slug: 'reference-governance-capabilities', src: 'reference/governance-capability-guide.md', title: 'Governance capability guide', nav: true, group: 'Reference' },
 ];
 
 /* ─── Link routing map (docs-relative path → static route) ────────────────── */
 
 const ROUTES = {
   'index.md': 'index.html',
-  'start/why-governance.md': 'page.html?p=start-why-governance',
-  'governance-on-citadel.md': 'page.html?p=governance-on-citadel',
-  'start/your-journey.md': 'page.html?p=start-your-journey',
-  'how-to-deliver.md': 'page.html?p=how-to-deliver',
+  'start/understand-rvas.md': 'page.html?p=start-understand-rvas',
+  'start/plan-engagement.md': 'page.html?p=start-plan-engagement',
   'assessment/index.md': 'page.html?p=assessment',
-  'reference/index.md': 'page.html?p=reference',
-  'reference/reference-architectures.md': 'page.html?p=reference-architectures',
-  'reference/citadel-rvas-playbook.md': 'page.html?p=reference-citadel-rvas-playbook',
-  'reference/product-status.md': 'page.html?p=reference-product-status',
+  'reference/platform-technical-guide.md': 'page.html?p=reference-platform-technical',
+  'reference/governance-capability-guide.md': 'page.html?p=reference-governance-capabilities',
 };
 SESSIONS.forEach((s) => {
   ROUTES[`${s.slug}/index.md`] = `session.html?s=${s.slug}`;
@@ -288,6 +280,7 @@ function read(rel) {
 }
 
 function main() {
+  fs.rmSync(PAGES_OUT, { recursive: true, force: true });
   fs.mkdirSync(PAGES_OUT, { recursive: true });
 
   const sessionMeta = [];

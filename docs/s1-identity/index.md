@@ -1,7 +1,7 @@
 # S1 · Identity & Access
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-06 · Concepts sourced from [Reference - Landscape](../reference/index.md). Entra Agent ID GA and Conditional Access for agents status in [Product Status](../reference/product-status.md).
+    Last reviewed: 2026-07-06 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).
 
 <span class="rvas-badge rvas-persona">Identity admin</span> <span class="rvas-badge rvas-persona">Governance lead</span>
 
@@ -34,7 +34,7 @@ Read the [S1 Concepts](concepts.md) for Agent ID, workload-identity Conditional 
 !!! warning "Report-only / audit-first"
     The Conditional Access policy created here is **report-only**. It changes nothing for users or agents until the customer deliberately switches it to *On* after reviewing report-only sign-in impact. Confirm the break-glass exclusion before creating any policy.
 
-1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">Identity admin</span>)* - confirm the break-glass account, change window, and approver (see [How to Deliver](../how-to-deliver.md#safety-protocol-applies-to-every-session)). Open `labs/s1-identity/rollback.md`.
+1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">Identity admin</span>)* - confirm the break-glass account, change window, and approver (see [Plan the engagement](../start/plan-engagement.md#deliver-safely)). Open `labs/s1-identity/rollback.md`.
 2. **Connect read-only and inventory agents** - the customer runs:
    ```powershell
    ./scripts/Get-AgentIdentities.ps1 -OutFile ./evidence/agent-inventory.json
@@ -43,7 +43,7 @@ Read the [S1 Concepts](concepts.md) for Agent ID, workload-identity Conditional 
 3. **Build the sponsor register** - for each agent in the inventory without a clear owner, record a human sponsor in `policies/sponsor-register.csv`. Agents with no sponsor are the first governance finding.
 4. **Author the Conditional Access policy** - review `policies/ca-agent-baseline.json` (a Workload Identity CA policy that targets the agent service principals under `clientApplications`, excludes a break-glass service principal, report-only). Set `includeServicePrincipals` to the agent SP object ID(s) and `excludeServicePrincipals` to the customer's break-glass service principal.
 5. **Hand it off for customer-owned change** - this kit intentionally does not create or remove tenant policy. The customer may apply the reviewed definition through its approved change process, retaining `enabledForReportingButNotEnforced` and the break-glass exclusion.
-6. **Let it bake** - if the customer applies the policy, leave it in report-only. Impact is reviewed over the following days via sign-in logs before any enforcement decision.
+6. **Observe report-only results** - if the customer applies the policy, agree an observation period and review the affected sign-in records before deciding whether to enforce it.
 
 ## 5. Verification & evidence capture
 
