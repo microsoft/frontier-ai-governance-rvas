@@ -72,17 +72,7 @@ Every S3 change has a rollback path in `labs/s3-security-runtime/rollback.md`:
 
 Because S3 is audit-first, rollback should not affect production traffic unless the customer deliberately promoted a control outside the workshop.
 
-## 7. Governance mapping
-
-| Artifact | NIST AI RMF | ISO/IEC 42001 | EU AI Act |
-|----------|-------------|---------------|-----------|
-| Defender AI-SPM AI-BOM, posture recommendations, attack paths | Measure (posture), Manage (risk treatment) | A.6 (AI system lifecycle), A.10 (operations) | Art. 15 (accuracy, robustness, cybersecurity) |
-| AI Threat Protection alerts routed to Defender XDR | Measure, Manage | A.10 (operations, monitoring) | Art. 15 (cybersecurity) |
-| Content Safety Prompt Shields runtime test evidence | Measure (runtime safety) | A.6 (verification), A.10 (operations) | Art. 15 (robustness, cybersecurity) |
-
-Consolidated in [Reference - Governance Mapping](../reference/governance-mapping.md): Defender AI-SPM, threat protection, Content Safety → Measure, Manage → A.6, A.10 (operations) → Art. 15 (accuracy, robustness, cybersecurity).
-
-## 8. Facilitator notes
+## 7. Facilitator notes
 
 - **Timing:** ~half day. Pre-flight + concepts ~45 min, Citadel runtime safety evidence ~30 min, Defender AI-SPM export + AI Threat Protection review ~75 min, Prompt Shield test + evidence ~45 min.
 - **RACI:** Security/SOC = R, Governance lead = A, AI developer / maker = C (test endpoint), Compliance / Data admin = C (sensitive data findings), Identity admin = I.

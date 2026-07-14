@@ -74,16 +74,7 @@ S6 begins read-only. Registry exports, reconciliation reports, and maturity scor
 
 If the customer later writes lifecycle state, owner, or access-control metadata back into Agent 365, those writes must be approved separately and are reversible by restoring the previous registry values from the captured export.
 
-## 7. Governance mapping
-
-| Artifact | NIST AI RMF | ISO/IEC 42001 | EU AI Act |
-|----------|-------------|---------------|-----------|
-| Agent 365 registry + capstone re-score | Govern, Manage | A.2, A.3, A.10 | Art. 72 (post-market monitoring) |
-| Shadow/OBO residual-gap backlog | Map, Manage | A.6, A.10 | Art. 72 (post-market monitoring) |
-
-Consolidated in [Reference - Governance Mapping](../reference/governance-mapping.md).
-
-## 8. Facilitator notes
+## 7. Facilitator notes
 
 - **Timing:** ~half day. Concepts + pre-flight ~30 min, registry export/reconciliation ~75 min, lifecycle ownership workshop ~60 min, exit re-score + backlog ~60 min, evidence hand-off ~15 min.
 - **RACI:** Governance lead = R/A; Identity admin = C for Entra Agent ID inventory; Security/SOC = C for unmanaged/OBO risk; AI developer / maker = C for agent provenance; executive sponsor = I.

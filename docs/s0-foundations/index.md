@@ -66,17 +66,7 @@ python labs/s0-foundations/assessment/score.py \
 
 S0 creates documents only, no tenant state. "Rollback" = discard the working branch. See `labs/s0-foundations/rollback.md`.
 
-## 7. Governance mapping
-
-| Artifact | NIST AI RMF | ISO/IEC 42001 | EU AI Act |
-|----------|-------------|---------------|-----------|
-| Maturity baseline + roadmap | Govern (1.1 accountability, inventory) | A.2 (policies), A.3 (roles & responsibilities) | Art. 17 (quality management system) |
-| CoE operating model + RACI | Govern (2.x roles) | A.3, A.4 (resources) | Art. 17 |
-| Use-case intake + risk classification | Map (1.x context) | A.5 (impact assessment) | Art. 9 (risk management) |
-
-Consolidated in [Reference - Governance Mapping](../reference/governance-mapping.md).
-
-## 8. Facilitator notes
+## 7. Facilitator notes
 
 - **Timing:** ~half day. Operating model ~60 min, assessment ~90 min (the discussion *is* the value - don't rush scores), roadmap + sequencing ~30 min.
 - **RACI:** Governance lead = R, executive sponsor = A, other four personas = C (they'll own their sessions later).

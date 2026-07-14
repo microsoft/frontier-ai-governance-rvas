@@ -65,17 +65,7 @@ Rollback is a release-control change, not a data-plane deletion:
 
 Detailed steps are in `labs/s4-evaluation/rollback.md`.
 
-## 7. Governance mapping
-
-| Artifact | NIST AI RMF | ISO/IEC 42001 | EU AI Act |
-|----------|-------------|---------------|-----------|
-| Foundry evaluation suite + CI/CD gate | Measure | A.6 (verification & validation) | Art. 15 (accuracy), Art. 9 (risk mgmt) |
-| Offline mock-target scorecard | Measure | A.6 (verification & validation) | Art. 15 (accuracy) |
-| Continuous evaluation plan + trace lineage | Measure, Manage | A.10 (operations, monitoring) | Art. 72 (post-market monitoring), Art. 12 (logging) |
-
-Consolidated in [Reference - Governance Mapping](../reference/governance-mapping.md).
-
-## 8. Facilitator notes
+## 7. Facilitator notes
 
 - **Timing:** ~half day. Concepts + safety ~45 min, dataset/threshold review ~60 min, Foundry evaluation evidence ~45 min, CI design ~75 min, wrap-up ~30 min.
 - **RACI:** AI developer / maker = R, Governance lead = A, Security / SOC = C (risk/safety thresholds), Compliance / Data admin = C (dataset handling), Identity admin = I.

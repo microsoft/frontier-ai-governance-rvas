@@ -70,17 +70,7 @@ Evidence to capture (into `labs/s2-data-compliance/evidence/`): DSPM for AI find
 
 This kit makes no tenant changes. If the customer independently applies a simulation/test policy, its approved change process owns reversal and confirmation. DSPM exports, audit searches, and evidence files are read-only artifacts - nothing to revert in the tenant.
 
-## 7. Governance mapping
-
-| Artifact | NIST AI RMF | ISO/IEC 42001 | EU AI Act |
-|----------|-------------|---------------|-----------|
-| DSPM for AI findings export | Map (data exposure, context), Manage (prioritized remediation) | A.7 (data), A.8 (impact) | Art. 10 (data governance), Art. 12 (logging) |
-| DLP for AI policy in simulation/test | Manage (data-use controls) | A.7 (data), A.8 (impact) | Art. 10 (data governance) |
-| IRM, Communication Compliance, Audit/eDiscovery evidence | Map, Manage | A.7 (data), A.8 (impact) | Art. 12 (logging) |
-
-Consolidated in [Reference - Governance Mapping](../reference/governance-mapping.md): DSPM for AI, DLP, IRM, audit → Map, Manage → A.7 (data), A.8 (impact) → Art. 10 (data governance), Art. 12 (logging).
-
-## 8. Facilitator notes
+## 7. Facilitator notes
 
 - **Timing:** ~half day. Pre-flight + concepts ~45 min, DSPM review ~60 min, DLP simulation authoring ~60 min, verification/evidence ~30 min.
 - **RACI:** Compliance/Data admin = R, Governance lead = A, Security/SOC = C (IRM/Communication Compliance), AI developer = I.

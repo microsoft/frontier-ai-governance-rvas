@@ -28,6 +28,22 @@ Microsoft ships a first-party control plane for governing AI agents end to end, 
 - **Monitoring ≠ control.** Agents that execute as the user (OBO) without their own Entra Agent ID may be *visible but not fully controllable*.[^a365]
 - **Tenant-plane ≠ IaC.** Entra, Purview, and M365/Copilot config are not deployable via Bicep/ARM - they use Microsoft Graph / PowerShell / exported JSON.
 
+## Framework alignment at a glance
+
+The sessions produce practical governance evidence that supports the following frameworks. These are illustrative alignments, not a legal conformity assessment.
+
+| Session | NIST AI RMF | ISO/IEC 42001 | EU AI Act |
+|---------|-------------|---------------|-----------|
+| S0 Foundations | Govern, Map | Policies and roles | Art. 9, 17 |
+| S1 Identity | Govern, Map, Manage | Lifecycle and access | Art. 12, 14, 15 |
+| S2 Data & Compliance | Map, Manage | Data and impact | Art. 10, 12 |
+| S3 Security & Runtime | Measure, Manage | Lifecycle and operations | Art. 15 |
+| S4 Evaluation | Measure, Manage | Validation and operations | Art. 9, 12, 15, 72 |
+| S5 Adversarial Testing | Govern, Measure, Manage | Roles, lifecycle, operations | Art. 9, 12, 15 |
+| S6 Control Plane | Govern, Map, Manage | Policies, roles, operations | Art. 72 |
+
+NIST alignment covers an estimated ~60-70% of EU AI Act obligations. Risk classification and formal conformity assessment remain the customer's legal responsibility.
+
 [^a365]: Microsoft 365 Blog - *Microsoft Agent 365: the control plane for AI agents* (2025-11-18); Microsoft Learn - [Agent 365 Overview](https://learn.microsoft.com/en-us/microsoft-agent-365/overview); Microsoft Security Blog - *Agent 365 now generally available* (2026-05-01).
 [^entra]: Microsoft Learn - [What is Microsoft Entra Agent ID?](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id); [Agent ID governance overview](https://learn.microsoft.com/en-us/entra/id-governance/agent-id-governance-overview).
 [^purview]: Microsoft Learn - [Microsoft Purview for AI](https://learn.microsoft.com/en-us/purview/ai-microsoft-purview); [DSPM](https://learn.microsoft.com/en-us/purview/data-security-posture-management-learn-about).

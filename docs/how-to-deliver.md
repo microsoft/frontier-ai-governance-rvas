@@ -67,7 +67,7 @@ Every change has a documented rollback, and every session ends with a verificati
 
 ## Anatomy of a session page
 
-Each session follows the same 8-part spine:
+Each session follows the same 7-part spine:
 
 1. **Outcome & durable artifact** - what stays in your tenant.
 2. Prerequisites - required platform state, licenses, roles, regions.
@@ -75,8 +75,7 @@ Each session follows the same 8-part spine:
 4. Co-delivery walkthrough - step-by-step, report-only first.
 5. Verification and evidence capture.
 6. Rollback.
-7. Governance mapping - NIST AI RMF / ISO 42001 / EU AI Act line items satisfied.
-8. Facilitator notes - timings, RACI, common blockers.
+7. Facilitator notes - timings, RACI, common blockers.
 
 ## Anatomy of a takeaway kit
 

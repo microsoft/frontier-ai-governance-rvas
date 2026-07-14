@@ -69,17 +69,7 @@ Use `labs/s5-red-teaming/rollback.md` to:
 - close or annotate SOC alerts as authorized test activity;
 - complete a SOC de-brief and capture lessons learned.
 
-## 7. Governance mapping
-
-| Artifact | NIST AI RMF | ISO/IEC 42001 | EU AI Act |
-|----------|-------------|---------------|-----------|
-| PyRIT / AI Red Teaming Agent scan + ASR scorecard | Measure, Manage | A.6 (AI system lifecycle), A.10 (operations, logging) | Art. 15 (robustness, cybersecurity) |
-| Written scope, rules of engagement, and SOC notification | Govern, Manage | A.3 (roles), A.10 (operations) | Art. 9 (risk management), Art. 12 (record-keeping / logging) |
-| Remediation backlog for categories above ASR threshold | Manage | A.6 (verification & validation), A.10 | Art. 15 (accuracy, robustness, cybersecurity) |
-
-Consolidated in [Reference - Governance Mapping](../reference/governance-mapping.md).
-
-## 8. Facilitator notes
+## 7. Facilitator notes
 
 - **Timing:** ~half day. Pre-flight + authorization ~45 min, concepts + dataset review ~45 min, scan execution ~60 min, scorecard review + remediation planning ~60 min, SOC de-brief ~30 min.
 - **RACI:** Security/SOC = R, Governance lead = A, AI developer / maker = C, endpoint owner = C.

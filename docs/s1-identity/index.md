@@ -65,17 +65,7 @@ Evidence to capture (into `labs/s1-identity/evidence/`): the inventory JSON, the
 
 This kit makes no tenant changes. If the customer independently applies a report-only policy, its approved change process owns reversal and confirmation. The inventory and sponsor register are read-only artifacts - nothing to revert in the tenant.
 
-## 7. Governance mapping
-
-| Artifact | NIST AI RMF | ISO/IEC 42001 | EU AI Act |
-|----------|-------------|---------------|-----------|
-| Agent identity inventory + sponsor register | Govern (accountability), Map (inventory) | A.6 (AI system lifecycle), A.9 (access control) | Art. 14 (human oversight) |
-| Conditional Access policy (report-only) | Manage (access risk) | A.9 (access control) | Art. 15 (access security) |
-| Sign-in / report-only logs captured | Measure | A.10 (operations, logging) | Art. 12 (record-keeping / logging) |
-
-Consolidated in [Reference - Governance Mapping](../reference/governance-mapping.md).
-
-## 8. Facilitator notes
+## 7. Facilitator notes
 
 - **Timing:** ~half day. Pre-flight + concepts ~45 min, inventory + sponsor register ~60 min, policy authoring + report-only creation ~60 min, verification/evidence ~30 min.
 - **RACI:** Identity admin = R, Governance lead = A, Security/SOC = C (sign-in risk), AI developer = I.
