@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate and verify offline S7 policy-decision audit evidence.
+"""Generate and verify offline S7 policy-decision hash-chain evidence.
 
 This dependency-free simulator illustrates a deny-by-default tool policy and
 hash-linked decision records. It does not import, invoke, or validate AGT.
@@ -109,7 +109,10 @@ def write_evidence(path: Path, policy: dict[str, Any], records: list[dict[str, A
         "records": records,
     }
     failures = verify_records(evidence)
-    evidence["integrity_verification"] = {"status": "pass" if not failures else "fail", "failures": failures}
+    evidence["hash_chain_consistency"] = {
+        "status": "pass" if not failures else "fail",
+        "failures": failures,
+    }
     path.write_text(json.dumps(evidence, indent=2) + "\n", encoding="utf-8")
 
 
@@ -119,13 +122,13 @@ def verify_file(path: Path) -> int:
         return 1
     evidence = json.loads(path.read_text(encoding="utf-8"))
     failures = verify_records(evidence)
-    status = evidence.get("integrity_verification", {}).get("status")
+    status = evidence.get("hash_chain_consistency", {}).get("status")
     if status != "pass":
-        failures.append("stored integrity_verification status is not pass")
+        failures.append("stored hash_chain_consistency status is not pass")
     if failures:
         print("FAIL: " + "; ".join(failures))
         return 1
-    print(f"PASS: audit-chain integrity verified for {path}")
+    print(f"PASS: hash-chain consistency verified for {path}")
     return 0
 
 

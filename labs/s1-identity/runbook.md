@@ -1,26 +1,38 @@
 # S1 Runbook
 
-> **Safety:** report-only / audit-first. This kit does not create or remove tenant policy.
+> **Boundary:** this is an inventory-review and ownership-decision session. It
+> does not use a heuristic discovery query, create a Conditional Access policy,
+> validate a break-glass configuration, or retain customer evidence in Git.
 
-## Pre-flight
-- [ ] Break-glass account/group confirmed and its object ID recorded.
-- [ ] Change window + approver agreed.
-- [ ] `rollback.md` open.
+## 1. Establish scope and source
 
-## Steps
-1. **Inventory (read-only).**
-   ```powershell
-   ./scripts/Get-AgentIdentities.ps1 -OutFile ./evidence/agent-inventory.json
-   ```
-2. **Sponsor register.** Record a human sponsor for each agent in `policies/sponsor-register.csv`. Flag any agent with no sponsor.
-3. **Prepare the applicable report-only policy.** For baseline Workload Identity Conditional Access, use `policies/ca-agent-baseline.json`. For single-tenant workload-risk controls with Workload Identities Premium, use `policies/ca-agent-id-protection.json`. In either template, replace:
-   - `includeServicePrincipals` → the agent service principal object ID(s).
-   - `excludeServicePrincipals` → the break-glass service principal object ID.
-4. **Static safety check (offline).**
-   ```bash
-   python pipelines/run_mock.py
-   ```
-   Must print `PASS`.
-5. **Hand off the reviewed definition.** The customer's approved change process owns any policy creation. It must retain the report-only state and break-glass exclusion. Risk-based controls do not cover managed identities, multitenant apps, or Microsoft SaaS.
-6. **Verify + capture evidence** after the customer-owned change, if performed (see `verify.md`).
-7. **Leave in report-only.** Impact review + any promotion to enforce is a later, customer-owned decision.
+- [ ] Identify the workload and customer identity administrator responsible for
+  the review.
+- [ ] Select the customer-authorized administrative source and record its
+  workload coverage, limitations, and review date in the customer record.
+- [ ] Do not treat a general service-principal listing, a tag/name match, or an
+  unsupported API result as an Agent ID inventory.
+
+## 2. Perform the one safe customer-operated action
+
+The customer identity administrator reviews its authoritative inventory using
+the schema in [README.md](README.md#identity-inventory-schema). For every
+in-scope identity, the administrator confirms or records the identity
+classification, accountable human sponsor, lifecycle state, purpose, source
+reference, and unresolved ownership or access finding.
+
+This review may use customer tooling and customer records, but no export,
+identity data, object ID, or sponsor information is copied into this repository.
+
+## 3. Decide and hand off
+
+- [ ] Record the inventory review reference, source-coverage statement,
+  accountable owner, and review date in
+  `04-operate/evidence-register.json` in the generated delivery workspace.
+- [ ] Record each ownership, lifecycle, residual-risk, or coverage decision
+  with its owner, approver, and next review date in
+  `04-operate/decision-register.json`.
+- [ ] Hand any Conditional Access, break-glass, access-remediation, or
+  unsupported-source question to the customer's approved identity-change
+  process. That process owns design, implementation, rollback, verification,
+  and evidence retention.

@@ -1,41 +1,44 @@
-# S1 Takeaway Kit — Identity & Access
+# S1 Takeaway Kit — Identity & Ownership Review
 
-Governs AI agents as first-class Entra identities. All privileged actions are the
-customer's; scripts default to read-only and report-only.
+This kit supports one safe, customer-operated action: review an
+administrator-sourced identity inventory, assign accountable ownership, and
+hand off a decision. It does not discover identities, query a tenant, export
+records, create Conditional Access, supply a break-glass design, or make any
+tenant change.
 
-The live export scripts are customer-operated evidence capture. Their output is
-ignored by Git and must remain in the customer's approved records system.
+Start with [runbook.md](runbook.md). Keep inventory data, object identifiers,
+sponsor details, exports, and evidence only in the customer's approved records
+system or generated delivery workspace.
 
-## Contents
+## Supported-admin-source boundary
 
-```
-scripts/
-  Get-AgentIdentities.ps1            read-only inventory of agent identities + sponsors -> JSON
-  Export-AgentConditionalAccess.ps1  export the deployed policy for evidence
-policies/
-  ca-agent-baseline.json             report-only CA policy targeting agent identities (fill group IDs)
-  sponsor-register.csv               human sponsor per agent
-pipelines/
-  run_mock.py                        static safety check of the CA policy (report-only + break-glass)
-evidence/                            ignored customer-captured inventory + deployed policy JSON
-runbook.md  rollback.md  verify.md
-```
+Use a current, customer-authorized administrative source for the workload in
+scope: an available Microsoft Entra Agent ID/governance experience, the
+workload's supported administration experience, or a customer-controlled
+authoritative inventory. Record the source, workload coverage, review date, and
+known exclusions with the customer record.
 
-## Prerequisites
+Do **not** infer an Agent ID inventory by listing service principals and matching
+names or tags. A service-principal, managed-identity, OBO, or application
+inventory can be useful corroborating context, but it is not proof that an
+identity is an Entra Agent ID and does not establish complete workload coverage.
 
-- PowerShell 7+, `Install-Module Microsoft.Graph`.
-- Customer admin with Conditional Access Administrator (or Security Administrator).
-- A confirmed **break-glass** account/group, **excluded** from the policy.
+## Identity inventory schema
 
-## Run order
+The inventory is a customer record, not a template or export in this repository.
+For each reviewed entry, use this schema in the customer system:
 
-1. `./scripts/Get-AgentIdentities.ps1 -OutFile ./evidence/agent-inventory.json`
-2. Fill `policies/sponsor-register.csv` for every inventoried agent.
-3. Edit `policies/ca-agent-baseline.json`: set the agent-identity include group and the break-glass exclude group object IDs.
-4. `python pipelines/run_mock.py`  *(offline safety check — must PASS)*
-5. Hand the reviewed policy definition to the customer's approved change process. This kit intentionally does not create or remove tenant policy.
-6. After the customer completes its change, `./scripts/Export-AgentConditionalAccess.ps1` captures evidence per `verify.md`.
+| Field | Meaning |
+|---|---|
+| Record and source reference | Customer record ID plus the authoritative source and export/view reference |
+| Source coverage | Workload, scope, known exclusions, and statement of what the source can support |
+| Identity classification | `Agent ID`, service principal, managed identity, OBO, or another customer-defined type |
+| Identity and workload reference | Customer-safe identifier or link, display name, and platform/workload |
+| Accountable sponsor | Human owner responsible for business purpose, lifecycle, and access justification |
+| Lifecycle and purpose | Proposed, active, suspended, retired, and the approved business purpose |
+| Access and risk references | Links to customer permission, risk, exception, or change records |
+| Review metadata | Reviewer, review date, finding, decision state, and next review date |
 
-Use the customer's approved change process to reverse a policy change.
-
-<!-- Verified: static-only — PSScriptAnalyzer + JSON schema + mock pipeline in CI. Live execution is the customer's co-delivery step. -->
+Conditional Access design, break-glass exclusions, and any enforcement decision
+remain with the customer's approved identity-change process; this kit provides
+no deployable policy or template for them.

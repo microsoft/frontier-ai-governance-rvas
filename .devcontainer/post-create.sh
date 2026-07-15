@@ -34,4 +34,4 @@ shellcheck --version | head -1
 bicep --version || true
 pwsh -NoProfile -Command '$PSVersionTable.PSVersion.ToString()'
 
-echo "==> Done. Try: node docs/build.js   |   ruff check labs   |   python labs/s1-identity/pipelines/run_mock.py"
+echo "==> Done. Try: npm run build   |   npm run test:session-kits   |   ruff check labs"

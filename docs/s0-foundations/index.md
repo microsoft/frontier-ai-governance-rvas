@@ -9,19 +9,40 @@
 
 By the end of this session the customer leaves with:
 
-- A completed **AI-agent governance maturity baseline** (7 domains, 1–4 scale) - the starting score for the whole engagement.
-- A prioritized session roadmap generated from that baseline (which sessions to run first, and why).
-- A lightweight AI Center of Excellence operating model: named owner/sponsor, a RACI, and a use-case intake + risk-classification stub.
+- A customer-owned **AI-agent governance maturity baseline** (7 domains, 1–4
+  scale) and a prioritised roadmap.
+- A decision on the accountable governance lead, executive sponsor, and
+  sequence of follow-on sessions.
+- References to the baseline and decision in the customer's approved records
+  system or generated delivery workspace.
 
-Durable artifact: `labs/s0-foundations/` - the filled `scorecard.csv`, the generated roadmap, and the CoE `operating-model.md` / `raci.csv`, all committed to the customer's governance repo.
+`labs/s0-foundations/` contains only blank templates and offline scoring tools.
+Completed scorecards, roadmaps, names, notes, and evidence stay in the
+customer's approved records system and are never committed to this repository.
+
+### Baseline schema
+
+The customer copy of the scorecard has one row per assessment question:
+
+| Field | Purpose |
+|---|---|
+| `domain`, `domain_name` | Stable governance-domain identifier and name |
+| `question_id`, `question`, `concept_explanation` | Question identity, prompt, and scoring guidance |
+| `weight` | Relative weighting for the offline roadmap |
+| `score` | Customer-agreed blank or `1`–`4` maturity value |
+
+The scorer requires every field except `concept_explanation`; it neither sends
+nor stores the customer baseline.
 
 ## 2. Prerequisites
 
-- Microsoft 365 E5/E7 and an Azure subscription (needed by later sessions, confirmed now).
 - A named executive sponsor available for the operating-model conversation.
-- <span class="rvas-badge rvas-persona">Governance lead</span> with **AI Administrator** or equivalent to inventory existing AI/agent usage.
+- <span class="rvas-badge rvas-persona">Governance lead</span> to own the
+  baseline decision and its handoff.
 
-There are no privileged changes in S0 - it is discovery + planning, so it is safe to run first with any audience.
+There are no tenant checks or privileged changes in S0. Capability, licensing,
+and delivery dependencies are customer-owned follow-up decisions, not S0
+automated prerequisites.
 
 ## 3. Why this session
 
@@ -31,37 +52,38 @@ Read the [S0 Concepts](concepts.md) for the operating-model, maturity, risk, and
 
 ## 4. Co-delivery walkthrough
 
-!!! warning "Report-only / audit-first"
-    S0 makes no tenant changes. Everything produced here is documentation and a score. Privileged work begins in S1.
+!!! warning "Offline baseline only"
+    S0 makes no tenant changes or tenant queries. Copy the blank templates to
+    the customer's approved record location before entering any customer data.
 
-1. **Run the readiness report** *(read-only)* - run `labs/s0-foundations/scripts/Test-TenantReadiness.ps1`. Turn unavailable licensing, roles, platform paths, or test targets into owned prerequisites.
-2. **Frame the operating model** *(facilitator + <span class="rvas-badge rvas-persona">Governance lead</span> + sponsor)* - walk the CAF-for-AI phases; agree who owns AI governance (the CoE) and confirm the executive sponsor.
-3. **Stand up the CoE stub** - copy `labs/s0-foundations/coe/operating-model.md` and `raci.csv` into the customer's governance repo; fill owner, sponsor, and the five persona role holders.
-4. **Run the baseline assessment** *(whole room)* - open `labs/s0-foundations/assessment/scorecard.csv`; for each of the 21 questions across 7 domains, agree a 1–4 score. Record evidence for the score so S6 can compare the current state with this baseline.
-5. **Generate the roadmap** - run:
+1. **Frame ownership** *(facilitator + <span class="rvas-badge rvas-persona">Governance lead</span> + sponsor)* - agree who owns AI governance and the decision record.
+2. **Prepare the customer baseline** - copy `labs/s0-foundations/assessment/scorecard.csv`, `coe/operating-model.md`, and `raci.csv` to the customer-approved record location. The scorecard schema is `domain`, `domain_name`, `question_id`, `question`, `concept_explanation`, `weight`, and `score`; scores are blank or `1`–`4`.
+3. **Perform the safe baseline review** *(whole room)* - score the 21 questions across 7 domains in the customer copy. Record rationale and disagreements only in the customer record.
+4. **Generate the roadmap locally** - run:
    ```bash
-   python labs/s0-foundations/assessment/score.py labs/s0-foundations/assessment/scorecard.csv
+   python labs/s0-foundations/assessment/score.py /approved/customer/path/scorecard.csv
    ```
-   The output ranks lower-scoring domains first; total question weight breaks ties.
-6. **Agree the sequence** - the roadmap is a recommendation; the CoE decides the actual order and records it in `operating-model.md`.
+   The offline output ranks lower-scoring domains first; total question weight breaks ties.
+5. **Agree the sequence** - the roadmap is a recommendation. The customer records the actual order, owner, approver, and review date in its decision record.
 
 ## 5. Verification & evidence capture
 
-- [ ] `scorecard.csv` has all 21 questions scored (no blanks - `score.py` warns on blanks).
-- [ ] `score.py` prints an overall maturity and a 7-item prioritized roadmap.
-- [ ] `operating-model.md` and `raci.csv` name a real owner and sponsor.
+- [ ] The customer scorecard has all 21 questions scored or explicitly
+  identified as unanswered.
+- [ ] The offline scorer produces an overall maturity and prioritised roadmap.
+- [ ] The customer record names the governance owner, sponsor, decision, and
+  next review date.
 
-Evidence to capture (into `labs/s0-foundations/evidence/`): the committed baseline `scorecard.csv`, the roadmap output (`roadmap.txt`), and the signed-off operating model. This is the customer's dated governance baseline.
+Register a reference and retention/classification metadata for the customer
+baseline in `04-operate/evidence-register.json`, and the roadmap decision in
+`04-operate/decision-register.json` in the generated delivery workspace. Do
+not copy the baseline, roadmap, operating model, or RACI into this repository.
 
-```bash
-python labs/s0-foundations/assessment/score.py \
-  labs/s0-foundations/assessment/scorecard.csv \
-  | tee labs/s0-foundations/evidence/roadmap.txt
-```
+## 6. Change boundary
 
-## 6. Rollback
-
-S0 creates documents only, no tenant state. "Rollback" = discard the working branch. See `labs/s0-foundations/rollback.md`.
+S0 makes no tenant changes. Customer capability, licensing, ownership, or
+delivery gaps are handed to the customer backlog; any later change uses that
+customer's approved process.
 
 ## 7. Facilitator notes
 

@@ -1,2 +1,0 @@
-agent_display_name,agent_object_id,source_platform,human_sponsor,sponsor_email,lifecycle_state,notes
-‹example agent›,‹object-id›,‹Copilot Studio/Foundry/Security Copilot›,‹sponsor name›,‹sponsor@customer.com›,‹active/retired›,‹e.g. runs OBO - visible but not fully controllable›

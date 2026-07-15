@@ -1,31 +1,36 @@
 # S0 Takeaway Kit — Foundations & Operating Model
 
-Durable artifacts for the customer's governance repository.
+This kit supports one safe, customer-operated action: establish a governance
+maturity baseline and decide the next owned work. It has no tenant connection,
+licensing check, policy, deployment, rollback, or evidence-export function.
 
-## Contents
+Start with [runbook.md](runbook.md). Complete all customer records in the
+customer's approved records system or generated delivery workspace; never add a
+completed scorecard, roadmap, names, or evidence to this repository.
 
-```
-assessment/
-  scorecard.csv     21-question, 7-domain maturity assessment (fill the score column 1-4)
-  score.py          auto-scorer: per-domain + overall maturity + prioritized roadmap
-coe/
-  operating-model.md  AI Center of Excellence operating model (fill owner/sponsor)
-  raci.csv            RACI across the five personas
-evidence/
-  .gitkeep          drop the baseline scorecard, roadmap.txt, and signed operating model here
-runbook.md          run order for the session
-rollback.md         how to revert (S0 makes no tenant changes)
-verify.md           how to confirm + capture evidence
-```
+## Included templates and tools
 
-## Run order
+- `assessment/scorecard.csv` — blank 21-question baseline template across the
+  seven S0–S6 governance domains.
+- `assessment/score.py` — offline weighted-score and roadmap generator.
+- `assessment/compare.py` — offline S0-to-S6 comparison tool.
+- `coe/operating-model.md` and `coe/raci.csv` — blank ownership templates.
 
-1. Fill `coe/operating-model.md` and `coe/raci.csv`.
-2. Score `assessment/scorecard.csv` with the room (1–4 per question).
-3. Run the scorer:
-   ```bash
-   python assessment/score.py assessment/scorecard.csv
-   ```
-4. Capture evidence per `verify.md`.
+## Baseline schema
 
-<!-- Verified: static-only — validated in CI (ruff + py_compile + CSV load). Live use is the customer's co-delivery step. -->
+The scorecard is a template, not a customer record. Its rows use the following
+schema:
+
+| Field | Meaning |
+|---|---|
+| `domain`, `domain_name` | Stable domain identifier and display name |
+| `question_id`, `question` | Stable assessment question identifier and prompt |
+| `concept_explanation` | Guidance for interpreting the question |
+| `weight` | Positive relative weight used by the offline scorer |
+| `score` | Customer-agreed maturity score: blank or `1`–`4` |
+
+`score.py` requires `domain`, `domain_name`, `question_id`, `weight`, and
+`score`; it does not transmit or store the completed baseline. Save a customer
+copy before entering scores.
+
+<!-- Verified: static-only — validated in CI (ruff + py_compile + CSV load). -->

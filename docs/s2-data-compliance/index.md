@@ -7,20 +7,26 @@
 
 ## 1. Outcome & durable artifact
 
-The customer leaves with AI data exposure governed in Microsoft Purview in their own tenant:
+The customer leaves with a decision-ready review of AI data exposure in Microsoft Purview:
 
-- A reviewed DSPM for AI findings export from the Purview portal, or a customer-approved security/audit query where appropriate.
-- A DLP for AI policy definition authored in test/simulation mode, stored as exported JSON and ready for customer-owned deployment.
-- A compliance evidence bundle tying Purview Audit, eDiscovery, Insider Risk Management (IRM), and Communication Compliance signals to AI interactions.
+- References to reviewed DSPM for AI findings, including an empty-result,
+  unavailable-capability, or licensing-gap outcome where applicable.
+- A customer-owned decision on whether a scoped DLP change should remain
+  designed, proceed to report-only change review, or be recorded as blocked or
+  accepted risk.
+- Evidence and decision references connecting Purview Audit/eDiscovery,
+  classification, investigation ownership, and any proposed control change.
 
-Durable artifact: `labs/s2-data-compliance/` - the read-only findings export script, simulation-mode DLP policy definition, and verification runbook. Customer evidence remains local and is not committed to this repository.
+Durable artifact: `labs/s2-data-compliance/` - a facilitator review checklist
+and data-governance handoff. Customer evidence remains in the approved customer
+records system and is referenced, not copied, into the delivery workspace.
 
 ## 2. Prerequisites
 
 - Microsoft Purview capabilities licensed for **DSPM for AI**, DLP, Audit, eDiscovery, IRM, and Communication Compliance.
 - Roles held by the customer's admins (facilitator guides only): Compliance Administrator, Compliance Data Administrator, or equivalent Purview role groups for DLP and audit export.
-- Microsoft Graph PowerShell SDK and Security & Compliance PowerShell available on the operator workstation.
-- A named **change window** and approver for policy creation. Break-glass is not directly in scope for DLP, but an escalation contact must be available.
+- A named change approver if the review recommends a policy change. Break-glass
+  is not directly in scope for DLP, but an escalation contact must be available.
 - At least one AI workload in scope, such as Microsoft 365 Copilot, Microsoft Foundry agents, Copilot Studio, Security Copilot, or approved enterprise ChatGPT connectors.
 
 ## 3. Why this session
@@ -34,46 +40,38 @@ Read the [S2 Concepts](concepts.md) for DSPM, labels and DLP, investigation evid
 !!! warning "Report-only / audit-first"
     DLP policy creation in this session is **simulation/test only**. It must not block users or agents during the workshop. Promotion to enforcement is a separate, customer-owned change after findings review, legal/compliance approval, and communications.
 
-1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">Compliance / Data admin</span>)* - confirm the change window, approver, Purview roles, and evidence location. Open `labs/s2-data-compliance/rollback.md`.
-2. **Capture DSPM for AI findings (read-only)** - export from the Purview portal. If the compliance team approves a security or audit Graph query, the customer can run:
-   ```powershell
-   ./scripts/Get-AISensitiveDataFindings.ps1 -GraphUri '<approved-read-only-graph-uri>' -OutFile ./evidence/dspm-ai-findings.json
-   ```
-   Microsoft Purview does not provide an API for exporting DSPM for AI findings or analytics. If the tenant has no findings, capture the empty result as evidence. If the feature is not licensed, stop and route licensing to the prerequisite backlog.
-3. **Review the simulation policy** - inspect `policies/dlp-ai-simulation.json`. Replace tenant-specific IDs, sensitive information type IDs, and notification group placeholders.
-4. **Run the offline safety gate** - from `labs/s2-data-compliance/`:
-   ```bash
-   python pipelines/run_mock.py
-   ```
-   The check must print `PASS` and warn only about placeholders that the customer still needs to fill.
-5. **Hand it off for customer-owned change** - this kit intentionally does not create or remove tenant policy. The customer may apply the reviewed definition through its approved change process, retaining simulation/test mode.
-6. **Review simulation results** - if the customer applies the policy, leave it in simulation for an agreed observation period. Compliance reviews policy matches and notifications before deciding whether to enforce it.
+1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">Compliance / Data admin</span>)* - confirm the pilot agent, Purview roles, evidence-reference location, and change approver if a policy change may be proposed.
+2. **Scope the data path** - use `labs/s2-data-compliance/review-checklist.md` to record the pilot agent's inputs, retrieval sources, tools, outputs, classifications, and accountable owner.
+3. **Review tenant evidence** - use the supported Purview experience to review DSPM for AI, DLP workload coverage, Audit, and eDiscovery. Record customer records-system references, including empty-result, unavailable-capability, or licensing-gap outcomes.
+4. **Make the control decision** - determine whether a candidate control remains designed, is ready for customer report-only change review, is blocked, or is accepted risk. Do not create a policy from this kit.
+5. **Hand off** - record the decision, owners, review date, and evidence references in the generated delivery workspace. A customer-owned policy change follows the customer's separate change, rollback, and verification process.
 
 ## 5. Verification & evidence capture
 
-- [ ] `dspm-ai-findings.json` exists and documents findings or an empty result.
-- [ ] If independently applied by the customer, the DLP policy remains in **TestWithoutNotifications**, TestWithNotifications, or equivalent simulation/test state.
+- [ ] A customer records-system reference documents DSPM for AI findings, an
+  empty result, or an unavailable-capability/licensing outcome.
+- [ ] If the customer independently applies a DLP policy, its own change record
+  documents report-only/test state and the observation period.
 - [ ] Audit/eDiscovery search can locate AI interaction records where the tenant supports them.
 - [ ] IRM and Communication Compliance reviewers know where AI interaction alerts will appear.
 
-Evidence to capture (into `labs/s2-data-compliance/evidence/`): DSPM for AI findings export, deployed DLP policy export, policy match summary after bake time, and the named approver/change record.
+Evidence references to capture: DSPM for AI findings review, DLP policy/change
+record where applicable, policy match summary after observation, audit/eDiscovery
+review, and named approver/owner. Keep these in the approved customer records
+system; register references in the generated delivery workspace.
 
-```powershell
-./scripts/Get-AISensitiveDataFindings.ps1 -GraphUri '<approved-read-only-graph-uri>' -OutFile ./evidence/dspm-ai-findings.json
-```
+## 6. Change boundary
 
-## 6. Customer-owned rollback
-
-This kit makes no tenant changes. If the customer independently applies a simulation/test policy, its approved change process owns reversal and confirmation. DSPM exports, audit searches, and evidence files are read-only artifacts - nothing to revert in the tenant.
+This kit makes no tenant changes. Any customer policy deployment, rollback, and
+verification remain in the customer's approved change process.
 
 ## 7. Facilitator notes
 
-- **Timing:** ~half day. Pre-flight + session context ~45 min, DSPM review ~60 min, DLP simulation authoring ~60 min, verification/evidence ~30 min.
+- **Timing:** ~half day. Pre-flight + data-path scoping ~45 min, Purview review ~60 min, control decision ~60 min, evidence and backlog handoff ~30 min.
 - **RACI:** Compliance/Data admin = R, Governance lead = A, Security/SOC = C (IRM/Communication Compliance), AI developer = I.
 - **Common blockers:**
-    - *DSPM for AI not licensed* → stop S2 live delivery and route licensing to the prerequisite backlog. *No findings* → capture the empty export as evidence.
-    - *Policy owner asks to enforce immediately* → **stop**; this session creates simulation/test only.
-    - *Tenant-specific IDs unknown* → leave placeholders, capture warnings, and assign follow-up to the Compliance/Data admin.
+    - *DSPM for AI not licensed* → record the gap and route licensing to the prerequisite backlog. *No findings* → record the empty-result reference.
+    - *Policy owner asks to enforce immediately* → **stop**; a policy change must follow the customer's report-only observation and approval process.
     - *Customer asks about PII masking before the LLM call* → keep the S2 DLP simulation in scope, then point the platform team to the Citadel Governance Hub [PII masking guide](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/pii-masking-apim.md) for gateway-layer anonymization/deanonymization.
     - *Audit retention insufficient* → document the gap and route to the governance backlog.
 - **Hand-off:** findings feed S3 security posture, S5 adversarial testing evidence, and S6 control-plane reconciliation.

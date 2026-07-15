@@ -1,20 +1,16 @@
 #!/usr/bin/env python3
-"""Reconcile an Agent 365 registry export with an S1 Entra Agent ID inventory.
+"""Reconcile explicit S6 registry records with the S1 Entra Agent ID inventory.
 
-The tool is offline-only: it reads JSON files, writes a reconciliation report,
-and prints a concise summary. By default it uses the shipped sample data.
-
-Usage:
-    python scripts/reconcile-registry.py \
-      --registry data/agent-registry.sample.json \
-      --inventory data/s1-agent-inventory.sample.json \
-      --out evidence/reconciliation-report.json
+The S6 registry input must use ``rvas.s6.control-plane-registry.v1``. The S1
+input is the customer-produced normalized ``agents`` inventory described by
+the S1 kit. Matching uses
+``entraObjectId`` and S1 ``objectId`` only; display names and alternate field
+names are never inferred.
 """
 from __future__ import annotations
 
 import argparse
 import json
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -23,37 +19,8 @@ DEFAULT_REGISTRY = ROOT / "data" / "agent-registry.sample.json"
 DEFAULT_INVENTORY = ROOT / "data" / "s1-agent-inventory.sample.json"
 DEFAULT_OUT = ROOT / "evidence" / "reconciliation-report.json"
 DEFAULT_LIFECYCLE_STATES = ROOT / "policies" / "lifecycle-states.json"
+REGISTRY_SCHEMA = "rvas.s6.control-plane-registry.v1"
 OBO_MODES = {"obo", "on_behalf_of", "on-behalf-of", "user_delegated", "user-delegated"}
-
-
-@dataclass(frozen=True)
-class AgentRecord:
-    """Normalized agent record from either source."""
-
-    key: str
-    display_name: str
-    source: str
-    entra_agent_id: str | None
-    sponsor: str | None
-    managed: bool
-    execution_mode: str
-    lifecycle_state: str | None
-    raw: dict[str, Any]
-
-    @property
-    def is_obo(self) -> bool:
-        return self.execution_mode.casefold() in OBO_MODES or self.raw.get("runsOnBehalfOfUser") is True
-
-    @property
-    def has_sponsor(self) -> bool:
-        return bool(self.sponsor)
-
-
-def text_or_none(value: Any) -> str | None:
-    if value is None:
-        return None
-    text = str(value).strip()
-    return text or None
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -66,104 +33,116 @@ def load_json(path: Path) -> dict[str, Any]:
     return data
 
 
+def require_text(record: dict[str, Any], field: str, source: str) -> str:
+    value = record.get(field)
+    if not isinstance(value, str) or not value.strip():
+        raise SystemExit(f"{source} requires a non-empty {field}")
+    return value.strip()
+
+
+def optional_text(record: dict[str, Any], field: str, source: str) -> str | None:
+    value = record.get(field)
+    if value is None:
+        return None
+    if not isinstance(value, str) or not value.strip():
+        raise SystemExit(f"{source} {field} must be a non-empty string or null")
+    return value.strip()
+
+
 def load_lifecycle_states(path: Path) -> set[str]:
     data = load_json(path)
     states = data.get("states")
     if not isinstance(states, list):
         raise SystemExit(f"lifecycle policy must contain a states array: {path}")
-    return {
-        str(item["name"]).casefold()
+    result = {
+        item["name"].casefold()
         for item in states
         if isinstance(item, dict) and isinstance(item.get("name"), str)
     }
+    if not result:
+        raise SystemExit(f"lifecycle policy has no named states: {path}")
+    return result
 
 
-def normalize_key(display_name: str | None, entra_agent_id: str | None) -> str:
-    if entra_agent_id:
-        return f"id:{entra_agent_id.casefold()}"
-    if display_name:
-        return f"name:{display_name.casefold()}"
-    raise ValueError("agent record needs displayName or Entra Agent ID")
-
-
-def first_sponsor(agent: dict[str, Any]) -> str | None:
-    for field in ("sponsorEmail", "humanSponsor", "ownerEmail", "sponsor"):
-        sponsor = text_or_none(agent.get(field))
-        if sponsor:
-            return sponsor
-    sponsors = agent.get("sponsors")
-    if isinstance(sponsors, list):
-        for item in sponsors:
-            sponsor = text_or_none(item)
-            if sponsor:
-                return sponsor
-    owner = text_or_none(agent.get("owner"))
-    return owner
-
-
-def normalize_registry(data: dict[str, Any]) -> list[AgentRecord]:
-    agents = data.get("agents") or data.get("registryAgents") or []
+def normalize_registry(data: dict[str, Any]) -> list[dict[str, Any]]:
+    if data.get("schema") != REGISTRY_SCHEMA:
+        raise SystemExit(f"registry schema must be {REGISTRY_SCHEMA}")
+    agents = data.get("agents")
     if not isinstance(agents, list):
-        raise SystemExit("registry export must contain an agents array")
-    records: list[AgentRecord] = []
-    for item in agents:
+        raise SystemExit("registry must contain an agents array")
+
+    records: list[dict[str, Any]] = []
+    for index, item in enumerate(agents, 1):
         if not isinstance(item, dict):
-            raise SystemExit("registry agent entries must be objects")
-        display_name = text_or_none(item.get("displayName") or item.get("name"))
-        entra_id = text_or_none(item.get("entraAgentId") or item.get("objectId"))
-        key = normalize_key(display_name, entra_id)
-        execution_mode = text_or_none(item.get("executionMode")) or "agent_identity"
-        managed = bool(item.get("managed", bool(entra_id)))
+            raise SystemExit(f"registry agent {index} must be an object")
+        source = f"registry agent {index}"
+        managed = item.get("managed")
+        if not isinstance(managed, bool):
+            raise SystemExit(f"{source} requires boolean managed")
         records.append(
-            AgentRecord(
-                key=key,
-                display_name=display_name or key,
-                source="registry",
-                entra_agent_id=entra_id,
-                sponsor=first_sponsor(item),
-                managed=managed,
-                execution_mode=execution_mode,
-                lifecycle_state=text_or_none(item.get("lifecycleState")),
-                raw=item,
-            )
+            {
+                "registryId": require_text(item, "registryId", source),
+                "displayName": require_text(item, "displayName", source),
+                "entraObjectId": optional_text(item, "entraObjectId", source),
+                "executionMode": require_text(item, "executionMode", source),
+                "managed": managed,
+                "lifecycleState": optional_text(item, "lifecycleState", source),
+                "sponsor": optional_text(item, "sponsor", source),
+            }
         )
+    if len({record["registryId"] for record in records}) != len(records):
+        raise SystemExit("registryId values must be unique")
+    explicit_ids = [record["entraObjectId"] for record in records if record["entraObjectId"]]
+    if len(set(explicit_ids)) != len(explicit_ids):
+        raise SystemExit("registry entraObjectId values must be unique when supplied")
     return records
 
 
-def normalize_inventory(data: dict[str, Any]) -> list[AgentRecord]:
-    agents = data.get("agents") or data.get("agentIdentities") or []
+def normalize_s1_inventory(data: dict[str, Any]) -> list[dict[str, Any]]:
+    agents = data.get("agents")
     if not isinstance(agents, list):
-        raise SystemExit("S1 inventory must contain an agents array")
-    records: list[AgentRecord] = []
-    for item in agents:
+        raise SystemExit("S1 inventory must contain the normalized agents array")
+
+    records: list[dict[str, Any]] = []
+    for index, item in enumerate(agents, 1):
         if not isinstance(item, dict):
-            raise SystemExit("inventory agent entries must be objects")
-        display_name = text_or_none(item.get("displayName") or item.get("agent_display_name"))
-        entra_id = text_or_none(item.get("objectId") or item.get("agent_object_id") or item.get("entraAgentId"))
-        key = normalize_key(display_name, entra_id)
-        execution_mode = "obo" if item.get("runsOnBehalfOfUser") is True else "agent_identity"
+            raise SystemExit(f"S1 inventory agent {index} must be an object")
+        source = f"S1 inventory agent {index}"
+        sponsors = item.get("sponsors")
+        has_sponsor = item.get("hasSponsor")
+        if not isinstance(sponsors, list) or not all(isinstance(value, str) for value in sponsors):
+            raise SystemExit(f"{source} requires a string-array sponsors field")
+        if not isinstance(has_sponsor, bool):
+            raise SystemExit(f"{source} requires boolean hasSponsor")
+        if has_sponsor != bool([value for value in sponsors if value.strip()]):
+            raise SystemExit(f"{source} hasSponsor must agree with sponsors")
         records.append(
-            AgentRecord(
-                key=key,
-                display_name=display_name or key,
-                source="s1_inventory",
-                entra_agent_id=entra_id,
-                sponsor=first_sponsor(item),
-                managed=bool(entra_id),
-                execution_mode=execution_mode,
-                lifecycle_state=text_or_none(item.get("lifecycleState") or item.get("lifecycle_state")),
-                raw=item,
-            )
+            {
+                "displayName": require_text(item, "displayName", source),
+                "objectId": require_text(item, "objectId", source),
+                "appId": require_text(item, "appId", source),
+                "sponsors": [value.strip() for value in sponsors if value.strip()],
+                "hasSponsor": has_sponsor,
+            }
         )
+    if len({record["objectId"] for record in records}) != len(records):
+        raise SystemExit("S1 inventory objectId values must be unique")
     return records
 
 
-def finding(record: AgentRecord, reason: str) -> dict[str, Any]:
+def registry_finding(record: dict[str, Any], reason: str) -> dict[str, Any]:
     return {
-        "key": record.key,
-        "displayName": record.display_name,
-        "source": record.source,
-        "entraAgentId": record.entra_agent_id,
+        "registryId": record["registryId"],
+        "displayName": record["displayName"],
+        "entraObjectId": record["entraObjectId"],
+        "reason": reason,
+    }
+
+
+def s1_finding(record: dict[str, Any], reason: str) -> dict[str, Any]:
+    return {
+        "displayName": record["displayName"],
+        "entraObjectId": record["objectId"],
         "reason": reason,
     }
 
@@ -171,68 +150,71 @@ def finding(record: AgentRecord, reason: str) -> dict[str, Any]:
 def reconcile(
     registry_data: dict[str, Any],
     inventory_data: dict[str, Any],
-    lifecycle_states: set[str] | None = None,
+    lifecycle_states: set[str],
 ) -> dict[str, Any]:
     registry = normalize_registry(registry_data)
-    inventory = normalize_inventory(inventory_data)
-    registry_by_key = {agent.key: agent for agent in registry}
-    inventory_by_key = {agent.key: agent for agent in inventory}
-    registry_by_name = {agent.display_name.casefold(): agent for agent in registry}
-    inventory_by_name = {agent.display_name.casefold(): agent for agent in inventory}
-
-    matched_registry_keys: set[str] = set()
-    matched_inventory_keys: set[str] = set()
-    for key in set(registry_by_key) & set(inventory_by_key):
-        matched_registry_keys.add(key)
-        matched_inventory_keys.add(key)
-    for name in set(registry_by_name) & set(inventory_by_name):
-        matched_registry_keys.add(registry_by_name[name].key)
-        matched_inventory_keys.add(inventory_by_name[name].key)
+    inventory = normalize_s1_inventory(inventory_data)
+    registry_ids = {record["entraObjectId"] for record in registry if record["entraObjectId"]}
+    inventory_by_id = {record["objectId"]: record for record in inventory}
+    matched_ids = registry_ids & set(inventory_by_id)
 
     shadow_agents = [
-        finding(agent, "present in S1 inventory but absent from Agent 365 registry")
-        for agent in sorted(inventory, key=lambda item: item.display_name.casefold())
-        if agent.key not in matched_inventory_keys
+        s1_finding(record, "present in S1 inventory but absent from the control-plane registry")
+        for record in inventory
+        if record["objectId"] not in matched_ids
     ]
     registry_only = [
-        finding(agent, "present in registry but absent from S1 inventory")
-        for agent in sorted(registry, key=lambda item: item.display_name.casefold())
-        if agent.key not in matched_registry_keys
+        registry_finding(record, "not matched to an S1 objectId")
+        for record in registry
+        if record["entraObjectId"] not in matched_ids
+    ]
+    unmanaged_or_obo = [
+        registry_finding(
+            record,
+            "; ".join(
+                reason
+                for condition, reason in (
+                    (record["executionMode"].casefold() in OBO_MODES, "executes on behalf of a user"),
+                    (not record["managed"], "managed=false"),
+                    (record["entraObjectId"] is None, "missing Entra object ID"),
+                )
+                if condition
+            ),
+        )
+        for record in registry
+        if (
+            record["executionMode"].casefold() in OBO_MODES
+            or not record["managed"]
+            or record["entraObjectId"] is None
+        )
+    ]
+    missing_sponsors = [
+        registry_finding(record, "missing human sponsor")
+        for record in registry
+        if record["sponsor"] is None
+    ] + [
+        s1_finding(record, "missing human sponsor in S1 inventory")
+        for record in inventory
+        if not record["hasSponsor"]
+    ]
+    lifecycle_gaps = [
+        registry_finding(record, "missing lifecycle state")
+        for record in registry
+        if record["lifecycleState"] is None
+    ]
+    invalid_lifecycle_states = [
+        registry_finding(record, f"invalid lifecycle state: {record['lifecycleState']}")
+        for record in registry
+        if record["lifecycleState"] is not None
+        and record["lifecycleState"].casefold() not in lifecycle_states
     ]
 
-    unmanaged_or_obo: list[dict[str, Any]] = []
-    missing_sponsors: list[dict[str, Any]] = []
-    lifecycle_gaps: list[dict[str, Any]] = []
-    invalid_lifecycle_states: list[dict[str, Any]] = []
-    for record in [*registry, *inventory]:
-        if record.is_obo or not record.managed or not record.entra_agent_id:
-            reason_parts = []
-            if record.is_obo:
-                reason_parts.append("executes on behalf of a user")
-            if not record.managed:
-                reason_parts.append("managed=false")
-            if not record.entra_agent_id:
-                reason_parts.append("missing Entra Agent ID")
-            unmanaged_or_obo.append(finding(record, "; ".join(reason_parts)))
-        if not record.has_sponsor:
-            missing_sponsors.append(finding(record, "missing human sponsor"))
-        if record.source == "registry" and not record.lifecycle_state:
-            lifecycle_gaps.append(finding(record, "missing lifecycle state"))
-        elif (
-            record.source == "registry"
-            and lifecycle_states is not None
-            and record.lifecycle_state
-            and record.lifecycle_state.casefold() not in lifecycle_states
-        ):
-            invalid_lifecycle_states.append(
-                finding(record, f"invalid lifecycle state: {record.lifecycle_state}")
-            )
-
     return {
+        "schema": "rvas.s6.reconciliation-report.v1",
         "summary": {
             "registryCount": len(registry),
             "inventoryCount": len(inventory),
-            "matchedCount": len(matched_inventory_keys),
+            "matchedCount": len(matched_ids),
             "shadowAgentCount": len(shadow_agents),
             "registryOnlyCount": len(registry_only),
             "unmanagedOrOboCount": len(unmanaged_or_obo),
@@ -240,10 +222,7 @@ def reconcile(
             "lifecycleGapCount": len(lifecycle_gaps),
             "invalidLifecycleStateCount": len(invalid_lifecycle_states),
         },
-        "matchedAgents": sorted(
-            {registry_by_key[key].display_name for key in matched_registry_keys},
-            key=str.casefold,
-        ),
+        "matchedEntraObjectIds": sorted(matched_ids),
         "shadowAgents": shadow_agents,
         "registryOnlyAgents": registry_only,
         "unmanagedOrOboAgents": unmanaged_or_obo,
@@ -255,8 +234,8 @@ def reconcile(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY, help="Agent 365 registry export JSON")
-    parser.add_argument("--inventory", type=Path, default=DEFAULT_INVENTORY, help="S1 Entra Agent ID inventory JSON")
+    parser.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY, help="normalized S6 registry JSON")
+    parser.add_argument("--inventory", type=Path, default=DEFAULT_INVENTORY, help="S1 agent-inventory.json")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="reconciliation report JSON output")
     parser.add_argument(
         "--lifecycle-states",
@@ -281,7 +260,7 @@ def main() -> int:
     print("RVAS S6 registry reconciliation")
     print(f"  registry agents: {summary['registryCount']}")
     print(f"  S1 inventory agents: {summary['inventoryCount']}")
-    print(f"  matched: {summary['matchedCount']}")
+    print(f"  matched by Entra object ID: {summary['matchedCount']}")
     print(f"  shadow agents: {summary['shadowAgentCount']}")
     print(f"  unmanaged/OBO findings: {summary['unmanagedOrOboCount']}")
     print(f"  missing sponsors: {summary['missingSponsorCount']}")

@@ -1,31 +1,22 @@
-# S4 Runbook
+# S4 Runbook — Assurance Handoff
 
-> **Safety:** report-only / audit-first. Evaluate only a non-production or test agent until baseline scores and false positives are understood.
+S4 does not operate a live evaluation or gate. Its one action is a
+customer-operated assurance review and decision handoff.
 
-## Pre-flight
+1. Confirm the customer evidence system contains an S3 gateway-proof manifest
+   conforming to `contracts/gateway-proof.schema.json`, with `result: "pass"`.
+2. Confirm named customer platform and security reviewers have accepted that
+   proof after correlating its `correlation_id` with gateway telemetry. A passed
+   request without this acceptance is not an S4 entry condition.
+3. The customer assurance owner copies
+   `templates/assurance-outcome.template.json` into their approved records
+   system, records only references (not raw evidence), and selects `continue`
+   or `hold`.
+4. Validate the completed record against
+   `contracts/assurance-handoff.schema.json`. The assurance exit is complete
+   only when the S3 decision is `accepted` and the customer has recorded the
+   outcome and decision reference.
 
-- [ ] Target agent is non-production or a deterministic mock target.
-- [ ] `rollback.md` is open.
-- [ ] Threshold owner and approver are named.
-- [ ] Dataset contains no secrets, regulated personal data, or production-only customer content.
-
-## Steps
-
-1. **Dataset review.** Inspect `data/eval-dataset.jsonl`; replace sample cases with customer-owned test prompts and ground truth.
-2. **Threshold review.** Adjust `policies/thresholds.json` for report-only baseline collection.
-3. **Run offline gate.**
-   ```bash
-   python labs/s4-evaluation/pipelines/run_mock.py
-   ```
-4. **Summarize evidence.**
-   ```bash
-   python labs/s4-evaluation/scripts/summarize.py
-   ```
-5. **Review failures.** Classify each failed case as target bug, dataset issue, threshold issue, or evaluator limitation.
-6. **Foundry mapping.** In the customer's approved codebase, implement the
-   `pipelines/azure-eval.py --target-adapter MODULE:CALLABLE` contract for the
-   non-production target. The adapter owns endpoint authentication and must
-   return the response mapping expected by the evaluator. Configure the Azure AI
-   project and judge model there, then adapt the GitHub Action snippet.
-7. **Capture evidence** per `verify.md`.
-8. **Decide promotion.** Blocking PR gates are a later, customer-owned enforcement decision.
+Customer teams may run Foundry Evaluations or introduce a CI gate separately in
+their own approved delivery process. Those results do not replace the accepted
+S3 gateway proof and are not produced by this kit.

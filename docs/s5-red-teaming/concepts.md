@@ -1,39 +1,46 @@
 # S5 · Adversarial Testing Concepts
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-06 · Validate AI Red Teaming Agent availability in the [Governance capability guide](../reference/governance-capability-guide.md).
+    Last reviewed: 2026-07-15 · Validate AI Red Teaming Agent availability in the [Governance capability guide](../reference/governance-capability-guide.md).
 
-This page explains the safety-testing model behind S5. [S5 Prepare](index.md) contains the authorization gates and operational sequence.
+This page explains the safety-testing model behind S5. [S5 Prepare](index.md)
+contains the authorization gates and customer-operated sequence.
 
 ## Red teaming tests a defined safety objective
 
-AI red teaming is a structured adversarial exercise: the team defines a permitted target, attack categories, success criteria, limits, and response path before testing begins. Its purpose is to find weaknesses while the customer can safely observe, contain, and remediate them—not to demonstrate that an attacker can cause harm.
+AI red teaming is a structured adversarial exercise: the team defines a
+permitted target, attack categories, success criteria, limits, and response
+path before testing begins. Its purpose is to find weaknesses while the customer
+can safely observe, contain, and remediate them.
 
-The S5 boundary is strict: use an authorized, customer-owned, non-production endpoint with written rules of engagement and a notified SOC. The curriculum uses benign placeholders rather than harmful payloads.
-
-## PyRIT makes attacks and scoring repeatable
-
-PyRIT is Microsoft's open-source Python Risk Identification Toolkit. Its building blocks include datasets, attacks or orchestrators, converters, targets, scoring, and memory.[^pyrit] These components make a test repeatable: another operator can understand what was attempted, how the target responded, and why a result counted as a success.
-
-An orchestrator can exercise multi-turn strategies such as Crescendo, where pressure is gradually increased rather than delivered in a single direct request. Repetition matters because a one-off prompt does not reveal whether an issue is systematic.
+S5 is limited to an authorized, customer-owned, non-production endpoint with
+written rules of engagement and a notified SOC. The customer chooses and
+retains the applicable test data and success criteria.
 
 ## Attack Success Rate is a decision aid
 
-Attack Success Rate (ASR) is the proportion of attempts that meet the pre-agreed adversarial success condition. Lower is better, but an ASR number is meaningful only alongside its category, sample size, target version, and threshold.
+Attack Success Rate (ASR) is the proportion of attempts that meet the
+pre-agreed adversarial success condition. Lower is better, but an ASR number is
+meaningful only with its category, sample size, target version, and approved
+threshold.
 
-**In Co-deliver:** agree thresholds before the scan. A result above tolerance becomes a remediation item with an owner; a result below tolerance is evidence for the tested scope, not a proof that the system is secure.
+A result above the agreed tolerance becomes a remediation item with an owner.
+A result below tolerance is evidence for the tested scope, not proof that the
+system is secure.
 
-## Indirect prompt injection crosses a trust boundary
+## Native scorecard and threshold review are different artifacts
 
-Indirect prompt injection, sometimes called XPIA, occurs when untrusted content from a retrieved document, web page, email, ticket, or tool output contains instructions that conflict with the agent's intended policy. This is especially relevant for agents that retrieve information and call tools.
+The Foundry AI Red Teaming Agent produces the native scorecard for the run. S5
+preserves that output unchanged. If a customer separately reviews native ASR
+values against approved thresholds, the kit may write a comparison sidecar that
+references the native scorecard. The sidecar is a decision aid, not an
+alternative scorecard or a transformation of Foundry evidence.
 
-Testing it helps teams assess whether their application separates trusted instructions from untrusted data and whether controls such as tool scoping, retrieval filtering, and runtime safety layers respond as intended.
+## Managed testing does not remove governance
 
-## Managed and open-source paths are complementary
+The managed AI Red Teaming Agent is a Preview capability. The customer still
+owns authorization, target scope, safe test data, alert handling, evidence
+retention, and remediation decisions. S5 does not provide a fallback mock or
+an alternate testing path when the managed capability is unavailable.
 
-Microsoft Foundry's AI Red Teaming Agent is a managed, preview capability that can produce ASR-oriented results across categories and strategies. PyRIT remains the underlying open-source toolkit and can be used through local and cloud-supported paths.[^airt]
-
-A managed scan does not remove the need for governance. The customer still owns authorization, target scope, safe data, alert handling, evidence retention, and remediation decisions.
-
-[^pyrit]: Azure/PyRIT - [Python Risk Identification Toolkit](https://github.com/Azure/PyRIT).
 [^airt]: Microsoft Learn - [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent).

@@ -5,7 +5,8 @@
   "scripts": {
     "build": "node docs/build.js",
     "generate-workspace": "node tools/generate-workspace.js",
-    "test:workspace": "node tools/test-generate-workspace.js"
+    "test:workspace": "node tools/test-generate-workspace.js",
+    "test:session-kits": "node tools/validate-session-kits.js"
   },
   "engines": {
     "node": ">=18"

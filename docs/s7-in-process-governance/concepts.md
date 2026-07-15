@@ -16,21 +16,26 @@ controls can be layered, but neither proves that the other is configured or
 effective.
 
 AGT's documented `govern()` pattern wraps a tool call with policy evaluation and
-audit logging. That makes a policy decision at the tool-call boundary
-observable. The offline S7 simulator deliberately models only this idea; it
-does not import, test, or certify AGT.[^agt-readme]
+audit logging. The offline S7 simulator models only that policy-and-audit idea;
+it does not import, test, or certify AGT.[^agt-readme]
+
+## Hash-chain consistency is not tamper evidence
+
+The local simulator links each record to the prior record and verifies that the
+supplied record's hashes are internally consistent. A person who can replace
+the record can recalculate a local hash chain, so this result alone does not
+prove integrity, immutability, provenance, or later tampering.
+
+If the customer needs tamper evidence, it must retain a signed record in
+customer-managed immutable external storage under its own retention and access
+controls. S7 does not configure, validate, or certify that storage.
 
 ## Decision evidence is not outcome evidence
 
 A policy-and-audit record can show which policy version evaluated an attempted
-action and whether it was allowed, denied, or sent for approval. A hash chain
-can make later alteration of those records detectable.
-
-That evidence has a clear boundary: AGT documents that its audit log records
-attempts and governance decisions, not whether a downstream action actually
-succeeded.[^agt-limitations] For example, allowing a notification tool does not
-prove an email was delivered. S7 keeps this boundary explicit so audit records
-are not overstated.
+action and whether it was allowed, denied, or sent for approval. It does not
+show whether an allowed downstream action succeeded. For example, allowing a
+notification tool does not prove an email was delivered.[^agt-limitations]
 
 ## A policy is a governance artifact
 
@@ -38,37 +43,23 @@ An allow list, deny default, and approval requirement encode decisions about
 delegated authority. The policy owner must decide which tools/actions are
 permitted, what requires approval, how policies change, and how records are
 retained. The sample policy is intentionally generic and must not be copied
-into a customer application without a separate engineering, security, and
-change-review process.
+into a customer application without separate engineering, security, and
+change-review.
 
-The AGT limitations also note that an evaluator with no policies loaded can
-allow actions by default; strict deny-by-default configuration is a production
+The AGT limitations note that an evaluator with no policies loaded can allow
+actions by default; strict deny-by-default configuration is a production
 consideration. S7 models a deny default but does not validate an AGT
 configuration.[^agt-limitations]
 
-## What S7 does not cover
-
-S7 complements but does not replace:
-
-- **S1 identity:** AGT's in-process identity patterns are distinct from Entra
-  Agent ID and platform identity governance.
-- **S2 data:** AGT does not govern retrieved knowledge provenance, freshness, or
-  authorization; Purview and the S2 controls remain necessary.
-- **S3 runtime security:** Citadel gateway protections, Content Safety, and
-  Defender posture evidence remain the runtime-security baseline.
-- **S4 evaluation and S5 adversarial testing:** policy decisions need separate
-  quality/safety evaluation and authorised misuse testing.
-- **S6 control plane:** an in-process audit record does not replace Agent 365,
-  Entra, or API Center reconciliation.
-
-## Preview and adoption discipline
+## Preview and offline boundary
 
 At the pinned source revision, AGT is Public Preview and may have breaking
-changes before GA. Its own documented limitations include no built-in SBOM,
-knowledge-provenance governance, or turnkey UI-level human approval. These
-limitations, the customer's language/runtime fit, and any relationship to
-existing platform controls are decision inputs, not claims of compliance or
-certification.[^agt-readme][^agt-limitations]
+changes before GA. Its documented limitations, the customer's language/runtime
+fit, and the relationship to existing platform controls are decision inputs, not
+claims of compliance or certification.
+
+S7 complements but does not replace S1 identity, S2 data controls, S3 runtime
+security, S4 evaluation, S5 adversarial testing, or S6 reconciliation.
 
 [^agt-readme]: [AGT README at `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/README.md), Public Preview notice, `govern()` example, and audit architecture.
 [^agt-limitations]: [AGT known limitations at `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md), especially audit outcomes, knowledge governance, policy initialization, and feature boundaries.

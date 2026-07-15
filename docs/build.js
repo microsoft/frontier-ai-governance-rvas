@@ -41,7 +41,7 @@ const SITE = {
 
 const SESSIONS = [
   { slug: 's0-foundations',      code: 'S0', accent: '#032254', persona: 'Governance lead',        nist: 'Govern',            outcome: 'Baseline maturity assessment + prioritized roadmap' },
-  { slug: 's1-identity',         code: 'S1', accent: '#1A77E3', persona: 'Identity admin',         nist: 'Govern · Manage',   outcome: 'Entra Agent ID blueprints + Conditional Access + ID Protection' },
+  { slug: 's1-identity',         code: 'S1', accent: '#1A77E3', persona: 'Identity admin',         nist: 'Govern · Manage',   outcome: 'Authoritative identity-inventory review + ownership decision' },
   { slug: 's2-data-compliance',  code: 'S2', accent: '#14868A', persona: 'Compliance / Data admin', nist: 'Map · Manage',     outcome: 'Purview DSPM for AI + DLP + IRM + audit' },
   { slug: 's3-security-runtime', code: 'S3', accent: '#DC2626', persona: 'Security / SOC',         nist: 'Measure · Manage',  outcome: 'Defender AI-SPM + threat protection + Content Safety' },
   { slug: 's4-evaluation',       code: 'S4', accent: '#504092', persona: 'AI developer / maker',   nist: 'Measure',           outcome: 'Foundry evaluation suite + CI/CD gate' },

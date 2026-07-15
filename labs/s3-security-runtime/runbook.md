@@ -1,55 +1,35 @@
-# S3 Runbook
+# S3 Runbook — Gateway Proof
 
-> **Safety:** report-only / audit-first. Defender and Content Safety checks must alert or record only; runtime tests target a customer-owned non-production endpoint/string.
+Run this only in a customer-approved non-production environment. The one S3
+action is a request through the deployed gateway; a direct Content Safety call
+is not S3 evidence.
 
-## Track A - Defender for Cloud
+1. Confirm the customer has approved the route, authentication handling, safe
+   test input, and the record locations referenced below.
+2. The customer operator runs the adapter, supplying real values only through
+   their secure process:
 
-- [ ] Change window + approver agreed.
-- [ ] Security/SOC notified and triage owner named.
-- [ ] `rollback.md` open.
-
-1. **Verify Defender AI-SPM visibility.** In Defender for Cloud, confirm AI workloads appear in the AI Security Posture Management inventory / AI-BOM, or document that no AI workloads are discovered yet.
-2. **Export recommendations read-only.**
    ```bash
-   ./scripts/export_defender_ai_recommendations.sh ./evidence/defender-ai-recommendations.json
-   ```
-3. **Enable or stage AI Threat Protection alerts.** Use Defender for Cloud / CLI / portal steps approved by the customer. Confirm alerts route to Defender XDR. Do not configure blocking or production disruption during S3.
-
-## Track B - Citadel runtime safety
-
-Run this track only when the AI Hub Gateway / Citadel path, an approved
-non-production gateway route, Content Safety configuration, and a
-customer-owned non-production string are available. Otherwise record the track
-as blocked and proceed with Track A.
-
-1. **Confirm runtime safety.** Capture the gateway endpoint, route/access-contract
-   reference, Prompt Shields configuration, and platform owner in evidence.
-2. **Optionally test the Content Safety component directly.** This confirms the
-   component response only; it is not gateway-path proof.
-   ```bash
-   CONTENT_SAFETY_ENDPOINT="https://<account>.cognitiveservices.azure.com" \
-     ./scripts/test_prompt_shield.sh ./evidence/prompt-shield-result.json
-   ```
-3. **Run the gateway smoke-test adapter.** The customer provides the approved
-   route and credential through its secure operating process, together with
-   safe platform-record references. The adapter suppresses the raw response
-   and writes a normalized manifest only.
-   ```bash
+   PILOT_AGENT_SLUG="customer-agent-np" \
    GATEWAY_ENDPOINT="https://<customer-gateway-host>" \
-   GATEWAY_PATH="/<approved-prompt-shield-route>?api-version=<approved-version>" \
+   GATEWAY_PATH="/<approved-route>" \
    GATEWAY_ENVIRONMENT="<customer-nonproduction-environment>" \
    GATEWAY_AUTH_HEADER_VALUE="<customer-operated-credential>" \
    GATEWAY_REFERENCE="platform-record:gateway-np" \
    ACCESS_CONTRACT_REFERENCE="contract-record:approved-route" \
-   BACKEND_REFERENCE="backend-record:content-safety-np" \
-   POLICY_REFERENCE="policy-record:prompt-shields-v1" \
-   EXPECTED_BEHAVIOR="Approved gateway route returns a recorded result" \
+   BACKEND_REFERENCE="backend-record:runtime-safety-np" \
+   POLICY_REFERENCE="policy-record:gateway-policy-v1" \
    REQUEST_EVIDENCE_REFERENCE="change-record:request-window" \
-   TELEMETRY_EVIDENCE_REFERENCE="telemetry-record:proof-query" \
-   ./scripts/test_gateway_prompt_shield.sh ./evidence/gateway-proof-manifest.json
+   TELEMETRY_EVIDENCE_REFERENCE="telemetry-record:gateway-query" \
+   EXPECTED_POLICY_BEHAVIOR="Approved gateway policy records the non-production request" \
+   ./scripts/test_gateway_prompt_shield.sh ./evidence/gateway-proof.json
    ```
-4. **Review and triage.** The platform owner correlates the proof ID with the
-   customer telemetry, updates `review.state` and the evidence references, and
-   assigns owners and due dates to findings. Promotion from alert-only to
-   enforcement is a later customer-owned change. Do not retain raw response
-   bodies, prompts, documents, endpoint values, or credentials in this kit.
+
+3. The platform and security owners validate the output against
+   `contracts/gateway-proof.schema.json`, correlate `correlation_id` with
+   customer telemetry, and record their decision in the approved evidence
+   system. `pass` means only that the adapter request completed; it is not
+   accepted gateway enforcement until that review is complete.
+4. Hand off the accepted proof reference and decision reference to S4. If the
+   request fails or review cannot be completed, record the outcome as failed or
+   blocked in the customer system; do not create substitute local evidence.

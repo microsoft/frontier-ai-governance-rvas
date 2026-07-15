@@ -1,0 +1,9 @@
+{
+  "schema": "rvas.delivery.assurance-handoff.v1",
+  "s3_gateway_proof_reference": "customer-record:s3-gateway-proof",
+  "s3_gateway_proof_decision": "accepted",
+  "evaluation_plan_reference": "customer-record:evaluation-plan",
+  "assurance_owner_reference": "customer-role:assurance-owner",
+  "outcome": "continue",
+  "decision_reference": "customer-record:s4-assurance-decision"
+}

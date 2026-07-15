@@ -1,41 +1,48 @@
 # S6 · Control Plane & Operationalization Concepts
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-06 · Confirm Agent 365 licensing and feature availability in the [Governance capability guide](../reference/governance-capability-guide.md).
+    Last reviewed: 2026-07-15 · Confirm current control-plane capabilities in the [Governance capability guide](../reference/governance-capability-guide.md).
 
-This page explains the operational model behind S6. Use [S6 Prepare](index.md) to begin reconciliation and capture the exit evidence.
+This page explains the operating model behind S6. Use [S6 Prepare](index.md) to
+begin the customer-operated reconciliation and closeout.
 
-## A control plane is the operating view of the estate
+## A control plane is an operating view, not an automatic source of truth
 
-An enterprise control plane provides a place to observe and govern AI agents across their lifecycle. Microsoft Agent 365 describes capability areas including Registry, Access Control, Visualization, Interoperability, and Security, alongside an Observe / Govern / Secure framing.[^a365]
+An enterprise control plane can provide a view of agents across their lifecycle.
+It becomes a trustworthy operating record only after the customer reconciles it
+with the identity inventory, maker knowledge, and platform evidence.
 
-For S6, the key question is practical: can the customer identify every known agent, its owner, lifecycle state, access context, and unresolved governance gaps from an operational record?
+S6 therefore does not treat a vendor export, dashboard, or display name as
+truth. The customer normalizes a registry into an explicit schema before it is
+compared with S1.
 
-**Boundary:** a registry is not automatically a source of truth. It becomes one only after it is reconciled against the identity inventory, maker knowledge, and platform evidence.
+## Explicit reconciliation keeps uncertainty visible
 
-## Reconciliation exposes the gaps between inventories
+S1 supplies `objectId` values for Entra agent identities. The S6 registry
+explicitly supplies `entraObjectId`. Reconciliation matches only those fields;
+it does not infer equivalence from names or alternate field names.
 
-Different inventories answer different questions. S1's Entra Agent ID export shows governed identities; an Agent 365 registry shows the control-plane view; API Center or Access Contract evidence can show the gateway/platform view. Reconciliation compares these sources to reveal records that are missing, duplicated, or contradictory.
-
-The delivery chapters treat a missing record as a finding, not an error to hide. A shadow agent may be unknown to the control plane; a registry-only record may need identity or owner confirmation.
+An unmatched S1 identity is a shadow-agent finding. An unmatched registry
+record, a missing Entra object ID, or contradictory control metadata remains a
+finding for the governance owner to resolve.
 
 ## Ownership and lifecycle state make evidence actionable
 
-An agent that has a name but no accountable sponsor cannot be safely accepted as operational. Lifecycle states—such as proposed, active, exception, suspended, retired, and decommissioned—give the customer a consistent way to decide what may run and what needs attention.
+An agent without an accountable sponsor cannot be accepted as operational.
+Lifecycle states such as proposed, active, exception, suspended, retired, and
+decommissioned provide a consistent way to decide what may run and what needs
+attention.
 
-S6 starts read-only because writing ownership or access metadata changes the operational record. The customer must review findings, approve a change, and retain the previous state before any write is made.
+S6 is read-only because changing ownership, lifecycle, or access data changes
+the operational record. Those customer changes require their own approved
+implementation, rollback, and verification process.
 
 ## Visibility is not full governance
 
-An OBO agent may appear in logs or registry data but not have a distinct identity that can be independently controlled. Treating this as “fully governed” creates a false sense of assurance. S6 flags such cases and turns them into an owned migration or compensating-control backlog.[^a365]
+An OBO agent may be visible in a registry yet not have a distinct identity that
+can be independently controlled. Treating it as fully governed creates a false
+sense of assurance. S6 records such cases as owned migration or
+compensating-control backlog items.
 
-This is why S6 closes the loop with S1 rather than treating the registry as an isolated dashboard.
-
-## Citadel and Agent 365 provide adjacent views
-
-In the Citadel model, the Governance Hub and API Center provide an Azure-plane registry view, while Agent 365 and Entra Agent ID contribute control-plane and identity views.[^citadel] S6 does not deploy either platform. It brings their evidence together so the governance team can operate a coherent record.
-
-The S0 baseline is repeated at the end because operationalization is measured by evidence and ownership, not by the number of tools enabled.
-
-[^a365]: Microsoft Learn - [Agent 365 Overview](https://learn.microsoft.com/en-us/microsoft-agent-365/overview).
-[^citadel]: Microsoft - [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-platform); [AI Hub Gateway](https://aka.ms/ai-hub-gateway).
+The S0 baseline is repeated at closeout because operationalization is measured
+by evidence, ownership, and decisions—not by the number of tools enabled.

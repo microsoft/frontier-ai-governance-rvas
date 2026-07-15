@@ -7,7 +7,7 @@ A ready-to-use development environment for both the **documentation site** and t
 
 | Tool | Provides / CI job it mirrors |
 |------|------------------------------|
-| Node 22 (`node docs/build.js`) | `site-build.yml` (site build) |
+| Node 22 (`npm run build`) | `site-build.yml` (site build) |
 | Python 3.13 + `ruff` | `lab-lint.yml` → python job |
 | PowerShell + `PSScriptAnalyzer` | `lab-lint.yml` → powershell job |
 | Azure CLI + Bicep (`bicep`) | `lab-lint.yml` → bicep job |
@@ -25,10 +25,10 @@ site dependencies and every lab-lint tool.
 ## Common commands (identical to CI)
 
 ```bash
-node docs/build.js                             # build the site data (site-build gate)
+npm run build                                  # build the site data (site-build gate)
+npm run test:session-kits                      # delivery-kit structure gate
 python3 -m http.server -d docs 8000            # live-preview the site at :8000
 ruff check labs                                # python lint gate
-python labs/s1-identity/pipelines/run_mock.py  # a lab mock-target pipeline
 bicep build labs/s3-security-runtime/infra/main.bicep --stdout > /dev/null
 pwsh -c "Invoke-ScriptAnalyzer -Path labs -Recurse -Severity Error"
 shellcheck labs/**/*.sh

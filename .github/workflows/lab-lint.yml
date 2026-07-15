@@ -86,20 +86,28 @@ jobs:
             python -c "import json,sys; json.load(open(sys.argv[1]))" "$f"
           done
 
-  pipelines-mock:
+  delivery-kit-contract:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-node@v4
         with:
-          python-version: "3.13"
-      - name: Run mock-target pipeline checks
+          node-version: "20"
+      - name: Validate delivery-kit structure
         run: |
-          shopt -s globstar nullglob
-          runners=(labs/**/pipelines/run_mock.py)
-          if [ ${#runners[@]} -eq 0 ]; then echo "No mock pipeline runners yet — skipping."; exit 0; fi
-          for f in "${runners[@]}"; do
-            echo "::group::mock run $f"
-            python "$f"
-            echo "::endgroup::"
-          done
+          npm run test:session-kits
+      - name: Validate delivery contracts
+        run: |
+          node -e '
+            const fs = require("fs");
+            const path = require("path");
+            const roots = ["contracts", "labs"];
+            const visit = (dir) => {
+              for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+                const file = path.join(dir, entry.name);
+                if (entry.isDirectory()) visit(file);
+                else if (entry.name.endsWith(".json")) JSON.parse(fs.readFileSync(file, "utf8"));
+              }
+            };
+            roots.forEach(visit);
+          '

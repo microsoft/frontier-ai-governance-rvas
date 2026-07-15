@@ -22,7 +22,7 @@ The content is **public and source‑cited** (grounded in Microsoft Learn) and c
 
 | # | Session | Durable outcome |
 |---|---------|-----------------|
-| S7 | In-Process Agent Governance | Illustrative tool-policy decisions, tamper-evident audit evidence, and an AGT adoption backlog |
+| S7 | In-Process Agent Governance | Illustrative tool-policy decisions, hash-chain consistency, and an AGT adoption backlog |
 
 S7 is an offline, conceptual extension for teams evaluating the
 [Agent Governance Toolkit (AGT)](https://github.com/microsoft/agent-governance-toolkit).

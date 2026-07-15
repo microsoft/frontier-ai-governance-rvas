@@ -1,78 +1,73 @@
-# S4 · Quality & Safety Evaluation
+# S4 · Evaluation & Assurance
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-06 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).
+    Last reviewed: 2026-07-15 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).
 
 <span class="rvas-badge rvas-persona">AI developer / maker</span> <span class="rvas-badge rvas-persona">Governance lead</span>
 
 ## 1. Outcome & durable artifact
 
-The customer leaves with a repeatable evaluation suite and CI/CD gate for a non-production AI agent:
+The customer leaves with an assurance record that names the accepted S3 gateway
+proof, the owner, an evaluation-plan reference, and a customer decision.
 
-- A local **mock-target evaluation pipeline** that runs without cloud access and produces a dated scorecard.
-- A production path for Microsoft Foundry Evaluations using the `azure-ai-evaluation` Python SDK.
-- A CI/CD gate pattern that can fail pull requests when quality or safety scores regress.
-
-Durable artifact: `labs/s4-evaluation/` - dataset, thresholds, Foundry evaluation reference script, GitHub Actions gate snippet, and captured evidence. Local mock evaluation is CI/static validation only.
+Durable artifact: `labs/s4-evaluation/` - an assurance-handoff contract and a
+customer-owned outcome template. It is not a live agent evaluator or CI/CD gate.
 
 ## 2. Prerequisites
 
-- An Azure AI Foundry project and Azure OpenAI / judge-model deployment for evaluators that require a cloud judge.
-- Python 3.11+ and permission to install `azure-ai-evaluation` (current stable line ~v1.17.x as of the last review - verify the latest on PyPI) on the operator workstation or CI runner.[^foundry]
-- A **non-production/test agent** endpoint or callable target. Do not run first-time evaluation gates against production traffic.
-- GitHub repository access to add a pull-request evaluation gate using `microsoft/ai-agent-evals`.[^aievals]
-- OpenTelemetry gen-ai tracing enabled if the customer will connect evaluation results to production monitoring.[^foundry]
+- An S3 manifest conforming to
+  [`gateway-proof.schema.json`](../../contracts/gateway-proof.schema.json) with
+  `result: "pass"`.
+- Customer platform and security review accepting the S3 proof after telemetry
+  correlation.
+- A named assurance owner and approved customer records system.
 
 ## 3. Why this session
 
-An evaluation makes expected agent behavior repeatable and reviewable before a prompt, model, or tool change reaches users. S4 turns that expectation into a dataset, scorecard, and initially non-blocking release check that the customer can tune over time.
+Assurance makes the customer decision and its prerequisites reviewable. S4
+records references to customer-owned evaluation work but does not claim to run
+or gate it.
 
-Read the [S4 Concepts](concepts.md) for evaluation datasets, metrics, CI gates, and the production-feedback loop.
+Read the [S4 Concepts](concepts.md) for the boundary between evaluation results
+and an assurance decision.
 
 ## 4. Co-delivery walkthrough
 
 !!! warning "Report-only / audit-first"
-    Evaluate a **non-production/test agent** first. The initial gate is report-only unless the customer deliberately chooses to fail PRs after reviewing baseline scores, false positives, and rollback.
+    A fixture score or a direct component test is not an assurance exit. S4
+    requires an accepted S3 gateway proof.
 
-1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">AI developer / maker</span>)* - confirm target is non-production, open `labs/s4-evaluation/rollback.md`, agree thresholds and approver.
-2. **Review the dataset** - inspect `labs/s4-evaluation/data/eval-dataset.jsonl`; replace sample rows with representative safe test cases before live use.
-3. **Review thresholds** - tune `labs/s4-evaluation/policies/thresholds.json` for the customer's risk appetite. Start permissive enough to learn; tighten after observing baseline variance.
-4. **Run the offline mock gate** - execute `python labs/s4-evaluation/pipelines/run_mock.py`. This creates `labs/s4-evaluation/evidence/eval-results.json` without network calls.
-5. **Inspect the scorecard** - use `labs/s4-evaluation/scripts/summarize.py` to render the JSON evidence as a table and record any failing cases.
-6. **Foundry path** - map the same dataset and target into `labs/s4-evaluation/pipelines/azure-eval.py` with Azure AI project environment variables.
-7. **CI/CD gate design** - adapt `labs/s4-evaluation/pipelines/github-action-example.yml` in a pull-request branch. Keep it report-only first (do not block merges); enable enforcement - e.g. a `baseline-agent-id` regression comparison - only after governance approval.
-8. **Continuous evaluation plan** - define which production traces can become future evaluation examples, using OpenTelemetry gen-ai spans and the customer's approved monitoring process.
+1. **Verify S3 entry evidence** - customer reviewers confirm a `pass` gateway
+   proof was accepted after telemetry correlation.
+2. **Record the assurance outcome** - the assurance owner copies
+   `templates/assurance-outcome.template.json` to the customer records system,
+   adds safe references, and chooses `continue` or `hold`.
+3. **Validate and hand off** - validate the record against
+   `contracts/assurance-handoff.schema.json`; retain the completed record and
+   decision in the customer system.
 
 ## 5. Verification & evidence capture
 
-- [ ] `pipelines/run_mock.py` exits `0` with the shipped dataset and writes `evidence/eval-results.json`.
-- [ ] The scorecard records per-case metrics, aggregate metrics, thresholds, and pass/fail status.
-- [ ] Foundry environment variables and judge-model ownership are documented before any live run.
-- [ ] Any CI gate starts in report-only or non-blocking mode until the customer approves enforcement.
+- [ ] The referenced S3 proof conforms to the gateway-proof contract and has
+  `result: "pass"`.
+- [ ] Customer platform and security reviewers accepted the proof.
+- [ ] The assurance record conforms to the S4 handoff contract.
+- [ ] The customer records system contains the outcome and decision reference.
 
-Evidence to capture in `labs/s4-evaluation/evidence/`: `eval-results.json`, CI run URL or log excerpt, approved thresholds, and a short note describing dataset version and target agent version.
+## 6. Customer-owned rollback and handoff
 
-## 6. Rollback
-
-Rollback is a release-control change, not a data-plane deletion:
-
-- Disable or remove the PR gate snippet from the feature branch.
-- Restore the previous `thresholds.json` values if a threshold change caused noise.
-- Revert the target prompt/model/tool change that introduced a regression.
-- Keep `evidence/eval-results.json` as an audit record; do not delete historical scorecards unless the customer's retention policy requires it.
-
-Detailed steps are in `labs/s4-evaluation/rollback.md`.
+S4 changes no evaluator, agent, or CI/CD gate. The customer can record `hold`
+or supersede its assurance decision through its own change and evidence
+process. The completed handoff remains customer owned.
 
 ## 7. Facilitator notes
 
-- **Timing:** ~half day. Session context + safety ~45 min, dataset/threshold review ~60 min, Foundry evaluation evidence ~45 min, CI design ~75 min, wrap-up ~30 min.
-- **RACI:** AI developer / maker = R, Governance lead = A, Security / SOC = C (risk/safety thresholds), Compliance / Data admin = C (dataset handling), Identity admin = I.
+- **Timing:** ~half day, including evidence review and customer decision.
+- **RACI:** Assurance owner = R, Governance lead = A, Platform owner and
+  Security/SOC = C.
 - **Common blockers:**
-    - *No Azure AI project or judge model* → stop S4 live delivery and route Foundry/evaluator provisioning to the prerequisite backlog.
-    - *Dataset is not representative* → run only as simulation; do not enforce a gate until customer-owned cases are added.
-    - *Safety evaluator availability differs by region/status* → mark affected evaluators Preview and verify current Foundry support.
-    - *CI secrets unavailable* → keep the GitHub Action as a documented snippet and run the local mock gate in PR validation.
-- **Hand-off:** S4 evidence feeds S5 adversarial testing and S6 operationalization; failed cases become regression rows for the next evaluation dataset.
-
-[^foundry]: Microsoft Learn - [Foundry Observability](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability); Azure SDK for Python - [`azure-ai-evaluation` README](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/evaluation/azure-ai-evaluation/README.md).
-[^aievals]: GitHub Marketplace / repository - [`microsoft/ai-agent-evals`](https://github.com/microsoft/ai-agent-evals), a GitHub Action for running agent evaluations in CI/CD.
+    - *No accepted S3 proof* → do not exit S4; record `hold`.
+    - *No evidence reviewers* → do not create local substitute evidence.
+    - *No customer decision reference* → do not exit S4.
+- **Hand-off:** the customer-owned assurance decision informs subsequent
+  delivery; separate evaluation and gate implementations remain customer owned.

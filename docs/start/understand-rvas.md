@@ -50,7 +50,7 @@ The sessions align with the governance intent of NIST AI RMF, ISO/IEC 42001, and
 
 Teams considering the [Agent Governance Toolkit (AGT)](https://github.com/microsoft/agent-governance-toolkit)
 can add S7 after the core curriculum. It illustrates application-process
-tool-call policy decisions and tamper-evident decision records using an offline
+tool-call policy decisions and hash-chain consistency using an offline
 simulator. S7 does not deploy AGT, modify customer agent code, or replace
 Citadel's gateway, identity, data, runtime-security, evaluation, or
 control-plane responsibilities.

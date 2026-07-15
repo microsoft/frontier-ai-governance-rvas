@@ -1,8 +1,0 @@
-{
-  "metrics": {
-    "exact_match": 0.5,
-    "f1": 0.75,
-    "keyword_groundedness": 0.8
-  },
-  "aggregate": 0.75
-}

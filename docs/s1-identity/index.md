@@ -1,4 +1,4 @@
-# S1 · Identity & Access
+# S1 · Identity & Ownership Review
 
 !!! info "Freshness"
     Last reviewed: 2026-07-06 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).
@@ -7,70 +7,99 @@
 
 ## 1. Outcome & durable artifact
 
-The customer leaves with agents governed as first-class identities in their own tenant:
+The customer leaves with an identity-inventory review and ownership decision:
 
-- An **inventory of agent identities** (Entra Agent ID) present in the tenant, exported to JSON.
-- A Conditional Access policy definition targeting agent identities in report-only mode, ready for the customer's approved change process.
-- A human-sponsor accountability record for each agent (who owns it, lifecycle state).
+- A customer-owned inventory review from an authoritative administrator source,
+  including its workload coverage and known limitations.
+- A human sponsor and lifecycle decision for each reviewed in-scope identity.
+- Evidence and decision references in the customer records system or generated
+  delivery workspace.
 
-Durable artifact: `labs/s1-identity/` - the inventory export, report-only Conditional Access policy definition, and sponsor register. Customer evidence remains local and is not committed to this repository.
+`labs/s1-identity/` contains the review runbook only. It does not contain
+identity discovery, exports, Conditional Access definitions, break-glass
+templates, or customer records.
+
+### Identity inventory schema
+
+The customer inventory records a customer record/source reference, workload
+coverage and exclusions, identity classification, identity/workload reference,
+accountable sponsor, lifecycle and purpose, access/risk references, and review
+metadata (reviewer, date, finding, decision, and next review date). The
+customer records actual identifiers and personal data only in its approved
+system.
 
 ## 2. Prerequisites
 
-- **Microsoft Entra ID P1** for baseline Conditional Access. Risk-based workload identity controls require **Microsoft Entra Workload Identities Premium**.
-- Roles held by the customer's admins (facilitator guides only): Conditional Access Administrator (or Security Administrator) to author policy; a Privileged Role Administrator on hand for exclusions.
-- At least one **Entra Agent ID** present - typically provisioned when the customer builds an agent in Copilot Studio or Microsoft Foundry (verify current provisioning behavior for your workloads).[^entra]
-- A **break-glass** account confirmed and excluded from the new policy.
-- Microsoft Graph PowerShell SDK (`Install-Module Microsoft.Graph`) on the operator workstation.
+- A customer identity administrator who can use an authorized administrative
+  source for the workload in scope.
+- A customer-approved records-system location for inventory, evidence, and
+  decisions.
+- A named governance lead to accept source-coverage limitations and ownership
+  findings.
+
+This session does not require or validate Conditional Access licensing,
+break-glass design, Graph PowerShell, or a particular Entra Agent ID
+provisioning path.
 
 ## 3. Why this session
 
-An agent cannot be governed reliably until the customer can identify it, name its human sponsor, and observe how a proposed access policy would affect it. S1 creates that evidence first and keeps Conditional Access in report-only mode while the customer learns its impact.
+An agent cannot be governed reliably until the customer can identify its
+authoritative source, name its human sponsor, and state the inventory's
+coverage. S1 establishes that evidence and decision boundary without claiming
+that a generic directory search is a complete Agent ID inventory.
 
-Read the [S1 Concepts](concepts.md) for Agent ID, workload-identity Conditional Access, report-only policy, OBO, and gateway-boundary context.
+Read the [S1 Concepts](concepts.md) for Agent ID, authoritative-source
+boundaries, ownership, OBO, and gateway-boundary context.
 
 ## 4. Co-delivery walkthrough
 
-!!! warning "Report-only / audit-first"
-    The Conditional Access policy created here is **report-only**. It changes nothing for users or agents until the customer deliberately switches it to *On* after reviewing report-only sign-in impact. Confirm the break-glass exclusion before creating any policy.
+!!! warning "Review-only boundary"
+    This session creates no policy and makes no tenant change. Do not use a
+    service-principal name/tag match as Agent ID discovery, and do not copy
+    identity data or evidence into this repository.
 
-1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">Identity admin</span>)* - confirm the break-glass account, change window, and approver (see [Plan the engagement](../start/plan-engagement.md#deliver-safely)). Open `labs/s1-identity/rollback.md`.
-2. **Connect read-only and inventory agents** - the customer runs:
-   ```powershell
-   ./scripts/Get-AgentIdentities.ps1 -OutFile ./evidence/agent-inventory.json
-   ```
-   This connects Microsoft Graph with least-privilege read scopes and exports every agent identity + its sponsor.
-3. **Build the sponsor register** - for each agent in the inventory without a clear owner, record a human sponsor in `policies/sponsor-register.csv`. Agents with no sponsor are the first governance finding.
-4. **Author the Conditional Access policy** - review `policies/ca-agent-baseline.json` for the baseline path. For eligible single-tenant service principals with Workload Identities Premium, review `policies/ca-agent-id-protection.json` for the report-only high-risk path. Set `includeServicePrincipals` to the agent SP object ID(s) and `excludeServicePrincipals` to the customer's break-glass service principal.
-5. **Hand it off for customer-owned change** - this kit intentionally does not create or remove tenant policy. The customer may apply the reviewed definition through its approved change process, retaining `enabledForReportingButNotEnforced` and the break-glass exclusion.
-6. **Observe report-only results** - if the customer applies the policy, agree an observation period and review the affected sign-in records before deciding whether to enforce it.
+1. **Define the source boundary** *(facilitator + <span class="rvas-badge rvas-persona">Identity admin</span>)* - select a customer-authorized Entra Agent ID/governance experience, supported workload administration experience, or customer authoritative inventory. Record what workloads it covers and what it cannot confirm.
+2. **Perform the safe inventory review** - the identity administrator reviews customer-held records for each in-scope entry: source reference, identity classification, workload, accountable sponsor, lifecycle, purpose, access/risk references, reviewer, and next review date.
+3. **Treat corroborating sources correctly** - a service-principal, managed-identity, OBO, or application inventory is not by itself an Entra Agent ID inventory. Record it only as corroborating context and retain the coverage limitation.
+4. **Make the ownership decision** - record missing sponsors, uncertain lifecycle, unsupported sources, and residual access risk with an accountable owner and approver.
+5. **Hand off change work** - Conditional Access, break-glass, access remediation, or enforcement questions go to the customer's approved identity-change process. This kit supplies no policy or template.
 
 ## 5. Verification & evidence capture
 
-- [ ] `agent-inventory.json` exists and lists agent identities.
-- [ ] Every inventoried agent has a sponsor in `sponsor-register.csv`.
-- [ ] If independently applied by the customer, the Conditional Access policy is **report-only** and excludes the break-glass service principal.
+- [ ] The customer inventory identifies its authoritative source, workload
+  coverage, known exclusions, and review date.
+- [ ] Every reviewed in-scope identity has an identity classification, sponsor,
+  lifecycle state, and finding or decision.
+- [ ] Ownership, residual-risk, and source-coverage decisions have an owner,
+  approver, and next review date.
 
-Evidence to capture (into `labs/s1-identity/evidence/`): the inventory JSON, the created policy re-exported from the tenant, and a screenshot-free record (policy JSON + object IDs) of the report-only state.
+Register only the customer inventory reference and its
+retention/classification metadata in `04-operate/evidence-register.json` and
+the related decision in `04-operate/decision-register.json` in the generated
+delivery workspace. Do not add inventory data, object IDs, exports, or policy
+evidence to Git.
 
-```powershell
-./scripts/Export-AgentConditionalAccess.ps1 -OutFile ./evidence/ca-agent-baseline.deployed.json
-```
+## 6. Change boundary
 
-## 6. Customer-owned rollback
-
-This kit makes no tenant changes. If the customer independently applies a report-only policy, its approved change process owns reversal and confirmation. The inventory and sponsor register are read-only artifacts - nothing to revert in the tenant.
+This kit makes no tenant changes. The customer's identity-change process owns
+any Conditional Access, break-glass, access-remediation, rollback, verification,
+and evidence-retention activity.
 
 ## 7. Facilitator notes
 
-- **Timing:** ~half day. Pre-flight + session context ~45 min, inventory + sponsor register ~60 min, policy authoring + report-only creation ~60 min, verification/evidence ~30 min.
+- **Timing:** ~half day. Source boundary + session context ~45 min, inventory
+  review + sponsor assignment ~60 min, ownership decisions ~60 min, evidence
+  reference + handoff ~30 min.
 - **RACI:** Identity admin = R, Governance lead = A, Security/SOC = C (sign-in risk), AI developer = I.
 - **Common blockers:**
-    - *No agents in the tenant yet* → stop S1 live delivery and route agent onboarding / Citadel deployment readiness to the prerequisite backlog.
-    - *No Workload Identities Premium* → skip risk-based conditions; document them as a prerequisite.
-    - *Break-glass not identified* → **stop**; do not create any Conditional Access policy until a break-glass account is confirmed and excluded.
-    - *Agents running OBO* → they won't appear as distinct identities; note them as "visible but not fully controllable" and revisit in S6.
-    - *Customer asks how Entra governs access through an APIM AI gateway* → keep S1 focused on Agent ID inventory and report-only CA, then point the platform team to the Citadel Governance Hub [Entra ID auth validation](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/entraid-auth-validation.md) and [JWT client identity & permissions](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/jwt-client-identity-permissions.md) guides.
-- **Hand-off:** the inventory feeds S6 (Agent 365 registry reconciliation); the report-only policy is the customer's to promote to enforce after impact review.
+    - *No authoritative source for the workload* → record the coverage gap; do
+      not infer an Agent ID inventory from tags or names.
+    - *No sponsor* → record an ownership finding and assign a decision owner.
+    - *Agents running OBO* → classify them as OBO visibility, not as distinct
+      Agent ID inventory entries, unless the supported source says otherwise.
+    - *Customer asks for Conditional Access or break-glass design* → hand it to
+      the customer's identity-change process; S1 supplies no policy template.
+- **Hand-off:** the customer-owned inventory reference and coverage statement
+  inform S6 reconciliation; remediation decisions remain customer-owned.
 
 [^entra]: Microsoft Learn - [What is Microsoft Entra Agent ID?](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id); [Agent ID governance overview](https://learn.microsoft.com/en-us/entra/id-governance/agent-id-governance-overview).

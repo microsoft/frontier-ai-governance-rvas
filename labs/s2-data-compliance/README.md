@@ -1,45 +1,41 @@
-# S2 Takeaway Kit — Data & Compliance
+# S2 Takeaway Kit — Data & Compliance Review
 
-Governs AI-agent data exposure with Microsoft Purview. All privileged actions are
-the customer's; scripts default to read-only and simulation/test mode.
+This kit helps a facilitator and customer compliance team make a decision about
+data exposure for one representative AI-agent path. It intentionally does **not**
+contain an export script, a deployable Purview policy, tenant IDs, or a fake
+Purview configuration schema.
 
-The live export script is customer-operated evidence capture. Its output is
-ignored by Git and must remain in the customer's approved records system.
+Microsoft Purview capabilities and supported workload coverage change. Use the
+customer's current Purview experience and approved operating procedures to
+review DSPM for AI, DLP, Audit, and eDiscovery. Store exports and investigation
+records only in the customer's approved records system.
 
-## Contents
+## What this kit contains
 
-```
-scripts/
-  Get-AISensitiveDataFindings.ps1       read-only DSPM for AI findings export -> JSON
-policies/
-  dlp-ai-simulation.json                curriculum-template DLP policy (illustrative schema) in simulation/test mode
-  dspm-ai-baseline.json                 exported-style DSPM for AI baseline config
-pipelines/
-  run_mock.py                           static safety check of policy JSON invariants
-evidence/                               ignored DSPM findings, DLP export, approver/change record
-runbook.md  rollback.md  verify.md
-```
+- [`runbook.md`](runbook.md) - entry point for the customer-operated review.
+- [`review-checklist.md`](review-checklist.md) - facilitator-ready review,
+  evidence-reference, decision, and handoff checklist.
 
 ## Prerequisites
 
-- PowerShell 7+, `Install-Module Microsoft.Graph`.
-- Security & Compliance PowerShell available for DLP cmdlets.
-- Customer admin with Compliance Administrator or Compliance Data Administrator.
-- A named change window + approver; DLP starts in simulation/test mode only.
+- Compliance/Data administrator, governance lead, and the owner of the pilot
+  agent path.
+- Confirmed Purview licensing and workload coverage for the intended DSPM for
+  AI, DLP, Audit, and eDiscovery capabilities.
+- An approved customer records-system location for evidence references and a
+  named change approver if a policy change is proposed.
 
 ## Run order
 
-1. Obtain a compliance-approved, read-only Graph or audit query, then run:
-   ```powershell
-   ./scripts/Get-AISensitiveDataFindings.ps1 `
-     -GraphUri '<approved-read-only-graph-uri>' `
-     -OutFile ./evidence/dspm-ai-findings.json
-   ```
-2. Edit `policies/dlp-ai-simulation.json`: set tenant, reviewer group, AI workload, and sensitive information type IDs.
-3. `python pipelines/run_mock.py` *(offline safety check — must PASS)*
-4. Hand the reviewed simulation policy definition to the customer's approved change process. This kit intentionally does not create or remove tenant policy.
-5. Capture evidence per `verify.md` after the customer-created simulation policy bakes.
+1. Use the checklist to scope the pilot agent, data flows, and investigation
+   owner.
+2. Review the supported Purview signals and findings in the customer tenant.
+3. Record references to the customer-owned findings, policy definition, and
+   audit/eDiscovery review in the generated delivery workspace's evidence
+   register.
+4. Decide whether to remain **designed**, proceed to a customer-owned
+   **report-only** change, or record a **blocked** or **accepted-risk** outcome.
 
-Use the customer's approved change process to reverse a policy change.
-
-<!-- Verified: static-only — ruff + py_compile + JSON load + mock pipeline in CI. Live execution is the customer's co-delivery step. -->
+This session never deploys, reverses, or validates a Purview policy. Any
+customer policy change follows the customer's standard change, rollback, and
+verification process.
