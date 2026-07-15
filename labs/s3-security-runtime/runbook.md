@@ -4,6 +4,15 @@ Run this only in a customer-approved non-production environment. The one S3
 action is a request through the deployed gateway; a direct Content Safety call
 is not S3 evidence.
 
+## Facilitated activity alignment
+
+Run this sequence during the [S3 90-minute co-delivery workshop](../../docs/s3-security-runtime/index.md#4-co-delivery-walkthrough).
+Before step 1, the facilitator confirms the customer platform operator,
+security reviewer/evidence owner, and decision owner; an approved
+non-production route; safe authentication handling; an evidence location; and
+a stop condition. The customer performs every operation below. The facilitator
+does not receive credentials, run the request, or accept the proof.
+
 1. Confirm the customer has approved the route, authentication handling, safe
    test input, and the record locations referenced below.
 2. The customer operator runs the adapter, supplying real values only through
@@ -33,3 +42,11 @@ is not S3 evidence.
 4. Hand off the accepted proof reference and decision reference to S4. If the
    request fails or review cannot be completed, record the outcome as failed or
    blocked in the customer system; do not create substitute local evidence.
+
+**Interpret and decide:** record safe references to the manifest, request and
+telemetry records, correlation identifier, reviewer interpretation, and
+decision. Accept only a conforming `pass` manifest whose telemetry correlation
+is accepted by both customer platform and security reviewers. Missing
+correlation, production-only availability, missing reviewers, or an unsafe
+route is a safe stop: record the blocker, owner, date, and S4 impact instead of
+substituting a direct component test.

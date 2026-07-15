@@ -58,11 +58,52 @@ boundaries, ownership, OBO, and gateway-boundary context.
     service-principal name/tag match as Agent ID discovery, and do not copy
     identity data or evidence into this repository.
 
-1. **Define the source boundary** *(facilitator + <span class="rvas-badge rvas-persona">Identity admin</span>)* - select a customer-authorized Entra Agent ID/governance experience, supported workload administration experience, or customer authoritative inventory. Record what workloads it covers and what it cannot confirm.
-2. **Perform the safe inventory review** - the identity administrator reviews customer-held records for each in-scope entry: source reference, identity classification, workload, accountable sponsor, lifecycle, purpose, access/risk references, reviewer, and next review date.
-3. **Treat corroborating sources correctly** - a service-principal, managed-identity, OBO, or application inventory is not by itself an Entra Agent ID inventory. Record it only as corroborating context and retain the coverage limitation.
-4. **Make the ownership decision** - record missing sponsors, uncertain lifecycle, unsupported sources, and residual access risk with an accountable owner and approver.
-5. **Hand off change work** - Conditional Access, break-glass, access remediation, or enforcement questions go to the customer's approved identity-change process. This kit supplies no policy or template.
+**Timebox:** 90 minutes. **Roles:** facilitator, identity administrator
+(customer activity owner), governance lead (decision owner), evidence owner,
+and security reviewer. **Entry condition:** a bounded workload, a
+customer-authorized source, a customer records location, and a governance lead
+are present. Without a source or decision owner, stop the affected activity and
+record the dependency; do not substitute a directory query.
+
+**Purposeful customer action:** the identity administrator reviews a real
+customer-held inventory boundary, then the governance lead decides how to
+handle coverage and ownership gaps.
+
+1. **Set the question and source boundary** *(15 min)* — facilitator asks:
+   “What population can this source authoritatively describe?” and “What
+   cannot it prove?” The customer identifies the workload, source, coverage,
+   exclusions, evidence reference, and stop condition. A meaningful result is
+   a source-coverage statement; a source with no applicable records is a
+   no-result only when its checked scope and date are recorded. An unavailable
+   supported source is unsupported/blocked, not permission to infer Agent ID
+   status.
+2. **Customer-led inventory review** *(35 min)* — the identity administrator
+   reviews each in-scope record in the approved system using the schema above.
+   The facilitator asks, “Who is accountable for purpose and lifecycle?”,
+   “What evidence ties this identity to the workload?”, and “When is the next
+   review?” **Meaningful result:** classification, sponsor, lifecycle, source
+   reference, and finding are reviewable. **No-result:** no entry for the
+   declared scope, recorded with source/date/reviewer. **Unsupported:** the
+   source cannot expose a needed attribute, captured as a coverage limitation.
+   **Blocked:** access, owner, or authorized source is absent; stop that
+   population and assign the dependency.
+3. **Interpret corroboration correctly** *(15 min)* — customer may compare
+   service-principal, managed-identity, OBO, or application context, but the
+   facilitator asks, “Does this prove Agent ID status or only corroborate?”
+   Record corroboration and its limit. OBO visibility is not a distinct Agent
+   ID inventory entry unless the supported source says so.
+4. **Make the ownership decision** *(15 min)* — governance lead decides to
+   remediate a missing sponsor/lifecycle, accept a bounded residual risk,
+   defer, or mark the source coverage blocked. Criteria: authoritative source
+   coverage, attributable sponsor, lifecycle clarity, access-risk context, and
+   customer authority. Record the inventory/source reference, decision, owner,
+   approver, and review date; never copy identifiers or exports here.
+5. **Hand off without designing controls** *(10 min)* — facilitator reads back
+   the control state (`observed`, `accepted_risk`, or `blocked`), evidence
+   reference, next owner, and S6 reconciliation dependency. Conditional
+   Access, break-glass, remediation, or enforcement requests go to the
+   customer identity-change process. If no decision owner attended, mark the
+   decision deferred with owner/date.
 
 ## 5. Verification & evidence capture
 
@@ -72,6 +113,8 @@ boundaries, ownership, OBO, and gateway-boundary context.
   lifecycle state, and finding or decision.
 - [ ] Ownership, residual-risk, and source-coverage decisions have an owner,
   approver, and next review date.
+- [ ] Each no-result, unsupported capability, and blocker identifies the scope
+  checked, evidence reference, owner, and review date.
 
 Register only the customer inventory reference and its
 retention/classification metadata in `04-operate/evidence-register.json` and
@@ -87,18 +130,14 @@ and evidence-retention activity.
 
 ## 7. Facilitator notes
 
-- **Timing:** ~half day. Source boundary + session context ~45 min, inventory
-  review + sponsor assignment ~60 min, ownership decisions ~60 min, evidence
-  reference + handoff ~30 min.
-- **RACI:** Identity admin = R, Governance lead = A, Security/SOC = C (sign-in risk), AI developer = I.
-- **Common blockers:**
-    - *No authoritative source for the workload* → record the coverage gap; do
-      not infer an Agent ID inventory from tags or names.
-    - *No sponsor* → record an ownership finding and assign a decision owner.
-    - *Agents running OBO* → classify them as OBO visibility, not as distinct
-      Agent ID inventory entries, unless the supported source says otherwise.
-    - *Customer asks for Conditional Access or break-glass design* → hand it to
-      the customer's identity-change process; S1 supplies no policy template.
+- **Blocker path:** no authoritative source → record its coverage gap; no
+  sponsor → create an ownership finding; OBO → classify as visibility unless
+  the supported source states otherwise. Assign owner/date and resume only
+  when the dependency is resolved.
+- **Official context:** [manage agent identities](https://learn.microsoft.com/en-us/entra/agent-id/manage-agent-identities-admin)
+  and [manage owners and sponsors](https://learn.microsoft.com/en-us/entra/agent-id/manage-owners-sponsors-agents)
+  describe product capabilities. They support terminology and do not replace
+  the customer’s source-coverage evidence.
 - **Hand-off:** the customer-owned inventory reference and coverage statement
   inform S6 reconciliation; remediation decisions remain customer-owned.
 

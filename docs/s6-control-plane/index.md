@@ -46,28 +46,57 @@ and the boundary between visibility and governance.
     or access metadata. The customer uses its supported product process to
     obtain source data, then normalizes it before S6.
 
-1. **Set the inputs** *(facilitator + <span class="rvas-badge rvas-persona">Governance lead</span>)* -
-   confirm the S0 baseline, unmodified S1 inventory, evidence-reference
-   location, and closeout approver.
-2. **Normalize the registry** - prepare the customer registry with the explicit
-   schema in `labs/s6-control-plane/data/agent-registry.sample.json`. Each
-   record declares `entraObjectId`; S6 never matches on display name or aliases.
-3. **Reconcile** - run:
-   ```bash
-   python labs/s6-control-plane/scripts/reconcile-registry.py \
-     --registry labs/s6-control-plane/evidence/control-plane-registry.json \
-     --inventory labs/s1-identity/evidence/agent-inventory.json \
-     --out labs/s6-control-plane/evidence/reconciliation-report.json
-   ```
-4. **Triage gaps** - assign an owner and action for shadow, registry-only,
-   unmanaged/OBO, sponsor, and lifecycle findings. Do not change the registry
-   in this workshop.
-5. **Re-run the S0 instrument** - follow
-   `labs/s6-control-plane/assessment/exit-rescore.md` and retain the mandatory
-   baseline-to-exit comparison.
-6. **Close out** - complete
-   `labs/s6-control-plane/assessment/closeout-backlog.md` in the customer's
-   approved records system.
+**Timebox:** 90 minutes. **Facilitator:** runs the method and records
+references; never performs customer actions or accepts risk. **Customer
+activity owner:** prepares and runs the reconciliation. **Evidence owner:**
+points to approved records. **Governance lead / decision owner:** assigns
+dispositions and makes the closeout or deferral decision. Include an identity
+administrator and a maker or platform specialist when findings need their
+interpretation.
+
+**Entry condition:** the decision owner is present (or a dated decision
+deferral is agreed); the customer has an S0 baseline reference, a
+customer-produced S1 normalized inventory, a candidate registry source, and
+an approved records-system location. The facilitator confirms the safe posture:
+no product export, no registry write, no tenant change, and no raw customer
+records copied into this repository.
+
+| Activity | Time | Customer operation | Facilitator prompts and interpretation |
+|---|---:|---|---|
+| Set the question and evidence boundary | 10 min | Confirm the pilot question: “Can this bounded registry be reconciled to S1 using explicit Entra object IDs, and what must be owned before closeout?” Name the records location and decision owner. | “Which source is authoritative for this pilot?” “What would make us stop?” Record only references, scope, date, roles, and expected signal. |
+| Review input quality | 15 min | Show the approved references for the S0 baseline and S1 inventory, then inspect the candidate registry for completeness and provenance. | “Is this customer-produced and current enough for the decision?” “Which field is unknown rather than inferred?” Missing, stale, or unowned input is a finding or blocker—not a reason to fill a field from a display name. |
+| Normalize explicitly | 15 min | Normalize the registry to `rvas.s6.control-plane-registry.v1`, using the sample only as a field-level illustration. Supply `registryId`, `displayName`, `entraObjectId` or `null`, `executionMode`, `managed`, `lifecycleState` or `null`, and `sponsor` or `null`. | “Can every value be traced to the customer source?” “Which nulls are intentional findings?” Do not map aliases or alternate fields. A schema failure means the input is not ready; it is not a reconciliation result. |
+| Reconcile and triage | 20 min | Run the read-only comparison below, then review shadow, registry-only, unmanaged/OBO, missing-sponsor, and lifecycle findings with the appropriate specialist. | “What does this finding mean operationally?” “Is it a source gap, an ownership gap, or a separate change?” Matches are only `entraObjectId` ↔ `objectId`; a no-result is not a pass unless the expected signal and checked scope are recorded. Do not change the registry in the session. |
+| Discuss maturity lift | 15 min | Re-run the same S0 scorecard in the customer-approved records system, compare the baseline and exit scores with the S0 offline scoring tools, and retain the maturity-lift reference with closeout records. | “What evidence supports a score change?” “Which domains remain below target?” Treat the comparison as a decision input, not proof that a control is deployed or operating. Add each residual gap to the customer-owned backlog. |
+| Close out and set cadence | 15 min | Choose close, close with owned gaps, defer, or do not close. Name the approver, backlog owner, target dates, and next governance review. | “Are all findings owned with a due date?” “What cadence will re-check registry quality, reconciliation, and residual gaps?” A closeout is valid only when the governance lead accepts the stated residual risk; otherwise record a deferred decision and review date. |
+
+Run the reconciliation during the fourth activity:
+
+```bash
+python labs/s6-control-plane/scripts/reconcile-registry.py \
+  --registry labs/s6-control-plane/evidence/control-plane-registry.json \
+  --inventory labs/s1-identity/evidence/agent-inventory.json \
+  --out labs/s6-control-plane/evidence/reconciliation-report.json
+```
+
+### Results, evidence, and handoff
+
+Reference—not copy—these customer-approved records: S0 baseline and exit
+scorecards, normalized registry source, S1 inventory, reconciliation report,
+maturity-lift output, and closeout/backlog decision. The handoff records the
+pilot question, scope, observed result or no-result, interpretation, control
+state, decision, owner, next review, and any dependency. A sample, offline
+tool run, or facilitator note is preparation material, not proof of a customer
+control.
+
+### Blocker pathways
+
+| Blocker | Safe response and handoff |
+|---|---|
+| S0 baseline, S1 inventory, or decision owner is absent | Stop the dependent step. Record the missing input or owner, assign a target date, and reschedule; do not create a substitute inventory or decision. |
+| Registry is incomplete, stale, or cannot be normalized without inference | Record an input-quality finding. Return the record to the customer source owner; do not match by name or alter fields in the workshop. |
+| A reconciliation finding needs a registry, identity, lifecycle, or access change | Create a customer-owned backlog item. The change proceeds only through the customer's supported process with its own approval, rollback, and verification. |
+| The report produces no expected finding or a capability is unsupported | Record the checked scope and interpretation. Decide to observe, refine the bounded question, use a customer control, or defer—never label absence as a pass by itself. |
 
 ## 5. Verification & evidence capture
 
@@ -87,14 +116,12 @@ rollback, and verification process.
 
 ## 7. Facilitator notes
 
-- **Timing:** ~half day. Input validation + normalization ~45 min,
-  reconciliation ~45 min, ownership review ~60 min, exit re-score + closeout
-  ~60 min.
-- **RACI:** Governance lead = R/A; Identity admin = C for S1 inventory;
-  Security/SOC = C for unmanaged/OBO risk; AI developer/maker = C for
-  provenance.
-- **Common blockers:** a missing S1 inventory, incomplete normalized registry,
-  or absent owner becomes a residual gap. Do not infer a match or improvise an
-  API export.
-- **Close the loop:** the S0 comparison and owned backlog provide the capstone
-  decision package.
+- Follow the 90-minute [co-delivery facilitation method](../delivery/facilitation-pattern.md):
+  customer actions and customer evidence remain customer-owned; the
+  facilitator keeps time, boundaries, interpretation, and decision wording
+  explicit.
+- **RACI:** Governance lead = decision owner; customer activity owner = R for
+  normalization and reconciliation; evidence owner = R for approved references;
+  identity admin, Security/SOC, and AI developer/maker = specialist reviewers.
+- **Close the loop:** the comparison and owned backlog support a closeout and
+  operating-cadence decision; they do not certify a product control.

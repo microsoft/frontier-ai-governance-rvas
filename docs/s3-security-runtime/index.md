@@ -39,15 +39,56 @@ diagnostics and gateway enforcement evidence.
     Do not run against production traffic. A component diagnostic is not
     gateway-path proof.
 
-1. **Pre-flight** - the customer confirms a non-production route, secure
-   authentication handling, safe test scope, and evidence reviewers.
-2. **Customer-operated request** - run
-   `labs/s3-security-runtime/scripts/test_gateway_prompt_shield.sh` as described
-   in the S3 runbook.
-3. **Evidence review** - the platform and security owners validate the
-   normalized manifest against customer telemetry using its `correlation_id`.
-4. **Handoff** - record accept, reject, or blocked in the customer evidence
-   system. Only an accepted `pass` proof can be used as the S4 assurance input.
+**Timebox:** 90 minutes. **Entry condition:** the customer has approved a
+non-production gateway route, safe test scope and authentication handling,
+customer record locations, and named platform, security, evidence, and decision
+owners. Stop before the request if any of these are absent.
+
+| Role | Workshop responsibility |
+|---|---|
+| Facilitator | Keeps the gateway-proof boundary, timebox, and decision wording; does not run the request or accept evidence. |
+| Customer platform operator | Runs the approved gateway-path request using `labs/s3-security-runtime/runbook.md`. |
+| Security reviewer / evidence owner | Correlates the returned identifier with customer gateway telemetry and cites the authoritative records. |
+| Customer decision owner | Accepts, rejects, or defers the proof and owns the S4 handoff. |
+
+1. **Set the room and orient — 20 min.** The facilitator records the pilot
+   question, for example: “Did this approved non-production request traverse the
+   approved gateway path with a reviewable correlation?” The customer confirms
+   the non-production posture, expected policy behavior, stop condition, and
+   evidence locations. Ask: *Which gateway route and policy reference are in
+   scope? Who can interpret telemetry and accept this proof? What result would
+   make us stop rather than infer enforcement?*
+2. **Customer-operated gateway request — 30 min.** The platform operator
+   performs the one request in the runbook; the facilitator observes the
+   boundary without handling credentials or payloads. The customer records only
+   safe references to the generated manifest, request record, telemetry record,
+   and correlation identifier in its approved system. A direct component call
+   is a separately labelled diagnostic and is not a substitute action.
+3. **Interpret together — 15 min.** The platform and security reviewers first
+   distinguish the adapter transport result from the acceptance decision. Ask:
+   *Does the manifest conform to the gateway-proof contract? Does
+   `correlation_id` resolve in the approved gateway telemetry? Does the
+   observed path support the stated policy behavior, or is this a no-result or
+   blocker?* Record the observed fact and reviewer interpretation; do not copy
+   prompts, responses, endpoint values, credentials, or telemetry.
+4. **Customer decision — 15 min.** A proof is eligible for **accepted** only
+   when the manifest conforms to `gateway-proof.schema.json`, has
+   `result: "pass"`, contains the required safe references, and both customer
+   platform and security reviewers accept the telemetry correlation. A `pass`
+   without that acceptance is not enforcement evidence. A `fail`, no
+   correlation, or unresolved scope is rejected, deferred, or **blocked**—not
+   converted to a pass. The decision owner records the control state and review
+   date in the customer system.
+5. **Hand over — 10 min.** Read back the manifest reference, telemetry
+   reference, correlation identifier, reviewer interpretation, decision
+   reference, and next owner. Hand only an accepted `pass` gateway-proof
+   reference to S4; the gateway proof remains the canonical runtime artifact.
+
+**Blockers:** no approved non-production route, unsafe authentication handling,
+missing telemetry reviewer or evidence location, production-only availability,
+or an unresolved correlation. Record the safe stop point, owner, target date,
+and impact on S4; do not run a direct diagnostic or fabricate local evidence to
+continue.
 
 ## 5. Verification & evidence capture
 
@@ -71,7 +112,8 @@ decision and the S4 handoff reference.
 
 ## 7. Facilitator notes
 
-- **Timing:** ~half day, including customer telemetry review.
+- **Timing:** 90-minute workshop; schedule any customer telemetry retrieval and
+  records-system review within or before the interpretation block.
 - **RACI:** Platform owner = R, Security/SOC = R, Governance lead = A.
 - **Common blockers:**
     - *No approved non-production route* → record blocked; do not test a

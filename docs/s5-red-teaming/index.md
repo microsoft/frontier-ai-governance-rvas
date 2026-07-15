@@ -51,29 +51,60 @@ and the native-scorecard boundary.
     third-party systems, production agents, user-facing workloads, or endpoints
     outside the written scope.
 
-1. **Pre-flight** *(facilitator + <span class="rvas-badge rvas-persona">Security / SOC</span>)* -
-   use `labs/s5-red-teaming/runbook.md` to confirm SOC notification,
-   authorization, rules of engagement, target URI/name, time window, and
-   endpoint owner.
-2. **Run the customer-operated path** - the customer implements
-   `customer_redteam_adapter:target(prompt, endpoint)` in its approved codebase
-   and runs:
-   ```bash
-   python labs/s5-red-teaming/scripts/redteam-airt.py \
-     --azure-ai-project "$AZURE_AI_PROJECT_ENDPOINT" \
-     --target-endpoint "https://<customer-non-production-endpoint>" \
-     --target-adapter customer_redteam_adapter:target
-   ```
-   Foundry owns `evidence/airt-native-scorecard.json`; the kit does not rewrite
-   it.
-3. **Review thresholds separately** - if the customer has an approved review
-   that transcribes category ASRs from the native scorecard, pass it with
-   `--threshold-review`. The kit writes only the ignored
-   `airt-threshold-comparison.json` sidecar; it never substitutes that sidecar
-   for the Foundry scorecard.
-4. **Triage and hand off** - assign remediation owners and due dates for
-   above-threshold results, complete the SOC de-brief, and record the governance
-   decision in the approved decision register.
+**Timebox:** 90 minutes within the approved monitoring window. **Entry
+condition:** written authorization and rules of engagement are approved; the
+SOC is notified with a contact and window; the target is confirmed
+customer-owned and non-production; an endpoint owner can stop it; and customer
+test categories, thresholds (if used), evidence location, and decision owner
+are approved. Do not start or resume a scan if any condition expires or changes.
+
+| Role | Workshop responsibility |
+|---|---|
+| Facilitator | Enforces the authorization and non-production boundary, timebox, and handoff; never operates the target or supplies test data. |
+| Customer security/SOC lead | Confirms authorization, monitors the window, calls a stop, and leads the de-brief. |
+| Customer endpoint owner / operator | Runs the customer adapter against the authorized target and pauses or resets it when required. |
+| Evidence owner and decision owner | Retain native evidence references, interpret the agreed scope, and choose remediation, accepted risk, blocked status, or re-test. |
+
+1. **Set the room and orient — 20 min.** Use
+   `labs/s5-red-teaming/runbook.md`
+   to confirm authorization, rules of engagement, SOC window, target label,
+   stop conditions, and evidence boundary. The facilitator asks: *Is this
+   exact target customer-owned and non-production? Who may stop the run? Which
+   native scorecard and decision records will be authoritative?* Stop at
+   pre-flight if any answer is absent or uncertain.
+2. **Customer-operated authorized action — 30 min.** The endpoint owner runs
+   the approved adapter only in the authorized window, or retrieves the
+   completed run’s native scorecard for review if the scan cannot complete in
+   this workshop. The customer operates credentials, target access, categories,
+   and test data in its approved environment. Foundry’s
+   `airt-native-scorecard.json` is preserved unchanged; this kit does not create
+   a mock target, attack dataset, or replacement scorecard.
+3. **Interpret together — 15 min.** The SOC lead and endpoint owner compare the
+   native scorecard with the written scope, target version, categories, sample
+   context, and any approved threshold review. Ask: *Was the run authorized and
+   contained? What does each ASR mean for this category and sample? Did an alert,
+   instability, or scope change require a stop?* An optional
+   `airt-threshold-comparison.json` is a sidecar decision aid that references
+   the native scorecard; it is not native evidence and does not establish
+   security.
+4. **Customer decision — 15 min.** The decision owner assigns a remediation
+   owner and due date for each above-threshold category, or records accepted
+   risk, **blocked**, or a re-test date through customer authority. A
+   below-threshold result supports only the tested scope. No decision is
+   available from a sidecar alone, an incomplete run, or an unauthorized,
+   production, or out-of-scope target.
+5. **Hand over — 10 min.** The evidence owner records safe references to the
+   engagement authorization, rules of engagement, SOC window/de-brief, native
+   scorecard and run metadata, optional comparison sidecar, and decision
+   register. Hand remediation and residual gaps to the customer-owned backlog;
+   retain endpoint cleanup and incident actions with their customer owners.
+
+**Blockers:** missing or expired authorization, no SOC monitoring, production or
+third-party target, unavailable endpoint owner, unavailable managed capability,
+unapproved categories or thresholds, alerts, instability, or scope drift. Stop
+the dependent action, retain only safe references and the stop rationale, assign
+an owner and target date, and never replace the native path with a mock or
+unapproved test.
 
 ## 5. Verification & evidence capture
 
@@ -93,9 +124,9 @@ change processes.
 
 ## 7. Facilitator notes
 
-- **Timing:** ~half day. Authorization + pre-flight ~45 min, scan execution
-  ~60 min, scorecard review and remediation planning ~60 min, SOC de-brief
-  ~30 min.
+- **Timing:** 90-minute workshop inside the monitoring window. The customer may
+  schedule an authorized scan or SOC de-brief outside the workshop; do not
+  compress, simulate, or continue an incomplete scan to fit the timebox.
 - **RACI:** Security/SOC = R, Governance lead = A, AI developer/maker = C,
   endpoint owner = C.
 - **Common blockers:** missing authorization/SOC notification, a production-only

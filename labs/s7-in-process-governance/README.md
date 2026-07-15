@@ -1,8 +1,9 @@
 # S7 Takeaway Kit — In-Process Agent Governance
 
-An offline, dependency-free illustration of tool-policy decisions and
-hash-chain consistency. It models the governance pattern described by AGT
-without installing, invoking, or validating AGT.
+An offline, dependency-free facilitator-led activity for deciding whether to
+investigate in-process agent governance further. It illustrates tool-policy
+decisions and hash-chain consistency, modelling a governance pattern described
+by AGT without installing, invoking, or validating AGT.
 
 ## Contents
 
@@ -26,8 +27,9 @@ runbook.md                           run, verification, and decision handoff
 
 1. Review `policies/demo-policy.json`; it is illustrative and not a customer
    deployment policy.
-2. Follow [`runbook.md`](runbook.md) to run the illustration, verify
-   hash-chain consistency, and record the adoption decision.
+2. Follow [`runbook.md`](runbook.md) for applicability, policy review, the
+   illustration, limitation interpretation, blocker pathways, and the
+   reference-only adoption-decision handoff.
 
 The audit record shows governance attempts and decisions only. It does not
 attest to downstream tool execution, action success, or tamper evidence. Tamper

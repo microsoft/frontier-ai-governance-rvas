@@ -3,27 +3,94 @@
 > **Boundary:** this is a review-and-decision session. It does not deploy,
 > export, roll back, or simulate a Purview policy from this repository.
 
-## 1. Scope the pilot path
+## Activity card
 
-- [ ] Name the representative non-production agent and its accountable sponsor.
-- [ ] Trace its input data, retrieval sources, tool outputs, and user-facing
-  responses.
-- [ ] Record the data classifications and regulated-data concerns that apply.
-- [ ] Confirm the Compliance/Data administrator and investigation owner.
+**90 minutes.** Facilitator keeps the timebox and evidence boundary;
+Compliance/Data administrator performs the customer action; governance lead or
+delegated risk authority decides; evidence owner retains references; pilot-agent
+owner maps the path; Audit/eDiscovery investigator or legal specialist confirms
+the investigation route.
 
-## 2. Review the customer tenant
+**Entry condition:** bounded representative AI path, approved customer evidence
+location, named investigation route/owner, Compliance/Data administrator, and
+decision owner. If an entry condition is absent, record the dependency, owner,
+target date, and impact; stop the dependent step. Evidence stays in the
+customer-approved system—never use a mock, facilitator note, or copied payload
+as proof.
+
+**Customer action:** review actual supported tenant evidence for one path,
+decide its safe next control state, and hand off a verifiable investigation
+route. This is not a product tour or policy-creation exercise.
+
+## 1. Set the evidence and investigation question *(10 min)*
+
+- [ ] Customer states the question: “What sensitive-data exposure and
+  investigation evidence must this path support?” Record pilot, sponsor, safe
+  posture, evidence reference, decision owner, and stop condition.
+
+## 2. Customer maps the path and dependencies *(15 min)*
+
+- [ ] Customer traces input data, retrieval sources, tool outputs, user-facing
+  responses, locations, classifications, and regulated-data concerns.
+- [ ] Facilitator asks: “Where can sensitive data enter, persist, or leave?”;
+  “What classification/label is expected?”; and “Which permission or runtime
+  control changes the exposure?”
+- [ ] Record dependencies on classification/labels, source permissions, DLP
+  workload/location support, audit retention, eDiscovery permissions/holds,
+  IRM/Communication Compliance where applicable, and separate gateway
+  protection. Do not treat a gateway control as Purview DLP coverage.
+- [ ] Meaningful result: bounded path and named investigation route. Blocked:
+  no record location, activity owner, or investigation owner; assign
+  owner/date and stop the dependent activity.
+
+## 3. Customer reviews DSPM for AI evidence *(20 min)*
 
 - [ ] Review applicable **DSPM for AI** findings and record the customer
-  records-system reference, including an empty-result or unavailable-capability
-  outcome where applicable.
-- [ ] Confirm which AI workloads, locations, and data types are supported by
-  the tenant's current **DLP** configuration.
-- [ ] Confirm where **Audit** and **eDiscovery** can locate the relevant AI
-  interactions, administrative changes, and review records.
-- [ ] Record any dependency on IRM, Communication Compliance, labels, or a
-  gateway data-protection control.
+  records-system reference, scope, date, reviewer, and interpretation.
+- [ ] Ask: “What does this finding cover?”, “What does it exclude?”, and “What
+  later reviewer can verify our interpretation?”
+- [ ] Classify the outcome explicitly:
+  - **Result:** scoped finding/posture evidence with an interpretation.
+  - **No-result:** no in-scope finding after the checked scope/date/reviewer is
+    recorded; it does not prove absence of exposure.
+  - **Unsupported:** documented workload/capability limitation; record the
+    supporting documentation reference and alternative-control owner.
+  - **Blocked:** licensing, role, or prerequisite prevents review; record
+    dependency, owner, target date, and effect on the decision.
+- [ ] Do not infer coverage from an empty dashboard or create an export.
 
-## 3. Make the control decision
+## 4. Review DLP coverage and report-only readiness *(15 min)*
+
+- [ ] Customer confirms current supported DLP workload, location, data type or
+  sensitivity-label condition, and candidate path. Record the supporting
+  customer configuration/documentation reference.
+- [ ] Facilitator asks: “Can this policy cover this workload and condition?”,
+  “What false positive is unacceptable?”, and “Who observes and interprets
+  matches?”
+- [ ] Record one outcome: no DLP change, `designed`, or a customer-owned
+  proposal for `report_only_deployed`. DLP simulation mode is for observing
+  possible policy impact without enforcement; this kit creates nothing.
+- [ ] A documented absence of applicable coverage is a no-result; unsupported
+  workload/condition or unavailable license is unsupported/blocked. Route
+  customer implementation, observation duration, rollback, communications, and
+  verification to its approved change process.
+
+## 5. Review Audit/eDiscovery investigation route *(15 min)*
+
+- [ ] Investigator and administrator verify which supported Audit records and
+  eDiscovery scope can locate relevant AI interactions or administrative
+  changes for this workload; record route, responsible role, retention/hold
+  limitation, and customer evidence reference.
+- [ ] Ask: “Which event or item answers the investigation question?”, “What
+  retention, permission, and legal-hold constraints apply?”, and “Who receives
+  and assesses a concern?”
+- [ ] A route that is named, scoped, and evidence-referenced is a result. A
+  reviewed search with no relevant item is a no-result only with scope/date/
+  reviewer. Missing support, retention, or permission is unsupported/blocked;
+  assign the risk, retention, licensing, or legal owner and do not call it
+  investigation-ready.
+
+## 6. Make the control decision *(10 min)*
 
 For each proposed DLP or data-protection change, the customer records:
 
@@ -36,7 +103,25 @@ For each proposed DLP or data-protection change, the customer records:
 | Observation | Report-only duration, review date, and false-positive owner |
 | Change safety | Customer change, rollback, communication, and verification references |
 
-## 4. Handoff
+Use this decision tree before recording a state:
+
+```text
+Path, owner, and evidence location known?
+  No → blocked; close the dependency.
+  Yes → scoped DSPM review result or documented no-result?
+    No, unsupported/blocked → accepted_risk or blocked; assign alternative control/review.
+    Yes → DLP coverage supported for workload, location, and condition?
+      No → no DLP change; assess classification, access, retention, or gateway dependency.
+      Yes → approver, observation owner, change safety, and investigation route ready?
+        No → designed; close prerequisites.
+        Yes → submit only a separate, customer-owned report-only change for approval.
+```
+
+Decision criteria: evidence scope/quality, supported coverage, classification
+and access dependencies, investigation readiness, decision authority, and
+change safety. This session cannot promote a control to enforcement.
+
+## 7. Handoff and blocker path *(5 min)*
 
 - [ ] Add evidence references and classification/retention metadata to the
   generated workspace's `04-operate/evidence-register.json`.
@@ -46,3 +131,17 @@ For each proposed DLP or data-protection change, the customer records:
   process in report-only mode. Do not promote enforcement in this workshop.
 - [ ] Add unresolved exposure, licensing, workload-coverage, or retention gaps
   to the S6 residual-gap backlog.
+- [ ] Facilitator reads back DSPM, DLP, and Audit/eDiscovery references;
+  result/no-result/unsupported/blocked interpretation; control state; owner;
+  date; and S3/S5/S6 dependency. For a blocker, stop only the dependent work
+  and retain its customer-owned backlog/change/risk reference.
+
+## Official product context
+
+Validate capability and workload support immediately before the session using
+[DSPM for AI](https://learn.microsoft.com/en-us/purview/dspm-for-ai),
+[DLP simulation mode](https://learn.microsoft.com/en-us/purview/dlp-simulation-mode-learn),
+[DLP for Microsoft 365 Copilot and Copilot Chat](https://learn.microsoft.com/en-us/purview/dlp-microsoft365-copilot-location-learn-about),
+[Audit for Copilot and AI applications](https://learn.microsoft.com/en-us/purview/audit-copilot), and
+[eDiscovery of AI data](https://learn.microsoft.com/en-us/purview/edisc-search-copilot-data).
+They validate product context, not the customer’s result.

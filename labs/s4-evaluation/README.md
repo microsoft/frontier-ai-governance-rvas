@@ -11,6 +11,14 @@ accepted S3 gateway proof: a `pass` manifest conforming to
 [`contracts/gateway-proof.schema.json`](../../contracts/gateway-proof.schema.json)
 whose correlation was accepted by the named customer reviewers.
 
+## Workshop alignment
+
+Use the [S4 co-delivery workshop](../../docs/s4-evaluation/index.md#4-co-delivery-walkthrough)
+to confirm the assurance owner, evidence reviewers, decision owner, 90-minute
+timebox, and S3 entry condition. The customer creates and decides on the
+assurance record; the facilitator does not operate an evaluator, certify a
+score, or create a CI/CD gate.
+
 ## Handoff
 
 Create the customer record from

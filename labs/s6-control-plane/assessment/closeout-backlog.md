@@ -12,10 +12,14 @@ customer-generated evidence to this kit.
 | S6 exit scorecard reference | |
 | Baseline-to-exit comparison (`maturity-lift.txt`) reference | |
 | Reconciliation report reference | |
+| Input-quality review reference | |
 | Closeout decision | |
+| Decision rationale / residual-risk disposition | |
 | Governance-lead approver | |
 | Approval date | |
 | Next governance review | |
+| Reconciliation and backlog review cadence | |
+| Deferred-decision owner and date (if applicable) | |
 
 ## Residual-gap backlog
 

@@ -13,6 +13,14 @@ adapter writes only the manifest defined by
 it never writes prompts, documents, endpoint values, credentials, telemetry, or
 gateway responses.
 
+## Workshop alignment
+
+Use the [S3 co-delivery workshop](../../docs/s3-security-runtime/index.md#4-co-delivery-walkthrough)
+to establish roles, the 90-minute timebox, entry condition, interpretation, and
+decision before following this runbook. The customer platform operator performs
+the request; customer platform and security reviewers, not the facilitator,
+correlate it and decide whether the canonical gateway proof is accepted.
+
 ## Handoff
 
 The customer platform and security owners correlate the manifest's

@@ -3,6 +3,17 @@
 > **Safety:** adversarial testing is authorized-scope only. Notify the SOC before
 > any run. Target only a customer-owned **NON-PRODUCTION** test agent/endpoint.
 
+## Facilitated activity alignment
+
+Run this sequence during the [S5 90-minute co-delivery workshop](../../docs/s5-red-teaming/index.md#4-co-delivery-walkthrough)
+and inside the approved SOC monitoring window. Before pre-flight, the
+facilitator confirms a customer security/SOC lead, endpoint owner, evidence
+owner, decision owner, written authorization, rules of engagement, safe
+non-production target, stop conditions, and customer-approved categories and
+thresholds (when used). The customer alone operates target access, credentials,
+test data, and the adapter. Stop rather than infer authorization if a condition
+is missing or changes.
+
 ## Pre-flight
 
 - [ ] SOC notified, with named contact and monitoring window.
@@ -69,3 +80,16 @@
 Stop the run if the endpoint behaves unexpectedly, the SOC requests a pause, the
 run drifts outside written scope, or any participant is unsure whether an action
 is authorized.
+
+## Interpretation and decision
+
+Review the native Foundry scorecard with its authorized scope, target version,
+categories, and run context. A below-threshold ASR supports only that tested
+scope; every above-threshold category needs a remediation owner and due date.
+The optional comparison sidecar is a customer-approved decision aid, not a
+replacement for the unchanged native scorecard. Retain only safe references to
+the authorization, rules of engagement, SOC window/de-brief, scorecard, optional
+sidecar, and decision register. If authorization, monitoring, target ownership,
+scope, capability, or result review is blocked, stop, record the blocker with
+an owner and target date, and do not substitute a mock or alternate testing
+path.

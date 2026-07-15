@@ -23,6 +23,8 @@ The facilitator should open the engagement register before S0. Add the platform 
 
 Use [the engagement cadence](delivery/engagement-cadence.md) to plan the working sessions and customer follow-through. Use [the gate model](delivery/gate-model.md) at every decision point. Keep the [evidence and decision register](delivery/evidence-decision-register.md) with the customer record.
 
+For the in-room sequence, use [Facilitate a co-delivery working session](delivery/facilitation-pattern.md). It timeboxes the pilot, customer-led action and review, interpretation, decision, and handoff without prescribing tenant actions.
+
 ## The two-track cadence
 
 Plan for six to eight weeks. The tracks run together, but they have different owners.

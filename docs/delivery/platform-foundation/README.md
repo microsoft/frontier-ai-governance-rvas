@@ -9,16 +9,18 @@ receives agreed evidence.
 
 ## Start here
 
-1. Complete [intake](intake.md) and record whether the customer has an
+1. Follow the ordered [Citadel installation work package](installation-work-package.md)
+   when the customer selects a new Citadel accelerator deployment.
+2. Complete [intake](intake.md) and record whether the customer has an
    existing equivalent platform, an existing AI Hub Gateway, or needs a new
    platform workstream.
-2. Assign the accountable roles in [RACI](raci.md).
-3. Give the platform team the [external accelerator handoff](accelerator-handoff.md).
+3. Assign the accountable roles in [RACI](raci.md).
+4. Give the platform team the [external accelerator handoff](accelerator-handoff.md).
    This repository does not provide deployment wrappers, IaC, or configuration
    instructions for the accelerator.
-4. Use [non-production gateway acceptance](non-production-gateway-acceptance.md)
+5. Use [non-production gateway acceptance](non-production-gateway-acceptance.md)
    before treating the gateway as available to S1, S2, S3, S4, or S6.
-5. Capture the customer-operated proof in the [gateway evidence manifest](gateway-evidence-manifest.md)
+6. Capture the customer-operated proof in the [gateway evidence manifest](gateway-evidence-manifest.md)
    and hand it to the governance lead.
 
 ## Workstream boundaries

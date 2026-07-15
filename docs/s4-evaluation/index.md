@@ -37,14 +37,55 @@ and an assurance decision.
     A fixture score or a direct component test is not an assurance exit. S4
     requires an accepted S3 gateway proof.
 
-1. **Verify S3 entry evidence** - customer reviewers confirm a `pass` gateway
-   proof was accepted after telemetry correlation.
-2. **Record the assurance outcome** - the assurance owner copies
-   `templates/assurance-outcome.template.json` to the customer records system,
-   adds safe references, and chooses `continue` or `hold`.
-3. **Validate and hand off** - validate the record against
-   `contracts/assurance-handoff.schema.json`; retain the completed record and
-   decision in the customer system.
+**Timebox:** 90 minutes. **Entry condition:** the customer records system
+contains an S3 gateway-proof manifest with `result: "pass"` and the named
+platform and security reviewers have accepted its telemetry correlation. A named
+assurance owner, decision owner, evaluation-plan reference, and approved record
+location are available. S4 stops at review if the S3 acceptance is missing.
+
+| Role | Workshop responsibility |
+|---|---|
+| Facilitator | Runs the assurance method and preserves the report-only boundary; does not evaluate an agent, operate a gate, or choose the outcome. |
+| Customer assurance owner | Retrieves the accepted S3 decision and creates the customer-owned assurance record. |
+| Platform and security reviewers / evidence owner | Confirm the accepted S3 proof and point to authoritative references. |
+| Customer decision owner | Selects `continue` or `hold` and accepts the next action. |
+
+1. **Set the room and orient — 20 min.** The facilitator states the question:
+   *Given the accepted S3 gateway proof and the customer evaluation-plan
+   reference, should the customer continue or hold this bounded pilot?* The
+   customer confirms the evidence boundary and authority. Ask: *Which accepted
+   S3 decision is canonical? What decision is this record allowed to make, and
+   what remains in the customer's separate evaluation process?*
+2. **Customer-owned assurance operation — 30 min.** The assurance owner follows
+   `labs/s4-evaluation/runbook.md`: copies
+   `templates/assurance-outcome.template.json` into the approved customer
+   records system, supplies safe references, and validates it against
+   `contracts/assurance-handoff.schema.json`. The facilitator may read the
+   required fields aloud but does not create the customer record or substitute
+   evaluator output.
+3. **Interpret together — 15 min.** Customer reviewers confirm that the S3
+   decision is accepted, then separate the evaluation-plan reference from an
+   evaluation result or CI/CD gate. Ask: *Does every reference let a later
+   reviewer locate the accepted S3 proof and the customer-owned plan? Does any
+   claimed score, fixture, or proposed gate exceed this assurance boundary?*
+   Record a result, no-result, or blocker as a safe reference only.
+4. **Customer decision — 15 min.** `continue` is available only when the
+   handoff contract is complete, the referenced S3 proof decision is
+   `accepted`, and the decision owner records a decision reference. Otherwise
+   choose `hold` or defer with an owner and review date. S4 neither certifies an
+   evaluator nor makes a CI/CD gate; customer-owned evaluation work may inform
+   the decision but cannot replace the accepted S3 proof.
+5. **Hand over — 10 min.** The assurance owner retains the completed record in
+   the customer system and reads back the S3-proof reference, evaluation-plan
+   reference, outcome, decision reference, next owner, and review date. The
+   record informs the customer’s next delivery action without authorizing a
+   deployment or changing a control.
+
+**Blockers:** no accepted S3 proof, unavailable reviewers, missing evaluation
+plan or decision owner, invalid handoff record, or no approved evidence
+location. Record `hold` or **blocked** with the missing dependency, owner,
+target date, and next review; do not create local substitute evidence or turn a
+fixture result into an exit.
 
 ## 5. Verification & evidence capture
 
@@ -62,7 +103,8 @@ process. The completed handoff remains customer owned.
 
 ## 7. Facilitator notes
 
-- **Timing:** ~half day, including evidence review and customer decision.
+- **Timing:** 90-minute workshop; the customer prepares the accepted S3 proof
+  and evidence location before entry.
 - **RACI:** Assurance owner = R, Governance lead = A, Platform owner and
   Security/SOC = C.
 - **Common blockers:**

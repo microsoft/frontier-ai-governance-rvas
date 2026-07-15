@@ -27,14 +27,17 @@ records only in the customer's approved records system.
 
 ## Run order
 
-1. Use the checklist to scope the pilot agent, data flows, and investigation
-   owner.
-2. Review the supported Purview signals and findings in the customer tenant.
-3. Record references to the customer-owned findings, policy definition, and
-   audit/eDiscovery review in the generated delivery workspace's evidence
-   register.
-4. Decide whether to remain **designed**, proceed to a customer-owned
-   **report-only** change, or record a **blocked** or **accepted-risk** outcome.
+1. Set the bounded path, approved evidence location, and investigation owner.
+2. Map input, retrieval, tool, output, classification, and control
+   dependencies.
+3. Customer reviews scoped DSPM for AI evidence and records a result,
+   documented no-result, unsupported capability, or blocker.
+4. Customer confirms DLP coverage and decides no change, **designed**, or a
+   customer-owned **report-only** change review.
+5. Customer reviews the Audit/eDiscovery investigation route, scope, retention,
+   and owner.
+6. Decision owner uses the checklist decision tree, then hands evidence
+   references, state, owner, date, and S3/S5/S6 dependencies forward.
 
 This session never deploys, reverses, or validates a Purview policy. Any
 customer policy change follows the customer's standard change, rollback, and

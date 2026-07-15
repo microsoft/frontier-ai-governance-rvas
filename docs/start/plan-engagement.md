@@ -21,7 +21,7 @@ Citadel is recommended for the full integrated path. Establish which of these st
 | Current state | Delivery approach |
 |---|---|
 | Existing Citadel or equivalent platform | Record the platform owner, gateway or registry evidence, safety configuration, and telemetry location. |
-| Citadel ready to deploy | Run deployment as a platform-team workstream. Keep it separate from the live governance sessions. |
+| Citadel ready to deploy | Run the [Citadel installation work package](../delivery/platform-foundation/installation-work-package.md) as a platform-team workstream. Keep it separate from the live governance sessions. |
 | Platform readiness still needed | Schedule the platform work. Begin S0 ownership and baseline work; wait to run gateway-dependent validation until the platform path is available. |
 
 Use the [Platform technical guide](../reference/platform-technical-guide.md) with the platform team when architecture or deployment detail is needed.
@@ -63,4 +63,4 @@ The assessment may change the order after S0. Keep the dependencies visible: a s
 
 ## Start the curriculum
 
-Begin with [S0 · Foundations & Operating Model](../s0-foundations/index.md). Each session page contains the prerequisites, co-delivery walkthrough, evidence capture, rollback, and facilitator notes.
+Begin with [S0 · Foundations & Operating Model](../s0-foundations/index.md). Before each S1–S6 working session, set the room and pilot using [Facilitate a co-delivery working session](../delivery/facilitation-pattern.md). Each session page contains the prerequisites, co-delivery walkthrough, evidence capture, rollback, and facilitator notes.
