@@ -13,6 +13,7 @@ data/
   s1-agent-inventory.sample.json sample S1 Entra Agent ID inventory export
 assessment/
   exit-rescore.md             how to copy S0 scorecard, rescore at S6, and compare lift
+  closeout-backlog.md         formal closeout and residual-gap backlog template
 policies/
   lifecycle-states.json       allowed lifecycle states for registry reconciliation
 pipelines/
@@ -34,8 +35,11 @@ runbook.md  rollback.md  verify.md
 2. Copy the S1 inventory export into evidence, or point the script at the existing S1 file.
 3. Run `python scripts/reconcile-registry.py` for the sample, or pass `--registry` and `--inventory` for customer evidence.
 4. Review the ignored `evidence/reconciliation-report.json` for shadow, unmanaged/OBO, and missing-sponsor findings. `fixtures/reconciliation-report.example.json` is a non-customer example.
-5. Follow `assessment/exit-rescore.md` to produce the S6 exit maturity score.
-6. Capture evidence per `verify.md` and use `rollback.md` before any optional registry writes.
+5. Follow `assessment/exit-rescore.md` to produce and retain the mandatory
+   baseline-to-exit comparison.
+6. Complete `assessment/closeout-backlog.md` in the customer's approved records
+   system, then capture evidence per `verify.md` and use `rollback.md` before
+   any optional registry writes.
 
 ## Optional: Citadel Governance Hub evidence
 

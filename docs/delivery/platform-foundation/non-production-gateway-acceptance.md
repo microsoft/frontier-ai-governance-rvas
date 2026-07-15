@@ -1,0 +1,45 @@
+# Non-production gateway acceptance
+
+This acceptance gate establishes that an approved non-production request used
+the customer gateway path. It does not certify production readiness or prove
+that every workload, route, policy, or backend is covered.
+
+## Entry conditions
+
+- The intake identifies a non-production gateway URL, an approved test caller,
+  route, backend contract, and authentication method.
+- The smoke-test command explicitly identifies the customer-approved
+  non-production environment; the adapter rejects empty, `prod`, and
+  `production` environment labels.
+- The test request and data are customer-owned and non-production.
+- The platform team has approved the test window and named the owners who can
+  inspect gateway and telemetry records.
+- A proof identifier is agreed so the request can be correlated without
+  recording tokens or sensitive request content.
+
+## Acceptance criteria
+
+All applicable criteria must be evidenced in the manifest:
+
+1. The caller reached the configured non-production gateway URL, not a direct
+   backend endpoint. The URL is retained only in the customer platform record,
+   not in the normalized manifest.
+2. The gateway accepted or intentionally rejected the caller according to the
+   documented access contract; the expected result is recorded.
+3. The configured route selected the approved backend and applicable runtime
+   policy. The policy/configuration version or change record is recorded.
+4. A platform owner can locate a gateway trace or telemetry record using the
+   proof identifier and timestamp, subject to the customer's retention and
+   access controls. The manifest records a safe telemetry reference, not the
+   raw trace or query output.
+5. The platform owner confirms that the result did not create a production
+   change and that the documented rollback/support path applies.
+6. Any unavailable control, missing telemetry, unexpected route, or direct
+   component-only result is a blocked/deferred item with an owner and date.
+
+The customer may use
+`labs/s3-security-runtime/scripts/test_gateway_prompt_shield.sh` only where an
+approved gateway route exposes a Prompt Shields-compatible request contract.
+It emits a versioned references-only manifest and does not retain raw response
+bodies, prompts, documents, endpoint values, or credentials. It is a
+smoke-test adapter, not gateway deployment or policy configuration.

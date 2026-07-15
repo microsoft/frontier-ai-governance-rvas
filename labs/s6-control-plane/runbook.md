@@ -8,6 +8,8 @@
 - [ ] `../s1-identity/evidence/agent-inventory.json` exists or a customer-approved equivalent is identified.
 - [ ] `evidence/` folder prepared for registry, reconciliation, and exit-score artifacts.
 - [ ] S0 baseline scorecard/output available for comparison.
+- [ ] A governance lead is assigned to approve the closeout and own the
+  residual-gap backlog.
 
 ## Steps
 
@@ -23,5 +25,10 @@
      --inventory ../s1-identity/evidence/agent-inventory.json
    ```
 4. **Triage findings.** Assign owner, lifecycle state, and backlog action for shadow, unmanaged/OBO, and missing-sponsor findings.
-5. **Re-score maturity.** Follow `assessment/exit-rescore.md` and capture score output.
-6. **Hand off residual gaps.** Convert remaining D0-D6 gaps into the AI governance backlog.
+5. **Require the baseline-to-exit comparison.** Follow
+   `assessment/exit-rescore.md`, including `compare.py`, and retain
+   `evidence/maturity-lift.txt`. Do not close S6 with an exit score alone.
+6. **Formalize closeout and residual gaps.** Complete
+   `assessment/closeout-backlog.md` in the customer's approved records system.
+   Record the comparison references, closeout decision, approver, and an owner,
+   due date, and status for every remaining D0-D6 gap.

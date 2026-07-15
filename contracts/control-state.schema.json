@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rvas.delivery.control-state.v1",
+  "title": "RVAS control state",
+  "type": "string",
+  "enum": [
+    "designed",
+    "report_only_deployed",
+    "observed",
+    "approved_for_enforcement",
+    "enforced",
+    "accepted_risk",
+    "blocked"
+  ]
+}

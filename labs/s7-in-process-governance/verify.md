@@ -13,7 +13,8 @@
 
 ## Capture evidence
 
-Archive:
+Transfer the following to the customer's approved records system. The local
+`evidence/` folder is ignored by Git and is only a staging location:
 
 - `evidence/policy-decision-audit.json`;
 - the approved or reviewed policy version;

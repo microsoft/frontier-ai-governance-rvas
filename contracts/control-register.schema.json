@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rvas.delivery.control-register.v1",
+  "title": "RVAS control register",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "pilot_agent_slug", "entries"],
+  "properties": {
+    "schema": { "const": "rvas.delivery.control-register.v1" },
+    "pilot_agent_slug": { "type": "string" },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["control_id", "state", "owner", "evidence_references", "note"],
+        "properties": {
+          "control_id": { "type": "string" },
+          "state": { "$ref": "control-state.schema.json" },
+          "owner": { "type": "string" },
+          "evidence_references": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Reference to the approved records system; never an evidence payload."
+            }
+          },
+          "note": { "type": "string" }
+        }
+      }
+    }
+  }
+}

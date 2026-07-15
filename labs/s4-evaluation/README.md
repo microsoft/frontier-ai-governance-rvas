@@ -11,7 +11,7 @@ policies/
   thresholds.json                    per-metric pass thresholds for the gate
 pipelines/
   run_mock.py                        offline mock-target evaluator + CI gate demo
-  azure-eval.py                      reference script for azure-ai-evaluation
+  azure-eval.py                      customer-operated target-adapter contract for azure-ai-evaluation
   github-action-example.yml          documented ai-agent-evals PR gate snippet
 scripts/
   summarize.py                       render evidence/eval-results.json as a table
@@ -26,7 +26,9 @@ runbook.md  rollback.md  verify.md
 
 - Python 3.11+ for the offline path.
 - No network, Azure subscription, or Azure SDK packages are required for `run_mock.py`.
-- Requires an Azure AI Foundry project, judge model deployment, and `azure-ai-evaluation` installed in the runner.
+- Live evaluation requires an Azure AI Foundry project, judge model deployment,
+  `azure-ai-evaluation` in the runner, and a customer-owned non-production
+  target adapter. The kit does not contain an endpoint client or credentials.
 
 ## Run order
 
@@ -40,7 +42,10 @@ runbook.md  rollback.md  verify.md
    ```bash
    python labs/s4-evaluation/scripts/summarize.py
    ```
-5. Configure the environment variables documented in `pipelines/azure-eval.py` and adapt `pipelines/github-action-example.yml` in a PR branch.
+5. In the customer's approved codebase, implement the
+   `pipelines/azure-eval.py --target-adapter MODULE:CALLABLE` contract for the
+   non-production target, configure its environment variables, and adapt
+   `pipelines/github-action-example.yml` in a PR branch.
 6. Capture outputs per `verify.md`.
 
 <!-- Verified: static-only — ruff + py_compile + offline mock-target evaluation + JSON load. Live Foundry execution is the customer's co-delivery step. -->

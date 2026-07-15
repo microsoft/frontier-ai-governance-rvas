@@ -29,7 +29,12 @@ runbook.md  rollback.md  verify.md
 
 ## Run order
 
-1. `./scripts/Get-AISensitiveDataFindings.ps1 -OutFile ./evidence/dspm-ai-findings.json`
+1. Obtain a compliance-approved, read-only Graph or audit query, then run:
+   ```powershell
+   ./scripts/Get-AISensitiveDataFindings.ps1 `
+     -GraphUri '<approved-read-only-graph-uri>' `
+     -OutFile ./evidence/dspm-ai-findings.json
+   ```
 2. Edit `policies/dlp-ai-simulation.json`: set tenant, reviewer group, AI workload, and sensitive information type IDs.
 3. `python pipelines/run_mock.py` *(offline safety check — must PASS)*
 4. Hand the reviewed simulation policy definition to the customer's approved change process. This kit intentionally does not create or remove tenant policy.

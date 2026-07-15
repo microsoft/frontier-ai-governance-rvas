@@ -16,4 +16,9 @@ Get-MgIdentityConditionalAccessPolicy -All |
 ```powershell
 ./scripts/Export-AgentConditionalAccess.ps1 -OutFile ./evidence/ca-agent-baseline.deployed.json
 ```
-Commit `evidence/agent-inventory.json`, `evidence/ca-agent-baseline.deployed.json`, and the completed `policies/sponsor-register.csv`. These form the customer's dated identity-governance record and feed S6 (Agent 365 registry reconciliation).
+Transfer `evidence/agent-inventory.json`,
+`evidence/ca-agent-baseline.deployed.json`, and the completed
+`policies/sponsor-register.csv` to the customer's approved records system.
+Do not commit generated `evidence/` output to this kit; it is ignored by Git.
+These artifacts form the dated identity-governance record and feed S6 (Agent 365
+registry reconciliation).

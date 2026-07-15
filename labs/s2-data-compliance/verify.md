@@ -15,9 +15,14 @@ Get-DlpCompliancePolicy -Identity "RVAS S2 - AI sensitive data DLP (simulation)"
 
 ## Capture evidence
 ```powershell
-./scripts/Get-AISensitiveDataFindings.ps1 -OutFile ./evidence/dspm-ai-findings.json
+./scripts/Get-AISensitiveDataFindings.ps1 `
+  -GraphUri '<approved-read-only-graph-uri>' `
+  -OutFile ./evidence/dspm-ai-findings.json
 Get-DlpCompliancePolicy -Identity "RVAS S2 - AI sensitive data DLP (simulation)" |
   ConvertTo-Json -Depth 8 |
   Set-Content -Path ./evidence/dlp-ai-simulation.deployed.json -Encoding utf8
 ```
-Commit the DSPM findings export, deployed DLP export, policy match summary, and the approver/change record. These form the customer's dated data-governance record and feed S6 control-plane reconciliation.
+Transfer the DSPM findings export, deployed DLP export, policy match summary,
+and approver/change record to the customer's approved records system. Do not
+commit generated `evidence/` output to this kit; it is ignored by Git. These
+form the dated data-governance record and feed S6 control-plane reconciliation.

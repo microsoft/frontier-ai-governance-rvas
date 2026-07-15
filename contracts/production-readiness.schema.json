@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rvas.delivery.production-readiness.v1",
+  "title": "RVAS production-readiness decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "pilot_agent_slug",
+    "decision",
+    "risk_owner",
+    "approver",
+    "evidence_references",
+    "residual_risks",
+    "rollback_reference",
+    "review_by"
+  ],
+  "properties": {
+    "schema": { "const": "rvas.delivery.production-readiness.v1" },
+    "pilot_agent_slug": { "type": "string" },
+    "decision": { "enum": ["ready_for_separate_change_review", "not_ready", "accepted_risk"] },
+    "risk_owner": { "type": "string" },
+    "approver": { "type": "string" },
+    "evidence_references": { "type": "array", "items": { "type": "string" } },
+    "residual_risks": { "type": "array", "items": { "type": "string" } },
+    "rollback_reference": { "type": "string" },
+    "review_by": { "type": "string", "format": "date" }
+  }
+}

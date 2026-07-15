@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
-"""Reference runner for Microsoft Foundry Evaluations.
+"""Customer-operated adapter contract for Microsoft Foundry Evaluations.
 
-This script documents the production path and is intentionally not executed by
-CI. It requires `azure-ai-evaluation`, an Azure AI Foundry project, and judge
-model configuration supplied through environment variables.
+This kit does not contain a client for a customer endpoint. The customer must
+provide a callable with the ``module:callable`` value supplied to
+``--target-adapter``. The callable receives a query and returns a mapping with
+the response expected by the customer's evaluator configuration. It owns
+endpoint authentication, secret handling, and non-production target selection.
+
+The contract is intentionally not executed by CI. It requires
+`azure-ai-evaluation`, an Azure AI Foundry project, and judge model configuration
+supplied through environment variables.
 
 Required environment variables for live use:
     AZURE_AI_PROJECT_ENDPOINT
@@ -14,10 +20,11 @@ Optional:
 """
 from __future__ import annotations
 
+import argparse
 import importlib
 import os
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 KIT_ROOT = Path(__file__).resolve().parents[1]
 DATASET = KIT_ROOT / "data" / "eval-dataset.jsonl"
@@ -48,6 +55,18 @@ AGENT_EVALUATORS = (
     "ToolCallAccuracyEvaluator",
     "TaskAdherenceEvaluator",
 )
+TargetAdapter = Callable[[str], dict[str, str]]
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--target-adapter",
+        required=True,
+        metavar="MODULE:CALLABLE",
+        help="Customer-owned non-production target adapter, for example customer_eval_adapter:target.",
+    )
+    return parser.parse_args()
 
 
 def require_env(name: str) -> str:
@@ -102,14 +121,21 @@ def instantiate(module: Any, class_names: tuple[str, ...], **kwargs: Any) -> dic
     return evaluators
 
 
-def target(query: str) -> dict[str, str]:
-    """Replace this stub with a call to the customer's non-production test agent."""
-    raise NotImplementedError(
-        "Replace target() with a call to the customer's approved non-production test endpoint."
-    )
+def load_target_adapter(spec: str) -> TargetAdapter:
+    module_name, separator, callable_name = spec.partition(":")
+    if not separator or not module_name or not callable_name:
+        raise SystemExit("--target-adapter must use the form MODULE:CALLABLE")
+    try:
+        adapter = getattr(importlib.import_module(module_name), callable_name)
+    except (ImportError, AttributeError) as exc:
+        raise SystemExit(f"could not load customer target adapter {spec!r}: {exc}") from exc
+    if not callable(adapter):
+        raise SystemExit(f"customer target adapter {spec!r} is not callable")
+    return adapter
 
 
 def main() -> int:
+    args = parse_args()
     module = load_sdk()
     evaluate = getattr(module, "evaluate")
     model_config = evaluator_model_config()
@@ -131,7 +157,7 @@ def main() -> int:
 
     result = evaluate(
         data=str(DATASET),
-        target=target,
+        target=load_target_adapter(args.target_adapter),
         evaluators=evaluators,
         azure_ai_project=project,
         output_path=str(OUTPUT),

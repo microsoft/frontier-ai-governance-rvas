@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rvas.delivery.evidence-register.v1",
+  "title": "RVAS evidence register",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "entries"],
+  "properties": {
+    "schema": { "const": "rvas.delivery.evidence-register.v1" },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "evidence_id",
+          "pilot_agent_slug",
+          "control_id",
+          "source_reference",
+          "owner",
+          "classification",
+          "retention_reference",
+          "captured_at",
+          "integrity_reference"
+        ],
+        "properties": {
+          "evidence_id": { "type": "string" },
+          "pilot_agent_slug": { "type": "string" },
+          "control_id": { "type": "string" },
+          "source_reference": { "type": "string", "description": "Approved customer records-system reference; never an evidence payload." },
+          "owner": { "type": "string" },
+          "classification": { "type": "string" },
+          "retention_reference": { "type": "string" },
+          "captured_at": { "type": "string", "format": "date-time" },
+          "integrity_reference": { "type": "string" },
+          "redaction_status": { "type": "string" }
+        }
+      }
+    }
+  }
+}

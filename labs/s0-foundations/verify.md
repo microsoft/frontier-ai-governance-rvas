@@ -10,11 +10,15 @@
 
 ## Capture evidence
 
-Store the dated governance baseline in `evidence/`:
+Generate the dated governance baseline in `evidence/`, then transfer it to the
+customer's approved governance records system:
 
 ```bash
 python assessment/score.py assessment/scorecard.csv | tee evidence/roadmap.txt
 cp assessment/scorecard.csv evidence/scorecard-baseline-$(date +%Y%m%d).csv
 ```
 
-Also commit the signed-off `operating-model.md`. These become the customer's **baseline** — S6 re-runs the same scorecard to prove measurable lift.
+Store the signed-off `operating-model.md` with the same approved record. Do not
+commit generated `evidence/` output to this kit; it is ignored by Git. These
+become the customer's **baseline** — S6 re-runs the same scorecard to prove
+measurable lift.

@@ -13,6 +13,7 @@ Evidence files are governance records. Delete them only if the customer chooses 
 ```bash
 rm -f ./evidence/defender-ai-recommendations.json \
   ./evidence/prompt-shield-result.json \
+  ./evidence/gateway-proof-manifest.json \
   ./evidence/ai-threat-protection-status.md \
   ./evidence/citadel-runtime-safety.md
 ```

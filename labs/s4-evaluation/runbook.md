@@ -22,6 +22,10 @@
    python labs/s4-evaluation/scripts/summarize.py
    ```
 5. **Review failures.** Classify each failed case as target bug, dataset issue, threshold issue, or evaluator limitation.
-6. **Foundry mapping.** Adapt `pipelines/azure-eval.py` and the GitHub Action snippet for the customer's Azure AI project and judge model.
+6. **Foundry mapping.** In the customer's approved codebase, implement the
+   `pipelines/azure-eval.py --target-adapter MODULE:CALLABLE` contract for the
+   non-production target. The adapter owns endpoint authentication and must
+   return the response mapping expected by the evaluator. Configure the Azure AI
+   project and judge model there, then adapt the GitHub Action snippet.
 7. **Capture evidence** per `verify.md`.
 8. **Decide promotion.** Blocking PR gates are a later, customer-owned enforcement decision.

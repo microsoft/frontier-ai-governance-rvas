@@ -47,6 +47,23 @@ node docs/build.js                 # transform markdown → docs/assets/data/
 python3 -m http.server -d docs 8000  # preview at http://127.0.0.1:8000
 ```
 
+## Generate a customer delivery workspace
+
+This repository is the maintained source for delivery materials. Start each
+engagement by generating a customer-specific workspace containing the phased
+work packages, registers, and evidence references:
+
+```bash
+npm run generate-workspace -- \
+  --intake examples/engagement-intake.example.json \
+  --out ../contoso-agent-governance
+```
+
+See [the workspace generator guide](docs/delivery/workspace-generator.md).
+The intake is deliberately non-sensitive; generated workspaces store templates
+and references only, never credentials, tenant configuration, evidence
+payloads, or customer logs.
+
 ## How the labs are validated
 
 Lab assets are **statically validated** (Bicep build/lint, PowerShell/Python/bash lint, JSON schema, mock‑target pipeline runs) in CI. They are **not** executed against a live customer tenant here — live execution is the customer's co‑delivery step. Assets carry a `Verified: static-only` badge accordingly.

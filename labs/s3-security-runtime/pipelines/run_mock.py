@@ -32,6 +32,12 @@ def require_text(path: Path, expected: str) -> None:
         fail(f"{path} must contain {expected!r}")
 
 
+def forbid_text(path: Path, prohibited: str) -> None:
+    text = path.read_text(encoding="utf-8")
+    if prohibited in text:
+        fail(f"{path} must not contain {prohibited!r}")
+
+
 def validate_policies() -> None:
     baseline = load_json(POLICIES / "content-safety-runtime-baseline.json")
     if baseline.get("mode") != "audit-first":
@@ -55,7 +61,17 @@ def validate_scripts() -> None:
     print("PASS: Track A (Defender) script references Azure Resource Graph.")
     require_text(SCRIPTS / "test_prompt_shield.sh", "shieldPrompt")
     require_text(SCRIPTS / "test_prompt_shield.sh", "Authorization=Bearer $TOKEN")
-    print("PASS: Track B (Citadel) script uses the acquired bearer token.")
+    print("PASS: Track B component script uses the acquired bearer token.")
+    require_text(SCRIPTS / "test_gateway_prompt_shield.sh", "GATEWAY_ENDPOINT")
+    require_text(SCRIPTS / "test_gateway_prompt_shield.sh", "GATEWAY_PATH")
+    require_text(SCRIPTS / "test_gateway_prompt_shield.sh", "GATEWAY_ENVIRONMENT")
+    require_text(SCRIPTS / "test_gateway_prompt_shield.sh", "X-RVAS-Proof-Id")
+    require_text(SCRIPTS / "test_gateway_prompt_shield.sh", "\"schemaVersion\": \"1.0\"")
+    require_text(SCRIPTS / "test_gateway_prompt_shield.sh", "requestEvidenceReference")
+    require_text(SCRIPTS / "test_gateway_prompt_shield.sh", "telemetryEvidenceReference")
+    require_text(SCRIPTS / "test_gateway_prompt_shield.sh", "--output none")
+    forbid_text(SCRIPTS / "test_gateway_prompt_shield.sh", '--output json > "$OUT_FILE"')
+    print("PASS: Track B gateway adapter emits a references-only proof manifest.")
 
 
 def main() -> int:

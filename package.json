@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Frontier AI Governance RVAS — session site builder",
   "scripts": {
-    "build": "node docs/build.js"
+    "build": "node docs/build.js",
+    "generate-workspace": "node tools/generate-workspace.js",
+    "test:workspace": "node tools/test-generate-workspace.js"
   },
   "engines": {
     "node": ">=18"

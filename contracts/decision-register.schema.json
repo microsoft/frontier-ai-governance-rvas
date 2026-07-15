@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rvas.delivery.decision-register.v1",
+  "title": "RVAS decision register",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "entries"],
+  "properties": {
+    "schema": { "const": "rvas.delivery.decision-register.v1" },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["decision_id", "topic", "decision", "risk_owner", "approver", "review_by", "control_state"],
+        "properties": {
+          "decision_id": { "type": "string" },
+          "topic": { "type": "string" },
+          "decision": { "type": "string" },
+          "risk_owner": { "type": "string" },
+          "approver": { "type": "string" },
+          "review_by": { "type": "string", "format": "date" },
+          "control_state": { "$ref": "control-state.schema.json" },
+          "evidence_references": { "type": "array", "items": { "type": "string" } },
+          "rollback_reference": { "type": "string" }
+        }
+      }
+    }
+  }
+}

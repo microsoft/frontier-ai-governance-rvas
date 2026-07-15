@@ -9,7 +9,8 @@
 
 ## Capture evidence
 
-Commit or archive:
+Transfer the following to the customer's approved records system; generated
+`evidence/` output is ignored by Git and must not be committed to this kit:
 
 - `evidence/eval-results.json`
 - The approved `policies/thresholds.json`

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rvas.delivery.platform-handoff.v1",
+  "title": "RVAS Citadel platform handoff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "platform_path",
+    "accelerator_reference",
+    "environment_label",
+    "platform_owner",
+    "network_owner",
+    "operations_owner",
+    "acceptance_state"
+  ],
+  "properties": {
+    "schema": { "const": "rvas.delivery.platform-handoff.v1" },
+    "platform_path": { "enum": ["ai_hub_gateway", "equivalent_gateway"] },
+    "accelerator_reference": { "type": "string" },
+    "environment_label": { "type": "string" },
+    "platform_owner": { "type": "string" },
+    "network_owner": { "type": "string" },
+    "operations_owner": { "type": "string" },
+    "acceptance_state": { "$ref": "control-state.schema.json" },
+    "deployment_reference": { "type": "string" },
+    "support_runbook_reference": { "type": "string" }
+  }
+}

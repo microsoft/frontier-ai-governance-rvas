@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rvas.delivery.gateway-proof.v1",
+  "title": "RVAS gateway proof evidence manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "pilot_agent_slug",
+    "environment_label",
+    "gateway_reference",
+    "access_contract_reference",
+    "backend_reference",
+    "policy_reference",
+    "correlation_id",
+    "request_evidence_reference",
+    "telemetry_evidence_reference",
+    "expected_policy_behavior",
+    "result"
+  ],
+  "properties": {
+    "schema": { "const": "rvas.delivery.gateway-proof.v1" },
+    "pilot_agent_slug": { "type": "string" },
+    "environment_label": { "type": "string" },
+    "gateway_reference": { "type": "string" },
+    "access_contract_reference": { "type": "string" },
+    "backend_reference": { "type": "string" },
+    "policy_reference": { "type": "string" },
+    "correlation_id": { "type": "string" },
+    "request_evidence_reference": { "type": "string" },
+    "telemetry_evidence_reference": { "type": "string" },
+    "expected_policy_behavior": { "type": "string" },
+    "result": { "enum": ["pass", "fail", "blocked"] }
+  }
+}
