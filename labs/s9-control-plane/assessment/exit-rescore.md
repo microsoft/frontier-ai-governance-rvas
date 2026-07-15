@@ -1,19 +1,19 @@
-# S6 Exit Re-score
+# S9 Exit Re-score
 
-S6 closes the loop opened in S0 by re-running the same maturity instrument.
+S9 closes the loop opened in S0 by re-running the same maturity instrument.
 
 ## Steps
 
-1. Copy the baseline scorecard structure into S6 evidence:
+1. Copy the baseline scorecard structure into S9 evidence:
    ```bash
-   cp ../s0-foundations/assessment/scorecard.csv ../s6-control-plane/evidence/exit-scorecard.csv
+   cp ../s0-foundations/assessment/scorecard.csv ../s9-control-plane/evidence/exit-scorecard.csv
    ```
 2. Fill the `score` column with the customer using the same 1-4 scale:
    - 1 = Ad-hoc
    - 2 = Repeatable
    - 3 = Defined
    - 4 = Optimized
-3. Run the scorer from the S6 kit directory:
+3. Run the scorer from the S9 kit directory:
    ```bash
    python ../s0-foundations/assessment/score.py evidence/exit-scorecard.csv
    ```
@@ -26,7 +26,7 @@ S6 closes the loop opened in S0 by re-running the same maturity instrument.
    ```
    `compare.py` prints per-domain baseline→exit deltas, overall lift, and the domains still below the target maturity (the residual-gap backlog). Capture
    `evidence/maturity-lift.txt` as the engagement's proof of measurable
-   improvement. The comparison is mandatory for S6 closeout.
+   improvement. The comparison is mandatory for S9 closeout.
 
 The table below is auto-produced by `compare.py`; fill the backlog-owner column by hand:
 
@@ -40,6 +40,7 @@ The table below is auto-produced by `compare.py`; fill the backlog-owner column 
 | D5 | | | | |
 | D6 | | | | |
 
-Domains below target maturity become the residual-gap backlog for the AI CoE /
-governance board. Complete `closeout-backlog.md` in the customer's approved
-records system to formally record its owners, dates, and closeout decision.
+Domains below target maturity become the residual-gap backlog for the
+governance decision group. Complete `closeout-backlog.md` in the customer's
+approved records system to formally record accountable owners, dates,
+validation, recurrence, and the closeout decision.

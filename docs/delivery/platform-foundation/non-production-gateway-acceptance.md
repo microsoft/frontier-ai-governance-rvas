@@ -38,7 +38,7 @@ All applicable criteria must be evidenced in the manifest:
    component-only result is a blocked/deferred item with an owner and date.
 
 The customer may use
-`labs/s3-security-runtime/scripts/test_gateway_prompt_shield.sh` only where an
+`labs/s6-security-runtime/scripts/test_gateway_prompt_shield.sh` only where an
 approved gateway route exposes a Prompt Shields-compatible request contract.
 It emits a versioned references-only manifest and does not retain raw response
 bodies, prompts, documents, endpoint values, or credentials. It is a

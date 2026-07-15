@@ -9,11 +9,16 @@ This guide maps the Microsoft capabilities used in the AI Governance curriculum 
 | Operating model · S0 | Cloud Adoption Framework for AI, Well-Architected Framework for AI, AI Center of Excellence guidance | Ownership model, maturity discussion, and roadmap. | Current guidance. |
 | Identity · S1 | Microsoft Entra Agent ID, Conditional Access, Identity Protection, Agent 365 | Agent inventory, sponsorship, lifecycle, and access posture. | Agent-ID feature and Conditional-Access availability. |
 | Data · S2 | Microsoft Purview DSPM for AI, DLP, audit, eDiscovery, and information protection | Data exposure findings, DLP testing, and retained compliance evidence. | Licensing and tenant support. |
-| Security · S3 | Defender for Cloud AI-SPM, AI Threat Protection, Azure AI Content Safety | Security posture, threat signals, Prompt Shields, and response ownership. | Region, service, and feature availability. |
-| Evaluation · S4 | Microsoft Foundry evaluations, tracing, and CI/CD integration | Representative evaluation set, scorecard, and release review. | Individual evaluator availability. |
-| Adversarial testing · S5 | PyRIT and the AI Red Teaming Agent | Authorised test scope, findings, and remediation evidence. | Red Teaming Agent availability and approved target. |
-| Lifecycle · S6 | Microsoft Agent 365, Entra Agent ID, API Center, platform telemetry | Reconcile agent, identity, ownership, and platform records. | Agent 365 licensing and connector status. |
-| Optional in-process governance · S7 | Agent Governance Toolkit (AGT) | Offline illustration of application-process tool-call policy and audit evidence; adoption decision only. | AGT is Public Preview; validate exact release, limitations, and application fit. |
+| Platform & trust boundaries · S3 | Azure landing-zone, network, gateway, monitoring, and security capabilities | Customer-owned platform-path and trust-boundary decision. | Region, network, feature, and ownership availability. |
+| Engineering & admission · S4 | Customer engineering standards, source control, build, evaluation, and deployment capabilities | Agent admission and material-change review. | Customer-supported implementation paths. |
+| Tool/API/MCP governance · S5 | API catalog, gateway, identity, and lifecycle capabilities | Controlled publication, authority, and withdrawal decisions. | Connector, protocol, and tenant support. |
+| Runtime assurance · S6 | Defender for Cloud AI-SPM, AI Threat Protection, Azure AI Content Safety | Security posture, threat signals, runtime safety, and response ownership. | Region, service, and feature availability. |
+| Evaluation & release assurance · S7 | Microsoft Foundry evaluations, tracing, and CI/CD integration | Representative evaluation set, scorecard, and release review. | Individual evaluator availability. |
+| Adversarial testing · S8 | PyRIT and the AI Red Teaming Agent | Authorised test scope, findings, and remediation evidence. | Red Teaming Agent availability and approved target. |
+| Control plane & lifecycle · S9 | Microsoft Agent 365, Entra Agent ID, API Center, platform telemetry | Reconcile agent, tool, identity, ownership, and lifecycle records. | Agent 365 licensing and connector status. |
+| In-process governance · S10 | Agent Governance Toolkit (AGT) | Offline illustration of application-process tool-call policy and audit evidence; adoption decision only. | Applicability, release status, and architecture fit. |
+| Operate, monitor & FinOps · S11 | Customer-held operational, security, quality, and cost evidence | Operating review, drift, cost, and remediation cadence. | Evidence coverage and owner availability. |
+| Portfolio governance · S12 | Customer-held governance, risk, and portfolio records | Portfolio decision, exception review, and next roadmap. | Decision authority and records availability. |
 
 ## The capability map
 
@@ -29,7 +34,7 @@ This guide maps the Microsoft capabilities used in the AI Governance curriculum 
 - AGT is open source and Public Preview at the pinned curriculum revision. Its
   audit records governance attempts and decisions, not downstream action
   outcomes; it does not provide data provenance, an SBOM, or a turnkey
-  human-approval UI. It is an optional S7 topic, not a required customer
+  human-approval UI. It is an applicability-based S10 topic, not a required customer
   control.[^agt]
 
 ## Framework alignment
@@ -41,11 +46,16 @@ The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC
 | S0 | Govern, Map | Policies and roles | Art. 9, 17 |
 | S1 | Govern, Map, Manage | Lifecycle and access | Art. 12, 14, 15 |
 | S2 | Map, Manage | Data and impact | Art. 10, 12 |
-| S3 | Measure, Manage | Lifecycle and operations | Art. 15 |
-| S4 | Measure, Manage | Validation and operations | Art. 9, 12, 15, 72 |
-| S5 | Govern, Measure, Manage | Roles, lifecycle, operations | Art. 9, 12, 15 |
-| S6 | Govern, Map, Manage | Policies, roles, operations | Art. 72 |
-| Optional S7 | Govern, Measure, Manage | Operational controls and evidence | Art. 9, 12, 15 |
+| S3 | Govern, Map, Manage | Resources, operations, and controls | Art. 9, 12, 15 |
+| S4 | Govern, Map, Measure | Lifecycle, competence, and operations | Art. 9, 12, 15 |
+| S5 | Govern, Map, Manage | Supplier, interface, and lifecycle controls | Art. 12, 14, 15 |
+| S6 | Measure, Manage | Security and operations | Art. 15 |
+| S7 | Measure, Manage | Validation and operations | Art. 9, 12, 15, 72 |
+| S8 | Govern, Measure, Manage | Roles, lifecycle, operations | Art. 9, 12, 15 |
+| S9 | Govern, Map, Manage | Policies, roles, operations | Art. 12, 72 |
+| S10 | Govern, Measure, Manage | Operational controls and evidence | Art. 9, 12, 15 |
+| S11 | Measure, Manage | Monitoring, measurement, and improvement | Art. 12, 15, 72 |
+| S12 | Govern, Map, Measure, Manage | Leadership, performance, and improvement | Art. 9, 17, 72 |
 
 ## Sources
 

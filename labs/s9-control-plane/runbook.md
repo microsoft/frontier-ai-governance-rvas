@@ -1,111 +1,106 @@
-# S6 Runbook — Read-only reconciliation and closeout
+# S9 Runbook — Catalog stewardship, lifecycle, and closeout
 
-Use this runbook with the visible [S6 co-delivery activity](../../docs/s6-control-plane/index.md).
-The customer performs the operations; the facilitator timeboxes, asks
-interpretation questions, and captures references and decisions. Do not store
-raw customer records in this kit.
+Use this runbook with the [S9 co-delivery activity](../../docs/s9-control-plane/index.md).
+The customer performs all operations; the facilitator timeboxes, preserves the
+evidence-first boundary, and captures decisions. Do not store raw customer
+records in this kit.
 
 ## Roles, timebox, and entry condition
 
-- **Timebox:** 90 minutes: set the boundary (10 min), input-quality review
-  (15 min), explicit normalization (15 min), reconciliation and triage
-  (20 min), maturity-lift discussion (15 min), and closeout/cadence decision
+- **Timebox:** 90 minutes: scope and boundary (10 min), catalog stewardship
+  (15 min), lifecycle and material-change review (15 min), reconciliation and
+  triage (20 min), remediation and recurrence (15 min), closeout and cadence
   (15 min).
-- **Customer activity owner:** supplies and normalizes customer data, then runs
-  the command. **Evidence owner:** points to approved records. **Governance
-  lead / decision owner:** assigns dispositions and accepts, defers, or rejects
-  closeout. Identity, platform, maker, or Security/SOC specialists interpret
-  relevant findings.
-- **Entry condition:** the customer has an S0 baseline reference, its
-  normalized S1 inventory, a candidate registry source, an approved records
-  location, and a decision owner (or an agreed deferred-decision owner and
-  date).
+- **Catalog steward:** explains agent and tool records. **Evidence owner:**
+  points to approved records. **Governance lead / decision owner:** assigns
+  dispositions and accepts, defers, or rejects closeout. Service, identity,
+  risk, and finance specialists interpret relevant findings.
+- **Entry condition:** an accountable decision owner, an approved records
+  location, a baseline reference, a normalized identity inventory, and a
+  candidate agent-and-tool catalog are available. If one is absent, record the
+  dependency, owner, and date; do not substitute a record or decision.
 
-## Input-quality review and explicit normalization
+## Catalog stewardship and explicit normalization
 
-- [ ] The S0 baseline scorecard reference and the same S0 scorecard structure
-  are available for the exit re-score.
-- [ ] A customer-produced S1 normalized identity inventory is available using
-  the S1 kit's explicit inventory schema.
-- [ ] The customer has supplied a normalized control-plane registry using
-  `rvas.s6.control-plane-registry.v1`, as illustrated by
-  `data/agent-registry.sample.json`.
-- [ ] A governance lead owns the closeout and residual-gap backlog.
+Copy `templates/catalog-stewardship.template.md` and
+`assessment/closeout-backlog.md` into approved records before the session.
 
-The customer verifies source provenance, date, scope, and accountable owner
-before normalization. Unknown values stay `null` and become findings; do not
-infer them from names, aliases, or a sample. The sample is a field-level
-illustration, not customer evidence.
+- [ ] The catalog uses `rvas.s9.control-plane-registry.v1` and contains
+  explicit `agents` and `tools` arrays.
+- [ ] Each agent identifies `registryId`, `displayName`, `identityObjectId` or
+  `null`, execution mode, managed status, lifecycle state, accountable owner,
+  technical owner, lifecycle-review reference, and material-change-review
+  status.
+- [ ] Each tool identifies `toolId`, display name, parent agent or approved
+  shared-use relationship, owner, lifecycle state, lifecycle-review reference,
+  and material-change-review status.
+- [ ] Suspended, retired, and decommissioned entries identify a closure owner
+  and closure-review reference. A transition, when supplied, identifies its
+  from-state, to-state, decision owner, and review reference.
 
-Facilitator prompts: “What source supports this field?” “What is unknown?”
-“What is the expected reconciliation signal?” Stop if a required input is
-missing or cannot be normalized without inference; record the dependency,
-owner, date, and effect on closeout.
+Verify record date, bounded scope, accountable owner, and traceable evidence
+before normalization. Keep unknown values as `null`; they become findings.
+Never infer a match, owner, parent, lifecycle state, or approval from a name,
+alias, or sample.
 
-## Customer-operated reconciliation and triage
+## Read-only reconciliation and triage
 
-1. The customer produces its registry export using its supported product process,
-   then normalizes it before it enters this kit. Each registry agent explicitly
-   supplies `registryId`, `displayName`, `entraObjectId` (or `null`),
-   `executionMode`, `managed`, `lifecycleState` (or `null`), and `sponsor` (or
-   `null`). Do not map alternate fields or match by display name in this
-   workshop.
-2. Reconcile the normalized registry with the S1 inventory. This read-only
-   command matches only registry `entraObjectId` to S1 `objectId`:
+1. The customer creates a normalized catalog in approved records, then places
+   only the permitted normalized input in the evidence location. The sample is
+   illustrative and never customer evidence.
+2. Run the read-only reconciliation. It matches only catalog
+   `identityObjectId` with identity-inventory `objectId`:
    ```bash
    python scripts/reconcile-registry.py \
      --registry evidence/control-plane-registry.json \
      --inventory ../s1-identity/evidence/agent-inventory.json \
      --out evidence/reconciliation-report.json
    ```
-3. Interpret the report with the relevant specialist. Triage shadow,
-   registry-only, unmanaged/OBO, sponsor, lifecycle, and invalid-lifecycle
-   findings. Ask whether each is an input-quality issue, an ownership gap, or a
-   separately governed change. A no-result is not a pass unless the checked
-   scope and expected signal are recorded.
-4. Assign every finding an owner, action, due date, validation reference,
-   recurrence check, and status; do not write registry metadata here. A
-   lifecycle transition, suspension, retirement, material authority change, or
-   registry/identity/access change must follow the customer's separate approved
-   change, rollback, and verification process.
-5. Follow [`assessment/exit-rescore.md`](assessment/exit-rescore.md) to produce
-   the mandatory S0 baseline-to-exit comparison.
+3. Interpret the report with the applicable owner. Triage shadow and
+   catalog-only identities, unmanaged or user-delegated agents, ownership
+   gaps, invalid lifecycle states, invalid tool-parent relationships,
+   material-change-review gaps, transition-review gaps, and closure-accountability
+   gaps. A no-result is not a pass unless the checked scope and expected signal
+   are recorded.
+4. Do not write registry metadata, execute a transition, suspend or retire an
+   entry, revoke access, or make a remediation during S9. Send every required
+   change through the customer's separate approved change, rollback, and
+   verification process.
+5. Add every finding to the closeout backlog with an accountable owner,
+   disposition, due date, validation reference, recurrence check, exception or
+   escalation route, and status. Follow
+   [`assessment/exit-rescore.md`](assessment/exit-rescore.md) when the
+   baseline-to-exit comparison is in scope.
 
-## Maturity lift, closeout, and operating cadence
+## Closeout and operating cadence
 
-Discuss the comparison with the governance lead: “What evidence supports a
-score change?” “Which domains remain below target?” “What review cadence will
-re-check reconciliation and residual gaps?” The lift is a decision input, not
-proof that a control is deployed or operating.
+Choose **close**, **close with owned gaps**, **defer**, or **do not close**.
+The decision owner records rationale, residual-risk disposition, approver,
+next catalog review, reconciliation cadence, and deferred-decision owner and
+date where needed.
 
-Choose one: **close**, **close with owned gaps**, **defer**, or **do not close**.
-The decision owner records the rationale, residual-risk disposition, approver,
-next governance review, and cadence. If no decision owner is present, complete
-only the review and interpretation, mark the decision deferred, and assign the
-owner and date.
+Closeout confirms that accountability is visible. It does not confirm that an
+entry was changed, a remediation operates, or an exception is resolved. A
+closure requires a validation reference and a recorded recurrence review.
 
 ## Reference-only evidence and handoff
 
-- [ ] The customer records references to the normalized registry, S1 inventory,
-  reconciliation report, S0 baseline, S6 exit scorecard, and maturity-lift
-  output in its approved records system.
-- [ ] Every reconciliation and maturity finding has a decision, owner, due
-  date, validation reference, recurrence check, and status in
-  [`assessment/closeout-backlog.md`](assessment/closeout-backlog.md).
-- [ ] The governance lead records the closeout decision, approver, and next
-  governance review and cadence. Customer registry changes, if any, use a
-  separate approved change and rollback process.
+- [ ] Record references to the catalog, identity inventory, reconciliation
+  report, lifecycle and material-change decisions, closeout backlog, and
+  scorecard comparison in approved records.
+- [ ] Record each open or closed finding's owner, decision, due date,
+  validation, recurrence check, exception or escalation, and next review.
+- [ ] Record the closeout decision, approver, and review cadence.
 
-Record only the pilot question, scope, date, approved-record references,
-observed result or no-result, interpretation, decision, owner, and next
-dependency in the handoff. A template, sample, local tool output, or
-facilitator-created note does not establish a customer control.
+Retain only scope, date, approved-record references, observed result or
+no-result, interpretation, decision, owner, and dependency in the handoff.
+Local samples and tool output are not evidence that a control operates.
 
 ## Blocker pathways
 
 | If | Then |
 |---|---|
-| Required input, evidence reference, or decision owner is missing | Stop the dependent step; record the missing dependency, owner, date, and reschedule. Do not manufacture evidence or a decision. |
-| Registry cannot be normalized explicitly | Return it to the customer source owner as an input-quality gap. Do not match by display name or alternate fields. |
-| A finding needs a customer change | Add an owned backlog item and hand it to the approved change process; do not make the change during S6. |
-| No finding appears where one was expected, or a capability is unsupported | Record the scope and interpretation; decide to observe, refine the question, use another customer control, or defer. |
+| Required record, evidence reference, or decision owner is missing | Stop the dependent step; record the gap, owner, date, and reschedule. |
+| A catalog record cannot be normalized without inference | Return it to the accountable steward as an input-quality gap; do not match by name or alternate fields. |
+| A transition, material change, suspension, retirement, or remediation is required | Create an owned backlog item and hand it to the approved change process; do not make the change during S9. |
+| No expected result appears or coverage is unsupported | Record the scope and interpretation; observe, refine the question, use another customer control, or defer. |

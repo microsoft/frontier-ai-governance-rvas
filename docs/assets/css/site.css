@@ -119,6 +119,35 @@
 }
 .session-card-foot { display: flex; flex-wrap: wrap; gap: 6px; }
 
+/* ── Curated session sets ─────────────────────────────────────────── */
+.set-hero {
+  padding: clamp(52px, 8vw, 96px) 0 clamp(38px, 6vw, 70px);
+  background:
+    linear-gradient(115deg, rgba(3, 34, 84, 0.98), rgba(20, 134, 138, 0.9)),
+    var(--c-900);
+  color: #fff;
+}
+.set-hero h1 { margin: 12px 0 14px; color: inherit; }
+.set-hero .lede { max-width: 690px; color: rgba(255, 255, 255, 0.8); }
+.set-view-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+.set-view-heading h2 { margin: 14px 0 8px; }
+.set-view-heading p { margin: 0; color: var(--c-dim); }
+.sel-card .session-card-head,
+.sel-card .session-card-outcome,
+.sel-card .session-card-foot { text-align: left; }
+.sel-card .session-card-title { display: block; }
+.set-tray { background: rgba(255, 255, 255, 0.96); }
+@media (max-width: 640px) {
+  .set-view-heading { align-items: flex-start; flex-direction: column; }
+  .set-tray .set-name-box { max-width: none; width: 100%; }
+}
+
 /* ── Persona / NIST badges (cards + session meta) ────────────────── */
 .badge-persona {
   background: var(--c-700);

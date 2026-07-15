@@ -1,4 +1,4 @@
-# S5 Takeaway Kit — Adversarial Testing
+# S8 Takeaway Kit — Adversarial Testing
 
 This kit supports one authorized, customer-operated Microsoft Foundry AI Red
 Teaming Agent run against a customer-owned non-production endpoint. It contains
@@ -7,7 +7,7 @@ or customer evidence.
 
 ## Workshop alignment
 
-Use the [S5 co-delivery workshop](../../docs/s5-red-teaming/index.md#4-co-delivery-walkthrough)
+Use the [S8 co-delivery workshop](../../docs/s8-red-teaming/index.md#4-co-delivery-walkthrough)
 to confirm roles, the 90-minute monitored window, authorization, stop
 conditions, interpretation, and decision before following the runbook. The
 customer security/SOC lead and endpoint owner authorize and operate the run;

@@ -1,4 +1,4 @@
-# S5 · Adversarial Testing
+# S8 · Adversarial Testing
 
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · Validate AI Red Teaming Agent availability in the [Governance capability guide](../reference/governance-capability-guide.md).
@@ -15,7 +15,7 @@ customer-owned non-production agent/endpoint:
   performed; and
 - a remediation, accepted-risk, blocked, or re-test decision with an owner.
 
-Durable artifact: `labs/s5-red-teaming/` - the customer-operated Foundry
+Durable artifact: `labs/s8-red-teaming/` - the customer-operated Foundry
 adapter contract and runbook. Native scorecards and comparison sidecars remain
 ignored customer evidence in the approved records system.
 
@@ -38,10 +38,10 @@ ignored customer evidence in the approved records system.
 ## 3. Why this session
 
 Adversarial testing is useful only when the target, success criteria, safety
-limits, and response path are agreed before the first probe. S5 produces
+limits, and response path are agreed before the first probe. S8 produces
 evidence for the agreed scope, not a general claim that an agent is secure.
 
-Read the [S5 Concepts](concepts.md) for authorization, ASR as a decision aid,
+Read the [S8 Concepts](concepts.md) for authorization, ASR as a decision aid,
 and the native-scorecard boundary.
 
 ## 4. Co-delivery walkthrough
@@ -66,7 +66,7 @@ are approved. Do not start or resume a scan if any condition expires or changes.
 | Evidence owner and decision owner | Retain native evidence references, interpret the agreed scope, and choose remediation, accepted risk, blocked status, or re-test. |
 
 1. **Set the room and orient — 20 min.** Use
-   `labs/s5-red-teaming/runbook.md`
+   `labs/s8-red-teaming/runbook.md`
    to confirm authorization, rules of engagement, SOC window, target label,
    stop conditions, and evidence boundary. The facilitator asks: *Is this
    exact target customer-owned and non-production? Who may stop the run? Which
@@ -118,7 +118,7 @@ unapproved test.
 
 ## 6. Change boundary
 
-S5 does not deploy a production control. The customer alone pauses, resets, or
+S8 does not deploy a production control. The customer alone pauses, resets, or
 changes its non-production endpoint and follows its own cleanup, incident, and
 change processes.
 

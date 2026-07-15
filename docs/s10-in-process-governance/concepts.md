@@ -1,9 +1,9 @@
-# S7 · In-Process Agent Governance Concepts
+# S10 · In-Process Agent Governance Concepts
 
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · This page describes AGT from pinned primary sources at [commit `b680c49`](https://github.com/microsoft/agent-governance-toolkit/tree/b680c49cc956727c5249771ddba7ee21a635a676). AGT is Public Preview.
 
-S7 is an optional extension. Use the [S7 Prepare](index.md) chapter for the
+S10 is an applicability-based curriculum session. Use the [S10 Prepare](index.md) chapter for the
 offline workshop; use this page to explain why an in-process policy decision is
 not the same as a gateway, data, identity, or outcome control.
 
@@ -16,7 +16,7 @@ controls can be layered, but neither proves that the other is configured or
 effective.
 
 AGT's documented `govern()` pattern wraps a tool call with policy evaluation and
-audit logging. The offline S7 simulator models only that policy-and-audit idea;
+audit logging. The offline S10 simulator models only that policy-and-audit idea;
 it does not import, test, or certify AGT.[^agt-readme]
 
 ## Hash-chain consistency is not tamper evidence
@@ -28,7 +28,7 @@ prove integrity, immutability, provenance, or later tampering.
 
 If the customer needs tamper evidence, it must retain a signed record in
 customer-managed immutable external storage under its own retention and access
-controls. S7 does not configure, validate, or certify that storage.
+controls. S10 does not configure, validate, or certify that storage.
 
 ## Decision evidence is not outcome evidence
 
@@ -48,7 +48,7 @@ change-review.
 
 The AGT limitations note that an evaluator with no policies loaded can allow
 actions by default; strict deny-by-default configuration is a production
-consideration. S7 models a deny default but does not validate an AGT
+consideration. S10 models a deny default but does not validate an AGT
 configuration.[^agt-limitations]
 
 ## Preview and offline boundary
@@ -58,7 +58,7 @@ changes before GA. Its documented limitations, the customer's language/runtime
 fit, and the relationship to existing platform controls are decision inputs, not
 claims of compliance or certification.
 
-S7 complements but does not replace S1 identity, S2 data controls, S3 runtime
+S10 complements but does not replace S1 identity, S2 data controls, S6 runtime
 security, S4 evaluation, S5 adversarial testing, or S6 reconciliation.
 
 [^agt-readme]: [AGT README at `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/README.md), Public Preview notice, `govern()` example, and audit architecture.

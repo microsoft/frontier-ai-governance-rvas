@@ -28,7 +28,7 @@ stop the affected work.
 
 ## 3. Customer-led baseline review
 
-- [ ] Customer scores the 21 questions and captures rationale/dissent in its
+- [ ] Customer scores the 39 questions and captures rationale/dissent in its
   record. Ask: “What observed practice supports this?” and “What is the gap,
   not the aspiration?”
 - [ ] Record a score or explicitly unanswered question as the result. For a

@@ -3,14 +3,14 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-06
 
-A single, reusable **AI-agent governance maturity assessment**. Run it twice:
+A single, reusable **S0-S12 AI maturity assessment**. Run it twice:
 
-- **S0 - baseline.** Establishes where the customer is today and produces a prioritized session roadmap.
-- **S6 - exit score.** Re-run the same instrument to compare the current state with the baseline and record the remaining gaps.
+- **S0 - baseline.** Establishes the current state and produces a prioritized session roadmap.
+- **S12 - exit score.** Re-run the same instrument to compare the current state with the baseline and record the remaining gaps.
 
 ## How it works
 
-Seven domains - one per session - each scored on a 1–4 maturity scale aligned to the CAF-for-AI maturity model and NIST AI RMF (Govern · Map · Measure · Manage).
+Thirteen domains map directly to the canonical S0-S12 sessions. Each is scored on a 1–4 maturity scale. Blank answers remain visible and are excluded from weighted maturity until assessed.
 
 | Level | Name | Meaning |
 |-------|------|---------|
@@ -21,23 +21,29 @@ Seven domains - one per session - each scored on a 1–4 maturity scale aligned 
 
 ### Domains
 
-| # | Domain (session) | NIST function focus |
-|---|------------------|---------------------|
-| D0 | Operating model & governance (S0) | Govern |
-| D1 | Identity & access (S1) | Govern · Manage |
-| D2 | Data & compliance (S2) | Map · Manage |
-| D3 | Security posture & runtime (S3) | Measure · Manage |
-| D4 | Quality & safety evaluation (S4) | Measure |
-| D5 | Adversarial testing (S5) | Measure · Manage |
-| D6 | Control plane & operationalization (S6) | Govern · Manage |
+| # | Domain (canonical session) |
+|---|------------------------------|
+| D0 | Operating model (S0) |
+| D1 | Identity / authority (S1) |
+| D2 | Data (S2) |
+| D3 | Platform / trust boundaries (S3) |
+| D4 | Engineering / admission (S4) |
+| D5 | Tool / API / MCP (S5) |
+| D6 | Runtime security (S6) |
+| D7 | Evaluation / release (S7) |
+| D8 | Adversarial testing (S8) |
+| D9 | Control plane / lifecycle (S9) |
+| D10 | In-process governance (S10) |
+| D11 | Operate / monitor / FinOps (S11) |
+| D12 | Portfolio governance (S12) |
 
 ## Fillable scorecard
 
 The scorecard and auto-scorer live in the S0 takeaway kit:
 
-- `labs/s0-foundations/assessment/scorecard.csv` - fill the `score` column (1–4) with the customer.
+- `labs/s0-foundations/assessment/scorecard.csv` - fill the `score` column (1–4) with accountable stakeholders.
 - `labs/s0-foundations/assessment/score.py` - computes per-domain and overall weighted maturity and ranks lower-scoring domains first; total question weight breaks ties.
-- `labs/s0-foundations/assessment/compare.py` - at S6, computes the baseline-to-exit lift per domain and the residual-gap backlog.
+- `labs/s0-foundations/assessment/compare.py` - at S12, computes the weighted baseline-to-exit lift per domain and the residual-gap backlog.
 
 ```bash
 python labs/s0-foundations/assessment/score.py labs/s0-foundations/assessment/scorecard.csv
@@ -45,6 +51,6 @@ python labs/s0-foundations/assessment/score.py labs/s0-foundations/assessment/sc
 
 ## Reading the result
 
-![How the S0 baseline becomes a session plan: fill scorecard.csv (1–4 per question), run score.py, review per-domain and overall maturity, then agree the delivery order with the customer.](../assets/diagrams/assessment.svg)
+![How the S0 baseline becomes a session plan: fill scorecard.csv (1–4 per question), run score.py, review per-domain and overall maturity, then agree the delivery order with accountable stakeholders.](../assets/diagrams/assessment.svg)
 
-Session artifacts provide evidence for reassessing specific questions. Change a score only when the customer can show that the relevant control is in place and operating.
+Session artifacts provide evidence for reassessing specific questions. Change a score only when accountable stakeholders can show that the relevant control is in place and operating.

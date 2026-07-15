@@ -36,10 +36,10 @@ The platform team owns:
 
 | Platform record | Programme use |
 |---|---|
-| API Center and access-contract records | S6 compares platform exposure with agent, identity, and ownership records. |
-| Gateway authentication and safety configuration | S1 and S3 review the corresponding identity and runtime-safety evidence. |
+| API Center and access-contract records | S5 and S9 review publication, exposure, identity, ownership, and lifecycle records. |
+| Gateway authentication and safety configuration | S1 and S6 review the corresponding identity and runtime-safety evidence. |
 | Gateway data-protection configuration | S2 considers it alongside Purview data and compliance controls. |
-| Traces, evaluations, usage, and cost telemetry | S4, S5, and S6 use it as evidence for review, remediation, and operating decisions. |
+| Traces, evaluations, usage, and cost telemetry | S7, S8, S9, and S11 use it as evidence for review, remediation, and operating decisions. |
 
 The AI Governance programme does not rebuild these capabilities. It assigns owners, reviews the evidence, and records the decisions and gaps that follow.
 

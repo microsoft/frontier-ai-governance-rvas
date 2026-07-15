@@ -14,16 +14,18 @@ Establish accountable ownership for AI‑agent governance and the cadence by whi
 | Executive sponsor | ‹name› | Funds and unblocks |
 | Identity admin | ‹name› | Owns S1 |
 | Compliance / data admin | ‹name› | Owns S2 |
-| Security / SOC | ‹name› | Owns S3, S5 |
-| AI developer / maker lead | ‹name› | Owns S4 |
+| Platform owner | ‹name› | Owns S3 and platform evidence |
+| Security / SOC | ‹name› | Owns S6 and S8 |
+| AI developer / maker lead | ‹name› | Owns S4, S7, and S10 where applicable |
 
 ## Operating cadence (CAF for AI)
 
 - **Strategy / Plan** — business outcomes for AI + agent adoption: ‹summary›
 - **Ready** — landing zone / tenant readiness owner: ‹name›
 - **Govern** — policy, risk classification, review gates (this document).
-- **Secure** — identity, data, runtime controls (S1–S3).
-- **Manage** — evaluation, red‑team, control plane (S4–S6).
+- **Secure** — identity, data, platform, and runtime controls (S1-S6).
+- **Manage** — evaluation, testing, control-plane, operations, and portfolio
+  improvement (S7-S12).
 
 ## Use‑case intake + risk classification (stub)
 
@@ -42,4 +44,4 @@ Recorded from the S0 roadmap output:
 ## Review cadence
 
 - CoE meets ‹weekly/biweekly›; posture reviewed against the maturity score each ‹quarter›.
-- Re‑run the S0 assessment at S6 (capstone) and each subsequent quarter.
+- Re‑run the S0 assessment at S12 (capstone) and each subsequent quarter.

@@ -3,8 +3,7 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · Confirm current capability availability in the [Governance capability guide](../reference/governance-capability-guide.md) before using a product in a pilot.
 
-Use this 90-minute method for any core S0–S6 working session and the optional
-S7 adoption workshop. It keeps the
+Use this 90-minute method for any selected S0-S12 working session. It keeps the
 facilitator in charge of the method and the customer in charge of actions,
 evidence, and decisions. Run the session against one bounded pilot question;
 do not turn it into a configuration workshop or an unbounded product tour.

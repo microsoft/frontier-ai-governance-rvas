@@ -83,7 +83,7 @@ scorecard.
    appropriately, mark the activity blocked and hand off record-location
    ownership.
 3. **Customer-led baseline review** *(35 min)* — customer participants score
-   the 21 questions and record rationale and dissent in their copy. The
+   the 39 questions and record rationale and dissent in their copy. The
    facilitator asks, “What observed practice supports this score?”, “What is
    the gap rather than the aspiration?”, and “Which owner can change it?”
    **Meaningful result:** a score or explicitly unanswered item with rationale.
@@ -116,7 +116,7 @@ scorecard.
 
 ## 5. Verification & evidence capture
 
-- [ ] The customer scorecard has all 21 questions scored or explicitly
+- [ ] The customer scorecard has all 39 questions scored or explicitly
   identified as unanswered.
 - [ ] The offline scorer produces an overall maturity and prioritised roadmap.
 - [ ] The customer record names the governance owner, sponsor, decision, and
@@ -143,5 +143,5 @@ customer's approved process.
 - **Blocker path:** no clear owner → assign sponsor/governance-lead resolution;
   no agents yet → assess approved intent and plans; unsupported evidence →
   record the gap rather than optimistic scoring. Revisit in the named review.
-- **Hand-off:** the customer roadmap sets the order for S1–S6; S6 repeats the
+- **Hand-off:** the customer roadmap sets the order for S1–S12; S12 repeats the
   same customer-held instrument as a capstone comparison.

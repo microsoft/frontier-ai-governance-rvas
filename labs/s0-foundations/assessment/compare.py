@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare an S0 baseline scorecard against an S6 exit scorecard.
+"""Compare an S0 baseline scorecard against an S12 exit scorecard.
 
 Computes per-domain and overall maturity lift and prints a residual-gap backlog
 (domains still below a target maturity at exit). Reuses the loader and domain
@@ -44,14 +44,16 @@ def main(argv: list[str]) -> int:
     baseline = load(baseline_path)
     exit_ = load(exit_path)
 
-    print(f"\nRVAS Maturity Lift — baseline: {baseline_path.name} -> exit: {exit_path.name}")
+    print(f"\nS0-S12 Maturity Lift — baseline: {baseline_path.name} -> exit: {exit_path.name}")
     print("=" * 64)
     print(f"{'Domain':<40}{'Base':>6}{'Exit':>6}{'Lift':>7}")
     print("-" * 64)
 
     codes = list(dict.fromkeys(list(baseline.keys()) + list(exit_.keys())))
-    base_scores: list[float] = []
-    exit_scores: list[float] = []
+    base_weighted_sum = 0.0
+    base_weight_total = 0.0
+    exit_weighted_sum = 0.0
+    exit_weight_total = 0.0
     backlog: list[tuple[str, float]] = []
 
     for code in codes:
@@ -64,8 +66,10 @@ def main(argv: list[str]) -> int:
         e_str = f"{e_m:.2f}" if e_m is not None else "—"
         if b_m is not None and e_m is not None:
             lift = e_m - b_m
-            base_scores.append(b_m)
-            exit_scores.append(e_m)
+            base_weighted_sum += b.weighted_sum
+            base_weight_total += b.weight_total
+            exit_weighted_sum += e.weighted_sum
+            exit_weight_total += e.weight_total
             arrow = "▲" if lift > 0 else ("▼" if lift < 0 else "=")
             print(f"{code} {name:<36}{b_str:>6}{e_str:>6}{lift:>+6.2f} {arrow}")
             if e_m < target:
@@ -73,9 +77,9 @@ def main(argv: list[str]) -> int:
         else:
             print(f"{code} {name:<36}{b_str:>6}{e_str:>6}{'—':>7}")
 
-    if base_scores and exit_scores:
-        b_overall = sum(base_scores) / len(base_scores)
-        e_overall = sum(exit_scores) / len(exit_scores)
+    if base_weight_total and exit_weight_total:
+        b_overall = base_weighted_sum / base_weight_total
+        e_overall = exit_weighted_sum / exit_weight_total
         print("-" * 64)
         print(
             f"{'Overall':<40}{b_overall:>6.2f}{e_overall:>6.2f}{e_overall - b_overall:>+6.2f}"

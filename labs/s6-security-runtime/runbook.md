@@ -1,12 +1,12 @@
-# S3 Runbook — Gateway Proof
+# S6 Runbook — Gateway Proof
 
-Run this only in a customer-approved non-production environment. The one S3
+Run this only in a customer-approved non-production environment. The one S6
 action is a request through the deployed gateway; a direct Content Safety call
-is not S3 evidence.
+is not S6 evidence.
 
 ## Facilitated activity alignment
 
-Run this sequence during the [S3 90-minute co-delivery workshop](../../docs/s3-security-runtime/index.md#4-co-delivery-walkthrough).
+Run this sequence during the [S6 90-minute co-delivery workshop](../../docs/s6-security-runtime/index.md#4-co-delivery-walkthrough).
 Before step 1, the facilitator confirms the customer platform operator,
 security reviewer/evidence owner, and decision owner; an approved
 non-production route; safe authentication handling; an evidence location; and

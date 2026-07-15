@@ -1,131 +1,118 @@
-# S6 · Control Plane & Operationalization
+# S9 · Control Plane, Catalog & Lifecycle
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-15 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).
+    Last reviewed: 2026-07-15
 
-<span class="rvas-badge rvas-persona">Governance lead</span> <span class="rvas-badge rvas-persona">AI developer / maker</span> <span class="rvas-badge rvas-persona">Security / SOC</span>
+<span class="rvas-badge rvas-persona">Governance lead</span> <span class="rvas-badge rvas-persona">Catalog steward</span> <span class="rvas-badge rvas-persona">Service owner</span>
 
 ## 1. Outcome & durable artifact
 
-The customer leaves with an owned operating closeout:
+The customer leaves with a decision-ready, customer-owned operating closeout:
 
-- a read-only reconciliation of its normalized control-plane registry and the
-  explicit S1 Entra Agent ID inventory;
-- the S0 baseline-to-S6 exit maturity comparison; and
-- a decision-ready residual-gap backlog with owners, due dates, validation
-  references, recurrence checks, and status.
+- a read-only reconciliation of explicit catalog identity identifiers with the
+  normalized identity inventory;
+- an evidence-first stewardship view of agents and tools, including ownership,
+  lifecycle state, material-change review, and closure accountability; and
+- a residual-gap backlog with owners, dates, validation references, recurrence
+  checks, exceptions, and next-review decisions.
 
-Durable artifact: `labs/s6-control-plane/` - explicit input schemas,
-read-only reconciliation tooling, and the closeout templates. Customer evidence
-remains in the approved customer records system and is referenced, not
-committed to this repository.
+Durable artifact: `labs/s9-control-plane/` provides blank stewardship and
+closeout templates, sample-only schemas, and read-only reconciliation tooling.
+Customer evidence remains in approved records and is referenced, not copied
+into this repository.
 
 ## 2. Prerequisites
 
-- The S0 baseline scorecard and a customer-produced S1 normalized identity
-  inventory using the S1 kit's explicit schema.
-- A customer-normalized registry using
-  `rvas.s6.control-plane-registry.v1`; `agent-registry.sample.json` is the
-  safe, explicit example.
-- Governance lead empowered to assign owners, decisions, and review dates.
-- An approved customer records-system location for the closeout evidence.
+- A baseline scorecard and a normalized identity inventory with explicit object
+  identifiers.
+- A customer-normalized agent and tool catalog using
+  `rvas.s9.control-plane-registry.v1`.
+- A governance lead able to assign accountable owners, residual-risk
+  dispositions, and review dates.
+- An approved records location for evidence references and decisions.
 
 ## 3. Why this session
 
-Governance becomes operational when known agents, identities, ownership,
-lifecycle state, material changes, and unresolved gaps can be reconciled into
-one accountable record. S6 uses explicit field mappings so a mismatch becomes
-a finding instead of a guessed match. A lifecycle transition, suspension,
-retirement, or material authority change remains a customer-owned change and
-review decision.
+Control-plane governance is durable when every in-scope agent and tool has a
+known steward, lifecycle decision, material-change posture, and route to
+reconciliation and closure. S9 makes gaps visible without inferring facts or
+changing the operating environment.
 
-Read the [S6 Concepts](concepts.md) for reconciliation, lifecycle ownership,
-and the boundary between visibility and governance.
+Read the [S9 Concepts](concepts.md) before delivery.
 
 ## 4. Co-delivery walkthrough
 
-!!! warning "Read-only reconciliation"
-    This kit does not export from a product API or write lifecycle, ownership,
-    or access metadata. The customer uses its supported product process to
-    obtain source data, then normalizes it before S6.
+!!! warning "Evidence-first, read-only boundary"
+    This 90-minute session uses customer-held references and sample-only,
+    normalized inputs. Do not connect to live data, copy raw records, or
+    create a catalog, lifecycle, identity, access, policy, or production
+    change.
 
-**Timebox:** 90 minutes. **Facilitator:** runs the method and records
-references; never performs customer actions or accepts risk. **Customer
-activity owner:** prepares and runs the reconciliation. **Evidence owner:**
-points to approved records. **Governance lead / decision owner:** assigns
-dispositions and makes the closeout or deferral decision. Include an identity
-administrator and a maker or platform specialist when findings need their
-interpretation.
-
-**Entry condition:** the decision owner is present (or a dated decision
-deferral is agreed); the customer has an S0 baseline reference, a
-customer-produced S1 normalized inventory, a candidate registry source, and
-an approved records-system location. The facilitator confirms the safe posture:
-no product export, no registry write, no tenant change, and no raw customer
-records copied into this repository.
+**Facilitator:** protects the boundary, timebox, and decision wording.
+**Governance lead:** owns the closeout decision. **Catalog steward:** explains
+the agent and tool records. **Evidence owner:** provides approved references.
+Include specialist reviewers only for questions within their remit.
 
 | Activity | Time | Customer operation | Facilitator prompts and interpretation |
 |---|---:|---|---|
-| Set the question and evidence boundary | 10 min | Confirm the pilot question: “Can this bounded registry be reconciled to S1 using explicit Entra object IDs, and what must be owned before closeout?” Name the records location and decision owner. | “Which source is authoritative for this pilot?” “What would make us stop?” Record only references, scope, date, roles, and expected signal. |
-| Review input quality | 15 min | Show the approved references for the S0 baseline and S1 inventory, then inspect the candidate registry for completeness and provenance. | “Is this customer-produced and current enough for the decision?” “Which field is unknown rather than inferred?” Missing, stale, or unowned input is a finding or blocker—not a reason to fill a field from a display name. |
-| Normalize explicitly | 15 min | Normalize the registry to `rvas.s6.control-plane-registry.v1`, using the sample only as a field-level illustration. Supply `registryId`, `displayName`, `entraObjectId` or `null`, `executionMode`, `managed`, `lifecycleState` or `null`, and `sponsor` or `null`. | “Can every value be traced to the customer source?” “Which nulls are intentional findings?” Do not map aliases or alternate fields. A schema failure means the input is not ready; it is not a reconciliation result. |
-| Reconcile and triage | 20 min | Run the read-only comparison below, then review shadow, registry-only, unmanaged/OBO, missing-sponsor, and lifecycle findings with the appropriate specialist. | “What does this finding mean operationally?” “Is it a source gap, an ownership gap, or a separate change?” Matches are only `entraObjectId` ↔ `objectId`; a no-result is not a pass unless the expected signal and checked scope are recorded. Do not change the registry in the session. |
-| Discuss maturity lift | 15 min | Re-run the same S0 scorecard in the customer-approved records system, compare the baseline and exit scores with the S0 offline scoring tools, and retain the maturity-lift reference with closeout records. | “What evidence supports a score change?” “Which domains remain below target?” Treat the comparison as a decision input, not proof that a control is deployed or operating. Add each residual gap to the customer-owned backlog. |
-| Close out and set cadence | 15 min | Choose close, close with owned gaps, defer, or do not close. Name the approver, backlog owner, target dates, validation reference, recurrence check, and next governance review. | “Are all findings owned with a due date?” “What cadence will re-check registry quality, lifecycle transitions, reconciliation, and residual gaps?” A closeout is valid only when the governance lead accepts the stated residual risk; otherwise record a deferred decision and review date. |
+| Set scope and decision boundary | 10 min | Select one bounded catalog population, review period, records location, and closeout decision. | “What decision can this session support?” “What remains a separate change?” Stop on missing authority or evidence. |
+| Review catalog stewardship | 15 min | Review agent and tool entries for purpose, accountable owner, technical steward, lifecycle state, and parent relationship. | “Who owns this entry through closure?” “Can a tool extend authority beyond its reviewed use?” Unknowns are findings, not assumptions. |
+| Review lifecycle and material changes | 15 min | Identify transitions, suspensions, retirements, and material changes in scope; reference their decision and review records. | “Was this destination permitted?” “Who reviewed the authority or operating-scope change?” Do not execute the transition or remediation here. |
+| Reconcile and triage | 20 min | Run the read-only identifier comparison and review identity, ownership, lifecycle, material-review, tool-parent, and closure findings. | “Is this a record-quality gap, a stewardship gap, or a separately governed change?” A no-result is not a pass without scope and expected signal. |
+| Set remediation and recurrence | 15 min | Assign every open item an owner, due date, validation reference, recurrence check, exception route, and escalation path. | “What validates the remedy?” “What detects recurrence?” Closure without validation remains open. |
+| Close out and set cadence | 15 min | Choose close, close with owned gaps, defer, or do not close; record approver and next review. | “Who accepts residual risk?” “When will catalog stewardship, reconciliation, and closure status be revisited?” |
 
 Run the reconciliation during the fourth activity:
 
 ```bash
-python labs/s6-control-plane/scripts/reconcile-registry.py \
-  --registry labs/s6-control-plane/evidence/control-plane-registry.json \
+python labs/s9-control-plane/scripts/reconcile-registry.py \
+  --registry labs/s9-control-plane/evidence/control-plane-registry.json \
   --inventory labs/s1-identity/evidence/agent-inventory.json \
-  --out labs/s6-control-plane/evidence/reconciliation-report.json
+  --out labs/s9-control-plane/evidence/reconciliation-report.json
 ```
 
 ### Results, evidence, and handoff
 
-Reference—not copy—these customer-approved records: S0 baseline and exit
-scorecards, normalized registry source, S1 inventory, reconciliation report,
-maturity-lift output, and closeout/backlog decision. The handoff records the
-pilot question, scope, observed result or no-result, interpretation, control
-state, decision, owner, next review, and any dependency. A sample, offline
-tool run, or facilitator note is preparation material, not proof of a customer
-control.
+Reference—not copy—the baseline and exit scorecards, catalog record, identity
+inventory, reconciliation report, lifecycle and material-change decisions,
+validation records, and closeout decision. The handoff records scope, observed
+result or no-result, interpretation, decision, owner, next review, and
+dependency. Samples, local tool output, and facilitator notes are not proof of
+an operating control.
 
 ### Blocker pathways
 
 | Blocker | Safe response and handoff |
 |---|---|
-| S0 baseline, S1 inventory, or decision owner is absent | Stop the dependent step. Record the missing input or owner, assign a target date, and reschedule; do not create a substitute inventory or decision. |
-| Registry is incomplete, stale, or cannot be normalized without inference | Record an input-quality finding. Return the record to the customer source owner; do not match by name or alter fields in the workshop. |
-| A reconciliation finding needs a registry, identity, lifecycle, or access change | Create a customer-owned backlog item. The change proceeds only through the customer's supported process with its own approval, rollback, and verification. |
-| The report produces no expected finding or a capability is unsupported | Record the checked scope and interpretation. Decide to observe, refine the bounded question, use a customer control, or defer—never label absence as a pass by itself. |
+| No accountable owner, decision owner, or evidence reference | Stop the affected step; record the gap, owner, target date, and reschedule. Do not manufacture evidence or acceptance. |
+| Catalog field is incomplete or cannot be normalized explicitly | Record an input-quality finding and return it to its accountable steward. Do not match by name or rewrite fields during the session. |
+| A lifecycle transition, suspension, retirement, remediation, or material change is needed | Create an owned backlog item and use the customer's separate approved change, rollback, and verification process. Do not make the change in S9. |
+| Expected evidence is absent or coverage is unsupported | Record the bounded scope and interpretation; observe, refine the question, use another customer control, or defer. Never treat absence as a pass. |
 
 ## 5. Verification & evidence capture
 
-- [ ] Registry, S1 inventory, reconciliation report, baseline scorecard, exit
-  scorecard, and maturity-lift output have customer records-system references.
-- [ ] The report documents matches by Entra object ID only and preserves all
-  unmatched records as findings.
-- [ ] Every residual finding has a decision, owner, due date, validation
-  reference, recurrence check, and status.
-- [ ] The governance lead has recorded a closeout decision, approver, and next
-  governance review.
+- [ ] Every in-scope agent and tool has an accountable owner, technical
+  steward, lifecycle state, and approved-record reference.
+- [ ] Every material change and lifecycle transition in scope has a review or
+  decision reference; suspended, retired, and decommissioned entries have
+  closure accountability.
+- [ ] Reconciliation preserves unmatched and invalid records as findings.
+- [ ] Every residual finding has an owner, due date, validation reference,
+  recurrence check, exception or escalation route, and status.
+- [ ] The governance lead has recorded the closeout decision and next review.
 
 ## 6. Change boundary
 
-S6 makes no registry or tenant changes. Any customer registry update follows
-the customer's supported product procedure and separate approved change,
-rollback, and verification process.
+S9 makes no live-data query and no catalog, lifecycle, identity, policy,
+access, or production change. Any change follows the customer's separate
+approved implementation, rollback, and verification process.
 
 ## 7. Facilitator notes
 
-- Follow the 90-minute [co-delivery facilitation method](../delivery/facilitation-pattern.md):
-  customer actions and customer evidence remain customer-owned; the
-  facilitator keeps time, boundaries, interpretation, and decision wording
-  explicit.
-- **RACI:** Governance lead = decision owner; customer activity owner = R for
-  normalization and reconciliation; evidence owner = R for approved references;
-  identity admin, Security/SOC, and AI developer/maker = specialist reviewers.
-- **Close the loop:** the comparison and owned backlog support a closeout and
-  operating-cadence decision; they do not certify a product control.
+- Keep the session within 90 minutes. Customer actions, evidence, and risk
+  acceptance remain customer-owned.
+- **RACI:** Governance lead = decision owner; catalog steward = responsible for
+  record interpretation; evidence owner = responsible for approved references;
+  service, identity, risk, and finance specialists = consulted as relevant.
+- Closeout confirms accountability and cadence; it does not certify that a
+  control is deployed or operating.

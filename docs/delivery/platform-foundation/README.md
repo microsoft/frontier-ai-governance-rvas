@@ -19,7 +19,7 @@ receives agreed evidence.
    This repository does not provide deployment wrappers, IaC, or configuration
    instructions for the accelerator.
 5. Use [non-production gateway acceptance](non-production-gateway-acceptance.md)
-   before treating the gateway as available to S1, S2, S3, S4, or S6.
+   before treating the platform path as available to S1-S6.
 6. Capture the customer-operated proof in the [gateway evidence manifest](gateway-evidence-manifest.md)
    and hand it to the governance lead.
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Auto-scorer for the RVAS AI governance maturity assessment.
+"""Auto-scorer for the S0-S12 AI maturity assessment.
 
 Reads a scorecard CSV (see scorecard.csv) where each row has a 1-4 ``score``
 and a ``weight``. Prints per-domain weighted maturity, overall maturity, and a
@@ -21,15 +21,21 @@ from pathlib import Path
 
 MIN_SCORE, MAX_SCORE = 1, 4
 
-# Domain -> the session that closes its gaps.
+# Domain -> canonical session that addresses its gaps.
 DOMAIN_TO_SESSION = {
-    "D0": "S0 Foundations & Operating Model",
-    "D1": "S1 Identity & Access",
-    "D2": "S2 Data & Compliance",
-    "D3": "S3 Security Posture & Runtime",
-    "D4": "S4 Quality & Safety Evaluation",
-    "D5": "S5 Adversarial Testing",
-    "D6": "S6 Control Plane & Operationalization",
+    "D0": "S0 Operating model",
+    "D1": "S1 Identity / authority",
+    "D2": "S2 Data",
+    "D3": "S3 Platform / trust boundaries",
+    "D4": "S4 Engineering / admission",
+    "D5": "S5 Tool / API / MCP",
+    "D6": "S6 Runtime security",
+    "D7": "S7 Evaluation / release",
+    "D8": "S8 Adversarial testing",
+    "D9": "S9 Control plane / lifecycle",
+    "D10": "S10 In-process governance",
+    "D11": "S11 Operate / monitor / FinOps",
+    "D12": "S12 Portfolio governance",
 }
 
 
@@ -89,7 +95,7 @@ def main(argv: list[str]) -> int:
         raise SystemExit(f"scorecard not found: {path}")
     domains = load(path)
 
-    print(f"\nRVAS AI Governance Maturity — {path.name}\n" + "=" * 52)
+    print(f"\nS0-S12 AI Maturity Assessment — {path.name}\n" + "=" * 52)
     scored = [d for d in domains.values() if d.maturity is not None]
     for dom in domains.values():
         if dom.maturity is None:

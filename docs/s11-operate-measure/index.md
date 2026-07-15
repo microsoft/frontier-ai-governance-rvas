@@ -1,105 +1,106 @@
-# S8 · Operate & Measure
+# S11 · Operate, Monitor & FinOps
 
 !!! info "Freshness"
     Last reviewed: 2026-07-15
 
-<span class="rvas-badge rvas-persona">Governance lead</span> <span class="rvas-badge rvas-persona">Platform owner</span> <span class="rvas-badge rvas-persona">Service owner</span>
+<span class="rvas-badge rvas-persona">Governance lead</span> <span class="rvas-badge rvas-persona">Service owner</span> <span class="rvas-badge rvas-persona">Cost owner</span>
 
 ## 1. Outcome & durable artifact
 
-This optional extension follows S6. The customer leaves with a decision-ready,
-customer-owned operating-review definition that identifies:
+This operating session follows S9 closeout or an explicit S9 deferral. The
+customer leaves with a decision-ready, customer-owned operating-review
+definition that identifies:
 
-- the review scope, accountable owners, cadence, and evidence location;
-- the questions to review across control coverage, reliability, safety and
-  risk, quality, cost, adoption, human review, business outcomes, and
-  remediation; and
-- the escalation, exception, validation, and next-review path for a finding.
+- the bounded population, cadence, evidence coverage, accountable owners, and
+  decision use;
+- selected questions for reliability, risk, quality, cost ownership, adoption,
+  business outcome, and control coverage; and
+- drift hypotheses, escalation, remediation validation, recurrence, and
+  exception paths.
 
-Durable artifact: `labs/s8-operate-measure/` - blank, offline templates and a
-runbook. The kit does not collect telemetry, create a dashboard, calculate a
-metric, set a threshold, or prove that a control is operating.
+Durable artifact: `labs/s11-operate-measure/` contains blank offline
+templates and a runbook. It does not connect to live data, create a dashboard,
+calculate metrics, set thresholds, store customer data, or implement a change.
 
 ## 2. Prerequisites
 
-- S6 closeout or a documented S6 deferral, including the current residual-gap
-  backlog.
-- A governance lead who can assign the operating-review decision and cadence.
-- A platform or service owner who can describe the available evidence sources
-  and their coverage limits.
-- A customer-approved records-system location for references and decisions.
+- S9 closeout or a documented S9 deferral, including current open findings.
+- A governance lead able to assign the review decision and cadence.
+- Service, evidence, and cost owners who can describe available records and
+  coverage limitations for in-scope questions.
+- An approved records location for references and decisions.
 
 ## 3. Why this session
 
-An inventory and a closeout backlog become operational only when the customer
-can revisit them with clear questions, evidence limits, owners, and decisions.
-S8 establishes that review method without claiming that a dashboard, trace, or
-metric establishes a control by itself.
+Operating governance needs more than observations. It needs a repeatable route
+from evidence coverage through interpretation, decision, escalation,
+remediation validation, recurrence review, and exception accountability. S11
+defines that route without claiming a metric, dashboard, or trace proves a
+control operates.
 
-Read the [S8 Concepts](concepts.md) before delivery.
+Read the [S11 Concepts](concepts.md) before delivery.
 
 ## 4. Co-delivery walkthrough
 
 !!! warning "Reference-only operating review"
-    Do not copy telemetry, identifiers, prompts, responses, costs, or customer
-    business data into the kit. A proposed metric, empty template, or
-    illustrative threshold is not customer evidence.
+    This 90-minute session is evidence-first and customer-owned. Do not query
+    live data, copy telemetry, identifiers, prompts, responses, costs, or
+    business data into the kit. Do not make a monitoring, remediation,
+    exception, policy, identity, or production change.
 
-**Timebox:** 90 minutes. **Facilitator:** preserves the evidence and
-decision boundary. **Governance lead:** owns the review decision. **Platform or
-service owner:** explains evidence coverage and limitation. **Evidence owner:**
-references approved records. Include security, assurance, finance, privacy, or
-business specialists only where their question is in scope.
+**Facilitator:** preserves the evidence and decision boundary. **Governance
+lead:** owns the review decision. **Service owner:** interprets reliability,
+risk, quality, and adoption questions. **Cost owner:** interprets cost
+ownership and allocation limits. **Evidence owner:** references approved
+records. Include specialists only where their question is in scope.
 
 | Activity | Time | Customer operation | Facilitator prompts and interpretation |
 |---|---:|---|---|
-| Set the operating question | 15 min | Select one bounded agent population, review period, and decision to support. | “What decision can this review make?” “What must remain a separate customer process?” |
-| Map evidence coverage | 15 min | Identify the approved records or telemetry references available for each selected question and record known exclusions. | “Which population, time period, and event types does this source actually cover?” Missing coverage is a finding, not zero risk. |
-| Define review questions | 25 min | Use the blank review template to select relevant questions: coverage, reliability, safety/risk, quality, cost, adoption, human review, business outcome, and remediation. | “Who owns interpretation?” “What action can follow?” Do not turn a generic category into a required metric. |
-| Define escalation and closure | 20 min | Record owners, review cadence, exception route, validation reference, recurrence check, and next review for each open finding. | “Who accepts the risk?” “What proves the remediation was reviewed?” A closed ticket without validation is not closure. |
-| Decide and hand over | 15 min | Approve, defer, or reject the operating-review definition and record the next review date. | “Is the scope explicit?” “What is still unknown?” A decision to adopt a review method does not approve enforcement or a production change. |
+| Set the operating question | 10 min | Select one bounded population, review period, decision, owners, and records location. | “What decision can this review support?” “What is explicitly out of scope?” Stop if the question has no owner or authoritative evidence. |
+| Map evidence coverage | 15 min | Record evidence references, population and time coverage, exclusions, latency, and attribution limits for each selected question. | “What can this record not support?” Missing coverage is a finding, not zero risk or cost. |
+| Define balanced review questions | 20 min | Select only relevant coverage, reliability, risk, quality, cost ownership, adoption, human-review, and business-outcome questions. | “Who interprets this?” “What decision follows?” Do not turn a category into a mandatory metric or target. |
+| Form drift hypotheses and routes | 15 min | Record observable drift hypotheses, alternative explanations, evidence limits, test or observation plan, owner, and escalation trigger. | “What would challenge this hypothesis?” “When does it need escalation?” A hypothesis is not a confirmed cause. |
+| Define remediation and exceptions | 15 min | Record finding ownership, target date, validation and recurrence approach, exception expiry, escalation route, and next review. | “What validates the remedy?” “Who accepts an exception?” Completion without validation is not closure. |
+| Decide and hand over | 15 min | Approve, defer, or reject the review definition and record limitations and next review. | “Is the coverage explicit?” “What remains unresolved?” Adopting a review method does not authorize enforcement or change. |
 
 ### Minimum safe event-to-decision reference
 
-When a customer uses runtime evidence to inform a review, retain only
-customer-controlled references to the categories needed for interpretation:
-
-- the agent or workload scope and initiating context;
-- a run or request correlation reference;
-- applicable tool and model/version references;
-- the relevant policy or control decision;
-- the observed outcome category; and
-- the reviewer and decision reference.
-
-These categories are a review aid, not a mandatory event schema. Do not retain
-raw payloads, personal data, credentials, or customer identifiers in this kit.
+When customer-held runtime evidence informs a review, retain only approved
+references to the bounded workload, review period, relevant version or control
+decision, outcome category, allocation context where applicable, and reviewer
+decision. These categories are a review aid, not a required event schema.
+Do not retain raw payloads, personal data, credentials, identifiers, or
+business data in this kit.
 
 ## 5. Verification & evidence capture
 
-- [ ] The customer has selected a bounded population, operating question,
-  evidence location, accountable owner, and next review date.
-- [ ] Every selected review question records a coverage statement and a
-  decision or escalation owner.
-- [ ] Open findings identify an owner, target date, validation reference,
-  recurrence check, and exception or escalation route where applicable.
-- [ ] The customer records the operating-review decision and its limitations
-  in the approved records system.
+- [ ] The customer has selected a bounded population, decision, evidence
+  location, accountable owners, review cadence, and next review.
+- [ ] Every selected reliability, risk, quality, cost, adoption, and
+  business-outcome question records coverage limitations and an interpretation
+  owner.
+- [ ] Every drift hypothesis records alternatives, evidence limitations, a
+  test or observation plan, owner, and escalation route.
+- [ ] Every finding records owner acceptance, target date, validation,
+  recurrence, exception or escalation route, closure reviewer, and status.
+- [ ] The operating-review decision and limitations are recorded in approved
+  customer records.
 
 ## 6. Change boundary
 
-S8 makes no platform, dashboard, metric, threshold, identity, policy, or
-production change. Any monitoring implementation, remediation, exception, or
-enforcement change follows the customer's approved engineering and change
-process.
+S11 makes no live-data query and no platform, dashboard, metric, threshold,
+identity, policy, remediation, exception, or production change. Any action
+follows the customer's approved engineering and change process.
 
 ## 7. Facilitator notes
 
-- **RACI:** Governance lead = decision owner; platform or service owner = R for
-  evidence-coverage interpretation; evidence owner = R for approved-record
-  references; specialist reviewers = C.
-- **Blocker path:** no authoritative evidence source, review owner, or
-  records-system location means the affected question is blocked. Record the
-  gap, owner, and date rather than creating a substitute measure.
-- **Hand-off:** the approved review definition and remediation references become
-  inputs to the customer's normal governance cadence; they do not amend S6
-  reconciliation or certify a control.
+- **RACI:** Governance lead = decision owner; service owner = responsible for
+  service interpretation; cost owner = responsible for cost ownership and
+  attribution interpretation; evidence owner = responsible for approved
+  references; specialists = consulted.
+- **Blocker path:** no authoritative evidence, accountable owner, or approved
+  records location means the affected question is blocked. Record the gap,
+  owner, and date rather than creating a substitute measure.
+- **Hand-off:** the review definition and remediation references enter the
+  customer governance cadence. They do not amend S9 catalog records or certify
+  a control.

@@ -1,71 +1,68 @@
 # About RVAS AI Governance
 
-RVAS AI Governance is an offering in the Real Value Acceleration Solution (RVAS). It is a co-delivered programme and practical curriculum for AI-agent governance. A facilitator works with the customer's administrators in the customer's environment. Together they establish ownership, review controls, capture evidence, and assign the work that remains.
+RVAS AI Governance is a co-delivered S0-S12 curriculum for AI-agent
+governance. The facilitator guides a bounded, evidence-first method; customer
+administrators perform customer actions and accountable customer owners make
+decisions.
 
-## Why AI-agent governance needs its own approach
+## Why AI-agent governance needs an enterprise journey
 
-An AI agent can retrieve enterprise information, call tools, take actions, and operate through a non-human or delegated identity. The customer therefore needs clear answers to practical questions:
+An agent can access enterprise information, call tools, act through delegated
+or non-human authority, and change rapidly. Governance therefore needs more
+than a one-time assessment. It must connect business ownership, platform trust
+boundaries, engineering standards, data protection, assurance evidence, and
+operating decisions.
 
-- Who owns this agent and approves its use?
-- What data, tools, and actions may it use?
-- Which controls have been tested, and where is the evidence?
-- Who investigates a failure or accepts the remaining risk?
+The curriculum asks practical questions:
 
-Identity, data protection, security operations, quality evaluation, and lifecycle management are often managed separately. The AI Governance programme brings the relevant people and evidence together around each agent use case.
+- Who owns the agent, its authority, and its lifecycle?
+- Which enterprise platform and trust boundaries must it use?
+- How is the agent admitted, changed, exposed through tools, and retired?
+- Which evidence supports security, quality, and remediation decisions?
+- How does the organisation improve governance across its portfolio?
 
-## What Citadel and RVAS AI Governance each do
+## Delivery shape
 
-Citadel is the recommended platform foundation for the integrated path. RVAS AI Governance is the programme that helps the customer govern the agents and controls around that foundation.
+The programme is one composable curriculum, not separate governance and
+implementation offerings. S0 establishes the scope and roadmap. Subsequent
+sessions are selected according to the customer's evidence, architecture,
+dependencies, and priorities.
 
-| Citadel's practical jobs | RVAS AI Governance's practical jobs |
-|---|---|
-| Route approved AI traffic through a managed path. | Establish sponsors, owners, and review decisions. |
-| Record exposed models, tools, and platform activity. | Connect control evidence to the relevant agent and owner. |
-| Apply shared runtime safeguards such as authentication, safety checks, and data masking. | Run the customer-facing identity, data, security, evaluation, and testing work. |
-| Provide telemetry and platform records for the platform team. | Turn findings into an agreed backlog and operating cadence. |
+| Phase | Goal | Sessions |
+|---|---|---|
+| Govern | Establish the accountable foundation. | S0-S2 |
+| Establish | Define the platform and engineering controls. | S3-S5 |
+| Assure | Review the runtime path and release resilience. | S6-S8 |
+| Operate | Steward records, operations, and portfolio improvement. | S9-S12 |
 
-The AI Governance programme does not deploy or duplicate Citadel's gateway, networking, telemetry plumbing, or platform pipelines. It uses the resulting platform records as evidence where they are available.
+## S0-S12 outcome map
 
-## The delivery shape
+| Session | Customer question | Decision and retained outcome |
+|---|---|---|
+| S0 · Foundations | Who owns governance, and where do we start? | Baseline, operating model, and prioritised roadmap. |
+| S1 · Identity | Which identity and authority boundary applies to each agent? | Ownership and authority review. |
+| S2 · Data | What data may the agent access, process, or expose? | Data posture findings and review actions. |
+| S3 · Platform | Which enterprise platform path and trust boundaries are required? | Platform-path decision and implementation backlog. |
+| S4 · Engineering | What must an agent satisfy before admission or material change? | Admission standard and change-review record. |
+| S5 · Tool/API governance | How are tools, APIs, and MCP services exposed and withdrawn safely? | Controlled publication and lifecycle model. |
+| S6 · Runtime assurance | Does the approved runtime path produce reviewable security evidence? | Runtime assurance decision and handoff. |
+| S7 · Evaluation | Is there sufficient quality and safety assurance to proceed? | Evaluation/release assurance decision. |
+| S8 · Adversarial testing | What happens under authorised misuse testing? | Findings, remediation, and residual-risk decision. |
+| S9 · Control plane | Do agent, identity, tool, and lifecycle records agree? | Reconciliation and stewardship backlog. |
+| S10 · In-process governance | Is an in-process tool-call policy boundary applicable? | Applicability and adoption decision. |
+| S11 · Operate | What do operational evidence and trends require next? | Operating review, FinOps, drift, and remediation cadence. |
+| S12 · Portfolio | Which portfolio-level decisions improve governance next? | Portfolio review and next maturity roadmap. |
 
-![The AI Governance programme starts with the customer's current agents, owners, evidence, priorities, and platform path. S0 establishes the baseline, S1-S5 produce governance evidence, and S6 reconciles the records into an owned backlog for the next review.](../assets/diagrams/journey.svg)
+## Evidence and change boundary
 
-## The seven-session outcome map
-
-Each session answers a customer question, brings the right people into the conversation, and leaves a usable record behind.
-
-| Session | Customer question | People in the room | Decision and retained outcome |
-|---|---|---|---|
-| S0 · Foundations | Who owns AI governance, and where do we start? | Sponsor, governance lead, facilitator | Operating model, baseline assessment, and prioritised roadmap. |
-| S1 · Identity | Which agents exist, and who sponsors them? | Identity admin, governance lead | Agent inventory, sponsor record, and report-only access posture. |
-| S2 · Data | What enterprise data may agents access or expose? | Compliance/data admin, security lead | Data posture findings, DLP evidence, and review actions. |
-| S3 · Security | How are unsafe requests and security signals handled? | Security/SOC, platform owner | Security posture evidence, safety-control review, and response ownership. |
-| S4 · Evaluation | How do we review a change before it is released? | AI developer/maker, product owner | Evaluation dataset, scorecard, and release-review gate. |
-| S5 · Adversarial testing | What happens under authorised misuse testing? | Security/SOC, AI developer | Test scope, findings, scorecard, and remediation owner. |
-| S6 · Control plane | Do the agent, identity, and platform records agree? | Governance lead, platform and identity owners | Reconciliation findings, reassessment, and remaining-gap backlog. |
-
-The sessions align with the governance intent of NIST AI RMF, ISO/IEC 42001, and the EU AI Act. They are not a legal conformity assessment.
-
-## Optional S7 · In-Process Agent Governance
-
-Teams considering the [Agent Governance Toolkit (AGT)](https://github.com/microsoft/agent-governance-toolkit)
-can add S7 after the core curriculum. It illustrates application-process
-tool-call policy decisions and hash-chain consistency using an offline
-simulator. S7 does not deploy AGT, modify customer agent code, or replace
-Citadel's gateway, identity, data, runtime-security, evaluation, or
-control-plane responsibilities.
-
-## Optional S8 · Operate & Measure
-
-Teams that have completed S6 can add S8 to establish a customer-owned
-operating-review cadence. It uses bounded questions about coverage,
-reliability, safety, quality, cost, adoption, human review, business outcomes,
-and remediation to connect approved evidence references with ownership and
-follow-up decisions. S8 does not collect telemetry, build dashboards, set
-thresholds, or make a customer change.
+The curriculum creates customer-owned decisions and safe references. It does
+not deploy a platform, operate customer controls, retain customer evidence
+payloads, or approve production changes. A template, sample, offline result,
+or reference architecture is preparation material—not evidence that a customer
+control is operating.
 
 ## Continue with delivery planning
 
-Read [Plan the engagement](plan-engagement.md) for delivery roles, platform-readiness choices, the S0 baseline, safety rules, and the session sequence.
-
-For implementation details, use the [Platform technical guide](../reference/platform-technical-guide.md). For the Microsoft products and capabilities used in each session, use the [Governance capability guide](../reference/governance-capability-guide.md).
+Read [Plan the engagement](plan-engagement.md) for roles, sequencing,
+dependencies, and safety rules. Use the [Readiness Assessment](../assessment/index.md)
+to establish the S0 baseline.

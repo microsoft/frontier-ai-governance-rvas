@@ -30,7 +30,7 @@ their result for the selected environment:
   connection/access contracts;
 - application client identity, gateway authentication method, and non-production
   test caller;
-- Content Safety/runtime-policy availability and policy owner where S3 runtime
+- Content Safety/runtime-policy availability and policy owner where S6 runtime
   evidence is required;
 - Log Analytics/Application Insights/SIEM destination, retention, access, and
   correlation approach;
@@ -45,6 +45,6 @@ not substitute an unapproved direct backend call for a gateway acceptance test.
 | Milestone | Governance use |
 |---|---|
 | Platform path and owners recorded | S0 can establish the ownership and readiness backlog. |
-| Non-production gateway acceptance passed | S1 authentication evidence, S2 gateway data-protection evidence, and S3 gateway runtime evidence may start. |
-| Gateway telemetry and contracts handed over | S4/S5 may correlate evaluation or test results; S6 may reconcile exposure records. |
-| Deferred items owned | S6 records the remaining platform gaps; it does not deploy the platform. |
+| Non-production gateway acceptance passed | S1 authentication evidence, S2 gateway data-protection evidence, and S6 gateway runtime evidence may start. |
+| Gateway telemetry and contracts handed over | S7/S8 may correlate evaluation or test results; S9 may reconcile exposure records. |
+| Deferred items owned | S9 records the remaining platform gaps; it does not deploy the platform. |

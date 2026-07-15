@@ -46,7 +46,7 @@ for (const entry of fs.readdirSync(labsRoot, { withFileTypes: true })) {
     }
   }
 
-  if (!/^s[0-8]$/.test(sessionId)) {
+  if (!/^s(?:[0-9]|1[0-2])$/.test(sessionId)) {
     failures.push(`Unexpected session directory: ${path.relative(root, labPath)}`);
   }
 }

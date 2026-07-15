@@ -20,6 +20,12 @@
     const sessionIndex = sessions.findIndex((s) => s.slug === slug);
     if (sessionIndex === -1) return fail('Unknown session: ' + slug);
     const session = sessions[sessionIndex];
+    const kiosk = FP.kioskParams();
+    const navigationSessions = kiosk
+      ? sessions.filter((candidate) => kiosk.ids.includes(candidate.slug))
+      : sessions;
+    const navigationIndex = navigationSessions.findIndex((candidate) => candidate.slug === slug);
+    if (navigationIndex === -1) return fail('This session is not part of the selected set.');
     const chapters = session.chapters || [];
     const requested = FP.qp('chapter') || DEFAULT_CHAPTER;
     const chapterIndex = chapters.findIndex((chapter) => chapter.slug === requested);
@@ -38,7 +44,8 @@
     renderFacts(session);
     renderChapterNav(session, chapters, chapter.slug);
     renderKit(session);
-    renderSessionNav(sessions, sessionIndex, chapters, chapterIndex);
+    renderSetReturn(kiosk);
+    renderSessionNav(navigationSessions, navigationIndex, chapters, chapterIndex);
     await renderChapter(session, chapter);
   }
 
@@ -55,7 +62,8 @@
       row('Durable outcome', session.outcome),
       row('Primary persona', session.persona),
       row('NIST AI RMF function', session.nist),
-      row('Session', session.optional ? 'Optional extension after S6' : `${session.code} of core S0-S6`),
+      row('Curriculum phase', session.phase || 'Curriculum'),
+      row('Applicability', session.optional ? 'Run when an in-process tool-call boundary is relevant' : 'Selected by scope and prerequisites'),
     ].join('');
   }
 
@@ -74,6 +82,14 @@
     const path = `labs/${session.slug}/`;
     document.getElementById('kitPath').textContent = path;
     document.getElementById('kitLink').href = `${REPO}/tree/main/${path}`;
+  }
+
+  function renderSetReturn(kiosk) {
+    if (!kiosk) return;
+    const link = document.getElementById('allSessionsLink');
+    if (!link) return;
+    link.href = FP.setUrl(kiosk.ids, kiosk.name);
+    link.textContent = '← Back to session set';
   }
 
   function renderSessionNav(sessions, sessionIndex, chapters, chapterIndex) {

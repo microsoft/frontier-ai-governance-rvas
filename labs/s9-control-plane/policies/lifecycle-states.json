@@ -1,10 +1,34 @@
 {
   "states": [
-    {"name": "proposed", "description": "Intake recorded; not approved for production."},
-    {"name": "active", "description": "Approved, owned, monitored, and in service."},
-    {"name": "exception", "description": "Known gap accepted temporarily with an owner and expiry."},
-    {"name": "suspended", "description": "Temporarily disabled or removed from service pending review."},
-    {"name": "retired", "description": "No longer used; retained for audit history."},
-    {"name": "decommissioned", "description": "Removed and access revoked."}
+    {
+      "name": "proposed",
+      "description": "Recorded for review; not approved for operational use.",
+      "permittedTransitions": ["active", "retired"]
+    },
+    {
+      "name": "active",
+      "description": "Approved, owned, and subject to the stated review cadence.",
+      "permittedTransitions": ["exception", "suspended", "retired"]
+    },
+    {
+      "name": "exception",
+      "description": "A temporary, owned variance with an expiry and review path.",
+      "permittedTransitions": ["active", "suspended", "retired"]
+    },
+    {
+      "name": "suspended",
+      "description": "Use is paused while an accountable review occurs.",
+      "permittedTransitions": ["active", "retired", "decommissioned"]
+    },
+    {
+      "name": "retired",
+      "description": "No longer intended for use; retained for accountability.",
+      "permittedTransitions": ["decommissioned"]
+    },
+    {
+      "name": "decommissioned",
+      "description": "Closure actions have been reviewed and the record is retained.",
+      "permittedTransitions": []
+    }
   ]
 }

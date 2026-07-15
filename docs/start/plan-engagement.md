@@ -1,66 +1,77 @@
 # Plan the engagement
 
-Use this guide to prepare and deliver the AI Governance engagement. The work is co-delivered: the facilitator frames the outcome and guides the process, while the customer's administrators perform privileged steps and approve changes in their own environment.
+Use this guide to prepare and deliver the S0-S12 AI Governance curriculum. The
+facilitator guides the method; customer administrators perform privileged
+activities, and customer decision owners approve changes and accept risk.
 
 ## Bring the right people
 
 | Role | Main contribution |
 |---|---|
-| Executive sponsor | Sets direction, removes blockers, and accepts prioritisation decisions. |
+| Executive sponsor | Sets direction, resolves blockers, and accepts portfolio priorities. |
 | Governance lead | Owns the operating model, evidence record, and improvement backlog. |
-| Platform owner | Confirms the Citadel or equivalent platform path and provides platform records. |
-| Identity, data, and security administrators | Perform tenant configuration and review the resulting evidence. |
-| AI developer or maker | Supplies representative agent behavior, test cases, and release context. |
+| Platform owner | Owns the platform path, trust-boundary decisions, and platform evidence. |
+| Identity, data, and security administrators | Review and operate the relevant customer controls. |
+| AI developer or maker | Explains agent implementation, testing, changes, and tool boundaries. |
+| Evidence owner | Maintains references, retention treatment, and decision traceability. |
 
-The same person may hold more than one role. Name the responsible people before S0, even when they cannot all attend every session.
+## Establish the initial scope
 
-## Decide the platform path
-
-Citadel is recommended for the full integrated path. Establish which of these states applies before dependent runtime validation:
-
-| Current state | Delivery approach |
-|---|---|
-| Existing Citadel or equivalent platform | Record the platform owner, gateway or registry evidence, safety configuration, and telemetry location. |
-| Citadel ready to deploy | Run the [Citadel installation work package](../delivery/platform-foundation/installation-work-package.md) as a platform-team workstream. Keep it separate from the live governance sessions. |
-| Platform readiness still needed | Schedule the platform work. Begin S0 ownership and baseline work; wait to run gateway-dependent validation until the platform path is available. |
-
-Use the [Platform technical guide](../reference/platform-technical-guide.md) with the platform team when architecture or deployment detail is needed.
+Before S0, record the bounded agent population or use-case question, customer
+records location, decision owner, known architecture constraints, and safe stop
+condition. The customer may begin with an existing platform path or identify
+platform readiness as a backlog item; neither case justifies inferring that a
+platform control is deployed.
 
 ## Start with S0
 
-The readiness assessment is performed during S0, not as a pre-engagement gate. Run the read-only tenant readiness report first and convert unavailable prerequisites into owned backlog items. The room then reviews the seven governance domains, records evidence for each score, and agrees the session order with the customer.
+S0 establishes the baseline and roadmap. The assessment is performed with the
+customer, not used as a pre-engagement pass/fail gate. Missing roles, records,
+licenses, platform evidence, or safe targets become owned readiness items.
 
-The detailed [Readiness Assessment](../assessment/index.md) explains the scoring scale and links to the fillable scorecard. S6 repeats the instrument to document the current state and remaining gaps. If the customer is considering AGT, schedule optional S7 after S6 as an offline adoption-decision workshop; do not treat it as a platform or production-deployment prerequisite.
+The assessment can select any S1-S12 session. Preserve hard dependencies:
+
+- S3 informs the platform assumptions used by S4-S8.
+- S4 admission standards inform S5 publication and later change decisions.
+- S5 authority/exposure decisions inform S6-S10 assurance.
+- S6-S8 require a customer-approved non-production target when live activity
+  is proposed.
+- S9 reconciles the evidence from selected earlier sessions.
+- S10 runs only when an in-process tool-call boundary is meaningful.
+- S11 and S12 use customer-held evidence and decisions; they do not require a
+  platform implementation to start.
 
 ## Deliver safely
 
-Every session starts from the least disruptive posture that can produce useful evidence:
+Every session starts from the least disruptive posture that can produce useful
+evidence:
 
-- Conditional Access starts report-only.
-- DLP starts in test or notify mode.
-- Evaluations and adversarial testing use a non-production or explicitly authorised target.
-- Promotion to enforcement is a separate customer decision after impact review.
+- access controls start report-only;
+- data controls start in simulation, test, or notify mode;
+- platform and engineering sessions record decisions rather than deploy;
+- runtime assurance, evaluation, and adversarial testing use an approved
+  non-production or explicitly authorised target; and
+- production promotion remains a separate customer change decision.
 
-Before a privileged change, confirm a break-glass account, change window, named approver, and rollback. Notify the SOC before adversarial testing. Store exports, logs, policy definitions, and scorecards with the customer's governance record.
+Before a privileged change, confirm the customer approver, change window,
+rollback, and evidence-retention route. Notify security operations before
+adversarial testing.
 
-## Follow the session sequence
+## Evidence flow
 
-S0 establishes ownership and the baseline. S1 through S5 address the priority domains: identity, data, security, evaluation, and adversarial testing. S6 reconciles records across the platform and governance work, then records the remaining backlog.
-
-The assessment may change the order after S0. Keep the dependencies visible: a session that relies on a missing role, license, platform record, or safe test target becomes an owned readiness item rather than an improvised workshop activity. S7 is optional and should not delay the S0–S6 core sequence.
-
-## Evidence flow between sessions
-
-| From | Evidence | Used in |
+| From | Evidence or decision | Used in |
 |---|---|---|
-| S0 | Baseline scorecard | S6 maturity comparison |
-| S1 | Agent inventory | S6 registry reconciliation |
-| S2 | Compliance findings | S3 posture context and S6 backlog |
-| S3 | Defender recommendations | S5 scope and S6 backlog |
-| S4 | Evaluation results | S5 scope and S6 exit assessment |
-| S5 | ASR scorecard | S6 backlog and exit assessment |
-| Optional S7 | Illustrative policy-decision and audit-integrity record | S6 follow-up backlog / AGT adoption decision |
+| S0 | Baseline, operating model, and roadmap | All selected sessions; S12 roadmap refresh |
+| S1-S2 | Authority and data findings | S3-S8 design and assurance context |
+| S3-S5 | Platform, admission, and publication decisions | S6-S10 runtime and change context |
+| S6-S8 | Runtime, evaluation, and adversarial findings | S9 reconciliation and S11 operating review |
+| S9 | Reconciliation, lifecycle, and closure backlog | S10-S12 |
+| S10 | Applicability/adoption decision | S11 operating backlog |
+| S11 | Operating evidence, drift, cost, and remediation decisions | S12 portfolio review |
+| S12 | Portfolio decision and next roadmap | Next S0 cycle |
 
 ## Start the curriculum
 
-Begin with [S0 · Foundations & Operating Model](../s0-foundations/index.md). Before each S1–S6 working session, set the room and pilot using [Facilitate a co-delivery working session](../delivery/facilitation-pattern.md). Each session page contains the prerequisites, co-delivery walkthrough, evidence capture, rollback, and facilitator notes.
+Begin with [S0 · Foundations & Governance Operating Model](../s0-foundations/index.md).
+Use [How to Deliver](../how-to-deliver.md) and the individual session guides
+to plan the selected sequence.

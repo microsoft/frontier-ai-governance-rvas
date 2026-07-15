@@ -1,96 +1,105 @@
 # How to Deliver
 
-This is the facilitator playbook for the RVAS AI Governance programme. Use it with [Plan the engagement](start/plan-engagement.md), the session guides, and the customer's change process.
+This is the facilitator playbook for the S0-S12 AI Governance curriculum. Use
+it with [Plan the engagement](start/plan-engagement.md), the session guides,
+and the customer's change process.
 
-The programme is co-delivered. The facilitator sets the pace, records decisions, and keeps the work safe. Customer administrators perform privileged actions and approve tenant changes. The programme produces governance evidence and production-readiness packages; it does not promote controls into production.
+The programme is co-delivered. The facilitator maintains the scope, evidence
+boundary, and decision language. Customer administrators perform privileged
+actions; accountable customer owners approve changes and accept risk.
 
 ## Delivery outcome
 
 At close, the customer should have:
 
-- a signed S0 baseline, operating model, and ordered delivery backlog;
-- evidence and a recorded control state for each in-scope session;
-- a decision and owner for every unresolved prerequisite, exception, and remediation item; and
-- an S6 comparison package that shows maturity change and the residual backlog.
+- an S0 baseline, operating model, and selected session roadmap;
+- customer-owned evidence and a control state for each in-scope session;
+- an owner and decision for each prerequisite, exception, and remediation item;
+- an S9 reconciliation and lifecycle-stewardship record;
+- an S11 operating-review cadence; and
+- an S12 portfolio decision and next maturity roadmap.
 
-A template, sample output, or offline mock result is useful preparation. It is not evidence that a customer control is deployed or operating. Record that distinction in the evidence and decision register.
+A template, sample, or offline tool output is preparation material. It is not
+evidence that a customer control is deployed or operating.
 
 ## Before the first session
 
-Name the executive sponsor, governance lead, platform owner, identity administrator, compliance/data administrator, Security Operations Center (SOC) contact, and AI developer or maker lead. Confirm the customer governance repository or evidence location, the change process, and the escalation route.
+Name the executive sponsor, governance lead, platform owner, identity
+administrator, compliance/data administrator, security operations contact, AI
+developer or maker lead, and evidence owner. Confirm the customer records
+location, change process, escalation route, and initial platform path.
 
-The facilitator should open the engagement register before S0. Add the platform path, planned session order, prerequisites, decision owners, and target dates. Run the S0 readiness report first. Missing licensing, roles, platform records, or safe test targets become owned backlog items; they are not workshop workarounds.
+Run S0 first. Missing roles, licenses, records, architecture decisions, or
+safe test targets become owned backlog items. They are not workshop
+workarounds.
 
-Use [the engagement cadence](delivery/engagement-cadence.md) to plan the working sessions and customer follow-through. Use [the gate model](delivery/gate-model.md) at every decision point. Keep the [evidence and decision register](delivery/evidence-decision-register.md) with the customer record.
+## Curriculum sequencing
 
-For the in-room sequence, use [Facilitate a co-delivery working session](delivery/facilitation-pattern.md). It timeboxes the pilot, customer-led action and review, interpretation, decision, and handoff without prescribing tenant actions.
+The curriculum is composable, but its dependencies are visible.
 
-## The two-track cadence
-
-Plan for six to eight weeks. The tracks run together, but they have different owners.
-
-| Track | Owner | Work |
+| Phase | Session sequence | Delivery purpose |
 |---|---|---|
-| Governance delivery | Facilitator and governance lead | S0 through S6, evidence review, risk and ownership decisions, and the residual backlog. |
-| Customer change and observation | Customer administrators, platform team, and change approvers | Platform readiness, tenant changes, report-only or simulation observation, remediation, and production-readiness packages. |
+| Govern | S0-S2 | Baseline the operating model, authority, and data posture. |
+| Establish | S3-S5 | Define the platform path, agent admission, and tool/API exposure controls. |
+| Assure | S6-S8 | Review runtime security, evaluation/release evidence, and authorised adversarial testing. |
+| Operate | S9-S12 | Reconcile the control plane, assess in-process governance where applicable, operate with evidence, and make portfolio decisions. |
 
-Do not compress an observation period into a workshop. S1 Conditional Access report-only results and S2 DLP simulation results need customer review after the relevant policy is applied. S4 needs representative cases before a CI gate can become blocking. Customer change timing may extend the second track without stopping the governance work.
+The S0 roadmap may change the sequence inside a phase, but it cannot waive a
+hard dependency. S10 runs only where an in-process tool-call boundary is
+meaningful. S12 closes the current cycle and informs the next S0 baseline.
 
-## Session choreography
+## Suggested cadence
 
-1. Start with S0. Agree the use cases, owners, platform path, baseline, and sequence.
-2. Schedule S1 and S2 when the relevant administrators, licenses, and change approvers are available. Start report-only or simulation observation on the customer track when the customer elects to apply a reviewed definition.
-3. Run S3 when a safe runtime test target and SOC intake path are available. Platform-dependent Prompt Shield validation waits for the platform path.
-4. Run S4 with an AI developer or maker, a non-production target, representative safe test cases, and an agreed threshold owner.
-5. Run S5 only after the adversarial-test authorization, SOC notification, rules of engagement, thresholds, and non-production hard exit gate have passed.
-6. Run S6 after the evidence review. Reconcile the registry and S1 inventory, compare the S0 and S6 scorecards, and assign the residual backlog.
-7. Run optional S7 and/or S8 only after S6. S7 is an offline
-   adoption-decision workshop; S8 defines a customer-owned operating-review
-   cadence. Neither changes the core delivery path.
+Plan for eight to twelve weeks, depending on architecture readiness,
+observation periods, and customer change lead times.
 
-The S0 roadmap can change the order of S1 through S5. It cannot waive hard dependencies. Record any changed order and its reason in the engagement register.
+1. **Mobilise and govern:** run S0-S2; establish the evidence register and
+   decision owners.
+2. **Establish the enterprise path:** run S3-S5; route platform, engineering,
+   and publication gaps to the customer's approved implementation process.
+3. **Assure safely:** run S6-S8 only when the customer provides the required
+   non-production target, reviewers, and authorisation.
+4. **Operate and improve:** run S9-S12; reconcile evidence, define the
+   operating cadence, and agree portfolio-level priorities.
+
+Customer implementation and observation run in parallel with governance
+delivery. Do not compress an observation period into a workshop.
 
 ## Non-production hard exit gate
 
-Do not run a live Prompt Shield test, live evaluation, or adversarial test until all of the following are recorded:
+Do not run a live runtime assurance request, live evaluation, or adversarial
+test until all of the following are recorded:
 
-- the named endpoint or callable target is customer-owned and non-production;
-- the endpoint owner confirms that it can be stopped, reset, or isolated;
+- the target is customer-owned and non-production;
+- the endpoint owner can stop, reset, or isolate the target;
 - the written scope, test window, and rollback contact are present;
 - the target contains no production users or unapproved customer data; and
-- for S5, the written authorization, rules of engagement, and SOC notification are confirmed.
+- for S8, written authorisation, rules of engagement, and security-operations
+  notification are confirmed.
 
-If any item is missing, stop test execution. Capture the blocker and owner in the register. The facilitator may continue with documentation, offline mock work, or another unblocked session, but must not substitute a production endpoint.
+If any item is absent, stop the dependent action. Continue only with
+documentation, offline work, or another unblocked session.
 
-## Control states and customer outcomes
+## Control states
 
-Use the same state vocabulary across all sessions:
+Use the same vocabulary throughout the curriculum:
 
 | State | Meaning |
 |---|---|
-| Reference only | A template, example policy, sample dataset, or mock result has been reviewed. No customer control is claimed. |
-| Designed | The customer has made a tenant-specific definition and identified an owner and change path. |
-| Deployed, observe | The customer applied the control in report-only, simulation, alerts-only, or non-production mode. Evidence collection is under way. |
+| Reference only | A reusable starting point was reviewed; no customer control is claimed. |
+| Designed | The customer has defined a control and its owner/change path. |
+| Deployed, observe | The customer applied a report-only, simulation, alerts-only, or non-production control and is collecting evidence. |
 | Observed | The agreed observation period ended and the customer reviewed impact, findings, and rollback readiness. |
-| Production-ready | The customer has a complete production-readiness package for its own approval process. The programme does not enable enforcement. |
-| Exception or blocked | A dependency, risk acceptance, or capability gap prevents progression. It has an owner and review date. |
+| Production-ready | The customer has a complete approval package; the curriculum does not enable enforcement. |
+| Exception or blocked | A dependency, risk acceptance, or capability gap prevents progression and has an owner and review date. |
 
-Only mark a maturity score higher when the customer can show the relevant control is in place and operating. A reference-only artifact does not justify a higher score.
+Only raise maturity when customer evidence shows the relevant control is in
+place and operating. A reference-only artifact never justifies a maturity
+increase.
 
-## Production-readiness package
+## Close the cycle
 
-Prepare a production-readiness package only when the customer asks to take a reviewed control beyond its safe initial posture. The package should include:
-
-- the tenant-specific definition and the intended scope;
-- evidence from the report-only, simulation, alerts-only, or non-production period;
-- impact review, known false positives, and accepted residual risks;
-- approver, implementation owner, change window, rollback steps, and communications plan; and
-- the post-change validation and review date.
-
-Hand the package to the customer's change authority. Do not enable Conditional Access, DLP enforcement, blocking CI gates, or runtime blocking controls during this programme unless the customer separately executes and approves that change.
-
-## Close the programme
-
-Before closing, hold an evidence and decision review with the governance lead. Confirm that each in-scope session has a control state, evidence location, owner, and next action. S6 must retain the baseline and exit scorecards, the `compare.py` maturity-lift output, registry reconciliation, and the residual-gap backlog.
-
-The executive sponsor accepts the prioritised backlog and the next review date. The CoE then owns the quarterly posture review described in the S0 operating model.
+At S12, confirm that the customer records system references the S0 baseline,
+selected-session evidence, S9 reconciliation, S11 operating review, open
+exceptions, remediation validation, and portfolio decision. The executive
+sponsor accepts the prioritised roadmap and next review date.

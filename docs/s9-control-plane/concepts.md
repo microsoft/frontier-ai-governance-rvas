@@ -1,48 +1,51 @@
-# S6 · Control Plane & Operationalization Concepts
+# S9 · Control Plane, Catalog & Lifecycle Concepts
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-15 · Confirm current control-plane capabilities in the [Governance capability guide](../reference/governance-capability-guide.md).
+    Last reviewed: 2026-07-15
 
-This page explains the operating model behind S6. Use [S6 Prepare](index.md) to
-begin the customer-operated reconciliation and closeout.
+S9 establishes a customer-owned, evidence-first operating view of agents and
+tools. It is a 90-minute read-only session: it reviews records and decisions;
+it does not query live data or change a catalog, identity, access setting, or
+lifecycle state.
 
-## A control plane is an operating view, not an automatic source of truth
+## A catalog is an accountable operating record
 
-An enterprise control plane can provide a view of agents across their lifecycle.
-It becomes a trustworthy operating record only after the customer reconciles it
-with the identity inventory, maker knowledge, and platform evidence.
+An agent or tool catalog is useful only when each entry identifies its purpose,
+accountable owner, technical steward, lifecycle state, and review references.
+Names, dashboards, and exports are supporting evidence—not automatic truth.
+Unknown fields remain unknown and become owned findings.
 
-S6 therefore does not treat a vendor export, dashboard, or display name as
-truth. The customer normalizes a registry into an explicit schema before it is
-compared with S1.
+Agent and tool stewardship are related but distinct. An agent entry identifies
+the accountable service; a tool entry identifies the callable capability, its
+steward, its parent agent or approved shared-use relationship, and its own
+lifecycle decision. This prevents an approved agent from silently extending
+its authority through an unreviewed tool.
 
-## Explicit reconciliation keeps uncertainty visible
+## Lifecycle is a decision trail, not a label
 
-S1 supplies `objectId` values for Entra agent identities. The S6 registry
-explicitly supplies `entraObjectId`. Reconciliation matches only those fields;
-it does not infer equivalence from names or alternate field names.
+Proposed, active, exception, suspended, retired, and decommissioned states
+make the intended operating posture visible. A transition needs an accountable
+decision, a review reference, and a permitted destination. Material changes to
+authority, tool use, data handling, model behavior, operating scope, or
+ownership require a separately recorded review before they are treated as
+accepted.
 
-An unmatched S1 identity is a shadow-agent finding. An unmatched registry
-record, a missing Entra object ID, or contradictory control metadata remains a
-finding for the governance owner to resolve.
+Suspension contains immediate use while review occurs. Retirement ends intended
+use but preserves the record for accountability. Decommissioning additionally
+requires evidence that the agreed closure actions were reviewed. S9 records
+these distinctions; it never performs them.
 
-## Ownership and lifecycle state make evidence actionable
+## Reconciliation keeps gaps visible
 
-An agent without an accountable sponsor cannot be accepted as operational.
-Lifecycle states such as proposed, active, exception, suspended, retired, and
-decommissioned provide a consistent way to decide what may run and what needs
-attention.
+S9 compares explicit identity identifiers in the catalog with the normalized
+identity inventory. It does not infer matches from names, aliases, or adjacent
+fields. Unmatched identities, catalog-only entries, missing owners, invalid
+lifecycle states, unreviewed material changes, and incomplete closure records
+are findings for accountable owners.
 
-S6 is read-only because changing ownership, lifecycle, or access data changes
-the operational record. Those customer changes require their own approved
-implementation, rollback, and verification process.
+## Closeout accepts accountability, not absence of findings
 
-## Visibility is not full governance
-
-An OBO agent may be visible in a registry yet not have a distinct identity that
-can be independently controlled. Treating it as fully governed creates a false
-sense of assurance. S6 records such cases as owned migration or
-compensating-control backlog items.
-
-The S0 baseline is repeated at closeout because operationalization is measured
-by evidence, ownership, and decisions—not by the number of tools enabled.
+Closeout can occur with owned gaps only when the decision owner records the
+residual-risk disposition, accountable owner, due date, validation reference,
+recurrence check, exception route, and next review. A blank template, a local
+tool result, or a no-result is not proof that a control operates.

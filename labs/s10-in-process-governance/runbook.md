@@ -1,6 +1,6 @@
-# S7 Runbook — In-Process Agent Governance
+# S10 Runbook — In-Process Agent Governance
 
-Use this runbook with the visible [S7 co-delivery activity](../../docs/s7-in-process-governance/index.md).
+Use this runbook with the visible [S10 co-delivery activity](../../docs/s10-in-process-governance/index.md).
 It is a customer-led, offline adoption-decision workshop—not an AGT trial or
 implementation. Do not retain raw customer source code, tool arguments,
 credentials, tenant data, or production audit records in this kit.
@@ -15,11 +15,12 @@ credentials, tenant data, or production audit records in this kit.
   defer, or reject. **Evidence owner:** references approved records. The
   facilitator protects the boundary and records the handoff; platform and
   security specialists interpret their implications.
-- **Entry condition:** S0–S6 findings and the S6 backlog are available by
+- **Entry condition:** relevant S0-S9 findings and the S9 backlog are available by
   reference, one bounded candidate agent-tool action can be described, and a
   decision owner is present or a deferred-decision owner and date are agreed.
 
-- [ ] Confirm S7 is an optional adoption-decision workshop after the S0–S6 core.
+- [ ] Confirm an in-process tool-call boundary is meaningful for the selected
+  scope and that the relevant S0-S9 findings are available.
 - [ ] Confirm no customer source code, endpoint, tenant, or production policy will change.
 - [ ] Review the pinned AGT Public Preview notice and known limitations.
 - [ ] Identify the governance lead who owns the adoption decision.
@@ -28,9 +29,9 @@ credentials, tenant data, or production audit records in this kit.
 ## Applicability and illustrative-policy review
 
 The customer describes the candidate agent-tool boundary, current gateway,
-identity, data, and outcome controls, and the decision S7 could inform.
+identity, data, and outcome controls, and the decision S10 could inform.
 Facilitator prompts: “Is an in-process decision meaningful here?” “Which
-control is not being replaced?” If no boundary exists, record S7 as not
+control is not being replaced?” If no boundary exists, record S10 as not
 applicable for this pilot and return the rationale to the S6 backlog.
 
 Review `policies/demo-policy.json` as a generic illustration. Ask: “Who owns
@@ -88,7 +89,7 @@ result or no-result, interpretation, owner, next review, and dependencies.
 
 | If | Then |
 |---|---|
-| No candidate boundary is meaningful | Record S7 as not applicable for this pilot; return to existing controls and the S6 backlog. |
+| No candidate boundary is meaningful | Record S10 as not applicable for this pilot; return to existing controls and the S6 backlog. |
 | A participant asks to install AGT, change customer code, edit a production policy, use credentials, or access an endpoint | Stop the illustration and record a separate engineering and change-review follow-up. |
 | The illustration or hash verification fails | Record the failure and scope. Do not repair customer policy or claim tampering; assign an owner to investigate or defer the decision. |
 | Tamper evidence, outcome evidence, or compliance certification is required | Record the unmet requirement; use the customer’s signed immutable external-record and assurance paths. The local hash chain does not satisfy it. |

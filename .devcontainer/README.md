@@ -29,7 +29,7 @@ npm run build                                  # build the site data (site-build
 npm run test:session-kits                      # delivery-kit structure gate
 python3 -m http.server -d docs 8000            # live-preview the site at :8000
 ruff check labs                                # python lint gate
-bicep build labs/s3-security-runtime/infra/main.bicep --stdout > /dev/null
+bicep build labs/s6-security-runtime/infra/main.bicep --stdout > /dev/null
 pwsh -c "Invoke-ScriptAnalyzer -Path labs -Recurse -Severity Error"
 shellcheck labs/**/*.sh
 ```

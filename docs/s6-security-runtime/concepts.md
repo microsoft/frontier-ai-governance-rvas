@@ -1,19 +1,19 @@
-# S3 · Security Runtime Concepts
+# S6 · Security Runtime Concepts
 
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · Confirm runtime-control availability in the [Governance capability guide](../reference/governance-capability-guide.md).
 
-This page explains the evidence boundary behind S3. Use [S3 Prepare](index.md)
+This page explains the evidence boundary behind S6. Use [S6 Prepare](index.md)
 to begin the customer-owned validation steps.
 
 ## Gateway evidence is different from a component diagnostic
 
 A direct call to a Content Safety endpoint can diagnose that component. It cannot
 prove the agent request used the customer gateway, access contract, backend, or
-policy. S3 therefore treats direct component testing as a separately labelled
+policy. S6 therefore treats direct component testing as a separately labelled
 diagnostic, never as gateway enforcement evidence.
 
-The canonical S3 artifact is a
+The canonical S6 artifact is a
 [`gateway-proof`](../../contracts/gateway-proof.schema.json) manifest from the
 gateway adapter. It holds safe references and a correlation identifier, not
 raw payloads or endpoints.
@@ -30,7 +30,7 @@ assurance decision.
 
 Prompt injection and harmful-content detection are useful controls, but they
 are only part of a runtime boundary. Gateway policy, identity, scoped tools,
-data controls, telemetry, and human review remain necessary. The S3 adapter
+data controls, telemetry, and human review remain necessary. The S6 adapter
 does not configure any of them; it supplies evidence for customer review.
 
 [^contentsafety]: Microsoft Learn - [Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection).

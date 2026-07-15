@@ -1,11 +1,11 @@
-# S5 Runbook — Authorized customer-operated red teaming
+# S8 Runbook — Authorized customer-operated red teaming
 
 > **Safety:** adversarial testing is authorized-scope only. Notify the SOC before
 > any run. Target only a customer-owned **NON-PRODUCTION** test agent/endpoint.
 
 ## Facilitated activity alignment
 
-Run this sequence during the [S5 90-minute co-delivery workshop](../../docs/s5-red-teaming/index.md#4-co-delivery-walkthrough)
+Run this sequence during the [S8 90-minute co-delivery workshop](../../docs/s8-red-teaming/index.md#4-co-delivery-walkthrough)
 and inside the approved SOC monitoring window. Before pre-flight, the
 facilitator confirms a customer security/SOC lead, endpoint owner, evidence
 owner, decision owner, written authorization, rules of engagement, safe

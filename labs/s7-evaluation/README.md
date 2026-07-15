@@ -1,19 +1,19 @@
-# S4 Takeaway Kit — Evaluation & Assurance
+# S7 Takeaway Kit — Evaluation & Assurance
 
-S4 is an assurance handoff, not a live agent-evaluation gate. It contains only
+S7 is an assurance handoff, not a live agent-evaluation gate. It contains only
 the customer-owned outcome template and its contract. It does not run an
 evaluator, score a fixture, create local evidence, or block a pull request.
 
 ## Customer review
 
-Follow [the runbook](runbook.md). Before S4 can exit, the customer must have an
+Follow [the runbook](runbook.md). Before S7 can exit, the customer must have an
 accepted S3 gateway proof: a `pass` manifest conforming to
 [`contracts/gateway-proof.schema.json`](../../contracts/gateway-proof.schema.json)
 whose correlation was accepted by the named customer reviewers.
 
 ## Workshop alignment
 
-Use the [S4 co-delivery workshop](../../docs/s4-evaluation/index.md#4-co-delivery-walkthrough)
+Use the [S7 co-delivery workshop](../../docs/s7-evaluation/index.md#4-co-delivery-walkthrough)
 to confirm the assurance owner, evidence reviewers, decision owner, 90-minute
 timebox, and S3 entry condition. The customer creates and decides on the
 assurance record; the facilitator does not operate an evaluator, certify a

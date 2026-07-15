@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate and verify offline S7 policy-decision hash-chain evidence.
+"""Generate and verify offline S10 policy-decision hash-chain evidence.
 
 This dependency-free simulator illustrates a deny-by-default tool policy and
 hash-linked decision records. It does not import, invoke, or validate AGT.
@@ -142,7 +142,7 @@ def main() -> int:
     policy = load_policy(POLICY_PATH)
     records = create_records(policy)
     write_evidence(EVIDENCE_PATH, policy, records)
-    print("RVAS S7 offline policy-decision illustration")
+    print("RVAS S10 offline policy-decision illustration")
     for record in records:
         print(f"{record['attempt_id']}: {record['action']} -> {record['decision']}")
     return verify_file(EVIDENCE_PATH)

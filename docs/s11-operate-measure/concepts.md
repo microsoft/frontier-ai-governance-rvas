@@ -1,33 +1,41 @@
-# S8 · Operate & Measure Concepts
+# S11 · Operate, Monitor & FinOps Concepts
 
-## A metric is a question, not a control
+## An operating review turns evidence into a bounded decision
 
-A number only helps governance when its population, time window, evidence
-source, limitation, owner, and decision use are explicit. A healthy-looking
-number cannot prove coverage of an uninstrumented or excluded population.
+An operating review is not a dashboard walkthrough or a universal score. It
+defines a population, review period, coverage limit, accountable owner, and
+decision for each selected question. Evidence informs the decision only when
+its gaps and interpretation owner are visible.
 
-## Use a balanced review, not a universal score
+## Coverage comes before a result
 
-Operating reviews may consider control coverage, reliability, safety and risk,
-quality, cost, adoption, human review, business outcomes, and remediation.
-Customers select the questions that are meaningful for their use case; the
-curriculum does not prescribe a universal metric, target, or threshold.
+Reliability, risk, quality, cost, adoption, and business-outcome observations
+must name what population and time period they cover. An unavailable,
+uninstrumented, or excluded population is a coverage limitation, not a zero
+result or a pass. A question without authoritative evidence or an accountable
+owner is blocked.
 
-## Attribution connects an event to a decision
+## FinOps is operating accountability
 
-An interpretable runtime reference connects a bounded agent/workload and
-initiating context to a run, tool or model version, policy decision, outcome,
-and reviewer decision. The reference should be sufficient to find the
-customer-held record without duplicating sensitive telemetry.
+Cost review considers the owner of the spend decision, the service or workload
+scope, allocation or attribution limits, and the decision the evidence can
+support. It does not prescribe a metric, target, chargeback approach, or
+threshold. A cost observation can be useful without proving value, just as
+adoption does not prove a business outcome.
 
-## Closure needs validation and recurrence review
+## Drift is a hypothesis to test
 
-Assigning an owner is the start of remediation, not proof of closure. A finding
-needs an agreed target date, a validation reference, a recurrence check, and a
-decision on any remaining exception before it can be closed.
+An observed change in reliability, risk, quality, cost, adoption, or outcome
+can suggest drift in behavior, workload mix, configuration, usage, evidence
+coverage, or an external condition. Record the hypothesis, its evidence
+limits, owner, and test or observation plan. Do not call drift confirmed
+without a bounded, reviewable basis.
 
-## Operational governance preserves uncertainty
+## Escalation and closure preserve accountability
 
-Unavailable data, partial instrumentation, missing ownership, and unsupported
-questions remain visible limitations. Treating unknown coverage as a passing
-result creates false assurance.
+Every finding needs an accountable owner, target date, validation reference,
+recurrence check, exception or escalation route, and next review. Remediation
+is not closed because work was reported complete: closure requires a reviewer
+to consider validation and remaining exceptions. S11 records this operating
+method; it does not perform a live-data query, remediate an issue, or change
+production.

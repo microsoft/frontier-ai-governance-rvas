@@ -1,4 +1,4 @@
-# S4 · Evaluation & Assurance
+# S7 · Evaluation & Assurance
 
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).
@@ -10,7 +10,7 @@
 The customer leaves with an assurance record that names the accepted S3 gateway
 proof, the owner, an evaluation-plan reference, and a customer decision.
 
-Durable artifact: `labs/s4-evaluation/` - an assurance-handoff contract and a
+Durable artifact: `labs/s7-evaluation/` - an assurance-handoff contract and a
 customer-owned outcome template. It is not a live agent evaluator or CI/CD gate.
 
 ## 2. Prerequisites
@@ -24,24 +24,24 @@ customer-owned outcome template. It is not a live agent evaluator or CI/CD gate.
 
 ## 3. Why this session
 
-Assurance makes the customer decision and its prerequisites reviewable. S4
+Assurance makes the customer decision and its prerequisites reviewable. S7
 records references to customer-owned evaluation work but does not claim to run
 or gate it.
 
-Read the [S4 Concepts](concepts.md) for the boundary between evaluation results
+Read the [S7 Concepts](concepts.md) for the boundary between evaluation results
 and an assurance decision.
 
 ## 4. Co-delivery walkthrough
 
 !!! warning "Report-only / audit-first"
-    A fixture score or a direct component test is not an assurance exit. S4
+    A fixture score or a direct component test is not an assurance exit. S7
     requires an accepted S3 gateway proof.
 
 **Timebox:** 90 minutes. **Entry condition:** the customer records system
 contains an S3 gateway-proof manifest with `result: "pass"` and the named
 platform and security reviewers have accepted its telemetry correlation. A named
 assurance owner, decision owner, evaluation-plan reference, and approved record
-location are available. S4 stops at review if the S3 acceptance is missing.
+location are available. S7 stops at review if the S3 acceptance is missing.
 
 | Role | Workshop responsibility |
 |---|---|
@@ -57,7 +57,7 @@ location are available. S4 stops at review if the S3 acceptance is missing.
    S3 decision is canonical? What decision is this record allowed to make, and
    what remains in the customer's separate evaluation process?*
 2. **Customer-owned assurance operation — 30 min.** The assurance owner follows
-   `labs/s4-evaluation/runbook.md`: copies
+   `labs/s7-evaluation/runbook.md`: copies
    `templates/assurance-outcome.template.json` into the approved customer
    records system, supplies safe references, and validates it against
    `contracts/assurance-handoff.schema.json`. The facilitator may read the
@@ -77,7 +77,7 @@ location are available. S4 stops at review if the S3 acceptance is missing.
 4. **Customer decision — 15 min.** `continue` is available only when the
    handoff contract is complete, the referenced S3 proof decision is
    `accepted`, and the decision owner records a decision reference. Otherwise
-   choose `hold` or defer with an owner and review date. S4 neither certifies an
+   choose `hold` or defer with an owner and review date. S7 neither certifies an
    evaluator nor makes a CI/CD gate; customer-owned evaluation work may inform
    the decision but cannot replace the accepted S3 proof.
 5. **Hand over — 10 min.** The assurance owner retains the completed record in
@@ -97,12 +97,12 @@ fixture result into an exit.
 - [ ] The referenced S3 proof conforms to the gateway-proof contract and has
   `result: "pass"`.
 - [ ] Customer platform and security reviewers accepted the proof.
-- [ ] The assurance record conforms to the S4 handoff contract.
+- [ ] The assurance record conforms to the S7 handoff contract.
 - [ ] The customer records system contains the outcome and decision reference.
 
 ## 6. Customer-owned rollback and handoff
 
-S4 changes no evaluator, agent, or CI/CD gate. The customer can record `hold`
+S7 changes no evaluator, agent, or CI/CD gate. The customer can record `hold`
 or supersede its assurance decision through its own change and evidence
 process. The completed handoff remains customer owned.
 
@@ -113,8 +113,8 @@ process. The completed handoff remains customer owned.
 - **RACI:** Assurance owner = R, Governance lead = A, Platform owner and
   Security/SOC = C.
 - **Common blockers:**
-    - *No accepted S3 proof* → do not exit S4; record `hold`.
+    - *No accepted S3 proof* → do not exit S7; record `hold`.
     - *No evidence reviewers* → do not create local substitute evidence.
-    - *No customer decision reference* → do not exit S4.
+    - *No customer decision reference* → do not exit S7.
 - **Hand-off:** the customer-owned assurance decision informs subsequent
   delivery; separate evaluation and gate implementations remain customer owned.

@@ -64,8 +64,8 @@ manifest](gateway-evidence-manifest.md) using safe references only. The
 platform owner returns the acceptance decision, manifest, change and rollback
 references, support route, and deferred-item list to the governance lead.
 
-The facilitator then releases the relevant session gates: S1–S3 may consume
-gateway evidence after acceptance; S4/S5 and S6 use the handed-over contracts
+The facilitator then releases the relevant session gates: S1-S3 may consume
+platform evidence after acceptance; S4-S5 and S6-S8 use the handed-over contracts
 and telemetry records as applicable.
 
 ## 6. Respect the delivery boundary

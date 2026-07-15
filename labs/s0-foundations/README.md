@@ -10,10 +10,10 @@ completed scorecard, roadmap, names, or evidence to this repository.
 
 ## Included templates and tools
 
-- `assessment/scorecard.csv` — blank 21-question baseline template across the
-  seven S0–S6 governance domains.
+- `assessment/scorecard.csv` — blank 39-question baseline template across the
+  thirteen S0-S12 governance domains.
 - `assessment/score.py` — offline weighted-score and roadmap generator.
-- `assessment/compare.py` — offline S0-to-S6 comparison tool.
+- `assessment/compare.py` — offline S0-to-S12 comparison tool.
 - `coe/operating-model.md` and `coe/raci.csv` — blank ownership templates.
 
 ## Baseline schema

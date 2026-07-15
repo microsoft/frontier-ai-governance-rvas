@@ -25,7 +25,7 @@ S0 therefore does not try to configure a tenant control. It establishes the cond
 
 A maturity score describes the repeatability and strength of a capability over time. The S0 assessment uses four levels—Ad-hoc, Repeatable, Defined, and Optimized—to make the starting point visible without pretending every domain must be equally mature today.
 
-The discussion behind the score matters. A low score can reveal a missing owner, absent evidence, or an untested control; a high score should be supported by proof. S6 repeats the same instrument to compare the current state with the baseline and assign the remaining gaps.
+The discussion behind the score matters. A low score can reveal a missing owner, absent evidence, or an untested control; a high score should be supported by proof. S12 repeats the same instrument to compare the current state with the baseline and assign the remaining gaps.
 
 The baseline is a prioritization tool, not an audit verdict. It helps the customer choose the next session and assess whether the work had an effect.
 

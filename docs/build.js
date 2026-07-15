@@ -40,15 +40,19 @@ const SITE = {
 };
 
 const SESSIONS = [
-  { slug: 's0-foundations',      code: 'S0', accent: '#032254', persona: 'Governance lead',        nist: 'Govern',            outcome: 'Baseline maturity assessment + prioritized roadmap' },
-  { slug: 's1-identity',         code: 'S1', accent: '#1A77E3', persona: 'Identity admin',         nist: 'Govern · Manage',   outcome: 'Authoritative identity-inventory review + ownership decision' },
-  { slug: 's2-data-compliance',  code: 'S2', accent: '#14868A', persona: 'Compliance / Data admin', nist: 'Map · Manage',     outcome: 'Purview DSPM for AI + DLP + IRM + audit' },
-  { slug: 's3-security-runtime', code: 'S3', accent: '#DC2626', persona: 'Security / SOC',         nist: 'Measure · Manage',  outcome: 'Defender AI-SPM + threat protection + Content Safety' },
-  { slug: 's4-evaluation',       code: 'S4', accent: '#504092', persona: 'AI developer / maker',   nist: 'Measure',           outcome: 'Foundry evaluation suite + CI/CD gate' },
-  { slug: 's5-red-teaming',      code: 'S5', accent: '#EA580C', persona: 'Security / SOC',         nist: 'Measure · Manage',  outcome: 'PyRIT / AI Red Teaming Agent scan + ASR scorecard' },
-  { slug: 's6-control-plane',    code: 'S6', accent: '#0078D4', persona: 'Governance lead',        nist: 'Govern · Manage',   outcome: 'Agent 365 registry + capstone re-score' },
-  { slug: 's7-in-process-governance', code: 'S7', accent: '#0F766E', persona: 'AI developer / maker', nist: 'Govern · Measure · Manage', outcome: 'Illustrative tool-policy decision record + adoption backlog', optional: true },
-  { slug: 's8-operate-measure', code: 'S8', accent: '#7C3AED', persona: 'Governance lead', nist: 'Govern · Measure · Manage', outcome: 'Operating-review definition + remediation-closure cadence', optional: true },
+  { slug: 's0-foundations', code: 'S0', phase: 'Govern', accent: '#032254', persona: 'Governance lead', nist: 'Govern', outcome: 'Baseline maturity assessment + prioritized roadmap' },
+  { slug: 's1-identity', code: 'S1', phase: 'Govern', accent: '#1A77E3', persona: 'Identity admin', nist: 'Govern · Manage', outcome: 'Identity, authority, and ownership review' },
+  { slug: 's2-data-compliance', code: 'S2', phase: 'Govern', accent: '#14868A', persona: 'Compliance / Data admin', nist: 'Map · Manage', outcome: 'Data governance, compliance evidence, and review actions' },
+  { slug: 's3-platform-foundation', code: 'S3', phase: 'Establish', accent: '#0F766E', persona: 'Platform owner', nist: 'Govern · Map · Manage', outcome: 'Trust-boundary decision + platform implementation backlog' },
+  { slug: 's4-agent-engineering', code: 'S4', phase: 'Establish', accent: '#7C3AED', persona: 'AI developer / maker', nist: 'Govern · Map · Measure', outcome: 'Agent admission standard + change-review record' },
+  { slug: 's5-tool-api-governance', code: 'S5', phase: 'Establish', accent: '#C2410C', persona: 'Platform owner', nist: 'Govern · Map · Manage', outcome: 'Controlled tool and API publication model' },
+  { slug: 's6-security-runtime', code: 'S6', phase: 'Assure', accent: '#DC2626', persona: 'Security / SOC', nist: 'Measure · Manage', outcome: 'Runtime assurance evidence + response ownership' },
+  { slug: 's7-evaluation', code: 'S7', phase: 'Assure', accent: '#504092', persona: 'AI developer / maker', nist: 'Measure · Manage', outcome: 'Quality, safety, and release-assurance decision' },
+  { slug: 's8-red-teaming', code: 'S8', phase: 'Assure', accent: '#EA580C', persona: 'Security / SOC', nist: 'Measure · Manage', outcome: 'Authorized adversarial-test findings + remediation decision' },
+  { slug: 's9-control-plane', code: 'S9', phase: 'Operate', accent: '#0078D4', persona: 'Governance lead', nist: 'Govern · Map · Manage', outcome: 'Control-plane reconciliation + lifecycle stewardship' },
+  { slug: 's10-in-process-governance', code: 'S10', phase: 'Operate', accent: '#0891B2', persona: 'AI developer / maker', nist: 'Govern · Measure · Manage', outcome: 'In-process policy applicability and adoption decision' },
+  { slug: 's11-operate-measure', code: 'S11', phase: 'Operate', accent: '#7C3AED', persona: 'Governance lead', nist: 'Govern · Measure · Manage', outcome: 'Operating review, drift, FinOps, and remediation cadence' },
+  { slug: 's12-portfolio-governance', code: 'S12', phase: 'Operate', accent: '#475569', persona: 'Executive sponsor', nist: 'Govern · Map · Measure · Manage', outcome: 'Portfolio governance decision + next maturity roadmap' },
 ];
 
 const SESSION_CHAPTERS = [
@@ -78,6 +82,7 @@ const SESSION_CHAPTERS = [
 const PAGES = [
   { slug: 'start-understand-rvas',        src: 'start/understand-rvas.md',    title: 'About RVAS AI Governance', nav: true, group: 'Start here' },
   { slug: 'start-plan-engagement',        src: 'start/plan-engagement.md',    title: 'Plan the engagement',       nav: true, group: 'Start here' },
+  { slug: 'how-to-deliver',               src: 'how-to-deliver.md',            title: 'How to deliver',            nav: true, group: 'Delivery' },
   { slug: 'delivery-facilitation-pattern', src: 'delivery/facilitation-pattern.md', title: 'Facilitate a co-delivery working session', nav: true, group: 'Delivery' },
   { slug: 'assessment',                   src: 'assessment/index.md',          title: 'Readiness Assessment',      nav: true,  group: null },
   { slug: 'platform-citadel-installation', src: 'delivery/platform-foundation/installation-work-package.md', title: 'Install Citadel platform', nav: true, group: 'Platform foundation' },
@@ -96,6 +101,7 @@ const ROUTES = {
   'index.md': 'index.html',
   'start/understand-rvas.md': 'page.html?p=start-understand-rvas',
   'start/plan-engagement.md': 'page.html?p=start-plan-engagement',
+  'how-to-deliver.md': 'page.html?p=how-to-deliver',
   'delivery/facilitation-pattern.md': 'page.html?p=delivery-facilitation-pattern',
   'assessment/index.md': 'page.html?p=assessment',
   'delivery/platform-foundation/installation-work-package.md': 'page.html?p=platform-citadel-installation',

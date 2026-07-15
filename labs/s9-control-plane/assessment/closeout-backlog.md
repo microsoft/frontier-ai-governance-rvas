@@ -1,33 +1,30 @@
-# S6 Engagement Closeout & Residual-Gap Backlog
+# S9 Engagement Closeout & Residual-Gap Backlog
 
-Copy this template into the customer's approved records system. Do not commit
-customer-generated evidence to this kit.
+Copy this template into approved records. Do not commit customer-generated
+evidence to this kit.
 
 ## Closeout
 
 | Field | Record |
 |---|---|
-| Engagement / tenant reference | |
-| S0 baseline scorecard reference | |
-| S6 exit scorecard reference | |
-| Baseline-to-exit comparison (`maturity-lift.txt`) reference | |
-| Reconciliation report reference | |
-| Input-quality review reference | |
-| Closeout decision | |
-| Decision rationale / residual-risk disposition | |
-| Governance-lead approver | |
-| Approval date | |
-| Next governance review | |
-| Reconciliation and backlog review cadence | |
+| Engagement / bounded catalog reference | |
+| Baseline and exit scorecard references (if used) | |
+| Catalog and reconciliation-report references | |
+| Lifecycle, material-change, and closure-review references | |
+| Input-quality and coverage limitations | |
+| Closeout decision and residual-risk disposition | |
+| Governance-lead approver and approval date | |
+| Next catalog, reconciliation, and backlog review | |
 | Deferred-decision owner and date (if applicable) | |
 
 ## Residual-gap backlog
 
-Record every remaining maturity, reconciliation, or session finding. Reference
-the source artifact so the governance board can trace the decision.
+Record every stewardship, reconciliation, lifecycle, material-change,
+remediation, or session finding. Reference the approved record so the
+governance decision remains traceable.
 
-| Domain / finding | Source artifact | Action | Owner | Opened / due date | Validation reference | Recurrence check | Exception / escalation | Status |
+| Entry / finding | Evidence reference and scope limit | Required decision or action | Accountable owner | Opened / due date | Validation reference | Recurrence check | Exception / escalation | Closure reviewer / status |
 |---|---|---|---|---|---|---|---|---|
 | | | | | | | | | |
-| | | | | | | | | |
-| | | | | | | | | |
+| | | | | | | | | | |
+| | | | | | | | | | |

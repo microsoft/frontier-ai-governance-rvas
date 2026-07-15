@@ -1,6 +1,6 @@
-# S3 Takeaway Kit — Security Runtime
+# S6 Takeaway Kit — Security Runtime
 
-S3 produces one runtime evidence artifact: a redacted proof that a
+S6 produces one runtime evidence artifact: a redacted proof that a
 customer-operated non-production request reached the approved gateway path.
 It does not deploy, configure, or directly call Content Safety.
 
@@ -15,7 +15,7 @@ gateway responses.
 
 ## Workshop alignment
 
-Use the [S3 co-delivery workshop](../../docs/s3-security-runtime/index.md#4-co-delivery-walkthrough)
+Use the [S6 co-delivery workshop](../../docs/s6-security-runtime/index.md#4-co-delivery-walkthrough)
 to establish roles, the 90-minute timebox, entry condition, interpretation, and
 decision before following this runbook. The customer platform operator performs
 the request; customer platform and security reviewers, not the facilitator,

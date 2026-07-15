@@ -1,6 +1,8 @@
 # Evidence and decision register
 
-The governance lead owns the customer copy of this register. The facilitator keeps it current during delivery and hands it over at S6. Store links and identifiers rather than copying sensitive exports into meeting notes.
+The governance lead owns the customer copy of this register. The facilitator
+keeps it current through S12. Store links and identifiers rather than copying
+sensitive exports into meeting notes.
 
 ## Evidence boundary
 
@@ -21,16 +23,19 @@ Use one row per control, prerequisite, finding, or exception.
 | ID | Session / use case / agent | Item and control state | Evidence class and location | Gate or decision | Customer owner / approver | Next action and due date | Validation / recurrence / exception reference | Review date |
 |---|---|---|---|---|---|---|---|---|
 | GOV-001 | S1 / agent name | Sponsor register — Designed | Customer evidence: repository path | Customer change | Identity admin / governance lead | Apply report-only policy | Customer change validation and reapproval reference | YYYY-MM-DD |
-| GOV-002 | S5 / endpoint name | Test target — Blocked | Customer evidence: authorization record | Non-production hard exit | Endpoint owner / SOC owner | Provide safe target and notify SOC | Blocker escalation and recurrence-review reference | YYYY-MM-DD |
+| GOV-002 | S8 / endpoint name | Test target — Blocked | Customer evidence: authorization record | Non-production hard exit | Endpoint owner / SOC owner | Provide safe target and notify SOC | Blocker escalation and recurrence-review reference | YYYY-MM-DD |
 
 ## Minimum close record
 
-At S6, the register must point to:
+At S12, the register must point to:
 
 - S0 baseline scorecard, roadmap, operating model, and RACI;
-- available S1 through S5 evidence, including blocked or reference-only work;
-- the S6 registry reconciliation, exit scorecard, and `compare.py` maturity-lift output;
-- residual gaps with owners, due dates, and the next governance review; and
+- available S1 through S8 evidence, including blocked or reference-only work;
+- the S9 registry reconciliation, S0/S12 maturity comparison, and
+  `compare.py` maturity-lift output;
+- the S11 operating-review and remediation references;
+- residual gaps with owners, due dates, and the next governance review;
+- the S12 portfolio decision and next roadmap; and
 - any production-readiness package handed to the customer change authority.
 
 The register is a governance record. Apply the customer's retention, access, and data-classification rules to its links and supporting artifacts.

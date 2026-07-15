@@ -1,4 +1,4 @@
-# S3 · Security Runtime
+# S6 · Security Runtime
 
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).
@@ -26,11 +26,11 @@ evidence.
 
 ## 3. Why this session
 
-Runtime evidence must show the path actually used by the agent. S3 records a
+Runtime evidence must show the path actually used by the agent. S6 records a
 redacted request correlation through that path without changing production
 traffic.
 
-Read the [S3 Concepts](concepts.md) for the boundary between component
+Read the [S6 Concepts](concepts.md) for the boundary between component
 diagnostics and gateway enforcement evidence.
 
 ## 4. Co-delivery walkthrough
@@ -47,7 +47,7 @@ owners. Stop before the request if any of these are absent.
 | Role | Workshop responsibility |
 |---|---|
 | Facilitator | Keeps the gateway-proof boundary, timebox, and decision wording; does not run the request or accept evidence. |
-| Customer platform operator | Runs the approved gateway-path request using `labs/s3-security-runtime/runbook.md`. |
+| Customer platform operator | Runs the approved gateway-path request using `labs/s6-security-runtime/runbook.md`. |
 | Security reviewer / evidence owner | Correlates the returned identifier with customer gateway telemetry and cites the authoritative records. |
 | Customer decision owner | Accepts, rejects, or defers the proof and owns the S4 handoff. |
 
@@ -127,4 +127,4 @@ decision and the S4 handoff reference.
     - *No telemetry reviewer or record location* → record blocked; no S4 exit is
       possible.
     - *Only production is available* → do not test.
-- **Hand-off:** accepted S3 gateway proof is a required S4 assurance input.
+- **Hand-off:** accepted S6 gateway proof is a required S4 assurance input.
