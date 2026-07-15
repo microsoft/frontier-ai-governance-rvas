@@ -46,6 +46,15 @@ Each session answers a customer question, brings the right people into the conve
 
 The sessions align with the governance intent of NIST AI RMF, ISO/IEC 42001, and the EU AI Act. They are not a legal conformity assessment.
 
+## Optional S7 · In-Process Agent Governance
+
+Teams considering the [Agent Governance Toolkit (AGT)](https://github.com/microsoft/agent-governance-toolkit)
+can add S7 after the core curriculum. It illustrates application-process
+tool-call policy decisions and tamper-evident decision records using an offline
+simulator. S7 does not deploy AGT, modify customer agent code, or replace
+Citadel's gateway, identity, data, runtime-security, evaluation, or
+control-plane responsibilities.
+
 ## Continue with delivery planning
 
 Read [Plan the engagement](plan-engagement.md) for delivery roles, platform-readiness choices, the S0 baseline, safety rules, and the session sequence.

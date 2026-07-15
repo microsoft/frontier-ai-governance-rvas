@@ -38,7 +38,7 @@
           <span class="session-chip">${FP.esc(s.code)}</span>
           <div class="session-card-title">${FP.esc(s.title)}</div>
         </div>
-        <p class="session-card-outcome"><span class="session-outcome-label">Durable outcome</span>${FP.esc(s.outcome)}</p>
+        <p class="session-card-outcome"><span class="session-outcome-label">${s.optional ? 'Optional extension outcome' : 'Durable outcome'}</span>${FP.esc(s.outcome)}</p>
         <div class="session-card-foot">
           <span class="badge badge-persona">${FP.esc(s.persona)}</span>
           <span class="badge badge-nist">NIST · ${FP.esc(s.nist)}</span>

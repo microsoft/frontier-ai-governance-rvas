@@ -46,7 +46,8 @@
     const el = document.getElementById('sessionMeta');
     el.innerHTML =
       `<span class="badge badge-persona">${FP.esc(session.persona)}</span>` +
-      `<span class="badge badge-nist">NIST · ${FP.esc(session.nist)}</span>`;
+      `<span class="badge badge-nist">NIST · ${FP.esc(session.nist)}</span>` +
+      (session.optional ? '<span class="badge badge-nist">Optional extension</span>' : '');
   }
 
   function renderFacts(session) {
@@ -54,7 +55,7 @@
       row('Durable outcome', session.outcome),
       row('Primary persona', session.persona),
       row('NIST AI RMF function', session.nist),
-      row('Session', `${session.code} of S0-S6`),
+      row('Session', session.optional ? 'Optional extension after S6' : `${session.code} of core S0-S6`),
     ].join('');
   }
 

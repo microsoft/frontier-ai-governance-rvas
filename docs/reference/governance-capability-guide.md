@@ -13,6 +13,7 @@ This guide maps the Microsoft capabilities used in the AI Governance curriculum 
 | Evaluation · S4 | Microsoft Foundry evaluations, tracing, and CI/CD integration | Representative evaluation set, scorecard, and release review. | Individual evaluator availability. |
 | Adversarial testing · S5 | PyRIT and the AI Red Teaming Agent | Authorised test scope, findings, and remediation evidence. | Red Teaming Agent availability and approved target. |
 | Lifecycle · S6 | Microsoft Agent 365, Entra Agent ID, API Center, platform telemetry | Reconcile agent, identity, ownership, and platform records. | Agent 365 licensing and connector status. |
+| Optional in-process governance · S7 | Agent Governance Toolkit (AGT) | Offline illustration of application-process tool-call policy and audit evidence; adoption decision only. | AGT is Public Preview; validate exact release, limitations, and application fit. |
 
 ## The capability map
 
@@ -25,6 +26,11 @@ This guide maps the Microsoft capabilities used in the AI Governance curriculum 
 - The `azure-ai-evaluation` SDK is generally available, but individual evaluators and continuous-evaluation features can vary.
 - PyRIT is open source. The managed AI Red Teaming Agent is preview.
 - Foundry Citadel Platform is a reference architecture. AI Hub Gateway and Azure AI Landing Zones are accelerators with their own deployment guidance.
+- AGT is open source and Public Preview at the pinned curriculum revision. Its
+  audit records governance attempts and decisions, not downstream action
+  outcomes; it does not provide data provenance, an SBOM, or a turnkey
+  human-approval UI. It is an optional S7 topic, not a required customer
+  control.[^agt]
 
 ## Framework alignment
 
@@ -39,6 +45,7 @@ The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC
 | S4 | Measure, Manage | Validation and operations | Art. 9, 12, 15, 72 |
 | S5 | Govern, Measure, Manage | Roles, lifecycle, operations | Art. 9, 12, 15 |
 | S6 | Govern, Map, Manage | Policies, roles, operations | Art. 72 |
+| Optional S7 | Govern, Measure, Manage | Operational controls and evidence | Art. 9, 12, 15 |
 
 ## Sources
 
@@ -52,3 +59,9 @@ The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC
 - [Azure AI Content Safety Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection)
 - [Microsoft Foundry evaluations](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability)
 - [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent)
+- [AGT README at pinned commit `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/README.md)
+- [AGT known limitations at pinned commit `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md)
+
+[^agt]: The AGT source describes Public Preview releases and documents these
+limitations at the pinned commit; verify product status and applicability before
+customer delivery.

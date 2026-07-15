@@ -17,7 +17,14 @@ The [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-
 
 The [AI Hub Gateway / Citadel Governance Hub](https://aka.ms/ai-hub-gateway) is a deployable accelerator for the Governance Hub. Its `citadel-v1` branch includes an APIM AI gateway, API Center registry, access contracts, gateway safety and PII-masking patterns, Entra/JWT authentication, telemetry, and private-networking options.
 
-Azure AI Landing Zones provide the application landing-zone foundation for AI workloads. The [Agent Governance Toolkit](https://github.com/microsoft/agent-governance-toolkit) provides open-source in-process policy and agent-security capabilities.
+Azure AI Landing Zones provide the application landing-zone foundation for AI workloads. The [Agent Governance Toolkit (AGT)](https://github.com/microsoft/agent-governance-toolkit/tree/b680c49cc956727c5249771ddba7ee21a635a676) provides open-source in-process policy and agent-security capabilities. At the pinned revision used by this curriculum, AGT is a **Public Preview** and may have breaking changes before GA.[^agt]
+
+AGT is an application-process control: it can evaluate a tool-call policy before
+the call reaches a downstream tool and record the allow, deny, or approval
+decision. It complements, rather than integrates with or replaces, Citadel's
+network/gateway controls. This curriculum does not assert an official
+AGT–Citadel integration, and it does not make AGT a prerequisite for the
+integrated platform path.
 
 The platform team owns:
 
@@ -46,3 +53,5 @@ Before an integrated session needs platform evidence, record:
 4. the current platform readiness gaps and their owners.
 
 For accelerator deployment, use the [AI Hub Gateway deployment guidance](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/tree/citadel-v1/guides) and the [Azure AI Landing Zones](https://github.com/Azure/AI-Landing-Zones) documentation. Confirm the selected branch, prerequisites, and product status before customer delivery.
+
+[^agt]: [AGT README at pinned commit `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/README.md), Public Preview notice and `govern()` example.

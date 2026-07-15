@@ -47,6 +47,7 @@ const SESSIONS = [
   { slug: 's4-evaluation',       code: 'S4', accent: '#504092', persona: 'AI developer / maker',   nist: 'Measure',           outcome: 'Foundry evaluation suite + CI/CD gate' },
   { slug: 's5-red-teaming',      code: 'S5', accent: '#EA580C', persona: 'Security / SOC',         nist: 'Measure · Manage',  outcome: 'PyRIT / AI Red Teaming Agent scan + ASR scorecard' },
   { slug: 's6-control-plane',    code: 'S6', accent: '#0078D4', persona: 'Governance lead',        nist: 'Govern · Manage',   outcome: 'Agent 365 registry + capstone re-score' },
+  { slug: 's7-in-process-governance', code: 'S7', accent: '#0F766E', persona: 'AI developer / maker', nist: 'Govern · Measure · Manage', outcome: 'Illustrative tool-policy decision record + adoption backlog', optional: true },
 ];
 
 const SESSION_CHAPTERS = [
@@ -343,7 +344,7 @@ function main() {
     fs.writeFileSync(path.join(PAGES_OUT, `${s.slug}-concepts.md`), concepts.md);
     sessionMeta.push({
       slug: s.slug, code: s.code, title: clean, fullTitle: title || `${s.code} · ${clean}`,
-      accent: s.accent, persona: s.persona, nist: s.nist, outcome: s.outcome,
+      accent: s.accent, persona: s.persona, nist: s.nist, outcome: s.outcome, optional: Boolean(s.optional),
       hasMermaid: hasMermaid || concepts.hasMermaid,
       chapters: SESSION_CHAPTERS.map(({ slug, label }) => ({ slug, label })),
       reviewed, reviewedNote, conceptsTitle: concepts.title || `${s.code} · ${clean} Concepts`,
@@ -364,8 +365,9 @@ function main() {
   const site = {
     meta: SITE,
     stats: {
-      sessions: sessionMeta.length,
-      domains: sessionMeta.length,
+      sessions: sessionMeta.filter((session) => !session.optional).length,
+      optionalSessions: sessionMeta.filter((session) => session.optional).length,
+      domains: sessionMeta.filter((session) => !session.optional).length,
       frameworks: 3,
       personas: 5,
     },

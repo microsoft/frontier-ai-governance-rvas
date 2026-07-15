@@ -6,7 +6,7 @@ This repository publishes a **co-delivered curriculum** for putting Microsoft AI
 
 The content is **public and source‑cited** (grounded in Microsoft Learn) and covers the full stack: Microsoft Entra Agent ID, Microsoft Purview, Microsoft Defender for Cloud, Microsoft Foundry evaluations, PyRIT / AI Red Teaming Agent, Microsoft Agent 365, and the CAF / WAF / AI Center of Excellence operating model.
 
-## The 7 sessions
+## The 7 core sessions
 
 | # | Session | Durable outcome |
 |---|---------|-----------------|
@@ -17,6 +17,17 @@ The content is **public and source‑cited** (grounded in Microsoft Learn) and c
 | S4 | Quality & Safety Evaluation | Foundry evaluation suite + CI/CD quality gate |
 | S5 | Adversarial Testing | PyRIT / AI Red Teaming Agent scan + ASR scorecard |
 | S6 | Control Plane & Operationalization | Agent 365 registry + Copilot Control System + capstone re‑score |
+
+### Optional extension
+
+| # | Session | Durable outcome |
+|---|---------|-----------------|
+| S7 | In-Process Agent Governance | Illustrative tool-policy decisions, tamper-evident audit evidence, and an AGT adoption backlog |
+
+S7 is an offline, conceptual extension for teams evaluating the
+[Agent Governance Toolkit (AGT)](https://github.com/microsoft/agent-governance-toolkit).
+It does not deploy AGT, change a customer agent, or replace Citadel gateway
+controls.
 
 ## Repository layout
 

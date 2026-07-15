@@ -30,7 +30,7 @@ Use the [Platform technical guide](../reference/platform-technical-guide.md) wit
 
 The readiness assessment is performed during S0, not as a pre-engagement gate. Run the read-only tenant readiness report first and convert unavailable prerequisites into owned backlog items. The room then reviews the seven governance domains, records evidence for each score, and agrees the session order with the customer.
 
-The detailed [Readiness Assessment](../assessment/index.md) explains the scoring scale and links to the fillable scorecard. S6 repeats the instrument to document the current state and remaining gaps.
+The detailed [Readiness Assessment](../assessment/index.md) explains the scoring scale and links to the fillable scorecard. S6 repeats the instrument to document the current state and remaining gaps. If the customer is considering AGT, schedule optional S7 after S6 as an offline adoption-decision workshop; do not treat it as a platform or production-deployment prerequisite.
 
 ## Deliver safely
 
@@ -47,7 +47,7 @@ Before a privileged change, confirm a break-glass account, change window, named 
 
 S0 establishes ownership and the baseline. S1 through S5 address the priority domains: identity, data, security, evaluation, and adversarial testing. S6 reconciles records across the platform and governance work, then records the remaining backlog.
 
-The assessment may change the order after S0. Keep the dependencies visible: a session that relies on a missing role, license, platform record, or safe test target becomes an owned readiness item rather than an improvised workshop activity.
+The assessment may change the order after S0. Keep the dependencies visible: a session that relies on a missing role, license, platform record, or safe test target becomes an owned readiness item rather than an improvised workshop activity. S7 is optional and should not delay the S0–S6 core sequence.
 
 ## Evidence flow between sessions
 
@@ -59,6 +59,7 @@ The assessment may change the order after S0. Keep the dependencies visible: a s
 | S3 | Defender recommendations | S5 scope and S6 backlog |
 | S4 | Evaluation results | S5 scope and S6 exit assessment |
 | S5 | ASR scorecard | S6 backlog and exit assessment |
+| Optional S7 | Illustrative policy-decision and audit-integrity record | S6 follow-up backlog / AGT adoption decision |
 
 ## Start the curriculum
 

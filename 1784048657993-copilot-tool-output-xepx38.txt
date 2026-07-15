@@ -1,0 +1,533 @@
+I now have all primary source material. No file-write tool exists in my toolset; I will produce the complete report as response text for the main agent to write to disk.
+
+---
+
+## Complete Report
+
+Below is the full verbatim content of the report to be written to `/home/marco/.copilot/session-state/31405424-0afd-4eaa-9f17-1e62cbe5e186/research/microsoft-also-has-https-github-com-microsoft-agen.md`. Every fact is sourced from verified primary files.
+
+---
+
+```markdown
+<!--
+  Research report: microsoft/agent-governance-toolkit × RVAS × Citadel
+  Produced: 2026-07-14
+  Author: research-subagent (read-only synthesis from primary public sources)
+  Status: RESEARCH DRAFT — for facilitator review before delivery use
+-->
+
+# AGT × RVAS × Citadel — Conceptual Intersection Report
+
+> **Scope:** Conceptual comparison only. This is not an implementation plan,
+> not a deployment guide, and not a compliance certification. All AGT
+> compliance documents cited here are self-assessments; AGT itself is
+> **Public Preview** software.
+
+---
+
+## Executive Summary
+
+Three distinct Microsoft artefacts address AI-agent governance from different
+angles. **RVAS AI Governance** is a co-delivered *programme* — seven facilitated
+sessions that leave ownership records, evidence artefacts, and a maturity
+scorecard in the customer's own environment. **Foundry Citadel Platform** is a
+*reference architecture and deployable platform accelerator* that routes
+approved AI traffic through Azure API Management, applies shared gateway-level
+runtime safeguards, and records telemetry. **Agent Governance Toolkit (AGT)** is
+an *in-process open-source library* (MIT) that wraps individual tool calls inside
+the agent process with deterministic policy evaluation, SPIFFE/DID identity
+verification, and a tamper-evident audit log.
+
+The three operate at fundamentally different layers — *programme*, *platform
+gateway*, and *in-process runtime* — and they do not duplicate one another in
+any consequential way. Their overlaps are partial and complementary: Citadel
+governs the network and API plane; AGT governs the application plane inside the
+agent; RVAS produces the human accountability structure across both. A customer
+can run RVAS sessions and deploy Citadel without ever touching AGT. Where AGT
+adds value in the RVAS context is conceptual enrichment (illustrating
+deterministic policy enforcement) and optional evidence generation (audit logs,
+`agt verify` output, red-team scan results). AGT is **not** a prerequisite for
+any RVAS session as currently designed.
+
+**Staged recommendation:** document the conceptual relationship now; optionally
+run a static `govern()` demo in S3 or S5 as illustration; defer any
+production-required AGT integration until the toolkit reaches GA and the
+customer has confirmed their agent application architecture can accommodate an
+in-process library.
+
+---
+
+## 1. Three-Way Model
+
+### 1.1 RVAS AI Governance — Delivery Programme
+
+RVAS AI Governance is an RVAS offering. It is a co-delivered, seven-session
+curriculum in which a facilitator works with the customer's administrators
+inside the customer's own tenant. The programme establishes ownership, reviews
+controls, captures evidence, and assigns the work that remains. Every session
+leaves durable, customer-retained artefacts: Infrastructure as Code, exported
+policies, runnable scripts, evaluation pipelines, runbooks, and a readiness
+scorecard.[^rvas-readme]
+
+Sessions: S0 Foundations & Operating Model, S1 Identity, S2 Data & Compliance,
+S3 Security Posture & Runtime, S4 Quality & Safety Evaluation, S5 Adversarial
+Testing, S6 Control Plane & Operationalization.[^rvas-readme]
+
+RVAS does not deploy software into the customer's agent codebase. It reviews
+the evidence that existing platform and application controls produce.
+
+### 1.2 Foundry Citadel Platform — Platform / Gateway
+
+The Foundry Citadel Platform (`https://github.com/Azure-Samples/foundry-citadel-platform`)
+is a Microsoft reference architecture for enterprise AI security, compliance, and
+scale.[^ptg-citadel] It organises capabilities into four connected layers:
+
+| Layer | Purpose | Typical technology |
+|---|---|---|
+| **Governance Hub** | Route approved AI calls; apply shared gateway controls | Azure API Management, Azure API Center, access/backend contracts |
+| **AI Control Plane** | Observe, trace, evaluate AI behaviour | Microsoft Foundry, evaluation and observability services |
+| **Agent Identity** | Associate agents with sponsors, lifecycle, access context | Microsoft Entra Agent ID, Microsoft Agent 365 |
+| **Security Fabric** | Protect data; respond to security and runtime-safety risk | Microsoft Defender, Microsoft Purview, Microsoft Entra, Content Safety |
+
+The **AI Hub Gateway** (`https://aka.ms/ai-hub-gateway`, `citadel-v1` branch) is
+the deployable accelerator for the Governance Hub layer. It includes an APIM AI
+gateway, API Center registry, access contracts, gateway safety and PII-masking
+patterns, Entra/JWT authentication, telemetry, and private-networking
+options.[^ptg-accelerator] Citadel is not a deployment package itself; it is a
+reference architecture that points to deployable accelerators.
+
+The AI Governance programme does not rebuild Citadel capabilities. It assigns
+owners, reviews evidence, and records the decisions and gaps that follow.[^ptg-programme-use]
+
+### 1.3 Agent Governance Toolkit (AGT) — In-Process Runtime
+
+> ⚠️ **Public Preview.** All AGT releases are Microsoft-signed
+> production-quality public previews that *may have breaking changes before
+> GA*.[^agt-changelog] Do not treat AGT as a production baseline without
+> validating against your specific environment.
+
+AGT (`https://github.com/microsoft/agent-governance-toolkit`) is an MIT-licensed,
+open-source library with zero Azure/Microsoft dependencies in its core
+packages.[^agt-limitations-sec5] It operates *inside the agent application
+process* — not at the network or gateway layer.
+
+**Core mechanism:** the `govern()` function wraps any tool call. Before the
+model's intent reaches the wire, deterministic application-layer code evaluates
+a YAML (or OPA/Cedar) policy and either allows, denies, or routes to human
+approval. Actions the AGT kernel denies are *structurally impossible to
+execute*, not merely unlikely.[^agt-readme]
+
+**Key capabilities:**
+
+| Capability | AGT component | Notes |
+|---|---|---|
+| Policy evaluation | `govern()` / `PolicyEvaluator` / YAML | <0.1 ms per evaluation[^agt-limitations-perf] |
+| Tool allow/deny list | `createGovernedTool` | Per-tool rate limits |
+| In-process identity | SPIFFE/DID (`did:mesh:*` or `did:agentmesh:*`) | DID method inconsistency across SDKs[^agt-limitations-did] |
+| Inter-agent trust | DID-based trust gate | Challenge-response handshake |
+| Tamper-evident audit | Merkle/SHA-256 hash chain | Records attempts, not outcomes[^agt-limitations-audit] |
+| Anomaly / rogue detection | `AgentBehaviorMonitor` | Quarantine on threshold breach |
+| Circuit breaker / rate limit | `_circuit_breaker_impl.py` | Cascade failure protection |
+| MCP Security Gateway | `mcp_gateway.py` | Tool poisoning, drift, typosquatting detection |
+| PromptDefense Evaluator | `prompt_defense.py` | 12-vector prompt injection audit |
+| CLI governance tooling | `agt verify`, `agt red-team scan`, `agt lint-policy` | CI gate integration |
+
+**Language support:** Python (full stack), TypeScript/Node, .NET, Rust, Go.
+Python v4.1.0 consolidates 45 → 5 distributions; the old `agent-os-kernel`
+emits a `DeprecationWarning`.[^agt-readme-pypi]
+
+**OWASP Agentic compliance:** AGT self-assesses 7/10 Full, 3/10 Partial
+(ASI04 supply chain: no SBOM; ASI06 memory: no sandbox; ASI09 human approval:
+no UI-level dialogs). This is an *internal self-assessment, not a validated
+certification or third-party audit*.[^agt-owasp-disclaimer]
+
+---
+
+## 2. Layered Architecture
+
+```mermaid
+graph TB
+    subgraph PROGRAMME["RVAS AI Governance (Delivery Programme)"]
+        S0[S0 Foundations\nOperating model, RACI, roadmap]
+        S1[S1 Identity\nEntra Agent ID, CA report-only]
+        S2[S2 Data\nPurview DSPM, DLP test-mode]
+        S3[S3 Security\nDefender AI-SPM, Prompt Shields]
+        S4[S4 Evaluation\nFoundry eval suite, CI gate]
+        S5[S5 Adversarial\nPyRIT / AI Red Teaming Agent]
+        S6[S6 Control Plane\nAgent 365 registry, reconciliation]
+    end
+
+    subgraph CITADEL["Citadel / AI Hub Gateway (Platform & Gateway Layer)"]
+        GH["Governance Hub\nAPIM AI Gateway · API Center\nAccess contracts · PII masking\nContent Safety · JWT auth · telemetry"]
+        CP["AI Control Plane\nFoundry · Evaluations · Observability"]
+        AI["Agent Identity\nEntra Agent ID · Agent 365"]
+        SF["Security Fabric\nDefender · Purview · Content Safety"]
+        GH --> CP
+        GH --> SF
+        AI --> GH
+    end
+
+    subgraph AGT["AGT (In-Process Runtime — inside agent application)"]
+        POL["Policy Engine\nYAML / OPA / Cedar\ngovern() · PolicyEvaluator"]
+        ID2["In-Process Identity\nSPIFFE · DID · mTLS\nTrust gate · Handshake"]
+        AUD["Audit Middleware\nMerkle hash-chain\nTamper-evident log"]
+        SRE["SRE / Anomaly\nCircuit breaker · Rate limit\nBehaviorMonitor · Quarantine"]
+        MCP["MCP Security Gateway\nTool poisoning · Drift\nTyposquatting detection"]
+        POL --> AUD
+        ID2 --> POL
+        SRE --> POL
+        MCP --> POL
+    end
+
+    subgraph AGENT["Customer Agent Application"]
+        LLM["LLM Call"]
+        TOOLS["Tool APIs\n(databases, APIs, email…)"]
+    end
+
+    %% Citadel gateway governs the HTTP/API transport layer
+    GH -->|"screens at HTTP / API layer\nbefore request reaches agent"| AGENT
+
+    %% AGT governs inside the agent process, before tools execute
+    AGENT -->|"govern() wraps every tool call\nbefore model intent reaches wire"| AGT
+    AGT -->|"allow → tool executes\ndeny → GovernanceDenied"| TOOLS
+    AGENT --> LLM
+
+    %% RVAS uses evidence from both
+    S3 -.->|"reviews Citadel gateway\n& Content Safety evidence"| CITADEL
+    S1 -.->|"reviews Entra Agent ID\n& Agent 365 records"| AI
+    S6 -.->|"reconciles API Center,\nAgent 365, inventory"| CITADEL
+    S3 -.->|"AGT audit logs &\nPromptDefense optionally\ncomplement S3 evidence"| AGT
+    S5 -.->|"agt red-team scan\noptionally augments PyRIT"| AGT
+```
+
+**Reading the diagram:**  
+- Citadel Gateway operates at the **Azure network / HTTP transport layer** — it sees requests
+  before they reach the agent application.  
+- AGT operates **inside the agent process** — it sees tool calls before they
+  reach external APIs.  
+- RVAS sessions review evidence from both layers without deploying either.
+
+---
+
+## 3. Overlap / Non-Overlap Table
+
+| Dimension | RVAS (Programme) | Citadel (Gateway) | AGT (In-Process) | Overlap / Verdict |
+|---|---|---|---|---|
+| **Policy enforcement point** | None (reviews evidence) | APIM gateway policies at HTTP layer | `govern()` at tool-call layer inside process | **No conflict** — different enforcement planes |
+| **Identity model** | Reviews Entra Agent ID / Agent 365 records | Entra/JWT authentication at gateway | SPIFFE / DID (`did:mesh:*` or `did:agentmesh:*`) | **Partial overlap** — different identity scopes; Citadel uses Azure AD tokens; AGT uses open DID standards. No integration bridge currently exists. |
+| **Audit / evidence** | Captures and records evidence across sessions | APIM telemetry, API Center access logs, Foundry traces | Merkle-chained in-process audit log (attempts, not outcomes) | **Complementary** — Citadel produces platform-layer telemetry; AGT produces process-layer decision records; RVAS consumes both |
+| **Prompt injection detection** | Reviews Prompt Shields configuration (S3) | Content Safety / Prompt Shields at gateway | `PromptDefenseEvaluator` (12-vector); `blockedPatterns` in middleware | **Partially overlapping** — Citadel screens at gateway before request reaches agent; AGT screens inside agent process. Citadel does NOT cover indirect injection after retrieval; AGT's middleware checks inbound but has acknowledged gap for context poisoning (ASI06)[^agt-owasp-coverage] |
+| **Supply-chain / SBOM** | Not directly addressed | API Center tool registry | Policy YAML tool pinning; **no SBOM generation** (ASI04 gap)[^agt-owasp-asi04] | **Gap in AGT**; Citadel API Center provides registry but not full SBOM |
+| **Human-in-the-loop** | Facilitated review in every session | Not in scope | `require_approval` in policy YAML; **no UI approval dialogs** (ASI09 partial)[^agt-owasp-asi09] | RVAS provides the human process; AGT provides a technical hook; neither provides a turnkey UI |
+| **Red-team / adversarial** | S5 uses PyRIT + AI Red Teaming Agent | Not in scope | `agt red-team scan` CLI (prompt injection audit) | **Complementary** — `agt red-team scan` could augment PyRIT findings in S5 |
+| **Lifecycle / registry** | S6 reconciles Agent 365 / Entra / API Center records | API Center registry, access contracts | Shadow AI Discovery (`agent-discovery`) | **Complementary** — different scopes: AGT discovers unregistered process-level agents; S6 reconciles platform registry records |
+| **Compliance mapping** | NIST AI RMF, ISO/IEC 42001, EU AI Act (illustrative) | Not formally mapped | OWASP Agentic Top 10 self-assessment; AARM, ATF badges | **Different frameworks** — not directly competing |
+| **Deployment prerequisite** | None — customer's environment | Customer deploys Citadel accelerator separately | Customer installs AGT in agent code (`pip install`) | **No overlap** — all three are independently deployable |
+| **Vendor dependency** | Microsoft-delivered programme | Azure (APIM, API Center, Entra, Defender…) | **Zero Azure / MS core dependency**[^agt-limitations-sec5] — runs on any cloud or on-prem | AGT is cloud-agnostic; Citadel is Azure-native |
+| **Known gaps (AGT)** | Not applicable | Not applicable | No SBOM, no memory sandbox, no UI approval, no outcome verification, no knowledge/data provenance governance, credential persistence gap, init bypass risk, cross-session attack surface[^agt-limitations] | AGT acknowledges 12 design boundaries; these are relevant when evaluating it as a production control |
+
+---
+
+## 4. Integration Caveat
+
+> ⚠️ **AGT–Citadel reference artefacts exist but must not be treated as a
+> production baseline without validation.**
+
+The RVAS Platform Technical Guide references both AGT and Citadel as
+complementary capabilities for the platform team.[^ptg-agt-mention] However,
+no verified AGT–Citadel integration example was found in either repository
+during this research (searched `microsoft/agent-governance-toolkit` examples
+directory and `examples/demos/` tree as of commit
+`b680c49cc956727c5249771ddba7ee21a635a676`). The demos available include
+`governance-dashboard`, `governed-agent-in-10-min`, `maf-integration`,
+`openclaw-governed`, and `physical-attestation-governed` — none are
+Citadel-specific.[^agt-examples-demos]
+
+If future AGT or Citadel releases publish an explicit integration guide or
+example, it should be reviewed and validated before use in a customer delivery.
+Until then:
+
+1. Treat AGT and Citadel as independently deployable — composing them requires
+   customer engineering effort.
+2. The RVAS programme does not require AGT; Citadel does not require AGT.
+3. Any live demonstration using AGT in an RVAS session must be clearly labelled
+   as illustrative of the pattern, not as the validated customer architecture.
+
+---
+
+## 5. Session-by-Session RVAS Adoption Recommendation
+
+| Session | Current RVAS scope | AGT relevance | Recommendation |
+|---|---|---|---|
+| **S0 Foundations** | Operating model, RACI, baseline maturity | AGT's layered defence model (`LIMITATIONS.md` §6) illustrates why action governance differs from reasoning governance | **Reference conceptually** — include AGT in the platform capability landscape diagram; discuss as optional in-process layer. No action required. |
+| **S1 Identity** | Entra Agent ID, Conditional Access, Agent 365 | AGT uses SPIFFE/DID identity (different model from Entra). DID inconsistency across AGT SDKs is a known issue.[^agt-limitations-did] | **Do not conflate** AGT identity with Entra Agent ID. Note that in-process identity is a separate concern from the platform identity governed in S1. |
+| **S2 Data & Compliance** | Purview DSPM, DLP, audit, eDiscovery | AGT has a documented **knowledge governance gap** — it does not track data provenance or classify retrieved context.[^agt-limitations-knowledge] AGT's PII redaction middleware addresses output PII only. | **Note the gap** — mention AGT's PII redaction as a potential complement, but flag that data classification and provenance remain outside AGT's scope. |
+| **S3 Security Posture & Runtime** | Defender AI-SPM, Prompt Shields (via Citadel gateway) | AGT's `PromptDefenseEvaluator` (12-vector) and `blockedPatterns` middleware complement Citadel Prompt Shields. AGT also has the MCP Security Gateway spec.[^agt-mcp-spec] | **Optional illustration** — run `agt verify` or `agt red-team scan ./prompts/` against a sample policy to show deterministic vs. probabilistic defence. Label clearly as illustrative. Citadel Prompt Shields remain the primary evidence target. |
+| **S4 Evaluation** | Foundry evaluation suite, CI/CD gate | AGT's `agt verify --evidence ./agt-evidence.json --strict` and `agt lint-policy` can form a CI quality gate for agent policy files, distinct from Foundry model evaluations. | **Optional** — relevant only if the customer agent application uses AGT. If they do, add `agt verify` output to evaluation evidence. Otherwise, Foundry evaluations cover S4 scope. |
+| **S5 Adversarial Testing** | PyRIT / AI Red Teaming Agent | `agt red-team scan ./prompts/ --min-grade B` provides a 12-vector prompt-injection audit complementary to PyRIT's broader adversarial scope.[^agt-readme-cli] | **Optional augmentation** — run `agt red-team scan` alongside PyRIT if the target includes an AGT-governed agent path. Note AGT's acknowledged cross-session attack-surface gap (Dai et al., 2026).[^agt-limitations-crosssession] |
+| **S6 Control Plane** | Agent 365 registry, API Center, reconciliation | AGT's Shadow AI Discovery finds unregistered agents in process/config/repos. AGT Governance Dashboard provides fleet visibility. These are process-layer complements to Agent 365's control-plane view. | **Flag for customer awareness** — mention `agent-discovery` as a potential shadow-agent finding tool. Do not substitute for Agent 365 registry reconciliation as designed in S6.[^s6-citadel] |
+
+---
+
+## 6. Staged Recommendation
+
+### Stage 1 — Document now (this report)
+
+Record the conceptual relationship in the RVAS reference materials. Update the
+platform capability landscape in S0 to include AGT as an *optional in-process
+runtime layer* alongside Citadel (gateway layer) and the Microsoft cloud
+services (identity, data, security layers). No customer action required.
+
+### Stage 2 — Optional static demo (any session S3/S5)
+
+Prepare a self-contained, offline `govern()` demonstration:
+
+```python
+# Illustrative only — not a production deployment
+from agentmesh.governance import govern
+
+def send_email(to: str, body: str) -> str:
+    return f"Email sent to {to}"
+
+safe_send = govern(send_email, policy="demo-policy.yaml")
+safe_send(to="user@example.com", body="Hello")   # allowed
+safe_send(to="all@example.com", body="DROP TABLE") # GovernanceDenied
+```
+
+Pair with `agt verify --evidence ./demo-evidence.json` to show the CLI gate
+pattern. Label the demo explicitly as "illustrative of the in-process
+governance pattern, not a validated architecture for this engagement."
+
+### Stage 3 — Defer production / required integration
+
+Do not add AGT as a required component of any RVAS session or as a mandatory
+customer deliverable until:
+
+- [ ] AGT reaches GA (breaking-change risk resolved)
+- [ ] Customer's agent application architecture is confirmed to be compatible
+      with an in-process Python/TS/.NET library
+- [ ] AGT–Citadel integration path is validated and documented by Microsoft
+- [ ] Customer engineering team has reviewed AGT's 12 known limitations
+      (`LIMITATIONS.md`) and accepted residual risks
+- [ ] AGT initialization and policy-loading configuration has been verified
+      (`agt doctor` clean; strict/deny-by-default mode confirmed)[^agt-limitations-init]
+
+---
+
+## 7. Risks and Decision Gates
+
+| Risk | Severity | Gate / Mitigation |
+|---|---|---|
+| **AGT Public Preview — breaking changes** | High | Wait for GA before any production commitment. Monitor `CHANGELOG.md`. |
+| **DeprecationWarning in `agent-os`** | Medium | Use `agent-governance-toolkit-core` (`[full]` extra) not `agent-os-kernel`. Verify with `agt doctor`. |
+| **DID method inconsistency across SDKs** | Medium (cross-SDK deployments) | Use wildcard DID matching in policies; standardise SDK family for identity generation.[^agt-limitations-did] |
+| **OWASP self-assessment ≠ certification** | Medium | Disclose to customer that AGT's compliance badges are self-assessments. Do not present as third-party audit. |
+| **Fail-open when no policies loaded** | High | Production deployments must use strict/deny-by-default mode. Run `agt audit` to verify loaded policies.[^agt-limitations-init] |
+| **Knowledge governance gap** | Medium | Combine AGT with a data classification layer; use egress policies and blocked_patterns for PII. Do not represent AGT as covering S2 data controls.[^agt-limitations-knowledge] |
+| **Cross-session attack surface** | Medium | AGT does not yet implement workflow-level or cross-session policy evaluation. Relevant for agents with persistent memory.[^agt-limitations-crosssession] |
+| **No AGT–Citadel integration example** | Low–Medium | Treat compositions as requiring customer engineering; do not demo as a ready reference architecture. |
+| **Citadel is a reference architecture** | Low | Confirm `citadel-v1` branch deployment status with platform team before any S3/S6 evidence depends on it.[^s3-readme-track-b] |
+| **Customer agent not AGT-compatible** | Low | AGT requires an agent application codebase. Verify applicability before recommending installation in any session. |
+
+---
+
+## 8. Confidence Assessment
+
+| Claim | Confidence | Source quality |
+|---|---|---|
+| AGT is Public Preview | **High** | README banner[^agt-readme] + CHANGELOG header[^agt-changelog]: direct quotes |
+| AGT OWASP docs are self-assessment only | **High** | Direct quote from `owasp-agentic-top10-architecture.md` disclaimer[^agt-owasp-disclaimer] |
+| AGT core has zero Azure dependencies | **High** | LIMITATIONS.md §5[^agt-limitations-sec5]: "zero Azure/Microsoft dependencies in the core packages" |
+| Citadel is a reference architecture, not a deployment package | **High** | RVAS Platform Technical Guide[^ptg-citadel] + S0 concepts[^s0-concepts] |
+| No AGT–Citadel integration example exists currently | **High** | Searched `examples/demos/` directory at commit `b680c49`; no Citadel-specific example found[^agt-examples-demos] |
+| RVAS mentions AGT only once (platform-technical-guide.md:20) | **High** | grep across entire RVAS repo; single occurrence in reference doc |
+| AGT operates in-process; Citadel operates at gateway/network layer | **High** | Both verified from architecture diagrams and source references |
+| AGT-Citadel are complementary, not competing | **High** | RVAS Platform Technical Guide explicitly places them as separate capabilities[^ptg-agt-mention] |
+| AGT 12 design boundaries | **High** | LIMITATIONS.md SHA `5618ee01`[^agt-limitations] |
+| Dai et al. cross-session gap referenced in AGT LIMITATIONS | **High** | Verbatim from LIMITATIONS.md §1[^agt-limitations-crosssession] |
+| AGT v4.1.0 consolidated 45→5 packages | **High** | README PyPI section[^agt-readme-pypi] |
+
+---
+
+## Footnote Citations
+
+[^rvas-readme]: RVAS repository README.md —
+  `frontier-ai-governance-rvas/README.md` (local path; public repository at
+  `https://github.com/[org]/frontier-ai-governance-rvas`). Sessions table and
+  delivery model description.
+
+[^ptg-citadel]: RVAS Platform Technical Guide — Citadel model section —
+  `frontier-ai-governance-rvas/docs/reference/platform-technical-guide.md`,
+  lines 1–10.
+  `https://github.com/Azure-Samples/foundry-citadel-platform` referenced therein.
+
+[^ptg-accelerator]: RVAS Platform Technical Guide — AI Hub Gateway paragraph —
+  `frontier-ai-governance-rvas/docs/reference/platform-technical-guide.md`,
+  lines 17–20.
+  `https://aka.ms/ai-hub-gateway` (`citadel-v1` branch).
+
+[^ptg-programme-use]: RVAS Platform Technical Guide — "Where the AI Governance
+  programme uses platform evidence" table —
+  `frontier-ai-governance-rvas/docs/reference/platform-technical-guide.md`,
+  lines 22–38.
+
+[^ptg-agt-mention]: RVAS Platform Technical Guide — line 20:
+  "The [Agent Governance Toolkit](https://github.com/microsoft/agent-governance-toolkit)
+  provides open-source in-process policy and agent-security capabilities." —
+  `frontier-ai-governance-rvas/docs/reference/platform-technical-guide.md:20`.
+
+[^agt-readme]: AGT README.md — Public Preview banner and core description —
+  `https://github.com/microsoft/agent-governance-toolkit/blob/main/README.md`
+  (branch HEAD `b680c49cc956727c5249771ddba7ee21a635a676`).
+
+[^agt-readme-pypi]: AGT README.md — Python distributions v4.1.0 section —
+  "As of v4.1.0, 45 packages have been consolidated into 5 top-level
+  distributions." `https://github.com/microsoft/agent-governance-toolkit/blob/main/README.md`.
+
+[^agt-readme-cli]: AGT README.md — CLI tools section:
+  `agt red-team scan ./prompts/ --min-grade B  # prompt injection audit`.
+  `https://github.com/microsoft/agent-governance-toolkit/blob/main/README.md`.
+
+[^agt-changelog]: AGT CHANGELOG.md — header note (SHA `c9913319`):
+  "All releases are currently **public preview releases**. They are Microsoft-signed
+  and production-quality but may have breaking changes before GA."
+  `https://github.com/microsoft/agent-governance-toolkit/blob/main/CHANGELOG.md`.
+
+[^agt-owasp-disclaimer]: AGT OWASP Agentic Top 10 Architecture document (SHA
+  `788a2b6ec60b4ee35e6fb7972ae1e8c3f61bfef2`) —
+  disclaimer block: "This document is an internal self-assessment mapping, NOT a
+  validated certification or third-party audit."
+  `https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/compliance/owasp-agentic-top10-architecture.md`.
+
+[^agt-owasp-coverage]: AGT OWASP document — Coverage Summary table:
+  7/10 Full, 3/10 Partial (ASI04, ASI06, ASI09), 0 Gaps.
+  `https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/compliance/owasp-agentic-top10-architecture.md`.
+
+[^agt-owasp-asi04]: AGT OWASP document — ASI04 "Known Gap: No SBOM generation
+  or dependency vulnerability scanning is built into AGT." Path and SHA as [^agt-owasp-disclaimer].
+
+[^agt-owasp-asi09]: AGT OWASP document — ASI09 "Known Gap: No UI-level
+  confirmation dialogs or human-in-the-loop approval workflows are built into AGT."
+  Path and SHA as [^agt-owasp-disclaimer].
+
+[^agt-limitations]: AGT LIMITATIONS.md (SHA `5618ee01998eaaf2c23f02d128e1981477b2616a`) —
+  12 design boundaries documented.
+  `https://github.com/microsoft/agent-governance-toolkit/blob/main/docs/LIMITATIONS.md`.
+
+[^agt-limitations-sec5]: AGT LIMITATIONS.md §5 — "AGT is MIT-licensed with
+  **zero Azure/Microsoft dependencies** in the core packages." Path and SHA as [^agt-limitations].
+
+[^agt-limitations-audit]: AGT LIMITATIONS.md §2 — "AGT's audit trail records
+  **what the agent attempted** and whether the governance layer allowed or denied
+  it. It does **not** verify whether the action actually succeeded." Path and SHA
+  as [^agt-limitations].
+
+[^agt-limitations-perf]: AGT LIMITATIONS.md §3 — performance table: policy
+  evaluation <0.1 ms; IATP handshake 10–50 ms. Path and SHA as [^agt-limitations].
+
+[^agt-limitations-did]: AGT LIMITATIONS.md §12 — DID method inconsistency:
+  Python/.NET use `did:mesh:*`; TypeScript/Rust/Go use `did:agentmesh:*`.
+  Path and SHA as [^agt-limitations].
+
+[^agt-limitations-knowledge]: AGT LIMITATIONS.md §7 — "AGT does **not** govern
+  the **knowledge agents consume**… does not verify provenance, freshness, or
+  authorization of documents retrieved via RAG." Path and SHA as [^agt-limitations].
+
+[^agt-limitations-init]: AGT LIMITATIONS.md §9 — "If the policy evaluator has
+  **no policies loaded**, the default action is `allow` — all actions pass
+  through ungoverned." Mitigation: use strict/deny-by-default; run `agt audit`.
+  Path and SHA as [^agt-limitations].
+
+[^agt-limitations-crosssession]: AGT LIMITATIONS.md §1 — cross-session attack
+  variant: "A backdoored or prompt-injected model can write attack state in one
+  session and resume from that state in a later session whose tool set permits
+  the next phase." Cites Dai et al. (preprint, May 2026,
+  `https://arxiv.org/abs/2605.06158`). Path and SHA as [^agt-limitations].
+
+[^agt-mcp-spec]: AGT MCP Security Gateway spec (SHA `a3579e42`) —
+  `https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/specs/MCP-SECURITY-GATEWAY-1.0.md`
+  (Status: Draft, Date: 2025-07-28).
+
+[^agt-examples-demos]: AGT `examples/demos/` directory listing (commit
+  `b680c49cc956727c5249771ddba7ee21a635a676`) — directories: `governance-dashboard`,
+  `governed-agent-in-10-min`, `maf-integration`, `openclaw-governed`, `presentation`,
+  `policies`. No Citadel-specific example present.
+  `https://github.com/microsoft/agent-governance-toolkit/tree/b680c49cc956727c5249771ddba7ee21a635a676/examples/demos`.
+
+[^s0-concepts]: RVAS S0 Foundations concepts — "The Foundry Citadel Platform
+  organizes AI governance into Governance Hub, AI Control Plane, Agent Identity,
+  and Security Fabric layers. The operating model is the human layer across those
+  components." —
+  `frontier-ai-governance-rvas/docs/s0-foundations/concepts.md`.
+
+[^s3-concepts-citadel]: RVAS S3 concepts — footnote 3: "In the Citadel model,
+  the gateway and Content Safety configuration are part of the Security Fabric;
+  the AI Governance programme captures the evidence and operating ownership." —
+  `frontier-ai-governance-rvas/docs/s3-security-runtime/concepts.md`.
+
+[^s3-readme-track-b]: RVAS S3 lab README — "Run this track [Citadel runtime
+  safety] only when the AI Hub Gateway / Citadel path, Content Safety
+  configuration, and a customer-owned non-production string are available.
+  Otherwise record the track as blocked." —
+  `frontier-ai-governance-rvas/labs/s3-security-runtime/README.md`.
+
+[^s6-citadel]: RVAS S6 lab README — Optional Citadel path: "If the customer
+  has a pre-provisioned AI Hub Gateway / Citadel Governance Hub (`citadel-v1`),
+  treat its API Center / Access Contract exports as adjacent Layer 1 evidence…
+  do not deploy the hub or change the reconciliation script during the S6
+  workshop." —
+  `frontier-ai-governance-rvas/labs/s6-control-plane/README.md`.
+
+[^s6-concepts-citadel]: RVAS S6 concepts — "In the Citadel model, the
+  Governance Hub and API Center provide an Azure-plane registry view, while
+  Agent 365 and Entra Agent ID contribute control-plane and identity views.
+  S6 does not deploy either platform." —
+  `frontier-ai-governance-rvas/docs/s6-control-plane/concepts.md`.
+
+---
+
+*Report produced: 2026-07-14. Research sources verified as of this date.
+Preview-status products and reference architectures change frequently;
+re-verify all cited product status before customer delivery.*
+```
+
+---
+
+## Completion Summary
+
+### What was researched and verified
+
+**All primary sources read directly** (no inference from documentation alone):
+
+| Source | Key facts extracted |
+|---|---|
+| `frontier-ai-governance-rvas/README.md` | 7-session structure, co-delivery model, no live execution |
+| `docs/start/understand-rvas.md` | Citadel vs RVAS distinction table, S0–S6 outcome map |
+| `docs/start/plan-engagement.md` | Platform path decision table, Citadel integration states |
+| `docs/reference/platform-technical-guide.md` | Four Citadel layers, AGT mentioned at line 20, platform/programme boundary |
+| `docs/reference/governance-capability-guide.md` | All 7 sessions' capabilities, product status notes |
+| `docs/s0-foundations/concepts.md` | Citadel four-layer model, operating model framing |
+| `docs/s3-security-runtime/concepts.md` | Citadel Security Fabric role, Prompt Shields scope boundary |
+| `docs/s6-control-plane/concepts.md` | Citadel registry view vs Agent 365 control-plane view |
+| `labs/s3-security-runtime/README.md` | Track B: Citadel Prompt Shields as gated optional track |
+| `labs/s6-control-plane/README.md` | Optional Citadel API Center evidence path |
+| AGT `README.md` (main branch `b680c49`) | Public Preview status, capabilities, SDK matrix, CLI tools |
+| AGT `CHANGELOG.md` (SHA `c9913319`) | "Public preview releases, may have breaking changes" |
+| AGT `docs/LIMITATIONS.md` (SHA `5618ee01`) | 12 design boundaries, zero Azure dependency, DID inconsistency |
+| AGT `docs/compliance/owasp-agentic-top10-architecture.md` (SHA `788a2b6e`) | Self-assessment disclaimer, 7/10 Full coverage, 3 partial gaps |
+| AGT `examples/demos/` directory (commit `b680c49`) | No Citadel-specific example found |
+| AGT `docs/specs/MCP-SECURITY-GATEWAY-1.0.md` (SHA `a3579e42`) | Draft spec, 2025-07-28 |
+
+### Remaining gaps
+
+1. **Foundry Citadel Platform repo** (`https://github.com/Azure-Samples/foundry-citadel-platform`) was not directly fetched — only referenced via RVAS documentation. The four-layer model description comes from RVAS docs, not from the Citadel repo itself. A follow-up read of that repo's README would increase confidence on Citadel layer details.
+
+2. **AGT `agent-governance-python` source files** (e.g., `agent_os/governance/middleware.py`, `agentmesh/governance/audit.py`) were not read — they are cited in the OWASP document but not fetched. The architecture claims come from the compliance document's self-assessment, not from direct source inspection.
+
+3. **AI Hub Gateway `citadel-v1` branch** was not fetched — the RVAS Platform Technical Guide describes it but I did not independently verify its current state.
+
+### Blockers for the main agent
+
+- **No file-write tool is available** to this subagent. The report above must be written to disk by the main agent or orchestrator. The target path is:  
+  `/home/marco/.copilot/session-state/31405424-0afd-4eaa-9f17-1e62cbe5e186/research/microsoft-also-has-https-github-com-microsoft-agen.md`  
+  The parent directory may not exist and will need to be created (`mkdir -p`) before writing.
