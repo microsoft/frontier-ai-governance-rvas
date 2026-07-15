@@ -25,6 +25,12 @@
       "skillPath": ".github/skills/copilot-sdk/SKILL.md",
       "computedHash": "68cf61978927b44dbafa74133305fc37a0973774fc6e1e68fbe7ed02ed690b27"
     },
+    "docx": {
+      "source": "olivomarco/ai-dev-skills",
+      "sourceType": "github",
+      "skillPath": "skills/docx/SKILL.md",
+      "computedHash": "6962db07127ee540a56e4677f65576d0727668a1d67f7da8bc978f10791c2bfe"
+    },
     "entra-agent-id": {
       "source": "microsoft/azure-skills",
       "sourceType": "github",
@@ -73,6 +79,12 @@
       "skillPath": "skills/microsoft-foundry/SKILL.md",
       "computedHash": "84c78f3a0e7cfe72f011cdaa41599c0aec6c988b7d8cb41b2168ada2f7650c15"
     },
+    "pptx": {
+      "source": "olivomarco/ai-dev-skills",
+      "sourceType": "github",
+      "skillPath": "skills/pptx/SKILL.md",
+      "computedHash": "6b8b859d26f93aa059c9870d1ab76b44ab69e3d6757ce4a03cc94cb760888073"
+    },
     "roast-me": {
       "source": "olivomarco/ai-dev-skills",
       "sourceType": "github",
@@ -84,6 +96,12 @@
       "sourceType": "github",
       "skillPath": "skills/stale-code-check/SKILL.md",
       "computedHash": "9290e91119f31e05c58fe992fa1a996ee17128503f5366e5939280568488a158"
+    },
+    "xlsx": {
+      "source": "olivomarco/ai-dev-skills",
+      "sourceType": "github",
+      "skillPath": "skills/xlsx/SKILL.md",
+      "computedHash": "efd0c8011cf0677d8075cf93867ecec804f9a8754a777e1d2fdb46197e9c247f"
     }
   }
 }
