@@ -12,7 +12,8 @@ The customer leaves with an owned operating closeout:
 - a read-only reconciliation of its normalized control-plane registry and the
   explicit S1 Entra Agent ID inventory;
 - the S0 baseline-to-S6 exit maturity comparison; and
-- a decision-ready residual-gap backlog with owners, due dates, and status.
+- a decision-ready residual-gap backlog with owners, due dates, validation
+  references, recurrence checks, and status.
 
 Durable artifact: `labs/s6-control-plane/` - explicit input schemas,
 read-only reconciliation tooling, and the closeout templates. Customer evidence
@@ -32,9 +33,11 @@ committed to this repository.
 ## 3. Why this session
 
 Governance becomes operational when known agents, identities, ownership,
-lifecycle state, and unresolved gaps can be reconciled into one accountable
-record. S6 uses explicit field mappings so a mismatch becomes a finding instead
-of a guessed match.
+lifecycle state, material changes, and unresolved gaps can be reconciled into
+one accountable record. S6 uses explicit field mappings so a mismatch becomes
+a finding instead of a guessed match. A lifecycle transition, suspension,
+retirement, or material authority change remains a customer-owned change and
+review decision.
 
 Read the [S6 Concepts](concepts.md) for reconciliation, lifecycle ownership,
 and the boundary between visibility and governance.
@@ -68,7 +71,7 @@ records copied into this repository.
 | Normalize explicitly | 15 min | Normalize the registry to `rvas.s6.control-plane-registry.v1`, using the sample only as a field-level illustration. Supply `registryId`, `displayName`, `entraObjectId` or `null`, `executionMode`, `managed`, `lifecycleState` or `null`, and `sponsor` or `null`. | “Can every value be traced to the customer source?” “Which nulls are intentional findings?” Do not map aliases or alternate fields. A schema failure means the input is not ready; it is not a reconciliation result. |
 | Reconcile and triage | 20 min | Run the read-only comparison below, then review shadow, registry-only, unmanaged/OBO, missing-sponsor, and lifecycle findings with the appropriate specialist. | “What does this finding mean operationally?” “Is it a source gap, an ownership gap, or a separate change?” Matches are only `entraObjectId` ↔ `objectId`; a no-result is not a pass unless the expected signal and checked scope are recorded. Do not change the registry in the session. |
 | Discuss maturity lift | 15 min | Re-run the same S0 scorecard in the customer-approved records system, compare the baseline and exit scores with the S0 offline scoring tools, and retain the maturity-lift reference with closeout records. | “What evidence supports a score change?” “Which domains remain below target?” Treat the comparison as a decision input, not proof that a control is deployed or operating. Add each residual gap to the customer-owned backlog. |
-| Close out and set cadence | 15 min | Choose close, close with owned gaps, defer, or do not close. Name the approver, backlog owner, target dates, and next governance review. | “Are all findings owned with a due date?” “What cadence will re-check registry quality, reconciliation, and residual gaps?” A closeout is valid only when the governance lead accepts the stated residual risk; otherwise record a deferred decision and review date. |
+| Close out and set cadence | 15 min | Choose close, close with owned gaps, defer, or do not close. Name the approver, backlog owner, target dates, validation reference, recurrence check, and next governance review. | “Are all findings owned with a due date?” “What cadence will re-check registry quality, lifecycle transitions, reconciliation, and residual gaps?” A closeout is valid only when the governance lead accepts the stated residual risk; otherwise record a deferred decision and review date. |
 
 Run the reconciliation during the fourth activity:
 
@@ -104,7 +107,8 @@ control.
   scorecard, and maturity-lift output have customer records-system references.
 - [ ] The report documents matches by Entra object ID only and preserves all
   unmatched records as findings.
-- [ ] Every residual finding has a decision, owner, due date, and status.
+- [ ] Every residual finding has a decision, owner, due date, validation
+  reference, recurrence check, and status.
 - [ ] The governance lead has recorded a closeout decision, approver, and next
   governance review.
 

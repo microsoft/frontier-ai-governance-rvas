@@ -14,7 +14,9 @@ The two shared references support customer and facilitator conversations:
 - [Platform technical guide](reference/platform-technical-guide.md) for Citadel architecture, ownership boundaries, and deployment handoff.
 - [Governance capability guide](reference/governance-capability-guide.md) for Microsoft capabilities, session use, availability notes, and framework alignment.
 
-After the seven core sessions, teams evaluating in-process tool-call governance
-can take the optional [S7 · In-Process Agent Governance](s7-in-process-governance/index.md)
-extension. It is an offline illustration and adoption-decision workshop, not an
-AGT deployment.
+After the seven core sessions, teams can take optional extensions:
+
+- [S7 · In-Process Agent Governance](s7-in-process-governance/index.md) is an
+  offline illustration and adoption-decision workshop for tool-call policy.
+- [S8 · Operate & Measure](s8-operate-measure/index.md) establishes a
+  customer-owned operating-review and remediation-closure cadence.

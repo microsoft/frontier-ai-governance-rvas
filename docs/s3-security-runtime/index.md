@@ -71,6 +71,12 @@ owners. Stop before the request if any of these are absent.
    observed path support the stated policy behavior, or is this a no-result or
    blocker?* Record the observed fact and reviewer interpretation; do not copy
    prompts, responses, endpoint values, credentials, or telemetry.
+
+   When runtime evidence informs a later governance decision, retain references
+   to the bounded agent/workload and initiating context, request correlation,
+   applicable tool/model version, policy decision, outcome category, and
+   reviewer decision. These references support interpretation; they are not a
+   telemetry schema or a requirement to retain raw event data.
 4. **Customer decision — 15 min.** A proof is eligible for **accepted** only
    when the manifest conforms to `gateway-proof.schema.json`, has
    `result: "pass"`, contains the required safe references, and both customer

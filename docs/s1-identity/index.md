@@ -23,8 +23,9 @@ templates, or customer records.
 
 The customer inventory records a customer record/source reference, workload
 coverage and exclusions, identity classification, identity/workload reference,
-accountable sponsor, lifecycle and purpose, access/risk references, and review
-metadata (reviewer, date, finding, decision, and next review date). The
+accountable sponsor, lifecycle and purpose, access context and authority
+boundary, access/risk references, and review metadata (reviewer, date, finding,
+decision, and next review date). The
 customer records actual identifiers and personal data only in its approved
 system.
 
@@ -89,9 +90,10 @@ handle coverage and ownership gaps.
    population and assign the dependency.
 3. **Interpret corroboration correctly** *(15 min)* — customer may compare
    service-principal, managed-identity, OBO, or application context, but the
-   facilitator asks, “Does this prove Agent ID status or only corroborate?”
-   Record corroboration and its limit. OBO visibility is not a distinct Agent
-   ID inventory entry unless the supported source says so.
+   facilitator asks, “Does this prove Agent ID status or only corroborate?” and
+   “Is the activity user-delegated or agent-operated?” Record corroboration,
+   authority scope, and their limits. OBO visibility is not a distinct Agent ID
+   inventory entry unless the supported source says so.
 4. **Make the ownership decision** *(15 min)* — governance lead decides to
    remediate a missing sponsor/lifecycle, accept a bounded residual risk,
    defer, or mark the source coverage blocked. Criteria: authoritative source
@@ -110,7 +112,7 @@ handle coverage and ownership gaps.
 - [ ] The customer inventory identifies its authoritative source, workload
   coverage, known exclusions, and review date.
 - [ ] Every reviewed in-scope identity has an identity classification, sponsor,
-  lifecycle state, and finding or decision.
+  lifecycle state, access context, authority boundary, and finding or decision.
 - [ ] Ownership, residual-risk, and source-coverage decisions have an owner,
   approver, and next review date.
 - [ ] Each no-result, unsupported capability, and blocker identifies the scope

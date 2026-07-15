@@ -36,7 +36,8 @@ For each reviewed entry, use this schema in the customer system:
 | Identity and workload reference | Customer-safe identifier or link, display name, and platform/workload |
 | Accountable sponsor | Human owner responsible for business purpose, lifecycle, and access justification |
 | Lifecycle and purpose | Proposed, active, suspended, retired, and the approved business purpose |
-| Access and risk references | Links to customer permission, risk, exception, or change records |
+| Access context and risk references | Whether activity is user-delegated or agent-operated; links to customer permission, risk, exception, or change records |
+| Authority boundary | Tool or action scope, accountable approver, and material changes that require reapproval |
 | Review metadata | Reviewer, review date, finding, decision state, and next review date |
 
 Conditional Access design, break-glass exclusions, and any enforcement decision

@@ -63,10 +63,11 @@ owner, date, and effect on closeout.
    findings. Ask whether each is an input-quality issue, an ownership gap, or a
    separately governed change. A no-result is not a pass unless the checked
    scope and expected signal are recorded.
-4. Assign every finding an owner, action, due date, and status; do not write
-   registry metadata here. Registry, identity, lifecycle, or access changes
-   must follow the customer's separate approved change, rollback, and
-   verification process.
+4. Assign every finding an owner, action, due date, validation reference,
+   recurrence check, and status; do not write registry metadata here. A
+   lifecycle transition, suspension, retirement, material authority change, or
+   registry/identity/access change must follow the customer's separate approved
+   change, rollback, and verification process.
 5. Follow [`assessment/exit-rescore.md`](assessment/exit-rescore.md) to produce
    the mandatory S0 baseline-to-exit comparison.
 
@@ -89,7 +90,7 @@ owner and date.
   reconciliation report, S0 baseline, S6 exit scorecard, and maturity-lift
   output in its approved records system.
 - [ ] Every reconciliation and maturity finding has a decision, owner, due
-  date, and status in
+  date, validation reference, recurrence check, and status in
   [`assessment/closeout-backlog.md`](assessment/closeout-backlog.md).
 - [ ] The governance lead records the closeout decision, approver, and next
   governance review and cadence. Customer registry changes, if any, use a

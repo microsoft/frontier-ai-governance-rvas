@@ -23,11 +23,16 @@ The content is **public and source‑cited** (grounded in Microsoft Learn) and c
 | # | Session | Durable outcome |
 |---|---------|-----------------|
 | S7 | In-Process Agent Governance | Illustrative tool-policy decisions, hash-chain consistency, and an AGT adoption backlog |
+| S8 | Operate & Measure | Operating-review definition, remediation-closure record, and governance cadence |
 
 S7 is an offline, conceptual extension for teams evaluating the
 [Agent Governance Toolkit (AGT)](https://github.com/microsoft/agent-governance-toolkit).
 It does not deploy AGT, change a customer agent, or replace Citadel gateway
 controls.
+
+S8 is an offline, vendor-neutral extension after S6. It defines an
+evidence-first operating review and remediation-closure cadence; it does not
+collect customer telemetry, calculate metrics, or make a customer change.
 
 ## Repository layout
 

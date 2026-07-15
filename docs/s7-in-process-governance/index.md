@@ -71,6 +71,12 @@ raw customer record will be used.
 | Assess limitations and evidence needs | 20 min | Review the pinned AGT Public Preview and [known limitations](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md), plus customer requirements for policy ownership, change review, records retention, and tamper evidence. | “What evidence would a future engineering assessment need?” “Who controls signed immutable external retention if tamper evidence is required?” A local hash chain can be recalculated after replacement; it does not establish integrity, provenance, immutability, or later tampering. |
 | Decide and hand over | 15 min | Choose investigate further, defer, or reject for the current architecture. Record fit, constraints, residual risks, owner, due date, review point, and dependencies in the S6 follow-up backlog. | “What decision is supportable from this illustration?” “What must happen before an engineering assessment?” Adoption means only that a separate assessment is authorized; it does not authorize installation, deployment, or policy change. |
 
+A future customer policy review should distinguish activity performed on behalf
+of a user from activity performed under an agent-operated authority. Treat a
+new tool/action scope, privilege expansion, change of accountable owner, or
+material behavior change as a reapproval question; this session does not define
+or approve the answer.
+
 Run the illustration during the third activity:
 
 ```bash

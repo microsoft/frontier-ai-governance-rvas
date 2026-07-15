@@ -36,3 +36,8 @@ handoff contract is complete and the S3 decision is `accepted`; otherwise
 choose `hold`, defer, or record **blocked** with the dependency, owner, target
 date, and review date. A fixture score, evaluator result, or proposed gate is
 context for a customer-owned process, not an S4 exit.
+
+For a later operating review, retain customer-held references to the bounded
+workload, evaluation-plan/version, applicable runtime correlation, decision
+outcome, and reviewer. Do not copy evaluation cases, scores, prompts, or
+outputs into this kit.

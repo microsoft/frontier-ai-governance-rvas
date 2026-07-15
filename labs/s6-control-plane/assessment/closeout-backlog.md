@@ -26,8 +26,8 @@ customer-generated evidence to this kit.
 Record every remaining maturity, reconciliation, or session finding. Reference
 the source artifact so the governance board can trace the decision.
 
-| Domain / finding | Source artifact | Action | Owner | Due date | Status |
-|---|---|---|---|---|---|
-| | | | | | |
-| | | | | | |
-| | | | | | |
+| Domain / finding | Source artifact | Action | Owner | Opened / due date | Validation reference | Recurrence check | Exception / escalation | Status |
+|---|---|---|---|---|---|---|---|---|
+| | | | | | | | | |
+| | | | | | | | | |
+| | | | | | | | | |

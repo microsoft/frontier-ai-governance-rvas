@@ -50,3 +50,8 @@ is accepted by both customer platform and security reviewers. Missing
 correlation, production-only availability, missing reviewers, or an unsafe
 route is a safe stop: record the blocker, owner, date, and S4 impact instead of
 substituting a direct component test.
+
+For a later operating review, the customer may reference the bounded workload
+and initiating context, correlation, tool/model version, policy decision,
+outcome category, and reviewer decision. Do not add raw event data, payloads,
+identifiers, or credentials to this kit.

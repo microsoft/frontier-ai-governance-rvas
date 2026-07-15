@@ -44,7 +44,9 @@ Do not compress an observation period into a workshop. S1 Conditional Access rep
 4. Run S4 with an AI developer or maker, a non-production target, representative safe test cases, and an agreed threshold owner.
 5. Run S5 only after the adversarial-test authorization, SOC notification, rules of engagement, thresholds, and non-production hard exit gate have passed.
 6. Run S6 after the evidence review. Reconcile the registry and S1 inventory, compare the S0 and S6 scorecards, and assign the residual backlog.
-7. Run optional S7 only after S6. It is an offline adoption-decision workshop and does not change the core delivery path.
+7. Run optional S7 and/or S8 only after S6. S7 is an offline
+   adoption-decision workshop; S8 defines a customer-owned operating-review
+   cadence. Neither changes the core delivery path.
 
 The S0 roadmap can change the order of S1 through S5. It cannot waive hard dependencies. Record any changed order and its reason in the engagement register.
 

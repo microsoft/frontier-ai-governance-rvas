@@ -69,6 +69,11 @@ location are available. S4 stops at review if the S3 acceptance is missing.
    reviewer locate the accepted S3 proof and the customer-owned plan? Does any
    claimed score, fixture, or proposed gate exceed this assurance boundary?*
    Record a result, no-result, or blocker as a safe reference only.
+
+   If the customer later reviews assurance trends, connect the assurance
+   decision to safe references for the bounded workload, evaluation-plan or
+   version, decision outcome, applicable runtime correlation, and reviewer.
+   Do not treat a score, event field, or absent record as proof of coverage.
 4. **Customer decision — 15 min.** `continue` is available only when the
    handoff contract is complete, the referenced S3 proof decision is
    `accepted`, and the decision owner records a decision reference. Otherwise

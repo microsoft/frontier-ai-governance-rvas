@@ -55,6 +55,15 @@ simulator. S7 does not deploy AGT, modify customer agent code, or replace
 Citadel's gateway, identity, data, runtime-security, evaluation, or
 control-plane responsibilities.
 
+## Optional S8 · Operate & Measure
+
+Teams that have completed S6 can add S8 to establish a customer-owned
+operating-review cadence. It uses bounded questions about coverage,
+reliability, safety, quality, cost, adoption, human review, business outcomes,
+and remediation to connect approved evidence references with ownership and
+follow-up decisions. S8 does not collect telemetry, build dashboards, set
+thresholds, or make a customer change.
+
 ## Continue with delivery planning
 
 Read [Plan the engagement](plan-engagement.md) for delivery roles, platform-readiness choices, the S0 baseline, safety rules, and the session sequence.

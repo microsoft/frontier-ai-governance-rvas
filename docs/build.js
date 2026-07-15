@@ -48,6 +48,7 @@ const SESSIONS = [
   { slug: 's5-red-teaming',      code: 'S5', accent: '#EA580C', persona: 'Security / SOC',         nist: 'Measure · Manage',  outcome: 'PyRIT / AI Red Teaming Agent scan + ASR scorecard' },
   { slug: 's6-control-plane',    code: 'S6', accent: '#0078D4', persona: 'Governance lead',        nist: 'Govern · Manage',   outcome: 'Agent 365 registry + capstone re-score' },
   { slug: 's7-in-process-governance', code: 'S7', accent: '#0F766E', persona: 'AI developer / maker', nist: 'Govern · Measure · Manage', outcome: 'Illustrative tool-policy decision record + adoption backlog', optional: true },
+  { slug: 's8-operate-measure', code: 'S8', accent: '#7C3AED', persona: 'Governance lead', nist: 'Govern · Measure · Manage', outcome: 'Operating-review definition + remediation-closure cadence', optional: true },
 ];
 
 const SESSION_CHAPTERS = [
@@ -64,7 +65,7 @@ const SESSION_CHAPTERS = [
   {
     slug: 'verify-handover',
     label: 'Verify and hand over',
-    heading: /^(?:5\. Verification|6\. (?:Customer-owned )?Rollback)/i,
+    heading: /^(?:5\. Verification|6\. (?:Customer-owned )?(?:Rollback|Change boundary))/i,
   },
   {
     slug: 'facilitator-notes',

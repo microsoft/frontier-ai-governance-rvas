@@ -25,7 +25,12 @@
               "description": "Reference to the approved records system; never an evidence payload."
             }
           },
-          "note": { "type": "string" }
+          "note": { "type": "string" },
+          "finding_opened_at": { "type": "string", "format": "date" },
+          "target_date": { "type": "string", "format": "date" },
+          "validation_reference": { "type": "string" },
+          "recurrence_review": { "type": "string" },
+          "exception_reference": { "type": "string" }
         }
       }
     }

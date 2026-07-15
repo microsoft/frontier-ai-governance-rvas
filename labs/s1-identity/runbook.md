@@ -40,6 +40,10 @@ decision owner. Stop a population whose source, access, or owner is missing.
 
 - [ ] Treat service principal, managed identity, OBO, or application data only
   as corroboration. Ask whether it proves Agent ID status; record its limit.
+- [ ] Record whether the reviewed activity is user-delegated or agent-operated,
+  the approved tool/action scope, accountable approver, and material changes
+  that require reapproval. This is an authority-boundary review, not a policy
+  design or access change.
 
 ## 4. Make the ownership decision
 

@@ -141,7 +141,10 @@ function workspaceFiles(input) {
         state: 'designed',
         owner: input.platform_lead,
         evidence_references: [],
-        note: 'Hard exit gate: prove the representative non-production agent path through the approved gateway.'
+        note: 'Hard exit gate: prove the representative non-production agent path through the approved gateway.',
+        validation_reference: '',
+        recurrence_review: '',
+        exception_reference: ''
       }
     ]
   };
@@ -157,7 +160,7 @@ function workspaceFiles(input) {
     '02-governance-controls/README.md': `# 02 · Governance Controls\n\nRun identity, data, security, policy, and ownership work packages in parallel with Platform Foundation. Record each control in [control-register.json](control-register.json) and link evidence only through the approved customer records system.\n`,
     '02-governance-controls/control-register.json': json(controls),
     '03-assurance/README.md': `# 03 · Assurance\n\nDo not begin final assurance until Platform Foundation has a non-production gateway route. Run evaluation and authorized adversarial testing against the representative path, then record remediation decisions and evidence references in the operating registers.\n`,
-    '04-operate/README.md': `# 04 · Operate\n\n## Formal handoff\n\n- [ ] Baseline-to-exit maturity comparison completed.\n- [ ] Evidence register reconciled.\n- [ ] Decision register has risk owners, approvers, and review dates.\n- [ ] Production-readiness package completed without promoting production.\n- [ ] 30/60/90 operating backlog accepted.\n\nUse [production-readiness-decision.md](production-readiness-decision.md) for the separate change-review decision.\n`,
+    '04-operate/README.md': `# 04 · Operate\n\n## Formal handoff\n\n- [ ] Baseline-to-exit maturity comparison completed.\n- [ ] Evidence register reconciled.\n- [ ] Decision register has risk owners, approvers, and review dates.\n- [ ] Every open finding has a target date, validation reference, recurrence review, and exception or escalation reference where applicable.\n- [ ] Production-readiness package completed without promoting production.\n- [ ] 30/60/90 operating backlog accepted.\n\nUse [production-readiness-decision.md](production-readiness-decision.md) for the separate change-review decision.\n`,
     '04-operate/evidence-register.json': json(evidence),
     '04-operate/decision-register.json': json(decisions),
     '04-operate/production-readiness-decision.md': `# Production-readiness decision package\n\nThis is not a production deployment approval or change record.\n\n| Decision | Owner | Approver | Review by |\n|---|---|---|---|\n| ‹ready for separate change review / not ready / accepted risk› | ‹name› | ‹name› | ‹date› |\n\n## Required references\n\n- Gateway proof evidence manifest\n- Control-state register\n- Evaluation and authorized assurance results\n- Residual-risk register\n- Rollback and monitoring runbooks\n`,
