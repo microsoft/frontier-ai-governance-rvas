@@ -19,6 +19,19 @@ That distinction prevents discoverability from being mistaken for assurance.
 S5 requires evidence references and an explicit decision, while leaving
 implementation and runtime verification to separate customer processes.
 
+## Publication decisions become implementation backlog
+
+The S5 recommendation should name the next publication path and the reason
+other paths were rejected or deferred. Typical backlog rows include API Center
+or catalog registration, gateway/APIM route, caller identity, MCP or connector
+implementation path, workspace or namespace decision, version boundary,
+authorization scope, suspension/withdrawal trigger, S6 runtime evidence, S9
+lifecycle reconciliation, and customer change/release ownership.
+
+S5 does not publish a service, grant permissions, configure an integration, or
+prove runtime safety. It records the backlog and owner needed before those
+actions can occur elsewhere.
+
 ## Ownership is specific and durable
 
 Catalog ownership answers who keeps the record current and who coordinates

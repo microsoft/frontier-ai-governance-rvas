@@ -71,3 +71,15 @@ uses authorized, safe observation to determine whether expected behavior can be
 supported for a stated scope and time. It can reject the handoff, identify a
 coverage gap, or require a change through the approved process. Neither the
 S3 review nor the handoff proves a reference architecture is operating.
+
+## Platform review becomes implementation backlog
+
+S3 should recommend a foundation path with confidence and assumptions. Typical
+backlog rows include landing-zone readiness, private connectivity, APIM or AI
+gateway route, API Center/access-contract record, identity boundary, telemetry
+coverage, platform-security owner, S6 runtime-proof prerequisite, and customer
+architecture/security/change-process route.
+
+These rows do not deploy an accelerator, configure a gateway, test networking,
+or prove telemetry operation. They identify which platform owner and customer
+process must execute and evidence that work later.

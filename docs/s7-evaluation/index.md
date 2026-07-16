@@ -14,6 +14,15 @@ Durable artifact: `labs/s7-evaluation/` - an evaluation-plan review template,
 an assurance-handoff contract, and a customer-owned outcome template. It is not
 a live agent evaluator or CI/CD gate.
 
+### Implementation pathway
+
+S7 produces an evaluation and release-assurance backlog for later
+customer-owned implementation. The recommendation should state whether to
+continue, hold, defer, or block release progression, and which Foundry
+evaluation target, evaluator/scorecard, dataset owner, trace source,
+threshold, CI/CD or release process, rollback route, S8 red-team dependency, or
+S11 operating review item must be owned next.
+
 ## 2. Prerequisites
 
 - An S6 manifest conforming to

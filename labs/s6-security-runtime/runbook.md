@@ -42,7 +42,13 @@ does not receive credentials, run the request, or accept the proof.
    Copy `templates/gateway-correlation-review.template.md` into the approved
    records system to capture the manifest reference, correlation decision,
    interpretation owner, and accepted/rejected/deferred/blocked outcome.
-4. Hand off the accepted proof reference and decision reference to S4. If the
+4. Record the runtime-control implementation backlog in the correlation review:
+   gateway/APIM route or policy remediation, Content Safety or Prompt Shields
+   review, telemetry correlation and retention, SOC/reviewer route, identity or
+   data dependency, S7 evaluation handoff, S9/S11 operating handoff,
+   recommendation, confidence, assumptions, evidence reference or gap, owner,
+   and customer process.
+5. Hand off the accepted proof reference and decision reference to S4. If the
    request fails or review cannot be completed, record the outcome as failed or
    blocked in the customer system; do not create substitute local evidence.
 

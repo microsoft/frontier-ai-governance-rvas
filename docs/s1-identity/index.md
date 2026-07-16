@@ -19,6 +19,14 @@ The customer leaves with an identity-inventory review and ownership decision:
 review template. It does not contain identity discovery, exports, Conditional
 Access definitions, break-glass templates, or customer records.
 
+### Implementation pathway
+
+S1 produces an identity implementation backlog for later customer-owned work.
+The recommendation should state whether to continue with the reviewed identity
+posture, remediate ownership/source gaps, investigate Entra Agent ID coverage,
+route RBAC/OBO/Conditional Access work to the identity-change process, or block
+dependent sessions until an accountable sponsor and evidence source exist.
+
 ### Identity inventory schema
 
 The customer inventory records a customer record/source reference, workload
@@ -94,8 +102,10 @@ handle coverage and ownership gaps.
    service-principal, managed-identity, OBO, or application context, but the
    facilitator asks, “Does this prove Agent ID status or only corroborate?” and
    “Is the activity user-delegated or agent-operated?” Record corroboration,
-   authority scope, and their limits. OBO visibility is not a distinct Agent ID
-   inventory entry unless the supported source says so.
+   authority scope, their limits, identity backlog item, confidence, owner, and
+   route to S4, S6, S9, or the customer identity-change process. OBO visibility
+   is not a distinct Agent ID inventory entry unless the supported source says
+   so.
 4. **Make the ownership decision** *(15 min)* — governance lead decides to
    remediate a missing sponsor/lifecycle, accept a bounded residual risk,
    defer, or mark the source coverage blocked. Criteria: authoritative source

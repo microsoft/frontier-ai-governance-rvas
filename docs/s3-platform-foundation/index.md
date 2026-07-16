@@ -13,6 +13,15 @@ location. `labs/s3-platform-foundation/` contains blank offline templates only.
 No workload data, credentials, network details, event records, or completed
 evidence belongs in this repository.
 
+### Implementation pathway
+
+S3 produces a platform foundation backlog for later customer-owned
+implementation. The recommendation should state whether the workload is ready
+for runtime assurance, needs landing-zone/gateway/API Center/telemetry
+prerequisites, should defer because ownership or evidence is missing, or should
+route platform changes through architecture, network, identity, security, or
+release processes before S6/S7/S9 rely on the path.
+
 ## 2. Scope and hard boundary
 
 This session maps what should be evidenced; it does not inspect, validate, or
@@ -81,6 +90,9 @@ needed for interpretation.
    reference, open gaps, evidence expectations, decision, owners, and stop
    conditions. Runtime assurance chooses its own authorized observation and
    validation method; it must not treat this review as proof of operation.
+   Include platform backlog rows for any landing-zone, gateway, API Center,
+   telemetry, private-connectivity, identity-boundary, or customer-change item
+   required before implementation continues.
 
 ## 5. Verification & evidence capture
 

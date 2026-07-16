@@ -46,6 +46,12 @@ Do not store raw customer records in this kit.
    action. For suspension or withdrawal, record the trigger, scope, action
    owner, communication reference, verification reference, and next decision.
    The customer performs any action through its approved change process.
+6. Record the tool/API implementation backlog in the catalog and decision
+   records. Include API Center or catalog registration, gateway/APIM route,
+   caller identity, MCP/connector/tool implementation path, version/material
+   change boundary, runtime evidence dependency, recommendation, confidence,
+   assumptions, evidence reference or gap, owner, later session, and customer
+   process.
 
 ## Interpretation and handoff
 

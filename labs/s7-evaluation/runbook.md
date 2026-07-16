@@ -37,6 +37,13 @@ human-review, and unsupported-scope questions. A score or metric is useful only
 with its bounded population, version, evaluator, coverage limit,
 interpretation owner, and release decision.
 
+Record the evaluation implementation backlog in the evaluation-plan review:
+Foundry evaluation target, evaluator or scorecard, dataset/scenario owner,
+trace source, unsupported scope, release threshold, future CI/CD or release
+gate owner, rollback/observation route, S8 red-team dependency, S11
+operating-review handoff, recommendation, confidence, assumptions, evidence
+reference or gap, owner, and customer process.
+
 **Interpret and decide:** retain only safe references to the accepted S6 proof,
 evaluation plan, assurance owner, and decision. Choose `continue` only when the
 handoff contract is complete and the S6 decision is `accepted`; otherwise

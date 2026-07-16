@@ -22,6 +22,14 @@ Durable artifact: `labs/s5-tool-api-governance/` contains offline templates and
 a report-only runbook. Customer evidence remains in the approved customer
 records system and is referenced, never copied into this repository.
 
+### Implementation pathway
+
+S5 produces a tool/API publication backlog for later customer-owned
+implementation. The recommendation should state whether the candidate is
+publish-ready, on hold, rejected, suspended, or withdrawn, and which API
+Center/catalog entry, gateway route, caller identity, MCP/tool connector path,
+versioning, lifecycle, and customer change/release process must own execution.
+
 ## 2. Prerequisites
 
 - A bounded candidate list and a customer-owned source record for each

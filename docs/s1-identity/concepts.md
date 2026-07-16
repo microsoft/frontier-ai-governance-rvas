@@ -17,6 +17,19 @@ which agent, and who owns it.
 
 An agent identity is more than an app registration: its sponsor and lifecycle context belong in the governance record.
 
+## Identity findings become backlog decisions
+
+The S1 recommendation should separate inventory evidence from implementation
+work. A reviewed source can support a sponsor decision, lifecycle review,
+Agent ID investigation, RBAC/OBO follow-up, access review, or blocker. It does
+not create an identity, assign access, configure Conditional Access, or approve
+production use.
+
+Typical backlog rows include Entra Agent ID applicability, accountable human
+sponsor, workload identity or service principal review, OBO boundary,
+Conditional Access or access-review owner, gateway-authentication dependency,
+and S9 catalog/lifecycle reconciliation.
+
 ## Inventory is the first control
 
 Agent identities can be created as makers build agents in supported surfaces.

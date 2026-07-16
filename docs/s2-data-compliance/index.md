@@ -21,6 +21,15 @@ Durable artifact: `labs/s2-data-compliance/` - a facilitator review checklist
 and data-governance handoff. Customer evidence remains in the approved customer
 records system and is referenced, not copied, into the delivery workspace.
 
+### Implementation pathway
+
+S2 produces a data-governance implementation backlog for later customer-owned
+work. The recommendation should state whether to continue without a DLP change,
+prepare a report-only Purview DLP change review, remediate classification or
+audit/eDiscovery gaps, route a gateway/data-boundary dependency to S3/S6, or
+block dependent work because workload coverage, licensing, role, retention, or
+investigation ownership is missing.
+
 ## 2. Prerequisites
 
 - Microsoft Purview capabilities licensed for **DSPM for AI**, DLP, Audit, eDiscovery, IRM, and Communication Compliance.

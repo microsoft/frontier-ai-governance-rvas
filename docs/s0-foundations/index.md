@@ -20,6 +20,20 @@ By the end of this session the customer leaves with:
 Completed scorecards, roadmaps, names, notes, and evidence stay in the
 customer's approved records system and are never committed to this repository.
 
+### Implementation pathway
+
+S0 turns the baseline into a foundation backlog, not a deployment plan. The
+session-scoped recommendation should name the next governance track,
+confidence and assumptions, accountable owner, evidence gap, and customer
+process that will drive follow-up.
+
+| Pathway area | Example backlog decision |
+|---|---|
+| Operating model | Confirm executive sponsor, governance lead, decision owner, exception route, and review cadence. |
+| Session sequence | Prioritize S1 identity, S2 data, S3 platform, S4 admission, or later-session work based on scored gaps and dependencies. |
+| Microsoft capability track | Identify whether Entra/Agent ID, Purview, platform/gateway, Foundry/Copilot Studio, evaluation, catalog, observability, or FinOps needs readiness planning. |
+| Customer change process | Assign the architecture, security, compliance, or release process that will own later deployment/configuration decisions. |
+
 ### Baseline schema
 
 The customer copy of the scorecard has one row per assessment question:
@@ -111,8 +125,8 @@ scorecard.
    the dated baseline, RACI/operating-model record, scorer output reference,
    and decision record in the customer system. The facilitator reads back the
    control state (`designed`, `accepted_risk`, or `blocked`), next owner, date,
-   and S1/S2 dependency. Missing authority means **deferred**, with an owner
-   and review date.
+   implementation backlog, and S1/S2 dependency. Missing authority means
+   **deferred**, with an owner and review date.
 
 ## 5. Verification & evidence capture
 

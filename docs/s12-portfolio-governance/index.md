@@ -23,6 +23,14 @@ templates and a runbook. It does not consolidate live data, create a dashboard,
 calculate a portfolio score, alter a policy, or establish compliance
 certification.
 
+### Implementation pathway
+
+S12 produces a portfolio implementation backlog for later customer-owned
+governance work. The recommendation should state whether to approve, defer, or
+reject roadmap priorities, and which investment, exception, policy-evolution,
+funding, owner-readiness, maturity reassessment, S0 feedback, or governance
+cadence item must be owned next.
+
 ## 2. Prerequisites
 
 - An approved records-system location for references and decisions.

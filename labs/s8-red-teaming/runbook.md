@@ -106,3 +106,14 @@ path.
 | Below-threshold ASR | Tested scope, category, threshold, version, and remaining untested areas. |
 | Incomplete or stopped run | Stop reason, owner, revised authorization need, and next decision date. |
 | Missing criterion or evidence reference | Blocker owner, target date, and record needed before interpretation. |
+
+## Adversarial-testing implementation backlog
+
+| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+|---|---|---|---|---|---|
+| AI Red Teaming Agent or PyRIT/customer adapter path | | | | | Customer testing process |
+| Authorization, rules of engagement, SOC window, or stop condition | | | | | Security/SOC process |
+| Category threshold, ASR interpretation, or accepted-risk route | | | | | Governance/risk process |
+| Remediation owner, validation reference, or re-test decision | | | | | S6 / S7 / customer SDLC |
+| Operating alert, recurrence, or monitoring update | | | | | S11 / SOC process |
+| Blocker for production release or catalog/lifecycle status | | | | | S9 / customer release process |

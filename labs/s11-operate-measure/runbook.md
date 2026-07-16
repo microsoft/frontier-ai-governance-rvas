@@ -29,6 +29,12 @@ authoritative evidence.
    escalation route, closure reviewer, and next review.
 6. The governance lead approves, defers, or rejects the review definition.
    Retain the decision reference and limitations in approved records.
+7. Record the operating implementation backlog in the operating-review record:
+   Application Insights/OpenTelemetry or Foundry observability coverage,
+   alerting/SOC route, remediation validation, review cadence, FinOps/cost
+   owner, allocation limits, exception route, S12 handoff, recommendation,
+   confidence, assumptions, evidence reference or gap, owner, and customer
+   operating/change process.
 
 No raw telemetry, identifiers, prompts, responses, costs, or business data
 belong in this kit. S11 does not query live data or make a monitoring,

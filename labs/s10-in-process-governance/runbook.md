@@ -77,6 +77,12 @@ a design issue for a separate assessment, not an invitation to make a change.
 7. Review the pinned AGT Public Preview and known limitations, then record
    application fit, policy ownership, AGT Preview risk, residual limitations,
    owner, and next review in the S6 follow-up backlog.
+8. Record the in-process governance implementation backlog in the applicability
+   review: AGT release/API/limitation assessment, runtime/framework fit,
+   policy owner, approval route, delegated authority, signed immutable audit
+   retention route, gateway/identity/data/runtime dependencies, S5/S6/S9
+   handoffs, rollback, verification, recommendation, confidence, assumptions,
+   owner, and customer SDLC/change process.
 
 ## Adoption decision, reference-only evidence, and handoff
 

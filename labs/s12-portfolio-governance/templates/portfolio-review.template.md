@@ -25,3 +25,13 @@
 | Candidate investment | Risk or dependency addressed | Evidence strength | Expected governance value | Effort / constraint | Accountable owner | Decision status |
 |---|---|---|---|---|---|---|
 | | | | | | | |
+
+## Portfolio implementation backlog
+
+| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Customer governance/process route |
+|---|---|---|---|---|---|
+| Cross-session exception concentration or recurring dependency | | | | | Governance/risk process |
+| Investment priority, budget gate, or owner-readiness decision | | | | | Portfolio/budget process |
+| Policy-evolution question or obsolete assumption | | | | | Policy governance process |
+| Maturity reassessment evidence and S0 feedback | | | | | S0 / governance cadence |
+| Assurance, compliance, or external review route | | | | | Customer assurance process |

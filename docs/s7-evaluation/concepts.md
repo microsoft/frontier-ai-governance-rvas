@@ -30,6 +30,18 @@ unsupported scope. Foundry evaluations and agent evaluators can support a
 customer-owned evaluation process, but S7 records references and decisions
 rather than operating the evaluator.[^foundry-eval]
 
+## Evaluation review becomes release backlog
+
+The S7 recommendation should state the next release-assurance path with
+confidence and assumptions. Typical backlog rows include Foundry evaluation
+target, evaluator or scorecard, dataset/scenario owner, trace source,
+unsupported population, quality/safety/tool-use threshold, future CI/CD or
+release gate owner, rollback/observation route, S8 red-team dependency, and
+S11 operating-review handoff.
+
+The backlog is not a live evaluator, CI/CD gate, or production approval. Those
+belong to the customer release process.
+
 ## A decision is explicit
 
 The assurance owner selects `continue` or `hold` only after the S6 acceptance

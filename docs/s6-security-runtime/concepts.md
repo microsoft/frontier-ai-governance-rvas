@@ -40,5 +40,17 @@ is supported, and who accepted the interpretation. A Prompt Shields result or
 component diagnostic may inform runtime-safety context, but it is not the
 gateway-path proof by itself.[^appinsights]
 
+## Runtime evidence becomes implementation backlog
+
+S6 should recommend the next runtime path with confidence and assumptions.
+Typical backlog rows include gateway/APIM route remediation, Content Safety or
+Prompt Shields policy review, telemetry correlation, SOC alert/de-brief route,
+identity or data-control dependency, S7 evaluation prerequisite, S9 catalog
+lifecycle update, and S11 operating evidence coverage.
+
+The recommendation does not deploy a safety platform, change traffic, or prove
+production control effectiveness. It routes work to customer platform,
+security, SOC, identity, data, change, or operating processes.
+
 [^contentsafety]: Microsoft Learn - [Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection).
 [^appinsights]: Microsoft Learn - [Application Insights OpenTelemetry observability overview](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview).

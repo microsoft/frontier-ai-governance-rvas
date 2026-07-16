@@ -22,6 +22,15 @@ Durable artifact: `labs/s11-operate-measure/` contains blank offline
 templates and a runbook. It does not connect to live data, create a dashboard,
 calculate metrics, set thresholds, store customer data, or implement a change.
 
+### Implementation pathway
+
+S11 produces an operating implementation backlog for later customer-owned
+work. The recommendation should state whether to adopt, defer, or reject the
+operating review definition, and which Azure Monitor/Application Insights/
+OpenTelemetry, Foundry observability, alert route, remediation validation,
+review cadence, FinOps/cost-owner, allocation, exception, or S12 portfolio item
+must be owned next.
+
 ## 2. Prerequisites
 
 - S9 closeout or a documented S9 deferral, including current open findings.

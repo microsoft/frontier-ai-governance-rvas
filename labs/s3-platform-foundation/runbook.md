@@ -37,6 +37,12 @@ environment access, or collection of organization data is part of this runbook.
    expectations, limits, open gaps, stop conditions, and decision reference.
    Runtime assurance decides whether and how to perform later authorized
    observation.
+7. Record the platform implementation backlog: landing-zone readiness,
+   private connectivity, gateway/APIM route, API Center/access contract,
+   identity boundary, telemetry plumbing, S6 runtime-proof dependency, and
+   customer architecture/security/change process. Include recommendation,
+   confidence, assumptions, evidence reference or gap, owner, later session,
+   and boundary for each row.
 
 ## Interpret results safely
 

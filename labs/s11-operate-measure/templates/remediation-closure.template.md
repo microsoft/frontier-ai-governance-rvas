@@ -24,3 +24,5 @@ evidence; it does not authorize a production or policy change.
 - What recurrence signal will be checked in the next review period?
 - What residual limitation, exception, or unsupported scope remains visible to
   the decision owner?
+- Which operating backlog item, owner, customer process, or S12 portfolio
+  route remains open after closure?

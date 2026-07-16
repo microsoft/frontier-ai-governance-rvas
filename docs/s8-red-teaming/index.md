@@ -19,6 +19,14 @@ Durable artifact: `labs/s8-red-teaming/` - the customer-operated Foundry
 adapter contract and runbook. Native scorecards and comparison sidecars remain
 ignored customer evidence in the approved records system.
 
+### Implementation pathway
+
+S8 produces an adversarial-testing remediation backlog for later customer-owned
+implementation. The recommendation should state whether to remediate, accept
+risk, block, or re-test, and which Foundry AI Red Teaming Agent/PyRIT adapter
+path, SOC authorization, category threshold, remediation owner, S6/S7/S11
+dependency, or non-production change process owns the next step.
+
 !!! warning "Safety / authorization required"
     Do not run adversarial activity unless the SOC has been notified, written
     authorization and rules of engagement are approved, and the target is a

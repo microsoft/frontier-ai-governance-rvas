@@ -22,3 +22,14 @@
 **Unknowns and gaps:**
 
 **Record owner and last review date:**
+
+## Tool/API implementation backlog
+
+| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+|---|---|---|---|---|---|
+| API Center, catalog, workspace, or namespace registration | | | | | S9 / catalog process |
+| Gateway/APIM route, access contract, or backend policy | | | | | S3 / S6 / platform process |
+| Caller identity, authentication, RBAC, or OBO boundary | | | | | S1 / identity process |
+| MCP service, connector, tool, function, or API implementation path | | | | | S4 / customer SDLC |
+| Versioning, material-change boundary, suspension, or withdrawal route | | | | | S9 / change process |
+| Runtime evidence, safety control, or telemetry dependency | | | | | S6 / S11 |

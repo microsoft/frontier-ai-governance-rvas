@@ -20,6 +20,43 @@ This guide maps the Microsoft capabilities used in the AI Governance curriculum 
 | Operate, monitor & FinOps · S11 | Customer-held operational, security, quality, and cost evidence; Azure Monitor / Application Insights; Azure Cost Management and FinOps Toolkit where used | Operating review, drift, cost accountability, and remediation cadence. | Evidence coverage, attribution limits, and owner availability. |
 | Portfolio governance · S12 | Customer-held governance, risk, and portfolio records | Portfolio decision, exception review, and next roadmap. | Decision authority and records availability. |
 
+## Implementation pathway taxonomy
+
+Every session should translate its evidence review into a bounded
+implementation pathway. The pathway is a customer-owned backlog and decision
+aid; it is not an instruction to deploy, configure, publish, grant access, or
+approve production use during the session.
+
+Use the same row shape across sessions:
+
+| Field | Purpose |
+|---|---|
+| Implementation pathway or backlog item | Concrete next setup, configuration, review, operating, or portfolio decision the session enables. |
+| Applicability | `applies`, `does not apply`, `unknown`, or `later session / customer process`. Applicability does not mean mandatory deployment. |
+| Session recommendation | Recommended next path, defer, reject, investigate, accept risk, or route elsewhere. |
+| Confidence and assumptions | Why the recommendation is supportable from the evidence reviewed in this session. |
+| Evidence reference or gap | Customer-held record reference, no-result, unsupported condition, blocker, or missing prerequisite. |
+| Owner | Named business, engineering, platform, security, identity, data, service, cost, or portfolio owner. |
+| Later route | Follow-on session or customer architecture, security, change, release, support, or production-approval process. |
+| Boundary | What this session does not configure, deploy, prove, or approve. |
+
+Filter the following Microsoft capability categories to the session:
+
+| Category | Typical implementation questions |
+|---|---|
+| Operating model and change process | Who owns the decision, cadence, roadmap, exception route, change process, and production approval? |
+| Entra identity and Agent ID | Which human sponsor, Agent ID, workload identity, RBAC, Conditional Access, OBO, or lifecycle review is needed? |
+| Purview and data governance | Which DSPM, DLP, label, audit, eDiscovery, retention, or investigation capability applies? |
+| Platform, gateway, and API Center | Which landing-zone, network, gateway, API Center, access-contract, telemetry, or platform-owner backlog item is needed? |
+| Copilot Studio and Power Platform | Which environment, Managed Environment, DLP, connector, solution, ALM, publication, or monitoring decision applies? |
+| Microsoft Foundry Agent Service | Which project, model, agent type, instructions/code package, tools, identity, observability, evaluation, or publication item applies? |
+| Microsoft 365 Copilot extensibility | Which declarative-agent instructions, knowledge, actions, capabilities, metadata, distribution, or tenant-governance item applies? |
+| Runtime safety and SOC operations | Which Content Safety, prompt shield, gateway policy, runtime-control, alert, SOC contact, or remediation route applies? |
+| Evaluation and observability | Which Foundry evaluation, evaluator, scorecard, trace, release threshold, or Application Insights/OpenTelemetry item applies? |
+| Catalog and lifecycle | Which Agent 365, Entra Agent ID, API Center, registry, steward, material-change, retirement, or recurrence item applies? |
+| FinOps and operating evidence | Which cost owner, allocation, Azure Cost Management, FinOps Toolkit, operational review, or remediation-validation item applies? |
+| Customer SDLC and release | Which architecture/security review, CI/CD gate, release, rollback, verification, or production-approval process owns execution? |
+
 ## The capability map
 
 ![Microsoft Entra Agent ID, Microsoft Purview, security controls, evaluations, and adversarial testing records inform Microsoft Agent 365, with the operating model beneath the entire governance view.](../assets/diagrams/landscape.svg)
@@ -77,10 +114,12 @@ The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC
 - [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)
 - [ISO/IEC 42001](https://www.iso.org/standard/81230.html)
 - [EU AI Act](https://eur-lex.europa.eu/eli/reg/2024/1689/oj)
+- [Cloud Adoption Framework for AI strategy](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai/strategy)
 - [Microsoft Agent 365](https://learn.microsoft.com/en-us/microsoft-agent-365/overview)
 - [Microsoft Entra Agent ID](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id)
 - [Manage owners and sponsors for agent identities](https://learn.microsoft.com/en-us/entra/agent-id/manage-owners-sponsors-agents)
 - [Microsoft Purview for AI](https://learn.microsoft.com/en-us/purview/ai-microsoft-purview)
+- [Azure API Center overview](https://learn.microsoft.com/en-us/azure/api-center/overview)
 - [Defender AI security posture management](https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-security-posture)
 - [Azure AI Content Safety Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection)
 - [Application Insights OpenTelemetry observability overview](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview)
@@ -95,6 +134,7 @@ The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC
 - [Best practices for declarative agents in Microsoft 365 Copilot](https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/declarative-agent-best-practices)
 - [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent)
 - [PyRIT](https://github.com/microsoft/PyRIT)
+- [FinOps documentation](https://learn.microsoft.com/en-us/cloud-computing/finops/)
 - [FinOps Toolkit](https://microsoft.github.io/finops-toolkit/)
 - [AGT README at pinned commit `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/README.md)
 - [AGT known limitations at pinned commit `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md)

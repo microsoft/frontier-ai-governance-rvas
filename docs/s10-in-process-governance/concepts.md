@@ -46,6 +46,19 @@ retained. The sample policy is intentionally generic and must not be copied
 into a customer application without separate engineering, security, and
 change-review.
 
+## Applicability becomes adoption backlog
+
+The S10 recommendation should state whether to investigate AGT further, defer,
+reject, or mark the boundary not applicable. Typical backlog rows include AGT
+release/API/limitation assessment, language/runtime fit, policy owner,
+approval route, delegated authority, signed immutable audit-retention route,
+gateway/identity/data/runtime dependency, S5 tool boundary, S6 runtime
+dependency, S9 catalog record, rollback, verification, and customer SDLC
+change process.
+
+The backlog does not authorize installation, code change, policy deployment,
+endpoint access, or production use.
+
 The AGT limitations note that an evaluator with no policies loaded can allow
 actions by default; strict deny-by-default configuration is a production
 consideration. S10 models a deny default but does not validate an AGT

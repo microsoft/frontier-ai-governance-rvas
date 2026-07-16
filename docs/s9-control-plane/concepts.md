@@ -50,6 +50,18 @@ change-review records. S9 does not choose a system of record; it asks which
 record is authoritative for the bounded population and preserves gaps where the
 records disagree.
 
+## Reconciliation becomes lifecycle backlog
+
+The S9 recommendation should state whether the bounded population can close,
+close with owned gaps, defer, or remain open. Typical backlog rows include
+Agent 365/Entra Agent ID/API Center reconciliation, steward assignment,
+parent-tool relationship, lifecycle-state fix, material-change review,
+suspension, withdrawal, retirement, recurrence check, exception escalation,
+S11 operating cadence, and S12 portfolio risk.
+
+S9 does not execute catalog, identity, access, policy, or retirement changes.
+It routes them to the customer-owned steward or change process.
+
 ## Closeout accepts accountability, not absence of findings
 
 Closeout can occur with owned gaps only when the decision owner records the

@@ -40,3 +40,14 @@ customer identifiers in this repository.
 | `fail` manifest | Rejected or deferred with owner, target date, and reviewed scope. |
 | Unsafe route, production-only target, missing reviewer, or missing record location | Blocked. Stop dependent assurance work. |
 | Direct Content Safety or component diagnostic only | Reference separately as a diagnostic; do not use as S6 gateway proof. |
+
+## Runtime-control implementation backlog
+
+| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+|---|---|---|---|---|---|
+| Gateway/APIM route, access contract, backend, or policy remediation | | | | | S3 / platform process |
+| Content Safety, Prompt Shields, or runtime policy review | | | | | Security process |
+| Telemetry correlation, retention, alerting, or reviewer route | | | | | S7 / S11 |
+| Identity, RBAC, OBO, or data-control dependency | | | | | S1 / S2 |
+| Accepted gateway proof handoff to evaluation/release assurance | | | | | S7 |
+| Catalog/lifecycle or operating-evidence update | | | | | S9 / S11 |

@@ -41,6 +41,17 @@ Recorded from the S0 roadmap output:
 2. ‹session›
 3. …
 
+## Foundation implementation backlog
+
+| Pathway area | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+|--------------|----------------------------------|-------------------------------|---------------------------|-------|-----------------------------------|
+| Operating model / CoE cadence | ‹value› | ‹recommend / defer / reject + confidence› | ‹reference or gap› | ‹name› | ‹process/session› |
+| Entra / Agent ID / identity ownership | ‹value› | ‹recommend / defer / reject + confidence› | ‹reference or gap› | ‹name› | ‹S1 / identity process› |
+| Purview / data governance | ‹value› | ‹recommend / defer / reject + confidence› | ‹reference or gap› | ‹name› | ‹S2 / compliance process› |
+| Platform / gateway / API Center / telemetry | ‹value› | ‹recommend / defer / reject + confidence› | ‹reference or gap› | ‹name› | ‹S3 / S6 / platform process› |
+| Agent engineering path | ‹value› | ‹recommend / defer / reject + confidence› | ‹reference or gap› | ‹name› | ‹S4 / architecture process› |
+| Evaluation, red-team, catalog, operating, or portfolio track | ‹value› | ‹recommend / defer / reject + confidence› | ‹reference or gap› | ‹name› | ‹S7-S12 / governance cadence› |
+
 ## Review cadence
 
 - CoE meets ‹weekly/biweekly›; posture reviewed against the maturity score each ‹quarter›.

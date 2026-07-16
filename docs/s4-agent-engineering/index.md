@@ -28,6 +28,14 @@ provides blank, offline templates and a runbook. It contains no customer code,
 data, credentials, integration settings, executable deployment instructions, or
 production approval.
 
+### Implementation pathway
+
+S4 is the formal implementation-path decision point. It compares Microsoft
+agent implementation paths, recommends one with confidence and assumptions,
+records rejected alternatives, builds the selected-path configuration backlog,
+and routes execution to later sessions or customer architecture, engineering,
+security, change, release, and production-approval processes.
+
 ## 2. Prerequisites
 
 - One bounded candidate described in business and engineering terms.

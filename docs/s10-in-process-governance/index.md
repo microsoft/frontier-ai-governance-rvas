@@ -23,6 +23,14 @@ simulator, sample policy, and runbook. The local record is not tamper evidence;
 tamper evidence requires a customer-managed signed record in immutable external
 storage.
 
+### Implementation pathway
+
+S10 produces an in-process governance adoption backlog for later customer-owned
+engineering work. The recommendation should state whether to investigate AGT
+further, defer, reject, or mark not applicable, and which policy owner,
+engineering assessment, audit-retention/tamper-evidence route, tool-call
+boundary, S5/S6/S9 dependency, or customer SDLC/change process owns next steps.
+
 !!! warning "Illustrative only — no AGT deployment"
     The kit does not install or execute AGT, modify customer agent code, call a
     tenant or endpoint, or prove production suitability. It is not an AGT

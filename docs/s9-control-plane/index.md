@@ -21,6 +21,14 @@ closeout templates, sample-only schemas, and read-only reconciliation tooling.
 Customer evidence remains in approved records and is referenced, not copied
 into this repository.
 
+### Implementation pathway
+
+S9 produces a catalog and lifecycle implementation backlog for later
+customer-owned work. The recommendation should state whether to close, close
+with owned gaps, defer, or keep open, and which Agent 365, Entra Agent ID, API
+Center, catalog-stewardship, lifecycle, material-change, reconciliation,
+retirement, recurrence, S11, or S12 item owns the next action.
+
 ## 2. Prerequisites
 
 - A baseline scorecard and a normalized identity inventory with explicit object

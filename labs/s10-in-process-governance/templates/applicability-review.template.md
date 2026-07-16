@@ -36,3 +36,13 @@ policy deployment, endpoint access, or production use.
 | Rationale and limitations | |
 | Owner and due date | |
 | Dependencies and next review | |
+
+## In-process governance implementation backlog
+
+| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+|---|---|---|---|---|---|
+| AGT applicability, release status, API, and limitation assessment | | | | | Engineering assessment |
+| Tool-call policy owner, approval route, and delegated authority | | | | | S4 / S5 |
+| Integration, framework/runtime fit, rollback, and verification | | | | | Customer SDLC/change process |
+| Signed immutable audit record, retention, and tamper-evidence route | | | | | Records/security process |
+| Gateway, identity, data, runtime, or catalog dependency | | | | | S1 / S2 / S6 / S9 |

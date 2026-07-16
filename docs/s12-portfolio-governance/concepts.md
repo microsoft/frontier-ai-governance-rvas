@@ -56,6 +56,18 @@ S0 reassesses selected domains with customer-held evidence and a fresh
 decision. This keeps the improvement loop honest: observe, interpret, decide,
 act through approved processes, then reassess.
 
+## Portfolio decisions become roadmap backlog
+
+The S12 recommendation should turn the review into a dated governance roadmap.
+Typical backlog rows include recurring exception pressure, cross-session
+dependency, investment priority, policy-evolution question, budget or funding
+gate, owner readiness, maturity reassessment evidence, S0 feedback, and
+governance cadence.
+
+The backlog does not approve funding, modify policy, certify compliance, or
+rewrite the S0 baseline. It routes decisions to the appropriate customer
+governance, budget, risk, policy, assurance, or change process.
+
 Framework references such as NIST AI RMF, ISO/IEC 42001, and the EU AI Act can
 help structure questions, but S12 does not issue a conformity conclusion. It
 records which customer-owned references can support the next governance

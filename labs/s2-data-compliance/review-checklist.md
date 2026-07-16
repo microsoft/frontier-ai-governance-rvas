@@ -121,6 +121,18 @@ Decision criteria: evidence scope/quality, supported coverage, classification
 and access dependencies, investigation readiness, decision authority, and
 change safety. This session cannot promote a control to enforcement.
 
+## 6a. Record the data-governance implementation backlog
+
+| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+|---|---|---|---|---|---|
+| Purview DSPM for AI coverage or prerequisite remediation | | | | | Compliance process |
+| Sensitivity label, classification, or data-source permission gap | | | | | Data governance process |
+| DLP report-only change review | | | | | Customer compliance/change process |
+| Audit, eDiscovery, retention, or investigation route | | | | | Legal/compliance process |
+| Copilot, Foundry, Copilot Studio, or connector workload support check | | | | | S4 / product owner |
+| Gateway masking or runtime data-protection dependency | | | | | S3 / S6 |
+| Accepted-risk or blocked data exposure decision | | | | | Governance/risk process |
+
 ## 7. Handoff and blocker path *(5 min)*
 
 - [ ] Add evidence references and classification/retention metadata to the

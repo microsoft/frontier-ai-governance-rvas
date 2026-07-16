@@ -53,6 +53,13 @@ decision owner. Stop a population whose source, access, or owner is missing.
 - [ ] Governance lead chooses remediation, `accepted_risk`, `blocked`, or
   deferred decision based on coverage, attributable sponsor, lifecycle,
   access-risk context, and customer authority.
+- [ ] Record identity implementation backlog rows: Entra Agent ID applicability,
+  sponsor remediation, workload identity/RBAC/OBO review, Conditional Access or
+  access-review change owner, S4 admission dependency, S6 gateway-auth
+  dependency, and S9 catalog/lifecycle dependency where applicable.
+- [ ] For each row, record recommendation, confidence, assumptions, evidence
+  reference or gap, owner, later session or customer identity-change process,
+  and the boundary that S1 makes no access or tenant change.
 - [ ] Record the customer inventory/source reference and retention metadata in
   `04-operate/evidence-register.json`, and decision/owner/approver/date in
   `04-operate/decision-register.json`.

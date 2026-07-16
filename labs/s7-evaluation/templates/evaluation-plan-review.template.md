@@ -41,3 +41,14 @@ telemetry in this repository.
   before release progression?
 - Which customer process owns any future CI/CD gate, threshold, observation
   period, rollback, and verification?
+
+## Evaluation implementation backlog
+
+| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+|---|---|---|---|---|---|
+| Foundry evaluation target, evaluator, scorecard, or trace source | | | | | Evaluation process |
+| Dataset, scenario coverage, or unsupported population gap | | | | | Customer evaluation owner |
+| Release threshold, hold/continue decision, or CI/CD gate owner | | | | | Customer release process |
+| Tool-use, action-boundary, safety, or human-review evaluation | | | | | S4 / S6 / S8 |
+| Regression, rollback, observation period, or post-release verification | | | | | Customer SDLC / S11 |
+| Operating review, trend, or remediation-validation handoff | | | | | S11 |

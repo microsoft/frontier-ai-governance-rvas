@@ -16,6 +16,14 @@ call. The customer platform and security owners must correlate its
 `correlation_id` with gateway telemetry before accepting it as enforcement
 evidence.
 
+### Implementation pathway
+
+S6 produces a runtime-control backlog for later customer-owned implementation.
+The recommendation should state whether to accept the gateway proof, defer or
+reject it, remediate gateway route/policy/telemetry gaps, route Content
+Safety/prompt shield or SOC work to the security process, or block S7/S9/S11
+dependencies until correlation is accepted.
+
 ## 2. Prerequisites
 
 - A deployed customer gateway with an approved non-production route and runtime

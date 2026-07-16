@@ -36,3 +36,14 @@ this repository.
   owned finding?
 - What customer identity-change process owns any Conditional Access,
   break-glass, access-remediation, rollback, or verification work?
+
+## Identity implementation backlog
+
+| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+|---|---|---|---|---|---|
+| Entra Agent ID or agent identity applicability | | | | | S4 / S9 / identity process |
+| Human sponsor or lifecycle remediation | | | | | S1 follow-up / governance process |
+| Workload identity, service principal, RBAC, or OBO review | | | | | S4 / identity-change process |
+| Conditional Access or access-review design | | | | | Customer identity-change process |
+| Gateway-authentication or runtime dependency | | | | | S3 / S6 |
+| Catalog, ownership, or retirement reconciliation | | | | | S9 |

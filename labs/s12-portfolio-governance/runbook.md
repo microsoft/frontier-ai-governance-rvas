@@ -30,6 +30,11 @@ defer.
 6. The decision owner approves, defers, or rejects the portfolio roadmap.
    Retain the decision, residual-risk disposition, limitations, and references
    in the approved records system.
+7. Record the portfolio implementation backlog: investment priority,
+   exception concentration, policy-evolution question, budget/funding gate,
+   owner readiness, maturity reassessment, S0 feedback, governance cadence,
+   recommendation, confidence, assumptions, evidence reference or gap, owner,
+   and customer governance/change process.
 
 ## Interpretation rules
 

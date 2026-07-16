@@ -92,6 +92,12 @@ Closeout confirms that accountability is visible. It does not confirm that an
 entry was changed, a remediation operates, or an exception is resolved. A
 closure requires a validation reference and a recorded recurrence review.
 
+Record the catalog and lifecycle implementation backlog in the stewardship
+record: Agent 365, Entra Agent ID, API Center or registry reconciliation,
+stewardship fix, lifecycle-state change, material-change route, suspension,
+withdrawal, retirement, validation, recurrence, exception, S11/S12 handoff,
+recommendation, confidence, assumptions, owner, and customer process.
+
 ## Reference-only evidence and handoff
 
 - [ ] Record references to the catalog, identity inventory, reconciliation

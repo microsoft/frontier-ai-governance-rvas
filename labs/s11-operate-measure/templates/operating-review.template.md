@@ -37,3 +37,14 @@
 |---|---|---|---|---|---|---|
 | | | | | | | |
 | | | | | | | |
+
+## Operating implementation backlog
+
+| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+|---|---|---|---|---|---|
+| Application Insights/OpenTelemetry, Azure Monitor, or Foundry observability coverage | | | | | Platform / operations process |
+| Alert, SOC route, incident review, or escalation path | | | | | Security/SOC process |
+| Remediation validation, recurrence check, or exception expiry | | | | | Service owner / S12 |
+| Review cadence, operating owner, or support route | | | | | Operations process |
+| FinOps cost owner, allocation, Azure Cost Management, or FinOps Toolkit view | | | | | Cost-management process |
+| Portfolio risk, investment, or policy question handoff | | | | | S12 |

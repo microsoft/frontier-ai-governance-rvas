@@ -13,6 +13,20 @@ In S0, the CoE stub and RACI make that ownership concrete. They are deliberately
 
 An operating model becomes useful when the customer records real owners, decisions, and follow-up actions in the durable artifacts.
 
+## The baseline becomes an implementation backlog
+
+S0 should end with a recommended foundation path, not only a maturity score.
+The recommendation can be to sequence S1 identity before S4 admission, to
+prepare S2 Purview evidence before data policy work, to assign a platform owner
+before S3/S6, or to hold a use case until sponsorship and records ownership are
+clear.
+
+Use Microsoft capability names as backlog categories only when they help route
+ownership. S0 does not configure Entra, Purview, Foundry, Copilot Studio,
+gateway, observability, catalog, or FinOps capabilities. It identifies which
+capability track needs a named owner, evidence source, later session, or
+customer change process.
+
 ## Govern before you build
 
 NIST AI RMF's **Govern** function establishes culture, roles, accountability, and inventory. It is the foundation for the later work of understanding context (**Map**), measuring outcomes (**Measure**), and treating risk (**Manage**).[^nist]

@@ -50,3 +50,14 @@ evaluations, Azure Monitor or Application Insights telemetry, Security/SOC
 records, release scorecards, cost-management views, and FinOps Toolkit outputs.
 S11 records approved references and limitations, not raw telemetry or a new
 dashboard.
+
+## Operating review becomes implementation backlog
+
+The S11 recommendation should turn review design into owned operating work.
+Typical backlog rows include Application Insights/OpenTelemetry coverage,
+Foundry observability, alert route, remediation validation, recurrence check,
+operating cadence, FinOps/cost owner, allocation limitation, exception
+escalation, S12 portfolio handoff, and customer support or change process.
+
+The backlog does not create a dashboard, query live data, set a threshold,
+change a control, or close a finding without validation.

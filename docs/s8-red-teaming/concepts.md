@@ -34,6 +34,18 @@ response unacceptable, and what validation would show the remediation worked.
 This prevents a scorecard from becoming a generic severity label detached from
 the customer's rules of engagement.
 
+## Findings become remediation backlog
+
+S8 should recommend a remediation, accepted-risk, blocked, or re-test path with
+confidence and assumptions. Typical backlog rows include AI Red Teaming Agent
+or PyRIT/customer adapter path, authorization and rules of engagement, SOC
+monitoring window, category threshold, above-threshold remediation owner,
+validation reference, re-test criteria, operating alert update, S6/S7/S11
+handoff, and production-release blocker.
+
+The backlog does not authorize testing outside the written scope and does not
+approve production release.
+
 ## Native scorecard and threshold review are different artifacts
 
 The Foundry AI Red Teaming Agent produces the native scorecard for the run. S8

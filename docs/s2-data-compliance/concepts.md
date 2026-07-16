@@ -11,6 +11,19 @@ AI governance needs to answer more than “is this agent allowed to run?” It a
 
 S2 focuses on the tenant compliance plane: data classification, policy, investigation, and retained evidence. It does not attempt to build a new model gateway.
 
+## Compliance findings become implementation backlog
+
+S2 should recommend the next data-governance path with assumptions and owners.
+Typical backlog items include Purview DSPM coverage remediation, sensitivity
+label or classification work, DLP report-only change review, audit/eDiscovery
+route validation, retention or legal-hold dependency, Copilot/Foundry/Copilot
+Studio workload support check, gateway masking dependency, and accepted-risk or
+blocked status.
+
+The recommendation is not a policy deployment. Promotion from designed to
+report-only or enforcement remains a separate customer compliance/change
+process with rollback, communications, observation, and verification.
+
 ## DSPM for AI finds exposure before enforcement
 
 Data Security Posture Management for AI helps surface oversharing, sensitive-data exposure, risky access patterns, and potential exfiltration paths. Its role is diagnostic: it gives the customer a prioritized view of where data risk may exist before a policy blocks or notifies users.[^dspm]
