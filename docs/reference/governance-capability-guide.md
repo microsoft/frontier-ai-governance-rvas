@@ -10,7 +10,7 @@ This guide maps the Microsoft capabilities used in the AI Governance curriculum 
 | Identity · S1 | Microsoft Entra Agent ID, Conditional Access, Identity Protection, Agent 365 | Agent inventory, sponsorship, lifecycle, and access posture. | Agent-ID feature and Conditional-Access availability. |
 | Data · S2 | Microsoft Purview DSPM for AI, DLP, audit, eDiscovery, and information protection | Data exposure findings, DLP testing, and retained compliance evidence. | Licensing and tenant support. |
 | Platform & trust boundaries · S3 | Azure landing-zone, network, gateway, monitoring, and security capabilities | Customer-owned platform-path and trust-boundary decision. | Region, network, feature, and ownership availability. |
-| Engineering & admission · S4 | Customer engineering standards, source control, build, evaluation, and deployment capabilities | Agent admission and material-change review. | Customer-supported implementation paths. |
+| Engineering & admission · S4 | Microsoft Foundry Agent Service, Copilot Studio / Power Platform governance, Microsoft 365 Copilot declarative agents, Entra identity/RBAC/Agent ID, Foundry evaluation and observability, Azure Monitor / Application Insights, Content Safety, Agent 365, API Center, and customer engineering/change processes | Product-anchored implementation-path recommendation, selected-path configuration backlog, cross-cutting governance-service applicability, agent admission, and material-change review. | Tenant licensing, region, feature availability, approved engineering path, and customer change authority. |
 | Tool/API/MCP governance · S5 | API catalog, gateway, identity, and lifecycle capabilities | Controlled publication, authority, and withdrawal decisions. | Connector, protocol, and tenant support. |
 | Runtime assurance · S6 | Defender for Cloud AI-SPM, AI Threat Protection, Azure AI Content Safety, Azure Monitor / Application Insights | Security posture, threat signals, runtime safety, gateway correlation, and response ownership. | Region, service, telemetry, and feature availability. |
 | Evaluation & release assurance · S7 | Microsoft Foundry evaluations, agent evaluators, cloud evaluation, tracing, and CI/CD integration | Customer-owned evaluation-plan review, scorecard interpretation, and release-assurance decision. | Individual evaluator availability, test-data ownership, and integration path. |
@@ -32,6 +32,18 @@ This guide maps the Microsoft capabilities used in the AI Governance curriculum 
   evaluators, agent evaluators, cloud evaluation, and continuous-evaluation
   features can vary. S7 references customer-owned evaluation work; it does not
   run a live evaluator or create a CI/CD gate.
+- Microsoft Foundry Agent Service supports prompt agents, hosted agents, and
+  existing external agents through the Responses API. S4 uses this distinction
+  only for implementation-path and backlog planning; it does not create or
+  deploy an agent.
+- Copilot Studio agents are governed through Power Platform and Microsoft 365
+  controls such as environments, data policies, publication controls, audit,
+  and tenant administration. Confirm environment, DLP, connector, ALM, and
+  licensing requirements before recommending that path.
+- Microsoft 365 Copilot declarative agents are configured through
+  instructions, knowledge, actions, capabilities, and app metadata. Confirm the
+  selected authoring tool, admin distribution route, and tenant controls before
+  delivery.
 - PyRIT is open source. The managed AI Red Teaming Agent is preview.
 - Foundry Citadel Platform is a reference architecture. AI Hub Gateway and Azure AI Landing Zones are accelerators with their own deployment guidance.
 - AGT is open source and Public Preview at the pinned curriculum revision. Its
@@ -72,10 +84,15 @@ The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC
 - [Defender AI security posture management](https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-security-posture)
 - [Azure AI Content Safety Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection)
 - [Application Insights OpenTelemetry observability overview](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview)
+- [Microsoft Foundry Agent Service](https://learn.microsoft.com/en-us/azure/foundry/agents/overview)
 - [Run evaluations from the Microsoft Foundry portal](https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluate-generative-ai-app)
 - [Agent Evaluators for Generative AI](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators)
 - [Cloud Evaluation with the Microsoft Foundry SDK](https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/cloud-evaluation)
 - [Microsoft Foundry observability](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability)
+- [Security and governance in Microsoft Copilot Studio](https://learn.microsoft.com/en-us/microsoft-copilot-studio/security-and-governance)
+- [Implement a zoned governance strategy for Microsoft Copilot Studio](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/sec-gov-phase2)
+- [Declarative agents for Microsoft 365 Copilot](https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/overview-declarative-agent)
+- [Best practices for declarative agents in Microsoft 365 Copilot](https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/declarative-agent-best-practices)
 - [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent)
 - [PyRIT](https://github.com/microsoft/PyRIT)
 - [FinOps Toolkit](https://microsoft.github.io/finops-toolkit/)

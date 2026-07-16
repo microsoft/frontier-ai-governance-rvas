@@ -6,7 +6,8 @@
 |---|---|
 | Candidate and admission-record reference | |
 | Proposed change or retirement reason | |
-| Affected purpose, authority, action/tool/data/access scope, human control, implementation path, dependency, owner, risk decision, test, failure handling, or retirement obligation | |
+| Affected purpose, authority, action/tool/data/access scope, human control, implementation path, product path, agent type, model deployment, prompt/instruction asset, hosted-agent package, dependency, owner, risk decision, test, failure handling, or retirement obligation | |
+| Affected connector, API, data source, identity, RBAC, OBO flow, telemetry, evaluation plan, red-team scope, catalog/lifecycle record, or production-change route | |
 | Does the admitted boundary change? Why? | |
 | Reapproval required: yes / no / pending | |
 | Decision owner, evidence reference, and review date | |
@@ -17,6 +18,8 @@
 |---|---|---|
 | Stop use or route work away | | |
 | Change or remove approved access through the applicable process | | |
+| Remove, disable, or update agent publication, catalog, registry, connector, API, or workflow exposure through the applicable process | | |
+| Confirm telemetry, evaluation, and monitoring records are retained or closed according to policy | | |
 | Retain required records | | |
 | Communicate status to affected owners | | |
 | Confirm closure and residual obligations | | |

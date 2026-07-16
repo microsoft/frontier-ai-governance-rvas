@@ -36,12 +36,21 @@ The platform team owns:
 
 | Platform record | Programme use |
 |---|---|
+| Foundry project, model, agent type, tool, identity, observability, and publication records | S4 uses these records to recommend a Microsoft implementation path and create a configuration backlog; it does not deploy or configure Foundry resources. |
 | API Center and access-contract records | S5 and S9 review publication, exposure, identity, ownership, and lifecycle records. |
 | Gateway authentication and safety configuration | S1 and S6 review the corresponding identity and runtime-safety evidence. |
 | Gateway data-protection configuration | S2 considers it alongside Purview data and compliance controls. |
 | Traces, evaluations, usage, and cost telemetry | S7, S8, S9, and S11 use approved references to this evidence for evaluation-plan review, remediation, reconciliation, operating, and cost-accountability decisions. |
 
 The AI Governance programme does not rebuild these capabilities. It assigns owners, reviews the evidence, and records the decisions and gaps that follow.
+
+S4 is the path-selection handoff point. It may recommend Copilot Studio,
+Microsoft Foundry Agent Service, a custom Azure application/service using
+Foundry models and tools, Microsoft 365 Copilot extensibility, workflow
+automation, or research/prototype isolation. The platform team still owns
+deployment, identity configuration, network/gateway setup, telemetry plumbing,
+and production-readiness implementation through the customer's approved
+engineering and change processes.
 
 ## Technical handoff checklist
 
