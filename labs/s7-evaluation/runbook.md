@@ -8,31 +8,38 @@ customer-operated assurance review and decision handoff.
 Run this sequence during the [S7 90-minute co-delivery workshop](../../docs/s7-evaluation/index.md#4-co-delivery-walkthrough).
 Before step 1, the facilitator confirms a customer assurance owner, platform
 and security reviewers/evidence owner, decision owner, approved record
-location, and accepted S3 entry evidence. The customer performs the review and
+location, and accepted S6 entry evidence. The customer performs the review and
 chooses the outcome; the facilitator keeps the assurance boundary and records
 the handoff.
 
-1. Confirm the customer evidence system contains an S3 gateway-proof manifest
+1. Confirm the customer evidence system contains an S6 gateway-proof manifest
    conforming to `contracts/gateway-proof.schema.json`, with `result: "pass"`.
 2. Confirm named customer platform and security reviewers have accepted that
    proof after correlating its `correlation_id` with gateway telemetry. A passed
    request without this acceptance is not an S7 entry condition.
 3. The customer assurance owner copies
+   `templates/evaluation-plan-review.template.md` into the approved customer
+   records system to record evaluation coverage, limits, interpretation owners,
+   and release-decision use. Then the owner copies
    `templates/assurance-outcome.template.json` into their approved records
    system, records only references (not raw evidence), and selects `continue`
    or `hold`.
 4. Validate the completed record against
    `contracts/assurance-handoff.schema.json`. The assurance exit is complete
-   only when the S3 decision is `accepted` and the customer has recorded the
+   only when the S6 decision is `accepted` and the customer has recorded the
    outcome and decision reference.
 
 Customer teams may run Foundry Evaluations or introduce a CI gate separately in
 their own approved delivery process. Those results do not replace the accepted
-S3 gateway proof and are not produced by this kit.
+S6 gateway proof and are not produced by this kit. Use the evaluation-plan
+review to distinguish quality, groundedness, safety, tool-use, regression,
+human-review, and unsupported-scope questions. A score or metric is useful only
+with its bounded population, version, evaluator, coverage limit,
+interpretation owner, and release decision.
 
-**Interpret and decide:** retain only safe references to the accepted S3 proof,
+**Interpret and decide:** retain only safe references to the accepted S6 proof,
 evaluation plan, assurance owner, and decision. Choose `continue` only when the
-handoff contract is complete and the S3 decision is `accepted`; otherwise
+handoff contract is complete and the S6 decision is `accepted`; otherwise
 choose `hold`, defer, or record **blocked** with the dependency, owner, target
 date, and review date. A fixture score, evaluator result, or proposed gate is
 context for a customer-owned process, not an S7 exit.

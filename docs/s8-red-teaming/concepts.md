@@ -28,6 +28,12 @@ A result above the agreed tolerance becomes a remediation item with an owner.
 A result below tolerance is evidence for the tested scope, not proof that the
 system is secure.
 
+Category interpretation should include four separate questions: what behavior
+was probed, what response counted as success, what context or policy made the
+response unacceptable, and what validation would show the remediation worked.
+This prevents a scorecard from becoming a generic severity label detached from
+the customer's rules of engagement.
+
 ## Native scorecard and threshold review are different artifacts
 
 The Foundry AI Red Teaming Agent produces the native scorecard for the run. S8
@@ -44,3 +50,4 @@ retention, and remediation decisions. S8 does not provide a fallback mock or
 an alternate testing path when the managed capability is unavailable.
 
 [^airt]: Microsoft Learn - [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent).
+[^pyrit]: Microsoft - [PyRIT](https://github.com/microsoft/PyRIT).

@@ -23,6 +23,11 @@ support. It does not prescribe a metric, target, chargeback approach, or
 threshold. A cost observation can be useful without proving value, just as
 adoption does not prove a business outcome.
 
+FinOps evidence should therefore travel with an owner and a limitation. A
+subscription total, model bill, token count, trace sample, or allocation view
+can inform a question only when the workload scope, shared-cost assumptions,
+latency, exclusions, and decision owner are recorded.
+
 ## Drift is a hypothesis to test
 
 An observed change in reliability, risk, quality, cost, adoption, or outcome
@@ -39,3 +44,9 @@ is not closed because work was reported complete: closure requires a reviewer
 to consider validation and remaining exceptions. S11 records this operating
 method; it does not perform a live-data query, remediate an issue, or change
 production.
+
+Useful references for a future operating review can include Foundry traces and
+evaluations, Azure Monitor or Application Insights telemetry, Security/SOC
+records, release scorecards, cost-management views, and FinOps Toolkit outputs.
+S11 records approved references and limitations, not raw telemetry or a new
+dashboard.

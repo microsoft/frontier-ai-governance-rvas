@@ -22,6 +22,11 @@ portfolio when its effect, recurrence, shared dependency, or decision
 consequence is explicit. Unknown impact, ownership, or scope remains an
 unresolved condition and needs a review or escalation path.
 
+Useful exception views include repeated ownership gaps, recurring evidence
+coverage limits, shared platform or identity dependencies, repeated policy
+waivers, unresolved high-impact findings, and risks that block more than one
+session outcome. Each view still needs a bounded population and owner.
+
 ## Investment priority is a transparent trade-off
 
 Prioritization should state the decision criteria: risk, dependency, evidence
@@ -50,6 +55,11 @@ The portfolio roadmap feeds the next S0 assessment rather than replacing it.
 S0 reassesses selected domains with customer-held evidence and a fresh
 decision. This keeps the improvement loop honest: observe, interpret, decide,
 act through approved processes, then reassess.
+
+Framework references such as NIST AI RMF, ISO/IEC 42001, and the EU AI Act can
+help structure questions, but S12 does not issue a conformity conclusion. It
+records which customer-owned references can support the next governance
+decision and which assurance activity remains separate.
 
 ## Report-only boundaries preserve decision integrity
 

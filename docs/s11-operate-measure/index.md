@@ -63,6 +63,18 @@ records. Include specialists only where their question is in scope.
 | Define remediation and exceptions | 15 min | Record finding ownership, target date, validation and recurrence approach, exception expiry, escalation route, and next review. | “What validates the remedy?” “Who accepts an exception?” Completion without validation is not closure. |
 | Decide and hand over | 15 min | Approve, defer, or reject the review definition and record limitations and next review. | “Is the coverage explicit?” “What remains unresolved?” Adopting a review method does not authorize enforcement or change. |
 
+Use question examples to enrich, not mandate, the review:
+
+| Category | Example bounded question |
+|---|---|
+| Control coverage | Which in-scope controls have evidence for the selected period, and which populations are excluded? |
+| Reliability | Which incidents, failed runs, latency changes, or dependency failures need owner review? |
+| Risk and safety | Which alerts, evaluation regressions, red-team findings, or policy exceptions remain open? |
+| Quality | Which release or evaluation signal changed since the prior review, and what alternative explanation exists? |
+| Cost ownership | Which workload, agent, or owner is accountable for the spend decision, and what allocation limits remain? |
+| Adoption and value | What usage or outcome reference can inform a decision without claiming benefit from adoption alone? |
+| Human review | Where did manual review, escalation, or override occur, and who accepted the residual risk? |
+
 ### Minimum safe event-to-decision reference
 
 When customer-held runtime evidence informs a review, retain only approved

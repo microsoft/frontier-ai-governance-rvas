@@ -15,9 +15,9 @@ The customer leaves with an identity-inventory review and ownership decision:
 - Evidence and decision references in the customer records system or generated
   delivery workspace.
 
-`labs/s1-identity/` contains the review runbook only. It does not contain
-identity discovery, exports, Conditional Access definitions, break-glass
-templates, or customer records.
+`labs/s1-identity/` contains the review runbook and a blank identity-inventory
+review template. It does not contain identity discovery, exports, Conditional
+Access definitions, break-glass templates, or customer records.
 
 ### Identity inventory schema
 
@@ -79,7 +79,9 @@ handle coverage and ownership gaps.
    supported source is unsupported/blocked, not permission to infer Agent ID
    status.
 2. **Customer-led inventory review** *(35 min)* — the identity administrator
-   reviews each in-scope record in the approved system using the schema above.
+   copies `labs/s1-identity/templates/identity-inventory-review.template.md`
+   into the approved records system and reviews each in-scope record using the
+   schema above.
    The facilitator asks, “Who is accountable for purpose and lifecycle?”,
    “What evidence ties this identity to the workload?”, and “When is the next
    review?” **Meaningful result:** classification, sponsor, lifecycle, source

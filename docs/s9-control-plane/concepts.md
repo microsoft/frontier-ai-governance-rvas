@@ -43,6 +43,13 @@ fields. Unmatched identities, catalog-only entries, missing owners, invalid
 lifecycle states, unreviewed material changes, and incomplete closure records
 are findings for accountable owners.
 
+The authoritative record may come from multiple customer systems: an agent
+registry or Agent 365 view, Entra Agent ID records, API Center or gateway
+records for tools and APIs, platform telemetry, and approved lifecycle or
+change-review records. S9 does not choose a system of record; it asks which
+record is authoritative for the bounded population and preserves gaps where the
+records disagree.
+
 ## Closeout accepts accountability, not absence of findings
 
 Closeout can occur with owned gaps only when the decision owner records the

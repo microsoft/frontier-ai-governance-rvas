@@ -62,6 +62,15 @@ Include specialist reviewers only for questions within their remit.
 | Set remediation and recurrence | 15 min | Assign every open item an owner, due date, validation reference, recurrence check, exception route, and escalation path. | “What validates the remedy?” “What detects recurrence?” Closure without validation remains open. |
 | Close out and set cadence | 15 min | Choose close, close with owned gaps, defer, or do not close; record approver and next review. | “Who accepts residual risk?” “When will catalog stewardship, reconciliation, and closure status be revisited?” |
 
+Use this triage lens during reconciliation:
+
+| Finding type | Interpretation | Handoff |
+|---|---|---|
+| Record-quality gap | A required field or reference is absent, invalid, stale, or not normalized. | Return to the accountable steward with the required correction and validation reference. |
+| Stewardship gap | Ownership, lifecycle accountability, parent-tool relationship, or closure owner is unclear. | Assign an accountable owner, decision owner, due date, and recurrence check. |
+| Governed-change need | A transition, suspension, retirement, access change, policy change, or remediation is required. | Route to the customer's approved change process; do not perform it in S9. |
+| Unsupported coverage | Expected evidence is missing or the checked population is incomplete. | Record the coverage limit, alternative control or observation path, and next review. |
+
 Run the reconciliation during the fourth activity:
 
 ```bash

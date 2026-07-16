@@ -39,6 +39,9 @@ does not receive credentials, run the request, or accept the proof.
    customer telemetry, and record their decision in the approved evidence
    system. `pass` means only that the adapter request completed; it is not
    accepted gateway enforcement until that review is complete.
+   Copy `templates/gateway-correlation-review.template.md` into the approved
+   records system to capture the manifest reference, correlation decision,
+   interpretation owner, and accepted/rejected/deferred/blocked outcome.
 4. Hand off the accepted proof reference and decision reference to S4. If the
    request fails or review cannot be completed, record the outcome as failed or
    blocked in the customer system; do not create substitute local evidence.
@@ -55,3 +58,8 @@ For a later operating review, the customer may reference the bounded workload
 and initiating context, correlation, tool/model version, policy decision,
 outcome category, and reviewer decision. Do not add raw event data, payloads,
 identifiers, or credentials to this kit.
+
+Validate official product context before delivery: Prompt Shields can inform a
+runtime-safety control discussion, while Application Insights/OpenTelemetry or
+other customer telemetry can support correlation. Neither source replaces the
+customer's accepted gateway proof decision.

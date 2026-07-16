@@ -39,6 +39,19 @@ storage.
 No Azure subscription, AGT installation, customer source code, credentials,
 production endpoint, or tenant change is required.
 
+### Applicability worksheet
+
+Use S10 only when the customer can describe a meaningful decision point
+immediately before an agent invokes a tool. Capture:
+
+- the candidate tool action and delegated authority;
+- the existing gateway, identity, data, evaluation, and runtime controls that
+  remain in force;
+- the policy owner, approver route, audit-record owner, and retention need;
+- the evidence a future engineering assessment would need before installation
+  or code change; and
+- the reason S10 is not applicable if no in-process boundary exists.
+
 ## 3. Why this session
 
 Gateway controls can govern traffic crossing the platform boundary. An
@@ -71,6 +84,15 @@ raw customer record will be used.
 | Run and verify the offline illustration | 20 min | Run the two commands below and confirm one allowed, denied, and approval-required simulated attempt. | “What did the simulator evaluate?” “What did it not observe?” A pass means only that the supplied local illustration has internally consistent hashes and the expected simulated decisions. It is not AGT execution, an AGT compatibility result, proof of downstream action success, production validation, or tamper evidence. |
 | Assess limitations and evidence needs | 20 min | Review the pinned AGT Public Preview and [known limitations](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md), plus customer requirements for policy ownership, change review, records retention, and tamper evidence. | “What evidence would a future engineering assessment need?” “Who controls signed immutable external retention if tamper evidence is required?” A local hash chain can be recalculated after replacement; it does not establish integrity, provenance, immutability, or later tampering. |
 | Decide and hand over | 15 min | Choose investigate further, defer, or reject for the current architecture. Record fit, constraints, residual risks, owner, due date, review point, and dependencies in the S6 follow-up backlog. | “What decision is supportable from this illustration?” “What must happen before an engineering assessment?” Adoption means only that a separate assessment is authorized; it does not authorize installation, deployment, or policy change. |
+
+Before the decision, separate the evidence types:
+
+| Evidence type | What it can support | What it cannot support |
+|---|---|---|
+| Gateway or API policy record | Boundary control decision outside the agent process. | Proof that an in-process tool-call policy evaluated the action. |
+| Offline simulator record | Understanding of policy decisions and hash-chain consistency. | AGT execution, production validation, or tamper evidence. |
+| In-process audit record from a future assessment | Which policy evaluated an attempted tool action. | Downstream action success, data provenance, or compliance certification by itself. |
+| Signed immutable external record | Tamper-evidence requirements when properly owned and retained. | Replacement for policy ownership, approval, or technical validation. |
 
 A future customer policy review should distinguish activity performed on behalf
 of a user from activity performed under an agent-operated authority. Treat a

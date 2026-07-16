@@ -25,6 +25,12 @@ is missing or changes.
 - [ ] Customer-approved test categories and ASR thresholds are recorded in the
   engagement record; this kit does not provide them.
 
+The rules of engagement should be explicit enough that any participant can
+answer: who may operate the adapter, which exact endpoint and version are in
+scope, which categories and attack strategies are approved, which data may be
+used, what alert or instability stops the run, who approves continuation, and
+where native evidence references will be retained.
+
 ## Customer-operated path
 
 1. Confirm the authorization, written scope, SOC monitoring window, target,
@@ -93,3 +99,10 @@ sidecar, and decision register. If authorization, monitoring, target ownership,
 scope, capability, or result review is blocked, stop, record the blocker with
 an owner and target date, and do not substitute a mock or alternate testing
 path.
+
+| Finding pattern | Required handoff |
+|---|---|
+| Above-threshold ASR | Remediation owner, due date, validation reference, and re-test decision. |
+| Below-threshold ASR | Tested scope, category, threshold, version, and remaining untested areas. |
+| Incomplete or stopped run | Stop reason, owner, revised authorization need, and next decision date. |
+| Missing criterion or evidence reference | Blocker owner, target date, and record needed before interpretation. |

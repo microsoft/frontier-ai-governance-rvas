@@ -16,6 +16,12 @@
 
 ## Maturity movement and policy questions
 
-| S0 domain or question | Observation reference | Proposed movement or question | Limitation | Owner and review route |
+| S0 domain or question | Observation reference | Proposed movement, no movement, unresolved status, or policy question | Limitation | Owner and review route |
 |---|---|---|---|---|
 | | | | | |
+
+## Investment prioritization
+
+| Candidate investment | Risk or dependency addressed | Evidence strength | Expected governance value | Effort / constraint | Accountable owner | Decision status |
+|---|---|---|---|---|---|---|
+| | | | | | | |

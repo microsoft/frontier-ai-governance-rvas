@@ -71,6 +71,16 @@ owners. Stop before the request if any of these are absent.
    observed path support the stated policy behavior, or is this a no-result or
    blocker?* Record the observed fact and reviewer interpretation; do not copy
    prompts, responses, endpoint values, credentials, or telemetry.
+   Use `labs/s6-security-runtime/templates/gateway-correlation-review.template.md`
+   to structure the review in the customer records system.
+
+   | Observed pattern | Decision |
+   |---|---|
+   | Conforming `pass` manifest and accepted telemetry correlation by both reviewers | Accepted gateway proof. |
+   | `pass` manifest but missing or disputed telemetry correlation | Deferred or blocked; transport success is not enforcement evidence. |
+   | `fail` manifest | Rejected or deferred with owner, target date, and reviewed scope. |
+   | Unsafe route, production-only target, missing reviewer, or missing record location | Blocked; stop dependent assurance work. |
+   | Direct Content Safety or component diagnostic only | Reference separately as a diagnostic; do not use as S6 gateway proof. |
 
    When runtime evidence informs a later governance decision, retain references
    to the bounded agent/workload and initiating context, request correlation,

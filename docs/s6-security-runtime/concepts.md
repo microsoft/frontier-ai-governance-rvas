@@ -33,4 +33,12 @@ are only part of a runtime boundary. Gateway policy, identity, scoped tools,
 data controls, telemetry, and human review remain necessary. The S6 adapter
 does not configure any of them; it supplies evidence for customer review.
 
+For delivery, separate five evidence questions: whether the request completed,
+whether the correlation appears in approved gateway telemetry, whether the
+observed route matches the approved path, whether the expected policy behavior
+is supported, and who accepted the interpretation. A Prompt Shields result or
+component diagnostic may inform runtime-safety context, but it is not the
+gateway-path proof by itself.[^appinsights]
+
 [^contentsafety]: Microsoft Learn - [Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection).
+[^appinsights]: Microsoft Learn - [Application Insights OpenTelemetry observability overview](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview).

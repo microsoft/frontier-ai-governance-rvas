@@ -13,6 +13,12 @@ adapter writes only the manifest defined by
 it never writes prompts, documents, endpoint values, credentials, telemetry, or
 gateway responses.
 
+Use
+[`templates/gateway-correlation-review.template.md`](templates/gateway-correlation-review.template.md)
+in the approved customer records system to record platform and security
+reviewer interpretation of the manifest, telemetry correlation, and acceptance
+decision.
+
 ## Workshop alignment
 
 Use the [S6 co-delivery workshop](../../docs/s6-security-runtime/index.md#4-co-delivery-walkthrough)

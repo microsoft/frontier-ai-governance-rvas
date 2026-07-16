@@ -12,12 +12,12 @@ This guide maps the Microsoft capabilities used in the AI Governance curriculum 
 | Platform & trust boundaries · S3 | Azure landing-zone, network, gateway, monitoring, and security capabilities | Customer-owned platform-path and trust-boundary decision. | Region, network, feature, and ownership availability. |
 | Engineering & admission · S4 | Customer engineering standards, source control, build, evaluation, and deployment capabilities | Agent admission and material-change review. | Customer-supported implementation paths. |
 | Tool/API/MCP governance · S5 | API catalog, gateway, identity, and lifecycle capabilities | Controlled publication, authority, and withdrawal decisions. | Connector, protocol, and tenant support. |
-| Runtime assurance · S6 | Defender for Cloud AI-SPM, AI Threat Protection, Azure AI Content Safety | Security posture, threat signals, runtime safety, and response ownership. | Region, service, and feature availability. |
-| Evaluation & release assurance · S7 | Microsoft Foundry evaluations, tracing, and CI/CD integration | Representative evaluation set, scorecard, and release review. | Individual evaluator availability. |
+| Runtime assurance · S6 | Defender for Cloud AI-SPM, AI Threat Protection, Azure AI Content Safety, Azure Monitor / Application Insights | Security posture, threat signals, runtime safety, gateway correlation, and response ownership. | Region, service, telemetry, and feature availability. |
+| Evaluation & release assurance · S7 | Microsoft Foundry evaluations, agent evaluators, cloud evaluation, tracing, and CI/CD integration | Customer-owned evaluation-plan review, scorecard interpretation, and release-assurance decision. | Individual evaluator availability, test-data ownership, and integration path. |
 | Adversarial testing · S8 | PyRIT and the AI Red Teaming Agent | Authorised test scope, findings, and remediation evidence. | Red Teaming Agent availability and approved target. |
 | Control plane & lifecycle · S9 | Microsoft Agent 365, Entra Agent ID, API Center, platform telemetry | Reconcile agent, tool, identity, ownership, and lifecycle records. | Agent 365 licensing and connector status. |
 | In-process governance · S10 | Agent Governance Toolkit (AGT) | Offline illustration of application-process tool-call policy and audit evidence; adoption decision only. | Applicability, release status, and architecture fit. |
-| Operate, monitor & FinOps · S11 | Customer-held operational, security, quality, and cost evidence | Operating review, drift, cost, and remediation cadence. | Evidence coverage and owner availability. |
+| Operate, monitor & FinOps · S11 | Customer-held operational, security, quality, and cost evidence; Azure Monitor / Application Insights; Azure Cost Management and FinOps Toolkit where used | Operating review, drift, cost accountability, and remediation cadence. | Evidence coverage, attribution limits, and owner availability. |
 | Portfolio governance · S12 | Customer-held governance, risk, and portfolio records | Portfolio decision, exception review, and next roadmap. | Decision authority and records availability. |
 
 ## The capability map
@@ -28,7 +28,10 @@ This guide maps the Microsoft capabilities used in the AI Governance curriculum 
 
 - Microsoft Agent 365 and Microsoft Entra Agent ID have general-availability announcements; some related access-control and connector features remain preview.
 - Purview DSPM, Defender AI-SPM, AI Threat Protection, and Prompt Shields have generally available capabilities, while individual detections and integrations may be preview.
-- The `azure-ai-evaluation` SDK is generally available, but individual evaluators and continuous-evaluation features can vary.
+- The `azure-ai-evaluation` SDK is generally available, but individual
+  evaluators, agent evaluators, cloud evaluation, and continuous-evaluation
+  features can vary. S7 references customer-owned evaluation work; it does not
+  run a live evaluator or create a CI/CD gate.
 - PyRIT is open source. The managed AI Red Teaming Agent is preview.
 - Foundry Citadel Platform is a reference architecture. AI Hub Gateway and Azure AI Landing Zones are accelerators with their own deployment guidance.
 - AGT is open source and Public Preview at the pinned curriculum revision. Its
@@ -64,11 +67,18 @@ The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC
 - [EU AI Act](https://eur-lex.europa.eu/eli/reg/2024/1689/oj)
 - [Microsoft Agent 365](https://learn.microsoft.com/en-us/microsoft-agent-365/overview)
 - [Microsoft Entra Agent ID](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id)
+- [Manage owners and sponsors for agent identities](https://learn.microsoft.com/en-us/entra/agent-id/manage-owners-sponsors-agents)
 - [Microsoft Purview for AI](https://learn.microsoft.com/en-us/purview/ai-microsoft-purview)
 - [Defender AI security posture management](https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-security-posture)
 - [Azure AI Content Safety Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection)
-- [Microsoft Foundry evaluations](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability)
+- [Application Insights OpenTelemetry observability overview](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview)
+- [Run evaluations from the Microsoft Foundry portal](https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluate-generative-ai-app)
+- [Agent Evaluators for Generative AI](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators)
+- [Cloud Evaluation with the Microsoft Foundry SDK](https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/cloud-evaluation)
+- [Microsoft Foundry observability](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability)
 - [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent)
+- [PyRIT](https://github.com/microsoft/PyRIT)
+- [FinOps Toolkit](https://microsoft.github.io/finops-toolkit/)
 - [AGT README at pinned commit `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/README.md)
 - [AGT known limitations at pinned commit `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md)
 

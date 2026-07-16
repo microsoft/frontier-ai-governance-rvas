@@ -34,6 +34,19 @@ Facilitator prompts: “Is an in-process decision meaningful here?” “Which
 control is not being replaced?” If no boundary exists, record S10 as not
 applicable for this pilot and return the rationale to the S6 backlog.
 
+Copy `templates/applicability-review.template.md` into the approved customer
+records system and capture the applicability decision before running the
+illustration.
+
+| Question | Record |
+|---|---|
+| Candidate tool action and delegated authority | |
+| Existing gateway/API, identity, data, evaluation, and runtime controls | |
+| Policy owner and approval route | |
+| Audit-record owner, retention need, and tamper-evidence need | |
+| Evidence needed before any future engineering assessment | |
+| Applicable, deferred, rejected, or not applicable rationale | |
+
 Review `policies/demo-policy.json` as a generic illustration. Ask: “Who owns
 each delegated authority decision?” “What needs approval?” Do not copy it to
 customer code or edit a production policy. A missing explicit deny default is

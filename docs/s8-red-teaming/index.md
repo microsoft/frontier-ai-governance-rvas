@@ -35,6 +35,20 @@ ignored customer evidence in the approved records system.
 - Customer-approved test categories, thresholds, evidence location, and decision
   owner. This kit deliberately does not ship a test dataset or threshold policy.
 
+### Materials to prepare
+
+- Authorization record and rules of engagement: target, timing, categories,
+  permitted operators, stop conditions, monitoring contact, and evidence
+  handling.
+- Target context: non-production endpoint label, version, owner, rollback or
+  reset path, and any dependencies that could create alerts or instability.
+- Decision aids: approved ASR thresholds, category interpretation notes,
+  remediation owner model, accepted-risk route, blocked path, and re-test
+  criteria.
+- Reference sources to validate before delivery: the AI Red Teaming Agent
+  concept page, Foundry red-teaming run guidance, PyRIT documentation, and
+  customer safety/evaluation standards.
+
 ## 3. Why this session
 
 Adversarial testing is useful only when the target, success criteria, safety
@@ -87,6 +101,15 @@ are approved. Do not start or resume a scan if any condition expires or changes.
    `airt-threshold-comparison.json` is a sidecar decision aid that references
    the native scorecard; it is not native evidence and does not establish
    security.
+
+   Interpret each category as a bounded finding:
+
+   | Result pattern | Decision prompt |
+   |---|---|
+   | Above threshold in an approved category | What remediation, owner, validation reference, and re-test date are required? |
+   | Below threshold in all approved categories | What tested scope does this support, and what remains untested? |
+   | Incomplete run, alert, instability, or scope drift | Should the result be blocked, stopped, or re-run under new authorization? |
+   | Missing threshold or category owner | Who must approve the decision criteria before interpretation resumes? |
 4. **Customer decision — 15 min.** The decision owner assigns a remediation
    owner and due date for each above-threshold category, or records accepted
    risk, **blocked**, or a re-test date through customer authority. A

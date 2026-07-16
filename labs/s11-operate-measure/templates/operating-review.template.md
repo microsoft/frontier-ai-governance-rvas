@@ -15,14 +15,14 @@
 
 | Category | Bounded question | Evidence reference and coverage limit | Interpretation owner | Decision or escalation route |
 |---|---|---|---|---|
-| Control coverage | | | | |
-| Reliability | | | | |
-| Risk | | | | |
-| Quality | | | | |
-| Cost ownership / attribution | | | | |
-| Adoption | | | | |
-| Human review | | | | |
-| Business outcome | | | | |
+| Control coverage | Which in-scope controls have evidence for this period, and what population is excluded? | | | |
+| Reliability | Which incidents, failed runs, latency changes, or dependency failures require review? | | | |
+| Risk | Which alerts, evaluation regressions, adversarial findings, or exceptions remain open? | | | |
+| Quality | Which release, evaluation, or regression signal changed, and what alternative explanation exists? | | | |
+| Cost ownership / attribution | Which workload or owner is accountable for spend, and what allocation limits remain? | | | |
+| Adoption | What usage reference can inform the decision without proving value by itself? | | | |
+| Human review | Where did manual review, escalation, or override occur, and who accepted residual risk? | | | |
+| Business outcome | Which approved outcome reference is relevant, and what causal claim is not supported? | | | |
 
 ## Drift hypotheses
 

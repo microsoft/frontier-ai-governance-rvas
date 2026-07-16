@@ -68,6 +68,16 @@ specialists only for the decisions within their remit.
 | Prioritize investment | 15 min | Rank a small set of candidate investments using stated risk, dependency, evidence, effort, and decision criteria. | “What would this unlock or reduce?” Ranking informs a decision; it is not a funding approval or benefit claim. |
 | Decide the roadmap and feed S0 | 15 min | Approve, defer, or reject priorities; assign owners and dates; identify S0 domains and questions for the next baseline review. | “What will S0 reassess, when, and with what evidence?” Record residual risk and unknowns alongside the roadmap. |
 
+Use these portfolio interpretation aids:
+
+| Topic | Prompt |
+|---|---|
+| Exception concentration | Does the same exception, owner gap, dependency, or evidence limitation recur across multiple scopes? |
+| Investment priority | What risk, dependency, evidence strength, expected governance value, effort, and decision status support the ranking? |
+| Maturity movement | Which S0 question, scope, and evidence reference support movement, no movement, or unresolved status? |
+| Policy evolution | Is there a gap, conflict, obsolete assumption, or clarification need that requires a separate policy decision? |
+| S0 feedback | Which baseline domain should be reassessed, and what evidence must be available before that review? |
+
 ### S0 feedback loop
 
 S12 does not overwrite the S0 baseline. It supplies a dated roadmap and a

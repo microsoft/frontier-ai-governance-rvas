@@ -25,6 +25,9 @@ decision owner. Stop a population whose source, access, or owner is missing.
 
 ## 2. Customer-led inventory review
 
+- [ ] Copy `templates/identity-inventory-review.template.md` into the approved
+  customer records system before entering source, owner, or identity
+  information.
 - [ ] Administrator reviews each in-scope record with the
   [inventory schema](README.md#identity-inventory-schema): classification,
   workload, sponsor, lifecycle, purpose, source reference, risk context,

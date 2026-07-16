@@ -6,9 +6,11 @@ hand off a decision. It does not discover identities, query a tenant, export
 records, create Conditional Access, supply a break-glass design, or make any
 tenant change.
 
-Start with [runbook.md](runbook.md). Keep inventory data, object identifiers,
-sponsor details, exports, and evidence only in the customer's approved records
-system or generated delivery workspace.
+Start with [runbook.md](runbook.md). Copy
+[`templates/identity-inventory-review.template.md`](templates/identity-inventory-review.template.md)
+to the customer's approved records system before entering any information. Keep
+inventory data, object identifiers, sponsor details, exports, and evidence only
+in the customer's approved records system or generated delivery workspace.
 
 ## Supported-admin-source boundary
 
@@ -25,8 +27,8 @@ identity is an Entra Agent ID and does not establish complete workload coverage.
 
 ## Identity inventory schema
 
-The inventory is a customer record, not a template or export in this repository.
-For each reviewed entry, use this schema in the customer system:
+The inventory is a customer record, not an export in this repository. For each
+reviewed entry, use this schema in the customer system:
 
 | Field | Meaning |
 |---|---|

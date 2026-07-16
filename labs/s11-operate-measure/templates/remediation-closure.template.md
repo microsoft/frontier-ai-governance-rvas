@@ -16,3 +16,11 @@ evidence; it does not authorize a production or policy change.
 | Exception owner, expiry, or escalation reference | |
 | Closure decision and reviewer | |
 | Next review date | |
+
+## Closure prompts
+
+- What evidence shows the remedy addressed the original finding, not only that
+  work was completed?
+- What recurrence signal will be checked in the next review period?
+- What residual limitation, exception, or unsupported scope remains visible to
+  the decision owner?

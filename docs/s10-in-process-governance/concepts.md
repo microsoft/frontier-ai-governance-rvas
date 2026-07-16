@@ -61,5 +61,11 @@ claims of compliance or certification.
 S10 complements but does not replace S1 identity, S2 data controls, S6 runtime
 security, S4 evaluation, S5 adversarial testing, or S6 reconciliation.
 
+For delivery, maintain two source tracks. Pinned-source claims explain what the
+curriculum is illustrating at a known AGT revision. Current-source research
+checks whether AGT status, APIs, limitations, language support, or documented
+audit behavior have changed before the customer uses S10 to authorize a future
+engineering assessment. Do not merge those tracks into a silent product claim.
+
 [^agt-readme]: [AGT README at `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/README.md), Public Preview notice, `govern()` example, and audit architecture.
 [^agt-limitations]: [AGT known limitations at `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md), especially audit outcomes, knowledge governance, policy initialization, and feature boundaries.

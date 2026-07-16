@@ -62,6 +62,15 @@ alias, or sample.
    material-change-review gaps, transition-review gaps, and closure-accountability
    gaps. A no-result is not a pass unless the checked scope and expected signal
    are recorded.
+   Use this triage matrix:
+
+   | Finding | Classify as | Required record |
+   |---|---|---|
+   | Missing or invalid identifier, state, owner, parent, or review reference | Input-quality gap | Corrected normalized record and validation reference. |
+   | Unmatched catalog or inventory entry | Reconciliation finding | Scope statement, accountable owner, disposition, and recurrence check. |
+   | Missing steward, decision owner, closure owner, or review cadence | Stewardship gap | Owner acceptance, due date, escalation route, and next review. |
+   | Needed transition, suspension, retirement, access change, or remediation | Governed change | Approved change item, rollback/verification route, and dependency owner. |
+   | Missing expected signal or partial coverage | Coverage limitation | Interpretation, alternative evidence path, and review date. |
 4. Do not write registry metadata, execute a transition, suspend or retire an
    entry, revoke access, or make a remediation during S9. Send every required
    change through the customer's separate approved change, rollback, and
