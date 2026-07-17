@@ -10,6 +10,8 @@ An agent can read business data, call tools, act for a user, use its own identit
 
 You need a path that connects ownership, identity, data, platform controls, engineering reviews, security evidence, and operating decisions. The sessions keep that work inside the customer's Microsoft environment where possible, including Entra Agent ID, Purview, Defender, Foundry, and Azure API Management.
 
+![A governed path turns strategic ambition into decisions leaders can stand behind: ambition and use cases feed accountable decisions, then enforceable controls, then evidence and observation, then portfolio learning, which loops back to ambition to learn and improve. Each stage leaves the customer with a decision, a control state, or an evidence reference.](../assets/diagrams/proof-flow.svg)
+
 The curriculum asks questions people can answer in the room:
 
 - Who owns the agent, its access, and its lifecycle?
