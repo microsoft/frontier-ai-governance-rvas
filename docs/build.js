@@ -335,6 +335,30 @@ function splitRunbookChapters(md, sessionSlug) {
   });
 }
 
+/* ─── Search index helpers ───────────────────────────────────────────────── */
+
+const SEARCH_TEXT_CAP = 4000;
+
+// Reduce runtime-dialect Markdown to plain, searchable text.
+function toPlainText(md) {
+  let s = String(md == null ? '' : md);
+  s = s.replace(/```[\s\S]*?```/g, ' ');           // fenced code / mermaid
+  s = s.replace(/`([^`]*)`/g, '$1');                // inline code
+  s = s.replace(/<sup class="fn-ref"[\s\S]*?<\/sup>/g, ' '); // footnote refs
+  s = s.replace(/<[^>]+>/g, ' ');                   // any remaining HTML tags
+  s = s.replace(/!\[[^\]]*\]\([^)]*\)/g, ' ');      // images
+  s = s.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1');    // links → link text
+  s = s.replace(/^>\s?/gm, ' ');                    // blockquote / alert markers
+  s = s.replace(/^\s{0,3}#{1,6}\s+/gm, '');         // heading markers
+  s = s.replace(/^\s*[-*+]\s+/gm, ' ');             // list bullets
+  s = s.replace(/^\s*\d+\.\s+/gm, ' ');             // ordered list markers
+  s = s.replace(/^\s*\|.*$/gm, (row) => row.replace(/\|/g, ' ')); // tables
+  s = s.replace(/[*_~]{1,3}/g, '');                 // emphasis punctuation
+  s = s.replace(/\[\^[^\]]+\]/g, ' ');              // stray footnote refs
+  s = s.replace(/\s+/g, ' ').trim();
+  return s.length > SEARCH_TEXT_CAP ? s.slice(0, SEARCH_TEXT_CAP) : s;
+}
+
 /* ─── Build ──────────────────────────────────────────────────────────────── */
 
 function read(rel) {
@@ -352,6 +376,7 @@ function main() {
   fs.mkdirSync(PAGES_OUT, { recursive: true });
 
   const sessionMeta = [];
+  const searchDocs = [];
   for (const s of SESSIONS) {
     const rel = `${s.slug}/index.md`;
     const conceptsRel = `${s.slug}/concepts.md`;
@@ -363,8 +388,26 @@ function main() {
     const chapters = splitRunbookChapters(md, s.slug);
     chapters.forEach((chapter) => {
       fs.writeFileSync(path.join(PAGES_OUT, `${s.slug}-${chapter.slug}.md`), chapter.md);
+      searchDocs.push({
+        id: `${s.slug}-${chapter.slug}`,
+        type: 'session',
+        title: `${s.code} · ${clean}`,
+        section: chapter.label,
+        session: s.code,
+        url: `session.html?s=${s.slug}&chapter=${chapter.slug}`,
+        text: toPlainText(chapter.md),
+      });
     });
     fs.writeFileSync(path.join(PAGES_OUT, `${s.slug}-concepts.md`), concepts.md);
+    searchDocs.push({
+      id: `${s.slug}-concepts`,
+      type: 'session',
+      title: `${s.code} · ${clean}`,
+      section: 'Concepts',
+      session: s.code,
+      url: `session.html?s=${s.slug}&chapter=concepts`,
+      text: toPlainText(concepts.md),
+    });
     sessionMeta.push({
       slug: s.slug, code: s.code, title: clean, fullTitle: title || `${s.code} · ${clean}`,
       accent: s.accent, persona: s.persona, nist: s.nist, outcome: s.outcome, optional: Boolean(s.optional),
@@ -383,6 +426,14 @@ function main() {
     const { title, md, hasMermaid, reviewed, reviewedNote } = transform(raw, p.src);
     fs.writeFileSync(path.join(PAGES_OUT, `${p.slug}.md`), md);
     pageMeta.push({ slug: p.slug, title: title || p.title, nav: p.nav, group: p.group, hasMermaid, reviewed, reviewedNote });
+    searchDocs.push({
+      id: p.slug,
+      type: 'page',
+      title: title || p.title,
+      section: p.group || '',
+      url: `page.html?p=${p.slug}`,
+      text: toPlainText(md),
+    });
   }
 
   const site = {
@@ -400,6 +451,11 @@ function main() {
   };
   fs.writeFileSync(path.join(DATA, 'site.json'), JSON.stringify(site, null, 2));
 
+  fs.writeFileSync(
+    path.join(DATA, 'search-index.json'),
+    JSON.stringify({ builtAt: site.builtAt, docs: searchDocs }, null, 2)
+  );
+
   if (unresolvedMdLinks.length) {
     console.error('✖ Unresolved local Markdown links:');
     unresolvedMdLinks.forEach((link) => {
@@ -412,7 +468,7 @@ function main() {
     console.error('✖ Build completed with errors (see above).');
     return;
   }
-  console.log(`✓ Built ${sessionMeta.length} sessions + ${pageMeta.length} pages → docs/assets/data/`);
+  console.log(`✓ Built ${sessionMeta.length} sessions + ${pageMeta.length} pages → docs/assets/data/ (search index: ${searchDocs.length} docs)`);
 }
 
 main();
