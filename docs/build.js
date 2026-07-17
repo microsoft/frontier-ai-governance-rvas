@@ -29,6 +29,7 @@ const path = require('path');
 const DOCS = __dirname;
 const DATA = path.join(DOCS, 'assets', 'data');
 const PAGES_OUT = path.join(DATA, 'pages');
+const DECKS_OUT = path.join(DATA, 'decks');
 
 /* ─── Curriculum config (curated metadata, mirrors docs/index.md) ─────────── */
 
@@ -385,6 +386,8 @@ function readOptional(rel) {
 function main() {
   fs.rmSync(PAGES_OUT, { recursive: true, force: true });
   fs.mkdirSync(PAGES_OUT, { recursive: true });
+  fs.rmSync(DECKS_OUT, { recursive: true, force: true });
+  fs.mkdirSync(DECKS_OUT, { recursive: true });
 
   const sessionMeta = [];
   const searchDocs = [];
@@ -436,10 +439,19 @@ function main() {
     const chapterMeta = SESSION_CHAPTERS
       .filter((chapter) => chapter.slug !== 'technical' || technical)
       .map(({ slug, label }) => ({ slug, label }));
+    const deckRaw = readOptional(`${s.slug}/deck.md`);
+    const hasDeck = deckRaw != null;
+    if (hasDeck) {
+      // Decks are authored directly in reveal.js Markdown (slides split on `---`),
+      // so they bypass the MkDocs transforms — only image paths are rewritten to
+      // resolve from the site root (same convention as page bodies).
+      fs.writeFileSync(path.join(DECKS_OUT, `${s.slug}.md`), rewriteImages(deckRaw));
+    }
     sessionMeta.push({
       slug: s.slug, code: s.code, title: clean, fullTitle: title || `${s.code} · ${clean}`,
       accent: s.accent, persona: s.persona, nist: s.nist, outcome: s.outcome, optional: Boolean(s.optional),
       hasMermaid: hasMermaid || concepts.hasMermaid || Boolean(technical && technical.hasMermaid),
+      hasDeck,
       chapters: chapterMeta,
       reviewed, reviewedNote, conceptsTitle: concepts.title || `${s.code} · ${clean} Concepts`,
       conceptsHasMermaid: concepts.hasMermaid, conceptsReviewed: concepts.reviewed || reviewed,

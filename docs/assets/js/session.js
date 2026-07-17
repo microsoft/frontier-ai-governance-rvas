@@ -44,6 +44,7 @@
     renderFacts(session);
     renderChapterNav(session, chapters, chapter.slug);
     renderKit(session);
+    renderDeck(session);
     renderSetReturn(kiosk);
     renderSessionNav(navigationSessions, navigationIndex, chapters, chapterIndex);
     await renderChapter(session, chapter);
@@ -82,6 +83,25 @@
     const path = `labs/${session.slug}/`;
     document.getElementById('kitPath').textContent = path;
     document.getElementById('kitLink').href = `${REPO}/tree/main/${path}`;
+  }
+
+  function renderDeck(session) {
+    const panel = document.getElementById('deckPanel');
+    const btn = document.getElementById('deckLink');
+    if (!panel || !btn) return;
+    if (!session.hasDeck) { panel.hidden = true; return; }
+    panel.hidden = false;
+    btn.addEventListener('click', () => {
+      const url = `deck.html?s=${encodeURIComponent(session.slug)}`;
+      const features = 'popup=yes,width=1280,height=800,menubar=no,toolbar=no,location=no,status=no,scrollbars=yes,resizable=yes';
+      const win = window.open(url, `deck-${session.slug}`, features);
+      if (win) {
+        try { win.opener = null; } catch (e) { /* cross-origin guard */ }
+        win.focus();
+      } else {
+        window.open(url, '_blank', 'noopener'); // popup blocked → new tab fallback
+      }
+    });
   }
 
   function renderSetReturn(kiosk) {

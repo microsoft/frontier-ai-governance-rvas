@@ -1,0 +1,199 @@
+/* Frontier AI Governance — facilitator deck theme.
+   Brand overrides layered on top of reveal.js `theme/white.css`. Loaded only by
+   deck.html (standalone), so it does not interact with the main site styles. */
+
+:root {
+  /* Brand tokens (mirrored from the site so the deck is self-contained). */
+  --deck-accent: #1A77E3;
+  --deck-heading: #032254;
+  --deck-ink: #17202E;
+  --deck-dim: #47494E;
+  --deck-bg: #FFFFFF;
+  --deck-bg-soft: #F5F8FE;
+  --deck-line: #E3E6ED;
+  --font-display: "Outfit", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+
+  /* reveal.js theme variables. */
+  --r-background-color: var(--deck-bg);
+  --r-main-font: var(--font-body);
+  --r-main-font-size: 26px;
+  --r-main-color: var(--deck-ink);
+  --r-heading-font: var(--font-display);
+  --r-heading-color: var(--deck-heading);
+  --r-heading-text-transform: none;
+  --r-heading-font-weight: 700;
+  --r-heading1-size: 1.85em;
+  --r-heading2-size: 1.35em;
+  --r-heading3-size: 1.1em;
+  --r-heading4-size: 1em;
+  --r-code-font: var(--font-mono);
+  --r-link-color: var(--deck-accent);
+  --r-link-color-dark: #0f5bb5;
+  --r-link-color-hover: #0f5bb5;
+  --r-selection-background-color: rgba(26, 119, 227, 0.25);
+  --r-selection-color: var(--deck-heading);
+}
+
+.reveal {
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+
+/* Subtle branded backdrop. */
+.reveal-viewport {
+  background:
+    radial-gradient(1200px 600px at 100% -10%, rgba(26, 119, 227, 0.06), transparent 60%),
+    var(--deck-bg);
+}
+
+.reveal .slides { text-align: left; }
+.reveal .slides section {
+  padding: 0 1.5%;
+  height: 100%;
+}
+
+/* Headings get an accent kicker rule. */
+.reveal h1,
+.reveal h2 {
+  line-height: 1.1;
+  margin-bottom: 0.5em;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+.reveal h2 {
+  padding-bottom: 0.28em;
+  border-bottom: 3px solid var(--deck-accent);
+  display: inline-block;
+}
+.reveal h3 {
+  color: var(--deck-accent);
+  line-height: 1.2;
+  margin-bottom: 0.4em;
+}
+
+.reveal p,
+.reveal li { line-height: 1.35; }
+
+.reveal ul,
+.reveal ol { margin: 0.2em 0 0.2em 1.1em; width: auto; }
+.reveal li { margin: 0.28em 0; }
+.reveal li::marker { color: var(--deck-accent); }
+
+.reveal strong { color: var(--deck-heading); }
+
+.reveal em { color: var(--deck-dim); }
+
+.reveal a { text-decoration: none; border-bottom: 1px solid rgba(26, 119, 227, 0.4); }
+.reveal a:hover { border-bottom-color: var(--deck-accent); }
+
+/* Blockquotes → facilitator call-outs. */
+.reveal blockquote {
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: none;
+  background: var(--deck-bg-soft);
+  border-left: 4px solid var(--deck-accent);
+  border-radius: 8px;
+  padding: 0.6em 0.9em;
+  font-size: 0.85em;
+  font-style: normal;
+  color: var(--deck-dim);
+}
+.reveal blockquote p { margin: 0.2em 0; }
+
+/* Inline + block code. */
+.reveal code {
+  font-family: var(--font-mono);
+  background: var(--deck-bg-soft);
+  border: 1px solid var(--deck-line);
+  border-radius: 5px;
+  padding: 0.05em 0.35em;
+  font-size: 0.82em;
+  color: var(--deck-heading);
+}
+.reveal pre { width: 100%; box-shadow: none; font-size: 0.6em; }
+.reveal pre code {
+  padding: 0.9em 1.1em;
+  border-radius: 10px;
+  border: 1px solid var(--deck-line);
+}
+
+/* Tables. */
+.reveal table { font-size: 0.8em; }
+.reveal table th { color: var(--deck-heading); border-bottom: 2px solid var(--deck-accent); }
+.reveal table td { border-bottom: 1px solid var(--deck-line); }
+
+/* Diagram images (SVGs pulled from assets/diagrams). */
+.reveal .slides img {
+  background: #fff;
+  border: 1px solid var(--deck-line);
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 10px 30px -18px rgba(3, 34, 84, 0.5);
+  max-width: 100%;
+  max-height: 52vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Title slide: first section with a top-level h1. */
+.reveal .slides section h1 + p,
+.reveal .slides section h1 + h3 { color: var(--deck-dim); font-weight: 500; }
+
+/* reveal controls / progress recoloured to the session accent. */
+.reveal .controls { color: var(--deck-accent); }
+.reveal .progress { color: var(--deck-accent); height: 4px; }
+.reveal .progress span { background: var(--deck-accent); }
+.reveal .slide-number { background: rgba(3, 34, 84, 0.55); font-family: var(--font-mono); }
+
+/* Persistent brand chip (bottom-left). */
+.deck-brand {
+  position: fixed;
+  left: 14px;
+  bottom: 12px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--deck-dim);
+  opacity: 0.8;
+  pointer-events: none;
+}
+.deck-brand img { display: block; }
+.deck-brand-label { letter-spacing: 0.2px; }
+
+/* Print / PDF button (top-right). */
+.deck-pdf-btn {
+  position: fixed;
+  top: 12px;
+  right: 14px;
+  z-index: 40;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--deck-accent);
+  border: none;
+  border-radius: 999px;
+  padding: 7px 14px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px -8px rgba(3, 34, 84, 0.6);
+  transition: filter 0.15s ease;
+}
+.deck-pdf-btn:hover { filter: brightness(1.08); }
+
+@media print {
+  .deck-brand,
+  .deck-pdf-btn { display: none !important; }
+  .reveal .slides img { box-shadow: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deck-pdf-btn { transition: none; }
+}
