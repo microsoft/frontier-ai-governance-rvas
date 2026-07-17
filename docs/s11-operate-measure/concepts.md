@@ -2,6 +2,8 @@
 
 ## An operating review turns evidence into a decision
 
+![S11 flow: Foundry observability, OpenTelemetry/Application Insights signals and a stated population and review period feed an operating review (population, review period, coverage limit, accountable owner, decision per question); a coverage limit blocks over-reading the evidence; outputs are an operating decision and a drift hypothesis against the S7 baseline, routed to an accountable owner, validation reference, or exception/escalation route.](../assets/diagrams/s11-operating-review-flow.svg)
+
 An operating review is not a dashboard tour. It defines the population, review
 period, coverage limit, accountable owner, and decision for each selected
 question.

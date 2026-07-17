@@ -8,6 +8,8 @@ agent. Go back to [S1 Prepare](index.md) for the run order.
 
 ## Every agent needs an owner you can name
 
+![S1 object model: the Entra Agent ID chain (blueprint, blueprint principal, agent identity, agent user account) sits in the tenant identity plane with an accountable human sponsor, separate from the runtime access controls (Conditional Access and gateway authentication); on-behalf-of identities are recorded as a gap.](../assets/diagrams/s1-agent-identity-model.svg)
+
 **Microsoft Entra Agent ID** gives an agent a real identity in the tenant, built
 from a few connected objects (a blueprint, a blueprint principal, an agent
 identity, and an agent user account). The object model isn't the point. The

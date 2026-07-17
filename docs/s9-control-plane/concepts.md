@@ -25,6 +25,8 @@ Suspension stops use while review happens. Retirement ends intended use but keep
 
 ## Reconciliation keeps gaps visible
 
+![S9 reconciliation flow: several source records (agent registry / Agent 365 view, Entra Agent ID records, API Center / gateway records, platform telemetry, approved lifecycle / change-review) are compared by explicit identity identifiers; disagreements become findings (unmatched identities, catalog-only entries, missing owners, invalid lifecycle states, unreviewed material changes, incomplete closure records) routed to the customer steward or change process as a lifecycle backlog.](../assets/diagrams/s9-reconciliation-gap-flow.svg)
+
 S9 compares explicit identity identifiers in the catalog with the normalized identity inventory. It does not infer matches from names, aliases, or nearby fields.
 
 Unmatched identities, catalog-only entries, missing owners, invalid lifecycle states, unreviewed material changes, and incomplete closure records are findings for accountable owners.

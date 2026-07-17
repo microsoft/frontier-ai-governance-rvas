@@ -11,6 +11,8 @@ or approve production use.
 
 ## Classification is about authority
 
+![S4 decision tree: an agent candidate is classified by intended authority into advisory assistant, human-confirmed action, bounded delegated-action, or coordinating agent, each raising the minimum admission focus; if authority is unclear the candidate is unclassified and not admitted.](../assets/diagrams/s4-authority-admission-tree.svg)
+
 Classify a candidate by what it is meant to do, not by its label or framework.
 The highest-impact action sets the standard.
 

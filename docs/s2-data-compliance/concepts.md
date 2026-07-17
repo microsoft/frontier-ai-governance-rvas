@@ -7,6 +7,8 @@ This page explains the compliance-plane controls used in S2. [S2 Prepare](index.
 
 ## The compliance plane answers a data question
 
+![S2 compliance flow: DSPM for AI surfaces exposure, producing prioritised findings that drive sensitivity labels and DLP policies, which feed an evidence trail (Audit, eDiscovery, Insider Risk Management, Communication Compliance) routed to the customer compliance and change process; gateway masking complements but does not replace Purview.](../assets/diagrams/s2-compliance-flow.svg)
+
 AI governance needs to answer more than "is this agent allowed to run?" It also needs to answer which data reaches the agent, which sensitive data can appear in prompts or responses, and which evidence remains after an interaction.
 
 Microsoft Purview brings data security and compliance capabilities into AI workloads and connected applications.[^purview] S2 uses Purview for data classification, discovery, policy review, investigation, and evidence references. It does not build a new model gateway.

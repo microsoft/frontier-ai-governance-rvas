@@ -7,6 +7,8 @@ This page explains the sign-off boundary behind S7. [S7 Prepare](index.md) start
 
 ## Evaluation is not a release sign-off
 
+![S7 handoff: the accepted S6 gateway proof is required first, then an evaluation plan (quality, groundedness, safety, tool use, regression, human review) goes to the assurance owner who selects continue or hold; Foundry evaluations inform but do not replace the decision.](../assets/diagrams/s7-evaluation-release-handoff.svg)
+
 Customer teams can use Microsoft Foundry evaluations and agent evaluators to review quality, safety, groundedness, tool use, and task completion. Those results can inform a release decision.
 
 They do not prove runtime gateway enforcement. A fixture result, local scorecard, or proposed CI gate is not enough.

@@ -7,6 +7,8 @@ This page explains the ideas behind S0. Read it before the workshop if the opera
 
 ## Operating model before technology
 
+![S0 flow: the operating model (who decides, who does the work, where decisions are recorded, how disagreements are resolved) becomes a CoE stub and RACI, then named ownership, then an implementation backlog that routes to S1 identity, S2 Purview evidence, S3 platform owner, S4/S6 validation, and the customer change process.](../assets/diagrams/s0-operating-model-handoff.svg)
+
 An operating model answers four plain questions. Who decides? Who does the work? Where are decisions recorded? How are disagreements resolved?
 
 That matters before any AI tool is enabled. An agent can reach data, call tools, and act with delegated authority. A technical control without an owner becomes an unmanaged exception.

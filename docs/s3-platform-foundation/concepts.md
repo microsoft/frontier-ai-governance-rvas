@@ -12,6 +12,8 @@ A boundary diagram alone is not evidence. It can show an intended design, but it
 
 ## The AI gateway is a platform trust boundary
 
+![S3 boundary diagram: a caller crosses the platform trust boundary at the AI gateway (Azure API Management handling authn, authz, routing, throttling, logging, policy) to reach AI services, tools and model backends; private connectivity, hybrid dependencies, identity boundary and telemetry coverage attach to the boundary, and a platform-security owner is accountable while runtime assurance evidences it in S6.](../assets/diagrams/s3-gateway-trust-boundary.svg)
+
 An AI gateway sits between callers and AI services, tools, or model backends. In Azure architectures, Azure API Management can provide that gateway boundary for APIs and AI workloads.[^apim]
 
 The gateway boundary helps the customer state where authentication, authorization, routing, throttling, logging, or policy checks are expected to happen. S3 records what the gateway should mediate and which owner is accountable.

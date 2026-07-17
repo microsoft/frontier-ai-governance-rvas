@@ -20,6 +20,8 @@ payloads or endpoints.
 
 ## Correlation makes a request reviewable
 
+![S6 flow: a gateway adapter request produces a gateway-proof manifest with safe references and a correlation_id; the transport result (pass/fail) and the correlation_id appearing in approved gateway telemetry both feed the platform and security owners' acceptance decision, yielding a reviewable runtime artifact; a direct component diagnostic is not gateway-path proof.](../assets/diagrams/s6-security-runtime-correlation-flow.svg)
+
 A completed adapter request is not enough to prove a policy was enforced.
 Customer platform and security owners use `correlation_id` to review gateway
 telemetry. Then they make an acceptance decision in their approved records system.

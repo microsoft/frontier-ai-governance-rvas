@@ -18,6 +18,8 @@ permission, service, or production lifecycle state.
 
 ## Decision 1 — Tool/API publication and registry system of record
 
+![S5 object model: a publication record must carry discoverability, owner, version/lifecycle state, and exposure-control intent, then choose a system of record — API Center plus APIM products, an existing estate or catalog, or an ad-hoc list / no registry treated as a gap.](../assets/diagrams/s5-tool-api-governance-record-model.svg)
+
 Choose the system that can hold the candidate's **discoverability**, **owner**,
 **version/lifecycle state**, and **exposure-control intent** without implying
 that publication or runtime safety has already been approved.

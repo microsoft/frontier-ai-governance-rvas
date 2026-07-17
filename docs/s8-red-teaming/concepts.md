@@ -15,6 +15,8 @@ S8 is limited to an authorized, customer-owned, non-production endpoint with wri
 
 ## Attack Success Rate is a decision aid
 
+![S8 decision aid: a setup chain (target, attack categories, sample size, target version, approved threshold) parameterises the comparison; authorized attempts yield an Attack Success Rate compared to the threshold — above tolerance becomes a remediation item with an owner, below tolerance supports the tested scope; the Foundry native scorecard is preserved with an optional comparison sidecar.](../assets/diagrams/s8-red-teaming-asr-decision.svg)
+
 Attack Success Rate (ASR) is the share of attempts that meet the agreed adversarial success condition. Lower is better, but the number only makes sense with its category, sample size, target version, and approved threshold.
 
 A result above tolerance becomes a remediation item with an owner. A result below tolerance supports the tested scope. It does not prove the whole system is secure.

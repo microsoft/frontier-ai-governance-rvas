@@ -10,6 +10,8 @@ different from gateway, data, identity, and outcome controls.
 
 ## A different enforcement point
 
+![S10 boundary diagram: the network and API gateway boundary applies shared controls while, inside the agent application, an in-process govern() wraps the tool call with policy evaluation and audit logging before the tool runs; a local hash chain gives internal consistency only, whereas a signed record in immutable external storage provides tamper evidence.](../assets/diagrams/s10-policy-boundary-and-evidence.svg)
+
 Citadel's Governance Hub can apply shared controls at the network and API
 gateway boundary. An in-process governance library can check the requested tool
 action inside the agent application before the tool runs.

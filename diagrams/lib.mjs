@@ -102,6 +102,37 @@ export function arrow(x1, y1, x2, y2, opts = {}) {
   };
 }
 
+// Draw a rounded rect with a centered title (and optional subtitle stacked below).
+// Returns geometry { x, y, w, h, cx, cy, r, b } for connecting arrows to edges.
+export function node(els, x, y, w, h, color, title, opts = {}) {
+  els.push(rect(x, y, w, h, color, opts.rectExtra || {}));
+  const tSize = opts.titleSize || 15;
+  if (opts.sub) {
+    const titleLines = title.split("\n").length;
+    els.push(text(x + 6, y + 14, w - 12, title, color, { size: tSize }));
+    const subY = y + 14 + titleLines * tSize * LH + 6;
+    els.push(text(x + 6, subY, w - 12, opts.sub, color, { size: opts.subSize || 12.5 }));
+  } else {
+    els.push(labelIn(x, y, w, h, title, color, { size: tSize }));
+  }
+  return { x, y, w, h, cx: x + w / 2, cy: y + h / 2, r: x + w, b: y + h };
+}
+
+// Connect two node geometries edge-to-edge, choosing the nearest faces so the
+// arrowhead lands on a box border (no floating / disconnected arrows).
+export function connect(els, a, b, opts = {}) {
+  const dx = b.cx - a.cx, dy = b.cy - a.cy;
+  let x1, y1, x2, y2;
+  if (Math.abs(dx) >= Math.abs(dy)) {
+    if (dx >= 0) { x1 = a.r; y1 = a.cy; x2 = b.x; y2 = b.cy; }
+    else { x1 = a.x; y1 = a.cy; x2 = b.r; y2 = b.cy; }
+  } else {
+    if (dy >= 0) { x1 = a.cx; y1 = a.b; x2 = b.cx; y2 = b.y; }
+    else { x1 = a.cx; y1 = a.y; x2 = b.cx; y2 = b.b; }
+  }
+  els.push(arrow(x1, y1, x2, y2, { curved: false, ...opts }));
+}
+
 export function line(x1, y1, x2, y2, opts = {}) {
   const points = opts.points || [[0, 0], [x2 - x1, y2 - y1]];
   return {

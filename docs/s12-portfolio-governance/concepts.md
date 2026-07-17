@@ -61,6 +61,8 @@ Identifying the question does not approve new policy or change existing policy.
 
 ## Continuous improvement closes through S0
 
+![S12 feedback loop: prior session records and exceptions and portfolio risks feed a portfolio review (investment priorities, maturity movement, policy questions) that produces decisions, deferrals and remaining-risk dispositions, then a roadmap backlog, which feeds the next S0 assessment — closing the continuous improvement loop.](../assets/diagrams/s12-portfolio-to-s0-feedback-loop.svg)
+
 The portfolio roadmap feeds the next S0 assessment. It does not replace it. S0
 reassesses selected domains with customer-held evidence and a fresh decision.
 
