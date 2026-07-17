@@ -61,6 +61,7 @@ const SESSION_CHAPTERS = [
     label: 'Prepare',
     heading: /^(?:1\. Outcome|2\. Prerequisites|3\. Why)/i,
   },
+  { slug: 'concepts', label: 'Concepts' },
   {
     slug: 'co-deliver',
     label: 'Co-deliver',
@@ -76,7 +77,6 @@ const SESSION_CHAPTERS = [
     label: 'Facilitator notes',
     heading: /^7\. Facilitator notes/i,
   },
-  { slug: 'concepts', label: 'Concepts' },
 ];
 
 const PAGES = [
