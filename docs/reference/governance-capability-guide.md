@@ -1,6 +1,6 @@
 # Governance capability guide
 
-This guide maps the Microsoft capabilities used in the AI Governance curriculum to the governance question each session addresses. Capability availability changes, so verify the linked Microsoft documentation and tenant licensing before delivery.
+Use this guide to map each AI Governance session to concrete Microsoft capabilities. Check the linked Microsoft documentation, tenant licensing, region support, and customer fit before delivery.
 
 ## Capabilities by governance domain
 
@@ -9,38 +9,35 @@ This guide maps the Microsoft capabilities used in the AI Governance curriculum 
 | Operating model · S0 | Cloud Adoption Framework for AI, Well-Architected Framework for AI, AI Center of Excellence guidance | Ownership model, maturity discussion, and roadmap. | Current guidance. |
 | Identity · S1 | Microsoft Entra Agent ID, Conditional Access, Identity Protection, Agent 365 | Agent inventory, sponsorship, lifecycle, and access posture. | Agent-ID feature and Conditional-Access availability. |
 | Data · S2 | Microsoft Purview DSPM for AI, DLP, audit, eDiscovery, and information protection | Data exposure findings, DLP testing, and retained compliance evidence. | Licensing and tenant support. |
-| Platform & trust boundaries · S3 | Azure landing-zone, network, gateway, monitoring, and security capabilities | Customer-owned platform-path and trust-boundary decision. | Region, network, feature, and ownership availability. |
-| Engineering & admission · S4 | Microsoft Foundry Agent Service, Copilot Studio / Power Platform governance, Microsoft 365 Copilot declarative agents, Entra identity/RBAC/Agent ID, Foundry evaluation and observability, Azure Monitor / Application Insights, Content Safety, Agent 365, API Center, and customer engineering/change processes | Product-anchored implementation-path recommendation, model selection, fine-tuning governance, latency budget, token-cost estimate, rollout decision, admission, and material-change review. | Tenant licensing, region, feature availability, approved engineering path, and customer change authority. |
+| Platform & trust boundaries · S3 | Azure landing-zone, network, gateway, monitoring, and security capabilities | Customer-owned platform path and trust-boundary decision. | Region, network, feature, and ownership availability. |
+| Engineering & admission · S4 | Microsoft Foundry Agent Service, Copilot Studio / Power Platform governance, Microsoft 365 Copilot declarative agents, Entra identity/RBAC/Agent ID, Foundry evaluation and observability, Azure Monitor / Application Insights, Content Safety, Agent 365, API Center, and customer engineering/change processes | Product-specific implementation path, model choice, fine-tuning governance, latency budget, token-cost estimate, rollout decision, admission, and material-change review. | Tenant licensing, region, feature availability, approved engineering path, and customer change authority. |
 | Tool/API/MCP governance · S5 | API catalog, gateway, identity, and lifecycle capabilities | Controlled publication, authority, and withdrawal decisions. | Connector, protocol, and tenant support. |
 | Runtime assurance · S6 | Defender for Cloud AI-SPM, AI Threat Protection, Azure AI Content Safety, Azure Monitor / Application Insights | Security posture, threat signals, runtime safety, gateway correlation, and response ownership. | Region, service, telemetry, and feature availability. |
-| Evaluation & release assurance · S7 | Microsoft Foundry evaluations, agent evaluators (task completion, intent resolution, tool-call accuracy, response quality, safety), cloud evaluation, tracing, continuous evaluation where applicable, and CI/CD integration | Customer-owned evaluation-plan review, threshold governance, scorecard interpretation, and release-assurance decision. | Individual evaluator availability, test-data ownership, and integration path. |
-| Adversarial testing · S8 | PyRIT and the AI Red Teaming Agent | Authorised test scope, findings, and remediation evidence. | Red Teaming Agent availability and approved target. |
+| Evaluation & release assurance · S7 | Microsoft Foundry evaluations, agent evaluators (task completion, intent resolution, tool-call accuracy, response quality, safety), cloud evaluation, tracing, continuous evaluation where applicable, and CI/CD integration | Customer-owned evaluation-plan review, threshold governance, scorecard interpretation, and release decision. | Individual evaluator availability, test-data ownership, and integration path. |
+| Adversarial testing · S8 | PyRIT and the AI Red Teaming Agent | Authorized test scope, findings, and remediation evidence. | Red Teaming Agent availability and approved target. |
 | Control plane & lifecycle · S9 | Microsoft Agent 365, Entra Agent ID, API Center, platform telemetry | Reconcile agent, tool, identity, ownership, and lifecycle records. | Agent 365 licensing and connector status. |
-| In-process governance · S10 | Agent Governance Toolkit (AGT) | Offline illustration of application-process tool-call policy and audit evidence; adoption decision only. | Applicability, release status, and architecture fit. |
+| In-process governance · S10 | Agent Governance Toolkit (AGT) | Offline example of application-process tool-call policy and audit evidence; adoption decision only. | Applicability, release status, and architecture fit. |
 | Operate, monitor & FinOps · S11 | Customer-held operational, security, quality, and cost evidence; Azure Monitor / Application Insights; Foundry observability; Azure Cost Management and FinOps Toolkit where used | Operating review, quality/latency/cost drift, cost accountability, and remediation cadence. | Evidence coverage, attribution limits, and owner availability. |
 | Portfolio governance · S12 | Customer-held governance, risk, and portfolio records | Portfolio decision, exception review, and next roadmap. | Decision authority and records availability. |
 
 ## Implementation pathway taxonomy
 
-Every session should translate its evidence review into a bounded
-implementation pathway. The pathway is a customer-owned backlog and decision
-aid; it is not an instruction to deploy, configure, publish, grant access, or
-approve production use during the session.
+Each session should turn its evidence review into a clear implementation pathway. The pathway is a customer-owned backlog and decision aid. It is not an instruction to deploy, configure, publish, grant access, or approve production use during the session.
 
 Use the same row shape across sessions:
 
 | Field | Purpose |
 |---|---|
-| Implementation pathway or backlog item | Concrete next setup, configuration, review, operating, or portfolio decision the session enables. |
-| Applicability | `applies`, `does not apply`, `unknown`, or `later session / customer process`. Applicability does not mean mandatory deployment. |
+| Implementation pathway or backlog item | The next setup, configuration, review, operating, or portfolio decision the session enables. |
+| Applicability | `applies`, `does not apply`, `unknown`, or `later session / customer process`. Applicability does not mean the customer must deploy it. |
 | Session recommendation | Recommended next path, defer, reject, investigate, accept risk, or route elsewhere. |
-| Confidence and assumptions | Why the recommendation is supportable from the evidence reviewed in this session. |
-| Evidence reference or gap | Customer-held record reference, no-result, unsupported condition, blocker, or missing prerequisite. |
+| Confidence and assumptions | Why the evidence reviewed in this session supports the recommendation. |
+| Evidence reference or gap | Customer-held record reference, nothing found, tool limitation, blocker, or missing prerequisite. |
 | Owner | Named business, engineering, platform, security, identity, data, service, cost, or portfolio owner. |
 | Later route | Follow-on session or customer architecture, security, change, release, support, or production-approval process. |
 | Boundary | What this session does not configure, deploy, prove, or approve. |
 
-Filter the following Microsoft capability categories to the session:
+Filter these Microsoft capability categories to the session:
 
 | Category | Typical implementation questions |
 |---|---|
@@ -51,7 +48,7 @@ Filter the following Microsoft capability categories to the session:
 | Copilot Studio and Power Platform | Which environment, Managed Environment, DLP, connector, solution, ALM, publication, or monitoring decision applies? |
 | Microsoft Foundry Agent Service | Which project, model, agent type, instructions/code package, tools, identity, observability, evaluation, or publication item applies? |
 | Model selection and fine-tuning | Which model fits capability, cost, latency, and data-residency needs? Is fine-tuning justified, who owns training-data review, and which comparison is required? |
-| Quality measurement and threshold governance | Which dimensions and evaluators apply, which option is universal or Foundry-gated, and who approves thresholds and owns regressions? |
+| Quality measurement and threshold governance | Which dimensions and evaluators apply, which option works everywhere or requires Foundry, and who approves thresholds and owns regressions? |
 | Latency budgeting | Which component targets, attribution limits, regression owner, and telemetry reference apply? |
 | Token cost and FinOps | Which tier, cost owner, allocation approach, quota or capacity consideration, and spend-decision route apply? |
 | Staged rollout governance | Which S4/S6/S7/S8/S9 references are assembled, and who is the customer change authority for promotion? |
@@ -68,43 +65,22 @@ Filter the following Microsoft capability categories to the session:
 
 ## Product-status notes
 
-- Microsoft Agent 365 and Microsoft Entra Agent ID have general-availability announcements; some related access-control and connector features remain preview.
-- Purview DSPM, Defender AI-SPM, AI Threat Protection, and Prompt Shields have generally available capabilities, while individual detections and integrations may be preview.
-- The `azure-ai-evaluation` SDK is generally available, but individual
-  evaluators, agent evaluators, cloud evaluation, and continuous-evaluation
-  features can vary. Verify the status of named evaluator categories before
-  delivery. S7 references customer-owned evaluation work; it does not run a
-  live evaluator or create a CI/CD gate.
-- Foundry fine-tuning is available for supported models and can vary by model,
-  region, and feature. Verify support before recommending a fine-tuning path or
-  evaluation integration.
-- Foundry billing and project-level cost attribution may have scope limits.
-  Confirm available views before using them in a FinOps recommendation.
-- ASSERT policy-driven evaluation is contextual Build 2026 guidance. Verify its
-  current project and preview status before citing it in a customer backlog.
-- Microsoft Foundry Agent Service supports prompt agents, hosted agents, and
-  existing external agents through the Responses API. S4 uses this distinction
-  only for implementation-path and backlog planning; it does not create or
-  deploy an agent.
-- Copilot Studio agents are governed through Power Platform and Microsoft 365
-  controls such as environments, data policies, publication controls, audit,
-  and tenant administration. Confirm environment, DLP, connector, ALM, and
-  licensing requirements before recommending that path.
-- Microsoft 365 Copilot declarative agents are configured through
-  instructions, knowledge, actions, capabilities, and app metadata. Confirm the
-  selected authoring tool, admin distribution route, and tenant controls before
-  delivery.
+- Microsoft Agent 365 and Microsoft Entra Agent ID have general-availability announcements. Some related access-control and connector features remain preview.
+- Purview DSPM, Defender AI-SPM, AI Threat Protection, and Prompt Shields have generally available capabilities. Individual detections and integrations may be preview.
+- The `azure-ai-evaluation` SDK is generally available. Individual evaluators, agent evaluators, cloud evaluation, and continuous-evaluation features can vary. Verify the named evaluator categories before delivery. S7 references customer-owned evaluation work. It does not run a live evaluator or create a CI/CD gate.
+- Foundry fine-tuning is available for supported models and can vary by model, region, and feature. Verify support before you recommend a fine-tuning path or evaluation integration.
+- Foundry billing and project-level cost attribution may have scope limits. Confirm available views before you use them in a FinOps recommendation.
+- ASSERT policy-driven evaluation is contextual Build 2026 guidance. Verify its current project and preview status before you cite it in a customer backlog.
+- Microsoft Foundry Agent Service supports prompt agents, hosted agents, and existing external agents through the Responses API. S4 uses this distinction only for implementation-path and backlog planning. It does not create or deploy an agent.
+- Copilot Studio agents are governed through Power Platform and Microsoft 365 controls such as environments, data policies, publication controls, audit, and tenant administration. Confirm environment, DLP, connector, ALM, and licensing requirements before you recommend that path.
+- Microsoft 365 Copilot declarative agents are configured through instructions, knowledge, actions, capabilities, and app metadata. Confirm the selected authoring tool, admin distribution route, and tenant controls before delivery.
 - PyRIT is open source. The managed AI Red Teaming Agent is preview.
 - Foundry Citadel Platform is a reference architecture. AI Hub Gateway and Azure AI Landing Zones are accelerators with their own deployment guidance.
-- AGT is open source and Public Preview at the pinned curriculum revision. Its
-  audit records governance attempts and decisions, not downstream action
-  outcomes; it does not provide data provenance, an SBOM, or a turnkey
-  human-approval UI. It is an applicability-based S10 topic, not a required customer
-  control.[^agt]
+- AGT is open source and Public Preview at the pinned curriculum revision. Its audit records governance attempts and decisions, not downstream action outcomes. It does not provide data provenance, an SBOM, or a ready-made human-approval UI. It is an applicability-based S10 topic, not a required customer control.[^agt]
 
 ## Framework alignment
 
-The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC 42001, and EU AI Act work. This mapping is illustrative; the customer remains responsible for risk classification, legal interpretation, and formal conformity assessment.
+The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC 42001, and EU AI Act work. This mapping is illustrative. The customer remains responsible for risk classification, legal interpretation, and formal conformity assessment.
 
 | Session | NIST AI RMF | ISO/IEC 42001 | EU AI Act |
 |---|---|---|---|
@@ -152,6 +128,4 @@ The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC
 - [AGT README at pinned commit `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/README.md)
 - [AGT known limitations at pinned commit `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md)
 
-[^agt]: The AGT source describes Public Preview releases and documents these
-limitations at the pinned commit; verify product status and applicability before
-customer delivery.
+[^agt]: The AGT source describes Public Preview releases and documents these limitations at the pinned commit. Verify product status and fit before customer delivery.

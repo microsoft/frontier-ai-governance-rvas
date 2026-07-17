@@ -5,30 +5,24 @@
     product status, and customer applicability before delivery. This map is
     contextual guidance, not customer evidence or a deployment instruction.
 
-This map connects public Microsoft guidance to the S0-S12 curriculum. It is a
-curated reading route: a source can explain a capability or inform a
-customer-owned implementation backlog, but it cannot prove that a customer
-control is deployed or operating.
+This map connects public Microsoft guidance to the S0-S12 curriculum. Use it as a reading route. A source can explain a capability or shape a customer-owned backlog. It cannot prove that a customer control is deployed or working.
 
 ## How to use this map
 
-Use the four questions below to interpret the curriculum artifacts:
+Use these four questions to read the curriculum artifacts:
 
 | Lens | Delivery question | Curriculum consequence |
 |---|---|---|
 | **Policy** | What is permitted, who owns the decision, and what needs approval? | S0 establishes ownership; S4/S5 record admission and publication decisions. |
-| **Control** | Which proportionate boundaries enforce the decision? | S1-S6 and, where applicable, S10 identify identity, data, platform, tool, runtime, and in-process paths. |
-| **Visibility** | What signals reveal actual behavior and coverage limits? | S6, S7, and S11 route telemetry, evaluation, and operating-review work to customer owners. |
+| **Control** | Which boundaries enforce the decision? | S1-S6 and, where applicable, S10 identify identity, data, platform, tool, runtime, and in-process paths. |
+| **Visibility** | What signals show actual behavior and coverage limits? | S6, S7, and S11 route telemetry, evaluation, and operating-review work to customer owners. |
 | **Proof** | Which reviewed references support a bounded decision and improvement? | S7-S12 retain decisions, limitations, exceptions, and the next roadmap. |
 
-The sequence is continuous: S12 portfolio learning informs the next S0
-baseline. A policy without a control is aspirational; a control without
-visibility is blind; visibility without a reviewed evidence record cannot
-support a defensible decision.
+The sequence is continuous. S12 portfolio learning informs the next S0 baseline. A policy without a control is only an intention. A control without visibility is blind. Visibility without a reviewed evidence record cannot support a defensible decision.
 
 ## Phase translation
 
-The business journey maps to, but does not rename, the curriculum:
+The business journey maps to the curriculum, but does not rename it:
 
 | Business journey | RVAS AI Governance phase | Typical sessions |
 |---|---|---|
@@ -37,10 +31,7 @@ The business journey maps to, but does not rename, the curriculum:
 | Build and validate | Assure | S6-S8 |
 | Operate and scale | Operate | S9-S12 |
 
-Microsoft Responsible AI principles—fairness; reliability and safety; privacy
-and security; inclusiveness; transparency; and accountability—are useful
-context for these questions. They are not an additional certification or
-framework-alignment claim in this curriculum.
+Microsoft Responsible AI principles—fairness; reliability and safety; privacy and security; inclusiveness; transparency; and accountability—give context for these questions. They are not an extra certification or framework-alignment claim in this curriculum.
 
 ## Reference map
 
@@ -48,30 +39,26 @@ framework-alignment claim in this curriculum.
 
 | Source | Relevant sessions | What it can inform | Stability |
 |---|---|---|---|
-| [Microsoft Foundry](https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry) | S0, S4, S7 | A customer-owned Foundry lifecycle or implementation-path backlog. | Canonical Learn |
+| [Microsoft Foundry](https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry) | S0, S4, S7 | A customer-owned Foundry lifecycle or setup backlog. | Canonical Learn |
 | [Foundry agent setup and network options](https://learn.microsoft.com/en-us/azure/foundry/how-to/configure-managed-network) | S3, S4 | Data-residency, capability-host, and network-isolation review questions. | Canonical Learn; verify availability |
-| [Foundry quota and capacity](https://learn.microsoft.com/en-us/azure/ai-services/openai/quotas-limits) | S4, S11 | Capacity, regional allocation, and cost-accountability questions. | Canonical Learn; verify service applicability |
+| [Foundry quota and capacity](https://learn.microsoft.com/en-us/azure/ai-services/openai/quotas-limits) | S4, S11 | Capacity, regional allocation, cost owner, and budget questions. | Canonical Learn; verify service applicability |
 | [Azure Policy](https://learn.microsoft.com/en-us/azure/governance/policy/overview) | S0, S3, S6 | Resource-governance baseline and ownership questions. | Canonical Learn |
 | [Azure API Management AI Gateway](https://learn.microsoft.com/en-us/azure/api-management/genai-gateway-capabilities) | S3, S5, S6, S11 | Boundary enforcement, traffic controls, and telemetry routes. | Canonical Learn |
 | [Microsoft Agent 365](https://learn.microsoft.com/en-us/microsoft-agent-365/overview) | S0, S1, S9, S12 | Fleet registry, lifecycle, access, and portfolio-record questions. | Canonical Learn |
 
-Runtime enforcement is cross-cutting, not a separate session. It operationalizes
-the decisions made for identity, data, tools, APIs, runtime safety, and agent
-governance. S3/S5 identify a boundary and owner; S6 reviews evidence for that
-boundary; S9/S11 reconcile and operate the resulting records. None of those
-sessions deploys, configures, or proves the services above.
+Runtime enforcement cuts across the curriculum. It turns decisions for identity, data, tools, APIs, runtime safety, and agent governance into operating controls. S3/S5 identify a boundary and owner. S6 reviews evidence for that boundary. S9/S11 reconcile and operate the records. None of those sessions deploys, configures, or proves the services above.
 
 ### Data governance and compliance
 
 | Source | Relevant sessions | What it can inform | Stability |
 |---|---|---|---|
-| [Microsoft Purview](https://learn.microsoft.com/en-us/purview/purview) | S0, S2, S6, S9 | Data-governance and compliance implementation-path questions. | Canonical Learn |
+| [Microsoft Purview](https://learn.microsoft.com/en-us/purview/purview) | S0, S2, S6, S9 | Data-governance and compliance setup questions. | Canonical Learn |
 | [DSPM for AI](https://learn.microsoft.com/en-us/purview/data-security-posture-management-learn-about) | S2, S11 | Discovery and posture-review scope. | Canonical Learn |
 | [Data Loss Prevention](https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp) | S2, S5, S6 | Data-exposure and boundary-control backlog items. | Canonical Learn |
 | [Sensitivity labels](https://learn.microsoft.com/en-us/purview/sensitivity-labels) | S2, S5 | Classification references for data-handling decisions. | Canonical Learn |
 | [Purview Audit](https://learn.microsoft.com/en-us/purview/audit-solutions-overview) | S2, S9, S11 | Customer-held audit-reference and retention questions. | Canonical Learn |
 | [eDiscovery](https://learn.microsoft.com/en-us/purview/edisc) | S2, S12 | Investigation and records-retention route. | Canonical Learn |
-| [Compliance Manager](https://learn.microsoft.com/en-us/purview/compliance-manager) | S2, S12 | Compliance-management context; not a conformity conclusion. | Canonical Learn |
+| [Compliance Manager](https://learn.microsoft.com/en-us/purview/compliance-manager) | S2, S12 | Compliance-management context; not a legal conclusion. | Canonical Learn |
 
 ### Model safety, evaluation, and adversarial learning
 
@@ -80,15 +67,12 @@ sessions deploys, configures, or proves the services above.
 | [Azure AI Content Safety](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/overview) | S4, S6, S7 | Safety-control and evaluation planning. | Canonical Learn |
 | [Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection) | S6, S8 | Prompt-injection context and customer-owned testing scope. | Canonical Learn |
 | [Microsoft Foundry observability and evaluation](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability) | S7, S11 | Evaluation, trace, monitoring, and coverage-planning context. | Canonical Learn |
-| [Agent Evaluators for Generative AI](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators) | S7 | Named evaluator types and bounded measurement questions. | Canonical Learn; evaluator availability varies |
+| [Agent Evaluators for Generative AI](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators) | S7 | Named evaluator types and specific evaluation questions. | Canonical Learn; evaluator availability varies |
 | [Fine-tune Microsoft Foundry models](https://learn.microsoft.com/en-us/azure/foundry/how-to/fine-tune-models) | S4, S7, S11, S12 | Fine-tuning decision criteria, pre/post comparison, and training versus inference-cost questions. | Canonical Learn; verify model and region support |
 | [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management) | S11, S12 | Subscription-level cost attribution and portfolio planning. | Canonical Learn |
 | [ASSERT announcement](https://devblogs.microsoft.com/foundry/build-2026-open-trust-stack-ai-agents/) | S7, S8 | Policy-driven evaluation and before/after mitigation thinking. | Contextual announcement; verify current project status |
 
-ASSERT is useful where a customer wants policy-specific evaluation scenarios,
-but it does not turn a local result into release approval, runtime proof, or
-control effectiveness. S7 retains references and a decision; S8 performs only
-authorized testing in a customer-owned non-production target.
+ASSERT can help when a customer wants policy-specific evaluation scenarios. It does not turn a local result into release approval, runtime proof, or control-effectiveness evidence. S7 keeps references and a decision. S8 runs only authorized tests against a customer-owned non-production target.
 
 ### Observability, security, and identity
 
@@ -112,20 +96,10 @@ authorized testing in a customer-owned non-production target.
 | [Agent Control Specification](https://microsoft.github.io/agent-governance-toolkit/packages/agent-control-specification/) | S5, S10 | Portable control-checkpoint concepts for a future engineering assessment. | Open source; capture a reviewed release or commit before delivery |
 | [Agent Governance Toolkit](https://microsoft.github.io/agent-governance-toolkit/) | S10 | In-process policy and audit concepts. | Open source; S10 uses [pinned source `b680c49`](https://github.com/microsoft/agent-governance-toolkit/tree/b680c49cc956727c5249771ddba7ee21a635a676) |
 
-Agent 365 and a portable control layer solve different problems. A fleet control
-plane helps discover, inventory, and steward agents; an in-process control can
-evaluate a defined checkpoint before a tool action. Neither is proof that the
-other is installed or effective, and S10 remains an applicability-based,
-offline decision session.
+Agent 365 and a portable control layer solve different problems. A fleet control plane helps discover, inventory, and steward agents. An in-process control can check a defined point before a tool action. Neither proves that the other is installed or effective. S10 remains an offline decision about fit.
 
-## Maintenance and evidence boundary
+## Maintenance and customer evidence
 
-Review this page quarterly with the other `docs/reference/` sources and after
-material product announcements. Preserve canonical Microsoft Learn links for
-stable documentation; record a reviewed release or commit for open-source
-claims. Before citing any source in a customer engagement, verify its current
-availability and status.
+Review this page quarterly with the other `docs/reference/` sources and after major product announcements. Keep canonical Microsoft Learn links for stable documentation. Record a reviewed release or commit for open-source claims. Before you cite any source in a customer engagement, verify its current availability and status.
 
-Documentation, a template, a simulator result, or a product capability page is
-not customer evidence. Customer evidence remains a reviewed, customer-owned
-record with scope, owner, limitations, and a decision.
+Documentation, a template, a simulator result, or a product capability page is not customer evidence. Customer evidence remains a reviewed, customer-owned record with scope, owner, limitations, and a decision.

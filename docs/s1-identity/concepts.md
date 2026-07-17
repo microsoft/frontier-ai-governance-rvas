@@ -3,65 +3,70 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-06 · Check Agent ID and Conditional Access availability in the [Governance capability guide](../reference/governance-capability-guide.md).
 
-These concepts explain why S1 starts with an authoritative inventory boundary and
-ownership review. Return to [S1 Prepare](index.md) for the delivery sequence.
+This page explains why S1 starts with a trusted list and an owner for every
+agent. Go back to [S1 Prepare](index.md) for the run order.
 
-## An agent needs an accountable identity
+## Every agent needs an owner you can name
 
-Microsoft Entra Agent ID models an agent through connected objects such as a blueprint, blueprint principal, agent identity, and agent user account. The important governance outcome is not the object taxonomy by itself: every agent needs a human sponsor who is accountable for its lifecycle and use.[^entra]
+**Microsoft Entra Agent ID** gives an agent a real identity in the tenant, built
+from a few connected objects (a blueprint, a blueprint principal, an agent
+identity, and an agent user account). The object model isn't the point. The
+point is simple: **every agent needs a human sponsor who is accountable for what
+it does and how long it lives.**[^entra]
 
-This is why Prepare begins with an authoritative inventory review and sponsor
-decision. A tenant cannot apply proportionate controls or investigate an
-incident if it cannot say what its source covers, which identity belongs to
-which agent, and who owns it.
+That's why the session starts by reviewing a trusted list and naming a sponsor.
+If something goes wrong, you can't respond well unless you can say what your
+list covers, which identity is which agent, and who owns it.
 
-An agent identity is more than an app registration: its sponsor and lifecycle context belong in the governance record.
+An agent identity is more than an app registration — its sponsor and lifecycle
+belong in the governance record.
 
-## Identity findings become backlog decisions
+## Findings turn into a short backlog
 
-The S1 recommendation should separate inventory evidence from implementation
-work. A reviewed source can support a sponsor decision, lifecycle review,
-Agent ID investigation, RBAC/OBO follow-up, access review, or blocker. It does
-not create an identity, assign access, configure Conditional Access, or approve
-production use.
+Keep two things apart in the S1 recommendation: what you found, and what to build
+next. A reviewed list can support a sponsor decision, a lifecycle review, a
+"does Entra Agent ID cover more of these?" investigation, RBAC/OBO follow-up, an
+access review, or a blocker. It does **not** create an identity, grant access,
+set up Conditional Access, or approve production use.
 
-Typical backlog rows include Entra Agent ID applicability, accountable human
-sponsor, workload identity or service principal review, OBO boundary,
-Conditional Access or access-review owner, gateway-authentication dependency,
-and S9 catalog/lifecycle reconciliation.
+Typical backlog rows: does Entra Agent ID apply here, who is the human sponsor,
+review the workload identity or service principal, check the OBO boundary, name a
+Conditional Access or access-review owner, note the gateway-authentication
+dependency, and hand the S9 reconciliation the record.
 
-## Inventory is the first control
+## The list is your first control
 
-Agent identities can be created as makers build agents in supported surfaces.
-That means agents may arrive through normal development activity rather than a
-dedicated governance onboarding step.[^entra] An inventory is starting evidence
-only when its source and workload coverage are explicit.
+Agents get identities as makers build them in supported tools. So agents can
+show up through normal development, not through a tidy governance onboarding
+step.[^entra] A list is only useful evidence when it says which source it came
+from and which workload it covers.
 
-S1 deliberately does not export or infer inventory data. A general
-service-principal, managed-identity, application, or OBO view can corroborate a
-customer record, but cannot by itself prove Agent ID status or complete
-coverage. The customer records its authoritative source, coverage statement,
-limitations, sponsor, lifecycle, and decision in its approved system.
+S1 deliberately doesn't export or guess at identity data. A general
+service-principal, managed-identity, app, or OBO view can back up a record, but
+it can't prove an agent's identity or that you've found them all. The customer
+records the source it trusts, what it covers, its gaps, the sponsor, the
+lifecycle, and the decision — in its own system.
 
-## Conditional Access is a separate customer change
+## Conditional Access is a separate change the customer owns
 
-Conditional Access design for workload identities depends on the tenant,
-licensing, workload support, scope, exclusions, and approved change process.
-It is not safely represented by a generic policy or break-glass template.
+Setting up Conditional Access for workload identities depends on the tenant,
+licensing, which workloads support it, scope, exclusions, and the customer's
+change process. A generic policy or break-glass template can't stand in for that.
 
-**In Co-deliver:** S1 identifies ownership and source-coverage gaps. If the
-customer chooses to pursue an identity control, its approved identity-change
-process owns design, report-only observation where appropriate, rollout,
-rollback, verification, and evidence retention.
+**In Co-deliver:** S1 finds the missing owners and coverage gaps. If the customer
+decides to add an identity control, their own identity-change process owns the
+design, the report-only trial where it makes sense, the rollout, the rollback,
+the checks, and keeping the evidence.
 
-## Visibility is not the same as control
+## Seeing an agent isn't the same as controlling it
 
-An agent that acts on behalf of a user (OBO) may be visible in telemetry without having a distinct Agent ID that can be governed independently. S1 records such cases as residual gaps rather than treating visibility as complete governance.[^a365]
+An agent acting for a user (OBO) can show up in telemetry without having its own
+Agent ID you can govern on its own. S1 records these as gaps, not as "handled."[^a365]
 
-Gateway authentication is a related but separate enforcement point. Citadel's
-APIM-layer JWT validation protects access to a gateway at runtime; Entra Agent
-ID and sponsorship govern the tenant identity plane. Both may be necessary, but
-neither replaces the other.[^citadel]
+Gateway authentication is a related but separate control. The gateway's
+JWT validation at the API Management layer guards runtime access to the gateway;
+Entra Agent ID and sponsorship govern the identity plane in the tenant. You
+often need both, and neither replaces the other.[^citadel]
 
 [^entra]: Microsoft Learn - [What is Microsoft Entra Agent ID?](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id); [Agent ID governance overview](https://learn.microsoft.com/en-us/entra/id-governance/agent-id-governance-overview).
 [^a365]: Microsoft Learn - [Agent 365 Overview](https://learn.microsoft.com/en-us/microsoft-agent-365/overview).

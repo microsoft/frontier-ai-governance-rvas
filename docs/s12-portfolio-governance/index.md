@@ -5,51 +5,52 @@
 
 <span class="rvas-badge rvas-persona">Governance lead</span> <span class="rvas-badge rvas-persona">Portfolio owner</span> <span class="rvas-badge rvas-persona">Risk owner</span>
 
-## 1. Outcome & durable artifact
+## 1. Outcome & what the customer keeps
 
-This session turns separately held governance results into a bounded,
-decision-ready portfolio review. The organization leaves with a
-customer-owned record that identifies:
+By the end of this session the customer has a portfolio review and next maturity
+roadmap across the in-scope agents.
+
+They leave with a customer-owned record that names:
 
 - evidence references, scope, coverage limits, and unresolved gaps;
 - exceptions, portfolio-level risks, accountable owners, and escalation paths;
-- proposed investment priorities, maturity movement, and policy-evolution
-  questions;
-- decisions, deferrals, and residual-risk dispositions; and
-- the next governance roadmap and the S0 baseline questions it should revisit.
+- proposed investment priorities, maturity movement, and policy questions;
+- decisions, deferrals, and remaining-risk dispositions; and
+- the next governance roadmap and the S0 baseline questions to revisit.
 
-Durable artifact: `labs/s12-portfolio-governance/` contains blank, offline
-templates and a runbook. It does not consolidate live data, create a dashboard,
-calculate a portfolio score, alter a policy, or establish compliance
-certification.
+`labs/s12-portfolio-governance/` holds blank offline templates and a runbook. It
+does **not** consolidate live data, create a dashboard, calculate a portfolio
+score, alter a policy, or certify compliance.
 
-### Implementation pathway
+### What happens next
 
-S12 produces a portfolio implementation backlog for later customer-owned
-governance work. The recommendation should state whether to approve, defer, or
-reject roadmap priorities, and which investment, exception, policy-evolution,
-funding, owner-readiness, maturity reassessment, S0 feedback, or governance
-cadence item must be owned next.
+S12 creates a portfolio backlog for later customer-owned governance work. The
+recommendation states whether to approve, defer, or reject roadmap priorities.
+It also names the investment, exception, policy question, funding gate, owner
+readiness, maturity reassessment, S0 feedback, or governance cadence item that
+needs an owner.
 
 ## 2. Prerequisites
 
-- An approved records-system location for references and decisions.
-- A governance lead, portfolio owner, and risk owner who can interpret the
-  selected scope and make or defer the portfolio decision.
+- The customer has an approved records location for references and decisions.
+- A governance lead, portfolio owner, and risk owner can interpret the selected
+  scope and make or defer the portfolio decision.
 - References to the S0 baseline and to the in-scope session outcomes,
-  exceptions, or operating reviews.
-- A bounded portfolio question, review period, and population definition.
+  exceptions, or operating reviews are available.
+- The customer has a portfolio question, review period, and population
+  definition.
 
-Missing evidence is a visible limitation, not a reason to substitute a
-template, estimate, or aggregate label.
+Missing evidence is a visible limit. Do not replace it with a template, estimate,
+or aggregate label.
 
-## 3. Why this session
+## 3. Why this session matters
 
-Individual reviews can identify useful local actions while leaving cross-scope
-dependencies, recurring exceptions, investment trade-offs, and policy
-questions unresolved. S12 provides a disciplined way to interpret those
-references together without treating aggregation as proof that controls operate
-or that risk is eliminated.
+Local reviews can find useful actions and still miss portfolio patterns. S12
+looks across agents for recurring exceptions, shared dependencies, investment
+trade-offs, maturity movement, and policy questions.
+
+Aggregation is not proof. The review keeps scope, coverage, and ownership visible
+so leaders can make the next roadmap decision.
 
 Read the [S12 Concepts](concepts.md) before delivery.
 
@@ -60,27 +61,27 @@ Read the [S12 Concepts](concepts.md) before delivery.
     live systems, query data, create a dashboard, make a production change, or
     issue a compliance conclusion during this session.
 
-**Timebox:** 90 minutes. **Facilitator:** preserves the report-only boundary
-and evidence discipline. **Governance lead:** owns the review method and
-roadmap handoff. **Portfolio owner:** interprets investment and dependency
-choices. **Risk owner:** accepts, escalates, or defers risk dispositions.
-**Evidence owner:** supplies references and coverage limitations. Invite
-specialists only for the decisions within their remit.
+**Timebox:** 90 minutes. **Facilitator:** protects the report-only boundary and
+evidence discipline. **Governance lead:** owns the review method and roadmap
+handoff. **Portfolio owner:** interprets investment and dependency choices.
+**Risk owner:** accepts, escalates, or defers risk dispositions. **Evidence
+owner:** supplies references and coverage limits. Invite specialists only for
+decisions they own.
 
 | Activity | Time | Organization operation | Facilitator prompts and interpretation |
 |---|---:|---|---|
-| Set the portfolio question | 10 min | Define the population, period, decision, records location, and stop condition. | “What portfolio decision can this review support?” A broad ambition without a decision owner is blocked. |
-| Aggregate evidence references | 15 min | Enter only references, scope, freshness, coverage, and limitations in the portfolio review template. | “What does this reference cover—and what does it exclude?” A reference does not transfer confidence to an uncovered scope. |
-| Review exceptions and portfolio risk | 20 min | Record recurring, cross-scope, or decision-blocking exceptions with owners, dependencies, and escalation routes. | “Which exception can affect more than one scope?” An unknown impact stays unknown; do not convert it into a low-risk finding. |
-| Interpret maturity movement and policy questions | 15 min | Compare current observations with the relevant S0 baseline by domain and document the evidence for any proposed movement. Capture policy questions as proposals with an owner and review path. | “What changed in observed practice?” “What policy decision is being requested?” A proposed movement or policy change is not an approved change. |
-| Prioritize investment | 15 min | Rank a small set of candidate investments using stated risk, dependency, evidence, effort, and decision criteria. | “What would this unlock or reduce?” Ranking informs a decision; it is not a funding approval or benefit claim. |
-| Decide the roadmap and feed S0 | 15 min | Approve, defer, or reject priorities; assign owners and dates; identify S0 domains and questions for the next baseline review. | “What will S0 reassess, when, and with what evidence?” Record residual risk and unknowns alongside the roadmap. |
+| Set the portfolio question | 10 min | Define the population, period, decision, records location, and stop condition. | **"What portfolio decision can this review support?"** A broad ambition without a decision owner is blocked. |
+| Aggregate evidence references | 15 min | Enter only references, scope, freshness, coverage, and limits in the portfolio review template. | **"What does this reference cover, and what does it exclude?"** A reference does not make uncovered scopes reliable. |
+| Review exceptions and portfolio risk | 20 min | Record recurring, cross-scope, or decision-blocking exceptions with owners, dependencies, and escalation routes. | **"Which exception can affect more than one scope?"** Unknown impact stays unknown. Do not turn it into low risk. |
+| Interpret maturity movement and policy questions | 15 min | Compare current observations with the relevant S0 baseline by domain. Document the evidence for any proposed movement. Capture policy questions as proposals with an owner and review path. | **"What changed in observed practice?"** **"What policy decision is being requested?"** Proposed movement or policy change is not approval. |
+| Prioritize investment | 15 min | Rank a small set of candidate investments using stated risk, dependency, evidence, effort, and decision criteria. | **"What would this unlock or reduce?"** Ranking informs a decision. It is not funding approval or a benefit claim. |
+| Decide the roadmap and feed S0 | 15 min | Approve, defer, or reject priorities. Assign owners and dates. Identify S0 domains and questions for the next baseline review. | **"What will S0 reassess, when, and with what evidence?"** Record remaining risk and unknowns alongside the roadmap. |
 
 Use these portfolio interpretation aids:
 
 | Topic | Prompt |
 |---|---|
-| Exception concentration | Does the same exception, owner gap, dependency, or evidence limitation recur across multiple scopes? |
+| Exception concentration | Does the same exception, owner gap, dependency, or evidence limit recur across multiple scopes? |
 | Investment priority | What risk, dependency, evidence strength, expected governance value, effort, and decision status support the ranking? |
 | Maturity movement | Which S0 question, scope, and evidence reference support movement, no movement, or unresolved status? |
 | Policy evolution | Is there a gap, conflict, obsolete assumption, or clarification need that requires a separate policy decision? |
@@ -88,42 +89,47 @@ Use these portfolio interpretation aids:
 
 ### S0 feedback loop
 
-S12 does not overwrite the S0 baseline. It supplies a dated roadmap and a
-short list of baseline domains or questions that warrant reassessment. The
-next S0 review remains a customer-owned assessment with its own evidence,
-scoring, and decision record.
+S12 does not overwrite the S0 baseline. It supplies a dated roadmap and a short
+list of baseline domains or questions that need reassessment. The next S0 review
+remains a customer-owned assessment with its own evidence, scoring, and decision
+record.
 
 ## 5. Verification & evidence capture
 
 - [ ] The portfolio question, population, review period, owners, and approved
   records location are explicit.
-- [ ] Each aggregated item has a reference, scope, freshness statement,
-  coverage limit, and interpretation owner.
+- [ ] Each aggregated item has a reference, scope, freshness statement, coverage
+  limit, and interpretation owner.
 - [ ] Each material exception or portfolio-level risk has a disposition,
   accountable owner, due date, and escalation or review route.
-- [ ] Each proposed maturity movement, policy evolution, and investment
-  priority identifies its supporting reference and decision status.
-- [ ] The roadmap names the next governance review and the S0 baseline
-  questions or domains to revisit.
+- [ ] Each proposed maturity movement, policy question, and investment priority
+  identifies its supporting reference and decision status.
+- [ ] The roadmap names the next governance review and the S0 baseline questions
+  or domains to revisit.
 
 Retain completed artifacts only in the approved records system. In any delivery
-workspace, retain references and classification or retention metadata—not raw
-evidence, names, operational data, or meeting notes.
+workspace, retain references and classification or retention metadata. Do not
+retain raw evidence, names, operational data, or meeting notes.
 
 ## 6. Change boundary
 
 S12 is report-only. It makes no dashboard, live-data, production, access,
-configuration, policy, funding, or compliance-certification decision by
-itself. Any approved change, assurance activity, or investment execution uses
-the organization's separate authority, change, and records processes.
+configuration, policy, funding, or compliance-certification decision by itself.
+Any approved change, assurance activity, or investment execution uses the
+organization's separate authority, change, and records processes.
 
 ## 7. Facilitator notes
 
-- **Decision guardrail:** aggregation reveals relationships and limits; it
-  never proves control effectiveness, complete coverage, or compliance.
+- **Decision guardrail:** aggregation reveals relationships and limits. It never
+  proves control effectiveness, complete coverage, or compliance.
 - **Blocker path:** no decision owner, records location, bounded scope, or
-  authoritative reference means the dependent item is blocked. Record the
-  gap, owner, and review date rather than creating a substitute conclusion.
-- **Hand-off:** the approved portfolio roadmap feeds the next S0 baseline
-  review. Exceptions and policy proposals remain in their accountable
-  governance or change paths until separately decided.
+  trusted reference means the dependent item is blocked. Record the gap, owner,
+  and review date instead of creating a substitute conclusion.
+- **Official context:** [Microsoft Foundry observability](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability),
+  [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management),
+  [Fine-tune Microsoft Foundry models](https://learn.microsoft.com/en-us/azure/foundry/how-to/fine-tune-models),
+  and [NIST AI RMF](https://www.nist.gov/itl/ai-risk-management-framework) can
+  inform roadmap questions. They do not approve investment or certify compliance.
+- **Hand-off:** the approved portfolio roadmap feeds the next S0 baseline review.
+  Exceptions and policy proposals stay in their accountable governance or change
+  paths until separately decided.

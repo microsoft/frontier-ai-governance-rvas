@@ -5,31 +5,33 @@
 
 <span class="rvas-badge rvas-persona">AI developer / maker</span> <span class="rvas-badge rvas-persona">Governance lead</span>
 
-## 1. Outcome & durable artifact
+## 1. Outcome & what the customer keeps
 
-This applicability-based session follows the selected earlier governance
-sessions. The customer
-leaves with an adoption decision for in-process agent governance, supported by
-an offline illustration:
+By the end of this session the customer decides whether an in-process tool-call
+policy check makes sense for one agent boundary.
+
+They leave with:
 
 - a reviewed example tool-policy definition;
-- an offline allowed, denied, and approval-required decision record;
+- one offline allowed, denied, and approval-required decision record;
 - a hash-chain consistency result; and
-- a named owner and backlog decision: investigate AGT further, defer it, or
-  reject it for the current architecture.
+- a named owner and backlog decision: investigate AGT further, defer it, reject
+  it for this architecture, or mark it not applicable.
 
-Durable artifact: `labs/s10-in-process-governance/` - dependency-free policy
-simulator, sample policy, and runbook. The local record is not tamper evidence;
-tamper evidence requires a customer-managed signed record in immutable external
-storage.
+`labs/s10-in-process-governance/` holds a dependency-free policy simulator, a
+sample policy, and a runbook. It does **not** hold customer code, production
+policies, tenant data, credentials, or real tool arguments.
 
-### Implementation pathway
+The local simulator record is not tamper evidence. Tamper evidence needs a
+customer-managed signed record in immutable external storage.
 
-S10 produces an in-process governance adoption backlog for later customer-owned
-engineering work. The recommendation should state whether to investigate AGT
-further, defer, reject, or mark not applicable, and which policy owner,
-engineering assessment, audit-retention/tamper-evidence route, tool-call
-boundary, S5/S6/S9 dependency, or customer SDLC/change process owns next steps.
+### What happens next
+
+S10 creates a backlog item for later customer-owned engineering work. The
+recommendation states whether to investigate AGT further, defer, reject, or mark
+not applicable. It also names the policy owner, engineering assessment, audit
+retention route, tool-call boundary, S5/S6/S9 dependency, and customer SDLC or
+change process that owns next steps.
 
 !!! warning "Illustrative only — no AGT deployment"
     The kit does not install or execute AGT, modify customer agent code, call a
@@ -38,75 +40,72 @@ boundary, S5/S6/S9 dependency, or customer SDLC/change process owns next steps.
 
 ## 2. Prerequisites
 
-- Relevant S0-S9 findings and the S9 backlog are available for review.
-- An AI developer/maker and governance lead can discuss the customer's agent
-  tool-call architecture.
+- S0-S9 findings and the S9 backlog are ready to review.
+- An AI developer or maker can explain the customer's agent tool-call path.
+- A governance lead can make or defer the adoption decision.
 - Python 3.11+ is available for the offline simulator.
 - The team has reviewed the pinned AGT Public Preview notice and [known limitations](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md).
 
-No Azure subscription, AGT installation, customer source code, credentials,
-production endpoint, or tenant change is required.
+You do **not** need an Azure subscription, AGT installation, customer source
+code, credentials, production endpoint, or tenant change.
 
 ### Applicability worksheet
 
-Use S10 only when the customer can describe a meaningful decision point
-immediately before an agent invokes a tool. Capture:
+Use S10 only when the customer can point to a real decision just before an agent
+invokes a tool. Capture:
 
 - the candidate tool action and delegated authority;
-- the existing gateway, identity, data, evaluation, and runtime controls that
-  remain in force;
-- the policy owner, approver route, audit-record owner, and retention need;
-- the evidence a future engineering assessment would need before installation
-  or code change; and
+- the gateway, identity, data, evaluation, and runtime controls that still apply;
+- the policy owner, approval route, audit-record owner, and retention need;
+- the evidence a future engineering assessment needs before installation or code
+  change; and
 - the reason S10 is not applicable if no in-process boundary exists.
 
-## 3. Why this session
+## 3. Why this session matters
 
-Gateway controls can govern traffic crossing the platform boundary. An
-in-process control can make a separate decision just before an agent invokes a
-tool. The two enforcement points are complementary; neither proves the other is
-configured or effective.
+Gateway controls govern traffic at the platform boundary. An in-process policy
+check can make a separate decision inside the agent before a tool call runs.
 
-Read the [S10 Concepts](concepts.md) for the offline/Preview boundary,
-hash-chain consistency, and the requirements for tamper evidence.
+You may need both. One control does not prove the other is configured or working.
+
+Read the [S10 Concepts](concepts.md) for the offline Preview boundary,
+hash-chain consistency, and what real tamper evidence requires.
 
 ## 4. Co-delivery walkthrough
 
-**Timebox:** 90 minutes. **Facilitator:** maintains the offline boundary,
-evidence discipline, and decision wording; does not install AGT, change code,
-or accept risk. **AI developer/maker:** explains a candidate agent-tool
-boundary. **Governance lead / decision owner:** chooses adoption, deferral, or
-rejection. **Evidence owner:** references approved records. Include security,
-platform, or records specialists where their control obligations apply.
+**Timebox:** 90 minutes. **Facilitator:** keeps the work offline and keeps the
+evidence wording honest. The facilitator does not install AGT, change code, or
+accept risk. **AI developer/maker:** explains one candidate agent-tool boundary.
+**Governance lead / decision owner:** chooses investigate, defer, reject, or not
+applicable. **Evidence owner:** references approved records. Include security,
+platform, or records specialists when their controls apply.
 
-**Entry condition:** relevant S0-S9 findings and the S9 backlog are available by
-reference; an AI developer/maker can describe one bounded candidate
-agent-tool call; the governance lead can make or defer an adoption decision.
-Confirm no customer code, endpoint, tenant, credential, production policy, or
-raw customer record will be used.
+**Entry condition:** S0-S9 findings and the S9 backlog are available by
+reference. An AI developer or maker can describe one bounded agent-tool call.
+The governance lead can decide or defer. Confirm that you will not use customer
+code, endpoints, tenant data, credentials, production policy, or raw records.
 
 | Activity | Time | Customer operation | Facilitator prompts and interpretation |
 |---|---:|---|---|
-| Establish applicability and stop condition | 20 min | Describe one candidate action immediately before a tool invocation, existing gateway/data/identity controls, and the decision this extension could inform. | “Is an in-process decision point technically and operationally meaningful here?” “Which existing control is not being replaced?” No candidate boundary means S10 is not applicable for this pilot; record that result rather than forcing an adoption decision. |
-| Review the illustrative policy | 15 min | Open `labs/s10-in-process-governance/policies/demo-policy.json` and explain the generic allow, deny-default, and approval-required choices. | “Who would own each delegated authority decision?” “What needs approval and why?” The file is an illustration, not a customer policy, configuration, or recommendation to copy into code. A missing explicit deny default is a design question, not a reason to edit a production policy here. |
-| Run and verify the offline illustration | 20 min | Run the two commands below and confirm one allowed, denied, and approval-required simulated attempt. | “What did the simulator evaluate?” “What did it not observe?” A pass means only that the supplied local illustration has internally consistent hashes and the expected simulated decisions. It is not AGT execution, an AGT compatibility result, proof of downstream action success, production validation, or tamper evidence. |
-| Assess limitations and evidence needs | 20 min | Review the pinned AGT Public Preview and [known limitations](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md), plus customer requirements for policy ownership, change review, records retention, and tamper evidence. | “What evidence would a future engineering assessment need?” “Who controls signed immutable external retention if tamper evidence is required?” A local hash chain can be recalculated after replacement; it does not establish integrity, provenance, immutability, or later tampering. |
-| Decide and hand over | 15 min | Choose investigate further, defer, or reject for the current architecture. Record fit, constraints, residual risks, owner, due date, review point, and dependencies in the S6 follow-up backlog. | “What decision is supportable from this illustration?” “What must happen before an engineering assessment?” Adoption means only that a separate assessment is authorized; it does not authorize installation, deployment, or policy change. |
+| Decide whether S10 applies | 20 min | Describe one action that happens immediately before a tool invocation. Name the existing gateway, data, identity, evaluation, and runtime controls. | **"Is there a real place to run an in-process policy check before this tool call?"** **"Which existing control stays in place?"** If there is no candidate boundary, mark S10 not applicable for this pilot. Do not force an adoption decision. |
+| Review the example policy | 15 min | Open `labs/s10-in-process-governance/policies/demo-policy.json` and explain the allow, deny-default, and approval-required choices. | **"Who owns each delegated authority decision?"** **"Which action needs approval, and why?"** The file is an example, not a customer policy or a recommendation to copy into code. |
+| Run and check the offline illustration | 20 min | Run the two commands below. Confirm one allowed, denied, and approval-required simulated attempt. | **"What did the simulator evaluate?"** **"What did it not see?"** A pass means the local example has expected decisions and internally consistent hashes. It is not AGT execution, production validation, downstream success proof, or tamper evidence. |
+| Review limits and evidence needs | 20 min | Review the pinned AGT Public Preview and [known limitations](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md). Review customer needs for policy ownership, change review, records retention, and tamper evidence. | **"What evidence would a future engineering assessment need?"** **"Who owns signed immutable retention if tamper evidence is required?"** A local hash chain can be replaced and recalculated. It does not prove integrity, source, immutability, or later tampering. |
+| Decide and hand over | 15 min | Choose investigate further, defer, reject, or not applicable for the current architecture. Record fit, limits, remaining risks, owner, due date, review point, and S6 dependencies. | **"What decision can this offline illustration support?"** **"What must happen before engineering work starts?"** Adoption here only authorizes a separate assessment. It does not authorize installation, deployment, or policy change. |
 
-Before the decision, separate the evidence types:
+Before the decision, keep the evidence types separate:
 
 | Evidence type | What it can support | What it cannot support |
 |---|---|---|
-| Gateway or API policy record | Boundary control decision outside the agent process. | Proof that an in-process tool-call policy evaluated the action. |
-| Offline simulator record | Understanding of policy decisions and hash-chain consistency. | AGT execution, production validation, or tamper evidence. |
-| In-process audit record from a future assessment | Which policy evaluated an attempted tool action. | Downstream action success, data provenance, or compliance certification by itself. |
-| Signed immutable external record | Tamper-evidence requirements when properly owned and retained. | Replacement for policy ownership, approval, or technical validation. |
+| Gateway or API policy record | A boundary control decision outside the agent process. | Proof that an in-process tool-call policy checked the action. |
+| Offline simulator record | Understanding policy decisions and hash-chain consistency. | AGT execution, production validation, or tamper evidence. |
+| In-process audit record from a future assessment | Which policy checked an attempted tool action. | Downstream action success, data source proof, or compliance certification by itself. |
+| Signed immutable external record | Tamper-evidence needs when the customer owns and retains it correctly. | A replacement for policy ownership, approval, or technical validation. |
 
-A future customer policy review should distinguish activity performed on behalf
-of a user from activity performed under an agent-operated authority. Treat a
-new tool/action scope, privilege expansion, change of accountable owner, or
-material behavior change as a reapproval question; this session does not define
-or approve the answer.
+A future customer policy review should separate action on behalf of a user from
+action under agent-operated authority. Treat a new tool or action scope,
+privilege expansion, owner change, or material behavior change as a reapproval
+question. This session does not define or approve that answer.
 
 Run the illustration during the third activity:
 
@@ -118,22 +117,23 @@ python labs/s10-in-process-governance/pipelines/run_mock.py \
 
 ### Reference-only evidence and handoff
 
-Reference the candidate-boundary description, policy review, simulator record,
-verification result, AGT source/limitations review, and S6 backlog decision in
-the approved customer records system. Record the scope, observed result or
-no-result, limitations interpretation, decision, owner, next review, and
-dependencies. Do not retain raw customer source code, tool arguments,
-credentials, tenant data, or production audit records in this kit. The
-simulator output remains labelled **offline illustration—not AGT execution**.
+Reference the candidate boundary, policy review, simulator record, verification
+result, AGT source and limitations review, and S6 backlog decision in the
+customer's approved records system. Record the scope, observed result or
+no-result, limits, decision, owner, next review, and dependencies.
+
+Do not retain raw customer source code, tool arguments, credentials, tenant data,
+or production audit records in this kit. The simulator output remains labelled
+**offline illustration—not AGT execution**.
 
 ### Blocker pathways
 
 | Blocker | Safe response and handoff |
 |---|---|
-| No meaningful candidate in-process tool boundary | Mark S10 not applicable for the bounded pilot, record the rationale and owner, and return to the S6 backlog or existing controls. |
-| A participant requests AGT installation, customer-code changes, production policy edits, credentials, or endpoint access | Stop the illustration. Create a separate customer-owned engineering and change-review item; do not substitute a demonstration for approval. |
-| The policy illustration or hash verification fails | Record the observed failure and its scope. Do not repair customer policy or claim tampering; assign an owner to investigate the offline artifact or defer the decision. |
-| Tamper evidence, outcome evidence, or compliance certification is required | Record the unmet requirement. Refer to customer-managed signed immutable external storage and the appropriate assurance process; do not represent the local hash chain as satisfying it. |
+| No meaningful candidate in-process tool boundary | Mark S10 not applicable for the bounded pilot. Record the reason and owner, then return to the S6 backlog or existing controls. |
+| A participant requests AGT installation, customer-code changes, production policy edits, credentials, or endpoint access | Stop the illustration. Create a separate customer-owned engineering and change-review item. Do not use a demonstration as approval. |
+| The policy illustration or hash verification fails | Record the observed failure and its scope. Do not repair customer policy or claim tampering. Assign an owner to investigate the offline artifact or defer the decision. |
+| Tamper evidence, outcome evidence, or compliance certification is required | Record the unmet requirement. Route it to customer-managed signed immutable external storage and the right assurance process. Do not describe the local hash chain as enough. |
 
 ## 5. Verification & evidence capture
 
@@ -151,17 +151,16 @@ simulator output remains labelled **offline illustration—not AGT execution**.
 ## 6. Change boundary
 
 S10 makes no tenant, endpoint, code, or policy change. Any AGT assessment or
-customer policy implementation is a separate engineering and change-review
+customer policy implementation uses a separate engineering and change-review
 path.
 
 ## 7. Facilitator notes
 
 - Follow the [co-delivery facilitation method](../delivery/facilitation-pattern.md):
-  the customer performs the review and makes the decision; the facilitator
-  never substitutes a product action or evidence.
+  the customer reviews the boundary and makes the decision. The facilitator does
+  not replace a product action, assessment, or evidence record.
 - **RACI:** AI developer/maker = activity owner; governance lead = decision
   owner; evidence owner = approved-records reference; platform owner and
   Security/SOC = specialist reviewers.
 - **Hand-off:** S10 adds an optional adoption decision to the S6 backlog. It
-  neither alters S6 reconciliation nor promotes the illustration into customer
-  code.
+  does not change S6 reconciliation or move the illustration into customer code.

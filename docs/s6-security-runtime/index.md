@@ -5,41 +5,49 @@
 
 <span class="rvas-badge rvas-persona">Security / SOC</span> <span class="rvas-badge rvas-persona">Governance lead</span>
 
-## 1. Outcome & durable artifact
+## 1. Outcome & what the customer keeps
 
-The customer leaves with one reviewable runtime artifact: a redacted gateway
-proof manifest for a customer-operated non-production request. It conforms to
+By the end of this session the customer has one reviewable runtime artifact:
+**a redacted gateway proof for an approved non-production request.**
+
+The proof is a gateway proof manifest that conforms to
 [`contracts/gateway-proof.schema.json`](../../contracts/gateway-proof.schema.json).
+It contains safe references and a `correlation_id`.
 
 The adapter does not deploy a safety platform or prove a direct Content Safety
-call. The customer platform and security owners must correlate its
-`correlation_id` with gateway telemetry before accepting it as enforcement
-evidence.
+call. The customer platform and security owners must match the `correlation_id`
+to gateway telemetry before they accept it as enforcement evidence.
 
 ### Implementation pathway
 
-S6 produces a runtime-control backlog for later customer-owned implementation.
-The recommendation should state whether to accept the gateway proof, defer or
-reject it, remediate gateway route/policy/telemetry gaps, route Content
-Safety/prompt shield or SOC work to the security process, or block S7/S9/S11
-dependencies until correlation is accepted.
+S6 produces a runtime-control backlog for later customer-owned work. The
+recommendation states whether to accept the gateway proof, defer it, reject it,
+remediate gateway route, policy, or telemetry gaps, route Content Safety or
+Prompt Shields work to security, or block S7/S9/S11 dependencies until the
+correlation is accepted.
+
+Security reviewers may use Microsoft Defender for Cloud and AI security posture
+capabilities for broader posture and threat context where the customer has them
+enabled. See [Defender AI security posture management](https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-security-posture)
+for product context. The S6 artifact is still the gateway proof and reviewed
+correlation.
 
 ## 2. Prerequisites
 
-- A deployed customer gateway with an approved non-production route and runtime
-  policy.
+- A deployed customer gateway with an approved non-production route and runtime policy.
 - A customer operator who can supply authentication without recording it here.
-- Customer-owned request and telemetry record locations, and named platform and
-  security reviewers.
+- Customer-owned request and telemetry record locations.
+- Named platform and security reviewers who can interpret the telemetry.
 
-## 3. Why this session
+## 3. Why this session matters
 
-Runtime evidence must show the path actually used by the agent. S6 records a
+Runtime evidence must show the path the agent actually used. S6 records a
 redacted request correlation through that path without changing production
 traffic.
 
-Read the [S6 Concepts](concepts.md) for the boundary between component
-diagnostics and gateway enforcement evidence.
+A component diagnostic can help troubleshoot a part of the stack. It does not
+prove the gateway path. Read the [S6 Concepts](concepts.md) for the difference
+between component diagnostics and gateway enforcement evidence.
 
 ## 4. Co-delivery walkthrough
 
@@ -47,7 +55,7 @@ diagnostics and gateway enforcement evidence.
     Do not run against production traffic. A component diagnostic is not
     gateway-path proof.
 
-**Timebox:** 90 minutes. **Entry condition:** the customer has approved a
+**Timebox:** 90 minutes. **Entry condition:** the customer has an approved
 non-production gateway route, safe test scope and authentication handling,
 customer record locations, and named platform, security, evidence, and decision
 owners. Stop before the request if any of these are absent.
@@ -56,31 +64,31 @@ owners. Stop before the request if any of these are absent.
 |---|---|
 | Facilitator | Keeps the gateway-proof boundary, timebox, and decision wording; does not run the request or accept evidence. |
 | Customer platform operator | Runs the approved gateway-path request using `labs/s6-security-runtime/runbook.md`. |
-| Security reviewer / evidence owner | Correlates the returned identifier with customer gateway telemetry and cites the authoritative records. |
+| Security reviewer / evidence owner | Matches the returned identifier with customer gateway telemetry and cites the approved records. |
 | Customer decision owner | Accepts, rejects, or defers the proof and owns the S4 handoff. |
 
 1. **Set the room and orient — 20 min.** The facilitator records the pilot
-   question, for example: “Did this approved non-production request traverse the
-   approved gateway path with a reviewable correlation?” The customer confirms
-   the non-production posture, expected policy behavior, stop condition, and
-   evidence locations. Ask: *Which gateway route and policy reference are in
-   scope? Who can interpret telemetry and accept this proof? What result would
-   make us stop rather than infer enforcement?*
-2. **Customer-operated gateway request — 30 min.** The platform operator
-   performs the one request in the runbook; the facilitator observes the
-   boundary without handling credentials or payloads. The customer records only
-   safe references to the generated manifest, request record, telemetry record,
-   and correlation identifier in its approved system. A direct component call
-   is a separately labelled diagnostic and is not a substitute action.
+   question: **"Did this approved non-production request go through the approved
+   gateway path with a correlation we can review?"** The customer confirms the
+   non-production posture, expected policy behavior, stop condition, and evidence
+   locations. Ask: **"Which gateway route and policy are in scope?"** **"Who can
+   interpret telemetry and accept this proof?"** **"What result makes us stop
+   instead of guessing enforcement?"**
+2. **Customer-operated gateway request — 30 min.** The platform operator performs
+   the one request in the runbook. The facilitator observes the boundary without
+   handling credentials or payloads. The customer records only safe references to
+   the generated manifest, request record, telemetry record, and correlation
+   identifier in its approved system. A direct component call is a separate
+   diagnostic. It is not a substitute for the gateway request.
 3. **Interpret together — 15 min.** The platform and security reviewers first
-   distinguish the adapter transport result from the acceptance decision. Ask:
-   *Does the manifest conform to the gateway-proof contract? Does
-   `correlation_id` resolve in the approved gateway telemetry? Does the
-   observed path support the stated policy behavior, or is this a no-result or
-   blocker?* Record the observed fact and reviewer interpretation; do not copy
-   prompts, responses, endpoint values, credentials, or telemetry.
-   Use `labs/s6-security-runtime/templates/gateway-correlation-review.template.md`
-   to structure the review in the customer records system.
+   separate the adapter transport result from the acceptance decision. Ask:
+   **"Does the manifest match the gateway-proof contract?"** **"Does
+   `correlation_id` appear in the approved gateway telemetry?"** **"Does the
+   observed path support the expected policy behavior, or are we missing proof?"**
+   Record the observed fact and reviewer interpretation. Do not copy prompts,
+   responses, endpoint values, credentials, or telemetry. Use
+   `labs/s6-security-runtime/templates/gateway-correlation-review.template.md` to
+   structure the review in the customer records system.
 
    | Observed pattern | Decision |
    |---|---|
@@ -91,27 +99,27 @@ owners. Stop before the request if any of these are absent.
    | Direct Content Safety or component diagnostic only | Reference separately as a diagnostic; do not use as S6 gateway proof. |
 
    When runtime evidence informs a later governance decision, retain references
-   to the bounded agent/workload and initiating context, request correlation,
-   applicable tool/model version, policy decision, outcome category, and
-   reviewer decision. These references support interpretation; they are not a
+   to the bounded agent or workload, initiating context, request correlation,
+   applicable tool or model version, policy decision, outcome category, and
+   reviewer decision. These references support interpretation. They are not a
    telemetry schema or a requirement to retain raw event data.
-4. **Customer decision — 15 min.** A proof is eligible for **accepted** only
-   when the manifest conforms to `gateway-proof.schema.json`, has
-   `result: "pass"`, contains the required safe references, and both customer
-   platform and security reviewers accept the telemetry correlation. A `pass`
-   without that acceptance is not enforcement evidence. A `fail`, no
-   correlation, or unresolved scope is rejected, deferred, or **blocked**—not
-   converted to a pass. The decision owner records the control state and review
-   date in the customer system.
-5. **Hand over — 10 min.** Read back the manifest reference, telemetry
-   reference, correlation identifier, reviewer interpretation, decision
-   reference, and next owner. Hand only an accepted `pass` gateway-proof
-   reference to S4; the gateway proof remains the canonical runtime artifact.
+4. **Customer decision — 15 min.** A proof is eligible for **accepted** only when
+   the manifest conforms to `gateway-proof.schema.json`, has `result: "pass"`,
+   contains the required safe references, and both customer platform and security
+   reviewers accept the telemetry correlation. A `pass` without that acceptance
+   is not enforcement evidence. A `fail`, missing correlation, or unresolved
+   scope is rejected, deferred, or **blocked**. Do not convert it to a pass.
+   The decision owner records the control state and review date in the customer
+   system.
+5. **Hand over — 10 min.** Read back the manifest reference, telemetry reference,
+   correlation identifier, reviewer interpretation, decision reference, and next
+   owner. Hand only an accepted `pass` gateway-proof reference to S4. The gateway
+   proof remains the runtime artifact.
 
 **Blockers:** no approved non-production route, unsafe authentication handling,
-missing telemetry reviewer or evidence location, production-only availability,
-or an unresolved correlation. Record the safe stop point, owner, target date,
-and impact on S4; do not run a direct diagnostic or fabricate local evidence to
+missing telemetry reviewer or evidence location, production-only availability, or
+an unresolved correlation. Record the safe stop point, owner, target date, and
+impact on S4. Do not run a direct diagnostic or fabricate local evidence to
 continue.
 
 ## 5. Verification & evidence capture
@@ -119,24 +127,23 @@ continue.
 - [ ] The manifest validates against `gateway-proof.schema.json`.
 - [ ] It has `result: "pass"` and references the approved gateway, access
   contract, backend, policy, request record, and telemetry record.
-- [ ] Customer platform and security owners have accepted it after telemetry
+- [ ] Customer platform and security owners accepted it after telemetry
   correlation.
-- [ ] The approved evidence system contains the decision and S4 handoff
-  reference.
+- [ ] The approved evidence system contains the decision and S4 handoff reference.
 
-No raw prompt, document, endpoint, credential, response, or telemetry is saved
-in the kit or public documentation.
+No raw prompt, document, endpoint, credential, response, or telemetry is saved in
+the kit or public documentation.
 
-## 6. Customer-owned rollback and handoff
+## 6. Rollback and handoff
 
-The adapter changes no gateway configuration. If the customer decides to stop
-the test, it uses its own approved gateway and evidence-retention processes.
-The final customer record contains the acceptance, rejection, or blocked
-decision and the S4 handoff reference.
+The adapter changes no gateway configuration. If the customer stops the test, it
+uses its own approved gateway and evidence-retention processes. The final
+customer record contains the acceptance, rejection, or blocked decision and the
+S4 handoff reference.
 
 ## 7. Facilitator notes
 
-- **Timing:** 90-minute workshop; schedule any customer telemetry retrieval and
+- **Timing:** 90-minute workshop. Schedule customer telemetry retrieval and
   records-system review within or before the interpretation block.
 - **RACI:** Platform owner = R, Security/SOC = R, Governance lead = A.
 - **Common blockers:**

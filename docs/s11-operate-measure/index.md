@@ -5,47 +5,50 @@
 
 <span class="rvas-badge rvas-persona">Governance lead</span> <span class="rvas-badge rvas-persona">Service owner</span> <span class="rvas-badge rvas-persona">Cost owner</span>
 
-## 1. Outcome & durable artifact
+## 1. Outcome & what the customer keeps
 
-This operating session follows S9 closeout or an explicit S9 deferral. The
-customer leaves with a decision-ready, customer-owned operating-review
-definition that identifies:
+By the end of this session the customer has a repeatable operating review for
+Foundry observability, cost, drift, remediation, and exceptions.
 
-- the bounded population, cadence, evidence coverage, accountable owners, and
-  decision use;
-- selected questions for reliability, risk, quality, cost ownership, adoption,
-  business outcome, and control coverage; and
-- drift hypotheses, escalation, remediation validation, recurrence, and
-  exception paths.
+They leave with a customer-owned review definition that names:
 
-Durable artifact: `labs/s11-operate-measure/` contains blank offline
-templates and a runbook. It does not connect to live data, create a dashboard,
-calculate metrics, set thresholds, store customer data, or implement a change.
+- the population, cadence, evidence coverage, accountable owners, and decision
+  use;
+- selected reliability, risk, quality, cost, adoption, business-outcome, and
+  control-coverage questions; and
+- drift hypotheses, escalation routes, remediation checks, recurrence checks,
+  and exception paths.
 
-### Implementation pathway
+`labs/s11-operate-measure/` holds blank offline templates and a runbook. It does
+**not** connect to live data, create a dashboard, calculate metrics, set
+thresholds, store customer data, or implement a change.
 
-S11 produces an operating implementation backlog for later customer-owned
-work. The recommendation should state whether to adopt, defer, or reject the
-operating review definition, and which Azure Monitor/Application Insights/
-OpenTelemetry, Foundry observability, alert route, remediation validation,
-review cadence, FinOps/cost-owner, allocation, exception, or S12 portfolio item
-must be owned next.
+### What happens next
+
+S11 creates an operating backlog for later customer-owned work. The
+recommendation states whether to adopt, defer, or reject the review definition.
+It also names the Azure Monitor, Application Insights, OpenTelemetry, Foundry
+observability, alert route, remediation check, review cadence, FinOps/cost owner,
+allocation, exception, or S12 portfolio item that needs an owner.
 
 ## 2. Prerequisites
 
-- S9 closeout or a documented S9 deferral, including current open findings.
-- A governance lead able to assign the review decision and cadence.
-- Service, evidence, and cost owners who can describe available records and
-  coverage limitations for in-scope questions.
-- An approved records location for references and decisions.
+- S9 is closed out, or the S9 deferral is documented with current open findings.
+- A governance lead can assign the review decision and cadence.
+- Service, evidence, and cost owners can describe available records and coverage
+  limits for the in-scope questions.
+- The customer has an approved records location for references and decisions.
 
-## 3. Why this session
+## 3. Why this session matters
 
-Operating governance needs more than observations. It needs a repeatable route
-from evidence coverage through interpretation, decision, escalation,
-remediation validation, recurrence review, and exception accountability. S11
-defines that route without claiming a metric, dashboard, or trace proves a
-control operates.
+Operating governance needs a cadence, not just a dashboard. The customer needs a
+clear path from evidence coverage to interpretation, decision, escalation,
+remediation validation, recurrence review, and exception accountability.
+
+**Microsoft Foundry observability** can provide traces, token usage, latency, and
+evaluation signals when the customer enables and retains them. FinOps evidence
+can show spend ownership and allocation limits. Neither one closes a finding by
+itself.
 
 Read the [S11 Concepts](concepts.md) before delivery.
 
@@ -57,23 +60,23 @@ Read the [S11 Concepts](concepts.md) before delivery.
     business data into the kit. Do not make a monitoring, remediation,
     exception, policy, identity, or production change.
 
-**Facilitator:** preserves the evidence and decision boundary. **Governance
+**Facilitator:** protects the evidence and decision boundary. **Governance
 lead:** owns the review decision. **Service owner:** interprets reliability,
-risk, quality, and adoption questions. **Cost owner:** interprets cost
-ownership and allocation limits. **Evidence owner:** references approved
-records. Include specialists only where their question is in scope.
+risk, quality, and adoption questions. **Cost owner:** interprets spend ownership
+and allocation limits. **Evidence owner:** references approved records. Include
+specialists only for questions in scope.
 
 | Activity | Time | Customer operation | Facilitator prompts and interpretation |
 |---|---:|---|---|
-| Set the operating question | 10 min | Select one bounded population, review period, decision, owners, and records location. | “What decision can this review support?” “What is explicitly out of scope?” Stop if the question has no owner or authoritative evidence. |
-| Map evidence coverage | 15 min | Record evidence references, population and time coverage, exclusions, latency, and attribution limits for each selected question. | “What can this record not support?” For Foundry workloads, ask which project, deployment, agent identifier, token-attribution method, evaluator type, and version the evidence covers. Missing coverage is a finding, not zero risk or cost. |
-| Review quality, latency, and cost trends (optional) | Within the 20 min review-question activity | Where in scope, complete the quality-cost-latency addendum using bounded prior/current references instead of duplicating the relevant quality or cost question. | “What alternative explains the change?” “Who owns the spend decision?” A trend is an operating signal, not an assurance exit. |
-| Define balanced review questions | 20 min | Select only relevant coverage, reliability, risk, quality, cost ownership, adoption, human-review, and business-outcome questions. | “Who interprets this?” “What decision follows?” Do not turn a category into a mandatory metric or target. |
-| Form drift hypotheses and routes | 15 min | Record observable drift hypotheses, alternative explanations, evidence limits, test or observation plan, owner, and escalation trigger. | “What would challenge this hypothesis?” “When does it need escalation?” A hypothesis is not a confirmed cause. |
-| Define remediation and exceptions | 15 min | Record finding ownership, target date, validation and recurrence approach, exception expiry, escalation route, and next review. | “What validates the remedy?” “Who accepts an exception?” Completion without validation is not closure. |
-| Decide and hand over | 15 min | Approve, defer, or reject the review definition and record limitations and next review. | “Is the coverage explicit?” “What remains unresolved?” Adopting a review method does not authorize enforcement or change. |
+| Set the operating question | 10 min | Select one population, review period, decision, owners, and records location. | **"What decision can this review support?"** **"What is out of scope?"** Stop if the question has no owner or trusted evidence. |
+| Map evidence coverage | 15 min | Record evidence references, population and time coverage, exclusions, latency, and attribution limits for each selected question. | **"What can this record not support?"** For Foundry workloads, ask which project, deployment, agent identifier, token-attribution method, evaluator type, and version the evidence covers. Missing coverage is a finding, not zero risk or zero cost. |
+| Review quality, latency, and cost trends (optional) | Within the 20 min review-question activity | When in scope, complete the quality-cost-latency addendum using prior and current references. Do not duplicate the quality or cost question. | **"What else could explain the change?"** **"Who owns the spend decision?"** A trend is an operating signal, not sign-off to ship. |
+| Define balanced review questions | 20 min | Select only relevant coverage, reliability, risk, quality, cost ownership, adoption, human-review, and business-outcome questions. | **"Who interprets this?"** **"What decision follows?"** Do not turn every category into a required metric or target. |
+| Form drift hypotheses and routes | 15 min | Record observable drift hypotheses, other possible explanations, evidence limits, test or observation plan, owner, and escalation trigger. | **"What would challenge this hypothesis?"** **"When does it need escalation?"** A hypothesis is not a confirmed cause. |
+| Define remediation and exceptions | 15 min | Record finding owner, target date, validation and recurrence approach, exception expiry, escalation route, and next review. | **"What validates the remedy?"** **"Who accepts an exception?"** Reported completion is not closure until a reviewer checks validation and remaining exceptions. |
+| Decide and hand over | 15 min | Approve, defer, or reject the review definition. Record limits and next review. | **"Is the coverage clear?"** **"What remains unresolved?"** Adopting a review method does not authorize enforcement or change. |
 
-Use question examples to enrich, not mandate, the review:
+Use question examples to enrich the review, not to force metrics:
 
 | Category | Example bounded question |
 |---|---|
@@ -88,43 +91,47 @@ Use question examples to enrich, not mandate, the review:
 ### Minimum safe event-to-decision reference
 
 When customer-held runtime evidence informs a review, retain only approved
-references to the bounded workload, review period, relevant version or control
-decision, outcome category, allocation context where applicable, and reviewer
-decision. These categories are a review aid, not a required event schema.
-Do not retain raw payloads, personal data, credentials, identifiers, or
-business data in this kit.
+references to the workload, review period, relevant version or control decision,
+outcome category, allocation context where applicable, and reviewer decision.
+These categories help the review. They are not a required event schema.
+
+Do not retain raw payloads, personal data, credentials, identifiers, or business
+data in this kit.
 
 ## 5. Verification & evidence capture
 
-- [ ] The customer has selected a bounded population, decision, evidence
-  location, accountable owners, review cadence, and next review.
+- [ ] The customer selected a population, decision, evidence location,
+  accountable owners, review cadence, and next review.
 - [ ] Every selected reliability, risk, quality, cost, adoption, and
-  business-outcome question records coverage limitations and an interpretation
-  owner.
-- [ ] Every drift hypothesis records alternatives, evidence limitations, a
-  test or observation plan, owner, and escalation route.
+  business-outcome question records coverage limits and an interpretation owner.
+- [ ] Every drift hypothesis records alternatives, evidence limits, a test or
+  observation plan, owner, and escalation route.
 - [ ] Every finding records owner acceptance, target date, validation,
   recurrence, exception or escalation route, closure reviewer, and status.
-- [ ] The operating-review decision and limitations are recorded in approved
-  customer records.
+- [ ] The operating-review decision and limits are recorded in approved customer
+  records.
 - [ ] If quality, latency, or cost questions are in scope, the optional
   quality-cost-latency addendum is referenced in customer records.
 
 ## 6. Change boundary
 
 S11 makes no live-data query and no platform, dashboard, metric, threshold,
-identity, policy, remediation, exception, or production change. Any action
-follows the customer's approved engineering and change process.
+identity, policy, remediation, exception, or production change. Any action uses
+the customer's approved engineering and change process.
 
 ## 7. Facilitator notes
 
-- **RACI:** Governance lead = decision owner; service owner = responsible for
-  service interpretation; cost owner = responsible for cost ownership and
-  attribution interpretation; evidence owner = responsible for approved
-  references; specialists = consulted.
-- **Blocker path:** no authoritative evidence, accountable owner, or approved
-  records location means the affected question is blocked. Record the gap,
-  owner, and date rather than creating a substitute measure.
+- **RACI:** Governance lead = decision owner; service owner = service
+  interpretation; cost owner = cost ownership and attribution interpretation;
+  evidence owner = approved references; specialists = consulted.
+- **Blocker path:** no trusted evidence, accountable owner, or approved records
+  location means the affected question is blocked. Record the gap, owner, and
+  date instead of creating a substitute measure.
+- **Official context:** [Microsoft Foundry observability](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability),
+  [Azure Monitor](https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/overview),
+  [Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview),
+  and [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management)
+  explain the product signals that can inform a future operating review.
 - **Hand-off:** the review definition and remediation references enter the
-  customer governance cadence. They do not amend S9 catalog records or certify
-  a control.
+  customer governance cadence. They do not amend S9 catalog records or certify a
+  control.

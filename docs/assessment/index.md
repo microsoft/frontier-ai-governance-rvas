@@ -3,19 +3,19 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-06
 
-A single, reusable **S0-S12 AI maturity assessment**. Run it twice:
+Use the S0-S12 AI maturity assessment at two points:
 
-- **S0 - baseline.** Establishes the current state and produces a prioritized session roadmap.
-- **S12 - exit score.** Re-run the same instrument to compare the current state with the baseline and record the remaining gaps.
+- **S0 - baseline.** Record the current state and create the prioritized session roadmap.
+- **S12 - exit score.** Re-run the same assessment, compare it with the baseline, and record the remaining gaps.
 
 ## How it works
 
-Thirteen domains map directly to the canonical S0-S12 sessions. Each is scored on a 1–4 maturity scale. Blank answers remain visible and are excluded from weighted maturity until assessed.
+The assessment has thirteen domains. Each domain maps to one S0-S12 session and uses a 1-4 maturity scale. Blank answers stay visible and do not count toward weighted maturity until assessed.
 
 | Level | Name | Meaning |
 |-------|------|---------|
 | 1 | Ad-hoc | No consistent control; reactive |
-| 2 | Repeatable | Some controls exist but are manual / inconsistent |
+| 2 | Repeatable | Some controls exist but are manual or inconsistent |
 | 3 | Defined | Documented, enforced, and owned |
 | 4 | Optimized | Automated, measured, and continuously improved |
 
@@ -41,7 +41,7 @@ Thirteen domains map directly to the canonical S0-S12 sessions. Each is scored o
 
 The scorecard and auto-scorer live in the S0 takeaway kit:
 
-- `labs/s0-foundations/assessment/scorecard.csv` - fill the `score` column (1–4) with accountable stakeholders.
+- `labs/s0-foundations/assessment/scorecard.csv` - fill the `score` column (1-4) with accountable stakeholders.
 - `labs/s0-foundations/assessment/score.py` - computes per-domain and overall weighted maturity and ranks lower-scoring domains first; total question weight breaks ties.
 - `labs/s0-foundations/assessment/compare.py` - at S12, computes the weighted baseline-to-exit lift per domain and the residual-gap backlog.
 
@@ -51,6 +51,6 @@ python labs/s0-foundations/assessment/score.py labs/s0-foundations/assessment/sc
 
 ## Reading the result
 
-![How the S0 baseline becomes a session plan: fill scorecard.csv (1–4 per question), run score.py, review per-domain and overall maturity, then agree the delivery order with accountable stakeholders.](../assets/diagrams/assessment.svg)
+![How the S0 baseline becomes a session plan: fill scorecard.csv (1-4 per question), run score.py, review per-domain and overall maturity, then agree the delivery order with accountable stakeholders.](../assets/diagrams/assessment.svg)
 
 Session artifacts provide evidence for reassessing specific questions. Change a score only when accountable stakeholders can show that the relevant control is in place and operating.

@@ -1,53 +1,46 @@
 # S3 · Enterprise Platform & Trust Boundaries
 
-## 1. Outcome & durable artifact
+## 1. Outcome & what the customer keeps
 
-This 90-minute co-delivery session produces an organization-held **platform
-boundary review**: a bounded statement of trust boundaries, expected evidence,
-ownership, coverage limits, and decisions for an AI workload. It is a
-report-only exercise.
+By the end of this session the customer has a platform boundary review for an AI workload and a handoff to runtime assurance.
 
-The durable artifacts are references to a completed boundary review and a
-runtime-assurance handoff record in the organization's approved records
-location. `labs/s3-platform-foundation/` contains blank offline templates only.
-No workload data, credentials, network details, event records, or completed
-evidence belongs in this repository.
+They leave with:
 
-### Implementation pathway
+- A customer-owned review of the enterprise platform boundary, including trust boundaries, owners, evidence expectations, and coverage limits.
+- A decision on whether the workload is ready for runtime assurance or needs platform prerequisites first.
+- A runtime-assurance handoff that names open gaps, owners, stop conditions, and evidence references.
 
-S3 produces a platform foundation backlog for later customer-owned
-implementation. The recommendation should state whether the workload is ready
-for runtime assurance, needs landing-zone/gateway/API Center/telemetry
-prerequisites, should defer because ownership or evidence is missing, or should
-route platform changes through architecture, network, identity, security, or
-release processes before S6/S7/S9 rely on the path.
+`labs/s3-platform-foundation/` contains blank offline templates only. It does not hold workload data, credentials, network details, event records, or completed evidence. The customer keeps those records in its approved system.
 
-## 2. Scope and hard boundary
+### What happens next
 
-This session maps what should be evidenced; it does not inspect, validate, or
-change the environment.
+S3 produces a platform foundation backlog for later customer-owned implementation. The recommendation says whether the workload is ready for runtime assurance, needs landing-zone, AI gateway, API Center, or telemetry prerequisites, or should pause because ownership or evidence is missing.
 
-- **Included:** trust boundaries; private-connectivity assumptions; ingress and
-egress paths; hybrid dependencies; identity boundaries; telemetry coverage;
-platform-security ownership; and readiness for runtime assurance.
-- **Excluded:** deployment, configuration, network testing, live integration,
-traffic capture, access changes, data transfer, and acceptance of a control as
-operating.
-- **Evidence rule:** record references, coverage, dates, interpretation, and
-limits. Do not copy records, payloads, identifiers, diagrams with sensitive
-detail, or claims into the templates.
+The AI gateway is the trust boundary for runtime access. In this curriculum, that usually means Azure API Management acting as the gateway layer for AI APIs and model access. Platform changes still go through the customer's architecture, network, identity, security, or release processes before S6/S7/S9 rely on the path.
 
-A reference architecture is a discussion aid, not evidence that any design is
-deployed or operating.
-
-## 3. Prerequisites
+## 2. Prerequisites
 
 - A bounded workload and review question.
 - A platform owner, security owner, evidence owner, and decision owner.
-- An approved location for records and an agreed stop condition.
-- Existing organization-held materials that can be cited by reference, if
-available; their absence is a reportable limitation, not a reason to infer a
-result.
+- A customer-approved location for records and an agreed stop condition.
+- Existing customer-held architecture, network, identity, gateway, or telemetry materials that can be cited by reference, if available.
+- A clear statement of what this review can and cannot claim.
+
+This session maps what should be evidenced. It does not inspect, validate, or change the environment.
+
+- **Included:** trust boundaries; private-connectivity assumptions; ingress and egress paths; hybrid dependencies; identity boundaries; telemetry coverage; platform-security ownership; AI gateway boundary; and readiness for runtime assurance.
+- **Excluded:** deployment, configuration, network testing, live integration, traffic capture, access changes, data transfer, and acceptance of a control as operating.
+- **Evidence rule:** record references, coverage, dates, interpretation, and limits. Do not copy records, payloads, identifiers, diagrams with sensitive detail, or claims into the templates.
+
+A reference architecture can guide the discussion. It is not evidence that the design is deployed or operating.
+
+## 3. Why this session matters
+
+An AI workload crosses platform boundaries. Requests can move from users to apps, through an AI gateway, into model services, tools, data sources, and logs. Each crossing needs an owner and evidence expectation.
+
+S3 makes those boundaries visible before runtime assurance starts. The customer decides which platform owner is accountable, which evidence should exist, and which gaps must be closed before later sessions rely on the path.
+
+Read [S3 Concepts](concepts.md) for the vocabulary and reasoning behind the review.
 
 ## 4. Co-delivery walkthrough
 
@@ -56,80 +49,36 @@ result.
     session. Stop any topic lacking an owner, approved record location, or
     bounded evidence claim.
 
-**Timebox:** 90 minutes. **Roles:** facilitator (method and timebox), platform
-owner (technical interpretation), security owner (boundary interpretation),
-evidence owner (record references), and decision owner (disposition). Invite
-network, identity, hybrid-service, and runtime-assurance specialists only when
-needed for interpretation.
+**Timebox:** 90 minutes. **Roles:** facilitator, platform owner, security owner, evidence owner, and decision owner. Invite network, identity, hybrid-service, and runtime-assurance specialists when they need to interpret a boundary. **To start:** you need a bounded workload, an approved record location, a decision owner, and a stop condition.
 
-1. **Set the review contract** *(10 min)* — state the workload, decision,
-   boundaries, approved records location, and stop condition. Ask: “What can
-   this review state, and what remains unverified?” A missing owner or records
-   location blocks the affected topic.
-2. **Map trust and connectivity boundaries** *(20 min)* — identify the
-   workload, operator, identity, network, data, service, and administration
-   boundaries. Record expected private-connectivity controls, ingress points,
-   egress destinations, and whether a route crosses a hybrid dependency. Ask:
-   “Where does authority or data handling change?” “Which flows are assumed
-   private, and what evidence would support that statement?”
-3. **Review identity and dependency boundaries** *(15 min)* — record the
-   expected caller, workload, operator, and privileged-administration identity
-   boundaries; note delegated authority, secrets handling, and external or
-   hybrid dependencies. Do not validate credentials or access. A missing
-   accountable owner is a finding, not an invitation to assign one by guesswork.
-4. **Define telemetry evidence and coverage** *(20 min)* — identify the
-   expected event classes, correlation method, retention decision, reviewer,
-   coverage window, and known blind spots. Distinguish “not observed” from
-   “not covered.” Telemetry references show that evidence is expected; they do
-   not prove a control operated.
-5. **Assign platform-security ownership** *(15 min)* — assign each boundary
-   and evidence gap to an accountable platform or security owner. The decision
-   owner records one of `ready_for_runtime_assurance`, `needs_evidence`,
-   `accepted_risk`, `deferred`, or `blocked`, with rationale and next review.
-6. **Hand off to runtime assurance** *(10 min)* — provide the bounded review
-   reference, open gaps, evidence expectations, decision, owners, and stop
-   conditions. Runtime assurance chooses its own authorized observation and
-   validation method; it must not treat this review as proof of operation.
-   Include platform backlog rows for any landing-zone, gateway, API Center,
-   telemetry, private-connectivity, identity-boundary, or customer-change item
-   required before implementation continues.
+**What the customer actually does:** the platform owner maps the enterprise platform and AI gateway boundary, then the decision owner records what is ready, missing, or blocked.
+
+1. **Set the review contract** *(10 min)* - state the workload, decision, boundaries, approved records location, and stop condition. The facilitator asks: **"What can this review state, and what remains unverified?"** A missing owner or records location blocks the affected topic.
+2. **Map trust, connectivity, and gateway boundaries** *(20 min)* - identify the workload, operator, identity, network, data, service, administration, and AI gateway boundaries. Record expected private-connectivity controls, ingress points, egress destinations, and hybrid dependencies. For the gateway, name Azure API Management when it is the customer route and record what API or model access it is expected to mediate. The facilitator asks: **"Where does authority or data handling change?"** and **"Which flows are assumed private, and what evidence would support that?"**
+3. **Review identity and dependency boundaries** *(15 min)* - record the expected caller, workload, operator, and privileged-administration identity boundaries. Note delegated authority, secrets handling, and external or hybrid dependencies. Do not validate credentials or access. A missing accountable owner is a finding, not a reason to guess.
+4. **Define telemetry evidence and coverage** *(20 min)* - identify the expected event classes, correlation method, retention decision, reviewer, coverage window, and known blind spots. The facilitator asks: **"Which events should prove this path later?"** and **"Which boundary has no coverage yet?"** Keep "not observed" separate from "not covered." Telemetry references show that evidence is expected. They do not prove a control operated.
+5. **Assign platform-security ownership** *(15 min)* - assign each boundary and evidence gap to an accountable platform or security owner. The decision owner records one of `ready_for_runtime_assurance`, `needs_evidence`, `accepted_risk`, `deferred`, or `blocked`, with rationale and next review.
+6. **Hand off to runtime assurance** *(10 min)* - provide the bounded review reference, open gaps, evidence expectations, decision, owners, and stop conditions. Runtime assurance chooses its own authorized observation and validation method. It must not treat this review as proof of operation. Include platform backlog rows for landing-zone, AI gateway, API Center, telemetry, private-connectivity, identity-boundary, or customer-change items required before implementation continues.
 
 ## 5. Verification & evidence capture
 
-- [ ] Each stated boundary names its purpose, accountable owner, evidence
-  reference, coverage limit, and status.
-- [ ] Ingress, egress, private-connectivity assumptions, and hybrid
-  dependencies are stated without asserting they were tested.
-- [ ] Identity and telemetry boundaries distinguish expected coverage from
-  observed operation.
-- [ ] Each gap, no-result, or blocker has an owner, decision, next action, and
-  review date.
-- [ ] The runtime-assurance handoff states what still requires authorized
-  observation or validation.
+- [ ] Each stated boundary names its purpose, accountable owner, evidence reference, coverage limit, and status.
+- [ ] Ingress, egress, private-connectivity assumptions, and hybrid dependencies are stated without claiming they were tested.
+- [ ] The AI gateway or Azure API Management boundary is named where it mediates runtime access.
+- [ ] Identity and telemetry boundaries separate expected coverage from observed operation.
+- [ ] Each gap, empty result, or blocker has an owner, decision, next action, and review date.
+- [ ] The runtime-assurance handoff states what still needs authorized observation or validation.
 
-Use the blank
-`labs/s3-platform-foundation/templates/platform-boundary-review.template.md`
-and
-`labs/s3-platform-foundation/templates/runtime-assurance-handoff.template.md`
-in the approved records location. Retain only references in the delivery
-record.
+Use the blank `labs/s3-platform-foundation/templates/platform-boundary-review.template.md` and `labs/s3-platform-foundation/templates/runtime-assurance-handoff.template.md` in the approved records location. Retain only references in the delivery record.
 
 ## 6. Change boundary
 
-This session authorizes no change. Network, identity, platform, telemetry, or
-runtime changes remain in the organization's approved change process, including
-its safety review, rollback, verification, and evidence retention.
+This session authorizes no change. Network, identity, platform, telemetry, and runtime changes stay in the customer's approved change process, including safety review, rollback, verification, and evidence retention.
 
 ## 7. Facilitator notes
 
-- **No result:** record the reviewed scope, date, expected signal, and why no
-  conclusion can be made; no result is not a pass.
-- **Unsupported or unavailable evidence:** record the coverage limit and owner;
-  do not substitute a diagram, a verbal statement, or a generic architecture.
-- **Blocked:** stop the dependent topic when authority, safe record handling, or
-  a decision owner is absent. Hand off the dependency with owner and date.
-- **Runtime handoff:** this session defines the question and evidence boundary;
-  runtime assurance performs any later authorized observation.
-
-Read [S3 Concepts](concepts.md) for the vocabulary and reasoning behind the
-review.
+- **No result:** record the reviewed scope, date, expected signal, and why no conclusion can be made. No result is not a pass.
+- **Unsupported or unavailable evidence:** record the coverage limit and owner. Do not substitute a diagram, verbal statement, or generic architecture.
+- **Gateway guardrail:** an Azure API Management or AI gateway design is not proof that traffic uses it. The customer needs later runtime evidence.
+- **Blocked:** stop the dependent topic when authority, safe record handling, or a decision owner is absent. Hand off the dependency with owner and date.
+- **Runtime handoff:** this session defines the question and evidence boundary. Runtime assurance performs any later authorized observation.

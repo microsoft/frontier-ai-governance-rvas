@@ -5,64 +5,60 @@
 
 <span class="rvas-badge rvas-persona">Governance lead</span>
 
-## 1. Outcome & durable artifact
+## 1. Outcome & what the customer keeps
 
-By the end of this session the customer leaves with:
+By the end of this session the customer has a scored maturity baseline and a prioritized governance roadmap.
 
-- A customer-owned **AI-agent governance maturity baseline** (7 domains, 1–4
-  scale) and a prioritised roadmap.
-- A decision on the accountable governance lead, executive sponsor, and
-  sequence of follow-on sessions.
-- References to the baseline and decision in the customer's approved records
-  system or generated delivery workspace.
+They leave with:
 
-`labs/s0-foundations/` contains only blank templates and offline scoring tools.
-Completed scorecards, roadmaps, names, notes, and evidence stay in the
-customer's approved records system and are never committed to this repository.
+- A customer-owned **AI-agent governance maturity baseline** across 7 domains on a 1-4 scale.
+- A prioritized roadmap that shows which governance gap to close first.
+- A named governance lead, executive sponsor, and decision owner for follow-on work.
+- References to the baseline and roadmap decision in the customer's approved records system or generated delivery workspace.
 
-### Implementation pathway
+`labs/s0-foundations/` contains blank templates and an offline scorer. It does not hold completed scorecards, roadmaps, names, notes, or evidence. The customer keeps those records in its approved system.
 
-S0 turns the baseline into a foundation backlog, not a deployment plan. The
-session-scoped recommendation should name the next governance track,
-confidence and assumptions, accountable owner, evidence gap, and customer
-process that will drive follow-up.
+### What happens next
+
+S0 turns the baseline into a governance backlog. It does not deploy a control.
+The recommendation names the next governance track, the owner, the evidence gap, the assumptions, and the customer process for follow-up.
 
 | Pathway area | Example backlog decision |
 |---|---|
-| Operating model | Confirm executive sponsor, governance lead, decision owner, exception route, and review cadence. |
+| Operating model | Confirm the executive sponsor, governance lead, decision owner, exception route, and review cadence. |
 | Session sequence | Prioritize S1 identity, S2 data, S3 platform, S4 admission, or later-session work based on scored gaps and dependencies. |
-| Microsoft capability track | Identify whether Entra/Agent ID, Purview, platform/gateway, Foundry/Copilot Studio, evaluation, catalog, observability, or FinOps needs readiness planning. |
-| Customer change process | Assign the architecture, security, compliance, or release process that will own later deployment/configuration decisions. |
+| Microsoft capability track | Decide whether Entra/Agent ID, Purview, platform/gateway, Foundry/Copilot Studio, evaluation, catalog, observability, or FinOps needs readiness planning. |
+| Customer change process | Assign the architecture, security, compliance, or release process that owns later deployment and configuration decisions. |
 
 ### Baseline schema
 
-The customer copy of the scorecard has one row per assessment question:
+The customer's copy of the scorecard has one row per assessment question:
 
 | Field | Purpose |
 |---|---|
 | `domain`, `domain_name` | Stable governance-domain identifier and name |
 | `question_id`, `question`, `concept_explanation` | Question identity, prompt, and scoring guidance |
 | `weight` | Relative weighting for the offline roadmap |
-| `score` | Customer-agreed blank or `1`–`4` maturity value |
+| `score` | Customer-agreed blank or `1`-`4` maturity value |
 
-The scorer requires every field except `concept_explanation`; it neither sends
-nor stores the customer baseline.
+The scorer needs every field except `concept_explanation`. It does not send or store the customer baseline.
 
 ## 2. Prerequisites
 
-- A named executive sponsor available for the operating-model conversation.
-- <span class="rvas-badge rvas-persona">Governance lead</span> to own the
-  baseline decision and its handoff.
+- A named executive sponsor who can decide how governance work moves forward.
+- <span class="rvas-badge rvas-persona">Governance lead</span> who owns the baseline decision and handoff.
+- A customer-approved place to store the scorecard, RACI, roadmap, and decision.
+- A bounded pilot question, such as which AI-agent use case or capability needs governance first.
 
-There are no tenant checks or privileged changes in S0. Capability, licensing,
-and delivery dependencies are customer-owned follow-up decisions, not S0
-automated prerequisites.
+S0 has no tenant checks and no privileged changes. Licensing, capability, and delivery gaps become customer-owned follow-up work.
 
-## 3. Why this session
+## 3. Why this session matters
 
-Before a customer enables controls, it needs an accountable operating model: named owners, a baseline, and a way to prioritize the gaps that matter most. S0 establishes that foundation so the later technical sessions become owned governance work rather than disconnected tooling exercises.
+A customer should not enable AI controls before it knows who owns the decisions. S0 gives the customer that starting point: named owners, a scored baseline, and a roadmap.
 
-Read the [S0 Concepts](concepts.md) for the operating-model, maturity, risk, and target-architecture context before the delivery chapters.
+The baseline is part of the governance operating model. The customer scores what exists today, decides what gap matters first, and keeps the evidence in its own records.
+
+Read the [S0 Concepts](concepts.md) for the operating-model, maturity, risk, and target-architecture context.
 
 ## 4. Co-delivery walkthrough
 
@@ -70,92 +66,36 @@ Read the [S0 Concepts](concepts.md) for the operating-model, maturity, risk, and
     S0 makes no tenant changes or tenant queries. Copy the blank templates to
     the customer's approved record location before entering any customer data.
 
-**Timebox:** 90 minutes. **Roles:** facilitator (method and timebox), governance
-lead (customer activity owner), executive sponsor (decision owner), and evidence
-owner; invite domain representatives as specialist reviewers. **Entry condition:**
-the sponsor, governance lead, a customer-approved evidence location, and a
-bounded pilot question are available. Stop at the first missing owner or
-evidence location; do not create a substitute record in Git.
+**Timebox:** 90 minutes. **Roles:** facilitator, governance lead, executive sponsor, evidence owner, and domain reviewers. **To start:** you need the sponsor, governance lead, approved evidence location, and bounded pilot question. If any are missing, stop that part and assign the blocker. Do not create a substitute record in Git.
 
-**Purposeful customer action:** establish a dated, customer-owned maturity
-baseline and choose the next owned governance work—not merely complete a
-scorecard.
+**What the customer actually does:** the governance lead scores the baseline with customer participants, then the sponsor chooses the next owned governance work.
 
-1. **Set the room and question** *(10 min)* — facilitator asks the customer to
-   state: “Which governance capability must we prioritize for this pilot, and
-   who can decide?” The customer confirms the safe offline posture, decision
-   owner, evidence reference location, and stop condition. **Observe:** a
-   meaningful start has named roles and an approved record location; no-result
-   is an intentionally unanswered baseline question; blocked is no sponsor,
-   owner, or records location. Record the working agreement reference.
-2. **Create the customer copy** *(10 min)* — the governance lead copies
-   `labs/s0-foundations/assessment/scorecard.csv`, `coe/operating-model.md`,
-   and `coe/raci.csv` to the approved customer system. The facilitator asks,
-   “Which evidence would justify a 1 versus a 4?” and “Who resolves a
-   disagreement?” **Observe:** a completed customer copy is evidence; a
-   facilitator-held template is not. If the customer cannot retain it
-   appropriately, mark the activity blocked and hand off record-location
-   ownership.
-3. **Customer-led baseline review** *(35 min)* — customer participants score
-   the 39 questions and record rationale and dissent in their copy. The
-   facilitator asks, “What observed practice supports this score?”, “What is
-   the gap rather than the aspiration?”, and “Which owner can change it?”
-   **Meaningful result:** a score or explicitly unanswered item with rationale.
-   **No-result:** the question was reviewed but evidence cannot support a
-   score—record that fact, scope, and reviewer, not a pass. **Unsupported:**
-   the customer cannot assess a capability with the available evidence—record
-   the limitation and backlog owner. **Blocked:** a required owner or source is
-   absent—stop the dependent domain and continue only with independent domains.
-4. **Generate and interpret the roadmap** *(20 min)* — the customer runs the
-   offline scorer against its copy:
+1. **Set the room and question** *(10 min)* - the facilitator asks: **"Which governance capability must we prioritize for this pilot, and who can decide?"** The customer confirms the offline posture, decision owner, evidence location, and stop condition. A useful start has named roles and an approved record location. If there is no sponsor, owner, or records location, mark that area blocked. Record the working agreement reference.
+2. **Create the customer copy** *(10 min)* - the governance lead copies `labs/s0-foundations/assessment/scorecard.csv`, `coe/operating-model.md`, and `coe/raci.csv` to the approved customer system. The facilitator asks: **"Which evidence would justify a 1 instead of a 4?"** and **"Who resolves a disagreement?"** A completed customer copy is evidence. A facilitator-held template is not. If the customer cannot retain the copy safely, mark the activity blocked and assign the records-location owner.
+3. **Customer scores the baseline** *(35 min)* - customer participants score the 39 questions and record rationale and dissent in their copy. The facilitator asks: **"What current practice supports this score?"**, **"What is the real gap, not the aspiration?"**, and **"Which owner can change it?"** A useful result is a score or an explicitly unanswered item with rationale. If the evidence cannot support a score, record what was checked, the scope, and the reviewer. If a required owner or source is missing, stop that domain and continue only with independent domains.
+4. **Generate and read the roadmap** *(20 min)* - the customer runs the offline scorer against its copy:
    ```bash
    python labs/s0-foundations/assessment/score.py /approved/customer/path/scorecard.csv
    ```
-   The facilitator asks, “Does the ranking match the risk and dependency we
-   heard?” and “What must happen before S1 or S2?” The output ranks lower
-   scores first and breaks ties by total question weight; it is a
-   recommendation, not a decision or audit result. A meaningful result is an
-   interpretable roadmap reference. If the tool cannot run, record the
-   blocker, preserve the completed baseline reference, and assign remediation;
-   do not manually invent a score.
-5. **Decide and hand off** *(15 min)* — decision owner chooses the next
-   session(s), defers with a date, or accepts a stated residual gap. Decision
-   criteria are evidence-supported maturity, business risk, accountable owner,
-   and prerequisites—not the numerical ranking alone. Evidence references are
-   the dated baseline, RACI/operating-model record, scorer output reference,
-   and decision record in the customer system. The facilitator reads back the
-   control state (`designed`, `accepted_risk`, or `blocked`), next owner, date,
-   implementation backlog, and S1/S2 dependency. Missing authority means
-   **deferred**, with an owner and review date.
+   The facilitator asks: **"Does this ranking match the risk and dependencies we heard?"** and **"What must happen before S1 or S2?"** The scorer ranks lower scores first and breaks ties by total question weight. It recommends a roadmap; it does not make the decision. If the tool cannot run, keep the completed baseline reference, record the blocker, and assign remediation. Do not invent a score by hand.
+5. **Decide and hand off** *(15 min)* - the decision owner chooses the next session, defers with a date, or accepts a stated gap. The decision uses maturity evidence, business risk, accountable ownership, and prerequisites. The facilitator reads back the control state (`designed`, `accepted_risk`, or `blocked`), next owner, date, backlog item, and S1/S2 dependency. If the decision owner is missing, mark the decision deferred with an owner and review date.
 
 ## 5. Verification & evidence capture
 
-- [ ] The customer scorecard has all 39 questions scored or explicitly
-  identified as unanswered.
-- [ ] The offline scorer produces an overall maturity and prioritised roadmap.
-- [ ] The customer record names the governance owner, sponsor, decision, and
-  next review date.
-- [ ] The evidence register contains references—not copied scorecards,
-  roadmaps, names, or meeting notes—and identifies any no-result, unsupported,
-  or blocked domain.
+- [ ] The customer scorecard has all 39 questions scored or explicitly marked unanswered.
+- [ ] The offline scorer produces an overall maturity score and prioritized roadmap.
+- [ ] The customer record names the governance owner, sponsor, decision, and next review date.
+- [ ] The evidence register contains references only, not copied scorecards, roadmaps, names, or meeting notes.
+- [ ] Any unanswered, unsupported, or blocked domain has a checked scope, owner, evidence reference, and review date.
 
-Register a reference and retention/classification metadata for the customer
-baseline in `04-operate/evidence-register.json`, and the roadmap decision in
-`04-operate/decision-register.json` in the generated delivery workspace. Do
-not copy the baseline, roadmap, operating model, or RACI into this repository.
+Register the customer baseline reference and retention/classification metadata in `04-operate/evidence-register.json`. Register the roadmap decision in `04-operate/decision-register.json` in the generated delivery workspace. Do not copy the baseline, roadmap, operating model, or RACI into this repository.
 
 ## 6. Change boundary
 
-S0 makes no tenant changes. Customer capability, licensing, ownership, or
-delivery gaps are handed to the customer backlog; any later change uses that
-customer's approved process.
+S0 makes no tenant changes. Customer capability, licensing, ownership, and delivery gaps go to the customer backlog. Any later change uses the customer's approved process.
 
 ## 7. Facilitator notes
 
-- **Decision guardrail:** do not call a high score a deployed control; the
-  baseline is evidence of an assessment and a prioritization decision.
-- **Blocker path:** no clear owner → assign sponsor/governance-lead resolution;
-  no agents yet → assess approved intent and plans; unsupported evidence →
-  record the gap rather than optimistic scoring. Revisit in the named review.
-- **Hand-off:** the customer roadmap sets the order for S1–S12; S12 repeats the
-  same customer-held instrument as a capstone comparison.
+- **Decision guardrail:** a high score is not a deployed control. It is evidence of an assessment and prioritization decision.
+- **When you're stuck:** no clear owner -> assign sponsor or governance-lead follow-up; no agents yet -> assess approved intent and plans; weak evidence -> record the gap instead of raising the score.
+- **Hand-off:** the roadmap sets the order for S1-S12. S12 repeats the same customer-held instrument as a capstone comparison.

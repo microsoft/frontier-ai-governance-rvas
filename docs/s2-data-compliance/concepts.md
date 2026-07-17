@@ -7,46 +7,45 @@ This page explains the compliance-plane controls used in S2. [S2 Prepare](index.
 
 ## The compliance plane answers a data question
 
-AI governance needs to answer more than “is this agent allowed to run?” It also needs to answer what data reaches the agent, what sensitive data can appear in prompts or responses, and what evidence remains after an interaction. Microsoft Purview brings existing data-security and compliance capabilities into AI workloads and connected applications.[^purview]
+AI governance needs to answer more than "is this agent allowed to run?" It also needs to answer which data reaches the agent, which sensitive data can appear in prompts or responses, and which evidence remains after an interaction.
 
-S2 focuses on the tenant compliance plane: data classification, policy, investigation, and retained evidence. It does not attempt to build a new model gateway.
+Microsoft Purview brings data security and compliance capabilities into AI workloads and connected applications.[^purview] S2 uses Purview for data classification, discovery, policy review, investigation, and evidence references. It does not build a new model gateway.
 
 ## Compliance findings become implementation backlog
 
 S2 should recommend the next data-governance path with assumptions and owners.
-Typical backlog items include Purview DSPM coverage remediation, sensitivity
-label or classification work, DLP report-only change review, audit/eDiscovery
-route validation, retention or legal-hold dependency, Copilot/Foundry/Copilot
-Studio workload support check, gateway masking dependency, and accepted-risk or
-blocked status.
 
-The recommendation is not a policy deployment. Promotion from designed to
-report-only or enforcement remains a separate customer compliance/change
-process with rollback, communications, observation, and verification.
+Typical backlog items include Purview DSPM coverage remediation, sensitivity label or classification work, DLP report-only change review, audit/eDiscovery route validation, retention or legal-hold dependency, workload support checks, gateway masking dependency, and `accepted_risk` or `blocked` status.
+
+The recommendation is not a policy deployment. Moving from design to report-only or enforcement stays in the customer's compliance and change process. That process owns rollback, communications, observation, and verification.
 
 ## DSPM for AI finds exposure before enforcement
 
-Data Security Posture Management for AI helps surface oversharing, sensitive-data exposure, risky access patterns, and potential exfiltration paths. Its role is diagnostic: it gives the customer a prioritized view of where data risk may exist before a policy blocks or notifies users.[^dspm]
+Data Security Posture Management for AI helps surface oversharing, sensitive-data exposure, risky access patterns, and possible exfiltration paths.[^dspm]
 
-**In Co-deliver:** an empty export is still evidence. It can mean the tenant has no discovered in-scope workload, no findings, or a prerequisite gap that should be recorded and investigated.
+Its role is diagnostic. It gives the customer a prioritized view of where data risk may exist before a policy blocks or notifies users.
+
+**In Co-deliver:** an empty result is still evidence. It can mean no discovered in-scope workload, no findings in the checked scope, or a prerequisite gap. Record which one the customer can support.
 
 ## Labels and DLP turn classification into controls
 
-Sensitivity labels describe how data should be handled; DLP policies apply rules to prevent or govern inappropriate use of that data. For AI, this can mean detecting protected information in a prompt, response, or connected workflow. Policy scope and supported workloads must always be validated for the tenant.[^purview]
+Sensitivity labels describe how data should be handled. DLP policies use conditions, such as labels or sensitive information types, to govern inappropriate sharing or use.[^purview]
 
-The Co-deliver chapter uses simulation or test mode first. This is the data-plane equivalent of report-only: the customer observes matches and false positives before deciding whether an enforcement rule is safe.
+For AI, that can mean detecting protected information in a prompt, response, or connected workflow. The customer must confirm which workloads, locations, and conditions Purview supports in its tenant.
+
+The Co-deliver chapter uses simulation or test mode first. The customer observes matches and false positives before deciding whether enforcement is safe.
 
 ## Investigation needs an evidence trail
 
-Audit, eDiscovery, Insider Risk Management, and Communication Compliance serve different investigation needs, but together they help preserve discoverability and route concerning activity through established compliance processes where supported.[^purview]
+Audit, eDiscovery, Insider Risk Management, and Communication Compliance serve different investigation needs.[^purview] Together, where supported, they help route concerning activity through established compliance processes.
 
-A DLP policy alone is not an evidence strategy. The customer must know which logs, exports, and review queues are available and who owns them.
+A DLP policy alone is not an evidence strategy. The customer must know which logs, exports, review queues, retention rules, and owners are available.
 
 ## Gateway masking complements, but does not replace, compliance
 
-Purview governs data use and evidence in the tenant. A gateway such as AI Hub Gateway / Citadel Governance Hub can provide a separate runtime enforcement pattern, including PII masking before a request reaches a model backend.[^citadel]
+Purview governs data use and evidence in the tenant. A gateway such as AI Hub Gateway or Citadel Governance Hub can add a runtime pattern, including PII masking before a request reaches a model backend.[^citadel]
 
-These are complementary controls. Gateway masking does not replace data classification, DLP review, or audit retention; likewise, a Purview policy does not implement a runtime gateway.
+These controls work together. Gateway masking does not replace data classification, DLP review, or audit retention. A Purview policy does not implement a runtime gateway.
 
 [^purview]: Microsoft Learn - [Microsoft Purview for AI](https://learn.microsoft.com/en-us/purview/ai-microsoft-purview).
 [^dspm]: Microsoft Learn - [Data Security Posture Management](https://learn.microsoft.com/en-us/purview/data-security-posture-management-learn-about).
@@ -54,5 +53,4 @@ These are complementary controls. Gateway masking does not replace data classifi
 
 ## Related official references
 
-See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
-for Purview, DSPM, DLP, sensitivity, audit, eDiscovery, and compliance sources.
+See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md) for Purview, DSPM, DLP, sensitivity, audit, eDiscovery, and compliance sources.

@@ -5,150 +5,90 @@
 
 <span class="rvas-badge rvas-persona">AI developer / maker</span> <span class="rvas-badge rvas-persona">Governance lead</span>
 
-## 1. Outcome & durable artifact
+## 1. Outcome & what the customer keeps
 
-The customer leaves with an assurance record that names the accepted S6 gateway
-proof, the owner, an evaluation-plan reference, and a customer decision.
+By the end of this session the customer can decide whether the pilot can keep moving, based on accepted S6 gateway proof and a referenced Foundry evaluation plan.
 
-Durable artifact: `labs/s7-evaluation/` - an evaluation-plan review template,
-an assurance-handoff contract, and a customer-owned outcome template. It is not
-a live agent evaluator or CI/CD gate.
+They leave with:
 
-### Implementation pathway
+- The accepted S6 gateway-proof reference, including the owner and reviewer decision.
+- A reference to the customer's Microsoft Foundry evaluations or agent evaluator plan.
+- A release sign-off record that says `continue` or `hold`, names the decision owner, and records the next action.
 
-S7 produces an evaluation and release-assurance backlog for later
-customer-owned implementation. The recommendation should state whether to
-continue, hold, defer, or block release progression, and which Foundry
-evaluation target, evaluator/scorecard, dataset owner, trace source,
-threshold, CI/CD or release process, rollback route, S8 red-team dependency, or
-S11 operating review item must be owned next.
+`labs/s7-evaluation/` holds an evaluation-plan review template, an assurance-handoff contract, and a customer-owned outcome template. It does **not** hold live evaluators, prompt data, scores, CI/CD gates, telemetry, or customer records.
+
+### What happens next
+
+S7 produces an evaluation and release-sign-off backlog for the customer to work on later. The recommendation says whether to continue, hold, defer, or block release progress. It also names the next owner for the Foundry evaluation target, evaluator or scorecard, dataset, trace source, threshold, CI/CD or release process, rollback route, S8 red-team dependency, or S11 operating review.
 
 ## 2. Prerequisites
 
-- An S6 manifest conforming to
-  [`gateway-proof.schema.json`](../../contracts/gateway-proof.schema.json) with
-  `result: "pass"`.
-- Customer platform and security review accepting the S6 proof after telemetry
-  correlation.
-- A named assurance owner and approved customer records system.
+- An S6 manifest conforming to [`gateway-proof.schema.json`](../../contracts/gateway-proof.schema.json) with `result: "pass"`.
+- Customer platform and security reviewers who accepted the S6 proof after telemetry correlation.
+- A named assurance owner and an approved customer records system.
+- A customer-owned evaluation-plan reference, usually for Microsoft Foundry evaluations or agent evaluators.
 
-## 3. Why this session
+## 3. Why this session matters
 
-Assurance makes the customer decision and its prerequisites reviewable. S7
-records references to customer-owned evaluation work but does not claim to run
-or gate it.
+A release sign-off needs two things: proof that the runtime path is controlled, and a clear evaluation plan for the behavior you care about. S7 ties those records together.
 
-Read the [S7 Concepts](concepts.md) for the boundary between evaluation results
-and an assurance decision.
+Foundry evaluations and agent evaluators can help the customer test quality, safety, groundedness, and tool use. They inform the decision. They do not replace the accepted S6 gateway proof.
+
+Read the [S7 Concepts](concepts.md) for the boundary between evaluation results and the release decision.
 
 ## 4. Co-delivery walkthrough
 
 !!! warning "Report-only / audit-first"
-    A fixture score or a direct component test is not an assurance exit. S7
-    requires an accepted S6 gateway proof.
+    A fixture score or a direct component test is not a release sign-off. S7 requires an accepted S6 gateway proof.
 
-**Timebox:** 90 minutes. **Entry condition:** the customer records system
-contains an S6 gateway-proof manifest with `result: "pass"` and the named
-platform and security reviewers have accepted its telemetry correlation. A named
-assurance owner, decision owner, evaluation-plan reference, and approved record
-location are available. S7 stops at review if the S6 acceptance is missing.
+**Timebox:** 90 minutes. **Entry condition:** the customer's records system contains an S6 gateway-proof manifest with `result: "pass"`, and the named platform and security reviewers accepted its telemetry correlation. The room also has an assurance owner, a decision owner, an evaluation-plan reference, and an approved records location. If S6 acceptance is missing, stop at review.
 
 | Role | Workshop responsibility |
 |---|---|
-| Facilitator | Runs the assurance method and preserves the report-only boundary; does not evaluate an agent, operate a gate, or choose the outcome. |
+| Facilitator | Runs the sign-off method and keeps the report-only boundary. Does not evaluate an agent, operate a gate, or choose the outcome. |
 | Customer assurance owner | Retrieves the accepted S6 decision and creates the customer-owned assurance record. |
-| Platform and security reviewers / evidence owner | Confirm the accepted S6 proof and point to authoritative references. |
+| Platform and security reviewers / evidence owner | Confirm the accepted S6 proof and point to the approved references. |
 | Customer decision owner | Selects `continue` or `hold` and accepts the next action. |
 
-1. **Set the room and orient — 20 min.** The facilitator states the question:
-   *Given the accepted S6 gateway proof and the customer evaluation-plan
-   reference, should the customer continue or hold this bounded pilot?* The
-   customer confirms the evidence boundary and authority. Ask: *Which accepted
-   S6 decision is canonical? What decision is this record allowed to make, and
-   what remains in the customer's separate evaluation process?*
-2. **Customer-owned assurance operation — 30 min.** The assurance owner follows
-   `labs/s7-evaluation/runbook.md`: copies
-   `templates/evaluation-plan-review.template.md` and
-   `templates/quality-measurement-plan.template.md` where quality dimensions or
-   thresholds are in scope, then
-   `templates/assurance-outcome.template.json` into the approved customer
-   records system, supplies safe references, and validates the outcome against
-   `contracts/assurance-handoff.schema.json`. The facilitator may read the
-   required fields aloud but does not create the customer record or substitute
-   evaluator output.
-3. **Interpret together — 15 min.** Customer reviewers confirm that the S6
-   decision is accepted, then separate the evaluation-plan reference from an
-   evaluation result or CI/CD gate. Ask: *Does every reference let a later
-   reviewer locate the accepted S6 proof and the customer-owned plan? Does any
-   claimed score, fixture, or proposed gate exceed this assurance boundary?*
-   Record a result, no-result, or blocker as a safe reference only.
+1. **Set the room and orient** *(20 min)* — the facilitator asks: **"Which accepted S6 decision are we using, and what release decision can this record support?"** The customer confirms the pilot scope, evidence boundary, decision owner, and what stays in the separate evaluation process.
+2. **Customer creates the sign-off record** *(30 min)* — the assurance owner follows `labs/s7-evaluation/runbook.md`. They copy `templates/evaluation-plan-review.template.md`, `templates/quality-measurement-plan.template.md` when quality dimensions or thresholds are in scope, and `templates/assurance-outcome.template.json` into the approved customer records system. They supply safe references and validate the outcome against `contracts/assurance-handoff.schema.json`. The facilitator can read required fields aloud, but does not create the customer record or substitute evaluator output.
+3. **Interpret the evidence together** *(15 min)* — reviewers confirm that the S6 decision is accepted. Then they separate the evaluation-plan reference from an evaluation result or CI/CD gate. Ask: **"Can a later reviewer find the accepted S6 proof and the Foundry evaluation plan from these references?"** and **"Are we treating a score, fixture, or proposed gate as more than it is?"** Record a result, no-result, or blocker as a safe reference only.
 
-   Review the evaluation plan across these bounded questions:
+   Review the evaluation plan with these questions:
 
-   | Question type | Interpretation prompt |
+   | Question type | Practical question |
    |---|---|
    | Quality or task completion | Which scenario, version, evaluator, and coverage limit support the release decision? |
-   | Groundedness or retrieval quality | Which data source, answer type, and unavailable evidence remain out of scope? |
-   | Safety or policy behavior | Which safety result informs the decision, and what runtime control remains separate? |
+   | Groundedness or retrieval quality | Which data source and answer type were tested, and what evidence remains outside scope? |
+   | Safety or policy behavior | Which safety result informs the decision, and which runtime control remains separate? |
    | Tool-use or action-boundary behavior | Which allowed, denied, or escalated action was reviewed? |
    | Regression or release comparison | What changed since the prior version, and who accepts the threshold or no-result? |
-   | Human review or escalation | Which reviewer decision and residual risk are recorded? |
-   | Quality dimension and threshold | Which threshold is customer-owned and approved? Who owns a regression, and what universal fallback exists if an evaluator is unavailable? |
+   | Human review or escalation | Which reviewer decision and remaining risk are recorded? |
+   | Quality dimension and threshold | Which threshold is customer-owned and approved? Who owns a regression or missing evaluator? |
 
-   If the customer later reviews assurance trends, connect the assurance
-   decision to safe references for the bounded workload, evaluation-plan or
-   version, decision outcome, applicable runtime correlation, and reviewer.
-   Do not treat a score, event field, or absent record as proof of coverage.
-4. **Customer decision — 15 min.** `continue` is available only when the
-   handoff contract is complete, the referenced S6 proof decision is
-   `accepted`, and the decision owner records a decision reference. Otherwise
-   choose `hold` or defer with an owner and review date. S7 neither certifies an
-   evaluator nor makes a CI/CD gate; customer-owned evaluation work may inform
-   the decision but cannot replace the accepted S6 proof.
-5. **Hand over — 10 min.** The assurance owner retains the completed record in
-   the customer system and reads back the S6-proof reference, evaluation-plan
-   reference, outcome, decision reference, next owner, and review date. The
-   record informs the customer’s next delivery action without authorizing a
-   deployment or changing a control.
+   If the customer later reviews trends, connect the sign-off decision to safe references for the workload, evaluation plan or version, decision outcome, runtime correlation where applicable, and reviewer. Do not treat a score, event field, or missing record as proof of coverage.
+4. **Make the customer decision** *(15 min)* — `continue` is available only when the handoff contract is complete, the referenced S6 proof decision is `accepted`, and the decision owner records a decision reference. Otherwise choose `hold` or defer with an owner and review date. Foundry evaluation work may inform the decision, but it cannot replace the accepted S6 proof.
+5. **Hand over** *(10 min)* — the assurance owner keeps the completed record in the customer system and reads back the S6-proof reference, evaluation-plan reference, outcome, decision reference, next owner, and review date. The record informs the next delivery action. It does not authorize a deployment or change a control.
 
-**Blockers:** no accepted S6 proof, unavailable reviewers, missing evaluation
-plan or decision owner, invalid handoff record, or no approved evidence
-location. Record `hold` or **blocked** with the missing dependency, owner,
-target date, and next review; do not create local substitute evidence or turn a
-fixture result into an exit.
+**Blockers:** no accepted S6 proof, unavailable reviewers, missing evaluation plan or decision owner, invalid handoff record, or no approved evidence location. Record `hold` or **blocked** with the missing dependency, owner, target date, and next review. Do not create local substitute evidence or turn a fixture result into a sign-off.
 
 ## 5. Verification & evidence capture
 
-- [ ] The referenced S6 proof conforms to the gateway-proof contract and has
-  `result: "pass"`.
+- [ ] The referenced S6 proof conforms to the gateway-proof contract and has `result: "pass"`.
 - [ ] Customer platform and security reviewers accepted the proof.
 - [ ] The assurance record conforms to the S7 handoff contract.
 - [ ] The customer records system contains the outcome and decision reference.
-- [ ] Where in scope, the quality-measurement plan and quality-threshold
-  decision are referenced alongside the evaluation-plan review.
+- [ ] Where in scope, the quality-measurement plan and quality-threshold decision are referenced alongside the evaluation-plan review.
 
-## 6. Customer-owned rollback and handoff
+Save only safe references in `04-operate/evidence-register.json` and the decision in `04-operate/decision-register.json`, in the generated delivery workspace. Do not put prompts, outputs, telemetry, scores, object IDs, credentials, or customer evidence in Git.
 
-S7 changes no evaluator, agent, or CI/CD gate. The customer can record `hold`
-or supersede its assurance decision through its own change and evidence
-process. The completed handoff remains customer owned.
+## 6. Rollback and handoff
+
+S7 changes no evaluator, agent, or CI/CD gate. The customer can record `hold` or replace its sign-off decision through its own change and evidence process. The completed handoff remains customer owned.
 
 ## 7. Facilitator notes
 
-- **Timing:** 90-minute workshop; the customer prepares the accepted S6 proof
-  and evidence location before entry.
-- **Official context:** Foundry evaluation, cloud evaluation, agent evaluator,
-  and observability documentation can support customer-owned evaluation plan
-  design. When reviewing agent evaluators, state the bounded question (task
-  completion, intent resolution, tool-call accuracy, response quality, or
-  safety) and the excluded population. For a fine-tuned model, confirm whether
-  a pre/post comparison row exists. These references do not replace the
-  accepted gateway proof or customer decision.
-- **RACI:** Assurance owner = R, Governance lead = A, Platform owner and
-  Security/SOC = C.
-- **Common blockers:**
-    - *No accepted S6 proof* → do not exit S7; record `hold`.
-    - *No evidence reviewers* → do not create local substitute evidence.
-    - *No customer decision reference* → do not exit S7.
-- **Hand-off:** the customer-owned assurance decision informs subsequent
-  delivery; separate evaluation and gate implementations remain customer owned.
+- **When you're stuck:** no accepted S6 proof → record `hold`; no evidence reviewers → do not create local evidence; no decision reference → do not exit S7.
+- **Official context:** [Foundry evaluations](https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluate-generative-ai-app), [agent evaluators](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators), and [cloud evaluation with the Foundry SDK](https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/cloud-evaluation) can support the customer's evaluation plan. They do not replace accepted gateway proof or the customer's release decision.
+- **RACI:** Assurance owner = R, Governance lead = A, Platform owner and Security/SOC = C.
+- **Hand-off:** the customer-owned sign-off decision informs later delivery. Evaluation suites, thresholds, and gates stay with the customer's release process.
