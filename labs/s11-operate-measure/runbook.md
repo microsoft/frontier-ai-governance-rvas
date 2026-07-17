@@ -25,6 +25,12 @@ authoritative evidence.
    customer-held evidence only; Foundry traces are optional project-gated
    context, and every cost observation needs an accountable spend-decision
    owner.
+   When production agent performance — first-token latency, end-to-end latency,
+   throughput, or error/saturation — is in scope, also copy
+   `templates/performance-telemetry-review.template.md`. It references
+   customer-held OpenTelemetry, Application Insights, or Foundry-trace evidence
+   only, records sampling and coverage limits, and reconciles against the S7
+   synthetic baseline as a drift hypothesis rather than a confirmed result.
 4. For a suspected change, record a drift hypothesis, alternative explanations,
    evidence limits, test or observation plan, owner, and escalation trigger.
    Do not label the hypothesis confirmed or investigate live data in this

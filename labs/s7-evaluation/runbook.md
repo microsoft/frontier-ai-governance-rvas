@@ -31,6 +31,13 @@ the handoff.
    `contracts/quality-threshold-decision.schema.json`. Ask which evaluators are
    universal versus project-gated, who proposes and approves the threshold, and
    which population is not covered.
+   Where synthetic performance or load testing is in scope, the owner also
+   copies `templates/performance-test-plan.template.md` to record the workload
+   model, first-token / end-to-end / throughput / error-saturation targets, and
+   environment-fidelity limits (quota/PTU, stubs versus live, data parity). The
+   load engine (for example Azure Load Testing) is customer-run and referenced,
+   not operated by this kit; production reconciliation of any drift hands off to
+   S11.
 4. Validate the completed record against
    `contracts/assurance-handoff.schema.json`. The assurance exit is complete
    only when the S6 decision is `accepted` and the customer has recorded the

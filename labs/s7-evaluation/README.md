@@ -27,7 +27,12 @@ Create the customer evaluation-plan review from
 threshold governance are in scope, add
 `templates/quality-measurement-plan.template.md` and validate the completed
 quality threshold decision against
-`contracts/quality-threshold-decision.schema.json`. Then create the outcome
+`contracts/quality-threshold-decision.schema.json`. Where synthetic performance
+or load testing is in scope, add
+`templates/performance-test-plan.template.md` to record the workload model,
+first-token and end-to-end targets, and environment fidelity (see the
+[agent performance-testing guide](../../docs/reference/performance-testing-guide.md)).
+Then create the outcome
 record from `templates/assurance-outcome.template.json` and validate its shape
 against `contracts/assurance-handoff.schema.json`. Keep the completed records,
 any evaluation outputs, and any future gate decision in the customer's approved

@@ -29,6 +29,23 @@ interpretation owner.
 A production evaluation score is an operating signal. It is not sign-off to ship
 and does not prove a control was enforced.
 
+## Production performance telemetry is a distinct operating signal
+
+Operating review also covers how fast the agent responds under real traffic.
+OpenTelemetry, Application Insights, and Foundry traces can supply first-token
+latency (TTFT/TTFB), end-to-end percentiles, throughput, and error/saturation
+signals where the customer enables instrumentation. For a streaming agent,
+first-token latency is a separate signal from end-to-end p95 and should be
+recorded on its own.
+
+Every production performance number carries a sampling, retention, and
+population limit; an uninstrumented path is a coverage gap, not a zero result.
+Reconcile production percentiles against any S7 synthetic baseline: a gap is a
+drift hypothesis — workload mix, configuration, model version, quota pressure,
+or evidence coverage — not confirmed drift. Use
+`templates/performance-telemetry-review.template.md` and the
+[agent performance-testing guide](../reference/performance-testing-guide.md).
+
 ## FinOps is operating accountability
 
 Cost review asks who owns the spend decision, which service or workload is in

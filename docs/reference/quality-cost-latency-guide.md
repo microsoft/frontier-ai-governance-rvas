@@ -47,6 +47,10 @@ Foundry traces can be an additional project-gated source where enabled. In
 either case, sampling, retention, population, and interpretation limits remain
 part of the record.
 
+For synthetic load testing, first-token latency, throughput, and production
+telemetry measurement, see the
+[agent performance-testing guide](performance-testing-guide.md).
+
 ## Token cost and FinOps
 
 Token estimates should name input composition, output assumptions, volume,

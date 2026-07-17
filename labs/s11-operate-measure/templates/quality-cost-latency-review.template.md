@@ -27,8 +27,13 @@ conclusion from an incomplete trend.
 
 ## Latency drift review
 
+For first-token, throughput, and error-saturation review under real traffic, or
+reconciliation against an S7 synthetic baseline, use the
+`performance-telemetry-review.template.md` addendum.
+
 | Component | Prior p95 reference | Current p95 reference | Observation | Drift hypothesis | Alternative | Test plan | Owner | Escalation trigger |
 |---|---|---|---|---|---|---|---|---|
+| Time to first token | | | | | | | | |
 | Model inference | | | | | | | | |
 | Retrieval | | | | | | | | |
 | Tool calls | | | | | | | | |

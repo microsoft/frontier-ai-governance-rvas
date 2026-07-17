@@ -13,3 +13,10 @@ and retain only approved references in the delivery workspace.
 `templates/quality-cost-latency-review.template.md` is an optional addendum for
 bounded quality trend, latency drift, and token-cost accountability questions.
 It complements rather than replaces `templates/operating-review.template.md`.
+
+`templates/performance-telemetry-review.template.md` is an optional addendum for
+production agent performance — first-token latency, end-to-end latency,
+throughput, and error/saturation from OpenTelemetry, Application Insights, or
+Foundry traces — including reconciliation against an S7 synthetic baseline as a
+drift hypothesis. See the
+[agent performance-testing guide](../../docs/reference/performance-testing-guide.md).
