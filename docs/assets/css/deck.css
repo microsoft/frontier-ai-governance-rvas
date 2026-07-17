@@ -148,7 +148,14 @@
 .reveal .controls { color: var(--deck-accent); }
 .reveal .progress { color: var(--deck-accent); height: 4px; }
 .reveal .progress span { background: var(--deck-accent); }
-.reveal .slide-number { background: rgba(3, 34, 84, 0.55); font-family: var(--font-mono); }
+.reveal .slide-number {
+  background: rgba(3, 34, 84, 0.55);
+  font-family: var(--font-mono);
+  top: 12px;
+  left: 14px;
+  right: auto;
+  bottom: auto;
+}
 
 /* Persistent brand chip (bottom-left). */
 .deck-brand {
@@ -168,6 +175,118 @@
 }
 .deck-brand img { display: block; }
 .deck-brand-label { letter-spacing: 0.2px; }
+
+/* Microsoft attribution logo (bottom-right, on content slides). */
+.deck-msft {
+  position: fixed;
+  right: 16px;
+  bottom: 12px;
+  z-index: 40;
+  opacity: 0.92;
+  pointer-events: none;
+}
+.deck-msft img {
+  display: block;
+  height: 20px;
+  width: auto;
+}
+
+/* On the branded cover / closing slides the program logo already leads, and the
+   grey Microsoft wordmark would sit on a dark ground — hide both chips there. */
+body.on-brand-slide .deck-brand,
+body.on-brand-slide .deck-msft { display: none; }
+
+/* ---- Cover slide (injected as the first slide) ---------------------------- */
+.reveal .slides section.deck-cover,
+.reveal .slides section.deck-closing {
+  text-align: center;
+  display: flex;
+  height: 100%;
+  padding: 0 6%;
+}
+.reveal .slides section.deck-cover .cover-inner,
+.reveal .slides section.deck-closing .closing-inner {
+  margin: auto;
+  width: 100%;
+  max-width: 960px;
+}
+
+.reveal .slides section.deck-cover .cover-logo {
+  display: block;
+  margin: 0 auto 1.1em;
+  max-height: 118px;
+  width: auto;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+.reveal .slides section.deck-cover .cover-kicker {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.7em;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 0.5em;
+}
+.reveal .slides section.deck-cover h1.cover-title {
+  color: #fff;
+  font-size: 2.1em;
+  line-height: 1.08;
+  margin: 0 auto 0.5em;
+  max-width: 18ch;
+  border: none;
+}
+.reveal .slides section.deck-cover .cover-accent {
+  width: 88px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--deck-accent);
+  margin: 0 auto 0.7em;
+}
+.reveal .slides section.deck-cover .cover-sub {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.86em;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* ---- Closing slide (injected as the last slide) --------------------------- */
+.reveal .slides section.deck-closing .closing-logo {
+  display: block;
+  margin: 0 auto 1.2em;
+  max-height: 74px;
+  width: auto;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  opacity: 0.96;
+}
+.reveal .slides section.deck-closing h1.closing-title {
+  color: #fff;
+  font-size: 2.6em;
+  line-height: 1.05;
+  margin: 0 auto 0.28em;
+  border: none;
+}
+.reveal .slides section.deck-closing .closing-sub {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 1.05em;
+  font-weight: 600;
+  font-family: var(--font-display);
+  margin: 0 auto 0.9em;
+}
+.reveal .slides section.deck-closing .closing-meta {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.72em;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
 
 /* Print / PDF button (top-right). */
 .deck-pdf-btn {
@@ -191,6 +310,7 @@
 
 @media print {
   .deck-brand,
+  .deck-msft,
   .deck-pdf-btn { display: none !important; }
   .reveal .slides img { box-shadow: none; }
 }
