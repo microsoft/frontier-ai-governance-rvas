@@ -82,3 +82,18 @@ engineering assessment. Do not merge those tracks into a silent product claim.
 
 [^agt-readme]: [AGT README at `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/README.md), Public Preview notice, `govern()` example, and audit architecture.
 [^agt-limitations]: [AGT known limitations at `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md), especially audit outcomes, knowledge governance, policy initialization, and feature boundaries.
+
+## Related official references
+
+## Portable control specifications need a pinned assessment
+
+The Agent Control Specification describes portable, declarative checkpoints for
+policy evaluation across an agent workflow. It is useful vocabulary for a
+future engineering assessment, but it does not change S10's offline boundary.
+Before a customer relies on an open-source implementation, capture the
+reviewed version or commit, supported runtime, limitations, and ownership
+decision in the customer change process.
+
+See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
+for the Agent Control Specification and the distinction between canonical
+orientation material and S10's pinned, reviewed AGT source.

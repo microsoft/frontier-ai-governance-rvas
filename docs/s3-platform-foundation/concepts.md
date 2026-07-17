@@ -83,3 +83,9 @@ architecture/security/change-process route.
 These rows do not deploy an accelerator, configure a gateway, test networking,
 or prove telemetry operation. They identify which platform owner and customer
 process must execute and evidence that work later.
+
+## Related official references
+
+See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
+for Azure Policy and API Management AI Gateway sources that inform a
+customer-owned platform boundary backlog.

@@ -63,3 +63,9 @@ an alternate testing path when the managed capability is unavailable.
 
 [^airt]: Microsoft Learn - [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent).
 [^pyrit]: Microsoft - [PyRIT](https://github.com/microsoft/PyRIT).
+
+## Related official references
+
+See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
+for Prompt Shields, Defender, and ASSERT context that can inform a
+customer-authorized testing and remediation path.

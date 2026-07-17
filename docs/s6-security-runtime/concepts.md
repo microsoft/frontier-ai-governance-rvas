@@ -54,3 +54,9 @@ security, SOC, identity, data, change, or operating processes.
 
 [^contentsafety]: Microsoft Learn - [Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection).
 [^appinsights]: Microsoft Learn - [Application Insights OpenTelemetry observability overview](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview).
+
+## Related official references
+
+See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
+for the cross-cutting runtime-enforcement route and current Microsoft safety,
+security, identity, gateway, and observability sources.

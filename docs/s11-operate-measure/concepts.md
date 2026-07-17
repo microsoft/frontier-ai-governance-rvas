@@ -61,3 +61,17 @@ escalation, S12 portfolio handoff, and customer support or change process.
 
 The backlog does not create a dashboard, query live data, set a threshold,
 change a control, or close a finding without validation.
+
+## Related official references
+
+## Visibility must be designed before it is needed
+
+Logs, metrics, traces, and alerts can reveal different aspects of AI behavior,
+but only when their population, sampling, retention, and interpretation owner
+are known. Operational telemetry can support an evidence review or expose a
+coverage gap; it cannot by itself establish that policy was enforced or that a
+portfolio is compliant.
+
+See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
+for Azure Monitor, Application Insights, Log Analytics, Purview Audit, and
+Foundry observability sources that can inform an operating-review backlog.

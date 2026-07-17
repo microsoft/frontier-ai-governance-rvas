@@ -182,3 +182,9 @@ responsibility for stopping use, removing or disabling approved access through
 the applicable change process, retaining required records, communicating the
 status, and confirming closure. A retirement decision must not leave an
 unowned authority boundary behind.
+
+## Related official references
+
+See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
+for Foundry, Content Safety, and lifecycle sources that can inform an admission
+or material-change assessment.

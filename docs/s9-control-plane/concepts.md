@@ -68,3 +68,17 @@ Closeout can occur with owned gaps only when the decision owner records the
 residual-risk disposition, accountable owner, due date, validation reference,
 recurrence check, exception route, and next review. A blank template, a local
 tool result, or a no-result is not proof that a control operates.
+
+## Related official references
+
+## Fleet governance and workflow controls have different altitudes
+
+A fleet control plane can make agents, ownership, lifecycle state, and
+cross-system gaps visible. An in-process control can make a decision within an
+agent workflow before a particular tool action. S9 reconciles the fleet-level
+records and their dependencies; it does not infer that a workflow control is
+installed, nor that a catalog entry proves runtime behavior.
+
+See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
+for Agent 365, Purview, identity, audit, and lifecycle sources that can inform
+customer-owned control-plane stewardship.

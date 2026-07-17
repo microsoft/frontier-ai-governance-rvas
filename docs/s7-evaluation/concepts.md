@@ -50,3 +50,17 @@ additional decision input, but its operating, evidence, and enforcement
 ownership remain with that customer process.
 
 [^foundry-eval]: Microsoft Learn - [Run evaluations from the Microsoft Foundry portal](https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluate-generative-ai-app); [Agent Evaluators for Generative AI](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators); [Cloud Evaluation with the Microsoft Foundry SDK](https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/cloud-evaluation).
+
+## Related official references
+
+## Policy-specific evaluation needs a measured comparison
+
+A policy-driven evaluation approach such as ASSERT can help a customer express
+its own safety requirements as targeted scenarios and compare results before
+and after a mitigation. It remains contextual design guidance: the customer
+owns the evaluator, dataset, thresholds, and interpretation. A score change
+does not itself prove runtime enforcement, release readiness, or control
+effectiveness.
+
+See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
+for Foundry observability/evaluation guidance and contextual ASSERT material.

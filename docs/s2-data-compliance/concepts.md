@@ -51,3 +51,8 @@ These are complementary controls. Gateway masking does not replace data classifi
 [^purview]: Microsoft Learn - [Microsoft Purview for AI](https://learn.microsoft.com/en-us/purview/ai-microsoft-purview).
 [^dspm]: Microsoft Learn - [Data Security Posture Management](https://learn.microsoft.com/en-us/purview/data-security-posture-management-learn-about).
 [^citadel]: Microsoft - [AI Hub Gateway / Citadel Governance Hub](https://aka.ms/ai-hub-gateway); [PII masking guide](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/pii-masking-apim.md).
+
+## Related official references
+
+See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
+for Purview, DSPM, DLP, sensitivity, audit, eDiscovery, and compliance sources.

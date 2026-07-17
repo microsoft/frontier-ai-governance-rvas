@@ -61,3 +61,17 @@ S0 does not require the platform to be deployed. Instead, it gives the customer 
 [^nist]: NIST - [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework).
 [^a365]: Microsoft Learn - [Agent 365 Overview](https://learn.microsoft.com/en-us/microsoft-agent-365/overview).
 [^citadel]: Microsoft - [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-platform) (aka.ms/foundry-citadel).
+
+## Related official references
+
+## Policy, control, visibility, and proof
+
+S0 frames the operating model through four connected questions: what policy
+defines, which later controls can enforce it, what visibility will be needed to
+observe it, and which customer-owned record could support a decision. This is
+not a maturity claim. It is a way to ensure that a use-case decision has an
+owner and an evidence route before technical work is prioritized.
+
+See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
+for the Policy-Control-Visibility-Proof lens, phase translation, and the
+official sources that inform S0 backlog routing.

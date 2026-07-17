@@ -93,6 +93,7 @@ const PAGES = [
   { slug: 'platform-citadel-gateway-evidence', src: 'delivery/platform-foundation/gateway-evidence-manifest.md', title: 'Gateway evidence manifest', nav: false, group: 'Platform foundation' },
   { slug: 'reference-platform-technical', src: 'reference/platform-technical-guide.md', title: 'Platform technical guide', nav: true, group: 'Reference' },
   { slug: 'reference-governance-capabilities', src: 'reference/governance-capability-guide.md', title: 'Governance capability guide', nav: true, group: 'Reference' },
+  { slug: 'reference-ai-governance-map', src: 'reference/ai-governance-reference-map.md', title: 'Microsoft AI governance reference map', nav: true, group: 'Reference' },
 ];
 
 /* ─── Link routing map (docs-relative path → static route) ────────────────── */
@@ -112,6 +113,7 @@ const ROUTES = {
   'delivery/platform-foundation/gateway-evidence-manifest.md': 'page.html?p=platform-citadel-gateway-evidence',
   'reference/platform-technical-guide.md': 'page.html?p=reference-platform-technical',
   'reference/governance-capability-guide.md': 'page.html?p=reference-governance-capabilities',
+  'reference/ai-governance-reference-map.md': 'page.html?p=reference-ai-governance-map',
 };
 SESSIONS.forEach((s) => {
   ROUTES[`${s.slug}/index.md`] = `session.html?s=${s.slug}`;

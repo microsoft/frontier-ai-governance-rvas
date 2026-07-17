@@ -79,3 +79,17 @@ This session does not create a dashboard, access live data, deploy a change, or
 provide compliance certification. Those activities require their own
 authorization, technical validation, and assurance evidence. S12 records what
 the current references can support and what remains unknown.
+
+## Related official references
+
+## Proof improves policy through a new decision
+
+Portfolio learning is the feedback step in the Policy-Control-Visibility-Proof
+loop. It can identify repeated evidence gaps, exception patterns, or a policy
+question that needs an owner. It does not automatically alter policy: each
+proposed change still needs scope, rationale, approval, implementation, and a
+later evidence review.
+
+See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
+for the Policy-Control-Visibility-Proof lens and sources that support
+portfolio learning without turning aggregation into a compliance conclusion.

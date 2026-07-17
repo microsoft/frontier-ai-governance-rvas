@@ -105,3 +105,18 @@ or an explicit unknown. A no-result is meaningful only when the checked scope
 and expected signal are recorded. This makes the catalog useful for governance
 without converting absence, a template, or an unverified entry into evidence of
 safe use.
+
+## Related official references
+
+## Runtime enforcement is a shared concern
+
+A gateway or API policy can enforce part of an approved publication decision
+while a tool is invoked, but it does not replace the identity, data,
+observability, lifecycle, or in-process checks that may also apply. Treat
+runtime enforcement as the connection between those controls: S5 identifies
+the intended boundary and owner; S6 reviews bounded evidence; S9 and S11
+steward the resulting records and operating signals.
+
+See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
+for API Management AI Gateway, Azure Policy, Entra, and data-governance
+references that can inform a customer-owned publication and enforcement backlog.
