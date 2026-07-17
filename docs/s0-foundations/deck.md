@@ -47,7 +47,7 @@ Walk the diagram left to right, but land the point quickly: ownership comes befo
 
 ---
 
-## The baseline becomes an implementation backlog
+## The baseline becomes a work list
 
 - S0 should end with a recommended **foundation path**.
 - Sequence S1, S2, S3, S4, or later-session work based on gaps and dependencies.
@@ -75,7 +75,7 @@ Use this slide to justify why the executive sponsor and governance lead are requ
 - The assessment uses four levels: **Ad-hoc, Repeatable, Defined, Optimized**.
 - The discussion behind the score matters more than the number.
 - A high score should have proof behind it.
-- S12 repeats the same instrument later.
+- S12 repeats the same assessment later.
 
 Note:
 Reinforce that the baseline is a prioritization tool, not an audit verdict. A low score can show a missing owner, missing evidence, or untested control. A high score is not a deployed control — it is evidence of an assessment and prioritization decision.
@@ -137,7 +137,7 @@ Confirm the preconditions before continuing. The governance lead scores the base
 
 > **"Which governance capability must we prioritize for this pilot, and who can decide?"**
 
-Confirm the offline posture, decision owner, evidence location, and stop condition.
+Confirm the offline setup, decision owner, evidence location, and stop condition.
 
 Note:
 A useful start has named roles and an approved record location. If there is no sponsor, owner, or records location, mark that area blocked. Record the working agreement reference.
@@ -217,4 +217,4 @@ Register the customer baseline reference and retention/classification metadata i
 - The roadmap sets the order for **S1-S12**.
 
 Note:
-Close by restating the boundary. When stuck: no clear owner → assign sponsor or governance-lead follow-up; no agents yet → assess approved intent and plans; weak evidence → record the gap instead of raising the score. S12 repeats the same customer-held instrument as a capstone comparison.
+Close by restating the boundary. When stuck: no clear owner → assign sponsor or governance-lead follow-up; no agents yet → assess approved intent and plans; weak evidence → record the gap instead of raising the score. S12 repeats the same customer-held assessment as a final comparison.

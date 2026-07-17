@@ -9,8 +9,8 @@
 
 S3 turns the platform-foundation review into three customer-owned technical
 decisions: platform topology, trust boundary/network isolation, and gateway or
-registry placement. The durable output is a trust-boundary decision and platform
-implementation backlog that later sessions can reconcile.
+registry placement. What S3 leaves behind is a trust-boundary decision and platform
+work list that later sessions can reconcile.
 
 These are decision menus, not deployment instructions; S3 changes nothing in the
 customer environment, and the platform team owns any later implementation
@@ -24,7 +24,7 @@ is justified for the bounded workload.
 
 | Option | When it fits | Trade-off / limitation | Governance implication |
 |---|---|---|---|
-| **Azure AI Landing Zones / Foundry Citadel-style greenfield platform** | The organization needs a new shared AI platform foundation, clear separation of duties, and room to standardize gateway, identity, network, and telemetry patterns | Highest platform build and ownership effort; verify current status, availability, and fit before using named accelerator or Foundry/Citadel patterns | Record the target platform owner, trust boundaries, operating model, and implementation backlog before any build starts |
+| **Azure AI Landing Zones / Foundry Citadel-style greenfield platform** | The organization needs a new shared AI platform foundation, clear separation of duties, and room to standardize gateway, identity, network, and telemetry patterns | Highest platform build and ownership effort; verify current status, availability, and fit before using named accelerator or Foundry/Citadel patterns | Record the target platform owner, trust boundaries, operating model, and work list before any build starts |
 | **Integrate into an existing landing zone** | The customer already has a governed Azure estate with network, identity, logging, and change processes that can absorb the AI workload | Existing standards may not yet cover model access, tool access, or AI gateway patterns; verify current platform capability | Record the deltas the existing platform must close and route them to the owning architecture/security process |
 | **Per-team platforms** | Teams need isolated experimentation or have distinct data, residency, or operational constraints that make shared tenancy unsuitable | Can fragment controls, telemetry, gateways, and ownership if not coordinated | Record what remains centralized, what is team-owned, and how S12 portfolio visibility will reconcile the split |
 
@@ -54,7 +54,7 @@ runtime contracts.
 
 ## Decisions made & adoption progress
 
-S3 ties the **S0 maturity baseline** platform dimension to the **S12 portfolio**
+S3 ties the platform part of the **S0 maturity baseline** to the **S12 portfolio**
 by turning topology, network-isolation, and gateway choices into a customer-owned
 platform backlog rather than a deployment claim.
 

@@ -17,10 +17,10 @@ enforced, or that a live integration behaves as claimed.
 S5 keeps that line clear. The customer records evidence references and a decision.
 Implementation and runtime verification stay in separate customer processes.
 
-## Publication decisions become implementation backlog
+## Publication decisions become a work list
 
 The S5 recommendation names the next publication path and explains why other
-paths were rejected or deferred. Typical backlog rows include API Center or
+paths were rejected or deferred. Typical work-list rows include API Center or
 catalog registration, Azure API Management or AI Gateway route, caller identity,
 MCP or connector implementation path, workspace or namespace decision, version
 boundary, authorization scope, suspension or withdrawal trigger, S6 runtime
@@ -30,7 +30,7 @@ S5 does not publish a service, grant permissions, configure an integration, or
 prove runtime safety. It records the backlog and owner needed before those
 actions can happen elsewhere.
 
-## Ownership is specific and durable
+## Ownership is specific and lasting
 
 Catalog ownership answers who keeps the record current and coordinates review.
 Technical ownership answers who understands the candidate's behavior and version.

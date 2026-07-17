@@ -38,7 +38,7 @@ The programme is one curriculum. S0 sets scope, baseline, and delivery order. Th
 | S0 · Foundations | Who owns governance, and where do we start? | Baseline, operating model, and prioritized roadmap. |
 | S1 · Identity | Which identity and access boundary applies to each agent? | Ownership and authority review. |
 | S2 · Data | What data may the agent access, process, or expose? | Data findings and review actions. |
-| S3 · Platform | Which enterprise platform path and trust boundary do we use? | Platform-path decision and implementation backlog. |
+| S3 · Platform | Which enterprise platform path and trust boundary do we use? | Platform-path decision and work list. |
 | S4 · Engineering | What must an agent pass before admission or major change? | Admission standard and change-review record. |
 | S5 · Tool/API governance | How do we publish and withdraw tools, APIs, and MCP services safely? | Controlled publication and lifecycle model. |
 | S6 · Runtime assurance | Does the approved runtime path produce security evidence we can review? | Runtime assurance decision and handoff. |

@@ -9,7 +9,7 @@ Welcome and framing. This is a **report-only / audit-first** session. DLP policy
 
 ---
 
-## The outcome — findings become backlog
+## The outcome — findings become a work list
 
 By the end, the customer has a **Microsoft Purview-based review** of AI data exposure and a decision on the next data-governance step.
 
@@ -18,7 +18,7 @@ By the end, the customer has a **Microsoft Purview-based review** of AI data exp
 - Backlog path: continue, report-only review, fix gaps, route dependency, or block
 
 Note:
-Keep the outcome focused on customer-owned records and decisions. Compliance findings become implementation backlog with assumptions and owners; they are not a policy deployment. The delivery workspace stores references, not copied evidence.
+Keep the outcome focused on customer-owned records and decisions. Findings become a work list the customer owns, with assumptions and owners — not a policy rollout. The delivery workspace stores references, not copied evidence.
 
 ---
 
@@ -30,11 +30,11 @@ Keep the outcome focused on customer-owned records and decisions. Compliance fin
 - Investigators need evidence they can use later.
 
 Note:
-S2 uses Microsoft Purview as the compliance plane. The customer reviews classification and discovery signals, checks sensitivity labels and DLP coverage, and records the investigation route before any policy moves beyond simulation.
+S2 uses Microsoft Purview for data and compliance. The customer reviews classification and discovery signals, checks sensitivity-label and DLP coverage, and records the investigation route before any policy moves past simulation.
 
 ---
 
-## The compliance plane answers a data question
+## Data raises its own governance question
 
 ![S2 compliance flow: DSPM for AI surfaces exposure, producing prioritised findings that drive sensitivity labels and DLP policies, which feed an evidence trail (Audit, eDiscovery, Insider Risk Management, Communication Compliance) routed to the customer compliance and change process; gateway masking complements but does not replace Purview.](../assets/diagrams/s2-compliance-flow.svg)
 
@@ -45,16 +45,16 @@ AI governance asks:
 - Which evidence remains after an interaction?
 
 Note:
-Walk the diagram from DSPM through labels, DLP, and investigation evidence. Microsoft Purview brings data security and compliance capabilities into AI workloads and connected applications. S2 uses Purview for data classification, discovery, policy review, investigation, and evidence references. It does not build a new model gateway.
+Walk the diagram from DSPM through labels, DLP, and investigation evidence. Microsoft Purview brings data security and compliance to AI workloads and connected apps. S2 uses Purview for data classification, discovery, policy review, investigation, and evidence references. It does not build a new model gateway.
 
 ---
 
 ## DSPM for AI finds exposure before enforcement
 
 - DSPM for AI helps surface oversharing and sensitive-data exposure.
-- It can show risky access patterns and possible exfiltration paths.
-- Its role is **diagnostic**.
-- An empty result is still evidence — if interpreted correctly.
+- It can show risky access and likely ways data could leak.
+- Its job is to **find** problems, not fix them.
+- An empty result is still evidence — if you read it correctly.
 
 Note:
 An empty result can mean no discovered in-scope workload, no findings in the checked scope, or a prerequisite gap. Record which one the customer can support. Do not treat "nothing found" as proof of no exposure unless the scope and limits are clear.
@@ -112,7 +112,7 @@ Confirm the preconditions before continuing. The compliance administrator review
 
 > **"For this path, what sensitive-data exposure are we trying to understand, where is the evidence, and who investigates an incident?"**
 
-Record pilot scope, safe posture, evidence references, owner, and stop condition.
+Record pilot scope, safe starting state, evidence references, owner, and stop condition.
 
 Note:
 A useful result is a bounded path and named investigation route. If there is no records location, compliance owner, or investigation owner, stop that part and assign it. Use the customer's approved system for the review checklist.

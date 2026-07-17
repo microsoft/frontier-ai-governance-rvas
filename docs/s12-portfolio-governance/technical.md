@@ -8,7 +8,7 @@
 
 S12 is the portfolio decision point: it turns prior session records, exception
 patterns, maturity movement, and investment proposals into a customer-owned
-roadmap. The durable output is not a live dashboard or policy change; it is a
+roadmap. What S12 leaves behind is not a live dashboard or policy change; it is a
 recorded set of portfolio decisions, deferrals, owners, and next-review evidence.
 
 These are decision **menus**, not deployment recommendations, and S12 changes

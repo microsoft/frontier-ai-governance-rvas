@@ -55,9 +55,9 @@ lifecycle controls.
 
 ## Decisions made & adoption progress
 
-S8 should move the customer from the **S0 maturity baseline** adversarial/security
-dimension toward the **S12 portfolio** view with an adversarial-testing decision
-and remediation backlog.
+S8 should move the customer from the adversarial and security part of the **S0
+maturity baseline** toward the **S12 portfolio** view with an adversarial-testing
+decision and remediation backlog.
 
 | Adoption stage | What "done" looks like at S8 |
 |---|---|
@@ -67,7 +67,7 @@ and remediation backlog.
 
 Record the choice, alternatives considered, authorization caveat, and adoption
 stage in `labs/s8-red-teaming/templates/technical-decision-record.template.md`.
-The durable S8 output is the decision plus the remediation backlog, not a
+What S8 leaves behind is the decision plus the remediation backlog, not a
 production change.
 
 ## Related references

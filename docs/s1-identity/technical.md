@@ -31,8 +31,8 @@ how agent-native and lifecycle-aware they are.
 | **On-behalf-of (delegated) identity** | Agent acts *as a signed-in user*, not on its own authority | The agent may have no governable identity of its own — visibility only | Record as user-delegated activity; it is **not** its own inventory entry unless a supported source says so |
 
 Selection criteria to record for each: agent-native vs infrastructure identity;
-sponsor and lifecycle ownership; tenant/licensing availability; secret vs
-federated credential posture; and how it interacts with runtime access (Decision
+sponsor and lifecycle ownership; tenant/licensing availability; whether it uses
+stored secrets or federated credentials; and how it interacts with runtime access (Decision
 2) and the gateway.
 
 ## Decision 2 — How is runtime access to the agent controlled?
@@ -44,13 +44,13 @@ controls**. You often need both; neither proves the other.
 |---|---|---|---|
 | **Conditional Access for workload identities** | Tenant/licensing supports it and the workload type is in scope | Depends on licensing, supported workloads, scope, and exclusions; a change the customer owns | Enforces access conditions on the identity plane; record owner, report-only trial, and exclusions |
 | **Gateway authentication (Entra/JWT at API Management)** | Traffic routes through a Citadel-style governance-hub gateway | Guards the gateway boundary, not the tenant identity plane | Runtime access control at the platform edge; pairs with S6 runtime assurance |
-| **Both (defense in depth)** | High-authority agents where identity-plane and gateway controls should reinforce each other | More moving parts and owners to coordinate | Strongest posture; record both owners and how they correlate |
+| **Both (defense in depth)** | High-authority agents where identity-plane and gateway controls should reinforce each other | More moving parts and owners to coordinate | Strongest setup; record both owners and how they correlate |
 | **Neither yet (gap)** | Early inventory where controls are not yet decided | Leaves runtime access ungoverned | Record explicitly as a coverage gap with an owner, not as "handled" |
 
 ## Decisions made & adoption progress
 
 S1 should move the customer one concrete step along identity adoption. Tie the
-decision back to the **S0 maturity baseline** (identity/authority dimension) and
+decision back to the **S0 maturity baseline** (the identity and authority part) and
 forward to the **S12 portfolio** view:
 
 | Adoption stage | What "done" looks like at S1 |
@@ -61,7 +61,7 @@ forward to the **S12 portfolio** view:
 
 Record the choice, the alternatives considered, and the rationale in the
 technical decision record (`labs/s1-identity/templates/technical-decision-record.template.md`).
-The decision — not just the inventory — is the durable S1 outcome.
+The decision — not just the inventory — is what S1 leaves behind.
 
 ## Related references
 

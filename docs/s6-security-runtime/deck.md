@@ -106,7 +106,7 @@ Preview the five steps: orient, customer-operated gateway request, interpret tog
 > **"Who can interpret telemetry and accept this proof?"**
 > **"What result makes us stop instead of guessing enforcement?"**
 
-Confirm non-production posture, expected policy behavior, stop condition, and evidence locations.
+Confirm this run is non-production, the expected policy behavior, stop condition, and evidence locations.
 
 Note:
 Record the pilot question and scope. Do not proceed without the approved route, safe test scope, authentication handling, and reviewers who can interpret telemetry.

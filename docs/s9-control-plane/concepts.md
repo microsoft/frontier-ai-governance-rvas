@@ -17,7 +17,7 @@ This matters because an approved agent can gain new reach through an unreviewed 
 
 ## Lifecycle is a decision trail, not a label
 
-Proposed, active, exception, suspended, retired, and decommissioned states show intended operating posture. A transition needs an accountable decision, a review reference, and a permitted destination.
+Proposed, active, exception, suspended, retired, and decommissioned states show the intended operating state. A transition needs an accountable decision, a review reference, and a permitted destination.
 
 Material changes to authority, tool use, data handling, model behavior, operating scope, or ownership need a recorded review before the customer treats them as accepted.
 

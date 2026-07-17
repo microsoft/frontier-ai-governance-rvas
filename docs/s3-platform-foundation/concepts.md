@@ -61,9 +61,9 @@ S3 provides a bounded evidence question and a handoff. Runtime assurance later u
 
 Runtime assurance can reject the handoff, identify a coverage gap, or require a change through the approved process. The S3 review does not prove a reference architecture is operating.
 
-## Platform review becomes implementation backlog
+## Platform review becomes a work list
 
-S3 should recommend a platform foundation path with confidence and assumptions. Typical backlog rows include landing-zone readiness, private connectivity, Azure API Management or AI gateway route, API Center/access-contract record, identity boundary, telemetry coverage, platform-security owner, S6 runtime-proof prerequisite, and customer architecture/security/change-process route.
+S3 should recommend a platform foundation path with confidence and assumptions. Typical work-list rows include landing-zone readiness, private connectivity, Azure API Management or AI gateway route, API Center/access-contract record, identity boundary, telemetry coverage, platform-security owner, S6 runtime-proof prerequisite, and customer architecture/security/change-process route.
 
 For Foundry-hosted workloads, the review may also need a network-isolation question: public, managed VNet, bring-your-own VNet, or hybrid path, with an accountable platform owner.
 

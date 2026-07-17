@@ -8,21 +8,21 @@
     before delivery.
 
 S2 turns the data review into three **technical decisions** that are also
-compliance decisions: how sensitive data is classified, where prompt and
-retrieval exposure is reduced, and how regulatory obligations are mapped. The
-customer leaves with recorded options, evidence, and owners — not a copied data
-export or a tenant change.
+compliance decisions: how sensitive data is classified, where you cut prompt
+and retrieval exposure, and how regulatory obligations are mapped. The customer
+leaves with recorded options, evidence, and owners — not a copied data export or
+a tenant change.
 
 These are decision **menus**, not deployment recommendations. The kit works
-offline, changes nothing in production, and any implementation stays with the
+offline, changes nothing in production, and any rollout stays with the
 customer's compliance, data, security, and change processes.
 
 ## Decision 1 — How is data classified and sensitivity handled?
 
-Choose against existing label taxonomy maturity, coverage for agent prompts,
-retrieval sources and outputs, and whether the customer's current DLP operating
-model can observe the path safely. Confirm current Microsoft Purview Information
-Protection and DLP status before treating any option as available.
+Choose based on how mature the label taxonomy already is, whether it covers
+agent prompts, retrieval sources, and outputs, and whether the customer's
+current DLP setup can watch the path safely. Confirm current Microsoft Purview
+Information Protection and DLP status before treating any option as available.
 
 | Option | When it fits | Trade-off / limitation | Governance implication |
 |---|---|---|---|
@@ -32,10 +32,10 @@ Protection and DLP status before treating any option as available.
 
 ## Decision 2 — How is grounding, retrieval, and PII exposure governed?
 
-The deciding test is where sensitive data enters prompts, retrieval results,
-tool outputs, or responses; where sources reside; and which least-privilege
-boundary limits agent access. Verify current status for each named Microsoft or
-Azure capability before selection.
+The deciding test is where sensitive data enters — prompts, retrieval results,
+tool outputs, or responses — where the sources live, and which least-privilege
+boundary limits what the agent can reach. Verify current status for each named
+Microsoft or Azure capability before selection.
 
 | Option | When it fits | Trade-off / limitation | Governance implication |
 |---|---|---|---|
@@ -59,8 +59,8 @@ product availability before relying on any Microsoft or Azure capability.
 
 ## Decisions made & adoption progress
 
-S2 should advance the **S0 maturity baseline** data dimension and produce a
-portfolio-ready S12 record of data posture, evidence, and review actions.
+S2 should move the data part of the **S0 maturity baseline** forward and produce
+an S12-ready record of the data situation, evidence, and review actions.
 
 | Adoption stage | What "done" looks like at S2 |
 |---|---|
@@ -70,7 +70,7 @@ portfolio-ready S12 record of data posture, evidence, and review actions.
 
 Capture the chosen option, alternatives, rationale, owner, and adoption stage in
 the technical decision record (`labs/s2-data-compliance/templates/technical-decision-record.template.md`).
-The decision, evidence references, and review actions are the durable S2 output.
+The decision, evidence references, and review actions are what S2 leaves behind.
 
 ## Related references
 

@@ -43,7 +43,7 @@ The record location should fit auditability, scale, retention, and who will main
 
 ## Decisions made & adoption progress
 
-S0's durable output is a baseline maturity assessment and prioritized roadmap that feed the S12 portfolio view.
+What S0 leaves behind is a baseline maturity assessment and prioritized roadmap that feed the S12 portfolio view.
 
 | Adoption stage | What "done" looks like at S0 |
 |---|---|

@@ -19,7 +19,7 @@ The Cloud Adoption Framework for AI gives the broader sequence. Strategy and pla
 
 The operating model becomes useful when the customer records real owners, decisions, and follow-up actions in its own records.
 
-## The baseline becomes an implementation backlog
+## The baseline becomes a work list
 
 S0 should end with a recommended foundation path, not just a maturity score.
 
@@ -41,7 +41,7 @@ A maturity score describes how repeatable a capability is today. The S0 assessme
 
 The discussion behind the score matters more than the number. A low score can show a missing owner, missing evidence, or an untested control. A high score should have proof behind it.
 
-S12 repeats the same instrument later. The customer compares the current state with the baseline and assigns the remaining gaps.
+S12 repeats the same assessment later. The customer compares the current state with the baseline and assigns the remaining gaps.
 
 The baseline is a prioritization tool, not an audit verdict. It helps the customer choose the next session and see whether the work changed anything.
 

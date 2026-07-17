@@ -53,8 +53,8 @@ saturation. Defer metric detail to the performance-testing guide.
 
 ## Decisions made & adoption progress
 
-S7 should move the customer from the **S0 maturity baseline** evaluation
-dimension toward the **S12 portfolio** view with a durable release-assurance
+S7 should move the customer from the evaluation part of the **S0 maturity
+baseline** toward the **S12 portfolio** view with a lasting release-assurance
 decision and evidence reference; S11 runs the production counterpart.
 
 | Adoption stage | What "done" looks like at S7 |

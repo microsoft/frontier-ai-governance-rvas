@@ -47,14 +47,14 @@ A Prompt Shields result or component diagnostic may add runtime-safety context.
 It is not gateway-path proof by itself.[^appinsights]
 
 Microsoft Defender for Cloud and AI security posture capabilities can help the
-customer review posture, findings, and security-owner routing where enabled. They
+customer review the security posture, findings, and security-owner routing where enabled. They
 support the runtime security picture. They do not replace the S6 gateway proof
 and correlation decision.
 
-## Runtime evidence becomes implementation backlog
+## Runtime evidence becomes a work list
 
 S6 should recommend the next runtime path with confidence and assumptions. Typical
-backlog rows include gateway or Azure API Management route remediation, Content
+work-list rows include gateway or Azure API Management route remediation, Content
 Safety or Prompt Shields policy review, telemetry correlation, SOC alert or
 debrief route, identity or data-control dependency, S7 evaluation prerequisite,
 S9 catalog lifecycle update, and S11 operating evidence coverage.

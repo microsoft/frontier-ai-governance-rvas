@@ -47,7 +47,7 @@ Distinguish agent and tool stewardship. An agent entry names the accountable ser
 
 ## Lifecycle is a decision trail
 
-- States show intended operating posture.
+- States show the intended operating state.
 - Transitions need accountable decisions and review references.
 - Material changes need recorded review before acceptance.
 - Suspension, retirement, and decommissioning are different states.

@@ -26,7 +26,7 @@ protected-material detection, before relying on an option.
 |---|---|---|---|
 | **Gateway enforcement** | Traffic already passes through the approved gateway and policy needs one shared inspection point for untrusted input | Adds gateway latency and may not see application-only context | Strong shared boundary; record route, policy owner, and evidence retention |
 | **In-application enforcement** | The app has the needed context, prompt assembly, or output handling before streaming to users | Harder to standardize; depends on each app team to implement and evidence | Record app owner, inspection points, and how decisions are logged |
-| **Defense in depth** (gateway and application) | Higher-risk workloads where boundary and app-context controls should reinforce each other | More owners, latency, and correlation work | Strongest posture; record which control decides what and how conflicts are reviewed |
+| **Defense in depth** (gateway and application) | Higher-risk workloads where boundary and app-context controls should reinforce each other | More owners, latency, and correlation work | Strongest setup; record which control decides what and how conflicts are reviewed |
 | **Deferred / diagnostic only** | Capability availability, latency, or route coverage is not ready for a control decision | A component check is not gateway enforcement evidence | Record the gap, owner, target date, and dependency before S7 or rollout |
 
 ## Decision 2 — How are threat detection and response routed?
@@ -70,7 +70,7 @@ gateway proof that S7 can reference.
 
 Record the choices, alternatives, rationale, and adoption stage in
 `labs/s6-security-runtime/templates/technical-decision-record.template.md`.
-The record is the durable S6 decision artifact; the kit remains offline and
+The record is the S6 decision that lasts; the kit remains offline and
 changes nothing.
 
 ## Related references

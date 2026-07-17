@@ -57,8 +57,8 @@ secrets wherever the customer's platform supports them.
 
 ## Decisions made & adoption progress
 
-S5 advances the **S0 maturity baseline** tool/API dimension by creating a
-durable controlled-publication and lifecycle governance model, and sends the
+S5 advances the tool and API part of the **S0 maturity baseline** by creating a
+lasting controlled-publication and lifecycle governance model, and sends the
 portfolio-level implications to **S12**; **S9** owns catalog and lifecycle
 reconciliation as records mature.
 

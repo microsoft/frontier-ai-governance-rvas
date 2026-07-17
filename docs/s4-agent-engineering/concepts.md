@@ -184,7 +184,7 @@ decision, including a change to:
 - model deployment, prompt or instruction asset, hosted-agent package, connector,
   API, identity, telemetry, evaluation plan, catalog registration, or
   production-change route;
-- accountable owner, exception decision, risk posture, or acceptance criteria;
+- accountable owner, exception decision, accepted risk, or acceptance criteria;
 - test scope, failure handling, recovery behavior, or retirement obligation.
 
 The organization may define more triggers. A version number alone does not decide

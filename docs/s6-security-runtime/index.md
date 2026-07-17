@@ -27,7 +27,7 @@ Prompt Shields work to security, or block S7/S9/S11 dependencies until the
 correlation is accepted.
 
 Security reviewers may use Microsoft Defender for Cloud and AI security posture
-capabilities for broader posture and threat context where the customer has them
+capabilities for broader security and threat context where the customer has them
 enabled. See [Defender AI security posture management](https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-security-posture)
 for product context. The S6 artifact is still the gateway proof and reviewed
 correlation.
@@ -72,8 +72,8 @@ owners. Stop before the request if any of these are absent.
 1. **Set the room and orient — 20 min.** The facilitator records the pilot
    question: **"Did this approved non-production request go through the approved
    gateway path with a correlation we can review, and which runtime-control
-   decision does that evidence support?"** The customer confirms the
-   non-production posture, expected policy behavior, stop condition, and evidence
+   decision does that evidence support?"** The customer confirms this run is
+   non-production, the expected policy behavior, stop condition, and evidence
    locations. Ask: **"Which gateway route, policy, and runtime-control option are
    in scope?"** **"Who can interpret telemetry and accept this proof?"** **"What
    result makes us stop instead of guessing enforcement?"**

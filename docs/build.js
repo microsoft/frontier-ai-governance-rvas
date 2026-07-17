@@ -44,7 +44,7 @@ const SESSIONS = [
   { slug: 's0-foundations', code: 'S0', phase: 'Govern', accent: '#032254', persona: 'Governance lead', nist: 'Govern', outcome: 'Baseline maturity assessment + prioritized roadmap' },
   { slug: 's1-identity', code: 'S1', phase: 'Govern', accent: '#1A77E3', persona: 'Identity admin', nist: 'Govern · Manage', outcome: 'Identity, authority, and ownership review' },
   { slug: 's2-data-compliance', code: 'S2', phase: 'Govern', accent: '#14868A', persona: 'Compliance / Data admin', nist: 'Map · Manage', outcome: 'Data governance, compliance evidence, and review actions' },
-  { slug: 's3-platform-foundation', code: 'S3', phase: 'Establish', accent: '#0F766E', persona: 'Platform owner', nist: 'Govern · Map · Manage', outcome: 'Trust-boundary decision + platform implementation backlog' },
+  { slug: 's3-platform-foundation', code: 'S3', phase: 'Establish', accent: '#0F766E', persona: 'Platform owner', nist: 'Govern · Map · Manage', outcome: 'Trust-boundary decision + platform work list' },
   { slug: 's4-agent-engineering', code: 'S4', phase: 'Establish', accent: '#7C3AED', persona: 'AI developer / maker', nist: 'Govern · Map · Measure', outcome: 'Agent admission standard + change-review record' },
   { slug: 's5-tool-api-governance', code: 'S5', phase: 'Establish', accent: '#C2410C', persona: 'Platform owner', nist: 'Govern · Map · Manage', outcome: 'Controlled tool and API publication model' },
   { slug: 's6-security-runtime', code: 'S6', phase: 'Assure', accent: '#DC2626', persona: 'Security / SOC', nist: 'Measure · Manage', outcome: 'Runtime assurance evidence + response ownership' },

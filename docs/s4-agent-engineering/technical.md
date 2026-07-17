@@ -65,11 +65,11 @@ ships or materially changes, plus material-change and retirement triggers.
 | **Backlogged** | The selected-path configuration backlog has owners and later-session/change-process routing |
 | **In adoption** | Engineering builds the backlog outside this session; S6/S7 assurance and S9 catalog reconcile the evidence |
 
-Tie the outcome to the **S0 maturity baseline** (engineering/admission dimension)
+Tie the outcome to the **S0 maturity baseline** (the engineering and admission part)
 and the **S12 portfolio** roadmap. Capture the choice, alternatives, and
 rationale in the technical decision record
 (`labs/s4-agent-engineering/templates/technical-decision-record.template.md`);
-it complements the admission record as the durable decision artifact.
+it complements the admission record as the decision that lasts.
 
 ## Related references
 

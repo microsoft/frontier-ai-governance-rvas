@@ -24,7 +24,7 @@ customer needs **audit or tamper evidence** for it.
 |---|---|---|---|
 | **Gateway-only** (API Management / governance hub) | The meaningful control point is at the platform boundary; tool calls are mediated there | Cannot see or decide inside the agent process before a local tool call | Sufficient when there is no in-process decision point; record it as the deliberate choice |
 | **In-process policy check** (AGT-style `govern()` before the tool call) | There is a genuine pre-tool decision point with allow / deny / approval semantics inside the process | Preview maturity; runs in customer code; needs an engineering assessment and owner | Adds a decision the gateway cannot make; record policy owner, approval route, and audit retention |
-| **Defense in depth** (gateway **and** in-process) | High-authority tool actions where boundary and in-process controls should reinforce each other | Two controls and owners to build, correlate, and maintain | Strongest posture; one control never proves the other is configured or working |
+| **Defense in depth** (gateway **and** in-process) | High-authority tool actions where boundary and in-process controls should reinforce each other | Two controls and owners to build, correlate, and maintain | Strongest setup; one control never proves the other is configured or working |
 | **Not applicable** (for this architecture) | No real in-process boundary, or no delegated authority worth a local check | Forcing adoption would be theatre | A valid, recorded decision — route back to existing controls and the S6 backlog |
 
 ## Supporting decision — What evidence does the boundary need?

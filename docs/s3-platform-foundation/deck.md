@@ -93,9 +93,9 @@ Runtime assurance can reject the handoff, identify a coverage gap, or require a 
 
 ---
 
-## Platform review becomes implementation backlog
+## Platform review becomes a work list
 
-Typical backlog rows:
+Typical work-list rows:
 
 - Landing-zone readiness
 - Private connectivity
@@ -117,7 +117,7 @@ For Foundry-hosted workloads, the review may also need a network-isolation quest
 - This review maps what should be evidenced.
 
 Note:
-Confirm the boundary and records posture before continuing. The platform owner maps the enterprise platform and AI gateway boundary, then the decision owner records what is ready, missing, or blocked. Introduce the six steps from review contract through runtime-assurance handoff.
+Confirm the boundary and records setup before continuing. The platform owner maps the enterprise platform and AI gateway boundary, then the decision owner records what is ready, missing, or blocked. Introduce the six steps from review contract through runtime-assurance handoff.
 
 ---
 

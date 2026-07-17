@@ -26,7 +26,7 @@ willing to govern.
 |---|---|---|---|
 | **OpenTelemetry + Application Insights / Azure Monitor** | Customer-owned app or service paths need spans, metrics, logs, alerts, and cross-component correlation after current availability is verified | Requires instrumentation ownership, sampling and retention choices, and cost control; does not automatically cover Foundry-only signals | Record instrumentation owner, correlation keys, sampling, retention, alert route, and evidence limits |
 | **Foundry observability** | Foundry project, agent, model, trace, token, latency, or evaluation signals are the primary operating evidence and the feature is available for the workload | Project-gated and configuration-dependent; may not cover the full app path or external dependencies | Record project/deployment scope, trace coverage, evaluator/version context, retention, and interpretation owner |
-| **Both, correlated** | Production review needs end-to-end app telemetry plus Foundry traces for latency, quality, token, and run-level context | Two evidence systems to correlate, retain, and pay for; gaps can appear in either view | Strongest review posture; record correlation method, source of record per question, and unresolved coverage gaps |
+| **Both, correlated** | Production review needs end-to-end app telemetry plus Foundry traces for latency, quality, token, and run-level context | Two evidence systems to correlate, retain, and pay for; gaps can appear in either view | Strongest review setup; record correlation method, source of record per question, and unresolved coverage gaps |
 | **Sampling and retention policy first** | Telemetry cost, privacy, or volume is the gating decision before tool selection | Does not create observability by itself; overly narrow sampling can hide rare failures | Record minimum population, excluded paths, retention owner, and what a sample can and cannot support |
 
 ## Decision 2 — Cost attribution / FinOps model
@@ -56,7 +56,7 @@ and how a drift hypothesis versus the S7 synthetic baseline is raised and tested
 ## Decisions made & adoption progress
 
 S11 reconciles the production counterpart of S7's pre-production evidence,
-advances the S0 operate/measure maturity dimension, and feeds S12 portfolio
+advances the operate-and-measure part of the S0 maturity baseline, and feeds S12 portfolio
 prioritization with owned operating decisions.
 
 | Adoption stage | What "done" looks like at S11 |
