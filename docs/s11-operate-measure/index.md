@@ -60,6 +60,10 @@ Read the [S11 Concepts](concepts.md) before delivery.
     business data into the kit. Do not make a monitoring, remediation,
     exception, policy, identity, or production change.
 
+Review the [Technical decisions](technical.md) chapter first: it holds the
+observability-stack, cost-attribution, and alerting/drift option menus and
+selection criteria this walkthrough decides between.
+
 **Facilitator:** protects the evidence and decision boundary. **Governance
 lead:** owns the review decision. **Service owner:** interprets reliability,
 risk, quality, and adoption questions. **Cost owner:** interprets spend ownership
@@ -74,7 +78,7 @@ specialists only for questions in scope.
 | Define balanced review questions | 20 min | Select only relevant coverage, reliability, risk, quality, cost ownership, adoption, human-review, and business-outcome questions. | **"Who interprets this?"** **"What decision follows?"** Do not turn every category into a required metric or target. |
 | Form drift hypotheses and routes | 15 min | Record observable drift hypotheses, other possible explanations, evidence limits, test or observation plan, owner, and escalation trigger. | **"What would challenge this hypothesis?"** **"When does it need escalation?"** A hypothesis is not a confirmed cause. |
 | Define remediation and exceptions | 15 min | Record finding owner, target date, validation and recurrence approach, exception expiry, escalation route, and next review. | **"What validates the remedy?"** **"Who accepts an exception?"** Reported completion is not closure until a reviewer checks validation and remaining exceptions. |
-| Decide and hand over | 15 min | Approve, defer, or reject the review definition. Record limits and next review. | **"Is the coverage clear?"** **"What remains unresolved?"** Adopting a review method does not authorize enforcement or change. |
+| Decide and hand over | 15 min | Approve, defer, or reject the review definition and technical decision. Record limits and next review. | **"Which technical option is selected, deferred, or rejected?"** **"What remains unresolved?"** Adopting a review method does not authorize enforcement or change. |
 
 Use question examples to enrich the review, not to force metrics:
 
@@ -110,6 +114,9 @@ data in this kit.
   recurrence, exception or escalation route, closure reviewer, and status.
 - [ ] The operating-review decision and limits are recorded in approved customer
   records.
+- [ ] The observability, cost-attribution, and alerting/drift decision is
+  recorded or backlogged using
+  `templates/technical-decision-record.template.md`.
 - [ ] If quality, latency, or cost questions are in scope, the optional
   quality-cost-latency addendum is referenced in customer records.
 
@@ -132,6 +139,7 @@ the customer's approved engineering and change process.
   [Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview),
   and [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management)
   explain the product signals that can inform a future operating review.
-- **Hand-off:** the review definition and remediation references enter the
-  customer governance cadence. They do not amend S9 catalog records or certify a
-  control.
+- **Hand-off:** the review definition, technical decision record
+  (`templates/technical-decision-record.template.md`), and remediation
+  references enter the customer governance cadence. They do not amend S9 catalog
+  records or certify a control.

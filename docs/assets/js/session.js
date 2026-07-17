@@ -132,8 +132,11 @@
   }
 
   function appendReviewed(body, session, chapterSlug) {
-    const reviewed = chapterSlug === 'concepts' ? session.conceptsReviewed : session.reviewed;
-    const reviewedNote = chapterSlug === 'concepts' ? session.conceptsReviewedNote : session.reviewedNote;
+    const reviewedByChapter = {
+      concepts: [session.conceptsReviewed, session.conceptsReviewedNote],
+      technical: [session.technicalReviewed, session.technicalReviewedNote],
+    };
+    const [reviewed, reviewedNote] = reviewedByChapter[chapterSlug] || [session.reviewed, session.reviewedNote];
     if (!reviewed) return;
     const note = reviewedNote ? ` · ${FP.renderInlineMd(reviewedNote)}` : '';
     const el = document.createElement('footer');

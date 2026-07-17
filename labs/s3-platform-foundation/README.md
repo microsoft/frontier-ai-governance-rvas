@@ -6,7 +6,9 @@ question, expected evidence, ownership, coverage limits, and runtime-assurance
 handoff for a bounded workload.
 
 Start with [runbook.md](runbook.md). Copy the templates to the organization's
-approved records location before entering any information. Do not place
+approved records location before entering any information. Use
+`templates/technical-decision-record.template.md` to record the platform
+topology, network-isolation, and gateway decision. Do not place
 workload data, network details, identities, credentials, event records, or
 completed evidence in this repository.
 

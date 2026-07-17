@@ -18,3 +18,6 @@ permissions, create identities, connect live integrations, or prove safe use.
 - [`templates/review-decision.template.md`](templates/review-decision.template.md)
   captures evidence references, publication readiness, lifecycle disposition,
   and owned next actions.
+- [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md)
+  captures the publication/registry, MCP-governance, and tool-authentication
+  option selected, rationale, and adoption stage.

@@ -15,3 +15,7 @@ the facilitator never supplies test data or operates the target.
 
 Use [`runbook.md`](runbook.md) for authorization, the customer-operated run,
 native-scorecard handling, and evidence/decision handoff.
+
+Use [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md)
+to record the red-team approach, scope/authorization, remediation-routing choice,
+and adoption stage in the customer's approved records system.

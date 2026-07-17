@@ -61,7 +61,8 @@ const SESSION_CHAPTERS = [
     label: 'Prepare',
     heading: /^(?:1\. Outcome|2\. Prerequisites|3\. Why)/i,
   },
-  { slug: 'concepts', label: 'Concepts' },
+  { slug: 'concepts', label: 'Concepts', standalone: true },
+  { slug: 'technical', label: 'Technical decisions', standalone: true, optional: true },
   {
     slug: 'co-deliver',
     label: 'Co-deliver',
@@ -122,6 +123,7 @@ const ROUTES = {
 SESSIONS.forEach((s) => {
   ROUTES[`${s.slug}/index.md`] = `session.html?s=${s.slug}`;
   ROUTES[`${s.slug}/concepts.md`] = `session.html?s=${s.slug}&chapter=concepts`;
+  ROUTES[`${s.slug}/technical.md`] = `session.html?s=${s.slug}&chapter=technical`;
 });
 
 const ADMONITION_MAP = {
@@ -327,7 +329,7 @@ function splitRunbookChapters(md, sessionSlug) {
     body: md.slice(match.index, matches[index + 1]?.index).trim(),
   }));
 
-  return SESSION_CHAPTERS.filter((chapter) => chapter.slug !== 'concepts').map((chapter) => {
+  return SESSION_CHAPTERS.filter((chapter) => !chapter.standalone).map((chapter) => {
     const body = sections
       .filter((section) => chapter.heading.test(section.heading))
       .map((section) => section.body);
@@ -375,6 +377,11 @@ function read(rel) {
   return fs.readFileSync(abs, 'utf8');
 }
 
+function readOptional(rel) {
+  const abs = path.join(DOCS, rel);
+  return fs.existsSync(abs) ? fs.readFileSync(abs, 'utf8') : null;
+}
+
 function main() {
   fs.rmSync(PAGES_OUT, { recursive: true, force: true });
   fs.mkdirSync(PAGES_OUT, { recursive: true });
@@ -412,14 +419,34 @@ function main() {
       url: `session.html?s=${s.slug}&chapter=concepts`,
       text: toPlainText(concepts.md),
     });
+    const technicalRaw = readOptional(`${s.slug}/technical.md`);
+    const technical = technicalRaw == null ? null : transform(technicalRaw, `${s.slug}/technical.md`);
+    if (technical) {
+      fs.writeFileSync(path.join(PAGES_OUT, `${s.slug}-technical.md`), technical.md);
+      searchDocs.push({
+        id: `${s.slug}-technical`,
+        type: 'session',
+        title: `${s.code} · ${clean}`,
+        section: 'Technical decisions',
+        session: s.code,
+        url: `session.html?s=${s.slug}&chapter=technical`,
+        text: toPlainText(technical.md),
+      });
+    }
+    const chapterMeta = SESSION_CHAPTERS
+      .filter((chapter) => chapter.slug !== 'technical' || technical)
+      .map(({ slug, label }) => ({ slug, label }));
     sessionMeta.push({
       slug: s.slug, code: s.code, title: clean, fullTitle: title || `${s.code} · ${clean}`,
       accent: s.accent, persona: s.persona, nist: s.nist, outcome: s.outcome, optional: Boolean(s.optional),
-      hasMermaid: hasMermaid || concepts.hasMermaid,
-      chapters: SESSION_CHAPTERS.map(({ slug, label }) => ({ slug, label })),
+      hasMermaid: hasMermaid || concepts.hasMermaid || Boolean(technical && technical.hasMermaid),
+      chapters: chapterMeta,
       reviewed, reviewedNote, conceptsTitle: concepts.title || `${s.code} · ${clean} Concepts`,
       conceptsHasMermaid: concepts.hasMermaid, conceptsReviewed: concepts.reviewed || reviewed,
       conceptsReviewedNote: concepts.reviewedNote,
+      technicalTitle: technical ? (technical.title || `${s.code} · ${clean} Technical decisions`) : undefined,
+      technicalReviewed: technical ? (technical.reviewed || reviewed) : undefined,
+      technicalReviewedNote: technical ? technical.reviewedNote : undefined,
     });
   }
 

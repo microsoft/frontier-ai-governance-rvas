@@ -41,7 +41,9 @@ does not receive credentials, run the request, or accept the proof.
    accepted gateway enforcement until that review is complete.
    Copy `templates/gateway-correlation-review.template.md` into the approved
    records system to capture the manifest reference, correlation decision,
-   interpretation owner, and accepted/rejected/deferred/blocked outcome.
+   interpretation owner, and accepted/rejected/deferred/blocked outcome. Copy
+   `templates/technical-decision-record.template.md` when the customer records
+   the runtime-safety, threat-response, or gateway-correlation option selected.
 4. Record the runtime-control implementation backlog in the correlation review:
    gateway/APIM route or policy remediation, Content Safety or Prompt Shields
    review, telemetry correlation and retention, SOC/reviewer route, identity or

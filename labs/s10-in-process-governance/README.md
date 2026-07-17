@@ -35,7 +35,10 @@ Use
 [`templates/applicability-review.template.md`](templates/applicability-review.template.md)
 in the approved customer records system to record whether an in-process
 tool-call decision point is meaningful and what evidence a future engineering
-assessment would need.
+assessment would need. Use
+[`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md)
+to record the chosen boundary option (gateway-only, in-process, both, or not
+applicable), the rationale, and the adoption stage.
 
 The audit record shows governance attempts and decisions only. It does not
 attest to downstream tool execution, action success, or tamper evidence. Tamper

@@ -55,6 +55,8 @@ between component diagnostics and gateway enforcement evidence.
     Do not run against production traffic. A component diagnostic is not
     gateway-path proof.
 
+Review the [Technical decisions](technical.md) chapter first: it holds the content-safety, threat-detection, and gateway-correlation option menus and selection criteria this walkthrough decides between.
+
 **Timebox:** 90 minutes. **Entry condition:** the customer has an approved
 non-production gateway route, safe test scope and authentication handling,
 customer record locations, and named platform, security, evidence, and decision
@@ -69,11 +71,12 @@ owners. Stop before the request if any of these are absent.
 
 1. **Set the room and orient — 20 min.** The facilitator records the pilot
    question: **"Did this approved non-production request go through the approved
-   gateway path with a correlation we can review?"** The customer confirms the
+   gateway path with a correlation we can review, and which runtime-control
+   decision does that evidence support?"** The customer confirms the
    non-production posture, expected policy behavior, stop condition, and evidence
-   locations. Ask: **"Which gateway route and policy are in scope?"** **"Who can
-   interpret telemetry and accept this proof?"** **"What result makes us stop
-   instead of guessing enforcement?"**
+   locations. Ask: **"Which gateway route, policy, and runtime-control option are
+   in scope?"** **"Who can interpret telemetry and accept this proof?"** **"What
+   result makes us stop instead of guessing enforcement?"**
 2. **Customer-operated gateway request — 30 min.** The platform operator performs
    the one request in the runbook. The facilitator observes the boundary without
    handling credentials or payloads. The customer records only safe references to
@@ -114,7 +117,9 @@ owners. Stop before the request if any of these are absent.
 5. **Hand over — 10 min.** Read back the manifest reference, telemetry reference,
    correlation identifier, reviewer interpretation, decision reference, and next
    owner. Hand only an accepted `pass` gateway-proof reference to S4. The gateway
-   proof remains the runtime artifact.
+   proof remains the runtime artifact. Record the selected option, rationale,
+   and adoption stage with
+   `labs/s6-security-runtime/templates/technical-decision-record.template.md`.
 
 **Blockers:** no approved non-production route, unsafe authentication handling,
 missing telemetry reviewer or evidence location, production-only availability, or
@@ -130,6 +135,8 @@ continue.
 - [ ] Customer platform and security owners accepted it after telemetry
   correlation.
 - [ ] The approved evidence system contains the decision and S4 handoff reference.
+- [ ] The technical decision record captures selected runtime-safety,
+  threat-response, and gateway-correlation options, if decided.
 
 No raw prompt, document, endpoint, credential, response, or telemetry is saved in
 the kit or public documentation.

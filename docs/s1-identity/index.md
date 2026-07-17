@@ -79,7 +79,8 @@ don't fall back to a directory query.
 
 **What the customer actually does:** the identity admin opens a real list of
 their agents and reviews it; then the governance lead decides how to handle any
-missing owners or gaps.
+missing owners or gaps. Where an agent needs an identity path or runtime access
+decision, use the [Technical decisions](technical.md) chapter's option menus.
 
 1. **Agree what the list can and can't tell you** *(15 min)* — the facilitator
    asks: **"Which agents does this source actually cover, and which does it
@@ -110,8 +111,11 @@ missing owners or gaps.
    gap: assign a missing sponsor, accept a small known risk, defer, or mark the
    source's coverage as blocked. Base it on how well the source covers the agent,
    whether there's a clear owner, how clear the lifecycle is, the access risk, and
-   who has authority. Record the list/source reference, the decision, the owner,
-   the approver, and the review date. Never copy real IDs or exports here.
+   who has authority. Where the agent's identity path or runtime access is
+   undecided, choose from the [Technical decisions](technical.md) menus and record
+   it in `templates/technical-decision-record.template.md`. Record the
+   list/source reference, the decision, the owner, the approver, and the review
+   date. Never copy real IDs or exports here.
 5. **Hand off without designing controls** *(10 min)* — the facilitator reads
    back the control state (`observed`, `accepted_risk`, or `blocked`), the
    evidence reference, the next owner, and the S6 dependency. Any Conditional

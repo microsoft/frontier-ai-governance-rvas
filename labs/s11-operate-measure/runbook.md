@@ -12,7 +12,10 @@ approved records location. Stop any question with no accountable owner or
 authoritative evidence.
 
 1. Copy `templates/operating-review.template.md` and
-   `templates/remediation-closure.template.md` into approved records.
+   `templates/remediation-closure.template.md` into approved records. Copy
+   `templates/technical-decision-record.template.md` when observability-stack,
+   cost-attribution, or alerting/drift options are being selected, deferred, or
+   rejected.
 2. Define one bounded population, review period, review cadence, and decision.
    Record the evidence reference plus known coverage, attribution, and latency
    limits for each chosen question.
@@ -44,8 +47,8 @@ authoritative evidence.
    Application Insights/OpenTelemetry or Foundry observability coverage,
    alerting/SOC route, remediation validation, review cadence, FinOps/cost
    owner, quota or allocation limits, exception route, S12 handoff, recommendation,
-   confidence, assumptions, evidence reference or gap, owner, and customer
-   operating/change process.
+   confidence, assumptions, technical decision record reference, evidence
+   reference or gap, owner, and customer operating/change process.
 
 No raw telemetry, identifiers, prompts, responses, costs, or business data
 belong in this kit. S11 does not query live data or make a monitoring,

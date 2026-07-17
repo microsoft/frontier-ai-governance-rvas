@@ -65,6 +65,8 @@ reasoning behind the record and its boundaries.
     catalog entries, grant permissions, create identities, connect to a live
     service, or use a catalog record as proof of safe use.
 
+Review the [Technical decisions](technical.md) chapter first: it holds the publication/registry, MCP-governance, and tool-authentication option menus and selection criteria this walkthrough decides between.
+
 **Timebox:** 90 minutes. **Entry condition:** the bounded candidate list,
 customer evidence location, required owners, and decision authority are available.
 Stop the affected candidate if its owner, source, classification, caller
@@ -79,7 +81,7 @@ each entry.
 | Set boundary and decision question | 10 min | Name the candidate set, intended decision, records location, and authorities. | **"What is in scope, what is out of scope, and what would make us stop?"** Record references and expected signals only. |
 | Establish catalog ownership and identity | 15 min | Use the offline catalog template to name the accountable owner, technical owner, candidate identifier, version, intended consumers, and source reference. | **"Who owns the lifecycle decision, and is this the exact version under review?"** Unknown ownership or version is a finding. Do not infer it. |
 | Decide naming and workspace placement | 15 min | Record the proposed name, namespace or workspace, alternatives considered, collision or confusion risk, and accountable decision owner. | **"Can a reviewer distinguish this entry from a similarly named service?"** **"Does the workspace match the classification and audience?"** Do not create or move any workspace item. |
-| Classify and bound authority | 20 min | Record classification, data-handling limits, caller identity reference, authentication expectation, delegated or non-delegated authority, allowed actions, prohibited actions, and boundary conditions. | **"Which authority is actually needed?"** **"Can we prove the caller identity separately from the authority scope?"** A broad or unknown scope is a finding, not an approval. |
+| Classify and bound authority | 20 min | Record classification, data-handling limits, caller identity reference, authentication expectation, delegated or non-delegated authority, allowed actions, prohibited actions, and boundary conditions. | **"What is the minimum authority this caller needs for this exact version and use?"** **"Can we prove the caller identity separately from the authority scope?"** A broad or unknown scope is a finding, not an approval. |
 | Apply publication and lifecycle criteria | 20 min | Compare the record with the publication criteria, record evidence references and gaps, then choose proposed, publish-ready, hold, suspended, or withdrawn. | **"Which criterion has evidence?"** **"What event triggers suspension or withdrawal?"** Publish-ready is a decision state, not an instruction to publish. |
 | Decide and hand over | 10 min | The decision owner accepts, defers, rejects, suspends, or withdraws the stated disposition and assigns every gap. | **"Who owns each next action, and when is the next review?"** Read back only safe references, decision, owner, date, and remaining risk. |
 
@@ -111,8 +113,10 @@ customer keeps the completed offline templates in its approved records system.
 
 The handoff states the candidate identifier and version, reviewed scope, observed
 facts or no result, evidence references, disposition, remaining gaps, owner, due
-date, next review, and required customer change. A template, facilitator note, or
-catalog entry is not proof that the candidate can be used safely.
+date, next review, required customer change, and any technical decision record
+captured in `templates/technical-decision-record.template.md`. A template,
+facilitator note, or catalog entry is not proof that the candidate can be used
+safely.
 
 ### Blocker pathways
 

@@ -22,7 +22,8 @@ records in this kit.
 
 ## Catalog stewardship and explicit normalization
 
-Copy `templates/catalog-stewardship.template.md` and
+Copy `templates/catalog-stewardship.template.md`,
+`templates/technical-decision-record.template.md`, and
 `assessment/closeout-backlog.md` into approved records before the session.
 
 - [ ] The catalog uses `rvas.s9.control-plane-registry.v1` and contains

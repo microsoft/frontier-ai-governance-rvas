@@ -18,9 +18,13 @@ the handoff.
    proof after correlating its `correlation_id` with gateway telemetry. A passed
    request without this acceptance is not an S7 entry condition.
 3. The customer assurance owner copies
+   `templates/technical-decision-record.template.md` into the approved customer
+   records system to record the selected evaluation approach, release-gate
+   mechanism, performance-evidence path, alternatives considered, and
+   verified-status caveats. Then the owner copies
    `templates/evaluation-plan-review.template.md` into the approved customer
    records system to record evaluation coverage, limits, interpretation owners,
-   and release-decision use. Then the owner copies
+   and release-decision use. They also copy
    `templates/assurance-outcome.template.json` into their approved records
    system, records only references (not raw evidence), and selects `continue`
    or `hold`.
@@ -35,29 +39,30 @@ the handoff.
    copies `templates/performance-test-plan.template.md` to record the workload
    model, first-token / end-to-end / throughput / error-saturation targets, and
    environment-fidelity limits (quota/PTU, stubs versus live, data parity). The
-   load engine (for example Azure Load Testing) is customer-run and referenced,
-   not operated by this kit; production reconciliation of any drift hands off to
-   S11.
+   load engine (for example Azure Load Testing, after current service status,
+   region, quota, and pricing are verified) is customer-run and referenced, not
+   operated by this kit; production reconciliation of any drift hands off to S11.
 4. Validate the completed record against
    `contracts/assurance-handoff.schema.json`. The assurance exit is complete
    only when the S6 decision is `accepted` and the customer has recorded the
    outcome and decision reference.
 
 Customer teams may run Foundry Evaluations or introduce a CI gate separately in
-their own approved delivery process. Those results do not replace the accepted
-S6 gateway proof and are not produced by this kit. Use the evaluation-plan
-review to distinguish quality, groundedness, safety, tool-use, regression,
-human-review, and unsupported-scope questions. A score or metric is useful only
-with its bounded population, version, evaluator, coverage limit,
-interpretation owner, and release decision.
+their own approved delivery process after current status, availability, and
+scope are verified. Those results do not replace the accepted S6 gateway proof
+and are not produced by this kit. Use the evaluation-plan review to distinguish
+quality, groundedness, safety, tool-use, regression, human-review, and
+unsupported-scope questions. A score or metric is useful only with its bounded
+population, version, evaluator, coverage limit, interpretation owner, and
+release decision.
 
 Record the evaluation implementation backlog in the evaluation-plan review:
-Foundry evaluation target, evaluator type or scorecard, dataset/scenario owner,
-trace source, unsupported scope, evaluation-suite version, continuous-evaluation
-cadence where available, release threshold, future CI/CD or release-gate owner,
-rollback/observation route, S8 red-team dependency, S11 operating-review
-handoff, recommendation, confidence, assumptions, evidence reference or gap,
-owner, and customer process.
+Foundry evaluation target (after current status and scope are verified),
+evaluator type or scorecard, dataset/scenario owner, trace source, unsupported
+scope, evaluation-suite version, continuous-evaluation cadence where available,
+release threshold, future CI/CD or release-gate owner, rollback/observation
+route, S8 red-team dependency, S11 operating-review handoff, recommendation,
+confidence, assumptions, evidence reference or gap, owner, and customer process.
 
 **Interpret and decide:** retain only safe references to the accepted S6 proof,
 evaluation plan, assurance owner, and decision. Choose `continue` only when the

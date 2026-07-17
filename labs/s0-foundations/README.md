@@ -15,6 +15,7 @@ completed scorecard, roadmap, names, or evidence to this repository.
 - `assessment/score.py` — offline weighted-score and roadmap generator.
 - `assessment/compare.py` — offline S0-to-S12 comparison tool.
 - `coe/operating-model.md` and `coe/raci.csv` — blank ownership templates.
+- `templates/technical-decision-record.template.md` — blank record for the chosen option, alternatives considered, rationale, owner, and adoption stage.
 
 ## Baseline schema
 

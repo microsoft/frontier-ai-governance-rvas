@@ -16,6 +16,7 @@ certify compliance.
 
 ```text
 templates/
+  technical-decision-record.template.md
   portfolio-review.template.md
   exception-register.template.md
   governance-roadmap.template.md

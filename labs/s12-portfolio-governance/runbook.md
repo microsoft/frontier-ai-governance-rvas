@@ -27,10 +27,13 @@ defer.
 5. Use `governance-roadmap.template.md` to state investment criteria,
    dependencies, owners, and decision status. Name the S0 domain or question
    to revisit, evidence needed, and next review date.
-6. The decision owner approves, defers, or rejects the portfolio roadmap.
+6. Use `technical-decision-record.template.md` to record the portfolio reporting
+   pattern, prioritization/reinvestment model, continuous-improvement cadence,
+   alternatives rejected or deferred, and adoption stage.
+7. The decision owner approves, defers, or rejects the portfolio roadmap.
    Retain the decision, residual-risk disposition, limitations, and references
    in the approved records system.
-7. Record the portfolio implementation backlog: investment priority,
+8. Record the portfolio implementation backlog: investment priority,
    exception concentration, policy-evolution question, budget/funding gate,
    owner readiness, maturity reassessment, S0 feedback, governance cadence,
    recommendation, confidence, assumptions, evidence reference or gap, owner,

@@ -56,6 +56,8 @@ Read the [S12 Concepts](concepts.md) before delivery.
 
 ## 4. Co-delivery walkthrough
 
+Review the [Technical decisions](technical.md) chapter first: it holds the portfolio-reporting, prioritization/reinvestment, and continuous-improvement option menus and selection criteria this walkthrough decides between.
+
 !!! warning "Evidence-first and report-only"
     Work from approved references only. Do not import raw records, connect to
     live systems, query data, create a dashboard, make a production change, or
@@ -85,7 +87,7 @@ Use these portfolio interpretation aids:
 | Investment priority | What risk, dependency, evidence strength, expected governance value, effort, and decision status support the ranking? |
 | Maturity movement | Which S0 question, scope, and evidence reference support movement, no movement, or unresolved status? |
 | Policy evolution | Is there a gap, conflict, obsolete assumption, or clarification need that requires a separate policy decision? |
-| S0 feedback | Which baseline domain should be reassessed, and what evidence must be available before that review? |
+| S0 feedback | Which S0 baseline domain should be re-baselined, what changed since S0, and what evidence must be available before that review? |
 
 ### S0 feedback loop
 
@@ -129,7 +131,10 @@ organization's separate authority, change, and records processes.
   [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management),
   [Fine-tune Microsoft Foundry models](https://learn.microsoft.com/en-us/azure/foundry/how-to/fine-tune-models),
   and [NIST AI RMF](https://www.nist.gov/itl/ai-risk-management-framework) can
-  inform roadmap questions. They do not approve investment or certify compliance.
+  inform roadmap questions after the customer verifies current status,
+  availability, and limitations. They do not approve investment or certify
+  compliance.
 - **Hand-off:** the approved portfolio roadmap feeds the next S0 baseline review.
   Exceptions and policy proposals stay in their accountable governance or change
-  paths until separately decided.
+  paths until separately decided. Record the portfolio technical decision in
+  `templates/technical-decision-record.template.md`.

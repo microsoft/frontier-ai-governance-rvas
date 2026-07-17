@@ -18,8 +18,9 @@ environment access, or collection of organization data is part of this runbook.
 
 ## Offline review sequence
 
-1. Copy both templates from `templates/` to the approved records location. Keep
-   the copies blank until the organization chooses what may be recorded there.
+1. Copy all three templates from `templates/` to the approved records location. Keep
+   the copies blank until the organization chooses what may be recorded there,
+   including `templates/technical-decision-record.template.md`.
 2. State the workload boundary and decision. Record expected trust boundaries,
    private-connectivity assumptions, ingress and egress, hybrid dependencies,
    identity boundaries, telemetry coverage, and known limits. Use references
@@ -37,7 +38,7 @@ environment access, or collection of organization data is part of this runbook.
    expectations, limits, open gaps, stop conditions, and decision reference.
    Runtime assurance decides whether and how to perform later authorized
    observation.
-7. Record the platform implementation backlog: landing-zone readiness,
+7. Complete the technical decision record, then record the platform implementation backlog: landing-zone readiness,
    private connectivity, gateway/APIM route, API Center/access contract,
    identity boundary, telemetry plumbing, S6 runtime-proof dependency, and
    customer architecture/security/change process. Include recommendation,

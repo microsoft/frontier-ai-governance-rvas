@@ -17,7 +17,10 @@ Use
 [`templates/gateway-correlation-review.template.md`](templates/gateway-correlation-review.template.md)
 in the approved customer records system to record platform and security
 reviewer interpretation of the manifest, telemetry correlation, and acceptance
-decision.
+decision. Use
+[`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md)
+to record the runtime-safety, threat-response, and gateway-correlation option
+selected, the rationale, and the adoption stage.
 
 ## Workshop alignment
 
@@ -32,5 +35,6 @@ correlate it and decide whether the canonical gateway proof is accepted.
 The customer platform and security owners correlate the manifest's
 `correlation_id` with their gateway telemetry and record an accept, reject, or
 blocked decision in their approved evidence system. Only an accepted, `pass`
-gateway proof may be handed to S4. Do not commit the manifest or customer
-records to this repository.
+gateway proof may be handed to S4. Keep the technical decision record with the
+customer's approved evidence. Do not commit the manifest or customer records to
+this repository.

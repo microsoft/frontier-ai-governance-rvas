@@ -15,6 +15,7 @@ records only in the customer's approved records system.
 - [`runbook.md`](runbook.md) - entry point for the customer-operated review.
 - [`review-checklist.md`](review-checklist.md) - facilitator-ready review,
   evidence-reference, decision, and handoff checklist.
+- [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md) - records the chosen option, alternatives, rationale, owner, and adoption stage.
 
 ## Prerequisites
 
@@ -36,8 +37,9 @@ records only in the customer's approved records system.
    customer-owned **report-only** change review.
 5. Customer reviews the Audit/eDiscovery investigation route, scope, retention,
    and owner.
-6. Decision owner uses the checklist decision tree, then hands evidence
-   references, state, owner, date, and S3/S5/S6 dependencies forward.
+6. Decision owner uses the checklist decision tree, records the technical
+   decision in `templates/technical-decision-record.template.md`, then hands
+   evidence references, state, owner, date, and S3/S5/S6 dependencies forward.
 
 This session never deploys, reverses, or validates a Purview policy. Any
 customer policy change follows the customer's standard change, rollback, and

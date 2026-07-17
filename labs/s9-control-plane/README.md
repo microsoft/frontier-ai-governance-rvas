@@ -7,5 +7,6 @@ closeout cadence. It does not connect to live data, infer records, write
 catalog data, execute a lifecycle change, or retain customer evidence.
 
 Use [`runbook.md`](runbook.md) for the required input shape, reconciliation,
-triage, closeout, and blocker pathways. Copy blank templates to approved
-records; samples are illustrative only.
+triage, closeout, and blocker pathways. Copy blank templates, including
+`templates/technical-decision-record.template.md`, to approved records; samples
+are illustrative only.

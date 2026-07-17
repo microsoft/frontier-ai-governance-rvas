@@ -73,6 +73,10 @@ hash-chain consistency, and what real tamper evidence requires.
 
 ## 4. Co-delivery walkthrough
 
+Review the [Technical decisions](technical.md) chapter first: it holds the
+boundary option menu (gateway-only, in-process policy, defense in depth, or not
+applicable) and the selection criteria this walkthrough decides between.
+
 **Timebox:** 90 minutes. **Facilitator:** keeps the work offline and keeps the
 evidence wording honest. The facilitator does not install AGT, change code, or
 accept risk. **AI developer/maker:** explains one candidate agent-tool boundary.
@@ -87,7 +91,7 @@ code, endpoints, tenant data, credentials, production policy, or raw records.
 
 | Activity | Time | Customer operation | Facilitator prompts and interpretation |
 |---|---:|---|---|
-| Decide whether S10 applies | 20 min | Describe one action that happens immediately before a tool invocation. Name the existing gateway, data, identity, evaluation, and runtime controls. | **"Is there a real place to run an in-process policy check before this tool call?"** **"Which existing control stays in place?"** If there is no candidate boundary, mark S10 not applicable for this pilot. Do not force an adoption decision. |
+| Choose the boundary option | 20 min | Describe one action immediately before a tool invocation and the delegated authority it carries. Name the existing gateway, data, identity, evaluation, and runtime controls. Then pick from the boundary menu. | **"Which boundary option fits this tool call — gateway-only, in-process, both, or not applicable — and what delegated authority makes the difference?"** **"Which existing control stays in place regardless?"** Record the choice and rationale; "not applicable" is a valid recorded decision. Do not force adoption. |
 | Review the example policy | 15 min | Open `labs/s10-in-process-governance/policies/demo-policy.json` and explain the allow, deny-default, and approval-required choices. | **"Who owns each delegated authority decision?"** **"Which action needs approval, and why?"** The file is an example, not a customer policy or a recommendation to copy into code. |
 | Run and check the offline illustration | 20 min | Run the two commands below. Confirm one allowed, denied, and approval-required simulated attempt. | **"What did the simulator evaluate?"** **"What did it not see?"** A pass means the local example has expected decisions and internally consistent hashes. It is not AGT execution, production validation, downstream success proof, or tamper evidence. |
 | Review limits and evidence needs | 20 min | Review the pinned AGT Public Preview and [known limitations](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md). Review customer needs for policy ownership, change review, records retention, and tamper evidence. | **"What evidence would a future engineering assessment need?"** **"Who owns signed immutable retention if tamper evidence is required?"** A local hash chain can be replaced and recalculated. It does not prove integrity, source, immutability, or later tampering. |
@@ -119,8 +123,9 @@ python labs/s10-in-process-governance/pipelines/run_mock.py \
 
 Reference the candidate boundary, policy review, simulator record, verification
 result, AGT source and limitations review, and S6 backlog decision in the
-customer's approved records system. Record the scope, observed result or
-no-result, limits, decision, owner, next review, and dependencies.
+customer's approved records system. Record the boundary choice and rationale in
+`templates/technical-decision-record.template.md`. Record the scope, observed
+result or no-result, limits, decision, owner, next review, and dependencies.
 
 Do not retain raw customer source code, tool arguments, credentials, tenant data,
 or production audit records in this kit. The simulator output remains labelled

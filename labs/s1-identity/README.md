@@ -8,7 +8,10 @@ tenant change.
 
 Start with [runbook.md](runbook.md). Copy
 [`templates/identity-inventory-review.template.md`](templates/identity-inventory-review.template.md)
-to the customer's approved records system before entering any information. Keep
+to the customer's approved records system before entering any information, and
+[`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md)
+to record the chosen identity path and runtime-access option, rationale, and
+adoption stage. Keep
 inventory data, object identifiers, sponsor details, exports, and evidence only
 in the customer's approved records system or generated delivery workspace.
 

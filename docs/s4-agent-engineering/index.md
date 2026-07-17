@@ -94,7 +94,7 @@ the next controlled lifecycle stage.
 |---|---:|---|---|
 | Set the scope and stop condition | 10 min | State the candidate's purpose, users, intended outcome, excluded use, and decision needed. | **"What exactly are we reviewing, and what would make us stop?"** A vague candidate is blocked. Do not broaden the session to make it fit. |
 | Classify the candidate | 10 min | Choose the closest authority archetype and describe the tool/action boundary, human involvement, and escalation path. | **"Does it advise, ask a person to confirm, act inside a fixed boundary, or coordinate other actions?"** If the authority is unclear, record an unclassified finding. Do not admit it. |
-| Compare Microsoft implementation paths | 20 min | Complete the six-path matrix: Copilot Studio, Foundry Agent Service, custom Azure service, Microsoft 365 Copilot extensibility, workflow automation, or research/prototype. | **"Which path fits the users, authority, data boundary, engineering owner, and operating model?"** Record the recommendation, confidence, assumptions, and rejected alternatives. |
+| Compare Microsoft implementation paths | 20 min | Complete the six-path matrix: Copilot Studio, Foundry Agent Service, custom Azure service, Microsoft 365 Copilot extensibility, workflow automation, or research/prototype. | **"Which path fits the users, authority, data boundary, engineering owner, and operating model?"** Use the [Technical decisions](technical.md) path matrix for selection criteria and trade-offs. Record the recommendation, confidence, assumptions, and rejected alternatives. |
 | Build the selected-path backlog | 20 min | For the recommended path, record configuration rows, owners, dependencies, evidence references, and later-session or change-process routing. | **"What must the customer configure, validate, or approve next?"** For Foundry Agent Service, cover project/model, agent type, tools, identity, runtime controls, telemetry, evaluation, red-team, catalog, and change process. Where in scope, use the model-selection, latency-budget, and token-cost-estimate records to name the owner and limitation. |
 | Review cross-cutting governance services | 15 min | Mark each relevant governance surface as applies, does not apply, unknown, or later-session item. | **"Which product control or customer process must review this path?"** Consider Entra/Agent ID, Purview, telemetry, Foundry observability, Content Safety, Power Platform DLP, M365 Copilot governance, Agent 365, API Center, and customer change records. Consideration is required; deployment is not. |
 | Decide lifecycle entry and hand off | 15 min | Admit to the next controlled lifecycle stage, defer, reject, or return for missing evidence. Name the decision owner, review date, material-change triggers, and retirement trigger. | **"What is allowed now, and what is still not allowed?"** Admission allows only the recorded non-production lifecycle activity. Production approval remains separate. |
@@ -114,9 +114,10 @@ routing, and dependencies.
 Where applicable, the engineering owner also records model and fine-tuning
 governance in `model-selection-record.template.md`, component expectations in
 `latency-budget.template.md`, and token assumptions in
-`token-cost-estimate.template.md`. After S6 and S7 references exist, the customer
-may assemble `rollout-decision-record.template.md` for its own staged change
-decision.
+`token-cost-estimate.template.md`. Record the chosen path, alternatives, and
+rationale in `technical-decision-record.template.md`. After S6 and S7 references
+exist, the customer may assemble `rollout-decision-record.template.md` for its
+own staged change decision.
 
 A blank template, facilitator note, prototype description, or planned test does
 not prove implementation quality, control operation, integration safety, or

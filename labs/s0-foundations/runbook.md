@@ -21,8 +21,9 @@ stop the affected work.
 ## 2. Create the customer copy
 
 - [ ] Customer creates a dated baseline record and copies the blank
-  `assessment/scorecard.csv`, `coe/operating-model.md`, and `coe/raci.csv`
-  there before entering customer information.
+  `assessment/scorecard.csv`, `coe/operating-model.md`, `coe/raci.csv`, and
+  `templates/technical-decision-record.template.md` there before entering
+  customer information.
 - [ ] Facilitator asks: “What proof supports a maturity score?” and “Who
   resolves a disagreement?” A template or facilitator note is not evidence.
 
@@ -53,7 +54,8 @@ stop the affected work.
   prerequisites. Record `designed`, `accepted_risk`, or `blocked`.
 - [ ] Record a foundation implementation backlog with the recommended next
   path, confidence, assumptions, rejected or deferred paths, owner, evidence
-  reference or gap, and customer process. Use the backlog to route work; do not
+  reference or gap, customer process, chosen option, alternatives considered,
+  rationale, owner, and adoption stage. Use the backlog to route work; do not
   treat it as approval to deploy or configure a Microsoft capability.
 - [ ] For each relevant capability track, mark applicability: operating model,
   Entra/Agent ID, Purview/data governance, platform/gateway/API Center,

@@ -41,12 +41,18 @@ Do not store raw customer records in this kit.
    **hold**, **reject**, **suspended**, or **withdrawn**. Publish-ready means
    the record is ready to enter the customer's separate publication process; it
    is not an instruction or proof to publish.
-5. For a material version, ownership, classification, caller identity,
+5. Copy
+   [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md)
+   when the customer needs a durable record of the publication/registry,
+   MCP-governance, or tool-authentication option selected. Record the options
+   considered, rationale, verified-status caveat, owner, and adoption stage;
+   do not configure the registry, gateway, identity, or tool.
+6. For a material version, ownership, classification, caller identity,
    authority, workspace, or dependency change, record re-review as the next
    action. For suspension or withdrawal, record the trigger, scope, action
    owner, communication reference, verification reference, and next decision.
    The customer performs any action through its approved change process.
-6. Record the tool/API implementation backlog in the catalog and decision
+7. Record the tool/API implementation backlog in the catalog and decision
    records. Include API Center or catalog registration, gateway/APIM route,
    caller identity, MCP/connector/tool implementation path, version/material
    change boundary, runtime evidence dependency, recommendation, confidence,

@@ -62,6 +62,8 @@ Read the [S0 Concepts](concepts.md) for the operating-model, maturity, risk, and
 
 ## 4. Co-delivery walkthrough
 
+Review the [Technical decisions](technical.md) chapter first: it holds the operating-model and control-framework option menus and selection criteria this walkthrough decides between.
+
 !!! warning "Offline baseline only"
     S0 makes no tenant changes or tenant queries. Copy the blank templates to
     the customer's approved record location before entering any customer data.
@@ -77,8 +79,8 @@ Read the [S0 Concepts](concepts.md) for the operating-model, maturity, risk, and
    ```bash
    python labs/s0-foundations/assessment/score.py /approved/customer/path/scorecard.csv
    ```
-   The facilitator asks: **"Does this ranking match the risk and dependencies we heard?"** and **"What must happen before S1 or S2?"** The scorer ranks lower scores first and breaks ties by total question weight. It recommends a roadmap; it does not make the decision. If the tool cannot run, keep the completed baseline reference, record the blocker, and assign remediation. Do not invent a score by hand.
-5. **Decide and hand off** *(15 min)* - the decision owner chooses the next session, defers with a date, or accepts a stated gap. The decision uses maturity evidence, business risk, accountable ownership, and prerequisites. The facilitator reads back the control state (`designed`, `accepted_risk`, or `blocked`), next owner, date, backlog item, and S1/S2 dependency. If the decision owner is missing, mark the decision deferred with an owner and review date.
+   The facilitator asks: **"Which option from the Technical decisions menus does this ranking support, and which alternative is rejected or deferred?"** and **"Which prerequisite must be owned before S1 or S2 can start?"** The scorer ranks lower scores first and breaks ties by total question weight. It recommends a roadmap; it does not make the decision. If the tool cannot run, keep the completed baseline reference, record the blocker, and assign remediation. Do not invent a score by hand.
+5. **Decide and hand off** *(15 min)* - the decision owner chooses the next session, defers with a date, or accepts a stated gap. The decision uses maturity evidence, business risk, accountable ownership, and prerequisites. The facilitator reads back the control state (`designed`, `accepted_risk`, or `blocked`), next owner, date, backlog item, S1/S2 dependency, and the reference to `templates/technical-decision-record.template.md`. If the decision owner is missing, mark the decision deferred with an owner and review date.
 
 ## 5. Verification & evidence capture
 

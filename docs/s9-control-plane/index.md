@@ -43,9 +43,11 @@ Read the [S9 Concepts](concepts.md) before delivery.
 
 **Timebox:** 90 minutes. **Roles:** facilitator, governance lead, catalog steward, evidence owner, service owner. Include identity, risk, security, or finance reviewers only when the question needs them. The facilitator protects the boundary and decision wording. The governance lead owns the closeout decision.
 
+Review the [Technical decisions](technical.md) chapter first: it holds the system-of-record, reconciliation-cadence, and change/versioning option menus and selection criteria this walkthrough decides between.
+
 | Activity | Time | Customer operation | Facilitator prompts and interpretation |
 |---|---:|---|---|
-| Set scope and decision boundary | 10 min | Select one bounded catalog population, review period, records location, and closeout decision. | **"What decision can this session support?"** **"What remains a separate change?"** Stop on missing authority or evidence. |
+| Set scope and decision boundary | 10 min | Select one bounded catalog population, review period, records location, and closeout decision. | **"Which system-of-record, reconciliation cadence, or lifecycle decision can this session support?"** **"What remains a separate customer-owned change?"** Stop on missing authority or evidence. |
 | Review catalog stewardship | 15 min | Review agent and tool entries for purpose, accountable owner, technical steward, lifecycle state, and parent relationship. | **"Who owns this entry through closure?"** **"Can a tool extend authority beyond its reviewed use?"** Unknowns are findings, not assumptions. |
 | Review lifecycle and material changes | 15 min | Identify transitions, suspensions, retirements, and material changes in scope; reference their decision and review records. | **"Was this destination permitted?"** **"Who reviewed the authority or operating-scope change?"** Do not execute the transition or remediation here. |
 | Reconcile and triage | 20 min | Run the read-only identifier comparison and review identity, ownership, lifecycle, material-review, tool-parent, and closure findings. | **"Is this a record-quality gap, a stewardship gap, or a separately governed change?"** A no-result is not a pass without scope and expected signal. |
@@ -72,7 +74,7 @@ python labs/s9-control-plane/scripts/reconcile-registry.py \
 
 ### Results, evidence, and handoff
 
-Reference, do not copy, the baseline and exit scorecards, catalog record, identity inventory, reconciliation report, lifecycle and material-change decisions, validation records, and closeout decision. The handoff records scope, observed result or no-result, interpretation, decision, owner, next review, and dependency. Samples, local tool output, and facilitator notes are not proof of an operating control.
+Reference, do not copy, the baseline and exit scorecards, catalog record, identity inventory, reconciliation report, lifecycle and material-change decisions, validation records, technical decision record (`templates/technical-decision-record.template.md`), and closeout decision. The handoff records scope, observed result or no-result, interpretation, decision, owner, next review, and dependency. Samples, local tool output, and facilitator notes are not proof of an operating control.
 
 Save only safe references in `04-operate/evidence-register.json` and the closeout decision in `04-operate/decision-register.json`, in the generated delivery workspace.
 
