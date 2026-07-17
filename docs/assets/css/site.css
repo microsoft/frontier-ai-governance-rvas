@@ -46,6 +46,29 @@
 }
 .hero .hero-mod-card .mod-name { font-size: 0.92rem; line-height: 1.25; }
 
+/* ── Executive evidence flow ──────────────────────────────────────── */
+.hero-proof-flow {
+  margin: 0;
+  padding: clamp(12px, 2vw, 22px);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: var(--r-lg);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05)),
+    rgba(3, 34, 84, 0.2);
+  box-shadow: 0 20px 48px -28px rgba(0, 13, 38, 0.8);
+}
+.hero-proof-flow img {
+  width: 100%;
+  border-radius: calc(var(--r-lg) - 6px);
+  background: #fff;
+}
+.hero-proof-flow figcaption {
+  margin: 12px 4px 2px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
 /* ── Session cards (home + related) ──────────────────────────────── */
 .session-grid {
   display: grid;
