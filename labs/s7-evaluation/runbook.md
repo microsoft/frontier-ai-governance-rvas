@@ -24,6 +24,13 @@ the handoff.
    `templates/assurance-outcome.template.json` into their approved records
    system, records only references (not raw evidence), and selects `continue`
    or `hold`.
+   Where quality thresholds are in scope, the assurance owner also copies
+   `templates/quality-measurement-plan.template.md`, records customer-owned
+   dimensions, evaluator options, coverage limitations, threshold governance,
+   and baseline references, then validates the threshold decision against
+   `contracts/quality-threshold-decision.schema.json`. Ask which evaluators are
+   universal versus project-gated, who proposes and approves the threshold, and
+   which population is not covered.
 4. Validate the completed record against
    `contracts/assurance-handoff.schema.json`. The assurance exit is complete
    only when the S6 decision is `accepted` and the customer has recorded the
@@ -38,11 +45,12 @@ with its bounded population, version, evaluator, coverage limit,
 interpretation owner, and release decision.
 
 Record the evaluation implementation backlog in the evaluation-plan review:
-Foundry evaluation target, evaluator or scorecard, dataset/scenario owner,
-trace source, unsupported scope, release threshold, future CI/CD or release
-gate owner, rollback/observation route, S8 red-team dependency, S11
-operating-review handoff, recommendation, confidence, assumptions, evidence
-reference or gap, owner, and customer process.
+Foundry evaluation target, evaluator type or scorecard, dataset/scenario owner,
+trace source, unsupported scope, evaluation-suite version, continuous-evaluation
+cadence where available, release threshold, future CI/CD or release-gate owner,
+rollback/observation route, S8 red-team dependency, S11 operating-review
+handoff, recommendation, confidence, assumptions, evidence reference or gap,
+owner, and customer process.
 
 **Interpret and decide:** retain only safe references to the accepted S6 proof,
 evaluation plan, assurance owner, and decision. Choose `continue` only when the

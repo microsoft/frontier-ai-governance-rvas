@@ -66,7 +66,8 @@ records. Include specialists only where their question is in scope.
 | Activity | Time | Customer operation | Facilitator prompts and interpretation |
 |---|---:|---|---|
 | Set the operating question | 10 min | Select one bounded population, review period, decision, owners, and records location. | “What decision can this review support?” “What is explicitly out of scope?” Stop if the question has no owner or authoritative evidence. |
-| Map evidence coverage | 15 min | Record evidence references, population and time coverage, exclusions, latency, and attribution limits for each selected question. | “What can this record not support?” Missing coverage is a finding, not zero risk or cost. |
+| Map evidence coverage | 15 min | Record evidence references, population and time coverage, exclusions, latency, and attribution limits for each selected question. | “What can this record not support?” For Foundry workloads, ask which project, deployment, agent identifier, token-attribution method, evaluator type, and version the evidence covers. Missing coverage is a finding, not zero risk or cost. |
+| Review quality, latency, and cost trends (optional) | Within the 20 min review-question activity | Where in scope, complete the quality-cost-latency addendum using bounded prior/current references instead of duplicating the relevant quality or cost question. | “What alternative explains the change?” “Who owns the spend decision?” A trend is an operating signal, not an assurance exit. |
 | Define balanced review questions | 20 min | Select only relevant coverage, reliability, risk, quality, cost ownership, adoption, human-review, and business-outcome questions. | “Who interprets this?” “What decision follows?” Do not turn a category into a mandatory metric or target. |
 | Form drift hypotheses and routes | 15 min | Record observable drift hypotheses, alternative explanations, evidence limits, test or observation plan, owner, and escalation trigger. | “What would challenge this hypothesis?” “When does it need escalation?” A hypothesis is not a confirmed cause. |
 | Define remediation and exceptions | 15 min | Record finding ownership, target date, validation and recurrence approach, exception expiry, escalation route, and next review. | “What validates the remedy?” “Who accepts an exception?” Completion without validation is not closure. |
@@ -106,6 +107,8 @@ business data in this kit.
   recurrence, exception or escalation route, closure reviewer, and status.
 - [ ] The operating-review decision and limitations are recorded in approved
   customer records.
+- [ ] If quality, latency, or cost questions are in scope, the optional
+  quality-cost-latency addendum is referenced in customer records.
 
 ## 6. Change boundary
 

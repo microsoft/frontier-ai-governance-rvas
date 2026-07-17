@@ -1,9 +1,9 @@
 # S7 Takeaway Kit — Evaluation & Assurance
 
 S7 is an assurance handoff, not a live agent-evaluation gate. It contains a
-customer-owned evaluation-plan review template, the outcome template, and its
-contract. It does not run an evaluator, score a fixture, create local evidence,
-or block a pull request.
+customer-owned evaluation-plan review template, quality-measurement-plan
+extension, outcome template, and contracts. It does not run an evaluator, score
+a fixture, create local evidence, or block a pull request.
 
 ## Customer review
 
@@ -23,8 +23,12 @@ score, or create a CI/CD gate.
 ## Handoff
 
 Create the customer evaluation-plan review from
-`templates/evaluation-plan-review.template.md`, then create the outcome record
-from `templates/assurance-outcome.template.json` and validate its shape against
-`contracts/assurance-handoff.schema.json`. Keep the completed records, any
-evaluation outputs, and any future gate decision in the customer's approved
+`templates/evaluation-plan-review.template.md`. Where quality dimensions or
+threshold governance are in scope, add
+`templates/quality-measurement-plan.template.md` and validate the completed
+quality threshold decision against
+`contracts/quality-threshold-decision.schema.json`. Then create the outcome
+record from `templates/assurance-outcome.template.json` and validate its shape
+against `contracts/assurance-handoff.schema.json`. Keep the completed records,
+any evaluation outputs, and any future gate decision in the customer's approved
 system. Do not commit them here.

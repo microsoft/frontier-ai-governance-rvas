@@ -86,7 +86,7 @@ is absent, record a dependency and stop the affected decision; do not infer it.
 | Set the scope and stop condition | 10 min | State one candidate's purpose, users, intended outcome, excluded use, and decision sought. | “What is in scope for this review?” “What evidence or owner is required to continue?” A vague candidate is a blocker, not a reason to broaden the session. |
 | Classify the candidate | 10 min | Select the closest authority archetype and describe the proposed tool/action boundary, human involvement, and escalation path. | “Does it advise, request confirmation, act within a bounded authority, or coordinate actions?” Unclear authority is an unclassified finding, not an admission result. |
 | Compare Microsoft implementation paths | 20 min | Complete the six-path matrix: Copilot Studio, Foundry Agent Service, custom Azure service, Microsoft 365 Copilot extensibility, workflow automation, or research/prototype. | “Which path fits the authority, users, engineering ownership, data boundary, and operating model?” Record a recommendation with confidence, assumptions, and rejected alternatives. |
-| Build the selected-path backlog | 20 min | For the recommended path, record configuration backlog rows, owners, dependencies, evidence references, and later-session or change-process routing. | “What would the customer actually configure, validate, or approve next?” For Foundry Agent Service, cover project/model, agent type, tools, identity, runtime controls, telemetry, evaluation, red-team, catalog, and change process. |
+| Build the selected-path backlog | 20 min | For the recommended path, record configuration backlog rows, owners, dependencies, evidence references, and later-session or change-process routing. | “What would the customer actually configure, validate, or approve next?” For Foundry Agent Service, cover project/model, agent type, tools, identity, runtime controls, telemetry, evaluation, red-team, catalog, and change process. Where in scope, use the model-selection, latency-budget, and token-cost-estimate records to name the decision owner and limitation. |
 | Review cross-cutting governance services | 15 min | Mark each relevant governance surface as applies, does not apply, unknown, or later-session item. | “Does this path need Entra/Agent ID, Purview, telemetry, Foundry observability, Content Safety, Power Platform DLP, M365 Copilot governance, Agent 365, API Center, or a customer change record?” Consideration is mandatory; deployment is not. |
 | Decide lifecycle entry and hand off | 15 min | Admit to the next controlled lifecycle stage, defer, reject, or return for evidence. Name the decision owner, review date, material-change triggers, and retirement trigger. | “What is authorized now—and explicitly not authorized?” Admission enables only the recorded non-production lifecycle activity; production approval remains separate. |
 
@@ -99,6 +99,13 @@ evidence, product-path decision, backlog item, change record, and lifecycle
 decision. Record the scope, recommended path, assumptions, rejected
 alternatives, observed result or no-result, limitations, decision, owner, next
 review, later-session routing, and dependencies.
+
+Where applicable, the engineering owner also records model and fine-tuning
+governance in `model-selection-record.template.md`, component expectations in
+`latency-budget.template.md`, and token assumptions in
+`token-cost-estimate.template.md`. After S6 and S7 references exist, the
+customer may assemble `rollout-decision-record.template.md` for its own staged
+change decision.
 
 A blank template, a facilitator note, a prototype description, or a planned
 test does not prove implementation quality, control operation, integration
@@ -131,6 +138,8 @@ safety, or production readiness.
 - [ ] The decision states the permitted lifecycle stage, explicit exclusions,
   decision owner, review date, and dependencies.
 - [ ] Material-change triggers and retirement responsibilities are recorded.
+- [ ] Where in scope, the model-selection record, latency budget, and token-cost
+  estimate are referenced in the customer's approved records system.
 
 ## 6. Change boundary
 

@@ -59,6 +59,11 @@ parent-tool relationship, lifecycle-state fix, material-change review,
 suspension, withdrawal, retirement, recurrence check, exception escalation,
 S11 operating cadence, and S12 portfolio risk.
 
+Where an evaluation process depends on versioned datasets or evaluator
+definitions, S9 should also identify an accountable steward, version record,
+and lifecycle decision. An unowned evaluation asset is an explicit dependency,
+not proof that a future release decision remains valid.
+
 S9 does not execute catalog, identity, access, policy, or retirement changes.
 It routes them to the customer-owned steward or change process.
 

@@ -69,6 +69,8 @@ location are available. S7 stops at review if the S6 acceptance is missing.
 2. **Customer-owned assurance operation — 30 min.** The assurance owner follows
    `labs/s7-evaluation/runbook.md`: copies
    `templates/evaluation-plan-review.template.md` and
+   `templates/quality-measurement-plan.template.md` where quality dimensions or
+   thresholds are in scope, then
    `templates/assurance-outcome.template.json` into the approved customer
    records system, supplies safe references, and validates the outcome against
    `contracts/assurance-handoff.schema.json`. The facilitator may read the
@@ -91,6 +93,7 @@ location are available. S7 stops at review if the S6 acceptance is missing.
    | Tool-use or action-boundary behavior | Which allowed, denied, or escalated action was reviewed? |
    | Regression or release comparison | What changed since the prior version, and who accepts the threshold or no-result? |
    | Human review or escalation | Which reviewer decision and residual risk are recorded? |
+   | Quality dimension and threshold | Which threshold is customer-owned and approved? Who owns a regression, and what universal fallback exists if an evaluator is unavailable? |
 
    If the customer later reviews assurance trends, connect the assurance
    decision to safe references for the bounded workload, evaluation-plan or
@@ -121,6 +124,8 @@ fixture result into an exit.
 - [ ] Customer platform and security reviewers accepted the proof.
 - [ ] The assurance record conforms to the S7 handoff contract.
 - [ ] The customer records system contains the outcome and decision reference.
+- [ ] Where in scope, the quality-measurement plan and quality-threshold
+  decision are referenced alongside the evaluation-plan review.
 
 ## 6. Customer-owned rollback and handoff
 
@@ -134,7 +139,11 @@ process. The completed handoff remains customer owned.
   and evidence location before entry.
 - **Official context:** Foundry evaluation, cloud evaluation, agent evaluator,
   and observability documentation can support customer-owned evaluation plan
-  design. They do not replace the accepted gateway proof or customer decision.
+  design. When reviewing agent evaluators, state the bounded question (task
+  completion, intent resolution, tool-call accuracy, response quality, or
+  safety) and the excluded population. For a fine-tuned model, confirm whether
+  a pre/post comparison row exists. These references do not replace the
+  accepted gateway proof or customer decision.
 - **RACI:** Assurance owner = R, Governance lead = A, Platform owner and
   Security/SOC = C.
 - **Common blockers:**

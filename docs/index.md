@@ -24,6 +24,8 @@ for the 90-minute customer-led method. Use the
 [Governance capability guide](reference/governance-capability-guide.md) for
 capability context and [Platform technical guide](reference/platform-technical-guide.md)
 for platform evidence and ownership boundaries.
+Use [Quality, cost, latency, and rollout governance](reference/quality-cost-latency-guide.md)
+for the cross-session decision-record guidance.
 
 The S0 roadmap determines which sessions are in scope and their dependency
 order. S10 is applicable only where an in-process tool-call boundary exists.

@@ -34,6 +34,13 @@ strength, expected governance value, effort, timing, and accountable owner.
 The resulting order is a recommendation for authorized decision-makers, not a
 promise of benefit or an approval to spend.
 
+Model capability investments, including fine-tuning, need the same transparent
+criteria: capability gap, pre/post evaluation reference, training and inference
+cost implications, training-data governance, model-version lifecycle owner, and
+release-assurance dependency. Without those customer-held references, the item
+remains a proposal with an explicit gap. S12 does not approve training or
+deployment.
+
 ## Maturity movement describes supported change
 
 A maturity comparison is meaningful only against the same or explicitly
@@ -61,8 +68,9 @@ act through approved processes, then reassess.
 The S12 recommendation should turn the review into a dated governance roadmap.
 Typical backlog rows include recurring exception pressure, cross-session
 dependency, investment priority, policy-evolution question, budget or funding
-gate, owner readiness, maturity reassessment evidence, S0 feedback, and
-governance cadence.
+gate, owner readiness, model-version governance, fine-tuning evaluation
+dependency, Foundry project cost-accountability gap, maturity reassessment
+evidence, S0 feedback, and governance cadence.
 
 The backlog does not approve funding, modify policy, certify compliance, or
 rewrite the S0 baseline. It routes decisions to the appropriate customer
@@ -81,6 +89,16 @@ authorization, technical validation, and assurance evidence. S12 records what
 the current references can support and what remains unknown.
 
 ## Related official references
+
+| Reference | What it can inform |
+|---|---|
+| [Microsoft Foundry observability](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability) | Portfolio-level quality and cost signal planning. |
+| [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management) | Portfolio cost aggregation starting point. |
+| [Fine-tune Microsoft Foundry models](https://learn.microsoft.com/en-us/azure/foundry/how-to/fine-tune-models) | Model capability investment input; verify availability. |
+| [NIST AI RMF](https://www.nist.gov/itl/ai-risk-management-framework) | Portfolio roadmap framing. |
+
+These links inform roadmap design and do not approve investment or certify
+compliance.
 
 ## Proof improves policy through a new decision
 

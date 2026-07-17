@@ -87,6 +87,20 @@ Ask: “What would the customer actually configure, validate, or approve next?�
 Each backlog row needs an owner, evidence reference or gap, dependency, and
 later-session or customer-process route.
 
+### 3a. Record model, latency, and cost decisions
+
+- [ ] Copy the model-selection, latency-budget, and token-cost-estimate
+  templates when those questions apply.
+- [ ] Record the model capability, cost, latency, data-governance, and
+  fine-tuning assumptions as references and owned gaps.
+- [ ] Name the cost owner, latency-regression owner, training-data review owner,
+  and S7/S11 handoffs.
+
+Ask: “Which model tier is the cost owner accountable for?” “What is the
+consequence of a latency regression?” and “Is fine-tuning justified, and who
+owns the training-data review?” These records do not calculate cost, collect
+telemetry, or fine-tune a model.
+
 ## 4. Review cross-cutting governance services and test expectations
 
 1. Mark each cross-cutting governance surface as applies, does not apply,
@@ -138,6 +152,15 @@ Record the decision, permitted next stage, explicit exclusions, rationale,
 owner, approver, review date, dependencies, and evidence references. Admission
 in this runbook is never production approval.
 
+### 6a. Assemble a rollout decision when later evidence is available
+
+Copy `templates/rollout-decision-record.template.md` only when the customer is
+ready to assemble its own S4, S6, S7, S8, and S9 references. Validate the
+completed record against `../../contracts/rollout-decision.schema.json`.
+Confirm the current stage, gateway-proof and assurance references, rollback
+owner, and customer change authority. Production promotion remains a separate
+customer decision.
+
 ## Blocker pathways
 
 | If | Then |
@@ -146,3 +169,4 @@ in this runbook is never production approval.
 | Evidence is planned, partial, failed, or outside the claimed boundary | Record the limitation and defer or narrow the decision; do not represent it as a pass. |
 | A request involves code, live integration, access, tenant configuration, deployment execution, publication, or production approval | Route it to the customer's separate engineering or change process. Do not act in this session. |
 | A change affects an admitted boundary or the candidate is no longer needed | Record the trigger and require reapproval or retirement through the relevant customer process. |
+| Model, latency, cost, or rollout record lacks an accountable owner or authoritative reference | Record the gap and route it to the applicable engineering, FinOps, evaluation, or change process. |

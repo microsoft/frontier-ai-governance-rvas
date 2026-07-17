@@ -56,7 +56,7 @@ backlog should cover:
 |---|---|---|
 | Foundry project and resource boundary | Which project, subscription/resource boundary, environment, and owner would hold the agent record? | Platform or engineering process; S3 if platform foundation evidence is needed. |
 | Agent type | Is this a prompt agent, hosted agent, or existing external agent using the Responses API? | Engineering owner; architecture/change process. |
-| Model deployment | Which approved model deployment or model-access path is planned, and who owns model-operation risk? | Engineering/platform owner; S7 for evaluation-plan review. |
+| Model deployment | Which approved model deployment or model-access path is planned, and who owns model-operation risk? If fine-tuning is considered, which capability gap drives it, who owns training-data governance, what pre/post evaluation comparison is required, and which customer process owns its lifecycle? | Engineering/platform owner; S7 for evaluation-plan review and fine-tune comparison. |
 | Instructions or code package | What prompt, instruction asset, hosted-agent code package, or package review is required? | Engineering owner; customer SDLC. |
 | Tools, data, connectors, functions, or APIs | Which tools and data sources are allowed, prohibited, or pending governance review? | S5 for tool/API publication; S2 for data boundary; S6 for runtime controls. |
 | Identity and access | What Entra identity, RBAC, managed identity, service principal, OBO, or agent identity consideration applies? | S1 and customer identity process. |
@@ -70,6 +70,32 @@ backlog should cover:
 The same structure can be used for other paths, but S4 only deepens the rows
 for the selected path. Non-selected paths still need enough backlog notes to
 explain why they were deferred or rejected.
+
+## Model selection and fine-tuning are governance decisions
+
+Model choice is not only an engineering preference. It can affect capability,
+cost, latency, data residency, licensing, version ownership, and the route for
+material change. The S4 decision package therefore records the selected model
+path, assumptions, alternatives, and accountable owners.
+
+Fine-tuning is an implementation option when a bounded capability gap and
+customer-owned training-data governance justify it. It needs an explicit
+base-versus-fine-tuned evaluation comparison, model-version lifecycle owner,
+and customer SDLC and release route. S4 records those dependencies; it does not
+train, evaluate, or deploy a model. See the [quality, cost, latency, and rollout
+guide](../reference/quality-cost-latency-guide.md).
+
+## Latency and cost are governed, not only measured
+
+A latency budget records the customer expectation, component attribution,
+coverage limit, regression owner, and operating-review route. A token-cost
+estimate records assumptions, model-tier trade-offs, spend-decision owner,
+allocation limits, and FinOps handoff. Neither a trace nor a price sheet
+decides these questions by itself.
+
+Foundry tracing may provide additional context where enabled, while Application
+Insights and OpenTelemetry are general telemetry routes. S4 records the
+evidence source and its limit; S11 later reviews bounded trends and drift.
 
 ## Cross-cutting governance services are considered, not imposed
 
@@ -187,4 +213,6 @@ unowned authority boundary behind.
 
 See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
 for Foundry, Content Safety, and lifecycle sources that can inform an admission
-or material-change assessment.
+or material-change assessment. See the
+[quality, cost, latency, and rollout guide](../reference/quality-cost-latency-guide.md)
+for cross-session decision-record guidance.

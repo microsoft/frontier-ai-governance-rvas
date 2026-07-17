@@ -46,9 +46,13 @@ telemetry in this repository.
 
 | Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
 |---|---|---|---|---|---|
-| Foundry evaluation target, evaluator, scorecard, or trace source | | | | | Evaluation process |
+| Foundry evaluation target, evaluator type (task completion / intent resolution / tool call accuracy / response quality / safety), scorecard, or trace source | | | | | Evaluation process |
+| Pre/post fine-tune evaluation comparison, if a fine-tuned model is in scope | | | | | S4 model owner / evaluation process |
 | Dataset, scenario coverage, or unsupported population gap | | | | | Customer evaluation owner |
 | Release threshold, hold/continue decision, or CI/CD gate owner | | | | | Customer release process |
 | Tool-use, action-boundary, safety, or human-review evaluation | | | | | S4 / S6 / S8 |
 | Regression, rollback, observation period, or post-release verification | | | | | Customer SDLC / S11 |
 | Operating review, trend, or remediation-validation handoff | | | | | S11 |
+| Evaluation suite definition, version, and renewal trigger | | | | | Customer evaluation owner / S11 |
+| Continuous evaluation cadence, production sampling scope, and coverage owner | | | | | Customer evaluation / platform process |
+| Trace-to-dataset ownership, harvest scope, and curation review | | | | | Customer evaluation owner / S9 |

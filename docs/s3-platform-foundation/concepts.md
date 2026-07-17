@@ -78,7 +78,9 @@ S3 should recommend a foundation path with confidence and assumptions. Typical
 backlog rows include landing-zone readiness, private connectivity, APIM or AI
 gateway route, API Center/access-contract record, identity boundary, telemetry
 coverage, platform-security owner, S6 runtime-proof prerequisite, and customer
-architecture/security/change-process route.
+architecture/security/change-process route. For Foundry-hosted workloads, the
+review may also need a network-isolation question: public, managed VNet,
+bring-your-own VNet, or hybrid path, with an accountable platform owner.
 
 These rows do not deploy an accelerator, configure a gateway, test networking,
 or prove telemetry operation. They identify which platform owner and customer

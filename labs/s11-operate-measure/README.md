@@ -9,3 +9,7 @@ customer data, or implement a change.
 
 Start with [runbook.md](runbook.md). Copy blank templates to approved records
 and retain only approved references in the delivery workspace.
+
+`templates/quality-cost-latency-review.template.md` is an optional addendum for
+bounded quality trend, latency drift, and token-cost accountability questions.
+It complements rather than replaces `templates/operating-review.template.md`.

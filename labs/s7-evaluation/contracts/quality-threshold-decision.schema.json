@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rvas.delivery.quality-threshold-decision.v1",
+  "title": "RVAS quality threshold decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "evaluation_plan_reference",
+    "bounded_workload",
+    "assurance_owner_reference",
+    "threshold_decision",
+    "decision_reference"
+  ],
+  "properties": {
+    "schema": { "const": "rvas.delivery.quality-threshold-decision.v1" },
+    "evaluation_plan_reference": { "type": "string" },
+    "bounded_workload": { "type": "string" },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "threshold_reference", "threshold_owner", "evaluator_reference", "coverage_limit"],
+        "properties": {
+          "name": { "type": "string" },
+          "threshold_reference": { "type": "string" },
+          "threshold_owner": { "type": "string" },
+          "evaluator_reference": { "type": "string" },
+          "coverage_limit": { "type": "string" }
+        }
+      }
+    },
+    "assurance_owner_reference": { "type": "string" },
+    "threshold_decision": { "enum": ["approved", "provisional", "blocked"] },
+    "decision_reference": { "type": "string" },
+    "review_date": { "type": "string", "format": "date" }
+  }
+}

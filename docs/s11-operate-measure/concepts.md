@@ -28,6 +28,13 @@ subscription total, model bill, token count, trace sample, or allocation view
 can inform a question only when the workload scope, shared-cost assumptions,
 latency, exclusions, and decision owner are recorded.
 
+For Foundry-based workloads, cost evidence should identify the project, model
+deployment, agent or run identifier where available, review-period token
+counts, and shared-subscription assumptions. Subscription billing and
+project-level attribution can have different scope. Fine-tuning training cost
+is separate from inference cost, so both owners and period boundaries need
+recording when a fine-tuned model is in scope.
+
 ## Drift is a hypothesis to test
 
 An observed change in reliability, risk, quality, cost, adoption, or outcome
@@ -64,6 +71,16 @@ change a control, or close a finding without validation.
 
 ## Related official references
 
+| Reference | What it can inform |
+|---|---|
+| [Microsoft Foundry observability](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability) | Trace, token, latency, and evaluation-score coverage planning. |
+| [Azure Monitor overview](https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/overview) | Operating signal and alert-route backlog. |
+| [Application Insights overview](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview) | Trace and telemetry correlation planning. |
+| [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management) | Subscription-level attribution starting point. |
+| [Fine-tune Microsoft Foundry models](https://learn.microsoft.com/en-us/azure/foundry/how-to/fine-tune-models) | Training versus inference-cost boundary; verify availability. |
+
+These links inform backlog design, not authoritative cost records.
+
 ## Visibility must be designed before it is needed
 
 Logs, metrics, traces, and alerts can reveal different aspects of AI behavior,
@@ -75,3 +92,9 @@ portfolio is compliant.
 See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
 for Azure Monitor, Application Insights, Log Analytics, Purview Audit, and
 Foundry observability sources that can inform an operating-review backlog.
+
+For agent workloads, Foundry observability can supply per-run traces,
+token-level usage, turn latency, and production evaluation scores where the
+customer enables tracing. Record sampling, retention, population, evaluator
+type and version, and interpretation owner. A production evaluation score is
+an operating signal, not an assurance exit.

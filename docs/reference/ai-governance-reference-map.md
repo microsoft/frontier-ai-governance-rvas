@@ -49,6 +49,8 @@ framework-alignment claim in this curriculum.
 | Source | Relevant sessions | What it can inform | Stability |
 |---|---|---|---|
 | [Microsoft Foundry](https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry) | S0, S4, S7 | A customer-owned Foundry lifecycle or implementation-path backlog. | Canonical Learn |
+| [Foundry agent setup and network options](https://learn.microsoft.com/en-us/azure/foundry/how-to/configure-managed-network) | S3, S4 | Data-residency, capability-host, and network-isolation review questions. | Canonical Learn; verify availability |
+| [Foundry quota and capacity](https://learn.microsoft.com/en-us/azure/ai-services/openai/quotas-limits) | S4, S11 | Capacity, regional allocation, and cost-accountability questions. | Canonical Learn; verify service applicability |
 | [Azure Policy](https://learn.microsoft.com/en-us/azure/governance/policy/overview) | S0, S3, S6 | Resource-governance baseline and ownership questions. | Canonical Learn |
 | [Azure API Management AI Gateway](https://learn.microsoft.com/en-us/azure/api-management/genai-gateway-capabilities) | S3, S5, S6, S11 | Boundary enforcement, traffic controls, and telemetry routes. | Canonical Learn |
 | [Microsoft Agent 365](https://learn.microsoft.com/en-us/microsoft-agent-365/overview) | S0, S1, S9, S12 | Fleet registry, lifecycle, access, and portfolio-record questions. | Canonical Learn |
@@ -78,6 +80,9 @@ sessions deploys, configures, or proves the services above.
 | [Azure AI Content Safety](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/overview) | S4, S6, S7 | Safety-control and evaluation planning. | Canonical Learn |
 | [Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection) | S6, S8 | Prompt-injection context and customer-owned testing scope. | Canonical Learn |
 | [Microsoft Foundry observability and evaluation](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability) | S7, S11 | Evaluation, trace, monitoring, and coverage-planning context. | Canonical Learn |
+| [Agent Evaluators for Generative AI](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators) | S7 | Named evaluator types and bounded measurement questions. | Canonical Learn; evaluator availability varies |
+| [Fine-tune Microsoft Foundry models](https://learn.microsoft.com/en-us/azure/foundry/how-to/fine-tune-models) | S4, S7, S11, S12 | Fine-tuning decision criteria, pre/post comparison, and training versus inference-cost questions. | Canonical Learn; verify model and region support |
+| [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management) | S11, S12 | Subscription-level cost attribution and portfolio planning. | Canonical Learn |
 | [ASSERT announcement](https://devblogs.microsoft.com/foundry/build-2026-open-trust-stack-ai-agents/) | S7, S8 | Policy-driven evaluation and before/after mitigation thinking. | Contextual announcement; verify current project status |
 
 ASSERT is useful where a customer wants policy-specific evaluation scenarios,
@@ -91,6 +96,7 @@ authorized testing in a customer-owned non-production target.
 |---|---|---|---|
 | [Azure Monitor](https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/overview) | S6, S11 | Operating signal and alert-route planning. | Canonical Learn |
 | [Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview) | S6, S7, S11 | Trace/telemetry correlation and coverage limits. | Canonical Learn |
+| [Microsoft Foundry tracing and traces](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability) | S7, S11 | Per-run trace, token usage, latency, and production-evaluation signal planning. | Canonical Learn; requires customer configuration |
 | [Log Analytics](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-workspace-overview) | S6, S11 | Customer-owned log-analysis route. | Canonical Learn |
 | [Defender for Cloud](https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-cloud-introduction) | S6, S8 | Security-posture and threat-protection context. | Canonical Learn |
 | [Microsoft Defender XDR](https://learn.microsoft.com/en-us/defender-xdr/microsoft-365-defender) | S6, S8 | Incident and response-owner routing. | Canonical Learn |

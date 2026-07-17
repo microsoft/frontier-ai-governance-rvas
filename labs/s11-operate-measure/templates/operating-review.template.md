@@ -42,9 +42,9 @@
 
 | Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
 |---|---|---|---|---|---|
-| Application Insights/OpenTelemetry, Azure Monitor, or Foundry observability coverage | | | | | Platform / operations process |
+| Application Insights/OpenTelemetry, Azure Monitor, or Foundry observability coverage (per-run trace, token usage, latency per turn, or production evaluation score where available; record project, sampling, retention, and population) | | | | | Platform / operations process |
 | Alert, SOC route, incident review, or escalation path | | | | | Security/SOC process |
 | Remediation validation, recurrence check, or exception expiry | | | | | Service owner / S12 |
 | Review cadence, operating owner, or support route | | | | | Operations process |
-| FinOps cost owner, allocation, Azure Cost Management, or FinOps Toolkit view | | | | | Cost-management process |
+| FinOps cost owner, allocation, quota type, Azure Cost Management, or FinOps Toolkit view (distinguish inference from fine-tuning training cost and record project, deployment, review-period, and shared-cost assumptions) | | | | | Cost-management process |
 | Portfolio risk, investment, or policy question handoff | | | | | S12 |

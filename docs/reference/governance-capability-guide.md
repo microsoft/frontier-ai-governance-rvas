@@ -10,14 +10,14 @@ This guide maps the Microsoft capabilities used in the AI Governance curriculum 
 | Identity · S1 | Microsoft Entra Agent ID, Conditional Access, Identity Protection, Agent 365 | Agent inventory, sponsorship, lifecycle, and access posture. | Agent-ID feature and Conditional-Access availability. |
 | Data · S2 | Microsoft Purview DSPM for AI, DLP, audit, eDiscovery, and information protection | Data exposure findings, DLP testing, and retained compliance evidence. | Licensing and tenant support. |
 | Platform & trust boundaries · S3 | Azure landing-zone, network, gateway, monitoring, and security capabilities | Customer-owned platform-path and trust-boundary decision. | Region, network, feature, and ownership availability. |
-| Engineering & admission · S4 | Microsoft Foundry Agent Service, Copilot Studio / Power Platform governance, Microsoft 365 Copilot declarative agents, Entra identity/RBAC/Agent ID, Foundry evaluation and observability, Azure Monitor / Application Insights, Content Safety, Agent 365, API Center, and customer engineering/change processes | Product-anchored implementation-path recommendation, selected-path configuration backlog, cross-cutting governance-service applicability, agent admission, and material-change review. | Tenant licensing, region, feature availability, approved engineering path, and customer change authority. |
+| Engineering & admission · S4 | Microsoft Foundry Agent Service, Copilot Studio / Power Platform governance, Microsoft 365 Copilot declarative agents, Entra identity/RBAC/Agent ID, Foundry evaluation and observability, Azure Monitor / Application Insights, Content Safety, Agent 365, API Center, and customer engineering/change processes | Product-anchored implementation-path recommendation, model selection, fine-tuning governance, latency budget, token-cost estimate, rollout decision, admission, and material-change review. | Tenant licensing, region, feature availability, approved engineering path, and customer change authority. |
 | Tool/API/MCP governance · S5 | API catalog, gateway, identity, and lifecycle capabilities | Controlled publication, authority, and withdrawal decisions. | Connector, protocol, and tenant support. |
 | Runtime assurance · S6 | Defender for Cloud AI-SPM, AI Threat Protection, Azure AI Content Safety, Azure Monitor / Application Insights | Security posture, threat signals, runtime safety, gateway correlation, and response ownership. | Region, service, telemetry, and feature availability. |
-| Evaluation & release assurance · S7 | Microsoft Foundry evaluations, agent evaluators, cloud evaluation, tracing, and CI/CD integration | Customer-owned evaluation-plan review, scorecard interpretation, and release-assurance decision. | Individual evaluator availability, test-data ownership, and integration path. |
+| Evaluation & release assurance · S7 | Microsoft Foundry evaluations, agent evaluators (task completion, intent resolution, tool-call accuracy, response quality, safety), cloud evaluation, tracing, continuous evaluation where applicable, and CI/CD integration | Customer-owned evaluation-plan review, threshold governance, scorecard interpretation, and release-assurance decision. | Individual evaluator availability, test-data ownership, and integration path. |
 | Adversarial testing · S8 | PyRIT and the AI Red Teaming Agent | Authorised test scope, findings, and remediation evidence. | Red Teaming Agent availability and approved target. |
 | Control plane & lifecycle · S9 | Microsoft Agent 365, Entra Agent ID, API Center, platform telemetry | Reconcile agent, tool, identity, ownership, and lifecycle records. | Agent 365 licensing and connector status. |
 | In-process governance · S10 | Agent Governance Toolkit (AGT) | Offline illustration of application-process tool-call policy and audit evidence; adoption decision only. | Applicability, release status, and architecture fit. |
-| Operate, monitor & FinOps · S11 | Customer-held operational, security, quality, and cost evidence; Azure Monitor / Application Insights; Azure Cost Management and FinOps Toolkit where used | Operating review, drift, cost accountability, and remediation cadence. | Evidence coverage, attribution limits, and owner availability. |
+| Operate, monitor & FinOps · S11 | Customer-held operational, security, quality, and cost evidence; Azure Monitor / Application Insights; Foundry observability; Azure Cost Management and FinOps Toolkit where used | Operating review, quality/latency/cost drift, cost accountability, and remediation cadence. | Evidence coverage, attribution limits, and owner availability. |
 | Portfolio governance · S12 | Customer-held governance, risk, and portfolio records | Portfolio decision, exception review, and next roadmap. | Decision authority and records availability. |
 
 ## Implementation pathway taxonomy
@@ -50,6 +50,11 @@ Filter the following Microsoft capability categories to the session:
 | Platform, gateway, and API Center | Which landing-zone, network, gateway, API Center, access-contract, telemetry, or platform-owner backlog item is needed? |
 | Copilot Studio and Power Platform | Which environment, Managed Environment, DLP, connector, solution, ALM, publication, or monitoring decision applies? |
 | Microsoft Foundry Agent Service | Which project, model, agent type, instructions/code package, tools, identity, observability, evaluation, or publication item applies? |
+| Model selection and fine-tuning | Which model fits capability, cost, latency, and data-residency needs? Is fine-tuning justified, who owns training-data review, and which comparison is required? |
+| Quality measurement and threshold governance | Which dimensions and evaluators apply, which option is universal or Foundry-gated, and who approves thresholds and owns regressions? |
+| Latency budgeting | Which component targets, attribution limits, regression owner, and telemetry reference apply? |
+| Token cost and FinOps | Which tier, cost owner, allocation approach, quota or capacity consideration, and spend-decision route apply? |
+| Staged rollout governance | Which S4/S6/S7/S8/S9 references are assembled, and who is the customer change authority for promotion? |
 | Microsoft 365 Copilot extensibility | Which declarative-agent instructions, knowledge, actions, capabilities, metadata, distribution, or tenant-governance item applies? |
 | Runtime safety and SOC operations | Which Content Safety, prompt shield, gateway policy, runtime-control, alert, SOC contact, or remediation route applies? |
 | Evaluation and observability | Which Foundry evaluation, evaluator, scorecard, trace, release threshold, or Application Insights/OpenTelemetry item applies? |
@@ -67,8 +72,16 @@ Filter the following Microsoft capability categories to the session:
 - Purview DSPM, Defender AI-SPM, AI Threat Protection, and Prompt Shields have generally available capabilities, while individual detections and integrations may be preview.
 - The `azure-ai-evaluation` SDK is generally available, but individual
   evaluators, agent evaluators, cloud evaluation, and continuous-evaluation
-  features can vary. S7 references customer-owned evaluation work; it does not
-  run a live evaluator or create a CI/CD gate.
+  features can vary. Verify the status of named evaluator categories before
+  delivery. S7 references customer-owned evaluation work; it does not run a
+  live evaluator or create a CI/CD gate.
+- Foundry fine-tuning is available for supported models and can vary by model,
+  region, and feature. Verify support before recommending a fine-tuning path or
+  evaluation integration.
+- Foundry billing and project-level cost attribution may have scope limits.
+  Confirm available views before using them in a FinOps recommendation.
+- ASSERT policy-driven evaluation is contextual Build 2026 guidance. Verify its
+  current project and preview status before citing it in a customer backlog.
 - Microsoft Foundry Agent Service supports prompt agents, hosted agents, and
   existing external agents through the Responses API. S4 uses this distinction
   only for implementation-path and backlog planning; it does not create or

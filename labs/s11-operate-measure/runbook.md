@@ -20,6 +20,11 @@ authoritative evidence.
    adoption, human-review, and business-outcome questions. Record an
    interpretation owner and decision or escalation route. Do not infer a
    metric, target, threshold, allocation method, or outcome from the template.
+   When quality trend, latency drift, or token-cost accountability is in scope,
+   also copy `templates/quality-cost-latency-review.template.md`. It references
+   customer-held evidence only; Foundry traces are optional project-gated
+   context, and every cost observation needs an accountable spend-decision
+   owner.
 4. For a suspected change, record a drift hypothesis, alternative explanations,
    evidence limits, test or observation plan, owner, and escalation trigger.
    Do not label the hypothesis confirmed or investigate live data in this
@@ -32,7 +37,7 @@ authoritative evidence.
 7. Record the operating implementation backlog in the operating-review record:
    Application Insights/OpenTelemetry or Foundry observability coverage,
    alerting/SOC route, remediation validation, review cadence, FinOps/cost
-   owner, allocation limits, exception route, S12 handoff, recommendation,
+   owner, quota or allocation limits, exception route, S12 handoff, recommendation,
    confidence, assumptions, evidence reference or gap, owner, and customer
    operating/change process.
 
