@@ -200,13 +200,21 @@ body.on-brand-slide .deck-msft { display: none; }
 .reveal .slides section.deck-cover,
 .reveal .slides section.deck-closing {
   text-align: center;
-  display: flex;
-  height: 100%;
   padding: 0 6%;
+  height: 100%;
+}
+/* reveal sets display:block inline on the active slide, so force flex-centering
+   on the present branded slides to keep them vertically + horizontally centred. */
+.reveal .slides section.deck-cover.present,
+.reveal .slides section.deck-closing.present {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  top: 0 !important;
+  height: 100% !important;
 }
 .reveal .slides section.deck-cover .cover-inner,
 .reveal .slides section.deck-closing .closing-inner {
-  margin: auto;
   width: 100%;
   max-width: 960px;
 }
@@ -214,13 +222,16 @@ body.on-brand-slide .deck-msft { display: none; }
 .reveal .slides section.deck-cover .cover-logo {
   display: block;
   margin: 0 auto 1.1em;
-  max-height: 118px;
+  max-height: 108px;
   width: auto;
   background: none;
   border: none;
   border-radius: 0;
   padding: 0;
   box-shadow: none;
+  /* logo-full.png is a dark, transparent wordmark — render it white so it reads
+     on the dark cover / coloured closing backgrounds without a white plate. */
+  filter: brightness(0) invert(1);
 }
 .reveal .slides section.deck-cover .cover-kicker {
   font-family: var(--font-display);
@@ -257,13 +268,14 @@ body.on-brand-slide .deck-msft { display: none; }
 .reveal .slides section.deck-closing .closing-logo {
   display: block;
   margin: 0 auto 1.2em;
-  max-height: 74px;
+  max-height: 68px;
   width: auto;
   background: none;
   border: none;
   border-radius: 0;
   padding: 0;
   box-shadow: none;
+  filter: brightness(0) invert(1);
   opacity: 0.96;
 }
 .reveal .slides section.deck-closing h1.closing-title {

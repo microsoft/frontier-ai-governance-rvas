@@ -57,7 +57,7 @@
       'linear-gradient(140deg, #041a44 0%, #063a86 100%)');
     cover.innerHTML =
       '<div class="cover-inner">' +
-        '<img class="cover-logo" src="assets/img/logo-full-white.png" alt="RVAS AI Governance" />' +
+        '<img class="cover-logo" src="assets/img/logo-full.png" alt="RVAS AI Governance" />' +
         '<div class="cover-kicker">Facilitator deck</div>' +
         '<h1 class="cover-title">' + escapeHtml(heading) + '</h1>' +
         '<div class="cover-accent"></div>' +
@@ -70,7 +70,7 @@
       'linear-gradient(140deg, ' + accent + ' 0%, ' + shade(accent, 0.55) + ' 100%)');
     closing.innerHTML =
       '<div class="closing-inner">' +
-        '<img class="closing-logo" src="assets/img/logo-full-white.png" alt="" />' +
+        '<img class="closing-logo" src="assets/img/logo-full.png" alt="" />' +
         '<h1 class="closing-title">Thank you</h1>' +
         '<div class="closing-sub">Questions &amp; discussion</div>' +
         '<div class="closing-meta">' + escapeHtml(heading) + '</div>' +
