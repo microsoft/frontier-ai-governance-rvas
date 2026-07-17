@@ -125,6 +125,7 @@
       if (!res.ok) throw new Error('Could not load session chapter (' + res.status + ')');
       FP.renderMd(await res.text(), body);
       if (FP.enhanceDiagrams) FP.enhanceDiagrams(body);
+      if (FP.enhanceImages) FP.enhanceImages(body);
       appendReviewed(body, session, chapter.slug);
     } catch (e) {
       body.innerHTML = `<div class="empty" role="alert"><strong>Could not load this chapter.</strong><br>${FP.esc(e.message)}</div>`;

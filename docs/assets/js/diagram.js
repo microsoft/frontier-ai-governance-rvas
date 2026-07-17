@@ -47,4 +47,77 @@
       });
     }
   };
+
+  /* ── Image lightbox ──────────────────────────────────────────────────────
+     Makes rendered diagram images (docs/assets/diagrams/*) clickable to expand
+     in a full-screen overlay. The overlay closes on Escape or any left click. */
+  let _lb = null;
+  let _lbLastFocus = null;
+
+  function _ensureLightbox() {
+    if (_lb) return _lb;
+    const overlay = document.createElement('div');
+    overlay.className = 'fp-lightbox';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-label', 'Expanded diagram');
+    overlay.hidden = true;
+
+    const img = document.createElement('img');
+    img.className = 'fp-lightbox-img';
+    img.alt = '';
+    overlay.appendChild(img);
+    document.body.appendChild(overlay);
+
+    const close = () => {
+      if (overlay.hidden) return;
+      overlay.hidden = true;
+      document.body.classList.remove('fp-lightbox-open');
+      img.removeAttribute('src');
+      img.alt = '';
+      if (_lbLastFocus && typeof _lbLastFocus.focus === 'function') _lbLastFocus.focus();
+      _lbLastFocus = null;
+    };
+
+    // Any left click on the overlay (image included) closes it.
+    overlay.addEventListener('click', (e) => {
+      if (e.button === 0) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close();
+    });
+
+    _lb = { overlay, img, close };
+    return _lb;
+  }
+
+  function _openLightbox(src, alt, opener) {
+    const lb = _ensureLightbox();
+    lb.img.src = src;
+    lb.img.alt = alt || '';
+    _lbLastFocus = opener || null;
+    lb.overlay.hidden = false;
+    document.body.classList.add('fp-lightbox-open');
+  }
+
+  FP.enhanceImages = function (root) {
+    if (!root) return;
+    const imgs = root.querySelectorAll('img[src*="assets/diagrams/"]');
+    imgs.forEach((img) => {
+      if (img.dataset.zoomable === '1') return;
+      img.dataset.zoomable = '1';
+      img.classList.add('diagram-zoomable');
+      img.setAttribute('role', 'button');
+      img.setAttribute('tabindex', '0');
+      const label = (img.getAttribute('alt') || 'diagram').trim();
+      img.setAttribute('aria-label', 'Expand diagram: ' + label);
+      img.addEventListener('click', () => _openLightbox(img.currentSrc || img.src, img.alt, img));
+      img.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          _openLightbox(img.currentSrc || img.src, img.alt, img);
+        }
+      });
+    });
+  };
 })();

@@ -41,6 +41,7 @@
       const md = await res.text();
       FP.renderMd(md, body);
       if (FP.enhanceDiagrams) FP.enhanceDiagrams(body);
+      if (FP.enhanceImages) FP.enhanceImages(body);
       buildAside(slug, page, body);
       appendReviewed(body, page);
     } catch (e) {

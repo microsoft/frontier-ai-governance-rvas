@@ -566,3 +566,49 @@ html.search-open { overflow: hidden; }
   min-height: 1em;
 }
 .search-status:empty { display: none; }
+
+/* ── Diagram lightbox ─────────────────────────────────────────────────────
+   Rendered diagram images expand into a full-screen overlay on click.
+   Overlay closes on Escape or any left click (handled in diagram.js). */
+.diagram-zoomable {
+  cursor: zoom-in;
+  transition: filter 0.15s ease;
+}
+.diagram-zoomable:hover,
+.diagram-zoomable:focus-visible {
+  filter: brightness(1.03);
+  outline: 2px solid var(--c-gold, #c8a04a);
+  outline-offset: 3px;
+}
+body.fp-lightbox-open { overflow: hidden; }
+.fp-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4vmin;
+  background: rgba(0, 13, 38, 0.86);
+  backdrop-filter: blur(2px);
+  cursor: zoom-out;
+  animation: fp-lightbox-in 0.18s ease;
+}
+.fp-lightbox[hidden] { display: none; }
+.fp-lightbox-img {
+  max-width: 96vw;
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
+  background: #fff;
+}
+@keyframes fp-lightbox-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fp-lightbox { animation: none; }
+  .diagram-zoomable { transition: none; }
+}
