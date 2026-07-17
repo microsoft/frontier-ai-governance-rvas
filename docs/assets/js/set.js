@@ -95,12 +95,16 @@
     document.getElementById('setTray').hidden = true;
     const selectedSessions = site.sessions.filter((session) => params.ids.includes(session.slug));
     const title = params.name || 'Curated session set';
+    const countLabel = `${selectedSessions.length} selected session${selectedSessions.length === 1 ? '' : 's'}`;
 
     document.title = `${title} · Frontier AI Governance`;
+    document.getElementById('setHeading').textContent = title;
+    document.getElementById('setHeroDescription').textContent =
+      `${countLabel} from the RVAS AI Governance curriculum.`;
     document.getElementById('setView').hidden = false;
-    document.getElementById('setViewHeading').textContent = title;
+    document.getElementById('setViewHeading').textContent = 'Included sessions';
     document.getElementById('setViewDescription').textContent =
-      `${selectedSessions.length} selected session${selectedSessions.length === 1 ? '' : 's'} from the RVAS AI Governance curriculum.`;
+      'Each session remains linked to its runbook, concepts, and lab kit.';
     document.getElementById('setSessions').innerHTML = selectedSessions.map((session) => `
       <a href="${sessionUrl(session, params)}" class="session-card reveal" style="--mod-color:${FP.esc(session.accent)}">
         <div class="session-card-head">
