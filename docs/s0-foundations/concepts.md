@@ -7,7 +7,7 @@ This page explains the ideas behind S0. Read it before the workshop if the opera
 
 ## Operating model before technology
 
-![S0 flow: the operating model (who decides, who does the work, where decisions are recorded, how disagreements are resolved) becomes a CoE stub and RACI, then named ownership, then an implementation backlog that routes to S1 identity, S2 Purview evidence, S3 platform owner, S4/S6 validation, and the customer change process.](../assets/diagrams/s0-operating-model-handoff.svg)
+![Operating-model decisions become named ownership and a delivery backlog.](../assets/diagrams/s0-operating-model-handoff.svg)
 
 An operating model answers four plain questions. Who decides? Who does the work? Where are decisions recorded? How are disagreements resolved?
 
@@ -17,13 +17,14 @@ In S0, the CoE stub and RACI make ownership concrete. The goal is not a new comm
 
 The Cloud Adoption Framework for AI gives the broader sequence. Strategy and planning come before governance, security, and ongoing management.[^caf]
 
-The operating model becomes useful when the customer records real owners, decisions, and follow-up actions in its own records.
+It becomes useful when the customer records owners, decisions, and follow-up.
 
 ## The baseline becomes a work list
 
-S0 should end with a recommended foundation path, not just a maturity score.
-
-The recommendation can sequence S1 identity before S4 admission. It can prepare S2 Purview evidence before data policy work. It can assign a platform owner before S3 or S6. It can also hold a use case until sponsorship and records ownership are clear.
+S0 ends with a foundation path, not just a maturity score. It can sequence S1
+before S4, prepare S2 evidence before data policy work, assign a platform owner
+before S3 or S6, or hold a use case until sponsorship and records ownership are
+clear.
 
 Use Microsoft capability names only when they route ownership. S0 does not configure Entra, Purview, Foundry, Copilot Studio, a gateway, observability, catalog, or FinOps. It names the capability track that needs an owner, evidence source, later session, or customer change process.
 
@@ -31,7 +32,8 @@ Use Microsoft capability names only when they route ownership. S0 does not confi
 
 NIST AI RMF's **Govern** function sets culture, roles, accountability, and inventory. It supports the later work of understanding context (**Map**), measuring outcomes (**Measure**), and treating risk (**Manage**).[^nist]
 
-S0 does not configure a tenant control. It creates the conditions for later controls to be useful. The customer decides who owns an agent, who accepts risk, where evidence lives, and what happens when a use case misses the bar.
+S0 does not configure tenant controls. The customer decides agent ownership,
+risk acceptance, evidence location, and the response when a use case misses the bar.
 
 **In Prepare:** use this model when you frame the sponsor and RACI discussion. It explains why the executive sponsor and governance lead are required, not optional paperwork.
 
@@ -43,13 +45,14 @@ The discussion behind the score matters more than the number. A low score can sh
 
 S12 repeats the same assessment later. The customer compares the current state with the baseline and assigns the remaining gaps.
 
-The baseline is a prioritization tool, not an audit verdict. It helps the customer choose the next session and see whether the work changed anything.
+The baseline prioritizes the next session; it is not an audit verdict.
 
 ## Why agents change the governance problem
 
 Agents are more than chat interfaces. They can use non-human identities, retrieve enterprise data, call downstream tools, and act on behalf of a user. Those capabilities create ownership, access, and traceability gaps that older app inventories may miss.[^a365]
 
-S0 makes those gaps visible before technical sessions begin. The use-case intake and risk-classification stub should capture intended capability, data exposure, human oversight, accountable sponsor, and product name.
+S0 surfaces those gaps before technical sessions. Intake captures intended
+capability, data exposure, human oversight, accountable sponsor, and product.
 
 **Boundary:** S0 identifies and prioritizes risk. It does not replace identity controls in S1, data controls in S2, platform boundaries in S3, or validation in S4 and S5.
 

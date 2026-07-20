@@ -4,23 +4,14 @@
     Last reviewed: 2026-07-17. Verify capability, service availability, region,
     quota, and pricing before delivery.
 
-Use this guide with S4, S7, and S11 to turn agent performance questions —
-"how fast is first response?", "does it hold up under load?", "is production
-drifting?" — into customer-owned records. It does not run a load test, query
-live telemetry, set a service-level objective, or authorize a production change.
+Use this guide with S4, S7, and S11 to turn agent-performance questions—first-response speed, load behaviour, and production drift—into customer-owned records. It does not run a load test, query live telemetry, set an SLO, or authorize a production change.
 
-Agent performance is governed with **two complementary evidence sources, never
-one**:
+Use **two complementary evidence sources**:
 
-1. **Pre-production synthetic load** (S7) — a bounded workload run against a
-   test environment to observe behaviour under controlled concurrency before
-   release.
-2. **Production telemetry** (S11) — OpenTelemetry, Application Insights, or
-   Foundry traces on real traffic, reconciled against the synthetic baseline.
+1. **Pre-production synthetic load** (S7): a bounded test-environment workload under controlled concurrency before release.
+2. **Production telemetry** (S11): OpenTelemetry, Application Insights, or Foundry traces on real traffic, reconciled with the synthetic baseline.
 
-A synthetic benchmark is not a production service-level objective, and a
-production sample is not a controlled experiment. Each source has a different
-population; record both and record what neither can attribute.
+A synthetic benchmark is not a production SLO, and a production sample is not a controlled experiment. Record each source's population and attribution limits.
 
 ## Metric taxonomy
 
@@ -37,60 +28,31 @@ separately.
 | Error rate & saturation | Failed, throttled (429), or timed-out requests as load rises | Rate limits, quota, and PTU ceilings surface here, not in median latency |
 | Per-component attribution | Split across model inference, retrieval, tool calls, orchestration, gateway/network | Locates the bottleneck and records what the evidence cannot attribute |
 
-Every metric travels with its population, sampling, coverage limit, and
-interpretation owner. A number without those is not evidence.
+Record every metric with its population, sampling, coverage limit, and interpretation owner. A number without them is not evidence.
 
 ## Pre-production synthetic load (S7)
 
-Synthetic load answers a bounded question — "does this interaction hold its
-first-token and end-to-end targets at the expected concurrency?" — in a test
-environment whose fidelity limits are recorded.
+Synthetic load answers whether an interaction holds its first-token and end-to-end targets at expected concurrency in a test environment with recorded fidelity limits.
 
-- **Workload model.** Interaction types, concurrency and arrival profile, ramp,
-  duration, prompt/payload mix, and whether streaming is on. A load run that
-  does not resemble real usage produces a number without meaning.
-- **Load engine.** **Azure Load Testing** is a suitable customer-run engine for
-  generating and scaling synthetic load and collecting client-side latency and
-  error metrics; equivalent engines (for example k6 or Apache JMeter) are valid
-  alternatives. This kit references the engine and its outputs as customer
-  evidence — it does not run a load test or provision the service.
-- **Environment fidelity.** Record test-versus-production parity: model
-  deployment, quota and PTU ceiling, data residency, and whether downstream
-  tools and retrieval are live or stubbed. Load against a shared model
-  deployment can throttle unrelated workloads — record the quota and cost of the
-  run itself.
-- **Interpretation.** The customer owns the baseline, the regression owner, and
-  the release-decision use. A passed load run is assurance evidence for S7, not a
-  production sign-off.
+- **Workload model.** Record interaction types, concurrency and arrival profile, ramp, duration, prompt/payload mix, and streaming. A workload unlike real usage produces an unhelpful number.
+- **Load engine.** **Azure Load Testing** is a suitable customer-run engine for synthetic load and client-side latency and error metrics; k6 and Apache JMeter are valid alternatives. This kit references the engine and outputs as customer evidence; it does not run a test or provision the service.
+- **Environment fidelity.** Record test-to-production parity: model deployment, quota and PTU ceiling, data residency, and whether downstream tools and retrieval are live or stubbed. Shared model deployments can throttle unrelated workloads, so record run quota and cost.
+- **Interpretation.** The customer owns the baseline, regression owner, and release-decision use. A passed load run is S7 assurance evidence, not production sign-off.
 
 ## Production measurement (S11)
 
-Production telemetry answers a different question — "is real traffic meeting the
-recorded expectation, and is it drifting?" — using the customer's own
-instrumentation.
+Production telemetry asks whether real traffic meets its recorded expectation and is drifting, using customer instrumentation.
 
-- **Sources.** OpenTelemetry spans, Application Insights, and Foundry traces
-  where the customer enables tracing can provide TTFT, end-to-end latency,
-  per-component spans, and error/throttle signals. Record the project, model
-  deployment, agent or run identifier where available, correlation IDs,
-  sampling, and retention.
-- **Coverage limits.** A trace sample is a population with sampling and retention
-  bounds. An uninstrumented or excluded path is a coverage gap, not a zero
-  result.
-- **Reconciliation.** Compare production percentiles against the S7 synthetic
-  baseline. A gap is a drift *hypothesis* — the cause may be workload mix,
-  configuration, model version, quota pressure, or evidence coverage — to be
-  recorded with an owner and a test plan, not called confirmed drift.
+- **Sources.** OpenTelemetry spans, Application Insights, and customer-enabled Foundry traces can provide TTFT, end-to-end latency, per-component spans, and error/throttle signals. Record project, model deployment, agent or run identifier where available, correlation IDs, sampling, and retention.
+- **Coverage limits.** An uninstrumented or excluded path is a coverage gap, not a zero result.
+- **Reconciliation.** Compare production percentiles with the S7 synthetic baseline. A gap is a drift *hypothesis*—potentially workload mix, configuration, model version, quota pressure, or evidence coverage—to record with an owner and test plan, not confirmed drift.
 
 ## Governance boundaries
 
 - A benchmark is not a service-level objective; the customer sets and owns any
   SLO separately.
-- Synthetic and production evidence cover different populations; a conclusion
-  needs both plus the recorded attribution limits.
-- This kit references Azure Load Testing, OpenTelemetry, Application Insights,
-  and Foundry observability as evidence sources. It does not execute them,
-  create dashboards, or store customer telemetry.
+- Synthetic and production evidence cover different populations; a conclusion needs both and their attribution limits.
+- This kit references Azure Load Testing, OpenTelemetry, Application Insights, and Foundry observability as evidence sources. It does not execute them, create dashboards, or store customer telemetry.
 
 ## Related sessions and references
 

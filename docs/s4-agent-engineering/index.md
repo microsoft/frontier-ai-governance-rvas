@@ -8,7 +8,7 @@
 
 ## 1. Outcome & what the customer keeps
 
-By the end of this session the customer has a clear answer to one question:
+The customer answers one question:
 **can this agent move to the next controlled stage, and on which Microsoft path?**
 
 They leave with:
@@ -32,11 +32,10 @@ deployment steps, or production approval.
 
 ### Implementation pathway
 
-S4 is the agent admission and change-review decision point. The customer uses it
-to compare Microsoft agent paths and choose the one to work on next. For a
-Foundry path, that means a Microsoft Foundry Agent Service backlog for the agent,
-not a live deployment. See [Microsoft Foundry Agent Service](https://learn.microsoft.com/en-us/azure/foundry/agents/overview)
-for product context.
+S4 is the agent admission and change-review decision point. It compares
+Microsoft paths and selects the next backlog. For a Foundry path, that is a
+Foundry Agent Service backlog, not a live deployment. See [Microsoft Foundry
+Agent Service](https://learn.microsoft.com/en-us/azure/foundry/agents/overview).
 
 S4 records what the agent must satisfy before it ships or materially changes.
 Execution stays with the customer's architecture, engineering, security, change,
@@ -57,13 +56,9 @@ and backlog. Do not run deployment steps in this session.
 
 ## 3. Why this session matters
 
-A convincing description is not enough to admit an agent. A prototype is not
-enough either. The customer needs a named owner, a clear purpose, a known
-authority boundary, and a Microsoft path that reviewers can understand.
-
-S4 turns that review into a practical backlog. It says what the customer may do
-next, what remains out of scope, and what must come back for approval before a
-material change.
+Admission needs a named owner, clear purpose and authority boundary, and a
+reviewable Microsoft path. S4 records the next work, exclusions, and
+material-change reapproval triggers.
 
 Read [S4 Concepts](concepts.md) for the authority model, Microsoft path choices,
 Foundry Agent Service example, evidence rules, material changes, and retirement.
@@ -156,15 +151,3 @@ production readiness.
 S4 creates no code, configuration, connection, access grant, publication, or
 production lifecycle transition. Engineering, integration, change, rollback,
 verification, and production approval follow the customer's approved processes.
-
-## 7. Facilitator notes
-
-- Keep the session evidence-first and report-only. The customer reviews records
-  and makes the decision. The facilitator records references, gaps, and decision
-  wording.
-- Treat classification as a decision about intended authority. Do not base it on
-  a tool name, model name, or framework.
-- Treat Microsoft product-path selection as planning. A path recommendation
-  creates backlog and ownership. It does not deploy or configure that product.
-- Admission is not a production release. It only authorizes the next
-  customer-controlled lifecycle activity stated in the record.

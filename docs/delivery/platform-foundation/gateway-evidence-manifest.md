@@ -1,12 +1,6 @@
 # Customer-operated gateway proof evidence manifest
 
-Create one manifest for each non-production gateway test. The adapter emits
-schema version `1.0` with safe references only. Store it with the customer's
-approved governance evidence, not with credentials, endpoint values, raw
-responses, prompts, documents, or unredacted telemetry. A direct Content
-Safety component response is useful component evidence, but it must be
-recorded as `testMode: component`; it cannot satisfy the gateway-path proof
-fields below.
+Create one manifest per non-production gateway test. The adapter emits schema version `1.0` with safe references only. Store it with approved customer governance evidence, never credentials, endpoint values, raw responses, prompts, documents, or unredacted telemetry. Direct Content Safety component evidence must be recorded as `testMode: component`; it cannot satisfy the gateway-path proof fields.
 
 ## Required fields
 
@@ -41,7 +35,4 @@ review:
   state: pending
 ```
 
-The adapter writes this manifest only. A platform owner changes `review.state`
-after correlating the proof ID with customer telemetry; a submitted request is
-not an accepted control. Keep raw gateway traces, response output, and any
-sensitive request details in separately approved customer systems.
+The adapter writes only this manifest. A platform owner changes `review.state` after correlating the proof ID with customer telemetry; a submitted request is not an accepted control. Keep raw gateway traces, response output, and sensitive request details in separately approved customer systems.

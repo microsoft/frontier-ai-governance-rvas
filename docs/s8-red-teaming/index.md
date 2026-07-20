@@ -89,10 +89,3 @@ Save only safe references in `04-operate/evidence-register.json` and the decisio
 ## 6. Change boundary
 
 S8 does not deploy a production control. The customer alone pauses, resets, or changes its non-production endpoint and follows its own cleanup, incident, and change processes.
-
-## 7. Facilitator notes
-
-- **When you're stuck:** missing authorization, SOC notification, non-production target, Preview capability, or approved thresholds stops the run. Record the blocker with an owner and date.
-- **Official context:** [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent) and [PyRIT](https://github.com/microsoft/PyRIT) support authorized misuse testing. They do not remove the customer's responsibility for scope, evidence, SOC handling, and remediation.
-- **RACI:** Security/SOC = R, Governance lead = A, AI developer/maker = C, endpoint owner = C.
-- **Hand-off:** the scorecard and decision feed the S6 residual-gap backlog and the S11 operating review.

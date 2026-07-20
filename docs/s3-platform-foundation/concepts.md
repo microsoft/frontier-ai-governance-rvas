@@ -6,19 +6,19 @@ This page explains the vocabulary used by the [S3 session](index.md). It describ
 
 A trust boundary is where authority changes. A person becomes an application caller. A workload reaches a service. A request moves between networks. An administrator performs a privileged action.
 
-The boundary review makes those transitions explicit. Then an owner can say which evidence would support a claim.
-
-A boundary diagram alone is not evidence. It can show an intended design, but it cannot prove that routes, identities, or controls exist or operate.
+The review makes those transitions explicit and names the evidence required for
+each claim. A diagram shows intended design, not operating routes, identities,
+or controls.
 
 ## The AI gateway is a platform trust boundary
 
-![S3 boundary diagram: a caller crosses the platform trust boundary at the AI gateway (Azure API Management handling authn, authz, routing, throttling, logging, policy) to reach AI services, tools and model backends; private connectivity, hybrid dependencies, identity boundary and telemetry coverage attach to the boundary, and a platform-security owner is accountable while runtime assurance evidences it in S6.](../assets/diagrams/s3-gateway-trust-boundary.svg)
+![The gateway trust boundary controls caller access to AI services and tools, with platform ownership and S6 assurance.](../assets/diagrams/s3-gateway-trust-boundary.svg)
 
 An AI gateway sits between callers and AI services, tools, or model backends. In Azure architectures, Azure API Management can provide that gateway boundary for APIs and AI workloads.[^apim]
 
-The gateway boundary helps the customer state where authentication, authorization, routing, throttling, logging, or policy checks are expected to happen. S3 records what the gateway should mediate and which owner is accountable.
-
-A gateway design is not proof of runtime behavior. Later sessions need authorized evidence that the path actually uses the gateway and that expected controls operate.
+The gateway boundary states where authentication, authorization, routing,
+throttling, logging, or policy checks are expected. S3 records what it should
+mediate and who owns it; later authorized evidence must show actual use.
 
 ## Private connectivity is an assumption until evidenced
 
@@ -32,7 +32,8 @@ Ingress is traffic entering a protected workload boundary. Egress is traffic lea
 
 A hybrid dependency spans more than one operational environment or connects to an externally managed service. It can add separate identity, routing, logging, retention, and incident-response obligations.
 
-The review identifies where accountability changes and what evidence would bridge the boundary. It does not establish the health or security of either side.
+The review identifies accountability changes and the evidence that would bridge
+them. It does not establish either side's health or security.
 
 ## Identity boundaries are authority boundaries
 
@@ -57,9 +58,9 @@ One role may hold several responsibilities. Each responsibility still needs to b
 
 ## Runtime assurance completes a different task
 
-S3 provides a bounded evidence question and a handoff. Runtime assurance later uses authorized, safe observation to decide whether expected behavior is supported for a stated scope and time.
-
-Runtime assurance can reject the handoff, identify a coverage gap, or require a change through the approved process. The S3 review does not prove a reference architecture is operating.
+S3 provides a bounded evidence question and handoff. Runtime assurance uses
+authorized observation to assess stated behavior for a stated scope and time;
+it can reject the handoff or identify a coverage gap.
 
 ## Platform review becomes a work list
 

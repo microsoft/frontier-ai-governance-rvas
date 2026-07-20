@@ -7,15 +7,10 @@
     the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
     before delivery.
 
-S2 turns the data review into three **technical decisions** that are also
-compliance decisions: how sensitive data is classified, where you cut prompt
-and retrieval exposure, and how regulatory obligations are mapped. The customer
-leaves with recorded options, evidence, and owners — not a copied data export or
-a tenant change.
-
-These are decision **menus**, not deployment recommendations. The kit works
-offline, changes nothing in production, and any rollout stays with the
-customer's compliance, data, security, and change processes.
+S2 decides how sensitive data is classified, where prompt and retrieval exposure
+is bounded, and how obligations are mapped. The result is recorded options,
+evidence, and owners, not a data export or tenant change. Rollout remains with
+the customer's compliance, data, security, and change processes.
 
 ## Decision 1 — How is data classified and sensitivity handled?
 
@@ -70,7 +65,7 @@ an S12-ready record of the data situation, evidence, and review actions.
 
 Capture the chosen option, alternatives, rationale, owner, and adoption stage in
 the technical decision record (`labs/s2-data-compliance/templates/technical-decision-record.template.md`).
-The decision, evidence references, and review actions are what S2 leaves behind.
+S2 leaves the decision, evidence references, and review actions.
 
 ## Related references
 

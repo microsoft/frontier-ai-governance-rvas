@@ -15,7 +15,7 @@ S8 is limited to an authorized, customer-owned, non-production endpoint with wri
 
 ## Attack Success Rate is a decision aid
 
-![S8 decision aid: a setup chain (target, attack categories, sample size, target version, approved threshold) parameterises the comparison; authorized attempts yield an Attack Success Rate compared to the threshold — above tolerance becomes a remediation item with an owner, below tolerance supports the tested scope; the Foundry native scorecard is preserved with an optional comparison sidecar.](../assets/diagrams/s8-red-teaming-asr-decision.svg)
+![Authorized attacks produce an ASR compared with a threshold; outcomes route to remediation or tested-scope support.](../assets/diagrams/s8-red-teaming-asr-decision.svg)
 
 Attack Success Rate (ASR) is the share of attempts that meet the agreed adversarial success condition. Lower is better, but the number only makes sense with its category, sample size, target version, and approved threshold.
 
@@ -37,9 +37,9 @@ If a customer reviews native ASR values against approved thresholds, the kit may
 
 ## Managed testing does not remove governance
 
-The managed AI Red Teaming Agent is a Preview capability. The customer still owns authorization, target scope, safe test data, alert handling, evidence retention, and remediation decisions.
-
-S8 does not provide a fallback mock or alternate testing path when the managed capability is unavailable. If the customer uses PyRIT for an authorized path, the same rules apply: written scope, safe target, SOC awareness, retained evidence, and owned remediation.[^airt][^pyrit]
+AI Red Teaming Agent is Preview. If it is unavailable, S8 provides no mock
+substitute. An authorized PyRIT path uses the same written scope, safe target,
+SOC awareness, retained evidence, and owned remediation.[^airt][^pyrit]
 
 [^airt]: Microsoft Learn - [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent).
 [^pyrit]: Microsoft - [PyRIT](https://github.com/microsoft/PyRIT).

@@ -7,8 +7,8 @@
 
 ## 1. Outcome & what the customer keeps
 
-By the end of this session the customer has one reviewable runtime artifact:
-**a redacted gateway proof for an approved non-production request.**
+The customer leaves with one reviewable runtime artifact: **a redacted gateway
+proof for an approved non-production request.**
 
 The proof is a gateway proof manifest that conforms to
 [`contracts/gateway-proof.schema.json`](../../contracts/gateway-proof.schema.json).
@@ -25,11 +25,9 @@ evidence limits. It does not replace the accepted gateway proof.
 
 ### Implementation pathway
 
-S6 produces a runtime-control backlog for later customer-owned work. The
-recommendation states whether to accept the gateway proof, defer it, reject it,
-remediate gateway route, policy, or telemetry gaps, route Content Safety or
-Prompt Shields work to security, or block S7/S9/S11 dependencies until the
-correlation is accepted.
+S6 produces a runtime-control backlog: accept, defer, or reject the proof;
+remediate route, policy, or telemetry gaps; route safety work; or block
+S7/S9/S11 dependencies until correlation is accepted.
 
 Security reviewers may use Microsoft Defender for Cloud and AI security posture
 capabilities for broader security and threat context where the customer has them
@@ -46,13 +44,9 @@ correlation.
 
 ## 3. Why this session matters
 
-Runtime evidence must show the path the agent actually used. S6 records a
-redacted request correlation through that path without changing production
-traffic.
-
-A component diagnostic can help troubleshoot a part of the stack. It does not
-prove the gateway path. Read the [S6 Concepts](concepts.md) for the difference
-between component diagnostics and gateway enforcement evidence.
+Runtime evidence must show the path the agent used. S6 records a redacted
+request correlation without changing production traffic. A component diagnostic
+can troubleshoot part of the stack, but it does not prove the gateway path.
 
 ## 4. Co-delivery walkthrough
 
@@ -152,16 +146,3 @@ The adapter changes no gateway configuration. If the customer stops the test, it
 uses its own approved gateway and evidence-retention processes. The final
 customer record contains the acceptance, rejection, or blocked decision and the
 S4 handoff reference.
-
-## 7. Facilitator notes
-
-- **Timing:** 90-minute workshop. Schedule customer telemetry retrieval and
-  records-system review within or before the interpretation block.
-- **RACI:** Platform owner = R, Security/SOC = R, Governance lead = A.
-- **Common blockers:**
-    - *No approved non-production route* → record blocked; do not test a
-      component directly as a substitute.
-    - *No telemetry reviewer or record location* → record blocked; no S4 exit is
-      possible.
-    - *Only production is available* → do not test.
-- **Hand-off:** accepted S6 gateway proof is a required S4 assurance input.

@@ -7,7 +7,8 @@
 
 ## 1. Outcome & what the customer keeps
 
-By the end of this session the customer has a Microsoft Purview-based review of AI data exposure and a decision on the next data-governance step.
+The customer leaves with a Microsoft Purview-based data-exposure review and a
+decision on the next data-governance step.
 
 They leave with:
 
@@ -19,7 +20,9 @@ They leave with:
 
 ### What happens next
 
-S2 produces a data-governance backlog for customer-owned work. The recommendation says whether to continue without a DLP change, prepare a report-only Purview DLP change review, fix classification or audit/eDiscovery gaps, route a gateway/data-boundary dependency to S3/S6, or block dependent work.
+S2 produces a data-governance backlog: continue without a DLP change, prepare a
+report-only review, fix classification or investigation gaps, route a
+gateway/data dependency to S3/S6, or block dependent work.
 
 Blockers can include missing workload coverage, licensing, role assignment, retention, or investigation ownership.
 
@@ -34,9 +37,9 @@ Blockers can include missing workload coverage, licensing, role assignment, rete
 
 ## 3. Why this session matters
 
-AI data risk is not solved by one policy. The customer needs to know what sensitive data is exposed, which Purview controls can cover it, and which evidence investigators can use later.
-
-S2 uses Microsoft Purview for data and compliance. The customer reviews classification and discovery signals, checks sensitivity-label and DLP coverage, and records the investigation route before any policy moves past simulation.
+The review identifies sensitive-data exposure, available Purview coverage, and
+the evidence an investigator can use. It checks classification, discovery,
+sensitivity-label, and DLP coverage before any policy leaves simulation.
 
 Read the [S2 Concepts](concepts.md) for DSPM, labels and DLP, investigation evidence, and the boundary between Purview and gateway masking.
 
@@ -47,7 +50,8 @@ Read the [S2 Concepts](concepts.md) for DSPM, labels and DLP, investigation evid
 
 **Timebox:** 90 minutes. **Roles:** facilitator, Compliance/Data administrator, governance lead or delegated risk authority, evidence owner, pilot-agent owner, and Audit/eDiscovery investigator or legal specialist. **To start:** you need one bounded AI path, an approved evidence location, a named investigation route, and a decision owner. For a possible policy change, you also need the customer change approver. Do not start enforcement, export content, or configure a production policy in this session.
 
-**What the customer actually does:** the compliance administrator reviews authorized Purview evidence for the path, checks what coverage exists, and brings a decision to the risk owner.
+**Customer action:** the compliance administrator reviews authorized Purview
+evidence for the path, checks coverage, and brings a decision to the risk owner.
 
 Review the [Technical decisions](technical.md) chapter first: it holds the data-classification, PII-handling, and compliance option menus and selection criteria this walkthrough decides between.
 
@@ -87,10 +91,3 @@ Capture references to the DSPM for AI review, DLP policy/change record where app
 ## 6. Change boundary
 
 This kit makes no tenant changes. Any customer policy deployment, rollback, and verification stays in the customer's approved change process.
-
-## 7. Facilitator notes
-
-- **Current official context:** validate support and terminology against [DSPM for AI](https://learn.microsoft.com/en-us/purview/dspm-for-ai), [Purview data protections for AI](https://learn.microsoft.com/en-us/purview/ai-microsoft-purview), [DLP simulation mode](https://learn.microsoft.com/en-us/purview/dlp-simulation-mode-learn), [DLP for Microsoft 365 Copilot and Copilot Chat](https://learn.microsoft.com/en-us/purview/dlp-microsoft365-copilot-location-learn-about), [Audit for Copilot and AI applications](https://learn.microsoft.com/en-us/purview/audit-copilot), and [eDiscovery of AI data](https://learn.microsoft.com/en-us/purview/edisc-search-copilot-data). These sources explain product capabilities. Tenant evidence establishes the customer result.
-- **Cross-control guardrail:** Purview DLP does not replace sensitivity-label governance, source permissions, audit retention, investigation process, or a runtime gateway. Gateway masking is a separate platform control.
-- **When you're stuck:** unavailable DSPM for AI, unsupported DLP coverage, missing Audit/eDiscovery route, or inadequate retention -> document source and scope, route to the named owner, and keep the control `blocked` or `accepted_risk`.
-- **Hand-off:** findings feed S3 security posture, S5 adversarial-testing evidence, and S6 control-plane reconciliation.

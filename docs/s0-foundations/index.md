@@ -7,7 +7,7 @@
 
 ## 1. Outcome & what the customer keeps
 
-By the end of this session the customer has a scored maturity baseline and a prioritized governance roadmap.
+The customer leaves with a scored maturity baseline and prioritized governance roadmap.
 
 They leave with:
 
@@ -20,8 +20,8 @@ They leave with:
 
 ### What happens next
 
-S0 turns the baseline into a governance backlog. It does not deploy a control.
-The recommendation names the next governance track, the owner, the evidence gap, the assumptions, and the customer process for follow-up.
+S0 turns the baseline into a governance backlog, naming the next track, owner,
+evidence gap, assumptions, and follow-up process. It does not deploy a control.
 
 | Pathway area | Example backlog decision |
 |---|---|
@@ -54,9 +54,8 @@ S0 has no tenant checks and no privileged changes. Licensing, capability, and de
 
 ## 3. Why this session matters
 
-A customer should not enable AI controls before it knows who owns the decisions. S0 gives the customer that starting point: named owners, a scored baseline, and a roadmap.
-
-The baseline is part of the governance operating model. The customer scores what exists today, decides what gap matters first, and keeps the evidence in its own records.
+A customer should know who owns AI decisions before enabling controls. S0 establishes
+those owners, the current baseline, and the next gap to address.
 
 Read the [S0 Concepts](concepts.md) for the operating-model, maturity, risk, and target-architecture context.
 
@@ -68,7 +67,11 @@ Review the [Technical decisions](technical.md) chapter first: it holds the opera
     S0 makes no tenant changes or tenant queries. Copy the blank templates to
     the customer's approved record location before entering any customer data.
 
-**Timebox:** 90 minutes. **Roles:** facilitator, governance lead, executive sponsor, evidence owner, and domain reviewers. **To start:** you need the sponsor, governance lead, approved evidence location, and bounded pilot question. If any are missing, stop that part and assign the blocker. Do not create a substitute record in Git.
+**Timebox:** 90 minutes. **Roles:** facilitator, governance lead, executive
+sponsor, evidence owner, and domain reviewers. **To start:** sponsor, governance
+lead, approved evidence location, and a bounded pilot question. If one is
+missing, stop that part and assign the blocker. Do not create a substitute
+record in Git.
 
 **What the customer actually does:** the governance lead scores the baseline with customer participants, then the sponsor chooses the next owned governance work.
 
@@ -95,9 +98,3 @@ Register the customer baseline reference and retention/classification metadata i
 ## 6. Change boundary
 
 S0 makes no tenant changes. Customer capability, licensing, ownership, and delivery gaps go to the customer backlog. Any later change uses the customer's approved process.
-
-## 7. Facilitator notes
-
-- **Decision guardrail:** a high score is not a deployed control. It is evidence of an assessment and prioritization decision.
-- **When you're stuck:** no clear owner -> assign sponsor or governance-lead follow-up; no agents yet -> assess approved intent and plans; weak evidence -> record the gap instead of raising the score.
-- **Hand-off:** the roadmap sets the order for S1-S12. S12 repeats the same customer-held assessment as a final comparison.

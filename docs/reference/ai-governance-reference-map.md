@@ -5,7 +5,7 @@
     product status, and customer applicability before delivery. This map is
     contextual guidance, not customer evidence or a deployment instruction.
 
-This map connects public Microsoft guidance to the S0-S12 curriculum. Use it as a reading route. A source can explain a capability or shape a customer-owned backlog. It cannot prove that a customer control is deployed or working.
+This map is a reading route from public Microsoft guidance to the S0-S12 curriculum. Sources can explain a capability or shape a customer-owned backlog; they cannot prove a deployed or operating customer control.
 
 ## How to use this map
 
@@ -18,7 +18,7 @@ Use these four questions to read the curriculum artifacts:
 | **Visibility** | What signals show actual behavior and coverage limits? | S6, S7, and S11 route telemetry, evaluation, and operating-review work to customer owners. |
 | **Proof** | Which reviewed references support a bounded decision and improvement? | S7-S12 retain decisions, limitations, exceptions, and the next roadmap. |
 
-The sequence is continuous. S12 portfolio learning informs the next S0 baseline. A policy without a control is only an intention. A control without visibility is blind. Visibility without a reviewed evidence record cannot support a defensible decision.
+The sequence is continuous: S12 portfolio learning informs the next S0 baseline. A reviewed evidence record connects policy, controls, visibility, and a defensible decision.
 
 ## Phase translation
 
@@ -46,7 +46,7 @@ Microsoft Responsible AI principles—fairness; reliability and safety; privacy 
 | [Azure API Management AI Gateway](https://learn.microsoft.com/en-us/azure/api-management/genai-gateway-capabilities) | S3, S5, S6, S11 | Boundary enforcement, traffic controls, and telemetry routes. | Canonical Learn |
 | [Microsoft Agent 365](https://learn.microsoft.com/en-us/microsoft-agent-365/overview) | S0, S1, S9, S12 | Fleet registry, lifecycle, access, and portfolio-record questions. | Canonical Learn |
 
-Runtime enforcement cuts across the curriculum. It turns decisions for identity, data, tools, APIs, runtime safety, and agent governance into operating controls. S3/S5 identify a boundary and owner. S6 reviews evidence for that boundary. S9/S11 reconcile and operate the records. None of those sessions deploys, configures, or proves the services above.
+Runtime enforcement turns identity, data, tool, API, runtime-safety, and agent-governance decisions into operating controls. S3/S5 identify the boundary and owner; S6 reviews evidence; S9/S11 reconcile and operate records. These sessions do not deploy, configure, or prove the services above.
 
 ### Data governance and compliance
 
@@ -72,7 +72,7 @@ Runtime enforcement cuts across the curriculum. It turns decisions for identity,
 | [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management) | S11, S12 | Subscription-level cost attribution and portfolio planning. | Canonical Learn |
 | [ASSERT announcement](https://devblogs.microsoft.com/foundry/build-2026-open-trust-stack-ai-agents/) | S7, S8 | Policy-driven evaluation and before/after mitigation thinking. | Contextual announcement; verify current project status |
 
-ASSERT can help when a customer wants policy-specific evaluation scenarios. It does not turn a local result into release approval, runtime proof, or control-effectiveness evidence. S7 keeps references and a decision. S8 runs only authorized tests against a customer-owned non-production target.
+ASSERT can inform policy-specific evaluation scenarios. A local result is not release approval, runtime proof, or control-effectiveness evidence; S7 keeps references and a decision, while S8 runs only authorized tests against a customer-owned non-production target.
 
 ### Observability, security, and identity
 
@@ -96,10 +96,10 @@ ASSERT can help when a customer wants policy-specific evaluation scenarios. It d
 | [Agent Control Specification](https://microsoft.github.io/agent-governance-toolkit/packages/agent-control-specification/) | S5, S10 | Portable control-checkpoint concepts for a future engineering assessment. | Open source; capture a reviewed release or commit before delivery |
 | [Agent Governance Toolkit](https://microsoft.github.io/agent-governance-toolkit/) | S10 | In-process policy and audit concepts. | Open source; S10 uses [pinned source `b680c49`](https://github.com/microsoft/agent-governance-toolkit/tree/b680c49cc956727c5249771ddba7ee21a635a676) |
 
-Agent 365 and a portable control layer solve different problems. A fleet control plane helps discover, inventory, and steward agents. An in-process control can check a defined point before a tool action. Neither proves that the other is installed or effective. S10 remains an offline decision about fit.
+Agent 365 and a portable control layer solve different problems: a fleet control plane discovers, inventories, and stewards agents, while an in-process control can check a defined point before a tool action. Neither proves the other is installed or effective; S10 remains an offline fit decision.
 
 ## Maintenance and customer evidence
 
-Review this page quarterly with the other `docs/reference/` sources and after major product announcements. Keep canonical Microsoft Learn links for stable documentation. Record a reviewed release or commit for open-source claims. Before you cite any source in a customer engagement, verify its current availability and status.
+Review this page with the other `docs/reference/` sources quarterly and after major product announcements. Keep canonical Microsoft Learn links for stable documentation, and record a reviewed release or commit for open-source claims. Before citing a source in an engagement, verify its availability and status.
 
-Documentation, a template, a simulator result, or a product capability page is not customer evidence. Customer evidence remains a reviewed, customer-owned record with scope, owner, limitations, and a decision.
+Documentation, templates, simulator results, and capability pages are not customer evidence. Customer evidence is a reviewed, customer-owned record with scope, owner, limitations, and a decision.

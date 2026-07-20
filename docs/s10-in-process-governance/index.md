@@ -158,14 +158,3 @@ or production audit records in this kit. The simulator output remains labelled
 S10 makes no tenant, endpoint, code, or policy change. Any AGT assessment or
 customer policy implementation uses a separate engineering and change-review
 path.
-
-## 7. Facilitator notes
-
-- Follow the [co-delivery facilitation method](../delivery/facilitation-pattern.md):
-  the customer reviews the boundary and makes the decision. The facilitator does
-  not replace a product action, assessment, or evidence record.
-- **RACI:** AI developer/maker = activity owner; governance lead = decision
-  owner; evidence owner = approved-records reference; platform owner and
-  Security/SOC = specialist reviewers.
-- **Hand-off:** S10 adds an optional adoption decision to the S6 backlog. It
-  does not change S6 reconciliation or move the illustration into customer code.

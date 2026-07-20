@@ -1,6 +1,6 @@
 # Plan the engagement
 
-Use this guide to prepare the S0-S12 AI Governance curriculum. The facilitator runs the method. Customer administrators use their own tools. Customer decision owners approve changes and accept risk.
+Use this guide to prepare the S0-S12 AI Governance curriculum. The facilitator runs the method; customer administrators use their own tools, and customer decision owners approve changes and accept risk.
 
 ## Bring the right people
 
@@ -17,7 +17,7 @@ Use this guide to prepare the S0-S12 AI Governance curriculum. The facilitator r
 
 Before S0, write down the first agent group or use-case question. Name the customer records location, decision owner, known architecture limits, and safe stop condition.
 
-The customer may already have a platform path. It may also find that platform readiness is a backlog item. Do not infer that a control exists just because the architecture says it should.
+The customer may already have a platform path, or platform readiness may be a backlog item. Do not infer a control exists from the architecture alone.
 
 ## Start with S0
 
@@ -37,15 +37,9 @@ The assessment can select any S1-S12 session. Keep these dependencies:
 
 ## Deliver safely
 
-Every session starts with the least disruptive posture that can answer the question:
+Start with the least disruptive posture: report-only access controls; simulated, test, or notify-mode data controls; and decisions before platform or engineering deployment. Runtime assurance, evaluation, and adversarial testing need an approved non-production or explicitly authorized target. Production promotion remains a customer change decision.
 
-- access controls start in report-only mode;
-- data controls start in simulation, test, or notify mode;
-- platform and engineering sessions record decisions before deployment;
-- runtime assurance, evaluation, and adversarial testing use an approved non-production or explicitly authorized target; and
-- production promotion stays a separate customer change decision.
-
-Before any privileged change, confirm the customer approver, change window, rollback path, and evidence-retention route. Notify security operations before adversarial testing.
+Before a privileged change, confirm the approver, window, rollback path, and evidence-retention route. Notify security operations before adversarial testing. See [How to Deliver](../how-to-deliver.md#non-production-hard-exit-gate) for the live-action exit gate.
 
 ## Evidence flow
 

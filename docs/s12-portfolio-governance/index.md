@@ -119,22 +119,3 @@ S12 is report-only. It makes no dashboard, live-data, production, access,
 configuration, policy, funding, or compliance-certification decision by itself.
 Any approved change, assurance activity, or investment execution uses the
 organization's separate authority, change, and records processes.
-
-## 7. Facilitator notes
-
-- **Decision guardrail:** aggregation reveals relationships and limits. It never
-  proves control effectiveness, complete coverage, or compliance.
-- **Blocker path:** no decision owner, records location, bounded scope, or
-  trusted reference means the dependent item is blocked. Record the gap, owner,
-  and review date instead of creating a substitute conclusion.
-- **Official context:** [Microsoft Foundry observability](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability),
-  [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management),
-  [Fine-tune Microsoft Foundry models](https://learn.microsoft.com/en-us/azure/foundry/how-to/fine-tune-models),
-  and [NIST AI RMF](https://www.nist.gov/itl/ai-risk-management-framework) can
-  inform roadmap questions after the customer verifies current status,
-  availability, and limitations. They do not approve investment or certify
-  compliance.
-- **Hand-off:** the approved portfolio roadmap feeds the next S0 baseline review.
-  Exceptions and policy proposals stay in their accountable governance or change
-  paths until separately decided. Record the portfolio technical decision in
-  `templates/technical-decision-record.template.md`.

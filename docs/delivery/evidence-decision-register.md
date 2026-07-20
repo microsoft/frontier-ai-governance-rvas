@@ -1,8 +1,6 @@
 # Evidence and decision register
 
-The governance lead owns the customer copy of this register. The facilitator
-keeps it current through S12. Store links and identifiers rather than copying
-sensitive exports into meeting notes.
+The governance lead owns the customer copy; the facilitator keeps it current through S12. Store links and identifiers rather than sensitive exports in meeting notes.
 
 ## Evidence boundary
 
@@ -14,7 +12,7 @@ Classify every artifact before using it in a decision:
 | Customer evidence | A customer environment, decision, or operating process produced the artifact. | Tenant export, policy re-export, approved change record, observation summary, test result. |
 | Production-readiness evidence | The customer has enough material to take a specific change through its own approval process. It does not prove enforcement occurred. | Impact review, rollback plan, implementation plan, approval package. |
 
-Do not label a template, sample, or offline mock result as deployed, observed, enforced, or production evidence.
+Do not label templates, samples, or offline mock results as deployed, observed, enforced, or production evidence.
 
 ## Register template
 
@@ -27,7 +25,7 @@ Use one row per control, prerequisite, finding, or exception.
 
 ## Minimum close record
 
-At S12, the register must point to:
+Before S12 closes, confirm that the register points to:
 
 - S0 baseline scorecard, roadmap, operating model, and RACI;
 - available S1 through S8 evidence, including blocked or reference-only work;
@@ -38,4 +36,4 @@ At S12, the register must point to:
 - the S12 portfolio decision and next roadmap; and
 - any production-readiness package handed to the customer change authority.
 
-The register is a governance record. Apply the customer's retention, access, and data-classification rules to its links and supporting artifacts.
+Apply the customer's retention, access, and data-classification rules to the register, links, and supporting artifacts.

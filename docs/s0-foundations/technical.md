@@ -3,9 +3,9 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-17 · Framework and tooling availability varies by tenant, region, license, and product maturity; verify current status in the [Governance capability guide](../reference/governance-capability-guide.md).
 
-S0 forces decisions that are also governance decisions: who owns AI-agent governance, which control framework anchors the baseline, and where the record of decision and evidence will live. This page gives the menu, criteria, and trade-offs so the customer leaves with a recorded decision and a concrete adoption step, not a vague question.
-
-These are decision **menus**, not recommendations to deploy. S0 changes nothing; records, follow-up, and any later implementation stay customer-owned.
+S0 decides who owns AI-agent governance, which framework anchors the baseline,
+and where decisions and evidence live. These menus record a concrete adoption
+step; they do not recommend deployment or change the environment.
 
 ## Decision 1 — What governance operating model owns AI-agent decisions?
 
@@ -49,7 +49,7 @@ What S0 leaves behind is a baseline maturity assessment and prioritized roadmap 
 |---|---|
 | **Decided** | The operating model, baseline framework, and record location are chosen with owner, rationale, and known caveats |
 | **Backlogged** | Gaps from the baseline are routed to the next session, capability owner, and customer change process |
-| **In adoption** | The customer is using the chosen record path and roadmap outside S0; S12 will compare portfolio progress against the baseline |
+| **In adoption** | The customer uses the chosen record path and roadmap; S12 compares progress with the baseline |
 
 Capture the choice, alternatives, and rationale in the technical decision record (`labs/s0-foundations/templates/technical-decision-record.template.md`).
 

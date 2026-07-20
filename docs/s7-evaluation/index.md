@@ -89,10 +89,3 @@ Save only safe references in `04-operate/evidence-register.json` and the decisio
 ## 6. Rollback and handoff
 
 S7 changes no evaluator, agent, or CI/CD gate. The customer can record `hold` or replace its sign-off decision through its own change and evidence process. The completed handoff remains customer owned.
-
-## 7. Facilitator notes
-
-- **When you're stuck:** no accepted S6 proof → record `hold`; no evidence reviewers → do not create local evidence; no decision reference → do not exit S7.
-- **Official context:** [Foundry evaluations](https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluate-generative-ai-app), [agent evaluators](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators), and [cloud evaluation with the Foundry SDK](https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/cloud-evaluation) can support the customer's evaluation plan after current status, availability, and scope are verified. They do not replace accepted gateway proof or the customer's release decision.
-- **RACI:** Assurance owner = R, Governance lead = A, Platform owner and Security/SOC = C.
-- **Hand-off:** the customer-owned sign-off decision informs later delivery. Evaluation suites, thresholds, and gates stay with the customer's release process.

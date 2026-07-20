@@ -8,7 +8,7 @@ agent. Go back to [S1 Prepare](index.md) for the run order.
 
 ## Every agent needs an owner you can name
 
-![S1 object model: the Entra Agent ID chain (blueprint, blueprint principal, agent identity, agent user account) sits in the tenant identity plane with an accountable human sponsor, separate from the runtime access controls (Conditional Access and gateway authentication); on-behalf-of identities are recorded as a gap.](../assets/diagrams/s1-agent-identity-model.svg)
+![Entra Agent ID links sponsored agent identities to tenant controls, while runtime access controls remain separate.](../assets/diagrams/s1-agent-identity-model.svg)
 
 **Microsoft Entra Agent ID** gives an agent a real identity in the tenant, built
 from a few connected objects (a blueprint, a blueprint principal, an agent
@@ -25,16 +25,13 @@ belong in the governance record.
 
 ## Findings turn into a short backlog
 
-Keep two things apart in the S1 recommendation: what you found, and what to build
-next. A reviewed list can support a sponsor decision, a lifecycle review, a
-"does Entra Agent ID cover more of these?" investigation, RBAC/OBO follow-up, an
-access review, or a blocker. It does **not** create an identity, grant access,
-set up Conditional Access, or approve production use.
+Keep findings separate from follow-up. A reviewed list can support a sponsor
+decision, lifecycle review, Agent ID coverage investigation, RBAC/OBO follow-up,
+access review, or blocker. It does not create an identity, grant access, set up
+Conditional Access, or approve production use.
 
-Typical backlog rows: does Entra Agent ID apply here, who is the human sponsor,
-review the workload identity or service principal, check the OBO boundary, name a
-Conditional Access or access-review owner, note the gateway-authentication
-dependency, and hand the S9 reconciliation the record.
+The backlog names the sponsor, identity/OBO review, access-control owner,
+gateway-authentication dependency, and S9 reconciliation.
 
 ## The list is your first control
 
@@ -43,11 +40,10 @@ show up through normal development, not through a tidy governance onboarding
 step.[^entra] A list is only useful evidence when it says which source it came
 from and which workload it covers.
 
-S1 deliberately doesn't export or guess at identity data. A general
-service-principal, managed-identity, app, or OBO view can back up a record, but
-it can't prove an agent's identity or that you've found them all. The customer
-records the source it trusts, what it covers, its gaps, the sponsor, the
-lifecycle, and the decision — in its own system.
+S1 does not export or guess at identity data. Service-principal,
+managed-identity, app, or OBO views can support a record but cannot prove an
+agent identity or complete coverage. Record the trusted source, its limits,
+sponsor, lifecycle, and decision.
 
 ## Conditional Access is a separate change the customer owns
 
@@ -55,10 +51,8 @@ Setting up Conditional Access for workload identities depends on the tenant,
 licensing, which workloads support it, scope, exclusions, and the customer's
 change process. A generic policy or break-glass template can't stand in for that.
 
-**In Co-deliver:** S1 finds the missing owners and coverage gaps. If the customer
-decides to add an identity control, their own identity-change process owns the
-design, the report-only trial where it makes sense, the rollout, the rollback,
-the checks, and keeping the evidence.
+**In Co-deliver:** S1 finds owner and coverage gaps. Identity controls proceed
+through the customer's identity-change process.
 
 ## Seeing an agent isn't the same as controlling it
 

@@ -1,10 +1,10 @@
 # Platform technical guide
 
-Use this guide with the customer platform team. It explains the technical foundation for an integrated AI Governance engagement. It covers the Foundry Citadel Platform, deployable accelerators, and the line between platform work and governance work.
+Use this guide with the customer platform team for the technical foundation of an integrated AI Governance engagement: Foundry Citadel Platform, deployable accelerators, and the boundary between platform and governance work.
 
 ## The Citadel platform model
 
-The [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-platform) is a Microsoft reference architecture for enterprise AI security, compliance, and scale. It describes four connected layers and links to deployable accelerators. It is not a deployment package.
+The [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-platform) is a Microsoft reference architecture for enterprise AI security, compliance, and scale. It describes four connected layers and links to deployable accelerators; it is not a deployment package.
 
 | Layer | Platform purpose | Typical technologies |
 |---|---|---|
@@ -21,7 +21,7 @@ Azure AI Landing Zones provide the application landing-zone base for AI workload
 
 AGT runs inside the application process. It can check a tool-call policy before the call reaches a downstream tool. It can also record the allow, deny, or approval decision. It complements Citadel network and gateway controls. It does not replace them.
 
-This curriculum does not claim an official AGT-Citadel integration. It also does not make AGT required for the integrated platform path.
+This curriculum neither claims an official AGT-Citadel integration nor makes AGT required for the integrated platform path.
 
 The platform team owns:
 
@@ -39,9 +39,9 @@ The platform team owns:
 | Gateway data-protection configuration | S2 reviews it alongside Purview data and compliance controls. |
 | Traces, evaluations, usage, and cost telemetry | S7, S8, S9, and S11 use approved references to this evidence for evaluation-plan review, remediation, reconciliation, operating, and cost decisions. |
 
-The AI Governance programme does not rebuild these capabilities. It assigns owners, reviews evidence, and records the decisions and gaps that follow.
+The AI Governance programme does not rebuild these capabilities; it assigns owners, reviews evidence, and records resulting decisions and gaps.
 
-S4 is the path-selection handoff point. It may recommend Copilot Studio, Microsoft Foundry Agent Service, a custom Azure application or service using Foundry models and tools, Microsoft 365 Copilot extensibility, workflow automation, or research/prototype isolation. The platform team still owns deployment, identity configuration, network and gateway setup, telemetry plumbing, and production-readiness work through the customer's approved engineering and change processes.
+S4 is the path-selection handoff. It may recommend Copilot Studio, Microsoft Foundry Agent Service, a custom Azure application or service using Foundry models and tools, Microsoft 365 Copilot extensibility, workflow automation, or research/prototype isolation. The platform team still owns deployment, identity, network and gateway setup, telemetry, and production-readiness through approved engineering and change processes.
 
 ## Technical handoff checklist
 

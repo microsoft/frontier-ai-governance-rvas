@@ -3,8 +3,8 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · Confirm runtime-control availability in the [Governance capability guide](../reference/governance-capability-guide.md).
 
-This page explains the evidence boundary behind S6. Use [S6 Prepare](index.md)
-to begin the customer-owned validation steps.
+This page explains S6's evidence boundary. Use [S6 Prepare](index.md) for the
+customer validation steps.
 
 ## Gateway evidence is different from a component diagnostic
 
@@ -20,20 +20,18 @@ payloads or endpoints.
 
 ## Correlation makes a request reviewable
 
-![S6 flow: a gateway adapter request produces a gateway-proof manifest with safe references and a correlation_id; the transport result (pass/fail) and the correlation_id appearing in approved gateway telemetry both feed the platform and security owners' acceptance decision, yielding a reviewable runtime artifact; a direct component diagnostic is not gateway-path proof.](../assets/diagrams/s6-security-runtime-correlation-flow.svg)
+![Gateway requests and matching telemetry correlation determine acceptance; direct diagnostics do not prove the gateway path.](../assets/diagrams/s6-security-runtime-correlation-flow.svg)
 
-A completed adapter request is not enough to prove a policy was enforced.
-Customer platform and security owners use `correlation_id` to review gateway
-telemetry. Then they make an acceptance decision in their approved records system.
-
-This separates a transport result (`pass` or `fail`) from a security decision.
+A completed adapter request does not prove policy enforcement. Platform and
+security owners use `correlation_id` to review gateway telemetry and record an
+acceptance decision, separate from the transport result (`pass` or `fail`).
 
 ## Runtime safety remains layered
 
-Prompt injection and harmful-content detection help, but they are only part of a
-runtime boundary.[^contentsafety] Gateway policy, identity, scoped tools, data
-controls, telemetry, and human review may also apply. The S6 adapter does not
-configure any of them. It supplies evidence for customer review.
+Prompt injection and harmful-content detection are only part of a runtime
+boundary.[^contentsafety] Gateway policy, identity, scoped tools, data controls,
+telemetry, and human review may also apply. The adapter supplies evidence; it
+does not configure these controls.
 
 For delivery, keep five questions separate:
 
@@ -59,9 +57,9 @@ Safety or Prompt Shields policy review, telemetry correlation, SOC alert or
 debrief route, identity or data-control dependency, S7 evaluation prerequisite,
 S9 catalog lifecycle update, and S11 operating evidence coverage.
 
-The recommendation does not deploy a safety platform, change traffic, or prove
-production control effectiveness. It routes work to customer platform, security,
-SOC, identity, data, change, or operating processes.
+The recommendation routes work to the appropriate platform, security, SOC,
+identity, data, change, or operating process; it does not change traffic or
+prove production effectiveness.
 
 [^contentsafety]: Microsoft Learn - [Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection).
 [^appinsights]: Microsoft Learn - [Application Insights OpenTelemetry observability overview](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview).

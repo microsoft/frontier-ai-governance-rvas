@@ -6,9 +6,6 @@ Portfolio governance connects decisions across agents and scopes. It uses
 references, scope statements, and limits so leaders can see dependencies without
 copying operational records into one place.
 
-Aggregation helps only when the population, period, and evidence coverage stay
-visible.
-
 ## Evidence keeps its limits when aggregated
 
 An evidence reference supports only the observation and scope it describes.
@@ -61,7 +58,7 @@ Identifying the question does not approve new policy or change existing policy.
 
 ## Continuous improvement closes through S0
 
-![S12 feedback loop: prior session records and exceptions and portfolio risks feed a portfolio review (investment priorities, maturity movement, policy questions) that produces decisions, deferrals and remaining-risk dispositions, then a roadmap backlog, which feeds the next S0 assessment — closing the continuous improvement loop.](../assets/diagrams/s12-portfolio-to-s0-feedback-loop.svg)
+![Portfolio review turns records, exceptions, and risks into a roadmap that feeds the next S0 assessment.](../assets/diagrams/s12-portfolio-to-s0-feedback-loop.svg)
 
 The portfolio roadmap feeds the next S0 assessment. It does not replace it. S0
 reassesses selected domains with customer-held evidence and a fresh decision.
@@ -78,9 +75,8 @@ readiness, model-version governance, fine-tuning evaluation dependency, Foundry
 project cost-accountability gap, maturity reassessment evidence, S0 feedback,
 and governance cadence.
 
-The backlog does not approve funding, change policy, certify compliance, or
-rewrite the S0 baseline. It routes decisions to the right customer governance,
-budget, risk, policy, assurance, or change process.
+The roadmap routes decisions to the appropriate customer governance, budget,
+risk, policy, assurance, or change process.
 
 Framework references such as NIST AI RMF, ISO/IEC 42001, and the EU AI Act can
 help structure questions. S12 does not issue a conformity conclusion. It records
@@ -103,9 +99,6 @@ S12 records what the current references can support and what remains unknown.
 | [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management) | Portfolio cost aggregation starting point. |
 | [Fine-tune Microsoft Foundry models](https://learn.microsoft.com/en-us/azure/foundry/how-to/fine-tune-models) | Model capability investment input; verify availability. |
 | [NIST AI RMF](https://www.nist.gov/itl/ai-risk-management-framework) | Portfolio roadmap framing. |
-
-These links inform roadmap design. They do not approve investment or certify
-compliance.
 
 ## Proof improves policy through a new decision
 

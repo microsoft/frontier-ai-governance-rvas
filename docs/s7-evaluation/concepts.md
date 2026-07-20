@@ -7,7 +7,7 @@ This page explains the sign-off boundary behind S7. [S7 Prepare](index.md) start
 
 ## Evaluation is not a release sign-off
 
-![S7 handoff: the accepted S6 gateway proof is required first, then an evaluation plan (quality, groundedness, safety, tool use, regression, human review) goes to the assurance owner who selects continue or hold; Foundry evaluations inform but do not replace the decision.](../assets/diagrams/s7-evaluation-release-handoff.svg)
+![Accepted S6 proof precedes evaluation, then the assurance owner decides to continue or hold.](../assets/diagrams/s7-evaluation-release-handoff.svg)
 
 Customer teams can use Microsoft Foundry evaluations and agent evaluators to review quality, safety, groundedness, tool use, and task completion. Those results can inform a release decision.
 
@@ -15,13 +15,13 @@ They do not prove runtime gateway enforcement. A fixture result, local scorecard
 
 S7 requires the accepted S6 gateway proof first. The sign-off record then rests on a customer-reviewed production-path control, not on an evaluator result alone.
 
-## References keep ownership with the customer
+## Plan scope and evidence
 
-The S7 template records references to the accepted S6 proof, an evaluation plan, an assurance owner, and the decision. The completed record belongs in the customer's approved evidence system.
-
-Do not store raw prompts, outputs, telemetry, credentials, or local evaluator evidence in this repository.
-
-The evaluation-plan review should also say what each result can support. Typical categories are quality, groundedness, safety, tool use, regression, human review, and unsupported scope. Foundry evaluations and agent evaluators can support the customer's process, but S7 records references and decisions rather than operating the evaluator.[^foundry-eval]
+The plan records the accepted S6 proof, evaluation plan, assurance owner,
+decision, and what each result can support: quality, groundedness, safety, tool
+use, regression, human review, or unsupported scope. Keep completed records in
+the customer evidence system; do not store raw prompts, outputs, telemetry,
+credentials, or evaluator evidence here.[^foundry-eval]
 
 ## Agent evaluators answer specific questions
 
@@ -55,9 +55,9 @@ The S4 model-deployment backlog owns the engineering decision. S7 records whethe
 
 ## Evaluation review becomes release backlog
 
-The S7 recommendation should name the next release-sign-off path, confidence, and assumptions. Typical backlog rows include Foundry evaluation target, evaluator or scorecard, dataset or scenario owner, trace source, unsupported population, quality/safety/tool-use threshold, evaluation-suite version, renewal trigger, trace-to-dataset owner, CI/CD or release-gate owner, rollback or observation route, S8 red-team dependency, and S11 operating-review handoff.
-
-The backlog is not a live evaluator, CI/CD gate, or production approval. Those belong to the customer release process.
+Name the release-sign-off path, confidence, assumptions, evaluation target,
+scenario or dataset owner, coverage gap, threshold, release-gate owner, and any
+S8 or S11 dependency. The customer release process owns implementation.
 
 ## A decision is explicit
 
@@ -74,12 +74,8 @@ The assurance owner selects `continue` or `hold` only after the S6 acceptance co
 | [Cloud Evaluation with the Microsoft Foundry SDK](https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/cloud-evaluation) | CI/CD-integrated evaluation backlog planning. |
 | [Fine-tune Microsoft Foundry models](https://learn.microsoft.com/en-us/azure/foundry/how-to/fine-tune-models) | Fine-tuning and pre/post comparison planning; verify availability. |
 
-These sources inform customer-owned planning. They do not authorize a CI/CD gate or replace the accepted S6 proof.
-
 ## Policy-specific evaluation needs a measured comparison
 
 A policy-driven evaluation approach such as ASSERT can help a customer express safety requirements as targeted scenarios and compare results before and after a mitigation. The customer owns the evaluator, dataset, thresholds, and interpretation.
-
-A score change does not prove runtime enforcement, release readiness, or control effectiveness.
 
 See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md) for Foundry observability/evaluation guidance and contextual ASSERT material.

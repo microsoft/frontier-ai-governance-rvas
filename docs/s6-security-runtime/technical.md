@@ -7,13 +7,10 @@
     [Platform technical guide](../reference/platform-technical-guide.md) and
     official product docs before delivery.
 
-S6 turns runtime assurance into three customer-owned technical decisions:
-where runtime safety controls are enforced, how threat response is routed, and
-what correlation evidence makes a gateway decision reviewable.
-
-These are decision **menus**, not deployment steps: S6 changes no production
-traffic, configures no product, and leaves implementation with the customer's
-security, platform, SOC, identity, and change processes.
+S6 decides where runtime safety controls are enforced, how threat response is
+routed, and what correlation evidence supports a gateway decision. It changes
+no production traffic or product configuration; implementation remains with the
+customer's security, platform, SOC, identity, and change processes.
 
 ![S6 illustrative layered-runtime pattern: identity and network, gateway, model or agent, and tool boundaries can produce correlated safe evidence for a customer-owned acceptance decision. A direct diagnostic remains distinct from gateway-path proof.](../assets/diagrams/s6-security-runtime-correlation-flow.svg)
 
@@ -100,8 +97,7 @@ gateway proof that S7 can reference.
 
 Record the choices, alternatives, rationale, and adoption stage in
 `labs/s6-security-runtime/templates/technical-decision-record.template.md`.
-The record is the S6 decision that lasts; the kit remains offline and
-changes nothing.
+The record captures the S6 decision; the kit remains offline.
 
 ## Related references
 

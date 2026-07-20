@@ -7,8 +7,8 @@
 
 ## 1. Outcome & what the customer keeps
 
-By the end of this session the customer can answer one question for every agent
-in scope: **who owns it, and can we prove it?**
+For every agent in scope, the customer can answer: **who owns it, and can we
+prove it?**
 
 They leave with:
 
@@ -26,12 +26,9 @@ templates, or customer records — those stay in the customer's own systems.
 
 ### What happens next
 
-S1 produces a short identity backlog for the customer to work on later. The
-recommendation says which path to take: keep the current setup, fix missing
-owners or gaps in the source, look into whether Entra Agent ID covers more
-agents, send RBAC / on-behalf-of (OBO) / Conditional Access work to the
-customer's identity-change process, or pause dependent sessions until every
-agent has an owner and a trusted source.
+S1 produces an identity backlog: retain the current setup, close source or owner
+gaps, assess Entra Agent ID coverage, route RBAC/OBO/Conditional Access work to
+the identity-change process, or pause dependent sessions.
 
 ### What the list captures
 
@@ -54,11 +51,9 @@ PowerShell, or any particular Entra Agent ID setup to run this session.
 
 ## 3. Why this session matters
 
-You can't govern an agent you can't name and can't tie to an owner. If an
-incident happens, "who is responsible for this agent?" needs a fast, confident
-answer. S1 gets you there: a trusted list, a human sponsor per agent, and an
-honest note of what the list still misses. A quick directory search is **not**
-the same as a real agent inventory, and this session is careful not to pretend it is.
+You cannot govern an agent you cannot name or tie to an owner. S1 produces a
+trusted list, a human sponsor for each agent, and an honest coverage statement.
+A directory search is not an agent inventory.
 
 Read the [S1 Concepts](concepts.md) for how Entra Agent ID, ownership, OBO, and
 the gateway boundary fit together.
@@ -77,10 +72,10 @@ can open, a place to store results, and a governance lead in the room. If there'
 no source or no decision-maker, stop that part and write down what's blocking it —
 don't fall back to a directory query.
 
-**What the customer actually does:** the identity admin opens a real list of
-their agents and reviews it; then the governance lead decides how to handle any
-missing owners or gaps. Where an agent needs an identity path or runtime access
-decision, use the [Technical decisions](technical.md) chapter's option menus.
+**Customer action:** the identity admin reviews a supported agent list; the
+governance lead decides how to handle owner and coverage gaps. Use the
+[Technical decisions](technical.md) options when identity path or runtime access
+is undecided.
 
 1. **Agree what the list can and can't tell you** *(15 min)* — the facilitator
    asks: **"Which agents does this source actually cover, and which does it
@@ -143,18 +138,3 @@ put list data, object IDs, exports, or policy evidence in Git.
 This kit changes nothing in the tenant. The customer's identity-change process
 owns any Conditional Access, break-glass, access remediation, rollback,
 verification, and evidence retention.
-
-## 7. Facilitator notes
-
-- **When you're stuck:** no trusted source → record the coverage gap; no sponsor
-  → raise an ownership finding; OBO → mark it as visibility only, unless the
-  supported source says otherwise. Assign an owner and date, and resume once
-  it's resolved.
-- **Official context:** [manage agent identities](https://learn.microsoft.com/en-us/entra/agent-id/manage-agent-identities-admin)
-  and [manage owners and sponsors](https://learn.microsoft.com/en-us/entra/agent-id/manage-owners-sponsors-agents)
-  describe what the product can do. They back up the terms here; they don't
-  replace the customer's own coverage evidence.
-- **Hand-off:** the customer's list reference and coverage note feed S6
-  reconciliation; remediation decisions stay with the customer.
-
-[^entra]: Microsoft Learn - [What is Microsoft Entra Agent ID?](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id); [Agent ID governance overview](https://learn.microsoft.com/en-us/entra/id-governance/agent-id-governance-overview).

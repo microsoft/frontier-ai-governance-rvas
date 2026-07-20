@@ -1,10 +1,6 @@
 # Customer workspace generator
 
-Use the generator at mobilization to create the delivery team's working
-structure for one customer engagement. The generated workspace is a control
-plane for tasks, decisions, and evidence references. It is not an evidence
-store and must not contain customer credentials, tenant IDs, URLs, logs,
-exports, or screenshots.
+Use the generator at mobilization to create one engagement's delivery workspace: a control plane for tasks, decisions, and evidence references. It is not an evidence store; never put customer credentials, tenant IDs, URLs, logs, exports, or screenshots in it.
 
 ## Prerequisites
 
@@ -34,9 +30,7 @@ The command validates that the intake has exactly these fields:
 | `platform_lead` | Platform role or approved alias |
 | `target_environment_label` | Safe environment label, for example `nonprod` |
 
-The generator rejects unexpected fields and values that look like tenant
-configuration, URLs, credentials, tokens, or secrets. Slugs and role aliases
-are limited to 80 characters; role aliases cannot start or end with whitespace.
+The generator rejects unexpected fields and values that look like tenant configuration, URLs, credentials, tokens, or secrets. Slugs and role aliases are limited to 80 characters; role aliases cannot begin or end with whitespace.
 
 Use `--help` to print the command syntax. The CLI rejects duplicate options and
 options without values.
@@ -54,13 +48,6 @@ The generated workspace contains:
 evidence/               reference-only evidence boundary
 ```
 
-The command is idempotent when the intake values are unchanged, including if
-the JSON fields are reordered. It validates every destination before writing,
-then refuses to overwrite any existing file with different content, protecting
-customer-authored work from partial generation. It also refuses an output root,
-parent directory, or generated file that is a symbolic link.
+The command is idempotent for unchanged intake values, including reordered JSON fields. It validates destinations before writing and refuses to overwrite different existing content, protecting customer-authored work from partial generation. It also rejects symbolic-link output roots, parent directories, and generated files.
 
-Store evidence in the approved customer records system and record only its
-governed reference in the generated registers. Do not add evidence payloads,
-credentials, tenant details, logs, exports, or screenshots to a generated
-workspace.
+Store evidence in the approved customer records system and record only its governed reference in generated registers.

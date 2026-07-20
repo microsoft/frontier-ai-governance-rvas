@@ -1,6 +1,6 @@
 # Governance capability guide
 
-Use this guide to map each AI Governance session to concrete Microsoft capabilities. Check the linked Microsoft documentation, tenant licensing, region support, and customer fit before delivery.
+Map each AI Governance session to Microsoft capabilities with this guide. Before delivery, check the linked documentation, tenant licensing, region support, and customer fit.
 
 ## Capabilities by governance domain
 
@@ -22,7 +22,7 @@ Use this guide to map each AI Governance session to concrete Microsoft capabilit
 
 ## Implementation pathway taxonomy
 
-Each session should turn its evidence review into a clear implementation pathway. The pathway is a customer-owned backlog and decision aid. It is not an instruction to deploy, configure, publish, grant access, or approve production use during the session.
+Each session should turn evidence review into an implementation pathway: a customer-owned backlog and decision aid, not an instruction to deploy, configure, publish, grant access, or approve production use.
 
 Use the same row shape across sessions:
 
@@ -35,7 +35,7 @@ Use the same row shape across sessions:
 | Evidence reference or gap | Customer-held record reference, nothing found, tool limitation, blocker, or missing prerequisite. |
 | Owner | Named business, engineering, platform, security, identity, data, service, cost, or portfolio owner. |
 | Later route | Follow-on session or customer architecture, security, change, release, support, or production-approval process. |
-| Boundary | What this session does not configure, deploy, prove, or approve. |
+| Boundary | What the session does not configure, deploy, prove, or approve. |
 
 Filter these Microsoft capability categories to the session:
 
@@ -65,13 +65,13 @@ Filter these Microsoft capability categories to the session:
 
 ## Product-status notes
 
-- Microsoft Agent 365 and Microsoft Entra Agent ID have general-availability announcements. Some related access-control and connector features remain preview.
-- Purview DSPM, Defender AI-SPM, AI Threat Protection, and Prompt Shields have generally available capabilities. Individual detections and integrations may be preview.
+- Microsoft Agent 365 and Microsoft Entra Agent ID have general-availability announcements, while some related access-control and connector features remain preview.
+- Purview DSPM, Defender AI-SPM, AI Threat Protection, and Prompt Shields include generally available capabilities; individual detections and integrations may be preview.
 - The `azure-ai-evaluation` SDK is generally available. Individual evaluators, agent evaluators, cloud evaluation, and continuous-evaluation features can vary. Verify the named evaluator categories before delivery. S7 references customer-owned evaluation work. It does not run a live evaluator or create a CI/CD gate.
 - Foundry fine-tuning is available for supported models and can vary by model, region, and feature. Verify support before you recommend a fine-tuning path or evaluation integration.
 - Foundry billing and project-level cost attribution may have scope limits. Confirm available views before you use them in a FinOps recommendation.
 - ASSERT policy-driven evaluation is contextual Build 2026 guidance. Verify its current project and preview status before you cite it in a customer backlog.
-- Microsoft Foundry Agent Service supports prompt agents, hosted agents, and existing external agents through the Responses API. S4 uses this distinction only for implementation-path and backlog planning. It does not create or deploy an agent.
+- Microsoft Foundry Agent Service supports prompt agents, hosted agents, and existing external agents through the Responses API. S4 uses this only for implementation-path and backlog planning, not agent creation or deployment.
 - Copilot Studio agents are governed through Power Platform and Microsoft 365 controls such as environments, data policies, publication controls, audit, and tenant administration. Confirm environment, DLP, connector, ALM, and licensing requirements before you recommend that path.
 - Microsoft 365 Copilot declarative agents are configured through instructions, knowledge, actions, capabilities, and app metadata. Confirm the selected authoring tool, admin distribution route, and tenant controls before delivery.
 - PyRIT is open source. The managed AI Red Teaming Agent is preview.
@@ -80,7 +80,7 @@ Filter these Microsoft capability categories to the session:
 
 ## Framework alignment
 
-The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC 42001, and EU AI Act work. This mapping is illustrative. The customer remains responsible for risk classification, legal interpretation, and formal conformity assessment.
+The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC 42001, and EU AI Act work. This illustrative mapping does not replace customer responsibility for risk classification, legal interpretation, or formal conformity assessment.
 
 | Session | NIST AI RMF | ISO/IEC 42001 | EU AI Act |
 |---|---|---|---|

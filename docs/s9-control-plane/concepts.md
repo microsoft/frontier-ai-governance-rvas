@@ -3,7 +3,8 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-15
 
-S9 gives the customer a read-only operating view of agents and tools. It reviews records and decisions. It does not query live data or change a catalog, identity, access setting, or lifecycle state.
+S9 is a read-only view of agent and tool records and decisions; it does not
+query live data or change a catalog, identity, access setting, or lifecycle state.
 
 ## A catalog is an operating record
 
@@ -25,13 +26,15 @@ Suspension stops use while review happens. Retirement ends intended use but keep
 
 ## Reconciliation keeps gaps visible
 
-![S9 reconciliation flow: several source records (agent registry / Agent 365 view, Entra Agent ID records, API Center / gateway records, platform telemetry, approved lifecycle / change-review) are compared by explicit identity identifiers; disagreements become findings (unmatched identities, catalog-only entries, missing owners, invalid lifecycle states, unreviewed material changes, incomplete closure records) routed to the customer steward or change process as a lifecycle backlog.](../assets/diagrams/s9-reconciliation-gap-flow.svg)
+![Reconciled identity records expose lifecycle gaps that route to a steward or change-process backlog.](../assets/diagrams/s9-reconciliation-gap-flow.svg)
 
 S9 compares explicit identity identifiers in the catalog with the normalized identity inventory. It does not infer matches from names, aliases, or nearby fields.
 
 Unmatched identities, catalog-only entries, missing owners, invalid lifecycle states, unreviewed material changes, and incomplete closure records are findings for accountable owners.
 
-The customer may need records from several places: an agent registry or Agent 365 view, Entra Agent ID records, API Center or gateway records for tools and APIs, platform telemetry, and approved lifecycle or change-review records. S9 does not choose the customer's main system. It asks which record the customer trusts for the declared population and preserves gaps where records disagree.
+Records may come from an agent registry or Agent 365 view, Entra Agent ID, API
+Center or gateway, telemetry, and lifecycle or change-review records. S9
+preserves disagreement; it does not choose the customer's system of record.
 
 ## Reconciliation becomes lifecycle backlog
 
@@ -44,8 +47,6 @@ S9 does not execute catalog, identity, access, policy, or retirement changes. It
 ## Closeout accepts accountability, not absence of findings
 
 Closeout can happen with owned gaps only when the decision owner records the residual-risk disposition, accountable owner, due date, validation reference, recurrence check, exception route, and next review.
-
-A blank template, local tool result, or no-result is not proof that a control operates.
 
 ## Fleet governance and workflow controls have different jobs
 

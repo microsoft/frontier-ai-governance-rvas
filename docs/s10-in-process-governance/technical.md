@@ -5,14 +5,9 @@
     Preview and pinned in this curriculum; verify current status and limitations
     before delivery. See the [Platform technical guide](../reference/platform-technical-guide.md).
 
-S10's core question is not "is there a place to run a policy check?" — it is a
-**technical decision** with a clear menu: *where should the tool-call policy
-boundary live for this agent, if anywhere?* This page gives the options,
-the criteria to choose, and the trade-offs, so the customer records a real
-decision (including "not applicable") and a concrete next step.
-
-S10 installs and executes nothing. Every option below is a decision the
-customer's engineering and change process would own.
+Choose where, if anywhere, a policy check belongs immediately before a tool
+call. S10 records that decision, including “not applicable”; it installs and
+executes nothing.
 
 ## Decision — Where does the tool-call policy boundary live?
 

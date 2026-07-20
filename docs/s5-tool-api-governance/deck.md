@@ -5,7 +5,9 @@
 Governance lead · Platform owner · Security reviewer · AI developer / maker · 90-minute publication review
 
 Note:
-Welcome and framing. This is an evidence-first, report-only session for a bounded set of APIs, tools, or MCP services. It reviews references and produces no live change. Do not publish catalog entries, grant permissions, create identities, connect to live services, or use a catalog record as proof of safe use.
+This evidence-first, report-only session reviews a bounded set of APIs, tools,
+or MCP services and makes no live change. Do not publish, grant permissions,
+create identities, connect to live services, or treat a catalog as safety proof.
 
 ---
 
@@ -27,13 +29,15 @@ This is the whole session. S5 creates the decision record before publication or 
 - A catalog entry helps find facts; it does not prove runtime safety.
 
 Note:
-Set the boundary clearly. A catalog can support governance, but it cannot prove that a service is safe, correctly configured, authorized for every caller, or working as intended. Implementation and runtime verification stay in separate customer processes.
+A catalog supports governance; it does not prove safety, configuration,
+authorization, or live behavior. Implementation and runtime verification are
+separate processes.
 
 ---
 
 ## Catalog record, not safety proof
 
-![S5 object model: a publication record must carry discoverability, owner, version/lifecycle state, and exposure-control intent, then choose a system of record — API Center plus APIM products, an existing estate or catalog, or an ad-hoc list / no registry treated as a gap.](../assets/diagrams/s5-tool-api-governance-record-model.svg)
+![Publication record fields and system-of-record choices expose governance gaps.](../assets/diagrams/s5-tool-api-governance-record-model.svg)
 
 A catalog records discoverability, owner, version/lifecycle state, and exposure-control intent.
 
@@ -200,4 +204,5 @@ Reference candidate source, ownership record, classification record, identity an
 - Re-review when version, authority, ownership, classification, or lifecycle changes.
 
 Note:
-Close the loop. A publish-ready decision is a handoff to the customer's separate publication process. It is not publication. Assign every gap to an owner, target date, and approved process.
+Publish-ready hands off to the separate publication process; it is not
+publication. Assign each gap to an owner, date, and process.

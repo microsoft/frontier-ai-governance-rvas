@@ -67,8 +67,8 @@ Run the reconciliation during the fourth activity:
 
 ```bash
 python labs/s9-control-plane/scripts/reconcile-registry.py \
-  --registry labs/s9-control-plane/evidence/control-plane-registry.json \
-  --inventory labs/s1-identity/evidence/agent-inventory.json \
+  --registry labs/s9-control-plane/data/agent-registry.sample.json \
+  --inventory labs/s9-control-plane/data/s1-agent-inventory.sample.json \
   --out labs/s9-control-plane/evidence/reconciliation-report.json
 ```
 
@@ -98,10 +98,3 @@ Save only safe references in `04-operate/evidence-register.json` and the closeou
 ## 6. Change boundary
 
 S9 makes no live-data query and no catalog, lifecycle, identity, policy, access, or production change. Any change follows the customer's separate approved implementation, rollback, and verification process.
-
-## 7. Facilitator notes
-
-- **When you're stuck:** no owner or decision authority stops the affected step; incomplete catalog fields go back to the steward; lifecycle changes go to the customer's change process; missing evidence becomes a coverage gap.
-- **Official context:** use Agent 365, Microsoft Entra Agent ID, and API Center or gateway records to support the customer's view where applicable. S9 does not choose a system for them. It checks whether the records agree for the declared population.
-- **RACI:** Governance lead = decision owner; catalog steward = responsible for record interpretation; evidence owner = responsible for approved references; service, identity, risk, and finance specialists = consulted as relevant.
-- **Hand-off:** closeout confirms accountability and cadence. It does not certify that a control is deployed or operating.

@@ -4,14 +4,12 @@
     Last reviewed: 2026-07-15 · Reconfirm applicable admission requirements
     before each delivery.
 
-Use [S4 Prepare](index.md) for the 90-minute co-delivery method. This page
-explains what S4 reviews before an agent ships or materially changes. S4
-recommends a Microsoft path and backlog. It does not deploy, configure, publish,
-or approve production use.
+Use [S4 Prepare](index.md) for the 90-minute co-delivery method. This page explains what S4 reviews before an agent ships or materially changes.
+It recommends a Microsoft path and backlog, not deployment or production use.
 
 ## Classification is about authority
 
-![S4 decision tree: an agent candidate is classified by intended authority into advisory assistant, human-confirmed action, bounded delegated-action, or coordinating agent, each raising the minimum admission focus; if authority is unclear the candidate is unclassified and not admitted.](../assets/diagrams/s4-authority-admission-tree.svg)
+![Authority classification routes candidates to an admission focus; unclear authority is not admitted.](../assets/diagrams/s4-authority-admission-tree.svg)
 
 Classify a candidate by what it is meant to do, not by its label or framework.
 The highest-impact action sets the standard.
@@ -43,9 +41,8 @@ approval.
 | Workflow automation with AI capability | The candidate is mainly a business workflow, trigger, or automation with AI-assisted decisions or content generation. | Workflow owner, trigger, action boundary, connector/data policy, human confirmation, exception route, audit trail, operational support, and change owner. |
 | Research/prototype with no operational admission | The candidate is exploratory and should not enter an operational lifecycle yet. | Isolation boundary, excluded users/data/actions, expiry date, learning goals, evidence owner, and trigger for reclassification before any operational use. |
 
-The matrix is not a product wish list. It explains why one path fits the
-authority, users, data boundary, engineering ownership, and operating model
-better than the alternatives.
+The matrix records why one path fits the authority, users, data boundary,
+engineering ownership, and operating model better than the alternatives.
 
 ## Foundry Agent Service worked example
 
@@ -68,8 +65,8 @@ agent admission and later change review.
 | Catalog and lifecycle | Where will the agent, tools, owner, status, exception, and retirement record be cataloged? | S9 and service owner. |
 | Deployment and change process | Which customer change process owns rollout, rollback, production approval, and post-release verification? | Customer engineering/change authority. |
 
-Use the same structure for other paths, but only deepen the selected path. Keep
-short notes for paths you reject or defer, so the decision is reviewable later.
+Use the same structure for other paths, but deepen only the selected path and
+briefly record rejected or deferred alternatives.
 
 ## Model selection and fine-tuning are governance decisions
 
@@ -97,9 +94,8 @@ source and its limits. S11 later reviews trends and drift.
 
 ## Cross-cutting governance services are considered, not imposed
 
-Every implementation path must say whether key governance surfaces apply, do not
-apply, are unknown, or need a later session. S4 does not require every service to
-be deployed. It requires the decision to be explicit.
+Every path states whether governance surfaces apply, do not apply, are unknown,
+or need a later session. S4 requires an explicit decision, not every service.
 
 Mandatory consideration areas include:
 
@@ -156,8 +152,7 @@ implementation decision package names:
 | Evidence owner | References, retention location, and reviewability of the decision record. |
 | Risk or control owner | Applicable risk acceptance and control obligations. |
 
-Ownership must survive handoffs. An unnamed future owner is a gap, not a
-retirement or operating plan.
+An unnamed future owner is a gap, not a retirement or operating plan.
 
 ## Tests show bounded claims
 

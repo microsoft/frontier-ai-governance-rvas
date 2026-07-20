@@ -5,7 +5,10 @@
 Platform owner · Security owner · 90-minute evidence-first boundary review
 
 Note:
-Welcome and framing. This is an **evidence-first and report-only** session. No deployment, live integration, environment access, network testing, or configuration change occurs here. Timebox is 90 minutes. Roles in the room: facilitator, platform owner, security owner, evidence owner, and decision owner. Invite network, identity, hybrid-service, and runtime-assurance specialists when they need to interpret a boundary.
+This **evidence-first, report-only** session makes no deployment, live
+integration, environment access, network test, or configuration change. Timebox:
+90 minutes. Roles: facilitator, platform owner, security owner, evidence owner,
+and decision owner; include specialists when needed.
 
 ---
 
@@ -28,7 +31,8 @@ The customer keeps records in its approved system. `labs/s3-platform-foundation/
 - Later sessions should not rely on an unevidenced path.
 
 Note:
-S3 makes boundaries visible before runtime assurance starts. The customer decides which platform owner is accountable, which evidence should exist, and which gaps must be closed before later sessions rely on the path.
+S3 names the accountable platform owner, evidence expectations, and gaps to
+close before runtime assurance relies on the path.
 
 ---
 
@@ -48,7 +52,7 @@ The boundary review makes these transitions explicit so an owner can say which e
 
 ## The AI gateway is a platform trust boundary
 
-![S3 boundary diagram: a caller crosses the platform trust boundary at the AI gateway (Azure API Management handling authn, authz, routing, throttling, logging, policy) to reach AI services, tools and model backends; private connectivity, hybrid dependencies, identity boundary and telemetry coverage attach to the boundary, and a platform-security owner is accountable while runtime assurance evidences it in S6.](../assets/diagrams/s3-gateway-trust-boundary.svg)
+![Gateway trust boundary controls access to AI services and tools.](../assets/diagrams/s3-gateway-trust-boundary.svg)
 
 The gateway helps state where authentication, authorization, routing, throttling, logging, or policy checks are expected.
 
@@ -222,4 +226,5 @@ Use the blank platform-boundary review, runtime-assurance handoff, and technical
 - Runtime assurance performs any later authorized observation.
 
 Note:
-Close with the guardrails. No result is not a pass: record the reviewed scope, date, expected signal, and why no conclusion can be made. An Azure API Management or AI gateway design is not proof that traffic uses it. Block dependent topics when authority, safe record handling, or a decision owner is absent.
+No result is not a pass: record scope, date, expected signal, and the limit.
+An API Management or gateway design does not prove traffic uses it.

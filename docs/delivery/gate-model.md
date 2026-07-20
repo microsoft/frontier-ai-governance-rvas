@@ -1,6 +1,6 @@
 # Gate model
 
-Use these gates in addition to the session-specific prerequisites and rollback steps. Record the result in the engagement register.
+Use these gates with session-specific prerequisites and rollback steps. Record each result in the engagement register.
 
 | Gate | When | Pass condition | If it does not pass |
 |---|---|---|---|
@@ -13,7 +13,7 @@ Use these gates in addition to the session-specific prerequisites and rollback s
 
 ## Decision authority
 
-The facilitator verifies the gate and records the result. The customer retains decision authority:
+The facilitator verifies and records the gate; the customer retains decision authority:
 
 | Decision | Customer decision owner |
 |---|---|

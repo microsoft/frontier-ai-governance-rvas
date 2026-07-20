@@ -74,11 +74,6 @@ const SESSION_CHAPTERS = [
     label: 'Verify and hand over',
     heading: /^(?:5\. Verification|6\. (?:Customer-owned )?(?:Rollback|Change boundary))/i,
   },
-  {
-    slug: 'facilitator-notes',
-    label: 'Facilitator notes',
-    heading: /^7\. Facilitator notes/i,
-  },
 ];
 
 const PAGES = [

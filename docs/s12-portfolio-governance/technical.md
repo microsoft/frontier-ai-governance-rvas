@@ -6,14 +6,9 @@
     availability, licensing, and limitations in the [Governance capability guide](../reference/governance-capability-guide.md)
     and official product documentation before delivery.
 
-S12 is the portfolio decision point: it turns prior session records, exception
-patterns, maturity movement, and investment proposals into a customer-owned
-roadmap. What S12 leaves behind is not a live dashboard or policy change; it is a
-recorded set of portfolio decisions, deferrals, owners, and next-review evidence.
-
-These are decision **menus**, not deployment recommendations, and S12 changes
-nothing in production; the customer's governance, budget, risk, policy,
-assurance, and change processes own any implementation.
+Choose portfolio reporting, prioritization, and review cadence. S12 produces a
+roadmap of decisions, deferrals, owners, and review evidence—not a dashboard or
+policy change.
 
 ## Decision 1 — Portfolio system of record & reporting
 

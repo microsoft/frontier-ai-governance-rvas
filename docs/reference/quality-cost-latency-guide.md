@@ -4,10 +4,7 @@
     Last reviewed: 2026-07-17. Verify capability, model, region, pricing, and
     availability before delivery.
 
-Use this guide with S4, S7, and S11 to turn quality, model, latency, cost, and
-rollout questions into customer-owned records. It does not select a model, run
-an evaluation, set a service-level objective, approve spend, or authorize a
-production change.
+Use this guide with S4, S7, and S11 to turn quality, model, latency, cost, and rollout questions into customer-owned records. It does not select a model, run an evaluation, set an SLO, approve spend, or authorize a production change.
 
 ## Model selection and fine-tuning
 
@@ -18,9 +15,7 @@ change. A fine-tuning proposal needs a stated capability gap, an alternative
 considered, training-data governance, a base-versus-fine-tuned comparison, and
 an owner for the resulting model version.
 
-Foundry fine-tuning availability varies by supported model and region. A
-customer may use Foundry or another engineering path; S4 records the backlog
-and decision route rather than prescribing either one.
+Foundry fine-tuning availability varies by model and region. A customer may use Foundry or another engineering path; S4 records the backlog and decision route rather than prescribing either.
 
 ## Quality measurement
 
@@ -42,10 +37,7 @@ expectation. Attribute the budget across model inference, retrieval, tools,
 orchestration, and network path, then record what the evidence cannot
 attribute. Model benchmarks are not an operating service-level objective.
 
-Application Insights and OpenTelemetry can provide general telemetry routes.
-Foundry traces can be an additional project-gated source where enabled. In
-either case, sampling, retention, population, and interpretation limits remain
-part of the record.
+Application Insights and OpenTelemetry can provide telemetry routes; Foundry traces can be an additional project-gated source. In either case, record sampling, retention, population, and interpretation limits.
 
 For synthetic load testing, first-token latency, throughput, and production
 telemetry measurement, see the
@@ -65,11 +57,7 @@ allocation decision.
 
 ## Rollout governance
 
-Staged rollout assembles S4 admission, S6 gateway proof, S7 assurance, S8
-finding disposition where applicable, and S9 lifecycle references. Each stage
-needs its own population, entry and exit conditions, rollback reference, owner,
-and status. Production promotion always remains a separate customer
-change-authority decision.
+Staged rollout assembles S4 admission, S6 gateway proof, S7 assurance, applicable S8 finding disposition, and S9 lifecycle references. Each stage needs a population, entry and exit conditions, rollback reference, owner, and status. Production promotion remains a customer change-authority decision.
 
 ## Product-status notes
 

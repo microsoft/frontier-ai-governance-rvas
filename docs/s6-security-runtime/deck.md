@@ -5,7 +5,9 @@
 Security / SOC · Governance lead · 90-minute report-only runtime evidence review
 
 Note:
-Welcome and framing. This is a report-only, audit-first runtime evidence session. Do not run against production traffic. A component diagnostic is not gateway-path proof. The customer operates the approved request and records evidence in its own systems.
+This report-only, audit-first runtime-evidence session does not run against
+production traffic. A component diagnostic is not gateway-path proof; the
+customer operates the approved request and records its evidence.
 
 ---
 
@@ -28,7 +30,8 @@ By the end, the customer should have one reviewable runtime artifact: a gateway 
 - S6 records correlation without changing production traffic.
 
 Note:
-Separate troubleshooting from assurance. A direct call to a Content Safety endpoint can diagnose that component, but it cannot prove the agent request used the customer gateway, access contract, backend, or policy.
+A direct Content Safety call can diagnose that component, but cannot prove the
+agent used the customer gateway, access contract, backend, or policy.
 
 ---
 
@@ -46,7 +49,7 @@ Name the artifact precisely: gateway-proof manifest from the gateway adapter. It
 
 ## Correlation makes the request reviewable
 
-![S6 flow: a gateway adapter request produces a gateway-proof manifest with safe references and a correlation_id; the transport result (pass/fail) and the correlation_id appearing in approved gateway telemetry both feed the platform and security owners' acceptance decision, yielding a reviewable runtime artifact; a direct component diagnostic is not gateway-path proof.](../assets/diagrams/s6-security-runtime-correlation-flow.svg)
+![Gateway correlation determines runtime acceptance.](../assets/diagrams/s6-security-runtime-correlation-flow.svg)
 
 Transport result and security acceptance are different decisions.
 
@@ -185,4 +188,6 @@ No raw prompt, document, endpoint, credential, response, or telemetry is saved i
 - Final record contains acceptance, rejection, or blocked decision and the S4 handoff reference.
 
 Note:
-Close with blockers: no approved non-production route, unsafe authentication handling, missing telemetry reviewer or record location, production-only availability, or unresolved correlation. Record the safe stop point, owner, target date, and impact on S4. Do not run a direct diagnostic or fabricate local evidence to continue.
+For no approved non-production route, unsafe authentication, missing reviewer or
+record location, production-only availability, or unresolved correlation, record
+the stop point, owner, date, and S4 impact. Do not substitute a diagnostic.

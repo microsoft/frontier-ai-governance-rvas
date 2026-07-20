@@ -14,21 +14,16 @@ intended use, classification, caller identity, authority, and lifecycle decision
 It cannot prove that a tool is safe, that a caller is authorized, that policy is
 enforced, or that a live integration behaves as claimed.
 
-S5 keeps that line clear. The customer records evidence references and a decision.
-Implementation and runtime verification stay in separate customer processes.
+S5 records evidence references and a decision. Implementation and runtime
+verification remain separate processes.
 
 ## Publication decisions become a work list
 
-The S5 recommendation names the next publication path and explains why other
-paths were rejected or deferred. Typical work-list rows include API Center or
-catalog registration, Azure API Management or AI Gateway route, caller identity,
-MCP or connector implementation path, workspace or namespace decision, version
-boundary, authorization scope, suspension or withdrawal trigger, S6 runtime
-evidence, S9 lifecycle reconciliation, and customer change or release ownership.
-
-S5 does not publish a service, grant permissions, configure an integration, or
-prove runtime safety. It records the backlog and owner needed before those
-actions can happen elsewhere.
+The S5 recommendation names the publication path and rejected or deferred
+alternatives. Its backlog may cover registration, gateway route, caller identity,
+MCP/connector path, authority, lifecycle, S6 evidence, S9 reconciliation, and
+change ownership. It does not publish, grant permission, configure, or prove
+runtime safety.
 
 ## Ownership is specific and lasting
 
@@ -46,9 +41,8 @@ Names should show the candidate's purpose and boundary without implying more
 safety than reviewers have proved. A workspace, namespace, or collection signals
 its audience and the rules that apply.
 
-The decision should state why the placement fits the classification, whether
-another entry could be confused with it, and who approved the choice. S5 records
-the decision. It does not create, move, or publish an entry.
+Record why the placement fits the classification, potential name confusion, and
+the approver. S5 does not create, move, or publish an entry.
 
 ## Classification sets the review depth
 
@@ -99,10 +93,9 @@ The S5 record documents these facts. It does not take the action.
 
 ## Evidence-first keeps uncertainty visible
 
-Every material statement needs a customer-held reference, an identified owner, or
-an explicit unknown. "Nothing found" is useful only when the checked scope and
-expected signal are recorded. This makes the catalog useful for governance
-without treating absence, a template, or an unverified entry as proof of safe use.
+Every material statement needs a customer-held reference, owner, or explicit
+unknown. "Nothing found" is useful only with the checked scope and expected
+signal.
 
 ## Runtime enforcement is a shared concern
 

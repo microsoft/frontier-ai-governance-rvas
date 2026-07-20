@@ -7,7 +7,7 @@ This page explains the Purview data-and-compliance controls used in S2. [S2 Prep
 
 ## Data raises its own governance question
 
-![S2 compliance flow: DSPM for AI surfaces exposure, producing prioritised findings that drive sensitivity labels and DLP policies, which feed an evidence trail (Audit, eDiscovery, Insider Risk Management, Communication Compliance) routed to the customer compliance and change process; gateway masking complements but does not replace Purview.](../assets/diagrams/s2-compliance-flow.svg)
+![DSPM findings drive labels, DLP, and compliance evidence through the customer change process.](../assets/diagrams/s2-compliance-flow.svg)
 
 Governance has to answer more than "is this agent allowed to run?" It also has to answer which data reaches the agent, which sensitive data can show up in prompts or responses, and what evidence is left after an interaction.
 
@@ -15,17 +15,16 @@ Microsoft Purview brings data security and compliance to AI workloads and connec
 
 ## Findings turn into a work list the customer owns
 
-S2 ends with a recommended next data-governance step — and the assumptions and owners behind it.
-
-Typical items on that list include Purview DSPM coverage to fix, sensitivity-label or classification work, a report-only DLP change to review, an audit/eDiscovery route to confirm, a retention or legal-hold dependency, workload-support checks, a gateway-masking dependency, and anything marked `accepted_risk` or `blocked`.
-
-The recommendation is not a policy rollout. Moving from design to report-only or enforcement stays in the customer's compliance and change process. That process owns rollback, communications, watching results, and verification.
+S2 ends with a recommended next step and its assumptions and owners: close DSPM
+or classification gaps, review a report-only DLP change, confirm investigation
+or retention, resolve gateway dependencies, or record `accepted_risk`/`blocked`.
+Policy rollout remains in the customer's compliance and change process.
 
 ## DSPM for AI finds exposure before enforcement
 
 Data Security Posture Management for AI helps you spot oversharing, exposed sensitive data, risky access, and likely ways data could leak.[^dspm]
 
-Its job is to find problems, not fix them. It shows the customer where data risk is most likely, before any policy blocks or warns users.
+It finds likely data-risk areas before a policy blocks or warns users.
 
 **In Co-deliver:** an empty result is still evidence. It can mean no in-scope workload was found, nothing turned up in the scope you checked, or a prerequisite is missing. Record which one the customer can stand behind.
 
@@ -35,13 +34,15 @@ Sensitivity labels say how data should be handled. DLP policies use those labels
 
 For AI, that can mean spotting protected information in a prompt, a response, or a connected workflow. The customer has to confirm which workloads, locations, and conditions Purview supports in its tenant.
 
-The Co-deliver chapter uses simulation or test mode first. The customer watches the matches and false positives before deciding whether enforcement is safe.
+The Co-deliver chapter starts in simulation or test mode, then reviews matches
+and false positives before enforcement.
 
 ## Investigation needs an evidence trail
 
 Audit, eDiscovery, Insider Risk Management, and Communication Compliance each cover a different investigation need.[^purview] Together, where they are supported, they route worrying activity into the customer's normal compliance process.
 
-A DLP policy on its own is not an evidence plan. The customer has to know which logs, exports, review queues, retention rules, and owners are available.
+A DLP policy alone is not an evidence plan; the customer needs the applicable
+logs, review queues, retention rules, and owners.
 
 ## Gateway masking helps, but does not replace, compliance
 

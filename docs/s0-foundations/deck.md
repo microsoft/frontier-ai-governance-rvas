@@ -5,7 +5,9 @@
 Governance lead · Executive sponsor · 90-minute offline baseline working session
 
 Note:
-Welcome and framing. This is an **offline baseline only** session — it makes no tenant changes and performs no tenant queries. Timebox is 90 minutes. Roles in the room: facilitator, governance lead, executive sponsor, evidence owner, and domain reviewers. Use arrow keys or the on-screen controls to move; press **S** for speaker notes, **Esc** for the slide overview.
+This is an **offline baseline** session: no tenant changes or queries. Timebox:
+90 minutes. Roles: facilitator, governance lead, executive sponsor, evidence
+owner, and domain reviewers.
 
 ---
 
@@ -19,7 +21,9 @@ By the end, the customer has:
 - References saved in approved customer records
 
 Note:
-Keep the outcome concrete. The customer leaves with a baseline and roadmap decision, not deployed controls. Completed scorecards, roadmaps, names, notes, and evidence stay in the customer's approved system — this repository holds only blank templates and an offline scorer.
+The result is a baseline and roadmap decision, not deployed controls. Customer
+records stay in the approved system; this repository has blank templates and an
+offline scorer.
 
 ---
 
@@ -36,7 +40,7 @@ Set the stakes. Technical controls are useful only when ownership, decision path
 
 ## Operating model before technology
 
-![S0 flow: the operating model (who decides, who does the work, where decisions are recorded, how disagreements are resolved) becomes a CoE stub and RACI, then named ownership, then an implementation backlog that routes to S1 identity, S2 Purview evidence, S3 platform owner, S4/S6 validation, and the customer change process.](../assets/diagrams/s0-operating-model-handoff.svg)
+![Operating-model decisions create ownership and a delivery backlog.](../assets/diagrams/s0-operating-model-handoff.svg)
 
 An operating model answers:
 
@@ -55,7 +59,8 @@ Walk the diagram left to right, but land the point quickly: ownership comes befo
 - S0 names the track, owner, evidence source, later session, or customer process.
 
 Note:
-Do not let the room treat the maturity score as the deliverable. The recommendation should name the next governance track, the owner, the evidence gap, the assumptions, and the customer process for follow-up. S0 does not configure Entra, Purview, Foundry, Copilot Studio, a gateway, observability, catalog, or FinOps.
+The score is not the deliverable. Name the next track, owner, evidence gap,
+assumptions, and follow-up process. S0 configures none of the named services.
 
 ---
 
@@ -217,4 +222,5 @@ Register the customer baseline reference and retention/classification metadata i
 - The roadmap sets the order for **S1-S12**.
 
 Note:
-Close by restating the boundary. When stuck: no clear owner → assign sponsor or governance-lead follow-up; no agents yet → assess approved intent and plans; weak evidence → record the gap instead of raising the score. S12 repeats the same customer-held assessment as a final comparison.
+If ownership or evidence is missing, assign follow-up or record the gap; do not
+raise the score. S12 compares the same customer-held assessment later.

@@ -128,21 +128,3 @@ data in this kit.
 S11 makes no live-data query and no platform, dashboard, metric, threshold,
 identity, policy, remediation, exception, or production change. Any action uses
 the customer's approved engineering and change process.
-
-## 7. Facilitator notes
-
-- **RACI:** Governance lead = decision owner; service owner = service
-  interpretation; cost owner = cost ownership and attribution interpretation;
-  evidence owner = approved references; specialists = consulted.
-- **Blocker path:** no trusted evidence, accountable owner, or approved records
-  location means the affected question is blocked. Record the gap, owner, and
-  date instead of creating a substitute measure.
-- **Official context:** [Microsoft Foundry observability](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability),
-  [Azure Monitor](https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/overview),
-  [Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview),
-  and [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management)
-  explain the product signals that can inform a future operating review.
-- **Hand-off:** the review definition, technical decision record
-  (`templates/technical-decision-record.template.md`), and remediation
-  references enter the customer governance cadence. They do not amend S9 catalog
-  records or certify a control.

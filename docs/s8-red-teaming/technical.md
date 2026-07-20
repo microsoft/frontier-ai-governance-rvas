@@ -6,13 +6,8 @@
     status and availability in the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
     before delivery.
 
-S8 is not only a red-team run. It forces three **technical decisions** that are
-also governance decisions: *how adversarial testing is performed*, *what scope
-and rules of engagement authorize it*, and *how findings are routed and retested*.
-
-These are decision **menus**, not deployment steps: S8 changes nothing in
-production, and the customer owns authorization, evidence, remediation, and any
-future implementation.
+Choose the test method, authorized scope, and remediation route. S8 records
+these choices and does not change production.
 
 ## Decision 1 — Red-team approach & tooling
 

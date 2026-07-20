@@ -7,14 +7,10 @@
     verify current status, availability, licensing, and regional limitations
     before delivery. See the [Platform technical guide](../reference/platform-technical-guide.md).
 
-S3 turns the platform-foundation review into three customer-owned technical
-decisions: platform topology, trust boundary/network isolation, and gateway or
-registry placement. What S3 leaves behind is a trust-boundary decision and platform
-work list that later sessions can reconcile.
-
-These are decision menus, not deployment instructions; S3 changes nothing in the
-customer environment, and the platform team owns any later implementation
-through approved architecture, security, network, and change processes.
+S3 decides platform topology, trust-boundary/network isolation, and gateway or
+registry placement. It leaves a trust-boundary decision and platform work list;
+it does not deploy anything. Later implementation follows the customer's
+architecture, security, network, and change processes.
 
 ![S3 illustrative Azure platform pattern: callers cross an optional gateway trust boundary to orchestration or hosted execution, private data access, identity, and observability layers. The pattern identifies decisions and evidence expectations; it does not claim a deployed topology.](../assets/diagrams/s3-gateway-trust-boundary.svg)
 
@@ -95,7 +91,7 @@ platform backlog rather than a deployment claim.
 Capture the selected options, alternatives, assumptions, and owners in the
 technical decision record
 (`labs/s3-platform-foundation/templates/technical-decision-record.template.md`);
-the platform team owns deployment, and governance records the decision.
+the platform team owns deployment; governance records the decision.
 
 ## Related references
 

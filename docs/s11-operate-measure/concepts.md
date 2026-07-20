@@ -2,14 +2,11 @@
 
 ## An operating review turns evidence into a decision
 
-![S11 flow: Foundry observability, OpenTelemetry/Application Insights signals and a stated population and review period feed an operating review (population, review period, coverage limit, accountable owner, decision per question); a coverage limit blocks over-reading the evidence; outputs are an operating decision and a drift hypothesis against the S7 baseline, routed to an accountable owner, validation reference, or exception/escalation route.](../assets/diagrams/s11-operating-review-flow.svg)
+![Scoped observability review yields operating decisions and S7-baseline drift hypotheses with owner or escalation routes.](../assets/diagrams/s11-operating-review-flow.svg)
 
 An operating review is not a dashboard tour. It defines the population, review
 period, coverage limit, accountable owner, and decision for each selected
 question.
-
-Evidence helps only when the customer can see the gaps and knows who interprets
-it.
 
 ## Coverage comes before a result
 
@@ -85,10 +82,10 @@ requires a reviewer to check validation and remaining exceptions. S11 records
 this operating method. It does not query live data, fix an issue, or change
 production.
 
-Useful references for a future operating review can include Foundry traces and
-evaluations, Azure Monitor or Application Insights telemetry, Security/SOC
-records, release scorecards, cost-management views, and FinOps Toolkit outputs.
-S11 records approved references and limits, not raw telemetry or a new dashboard.
+Useful sources include Foundry traces and evaluations, Azure Monitor or
+Application Insights, Security/SOC records, release scorecards, cost-management
+views, and FinOps Toolkit outputs. S11 records references and limits, not raw
+telemetry or a dashboard.
 
 ## Operating review becomes a work list
 
@@ -111,15 +108,10 @@ a control, or close a finding without validation.
 | [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management) | Subscription-level attribution starting point. |
 | [Fine-tune Microsoft Foundry models](https://learn.microsoft.com/en-us/azure/foundry/how-to/fine-tune-models) | Training versus inference-cost boundary; verify availability. |
 
-These links inform backlog design. They are not cost records by themselves.
-
 ## Visibility must be designed before it is needed
 
 Logs, metrics, traces, and alerts show different parts of AI behavior. They help
 only when population, sampling, retention, and interpretation owner are known.
-
-Operational telemetry can support an evidence review or expose a coverage gap.
-It cannot by itself prove policy enforcement or portfolio compliance.
 
 See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
 for Azure Monitor, Application Insights, Log Analytics, Purview Audit, and

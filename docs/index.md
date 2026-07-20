@@ -1,6 +1,6 @@
 # Frontier AI Governance - RVAS AI Governance
 
-RVAS AI Governance is a facilitator-led S0-S12 curriculum for AI-agent governance in a customer's environment. It helps the customer make clear decisions about ownership, data, platform controls, assurance, and operation.
+RVAS AI Governance is a facilitator-led S0-S12 curriculum for customer decisions on ownership, data, platform controls, assurance, and operation.
 
 Start with [About RVAS AI Governance](start/understand-rvas.md), then use [Plan the engagement](start/plan-engagement.md) before running [S0 · Foundations & Governance Operating Model](s0-foundations/index.md).
 
@@ -13,4 +13,4 @@ The curriculum is organized into four phases:
 
 Use [Facilitate a co-delivery working session](delivery/facilitation-pattern.md) for the 90-minute customer-led method. Use the [Governance capability guide](reference/governance-capability-guide.md) for capability context and [Platform technical guide](reference/platform-technical-guide.md) for platform evidence and ownership boundaries. Use [Quality, cost, latency, and rollout governance](reference/quality-cost-latency-guide.md) for cross-session decision-record guidance.
 
-The S0 roadmap decides which sessions are in scope and which dependencies come first. S10 runs only where an in-process tool-call boundary exists. Every session keeps decision authority and change approval with the customer.
+The S0 roadmap selects sessions and dependencies. S10 runs only where an in-process tool-call boundary exists; decision authority and change approval remain with the customer.

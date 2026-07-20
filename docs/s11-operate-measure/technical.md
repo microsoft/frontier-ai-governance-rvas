@@ -7,14 +7,8 @@
     and configuration; verify current status, availability, quota, and pricing
     before delivery. See the [agent performance-testing guide](../reference/performance-testing-guide.md).
 
-S11 turns operating evidence into three customer-owned technical decisions:
-which signals to rely on, how cost is attributed, and how alerts and drift
-hypotheses are routed. The output is an operating and measurement decision with
-owners, not a dashboard or production change.
-
-These are decision **menus**, not deployment instructions. S11 works offline,
-changes nothing in production, and leaves implementation to the customer's
-engineering, operations, FinOps, and change processes.
+Choose operating signals, cost attribution, and alert or drift routing. S11
+records owners and limits; it neither creates a dashboard nor changes production.
 
 ![S11 illustrative operating-evidence pattern: gateway, agent-host, model or orchestration, and data-dependency signals are correlated with stated coverage and retention limits before owners make operating, remediation, or exception decisions.](../assets/diagrams/s11-operating-review-flow.svg)
 
@@ -31,32 +25,11 @@ willing to govern.
 | **Both, correlated** | Production review needs end-to-end app telemetry plus Foundry traces for latency, quality, token, and run-level context | Two evidence systems to correlate, retain, and pay for; gaps can appear in either view | Strongest review setup; record correlation method, source of record per question, and unresolved coverage gaps |
 | **Sampling and retention policy first** | Telemetry cost, privacy, or volume is the gating decision before tool selection | Does not create observability by itself; overly narrow sampling can hide rare failures | Record minimum population, excluded paths, retention owner, and what a sample can and cannot support |
 
-### Azure implementation track — operate the joins, not isolated dashboards
-
-**Control chain to decide.** Identify the customer-held gateway, agent-host
-OpenTelemetry/Application Insights, Foundry trace/token, data/dependency, and
-cost sources that can inform each question. Define the correlation method,
-population, sampling, retention, privacy boundary, source of record, and
-interpretation owner before a dashboard or alert is treated as evidence.
-
-**Failure modes to test in the operating model.** Gateway metrics can omit
-application-only calls; traces can lack the selected correlation key; sampling
-can hide rare safety or latency failures; shared model/deployment cost can be
-misreported as a single agent's cost; an alert can have no response owner; and
-a drift trend can be confused with a causal finding despite version, workload,
-quota, or coverage changes.
-
-**Evidence and record.** For each selected question, capture the review period,
-population/exclusions, source reference, correlation and attribution limits,
-retention/privacy constraint, interpretation owner, decision/escalation path,
-finding owner, validation reference, recurrence check, and exception expiry.
-Raw telemetry, prompts, identifiers, and business data remain outside the kit.
-
-**Backlog sequence.** First address missing coverage or ownership, then define
-the alert or review route, then test remediation and recurrence. Reconcile S7's
-synthetic baseline with production signals only when the populations and limits
-are explicit; route cost-allocation and portfolio decisions to the cost owner
-and S12 rather than deriving them from a dashboard alone.
+For every selected question, record the population, exclusions, source,
+correlation or attribution limit, retention/privacy constraint, interpretation
+owner, decision route, validation, recurrence check, and exception expiry.
+Address missing coverage or ownership before defining alerts; compare S7
+synthetic and production evidence only when their populations and limits match.
 
 ## Decision 2 — Cost attribution / FinOps model
 

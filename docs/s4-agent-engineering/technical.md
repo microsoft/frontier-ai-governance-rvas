@@ -6,15 +6,9 @@
     [Platform technical guide](../reference/platform-technical-guide.md) and
     official product docs before delivery.
 
-S4 is the **path-selection decision point**. This page turns the six-path
-comparison into an explicit menu with selection criteria and trade-offs, and
-names the two decisions that travel with it — **model selection** and the
-**admission standard** — so the customer leaves with a recorded implementation
-decision and a configuration backlog, not a preference.
-
-These are planning decisions. A path recommendation creates backlog and
-ownership; it does **not** deploy or configure any product. Execution stays with
-the customer's engineering, security, change, and release processes.
+S4 is the path-selection decision point. It compares six paths and records the
+associated model-selection and admission decisions. A recommendation creates a
+backlog and ownership; it does not deploy or configure a product.
 
 ## Decision 1 — Which Microsoft implementation path?
 
@@ -84,11 +78,9 @@ Promotion is a decision record, not an instruction to deploy.
 | **Backlogged** | The selected-path configuration backlog has owners and later-session/change-process routing |
 | **In adoption** | Engineering builds the backlog outside this session; S6/S7 assurance and S9 catalog reconcile the evidence |
 
-Tie the outcome to the **S0 maturity baseline** (the engineering and admission part)
-and the **S12 portfolio** roadmap. Capture the choice, alternatives, and
-rationale in the technical decision record
-(`labs/s4-agent-engineering/templates/technical-decision-record.template.md`);
-it complements the admission record as the decision that lasts.
+Tie the outcome to the S0 baseline and S12 roadmap. Capture the choice,
+alternatives, and rationale in
+`labs/s4-agent-engineering/templates/technical-decision-record.template.md`.
 
 ## Related references
 

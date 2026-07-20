@@ -1,8 +1,6 @@
 # How to Deliver
 
-This is the facilitator playbook for the S0-S12 AI Governance curriculum. Use it with [Plan the engagement](start/plan-engagement.md), the session guides, and the customer's change process.
-
-The programme is co-delivered. The facilitator protects the scope, evidence boundary, and decision language. Customer administrators perform privileged actions. Customer owners approve changes and accept risk.
+This facilitator playbook for the S0-S12 curriculum complements [Plan the engagement](start/plan-engagement.md), the session guides, and the customer's change process. The facilitator protects scope, evidence boundaries, and decision language; customer administrators perform privileged actions, while customer owners approve changes and accept risk.
 
 ## Delivery outcome
 
@@ -15,13 +13,13 @@ At close, the customer should have:
 - an S11 operating-review cadence; and
 - an S12 portfolio decision and next maturity roadmap.
 
-A template, sample, or offline tool output helps the team prepare. It is not evidence that a customer control is deployed or operating.
+Templates, samples, and offline tool output aid preparation; they do not prove that a customer control is deployed or operating.
 
 ## Before the first session
 
 Name the executive sponsor, governance lead, platform owner, identity administrator, compliance or data administrator, security operations contact, AI developer or maker lead, and evidence owner.
 
-Confirm the customer records location, change process, escalation route, and initial platform path. Run S0 first. Missing roles, licenses, records, architecture decisions, or safe test targets become backlog items with owners. They are not workshop shortcuts.
+Confirm the records location, change process, escalation route, and initial platform path. Run S0 first. Missing roles, licenses, records, architecture decisions, or safe test targets become owned backlog items, not workshop shortcuts.
 
 ## Curriculum sequencing
 
@@ -34,7 +32,7 @@ The curriculum is flexible, but the dependencies are not optional.
 | Assure | S6-S8 | Review runtime security, evaluation and release evidence, and approved adversarial testing. |
 | Operate | S9-S12 | Reconcile the control plane, assess in-process governance where it applies, operate with evidence, and make portfolio decisions. |
 
-The S0 roadmap may change the order inside a phase. It cannot waive a hard dependency. S10 runs only where an in-process tool-call boundary exists. S12 closes the current cycle and feeds the next S0 baseline.
+The S0 roadmap may reorder sessions within a phase, not waive dependencies. S10 runs only where an in-process tool-call boundary exists; S12 feeds the next S0 baseline.
 
 ## Suggested cadence
 
@@ -45,7 +43,7 @@ Plan for eight to twelve weeks. The exact length depends on architecture readine
 3. **Assure safely:** run S6-S8 only when the customer provides the non-production target, reviewers, and authorization.
 4. **Operate and improve:** run S9-S12; reconcile evidence, set the operating cadence, and agree portfolio priorities.
 
-Customer implementation and observation can run alongside governance delivery. Do not squeeze an observation period into a workshop.
+Customer implementation and observation can run alongside governance delivery; do not squeeze an observation period into a workshop.
 
 ## Non-production hard exit gate
 
@@ -72,10 +70,8 @@ Use the same vocabulary throughout the curriculum:
 | Production-ready | The customer has a complete approval package; the curriculum does not turn on enforcement. |
 | Exception or blocked | A dependency, risk acceptance, or capability gap prevents progress and has an owner and review date. |
 
-Raise maturity only when customer evidence shows the control is in place and operating. A reference-only artifact never raises maturity.
+Raise maturity only when customer evidence shows an operating control. A reference-only artifact never raises maturity.
 
 ## Close the cycle
 
-At S12, confirm that the customer records system references the S0 baseline, selected-session evidence, S9 reconciliation, S11 operating review, open exceptions, remediation validation, and portfolio decision.
-
-The executive sponsor accepts the prioritized roadmap and next review date.
+At S12, the customer records system references the S0 baseline, selected-session evidence, S9 reconciliation, S11 review, open exceptions, remediation validation, and portfolio decision. The executive sponsor accepts the prioritized roadmap and next review date.

@@ -7,13 +7,9 @@
     Verify current status, coverage, and limitations before delivery. See the
     [Governance capability guide](../reference/governance-capability-guide.md).
 
-S9 is the **control-plane decision point**: which customer-owned record is
-trusted, how it is reconciled, and how lifecycle changes are governed for one
-bounded agent, tool, and model population.
-
-These are decision **menus**, not deployment instructions: S9 changes nothing in
-production, and the customer's catalog, platform, lifecycle, and change processes
-own any implementation.
+Choose the authoritative record, reconciliation method, and lifecycle rule for
+one bounded population. S9 records the choices; customer processes implement
+any resulting change.
 
 ## Decision 1 — What is the authoritative catalog / system of record?
 

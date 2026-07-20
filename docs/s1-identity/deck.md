@@ -5,7 +5,9 @@
 Identity admin · Governance lead · 90-minute review-only working session
 
 Note:
-Welcome and framing. This is a **review-only** session — it changes nothing in the tenant and creates no policy. Timebox is 90 minutes. Roles in the room: facilitator (you), identity admin (does the customer work), governance lead (makes the decisions), evidence owner, security reviewer. Use arrow keys or the on-screen controls to move; press **S** for speaker notes, **Esc** for the slide overview.
+This **review-only** session changes nothing in the tenant and creates no policy.
+Timebox: 90 minutes. Roles: facilitator, identity admin, governance lead,
+evidence owner, and security reviewer.
 
 ---
 
@@ -16,7 +18,7 @@ Welcome and framing. This is a **review-only** session — it changes nothing in
 By the end, the customer can answer that for every agent in scope.
 
 Note:
-This is the whole session in one line. Everything we do today builds toward being able to answer this question confidently for each agent — and to be honest about the agents we *can't* yet answer it for.
+This question applies to every agent in scope; record coverage gaps plainly.
 
 ---
 
@@ -27,13 +29,14 @@ This is the whole session in one line. Everything we do today builds toward bein
 - A quick directory search is **not** an agent inventory — and we won't pretend it is.
 
 Note:
-Set the stakes. The failure mode we're preventing is an incident where nobody can say who owns the agent, what list it's on, or what that list actually covers. Be explicit that this session deliberately avoids faking an inventory from a directory query.
+The failure mode is an incident with no accountable owner or defensible coverage.
+Do not manufacture an inventory from a directory query.
 
 ---
 
 ## Every agent needs an owner you can name
 
-![S1 object model: the Entra Agent ID chain (blueprint, blueprint principal, agent identity, agent user account) sits in the tenant identity plane with an accountable human sponsor, separate from the runtime access controls (Conditional Access and gateway authentication); on-behalf-of identities are recorded as a gap.](../assets/diagrams/s1-agent-identity-model.svg)
+![Entra Agent ID links sponsored agent identities to tenant controls.](../assets/diagrams/s1-agent-identity-model.svg)
 
 **Microsoft Entra Agent ID** gives an agent a real identity — built from a blueprint, a blueprint principal, an agent identity, and an agent user account.
 
@@ -180,4 +183,5 @@ Save only the list *reference* and its retention/classification note in `04-oper
 - The customer's list reference and coverage note feed **S6 reconciliation**.
 
 Note:
-Close by restating the boundary and where the work goes next. When you're stuck: no trusted source → record the coverage gap; no sponsor → raise an ownership finding; OBO → mark it visibility-only unless the supported source says otherwise. Assign an owner and date, and resume once it's resolved.
+For a missing trusted source or sponsor, record the gap, owner, and date. Treat
+OBO as visibility-only unless a supported source says otherwise.

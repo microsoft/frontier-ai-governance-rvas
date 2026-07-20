@@ -7,14 +7,9 @@
     availability, and limitations before delivery. See the
     [Platform technical guide](../reference/platform-technical-guide.md).
 
-S5 turns a tool, API, or MCP service review into three customer-owned technical
-choices: where the publication record lives, how MCP/tool access is governed,
-and what authority the caller carries. The output is a recorded menu selection
-with rationale and backlog, not a platform change.
-
-These are decision **menus**, not deployment recommendations: S5 stays offline,
-uses customer-held references, and changes no registry, gateway, identity,
-permission, service, or production lifecycle state.
+S5 decides where the publication record lives, how MCP/tool access is governed,
+and what authority the caller carries. The output is a recorded choice with
+rationale and backlog, not a platform change.
 
 ## Decision 1 — Tool/API publication and registry system of record
 
@@ -96,8 +91,8 @@ reconciliation as records mature.
 
 Record the choices, alternatives, rationale, and adoption stage in
 `labs/s5-tool-api-governance/templates/technical-decision-record.template.md`.
-The record is customer-owned and remains offline unless the customer moves it
-through its approved records process.
+The record remains offline unless the customer moves it through its approved
+records process.
 
 ## Related references
 

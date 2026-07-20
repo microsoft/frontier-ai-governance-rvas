@@ -1,9 +1,6 @@
 # External accelerator handoff
 
-This handoff separates the customer platform deployment from the RVAS
-governance engagement. The platform team must use the accelerator's current
-documentation and its customer-approved change process; this repository does
-not wrap, fork, deploy, or configure it.
+This handoff separates customer platform deployment from RVAS governance. The platform team uses current accelerator documentation and its customer-approved change process; this repository does not wrap, fork, deploy, or configure the accelerator.
 
 ## Handoff package
 
@@ -21,14 +18,8 @@ Provide the platform team with:
    and [evidence manifest](gateway-evidence-manifest.md) required for the
    governance handoff.
 
-Before work starts, the platform owner records the selected repository,
-branch/release, immutable commit, applicable product status, and any departures
-from the accelerator guidance in the customer change record. A branch name
-alone is not a reproducible deployment record.
+Before work starts, the platform owner records the selected repository, branch or release, immutable commit, applicable product status, and departures from accelerator guidance in the customer change record. A branch name alone is not reproducible.
 
 ## What returns from the platform workstream
 
-The platform owner returns the completed acceptance decision, manifest, change
-and rollback references, support route, and a list of deferred items. This is
-the handoff to the governance lead—not a request for the facilitator to
-operate the gateway.
+The platform owner returns the acceptance decision, manifest, change and rollback references, support route, and deferred items to the governance lead. This does not make the facilitator the gateway operator.

@@ -5,7 +5,11 @@
 Compliance / Data admin · Governance lead · 90-minute report-only review session
 
 Note:
-Welcome and framing. This is a **report-only / audit-first** session. DLP policy creation in this session is simulation/test only and must not block users or agents during the workshop. Timebox is 90 minutes. Roles in the room: facilitator, Compliance/Data administrator, governance lead or delegated risk authority, evidence owner, pilot-agent owner, and Audit/eDiscovery investigator or legal specialist.
+This **report-only / audit-first** session uses DLP simulation/test only; it must
+not block users or agents. Timebox: 90 minutes. Roles: facilitator,
+Compliance/Data administrator, governance lead or delegated risk authority,
+evidence owner, pilot-agent owner, and Audit/eDiscovery investigator or legal
+specialist.
 
 ---
 
@@ -18,7 +22,8 @@ By the end, the customer has a **Microsoft Purview-based review** of AI data exp
 - Backlog path: continue, report-only review, fix gaps, route dependency, or block
 
 Note:
-Keep the outcome focused on customer-owned records and decisions. Findings become a work list the customer owns, with assumptions and owners — not a policy rollout. The delivery workspace stores references, not copied evidence.
+Findings become a customer-owned work list with assumptions and owners, not a
+policy rollout. The delivery workspace stores references, not evidence.
 
 ---
 
@@ -36,7 +41,7 @@ S2 uses Microsoft Purview for data and compliance. The customer reviews classifi
 
 ## Data raises its own governance question
 
-![S2 compliance flow: DSPM for AI surfaces exposure, producing prioritised findings that drive sensitivity labels and DLP policies, which feed an evidence trail (Audit, eDiscovery, Insider Risk Management, Communication Compliance) routed to the customer compliance and change process; gateway masking complements but does not replace Purview.](../assets/diagrams/s2-compliance-flow.svg)
+![DSPM findings drive labels, DLP, and compliance evidence.](../assets/diagrams/s2-compliance-flow.svg)
 
 AI governance asks:
 
@@ -92,7 +97,8 @@ Keep the investigation route explicit. The customer records route references, no
 - A Purview policy does **not** implement a runtime gateway.
 
 Note:
-This is the cross-control guardrail. Purview and gateway controls can work together, but neither replaces the other. Gateway masking is a separate platform control and should be routed to S3 or S6 where needed.
+Purview and gateway controls can work together, but neither replaces the other.
+Route gateway masking to S3 or S6.
 
 ---
 
@@ -222,4 +228,6 @@ Capture references to the DSPM for AI review, DLP policy/change record where app
 - Findings feed **S3** security posture, **S5** adversarial-testing evidence, and **S6** reconciliation.
 
 Note:
-Close with the guardrails. When stuck: unavailable DSPM for AI, unsupported DLP coverage, missing Audit/eDiscovery route, or inadequate retention → document source and scope, route to the named owner, and keep the control `blocked` or `accepted_risk`.
+For unavailable DSPM, unsupported DLP, missing investigation routes, or weak
+retention, document scope, route the gap, and keep the control `blocked` or
+`accepted_risk`.

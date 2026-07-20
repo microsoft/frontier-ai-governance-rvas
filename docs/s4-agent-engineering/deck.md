@@ -5,7 +5,10 @@
 Governance lead · Engineering owner · Service owner · 90-minute evidence-first review
 
 Note:
-Welcome and framing. This is an evidence-first, report-only admission review. It creates no code, configuration, connection, access grant, publication, or production approval. Roles in the room: facilitator, engineering owner, service owner, governance lead, evidence owner, and any risk, security, data, architecture, or operations specialists who own applicable requirements.
+This evidence-first, report-only admission review creates no code,
+configuration, connection, access grant, publication, or production approval.
+Roles: facilitator, engineering owner, service owner, governance lead, evidence
+owner, and relevant specialists.
 
 ---
 
@@ -28,13 +31,14 @@ Keep the scope tight: one bounded agent candidate. S4 is the admission and chang
 - The result is a practical backlog and a lifecycle decision.
 
 Note:
-Set the stakes. The customer needs a reviewable decision, not a preference or demo. S4 says what the customer may do next, what remains out of scope, and what must come back for approval before a material change.
+The customer needs a reviewable decision, not a preference or demo. Record the
+next activity, exclusions, and material-change reapproval triggers.
 
 ---
 
 ## Classification is about authority
 
-![S4 decision tree: an agent candidate is classified by intended authority into advisory assistant, human-confirmed action, bounded delegated-action, or coordinating agent, each raising the minimum admission focus; if authority is unclear the candidate is unclassified and not admitted.](../assets/diagrams/s4-authority-admission-tree.svg)
+![Authority classification determines admission or rejection.](../assets/diagrams/s4-authority-admission-tree.svg)
 
 Classify by what the candidate is meant to do — not by label or framework.
 
@@ -195,4 +199,5 @@ Use the admission record in the customer's approved records system. Reference on
 - Missing purpose, path, owner, or evidence stops admission.
 
 Note:
-Close by restating the boundary. If participants request code generation, tenant configuration, live connection, deployment, or production approval, stop that request in this session and create a customer-owned engineering or change item under the right process.
+Route requests for code, tenant configuration, live connection, deployment, or
+production approval through the appropriate engineering or change process.

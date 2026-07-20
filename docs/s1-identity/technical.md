@@ -6,15 +6,9 @@
     and licensing. Confirm current status in the [Governance capability guide](../reference/governance-capability-guide.md)
     before delivery.
 
-S1 is not only a list-and-owner exercise. It forces two **technical decisions**
-that are also governance decisions: *how each agent gets a governable identity*,
-and *how runtime access to it is controlled*. This page gives the menu of viable
-options, the criteria to choose between them, and the trade-offs — so the
-customer leaves with a recorded decision and a concrete next adoption step, not
-an open question.
-
-These are decision **menus**, not recommendations to deploy. S1 changes nothing
-in the tenant; the customer's identity-change process owns any implementation.
+S1 decides how each agent gets a governable identity and how runtime access is
+controlled. These menus record the next adoption step; they do not change the
+tenant. The customer's identity-change process owns implementation.
 
 ![S1 illustrative identity pattern: a human sponsor governs agent identity and lifecycle; host workload identity, agent identity, delegated OBO, gateway access, and resource authorization remain separate decisions.](../assets/diagrams/s1-agent-identity-model.svg)
 
@@ -57,11 +51,10 @@ credential/federation owner, authority scope, target-resource reference, access
 review date, and audit route. Object IDs, tokens, role assignments, and exports
 remain in customer systems.
 
-**Backlog sequence.** First close missing sponsorship or lifecycle coverage,
-then select the identity path, then route federation/RBAC/Conditional Access
-work through the identity process. Hand gateway-path evidence to S6 and
-catalog/lifecycle reconciliation to S9. An identity decision alone does not
-prove that a gateway, target resource, or tool enforces it.
+**Backlog sequence.** Close sponsorship and lifecycle gaps, choose the identity
+path, then route federation/RBAC/Conditional Access work. Hand gateway evidence
+to S6 and catalog/lifecycle reconciliation to S9. An identity decision does not
+prove enforcement by a gateway, target resource, or tool.
 
 ## Decision 2 — How is runtime access to the agent controlled?
 
@@ -89,7 +82,7 @@ forward to the **S12 portfolio** view:
 
 Record the choice, the alternatives considered, and the rationale in the
 technical decision record (`labs/s1-identity/templates/technical-decision-record.template.md`).
-The decision — not just the inventory — is what S1 leaves behind.
+S1 leaves a decision record as well as the inventory.
 
 ## Related references
 

@@ -8,9 +8,8 @@
 
 ## 1. Outcome & what the customer keeps
 
-By the end of this session the customer can answer one question for each tool,
-API, or MCP service in scope: **can we publish it, hold it, suspend it, or
-withdraw it safely?**
+For each in-scope tool, API, or MCP service, the customer can answer: **can we
+publish it, hold it, suspend it, or withdraw it safely?**
 
 They leave with:
 
@@ -27,9 +26,8 @@ copied into this repository.
 
 ### Implementation pathway
 
-S5 produces a tool/API publication backlog for later customer-owned work. The
-recommendation states whether the candidate is publish-ready, on hold, rejected,
-suspended, or withdrawn.
+S5 produces a publication backlog and records whether the candidate is
+publish-ready, on hold, rejected, suspended, or withdrawn.
 
 It also names the execution path: API Center or catalog entry, [Azure API Management](https://learn.microsoft.com/en-us/azure/api-management/api-management-key-concepts)
 or AI Gateway route, caller identity, MCP or connector path, version boundary,
@@ -45,13 +43,9 @@ lifecycle owner, and customer change or release process.
 
 ## 3. Why this session matters
 
-A tool or API becomes governable when a reviewer can say what it is, who owns it,
-where it belongs, who may call it, what it may do, and which version is under
-review.
-
-A catalog entry helps reviewers find those facts. It does not prove the service
-is safe, correctly configured, authorized for every caller, or working as
-intended.
+A tool or API is governable when a reviewer can name its owner, placement,
+caller, authority, and version. A catalog helps find those facts; it does not
+prove safety, configuration, authorization, or live behavior.
 
 S5 creates the decision record before publication or lifecycle action. It does
 not publish a service, grant permission, create a caller identity, configure an
@@ -144,15 +138,3 @@ S5 changes no catalog, workspace, service, identity, permission, integration, or
 lifecycle state. Any publication, permission grant, suspension, or withdrawal is
 customer-owned and follows the customer's approved change, rollback,
 communication, and verification process.
-
-## 7. Facilitator notes
-
-- Follow the 90-minute [co-delivery facilitation method](../delivery/facilitation-pattern.md):
-  customers operate their records and make decisions. The facilitator preserves
-  the boundary, timebox, and interpretation.
-- **RACI:** catalog owner and technical owner = R for the record; governance lead
-  or delegated decision owner = A for disposition; security and classification
-  reviewers = C; evidence owner = R for approved references.
-- **Close the loop:** a publish-ready decision is a handoff to the customer's
-  separate publication process. It is not publication. Re-review when version,
-  authority, ownership, classification, or lifecycle changes.

@@ -10,14 +10,11 @@ different from gateway, data, identity, and outcome controls.
 
 ## A different enforcement point
 
-![S10 boundary diagram: the network and API gateway boundary applies shared controls while, inside the agent application, an in-process govern() wraps the tool call with policy evaluation and audit logging before the tool runs; a local hash chain gives internal consistency only, whereas a signed record in immutable external storage provides tamper evidence.](../assets/diagrams/s10-policy-boundary-and-evidence.svg)
+![In-process governance evaluates and logs tool calls inside shared gateway controls; signed immutable records provide tamper evidence.](../assets/diagrams/s10-policy-boundary-and-evidence.svg)
 
 Citadel's Governance Hub can apply shared controls at the network and API
 gateway boundary. An in-process governance library can check the requested tool
 action inside the agent application before the tool runs.
-
-These controls can work together. One does not prove the other is configured or
-effective.
 
 AGT's documented `govern()` pattern wraps a tool call with policy evaluation and
 audit logging. The offline S10 simulator models that policy-and-audit idea only.
@@ -70,10 +67,9 @@ reject, or mark the boundary not applicable. Typical backlog rows include:
 The backlog does not authorize installation, code change, policy deployment,
 endpoint access, or production use.
 
-The AGT limitations note that an evaluator with no policies loaded can allow
-actions by default. Strict deny-by-default configuration is a production design
-question. S10 models a deny default, but it does not validate an AGT
-configuration.[^agt-limitations]
+AGT limitations note that an evaluator with no policies loaded can allow actions
+by default. Strict deny-by-default is a production design question; S10 models
+it but does not validate an AGT configuration.[^agt-limitations]
 
 ## Preview and offline boundary
 
@@ -81,10 +77,6 @@ At the pinned source revision, AGT is Public Preview and may change before GA.
 Its documented limitations, the customer's language and runtime fit, and its
 relationship to existing platform controls are decision inputs. They are not
 claims of compliance or certification.
-
-S10 complements the earlier sessions. It does not replace S1 identity, S2 data
-controls, S6 runtime security, S4 evaluation, S5 adversarial testing, or S6
-reconciliation.
 
 Keep two source tracks during delivery. Pinned-source claims explain what this
 curriculum illustrates at a known AGT revision. Current-source research checks
@@ -94,8 +86,6 @@ those tracks into an unstated product claim.
 
 [^agt-readme]: [AGT README at `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/README.md), Public Preview notice, `govern()` example, and audit architecture.
 [^agt-limitations]: [AGT known limitations at `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md), especially audit outcomes, knowledge governance, policy initialization, and feature boundaries.
-
-## Related official references
 
 ## Portable control specifications need a pinned assessment
 

@@ -2,7 +2,7 @@
 
 ## 1. Outcome & what the customer keeps
 
-By the end of this session the customer has a platform boundary review for an AI workload and a handoff to runtime assurance.
+The customer leaves with a platform-boundary review and a runtime-assurance handoff.
 
 They leave with:
 
@@ -17,7 +17,9 @@ They leave with:
 
 ### What happens next
 
-S3 produces a platform foundation backlog for later customer-owned implementation. The recommendation says whether the workload is ready for runtime assurance, needs landing-zone, AI gateway, API Center, or telemetry prerequisites, or should pause because ownership or evidence is missing.
+S3 produces a platform backlog: proceed to runtime assurance, close landing-zone,
+AI gateway, API Center, or telemetry prerequisites, or pause for missing
+ownership or evidence.
 
 The AI gateway is the trust boundary for runtime access. In this curriculum, that usually means Azure API Management acting as the gateway layer for AI APIs and model access. Platform changes still go through the customer's architecture, network, identity, security, or release processes before S6/S7/S9 rely on the path.
 
@@ -29,7 +31,8 @@ The AI gateway is the trust boundary for runtime access. In this curriculum, tha
 - Existing customer-held architecture, network, identity, gateway, or telemetry materials that can be cited by reference, if available.
 - A clear statement of what this review can and cannot claim.
 
-This session maps what should be evidenced. It does not inspect, validate, or change the environment.
+This session maps evidence expectations; it does not inspect, validate, or
+change the environment.
 
 - **Included:** trust boundaries; private-connectivity assumptions; ingress and egress paths; hybrid dependencies; identity boundaries; telemetry coverage; platform-security ownership; AI gateway boundary; and readiness for runtime assurance.
 - **Excluded:** deployment, configuration, network testing, live integration, traffic capture, access changes, data transfer, and acceptance of a control as operating.
@@ -39,9 +42,9 @@ A reference architecture can guide the discussion. It is not evidence that the d
 
 ## 3. Why this session matters
 
-An AI workload crosses platform boundaries. Requests can move from users to apps, through an AI gateway, into model services, tools, data sources, and logs. Each crossing needs an owner and evidence expectation.
-
-S3 makes those boundaries visible before runtime assurance starts. The customer decides which platform owner is accountable, which evidence should exist, and which gaps must be closed before later sessions rely on the path.
+AI requests cross users, apps, gateways, model services, tools, data sources,
+and logs. S3 makes each boundary, owner, and evidence expectation explicit
+before runtime assurance relies on the path.
 
 Read [S3 Concepts](concepts.md) for the vocabulary and reasoning behind the review.
 
@@ -79,11 +82,3 @@ Use the blank `labs/s3-platform-foundation/templates/platform-boundary-review.te
 ## 6. Change boundary
 
 This session authorizes no change. Network, identity, platform, telemetry, and runtime changes stay in the customer's approved change process, including safety review, rollback, verification, and evidence retention.
-
-## 7. Facilitator notes
-
-- **No result:** record the reviewed scope, date, expected signal, and why no conclusion can be made. No result is not a pass.
-- **Unsupported or unavailable evidence:** record the coverage limit and owner. Do not substitute a diagram, verbal statement, or generic architecture.
-- **Gateway guardrail:** an Azure API Management or AI gateway design is not proof that traffic uses it. The customer needs later runtime evidence.
-- **Blocked:** stop the dependent topic when authority, safe record handling, or a decision owner is absent. Hand off the dependency with owner and date.
-- **Runtime handoff:** this session defines the question and evidence boundary. Runtime assurance performs any later authorized observation.

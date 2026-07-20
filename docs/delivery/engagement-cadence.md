@@ -1,8 +1,6 @@
 # Engagement cadence
 
-Use this planning view to sequence selected S0-S12 sessions. It assumes an
-eight-to-twelve-week programme; customer implementation and observation may
-extend the timeline without changing the evidence boundary.
+Use this planning view to sequence selected S0-S12 sessions. It assumes an eight-to-twelve-week programme; customer implementation and observation may extend it without changing the evidence boundary.
 
 | Stage | Governance delivery | Customer change and observation | Required outcome |
 |---|---|---|---|
@@ -14,14 +12,8 @@ extend the timeline without changing the evidence boundary.
 
 ## Facilitator rhythm
 
-Hold a short working review each week. Review passed/blocked gates, evidence
-quality, customer-owned changes, observation periods, exceptions, and decisions
-requiring sponsor escalation. Keep technical working sessions separate from
-approval meetings.
+Hold a short weekly review of gates, evidence quality, customer-owned changes, observation periods, exceptions, and sponsor escalations. Keep technical working sessions separate from approval meetings.
 
 ## When the plan changes
 
-Move an unready session rather than improvising around a missing role, license,
-platform record, architecture decision, or safe target. Update the selected
-sequence, dependency, owner, and target date in the customer register. Preserve
-S0 as the entry point and S12 as the portfolio close for the current cycle.
+Move an unready session rather than improvising around a missing role, license, platform record, architecture decision, or safe target. Update its sequence, dependency, owner, and target date in the customer register. Preserve S0 as entry and S12 as the current-cycle portfolio close.

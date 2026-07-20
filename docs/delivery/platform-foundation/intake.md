@@ -1,9 +1,6 @@
 # Platform-foundation intake
 
-Complete this intake with the customer platform owner before scheduling a
-gateway-dependent validation session. Record answers in the customer's
-approved work-tracking system; do not put credentials, secrets, or customer
-data in this repository.
+Complete this intake with the customer platform owner before scheduling gateway-dependent validation. Record answers in the customer's approved work-tracking system, never credentials, secrets, or customer data in this repository.
 
 ## Deployment decision
 
@@ -15,8 +12,7 @@ data in this repository.
 | What is the source version? | Accelerator repository, branch or release, immutable commit, deployment/change record, and date selected. |
 | What is deferred? | Production rollout, unsupported capabilities, additional routes, or controls not needed for the initial governance evidence. |
 
-An equivalent platform may be used. Record how it supplies the same evidence
-instead of relabeling it as Citadel.
+An equivalent platform may be used. Record how it supplies the evidence rather than relabeling it as Citadel.
 
 ## Readiness intake
 
@@ -37,8 +33,7 @@ their result for the selected environment:
 - deployment pipeline, change record, rollback owner, support/on-call route,
   and production-promotion authority.
 
-Mark a missing prerequisite as **blocked** with an owner and target date. Do
-not substitute an unapproved direct backend call for a gateway acceptance test.
+Mark a missing prerequisite **blocked** with an owner and target date. Do not substitute an unapproved direct backend call for gateway acceptance.
 
 ## Session gates
 
