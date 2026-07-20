@@ -57,6 +57,25 @@ coordinates). Higher authority raises the bar for evidence, human-control points
 evaluation, and red-team coverage. Record what the agent must satisfy before it
 ships or materially changes, plus material-change and retirement triggers.
 
+## Decision 4 — What is the controlled promotion model?
+
+Map the customer's approved labels to a clear DEV → PRE → PRO decision path.
+DEV is for isolated development and experimentation with explicit
+non-production boundaries; PRE is for integration, certification, and
+regression evidence with stated production-equivalence assumptions; PRO is a
+separate customer change-authority decision for live operation.
+
+| Stage | Entry decision | Evidence that can inform the next decision | What it cannot prove |
+|---|---|---|---|
+| **DEV** | S4 admission to a bounded non-production activity | Purpose, authority, ownership, selected-path backlog, and basic non-production controls | Integration safety, production readiness, or operating control effectiveness |
+| **PRE** | Customer promotion into certification/integration scope | S3 platform-control profile, accepted S6 gateway proof, S7 evaluation/assurance references, and any applicable S8 disposition | That PRE exactly mirrors PRO, unless the customer records the equivalence evidence and limits |
+| **PRO** | Separate production change decision | S9 lifecycle/catalog reference, rollback and support route, operating/alert ownership, and customer approvals | Future quality, safety, availability, or control effectiveness |
+
+Record the customer labels, population, promotion gate, explicit differences,
+rollback owner, change authority, and resulting state in
+`labs/s4-agent-engineering/templates/rollout-decision-record.template.md`.
+Promotion is a decision record, not an instruction to deploy.
+
 ## Decisions made & adoption progress
 
 | Adoption stage | What "done" looks like at S4 |

@@ -22,6 +22,11 @@ decision. Use
 to record the runtime-safety, threat-response, and gateway-correlation option
 selected, the rationale, and the adoption stage.
 
+Use `templates/runtime-control-matrix.template.md` to assign each relevant risk
+to a selected identity/network, gateway, model/agent, or tool boundary; record
+the expected action, control/response owner, evidence expectation, and
+capability limit. It complements rather than replaces the gateway-proof review.
+
 ## Workshop alignment
 
 Use the [S6 co-delivery workshop](../../docs/s6-security-runtime/index.md#4-co-delivery-walkthrough)

@@ -18,6 +18,9 @@ They leave with a customer-owned review definition that names:
   control-coverage questions; and
 - drift hypotheses, escalation routes, remediation checks, recurrence checks,
   and exception paths.
+- Where alert operations are in scope, a telemetry-and-alert operating model
+  that maps signal coverage, retention, response ownership, suppression review,
+  remediation validation, and exception handoff.
 
 `labs/s11-operate-measure/` holds blank offline templates and a runbook. It does
 **not** connect to live data, create a dashboard, calculate metrics, set

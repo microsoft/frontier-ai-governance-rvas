@@ -18,6 +18,11 @@ The adapter does not deploy a safety platform or prove a direct Content Safety
 call. The customer platform and security owners must match the `correlation_id`
 to gateway telemetry before they accept it as enforcement evidence.
 
+Where a customer needs to map defence-in-depth before adoption, the
+customer-owned runtime control matrix records the selected identity/network,
+gateway, model/agent, and tool boundaries, along with response ownership and
+evidence limits. It does not replace the accepted gateway proof.
+
 ### Implementation pathway
 
 S6 produces a runtime-control backlog for later customer-owned work. The

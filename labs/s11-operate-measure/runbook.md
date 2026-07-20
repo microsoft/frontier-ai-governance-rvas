@@ -49,6 +49,13 @@ authoritative evidence.
    owner, quota or allocation limits, exception route, S12 handoff, recommendation,
    confidence, assumptions, technical decision record reference, evidence
    reference or gap, owner, and customer operating/change process.
+8. When the customer needs to connect signal coverage to response ownership,
+   copy `templates/telemetry-alert-operating-model.template.md`. Map each
+   gateway, agent-host, model/trace, dependency, identity/security, and
+   cost/quota signal to its coverage limit, correlation method, retention
+   boundary, source owner, alert route, remediation validation, and exception
+   handoff. Do not set a threshold, create an alert, or inspect live data in
+   this session.
 
 No raw telemetry, identifiers, prompts, responses, costs, or business data
 belong in this kit. S11 does not query live data or make a monitoring,

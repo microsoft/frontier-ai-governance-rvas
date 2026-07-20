@@ -25,9 +25,10 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["stage_name", "entry_condition_references", "rollback_reference", "change_authority", "status"],
+        "required": ["stage_name", "environment_label", "entry_condition_references", "rollback_reference", "change_authority", "status"],
         "properties": {
-          "stage_name": { "enum": ["nonproduction", "limited_preview", "expanded_preview", "production"] },
+          "stage_name": { "enum": ["dev", "pre", "limited_preview", "expanded_preview", "pro"] },
+          "environment_label": { "type": "string" },
           "entry_condition_references": { "type": "array", "items": { "type": "string" } },
           "rollback_reference": { "type": "string" },
           "change_authority": { "type": "string" },

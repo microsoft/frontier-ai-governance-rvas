@@ -18,7 +18,7 @@ environment access, or collection of organization data is part of this runbook.
 
 ## Offline review sequence
 
-1. Copy all three templates from `templates/` to the approved records location. Keep
+1. Copy all four templates from `templates/` to the approved records location. Keep
    the copies blank until the organization chooses what may be recorded there,
    including `templates/technical-decision-record.template.md`.
 2. State the workload boundary and decision. Record expected trust boundaries,
@@ -44,6 +44,12 @@ environment access, or collection of organization data is part of this runbook.
    customer architecture/security/change process. Include recommendation,
    confidence, assumptions, evidence reference or gap, owner, later session,
    and boundary for each row.
+8. When the customer needs an operating standard rather than only a boundary
+   review, complete `templates/platform-control-profile.template.md`. Map the
+   customer's DEV, PRE, and PRO labels; identify which pre-production controls
+   are intended to be production-equivalent; and record the owner and evidence
+   expected for each identity, gateway, execution, data, telemetry, and
+   operations layer. Do not test or assert the stated controls in S3.
 
 ## Interpret results safely
 

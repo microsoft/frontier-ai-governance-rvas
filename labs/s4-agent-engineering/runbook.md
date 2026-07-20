@@ -158,7 +158,11 @@ Copy `templates/rollout-decision-record.template.md` only when the customer is
 ready to assemble its own S4, S6, S7, S8, and S9 references. Validate the
 completed record against `../../contracts/rollout-decision.schema.json`.
 Confirm the current stage, gateway-proof and assurance references, rollback
-owner, and customer change authority. Production promotion remains a separate
+owner, environment label, and customer change authority. Map the customer's
+DEV, PRE, and PRO labels explicitly: DEV is an isolated non-production activity;
+PRE is the certification/integration stage that records intended
+production-equivalence and assurance evidence; PRO is always a separate
+customer production-change decision. Production promotion remains a separate
 customer decision.
 
 ## Blocker pathways

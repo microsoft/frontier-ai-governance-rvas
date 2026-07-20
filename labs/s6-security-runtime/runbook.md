@@ -50,7 +50,13 @@ does not receive credentials, run the request, or accept the proof.
    data dependency, S7 evaluation handoff, S9/S11 operating handoff,
    recommendation, confidence, assumptions, evidence reference or gap, owner,
    and customer process.
-5. Hand off the accepted proof reference and decision reference to S4. If the
+5. When the customer needs a defence-in-depth operating design, copy
+   `templates/runtime-control-matrix.template.md` to the approved records
+   system. Define risk, inspection point, selected layer, expected response,
+   control/response owners, correlation expectation, and capability limit.
+   The matrix is a design and handoff record; it is not evidence of enforced
+   behavior.
+6. Hand off the accepted proof reference and decision reference to S4. If the
    request fails or review cannot be completed, record the outcome as failed or
    blocked in the customer system; do not create substitute local evidence.
 

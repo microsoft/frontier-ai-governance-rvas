@@ -24,3 +24,8 @@ throughput, and error/saturation from OpenTelemetry, Application Insights, or
 Foundry traces — including reconciliation against an S7 synthetic baseline as a
 drift hypothesis. See the
 [agent performance-testing guide](../../docs/reference/performance-testing-guide.md).
+
+`templates/telemetry-alert-operating-model.template.md` maps the
+customer-held signal sources, correlation and retention limits, alert-response
+ownership, suppression review, remediation validation, and exception handoff.
+It defines an operating model; it does not create alerts or query telemetry.

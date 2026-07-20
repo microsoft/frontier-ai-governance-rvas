@@ -9,6 +9,9 @@ They leave with:
 - A customer-owned review of the enterprise platform boundary, including trust boundaries, owners, evidence expectations, and coverage limits.
 - A decision on whether the workload is ready for runtime assurance or needs platform prerequisites first.
 - A runtime-assurance handoff that names open gaps, owners, stop conditions, and evidence references.
+- Where useful, a customer-owned platform control profile that connects
+  environment equivalence, layer ownership, route assumptions, evidence
+  expectations, and the implementation backlog.
 
 `labs/s3-platform-foundation/` contains blank offline templates only. It does not hold workload data, credentials, network details, event records, or completed evidence. The customer keeps those records in its approved system.
 
@@ -71,7 +74,7 @@ Review the [Technical decisions](technical.md) chapter first: it holds the platf
 - [ ] Each gap, empty result, or blocker has an owner, decision, next action, and review date.
 - [ ] The runtime-assurance handoff states what still needs authorized observation or validation.
 
-Use the blank `labs/s3-platform-foundation/templates/platform-boundary-review.template.md`, `labs/s3-platform-foundation/templates/runtime-assurance-handoff.template.md`, and `labs/s3-platform-foundation/templates/technical-decision-record.template.md` in the approved records location. Retain only references in the delivery record.
+Use the blank `labs/s3-platform-foundation/templates/platform-boundary-review.template.md`, `labs/s3-platform-foundation/templates/runtime-assurance-handoff.template.md`, `labs/s3-platform-foundation/templates/platform-control-profile.template.md`, and `labs/s3-platform-foundation/templates/technical-decision-record.template.md` in the approved records location. Retain only references in the delivery record.
 
 ## 6. Change boundary
 

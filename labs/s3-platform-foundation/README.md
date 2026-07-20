@@ -15,3 +15,8 @@ completed evidence in this repository.
 This kit does not deploy, configure, test, connect to a live environment,
 transfer data, or demonstrate that a reference architecture is operating. It
 contains no implementation instructions or reusable production configuration.
+
+Use `templates/platform-control-profile.template.md` when the customer needs a
+single customer-owned view of environment equivalence, control ownership,
+network/route assumptions, evidence expectations, and the implementation
+backlog that moves from S3 to S4, S6, and S11.
