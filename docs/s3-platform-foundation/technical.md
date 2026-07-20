@@ -16,6 +16,8 @@ These are decision menus, not deployment instructions; S3 changes nothing in the
 customer environment, and the platform team owns any later implementation
 through approved architecture, security, network, and change processes.
 
+![S3 illustrative Azure platform pattern: callers cross an optional gateway trust boundary to orchestration or hosted execution, private data access, identity, and observability layers. The pattern identifies decisions and evidence expectations; it does not claim a deployed topology.](../assets/diagrams/s3-gateway-trust-boundary.svg)
+
 ## Decision 1 — Platform topology / landing zone
 
 Choose against the existing Azure footprint, target scale, shared versus
@@ -39,6 +41,32 @@ needed to show the intended path was actually used.
 | **Public endpoints behind a gateway only** | Data sensitivity and policy allow public service endpoints, while runtime access is mediated through a governed gateway route | Simpler topology, but public exposure assumptions and gateway use still need later evidence | Record the gateway boundary, allowed ingress/egress assumptions, and the S6 evidence needed to prove traffic followed the route |
 | **Private endpoints / VNet integration** | Sensitive data, tenant policy, or service connectivity requires private service access for the workload path | Service coverage and configuration support vary; verify current status, availability, and limitations for each named capability | Record which boundaries are expected to be private, the platform owner, and the evidence needed before treating the route as operating |
 | **Hub-and-spoke private networking** | The workload depends on shared connectivity, on-premises systems, central inspection, or multiple data stores | More routing, ownership, and troubleshooting complexity across teams | Record the hub, spoke, hybrid, and inspection owners plus the handoff needed for runtime assurance |
+
+### Azure implementation track — make the intended path reviewable
+
+**Control chain to decide.** Map the caller, selected gateway or ingress route,
+orchestration/hosted execution, data and tool dependencies, identity boundary,
+and telemetry destination. Private Endpoints and private DNS zones can be
+selected for data, model, registry, or observability access; they are options
+within the chosen topology, not a universal topology or an automatic control.
+
+**Failure modes to test in the customer design.** A gateway shown in a diagram
+may not mediate the actual route; a public fallback can defeat a private-path
+assumption; DNS can resolve differently across linked networks; hybrid routing
+can add an unowned dependency; and a telemetry destination can exist without
+covering the selected path.
+
+**Evidence and record.** For each boundary, record the expected purpose,
+ingress/egress assumption, private-connectivity/DNS expectation if selected,
+hybrid dependency, accountable owner, evidence source, blind spot, and the
+later session that can review the path. Architecture diagrams and verbal
+confirmation remain design inputs, not operating evidence.
+
+**Backlog sequence.** Resolve ownership and topology assumptions first, then
+route network, DNS, gateway, identity, and telemetry changes to the appropriate
+customer process. S5 records published interfaces, S6 reviews an approved
+non-production gateway path, and S11 owns operating coverage; none of those
+steps is authorized by this S3 review.
 
 ## Decision 3 — Governance hub / gateway placement
 

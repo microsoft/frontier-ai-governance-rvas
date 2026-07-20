@@ -3,7 +3,7 @@ import { C, rect, text, node, connect, arrow, write } from "./lib.mjs";
 
 const els = [];
 els.push(text(40, 24, 1500, "S1 · Agent identity, its sponsor, and the separate runtime boundary", C.identity, { size: 26, align: "left" }));
-els.push(text(40, 60, 1500, "Entra Agent ID gives an agent a governable identity in the tenant; a human sponsor is accountable. Gateway/Conditional Access guard runtime access — you often need both.", C.neutral, { size: 14, align: "left" }));
+els.push(text(40, 60, 1500, "A sponsor governs the agent identity and lifecycle. Host workload identity or federation, agent identity, delegated OBO, gateway access, and target-resource RBAC are separate decisions.", C.neutral, { size: 14, align: "left" }));
 
 // identity-plane frame
 els.push(rect(24, 200, 900, 240, { bg: "#eef2ff", st: C.identity.st, tx: C.identity.tx }, { strokeStyle: "dashed", roundness: { type: 3 } }));
@@ -34,7 +34,11 @@ const gw = node(els, 1236, 300, 232, 96, C.security, "Gateway authentication", {
 els.push(text(930, 350, 30, "≠", C.neutral, { size: 26 }));
 
 // OBO recorded as a gap
-const obo = node(els, boxes[2].x - 40, 480, 320, 84, C.amber, "On-behalf-of (OBO)", { titleSize: 14, sub: "can appear in telemetry without its\nown Agent ID → recorded as a gap", subSize: 12 });
+const host = node(els, 44, 480, 250, 84, C.start, "Host workload identity", { titleSize: 14, sub: "managed identity or federation", subSize: 12 });
+const resource = node(els, 630, 480, 250, 84, C.data, "Target-resource RBAC", { titleSize: 14, sub: "separate least-privilege decision", subSize: 12 });
+const obo = node(els, 322, 480, 280, 84, C.amber, "Delegated OBO", { titleSize: 14, sub: "user authority, not autonomous agent authority", subSize: 11.5 });
+els.push(arrow(host.cx, host.y, boxes[2].cx, boxes[2].b, { stroke: C.start.st, dashed: true, curved: false, endArrowhead: null }));
+els.push(arrow(boxes[2].cx, boxes[2].b, resource.cx, resource.y, { stroke: C.data.st, dashed: true, curved: false, endArrowhead: null }));
 connect(els, boxes[3], obo, { stroke: C.amber.st, dashed: true });
 
 write(new URL("./s1-agent-identity-model.excalidraw", import.meta.url).pathname, els);

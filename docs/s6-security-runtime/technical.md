@@ -15,6 +15,8 @@ These are decision **menus**, not deployment steps: S6 changes no production
 traffic, configures no product, and leaves implementation with the customer's
 security, platform, SOC, identity, and change processes.
 
+![S6 illustrative layered-runtime pattern: identity and network, gateway, model or agent, and tool boundaries can produce correlated safe evidence for a customer-owned acceptance decision. A direct diagnostic remains distinct from gateway-path proof.](../assets/diagrams/s6-security-runtime-correlation-flow.svg)
+
 ## Decision 1 — Where are runtime safety controls enforced?
 
 Choose against the streaming and latency budget, where prompts and outputs are
@@ -28,6 +30,34 @@ protected-material detection, before relying on an option.
 | **In-application enforcement** | The app has the needed context, prompt assembly, or output handling before streaming to users | Harder to standardize; depends on each app team to implement and evidence | Record app owner, inspection points, and how decisions are logged |
 | **Defense in depth** (gateway and application) | Higher-risk workloads where boundary and app-context controls should reinforce each other | More owners, latency, and correlation work | Strongest setup; record which control decides what and how conflicts are reviewed |
 | **Deferred / diagnostic only** | Capability availability, latency, or route coverage is not ready for a control decision | A component check is not gateway enforcement evidence | Record the gap, owner, target date, and dependency before S7 or rollout |
+
+### Azure implementation track — layer controls and prove only the path reviewed
+
+**Control chain to decide.** Assign each relevant risk to an identity/network,
+gateway, model or agent, and tool-call boundary. For example, a gateway can
+enforce selected route-level identity, quota, or input policy; model/agent
+features can address supported safety or tool-use checks; and an application
+boundary can decide local tool use. Name which layer blocks, annotates, logs, or
+escalates each risk and who resolves conflicts between layers.
+
+**Failure modes to test in the customer design.** A direct component call may
+pass while the gateway path is unproven; a gateway may not see local tool calls;
+tool responses can be untrusted inputs; correlation can be dropped between
+components; a safety result can be logged without an owned response; and
+over-retaining prompts or responses can create a separate privacy risk.
+
+**Evidence and record.** Retain safe references to the approved non-production
+route, access contract, backend and policy, correlation identifier, request
+record, telemetry record, reviewers, and decision. Keep policy expectations
+separate from observed behavior. Current capability status for prompt, tool,
+tool-response, or groundedness controls must be verified before any is relied
+upon.
+
+**Backlog sequence.** Close route, identity, telemetry, and reviewer gaps before
+asking S7 to rely on a gateway proof. Send policy, detection, and incident-route
+work to the security/platform process; send retention and operating alert work
+to S11. A passing manifest is transport evidence until customer reviewers accept
+the correlation.
 
 ## Decision 2 — How are threat detection and response routed?
 

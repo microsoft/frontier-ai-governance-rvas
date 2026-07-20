@@ -4,7 +4,7 @@
   "source": "rvas",
   "elements": [
     {
-      "id": "t_5816",
+      "id": "t_6054",
       "type": "text",
       "x": 40,
       "y": 24,
@@ -18,7 +18,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 5823,
+      "seed": 6061,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -36,7 +36,7 @@
       "containerId": null
     },
     {
-      "id": "t_5830",
+      "id": "t_6068",
       "type": "text",
       "x": 40,
       "y": 58,
@@ -50,7 +50,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 5837,
+      "seed": 6075,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -61,14 +61,14 @@
       "fontFamily": 2,
       "textAlign": "left",
       "verticalAlign": "top",
-      "text": "Choose a system that can hold the candidate's discoverability, owner, version/lifecycle state, and exposure-control intent — without implying publication or runtime safety is approved.",
-      "originalText": "Choose a system that can hold the candidate's discoverability, owner, version/lifecycle state, and exposure-control intent — without implying publication or runtime safety is approved.",
+      "text": "A publication record captures discoverability, owner, version/lifecycle, and exposure intent. Select a gateway, allow-list, or in-process tool boundary without implying publication or runtime safety is approved.",
+      "originalText": "A publication record captures discoverability, owner, version/lifecycle, and exposure intent. Select a gateway, allow-list, or in-process tool boundary without implying publication or runtime safety is approved.",
       "lineHeight": 1.25,
       "baseline": 14,
       "containerId": null
     },
     {
-      "id": "rectangle_5844",
+      "id": "rectangle_6082",
       "type": "rectangle",
       "x": 40,
       "y": 170,
@@ -82,7 +82,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 5851,
+      "seed": 6089,
       "roundness": {
         "type": 3
       },
@@ -93,7 +93,7 @@
       "locked": false
     },
     {
-      "id": "t_5858",
+      "id": "t_6096",
       "type": "text",
       "x": 40,
       "y": 193.25,
@@ -107,7 +107,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 5865,
+      "seed": 6103,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -125,7 +125,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_5872",
+      "id": "rectangle_6110",
       "type": "rectangle",
       "x": 40,
       "y": 250,
@@ -139,7 +139,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 5879,
+      "seed": 6117,
       "roundness": {
         "type": 3
       },
@@ -150,7 +150,7 @@
       "locked": false
     },
     {
-      "id": "t_5886",
+      "id": "t_6124",
       "type": "text",
       "x": 40,
       "y": 273.25,
@@ -164,7 +164,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 5893,
+      "seed": 6131,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -182,7 +182,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_5900",
+      "id": "rectangle_6138",
       "type": "rectangle",
       "x": 40,
       "y": 330,
@@ -196,7 +196,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 5907,
+      "seed": 6145,
       "roundness": {
         "type": 3
       },
@@ -207,7 +207,7 @@
       "locked": false
     },
     {
-      "id": "t_5914",
+      "id": "t_6152",
       "type": "text",
       "x": 40,
       "y": 353.25,
@@ -221,7 +221,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 5921,
+      "seed": 6159,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -239,7 +239,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_5928",
+      "id": "rectangle_6166",
       "type": "rectangle",
       "x": 40,
       "y": 410,
@@ -253,7 +253,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 5935,
+      "seed": 6173,
       "roundness": {
         "type": 3
       },
@@ -264,7 +264,7 @@
       "locked": false
     },
     {
-      "id": "t_5942",
+      "id": "t_6180",
       "type": "text",
       "x": 40,
       "y": 433.25,
@@ -278,7 +278,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 5949,
+      "seed": 6187,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -296,7 +296,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_5956",
+      "id": "rectangle_6194",
       "type": "rectangle",
       "x": 440,
       "y": 250,
@@ -310,7 +310,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 5963,
+      "seed": 6201,
       "roundness": {
         "type": 3
       },
@@ -321,7 +321,7 @@
       "locked": false
     },
     {
-      "id": "t_5970",
+      "id": "t_6208",
       "type": "text",
       "x": 446,
       "y": 264,
@@ -335,7 +335,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 5977,
+      "seed": 6215,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -353,7 +353,7 @@
       "containerId": null
     },
     {
-      "id": "t_5984",
+      "id": "t_6222",
       "type": "text",
       "x": 446,
       "y": 290,
@@ -367,7 +367,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 5991,
+      "seed": 6229,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -385,7 +385,7 @@
       "containerId": null
     },
     {
-      "id": "a_5998",
+      "id": "a_6236",
       "type": "arrow",
       "x": 370,
       "y": 202,
@@ -399,7 +399,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6005,
+      "seed": 6243,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -423,7 +423,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "a_6012",
+      "id": "a_6250",
       "type": "arrow",
       "x": 370,
       "y": 282,
@@ -437,7 +437,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6019,
+      "seed": 6257,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -461,7 +461,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "a_6026",
+      "id": "a_6264",
       "type": "arrow",
       "x": 370,
       "y": 362,
@@ -475,7 +475,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6033,
+      "seed": 6271,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -499,7 +499,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "a_6040",
+      "id": "a_6278",
       "type": "arrow",
       "x": 370,
       "y": 442,
@@ -513,7 +513,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6047,
+      "seed": 6285,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -537,7 +537,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "rectangle_6054",
+      "id": "rectangle_6292",
       "type": "rectangle",
       "x": 760,
       "y": 260,
@@ -551,7 +551,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6061,
+      "seed": 6299,
       "roundness": {
         "type": 3
       },
@@ -562,7 +562,7 @@
       "locked": false
     },
     {
-      "id": "t_6068",
+      "id": "t_6306",
       "type": "text",
       "x": 760,
       "y": 291.25,
@@ -576,7 +576,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6075,
+      "seed": 6313,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -587,14 +587,14 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "Choose the\nsystem of record",
-      "originalText": "Choose the\nsystem of record",
+      "text": "Choose system of\nrecord + boundary",
+      "originalText": "Choose system of\nrecord + boundary",
       "lineHeight": 1.25,
       "baseline": 15,
       "containerId": null
     },
     {
-      "id": "a_6082",
+      "id": "a_6320",
       "type": "arrow",
       "x": 690,
       "y": 310,
@@ -608,7 +608,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6089,
+      "seed": 6327,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -632,7 +632,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "rectangle_6096",
+      "id": "rectangle_6334",
       "type": "rectangle",
       "x": 1010,
       "y": 151,
@@ -646,7 +646,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6103,
+      "seed": 6341,
       "roundness": {
         "type": 3
       },
@@ -657,7 +657,7 @@
       "locked": false
     },
     {
-      "id": "t_6110",
+      "id": "t_6348",
       "type": "text",
       "x": 1016,
       "y": 165,
@@ -671,7 +671,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6117,
+      "seed": 6355,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -682,14 +682,14 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "API Center + APIM products",
-      "originalText": "API Center + APIM products",
+      "text": "Gateway-mediated route",
+      "originalText": "Gateway-mediated route",
       "lineHeight": 1.25,
       "baseline": 14,
       "containerId": null
     },
     {
-      "id": "t_6124",
+      "id": "t_6362",
       "type": "text",
       "x": 1016,
       "y": 188.5,
@@ -703,7 +703,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6131,
+      "seed": 6369,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -714,14 +714,14 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "Microsoft-centred record +\nexposure boundaries",
-      "originalText": "Microsoft-centred record +\nexposure boundaries",
+      "text": "central auth · quota · telemetry\nfor published APIs or MCP",
+      "originalText": "central auth · quota · telemetry\nfor published APIs or MCP",
       "lineHeight": 1.25,
       "baseline": 11.5,
       "containerId": null
     },
     {
-      "id": "a_6138",
+      "id": "a_6376",
       "type": "arrow",
       "x": 960,
       "y": 310,
@@ -735,7 +735,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6145,
+      "seed": 6383,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -759,7 +759,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "rectangle_6152",
+      "id": "rectangle_6390",
       "type": "rectangle",
       "x": 1010,
       "y": 265,
@@ -773,7 +773,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6159,
+      "seed": 6397,
       "roundness": {
         "type": 3
       },
@@ -784,7 +784,7 @@
       "locked": false
     },
     {
-      "id": "t_6166",
+      "id": "t_6404",
       "type": "text",
       "x": 1016,
       "y": 279,
@@ -798,7 +798,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6173,
+      "seed": 6411,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -809,14 +809,14 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "Existing estate / catalog",
-      "originalText": "Existing estate / catalog",
+      "text": "Vetted allow-list",
+      "originalText": "Vetted allow-list",
       "lineHeight": 1.25,
       "baseline": 14,
       "containerId": null
     },
     {
-      "id": "t_6180",
+      "id": "t_6418",
       "type": "text",
       "x": 1016,
       "y": 302.5,
@@ -830,7 +830,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6187,
+      "seed": 6425,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -841,14 +841,14 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "approved process carries\nS5 fields (map them)",
-      "originalText": "approved process carries\nS5 fields (map them)",
+      "text": "reviewed source + lifecycle\nwithout per-call context",
+      "originalText": "reviewed source + lifecycle\nwithout per-call context",
       "lineHeight": 1.25,
       "baseline": 11.5,
       "containerId": null
     },
     {
-      "id": "a_6194",
+      "id": "a_6432",
       "type": "arrow",
       "x": 960,
       "y": 310,
@@ -862,7 +862,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6201,
+      "seed": 6439,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -886,7 +886,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "rectangle_6208",
+      "id": "rectangle_6446",
       "type": "rectangle",
       "x": 1010,
       "y": 379,
@@ -900,7 +900,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6215,
+      "seed": 6453,
       "roundness": {
         "type": 3
       },
@@ -911,7 +911,7 @@
       "locked": false
     },
     {
-      "id": "t_6222",
+      "id": "t_6460",
       "type": "text",
       "x": 1016,
       "y": 393,
@@ -925,7 +925,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6229,
+      "seed": 6467,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -936,14 +936,14 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "Ad-hoc list / no registry",
-      "originalText": "Ad-hoc list / no registry",
+      "text": "In-process policy boundary",
+      "originalText": "In-process policy boundary",
       "lineHeight": 1.25,
       "baseline": 14,
       "containerId": null
     },
     {
-      "id": "t_6236",
+      "id": "t_6474",
       "type": "text",
       "x": 1016,
       "y": 416.5,
@@ -957,7 +957,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6243,
+      "seed": 6481,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -968,14 +968,14 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "gap or hold state →\nbacklog a controlled model",
-      "originalText": "gap or hold state →\nbacklog a controlled model",
+      "text": "pre-call allow / deny / approval\n→ S10 engineering decision",
+      "originalText": "pre-call allow / deny / approval\n→ S10 engineering decision",
       "lineHeight": 1.25,
       "baseline": 11.5,
       "containerId": null
     },
     {
-      "id": "a_6250",
+      "id": "a_6488",
       "type": "arrow",
       "x": 960,
       "y": 310,
@@ -989,7 +989,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6257,
+      "seed": 6495,
       "roundness": null,
       "groupIds": [],
       "frameId": null,

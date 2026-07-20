@@ -4,7 +4,7 @@
   "source": "rvas",
   "elements": [
     {
-      "id": "t_1007",
+      "id": "t_2932",
       "type": "text",
       "x": 40,
       "y": 24,
@@ -18,7 +18,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1014,
+      "seed": 2939,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -36,7 +36,7 @@
       "containerId": null
     },
     {
-      "id": "t_1021",
+      "id": "t_2946",
       "type": "text",
       "x": 40,
       "y": 60,
@@ -50,7 +50,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1028,
+      "seed": 2953,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -61,14 +61,14 @@
       "fontFamily": 2,
       "textAlign": "left",
       "verticalAlign": "top",
-      "text": "Entra Agent ID gives an agent a governable identity in the tenant; a human sponsor is accountable. Gateway/Conditional Access guard runtime access — you often need both.",
-      "originalText": "Entra Agent ID gives an agent a governable identity in the tenant; a human sponsor is accountable. Gateway/Conditional Access guard runtime access — you often need both.",
+      "text": "A sponsor governs the agent identity and lifecycle. Host workload identity or federation, agent identity, delegated OBO, gateway access, and target-resource RBAC are separate decisions.",
+      "originalText": "A sponsor governs the agent identity and lifecycle. Host workload identity or federation, agent identity, delegated OBO, gateway access, and target-resource RBAC are separate decisions.",
       "lineHeight": 1.25,
       "baseline": 14,
       "containerId": null
     },
     {
-      "id": "rectangle_1035",
+      "id": "rectangle_2960",
       "type": "rectangle",
       "x": 24,
       "y": 200,
@@ -82,7 +82,7 @@
       "strokeStyle": "dashed",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1042,
+      "seed": 2967,
       "roundness": {
         "type": 3
       },
@@ -93,7 +93,7 @@
       "locked": false
     },
     {
-      "id": "t_1049",
+      "id": "t_2974",
       "type": "text",
       "x": 40,
       "y": 212,
@@ -107,7 +107,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1056,
+      "seed": 2981,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -125,7 +125,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_1063",
+      "id": "rectangle_2988",
       "type": "rectangle",
       "x": 44,
       "y": 300,
@@ -139,7 +139,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1070,
+      "seed": 2995,
       "roundness": {
         "type": 3
       },
@@ -150,7 +150,7 @@
       "locked": false
     },
     {
-      "id": "t_1077",
+      "id": "t_3002",
       "type": "text",
       "x": 44,
       "y": 338.625,
@@ -164,7 +164,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1084,
+      "seed": 3009,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -182,7 +182,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_1091",
+      "id": "rectangle_3016",
       "type": "rectangle",
       "x": 258,
       "y": 300,
@@ -196,7 +196,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1098,
+      "seed": 3023,
       "roundness": {
         "type": 3
       },
@@ -207,7 +207,7 @@
       "locked": false
     },
     {
-      "id": "t_1105",
+      "id": "t_3030",
       "type": "text",
       "x": 258,
       "y": 329.25,
@@ -221,7 +221,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1112,
+      "seed": 3037,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -239,7 +239,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_1119",
+      "id": "rectangle_3044",
       "type": "rectangle",
       "x": 472,
       "y": 300,
@@ -253,7 +253,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1126,
+      "seed": 3051,
       "roundness": {
         "type": 3
       },
@@ -264,7 +264,7 @@
       "locked": false
     },
     {
-      "id": "t_1133",
+      "id": "t_3058",
       "type": "text",
       "x": 472,
       "y": 329.25,
@@ -278,7 +278,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1140,
+      "seed": 3065,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -296,7 +296,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_1147",
+      "id": "rectangle_3072",
       "type": "rectangle",
       "x": 686,
       "y": 300,
@@ -310,7 +310,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1154,
+      "seed": 3079,
       "roundness": {
         "type": 3
       },
@@ -321,7 +321,7 @@
       "locked": false
     },
     {
-      "id": "t_1161",
+      "id": "t_3086",
       "type": "text",
       "x": 686,
       "y": 329.25,
@@ -335,7 +335,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1168,
+      "seed": 3093,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -353,7 +353,7 @@
       "containerId": null
     },
     {
-      "id": "a_1175",
+      "id": "a_3100",
       "type": "arrow",
       "x": 234,
       "y": 348,
@@ -367,7 +367,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1182,
+      "seed": 3107,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -391,7 +391,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "a_1189",
+      "id": "a_3114",
       "type": "arrow",
       "x": 448,
       "y": 348,
@@ -405,7 +405,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1196,
+      "seed": 3121,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -429,7 +429,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "a_1203",
+      "id": "a_3128",
       "type": "arrow",
       "x": 662,
       "y": 348,
@@ -443,7 +443,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1210,
+      "seed": 3135,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -467,7 +467,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "rectangle_1217",
+      "id": "rectangle_3142",
       "type": "rectangle",
       "x": 472,
       "y": 100,
@@ -481,7 +481,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1224,
+      "seed": 3149,
       "roundness": {
         "type": 3
       },
@@ -492,7 +492,7 @@
       "locked": false
     },
     {
-      "id": "t_1231",
+      "id": "t_3156",
       "type": "text",
       "x": 478,
       "y": 114,
@@ -506,7 +506,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1238,
+      "seed": 3163,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -524,7 +524,7 @@
       "containerId": null
     },
     {
-      "id": "t_1245",
+      "id": "t_3170",
       "type": "text",
       "x": 478,
       "y": 137.5,
@@ -538,7 +538,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1252,
+      "seed": 3177,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -556,7 +556,7 @@
       "containerId": null
     },
     {
-      "id": "a_1259",
+      "id": "a_3184",
       "type": "arrow",
       "x": 567,
       "y": 174,
@@ -570,7 +570,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1266,
+      "seed": 3191,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -594,7 +594,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "rectangle_1273",
+      "id": "rectangle_3198",
       "type": "rectangle",
       "x": 960,
       "y": 200,
@@ -608,7 +608,7 @@
       "strokeStyle": "dashed",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1280,
+      "seed": 3205,
       "roundness": {
         "type": 3
       },
@@ -619,7 +619,7 @@
       "locked": false
     },
     {
-      "id": "t_1287",
+      "id": "t_3212",
       "type": "text",
       "x": 976,
       "y": 212,
@@ -633,7 +633,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1294,
+      "seed": 3219,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -651,7 +651,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_1301",
+      "id": "rectangle_3226",
       "type": "rectangle",
       "x": 984,
       "y": 300,
@@ -665,7 +665,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1308,
+      "seed": 3233,
       "roundness": {
         "type": 3
       },
@@ -676,7 +676,7 @@
       "locked": false
     },
     {
-      "id": "t_1315",
+      "id": "t_3240",
       "type": "text",
       "x": 990,
       "y": 314,
@@ -690,7 +690,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1322,
+      "seed": 3247,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -708,7 +708,7 @@
       "containerId": null
     },
     {
-      "id": "t_1329",
+      "id": "t_3254",
       "type": "text",
       "x": 990,
       "y": 337.5,
@@ -722,7 +722,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1336,
+      "seed": 3261,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -740,7 +740,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_1343",
+      "id": "rectangle_3268",
       "type": "rectangle",
       "x": 1236,
       "y": 300,
@@ -754,7 +754,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1350,
+      "seed": 3275,
       "roundness": {
         "type": 3
       },
@@ -765,7 +765,7 @@
       "locked": false
     },
     {
-      "id": "t_1357",
+      "id": "t_3282",
       "type": "text",
       "x": 1242,
       "y": 314,
@@ -779,7 +779,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1364,
+      "seed": 3289,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -797,7 +797,7 @@
       "containerId": null
     },
     {
-      "id": "t_1371",
+      "id": "t_3296",
       "type": "text",
       "x": 1242,
       "y": 337.5,
@@ -811,7 +811,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1378,
+      "seed": 3303,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -829,7 +829,7 @@
       "containerId": null
     },
     {
-      "id": "t_1385",
+      "id": "t_3310",
       "type": "text",
       "x": 930,
       "y": 350,
@@ -843,7 +843,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1392,
+      "seed": 3317,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -861,21 +861,21 @@
       "containerId": null
     },
     {
-      "id": "rectangle_1399",
+      "id": "rectangle_3324",
       "type": "rectangle",
-      "x": 432,
+      "x": 44,
       "y": 480,
-      "width": 320,
+      "width": 250,
       "height": 84,
       "angle": 0,
-      "strokeColor": "#d97706",
-      "backgroundColor": "#fef3c7",
+      "strokeColor": "#16a34a",
+      "backgroundColor": "#dcfce7",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1406,
+      "seed": 3331,
       "roundness": {
         "type": 3
       },
@@ -886,21 +886,21 @@
       "locked": false
     },
     {
-      "id": "t_1413",
+      "id": "t_3338",
       "type": "text",
-      "x": 438,
+      "x": 50,
       "y": 494,
-      "width": 308,
+      "width": 238,
       "height": 17.5,
       "angle": 0,
-      "strokeColor": "#78350f",
+      "strokeColor": "#14532d",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 1,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1420,
+      "seed": 3345,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -911,28 +911,28 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "On-behalf-of (OBO)",
-      "originalText": "On-behalf-of (OBO)",
+      "text": "Host workload identity",
+      "originalText": "Host workload identity",
       "lineHeight": 1.25,
       "baseline": 14,
       "containerId": null
     },
     {
-      "id": "t_1427",
+      "id": "t_3352",
       "type": "text",
-      "x": 438,
+      "x": 50,
       "y": 517.5,
-      "width": 308,
-      "height": 30,
+      "width": 238,
+      "height": 15,
       "angle": 0,
-      "strokeColor": "#78350f",
+      "strokeColor": "#14532d",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 1,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1434,
+      "seed": 3359,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -943,28 +943,206 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "can appear in telemetry without its\nown Agent ID → recorded as a gap",
-      "originalText": "can appear in telemetry without its\nown Agent ID → recorded as a gap",
+      "text": "managed identity or federation",
+      "originalText": "managed identity or federation",
       "lineHeight": 1.25,
       "baseline": 12,
       "containerId": null
     },
     {
-      "id": "a_1441",
-      "type": "arrow",
-      "x": 686,
-      "y": 348,
-      "width": 66,
-      "height": 174,
+      "id": "rectangle_3366",
+      "type": "rectangle",
+      "x": 630,
+      "y": 480,
+      "width": 250,
+      "height": 84,
+      "angle": 0,
+      "strokeColor": "#0e7490",
+      "backgroundColor": "#cffafe",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 3373,
+      "roundness": {
+        "type": 3
+      },
+      "groupIds": [],
+      "frameId": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "t_3380",
+      "type": "text",
+      "x": 636,
+      "y": 494,
+      "width": 238,
+      "height": 17.5,
+      "angle": 0,
+      "strokeColor": "#155e63",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 3387,
+      "roundness": null,
+      "groupIds": [],
+      "frameId": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false,
+      "fontSize": 14,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "top",
+      "text": "Target-resource RBAC",
+      "originalText": "Target-resource RBAC",
+      "lineHeight": 1.25,
+      "baseline": 14,
+      "containerId": null
+    },
+    {
+      "id": "t_3394",
+      "type": "text",
+      "x": 636,
+      "y": 517.5,
+      "width": 238,
+      "height": 15,
+      "angle": 0,
+      "strokeColor": "#155e63",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 3401,
+      "roundness": null,
+      "groupIds": [],
+      "frameId": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false,
+      "fontSize": 12,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "top",
+      "text": "separate least-privilege decision",
+      "originalText": "separate least-privilege decision",
+      "lineHeight": 1.25,
+      "baseline": 12,
+      "containerId": null
+    },
+    {
+      "id": "rectangle_3408",
+      "type": "rectangle",
+      "x": 322,
+      "y": 480,
+      "width": 280,
+      "height": 84,
       "angle": 0,
       "strokeColor": "#d97706",
+      "backgroundColor": "#fef3c7",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 3415,
+      "roundness": {
+        "type": 3
+      },
+      "groupIds": [],
+      "frameId": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "t_3422",
+      "type": "text",
+      "x": 328,
+      "y": 494,
+      "width": 268,
+      "height": 17.5,
+      "angle": 0,
+      "strokeColor": "#78350f",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 3429,
+      "roundness": null,
+      "groupIds": [],
+      "frameId": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false,
+      "fontSize": 14,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "top",
+      "text": "Delegated OBO",
+      "originalText": "Delegated OBO",
+      "lineHeight": 1.25,
+      "baseline": 14,
+      "containerId": null
+    },
+    {
+      "id": "t_3436",
+      "type": "text",
+      "x": 328,
+      "y": 517.5,
+      "width": 268,
+      "height": 14.375,
+      "angle": 0,
+      "strokeColor": "#78350f",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 3443,
+      "roundness": null,
+      "groupIds": [],
+      "frameId": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false,
+      "fontSize": 11.5,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "top",
+      "text": "user authority, not autonomous agent authority",
+      "originalText": "user authority, not autonomous agent authority",
+      "lineHeight": 1.25,
+      "baseline": 11.5,
+      "containerId": null
+    },
+    {
+      "id": "a_3450",
+      "type": "arrow",
+      "x": 169,
+      "y": 480,
+      "width": 398,
+      "height": 84,
+      "angle": 0,
+      "strokeColor": "#16a34a",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "dashed",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1448,
+      "seed": 3457,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -977,7 +1155,83 @@
           0
         ],
         [
-          66,
+          398,
+          -84
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": null,
+      "endBinding": null,
+      "startArrowhead": null,
+      "endArrowhead": null
+    },
+    {
+      "id": "a_3464",
+      "type": "arrow",
+      "x": 567,
+      "y": 396,
+      "width": 188,
+      "height": 84,
+      "angle": 0,
+      "strokeColor": "#0e7490",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 3471,
+      "roundness": null,
+      "groupIds": [],
+      "frameId": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          188,
+          84
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": null,
+      "endBinding": null,
+      "startArrowhead": null,
+      "endArrowhead": null
+    },
+    {
+      "id": "a_3478",
+      "type": "arrow",
+      "x": 686,
+      "y": 348,
+      "width": 84,
+      "height": 174,
+      "angle": 0,
+      "strokeColor": "#d97706",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 3485,
+      "roundness": null,
+      "groupIds": [],
+      "frameId": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          -84,
           174
         ]
       ],

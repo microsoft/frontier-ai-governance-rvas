@@ -3,12 +3,12 @@ import { C, text, node, connect, arrow, write } from "./lib.mjs";
 
 const els = [];
 els.push(text(40, 24, 1500, "S11 · An operating review turns evidence into a decision", C.data, { size: 26, align: "left" }));
-els.push(text(40, 60, 1500, "Signals matter only when the population and period are stated and someone owns the interpretation. An excluded population is a coverage limit, not a zero result or a pass.", C.neutral, { size: 14, align: "left" }));
+els.push(text(40, 60, 1500, "Gateway, agent-host, model or orchestration, and dependency signals matter only when correlation, population, retention, and interpretation ownership are stated. Exclusions are coverage limits, not a pass.", C.neutral, { size: 14, align: "left" }));
 
 const sources = [
-  ["Foundry observability", "traces · tokens · latency · eval scores", C.data],
-  ["OpenTelemetry · App Insights", "TTFT/TTFB · p95 · throughput · errors", C.data],
-  ["Population & review period", "what the evidence covers", C.neutral],
+  ["Gateway + agent-host telemetry", "auth · policy · traces · errors", C.data],
+  ["Model + dependency signals", "tokens · latency · tool / data outcomes", C.data],
+  ["Coverage + retention boundary", "population · sampling · privacy", C.neutral],
 ];
 const sx = 40, sw = 300, sh = 84, sg = 20;
 let sy = 150;
@@ -33,7 +33,7 @@ const drift = node(els, 740, 300, 220, 90, C.amber, "Drift hypothesis", { titleS
 connect(els, review, decision, { stroke: C.eval.st });
 connect(els, review, drift, { stroke: C.eval.st });
 
-const routes = ["Accountable owner", "Validation reference", "Exception / escalation route"];
+const routes = ["Cost / allocation owner", "Validation reference", "Exception / escalation route"];
 const rx = 1030, rw = 240, rh = 64, rg = 18;
 let ry = drift.cy - (routes.length * rh + (routes.length - 1) * rg) / 2;
 routes.forEach((t) => {

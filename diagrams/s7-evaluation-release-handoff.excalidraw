@@ -4,7 +4,7 @@
   "source": "rvas",
   "elements": [
     {
-      "id": "t_6670",
+      "id": "t_7020",
       "type": "text",
       "x": 40,
       "y": 24,
@@ -18,7 +18,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6677,
+      "seed": 7027,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -36,7 +36,7 @@
       "containerId": null
     },
     {
-      "id": "t_6684",
+      "id": "t_7034",
       "type": "text",
       "x": 40,
       "y": 60,
@@ -50,7 +50,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6691,
+      "seed": 7041,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -61,14 +61,14 @@
       "fontFamily": 2,
       "textAlign": "left",
       "verticalAlign": "top",
-      "text": "S7 requires the accepted S6 gateway proof first. Foundry evaluations inform the decision; the assurance owner selects continue or hold, and the customer owns how it runs and enforces.",
-      "originalText": "S7 requires the accepted S6 gateway proof first. Foundry evaluations inform the decision; the assurance owner selects continue or hold, and the customer owns how it runs and enforces.",
+      "text": "S7 requires accepted S6 gateway proof first. Selected quality, safety, groundedness, tool-use, regression, and human-review evidence informs the customer-owned continue or hold decision.",
+      "originalText": "S7 requires accepted S6 gateway proof first. Selected quality, safety, groundedness, tool-use, regression, and human-review evidence informs the customer-owned continue or hold decision.",
       "lineHeight": 1.25,
       "baseline": 14,
       "containerId": null
     },
     {
-      "id": "rectangle_6698",
+      "id": "rectangle_7048",
       "type": "rectangle",
       "x": 40,
       "y": 250,
@@ -82,7 +82,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6705,
+      "seed": 7055,
       "roundness": {
         "type": 3
       },
@@ -93,7 +93,7 @@
       "locked": false
     },
     {
-      "id": "t_6712",
+      "id": "t_7062",
       "type": "text",
       "x": 46,
       "y": 264,
@@ -107,7 +107,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6719,
+      "seed": 7069,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -125,7 +125,7 @@
       "containerId": null
     },
     {
-      "id": "t_6726",
+      "id": "t_7076",
       "type": "text",
       "x": 46,
       "y": 288.75,
@@ -139,7 +139,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6733,
+      "seed": 7083,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -157,7 +157,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_6740",
+      "id": "rectangle_7090",
       "type": "rectangle",
       "x": 320,
       "y": 240,
@@ -171,7 +171,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6747,
+      "seed": 7097,
       "roundness": {
         "type": 3
       },
@@ -182,7 +182,7 @@
       "locked": false
     },
     {
-      "id": "t_6754",
+      "id": "t_7104",
       "type": "text",
       "x": 326,
       "y": 254,
@@ -196,7 +196,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6761,
+      "seed": 7111,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -214,7 +214,7 @@
       "containerId": null
     },
     {
-      "id": "t_6768",
+      "id": "t_7118",
       "type": "text",
       "x": 326,
       "y": 278.75,
@@ -228,7 +228,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6775,
+      "seed": 7125,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -239,14 +239,14 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "quality · groundedness\nsafety · tool use\nregression · human review",
-      "originalText": "quality · groundedness\nsafety · tool use\nregression · human review",
+      "text": "quality · safety · groundedness\ntool use · regression\nhuman review",
+      "originalText": "quality · safety · groundedness\ntool use · regression\nhuman review",
       "lineHeight": 1.25,
       "baseline": 12,
       "containerId": null
     },
     {
-      "id": "rectangle_6782",
+      "id": "rectangle_7132",
       "type": "rectangle",
       "x": 620,
       "y": 260,
@@ -260,7 +260,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6789,
+      "seed": 7139,
       "roundness": {
         "type": 3
       },
@@ -271,7 +271,7 @@
       "locked": false
     },
     {
-      "id": "t_6796",
+      "id": "t_7146",
       "type": "text",
       "x": 626,
       "y": 274,
@@ -285,7 +285,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6803,
+      "seed": 7153,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -303,7 +303,7 @@
       "containerId": null
     },
     {
-      "id": "t_6810",
+      "id": "t_7160",
       "type": "text",
       "x": 626,
       "y": 298.75,
@@ -317,7 +317,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6817,
+      "seed": 7167,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -335,7 +335,7 @@
       "containerId": null
     },
     {
-      "id": "a_6824",
+      "id": "a_7174",
       "type": "arrow",
       "x": 260,
       "y": 310,
@@ -349,7 +349,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6831,
+      "seed": 7181,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -373,7 +373,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "a_6838",
+      "id": "a_7188",
       "type": "arrow",
       "x": 560,
       "y": 310,
@@ -387,7 +387,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6845,
+      "seed": 7195,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -411,7 +411,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "diamond_6852",
+      "id": "diamond_7202",
       "type": "diamond",
       "x": 890,
       "y": 250,
@@ -425,7 +425,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6859,
+      "seed": 7209,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -434,7 +434,7 @@
       "locked": false
     },
     {
-      "id": "t_6866",
+      "id": "t_7216",
       "type": "text",
       "x": 890,
       "y": 300.625,
@@ -448,7 +448,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6873,
+      "seed": 7223,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -466,7 +466,7 @@
       "containerId": null
     },
     {
-      "id": "a_6880",
+      "id": "a_7230",
       "type": "arrow",
       "x": 830,
       "y": 310,
@@ -480,7 +480,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6887,
+      "seed": 7237,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -504,7 +504,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "rectangle_6894",
+      "id": "rectangle_7244",
       "type": "rectangle",
       "x": 1120,
       "y": 200,
@@ -518,7 +518,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6901,
+      "seed": 7251,
       "roundness": {
         "type": 3
       },
@@ -529,7 +529,7 @@
       "locked": false
     },
     {
-      "id": "t_6908",
+      "id": "t_7258",
       "type": "text",
       "x": 1120,
       "y": 227.625,
@@ -543,7 +543,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6915,
+      "seed": 7265,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -561,7 +561,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_6922",
+      "id": "rectangle_7272",
       "type": "rectangle",
       "x": 1120,
       "y": 320,
@@ -575,7 +575,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6929,
+      "seed": 7279,
       "roundness": {
         "type": 3
       },
@@ -586,7 +586,7 @@
       "locked": false
     },
     {
-      "id": "t_6936",
+      "id": "t_7286",
       "type": "text",
       "x": 1120,
       "y": 347.625,
@@ -600,7 +600,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6943,
+      "seed": 7293,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -618,7 +618,7 @@
       "containerId": null
     },
     {
-      "id": "a_6950",
+      "id": "a_7300",
       "type": "arrow",
       "x": 1070,
       "y": 300,
@@ -632,7 +632,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6957,
+      "seed": 7307,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -656,7 +656,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "a_6964",
+      "id": "a_7314",
       "type": "arrow",
       "x": 1070,
       "y": 320,
@@ -670,7 +670,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6971,
+      "seed": 7321,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -694,7 +694,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "rectangle_6978",
+      "id": "rectangle_7328",
       "type": "rectangle",
       "x": 320,
       "y": 440,
@@ -708,7 +708,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6985,
+      "seed": 7335,
       "roundness": {
         "type": 3
       },
@@ -719,7 +719,7 @@
       "locked": false
     },
     {
-      "id": "t_6992",
+      "id": "t_7342",
       "type": "text",
       "x": 326,
       "y": 454,
@@ -733,7 +733,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 6999,
+      "seed": 7349,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -744,14 +744,14 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "Foundry evaluations & agent evaluators inform the decision",
-      "originalText": "Foundry evaluations & agent evaluators inform the decision",
+      "text": "Evaluators or customer scorers inform the decision",
+      "originalText": "Evaluators or customer scorers inform the decision",
       "lineHeight": 1.25,
       "baseline": 13.5,
       "containerId": null
     },
     {
-      "id": "t_7006",
+      "id": "t_7356",
       "type": "text",
       "x": 326,
       "y": 476.875,
@@ -765,7 +765,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 7013,
+      "seed": 7363,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -776,14 +776,14 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "a fixture result or proposed CI gate is not enough on its own",
-      "originalText": "a fixture result or proposed CI gate is not enough on its own",
+      "text": "verify current availability; a fixture or proposed CI gate is not enough alone",
+      "originalText": "verify current availability; a fixture or proposed CI gate is not enough alone",
       "lineHeight": 1.25,
       "baseline": 11.5,
       "containerId": null
     },
     {
-      "id": "a_7020",
+      "id": "a_7370",
       "type": "arrow",
       "x": 575,
       "y": 440,
@@ -797,7 +797,7 @@
       "strokeStyle": "dashed",
       "roughness": 0,
       "opacity": 100,
-      "seed": 7027,
+      "seed": 7377,
       "roundness": null,
       "groupIds": [],
       "frameId": null,

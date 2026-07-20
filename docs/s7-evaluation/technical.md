@@ -13,6 +13,8 @@ These are decision **menus**, not deployment steps. S7 changes no evaluator,
 agent, CI/CD gate, telemetry source, or production control; the customer owns
 any implementation and the resulting records.
 
+![S7 illustrative assurance pattern: accepted S6 runtime evidence precedes an evaluation plan covering selected quality, safety, groundedness, tool-use, regression, and human-review dimensions. The customer-owned assurance decision remains continue or hold.](../assets/diagrams/s7-evaluation-release-handoff.svg)
+
 ## Decision 1 — Evaluation approach & scorers
 
 Choose against the checks that are universal versus project-gated, the coverage
@@ -25,6 +27,33 @@ reproduce the evidence.
 | **Manual annotation / customer scorers** | Domain judgment, policy nuance, or unsupported evaluator coverage is needed | Slower and harder to scale; consistency depends on reviewer calibration | Record rubric, reviewer role, sampling plan, adjudication path, and reproducibility limits |
 | **Policy-scenario assertion suites** (verify current guidance/status) | Specific safety, refusal, tool-boundary, or regression scenarios need targeted pass/fail evidence | Scenario suites do not prove broad quality or runtime enforcement | Record scenario owner, expected behavior, version, regression route, and which checks remain outside scope |
 | **Hybrid scorecard** | Release needs both automated repeatability and expert interpretation | More owners and evidence to reconcile | Record which checks are universal, which are project-gated, and who resolves conflicts |
+
+### Azure implementation track — make quality claims bounded and actionable
+
+**Control chain to decide.** Select only the dimensions that matter for the
+bounded release: quality/task completion, groundedness or retrieval, safety,
+tool-use/task adherence, regression, and human escalation. Where current
+Foundry evaluator or agent-evaluator support fits, pair it with a customer-owned
+scenario population, trace/dataset source, rubric or evaluator version, and
+threshold owner. Use manual scorers where domain judgment or unsupported scope
+requires them.
+
+**Failure modes to test in the customer plan.** A high aggregate score can hide
+a critical scenario; a synthetic suite can be treated as production evidence; a
+groundedness check can be applied to an unsupported answer type; evaluator
+availability can be assumed across regions or projects; and an automated gate
+can fail without an owner for triage, override, rollback, or renewal.
+
+**Evidence and record.** Record the candidate version, accepted S6 proof
+reference, scenario and data/trace coverage, evaluator/rubric version,
+threshold/interpretation owner, unsupported population, human-review path, and
+decision use. Raw prompts, outputs, scores, and datasets remain customer-held.
+
+**Backlog sequence.** Resolve unsupported coverage and threshold ownership before
+adding CI/CD or continuous-evaluation automation. Send pre-release decisions to
+the customer release process, adversarial risks to S8, and production sampling,
+drift, and recurrence questions to S11. Evaluation informs a continue/hold
+decision; it never substitutes for runtime proof or release authority.
 
 ## Decision 2 — Release-gate mechanism & CI/CD integration
 

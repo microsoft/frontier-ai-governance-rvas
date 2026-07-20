@@ -18,7 +18,7 @@ permission, service, or production lifecycle state.
 
 ## Decision 1 — Tool/API publication and registry system of record
 
-![S5 object model: a publication record must carry discoverability, owner, version/lifecycle state, and exposure-control intent, then choose a system of record — API Center plus APIM products, an existing estate or catalog, or an ad-hoc list / no registry treated as a gap.](../assets/diagrams/s5-tool-api-governance-record-model.svg)
+![S5 illustrative tool-governance pattern: a publication record connects a tool or API to a selectable gateway-mediated, allow-list, or in-process policy boundary. It records intended controls; it does not approve publication or runtime use.](../assets/diagrams/s5-tool-api-governance-record-model.svg)
 
 Choose the system that can hold the candidate's **discoverability**, **owner**,
 **version/lifecycle state**, and **exposure-control intent** without implying
@@ -41,6 +41,32 @@ source**, whether a **pre-call policy decision** is needed, and how the caller i
 | **Gateway-mediated or brokered MCP through the governance hub** | Tool traffic can route through a controlled boundary that authenticates callers and applies publication policy | Does not decide inside the agent process before a local tool call; current MCP and gateway support must be verified | Centralizes exposure control and audit expectations; pair with S6 runtime evidence and S9 lifecycle reconciliation |
 | **Allow-list of vetted MCP servers/tools** | A small set of sources is reviewed, named, versioned, and owned before use | Allow-lists age quickly and may miss per-call context or delegated authority | Good for source trust and lifecycle control; record vetting owner, review date, and suspension trigger |
 | **In-process tool-call policy boundary** | The meaningful decision is immediately before the tool call, inside the agent or orchestrator | Requires engineering assessment and customer code ownership; see [S10 technical decisions](../s10-in-process-governance/technical.md) for the boundary menu | Backlog when pre-call allow/deny/approval semantics are required beyond gateway or allow-list controls |
+
+### Azure implementation track — publication does not equal authority
+
+**Control chain to decide.** Treat the catalog record, gateway-mediated API/MCP
+route, reviewed allow-list, and in-process pre-call policy as separate controls.
+Azure API Management can centralize authentication, quota, routing, and
+telemetry for a selected published route. It cannot make an allow/deny/approval
+decision immediately before a local in-process tool call; that belongs to an
+application boundary such as the S10 applicability decision.
+
+**Failure modes to test in the customer design.** A catalog entry can be
+mistaken for a security approval; an MCP server can be published without a
+named caller identity or withdrawal trigger; a broad OAuth scope can authorize
+more than the documented tool action; a gateway policy can be assumed to cover
+local calls; and an allow-list can age without review or suspension ownership.
+
+**Evidence and record.** Capture the candidate/version, source trust, intended
+consumers, classification, caller identity, allowed and prohibited actions,
+resource boundary, selected policy boundary, lifecycle owner, review date,
+suspension trigger, and evidence limits. Do not put endpoint values, secrets,
+payloads, or live policy exports in the kit.
+
+**Backlog sequence.** Establish the system of record and lifecycle path, then
+select gateway, allow-list, or in-process enforcement and assign its owner.
+Route identity prerequisites to S1, runtime-path evidence to S6, and material
+change/withdrawal reconciliation to S9.
 
 ## Decision 3 — Tool authentication and least privilege
 

@@ -16,6 +16,8 @@ an open question.
 These are decision **menus**, not recommendations to deploy. S1 changes nothing
 in the tenant; the customer's identity-change process owns any implementation.
 
+![S1 illustrative identity pattern: a human sponsor governs agent identity and lifecycle; host workload identity, agent identity, delegated OBO, gateway access, and resource authorization remain separate decisions.](../assets/diagrams/s1-agent-identity-model.svg)
+
 ## Decision 1 — How does each in-scope agent get a governable identity?
 
 The governing test is: can you name a **human sponsor**, prove the **identity
@@ -34,6 +36,32 @@ Selection criteria to record for each: agent-native vs infrastructure identity;
 sponsor and lifecycle ownership; tenant/licensing availability; whether it uses
 stored secrets or federated credentials; and how it interacts with runtime access (Decision
 2) and the gateway.
+
+### Azure implementation track — identity is not one credential
+
+**Control chain to decide.** Separate the host workload identity (managed
+identity or federation), an agent-native identity where supported, delegated OBO
+authority, gateway authentication, and target-resource RBAC. A human sponsor
+owns the agent's purpose and lifecycle; the technical owner owns the selected
+credential/federation path; the resource owner owns least-privilege access.
+
+**Failure modes to test in the customer design.** A shared workload identity can
+make actions indistinguishable; a host identity can be mistaken for an
+agent-purpose identity; persistent application secrets can outlive the workload;
+an OBO flow can be treated as autonomous authority; and broad target-resource
+roles can escape the intended tool/action boundary.
+
+**Evidence and record.** The customer-held inventory should state the source
+coverage, sponsor, identity classification, autonomous or delegated mode,
+credential/federation owner, authority scope, target-resource reference, access
+review date, and audit route. Object IDs, tokens, role assignments, and exports
+remain in customer systems.
+
+**Backlog sequence.** First close missing sponsorship or lifecycle coverage,
+then select the identity path, then route federation/RBAC/Conditional Access
+work through the identity process. Hand gateway-path evidence to S6 and
+catalog/lifecycle reconciliation to S9. An identity decision alone does not
+prove that a gateway, target resource, or tool enforces it.
 
 ## Decision 2 — How is runtime access to the agent controlled?
 

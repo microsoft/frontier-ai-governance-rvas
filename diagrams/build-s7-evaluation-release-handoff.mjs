@@ -3,12 +3,12 @@ import { C, text, node, connect, diamond, labelIn, arrow, write } from "./lib.mj
 
 const els = [];
 els.push(text(40, 24, 1500, "S7 · Evaluation informs release — it is not the sign-off", C.eval, { size: 26, align: "left" }));
-els.push(text(40, 60, 1500, "S7 requires the accepted S6 gateway proof first. Foundry evaluations inform the decision; the assurance owner selects continue or hold, and the customer owns how it runs and enforces.", C.neutral, { size: 14, align: "left" }));
+els.push(text(40, 60, 1500, "S7 requires accepted S6 gateway proof first. Selected quality, safety, groundedness, tool-use, regression, and human-review evidence informs the customer-owned continue or hold decision.", C.neutral, { size: 14, align: "left" }));
 
 const gate = node(els, 40, 250, 220, 120, C.security, "Accepted S6 gateway proof", { titleSize: 15, sub: "required first —\ncondition to proceed", subSize: 12 });
 const plan = node(els, 320, 240, 240, 140, C.eval, "Evaluation plan", {
   titleSize: 15,
-  sub: "quality · groundedness\nsafety · tool use\nregression · human review",
+  sub: "quality · safety · groundedness\ntool use · regression\nhuman review",
   subSize: 12,
 });
 const owner = node(els, 620, 260, 210, 100, C.hero, "Assurance owner", { titleSize: 15, sub: "names scope & limits", subSize: 12 });
@@ -29,7 +29,7 @@ els.push(arrow(dnode.r, dnode.cy - 10, cont.x, cont.cy, { stroke: C.start.st, cu
 els.push(arrow(dnode.r, dnode.cy + 10, hold.x, hold.cy, { stroke: C.amber.st, curved: false }));
 
 // evaluators inform, do not replace
-const note = node(els, 320, 440, 510, 70, C.neutral, "Foundry evaluations & agent evaluators inform the decision", { titleSize: 13.5, sub: "a fixture result or proposed CI gate is not enough on its own", subSize: 11.5 });
+const note = node(els, 320, 440, 510, 70, C.neutral, "Evaluators or customer scorers inform the decision", { titleSize: 13.5, sub: "verify current availability; a fixture or proposed CI gate is not enough alone", subSize: 11.5 });
 els.push(arrow(note.cx, note.y, plan.cx, plan.b, { stroke: C.neutral.st, curved: false, dashed: true, endArrowhead: null }));
 
 write(new URL("./s7-evaluation-release-handoff.excalidraw", import.meta.url).pathname, els);
