@@ -1,4 +1,4 @@
-# S2 · Data Governance & Compliance — Technical decisions
+# S2 · Data Governance & Compliance: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-17 · Microsoft Purview, DSPM for AI, DLP,
@@ -12,7 +12,7 @@ is bounded, and how obligations are mapped. The result is recorded options,
 evidence, and owners, not a data export or tenant change. Rollout remains with
 the customer's compliance, data, security, and change processes.
 
-## Decision 1 — How is data classified and sensitivity handled?
+## Decision 1: How is data classified and sensitivity handled?
 
 Choose based on how mature the label taxonomy already is, whether it covers
 agent prompts, retrieval sources, and outputs, and whether the customer's
@@ -25,10 +25,10 @@ Information Protection and DLP status before treating any option as available.
 | **Existing enterprise DLP or classification process** | A non-Purview or broader enterprise control already governs the data path | May not see all AI prompt, response, or retrieval activity; evidence may live outside Purview | Accept if it is customer-owned and evidence-backed; record what it covers and what S2 must backlog |
 | **Manual / customer-defined classification** | Early review, incomplete taxonomy, or regulated data that needs human interpretation before automation | Slower and less scalable; cannot prove ongoing enforcement by itself | Valid as a starting decision; record owner, review cadence, and when label/DLP maturity must be revisited |
 
-## Decision 2 — How is grounding, retrieval, and PII exposure governed?
+## Decision 2: How is grounding, retrieval, and PII exposure governed?
 
-The deciding test is where sensitive data enters — prompts, retrieval results,
-tool outputs, or responses — where the sources live, and which least-privilege
+The deciding test is where sensitive data enters (prompts, retrieval results,
+tool outputs, or responses), where the sources live, and which least-privilege
 boundary limits what the agent can reach. Verify current status for each named
 Microsoft or Azure capability before selection.
 
@@ -39,7 +39,7 @@ Microsoft or Azure capability before selection.
 | **Microsoft Purview data map / DSPM for AI review** | The customer needs exposure findings, oversharing signals, or data-estate context before deciding | Diagnostic, not an enforcement guarantee; workload support and results must be interpreted | Record findings or documented no-results, gaps, and the owner for remediation or accepted risk |
 | **Azure AI Content Safety** | The concern is unsafe generated content or moderation of model inputs/outputs | It is not a PII, residency, retention, or source-permission control | Use only for the safety slice; record why data-governance risk remains covered elsewhere |
 
-## Decision 3 — How are compliance, residency, and retention obligations mapped?
+## Decision 3: How are compliance, residency, and retention obligations mapped?
 
 Map the path to regulatory exposure, cross-border data movement, records of
 processing, and retention ownership. Confirm current region, residency, and
@@ -69,7 +69,7 @@ S2 leaves the decision, evidence references, and review actions.
 
 ## Related references
 
-- [S2 Concepts](concepts.md) — Purview review, labels and DLP, investigation evidence, and gateway masking boundaries.
-- [Governance capability guide](../reference/governance-capability-guide.md) — capability and tenant-readiness context to verify before delivery.
-- [Platform technical guide](../reference/platform-technical-guide.md) — Citadel/gateway and platform-governance boundary context.
-- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md) — Purview, DSPM, DLP, sensitivity, audit, eDiscovery, residency, and compliance sources.
+- [S2 Concepts](concepts.md): Purview review, labels and DLP, investigation evidence, and gateway masking boundaries.
+- [Governance capability guide](../reference/governance-capability-guide.md): capability and tenant-readiness context to verify before delivery.
+- [Platform technical guide](../reference/platform-technical-guide.md): Citadel/gateway and platform-governance boundary context.
+- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md): Purview, DSPM, DLP, sensitivity, audit, eDiscovery, residency, and compliance sources.

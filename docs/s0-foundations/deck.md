@@ -83,7 +83,7 @@ Use this slide to justify why the executive sponsor and governance lead are requ
 - S12 repeats the same assessment later.
 
 Note:
-Reinforce that the baseline is a prioritization tool, not an audit verdict. A low score can show a missing owner, missing evidence, or untested control. A high score is not a deployed control — it is evidence of an assessment and prioritization decision.
+Reinforce that the baseline is a prioritization tool, not an audit verdict. A low score can show a missing owner, missing evidence, or untested control. A high score is not a deployed control; it is evidence of an assessment and prioritization decision.
 
 ---
 
@@ -126,7 +126,7 @@ This lens keeps the discussion grounded. It is not a maturity claim; it is a way
 
 ---
 
-## The activity — how we'll work
+## The activity: how we'll work
 
 - **Timebox:** 90 minutes · **five steps**
 - **To start:** sponsor, governance lead, approved evidence location, bounded pilot question.
@@ -138,7 +138,7 @@ Confirm the preconditions before continuing. The governance lead scores the base
 
 ---
 
-## Step 1 — Set the room and question · 10 min
+## Step 1: Set the room and question · 10 min
 
 > **"Which governance capability must we prioritize for this pilot, and who can decide?"**
 
@@ -149,7 +149,7 @@ A useful start has named roles and an approved record location. If there is no s
 
 ---
 
-## Step 2 — Create the customer copy · 10 min
+## Step 2: Create the customer copy · 10 min
 
 The governance lead copies the scorecard, operating-model stub, and RACI to the approved customer system.
 
@@ -161,7 +161,7 @@ A completed customer copy is evidence. A facilitator-held template is not. If th
 
 ---
 
-## Step 3 — Customer scores the baseline · 35 min
+## Step 3: Customer scores the baseline · 35 min
 
 Customer participants score the **39 questions** and record rationale and dissent in their copy.
 
@@ -174,7 +174,7 @@ A useful result is a score or an explicitly unanswered item with rationale. If e
 
 ---
 
-## Step 4 — Generate and read the roadmap · 20 min
+## Step 4: Generate and read the roadmap · 20 min
 
 The customer runs the offline scorer against its copy.
 
@@ -186,7 +186,7 @@ The scorer ranks lower scores first and breaks ties by total question weight. It
 
 ---
 
-## Step 5 — Decide and hand off · 15 min
+## Step 5: Decide and hand off · 15 min
 
 The decision owner chooses:
 

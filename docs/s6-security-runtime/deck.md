@@ -92,7 +92,7 @@ These are decision menus, not deployment steps. S6 changes no production traffic
 
 ---
 
-## The activity — how we'll work
+## The activity: how we'll work
 
 - **Timebox:** 90 minutes · **five steps**
 - **Entry condition:** approved non-production route, safe authentication handling, record locations, and named platform/security/evidence/decision owners.
@@ -103,7 +103,7 @@ Preview the five steps: orient, customer-operated gateway request, interpret tog
 
 ---
 
-## Step 1 — Set the room and orient · 20 min
+## Step 1: Set the room and orient · 20 min
 
 > **"Which gateway route, policy, and runtime-control option are in scope?"**
 > **"Who can interpret telemetry and accept this proof?"**
@@ -116,7 +116,7 @@ Record the pilot question and scope. Do not proceed without the approved route, 
 
 ---
 
-## Step 2 — Customer-operated gateway request · 30 min
+## Step 2: Customer-operated gateway request · 30 min
 
 The platform operator performs one approved gateway-path request using the runbook.
 
@@ -127,7 +127,7 @@ The facilitator observes the boundary without handling credentials or payloads. 
 
 ---
 
-## Step 3 — Interpret together · 15 min
+## Step 3: Interpret together · 15 min
 
 > **"Does the manifest match the gateway-proof contract?"**
 > **"Does `correlation_id` appear in approved gateway telemetry?"**
@@ -140,7 +140,7 @@ Separate adapter transport result from acceptance decision. Do not copy prompts,
 
 ---
 
-## Step 4 — Customer decision · 15 min
+## Step 4: Customer decision · 15 min
 
 Accepted proof requires:
 
@@ -154,7 +154,7 @@ A pass without reviewer acceptance is not enforcement evidence. A fail, missing 
 
 ---
 
-## Step 5 — Hand over · 10 min
+## Step 5: Hand over · 10 min
 
 Read back safe references:
 

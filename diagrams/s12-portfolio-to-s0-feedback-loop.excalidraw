@@ -61,8 +61,8 @@
       "fontFamily": 2,
       "textAlign": "left",
       "verticalAlign": "top",
-      "text": "Portfolio governance turns prior-session records and exception patterns into ranked decisions and a roadmap backlog — which feeds the next S0 assessment rather than replacing it.",
-      "originalText": "Portfolio governance turns prior-session records and exception patterns into ranked decisions and a roadmap backlog — which feeds the next S0 assessment rather than replacing it.",
+      "text": "Portfolio governance turns prior-session records and exception patterns into ranked decisions and a roadmap backlog. That backlog feeds the next S0 assessment rather than replacing it.",
+      "originalText": "Portfolio governance turns prior-session records and exception patterns into ranked decisions and a roadmap backlog. That backlog feeds the next S0 assessment rather than replacing it.",
       "lineHeight": 1.25,
       "baseline": 14,
       "containerId": null

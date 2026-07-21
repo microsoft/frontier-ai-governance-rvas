@@ -20,7 +20,7 @@ That's why the session starts by reviewing a trusted list and naming a sponsor.
 If something goes wrong, you can't respond well unless you can say what your
 list covers, which identity is which agent, and who owns it.
 
-An agent identity is more than an app registration — its sponsor and lifecycle
+An agent identity is more than an app registration: its sponsor and lifecycle
 belong in the governance record.
 
 ## Findings turn into a short backlog

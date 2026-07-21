@@ -1,4 +1,4 @@
-# S3 Takeaway Kit — Enterprise Platform & Trust Boundaries
+# S3 Takeaway Kit: Enterprise Platform & Trust Boundaries
 
 This kit contains blank, offline records for a 90-minute, evidence-first,
 report-only platform-boundary review. It helps an organization describe the

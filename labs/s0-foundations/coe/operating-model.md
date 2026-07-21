@@ -1,4 +1,4 @@
-# AI Center of Excellence — Operating Model
+# AI Center of Excellence: Operating Model
 
 > Fill the **‹bracketed›** fields with the customer during S0.
 
@@ -20,11 +20,11 @@ Establish accountable ownership for AI‑agent governance and the cadence by whi
 
 ## Operating cadence (CAF for AI)
 
-- **Strategy / Plan** — business outcomes for AI + agent adoption: ‹summary›
-- **Ready** — landing zone / tenant readiness owner: ‹name›
-- **Govern** — policy, risk classification, review gates (this document).
-- **Secure** — identity, data, platform, and runtime controls (S1-S6).
-- **Manage** — evaluation, testing, control-plane, operations, and portfolio
+- **Strategy / Plan**: business outcomes for AI + agent adoption: ‹summary›
+- **Ready**: landing zone / tenant readiness owner: ‹name›
+- **Govern**: policy, risk classification, review gates (this document).
+- **Secure**: identity, data, platform, and runtime controls (S1-S6).
+- **Manage**: evaluation, testing, control-plane, operations, and portfolio
   improvement (S7-S12).
 
 ## Use‑case intake + risk classification (stub)

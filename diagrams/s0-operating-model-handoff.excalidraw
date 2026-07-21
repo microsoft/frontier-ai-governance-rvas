@@ -61,8 +61,8 @@
       "fontFamily": 2,
       "textAlign": "left",
       "verticalAlign": "top",
-      "text": "S0 names owners and records decisions before any AI tool is enabled — then routes each capability track to the session or process that owns it.",
-      "originalText": "S0 names owners and records decisions before any AI tool is enabled — then routes each capability track to the session or process that owns it.",
+      "text": "S0 names owners and records decisions before any AI tool is enabled. It then routes each capability track to the session or process that owns it.",
+      "originalText": "S0 names owners and records decisions before any AI tool is enabled. It then routes each capability track to the session or process that owns it.",
       "lineHeight": 1.25,
       "baseline": 14,
       "containerId": null

@@ -1,4 +1,4 @@
-# S4 · Agent Engineering — Technical decisions
+# S4 · Agent Engineering: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-17 · Microsoft agent-path capabilities and Foundry
@@ -10,7 +10,7 @@ S4 is the path-selection decision point. It compares six paths and records the
 associated model-selection and admission decisions. A recommendation creates a
 backlog and ownership; it does not deploy or configure a product.
 
-## Decision 1 — Which Microsoft implementation path?
+## Decision 1: Which Microsoft implementation path?
 
 Choose against the agent's **authority boundary**, **users and data boundary**,
 required **customization/control**, **engineering ownership**, and the
@@ -20,16 +20,16 @@ required **customization/control**, **engineering ownership**, and the
 |---|---|---|---|
 | **Copilot Studio** | Low-code makers, business workflows, fast iteration | Less low-level control; governed largely via Power Platform | Power Platform DLP, environment routing, connector governance |
 | **Microsoft Foundry Agent Service** | Pro-code agents needing tools, models, tracing, evaluation | Requires platform/engineering ownership | Project/model, agent type, tools, identity, telemetry, evaluation, red-team, catalog |
-| **Custom Azure app/service on Foundry models & tools** | Deep customization, bespoke orchestration or integration | Most engineering to own; broadest attack/governance surface | Identity, gateway, network, telemetry, evaluation — all customer-owned |
+| **Custom Azure app/service on Foundry models & tools** | Deep customization, bespoke orchestration or integration | Most engineering to own; broadest attack/governance surface | Identity, gateway, network, telemetry, evaluation: all customer-owned |
 | **Microsoft 365 Copilot extensibility** | Agents extending M365 Copilot in the productivity surface | Bounded to the M365 extensibility model | M365 Copilot governance, Agent 365, connector/data governance |
 | **Workflow automation** | Deterministic, rules-first automation with limited agency | Not suited to open-ended reasoning tasks | Connector governance, run history, change control |
 | **Research / prototype isolation** | Experiments not intended for production | Must stay isolated; not an admission to ship | Isolation boundary, data handling, explicit non-production label |
 
 Record the recommendation, **confidence**, **assumptions**, and the
-**alternatives rejected or deferred** — the rejected options are part of the
+**alternatives rejected or deferred**: the rejected options are part of the
 decision, not noise.
 
-## Decision 2 — Model selection (and fine-tuning, if in scope)
+## Decision 2: Model selection (and fine-tuning, if in scope)
 
 Model choice is a governance decision as well as an engineering one. Record
 capability fit, latency, cost tier, data residency, licensing, deployment
@@ -43,7 +43,7 @@ and the [agent performance-testing guide](../reference/performance-testing-guide
 for the selection criteria and the latency/throughput evidence that support this
 decision.
 
-## Decision 3 — Admission standard for the chosen path
+## Decision 3: Admission standard for the chosen path
 
 The admission requirements and test expectations must **match the agent's
 authority archetype** (advises / confirms-with-human / acts-in-boundary /
@@ -51,7 +51,7 @@ coordinates). Higher authority raises the bar for evidence, human-control points
 evaluation, and red-team coverage. Record what the agent must satisfy before it
 ships or materially changes, plus material-change and retirement triggers.
 
-## Decision 4 — What is the controlled promotion model?
+## Decision 4: What is the controlled promotion model?
 
 Map the customer's approved labels to a clear DEV → PRE → PRO decision path.
 DEV is for isolated development and experimentation with explicit
@@ -84,6 +84,6 @@ alternatives, and rationale in
 
 ## Related references
 
-- [S4 Concepts](concepts.md) — authority model, path choices, material changes, retirement.
-- [Platform technical guide](../reference/platform-technical-guide.md) — Citadel layers and platform/governance boundary.
+- [S4 Concepts](concepts.md): authority model, path choices, material changes, retirement.
+- [Platform technical guide](../reference/platform-technical-guide.md): Citadel layers and platform/governance boundary.
 - [Quality, cost, latency & rollout guide](../reference/quality-cost-latency-guide.md) and [performance-testing guide](../reference/performance-testing-guide.md).

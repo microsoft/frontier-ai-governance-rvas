@@ -1,4 +1,4 @@
-# S2 Takeaway Kit — Data & Compliance Review
+# S2 Takeaway Kit: Data & Compliance Review
 
 This kit helps a facilitator and customer compliance team make a decision about
 data exposure for one representative AI-agent path. It intentionally does **not**

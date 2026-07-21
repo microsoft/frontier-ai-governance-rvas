@@ -1,8 +1,8 @@
 # Production performance-telemetry review
 
 Use this optional addendum with the operating-review template when production
-agent performance — first-token latency, end-to-end latency, throughput, or
-error/saturation under real traffic — is in scope. It references customer-held
+agent performance, including first-token latency, end-to-end latency, throughput,
+or error/saturation under real traffic, is in scope. It references customer-held
 telemetry only; it does not query live data, create a dashboard, or draw a
 conclusion from an incomplete sample.
 

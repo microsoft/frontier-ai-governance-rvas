@@ -1,4 +1,4 @@
-# S9 Runbook — Catalog stewardship, lifecycle, and closeout
+# S9 Runbook: Catalog stewardship, lifecycle, and closeout
 
 Use this runbook with the [S9 co-delivery activity](../../docs/s9-control-plane/index.md).
 The customer performs all operations; the facilitator timeboxes, preserves the

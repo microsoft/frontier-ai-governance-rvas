@@ -1,4 +1,4 @@
-# S9 Takeaway Kit — Control Plane, Catalog & Lifecycle
+# S9 Takeaway Kit: Control Plane, Catalog & Lifecycle
 
 This kit supports a facilitator-led, customer-owned 90-minute activity to
 review agent and tool catalog stewardship, lifecycle and material-change

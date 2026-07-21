@@ -9,7 +9,7 @@ const req = node(els, 40, 260, 200, 100, C.security, "Gateway adapter request", 
 const manifest = node(els, 300, 250, 210, 120, C.indigo, "gateway-proof manifest", { titleSize: 14, sub: "safe refs +\ncorrelation_id", subSize: 12 });
 connect(els, req, manifest, { stroke: C.security.st });
 
-const transport = node(els, 580, 170, 230, 84, C.neutral, "Transport result", { titleSize: 14, sub: "pass / fail — not a\nsecurity decision", subSize: 12 });
+const transport = node(els, 580, 170, 230, 84, C.neutral, "Transport result", { titleSize: 14, sub: "pass / fail, not a\nsecurity decision", subSize: 12 });
 const telemetry = node(els, 580, 300, 230, 84, C.data, "Approved gateway telemetry", { titleSize: 13.5, sub: "correlation_id appears", subSize: 12 });
 connect(els, manifest, transport, { stroke: C.indigo.st });
 connect(els, manifest, telemetry, { stroke: C.indigo.st });

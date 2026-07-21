@@ -74,7 +74,7 @@ One person may hold more than one role only when the record says so. An entry wi
 - Names should show purpose and boundary without implying unproved safety.
 - Workspace, namespace, or collection signals audience and rules.
 - Classification states handling limits, data categories, and assumptions.
-- Unknown classification means gap or hold — not a guess.
+- Unknown classification means gap or hold, not a guess.
 
 Note:
 The decision should state why placement fits the classification, whether another entry could be confused with it, and who approved the choice. The record should not make broad claims that the candidate is compliant or safe.
@@ -105,7 +105,7 @@ A version label alone does not prove that nothing material changed. Suspension i
 
 ---
 
-## The activity — how we'll work
+## The activity: how we'll work
 
 - **Timebox:** 90 minutes · **six steps**
 - **Entry condition:** bounded candidates, evidence location, owners, and decision authority.
@@ -116,7 +116,7 @@ Preview the flow: boundary, ownership/version, naming/workspace, classification/
 
 ---
 
-## Step 1 — Set boundary and decision question · 10 min
+## Step 1: Set boundary and decision question · 10 min
 
 > **"What is in scope, what is out of scope, and what would make us stop?"**
 
@@ -127,7 +127,7 @@ Record references and expected signals only. Do not broaden the candidate set to
 
 ---
 
-## Step 2 — Establish ownership and identity · 15 min
+## Step 2: Establish ownership and identity · 15 min
 
 > **"Who owns the lifecycle decision, and is this the exact version under review?"**
 
@@ -138,7 +138,7 @@ Use the offline catalog template in the customer's approved records system. Unkn
 
 ---
 
-## Step 3 — Decide naming and workspace placement · 15 min
+## Step 3: Decide naming and workspace placement · 15 min
 
 > **"Can a reviewer distinguish this entry from a similarly named service?"**
 > **"Does the workspace match the classification and audience?"**
@@ -150,7 +150,7 @@ Do not create or move any workspace item. The point is a reviewable placement de
 
 ---
 
-## Step 4 — Classify and bound authority · 20 min
+## Step 4: Classify and bound authority · 20 min
 
 > **"What is the minimum authority this caller needs for this exact version and use?"**
 > **"Can we prove the caller identity separately from the authority scope?"**
@@ -162,7 +162,7 @@ A broad or unknown scope is a finding, not an approval. Include delegated or non
 
 ---
 
-## Step 5 — Apply publication and lifecycle criteria · 20 min
+## Step 5: Apply publication and lifecycle criteria · 20 min
 
 > **"Which criterion has evidence?"**
 > **"What event triggers suspension or withdrawal?"**
@@ -174,7 +174,7 @@ Publish-ready is a decision state, not an instruction to publish. The criteria c
 
 ---
 
-## Step 6 — Decide and hand over · 10 min
+## Step 6: Decide and hand over · 10 min
 
 > **"Who owns each next action, and when is the next review?"**
 

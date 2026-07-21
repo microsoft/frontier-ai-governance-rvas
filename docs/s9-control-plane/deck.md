@@ -30,7 +30,7 @@ Record close, close with owned gaps, defer, or remain open.
 
 ---
 
-## Step 1 — Scope and stewardship · 25 min
+## Step 1: Scope and stewardship · 25 min
 
 Choose one population, review period, records location, and closeout decision. Review agent and tool purpose, owners, stewards, lifecycle state, and parent relationship.
 
@@ -38,7 +38,7 @@ Choose one population, review period, records location, and closeout decision. R
 
 ---
 
-## Step 2 — Lifecycle review · 15 min
+## Step 2: Lifecycle review · 15 min
 
 Reference in-scope transitions, suspensions, retirements, material changes, and their decisions.
 
@@ -46,7 +46,7 @@ Reference in-scope transitions, suspensions, retirements, material changes, and 
 
 ---
 
-## Step 3 — Reconcile and triage · 20 min
+## Step 3: Reconcile and triage · 20 min
 
 Run the read-only comparison:
 
@@ -64,7 +64,7 @@ python labs/s9-control-plane/scripts/reconcile-registry.py \
 
 ---
 
-## Step 4 — Remediate and close · 30 min
+## Step 4: Remediate and close · 30 min
 
 Assign owner, due date, validation reference, recurrence check, exception route, and escalation path for every open item. Then choose close, close with owned gaps, defer, or do not close.
 

@@ -1,4 +1,4 @@
-# S11 Runbook — Operate, monitor, and FinOps review definition
+# S11 Runbook: Operate, monitor, and FinOps review definition
 
 Use this runbook with the [S11 co-delivery activity](../../docs/s11-operate-measure/index.md).
 The customer selects scope, evidence references, owners, and decisions; the
@@ -28,8 +28,8 @@ authoritative evidence.
    customer-held evidence only; Foundry traces are optional project-gated
    context, and every cost observation needs an accountable spend-decision
    owner.
-   When production agent performance — first-token latency, end-to-end latency,
-   throughput, or error/saturation — is in scope, also copy
+   When production agent performance, including first-token latency, end-to-end
+   latency, throughput, or error/saturation, is in scope, also copy
    `templates/performance-telemetry-review.template.md`. It references
    customer-held OpenTelemetry, Application Insights, or Foundry-trace evidence
    only, records sampling and coverage limits, and reconciles against the S7
@@ -64,7 +64,7 @@ remediation, exception, policy, identity, or production change.
 ## Safe interpretation rules
 
 - An evidence gap, excluded population, or delayed record is a coverage
-  limitation—not a zero result, no-cost result, or pass.
+  limitation, not a zero result, no-cost result, or pass.
 - Reliability, risk, quality, cost, adoption, and business outcome are
   different questions. Do not use one as proof of another.
 - A cost observation requires an accountable spend decision owner and stated

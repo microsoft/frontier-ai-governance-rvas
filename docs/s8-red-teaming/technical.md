@@ -1,4 +1,4 @@
-# S8 · Adversarial Testing & Remediation — Technical decisions
+# S8 · Adversarial Testing & Remediation: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-17 · Red-teaming products, Prompt Shields, Content
@@ -9,7 +9,7 @@
 Choose the test method, authorized scope, and remediation route. S8 records
 these choices and does not change production.
 
-## Decision 1 — Red-team approach & tooling
+## Decision 1: Red-team approach & tooling
 
 Choose against authorization, repeatability and coverage, in-house skill,
 evidence needs, cost, and cadence. Named products and features require a
@@ -22,7 +22,7 @@ current-status check before use.
 | **Third-party engagement** | Independence, specialist depth, regulatory expectation, or surge capacity is required | Cost, procurement, data handling, and evidence-sharing constraints | Record provider scope, legal approval, evidence location, and customer owner for remediation |
 | **Mixed approach** | Baseline repeatability and expert depth are both needed | More coordination and duplicated evidence paths | Record which method owns which category and how results reconcile |
 
-## Decision 2 — Scope & rules of engagement
+## Decision 2: Scope & rules of engagement
 
 The governing test is whether the target, timing, operators, categories, stop
 conditions, evidence handling, and legal/SOC authorization are explicit before
@@ -35,7 +35,7 @@ testing begins.
 | **Production exception assessment** | A customer authority requires limited testing of a live system under formal process | Not a workshop run; legal, SOC, business, and change approvals are mandatory | Record as deferred to the customer process; S8 may define criteria but does not execute it |
 | **Blocked / not authorized** | Authorization, target ownership, non-production status, or rules of engagement are missing | No test evidence is produced | Valid decision; record blocker, owner, target date, and S12 portfolio impact |
 
-## Decision 3 — Remediation routing & retest
+## Decision 3: Remediation routing & retest
 
 Choose the response path against finding severity, technical owner, verification
 evidence, and whether the fix belongs in prompt, gateway, runtime, tool, or
@@ -67,7 +67,7 @@ production change.
 
 ## Related references
 
-- [S8 Concepts](concepts.md) — authorization, Attack Success Rate, native scorecard boundaries, and remediation backlog.
-- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md) — Prompt Shields, Defender, and ASSERT context.
-- [Governance capability guide](../reference/governance-capability-guide.md) — current availability context for governance and testing capabilities.
-- [Platform technical guide](../reference/platform-technical-guide.md) — gateway and in-process control boundaries.
+- [S8 Concepts](concepts.md): authorization, Attack Success Rate, native scorecard boundaries, and remediation backlog.
+- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md): Prompt Shields, Defender, and ASSERT context.
+- [Governance capability guide](../reference/governance-capability-guide.md): current availability context for governance and testing capabilities.
+- [Platform technical guide](../reference/platform-technical-guide.md): gateway and in-process control boundaries.

@@ -5,7 +5,7 @@ customer-owned technical decision, the options considered, and the adoption
 stage. It does not make a tenant change, configure tooling, or approve
 production.
 
-[S0 Technical decisions](../../../docs/s0-foundations/technical.md) — option menus and selection criteria for the operating model, control-framework baseline, and record location.
+[S0 Technical decisions](../../../docs/s0-foundations/technical.md): option menus and selection criteria for the operating model, control-framework baseline, and record location.
 
 ## Decision
 

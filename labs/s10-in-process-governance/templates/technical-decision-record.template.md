@@ -15,7 +15,7 @@ chapter for the boundary option menu and selection criteria.
 | Bounded agent tool-call scope and delegated authority | |
 | Decision owner and date | |
 
-## Options considered — boundary placement
+## Options considered: boundary placement
 
 | Option | Is there a real pre-tool decision point? | Key trade-off / limitation | Chosen? (yes / no / deferred) |
 |---|---|---|---|

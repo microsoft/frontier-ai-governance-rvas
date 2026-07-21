@@ -13,7 +13,7 @@ evidence owner, and security reviewer.
 
 ## One question, for every agent
 
-> **"Who owns it — and can we prove it?"**
+> **"Who owns it, and can we prove it?"**
 
 By the end, the customer can answer that for every agent in scope.
 
@@ -26,7 +26,7 @@ This question applies to every agent in scope; record coverage gaps plainly.
 
 - You can't govern an agent you can't **name** and tie to an **owner**.
 - When an incident happens, *"who is responsible for this agent?"* needs a fast, confident answer.
-- A quick directory search is **not** an agent inventory — and we won't pretend it is.
+- A quick directory search is **not** an agent inventory, and we won't pretend it is.
 
 Note:
 The failure mode is an incident with no accountable owner or defensible coverage.
@@ -38,21 +38,21 @@ Do not manufacture an inventory from a directory query.
 
 ![Entra Agent ID links sponsored agent identities to tenant controls.](../assets/diagrams/s1-agent-identity-model.svg)
 
-**Microsoft Entra Agent ID** gives an agent a real identity — built from a blueprint, a blueprint principal, an agent identity, and an agent user account.
+**Microsoft Entra Agent ID** gives an agent a real identity: built from a blueprint, a blueprint principal, an agent identity, and an agent user account.
 
 Note:
-Walk the diagram left to right, but land the point quickly: the object model isn't the point. The point is that **every agent needs a human sponsor who is accountable for what it does and how long it lives**. An agent identity is more than an app registration — its sponsor and lifecycle belong in the governance record.
+Walk the diagram left to right, but land the point quickly: the object model isn't the point. The point is that **every agent needs a human sponsor who is accountable for what it does and how long it lives**. An agent identity is more than an app registration: its sponsor and lifecycle belong in the governance record.
 
 ---
 
 ## The list is your first control
 
-- Agents get identities as makers build them in supported tools — they appear through **normal development**, not a tidy onboarding step.
+- Agents get identities as makers build them in supported tools: they appear through **normal development**, not a tidy onboarding step.
 - A list is only useful evidence when it says **which source** it came from and **which workload** it covers.
 - S1 deliberately does **not** export or guess at identity data.
 
 Note:
-Reinforce: a general service-principal, managed-identity, app, or OBO view can *back up* a record, but it can't prove an agent's identity or that you've found them all. The customer records the source it trusts, what it covers, its gaps, the sponsor, the lifecycle, and the decision — in their own system.
+Reinforce: a general service-principal, managed-identity, app, or OBO view can *back up* a record, but it can't prove an agent's identity or that you've found them all. The customer records the source it trusts, what it covers, its gaps, the sponsor, the lifecycle, and the decision: in their own system.
 
 ---
 
@@ -61,7 +61,7 @@ Reinforce: a general service-principal, managed-identity, app, or OBO view can *
 - An agent acting for a user (**OBO**) can show up in telemetry without its own governable Agent ID → record it as a **gap**, not "handled."
 - **Gateway authentication** (JWT validation at API Management) guards *runtime* access.
 - **Entra Agent ID + sponsorship** govern the *identity plane*.
-- You often need **both** — neither replaces the other.
+- You often need **both**: neither replaces the other.
 
 Note:
 This is the most common conceptual trap. Visibility is not control. Make sure the room hears that OBO visibility is a gap to be recorded, and that the gateway boundary and the identity plane are two different controls that coexist.
@@ -72,7 +72,7 @@ This is the most common conceptual trap. Visibility is not control. Make sure th
 
 - Setting up Conditional Access for workload identities depends on tenant, licensing, supported workloads, scope, exclusions, and the customer's change process.
 - A generic policy or break-glass template **can't** stand in for that.
-- **In Co-deliver:** S1 finds the missing owners and coverage gaps — the customer's own identity-change process owns any control they decide to add.
+- **In Co-deliver:** S1 finds the missing owners and coverage gaps: the customer's own identity-change process owns any control they decide to add.
 
 Note:
 Keep the boundary crisp: we surface findings; we do not design or roll out Conditional Access. If the customer decides to add a control, their identity-change process owns the design, any report-only trial, rollout, rollback, checks, and evidence.
@@ -86,33 +86,33 @@ Keep the boundary crisp: we surface findings; we do not design or roll out Condi
 **It does not:** create an identity · grant access · set up Conditional Access · approve production use.
 
 Note:
-Keep two things apart in the recommendation: what you *found*, and what to *build next*. The deliverable is a short, honest backlog with owners — not a set of implemented controls.
+Keep two things apart in the recommendation: what you *found*, and what to *build next*. The deliverable is a short, honest backlog with owners, not a set of implemented controls.
 
 ---
 
-## The activity — how we'll work
+## The activity: how we'll work
 
 - **Timebox:** 90 minutes · **five steps**
 - **To start you need:** one clear workload · an admin source the customer can open · a place to store results · a governance lead in the room.
-- No source or no decision-maker? **Stop that part and record what's blocking it** — don't fall back to a directory query.
+- No source or no decision-maker? **Stop that part and record what's blocking it**: don't fall back to a directory query.
 
 Note:
 Confirm you actually have the preconditions before diving in. If a precondition is missing, that itself is a finding. Introduce the five steps you're about to walk: agree coverage, review the list, read the signals, make the call, hand off.
 
 ---
 
-## Step 1 — Agree what the list can and can't tell you · 15 min
+## Step 1: Agree what the list can and can't tell you · 15 min
 
 > **"Which agents does this source actually cover, and which does it miss?"**
 
 The customer names the workload, the source, what it covers, what it excludes, where evidence lives, and when to stop.
 
 Note:
-A useful answer is a clear coverage statement. "Nothing found" only counts if you also record what you checked and when. If a supported source won't open, that's **blocked** — not permission to guess an agent's status.
+A useful answer is a clear coverage statement. "Nothing found" only counts if you also record what you checked and when. If a supported source won't open, that's **blocked**, not permission to guess an agent's status.
 
 ---
 
-## Step 2 — Customer reviews the list · 35 min
+## Step 2: Customer reviews the list · 35 min
 
 The identity admin copies `labs/s1-identity/templates/identity-inventory-review.template.md` into the customer's records system and reviews each agent.
 
@@ -121,13 +121,13 @@ The identity admin copies `labs/s1-identity/templates/identity-inventory-review.
 > **"When do we review it again?"**
 
 Note:
-A good row has an identity type, a sponsor, a lifecycle state, a source reference, and a finding. No record for the declared scope? Note it with source, date, and reviewer. Source can't show a field you need? That's a coverage gap. No access or no owner? Stop that part and assign the follow-up. This is the longest step — protect the time.
+A good row has an identity type, a sponsor, a lifecycle state, a source reference, and a finding. No record for the declared scope? Note it with source, date, and reviewer. Source can't show a field you need? That's a coverage gap. No access or no owner? Stop that part and assign the follow-up. This is the longest step: protect the time.
 
 ---
 
-## Step 3 — Read the signals correctly · 15 min
+## Step 3: Read the signals correctly · 15 min
 
-Service-principal, managed-identity, OBO, or app context can **back up** a record — but:
+Service-principal, managed-identity, OBO, or app context can **back up** a record, but:
 
 > **"Does this prove the agent's identity, or just hint at it?"**
 > **"Is this the user acting, or the agent acting on its own?"**
@@ -137,7 +137,7 @@ Record what you found, how far its authority reaches, its limits, the backlog it
 
 ---
 
-## Step 4 — Make the ownership call · 15 min
+## Step 4: Make the ownership call · 15 min
 
 For each gap, the **governance lead** decides:
 
@@ -153,14 +153,14 @@ Base the call on how well the source covers the agent, whether there's a clear o
 
 ---
 
-## Step 5 — Hand off without designing controls · 10 min
+## Step 5: Hand off without designing controls · 10 min
 
 - Read back the control state: `observed`, `accepted_risk`, or `blocked`.
 - Name the evidence reference, the next owner, and the **S6 dependency**.
 - Any Conditional Access, break-glass, or remediation request goes to the customer's identity-change process.
 
 Note:
-If no decision-maker was present, mark the decision **deferred** with an owner and a date. The point of this step is a clean, honest hand-off — not a control design.
+If no decision-maker was present, mark the decision **deferred** with an owner and a date. The point of this step is a clean, honest hand-off, not a control design.
 
 ---
 

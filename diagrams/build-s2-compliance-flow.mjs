@@ -2,7 +2,7 @@
 import { C, rect, text, node, connect, arrow, write } from "./lib.mjs";
 
 const els = [];
-els.push(text(40, 24, 1500, "S2 · The compliance plane — discovery to controls to evidence", C.data, { size: 26, align: "left" }));
+els.push(text(40, 24, 1500, "S2 · The compliance plane: discovery to controls to evidence", C.data, { size: 26, align: "left" }));
 els.push(text(40, 60, 1500, "Microsoft Purview answers which data reaches the agent, which sensitive data appears, and which evidence remains. DSPM finds exposure before enforcement; gateway masking complements it.", C.neutral, { size: 14, align: "left" }));
 
 const dspm = node(els, 40, 240, 220, 110, C.data, "DSPM for AI", { titleSize: 16, sub: "diagnostic: surfaces\noversharing & exposure", subSize: 12.5 });
@@ -30,7 +30,7 @@ connect(els, invest, controls, { stroke: C.indigo.st });
 // gateway masking complements, does not replace
 const gw = node(els, 320, 430, 480, 76, C.security, "Gateway masking (AI Hub Gateway / Citadel)", {
   titleSize: 14,
-  sub: "runtime PII masking — complements, does not replace, Purview",
+  sub: "runtime PII masking complements, but does not replace, Purview",
   subSize: 12,
 });
 els.push(arrow(gw.cx, gw.y, dlp.cx, dlp.b, { stroke: C.security.st, curved: false, dashed: true, endArrowhead: null }));

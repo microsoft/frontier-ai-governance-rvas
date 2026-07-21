@@ -1,4 +1,4 @@
-# S1 · Identity & Ownership — Technical decisions
+# S1 · Identity & Ownership: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-17 · Availability of Entra Agent ID, workload identity
@@ -12,7 +12,7 @@ tenant. The customer's identity-change process owns implementation.
 
 ![S1 illustrative identity pattern: a human sponsor governs agent identity and lifecycle; host workload identity, agent identity, delegated OBO, gateway access, and resource authorization remain separate decisions.](../assets/diagrams/s1-agent-identity-model.svg)
 
-## Decision 1 — How does each in-scope agent get a governable identity?
+## Decision 1: How does each in-scope agent get a governable identity?
 
 The governing test is: can you name a **human sponsor**, prove the **identity
 belongs to the workload**, and manage its **lifecycle**? Options differ mostly in
@@ -21,17 +21,17 @@ how agent-native and lifecycle-aware they are.
 | Option | When it fits | Trade-off / limitation | Governance implication |
 |---|---|---|---|
 | **Microsoft Entra Agent ID** (blueprint → blueprint principal → agent identity → agent user) | Agents built in supported first-party tools where an agent-native identity with sponsor and lifecycle is available | Availability and coverage vary by tool and tenant; not every agent surfaces here yet | Strongest fit: sponsor and lifecycle are first-class. Record coverage and what it excludes |
-| **Managed identity** (system- or user-assigned) | Agent runs as an Azure workload calling Azure/Foundry resources | Not agent-native — identifies the compute, not the agent's purpose or sponsor | Acceptable for resource access; still needs a separate sponsor/lifecycle record |
+| **Managed identity** (system- or user-assigned) | Agent runs as an Azure workload calling Azure/Foundry resources | Not agent-native: identifies the compute, not the agent's purpose or sponsor | Acceptable for resource access; still needs a separate sponsor/lifecycle record |
 | **App registration + service principal** | Custom app/service acting as the agent, needing OAuth scopes | Broad, generic; easy to sprawl and lose ownership; secret/credential hygiene required | Governable only if sponsor, scope, and lifecycle are recorded; prefer federated credentials over secrets |
 | **Workload identity federation** | CI/CD or external-workload agents that should avoid stored secrets | Requires a supported issuer/trust setup | Reduces secret risk; record the trust relationship and its owner |
-| **On-behalf-of (delegated) identity** | Agent acts *as a signed-in user*, not on its own authority | The agent may have no governable identity of its own — visibility only | Record as user-delegated activity; it is **not** its own inventory entry unless a supported source says so |
+| **On-behalf-of (delegated) identity** | Agent acts *as a signed-in user*, not on its own authority | The agent may have no governable identity of its own: visibility only | Record as user-delegated activity; it is **not** its own inventory entry unless a supported source says so |
 
 Selection criteria to record for each: agent-native vs infrastructure identity;
 sponsor and lifecycle ownership; tenant/licensing availability; whether it uses
 stored secrets or federated credentials; and how it interacts with runtime access (Decision
 2) and the gateway.
 
-### Azure implementation track — identity is not one credential
+### Azure implementation track: identity is not one credential
 
 **Control chain to decide.** Separate the host workload identity (managed
 identity or federation), an agent-native identity where supported, delegated OBO
@@ -56,7 +56,7 @@ path, then route federation/RBAC/Conditional Access work. Hand gateway evidence
 to S6 and catalog/lifecycle reconciliation to S9. An identity decision does not
 prove enforcement by a gateway, target resource, or tool.
 
-## Decision 2 — How is runtime access to the agent controlled?
+## Decision 2: How is runtime access to the agent controlled?
 
 Identity in the tenant and access enforcement at runtime are **different
 controls**. You often need both; neither proves the other.
@@ -86,6 +86,6 @@ S1 leaves a decision record as well as the inventory.
 
 ## Related references
 
-- [S1 Concepts](concepts.md) — why sponsorship, OBO, and the gateway boundary fit together.
-- [Governance capability guide](../reference/governance-capability-guide.md) — Agent ID and Conditional Access availability context.
-- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md) — Entra, RBAC, and Conditional Access sources.
+- [S1 Concepts](concepts.md): why sponsorship, OBO, and the gateway boundary fit together.
+- [Governance capability guide](../reference/governance-capability-guide.md): Agent ID and Conditional Access availability context.
+- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md): Entra, RBAC, and Conditional Access sources.

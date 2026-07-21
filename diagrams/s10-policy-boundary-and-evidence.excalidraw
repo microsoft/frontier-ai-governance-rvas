@@ -29,8 +29,8 @@
       "fontFamily": 2,
       "textAlign": "left",
       "verticalAlign": "top",
-      "text": "S10 · A different enforcement point — and what counts as evidence",
-      "originalText": "S10 · A different enforcement point — and what counts as evidence",
+      "text": "S10 · A different enforcement point and what counts as evidence",
+      "originalText": "S10 · A different enforcement point and what counts as evidence",
       "lineHeight": 1.25,
       "baseline": 24,
       "containerId": null
@@ -61,8 +61,8 @@
       "fontFamily": 2,
       "textAlign": "left",
       "verticalAlign": "top",
-      "text": "The gateway applies shared controls at the network boundary; an in-process govern() checks the tool action before it runs. Both can work together — one does not prove the other.",
-      "originalText": "The gateway applies shared controls at the network boundary; an in-process govern() checks the tool action before it runs. Both can work together — one does not prove the other.",
+      "text": "The gateway applies shared controls at the network boundary; an in-process govern() checks the tool action before it runs. Both can work together, but one does not prove the other.",
+      "originalText": "The gateway applies shared controls at the network boundary; an in-process govern() checks the tool action before it runs. Both can work together, but one does not prove the other.",
       "lineHeight": 1.25,
       "baseline": 14,
       "containerId": null
@@ -150,8 +150,8 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "Citadel Governance Hub —\nshared controls",
-      "originalText": "Citadel Governance Hub —\nshared controls",
+      "text": "Citadel Governance Hub:\nshared controls",
+      "originalText": "Citadel Governance Hub:\nshared controls",
       "lineHeight": 1.25,
       "baseline": 12,
       "containerId": null
@@ -550,8 +550,8 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "internal consistency only —\nnot tamper evidence",
-      "originalText": "internal consistency only —\nnot tamper evidence",
+      "text": "internal consistency only,\nnot tamper evidence",
+      "originalText": "internal consistency only,\nnot tamper evidence",
       "lineHeight": 1.25,
       "baseline": 11.5,
       "containerId": null

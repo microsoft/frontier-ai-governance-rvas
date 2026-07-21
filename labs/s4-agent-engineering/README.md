@@ -1,4 +1,4 @@
-# S4 Takeaway Kit — Agent Engineering & Admission Standards
+# S4 Takeaway Kit: Agent Engineering & Admission Standards
 
 This offline kit supports one safe activity: review and record a
 product-anchored implementation decision package for a bounded agent

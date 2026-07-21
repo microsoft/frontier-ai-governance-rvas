@@ -1,4 +1,4 @@
-# S8 Runbook — Authorized customer-operated red teaming
+# S8 Runbook: Authorized customer-operated red teaming
 
 > **Safety:** adversarial testing is authorized-scope only. Notify the SOC before
 > any run. Target only a customer-owned **NON-PRODUCTION** test agent/endpoint.

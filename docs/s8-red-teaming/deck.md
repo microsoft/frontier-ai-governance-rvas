@@ -49,7 +49,7 @@ ASR requires the agreed category, sample, target version, success condition, and
 
 ---
 
-## Step 1 — Pre-flight · 20 min
+## Step 1: Pre-flight · 20 min
 
 Confirm the target, operators, SOC window, stop conditions, evidence boundary, and the red-team approach, scope, and remediation-routing choices.
 
@@ -57,7 +57,7 @@ Confirm the target, operators, SOC window, stop conditions, evidence boundary, a
 
 ---
 
-## Step 2 — Customer runs the authorized test · 30 min
+## Step 2: Customer runs the authorized test · 30 min
 
 - Endpoint owner runs the approved adapter only in the authorized window.
 - Customer operates credentials, target access, categories, and test data.
@@ -65,7 +65,7 @@ Confirm the target, operators, SOC window, stop conditions, evidence boundary, a
 
 ---
 
-## Step 3 — Interpret findings · 15 min
+## Step 3: Interpret findings · 15 min
 
 > **"Was the run authorized and contained? What does each ASR mean for this category and sample?"**
 
@@ -75,7 +75,7 @@ Confirm the target, operators, SOC window, stop conditions, evidence boundary, a
 
 ---
 
-## Step 4 — Decide and hand over · 25 min
+## Step 4: Decide and hand over · 25 min
 
 Record remediation, accepted risk, blocked status, or re-test date. Reference authorization, SOC debrief, run metadata, native scorecard, optional sidecar, decision, and technical decision record. Customer owners perform cleanup and incident actions.
 

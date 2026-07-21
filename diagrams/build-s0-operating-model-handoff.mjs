@@ -3,7 +3,7 @@ import { C, text, node, connect, arrow, write } from "./lib.mjs";
 
 const els = [];
 els.push(text(40, 24, 1400, "S0 · From operating model to an owned, routed backlog", C.found, { size: 26, align: "left" }));
-els.push(text(40, 60, 1400, "S0 names owners and records decisions before any AI tool is enabled — then routes each capability track to the session or process that owns it.", C.neutral, { size: 14, align: "left" }));
+els.push(text(40, 60, 1400, "S0 names owners and records decisions before any AI tool is enabled. It then routes each capability track to the session or process that owns it.", C.neutral, { size: 14, align: "left" }));
 
 const om = node(els, 40, 210, 250, 176, C.found, "Operating model", {
   titleSize: 16,

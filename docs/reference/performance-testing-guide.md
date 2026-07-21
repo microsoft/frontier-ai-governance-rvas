@@ -4,7 +4,7 @@
     Last reviewed: 2026-07-17. Verify capability, service availability, region,
     quota, and pricing before delivery.
 
-Use this guide with S4, S7, and S11 to turn agent-performance questions—first-response speed, load behaviour, and production drift—into customer-owned records. It does not run a load test, query live telemetry, set an SLO, or authorize a production change.
+Use this guide with S4, S7, and S11 to turn agent-performance questions, first-response speed, load behaviour, and production drift, into customer-owned records. It does not run a load test, query live telemetry, set an SLO, or authorize a production change.
 
 Use **two complementary evidence sources**:
 
@@ -45,7 +45,7 @@ Production telemetry asks whether real traffic meets its recorded expectation an
 
 - **Sources.** OpenTelemetry spans, Application Insights, and customer-enabled Foundry traces can provide TTFT, end-to-end latency, per-component spans, and error/throttle signals. Record project, model deployment, agent or run identifier where available, correlation IDs, sampling, and retention.
 - **Coverage limits.** An uninstrumented or excluded path is a coverage gap, not a zero result.
-- **Reconciliation.** Compare production percentiles with the S7 synthetic baseline. A gap is a drift *hypothesis*—potentially workload mix, configuration, model version, quota pressure, or evidence coverage—to record with an owner and test plan, not confirmed drift.
+- **Reconciliation.** Compare production percentiles with the S7 synthetic baseline. A gap is a drift *hypothesis*: potentially workload mix, configuration, model version, quota pressure, or evidence coverage: to record with an owner and test plan, not confirmed drift.
 
 ## Governance boundaries
 

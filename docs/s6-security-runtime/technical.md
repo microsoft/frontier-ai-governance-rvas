@@ -1,4 +1,4 @@
-# S6 · Security Posture & Runtime Assurance — Technical decisions
+# S6 · Security Posture & Runtime Assurance: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-17 · Runtime safety, threat-protection, identity,
@@ -14,7 +14,7 @@ customer's security, platform, SOC, identity, and change processes.
 
 ![S6 illustrative layered-runtime pattern: identity and network, gateway, model or agent, and tool boundaries can produce correlated safe evidence for a customer-owned acceptance decision. A direct diagnostic remains distinct from gateway-path proof.](../assets/diagrams/s6-security-runtime-correlation-flow.svg)
 
-## Decision 1 — Where are runtime safety controls enforced?
+## Decision 1: Where are runtime safety controls enforced?
 
 Choose against the streaming and latency budget, where prompts and outputs are
 inspected, and how untrusted input is covered. Verify current Azure AI Content
@@ -28,7 +28,7 @@ protected-material detection, before relying on an option.
 | **Defense in depth** (gateway and application) | Higher-risk workloads where boundary and app-context controls should reinforce each other | More owners, latency, and correlation work | Strongest setup; record which control decides what and how conflicts are reviewed |
 | **Deferred / diagnostic only** | Capability availability, latency, or route coverage is not ready for a control decision | A component check is not gateway enforcement evidence | Record the gap, owner, target date, and dependency before S7 or rollout |
 
-### Azure implementation track — layer controls and prove only the path reviewed
+### Azure implementation track: layer controls and prove only the path reviewed
 
 **Control chain to decide.** Assign each relevant risk to an identity/network,
 gateway, model or agent, and tool-call boundary. For example, a gateway can
@@ -56,7 +56,7 @@ work to the security/platform process; send retention and operating alert work
 to S11. A passing manifest is transport evidence until customer reviewers accept
 the correlation.
 
-## Decision 2 — How are threat detection and response routed?
+## Decision 2: How are threat detection and response routed?
 
 Choose against existing SOC maturity, incident ownership, and response SLAs.
 Verify current Microsoft Defender for Cloud AI workload threat-protection,
@@ -69,7 +69,7 @@ Defender XDR, and integration availability before recording the decision.
 | **Custom detection pipeline** | The customer has a mature data platform or regulated detection workflow needing bespoke joins | Highest engineering and maintenance burden | Treat as customer-owned security engineering backlog with response and audit owners |
 | **Manual review only for pilot** | Early non-production pilot where automated response is not yet in scope | Not scalable and not a production response model | Record as a temporary adoption gap with owner, review cadence, and escalation path |
 
-## Decision 3 — What correlation evidence proves runtime assurance?
+## Decision 3: What correlation evidence proves runtime assurance?
 
 Choose against the ability to tie one request to the enforced control decision
 that governed it, and against evidence-retention requirements. Verify current
@@ -101,7 +101,7 @@ The record captures the S6 decision; the kit remains offline.
 
 ## Related references
 
-- [S6 Concepts](concepts.md) — gateway proof, correlation, layered runtime safety, and backlog routing.
-- [Platform technical guide](../reference/platform-technical-guide.md) — platform boundary and verify-status context.
-- [Governance capability guide](../reference/governance-capability-guide.md) — runtime-control and governance capability context.
-- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md) — current safety, security, identity, gateway, and observability sources.
+- [S6 Concepts](concepts.md): gateway proof, correlation, layered runtime safety, and backlog routing.
+- [Platform technical guide](../reference/platform-technical-guide.md): platform boundary and verify-status context.
+- [Governance capability guide](../reference/governance-capability-guide.md): runtime-control and governance capability context.
+- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md): current safety, security, identity, gateway, and observability sources.

@@ -1,4 +1,4 @@
-# S7 · Quality, Safety Evaluation & Release Assurance — Technical decisions
+# S7 · Quality, Safety Evaluation & Release Assurance: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-17 · Evaluation, tracing, load-testing, and CI/CD
@@ -10,7 +10,7 @@ path for the bounded release. S7 records the choice; it does not implement it.
 
 ![S7 illustrative assurance pattern: accepted S6 runtime evidence precedes an evaluation plan covering selected quality, safety, groundedness, tool-use, regression, and human-review dimensions. The customer-owned assurance decision remains continue or hold.](../assets/diagrams/s7-evaluation-release-handoff.svg)
 
-## Decision 1 — Evaluation approach & scorers
+## Decision 1: Evaluation approach & scorers
 
 Choose against the checks that are universal versus project-gated, the coverage
 population, who interprets the result, and whether a later reviewer can
@@ -29,7 +29,7 @@ owner, human-review path, and decision use. Resolve unsupported coverage and
 threshold ownership before automation; route adversarial risk to S8 and
 production sampling or drift to S11.
 
-## Decision 2 — Release-gate mechanism & CI/CD integration
+## Decision 2: Release-gate mechanism & CI/CD integration
 
 Choose against automation maturity, release cadence, threshold ownership, and
 whether the gate leaves an auditable customer-owned record.
@@ -41,7 +41,7 @@ whether the gate leaves an auditable customer-owned record.
 | **Continuous evaluation on production sampling** (verify feature and telemetry status) | The customer has production traces and wants drift or regression signals after release | Production samples are not controlled experiments; sampling and retention limit claims | Record sampling population, retention, interpretation owner, escalation path, and S11 handoff |
 | **Manual gate plus automation backlog** | Evidence is useful now but automation is not yet trusted enough to block release | Creates transition work that can stall without ownership | Record manual decision now and backlog the CI/CD or continuous-evaluation owner and adoption trigger |
 
-## Decision 3 — Performance & latency evidence path
+## Decision 3: Performance & latency evidence path
 
 Choose against streaming user experience, SLO ownership, environment fidelity,
 and the evidence needed for TTFT/TTFB, end-to-end p95, throughput, and
@@ -71,6 +71,6 @@ Capture the choice, alternatives, verified-status caveats, and adoption stage in
 
 ## Related references
 
-- [S7 Concepts](concepts.md) — evaluation boundaries, threshold ownership, performance assurance, and release-sign-off limits.
+- [S7 Concepts](concepts.md): evaluation boundaries, threshold ownership, performance assurance, and release-sign-off limits.
 - [Quality, cost, latency & rollout guide](../reference/quality-cost-latency-guide.md).
 - [Performance-testing guide](../reference/performance-testing-guide.md).

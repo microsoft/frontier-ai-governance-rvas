@@ -29,8 +29,8 @@
       "fontFamily": 2,
       "textAlign": "left",
       "verticalAlign": "top",
-      "text": "S7 · Evaluation informs release — it is not the sign-off",
-      "originalText": "S7 · Evaluation informs release — it is not the sign-off",
+      "text": "S7 · Evaluation informs release; it is not the sign-off",
+      "originalText": "S7 · Evaluation informs release; it is not the sign-off",
       "lineHeight": 1.25,
       "baseline": 26,
       "containerId": null
@@ -150,8 +150,8 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "required first —\ncondition to proceed",
-      "originalText": "required first —\ncondition to proceed",
+      "text": "required first:\ncondition to proceed",
+      "originalText": "required first:\ncondition to proceed",
       "lineHeight": 1.25,
       "baseline": 12,
       "containerId": null

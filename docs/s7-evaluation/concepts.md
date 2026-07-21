@@ -45,7 +45,7 @@ Manual annotation and customer scorers are also valid options. Policy-specific g
 
 Performance is an assurance question too. Before release, a bounded synthetic load test can show whether an interaction holds its first-token and end-to-end targets at the expected concurrency. Record the workload model, first-token (TTFT/TTFB), inter-token, end-to-end p50/p95/p99, throughput, and error/saturation targets, plus the per-component attribution the evidence supports.
 
-The load engine — for example Azure Load Testing, or an equivalent such as k6 or JMeter — is customer-run and referenced, not operated by this kit. Record the environment-fidelity limits (quota/PTU ceiling, live versus stubbed tools, data parity) because a synthetic result does not transfer to production without them. A benchmark is not a service-level objective, and production reconciliation of any drift hands off to S11. Use `templates/performance-test-plan.template.md` and the [agent performance-testing guide](../reference/performance-testing-guide.md).
+The load engine (for example, Azure Load Testing, k6, or JMeter) is customer-run and referenced, not operated by this kit. Record the environment-fidelity limits (quota/PTU ceiling, live versus stubbed tools, data parity) because a synthetic result does not transfer to production without them. A benchmark is not a service-level objective, and production reconciliation of any drift hands off to S11. Use `templates/performance-test-plan.template.md` and the [agent performance-testing guide](../reference/performance-testing-guide.md).
 
 ## Fine-tuning changes the baseline
 

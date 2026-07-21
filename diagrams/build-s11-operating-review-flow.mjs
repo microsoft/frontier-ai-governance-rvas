@@ -29,7 +29,7 @@ const coverage = node(els, 420, 430, 250, 70, C.amber, "Coverage limit ≠ zero 
 els.push(arrow(coverage.cx, coverage.y, review.cx, review.b, { stroke: C.amber.st, curved: false, dashed: true, endArrowhead: null }));
 
 const decision = node(els, 740, 175, 220, 90, C.start, "Operating decision", { titleSize: 15, sub: "per selected question", subSize: 12 });
-const drift = node(els, 740, 300, 220, 90, C.amber, "Drift hypothesis", { titleSize: 15, sub: "vs S7 baseline — not confirmed drift", subSize: 11.5 });
+const drift = node(els, 740, 300, 220, 90, C.amber, "Drift hypothesis", { titleSize: 15, sub: "vs S7 baseline, not confirmed drift", subSize: 11.5 });
 connect(els, review, decision, { stroke: C.eval.st });
 connect(els, review, drift, { stroke: C.eval.st });
 

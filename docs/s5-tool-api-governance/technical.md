@@ -1,4 +1,4 @@
-# S5 · API, Tool & MCP Governance — Technical decisions
+# S5 · API, Tool & MCP Governance: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-17 · Azure API Center, Azure API Management,
@@ -11,7 +11,7 @@ S5 decides where the publication record lives, how MCP/tool access is governed,
 and what authority the caller carries. The output is a recorded choice with
 rationale and backlog, not a platform change.
 
-## Decision 1 — Tool/API publication and registry system of record
+## Decision 1: Tool/API publication and registry system of record
 
 ![S5 illustrative tool-governance pattern: a publication record connects a tool or API to a selectable gateway-mediated, allow-list, or in-process policy boundary. It records intended controls; it does not approve publication or runtime use.](../assets/diagrams/s5-tool-api-governance-record-model.svg)
 
@@ -25,7 +25,7 @@ that publication or runtime safety has already been approved.
 | **Existing API-management estate or service catalog** | The customer already has an approved catalog/gateway process that can carry S5 fields | May need field mapping for owner, authority, lifecycle, MCP/tool type, and version evidence | Valid if the estate is the system of record; record required extensions and S9 reconciliation owner |
 | **Ad-hoc list / no registry yet** | Early discovery, isolated prototype review, or no approved publication path exists | Weak discoverability, ownership drift, lifecycle gaps, and unclear exposure control | Record as a gap or hold state; backlog a controlled publication model before broad use |
 
-## Decision 2 — MCP server and tool governance model
+## Decision 2: MCP server and tool governance model
 
 Choose the boundary based on **where the tool runs**, the **trust of the tool
 source**, whether a **pre-call policy decision** is needed, and how the caller is
@@ -37,7 +37,7 @@ source**, whether a **pre-call policy decision** is needed, and how the caller i
 | **Allow-list of vetted MCP servers/tools** | A small set of sources is reviewed, named, versioned, and owned before use | Allow-lists age quickly and may miss per-call context or delegated authority | Good for source trust and lifecycle control; record vetting owner, review date, and suspension trigger |
 | **In-process tool-call policy boundary** | The meaningful decision is immediately before the tool call, inside the agent or orchestrator | Requires engineering assessment and customer code ownership; see [S10 technical decisions](../s10-in-process-governance/technical.md) for the boundary menu | Backlog when pre-call allow/deny/approval semantics are required beyond gateway or allow-list controls |
 
-### Azure implementation track — publication does not equal authority
+### Azure implementation track: publication does not equal authority
 
 **Control chain to decide.** Treat the catalog record, gateway-mediated API/MCP
 route, reviewed allow-list, and in-process pre-call policy as separate controls.
@@ -63,7 +63,7 @@ select gateway, allow-list, or in-process enforcement and assign its owner.
 Route identity prerequisites to S1, runtime-path evidence to S6, and material
 change/withdrawal reconciliation to S9.
 
-## Decision 3 — Tool authentication and least privilege
+## Decision 3: Tool authentication and least privilege
 
 Choose the credential model by the **authority and blast radius** the tool
 carries, the **data it can reach**, and whether activity can be **audited** back
@@ -96,7 +96,7 @@ records process.
 
 ## Related references
 
-- [S5 Concepts](concepts.md) — catalog decisions, publication backlog, identity/authority boundary, and lifecycle states.
-- [Platform technical guide](../reference/platform-technical-guide.md) — governance hub, API gateway, and platform-boundary context.
-- [Governance capability guide](../reference/governance-capability-guide.md) — capability availability and ownership considerations.
-- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md) — API Management, Entra, and related governance references.
+- [S5 Concepts](concepts.md): catalog decisions, publication backlog, identity/authority boundary, and lifecycle states.
+- [Platform technical guide](../reference/platform-technical-guide.md): governance hub, API gateway, and platform-boundary context.
+- [Governance capability guide](../reference/governance-capability-guide.md): capability availability and ownership considerations.
+- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md): API Management, Entra, and related governance references.

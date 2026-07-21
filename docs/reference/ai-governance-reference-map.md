@@ -31,7 +31,7 @@ The business journey maps to the curriculum, but does not rename it:
 | Build and validate | Assure | S6-S8 |
 | Operate and scale | Operate | S9-S12 |
 
-Microsoft Responsible AI principles—fairness; reliability and safety; privacy and security; inclusiveness; transparency; and accountability—give context for these questions. They are not an extra certification or framework-alignment claim in this curriculum.
+Microsoft Responsible AI principles (fairness; reliability and safety; privacy and security; inclusiveness; transparency; and accountability) give context for these questions. They are not an extra certification or framework-alignment claim in this curriculum.
 
 ## Reference map
 

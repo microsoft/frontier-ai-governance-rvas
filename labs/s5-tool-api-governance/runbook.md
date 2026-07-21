@@ -1,4 +1,4 @@
-# S5 Runbook — Report-only tool and API governance review
+# S5 Runbook: Report-only tool and API governance review
 
 Use this runbook with the visible [S5 co-delivery activity](../../docs/s5-tool-api-governance/index.md#4-co-delivery-walkthrough).
 The customer operates its records and makes every decision. The facilitator

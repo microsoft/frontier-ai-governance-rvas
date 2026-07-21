@@ -1,4 +1,4 @@
-# S9 · Control Plane, Catalog & Lifecycle — Technical decisions
+# S9 · Control Plane, Catalog & Lifecycle: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-17 · Availability and naming for Azure API Center,
@@ -11,7 +11,7 @@ Choose the authoritative record, reconciliation method, and lifecycle rule for
 one bounded population. S9 records the choices; customer processes implement
 any resulting change.
 
-## Decision 1 — What is the authoritative catalog / system of record?
+## Decision 1: What is the authoritative catalog / system of record?
 
 Choose the record the customer will treat as authoritative for the declared
 population, based on existing authority, estate coverage, integration effort,
@@ -24,7 +24,7 @@ and stewardship ownership.
 | **Customer control-register** (spreadsheet or approved record using the S9 schema) | The estate spans multiple platforms or no platform catalog is authoritative yet | Manual stewardship burden; only as current as the customer's review cadence | Valid authoritative record when owner, scope, fields, and review cadence are explicit |
 | **Federated authoritative view** (platform catalogs plus control-register) | Different systems are authoritative for different fields or estates | Requires field-level ownership and reconciliation rules; ambiguity can create drift | Strongest for mixed estates if each field has an owner, source, and conflict-resolution rule |
 
-## Decision 2 — How is recorded control state reconciled against platform reality?
+## Decision 2: How is recorded control state reconciled against platform reality?
 
 The deciding factors are portfolio size, drift risk, staffing capacity, and how
 quickly a stale catalog could create governance risk.
@@ -36,7 +36,7 @@ quickly a stale catalog could create governance risk.
 | **Automated inventory sync** (after current platform/API status is verified) | Large or fast-changing portfolio where drift risk exceeds manual capacity | Engineering work, permissions, failure handling, and data-quality ownership are required | Backlog as a separate implementation; S9 records scope, source authority, owner, and validation route |
 | **Exception-triggered review** | Material changes, incidents, audit requests, or lifecycle transitions drive review timing | Not enough by itself for steady-state assurance | Use only alongside a baseline cadence; record trigger, approver, and closure validation |
 
-## Decision 3 — How are change, versioning, and retirement governed?
+## Decision 3: How are change, versioning, and retirement governed?
 
 Decide what counts as material change, who owns version/deprecation decisions,
 and how retirement is evidenced before an entry is treated as closed.
@@ -65,7 +65,7 @@ Record the choice, alternatives considered, and adoption stage in
 
 ## Related references
 
-- [S9 Concepts](concepts.md) — catalog stewardship, lifecycle trail, reconciliation, and closeout accountability.
-- [Governance capability guide](../reference/governance-capability-guide.md) — current capability and availability context to verify before delivery.
-- [Platform technical guide](../reference/platform-technical-guide.md) — platform governance surfaces and customer-owned implementation boundaries.
-- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md) — official reference sources for catalog, identity, audit, and lifecycle evidence.
+- [S9 Concepts](concepts.md): catalog stewardship, lifecycle trail, reconciliation, and closeout accountability.
+- [Governance capability guide](../reference/governance-capability-guide.md): current capability and availability context to verify before delivery.
+- [Platform technical guide](../reference/platform-technical-guide.md): platform governance surfaces and customer-owned implementation boundaries.
+- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md): official reference sources for catalog, identity, audit, and lifecycle evidence.

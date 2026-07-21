@@ -1,4 +1,4 @@
-# S7 Takeaway Kit — Evaluation & Assurance
+# S7 Takeaway Kit: Evaluation & Assurance
 
 S7 is an assurance handoff, not a live agent-evaluation gate. It contains a
 customer-owned technical decision record, evaluation-plan review template,

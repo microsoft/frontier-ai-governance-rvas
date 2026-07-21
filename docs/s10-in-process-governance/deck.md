@@ -35,21 +35,21 @@ Record the blocker and route it to the customer engineering, assurance, or chang
 
 ---
 
-## Step 1 — Choose the boundary · 20 min
+## Step 1: Choose the boundary · 20 min
 
 Describe the action immediately before the tool invocation, its delegated authority, and existing gateway, identity, data, evaluation, and runtime controls.
 
-> **"Gateway-only, in-process, both, or not applicable—and why?"**
+> **"Gateway-only, in-process, both, or not applicable, and why?"**
 
 ---
 
-## Step 2 — Review the example policy · 15 min
+## Step 2: Review the example policy · 15 min
 
 Open `labs/s10-in-process-governance/policies/demo-policy.json`. Review allow, deny-default, and approval-required decisions and name the owner of each delegated authority decision.
 
 ---
 
-## Step 3 — Run the illustration · 20 min
+## Step 3: Run the illustration · 20 min
 
 ```bash
 python labs/s10-in-process-governance/pipelines/run_mock.py
@@ -64,7 +64,7 @@ This is neither AGT execution nor production, downstream-success, or tamper evid
 
 ---
 
-## Step 4 — Review limits and decide · 35 min
+## Step 4: Review limits and decide · 35 min
 
 Review the pinned AGT Preview and limitations, policy ownership, approval route, retention, and needed signed immutable evidence. Record fit, limits, risks, owner, due date, review point, and S6 dependency.
 

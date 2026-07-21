@@ -1,6 +1,6 @@
 # Technical decision record
 
-[S2 Technical decisions](../../../docs/s2-data-compliance/technical.md) — option
+[S2 Technical decisions](../../../docs/s2-data-compliance/technical.md): option
 menus and selection criteria for this record.
 
 Copy this blank record into the customer's approved records system. It captures a

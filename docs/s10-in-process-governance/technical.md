@@ -1,4 +1,4 @@
-# S10 · In-Process Governance — Technical decisions
+# S10 · In-Process Governance: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-17 · The Agent Governance Toolkit (AGT) is Public
@@ -9,7 +9,7 @@ Choose where, if anywhere, a policy check belongs immediately before a tool
 call. S10 records that decision, including “not applicable”; it installs and
 executes nothing.
 
-## Decision — Where does the tool-call policy boundary live?
+## Decision: Where does the tool-call policy boundary live?
 
 The deciding test is whether there is a **real decision point immediately before
 a tool call**, what **delegated authority** that call carries, and whether the
@@ -20,9 +20,9 @@ customer needs **audit or tamper evidence** for it.
 | **Gateway-only** (API Management / governance hub) | The meaningful control point is at the platform boundary; tool calls are mediated there | Cannot see or decide inside the agent process before a local tool call | Sufficient when there is no in-process decision point; record it as the deliberate choice |
 | **In-process policy check** (AGT-style `govern()` before the tool call) | There is a genuine pre-tool decision point with allow / deny / approval semantics inside the process | Preview maturity; runs in customer code; needs an engineering assessment and owner | Adds a decision the gateway cannot make; record policy owner, approval route, and audit retention |
 | **Defense in depth** (gateway **and** in-process) | High-authority tool actions where boundary and in-process controls should reinforce each other | Two controls and owners to build, correlate, and maintain | Strongest setup; one control never proves the other is configured or working |
-| **Not applicable** (for this architecture) | No real in-process boundary, or no delegated authority worth a local check | Forcing adoption would be theatre | A valid, recorded decision — route back to existing controls and the S6 backlog |
+| **Not applicable** (for this architecture) | No real in-process boundary, or no delegated authority worth a local check | Forcing adoption would be theatre | A valid, recorded decision: route back to existing controls and the S6 backlog |
 
-## Supporting decision — What evidence does the boundary need?
+## Supporting decision: What evidence does the boundary need?
 
 If an in-process boundary is chosen, decide the **audit and tamper-evidence**
 requirement separately. A local hash chain shows internal consistency only; it
@@ -43,12 +43,12 @@ can be replaced and recalculated. Real tamper evidence needs a customer-managed
 | **Backlogged** | Any in-process assessment, policy ownership, and immutable-audit route are added to the S6 backlog with owners |
 | **In adoption** | A separate engineering assessment evaluates installation/code change; S6 reconciles the runtime evidence |
 
-Adoption here authorizes only a separate assessment — not installation,
+Adoption here authorizes only a separate assessment, not installation,
 deployment, or a policy change. Tie the decision to the **S0 maturity baseline**
 and **S12 portfolio**, and capture it in the technical decision record
 (`labs/s10-in-process-governance/templates/technical-decision-record.template.md`).
 
 ## Related references
 
-- [S10 Concepts](concepts.md) — the offline Preview boundary, hash-chain consistency, and what real tamper evidence requires.
-- [Platform technical guide](../reference/platform-technical-guide.md) — where AGT sits relative to gateway/network controls.
+- [S10 Concepts](concepts.md): the offline Preview boundary, hash-chain consistency, and what real tamper evidence requires.
+- [Platform technical guide](../reference/platform-technical-guide.md): where AGT sits relative to gateway/network controls.

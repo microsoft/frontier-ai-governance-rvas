@@ -3,7 +3,7 @@ import { C, text, node, connect, arrow, write } from "./lib.mjs";
 
 const els = [];
 els.push(text(40, 24, 1500, "S12 · Continuous improvement closes through S0", C.hero, { size: 26, align: "left" }));
-els.push(text(40, 60, 1500, "Portfolio governance turns prior-session records and exception patterns into ranked decisions and a roadmap backlog — which feeds the next S0 assessment rather than replacing it.", C.neutral, { size: 14, align: "left" }));
+els.push(text(40, 60, 1500, "Portfolio governance turns prior-session records and exception patterns into ranked decisions and a roadmap backlog. That backlog feeds the next S0 assessment rather than replacing it.", C.neutral, { size: 14, align: "left" }));
 
 const records = node(els, 40, 210, 240, 96, C.indigo, "Prior session records", { titleSize: 14, sub: "references · scope\ncoverage limits · gaps", subSize: 12 });
 const exceptions = node(els, 40, 340, 240, 96, C.amber, "Exceptions & portfolio risks", { titleSize: 13.5, sub: "concentrations & shared\ndependencies", subSize: 12 });

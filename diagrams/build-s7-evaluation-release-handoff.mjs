@@ -2,10 +2,10 @@
 import { C, text, node, connect, diamond, labelIn, arrow, write } from "./lib.mjs";
 
 const els = [];
-els.push(text(40, 24, 1500, "S7 · Evaluation informs release — it is not the sign-off", C.eval, { size: 26, align: "left" }));
+els.push(text(40, 24, 1500, "S7 · Evaluation informs release; it is not the sign-off", C.eval, { size: 26, align: "left" }));
 els.push(text(40, 60, 1500, "S7 requires accepted S6 gateway proof first. Selected quality, safety, groundedness, tool-use, regression, and human-review evidence informs the customer-owned continue or hold decision.", C.neutral, { size: 14, align: "left" }));
 
-const gate = node(els, 40, 250, 220, 120, C.security, "Accepted S6 gateway proof", { titleSize: 15, sub: "required first —\ncondition to proceed", subSize: 12 });
+const gate = node(els, 40, 250, 220, 120, C.security, "Accepted S6 gateway proof", { titleSize: 15, sub: "required first:\ncondition to proceed", subSize: 12 });
 const plan = node(els, 320, 240, 240, 140, C.eval, "Evaluation plan", {
   titleSize: 15,
   sub: "quality · safety · groundedness\ntool use · regression\nhuman review",

@@ -1,4 +1,4 @@
-# Catalog record — offline template
+# Catalog record: offline template
 
 > Store this completed record in the approved customer records system. References
 > only; do not include credentials, endpoints, payloads, raw logs, or customer data.

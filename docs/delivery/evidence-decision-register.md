@@ -20,8 +20,8 @@ Use one row per control, prerequisite, finding, or exception.
 
 | ID | Session / use case / agent | Item and control state | Evidence class and location | Gate or decision | Customer owner / approver | Next action and due date | Validation / recurrence / exception reference | Review date |
 |---|---|---|---|---|---|---|---|---|
-| GOV-001 | S1 / agent name | Sponsor register — Designed | Customer evidence: repository path | Customer change | Identity admin / governance lead | Apply report-only policy | Customer change validation and reapproval reference | YYYY-MM-DD |
-| GOV-002 | S8 / endpoint name | Test target — Blocked | Customer evidence: authorization record | Non-production hard exit | Endpoint owner / SOC owner | Provide safe target and notify SOC | Blocker escalation and recurrence-review reference | YYYY-MM-DD |
+| GOV-001 | S1 / agent name | Sponsor register: Designed | Customer evidence: repository path | Customer change | Identity admin / governance lead | Apply report-only policy | Customer change validation and reapproval reference | YYYY-MM-DD |
+| GOV-002 | S8 / endpoint name | Test target: Blocked | Customer evidence: authorization record | Non-production hard exit | Endpoint owner / SOC owner | Provide safe target and notify SOC | Blocker escalation and recurrence-review reference | YYYY-MM-DD |
 
 ## Minimum close record
 

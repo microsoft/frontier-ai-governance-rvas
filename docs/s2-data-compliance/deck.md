@@ -13,7 +13,7 @@ specialist.
 
 ---
 
-## The outcome — findings become a work list
+## The outcome: findings become a work list
 
 By the end, the customer has a **Microsoft Purview-based review** of AI data exposure and a decision on the next data-governance step.
 
@@ -59,7 +59,7 @@ Walk the diagram from DSPM through labels, DLP, and investigation evidence. Micr
 - DSPM for AI helps surface oversharing and sensitive-data exposure.
 - It can show risky access and likely ways data could leak.
 - Its job is to **find** problems, not fix them.
-- An empty result is still evidence — if you read it correctly.
+- An empty result is still evidence: if you read it correctly.
 
 Note:
 An empty result can mean no discovered in-scope workload, no findings in the checked scope, or a prerequisite gap. Record which one the customer can support. Do not treat "nothing found" as proof of no exposure unless the scope and limits are clear.
@@ -102,7 +102,7 @@ Route gateway masking to S3 or S6.
 
 ---
 
-## The activity — how we'll work
+## The activity: how we'll work
 
 - **Timebox:** 90 minutes · **seven steps**
 - **To start:** bounded AI path, evidence location, investigation route, decision owner.
@@ -114,7 +114,7 @@ Confirm the preconditions before continuing. The compliance administrator review
 
 ---
 
-## Step 1 — Set the evidence and investigation question · 10 min
+## Step 1: Set the evidence and investigation question · 10 min
 
 > **"For this path, what sensitive-data exposure are we trying to understand, where is the evidence, and who investigates an incident?"**
 
@@ -125,7 +125,7 @@ A useful result is a bounded path and named investigation route. If there is no 
 
 ---
 
-## Step 2 — Map the path and dependencies · 15 min
+## Step 2: Map the path and dependencies · 15 min
 
 Trace inputs, retrieval sources, tools, outputs, classifications, and data locations.
 
@@ -138,7 +138,7 @@ Record dependencies on labels, classification, DLP workload/location support, au
 
 ---
 
-## Step 3 — Review DSPM for AI in Purview · 20 min
+## Step 3: Review DSPM for AI in Purview · 20 min
 
 The administrator reviews relevant DSPM for AI posture, recommendations, or findings for the declared scope.
 
@@ -151,7 +151,7 @@ A useful result is a customer records-system reference with scope, date, reviewe
 
 ---
 
-## Step 4 — Review Purview DLP coverage · 15 min
+## Step 4: Review Purview DLP coverage · 15 min
 
 Check the applicable DLP workload, location, condition, and tenant configuration.
 
@@ -164,7 +164,7 @@ A useful result is a coverage statement and one of: no DLP change, `designed`, o
 
 ---
 
-## Step 5 — Review the Audit/eDiscovery investigation route · 15 min
+## Step 5: Review the Audit/eDiscovery investigation route · 15 min
 
 Review which supported records and scope can locate relevant AI interactions or administrative activity.
 
@@ -177,7 +177,7 @@ Record route references, not content or exports. If the agreed search returns no
 
 ---
 
-## Step 6 — Decide using the control tree · 10 min
+## Step 6: Decide using the control tree · 10 min
 
 Decision states:
 
@@ -193,7 +193,7 @@ Use the control tree in order: path/owner/evidence known; DSPM or tenant review 
 
 ---
 
-## Step 7 — Hand off evidence and blockers · 5 min
+## Step 7: Hand off evidence and blockers · 5 min
 
 Read back:
 

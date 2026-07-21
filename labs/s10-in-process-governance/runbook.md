@@ -1,7 +1,7 @@
-# S10 Runbook — In-Process Agent Governance
+# S10 Runbook: In-Process Agent Governance
 
 Use this runbook with the visible [S10 co-delivery activity](../../docs/s10-in-process-governance/index.md).
-It is a customer-led, offline adoption-decision workshop—not an AGT trial or
+It is a customer-led, offline adoption-decision workshop, not an AGT trial or
 implementation. Do not retain raw customer source code, tool arguments,
 credentials, tenant data, or production audit records in this kit.
 

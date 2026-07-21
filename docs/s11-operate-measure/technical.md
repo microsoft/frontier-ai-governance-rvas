@@ -1,4 +1,4 @@
-# S11 · Operate, Monitor & FinOps — Technical decisions
+# S11 · Operate, Monitor & FinOps: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-17 · Observability, cost-management, Foundry,
@@ -12,7 +12,7 @@ records owners and limits; it neither creates a dashboard nor changes production
 
 ![S11 illustrative operating-evidence pattern: gateway, agent-host, model or orchestration, and data-dependency signals are correlated with stated coverage and retention limits before owners make operating, remediation, or exception decisions.](../assets/diagrams/s11-operating-review-flow.svg)
 
-## Decision 1 — Observability stack
+## Decision 1: Observability stack
 
 Choose against where the agent runs, who owns instrumentation, what needs to be
 correlated, and what telemetry volume, sampling, and retention the customer is
@@ -31,7 +31,7 @@ owner, decision route, validation, recurrence check, and exception expiry.
 Address missing coverage or ownership before defining alerts; compare S7
 synthetic and production evidence only when their populations and limits match.
 
-## Decision 2 — Cost attribution / FinOps model
+## Decision 2: Cost attribution / FinOps model
 
 Choose against shared versus dedicated deployments, chargeback or showback needs,
 and whether the workload uses pay-as-you-go, PTU, or committed-capacity models.
@@ -43,7 +43,7 @@ and whether the workload uses pay-as-you-go, PTU, or committed-capacity models.
 | **Tagging plus PTU / committed-capacity allocation** | Dedicated deployments, PTU, reservations, or committed capacity need showback or chargeback across owners | Allocation rules are customer policy, not a product truth; idle capacity and shared usage need explicit assumptions | Record allocation method, tag owner, capacity owner, pay-as-you-go comparison, and exception route |
 | **FinOps Toolkit-assisted analysis** | The customer wants a repeatable FinOps view after verifying the toolkit and data-source fit | Adds another analysis layer; does not replace source billing records or owner judgment | Record the analysis owner, source records, refresh cadence, and decision the view is allowed to support |
 
-## Decision 3 — Alerting and drift response
+## Decision 3: Alerting and drift response
 
 Choose against operating cadence, who acts on a signal, signal-to-noise tolerance,
 and how a drift hypothesis versus the S7 synthetic baseline is raised and tested.
@@ -72,6 +72,6 @@ technical decision record (`labs/s11-operate-measure/templates/technical-decisio
 
 ## Related references
 
-- [S11 Concepts](concepts.md) — operating review, Foundry observability, FinOps, drift, escalation, and closure boundaries.
-- [Quality, cost, latency, and rollout guide](../reference/quality-cost-latency-guide.md) — quality, latency, token cost, model, and rollout governance criteria.
-- [Agent performance-testing guide](../reference/performance-testing-guide.md) — S7 synthetic baseline and S11 production telemetry reconciliation.
+- [S11 Concepts](concepts.md): operating review, Foundry observability, FinOps, drift, escalation, and closure boundaries.
+- [Quality, cost, latency, and rollout guide](../reference/quality-cost-latency-guide.md): quality, latency, token cost, model, and rollout governance criteria.
+- [Agent performance-testing guide](../reference/performance-testing-guide.md): S7 synthetic baseline and S11 production telemetry reconciliation.

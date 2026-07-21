@@ -24,7 +24,7 @@ of truth for the published SVG assets.
 | `s11-operating-review-flow.excalidraw` | `docs/assets/diagrams/s11-operating-review-flow.svg` | `docs/s11-operate-measure/concepts.md` |
 | `s12-portfolio-to-s0-feedback-loop.excalidraw` | `docs/assets/diagrams/s12-portfolio-to-s0-feedback-loop.svg` | `docs/s12-portfolio-governance/concepts.md` |
 
-The `.excalidraw` files are the editable source of truth — open them directly at
+The `.excalidraw` files are the editable source of truth: open them directly at
 <https://excalidraw.com> (File → Open) to tweak by hand. The `build-*.mjs`
 scripts are how they were generated programmatically; `lib.mjs` holds the shared
 builder + the indigo palette aligned to `docs/assets/extra.css`.
@@ -33,9 +33,9 @@ builder + the indigo palette aligned to `docs/assets/extra.css`.
 
 Two ways to change a diagram:
 
-1. **By hand** — open the `.excalidraw` in the Excalidraw app, edit, export/replace
+1. **By hand**: open the `.excalidraw` in the Excalidraw app, edit, export/replace
    the SVG (or re-run the render step below on the saved file).
-2. **Programmatically** — edit the matching `build-*.mjs`, then rebuild + render.
+2. **Programmatically**: edit the matching `build-*.mjs`, then rebuild + render.
 
 ## Regenerate everything
 

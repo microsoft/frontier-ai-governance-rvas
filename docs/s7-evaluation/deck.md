@@ -48,7 +48,7 @@ Keep evaluator results bounded to their dataset, rubric, and tool or policy scop
 
 ---
 
-## Step 1 — Set the room · 20 min
+## Step 1: Set the room · 20 min
 
 > **"Which accepted S6 decision are we using, and what can this record support?"**
 
@@ -56,7 +56,7 @@ Confirm pilot scope, evidence boundary, decision owner, and the technical choice
 
 ---
 
-## Step 2 — Create the sign-off record · 30 min
+## Step 2: Create the sign-off record · 30 min
 
 - Customer assurance owner follows `labs/s7-evaluation/runbook.md`.
 - Copy the applicable templates into the approved customer records system.
@@ -67,24 +67,24 @@ The facilitator can explain fields but does not create the record or substitute 
 
 ---
 
-## Step 3 — Interpret references · 15 min
+## Step 3: Interpret references · 15 min
 
 > **"Can a later reviewer find the S6 proof, status caveat, and evaluation plan?"**
 
 - Confirm the S6 decision is accepted.
 - Separate the plan from results, scores, and proposed gates.
-- For each in-scope dimension—quality, groundedness, safety, tool use, regression, human review—record scope, limit, and owner.
+- For each in-scope dimension: quality, groundedness, safety, tool use, regression, human review: record scope, limit, and owner.
 
 ---
 
-## Step 4 — Decide · 15 min
+## Step 4: Decide · 15 min
 
 - `continue` requires a complete handoff contract, accepted S6 proof, and decision reference.
 - Otherwise record `hold` or defer with an owner and review date.
 
 ---
 
-## Step 5 — Hand over · 10 min
+## Step 5: Hand over · 10 min
 
 Read back the S6-proof, technical-decision, and evaluation-plan references; outcome; owner; and review date. Keep the completed record in the customer system.
 

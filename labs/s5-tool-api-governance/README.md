@@ -1,4 +1,4 @@
-# S5 Takeaway Kit — API, Tool & MCP Governance
+# S5 Takeaway Kit: API, Tool & MCP Governance
 
 This kit supports a facilitator-led, customer-operated, 90-minute governance
 review for a bounded API, tool, or MCP service set. It produces offline,

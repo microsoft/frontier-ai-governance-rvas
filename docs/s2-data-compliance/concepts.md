@@ -46,7 +46,7 @@ logs, review queues, retention rules, and owners.
 
 ## Gateway masking helps, but does not replace, compliance
 
-Purview governs how data is used and what evidence is kept in the tenant. A gateway such as AI Hub Gateway or Citadel Governance Hub can add a runtime step — for example, masking PII before a request reaches the model.[^citadel]
+Purview governs how data is used and what evidence is kept in the tenant. A gateway such as AI Hub Gateway or Citadel Governance Hub can add a runtime step: for example, masking PII before a request reaches the model.[^citadel]
 
 These controls work together. Gateway masking does not replace data classification, DLP review, or audit retention. And a Purview policy does not stand up a runtime gateway.
 

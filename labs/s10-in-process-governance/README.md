@@ -1,4 +1,4 @@
-# S10 Takeaway Kit — In-Process Agent Governance
+# S10 Takeaway Kit: In-Process Agent Governance
 
 An offline, dependency-free facilitator-led activity for deciding whether to
 investigate in-process agent governance further. It illustrates tool-policy

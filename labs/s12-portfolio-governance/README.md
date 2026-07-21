@@ -1,4 +1,4 @@
-# S12 Takeaway Kit — Portfolio Governance & Continuous Improvement
+# S12 Takeaway Kit: Portfolio Governance & Continuous Improvement
 
 This offline kit supports a 90-minute, facilitator-led portfolio review. It
 helps an organization reference evidence, interpret exceptions and

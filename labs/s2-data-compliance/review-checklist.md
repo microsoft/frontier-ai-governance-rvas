@@ -15,7 +15,7 @@ the investigation route.
 location, named investigation route/owner, Compliance/Data administrator, and
 decision owner. If an entry condition is absent, record the dependency, owner,
 target date, and impact; stop the dependent step. Evidence stays in the
-customer-approved system—never use a mock, facilitator note, or copied payload
+customer-approved system, never use a mock, facilitator note, or copied payload
 as proof.
 
 **Customer action:** review actual supported tenant evidence for one path,

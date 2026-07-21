@@ -34,7 +34,7 @@ stop the affected work.
   not the aspiration?”
 - [ ] Record a score or explicitly unanswered question as the result. For a
   no-result, record the reviewed question, unavailable evidence, scope, and
-  reviewer—do not call it a pass.
+  reviewer, do not call it a pass.
 - [ ] For unsupported assessment evidence or an absent required owner, record
   the limitation/blocker, owner, and review date; do not invent a score.
 

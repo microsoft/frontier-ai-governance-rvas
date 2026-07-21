@@ -2,7 +2,7 @@
 import { C, text, node, connect, arrow, write } from "./lib.mjs";
 
 const els = [];
-els.push(text(40, 24, 1500, "S4 · Classification is about authority — the highest-impact action sets the bar", C.eval, { size: 24, align: "left" }));
+els.push(text(40, 24, 1500, "S4 · Classification is about authority: the highest-impact action sets the bar", C.eval, { size: 24, align: "left" }));
 els.push(text(40, 58, 1500, "Classify a candidate by what it is meant to do, not its label. Each archetype raises the minimum admission focus. Unclear authority = unclassified → do not admit.", C.neutral, { size: 14, align: "left" }));
 
 const candidate = node(els, 40, 250, 210, 110, C.hero, "Agent candidate", { titleSize: 16, sub: "classify by intended\nauthority", subSize: 12.5 });

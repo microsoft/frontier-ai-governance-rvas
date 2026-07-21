@@ -16,7 +16,7 @@ chapter for the path matrix and selection criteria. It complements
 | Bounded agent candidate and authority archetype | |
 | Decision owner and date | |
 
-## Options considered — implementation path
+## Options considered: implementation path
 
 | Path | Fit for users / authority / data boundary | Key trade-off / limitation | Chosen? (yes / no / deferred) |
 |---|---|---|---|

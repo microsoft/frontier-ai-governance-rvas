@@ -22,22 +22,22 @@ Update the date whenever you re‑verify the page against current Microsoft Lear
 
 Use consistent inline badges next to capability names:
 
-- `**GA**` — generally available.
-- `**Preview**` — public/private preview; not for production SLAs.
-- Pricing: always annotate as `(publicly announced — verify current)`.
+- `**GA**`: generally available.
+- `**Preview**`: public/private preview; not for production SLAs.
+- Pricing: always annotate as `(publicly announced; verify current)`.
 
 ## Refreshing the research reference
 
 `docs/reference/` is derived from a structured research pass over official Microsoft sources. To refresh it, re‑run the research workflow that produced the original report (multiple focused searches across Microsoft Learn, the Microsoft 365 / Security blogs, and product GitHub repos), then update:
 
-1. `docs/reference/index.md` — landscape narrative.
-2. `docs/reference/governance-capability-guide.md` — capabilities, availability notes, and framework alignment.
-3. `docs/reference/platform-technical-guide.md` — platform model and implementation boundaries.
+1. `docs/reference/index.md`: landscape narrative.
+2. `docs/reference/governance-capability-guide.md`: capabilities, availability notes, and framework alignment.
+3. `docs/reference/platform-technical-guide.md`: platform model and implementation boundaries.
 
 ## No screenshots
 
-We deliberately **do not use screenshots** — portal UIs change fastest and screenshots rot. Prefer **click‑paths** (e.g. *Entra admin center → Protection → Conditional Access*), **Mermaid diagrams**, and **code**.
+We deliberately **do not use screenshots**: portal UIs change fastest and screenshots rot. Prefer **click‑paths** (e.g. *Entra admin center → Protection → Conditional Access*), **Mermaid diagrams**, and **code**.
 
 ## Lab asset validation
 
-CI (`.github/workflows/lab-lint.yml`) statically validates lab assets. Keep the `Verified: static-only` badge honest — only change it to `Verified: live-tenant` for an asset that has actually been run end‑to‑end in a real tenant and had its steps confirmed.
+CI (`.github/workflows/lab-lint.yml`) statically validates lab assets. Keep the `Verified: static-only` badge honest: only change it to `Verified: live-tenant` for an asset that has actually been run end‑to‑end in a real tenant and had its steps confirmed.

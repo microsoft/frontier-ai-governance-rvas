@@ -1,4 +1,4 @@
-# S3 Runbook — Enterprise Platform & Trust Boundaries
+# S3 Runbook: Enterprise Platform & Trust Boundaries
 
 Use this offline runbook with the [S3 co-delivery session](../../docs/s3-platform-foundation/index.md).
 It is an evidence-first, report-only review. No deployment, live integration,

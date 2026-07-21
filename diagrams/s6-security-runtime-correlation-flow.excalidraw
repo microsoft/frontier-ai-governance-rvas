@@ -366,8 +366,8 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "pass / fail — not a\nsecurity decision",
-      "originalText": "pass / fail — not a\nsecurity decision",
+      "text": "pass / fail, not a\nsecurity decision",
+      "originalText": "pass / fail, not a\nsecurity decision",
       "lineHeight": 1.25,
       "baseline": 12,
       "containerId": null

@@ -24,7 +24,7 @@ The output is roadmap priorities and S0 questions to revisit.
 
 - Rank investments by risk, dependency, evidence strength, governance value, effort, timing, and owner readiness.
 - Model-capability proposals need evaluation, cost, data-governance, version, and assurance references.
-- Maturity movement needs the same S0 question, scope, and scale—or a stated change.
+- Maturity movement needs the same S0 question, scope, and scale, or a stated change.
 - Policy questions are proposals with an owner and review route, not policy changes.
 
 ---
@@ -45,7 +45,7 @@ S12 supplies a dated roadmap and reassessment questions. The next S0 review is a
 
 ---
 
-## Step 1 — Set scope · 10 min
+## Step 1: Set scope · 10 min
 
 Define population, period, decision, records location, and stop condition.
 
@@ -53,7 +53,7 @@ Define population, period, decision, records location, and stop condition.
 
 ---
 
-## Step 2 — Aggregate references · 15 min
+## Step 2: Aggregate references · 15 min
 
 Enter only references, scope, freshness, coverage, limits, and interpretation owner.
 
@@ -61,13 +61,13 @@ Enter only references, scope, freshness, coverage, limits, and interpretation ow
 
 ---
 
-## Step 3 — Exceptions and maturity · 35 min
+## Step 3: Exceptions and maturity · 35 min
 
 Record recurring, cross-scope, or decision-blocking exceptions with owner, dependency, disposition, due date, and route. Compare relevant observations with S0, then capture any policy question as a proposal.
 
 ---
 
-## Step 4 — Prioritize and decide · 30 min
+## Step 4: Prioritize and decide · 30 min
 
 Rank a small candidate set, then approve, defer, or reject priorities. Assign owners, dates, remaining-risk dispositions, next governance review, and the S0 domains or questions to reassess.
 

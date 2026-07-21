@@ -1,4 +1,4 @@
-# S12 Runbook — Portfolio Governance & Continuous Improvement
+# S12 Runbook: Portfolio Governance & Continuous Improvement
 
 Use this runbook with the visible
 [S12 co-delivery activity](../../docs/s12-portfolio-governance/index.md).

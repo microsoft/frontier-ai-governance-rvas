@@ -12,8 +12,8 @@ prove it?**
 
 They leave with:
 
-- A list of the agents in scope, taken from an admin source they trust —
-  usually **Microsoft Entra Agent ID** — with a plain note of what the list
+- A list of the agents in scope, taken from an admin source they trust, usually
+  **Microsoft Entra Agent ID**, with a plain note of what the list
   covers and what it misses.
 - A named human sponsor and a lifecycle decision (keep, review, retire) for each
   agent on the list.
@@ -22,7 +22,7 @@ They leave with:
 
 `labs/s1-identity/` holds the runbook and a blank review template. It does **not**
 hold real identity data, exports, Conditional Access policies, break-glass
-templates, or customer records — those stay in the customer's own systems.
+templates, or customer records: those stay in the customer's own systems.
 
 ### What happens next
 
@@ -69,22 +69,21 @@ the gateway boundary fit together.
 customer work), governance lead (makes the decisions), evidence owner, security
 reviewer. **To start:** you need one clear workload, an admin source the customer
 can open, a place to store results, and a governance lead in the room. If there's
-no source or no decision-maker, stop that part and write down what's blocking it —
-don't fall back to a directory query.
+no source or no decision-maker, stop that part and write down what's blocking it: don't fall back to a directory query.
 
 **Customer action:** the identity admin reviews a supported agent list; the
 governance lead decides how to handle owner and coverage gaps. Use the
 [Technical decisions](technical.md) options when identity path or runtime access
 is undecided.
 
-1. **Agree what the list can and can't tell you** *(15 min)* — the facilitator
+1. **Agree what the list can and can't tell you** *(15 min)*: the facilitator
    asks: **"Which agents does this source actually cover, and which does it
    miss?"** The customer names the workload, the source, what it covers, what it
    excludes, where the evidence lives, and when to stop. A useful answer is a
    clear coverage statement. "Nothing found" only counts if you also record what
-   you checked and when. If a supported source won't open, that's blocked — not
+   you checked and when. If a supported source won't open, that's blocked, not
    permission to guess an agent's status.
-2. **Customer reviews the list** *(35 min)* — the identity admin copies
+2. **Customer reviews the list** *(35 min)*: the identity admin copies
    `labs/s1-identity/templates/identity-inventory-review.template.md` into the
    customer's records system and reviews each agent using the fields above. The
    facilitator asks: **"Who owns this agent's purpose and lifecycle?"**, **"What
@@ -94,7 +93,7 @@ is undecided.
    declared, note it with the source, date, and reviewer. If the source can't
    show a field you need, write that down as a coverage gap. If you can't get
    access or there's no owner, stop that part and assign the follow-up.
-3. **Read the signals correctly** *(15 min)* — the customer can compare
+3. **Read the signals correctly** *(15 min)*: the customer can compare
    service-principal, managed-identity, OBO, or app context to back up a record,
    but the facilitator asks: **"Does this prove the agent's identity, or just
    hint at it?"** and **"Is this the user acting, or the agent acting on its
@@ -102,7 +101,7 @@ is undecided.
    backlog item, your confidence, the owner, and where it goes next (S4, S6, S9,
    or the customer's identity-change process). OBO visibility is not its own
    inventory entry unless the supported source says so.
-4. **Make the ownership call** *(15 min)* — the governance lead decides for each
+4. **Make the ownership call** *(15 min)*: the governance lead decides for each
    gap: assign a missing sponsor, accept a small known risk, defer, or mark the
    source's coverage as blocked. Base it on how well the source covers the agent,
    whether there's a clear owner, how clear the lifecycle is, the access risk, and
@@ -111,7 +110,7 @@ is undecided.
    it in `templates/technical-decision-record.template.md`. Record the
    list/source reference, the decision, the owner, the approver, and the review
    date. Never copy real IDs or exports here.
-5. **Hand off without designing controls** *(10 min)* — the facilitator reads
+5. **Hand off without designing controls** *(10 min)*: the facilitator reads
    back the control state (`observed`, `accepted_risk`, or `blocked`), the
    evidence reference, the next owner, and the S6 dependency. Any Conditional
    Access, break-glass, or remediation request goes to the customer's

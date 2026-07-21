@@ -1,4 +1,4 @@
-# S4 Runbook — Agent Engineering & Admission Standards
+# S4 Runbook: Agent Engineering & Admission Standards
 
 Use this runbook with the visible [S4 co-delivery activity](../../docs/s4-agent-engineering/index.md).
 The customer reviews its records and makes decisions; the facilitator preserves

@@ -836,8 +836,8 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "vs S7 baseline — not confirmed drift",
-      "originalText": "vs S7 baseline — not confirmed drift",
+      "text": "vs S7 baseline, not confirmed drift",
+      "originalText": "vs S7 baseline, not confirmed drift",
       "lineHeight": 1.25,
       "baseline": 11.5,
       "containerId": null

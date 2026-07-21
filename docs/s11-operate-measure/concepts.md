@@ -40,8 +40,8 @@ recorded on its own.
 Every production performance number carries a sampling, retention, and
 population limit; an uninstrumented path is a coverage gap, not a zero result.
 Reconcile production percentiles against any S7 synthetic baseline: a gap is a
-drift hypothesis — workload mix, configuration, model version, quota pressure,
-or evidence coverage — not confirmed drift. Use
+drift hypothesis: workload mix, configuration, model version, quota pressure,
+or evidence coverage, not confirmed drift. Use
 `templates/performance-telemetry-review.template.md` and the
 [agent performance-testing guide](../reference/performance-testing-guide.md).
 

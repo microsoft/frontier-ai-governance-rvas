@@ -1,4 +1,4 @@
-# S1 Takeaway Kit — Identity & Ownership Review
+# S1 Takeaway Kit: Identity & Ownership Review
 
 This kit supports one safe, customer-operated action: review an
 administrator-sourced identity inventory, assign accountable ownership, and

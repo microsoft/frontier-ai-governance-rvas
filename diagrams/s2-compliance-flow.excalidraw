@@ -29,8 +29,8 @@
       "fontFamily": 2,
       "textAlign": "left",
       "verticalAlign": "top",
-      "text": "S2 · The compliance plane — discovery to controls to evidence",
-      "originalText": "S2 · The compliance plane — discovery to controls to evidence",
+      "text": "S2 · The compliance plane: discovery to controls to evidence",
+      "originalText": "S2 · The compliance plane: discovery to controls to evidence",
       "lineHeight": 1.25,
       "baseline": 26,
       "containerId": null
@@ -848,8 +848,8 @@
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "top",
-      "text": "runtime PII masking — complements, does not replace, Purview",
-      "originalText": "runtime PII masking — complements, does not replace, Purview",
+      "text": "runtime PII masking complements, but does not replace, Purview",
+      "originalText": "runtime PII masking complements, but does not replace, Purview",
       "lineHeight": 1.25,
       "baseline": 12,
       "containerId": null

@@ -1,4 +1,4 @@
-# S6 Takeaway Kit — Security Runtime
+# S6 Takeaway Kit: Security Runtime
 
 S6 produces one runtime evidence artifact: a redacted proof that a
 customer-operated non-production request reached the approved gateway path.

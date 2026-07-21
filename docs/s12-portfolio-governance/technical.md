@@ -1,4 +1,4 @@
-# S12 · Portfolio Governance & Continuous Improvement — Technical decisions
+# S12 · Portfolio Governance & Continuous Improvement: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-17 · Portfolio governance, reporting, analytics,
@@ -7,10 +7,10 @@
     and official product documentation before delivery.
 
 Choose portfolio reporting, prioritization, and review cadence. S12 produces a
-roadmap of decisions, deferrals, owners, and review evidence—not a dashboard or
+roadmap of decisions, deferrals, owners, and review evidence, not a dashboard or
 policy change.
 
-## Decision 1 — Portfolio system of record & reporting
+## Decision 1: Portfolio system of record & reporting
 
 Choose the reporting pattern against the executive audience, review cadence,
 data sources, effort, and auditability required for the portfolio decision.
@@ -22,7 +22,7 @@ data sources, effort, and auditability required for the portfolio decision.
 | **BI on governance evidence references** | The customer already has governed evidence, cost, quality, or operating-review references that can be analyzed without copying raw records | Higher data-model and ownership effort; analytics can imply precision that the evidence does not support | Useful for trends and prioritization only when scope, freshness, lineage, and interpretation ownership remain visible |
 | **No new portfolio system yet** | The immediate need is a one-cycle roadmap decision and the approved records system is sufficient | Less automation and repeatability; future reviews may take more manual effort | Valid if recorded deliberately, with a backlog item for reporting ownership and next cadence |
 
-## Decision 2 — Prioritization & reinvestment model
+## Decision 2: Prioritization & reinvestment model
 
 Choose the next-roadmap model against portfolio size, strategic goals, risk
 appetite, and how the review re-baselines against the S0 maturity assessment.
@@ -34,7 +34,7 @@ appetite, and how the review re-baselines against the S0 maturity assessment.
 | **Maturity-gap-driven prioritization** | S12 is closing the S0→S12 loop and the next roadmap should target domains that did not move or remain unsupported | Can miss urgent exceptions if used alone | Directly re-baselines against S0 and identifies which domains, questions, and evidence must be reassessed next |
 | **Hybrid portfolio triage** | The portfolio has mixed risk, value, maturity, and dependency pressures that no single model can rank fairly | Requires clear weighting, owner agreement, and visible assumptions | Best fit for executive roadmap selection when the chosen weighting and rejected alternatives are recorded |
 
-## Decision 3 — Continuous-improvement cadence & metrics
+## Decision 3: Continuous-improvement cadence & metrics
 
 Choose the operating rhythm, portfolio KPIs, governance review cadence, and
 maturity re-measurement approach against staffing and regulatory reporting needs.
@@ -64,7 +64,7 @@ it is the customer-owned rollup of the decisions feeding the next roadmap.
 
 ## Related references
 
-- [S12 Concepts](concepts.md) — portfolio evidence limits, exception concentration, prioritization, maturity movement, and the S0 feedback loop.
-- [Governance capability guide](../reference/governance-capability-guide.md) — current availability and limitation context for Microsoft governance capabilities.
-- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md) — policy, control, visibility, and proof sources that support portfolio learning.
-- [Quality, cost, latency & rollout guide](../reference/quality-cost-latency-guide.md) — criteria for interpreting model and roadmap investment proposals.
+- [S12 Concepts](concepts.md): portfolio evidence limits, exception concentration, prioritization, maturity movement, and the S0 feedback loop.
+- [Governance capability guide](../reference/governance-capability-guide.md): current availability and limitation context for Microsoft governance capabilities.
+- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md): policy, control, visibility, and proof sources that support portfolio learning.
+- [Quality, cost, latency & rollout guide](../reference/quality-cost-latency-guide.md): criteria for interpreting model and roadmap investment proposals.

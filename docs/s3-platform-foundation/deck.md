@@ -88,7 +88,7 @@ Keep expected coverage separate from observed operation. Telemetry coverage incl
 ## Platform security and runtime assurance
 
 - Platform security ownership separates boundary, workload use, and risk acceptance.
-- One role may hold several responsibilities — each still needs a record.
+- One role may hold several responsibilities: each still needs a record.
 - Runtime assurance later uses authorized, safe observation.
 - S3 defines the question and handoff; it does not prove operation.
 
@@ -113,7 +113,7 @@ For Foundry-hosted workloads, the review may also need a network-isolation quest
 
 ---
 
-## The activity — how we'll work
+## The activity: how we'll work
 
 - **Timebox:** 90 minutes · **six steps**
 - **To start:** bounded workload, approved record location, decision owner, stop condition.
@@ -125,7 +125,7 @@ Confirm the boundary and records setup before continuing. The platform owner map
 
 ---
 
-## Step 1 — Set the review contract · 10 min
+## Step 1: Set the review contract · 10 min
 
 State the workload, decision, boundaries, approved records location, and stop condition.
 
@@ -136,7 +136,7 @@ A missing owner or records location blocks the affected topic. Keep the claim bo
 
 ---
 
-## Step 2 — Map trust, connectivity, and gateway boundaries · 20 min
+## Step 2: Map trust, connectivity, and gateway boundaries · 20 min
 
 Identify workload, operator, identity, network, data, service, administration, and AI gateway boundaries.
 
@@ -148,7 +148,7 @@ Record expected private-connectivity controls, ingress points, egress destinatio
 
 ---
 
-## Step 3 — Review identity and dependency boundaries · 15 min
+## Step 3: Review identity and dependency boundaries · 15 min
 
 Record expected:
 
@@ -162,7 +162,7 @@ Do not validate credentials or access. A missing accountable owner is a finding,
 
 ---
 
-## Step 4 — Define telemetry evidence and coverage · 20 min
+## Step 4: Define telemetry evidence and coverage · 20 min
 
 Identify expected event classes, correlation method, retention decision, reviewer, coverage window, and blind spots.
 
@@ -174,7 +174,7 @@ Keep "not observed" separate from "not covered." Telemetry references show that 
 
 ---
 
-## Step 5 — Assign platform-security ownership · 15 min
+## Step 5: Assign platform-security ownership · 15 min
 
 Assign each boundary and evidence gap to an accountable owner.
 
@@ -190,7 +190,7 @@ The decision owner records the state with rationale, selected technical-decision
 
 ---
 
-## Step 6 — Hand off to runtime assurance · 10 min
+## Step 6: Hand off to runtime assurance · 10 min
 
 Provide:
 

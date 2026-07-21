@@ -1,4 +1,4 @@
-# Publication and lifecycle decision — offline template
+# Publication and lifecycle decision: offline template
 
 > This is a governance decision record, not a publication command or proof of
 > safe use. Store it in the approved customer records system.

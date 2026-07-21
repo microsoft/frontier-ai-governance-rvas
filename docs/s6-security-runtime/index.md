@@ -68,7 +68,7 @@ owners. Stop before the request if any of these are absent.
 | Security reviewer / evidence owner | Matches the returned identifier with customer gateway telemetry and cites the approved records. |
 | Customer decision owner | Accepts, rejects, or defers the proof and owns the S4 handoff. |
 
-1. **Set the room and orient — 20 min.** The facilitator records the pilot
+1. **Set the room and orient: 20 min.** The facilitator records the pilot
    question: **"Did this approved non-production request go through the approved
    gateway path with a correlation we can review, and which runtime-control
    decision does that evidence support?"** The customer confirms this run is
@@ -76,13 +76,13 @@ owners. Stop before the request if any of these are absent.
    locations. Ask: **"Which gateway route, policy, and runtime-control option are
    in scope?"** **"Who can interpret telemetry and accept this proof?"** **"What
    result makes us stop instead of guessing enforcement?"**
-2. **Customer-operated gateway request — 30 min.** The platform operator performs
+2. **Customer-operated gateway request: 30 min.** The platform operator performs
    the one request in the runbook. The facilitator observes the boundary without
    handling credentials or payloads. The customer records only safe references to
    the generated manifest, request record, telemetry record, and correlation
    identifier in its approved system. A direct component call is a separate
    diagnostic. It is not a substitute for the gateway request.
-3. **Interpret together — 15 min.** The platform and security reviewers first
+3. **Interpret together: 15 min.** The platform and security reviewers first
    separate the adapter transport result from the acceptance decision. Ask:
    **"Does the manifest match the gateway-proof contract?"** **"Does
    `correlation_id` appear in the approved gateway telemetry?"** **"Does the
@@ -105,7 +105,7 @@ owners. Stop before the request if any of these are absent.
    applicable tool or model version, policy decision, outcome category, and
    reviewer decision. These references support interpretation. They are not a
    telemetry schema or a requirement to retain raw event data.
-4. **Customer decision — 15 min.** A proof is eligible for **accepted** only when
+4. **Customer decision: 15 min.** A proof is eligible for **accepted** only when
    the manifest conforms to `gateway-proof.schema.json`, has `result: "pass"`,
    contains the required safe references, and both customer platform and security
    reviewers accept the telemetry correlation. A `pass` without that acceptance
@@ -113,7 +113,7 @@ owners. Stop before the request if any of these are absent.
    scope is rejected, deferred, or **blocked**. Do not convert it to a pass.
    The decision owner records the control state and review date in the customer
    system.
-5. **Hand over — 10 min.** Read back the manifest reference, telemetry reference,
+5. **Hand over: 10 min.** Read back the manifest reference, telemetry reference,
    correlation identifier, reviewer interpretation, decision reference, and next
    owner. Hand only an accepted `pass` gateway-proof reference to S4. The gateway
    proof remains the runtime artifact. Record the selected option, rationale,

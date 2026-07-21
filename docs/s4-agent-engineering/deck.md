@@ -40,7 +40,7 @@ next activity, exclusions, and material-change reapproval triggers.
 
 ![Authority classification determines admission or rejection.](../assets/diagrams/s4-authority-admission-tree.svg)
 
-Classify by what the candidate is meant to do — not by label or framework.
+Classify by what the candidate is meant to do, not by label or framework.
 
 Note:
 Walk the decision tree from intended authority to admission focus. The highest-impact action sets the standard. If the authority is unclear, classify the candidate as unclassified and do not admit it. An agent does not become advisory just because it also explains its work.
@@ -102,7 +102,7 @@ Lifecycle entry happens only when the decision owner admits the candidate to a s
 
 ---
 
-## The activity — how we'll work
+## The activity: how we'll work
 
 - **Timebox:** 90 minutes · **six steps**
 - **Entry condition:** purpose, users, proposed authority boundary, owners, and approved records location.
@@ -113,7 +113,7 @@ Preview the six steps: set scope, classify, compare paths, build backlog, review
 
 ---
 
-## Step 1 — Set the scope and stop condition · 10 min
+## Step 1: Set the scope and stop condition · 10 min
 
 > **"What exactly are we reviewing, and what would make us stop?"**
 
@@ -124,7 +124,7 @@ A vague candidate is blocked. Do not broaden the session to make it fit. Record 
 
 ---
 
-## Step 2 — Classify the candidate · 10 min
+## Step 2: Classify the candidate · 10 min
 
 > **"Does it advise, ask a person to confirm, act inside a fixed boundary, or coordinate other actions?"**
 
@@ -135,7 +135,7 @@ If the authority is unclear, record an unclassified finding and do not admit it.
 
 ---
 
-## Step 3 — Compare Microsoft implementation paths · 20 min
+## Step 3: Compare Microsoft implementation paths · 20 min
 
 > **"Which path fits the users, authority, data boundary, engineering owner, and operating model?"**
 
@@ -146,7 +146,7 @@ Use the technical decisions path matrix for selection criteria and trade-offs. T
 
 ---
 
-## Step 4 — Build the selected-path backlog · 20 min
+## Step 4: Build the selected-path backlog · 20 min
 
 > **"What must the customer configure, validate, or approve next?"**
 
@@ -157,7 +157,7 @@ For Foundry Agent Service, cover project/model, agent type, tools, identity, run
 
 ---
 
-## Step 5 — Review governance services · 15 min
+## Step 5: Review governance services · 15 min
 
 > **"Which product control or customer process must review this path?"**
 
@@ -168,7 +168,7 @@ Consider Entra/Agent ID, Purview, telemetry, Foundry observability, Content Safe
 
 ---
 
-## Step 6 — Decide lifecycle entry and hand off · 15 min
+## Step 6: Decide lifecycle entry and hand off · 15 min
 
 > **"What is allowed now, and what is still not allowed?"**
 

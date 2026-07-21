@@ -7,7 +7,7 @@ els.push(text(40, 60, 1500, "A sponsor governs the agent identity and lifecycle.
 
 // identity-plane frame
 els.push(rect(24, 200, 900, 240, { bg: "#eef2ff", st: C.identity.st, tx: C.identity.tx }, { strokeStyle: "dashed", roundness: { type: 3 } }));
-els.push(text(40, 212, 860, "Tenant identity plane — Microsoft Entra Agent ID", C.identity, { size: 14, align: "left" }));
+els.push(text(40, 212, 860, "Tenant identity plane: Microsoft Entra Agent ID", C.identity, { size: 14, align: "left" }));
 
 // object chain: blueprint -> blueprint principal -> agent identity -> agent user account
 const chain = ["Blueprint", "Blueprint\nprincipal", "Agent\nidentity", "Agent user\naccount"];
@@ -26,7 +26,7 @@ connect(els, sponsor, boxes[2], { stroke: C.hero.st });
 
 // runtime-access frame
 els.push(rect(960, 200, 520, 240, { bg: "#fef2f2", st: C.security.st, tx: C.security.tx }, { strokeStyle: "dashed", roundness: { type: 3 } }));
-els.push(text(976, 212, 500, "Runtime access controls — gateway boundary", C.security, { size: 14, align: "left" }));
+els.push(text(976, 212, 500, "Runtime access controls: gateway boundary", C.security, { size: 14, align: "left" }));
 const ca = node(els, 984, 300, 232, 96, C.security, "Conditional Access", { titleSize: 14, sub: "for workload identities", subSize: 12 });
 const gw = node(els, 1236, 300, 232, 96, C.security, "Gateway authentication", { titleSize: 14, sub: "JWT at API Management", subSize: 12 });
 

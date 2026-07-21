@@ -1,4 +1,4 @@
-# S7 Runbook — Assurance Handoff
+# S7 Runbook: Assurance Handoff
 
 S7 does not operate a live evaluation or gate. Its one action is a
 customer-operated assurance review and decision handoff.

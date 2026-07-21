@@ -1,4 +1,4 @@
-# S6 Runbook — Gateway Proof
+# S6 Runbook: Gateway Proof
 
 Run this only in a customer-approved non-production environment. The one S6
 action is a request through the deployed gateway; a direct Content Safety call

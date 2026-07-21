@@ -17,7 +17,7 @@ The customer leaves with a repeatable review definition, owners, cadence, limits
 ![Operating review produces decisions and drift hypotheses.](../assets/diagrams/s11-operating-review-flow.svg)
 
 - Every question needs population, period, coverage limit, owner, and decision use.
-- Unavailable, uninstrumented, and excluded paths are coverage gaps—not zero or pass.
+- Unavailable, uninstrumented, and excluded paths are coverage gaps, not zero or pass.
 - Foundry traces, OpenTelemetry, and Application Insights can supply bounded operating signals.
 - A production score or trend is not release sign-off or control-enforcement proof.
 
@@ -39,7 +39,7 @@ The customer leaves with a repeatable review definition, owners, cadence, limits
 
 ---
 
-## Step 1 — Define the review · 10 min
+## Step 1: Define the review · 10 min
 
 Select one population, period, decision, owners, and records location.
 
@@ -47,13 +47,13 @@ Select one population, period, decision, owners, and records location.
 
 ---
 
-## Step 2 — Map coverage · 15 min
+## Step 2: Map coverage · 15 min
 
 For every question, record evidence references, coverage, exclusions, latency and attribution limits, and, where relevant, Foundry project, deployment, agent/run identifier, evaluator, and version.
 
 ---
 
-## Step 3 — Select questions · 20 min
+## Step 3: Select questions · 20 min
 
 Choose only relevant control-coverage, reliability, risk, quality, cost, adoption, human-review, or business-outcome questions.
 
@@ -61,13 +61,13 @@ Choose only relevant control-coverage, reliability, risk, quality, cost, adoptio
 
 ---
 
-## Step 4 — Drift, remediation, and exception routes · 30 min
+## Step 4: Drift, remediation, and exception routes · 30 min
 
 Record a hypothesis, alternatives, evidence limits, test or observation plan, owner, escalation trigger, validation, recurrence check, exception expiry, and closure reviewer.
 
 ---
 
-## Step 5 — Decide and hand over · 15 min
+## Step 5: Decide and hand over · 15 min
 
 Approve, defer, or reject the review definition and technical choices. Record limits, unresolved gaps, and next review.
 
