@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "rvas.delivery.assurance-handoff.v1",
-  "title": "RVAS assurance handoff",
+  "title": "AI Governance Platform assurance handoff",
   "type": "object",
   "additionalProperties": false,
   "required": [

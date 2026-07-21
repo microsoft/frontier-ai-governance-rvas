@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Frontier AI Governance — build step (dependency-free, Node core only).
+ * AI Governance Platform — build step (dependency-free, Node core only).
  *
  * Reads the curriculum Markdown under docs/ (the source of truth), transforms
  * MkDocs-flavoured syntax into the site's runtime Markdown dialect, and emits
@@ -34,8 +34,8 @@ const DECKS_OUT = path.join(DATA, 'decks');
 /* ─── Curriculum config (curated metadata, mirrors docs/index.md) ─────────── */
 
 const SITE = {
-  name: 'RVAS AI Governance',
-  tagline: 'The AI Governance offering in the Real Value Acceleration Solution.',
+  name: 'AI Governance Platform',
+  tagline: 'A facilitator-led platform for governing enterprise AI agents.',
   lastReviewed: '2026-07-06',
   repo: 'https://github.com/microsoft/frontier-ai-governance-rvas',
 };
@@ -77,7 +77,7 @@ const SESSION_CHAPTERS = [
 ];
 
 const PAGES = [
-  { slug: 'start-understand-rvas',        src: 'start/understand-rvas.md',    title: 'About RVAS AI Governance', nav: true, group: 'Start here' },
+  { slug: 'start-understand-rvas',        src: 'start/understand-rvas.md',    title: 'About AI Governance Platform', nav: true, group: 'Start here' },
   { slug: 'start-plan-engagement',        src: 'start/plan-engagement.md',    title: 'Plan the engagement',       nav: true, group: 'Start here' },
   { slug: 'how-to-deliver',               src: 'how-to-deliver.md',            title: 'How to deliver',            nav: true, group: 'Delivery' },
   { slug: 'delivery-facilitation-pattern', src: 'delivery/facilitation-pattern.md', title: 'Facilitate a co-delivery working session', nav: true, group: 'Delivery' },

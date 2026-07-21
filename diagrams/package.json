@@ -2,7 +2,7 @@
   "name": "rvas-diagrams",
   "private": true,
   "type": "module",
-  "description": "Excalidraw sources + builders for the RVAS docs diagrams.",
+  "description": "Excalidraw sources + builders for AI Governance Platform diagrams.",
   "scripts": {
     "build": "node build-all.mjs",
     "render": "node render-all.mjs",

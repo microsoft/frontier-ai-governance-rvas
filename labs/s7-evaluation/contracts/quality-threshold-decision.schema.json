@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "rvas.delivery.quality-threshold-decision.v1",
-  "title": "RVAS quality threshold decision",
+  "title": "AI Governance Platform quality threshold decision",
   "type": "object",
   "additionalProperties": false,
   "required": [

@@ -1,6 +1,6 @@
-# About RVAS AI Governance
+# About AI Governance Platform
 
-RVAS AI Governance is a co-delivered S0-S12 curriculum for deciding agent ownership, applicable Microsoft controls, and retained customer evidence. The facilitator runs the method; customer administrators perform privileged actions, and customer owners make decisions and accept risk.
+AI Governance Platform is a co-delivered S0-S12 curriculum for deciding agent ownership, applicable Microsoft controls, and retained customer evidence. The facilitator runs the method; customer administrators perform privileged actions, and customer owners make decisions and accept risk.
 
 ## Why AI-agent governance needs an enterprise journey
 

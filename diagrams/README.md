@@ -1,4 +1,4 @@
-# RVAS AI Governance diagrams (Excalidraw)
+# AI Governance Platform diagrams (Excalidraw)
 
 Hand-crafted Excalidraw diagrams used in the docs. They are the editable source
 of truth for the published SVG assets.

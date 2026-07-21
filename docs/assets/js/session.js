@@ -1,4 +1,4 @@
-/* Frontier AI Governance - focused session chapter pages. */
+/* AI Governance Platform - focused session chapter pages. */
 (function () {
   'use strict';
 
@@ -32,7 +32,7 @@
     const chapter = chapters[chapterIndex];
     if (!chapter) return fail('Unknown session chapter.');
 
-    document.title = `${session.code} · ${session.title} · ${chapter.label} - Frontier AI Governance`;
+    document.title = `${session.code} · ${session.title} · ${chapter.label} - AI Governance Platform`;
     document.getElementById('sessionHero').style.setProperty('--mod-color', session.accent);
     document.getElementById('sessionCrumb').textContent = session.code;
     document.getElementById('sessionChip').textContent = session.code;

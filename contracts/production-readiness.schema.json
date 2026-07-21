@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "rvas.delivery.production-readiness.v1",
-  "title": "RVAS production-readiness decision",
+  "title": "AI Governance Platform production-readiness decision",
   "type": "object",
   "additionalProperties": false,
   "required": [

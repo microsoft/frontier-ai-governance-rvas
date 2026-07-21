@@ -1,4 +1,4 @@
-/* Frontier AI Governance — home page: stats + session cards from site.json. */
+/* AI Governance Platform — home page: stats + session cards from site.json. */
 (function () {
   'use strict';
 

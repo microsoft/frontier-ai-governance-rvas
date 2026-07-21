@@ -1,4 +1,4 @@
-/* Frontier AI Governance — standalone document page (How to Deliver,
+/* AI Governance Platform — standalone document page (How to Deliver,
    Assessment, Reference and its sub-pages). */
 (function () {
   'use strict';
@@ -8,7 +8,7 @@
     { slug: 'reference-governance-capabilities', label: 'Governance capability guide' },
   ];
   const START_HERE_GROUP = [
-    { slug: 'start-understand-rvas', label: 'About RVAS AI Governance' },
+    { slug: 'start-understand-rvas', label: 'About AI Governance Platform' },
     { slug: 'start-plan-engagement', label: 'Plan the engagement' },
   ];
 
@@ -26,7 +26,7 @@
     const page = (site.pages || []).find((p) => p.slug === slug);
     if (!page) return fail('Unknown page: ' + slug);
 
-    document.title = `${page.title} — Frontier AI Governance`;
+    document.title = `${page.title} — AI Governance Platform`;
     document.getElementById('pageTitle').textContent = page.title;
     document.getElementById('pageCrumb').textContent = page.group || page.title;
 

@@ -1,4 +1,4 @@
-// Shared builder + palette for RVAS AI Governance Excalidraw diagrams.
+// Shared builder + palette for AI Governance Platform Excalidraw diagrams.
 // Aligned to the site's indigo Material theme (docs/assets/extra.css).
 import { writeFileSync } from "fs";
 

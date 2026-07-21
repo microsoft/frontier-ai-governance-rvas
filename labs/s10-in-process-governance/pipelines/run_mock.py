@@ -142,7 +142,7 @@ def main() -> int:
     policy = load_policy(POLICY_PATH)
     records = create_records(policy)
     write_evidence(EVIDENCE_PATH, policy, records)
-    print("RVAS S10 offline policy-decision illustration")
+    print("AI Governance Platform S10 offline policy-decision illustration")
     for record in records:
         print(f"{record['attempt_id']}: {record['action']} -> {record['decision']}")
     return verify_file(EVIDENCE_PATH)

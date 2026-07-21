@@ -1,5 +1,5 @@
 /* =====================================================================
-   RVAS GLOBAL SEARCH — command-palette modal over the site content.
+   AI GOVERNANCE PLATFORM GLOBAL SEARCH — command-palette modal over the site content.
    Client-side only. Lazy-loads assets/data/search-index.json on first
    open. Bound to the nav #searchBtn and Ctrl/Cmd-K (and "/").
    Hidden in kiosk/curated-set view. Depends on FP (core.js) for esc/qp.

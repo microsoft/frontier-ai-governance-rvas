@@ -1,6 +1,6 @@
 # External accelerator handoff
 
-This handoff separates customer platform deployment from RVAS governance. The platform team uses current accelerator documentation and its customer-approved change process; this repository does not wrap, fork, deploy, or configure the accelerator.
+This handoff separates customer platform deployment from AI Governance Platform governance. The platform team uses current accelerator documentation and its customer-approved change process; this repository does not wrap, fork, deploy, or configure the accelerator.
 
 ## Handoff package
 

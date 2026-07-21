@@ -1,4 +1,4 @@
-# Frontier AI Governance — RVAS
+# AI Governance Platform
 
 **A composable S0-S12 curriculum for governing enterprise AI agents.**
 

@@ -24,7 +24,7 @@ The sequence is continuous: S12 portfolio learning informs the next S0 baseline.
 
 The business journey maps to the curriculum, but does not rename it:
 
-| Business journey | RVAS AI Governance phase | Typical sessions |
+| Business journey | AI Governance Platform phase | Typical sessions |
 |---|---|---|
 | Align use case and value | Govern | S0-S2 |
 | Establish a safe foundation | Establish | S3-S5 |

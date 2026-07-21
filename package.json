@@ -1,7 +1,7 @@
 {
   "name": "frontier-ai-governance-rvas",
   "version": "1.0.0",
-  "description": "Frontier AI Governance RVAS — session site builder",
+  "description": "AI Governance Platform — session site builder",
   "scripts": {
     "build": "node docs/build.js",
     "generate-workspace": "node tools/generate-workspace.js",

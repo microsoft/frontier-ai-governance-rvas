@@ -1,8 +1,8 @@
-# Frontier AI Governance - RVAS AI Governance
+# AI Governance Platform
 
-RVAS AI Governance is a facilitator-led S0-S12 curriculum for customer decisions on ownership, data, platform controls, assurance, and operation.
+AI Governance Platform is a facilitator-led S0-S12 curriculum for customer decisions on ownership, data, platform controls, assurance, and operation.
 
-Start with [About RVAS AI Governance](start/understand-rvas.md), then use [Plan the engagement](start/plan-engagement.md) before running [S0 · Foundations & Governance Operating Model](s0-foundations/index.md).
+Start with [About AI Governance Platform](start/understand-rvas.md), then use [Plan the engagement](start/plan-engagement.md) before running [S0 · Foundations & Governance Operating Model](s0-foundations/index.md).
 
 The curriculum is organized into four phases:
 

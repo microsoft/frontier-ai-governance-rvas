@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "rvas.delivery.gateway-proof.v1",
-  "title": "RVAS gateway proof evidence manifest",
+  "title": "AI Governance Platform gateway proof evidence manifest",
   "type": "object",
   "additionalProperties": false,
   "required": [

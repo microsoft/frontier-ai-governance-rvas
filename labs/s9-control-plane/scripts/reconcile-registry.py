@@ -372,7 +372,7 @@ def main() -> int:
     args.out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 
     summary = report["summary"]
-    print("RVAS S9 catalog reconciliation")
+    print("AI Governance Platform S9 catalog reconciliation")
     print(f"  catalog agents: {summary['catalogAgentCount']}")
     print(f"  catalog tools: {summary['catalogToolCount']}")
     print(f"  identity inventory agents: {summary['inventoryCount']}")

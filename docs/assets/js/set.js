@@ -1,4 +1,4 @@
-/* Frontier AI Governance - client-side session set builder. */
+/* AI Governance Platform - client-side session set builder. */
 (function () {
   'use strict';
 
@@ -97,10 +97,10 @@
     const title = params.name || 'Curated session set';
     const countLabel = `${selectedSessions.length} selected session${selectedSessions.length === 1 ? '' : 's'}`;
 
-    document.title = `${title} · Frontier AI Governance`;
+    document.title = `${title} · AI Governance Platform`;
     document.getElementById('setHeading').textContent = title;
     document.getElementById('setHeroDescription').textContent =
-      `${countLabel} from the RVAS AI Governance curriculum.`;
+      `${countLabel} from AI Governance Platform.`;
     document.getElementById('setView').hidden = false;
     document.getElementById('setViewHeading').textContent = 'Included sessions';
     document.getElementById('setViewDescription').textContent =

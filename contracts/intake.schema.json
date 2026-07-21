@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "rvas.delivery.intake.v1",
-  "title": "RVAS delivery workspace intake",
+  "title": "AI Governance Platform delivery workspace intake",
   "type": "object",
   "additionalProperties": false,
   "required": [

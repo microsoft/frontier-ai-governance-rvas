@@ -1,4 +1,4 @@
-/* Frontier AI Governance — client-side mermaid rendering for guide bodies.
+/* AI Governance Platform — client-side mermaid rendering for guide bodies.
    Loads mermaid lazily from CDN only when a diagram is present; degrades to a
    readable code block if the module can't load. */
 (function () {

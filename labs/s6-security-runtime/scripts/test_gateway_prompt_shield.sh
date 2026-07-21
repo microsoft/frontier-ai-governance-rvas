@@ -80,7 +80,7 @@ if ! az rest \
   --url "${GATEWAY_ENDPOINT%/}${GATEWAY_PATH}" \
   --headers "Content-Type=application/json" \
   --headers "${GATEWAY_AUTH_HEADER_NAME}=${GATEWAY_AUTH_HEADER_VALUE}" \
-  --headers "X-RVAS-Correlation-Id=${CORRELATION_ID}" \
+  --headers "X-AI-Governance-Platform-Correlation-Id=${CORRELATION_ID}" \
   --body "$BODY" \
   --output none >/dev/null 2>&1; then
   RESULT="fail"

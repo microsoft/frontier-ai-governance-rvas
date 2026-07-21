@@ -1,4 +1,4 @@
-/* Frontier AI Governance — facilitator deck runtime (reveal.js glue).
+/* AI Governance Platform — facilitator deck runtime (reveal.js glue).
    Reads ?s=<session-slug>, points the reveal markdown plugin at the session's
    deck, applies the session accent, and initialises reveal with back/forward
    controls, speaker notes (S), overview (Esc), and print-to-PDF (?print-pdf). */
@@ -57,11 +57,11 @@
       'linear-gradient(140deg, #041a44 0%, #063a86 100%)');
     cover.innerHTML =
       '<div class="cover-inner">' +
-        '<img class="cover-logo" src="assets/img/logo-full.png" alt="RVAS AI Governance" />' +
+        '<img class="cover-logo" src="assets/img/logo-full.png" alt="AI Governance Platform" />' +
         '<div class="cover-kicker">Facilitator deck</div>' +
         '<h1 class="cover-title">' + escapeHtml(heading) + '</h1>' +
         '<div class="cover-accent"></div>' +
-        '<div class="cover-sub">RVAS AI Governance · a Microsoft AI governance curriculum</div>' +
+        '<div class="cover-sub">AI Governance Platform · a Microsoft AI governance curriculum</div>' +
       '</div>';
 
     var closing = document.createElement('section');

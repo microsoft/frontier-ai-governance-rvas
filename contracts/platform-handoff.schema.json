@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "rvas.delivery.platform-handoff.v1",
-  "title": "RVAS Citadel platform handoff",
+  "title": "AI Governance Platform Citadel platform handoff",
   "type": "object",
   "additionalProperties": false,
   "required": [

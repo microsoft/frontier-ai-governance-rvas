@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "rvas.delivery.evidence-register.v1",
-  "title": "RVAS evidence register",
+  "title": "AI Governance Platform evidence register",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema", "entries"],
