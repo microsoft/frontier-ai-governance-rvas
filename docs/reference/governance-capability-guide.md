@@ -29,7 +29,7 @@ Use the same row shape across sessions:
 | Field | Purpose |
 |---|---|
 | Implementation pathway or backlog item | The next setup, configuration, review, operating, or portfolio decision the session enables. |
-| Applicability | `applies`, `does not apply`, `unknown`, or `later session / customer process`. Applicability does not mean the customer must deploy it. |
+| Applicability | `applies`, `does not apply`, `unknown`, or `customer process required`. Applicability does not mean the customer must deploy it. |
 | Session recommendation | Recommended next path, defer, reject, investigate, accept risk, or route elsewhere. |
 | Confidence and assumptions | Why the evidence reviewed in this session supports the recommendation. |
 | Evidence reference or gap | Customer-held record reference, nothing found, tool limitation, blocker, or missing prerequisite. |

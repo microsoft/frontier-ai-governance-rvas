@@ -30,7 +30,7 @@ evidence gap, assumptions, and follow-up process. It does not deploy a control.
 | Pathway area | Example backlog decision |
 |---|---|
 | Operating model | Confirm the executive sponsor, governance lead, decision owner, exception route, and review cadence. |
-| Session sequence | Prioritize S1 identity, S2 data, S3 platform, S4 admission, or later-session work based on scored gaps and dependencies. |
+| Session sequence | Prioritize identity, data, platform, admission, or other customer-owned work based on scored gaps and dependencies. |
 | Microsoft capability track | Decide whether Entra/Agent ID, Purview, platform/gateway, Foundry/Copilot Studio, evaluation, catalog, observability, or FinOps needs readiness planning. |
 | Customer change process | Assign the architecture, security, compliance, or release process that owns later deployment and configuration decisions. |
 
@@ -88,7 +88,14 @@ record in Git.
    python labs/s0-foundations/assessment/score.py /approved/customer/path/scorecard.csv
    ```
    The facilitator asks: **"Which option from the Technical decisions menus does this ranking support, and which alternative is rejected or deferred?"** and **"Which prerequisite must be owned before S1 or S2 can start?"** The scorer ranks lower scores first and breaks ties by total question weight. It recommends a roadmap; it does not make the decision. If the tool cannot run, keep the completed baseline reference, record the blocker, and assign remediation. Do not invent a score by hand.
-5. **Decide and hand off** *(15 min)* - the decision owner chooses the next session, defers with a date, or accepts a stated gap. The decision uses maturity evidence, business risk, accountable ownership, and prerequisites. The facilitator reads back the control state (`designed`, `accepted_risk`, or `blocked`), next owner, date, backlog item, S1/S2 dependency, and the reference to `templates/technical-decision-record.template.md`. If the decision owner is missing, mark the decision deferred with an owner and review date.
+5. **Decide and hand off** *(15 min)* - the decision owner chooses the next
+   piece of work, defers with a date, or accepts a stated gap. The decision uses
+   maturity evidence, business risk, accountable ownership, and prerequisites.
+   The facilitator reads back the control state (`designed`, `accepted_risk`, or
+   `blocked`), next owner, date, backlog item, identity/data dependency, and the
+   reference to `templates/technical-decision-record.template.md`. If the
+   decision owner is missing, mark the decision deferred with an owner and
+   review date.
 
 ## 5. Verification & evidence capture
 

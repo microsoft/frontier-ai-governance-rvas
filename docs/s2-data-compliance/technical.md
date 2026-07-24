@@ -61,7 +61,7 @@ an S12-ready record of the data situation, evidence, and review actions.
 |---|---|
 | **Decided** | Data-classification, PII/retrieval handling, and compliance/residency options are selected for the bounded path with evidence references and owners |
 | **Backlogged** | Classification gaps, source-permission work, report-only DLP review, residency checks, retention gaps, or gateway dependencies are routed with owners |
-| **In adoption** | Customer data, compliance, platform, or change teams implement outside this session; S3/S5/S6 reconcile the evidence and residual gaps |
+| **In adoption** | Customer data, compliance, platform, or change teams implement outside this session; accountable owners reconcile the evidence and residual gaps |
 
 Capture the chosen option, alternatives, rationale, owner, and adoption stage in
 the technical decision record (`labs/s2-data-compliance/templates/technical-decision-record.template.md`).

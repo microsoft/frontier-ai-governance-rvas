@@ -26,7 +26,10 @@ before S4, prepare S2 evidence before data policy work, assign a platform owner
 before S3 or S6, or hold a use case until sponsorship and records ownership are
 clear.
 
-Use Microsoft capability names only when they route ownership. S0 does not configure Entra, Purview, Foundry, Copilot Studio, a gateway, observability, catalog, or FinOps. It names the capability track that needs an owner, evidence source, later session, or customer change process.
+Use Microsoft capability names only when they route ownership. S0 does not
+configure Entra, Purview, Foundry, Copilot Studio, a gateway, observability,
+catalog, or FinOps. It names the capability track that needs an owner, evidence
+source, or customer change process.
 
 ## Govern before you build
 

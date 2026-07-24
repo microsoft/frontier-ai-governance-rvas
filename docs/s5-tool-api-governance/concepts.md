@@ -21,9 +21,9 @@ verification remain separate processes.
 
 The S5 recommendation names the publication path and rejected or deferred
 alternatives. Its backlog may cover registration, gateway route, caller identity,
-MCP/connector path, authority, lifecycle, S6 evidence, S9 reconciliation, and
-change ownership. It does not publish, grant permission, configure, or prove
-runtime safety.
+MCP/connector path, authority, lifecycle, runtime evidence, record
+reconciliation, and change ownership. It does not publish, grant permission,
+configure, or prove runtime safety.
 
 ## Ownership is specific and lasting
 

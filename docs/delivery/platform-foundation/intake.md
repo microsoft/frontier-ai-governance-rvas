@@ -41,5 +41,5 @@ Mark a missing prerequisite **blocked** with an owner and target date. Do not su
 |---|---|
 | Platform path and owners recorded | S0 can establish the ownership and readiness backlog. |
 | Non-production gateway acceptance passed | S1 authentication evidence, S2 gateway data-protection evidence, and S6 gateway runtime evidence may start. |
-| Gateway telemetry and contracts handed over | S7/S8 may correlate evaluation or test results; S9 may reconcile exposure records. |
+| Gateway telemetry and contracts handed over | Evaluation, testing, and catalog owners may correlate results and reconcile exposure records. |
 | Deferred items owned | S9 records the remaining platform gaps; it does not deploy the platform. |

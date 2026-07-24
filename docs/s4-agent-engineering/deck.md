@@ -19,7 +19,11 @@ owner, and relevant specialists.
 The answer must name authority, owners, evidence, limits, and what remains out of scope.
 
 Note:
-Keep the scope tight: one bounded agent candidate. S4 is the admission and change-review decision point. It records what the agent must satisfy before it ships or materially changes, but execution stays with the customer's architecture, engineering, security, change, release, and production-approval processes.
+Keep the scope tight: one bounded agent candidate. In S4, the customer decides
+whether that candidate can move to the next non-production stage. The record
+states the authority, evidence still needed, follow-up owners, and the Microsoft
+path; customer processes handle engineering, security, change, release, and
+production approval.
 
 ---
 
@@ -65,7 +69,9 @@ The matrix is not a product wish list. It explains why one path fits the authori
 - Deepen only the selected path.
 
 Note:
-S4 produces configuration backlog, not deployment instructions. Keep short notes for paths rejected or deferred so the decision is reviewable later. Route later work to S1, S5, S6, S7, S8, S9, platform owners, or the customer's change process as appropriate.
+S4 produces a configuration backlog, not deployment instructions. Keep short
+notes for paths rejected or deferred so the decision remains reviewable. Assign
+each follow-up item to a named specialist, platform owner, or customer process.
 
 ---
 
@@ -150,7 +156,8 @@ Use the technical decisions path matrix for selection criteria and trade-offs. T
 
 > **"What must the customer configure, validate, or approve next?"**
 
-Record configuration rows, owners, dependencies, evidence references, and later-session routing.
+Record configuration rows, owners, dependencies, evidence references, and the
+customer process that will handle each item.
 
 Note:
 For Foundry Agent Service, cover project/model, agent type, tools, identity, runtime controls, telemetry, evaluation, red-team, catalog, and change process. Where in scope, name owners for model selection, latency budget, and token-cost estimate limitations.
@@ -161,7 +168,8 @@ For Foundry Agent Service, cover project/model, agent type, tools, identity, run
 
 > **"Which product control or customer process must review this path?"**
 
-Mark each surface as applies, does not apply, unknown, or later-session item.
+Mark each surface as applies, does not apply, unknown, or needs action outside
+this session.
 
 Note:
 Consider Entra/Agent ID, Purview, telemetry, Foundry observability, Content Safety, Power Platform DLP, Microsoft 365 Copilot governance, Agent 365, API Center, and customer change records. Consideration is required; deployment is not.

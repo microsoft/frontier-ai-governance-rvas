@@ -4,8 +4,10 @@
     Last reviewed: 2026-07-15 · Reconfirm applicable admission requirements
     before each delivery.
 
-Use [S4 Prepare](index.md) for the 90-minute co-delivery method. This page explains what S4 reviews before an agent ships or materially changes.
-It recommends a Microsoft path and backlog, not deployment or production use.
+Use [S4 Prepare](index.md) for the 90-minute co-delivery method. This page
+explains the admission decision for one agent: what it may do, what evidence is
+needed, and who owns the next work. It recommends a Microsoft path and backlog,
+not deployment or production use.
 
 ## Classification is about authority
 
@@ -47,22 +49,22 @@ engineering ownership, and operating model better than the alternatives.
 ## Foundry Agent Service worked example
 
 For a Microsoft Foundry Agent Service candidate, S4 produces a configuration
-backlog, not deployment instructions. The customer uses the backlog for Foundry
-agent admission and later change review.
+backlog, not deployment instructions. The customer uses the backlog to prepare
+its admission decision and to reassess a material change.
 
-| Backlog area | S4 decision question | Likely later owner or session |
+| Backlog area | S4 decision question | Owner or customer process |
 |---|---|---|
-| Foundry project and resource boundary | Which project, subscription/resource boundary, environment, and owner would hold the agent record? | Platform or engineering process; S3 if platform foundation evidence is needed. |
+| Foundry project and resource boundary | Which project, subscription/resource boundary, environment, and owner would hold the agent record? | Platform or engineering process. |
 | Agent type | Is this a prompt agent, hosted agent, or existing external agent using the Responses API? | Engineering owner; architecture/change process. |
-| Model deployment | Which approved model deployment or model-access path is planned, and who owns model-operation risk? If fine-tuning is considered, which capability gap drives it, who owns training-data governance, what pre/post evaluation comparison is required, and which customer process owns its lifecycle? | Engineering/platform owner; S7 for evaluation-plan review and fine-tune comparison. |
+| Model deployment | Which approved model deployment or model-access path is planned, and who owns model-operation risk? If fine-tuning is considered, which capability gap drives it, who owns training-data governance, what pre/post evaluation comparison is required, and which customer process owns its lifecycle? | Engineering or platform owner; evaluation review. |
 | Instructions or code package | What prompt, instruction asset, hosted-agent code package, or package review is required? | Engineering owner; customer SDLC. |
-| Tools, data, connectors, functions, or APIs | Which tools and data sources are allowed, prohibited, or pending governance review? | S5 for tool/API publication; S2 for data boundary; S6 for runtime controls. |
-| Identity and access | What Entra identity, RBAC, managed identity, service principal, OBO, or agent identity consideration applies? | S1 and customer identity process. |
-| Runtime controls | Which content safety, prompt shield, gateway, human-control, or prohibited-action boundary is needed? | S6 and security/change process. |
-| Tracing and observability | What traces, logs, metrics, Application Insights/OpenTelemetry, or Foundry observability evidence is expected? | S7/S11 and platform operations. |
-| Evaluation and release assurance | What evaluation target, dataset owner, threshold, scorecard, or release decision will be reviewed? | S7. |
-| Red-team readiness | What authorization, scope, and remediation route are needed before adversarial testing? | S8. |
-| Catalog and lifecycle | Where will the agent, tools, owner, status, exception, and retirement record be cataloged? | S9 and service owner. |
+| Tools, data, connectors, functions, or APIs | Which tools and data sources are allowed, prohibited, or pending governance review? | Tool/API, data, and runtime-control owners. |
+| Identity and access | What Entra identity, RBAC, managed identity, service principal, OBO, or agent identity consideration applies? | Identity owner and customer identity process. |
+| Runtime controls | Which content safety, prompt shield, gateway, human-control, or prohibited-action boundary is needed? | Security and change process. |
+| Tracing and observability | What traces, logs, metrics, Application Insights/OpenTelemetry, or Foundry observability evidence is expected? | Platform operations and assurance owner. |
+| Evaluation and release assurance | What evaluation target, dataset owner, threshold, scorecard, or release decision will be reviewed? | Evaluation and release-decision owner. |
+| Red-team readiness | What authorization, scope, and remediation route are needed before adversarial testing? | Authorized testing owner. |
+| Catalog and lifecycle | Where will the agent, tools, owner, status, exception, and retirement record be cataloged? | Service owner and lifecycle process. |
 | Deployment and change process | Which customer change process owns rollout, rollback, production approval, and post-release verification? | Customer engineering/change authority. |
 
 Use the same structure for other paths, but deepen only the selected path and
@@ -89,13 +91,15 @@ FinOps handoff. A trace or price sheet helps the review. It does not make the
 decision alone.
 
 Foundry tracing may add context where the customer enables it. Application
-Insights and OpenTelemetry are general telemetry routes. S4 records the evidence
-source and its limits. S11 later reviews trends and drift.
+Insights and OpenTelemetry are general telemetry routes. Record the evidence
+source, coverage, retention, and limits. Assign trend and drift review to the
+customer's operating owner; do not assume that telemetry proves a control works.
 
 ## Cross-cutting governance services are considered, not imposed
 
 Every path states whether governance surfaces apply, do not apply, are unknown,
-or need a later session. S4 requires an explicit decision, not every service.
+or need action outside this session. S4 requires an explicit decision, not every
+service.
 
 Mandatory consideration areas include:
 

@@ -2,8 +2,8 @@
 import { C, rect, text, node, connect, arrow, write } from "./lib.mjs";
 
 const els = [];
-els.push(text(40, 24, 1500, "S3 · The AI gateway as a platform trust boundary", C.found, { size: 26, align: "left" }));
-els.push(text(40, 60, 1500, "An illustrative Azure pattern: optional gateway, orchestration or hosted execution, private data access, identity, and observability layers. A design remains an assumption until later sessions evidence it.", C.neutral, { size: 14, align: "left" }));
+els.push(text(40, 24, 900, "S3 · The AI gateway is a trust boundary", C.found, { size: 26, align: "left" }));
+els.push(text(40, 60, 1180, "This is a planning pattern, not proof that the path is operating.", C.neutral, { size: 14, align: "left" }));
 
 const caller = node(els, 40, 250, 180, 100, C.start, "Caller", { titleSize: 16, sub: "person or workload", subSize: 12.5 });
 
@@ -12,7 +12,7 @@ els.push(rect(300, 170, 300, 270, { bg: "#eef2ff", st: C.found.st, tx: C.found.t
 els.push(text(316, 182, 270, "Platform trust boundary", C.found, { size: 14, align: "left" }));
 const gw = node(els, 330, 240, 240, 130, C.indigo, "AI gateway", {
   titleSize: 16,
-  sub: "authn · authz · routing\nthrottling · logging · policy\n(Azure API Management)",
+  sub: "access · routing · policy\nlogging · throttling",
   subSize: 12,
 });
 
@@ -40,7 +40,7 @@ attachments.forEach(([t, s]) => {
 });
 
 // platform-security owner accountable for the boundary
-const owner = node(els, 1000, 250, 240, 110, C.hero, "Platform-security owner", { titleSize: 14, sub: "owns selected boundaries;\nS6 later reviews evidence", subSize: 11.5 });
+const owner = node(els, 1000, 250, 240, 110, C.hero, "Platform-security owner", { titleSize: 14, sub: "owns the boundary\nand its evidence", subSize: 11.5 });
 els.push(arrow(gw.r, gw.cy, owner.x, owner.cy, { stroke: C.hero.st, curved: false, dashed: true, endArrowhead: null }));
 
 write(new URL("./s3-gateway-trust-boundary.excalidraw", import.meta.url).pathname, els);

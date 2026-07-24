@@ -46,7 +46,11 @@ Microsoft Responsible AI principles (fairness; reliability and safety; privacy a
 | [Azure API Management AI Gateway](https://learn.microsoft.com/en-us/azure/api-management/genai-gateway-capabilities) | S3, S5, S6, S11 | Boundary enforcement, traffic controls, and telemetry routes. | Canonical Learn |
 | [Microsoft Agent 365](https://learn.microsoft.com/en-us/microsoft-agent-365/overview) | S0, S1, S9, S12 | Fleet registry, lifecycle, access, and portfolio-record questions. | Canonical Learn |
 
-Runtime enforcement turns identity, data, tool, API, runtime-safety, and agent-governance decisions into operating controls. S3/S5 identify the boundary and owner; S6 reviews evidence; S9/S11 reconcile and operate records. These sessions do not deploy, configure, or prove the services above.
+Runtime enforcement turns identity, data, tool, API, runtime-safety, and
+agent-governance decisions into operating controls. The customer must identify
+the boundary and owner, review evidence, reconcile records, and operate the
+result through its accountable processes. This material does not deploy,
+configure, or prove the services above.
 
 ### Data governance and compliance
 

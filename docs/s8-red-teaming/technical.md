@@ -45,8 +45,8 @@ lifecycle controls.
 |---|---|---|---|
 | **Safety filter / shielding control** (Content Safety / Prompt Shields) | Findings map to supported harmful-content, prompt-injection, or input/output filtering controls | Feature availability and coverage must be verified; filters do not prove the agent is safe | Record control owner, configured scope, residual risk, and retest evidence |
 | **Prompt or system-instruction hardening** | The weakness is caused by role framing, refusal criteria, grounding, or response policy | Can be brittle; needs regression tests and version ownership | Record prompt owner, change route, before/after evidence, and retest date |
-| **Gateway or in-process policy control** | Tool calls, data access, or high-authority actions need enforcement before execution | Adds platform or code ownership; verify relevant S10 capability status before adoption | Route to S6/S10 backlog with owner, approval path, and evidence requirement |
-| **Tool-permission reduction / lifecycle block** | Excessive agency, data exfiltration, or tool abuse shows the agent has too much authority | May reduce functionality or delay release | Record permission owner, S9 lifecycle impact, accepted-risk or release-block decision, and retest criteria |
+| **Gateway or in-process policy control** | Tool calls, data access, or high-authority actions need enforcement before execution | Adds platform or code ownership; verify relevant in-process capability status before adoption | Record the platform or code owner, approval path, and evidence requirement |
+| **Tool-permission reduction / lifecycle block** | Excessive agency, data exfiltration, or tool abuse shows the agent has too much authority | May reduce functionality or delay release | Record permission owner, lifecycle impact, accepted-risk or release-block decision, and retest criteria |
 
 ## Decisions made & adoption progress
 
@@ -57,8 +57,8 @@ decision and remediation backlog.
 | Adoption stage | What "done" looks like at S8 |
 |---|---|
 | **Decided** | The red-team approach, authorized scope/rules of engagement, and remediation-routing path are chosen for the bounded target |
-| **Backlogged** | Findings, blockers, retest needs, and S6/S10 controls or S9 lifecycle updates are routed with owners and evidence references |
-| **In adoption** | Customer teams remediate and retest outside this session; portfolio owners track status and residual risk through S12 |
+| **Backlogged** | Findings, blockers, retest needs, enforcement controls, and lifecycle updates are routed with owners and evidence references |
+| **In adoption** | Customer teams remediate and retest outside this session; portfolio owners track status and residual risk |
 
 Record the choice, alternatives considered, authorization caveat, and adoption
 stage in `labs/s8-red-teaming/templates/technical-decision-record.template.md`.

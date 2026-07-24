@@ -75,8 +75,8 @@ Promotion is a decision record, not an instruction to deploy.
 | Adoption stage | What "done" looks like at S4 |
 |---|---|
 | **Decided** | One bounded candidate is classified, a path is chosen with rationale, and admission requirements are set |
-| **Backlogged** | The selected-path configuration backlog has owners and later-session/change-process routing |
-| **In adoption** | Engineering builds the backlog outside this session; S6/S7 assurance and S9 catalog reconcile the evidence |
+| **Backlogged** | The selected-path configuration backlog has owners and customer-process routing |
+| **In adoption** | Engineering builds the backlog outside this session; assurance and catalog records are reviewed through their accountable customer processes |
 
 Tie the outcome to the S0 baseline and S12 roadmap. Capture the choice,
 alternatives, and rationale in

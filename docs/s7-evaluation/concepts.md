@@ -45,7 +45,13 @@ Manual annotation and customer scorers are also valid options. Policy-specific g
 
 Performance is an assurance question too. Before release, a bounded synthetic load test can show whether an interaction holds its first-token and end-to-end targets at the expected concurrency. Record the workload model, first-token (TTFT/TTFB), inter-token, end-to-end p50/p95/p99, throughput, and error/saturation targets, plus the per-component attribution the evidence supports.
 
-The load engine (for example, Azure Load Testing, k6, or JMeter) is customer-run and referenced, not operated by this kit. Record the environment-fidelity limits (quota/PTU ceiling, live versus stubbed tools, data parity) because a synthetic result does not transfer to production without them. A benchmark is not a service-level objective, and production reconciliation of any drift hands off to S11. Use `templates/performance-test-plan.template.md` and the [agent performance-testing guide](../reference/performance-testing-guide.md).
+The load engine (for example, Azure Load Testing, k6, or JMeter) is customer-run
+and referenced, not operated by this kit. Record the environment-fidelity limits
+(quota/PTU ceiling, live versus stubbed tools, data parity) because a synthetic
+result does not transfer to production without them. A benchmark is not a
+service-level objective; assign production drift review to the operating owner.
+Use `templates/performance-test-plan.template.md` and the [agent
+performance-testing guide](../reference/performance-testing-guide.md).
 
 ## Fine-tuning changes the baseline
 
@@ -61,7 +67,9 @@ S8 or S11 dependency. The customer release process owns implementation.
 
 ## A decision is explicit
 
-The assurance owner selects `continue` or `hold` only after the S6 acceptance condition is met. A future customer-owned evaluation or CI gate may add input. The customer still owns how it runs, stores evidence, and enforces the result.
+The assurance owner selects `continue` or `hold` only after the S6 acceptance
+condition is met. A planned customer-owned evaluation or CI gate may add input.
+The customer still owns how it runs, stores evidence, and enforces the result.
 
 [^foundry-eval]: Microsoft Learn - [Run evaluations from the Microsoft Foundry portal](https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluate-generative-ai-app); [Agent Evaluators for Generative AI](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators); [Cloud Evaluation with the Microsoft Foundry SDK](https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/cloud-evaluation).
 

@@ -54,9 +54,10 @@ Walk the diagram left to right, but land the point quickly: ownership comes befo
 ## The baseline becomes a work list
 
 - S0 should end with a recommended **foundation path**.
-- Sequence S1, S2, S3, S4, or later-session work based on gaps and dependencies.
+- Sequence the needed identity, data, platform, admission, or customer-process
+  work based on gaps and dependencies.
 - Use Microsoft capability names only when they route ownership.
-- S0 names the track, owner, evidence source, later session, or customer process.
+- S0 names the track, owner, evidence source, or customer process.
 
 Note:
 The score is not the deliverable. Name the next track, owner, evidence gap,

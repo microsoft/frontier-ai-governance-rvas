@@ -24,7 +24,11 @@ They leave with:
 work to the named assurance and engineering owners before any release decision
 progresses.
 
-S7 produces an evaluation and release-sign-off backlog for the customer to work on later. The recommendation says whether to continue, hold, defer, or block release progress. It also names the next owner for the Foundry evaluation target, evaluator or scorecard, dataset, trace source, threshold, CI/CD or release process, rollback route, S8 red-team dependency, or S11 operating review, after current product and feature status are verified.
+S7 produces an evaluation and release-sign-off backlog. The recommendation says
+whether to continue, hold, defer, or block release progress. It names the owner
+for the Foundry evaluation target, evaluator or scorecard, dataset, trace source,
+threshold, CI/CD or release process, rollback route, adversarial-testing work,
+or operating review, after current product and feature status are verified.
 
 ## 2. Prerequisites
 
@@ -60,7 +64,7 @@ release-gate, and performance-evidence options and selection criteria.
 
 1. **Set the room and orient** *(20 min)*: the facilitator asks: **"Which accepted S6 decision are we using, which S7 technical decision is in scope, and what release decision can this record support without treating evaluation output as proof?"** The customer confirms the pilot scope, evidence boundary, decision owner, and what stays in the separate evaluation process.
 2. **Customer creates the sign-off record** *(30 min)*: the assurance owner follows `labs/s7-evaluation/runbook.md`. They copy `templates/technical-decision-record.template.md`, `templates/evaluation-plan-review.template.md`, `templates/quality-measurement-plan.template.md` when quality dimensions or thresholds are in scope, and `templates/assurance-outcome.template.json` into the approved customer records system. They supply safe references and validate the outcome against `contracts/assurance-handoff.schema.json`. The facilitator can read required fields aloud, but does not create the customer record or substitute evaluator output.
-3. **Interpret the evidence together** *(15 min)*: reviewers confirm that the S6 decision is accepted. Then they separate the evaluation-plan reference from an evaluation result or CI/CD gate. Ask: **"Can a later reviewer find the accepted S6 proof, the verified-status caveat, and the Foundry evaluation plan from these references?"** and **"Are we treating a score, fixture, or proposed gate as more than it is?"** Record a result, no-result, or blocker as a safe reference only.
+3. **Interpret the evidence together** *(15 min)*: reviewers confirm that the S6 decision is accepted. Then they separate the evaluation-plan reference from an evaluation result or CI/CD gate. Ask: **"Can a reviewer find the accepted S6 proof, the verified-status caveat, and the Foundry evaluation plan from these references?"** and **"Are we treating a score, fixture, or proposed gate as more than it is?"** Record a result, no-result, or blocker as a safe reference only.
 
    Review the evaluation plan with these questions:
 
@@ -74,7 +78,10 @@ release-gate, and performance-evidence options and selection criteria.
    | Human review or escalation | Which reviewer decision and remaining risk are recorded? |
    | Quality dimension and threshold | Which threshold is customer-owned and approved? Who owns a regression or missing evaluator? |
 
-   If the customer later reviews trends, connect the sign-off decision to safe references for the workload, evaluation plan or version, decision outcome, runtime correlation where applicable, and reviewer. Do not treat a score, event field, or missing record as proof of coverage.
+   For trend review, connect the sign-off decision to safe references for the
+   workload, evaluation plan or version, decision outcome, runtime correlation
+   where applicable, and reviewer. Do not treat a score, event field, or missing
+   record as proof of coverage.
 4. **Make the customer decision** *(15 min)*: `continue` is available only when the handoff contract is complete, the referenced S6 proof decision is `accepted`, and the decision owner records a decision reference. Otherwise choose `hold` or defer with an owner and review date. Foundry evaluation work with status verified may inform the decision, but it cannot replace the accepted S6 proof.
 5. **Hand over** *(10 min)*: the assurance owner keeps the completed record in the customer system and reads back the S6-proof reference, technical-decision record reference, evaluation-plan reference, outcome, decision reference, next owner, and review date. The record informs the next delivery action. It does not authorize a deployment or change a control.
 

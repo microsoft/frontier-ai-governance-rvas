@@ -73,7 +73,8 @@ Keep five questions separate: did the request complete, does the correlation app
 ## Runtime evidence becomes backlog
 
 - Recommend the next runtime path with confidence and assumptions.
-- Backlog gateway route remediation, policy review, telemetry correlation, SOC route, identity/data dependencies, and later-session handoffs.
+- Backlog gateway route remediation, policy review, telemetry correlation, SOC
+  route, identity/data dependencies, and named customer-process handoffs.
 - The recommendation does not deploy controls or prove production effectiveness.
 
 Note:

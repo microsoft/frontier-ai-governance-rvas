@@ -26,8 +26,8 @@ reproduce the evidence.
 For every selected dimension, record the candidate version, accepted S6 proof,
 scenario population, evaluator or rubric version, coverage limit, threshold
 owner, human-review path, and decision use. Resolve unsupported coverage and
-threshold ownership before automation; route adversarial risk to S8 and
-production sampling or drift to S11.
+threshold ownership before automation; assign adversarial-risk and production
+sampling or drift work to their accountable customer owners.
 
 ## Decision 2: Release-gate mechanism & CI/CD integration
 
@@ -50,20 +50,19 @@ saturation. Defer metric detail to the performance-testing guide.
 | Option | When it fits | Trade-off / limitation | Governance implication |
 |---|---|---|---|
 | **Synthetic pre-production load** (for example Azure Load Testing; verify status, region, quota, and pricing) | A bounded interaction needs controlled first-token, end-to-end, throughput, and error evidence before release | Test environment fidelity, quota/PTU ceilings, and stubbed tools limit transfer to production | Record workload model, targets, environment-fidelity limits, run owner, and release-decision use |
-| **Production telemetry** (OpenTelemetry, Application Insights, or Foundry traces; verify configuration and availability) | Real traffic measurement is available and S11 can reconcile drift | Sampling, retention, and instrumentation gaps limit attribution; not a pre-release controlled test | Record trace source, population, retention, SLO owner, drift route, and S11 operating-review owner |
-| **Synthetic baseline plus production reconciliation** | Streaming or high-volume interactions need both controlled evidence and real-traffic follow-up | Most coordination and evidence management | Record S7 synthetic baseline, S11 production counterpart, owner split, and drift-investigation route |
+| **Production telemetry** (OpenTelemetry, Application Insights, or Foundry traces; verify configuration and availability) | Real traffic measurement is available for drift review | Sampling, retention, and instrumentation gaps limit attribution; not a pre-release controlled test | Record trace source, population, retention, SLO owner, drift route, and operating-review owner |
+| **Synthetic baseline plus production reconciliation** | Streaming or high-volume interactions need both controlled evidence and real-traffic follow-up | Most coordination and evidence management | Record the synthetic baseline, production counterpart, owner split, and drift-investigation route |
 | **Performance deferred with explicit gap** | Performance is not material to the current bounded release, or evidence is unavailable | Leaves latency and capacity risk unresolved | Record why it is deferred, the owner, trigger, and what release decision the gap can still support |
 
 ## Decisions made & adoption progress
 
-S7 should move the customer from the evaluation part of the **S0 maturity
-baseline** toward the **S12 portfolio** view with a lasting release-assurance
-decision and evidence reference; S11 runs the production counterpart.
+S7 records a lasting release-assurance decision and evidence reference. The
+customer assigns any production counterpart to its operating owner.
 
 | Adoption stage | What "done" looks like at S7 |
 |---|---|
 | **Decided** | The evaluation approach, release-gate mechanism, and performance-evidence path are chosen or explicitly deferred with rationale |
-| **Backlogged** | Evaluator/scorer work, CI/CD or continuous-evaluation adoption, performance testing, and S11 production reconciliation have owners |
+| **Backlogged** | Evaluator/scorer work, CI/CD or continuous-evaluation adoption, performance testing, and production reconciliation have owners |
 | **In adoption** | Customer engineering or release teams implement the selected path outside this kit and retain evidence in the approved records system |
 
 Capture the choice, alternatives, verified-status caveats, and adoption stage in

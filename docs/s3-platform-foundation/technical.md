@@ -24,7 +24,7 @@ is justified for the bounded workload.
 |---|---|---|---|
 | **Azure AI Landing Zones / Foundry Citadel-style greenfield platform** | The organization needs a new shared AI platform foundation, clear separation of duties, and room to standardize gateway, identity, network, and telemetry patterns | Highest platform build and ownership effort; verify current status, availability, and fit before using named accelerator or Foundry/Citadel patterns | Record the target platform owner, trust boundaries, operating model, and work list before any build starts |
 | **Integrate into an existing landing zone** | The customer already has a governed Azure estate with network, identity, logging, and change processes that can absorb the AI workload | Existing standards may not yet cover model access, tool access, or AI gateway patterns; verify current platform capability | Record the deltas the existing platform must close and route them to the owning architecture/security process |
-| **Per-team platforms** | Teams need isolated experimentation or have distinct data, residency, or operational constraints that make shared tenancy unsuitable | Can fragment controls, telemetry, gateways, and ownership if not coordinated | Record what remains centralized, what is team-owned, and how S12 portfolio visibility will reconcile the split |
+| **Per-team platforms** | Teams need isolated experimentation or have distinct data, residency, or operational constraints that make shared tenancy unsuitable | Can fragment controls, telemetry, gateways, and ownership if not coordinated | Record what remains centralized, what is team-owned, and how the portfolio owner will review the split |
 
 ## Decision 2: Trust boundary & network isolation
 
@@ -55,14 +55,14 @@ covering the selected path.
 **Evidence and record.** For each boundary, record the expected purpose,
 ingress/egress assumption, private-connectivity/DNS expectation if selected,
 hybrid dependency, accountable owner, evidence source, blind spot, and the
-later session that can review the path. Architecture diagrams and verbal
+customer process that will review the path. Architecture diagrams and verbal
 confirmation remain design inputs, not operating evidence.
 
 **Backlog sequence.** Resolve ownership and topology assumptions first, then
 route network, DNS, gateway, identity, and telemetry changes to the appropriate
-customer process. S5 records published interfaces, S6 reviews an approved
-non-production gateway path, and S11 owns operating coverage; none of those
-steps is authorized by this S3 review.
+customer process. Published-interface review, non-production gateway assurance,
+and operating coverage each need a named owner; none of that work is authorized
+by this S3 review.
 
 ## Decision 3: Governance hub / gateway placement
 
@@ -86,7 +86,7 @@ platform backlog rather than a deployment claim.
 |---|---|
 | **Decided** | A platform topology, trust-boundary/network-isolation approach, and governance hub/gateway placement are selected with rationale, assumptions, owner, and verified-status caveat |
 | **Backlogged** | Landing-zone, private-connectivity, gateway, registry, telemetry, identity-boundary, and runtime-proof prerequisites are routed to platform/security/change owners |
-| **In adoption** | The platform team implements outside this session; governance records the decision and S6/S9/S12 later reconcile evidence, catalog, and portfolio status |
+| **In adoption** | The platform team implements outside this session; governance records the decision and accountable owners reconcile evidence, catalog, and portfolio status |
 
 Capture the selected options, alternatives, assumptions, and owners in the
 technical decision record

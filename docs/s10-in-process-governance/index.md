@@ -30,11 +30,12 @@ customer-managed signed record in immutable external storage.
 **Next customer action:** send the applicability decision and any engineering
 assessment to the policy owner and the customer's normal SDLC or change process.
 
-S10 creates a backlog item for later customer-owned engineering work. The
+S10 creates a backlog item for customer-owned engineering work. The
 recommendation states whether to investigate AGT further, defer, reject, or mark
 not applicable. It also names the policy owner, engineering assessment, audit
-retention route, tool-call boundary, S5/S6/S9 dependency, and customer SDLC or
-change process that owns next steps.
+retention route, tool-call boundary, publication, runtime-assurance, and
+catalog/lifecycle dependencies, plus the customer SDLC or change process that
+owns next steps.
 
 !!! warning "Illustrative only: no AGT deployment"
     The kit does not install or execute AGT, modify customer agent code, call a

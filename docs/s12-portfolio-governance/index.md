@@ -28,7 +28,7 @@ score, alter a policy, or certify compliance.
 items into the customer portfolio and funding process, then schedule the next
 baseline review.
 
-S12 creates a portfolio backlog for later customer-owned governance work. The
+S12 creates a portfolio backlog for customer-owned governance work. The
 recommendation states whether to approve, defer, or reject roadmap priorities.
 It also names the investment, exception, policy question, funding gate, owner
 readiness, maturity reassessment, S0 feedback, or governance cadence item that

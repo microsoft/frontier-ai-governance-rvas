@@ -28,7 +28,7 @@ The customer keeps records in its approved system. `labs/s3-platform-foundation/
 - AI workloads cross platform boundaries.
 - Requests can move through users, apps, an AI gateway, model services, tools, data sources, and logs.
 - Each crossing needs an owner and evidence expectation.
-- Later sessions should not rely on an unevidenced path.
+- No follow-up work should rely on an unevidenced path.
 
 Note:
 S3 names the accountable platform owner, evidence expectations, and gaps to

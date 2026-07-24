@@ -57,9 +57,10 @@ review date, and audit route. Object IDs, tokens, role assignments, and exports
 remain in customer systems.
 
 **Backlog sequence.** Close sponsorship and lifecycle gaps, choose the identity
-path, then route federation/RBAC/Conditional Access work. Hand gateway evidence
-to S6 and catalog/lifecycle reconciliation to S9. An identity decision does not
-prove enforcement by a gateway, target resource, or tool.
+path, then route federation/RBAC/Conditional Access work. Assign gateway
+evidence and catalog/lifecycle reconciliation to their accountable customer
+owners. An identity decision does not prove enforcement by a gateway, target
+resource, or tool.
 
 ## Decision 2: How is runtime access to the agent controlled?
 
@@ -83,7 +84,7 @@ forward to the **S12 portfolio** view:
 |---|---|
 | **Decided** | An identity path (Decision 1) and a runtime-access approach (Decision 2) are chosen per in-scope agent, with a named sponsor |
 | **Backlogged** | Gaps, federation moves, or Conditional Access work are routed to the customer identity-change process with owners |
-| **In adoption** | The chosen path is being implemented outside this session; S6/S9 will reconcile the evidence |
+| **In adoption** | The chosen path is being implemented outside this session; the accountable runtime and catalog owners reconcile the evidence |
 
 Record the choice, the alternatives considered, and the rationale in the
 technical decision record (`labs/s1-identity/templates/technical-decision-record.template.md`).

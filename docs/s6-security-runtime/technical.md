@@ -26,7 +26,7 @@ protected-material detection, before relying on an option.
 | **Gateway enforcement** | Traffic already passes through the approved gateway and policy needs one shared inspection point for untrusted input | Adds gateway latency and may not see application-only context | Strong shared boundary; record route, policy owner, and evidence retention |
 | **In-application enforcement** | The app has the needed context, prompt assembly, or output handling before streaming to users | Harder to standardize; depends on each app team to implement and evidence | Record app owner, inspection points, and how decisions are logged |
 | **Defense in depth** (gateway and application) | Higher-risk workloads where boundary and app-context controls should reinforce each other | More owners, latency, and correlation work | Strongest setup; record which control decides what and how conflicts are reviewed |
-| **Deferred / diagnostic only** | Capability availability, latency, or route coverage is not ready for a control decision | A component check is not gateway enforcement evidence | Record the gap, owner, target date, and dependency before S7 or rollout |
+| **Deferred / diagnostic only** | Capability availability, latency, or route coverage is not ready for a control decision | A component check is not gateway enforcement evidence | Record the gap, owner, target date, and dependency before rollout |
 
 ### Azure implementation track: layer controls and prove only the path reviewed
 
@@ -51,10 +51,10 @@ tool-response, or groundedness controls must be verified before any is relied
 upon.
 
 **Backlog sequence.** Close route, identity, telemetry, and reviewer gaps before
-asking S7 to rely on a gateway proof. Send policy, detection, and incident-route
-work to the security/platform process; send retention and operating alert work
-to S11. A passing manifest is transport evidence until customer reviewers accept
-the correlation.
+using a gateway proof as release-assurance input. Send policy, detection, and
+incident-route work to the security/platform process; send retention and
+operating-alert work to the operating owner. A passing manifest is transport
+evidence until customer reviewers accept the correlation.
 
 ## Decision 2: How are threat detection and response routed?
 
@@ -81,7 +81,7 @@ route.
 | **Gateway correlation record** (Entra/JWT, correlation ID, policy decision, telemetry reference) | The gateway can authenticate, assign or preserve a correlation ID, and log the control decision | Proves only the reviewed gateway path, not every downstream component | Best S6 proof; retain safe references and the reviewer acceptance decision |
 | **Application correlation record** | The app can bind user/workload identity, prompt context, and safety decisions better than the gateway | Does not prove the approved gateway path by itself | Useful supporting evidence; pair with gateway proof when gateway enforcement is claimed |
 | **Defense in depth correlation** | Both gateway and app controls must be reviewable for higher-risk workloads | Requires consistent IDs, retention, and ownership across teams | Strongest evidence; record the join key, retention owner, and conflict-review rule |
-| **Insufficient correlation** | IDs, telemetry, or retention are missing or disputed | Transport success cannot be accepted as enforcement evidence | Record blocked or deferred status, owner, and S7/S12 impact |
+| **Insufficient correlation** | IDs, telemetry, or retention are missing or disputed | Transport success cannot be accepted as enforcement evidence | Record blocked or deferred status, owner, and release/portfolio impact |
 
 ## Decisions made & adoption progress
 
@@ -93,7 +93,7 @@ gateway proof that S7 can reference.
 |---|---|
 | **Decided** | Runtime safety placement, threat-response route, and gateway-correlation evidence are selected with rationale and verified-status caveats |
 | **Backlogged** | Control, telemetry, SOC, identity, retention, and route gaps are assigned to customer-owned processes with owners |
-| **In adoption** | Accepted runtime assurance evidence is retained in customer records and later S7/S9/S11/S12 work reconciles the proof |
+| **In adoption** | Accepted runtime assurance evidence is retained in customer records and the accountable assurance, catalog, operating, and portfolio owners reconcile the proof |
 
 Record the choices, alternatives, rationale, and adoption stage in
 `labs/s6-security-runtime/templates/technical-decision-record.template.md`.
