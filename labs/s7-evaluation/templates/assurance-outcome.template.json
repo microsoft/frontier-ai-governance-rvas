@@ -1,5 +1,5 @@
 {
-  "schema": "rvas.delivery.assurance-handoff.v1",
+  "schema": "rvas.delivery.assurance-handoff.v2",
   "gateway_proof_reference": "customer-record:accepted-s6-gateway-proof",
   "gateway_proof_decision": "accepted",
   "evaluation_plan_reference": "customer-record:evaluation-plan",

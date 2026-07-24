@@ -14,6 +14,7 @@ Static-only: no network or tenant calls. Safe to run in CI.
 from __future__ import annotations
 
 import csv
+import math
 import sys
 from collections import OrderedDict
 from dataclasses import dataclass, field
@@ -74,9 +75,9 @@ def load(path: Path) -> "OrderedDict[str, Domain]":
                 raise SystemExit(
                     f"{row['question_id']}: weight must be a positive number"
                 ) from None
-            if weight <= 0:
+            if not math.isfinite(weight) or weight <= 0:
                 raise SystemExit(
-                    f"{row['question_id']}: weight must be greater than zero"
+                    f"{row['question_id']}: weight must be a finite number greater than zero"
                 )
             raw = row["score"].strip()
             if not raw:

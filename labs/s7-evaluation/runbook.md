@@ -47,12 +47,14 @@ the handoff.
    load engine (for example Azure Load Testing, after current service status,
    region, quota, and pricing are verified) is customer-run and referenced, not
    operated by this kit; production reconciliation of any drift hands off to S11.
-4. Validate the completed assurance-outcome record against
+4. Validate a new assurance-outcome record against
    `contracts/assurance-handoff.schema.json`. The assurance exit is complete
    only when the customer acceptance decision is `accepted`, the outcome is
    recorded, and the decision reference, review date, and next review date are
    present. If any is missing, choose `hold` and record the owner and target
-   date for completion.
+   date for completion. Existing `v1` records remain valid against
+   `contracts/assurance-handoff.v1.schema.json`; use the `v2` template for a
+   new review.
 
 Customer teams may run Foundry Evaluations or introduce a CI gate separately in
 their own approved delivery process after current status, availability, and

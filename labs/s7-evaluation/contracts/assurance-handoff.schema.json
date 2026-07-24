@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "rvas.delivery.assurance-handoff.v1",
-  "title": "AI Governance Platform assurance handoff",
+  "$id": "rvas.delivery.assurance-handoff.v2",
+  "title": "AI Governance Platform assurance handoff v2",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -19,7 +19,7 @@
   ],
   "properties": {
     "schema": {
-      "const": "rvas.delivery.assurance-handoff.v1"
+      "const": "rvas.delivery.assurance-handoff.v2"
     },
     "gateway_proof_reference": {
       "type": "string",
