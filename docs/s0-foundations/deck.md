@@ -81,7 +81,7 @@ Use this slide to justify why the executive sponsor and governance lead are requ
 - The assessment uses four levels: **Ad-hoc, Repeatable, Defined, Optimized**.
 - The discussion behind the score matters more than the number.
 - A high score should have proof behind it.
-- S12 repeats the same assessment later.
+- S13 repeats the same assessment later.
 
 Note:
 Reinforce that the baseline is a prioritization tool, not an audit verdict. A low score can show a missing owner, missing evidence, or untested control. A high score is not a deployed control; it is evidence of an assessment and prioritization decision.
@@ -220,8 +220,8 @@ Register the customer baseline reference and retention/classification metadata i
 - S0 makes **no tenant changes**.
 - Capability, licensing, ownership, and delivery gaps go to the customer backlog.
 - Later changes use the customer's approved process.
-- The roadmap sets the order for **S1-S12**.
+- The roadmap sets the order for **S1-S13**.
 
 Note:
 If ownership or evidence is missing, assign follow-up or record the gap; do not
-raise the score. S12 compares the same customer-held assessment later.
+raise the score. S13 compares the same customer-held assessment later.

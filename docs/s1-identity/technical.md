@@ -78,7 +78,7 @@ controls**. You often need both; neither proves the other.
 
 S1 should move the customer one concrete step along identity adoption. Tie the
 decision back to the **S0 maturity baseline** (the identity and authority part) and
-forward to the **S12 portfolio** view:
+forward to the **S13 portfolio** view:
 
 | Adoption stage | What "done" looks like at S1 |
 |---|---|

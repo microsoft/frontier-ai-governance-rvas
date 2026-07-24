@@ -22,7 +22,7 @@ They leave with:
 **Next customer action:** assign every open catalog, ownership, lifecycle, or
 reconciliation gap to its steward and set the next review before closing it.
 
-S9 produces a catalog and lifecycle backlog for customer-owned work. The recommendation says whether to close, close with owned gaps, defer, or keep open. It also names the next owner for Agent 365, Entra Agent ID, API Center, catalog stewardship, lifecycle, material-change review, reconciliation, retirement, recurrence, S11, or S12.
+S9 produces a catalog and lifecycle backlog for customer-owned work. The recommendation says whether to close, close with owned gaps, defer, or keep open. It also names the next owner for Agent 365, Entra Agent ID, API Center, catalog stewardship, lifecycle, material-change review, reconciliation, retirement, recurrence, S11, or S13.
 
 ## 2. Prerequisites
 

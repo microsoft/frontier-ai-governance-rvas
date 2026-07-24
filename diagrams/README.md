@@ -22,7 +22,7 @@ of truth for the published SVG assets.
 | `s9-reconciliation-gap-flow.excalidraw` | `docs/assets/diagrams/s9-reconciliation-gap-flow.svg` | `docs/s9-control-plane/concepts.md` |
 | `s10-policy-boundary-and-evidence.excalidraw` | `docs/assets/diagrams/s10-policy-boundary-and-evidence.svg` | `docs/s10-in-process-governance/concepts.md` |
 | `s11-operating-review-flow.excalidraw` | `docs/assets/diagrams/s11-operating-review-flow.svg` | `docs/s11-operate-measure/concepts.md` |
-| `s12-portfolio-to-s0-feedback-loop.excalidraw` | `docs/assets/diagrams/s12-portfolio-to-s0-feedback-loop.svg` | `docs/s12-portfolio-governance/concepts.md` |
+| `s13-portfolio-to-s0-feedback-loop.excalidraw` | `docs/assets/diagrams/s13-portfolio-to-s0-feedback-loop.svg` | `docs/s13-portfolio-governance/concepts.md` |
 
 The `.excalidraw` files are the editable source of truth: open them directly at
 <https://excalidraw.com> (File → Open) to tweak by hand. The `build-*.mjs`

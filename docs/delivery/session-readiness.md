@@ -1,6 +1,6 @@
 # Check whether a session is ready
 
-Use this checklist before scheduling a selected S0-S12 session. It is a quick
+Use this checklist before scheduling a selected S0-S13 session. It is a quick
 go/no-go check, not another governance record. If an item is missing, record
 the blocker, owner, and next date in the customer register. Do not use the
 workshop to discover basic prerequisites.
@@ -37,7 +37,7 @@ select another ready session.
 | S9 | A normalized agent and tool inventory, identity source, lifecycle policy, and owners for reconciliation findings. |
 | S10 | One in-process tool-call boundary, the existing controls around it, and the application owner. |
 | S11 | One workload population, one operating question, evidence coverage limits, and the owners who act on a signal. |
-| S12 | The S0 baseline, in-scope portfolio records, open exceptions, and the sponsor decision needed next. |
+| S13 | The S0 baseline, in-scope portfolio records, open exceptions, and the sponsor decision needed next. |
 
 ## Product and platform checks
 

@@ -53,18 +53,18 @@ and how a drift hypothesis versus the S7 synthetic baseline is raised and tested
 | **Operations-owned alert route** | Reliability, latency, error, saturation, or dependency signals need service-owner triage and current alerting capability is verified | Can become noisy if thresholds lack population, sampling, and ownership context | Record threshold owner, route, acknowledgement expectation, suppression rule, and review cadence |
 | **Risk / governance review route** | Evaluation regressions, policy exceptions, unresolved findings, or human-review signals need governance interpretation | Slower than incident response; not suitable for urgent service degradation alone | Record decision owner, escalation trigger, exception owner, and evidence needed before action |
 | **Drift hypothesis against S7 baseline** | Production latency, quality, cost, or error patterns diverge from the pre-production synthetic evidence | A difference is not confirmed drift; workload mix, model version, quota pressure, or coverage may explain it | Record hypothesis, alternative explanations, test or observation plan, owner, and next review |
-| **Backlog-only coverage gap** | No trusted signal, owner, or approved record exists for the desired alert or drift question | No alert can be claimed; the risk remains unresolved until instrumented or governed | Record the gap, owner, target date, S12 portfolio route, and customer change process |
+| **Backlog-only coverage gap** | No trusted signal, owner, or approved record exists for the desired alert or drift question | No alert can be claimed; the risk remains unresolved until instrumented or governed | Record the gap, owner, target date, S13 portfolio route, and customer change process |
 
 ## Decisions made & adoption progress
 
 S11 reconciles the production counterpart of S7's pre-production evidence,
-advances the operate-and-measure part of the S0 maturity baseline, and feeds S12 portfolio
+advances the operate-and-measure part of the S0 maturity baseline, and feeds S13 portfolio
 prioritization with owned operating decisions.
 
 | Adoption stage | What "done" looks like at S11 |
 |---|---|
 | **Decided** | Observability, cost-attribution, and alerting/drift options are selected, rejected, or deferred with owners, evidence limits, and verified-status caveats recorded |
-| **Backlogged** | Instrumentation, retention, alert routing, allocation, drift-test, exception, or S12 portfolio work is routed to the customer operating/change process with owners |
+| **Backlogged** | Instrumentation, retention, alert routing, allocation, drift-test, exception, or S13 portfolio work is routed to the customer operating/change process with owners |
 | **In adoption** | Customer teams implement or tune telemetry, FinOps allocation, alerting, or drift response outside this session and bring evidence back to the operating review |
 
 Capture the choice, alternatives, rationale, owners, and adoption stage in the

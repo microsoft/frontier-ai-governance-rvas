@@ -93,7 +93,7 @@ The S11 recommendation should turn the review design into owned operating work.
 Typical work-list rows include Application Insights/OpenTelemetry coverage,
 Foundry observability, alert route, remediation validation, recurrence check,
 operating cadence, FinOps/cost owner, allocation limit, exception escalation,
-S12 portfolio handoff, and customer support or change process.
+S13 portfolio handoff, and customer support or change process.
 
 The backlog does not create a dashboard, query live data, set a threshold, change
 a control, or close a finding without validation.

@@ -1,6 +1,6 @@
 # AI Governance Platform
 
-**A practical S0-S12 curriculum for governing AI agents in enterprise environments.**
+**A practical S0-S13 curriculum for governing AI agents in enterprise environments.**
 
 This repository publishes a co-delivered curriculum for establishing and
 operating AI-agent governance in a customer's environment. Each session leaves
@@ -14,7 +14,7 @@ contains only safe templates, offline tools, and guidance.
 | Govern | S0-S2 | Establish ownership, identity/authority, and data responsibilities. |
 | Establish | S3-S5 | Define the platform, engineering, and tool/API governance that makes controls enforceable. |
 | Assure | S6-S8 | Review runtime security, quality/release assurance, and adversarial resilience. |
-| Operate | S9-S12 | Steward lifecycle and control records, operate with evidence, and improve the portfolio. |
+| Operate | S9-S13 | Steward lifecycle and control records, operate with evidence, govern LLM and prompt changes, and improve the portfolio. |
 
 | # | Session | Durable outcome |
 |---|---|---|
@@ -30,7 +30,8 @@ contains only safe templates, offline tools, and guidance.
 | S9 | Control Plane, Catalog & Lifecycle | Reconciliation and lifecycle stewardship record |
 | S10 | In-Process Agent Governance | Applicability and adoption decision for a tool-call policy boundary |
 | S11 | Operate, Monitor & FinOps | Operating review, drift, cost, and remediation cadence |
-| S12 | Portfolio Governance & Continuous Improvement | Portfolio decision and next maturity roadmap |
+| S12 | LLM Operations | Model and prompt operating-model decision and lifecycle backlog |
+| S13 | Portfolio Governance & Continuous Improvement | Portfolio decision and next maturity roadmap |
 
 S10 is selected only when the customer's architecture includes a meaningful
 in-process tool-call boundary. Every other session is selected by the S0 scope,

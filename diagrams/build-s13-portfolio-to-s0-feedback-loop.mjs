@@ -1,8 +1,8 @@
-// S12 — the portfolio roadmap feeds the next S0 baseline, closing the improvement loop.
+// S13 — the portfolio roadmap feeds the next S0 baseline, closing the improvement loop.
 import { C, text, node, connect, arrow, write } from "./lib.mjs";
 
 const els = [];
-els.push(text(40, 24, 1000, "S12 · Portfolio review feeds the next baseline", C.hero, { size: 26, align: "left" }));
+els.push(text(40, 24, 1000, "S13 · Portfolio review feeds the next baseline", C.hero, { size: 26, align: "left" }));
 els.push(text(40, 60, 1260, "Review records and risks, set priorities, then update the roadmap.", C.neutral, { size: 14, align: "left" }));
 
 const records = node(els, 40, 170, 240, 86, C.indigo, "Portfolio records", { titleSize: 14, sub: "scope · coverage · gaps", subSize: 12 });
@@ -33,4 +33,4 @@ els.push(arrow(s0.cx, s0.y, review.cx, review.y, {
 }));
 els.push(text((review.cx + s0.cx) / 2 - 120, loopY - 28, 240, "review and improve", C.hero, { size: 13, align: "center" }));
 
-write(new URL("./s12-portfolio-to-s0-feedback-loop.excalidraw", import.meta.url).pathname, els);
+write(new URL("./s13-portfolio-to-s0-feedback-loop.excalidraw", import.meta.url).pathname, els);

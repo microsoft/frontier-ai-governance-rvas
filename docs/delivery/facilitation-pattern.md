@@ -3,7 +3,7 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · Confirm current capability availability in the [Governance capability guide](../reference/governance-capability-guide.md) before using a product in a pilot.
 
-Use this 90-minute method for any selected S0-S12 working session. The facilitator runs the method; the customer acts, keeps evidence, and decides.
+Use this 90-minute method for any selected S0-S13 working session. The facilitator runs the method; the customer acts, keeps evidence, and decides.
 
 Run the session against one bounded pilot question. Do not turn it into a configuration workshop or a product tour.
 Complete [Check whether a session is ready](session-readiness.md) before booking

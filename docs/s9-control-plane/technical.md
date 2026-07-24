@@ -32,7 +32,7 @@ quickly a stale catalog could create governance risk.
 | Option | When it fits | Trade-off / limitation | Governance implication |
 |---|---|---|---|
 | **Manual periodic review** | Small or low-change population with clear owners and low drift risk | Relies on calendar discipline and human review; drift can persist between reviews | Record cadence, reviewer, evidence references, exceptions, and next review date |
-| **Evidence-driven reconciliation** | Moderate portfolio where approved exports, reports, or evidence packs can be compared offline | Still requires evidence preparation and interpretation; no live enforcement | Creates a repeatable reconciliation backbone for S11 operating cadence and S12 portfolio views |
+| **Evidence-driven reconciliation** | Moderate portfolio where approved exports, reports, or evidence packs can be compared offline | Still requires evidence preparation and interpretation; no live enforcement | Creates a repeatable reconciliation backbone for S11 operating cadence and S13 portfolio views |
 | **Automated inventory sync** (after current platform/API status is verified) | Large or fast-changing portfolio where drift risk exceeds manual capacity | Engineering work, permissions, failure handling, and data-quality ownership are required | Backlog as a separate implementation; S9 records scope, source authority, owner, and validation route |
 | **Exception-triggered review** | Material changes, incidents, audit requests, or lifecycle transitions drive review timing | Not enough by itself for steady-state assurance | Use only alongside a baseline cadence; record trigger, approver, and closure validation |
 
@@ -44,21 +44,21 @@ and how retirement is evidenced before an entry is treated as closed.
 | Option | When it fits | Trade-off / limitation | Governance implication |
 |---|---|---|---|
 | **Material-change threshold** | Authority, tool use, data handling, model behavior, ownership, or operating scope can change meaningfully | Requires judgment and consistent interpretation by owners | Retriggers the right assurance path; record trigger, decision owner, and review reference |
-| **Version and deprecation ownership** | Agents, tools, models, evaluators, prompts, or datasets have release versions or dependency impact | Version records can drift from catalog and evidence unless stewarded | Name the version owner, deprecation notice path, affected dependencies, and S11/S12 handoff |
+| **Version and deprecation ownership** | Agents, tools, models, evaluators, prompts, or datasets have release versions or dependency impact | Version records can drift from catalog and evidence unless stewarded | Name the version owner, deprecation notice path, affected dependencies, and S11/S13 handoff |
 | **Retirement / decommission path** | Suspended, retired, withdrawn, or decommissioned entries need accountable closure | Closure is not proven by a label or blank entry | Record permitted destination, closure owner, validation reference, recurrence check, and retained record |
 | **Portfolio dependency mapping** | Shared tools, models, APIs, or evaluators affect multiple agents or business owners | Mapping can be incomplete until estates mature | Prevents silent downstream impact; unresolved dependencies remain backlog, not approval |
 
 ## Decisions made & adoption progress
 
 S9 turns the S0 control-plane baseline into an authoritative catalog and
-lifecycle cadence, then feeds the S11 operating rhythm and S12 portfolio view as
+lifecycle cadence, then feeds the S11 operating rhythm and S13 portfolio view as
 the reconciliation backbone.
 
 | Adoption stage | What "done" looks like at S9 |
 |---|---|
 | **Decided** | The authoritative record, reconciliation method and cadence, and material-change/versioning/retirement rules are chosen for the bounded population |
-| **Backlogged** | Catalog gaps, source-of-truth conflicts, sync work, lifecycle fixes, and evidence routes are owned with dates, validation references, and S11/S12 dependencies |
-| **In adoption** | Stewards are maintaining the record outside the session; reconciliation findings feed S11 cadence and S12 portfolio risk review |
+| **Backlogged** | Catalog gaps, source-of-truth conflicts, sync work, lifecycle fixes, and evidence routes are owned with dates, validation references, and S11/S13 dependencies |
+| **In adoption** | Stewards are maintaining the record outside the session; reconciliation findings feed S11 cadence and S13 portfolio risk review |
 
 Record the choice, alternatives considered, and adoption stage in
 `labs/s9-control-plane/templates/technical-decision-record.template.md`.

@@ -5,7 +5,7 @@ customer-owned portfolio technical decision, the options considered, and the
 adoption stage. It does not create a dashboard, change production, alter policy,
 approve funding, or certify compliance.
 
-Use the [technical-decisions guidance](../../../docs/s12-portfolio-governance/technical.md)
+Use the [technical-decisions guidance](../../../docs/s13-portfolio-governance/technical.md)
 for the portfolio-reporting, prioritization/reinvestment, and
 continuous-improvement option menus and selection criteria.
 

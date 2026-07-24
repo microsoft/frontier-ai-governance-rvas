@@ -86,7 +86,7 @@ route.
 ## Decisions made & adoption progress
 
 S6 advances the **S0 maturity baseline** for security/runtime assurance and
-feeds the **S12 portfolio** with runtime evidence, response ownership, and the
+feeds the **S13 portfolio** with runtime evidence, response ownership, and the
 gateway proof that S7 can reference.
 
 | Adoption stage | What "done" looks like at S6 |

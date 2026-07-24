@@ -5,7 +5,7 @@
     product status, and customer applicability before delivery. This map is
     contextual guidance, not customer evidence or a deployment instruction.
 
-This map is a reading route from public Microsoft guidance to the S0-S12 curriculum. Sources can explain a capability or shape a customer-owned backlog; they cannot prove a deployed or operating customer control.
+This map is a reading route from public Microsoft guidance to the S0-S13 curriculum. Sources can explain a capability or shape a customer-owned backlog; they cannot prove a deployed or operating customer control.
 
 ## How to use this map
 
@@ -16,9 +16,9 @@ Use these four questions to read the curriculum artifacts:
 | **Policy** | What is permitted, who owns the decision, and what needs approval? | S0 establishes ownership; S4/S5 record admission and publication decisions. |
 | **Control** | Which boundaries enforce the decision? | S1-S6 and, where applicable, S10 identify identity, data, platform, tool, runtime, and in-process paths. |
 | **Visibility** | What signals show actual behavior and coverage limits? | S6, S7, and S11 route telemetry, evaluation, and operating-review work to customer owners. |
-| **Proof** | Which reviewed references support a bounded decision and improvement? | S7-S12 retain decisions, limitations, exceptions, and the next roadmap. |
+| **Proof** | Which reviewed references support a bounded decision and improvement? | S7-S13 retain decisions, limitations, exceptions, and the next roadmap. |
 
-The sequence is continuous: S12 portfolio learning informs the next S0 baseline. A reviewed evidence record connects policy, controls, visibility, and a defensible decision.
+The sequence is continuous: S13 portfolio learning informs the next S0 baseline. A reviewed evidence record connects policy, controls, visibility, and a defensible decision.
 
 ## Phase translation
 
@@ -29,7 +29,7 @@ The business journey maps to the curriculum, but does not rename it:
 | Align use case and value | Govern | S0-S2 |
 | Establish a safe foundation | Establish | S3-S5 |
 | Build and validate | Assure | S6-S8 |
-| Operate and scale | Operate | S9-S12 |
+| Operate and scale | Operate | S9-S13 |
 
 Microsoft Responsible AI principles (fairness; reliability and safety; privacy and security; inclusiveness; transparency; and accountability) give context for these questions. They are not an extra certification or framework-alignment claim in this curriculum.
 
@@ -44,7 +44,7 @@ Microsoft Responsible AI principles (fairness; reliability and safety; privacy a
 | [Foundry quota and capacity](https://learn.microsoft.com/en-us/azure/ai-services/openai/quotas-limits) | S4, S11 | Capacity, regional allocation, cost owner, and budget questions. | Canonical Learn; verify service applicability |
 | [Azure Policy](https://learn.microsoft.com/en-us/azure/governance/policy/overview) | S0, S3, S6 | Resource-governance baseline and ownership questions. | Canonical Learn |
 | [Azure API Management AI Gateway](https://learn.microsoft.com/en-us/azure/api-management/genai-gateway-capabilities) | S3, S5, S6, S11 | Boundary enforcement, traffic controls, and telemetry routes. | Canonical Learn |
-| [Microsoft Agent 365](https://learn.microsoft.com/en-us/microsoft-agent-365/overview) | S0, S1, S9, S12 | Fleet registry, lifecycle, access, and portfolio-record questions. | Canonical Learn |
+| [Microsoft Agent 365](https://learn.microsoft.com/en-us/microsoft-agent-365/overview) | S0, S1, S9, S13 | Fleet registry, lifecycle, access, and portfolio-record questions. | Canonical Learn |
 
 Runtime enforcement turns identity, data, tool, API, runtime-safety, and
 agent-governance decisions into operating controls. The customer must identify
@@ -61,8 +61,8 @@ configure, or prove the services above.
 | [Data Loss Prevention](https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp) | S2, S5, S6 | Data-exposure and boundary-control backlog items. | Canonical Learn |
 | [Sensitivity labels](https://learn.microsoft.com/en-us/purview/sensitivity-labels) | S2, S5 | Classification references for data-handling decisions. | Canonical Learn |
 | [Purview Audit](https://learn.microsoft.com/en-us/purview/audit-solutions-overview) | S2, S9, S11 | Customer-held audit-reference and retention questions. | Canonical Learn |
-| [eDiscovery](https://learn.microsoft.com/en-us/purview/edisc) | S2, S12 | Investigation and records-retention route. | Canonical Learn |
-| [Compliance Manager](https://learn.microsoft.com/en-us/purview/compliance-manager) | S2, S12 | Compliance-management context; not a legal conclusion. | Canonical Learn |
+| [eDiscovery](https://learn.microsoft.com/en-us/purview/edisc) | S2, S13 | Investigation and records-retention route. | Canonical Learn |
+| [Compliance Manager](https://learn.microsoft.com/en-us/purview/compliance-manager) | S2, S13 | Compliance-management context; not a legal conclusion. | Canonical Learn |
 
 ### Model safety, evaluation, and adversarial learning
 
@@ -72,8 +72,8 @@ configure, or prove the services above.
 | [Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection) | S6, S8 | Prompt-injection context and customer-owned testing scope. | Canonical Learn |
 | [Microsoft Foundry observability and evaluation](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability) | S7, S11 | Evaluation, trace, monitoring, and coverage-planning context. | Canonical Learn |
 | [Agent Evaluators for Generative AI](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators) | S7 | Named evaluator types and specific evaluation questions. | Canonical Learn; check preview status and use a GA or manual fallback for a production decision |
-| [Fine-tune Microsoft Foundry models](https://learn.microsoft.com/en-us/azure/foundry/how-to/fine-tune-models) | S4, S7, S11, S12 | Fine-tuning decision criteria, pre/post comparison, and training versus inference-cost questions. | Canonical Learn; verify model and region support |
-| [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management) | S11, S12 | Subscription-level cost attribution and portfolio planning. | Canonical Learn |
+| [Fine-tune Microsoft Foundry models](https://learn.microsoft.com/en-us/azure/foundry/how-to/fine-tune-models) | S4, S7, S11, S13 | Fine-tuning decision criteria, pre/post comparison, and training versus inference-cost questions. | Canonical Learn; verify model and region support |
+| [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management) | S11, S13 | Subscription-level cost attribution and portfolio planning. | Canonical Learn |
 | [ASSERT announcement](https://devblogs.microsoft.com/foundry/build-2026-open-trust-stack-ai-agents/) | S7, S8 | Policy-driven evaluation and before/after mitigation thinking. | Contextual announcement; verify current project status |
 
 ASSERT can inform policy-specific evaluation scenarios. A local result is not release approval, runtime proof, or control-effectiveness evidence; S7 keeps references and a decision, while S8 runs only authorized tests against a customer-owned non-production target.

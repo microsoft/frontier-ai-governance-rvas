@@ -3,14 +3,14 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-06
 
-Use the S0-S12 AI maturity assessment twice:
+Use the S0-S13 AI maturity assessment twice:
 
 - **S0 - baseline.** Record the current state and create the prioritized session roadmap.
-- **S12 - exit score.** Re-run the same assessment, compare it with the baseline, and record the remaining gaps.
+- **S13 - exit score.** Re-run the same assessment, compare it with the baseline, and record the remaining gaps.
 
 ## How it works
 
-The assessment has thirteen domains. Each domain maps to one S0-S12 session and uses a 1-4 maturity scale. Blank answers stay visible and do not count toward weighted maturity until assessed.
+The assessment has fourteen domains. Each domain maps to one S0-S13 session and uses a 1-4 maturity scale. Blank answers stay visible and do not count toward weighted maturity until assessed.
 
 | Level | Name | Meaning |
 |-------|------|---------|
@@ -35,7 +35,8 @@ The assessment has thirteen domains. Each domain maps to one S0-S12 session and 
 | D9 | Control plane / lifecycle (S9) |
 | D10 | In-process governance (S10) |
 | D11 | Operate / monitor / FinOps (S11) |
-| D12 | Portfolio governance (S12) |
+| D12 | LLM operations (S12) |
+| D13 | Portfolio governance (S13) |
 
 ## Fillable scorecard
 
@@ -43,7 +44,7 @@ The scorecard and auto-scorer are in the S0 takeaway kit:
 
 - `labs/s0-foundations/assessment/scorecard.csv` - fill the `score` column (1-4) with accountable stakeholders.
 - `labs/s0-foundations/assessment/score.py` - computes per-domain and overall weighted maturity and ranks lower-scoring domains first; total question weight breaks ties.
-- `labs/s0-foundations/assessment/compare.py` - at S12, computes the weighted baseline-to-exit lift per domain and the residual-gap backlog.
+- `labs/s0-foundations/assessment/compare.py` - at S13, computes the weighted baseline-to-exit lift per domain and the residual-gap backlog.
 
 ```bash
 python labs/s0-foundations/assessment/score.py labs/s0-foundations/assessment/scorecard.csv

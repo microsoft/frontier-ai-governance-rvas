@@ -18,7 +18,8 @@ Map each AI Governance session to Microsoft capabilities with this guide. Before
 | Control plane & lifecycle · S9 | Microsoft Agent 365, Entra Agent ID, API Center, platform telemetry | Reconcile agent, tool, identity, ownership, and lifecycle records. | Agent 365 licensing and connector status. |
 | In-process governance · S10 | Agent Governance Toolkit (AGT) | Offline example of application-process tool-call policy and audit evidence; adoption decision only. | Applicability, release status, and architecture fit. |
 | Operate, monitor & FinOps · S11 | Customer-held operational, security, quality, and cost evidence; Azure Monitor / Application Insights; Foundry observability; Azure Cost Management and FinOps Toolkit where used | Operating review, quality/latency/cost drift, cost accountability, and remediation cadence. | Evidence coverage, attribution limits, and owner availability. |
-| Portfolio governance · S12 | Customer-held governance, risk, and portfolio records | Portfolio decision, exception review, and next roadmap. | Decision authority and records availability. |
+| LLM operations · S12 | Customer-held model, prompt, change, incident, and lifecycle records; Microsoft Foundry model and deployment context where used | Provider-neutral model and prompt lifecycle decisions, material-change routes, operational ownership, and deprecation/retirement backlog. | Provider capability, model availability, region, quota, licensing, contract, and customer-change-process fit. |
+| Portfolio governance · S13 | Customer-held governance, risk, and portfolio records | Portfolio decision, exception review, and next roadmap. | Decision authority and records availability. |
 
 ## Implementation pathway taxonomy
 
@@ -48,6 +49,7 @@ Filter these Microsoft capability categories to the session:
 | Copilot Studio and Power Platform | Which environment, Managed Environment, DLP, connector, solution, ALM, publication, or monitoring decision applies? |
 | Microsoft Foundry Agent Service | Which project, model, agent type, instructions/code package, tools, identity, observability, evaluation, or publication item applies? |
 | Model selection and fine-tuning | Which model fits capability, cost, latency, and data-residency needs? Is fine-tuning justified, who owns training-data review, and which comparison is required? |
+| Model and prompt operations | Which approved model/provider and prompt or system-instruction references, versioning method, material-change route, lifecycle owner, incident/rollback path, and deprecation route apply? |
 | Quality measurement and threshold governance | Which dimensions and evaluators apply, which option works everywhere or requires Foundry, and who approves thresholds and owns regressions? |
 | Latency budgeting | Which component targets, attribution limits, regression owner, and telemetry reference apply? |
 | Token cost and FinOps | Which tier, cost owner, allocation approach, quota or capacity consideration, and spend-decision route apply? |
@@ -96,7 +98,8 @@ The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC
 | S9 | Govern, Map, Manage | Policies, roles, operations | Art. 12, 72 |
 | S10 | Govern, Measure, Manage | Operational controls and evidence | Art. 9, 12, 15 |
 | S11 | Measure, Manage | Monitoring, measurement, and improvement | Art. 12, 15, 72 |
-| S12 | Govern, Map, Measure, Manage | Leadership, performance, and improvement | Art. 9, 17, 72 |
+| S12 | Govern, Map, Manage | Operational planning and lifecycle change | Art. 9, 12, 15 |
+| S13 | Govern, Map, Measure, Manage | Leadership, performance, and improvement | Art. 9, 17, 72 |
 
 ## Sources
 

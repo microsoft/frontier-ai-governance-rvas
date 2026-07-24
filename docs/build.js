@@ -53,7 +53,8 @@ const SESSIONS = [
   { slug: 's9-control-plane', code: 'S9', phase: 'Operate', accent: '#0078D4', persona: 'Governance lead', nist: 'Govern · Map · Manage', outcome: 'Control-plane reconciliation + lifecycle stewardship' },
   { slug: 's10-in-process-governance', code: 'S10', phase: 'Operate', accent: '#0891B2', persona: 'AI developer / maker', nist: 'Govern · Measure · Manage', outcome: 'In-process policy applicability and adoption decision' },
   { slug: 's11-operate-measure', code: 'S11', phase: 'Operate', accent: '#7C3AED', persona: 'Governance lead', nist: 'Govern · Measure · Manage', outcome: 'Operating review, drift, FinOps, and remediation cadence' },
-  { slug: 's12-portfolio-governance', code: 'S12', phase: 'Operate', accent: '#475569', persona: 'Executive sponsor', nist: 'Govern · Map · Measure · Manage', outcome: 'Portfolio governance decision + next maturity roadmap' },
+  { slug: 's12-llm-operations', code: 'S12', phase: 'Operate', accent: '#2563EB', persona: 'Model operations owner', nist: 'Govern · Map · Manage', outcome: 'Model and prompt operating-model decision + lifecycle backlog' },
+  { slug: 's13-portfolio-governance', code: 'S13', phase: 'Operate', accent: '#475569', persona: 'Executive sponsor', nist: 'Govern · Map · Measure · Manage', outcome: 'Portfolio governance decision + next maturity roadmap' },
 ];
 
 const SESSION_CHAPTERS = [

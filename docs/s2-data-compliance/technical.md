@@ -50,12 +50,12 @@ product availability before relying on any Microsoft or Azure capability.
 | **Data residency / region pinning** | The path has cross-border or customer-policy constraints on where data is processed or stored | Region support and service behavior vary; pinning does not solve classification or retention | Record approved regions, exceptions, and owner for product-status verification |
 | **GDPR and records-of-processing mapping** | Personal data may enter prompts, retrieval, logs, or outputs | Requires legal/privacy ownership; technical evidence alone is not the record | Record lawful basis, processing purpose, evidence references, and privacy owner |
 | **Sector-specific regulation mapping** | Finance, health, public-sector, or other regulated data is in scope | Obligations differ by jurisdiction and policy; this kit does not provide legal approval | Record applicable rule set, control owner, and blocker or accepted-risk path |
-| **Retention ownership** | Audit, eDiscovery, legal hold, or records-management obligations decide whether evidence is usable | Retention gaps can make later investigation impossible even when controls exist | Record retention owner, review date, and S5/S6/S12 dependency |
+| **Retention ownership** | Audit, eDiscovery, legal hold, or records-management obligations decide whether evidence is usable | Retention gaps can make later investigation impossible even when controls exist | Record retention owner, review date, and S5/S6/S13 dependency |
 
 ## Decisions made & adoption progress
 
 S2 should move the data part of the **S0 maturity baseline** forward and produce
-an S12-ready record of the data situation, evidence, and review actions.
+an S13-ready record of the data situation, evidence, and review actions.
 
 | Adoption stage | What "done" looks like at S2 |
 |---|---|

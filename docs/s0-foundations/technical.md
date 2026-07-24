@@ -28,7 +28,7 @@ The framework should match regulatory exposure, existing certifications, audit o
 | **ISO/IEC 42001** | The customer needs an AI management-system structure or certification-aligned evidence | Heavier process and audit discipline than a pilot may need | Creates a management-system backlog; record scope, owners, and evidence requirements |
 | **Microsoft Responsible AI Standard** | The customer wants Microsoft-aligned principles, impact assessment language, and responsible AI controls | Must be adapted to the customer's own policies and obligations | Useful as a control-language layer; verify current Microsoft guidance before relying on details |
 | **EU AI Act risk-tiering** | The customer has EU exposure or needs risk classification for prohibited, high-risk, or lower-risk systems | Legal interpretation and dates vary; do not embed volatile implementation detail | Drives risk-tier routing and legal/compliance ownership; verify current applicability |
-| **Existing internal framework** | The customer already has enterprise risk, security, model risk, or SDLC governance | May miss agent-specific identity, data, tool-use, or evidence gaps | Best for adoption if extended deliberately; record which S0/S1-S12 gaps it must cover |
+| **Existing internal framework** | The customer already has enterprise risk, security, model risk, or SDLC governance | May miss agent-specific identity, data, tool-use, or evidence gaps | Best for adoption if extended deliberately; record which S0/S1-S13 gaps it must cover |
 
 ## Decision 3: What system of record holds governance decisions and evidence?
 
@@ -36,20 +36,20 @@ The record location should fit auditability, scale, retention, and who will main
 
 | Option | When it fits | Trade-off / limitation | Governance implication |
 |---|---|---|---|
-| **Dedicated control / decision register** | Governance, risk, or architecture teams already maintain formal decision and control records | Needs disciplined upkeep and integration with delivery backlog | Strong audit trail; record owner, retention, review cadence, and S12 portfolio reference |
+| **Dedicated control / decision register** | Governance, risk, or architecture teams already maintain formal decision and control records | Needs disciplined upkeep and integration with delivery backlog | Strong audit trail; record owner, retention, review cadence, and S13 portfolio reference |
 | **Purview, Foundry, or API Center records** | The customer wants governance evidence near catalog, model, data, or API assets | Product coverage and feature availability vary; verify current status before delivery | Useful evidence linkage, but S0 still records the customer-owned decision and owner |
 | **Spreadsheets or shared documents** | Early pilot, low scale, or no approved GRC tooling yet | Easy to fragment, overwrite, or lose context as the portfolio grows | Acceptable interim record if owner, location, retention, and migration trigger are explicit |
 | **Existing enterprise work-management system** | Decisions must route into security, architecture, compliance, or release workflows | Work items can hide rationale unless the template is enforced | Connects decision to adoption backlog; record alternatives and rationale, not just tasks |
 
 ## Decisions made & adoption progress
 
-What S0 leaves behind is a baseline maturity assessment and prioritized roadmap that feed the S12 portfolio view.
+What S0 leaves behind is a baseline maturity assessment and prioritized roadmap that feed the S13 portfolio view.
 
 | Adoption stage | What "done" looks like at S0 |
 |---|---|
 | **Decided** | The operating model, baseline framework, and record location are chosen with owner, rationale, and known caveats |
 | **Backlogged** | Gaps from the baseline are routed to the next session, capability owner, and customer change process |
-| **In adoption** | The customer uses the chosen record path and roadmap; S12 compares progress with the baseline |
+| **In adoption** | The customer uses the chosen record path and roadmap; S13 compares progress with the baseline |
 
 Capture the choice, alternatives, and rationale in the technical decision record (`labs/s0-foundations/templates/technical-decision-record.template.md`).
 

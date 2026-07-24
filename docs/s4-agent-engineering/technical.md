@@ -78,7 +78,7 @@ Promotion is a decision record, not an instruction to deploy.
 | **Backlogged** | The selected-path configuration backlog has owners and customer-process routing |
 | **In adoption** | Engineering builds the backlog outside this session; assurance and catalog records are reviewed through their accountable customer processes |
 
-Tie the outcome to the S0 baseline and S12 roadmap. Capture the choice,
+Tie the outcome to the S0 baseline and S13 roadmap. Capture the choice,
 alternatives, and rationale in
 `labs/s4-agent-engineering/templates/technical-decision-record.template.md`.
 

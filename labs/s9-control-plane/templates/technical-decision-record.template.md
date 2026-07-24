@@ -36,7 +36,7 @@ lifecycle state, or approve production.
 | Rationale (criteria that decided it) | |
 | Alternatives rejected or deferred and why | |
 | Accountable steward / technical owner | |
-| Dependencies (S11 cadence, S12 portfolio, platform/catalog/change process) | |
+| Dependencies (S11 cadence, S13 portfolio, platform/catalog/change process) | |
 | Verified-status caveat (availability / licensing / feature status checked on) | |
 
 ## Adoption progress
@@ -46,4 +46,4 @@ lifecycle state, or approve production.
 | Adoption stage (decided / backlogged / in adoption) | |
 | S0 control-plane dimension advanced | |
 | Next step and owner (customer records or change process) | |
-| Review date and S11/S12 handoff reference | |
+| Review date and S11/S13 handoff reference | |

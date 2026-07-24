@@ -1,4 +1,4 @@
-# S12 · Portfolio Governance & Continuous Improvement
+# S13 · Portfolio Governance & Continuous Improvement
 
 !!! info "Freshness"
     Last reviewed: 2026-07-15
@@ -18,7 +18,7 @@ They leave with a customer-owned record that names:
 - decisions, deferrals, and remaining-risk dispositions; and
 - the next governance roadmap and the S0 baseline questions to revisit.
 
-`labs/s12-portfolio-governance/` holds blank offline templates and a runbook. It
+`labs/s13-portfolio-governance/` holds blank offline templates and a runbook. It
 does **not** consolidate live data, create a dashboard, calculate a portfolio
 score, alter a policy, or certify compliance.
 
@@ -28,7 +28,7 @@ score, alter a policy, or certify compliance.
 items into the customer portfolio and funding process, then schedule the next
 baseline review.
 
-S12 creates a portfolio backlog for customer-owned governance work. The
+S13 creates a portfolio backlog for customer-owned governance work. The
 recommendation states whether to approve, defer, or reject roadmap priorities.
 It also names the investment, exception, policy question, funding gate, owner
 readiness, maturity reassessment, S0 feedback, or governance cadence item that
@@ -49,14 +49,14 @@ or aggregate label.
 
 ## 3. Why this session matters
 
-Local reviews can find useful actions and still miss portfolio patterns. S12
+Local reviews can find useful actions and still miss portfolio patterns. S13
 looks across agents for recurring exceptions, shared dependencies, investment
 trade-offs, maturity movement, and policy questions.
 
 Aggregation is not proof. The review keeps scope, coverage, and ownership visible
 so leaders can make the next roadmap decision.
 
-Read the [S12 Concepts](concepts.md) before delivery.
+Read the [S13 Concepts](concepts.md) before delivery.
 
 ## 4. Detailed facilitation reference
 
@@ -97,7 +97,7 @@ Use these portfolio interpretation aids:
 
 ### S0 feedback loop
 
-S12 does not overwrite the S0 baseline. It supplies a dated roadmap and a short
+S13 does not overwrite the S0 baseline. It supplies a dated roadmap and a short
 list of baseline domains or questions that need reassessment. The next S0 review
 remains a customer-owned assessment with its own evidence, scoring, and decision
 record.
@@ -121,7 +121,7 @@ retain raw evidence, names, operational data, or meeting notes.
 
 ## 6. Change boundary
 
-S12 is report-only. It makes no dashboard, live-data, production, access,
+S13 is report-only. It makes no dashboard, live-data, production, access,
 configuration, policy, funding, or compliance-certification decision by itself.
 Any approved change, assurance activity, or investment execution uses the
 organization's separate authority, change, and records processes.

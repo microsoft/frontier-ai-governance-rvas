@@ -45,7 +45,7 @@ can be replaced and recalculated. Real tamper evidence needs a customer-managed
 
 Adoption here authorizes only a separate assessment, not installation,
 deployment, or a policy change. Tie the decision to the **S0 maturity baseline**
-and **S12 portfolio**, and capture it in the technical decision record
+and **S13 portfolio**, and capture it in the technical decision record
 (`labs/s10-in-process-governance/templates/technical-decision-record.template.md`).
 
 ## Related references

@@ -1,6 +1,6 @@
 # Evidence and decision register
 
-The governance lead owns the customer copy; the facilitator keeps it current through S12. Store links and identifiers rather than sensitive exports in meeting notes.
+The governance lead owns the customer copy; the facilitator keeps it current through S13. Store links and identifiers rather than sensitive exports in meeting notes.
 
 ## Evidence boundary
 
@@ -25,15 +25,15 @@ Use one row per control, prerequisite, finding, or exception.
 
 ## Minimum close record
 
-Before S12 closes, confirm that the register points to:
+Before S13 closes, confirm that the register points to:
 
 - S0 baseline scorecard, roadmap, operating model, and RACI;
 - available S1 through S8 evidence, including blocked or reference-only work;
-- the S9 registry reconciliation, S0/S12 maturity comparison, and
+- the S9 registry reconciliation, S0/S13 maturity comparison, and
   `compare.py` maturity-lift output;
 - the S11 operating-review and remediation references;
 - residual gaps with owners, due dates, and the next governance review;
-- the S12 portfolio decision and next roadmap; and
+- the S13 portfolio decision and next roadmap; and
 - any production-readiness package handed to the customer change authority.
 
 Apply the customer's retention, access, and data-classification rules to the register, links, and supporting artifacts.

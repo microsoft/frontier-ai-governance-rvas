@@ -36,7 +36,7 @@ S11 creates an operating backlog for customer-owned work. The recommendation
 states whether to adopt, defer, or reject the review definition.
 It also names the Azure Monitor, Application Insights, OpenTelemetry, Foundry
 observability, alert route, remediation check, review cadence, FinOps/cost owner,
-allocation, exception, or S12 portfolio item that needs an owner.
+allocation, exception, or S13 portfolio item that needs an owner.
 
 ## 2. Prerequisites
 

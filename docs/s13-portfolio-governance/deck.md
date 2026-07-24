@@ -1,4 +1,4 @@
-# S12 · Portfolio Governance & Continuous Improvement
+# S13 · Portfolio Governance & Continuous Improvement
 
 **Facilitator deck**
 
@@ -31,9 +31,9 @@ The output is roadmap priorities and S0 questions to revisit.
 
 ## S0 feedback loop
 
-![Portfolio review feeds a roadmap into the next S0 assessment.](../assets/diagrams/s12-portfolio-to-s0-feedback-loop.svg)
+![Portfolio review feeds a roadmap into the next S0 assessment.](../assets/diagrams/s13-portfolio-to-s0-feedback-loop.svg)
 
-S12 supplies a dated roadmap and reassessment questions. The next S0 review is a separate, evidence-based customer assessment.
+S13 supplies a dated roadmap and reassessment questions. The next S0 review is a separate, evidence-based customer assessment.
 
 ---
 
@@ -80,4 +80,4 @@ Rank a small candidate set, then approve, defer, or reject priorities. Assign ow
 - [ ] Material exceptions, maturity items, policy questions, and priorities have support and decision status.
 - [ ] Roadmap names the next review and S0 reassessment.
 
-S12 remains report-only. The portfolio roadmap feeds the next S0 review; funding, policy, implementation, and assurance use separate customer authority.
+S13 remains report-only. The portfolio roadmap feeds the next S0 review; funding, policy, implementation, and assurance use separate customer authority.

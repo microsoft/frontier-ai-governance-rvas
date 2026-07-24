@@ -1,4 +1,4 @@
-# S12 Runbook: Portfolio Governance & Continuous Improvement
+# S13 Runbook: Portfolio Governance & Continuous Improvement
 
 The organization owns evidence, interpretation, and decisions; the facilitator
 maintains the timebox and report-only boundary.
@@ -53,7 +53,7 @@ decide or formally defer.
 | No decision owner, approved records location, or bounded scope | Stop the dependent activity; assign an owner and review date. |
 | No authoritative evidence reference or coverage is unknown | Record the limitation and request the needed evidence; do not estimate or synthesize a conclusion. |
 | An exception requires a technical, access, policy, or production change | Route it to the authorized change process; do not make the change in this session. |
-| A compliance conclusion or certification is requested | Record the requirement and route it to the appropriate assurance process; S12 cannot provide it. |
+| A compliance conclusion or certification is requested | Record the requirement and route it to the appropriate assurance process; S13 cannot provide it. |
 
 No dashboard, live-data connection, production change, policy modification, or
 compliance certification is part of this kit.

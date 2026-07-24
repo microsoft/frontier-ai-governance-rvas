@@ -74,11 +74,11 @@ runtime contracts.
 |---|---|---|---|
 | **AI Hub Gateway (Azure API Management) + Azure API Center registry** | The customer needs a dedicated AI gateway boundary plus a registry for API/model access contracts and ownership | Requires platform ownership and current-product verification for Azure API Management AI gateway and Azure API Center capabilities | Record gateway owner, registry owner, routing scope, safety/telemetry expectations, and backlog items |
 | **Existing API management estate** | A governed API management platform already handles routing, authentication, policy, logging, and operational ownership | Existing controls may not yet fit AI/model traffic, tool calls, or registry needs; verify current feature coverage | Record the AI-specific gaps and the customer process that will extend the existing estate |
-| **No central gateway yet** | Early discovery, low-authority prototype, or isolated team platform where central routing is not approved or not justified | Leaves centralized enforcement, telemetry, and registry coverage absent or fragmented | Record the gap explicitly, define compensating controls or stop conditions, and route the decision to S12 portfolio planning |
+| **No central gateway yet** | Early discovery, low-authority prototype, or isolated team platform where central routing is not approved or not justified | Leaves centralized enforcement, telemetry, and registry coverage absent or fragmented | Record the gap explicitly, define compensating controls or stop conditions, and route the decision to S13 portfolio planning |
 
 ## Decisions made & adoption progress
 
-S3 ties the platform part of the **S0 maturity baseline** to the **S12 portfolio**
+S3 ties the platform part of the **S0 maturity baseline** to the **S13 portfolio**
 by turning topology, network-isolation, and gateway choices into a customer-owned
 platform backlog rather than a deployment claim.
 

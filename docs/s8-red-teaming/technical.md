@@ -33,7 +33,7 @@ testing begins.
 | **Non-production bounded test** | The customer can name the endpoint, version, owner, monitoring window, and rollback/reset path | Findings support only the tested scope | Default S8 path; record target, categories, SOC contact, stop conditions, and evidence references |
 | **Production-like staging scope** | Risk tier or regulatory expectation needs realistic integrations without customer-facing production impact | Higher blast-radius planning and monitoring are required | Record dependencies, alert handling, data limits, and explicit authorization |
 | **Production exception assessment** | A customer authority requires limited testing of a live system under formal process | Not a workshop run; legal, SOC, business, and change approvals are mandatory | Record as deferred to the customer process; S8 may define criteria but does not execute it |
-| **Blocked / not authorized** | Authorization, target ownership, non-production status, or rules of engagement are missing | No test evidence is produced | Valid decision; record blocker, owner, target date, and S12 portfolio impact |
+| **Blocked / not authorized** | Authorization, target ownership, non-production status, or rules of engagement are missing | No test evidence is produced | Valid decision; record blocker, owner, target date, and S13 portfolio impact |
 
 ## Decision 3: Remediation routing & retest
 
@@ -51,7 +51,7 @@ lifecycle controls.
 ## Decisions made & adoption progress
 
 S8 should move the customer from the adversarial and security part of the **S0
-maturity baseline** toward the **S12 portfolio** view with an adversarial-testing
+maturity baseline** toward the **S13 portfolio** view with an adversarial-testing
 decision and remediation backlog.
 
 | Adoption stage | What "done" looks like at S8 |

@@ -1,4 +1,4 @@
-# S12 · Portfolio Governance & Continuous Improvement Concepts
+# S13 · Portfolio Governance & Continuous Improvement Concepts
 
 ## A portfolio is a decision view, not a data lake
 
@@ -38,7 +38,7 @@ Model capability investments, including fine-tuning, need the same clear
 criteria: capability gap, pre/post evaluation reference, training and inference
 cost impact, training-data governance, model-version lifecycle owner, and release
 assurance dependency. Without those customer-held references, the item remains a
-proposal with an explicit gap. S12 does not approve training or deployment.
+proposal with an explicit gap. S13 does not approve training or deployment.
 
 ## Maturity movement describes supported change
 
@@ -58,7 +58,7 @@ Identifying the question does not approve new policy or change existing policy.
 
 ## Continuous improvement closes through S0
 
-![Portfolio review turns records, exceptions, and risks into a roadmap that feeds the next S0 assessment.](../assets/diagrams/s12-portfolio-to-s0-feedback-loop.svg)
+![Portfolio review turns records, exceptions, and risks into a roadmap that feeds the next S0 assessment.](../assets/diagrams/s13-portfolio-to-s0-feedback-loop.svg)
 
 The portfolio roadmap feeds the next S0 assessment. It does not replace it. S0
 reassesses selected domains with customer-held evidence and a fresh decision.
@@ -68,7 +68,7 @@ approved processes, then reassess.
 
 ## Portfolio decisions become roadmap backlog
 
-The S12 recommendation should turn the review into a dated governance roadmap.
+The S13 recommendation should turn the review into a dated governance roadmap.
 Typical backlog rows include recurring exception pressure, cross-session
 dependency, investment priority, policy question, budget or funding gate, owner
 readiness, model-version governance, fine-tuning evaluation dependency, Foundry
@@ -79,7 +79,7 @@ The roadmap routes decisions to the appropriate customer governance, budget,
 risk, policy, assurance, or change process.
 
 Framework references such as NIST AI RMF, ISO/IEC 42001, and the EU AI Act can
-help structure questions. S12 does not issue a conformity conclusion. It records
+help structure questions. S13 does not issue a conformity conclusion. It records
 which customer-owned references can support the next governance decision and
 which assurance activity remains separate.
 
@@ -89,7 +89,7 @@ This session does not create a dashboard, access live data, deploy a change, or
 provide compliance certification. Those activities need their own authorization,
 technical validation, and assurance evidence.
 
-S12 records what the current references can support and what remains unknown.
+S13 records what the current references can support and what remains unknown.
 
 ## Related official references
 

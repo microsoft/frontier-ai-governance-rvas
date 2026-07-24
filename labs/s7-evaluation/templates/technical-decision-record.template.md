@@ -47,4 +47,4 @@ telemetry, change a control, or approve production.
 | S0 evaluation dimension advanced | |
 | Next step and owner (customer release or engineering process) | |
 | Evidence reference and approved records location | |
-| Review date and S12 portfolio reference | |
+| Review date and S13 portfolio reference | |

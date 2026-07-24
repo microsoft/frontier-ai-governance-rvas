@@ -1,6 +1,6 @@
 # Plan the engagement
 
-Use this guide to prepare the S0-S12 AI Governance curriculum. The facilitator runs the method; customer administrators use their own tools, and customer decision owners approve changes and accept risk.
+Use this guide to prepare the S0-S13 AI Governance curriculum. The facilitator runs the method; customer administrators use their own tools, and customer decision owners approve changes and accept risk.
 
 ## Bring the right people
 
@@ -29,7 +29,7 @@ S0 sets the baseline and roadmap. Run the assessment with the customer. Do not u
 
 Missing roles, records, licenses, platform evidence, or safe targets become readiness items with owners.
 
-The assessment can select any S1-S12 session. Keep these dependencies:
+The assessment can select any S1-S13 session. Keep these dependencies:
 
 - S3 sets the platform assumptions used by S4-S8.
 - S4 admission standards feed S5 publication and later change decisions.
@@ -37,7 +37,9 @@ The assessment can select any S1-S12 session. Keep these dependencies:
 - S6-S8 require a customer-approved non-production target when live activity is proposed.
 - S9 reconciles evidence from the earlier sessions you selected.
 - S10 runs only when an in-process tool-call boundary exists.
-- S11 and S12 use customer-held evidence and decisions. They can start without a new platform deployment.
+- S11 uses customer-held operational evidence and decisions.
+- S12 governs model and prompt operations where the customer can control or materially change those assets.
+- S13 aggregates the selected session outcomes into the portfolio roadmap.
 
 ## Deliver safely
 
@@ -49,14 +51,15 @@ Before a privileged change, confirm the approver, window, rollback path, and evi
 
 | From | Evidence or decision | Used in |
 |---|---|---|
-| S0 | Baseline, operating model, and roadmap | All selected sessions; S12 roadmap refresh |
+| S0 | Baseline, operating model, and roadmap | All selected sessions; S13 roadmap refresh |
 | S1-S2 | Authority and data findings | S3-S8 design and assurance context |
 | S3-S5 | Platform, admission, and publication decisions | S6-S10 runtime and change context |
 | S6-S8 | Runtime, evaluation, and adversarial findings | S9 reconciliation and S11 operating review |
-| S9 | Reconciliation, lifecycle, and closure backlog | S10-S12 |
+| S9 | Reconciliation, lifecycle, and closure backlog | S10-S13 |
 | S10 | Applicability or adoption decision | S11 operating backlog |
-| S11 | Operating evidence, drift, cost, and remediation decisions | S12 portfolio review |
-| S12 | Portfolio decision and next roadmap | Next S0 cycle |
+| S11 | Operating evidence, drift, cost, and remediation decisions | S12 operating-model decision and S13 portfolio review |
+| S12 | Model/prompt operations decision, lifecycle gaps, and handoffs | S13 portfolio review |
+| S13 | Portfolio decision and next roadmap | Next S0 cycle |
 
 ## Start the curriculum
 

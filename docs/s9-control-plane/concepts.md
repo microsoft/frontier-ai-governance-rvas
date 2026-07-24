@@ -38,7 +38,7 @@ preserves disagreement; it does not choose the customer's system of record.
 
 ## Reconciliation becomes lifecycle backlog
 
-The S9 recommendation should say whether the bounded population can close, close with owned gaps, defer, or remain open. Typical backlog rows include Agent 365/Entra Agent ID/API Center reconciliation, steward assignment, parent-tool relationship, lifecycle-state fix, material-change review, suspension, withdrawal, retirement, recurrence check, exception escalation, S11 operating cadence, and S12 portfolio risk.
+The S9 recommendation should say whether the bounded population can close, close with owned gaps, defer, or remain open. Typical backlog rows include Agent 365/Entra Agent ID/API Center reconciliation, steward assignment, parent-tool relationship, lifecycle-state fix, material-change review, suspension, withdrawal, retirement, recurrence check, exception escalation, S11 operating cadence, and S13 portfolio risk.
 
 Where evaluation depends on versioned datasets or evaluator definitions, S9 should also name a steward, version record, and lifecycle decision. An unowned evaluation asset is a dependency. It is not proof that a future release decision remains valid.
 

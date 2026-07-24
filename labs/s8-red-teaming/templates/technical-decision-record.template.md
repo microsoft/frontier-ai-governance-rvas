@@ -43,4 +43,4 @@ or approve release.
 | Adoption stage (decided / backlogged / in adoption) | |
 | S0 adversarial/security dimension advanced | |
 | Next step and owner (customer remediation, retest, or authorization process) | |
-| Review date and S12 portfolio reference | |
+| Review date and S13 portfolio reference | |

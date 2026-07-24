@@ -96,12 +96,12 @@ date where needed.
 Closeout confirms that accountability is visible. It does not confirm that an
 entry was changed, a remediation operates, or an exception is resolved. A
 closure requires a validation reference and a recorded recurrence review.
-References to S11 or S12 are optional handoffs, not S9 exit conditions.
+References to S11 or S13 are optional handoffs, not S9 exit conditions.
 
 Record the catalog and lifecycle implementation backlog in the stewardship
 record: Agent 365, Entra Agent ID, API Center or registry reconciliation,
 stewardship fix, lifecycle-state change, material-change route, suspension,
-withdrawal, retirement, validation, recurrence, exception, S11/S12 handoff,
+withdrawal, retirement, validation, recurrence, exception, S11/S13 handoff,
 recommendation, confidence, assumptions, owner, and customer process.
 
 ## Reference-only evidence and handoff
