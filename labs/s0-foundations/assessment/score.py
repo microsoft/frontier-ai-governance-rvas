@@ -57,7 +57,7 @@ class Domain:
         return self.weighted_sum / self.weight_total
 
 
-def load(path: Path) -> "OrderedDict[str, Domain]":
+def load(path: Path) -> OrderedDict[str, Domain]:
     domains: OrderedDict[str, Domain] = OrderedDict()
     with path.open(newline="", encoding="utf-8") as fh:
         reader = csv.DictReader(fh)
