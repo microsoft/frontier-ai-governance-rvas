@@ -1,50 +1,55 @@
-# Model and prompt operations register
+# S12 LLMOps lifecycle canvas and release manifest
 
-Copy this blank, offline template into the customer's approved records system.
-It records safe references and decisions only. Do not enter prompt or
-system-instruction text, model outputs, live data, credentials, configuration,
-or personal data. It does not select, deploy, or change a model or prompt.
+Copy this safe-reference template into the customer's approved records system.
+Do not enter prompt text, outputs, secrets, customer data, live configuration,
+or personal data.
 
-## Scope, applicability, and owners
+## Scope and ownership
 
 | Field | Record |
 |---|---|
-| Bounded workload, service, product, or asset population | |
-| Decision purpose and explicit exclusions | |
-| Applicability: customer-controlled / shared-control / supplier-managed / unknown | |
-| Customer control over model, provider, access path, and instruction asset | |
-| Model operations owner | |
-| Prompt or instruction owner | |
-| Service owner | |
-| Governance decision owner | |
-| Evidence owner | |
-| Supplier or vendor owner, if applicable | |
+| LLM application/service, users, and environment | |
+| Lifecycle decision under review | |
+| LLMOps, data, experiment, evaluation, platform, service, governance, and evidence owners | |
 | Approved records location | |
+| Decision and next review date | |
 
-## Approved asset references and versioning
+## Inner and outer loop
 
-| Asset type | Approved provider/model or instruction reference | Version or identifier reference | Status | Accountable owner | Evidence reference or gap |
-|---|---|---|---|---|---|
-| Model/provider | | | | | |
-| Deployment or access path | | | | | |
-| Prompt or system-instruction asset | | | | | |
-| Related service or workload | | | | | |
+| Stage | Purpose and in-scope artifact | Owner | Approved evidence reference and limit | Exit decision / handoff |
+|---|---|---|---|---|
+| Data curation | | | | S2 / experiment |
+| Experimentation | | | | Evaluation |
+| Evaluation | | | | S7 / validate and deploy |
+| Validate and deploy | | | | Customer change / inference |
+| Inference | | | | S11 / service support |
+| Monitor | | | | Investigate / improve |
+| Feedback and data collection | | | | S2 / data curation |
 
-## Dependencies and handoffs
+## Candidate release manifest
 
-| Dependency or handoff | Applies / N/A / unknown | Owner | Evidence reference or gap | Limitation or decision use | Customer process / handoff |
-|---|---|---|---|---|---|
-| Capacity or throughput | | | | | S11 / platform |
-| Quota or rate limit | | | | | S11 / platform |
-| Region, residency, or availability | | | | | Platform / data / change |
-| Supplier support, notice, or contract route | | | | | Supplier management |
-| Material-change evaluation or release assurance | | | | | S7 |
-| Initial admission or model/provider selection | | | | | S4 |
-| Service monitoring, incident, or FinOps operation | | | | | S11 |
-| Deprecation or retirement | | | | | Service management / change |
+| Control asset | Approved reference | Accountable owner | Status / evidence gap |
+|---|---|---|---|
+| Service release/version | | | |
+| Candidate code, prompt, retrieval, or configuration release | | | |
+| Model/deployment alias and inference route | | | |
+| Evaluation dataset/scenario and scorer/rubric version | | | |
+| S7 evaluation/release decision | | | |
+| DEV/PRE/PRO promotion and customer change decision | | | |
+| Rollback target | | | |
+| Monitoring and feedback collection route | | | |
 
-## Evidence gaps and customer-owned backlog
+## Lifecycle completeness check
 
-| Gap or backlog item | Effect on scope or decision | Owner | Target date | Dependency / handoff | Status |
+| Question | Yes / no / gap | Evidence reference or owner |
+|---|---|---|
+| Can a candidate be reproduced from its data, artifact, and evaluation references? | | |
+| Can the active PRE/PRO route be reconstructed and rolled back? | | |
+| Does monitoring have a coverage limit, interpretation owner, and escalation route? | | |
+| Can feedback enter curation only through a governed data route? | | |
+
+## Implementation backlog
+
+| Work item | Blocked stage or risk | Owner | Completion evidence | Target date | Status |
 |---|---|---|---|---|---|
 | | | | | | |

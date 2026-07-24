@@ -1,58 +1,69 @@
-# S12 · LLM Operations: Technical decisions
+# S12 · LLMOps: Azure implementation blueprint
 
-!!! info "Freshness"
-    Last reviewed: 2026-07-24 - Provider-neutral patterns below require customer
-    verification of current availability, region, quota, licensing, contract,
-    product, and configuration conditions before adoption.
+!!! warning "Verify before adopting"
+    This is an Azure/Microsoft reference operating model. Verify current
+    Microsoft Foundry, Azure Monitor, Application Insights, API Management,
+    region, quota, and customer requirements before implementation.
 
-S12 chooses a customer-owned model-and-prompt operating model. It records
-options, ownership, dependencies, and limits; it does not select, deploy, or
-change a model or prompt.
+S12 makes the LLMOps lifecycle operational. It prescribes the minimum
+engineering records and decision gates needed to move learning from data to
+production and back into governed improvement. It does not select a model,
+configure Azure resources, or approve a production release.
 
-## Decision 1: Applicability and asset boundary
+## Reference lifecycle and Azure mapping
 
-Choose the smallest boundary that supports a decision. It may be one workload,
-service, product configuration, or bounded asset population.
-
-| Option | When it fits | Trade-off / limitation | Governance implication |
+| Stage | Azure/Microsoft implementation default | Required governance record | Exit decision |
 |---|---|---|---|
-| Customer-controlled inventory | Customer can select, configure, version, or materially change the model or instruction. | Requires asset and owner evidence; can miss shared dependencies if scoped too narrowly. | Record model/provider, access path, instruction asset, versioning, owners, and change route. |
-| Shared-control register | Customer controls some assets and a platform or supplier controls others. | Boundaries can be ambiguous. | Separate customer, platform, and supplier responsibilities and evidence routes. |
-| Managed-product applicability record | Supplier controls the model or instruction and the customer has limited configuration control. | Supplier evidence may be incomplete or product-specific. | Record available customer controls, limitations, supplier route, and unresolved dependency. |
-| Defer for unknown control | Ownership or control cannot be established. | No complete operating-model decision can be claimed. | Record the gap, owner, and route to resolve it. |
+| Data curation | Customer-governed data source and transformation process; approved references to data and retrieval/evaluation assets. | Data purpose, source/provenance, transformation, retention, owner, and S2 decision. | Suitable for the stated experiment/evaluation use, or blocked. |
+| Experimentation | Protected source repository and reproducible candidate references for prompts, retrieval configuration, model/deployment choices, and code. | Hypothesis, candidate/release reference, experiment population, owner, and limitations. | Worth evaluating, abandoned, or requires new data/control. |
+| Evaluation | Microsoft Foundry evaluators/agent evaluators where supported, customer rubrics, and versioned scenario datasets. | Scorer/rubric, dataset/scenario version, coverage, threshold owner, results reference, and S7 decision. | Candidate meets the defined gate, fails, or needs iteration. |
+| Validate and deploy | DEV -> PRE -> PRO promotion through customer CI/CD, IaC, and change control. | Release manifest linking service release, deployment alias, instruction release, evaluation evidence, approver, and rollback target. | Promote, hold, rollback, or reject. |
+| Inference | Foundry deployment behind a customer-owned alias; selected gateway/backend contract and managed identity/network path where applicable. | Service/deployment route, owner, dependency and support path, performance assumptions. | Ready for approved workload, or constrained/deferred. |
+| Monitor | Foundry observability where applicable plus Application Insights/Azure Monitor and customer alerting. | Signal, population, retention/coverage limit, interpretation owner, escalation route, and S11 reference. | Normal operation, investigate, contain, or improve. |
+| Feedback and collection | Approved feedback capture and curation pipeline; feedback enters a candidate dataset, never a direct production mutation. | Purpose, consent/privacy route, sampling/quality rule, retention, owner, and S2/S11 handoff. | Reuse for inner-loop curation, discard, or investigate. |
 
-## Decision 2: Versioning and material-change route
+## Non-negotiable lifecycle controls
 
-Choose a method that enables comparison and accountable review without copying
-sensitive instruction content.
+1. **Reproducibility:** every experiment and promotion has a safe reference to
+   its code/configuration, candidate artifacts, data/evaluation version, and
+   outcome. Do not put sensitive contents in the S12 kit.
+2. **Separated environments:** DEV, PRE, and PRO have named purposes,
+   promotion authority, and stated equivalence limits. PRE evidence is not
+   automatic PRO approval.
+3. **Stage gates:** a candidate cannot skip from an experiment to PRO. It needs
+   S7 evaluation/release assurance and a customer change decision.
+4. **Closed-loop learning:** feedback/data collection requires governance before
+   it becomes curation input; monitoring signals create a hypothesis, not an
+   automatic root cause or model change.
+5. **Reconstructable inference:** the active PRO route is recoverable from a
+   release manifest: service release, deployment alias, instruction/retrieval
+   release, evaluation reference, approval, and rollback target.
 
-| Option | When it fits | Trade-off / limitation | Governance implication |
-|---|---|---|---|
-| Customer asset register with approved references | The customer maintains source, release, configuration, or record-system references. | Reference quality depends on the customer record system. | Record asset identifier, version, status, owner, evidence reference, and review trigger. |
-| Deployment or access-path alias with change record | A customer platform abstracts the provider or model behind an approved route. | An alias can hide a material provider or model change. | Require an owner and route for changes behind the alias. |
-| Supplier version and notice route | Managed product controls the asset path. | Vendor labels and notices may not expose all changes. | Record contractual/support route, applicability limit, and customer assessment owner. |
-| No reliable version evidence | No reviewable identifier or reference is available. | Change comparison is not supportable. | Defer approval or narrow the claim; backlog the evidence gap. |
+## Material-change decision matrix
 
-## Decision 3: Dependency and lifecycle route
+| Change | Lifecycle effect | Mandatory route |
+|---|---|---|
+| New data source, feedback reuse, retention, or transformation | Changes data-curation fitness and privacy/compliance assumptions. | S2, then experiment/evaluation owner. |
+| Prompt, retrieval, tool-use, model, fine-tuning, or configuration behavior change | Creates a new experimental candidate. | Experiment record, S7 evaluation, customer change before PRO. |
+| New model/provider, family, region, or deployment path | Changes selection, inference dependencies, and possibly behavior. | S4 admission/selection, S7, platform/change control, S11 as applicable. |
+| Deployment alias, fallback, quota, capacity, gateway, or identity change | Changes validation/deployment or inference dependencies. | Platform/change control; S7/S11 where behavior or operations change. |
+| Evaluation dataset, scorer, rubric, or threshold change | Changes what the team can claim from evaluation. | S7 decision and recorded comparison/coverage impact. |
+| Telemetry, alert, retention, cost allocation, or incident route change | Changes monitoring and feedback-loop evidence. | S11 and customer change route. |
 
-Choose the route that identifies what happens when a dependency degrades,
-changes, or ends. Do not treat a named process as evidence it has been tested.
+## Implementation handoff and acceptance
 
-| Option | When it fits | Trade-off / limitation | Governance implication |
-|---|---|---|---|
-| Customer-operated route | Customer owns the model access path, service, and change process. | Requires named capacity, incident, rollback, and retirement owners. | Record process references and explicit exclusions. |
-| Shared provider/platform route | Customer depends on a managed platform or provider for availability, quota, region, or deprecation. | Customer cannot control all recovery actions. | Record dependency owner, support/escalation route, evidence limits, and fallback decision route. |
-| Supplier-managed product route | Product supplier controls operational behavior or withdrawal. | Customer may only configure product-level options. | Record supplier notice/support route, customer communications and retirement responsibilities. |
-| Backlog-only gap | No reliable route or owner exists. | The route cannot support an assurance claim. | Assign an owner, target date, and customer process; defer or limit approval. |
+| Work item | Owner | Completion evidence |
+|---|---|---|
+| Map one workload across all seven LLMOps stages | LLMOps/service owner | Completed lifecycle canvas with owner and record at every stage. |
+| Version inner-loop artifacts and experiment records | Engineering/instruction owner | Protected source/release convention and completed experiment reference. |
+| Establish the evaluation gate | S7/release owner | Scenario/rubric and accepted evaluation decision reference. |
+| Establish promotion and reconstruction | Platform/service/change owner | DEV/PRE/PRO record and completed release manifest with rollback target. |
+| Establish inference operations | Platform/service owner | Deployment alias, support/dependency, and performance-assumption references. |
+| Establish monitoring and feedback governance | S11, S2, and service owner | Signal/feedback definitions, ownership, coverage limits, and escalation/curation routes. |
 
-## Decisions made & adoption progress
+## Boundaries
 
-| Adoption stage | What "done" looks like at S12 |
-|---|---|
-| Decided | Applicability, asset boundary, versioning, material-change classes, dependency routes, and owners are approved, deferred, or rejected with limitations. |
-| Backlogged | Customer-owned work for inventory, record quality, quota/region evidence, supplier route, incident/rollback, deprecation, or retirement has named owners and handoffs. |
-| In adoption | Customer teams implement the approved operating model through their own platform, engineering, change, supplier, service-management, S7, and S11 processes. |
-
-Capture the selection, alternatives, rationale, evidence limits, owners, and
-adoption stage in
-`labs/s12-llm-operations/templates/operating-model-material-change-decision.template.md`.
+S12 uses the results of S2, S4, S7, and S11 but does not duplicate their
+decisions. Its value is the joined-up workflow: every production signal and
+user-feedback item has a governed route back to the correct inner-loop stage,
+with an accountable owner and evidence trail.

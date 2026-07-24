@@ -1,25 +1,21 @@
-# S12 Takeaway Kit: LLM Operations
+# S12 Takeaway Kit: LLMOps lifecycle
 
-This optional, offline kit supports a customer-owned 90-minute, provider-neutral
-review of a model-and-prompt operating model. It applies when the customer can
-select, configure, version, or materially change a model or system instruction;
-a managed-product or supplier applicability route is also allowed. It is
-evidence-first and report-only. It does not select or deploy a model, alter a
-prompt or system instruction, query live data, configure a service, or approve a
-production change.
+This offline kit turns an LLMOps decision into a customer-owned implementation
+handoff. It covers the Microsoft LLMOps inner loop (data curation,
+experimentation, evaluation) and outer loop (validate/deploy, inference,
+monitoring, feedback/data collection). Azure services support the workflow but
+do not replace its gates, evidence, and ownership.
 
-Start with [runbook.md](runbook.md). Copy the blank templates into the
-customer's approved records system and retain only approved references in the
-delivery workspace.
-
-## Included offline templates
+Start with [runbook.md](runbook.md). Copy templates to the customer's approved
+records system and retain approved references only. The kit does not ingest data,
+change models/prompts, run evaluations, configure services, access live
+telemetry, or approve production.
 
 | Template | Use |
 |---|---|
-| [`templates/model-prompt-operations-register.template.md`](templates/model-prompt-operations-register.template.md) | Record the bounded scope, applicability, approved asset references, versioning, ownership, evidence gaps, dependencies, and handoffs. |
-| [`templates/operating-model-material-change-decision.template.md`](templates/operating-model-material-change-decision.template.md) | Record the customer decision, options, material-change classification, limitations, owners, dependencies, and S4/S7/S11 handoffs. |
-| [`templates/incident-rollback-retirement-plan.template.md`](templates/incident-rollback-retirement-plan.template.md) | Record safe-reference-only incident, rollback, deprecation, and retirement routes with owners, evidence gaps, limitations, and dependencies. |
+| [`templates/model-prompt-operations-register.template.md`](templates/model-prompt-operations-register.template.md) | Map all seven lifecycle stages and record the candidate release manifest. |
+| [`templates/operating-model-material-change-decision.template.md`](templates/operating-model-material-change-decision.template.md) | Apply stage gates and route lifecycle changes to S2/S4/S7/S11/platform/change owners. |
+| [`templates/incident-rollback-retirement-plan.template.md`](templates/incident-rollback-retirement-plan.template.md) | Define monitoring, feedback-to-curation, incident, rollback, deprecation, and retirement routes. |
 
-The templates are intentionally blank. They are not model selections, prompt
-content, configuration, evidence of control operation, incident instructions, or
-authorization to proceed.
+The templates contain safe references, not raw data, prompt content, model
+outputs, secrets, live configuration, or authority to proceed.

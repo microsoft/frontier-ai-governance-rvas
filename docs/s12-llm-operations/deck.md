@@ -1,139 +1,92 @@
-# S12 · LLM Operations
+# S12 · LLMOps
 
 **Facilitator deck**
 
-Governance lead - Model operations owner - Service owner - 90-minute evidence-first review
-
-Note:
-This provider-neutral, report-only session records a customer-owned model-and-prompt operating model. It does not select or deploy models, alter prompts, query live data, configure services, or approve production changes.
+LLMOps owner - AI developer - Service owner - 90-minute lifecycle review
 
 ---
 
-## One operating-model decision
+## LLMOps is the end-to-end operating model
 
-> **"Should this model-and-prompt operating model be approved, deferred, or rejected?"**
+> **"Can learning move safely from data to production and back again?"**
 
-The answer names applicability, assets, owners, change routes, dependencies, limitations, and backlog.
-
-Note:
-Keep the scope bounded to a workload, service, product configuration, or asset population. Approval concerns the operating model only; it is not a production-change approval.
+LLMOps manages the full lifecycle of developing, deploying, and maintaining
+LLM-based applications.
 
 ---
 
-## Applicability begins with customer control
+## Inner loop: build a candidate
 
-- S12 applies when the customer can select, configure, version, or materially change a model or system instruction.
-- Customer-controlled, shared-control, supplier-managed, and unknown routes have different evidence needs.
-- A supplier statement is not proof for a specific customer configuration.
+1. **Data curation** - prepare governed, fit-for-purpose data.
+2. **Experimentation** - test hypotheses across prompts, retrieval, models, and
+   other solution components.
+3. **Evaluation** - use defined measures, scenarios, and human judgment to
+   compare candidates.
 
-Note:
-Ask what the customer can actually change. When a managed product or supplier controls the asset, record the customer controls, supplier route, limitation, and ownership instead of assuming direct model operation.
-
----
-
-## The asset boundary is operational
-
-- Reference approved model/provider, access path, prompt or system-instruction asset, version, owner, and service scope.
-- Retain references, not prompt text, responses, credentials, or live configuration.
-- A version identifier supports comparison; it does not prove safety or approval.
-
-Note:
-The goal is not a universal inventory. It is a reviewable answer for a bounded scope: which assets are approved, who owns them, and how a meaningful change is assessed.
+Every stage needs an owner, version/provenance reference, coverage limit, and
+exit decision.
 
 ---
 
-## Material changes need a route
+## Outer loop: operate the approved solution
 
-- Assess model/provider, model version, access path, system instruction, region, quota, ownership, service route, and retirement changes.
-- Classify the effect on the approved operating model and record the rationale.
-- A version number alone does not decide materiality.
+4. **Validate and deploy** - promote deliberately through DEV -> PRE -> PRO.
+5. **Inference** - provide a reliable service route with known dependencies.
+6. **Monitor** - interpret health, performance, safety, privacy, and resource
+   signals.
+7. **Feedback and data collection** - collect governed learning for the next
+   inner-loop iteration.
 
-Note:
-A small instruction edit can be material when it changes authority or expected behavior. A provider change can be material when it changes the approved asset path. Record the route; do not make the change here.
-
----
-
-## Dependencies are not assurances
-
-- Capacity, quota, region, supplier, incident, rollback, deprecation, and retirement dependencies need owners and evidence limits.
-- A named route does not prove availability, recovery, or operating effectiveness.
-- Gaps become customer-owned backlog items.
+Feedback never changes production directly.
 
 ---
 
-## Keep the handoffs distinct
+## Azure implementation mapping
 
-- **S4:** initial admission and model/provider selection.
-- **S7:** evaluation and release assurance for material changes.
-- **S11:** monitoring, incidents, capacity, quota, and FinOps operation.
-- **S12:** the operating model, ownership, versioning, material-change, and lifecycle routes.
+- Protected source and reproducible candidate references.
+- Microsoft Foundry evaluation/observability where supported.
+- Customer CI/CD, IaC, and change control for promotion.
+- Foundry deployment aliases and customer platform route for inference.
+- Application Insights/Azure Monitor and customer alerting for operation.
 
-Note:
-Record a handoff as a dependency and named customer process. Do not repeat its assurance or monitoring work in this session.
-
----
-
-## Entry and boundary
-
-- **Entry:** bounded scope, customer control or supplier applicability, owners, and approved records location.
-- **Boundary:** approved references only; no selection, deployment, prompt change, live-data query, configuration, incident action, or production approval.
-- Unknown control or owner defers the affected decision.
+The services support LLMOps; they do not replace its decisions and ownership.
 
 ---
 
-## Step 1: Scope and applicability - 10 min
+## The stage gates prevent unsafe shortcuts
 
-> **"What can the customer actually select, configure, version, or materially change?"**
-
-Record the workload or asset population, control, owners, exclusions, and decision needed.
-
----
-
-## Step 2: Assets and ownership - 15 min
-
-> **"Which asset is approved for use, and who owns its operation?"**
-
-Reference the model/provider, access path, instruction asset, version, record, and owner. Record gaps without copying sensitive content.
+| From | To | Required evidence |
+|---|---|---|
+| Curation | Experiment | Approved purpose/provenance and S2 route |
+| Experiment | Evaluation | Reproducible candidate and hypothesis |
+| Evaluation | PRE/PRO | S7 decision, coverage, threshold, and change authority |
+| Production feedback | Curation | Purpose, privacy/retention, quality rule, and owner |
 
 ---
 
-## Step 3: Versioning and change route - 20 min
+## Workshop: map one application
 
-> **"Which changes could invalidate the operating decision?"**
-
-Classify material changes, name decision owners, record required evidence, and route S7 assurance work where needed.
-
----
-
-## Step 4: Dependencies and lifecycle - 15 min
-
-> **"What fails, changes, or ends outside this team's direct control?"**
-
-Record capacity, quota, region, supplier, incident, rollback, deprecation, and retirement dependencies with owners and limits.
+1. Complete the seven-stage lifecycle canvas.
+2. Trace one feedback item back to governed curation.
+3. Trace one candidate through evaluation and promotion.
+4. Find the weakest gate and create an implementation work item.
 
 ---
 
-## Step 5: Supplier applicability - 10 min
+## Keep accountability clear
 
-> **"What evidence can the supplier provide, and what customer decision remains?"**
-
-Mark customer-controlled, shared-control, supplier-managed, or unknown. Name the support, notice, escalation, and customer review routes.
-
----
-
-## Step 6: Decide and hand over - 20 min
-
-Approve, defer, or reject the operating model. Record limitations, backlog owners, review date, and S4, S7, or S11 handoffs.
-
-Note:
-Approval does not authorize a model selection, production change, service configuration, or prompt alteration.
+- **S2**: data governance.
+- **S4**: initial selection and admission.
+- **S7**: evaluation and release assurance.
+- **S11**: production monitoring and FinOps.
+- **S12**: the lifecycle, stage gates, artifact ownership, and closed loop.
 
 ---
 
-## Verification and handoff
+## Decide and hand over
 
-- [ ] Scope, applicability, owners, exclusions, and evidence location are recorded.
-- [ ] Assets, versions, and ownership have approved references or visible gaps.
-- [ ] Material-change and lifecycle routes have owners and dependencies.
-- [ ] S4, S7, and S11 handoffs are distinct and named.
-- [ ] Decision, limitations, backlog, and next review are customer-owned.
+- [ ] Seven stages have owners, evidence, and exit decisions.
+- [ ] Data and feedback use approved routes.
+- [ ] Candidates cannot bypass evaluation or promotion.
+- [ ] Production route and rollback target are reconstructable.
+- [ ] Backlog has owners, acceptance evidence, and review cadence.

@@ -30,7 +30,7 @@ contains only safe templates, offline tools, and guidance.
 | S9 | Control Plane, Catalog & Lifecycle | Reconciliation and lifecycle stewardship record |
 | S10 | In-Process Agent Governance | Applicability and adoption decision for a tool-call policy boundary |
 | S11 | Operate, Monitor & FinOps | Operating review, drift, cost, and remediation cadence |
-| S12 | LLM Operations | Model and prompt operating-model decision and lifecycle backlog |
+| S12 | LLMOps | End-to-end LLMOps lifecycle decision and implementation backlog |
 | S13 | Portfolio Governance & Continuous Improvement | Portfolio decision and next maturity roadmap |
 
 S10 is selected only when the customer's architecture includes a meaningful

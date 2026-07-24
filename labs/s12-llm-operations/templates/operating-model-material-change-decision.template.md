@@ -1,56 +1,39 @@
-# Operating-model and material-change decision
+# S12 LLMOps stage-gate and material-change decision
 
-Copy this blank, offline template into the customer's approved records system.
-It records a customer-owned decision and safe references only. It does not
-select or deploy a model, alter a prompt or system instruction, approve release,
-or make a production change.
+Copy this safe-reference template into the customer's approved records system.
+It classifies a lifecycle change; it does not authorize data use, deployment,
+release, or production use.
 
-## Scope, applicability, and decision owners
-
-| Field | Record |
-|---|---|
-| Bounded workload, service, product, or asset population | |
-| Decision under review | |
-| Applicability: customer-controlled / shared-control / supplier-managed / unknown | |
-| Customer control and limitation | |
-| Governance decision owner and decision date | |
-| Model operations, instruction, service, evidence, and supplier owners | |
-| Approved records location | |
-
-## Options and operating-model decision
-
-| Option | Fit for this scope | Evidence reference or gap | Key limitation or dependency | Chosen? (approve / defer / reject) |
-|---|---|---|---|---|
-| Customer-controlled asset register and version route | | | | |
-| Shared-control register and escalation route | | | | |
-| Supplier-managed applicability and notice route | | | | |
-| Defer pending control or ownership evidence | | | | |
+## Change decision
 
 | Field | Record |
 |---|---|
-| Decision: approve / defer / reject | |
-| Rationale and alternatives rejected or deferred | |
-| Scope approved and explicit exclusions | |
-| Evidence references and material evidence gaps | |
-| Limitations and assumptions | |
-| Customer-owned backlog, owners, and target dates | |
-| Next review date | |
+| Application/service and affected lifecycle stage | |
+| Proposed change and approved reference | |
+| Current and proposed candidate/release-manifest references | |
+| Classification: material / non-material / unknown | |
+| Governance decision owner and date | |
+| Effective date, exception expiry, or next review | |
 
-## Material-change classification and route
+## Mandatory routing assessment
 
-| Proposed or anticipated change | Material / non-material / unknown | Rationale and evidence reference or gap | Decision owner | Required route, dependency, or handoff |
-|---|---|---|---|---|
-| Model/provider, family, version, deployment, or access path | | | | |
-| Prompt or system-instruction asset, version, or owner | | | | |
-| Capacity, quota, region, residency, licensing, or supplier condition | | | | |
-| Service scope, ownership, incident, rollback, deprecation, or retirement route | | | | |
-| Other | | | | |
+| Impact question | Yes / no / unknown | Required route and evidence |
+|---|---|---|
+| Does it add/reuse data, feedback, retention, or a transformation? | | S2 data decision and curation record |
+| Does it change model, prompt, retrieval, tool use, fine-tuning, or behavior? | | Experiment record, S7 evaluation, customer change before PRO |
+| Does it change a model/provider, deployment path, region, or inference dependency? | | S4 where selection changes; platform/change control; S7/S11 as applicable |
+| Does it change evaluation data, scorer, rubric, coverage, or threshold? | | S7 comparison and decision record |
+| Does it change telemetry, alerts, incident operation, capacity, or cost allocation? | | S11 and customer change route |
+| Is control, evidence, or ownership unavailable? | | Defer; record gap, owner, target date, and limitation |
 
-## Dependencies and handoffs
+## Decision and exception record
 
-| Handoff | Need and limitation | Owner | Evidence reference or gap | Customer route |
-|---|---|---|---|---|
-| S4 initial admission and model/provider selection | | | | |
-| S7 evaluation and release assurance | | | | |
-| S11 service monitoring and FinOps | | | | |
-| Platform, supplier, incident, change, or retirement process | | | | |
+| Field | Record |
+|---|---|
+| Decision: advance / hold / reject | |
+| Rationale and lifecycle assumptions affected | |
+| Required S2, S4, S7, S11, platform, supplier, or change handoffs | |
+| Equivalent control for an exception | |
+| Required evidence before next stage and before PRO | |
+| Rollback/containment target and decision owner | |
+| Residual limitation and customer communication | |

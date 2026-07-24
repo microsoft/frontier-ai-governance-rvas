@@ -1,10 +1,22 @@
 # Do this
 
-**Customer owner:** Model operations or service owner
+**Customer owner:** LLMOps owner, AI developer, and service owner
 
-1. Choose one bounded model-and-prompt operating scope.
-2. Reference the current approved asset, owner, versioning evidence, and gap.
-3. Assign the material-change, incident, rollback, or retirement dependency that
-   must be resolved before approval.
+Use a fictional or sanitized workload. Do not use live data, prompt text,
+outputs, credentials, production telemetry, or service configuration.
 
-**If unavailable:** Record the applicability gap and route it to a named owner.
+1. Complete one lifecycle-canvas row for each inner-loop stage: data curation,
+   experimentation, and evaluation. Name the artifact, owner, evidence
+   location, exit decision, and S2/S7 handoff.
+2. Complete the outer-loop rows for validate/deploy, inference, monitoring, and
+   feedback/data collection. Include the PRE/PRO gate, release manifest,
+   rollback target, monitoring signal, and feedback-to-curation rule.
+3. Classify three changes: reuse feedback in an evaluation dataset, change a
+   retrieval/prompt candidate, and alter telemetry retention. Apply the S2,
+   S7, S11, platform, or customer-change route.
+4. Select the weakest lifecycle link and create one owner-backed implementation
+   work item with completion evidence and a target date.
+
+**Decision test:** Can learning safely move from production feedback to a
+curated candidate, through evaluation and promotion, then back into monitored
+operation? If not, defer the affected lifecycle claim.
