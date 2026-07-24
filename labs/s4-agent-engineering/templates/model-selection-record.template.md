@@ -40,9 +40,9 @@ making a customer backlog recommendation.
 
 ## Implementation backlog
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+| Backlog item | Applies / N/A / unknown / follow-up | Recommendation and confidence | Evidence reference or gap | Owner | Follow-up customer process |
 |---|---|---|---|---|---|
 | Approved model deployment or model-access path | | | | | Engineering / platform process |
-| Fine-tuning capability gap, training-data governance, and lifecycle owner | | | | | Customer SDLC / S7 |
-| Pre/post model-version evaluation comparison | | | | | S7 evaluation process |
-| Model-version pinning, update review, or retirement trigger | | | | | S9 / service owner |
+| Fine-tuning capability gap, training-data governance, and lifecycle owner | | | | | Customer SDLC and model-governance process |
+| Pre/post model-version evaluation comparison | | | | | Customer evaluation process |
+| Model-version pinning, update review, or retirement trigger | | | | | Customer service-management process |

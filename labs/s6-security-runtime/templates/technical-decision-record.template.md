@@ -1,4 +1,4 @@
-[S6 Technical decisions](../../../docs/s6-security-runtime/technical.md)
+[Technical-decision guide](../../../docs/s6-security-runtime/technical.md)
 
 # Technical decision record
 
@@ -43,7 +43,7 @@ change traffic, or approve production.
 | Field | Record |
 |---|---|
 | Adoption stage (decided / backlogged / in adoption) | |
-| S0 security/runtime maturity dimension advanced | |
+| Capability area improved | |
 | Next step and owner (security / platform / SOC / identity / change process) | |
-| S7 gateway-proof handoff reference | |
-| Review date and S12 portfolio reference | |
+| Gateway-proof reference, if used | |
+| Review date and portfolio reference, if used | |

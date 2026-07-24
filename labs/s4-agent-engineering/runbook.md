@@ -1,6 +1,6 @@
 # S4 Runbook: Agent Engineering & Admission Standards
 
-Use this runbook with the visible [S4 co-delivery activity](../../docs/s4-agent-engineering/index.md).
+Use this runbook with the [agent-admission activity guide](../../docs/s4-agent-engineering/index.md).
 The customer reviews its records and makes decisions; the facilitator preserves
 the 90-minute, evidence-first, report-only boundary while producing a decision
 package.
@@ -14,7 +14,7 @@ package.
 
 **90 minutes:** scope and stop condition (10), classification (10),
 Microsoft path matrix (20), selected-path backlog (20), cross-cutting
-governance services (15), lifecycle decision and handoff (15).
+governance services (15), lifecycle decision and next actions (15).
 
 **Roles:** engineering owner explains the candidate; service owner explains
 operation and retirement ownership; governance lead makes or defers the
@@ -76,16 +76,16 @@ the selected path. For Microsoft Foundry Agent Service, cover:
   prohibited-action boundary.
 - [ ] Tracing, logs, metrics, Application Insights/OpenTelemetry, or Foundry
   observability evidence.
-- [ ] Evaluation target, dataset owner, threshold, scorecard, and S7 handoff.
-- [ ] Red-team authorization, scope, remediation route, and S8 handoff.
-- [ ] Agent/catalog/lifecycle record, S9 handoff, review cadence, and
+- [ ] Evaluation target, dataset owner, threshold, scorecard, and customer evaluation process.
+- [ ] Red-team authorization, scope, remediation route, and retest process.
+- [ ] Agent/catalog/lifecycle record, review cadence, and
   retirement owner.
 - [ ] Customer change process, rollback owner, production-approval boundary,
   and post-release verification route.
 
 Ask: “What would the customer actually configure, validate, or approve next?”
 Each backlog row needs an owner, evidence reference or gap, dependency, and
-later-session or customer-process route.
+follow-up customer process.
 
 ### 3a. Record model, latency, and cost decisions
 
@@ -94,7 +94,7 @@ later-session or customer-process route.
 - [ ] Record the model capability, cost, latency, data-governance, and
   fine-tuning assumptions as references and owned gaps.
 - [ ] Name the cost owner, latency-regression owner, training-data review owner,
-  and S7/S11 handoffs.
+  and the customer process for evaluation, finance, or operations review.
 
 Ask: “Which model tier is the cost owner accountable for?” “What is the
 consequence of a latency regression?” and “Is fine-tuning justified, and who
@@ -104,7 +104,7 @@ telemetry, or fine-tune a model.
 ## 4. Review related governance services and test expectations
 
 1. Mark each related governance area as applies, does not apply,
-   unknown, or later-session item: Entra/Agent ID, Purview/data governance,
+   unknown, or follow-up item: Entra/Agent ID, Purview/data governance,
    Azure Monitor/Application Insights/OpenTelemetry, Foundry
    evaluation/observability, Content Safety/runtime policy, Power Platform DLP
    and ALM, Microsoft 365 Copilot governance, Agent 365/API Center/catalog, and
@@ -139,7 +139,7 @@ offline result.
 The session records whether reapproval is required; it does not perform the
 change, disable an integration, or retire a service.
 
-## 6. Decide lifecycle entry and hand off
+## 6. Decide lifecycle entry and next actions
 
 The governance lead chooses one:
 
@@ -155,8 +155,9 @@ in this runbook is never production approval.
 ### 6a. Assemble a rollout decision when later evidence is available
 
 Copy `templates/rollout-decision-record.template.md` only when the customer is
-ready to assemble its own S4, S6, S7, S8, and S9 references. Validate the
-completed record against `../../contracts/rollout-decision.schema.json`.
+ready to assemble its own admission, runtime-proof, assurance, security-review,
+and catalog references. If its approved records system creates a JSON rollout
+record, validate that JSON against `../../contracts/rollout-decision.schema.json`.
 Confirm the current stage, gateway-proof and assurance references, rollback
 owner, environment label, and customer change authority. Map the customer's
 DEV, PRE, and PRO labels explicitly: DEV is an isolated non-production activity;

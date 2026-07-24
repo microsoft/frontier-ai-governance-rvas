@@ -1,5 +1,5 @@
 {
-  "schema": "rvas.s7.tool-policy.v1",
+  "schema": "rvas.s10.tool-policy.v1",
   "policy_id": "illustrative-agent-tool-policy",
   "version": "2026-07-15",
   "default_decision": "deny",

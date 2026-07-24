@@ -25,7 +25,7 @@ customer identifiers in this repository.
 | Check | Result / reference | Interpretation owner |
 |---|---|---|
 | Manifest conforms to `rvas.delivery.gateway-proof.v1` | | |
-| Manifest result is `pass`, `fail`, or `blocked` | | |
+| Manifest result is `pass` or `fail`; any `blocked` review decision is recorded separately | | |
 | Correlation identifier resolves in approved gateway telemetry | | |
 | Observed route matches the approved gateway/access-contract/backend path | | |
 | Observed policy behavior supports the stated expectation | | |
@@ -35,7 +35,7 @@ customer identifiers in this repository.
 
 | Observed pattern | Decision |
 |---|---|
-| Conforming `pass` manifest and accepted telemetry correlation by both reviewers | Accepted gateway proof. Record decision reference and handoff. |
+| Conforming `pass` manifest and accepted telemetry correlation by both reviewers | Accepted gateway proof. Record the decision reference and any permitted use. |
 | `pass` manifest but missing or disputed telemetry correlation | Deferred or blocked. A transport pass is not enforcement evidence. |
 | `fail` manifest | Rejected or deferred with owner, target date, and reviewed scope. |
 | Unsafe route, production-only target, missing reviewer, or missing record location | Blocked. Stop dependent assurance work. |
@@ -43,11 +43,11 @@ customer identifiers in this repository.
 
 ## Runtime-control implementation backlog
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+| Backlog item | Applies / N/A / unknown / follow-up | Recommendation and confidence | Evidence reference or gap | Owner | Follow-up customer process |
 |---|---|---|---|---|---|
-| Gateway/APIM route, access contract, backend, or policy remediation | | | | | S3 / platform process |
-| Content Safety, Prompt Shields, or runtime policy review | | | | | Security process |
-| Telemetry correlation, retention, alerting, or reviewer route | | | | | S7 / S11 |
-| Identity, RBAC, OBO, or data-control dependency | | | | | S1 / S2 |
-| Accepted gateway proof handoff to evaluation/release assurance | | | | | S7 |
-| Catalog/lifecycle or operating-evidence update | | | | | S9 / S11 |
+| Gateway/APIM route, access contract, backend, or policy remediation | | | | | Customer platform process |
+| Content Safety, Prompt Shields, or runtime policy review | | | | | Customer security process |
+| Telemetry correlation, retention, alerting, or reviewer route | | | | | Customer operating process |
+| Identity, RBAC, OBO, or data-control dependency | | | | | Customer identity and data-governance processes |
+| Accepted gateway proof use in evaluation or release assurance | | | | | Customer evaluation process |
+| Catalog/lifecycle or operating-evidence update | | | | | Customer service-management process |

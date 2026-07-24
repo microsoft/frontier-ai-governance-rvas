@@ -24,14 +24,19 @@ def parse_args(argv: list[str]) -> tuple[Path, Path, float]:
     for a in argv[1:]:
         if a.startswith("--target"):
             _, _, val = a.partition("=")
-            if val:
-                target = float(val)
-            else:
+            candidate = val
+            if not candidate:
                 idx = argv.index(a)
                 if idx + 1 < len(argv):
-                    target = float(argv[idx + 1])
+                    candidate = argv[idx + 1]
+            try:
+                target = float(candidate)
+            except ValueError:
+                raise SystemExit("target must be a number from 1 to 4") from None
     if len(args) < 2:
         raise SystemExit("usage: python compare.py <baseline.csv> <exit.csv> [--target N]")
+    if not (MIN_SCORE <= target <= MAX_SCORE):
+        raise SystemExit(f"target must be within the {MIN_SCORE}-{MAX_SCORE} scale")
     return Path(args[0]), Path(args[1]), target
 
 
@@ -44,7 +49,7 @@ def main(argv: list[str]) -> int:
     baseline = load(baseline_path)
     exit_ = load(exit_path)
 
-    print(f"\nS0-S12 Maturity Lift — baseline: {baseline_path.name} -> exit: {exit_path.name}")
+    print(f"\nMaturity lift — baseline: {baseline_path.name} -> exit: {exit_path.name}")
     print("=" * 64)
     print(f"{'Domain':<40}{'Base':>6}{'Exit':>6}{'Lift':>7}")
     print("-" * 64)
@@ -88,7 +93,7 @@ def main(argv: list[str]) -> int:
 
     print(f"\nResidual-gap backlog (domains below target {target:.1f} at exit):")
     if not backlog:
-        print("  none — all measured domains meet or exceed target. 🎉")
+        print("  none — all measured domains meet or exceed target.")
     else:
         for code, m in sorted(backlog, key=lambda x: x[1]):
             gap = target - m
@@ -97,8 +102,6 @@ def main(argv: list[str]) -> int:
                 f"  (exit {m:.2f}, {gap:.2f} below target)"
             )
 
-    # Guard: keep MIN_SCORE referenced so intent is explicit for readers/linters.
-    assert MIN_SCORE <= target <= MAX_SCORE, "target must be within the 1-4 scale"
     return 0
 
 

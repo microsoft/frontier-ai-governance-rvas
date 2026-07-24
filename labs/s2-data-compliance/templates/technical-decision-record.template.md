@@ -41,7 +41,7 @@ production.
 | Alternatives rejected or deferred and why | |
 | Evidence references (customer records system only) | |
 | Named owner(s) | |
-| Dependencies (classification, source permissions, S3/S5/S6, customer change process) | |
+| Dependencies (classification, source permissions, platform, tool/API, runtime assurance, and customer change process) | |
 | Verified-status caveat (availability / licensing / region checked on) | |
 
 ## Adoption progress
@@ -49,6 +49,6 @@ production.
 | Field | Record |
 |---|---|
 | Adoption stage (decided / backlogged / in adoption) | |
-| S0 maturity dimension advanced | Data posture / compliance evidence / retention ownership |
+| Maturity dimension advanced | Data posture / compliance evidence / retention ownership |
 | Next step and owner | |
-| Review date and S12 portfolio reference | |
+| Review date and portfolio reference | |

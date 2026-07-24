@@ -50,25 +50,27 @@ decision owner. Stop a population whose source, access, or owner is missing.
 
 ## 4. Make the ownership decision
 
-- [ ] Governance lead chooses remediation, `accepted_risk`, `blocked`, or
-  deferred decision based on coverage, attributable sponsor, lifecycle,
-  access-risk context, and customer authority.
+- [ ] Governance lead chooses remediation (`designed`), `accepted_risk`, or
+  `blocked` based on coverage, attributable sponsor, lifecycle, access-risk
+  context, and customer authority. Record an unready decision as `backlogged`
+  in the technical decision record with an owner and review date.
 - [ ] Record identity implementation backlog rows: Entra Agent ID applicability,
   sponsor remediation, workload identity/RBAC/OBO review, Conditional Access or
-  access-review change owner, S4 admission dependency, S6 gateway-auth
-  dependency, and S9 catalog/lifecycle dependency where applicable.
+  access-review change owner, engineering-admission dependency,
+  gateway-authentication dependency, and catalog/lifecycle dependency where
+  applicable.
 - [ ] For each row, record recommendation, confidence, assumptions, evidence
-  reference or gap, owner, later session or customer identity-change process,
-  and the boundary that S1 makes no access or tenant change.
+  reference or gap, owner, follow-up process or customer identity-change
+  process, and the boundary that this review makes no access or tenant change.
 - [ ] Record the customer inventory/source reference and retention metadata in
   `04-operate/evidence-register.json`, and decision/owner/approver/date in
   `04-operate/decision-register.json`.
 
 ## 5. Hand off without designing controls
 
-- [ ] Read back evidence reference, control state, next owner, and S6
-  reconciliation dependency. If no decision owner attended, record deferred
-  owner/date.
+- [ ] Read back evidence reference, control state, next owner, and any
+  runtime-assurance or lifecycle-reconciliation dependency. If no decision
+  owner attended, record deferred owner/date.
 - [ ] Hand Conditional Access, break-glass, access remediation, and enforcement
   to the customer identity-change process; it owns design, change safety,
   verification, and evidence retention.

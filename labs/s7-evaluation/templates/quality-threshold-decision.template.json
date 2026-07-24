@@ -1,0 +1,18 @@
+{
+  "schema": "rvas.delivery.quality-threshold-decision.v1",
+  "evaluation_plan_reference": "customer-record:evaluation-plan",
+  "bounded_workload": "customer-defined workload, version, environment, and population",
+  "dimensions": [
+    {
+      "name": "customer-defined quality dimension",
+      "threshold_reference": "customer-record:approved-threshold",
+      "threshold_owner": "customer-role:threshold-approver",
+      "evaluator_reference": "customer-record:evaluator-and-dataset-version",
+      "coverage_limit": "Customer-defined exclusions and unsupported population."
+    }
+  ],
+  "assurance_owner_reference": "customer-role:assurance-owner",
+  "threshold_decision": "provisional",
+  "decision_reference": "customer-record:quality-threshold-decision",
+  "review_date": "YYYY-MM-DD"
+}

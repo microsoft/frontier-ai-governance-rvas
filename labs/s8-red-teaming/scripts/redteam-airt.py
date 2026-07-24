@@ -30,6 +30,16 @@ TargetAdapter = Callable[[str, str], Coroutine[Any, Any, str]]
 TargetCallback = Callable[[str], Coroutine[Any, Any, str]]
 
 
+def positive_int(value: str) -> int:
+    try:
+        parsed = int(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError("must be a whole number") from exc
+    if parsed < 1:
+        raise argparse.ArgumentTypeError("must be at least 1")
+    return parsed
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run an AI Red Teaming Agent scan.")
     parser.add_argument("--azure-ai-project", required=True, help="Azure AI Foundry project endpoint or connection string.")
@@ -39,6 +49,21 @@ def parse_args() -> argparse.Namespace:
         required=True,
         metavar="MODULE:CALLABLE",
         help="Customer-owned async adapter, for example customer_redteam_adapter:target.",
+    )
+    parser.add_argument(
+        "--authorization-reference",
+        required=True,
+        help="Customer-approved authorization record reference; acknowledged but not verified by this script.",
+    )
+    parser.add_argument(
+        "--soc-notification-reference",
+        required=True,
+        help="Customer SOC monitoring-window reference; acknowledged but not verified by this script.",
+    )
+    parser.add_argument(
+        "--confirm-non-production-target",
+        action="store_true",
+        help="Required operator acknowledgement that the target is customer-owned and non-production.",
     )
     parser.add_argument(
         "--output",
@@ -59,8 +84,18 @@ def parse_args() -> argparse.Namespace:
         default=DEFAULT_COMPARISON_OUTPUT,
         help="Ignored customer-evidence path for the threshold-comparison sidecar.",
     )
-    parser.add_argument("--num-objectives", type=int, default=5, help="Objectives (attack prompts) generated per risk category for a scoped run.")
-    return parser.parse_args()
+    parser.add_argument(
+        "--num-objectives",
+        type=positive_int,
+        default=5,
+        help="Positive number of attack objectives generated per configured risk category.",
+    )
+    args = parser.parse_args()
+    if not args.authorization_reference.strip() or not args.soc_notification_reference.strip():
+        parser.error("authorization and SOC notification references must be non-empty")
+    if not args.confirm_non_production_target:
+        parser.error("--confirm-non-production-target is required")
+    return args
 
 
 def load_redteam_deps() -> tuple[type[Any], Any, Any]:
@@ -145,7 +180,10 @@ def load_threshold_review(path: Path) -> list[dict[str, Any]]:
         max_acceptable_asr = item.get("max_acceptable_asr")
         if not isinstance(category, str) or not category.strip():
             raise SystemExit("threshold-review category must be a non-empty string")
-        if not all(isinstance(value, (int, float)) for value in (observed_asr, max_acceptable_asr)):
+        if not all(
+            isinstance(value, (int, float)) and not isinstance(value, bool)
+            for value in (observed_asr, max_acceptable_asr)
+        ):
             raise SystemExit("threshold-review ASR values must be numbers")
         if not 0 <= observed_asr <= 1 or not 0 <= max_acceptable_asr <= 1:
             raise SystemExit("threshold-review ASR values must be between 0 and 1")
@@ -159,6 +197,8 @@ def load_threshold_review(path: Path) -> list[dict[str, Any]]:
                 else "above_threshold",
             }
         )
+    if not categories:
+        raise SystemExit("threshold-review categories must contain at least one category")
     return categories
 
 
@@ -168,15 +208,15 @@ def write_threshold_comparison(
     comparison_output: Path,
 ) -> None:
     categories = load_threshold_review(review_path)
+    if not native_scorecard.is_file():
+        raise SystemExit(
+            f"native scorecard not found: {native_scorecard}; do not create a comparison without it"
+        )
     comparison_output.parent.mkdir(parents=True, exist_ok=True)
     sidecar = {
         "schema": "rvas.s8.threshold-comparison.v1",
         "native_scorecard_reference": str(native_scorecard),
-        "native_scorecard_sha256": (
-            hashlib.sha256(native_scorecard.read_bytes()).hexdigest()
-            if native_scorecard.is_file()
-            else None
-        ),
+        "native_scorecard_sha256": hashlib.sha256(native_scorecard.read_bytes()).hexdigest(),
         "customer_threshold_review_reference": str(review_path),
         "categories": categories,
         "decision_required": any(item["decision"] == "above_threshold" for item in categories),
@@ -189,6 +229,10 @@ def main() -> int:
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
     asyncio.run(run_redteam(args))
+    if not output.is_file():
+        raise SystemExit(
+            f"Foundry scan returned without the expected native scorecard: {output}"
+        )
     print(f"Foundry scan completed; native scorecard output is {output}")
     if args.threshold_review:
         write_threshold_comparison(output, args.threshold_review, args.comparison_output)

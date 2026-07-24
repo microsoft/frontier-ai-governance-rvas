@@ -3,7 +3,9 @@
 Use this runbook with the [S9 co-delivery activity](../../docs/s9-control-plane/index.md).
 The customer performs all operations; the facilitator timeboxes, preserves the
 evidence-first boundary, and captures decisions. Do not store raw customer
-records in this kit.
+records in this kit. Customer-controlled, gitignored `evidence/` paths may be
+used as a temporary local working location for the normalized inputs and
+report; the approved records system remains the evidence of record.
 
 ## Roles, timebox, and entry condition
 
@@ -49,8 +51,8 @@ alias, or sample.
 ## Read-only reconciliation and triage
 
 1. The customer creates a normalized catalog in approved records, then places
-   only the permitted normalized input in the evidence location. The sample is
-   illustrative and never customer evidence.
+   only the permitted normalized input in the local, gitignored evidence
+   location. The sample is illustrative and never customer evidence.
 2. Run the read-only reconciliation. It matches only catalog
    `identityObjectId` with identity-inventory `objectId`:
    ```bash
@@ -94,6 +96,7 @@ date where needed.
 Closeout confirms that accountability is visible. It does not confirm that an
 entry was changed, a remediation operates, or an exception is resolved. A
 closure requires a validation reference and a recorded recurrence review.
+References to S11 or S12 are optional handoffs, not S9 exit conditions.
 
 Record the catalog and lifecycle implementation backlog in the stewardship
 record: Agent 365, Entra Agent ID, API Center or registry reconciliation,
@@ -112,7 +115,10 @@ recommendation, confidence, assumptions, owner, and customer process.
 
 Retain only scope, date, approved-record references, observed result or
 no-result, interpretation, decision, owner, and dependency in the handoff.
-Local samples and tool output are not evidence that a control operates.
+Local samples and tool output are not evidence that a control operates. The
+reconciliation report is an input-quality and matching result only; confirm
+its source, date, and scope in the approved records before using it in a
+decision.
 
 ## Blocker pathways
 

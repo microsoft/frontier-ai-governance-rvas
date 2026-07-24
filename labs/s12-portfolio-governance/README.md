@@ -3,7 +3,7 @@
 This offline kit supports a 90-minute, facilitator-led portfolio review. It
 helps an organization review evidence, interpret exceptions and risk,
 prioritize investment, identify maturity and policy questions, and feed the
-next roadmap back into S0.
+next roadmap into its maturity reassessment process.
 
 Start with [runbook.md](runbook.md). Copy the blank templates to the approved
 records system before entering any information.

@@ -35,11 +35,11 @@ decision before following this runbook. The customer platform operator performs
 the request; customer platform and security reviewers, not the facilitator,
 correlate it and decide whether the canonical gateway proof is accepted.
 
-## Handoff
+## Using the proof record
 
 The customer platform and security owners correlate the manifest's
 `correlation_id` with their gateway telemetry and record an accept, reject, or
 blocked decision in their approved evidence system. Only an accepted, `pass`
-gateway proof may be handed to S4. Keep the technical decision record with the
-customer's approved evidence. Do not commit the manifest or customer records to
-this repository.
+gateway proof may be cited in an agent-admission decision. Keep the technical
+decision record with the customer's approved evidence. Do not commit the
+manifest or customer records to this repository.

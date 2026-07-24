@@ -13,7 +13,9 @@ chooses the outcome; the facilitator keeps the assurance boundary and records
 the handoff.
 
 1. Confirm the customer evidence system contains an S6 gateway-proof manifest
-   conforming to `contracts/gateway-proof.schema.json`, with `result: "pass"`.
+   conforming to
+   [`contracts/gateway-proof.schema.json`](../../contracts/gateway-proof.schema.json),
+   with `result: "pass"`.
 2. Confirm named customer platform and security reviewers have accepted that
    proof after correlating its `correlation_id` with gateway telemetry. A passed
    request without this acceptance is not an S7 entry condition.
@@ -27,11 +29,14 @@ the handoff.
    and release-decision use. They also copy
    `templates/assurance-outcome.template.json` into their approved records
    system, records only references (not raw evidence), and selects `continue`
-   or `hold`.
+   or `hold`. They state the bounded scope and evidence limit; `continue`
+   means the handoff record is complete, not that production use is approved.
    Where quality thresholds are in scope, the assurance owner also copies
    `templates/quality-measurement-plan.template.md`, records customer-owned
    dimensions, evaluator options, coverage limitations, threshold governance,
-   and baseline references, then validates the threshold decision against
+   and baseline references, then creates
+   `templates/quality-threshold-decision.template.json` and validates that
+   threshold decision against
    `contracts/quality-threshold-decision.schema.json`. Ask which evaluators are
    universal versus project-gated, who proposes and approves the threshold, and
    which population is not covered.
@@ -42,10 +47,12 @@ the handoff.
    load engine (for example Azure Load Testing, after current service status,
    region, quota, and pricing are verified) is customer-run and referenced, not
    operated by this kit; production reconciliation of any drift hands off to S11.
-4. Validate the completed record against
+4. Validate the completed assurance-outcome record against
    `contracts/assurance-handoff.schema.json`. The assurance exit is complete
-   only when the S6 decision is `accepted` and the customer has recorded the
-   outcome and decision reference.
+   only when the customer acceptance decision is `accepted`, the outcome is
+   recorded, and the decision reference, review date, and next review date are
+   present. If any is missing, choose `hold` and record the owner and target
+   date for completion.
 
 Customer teams may run Foundry Evaluations or introduce a CI gate separately in
 their own approved delivery process after current status, availability, and

@@ -1,23 +1,30 @@
 # S9 Exit Re-score
 
-S9 re-runs the same maturity scorecard used in S0.
+Use this optional comparison only when the customer has an approved S0 baseline
+and elects to compare it. It is not an S9 entry or closeout requirement. Do not
+create or infer a baseline to produce a score.
 
 ## Steps
 
-1. Copy the baseline scorecard structure into S9 evidence:
+1. Confirm the baseline reference, scorecard version, and comparison owner in
+   approved records. If any is unavailable, record the coverage limitation in
+   `closeout-backlog.md` and skip this comparison.
+2. Copy the approved baseline scorecard structure into a customer-controlled,
+   gitignored S9 evidence location:
    ```bash
    cp ../s0-foundations/assessment/scorecard.csv ../s9-control-plane/evidence/exit-scorecard.csv
    ```
-2. Fill the `score` column with the customer using the same 1-4 scale:
+3. Fill the `score` column with the customer using the same 1-4 scale:
    - 1 = Ad-hoc
    - 2 = Repeatable
    - 3 = Defined
    - 4 = Optimized
-3. Run the scorer from the S9 kit directory:
+4. Run the scorer from the S9 kit directory:
    ```bash
    python ../s0-foundations/assessment/score.py evidence/exit-scorecard.csv
    ```
-4. Auto-compute the **lift vs the S0 baseline** and the residual-gap backlog:
+5. Auto-compute the **lift versus the approved S0 baseline** and the
+   residual-gap backlog:
    ```bash
    python ../s0-foundations/assessment/compare.py \
      ../s0-foundations/evidence/scorecard-baseline-*.csv \
@@ -26,7 +33,8 @@ S9 re-runs the same maturity scorecard used in S0.
    ```
    `compare.py` prints per-domain baseline→exit deltas, overall lift, and the domains still below the target maturity (the residual-gap backlog). Capture
    `evidence/maturity-lift.txt` as the comparison record. The comparison is
-   required for S9 closeout.
+   optional decision input; it is not evidence that a control operates and is
+   not required for S9 closeout.
 
 The table below is auto-produced by `compare.py`; fill the backlog-owner column by hand:
 

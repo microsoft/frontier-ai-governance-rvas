@@ -34,7 +34,7 @@ for the available options and selection criteria.
 | Rationale (criteria that decided it) | |
 | Alternatives rejected or deferred and why | |
 | Named sponsor / owner | |
-| Dependencies (S6 runtime, S9 reconciliation, identity-change process) | |
+| Dependencies (runtime assurance, lifecycle reconciliation, identity-change process) | |
 | Verified-status caveat (availability / licensing checked on) | |
 
 ## Adoption progress
@@ -42,6 +42,6 @@ for the available options and selection criteria.
 | Field | Record |
 |---|---|
 | Adoption stage (decided / backlogged / in adoption) | |
-| S0 maturity dimension advanced | |
+| Maturity dimension advanced | |
 | Next step and owner (customer identity-change process) | |
-| Review date and S12 portfolio reference | |
+| Review date and portfolio reference | |

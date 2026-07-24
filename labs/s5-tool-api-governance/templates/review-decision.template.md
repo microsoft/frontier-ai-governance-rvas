@@ -20,5 +20,5 @@
 **Residual gaps, risk disposition, owner, and due date:**
 **Required customer change, rollback, communication, and verification references:**
 **Implementation recommendation, confidence, assumptions, and deferred alternatives:**
-**Later-session route:** S1 / S3 / S4 / S6 / S9 / S11 / customer process
+**Follow-up owner and customer process:**
 **Decision rationale, approver, and next review date:**

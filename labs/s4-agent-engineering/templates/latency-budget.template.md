@@ -30,8 +30,8 @@ sampling, retention, population, and availability limits before using it.
 
 ## Implementation backlog
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+| Backlog item | Applies / N/A / unknown / follow-up | Recommendation and confidence | Evidence reference or gap | Owner | Follow-up customer process |
 |---|---|---|---|---|---|
 | Component attribution and latency evidence source | | | | | Engineering / platform operations |
-| Regression threshold, review route, and escalation owner | | | | | Customer operating process / S11 |
-| Operating-review handoff for latency drift | | | | | S11 |
+| Regression threshold, review route, and escalation owner | | | | | Customer operating process |
+| Operating-review route for latency drift | | | | | Customer operating process |

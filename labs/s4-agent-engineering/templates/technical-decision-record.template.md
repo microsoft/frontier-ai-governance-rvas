@@ -4,7 +4,7 @@ Copy this blank record into the customer's approved records system. It captures 
 customer-owned technical decision, the options considered, and the adoption
 stage. It does not generate code, configure a product, or approve production.
 
-See the [S4 Technical decisions](../../../docs/s4-agent-engineering/technical.md)
+See the [technical-decision guide](../../../docs/s4-agent-engineering/technical.md)
 chapter for the path matrix and selection criteria. It complements
 `admission-record.template.md` as the durable decision artifact.
 
@@ -44,7 +44,7 @@ chapter for the path matrix and selection criteria. It complements
 | Field | Record |
 |---|---|
 | Adoption stage (decided / backlogged / in adoption) | |
-| S0 maturity dimension advanced | |
+| Capability area improved | |
 | Selected-path configuration backlog reference | |
-| Later-session routing (S6 / S7 / S9) and change process | |
-| Review date and S12 portfolio reference | |
+| Follow-up owner and customer process | |
+| Review date and portfolio reference, if used | |

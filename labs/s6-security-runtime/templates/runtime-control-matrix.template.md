@@ -37,11 +37,11 @@ control blocked or allowed a request.
 | Runtime decision and SOC/operations response | | | | | |
 | Safety/telemetry retention and privacy boundary | | | | | |
 
-## Handoff backlog
+## Follow-up backlog
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+| Backlog item | Applies / N/A / unknown / follow-up | Recommendation and confidence | Evidence reference or gap | Owner | Follow-up customer process |
 |---|---|---|---|---|---|
-| Gateway proof and correlation acceptance | | | | | S6 decision / S7 |
-| Policy, guardrail, tool-control, or response routing | | | | | Security / platform process |
-| Identity, data, or tool-authority dependency | | | | | S1 / S2 / S5 / S10 |
-| Alert, retention, operational review, or remediation route | | | | | S11 |
+| Gateway proof and correlation acceptance | | | | | Customer security and evaluation processes |
+| Policy, guardrail, tool-control, or response routing | | | | | Customer security or platform process |
+| Identity, data, or tool-authority dependency | | | | | Customer identity, data-governance, and tool-governance processes |
+| Alert, retention, operational review, or remediation route | | | | | Customer operating process |

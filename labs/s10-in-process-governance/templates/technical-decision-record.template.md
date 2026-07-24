@@ -4,8 +4,8 @@ Copy this blank record into the customer's approved records system. It captures 
 customer-owned technical decision, the options considered, and the adoption
 stage. It does not install AGT, change code, or approve production.
 
-See the [S10 Technical decisions](../../../docs/s10-in-process-governance/technical.md)
-chapter for the boundary option menu and selection criteria.
+See the [technical-decisions guidance](../../../docs/s10-in-process-governance/technical.md)
+for the boundary option menu and selection criteria.
 
 ## Decision
 
@@ -40,7 +40,7 @@ chapter for the boundary option menu and selection criteria.
 | Field | Record |
 |---|---|
 | Adoption stage (decided / backlogged / in adoption) | |
-| S0 maturity dimension advanced | |
-| S6 backlog reference for any engineering assessment | |
+| Governance maturity objective supported | |
+| Customer backlog reference for any engineering assessment | |
 | Next step and owner (engineering / change process) | |
-| Review date and S12 portfolio reference | |
+| Review date and portfolio-review reference, if any | |

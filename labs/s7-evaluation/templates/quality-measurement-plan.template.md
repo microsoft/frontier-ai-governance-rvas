@@ -4,6 +4,11 @@ Copy this blank plan into the customer's approved records system. It extends
 the evaluation-plan review with bounded quality questions. It does not run an
 evaluator, set a threshold, or create a release gate.
 
+Use `quality-threshold-decision.template.json` only after every selected
+dimension has a threshold reference, an evaluator reference, an accountable
+threshold owner, and a stated coverage limit. Otherwise record `provisional`
+or `blocked`; do not treat an empty or unreviewed dimension as approved.
+
 ## Quality dimensions and coverage
 
 | Dimension | Customer-owned definition | Measurement method | Evaluator or reviewer | Threshold reference | Coverage population | Exclusions |

@@ -4,6 +4,10 @@ Copy this blank template into approved records. It documents a review; it does
 not authorize a lifecycle transition, material change, suspension, retirement,
 or decommissioning.
 
+Complete a closeout only after every listed finding has a disposition. A
+reconciliation match is not proof of ownership, approval, or control operation;
+record its bounded scope and source date.
+
 | Field | Record |
 |---|---|
 | Bounded catalog population and review period | |

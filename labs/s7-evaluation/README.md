@@ -8,10 +8,11 @@ request.
 
 ## Customer review
 
-Follow [the runbook](runbook.md). Before S7 can exit, the customer must have an
-accepted S6 gateway proof: a `pass` manifest conforming to
+Follow [the runbook](runbook.md). Before S7 can exit, the customer must have an accepted S6 gateway proof: a
+`pass` manifest conforming to
 [`contracts/gateway-proof.schema.json`](../../contracts/gateway-proof.schema.json)
-whose correlation was accepted by the named customer reviewers.
+whose correlation has been reviewed and accepted by named customer reviewers.
+A `pass` in the manifest is test output, not reviewer acceptance.
 
 ## Workshop alignment
 
@@ -38,4 +39,6 @@ Then create the outcome
 record from `templates/assurance-outcome.template.json` and validate its shape
 against `contracts/assurance-handoff.schema.json`. Keep the completed records,
 any evaluation outputs, and any future gate decision in the customer's approved
-system. Do not commit them here.
+system. Do not commit them here. The completed outcome identifies the bounded
+scope, evidence limit, decision, and next review; `continue` advances this
+assurance handoff only. It does not approve a production release.

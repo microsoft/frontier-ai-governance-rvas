@@ -97,7 +97,7 @@ def verify_records(evidence: dict[str, Any]) -> list[str]:
 def write_evidence(path: Path, policy: dict[str, Any], records: list[dict[str, Any]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     evidence = {
-        "schema": "rvas.s7.policy-decision-audit.v1",
+        "schema": "rvas.s10.policy-decision-audit.v1",
         "simulator": "offline-illustration-not-agt-execution",
         "network_required": False,
         "outcome_attestation": "not_available",

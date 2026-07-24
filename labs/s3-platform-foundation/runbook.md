@@ -1,6 +1,7 @@
 # S3 Runbook: Enterprise Platform & Trust Boundaries
 
-Use this offline runbook with the [S3 co-delivery session](../../docs/s3-platform-foundation/index.md).
+Use this offline runbook with the
+[platform-boundary delivery guide](../../docs/s3-platform-foundation/index.md).
 It is an evidence-first, report-only review. No deployment, live integration,
 environment access, or collection of organization data is part of this runbook.
 
@@ -33,23 +34,26 @@ environment access, or collection of organization data is part of this runbook.
    assert that telemetry was emitted.
 5. Assign a disposition: `ready_for_runtime_assurance`, `needs_evidence`,
    `accepted_risk`, `deferred`, or `blocked`. The decision owner records the
-   rationale, owner, next action, and review date.
+   rationale, owner, next action, and review date. These are review
+   dispositions, not deployed-control states; when a generated delivery record
+   requires `control_state`, use only a value allowed by
+   `contracts/control-state.schema.json`.
 6. Complete the runtime-assurance handoff. State the bounded question, evidence
    expectations, limits, open gaps, stop conditions, and decision reference.
    Runtime assurance decides whether and how to perform later authorized
    observation.
 7. Complete the technical decision record, then record the platform implementation backlog: landing-zone readiness,
    private connectivity, gateway/APIM route, API Center/access contract,
-   identity boundary, telemetry plumbing, S6 runtime-proof dependency, and
+   identity boundary, telemetry plumbing, runtime-assurance evidence dependency, and
    customer architecture/security/change process. Include recommendation,
-   confidence, assumptions, evidence reference or gap, owner, later session,
-   and boundary for each row.
+   confidence, assumptions, evidence reference or gap, owner, follow-up
+   process, and boundary for each row.
 8. When the customer needs an operating standard rather than only a boundary
    review, complete `templates/platform-control-profile.template.md`. Map the
    customer's DEV, PRE, and PRO labels; identify which pre-production controls
    are intended to be production-equivalent; and record the owner and evidence
    expected for each identity, gateway, execution, data, telemetry, and
-   operations layer. Do not test or assert the stated controls in S3.
+   operations layer. Do not test or assert the stated controls in this review.
 
 ## Interpret results safely
 

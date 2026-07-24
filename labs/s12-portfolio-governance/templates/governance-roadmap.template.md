@@ -1,6 +1,6 @@
 # Governance roadmap
 
-| Priority | Decision criteria and evidence reference | Dependency | Accountable owner | Decision status | Next S0 domain or question | Evidence needed at reassessment | Review date |
+| Priority | Decision criteria and evidence reference | Dependency | Accountable owner | Decision status | Maturity domain or question to revisit | Evidence needed at reassessment | Review date |
 |---|---|---|---|---|---|---|---|
 | | | | | | | | |
 
@@ -10,7 +10,7 @@ readiness. A roadmap item is approved only when
 the customer's decision owner records that status in the approved records
 system.
 
-## Roadmap implementation handoff
+## Roadmap implementation follow-up
 
 | Priority | Recommendation and confidence | Assumptions or rejected alternatives | Evidence reference or gap | Owner | Customer process | Boundary |
 |---|---|---|---|---|---|---|

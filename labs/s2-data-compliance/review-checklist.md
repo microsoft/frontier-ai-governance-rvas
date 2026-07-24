@@ -45,8 +45,9 @@ route. This is not a product tour or policy-creation exercise.
 
 ## 3. Customer reviews DSPM for AI evidence *(20 min)*
 
-- [ ] Review applicable **DSPM for AI** findings and record the customer
-  records-system reference, scope, date, reviewer, and interpretation.
+- [ ] Review applicable **DSPM for AI** (Data Security Posture Management for
+  AI) findings and record the customer records-system reference, scope, date,
+  reviewer, and interpretation.
 - [ ] Ask: “What does this finding cover?”, “What does it exclude?”, and “What
   later reviewer can verify our interpretation?”
 - [ ] Classify the outcome explicitly:
@@ -123,14 +124,14 @@ change safety. This session cannot promote a control to enforcement.
 
 ## 6a. Record the data-governance implementation backlog
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Follow-up process |
 |---|---|---|---|---|---|
 | Purview DSPM for AI coverage or prerequisite remediation | | | | | Compliance process |
 | Sensitivity label, classification, or data-source permission gap | | | | | Data governance process |
 | DLP report-only change review | | | | | Customer compliance/change process |
 | Audit, eDiscovery, retention, or investigation route | | | | | Legal/compliance process |
-| Copilot, Foundry, Copilot Studio, or connector workload support check | | | | | S4 / product owner |
-| Gateway masking or runtime data-protection dependency | | | | | S3 / S6 |
+| Copilot, Foundry, Copilot Studio, or connector workload support check | | | | | Product owner or engineering review |
+| Gateway masking or runtime data-protection dependency | | | | | Platform or runtime-assurance process |
 | Accepted-risk or blocked data exposure decision | | | | | Governance/risk process |
 
 ## 7. Handoff and blocker path *(5 min)*
@@ -142,11 +143,12 @@ change safety. This session cannot promote a control to enforcement.
 - [ ] If a policy change is proposed, hand it to the customer's approved change
   process in report-only mode. Do not promote enforcement in this workshop.
 - [ ] Add unresolved exposure, licensing, workload-coverage, or retention gaps
-  to the S6 residual-gap backlog.
+  to the customer-owned residual-gap backlog.
 - [ ] Facilitator reads back DSPM, DLP, and Audit/eDiscovery references;
   result/no-result/unsupported/blocked interpretation; control state; owner;
-  date; and S3/S5/S6 dependency. For a blocker, stop only the dependent work
-  and retain its customer-owned backlog/change/risk reference.
+  date; and platform, tool/API, or runtime-assurance dependency. For a blocker,
+  stop only the dependent work and retain its customer-owned
+  backlog/change/risk reference.
 
 ## Official product context
 

@@ -7,8 +7,8 @@ telemetry only; it does not query live data, create a dashboard, or draw a
 conclusion from an incomplete sample.
 
 See the [agent performance-testing guide](../../../docs/reference/performance-testing-guide.md)
-for the metric taxonomy and the synthetic-versus-production model. Pair this with
-the S7 `performance-test-plan.template.md` baseline where one exists.
+for the metric taxonomy and the synthetic-versus-production model. Pair this
+with an approved synthetic baseline reference where one exists.
 
 ## Scope and accountability
 
@@ -37,7 +37,7 @@ An uninstrumented or excluded path is a coverage gap, not a zero result.
 
 | Field | Record |
 |---|---|
-| S7 synthetic baseline reference | |
+| Approved synthetic baseline reference | |
 | Production-versus-synthetic gap observed | |
 | Drift hypothesis (workload mix / config / model version / quota / coverage) | |
 | Alternative explanation | |
@@ -48,9 +48,9 @@ A production-versus-synthetic gap is a drift hypothesis, not confirmed drift.
 
 ## Implementation backlog
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Customer follow-up route |
 |---|---|---|---|---|---|
 | Production performance telemetry coverage (OTel / App Insights / Foundry) | | | | | Platform operations |
 | First-token / end-to-end / saturation observation or attribution gap | | | | | Platform operations |
-| Synthetic-baseline reconciliation and drift investigation | | | | | Evaluation / S7 handoff |
+| Synthetic-baseline reconciliation and drift investigation | | | | | Evaluation or operations process |
 | Alert route and recurrence check for performance regression | | | | | Customer operating process |

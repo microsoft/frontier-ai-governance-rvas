@@ -9,4 +9,7 @@ catalog data, execute a lifecycle change, or retain customer evidence.
 Use [`runbook.md`](runbook.md) for the required input shape, reconciliation,
 triage, closeout, and blocker pathways. Copy blank templates, including
 `templates/technical-decision-record.template.md`, to approved records; samples
-are illustrative only.
+are illustrative only. The session result is a customer-approved closeout
+decision with bounded scope, record references, open findings, owners, dates,
+and next review. It is not proof that a lifecycle change or remediation has
+been performed.

@@ -1,6 +1,6 @@
 # AI Center of Excellence: Operating Model
 
-> Fill the **‹bracketed›** fields with the customer during S0.
+> Fill the **‹bracketed›** fields with the customer during this review.
 
 ## Purpose
 
@@ -12,20 +12,20 @@ Define who owns AI-agent governance and how often the group meets.
 |------|------|-------|
 | AI governance owner (CoE lead) | ‹name› | Accountable for this program |
 | Executive sponsor | ‹name› | Funds and unblocks |
-| Identity admin | ‹name› | Owns S1 |
-| Compliance / data admin | ‹name› | Owns S2 |
-| Platform owner | ‹name› | Owns S3 and platform evidence |
-| Security / SOC | ‹name› | Owns S6 and S8 |
-| AI developer / maker lead | ‹name› | Owns S4, S7, and S10 where applicable |
+| Identity admin | ‹name› | Owns identity and access decisions |
+| Compliance / data admin | ‹name› | Owns data and compliance decisions |
+| Platform owner | ‹name› | Owns platform-boundary evidence |
+| Security / SOC | ‹name› | Owns runtime security and adversarial-testing decisions |
+| AI developer / maker lead | ‹name› | Owns engineering, evaluation, and delivery-workflow decisions where applicable |
 
-## Operating cadence (CAF for AI)
+## Operating cadence
 
 - **Strategy / Plan**: business outcomes for AI + agent adoption: ‹summary›
 - **Ready**: landing zone / tenant readiness owner: ‹name›
 - **Govern**: policy, risk classification, review gates (this document).
-- **Secure**: identity, data, platform, and runtime controls (S1-S6).
+- **Secure**: identity, data, platform, and runtime controls.
 - **Manage**: evaluation, testing, control-plane, operations, and portfolio
-  improvement (S7-S12).
+  improvement.
 
 ## Use‑case intake + risk classification (stub)
 
@@ -33,9 +33,9 @@ Define who owns AI-agent governance and how often the group meets.
 |----------|-------|------------------|-----------------------|-----------|-------------|
 | ‹example agent› | ‹name› | ‹low/med/high› | ‹assist/act› | ‹low/limited/high› | ‹who signs off› |
 
-## Agreed session sequence
+## Agreed follow-up sequence
 
-Recorded from the S0 roadmap output:
+Recorded from the roadmap output:
 
 1. ‹session›
 2. ‹session›
@@ -46,13 +46,14 @@ Recorded from the S0 roadmap output:
 | Pathway area | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
 |--------------|----------------------------------|-------------------------------|---------------------------|-------|-----------------------------------|
 | Operating model / CoE cadence | ‹value› | ‹recommend / defer / reject + confidence› | ‹reference or gap› | ‹name› | ‹process/session› |
-| Entra / Agent ID / identity ownership | ‹value› | ‹recommend / defer / reject + confidence› | ‹reference or gap› | ‹name› | ‹S1 / identity process› |
-| Purview / data governance | ‹value› | ‹recommend / defer / reject + confidence› | ‹reference or gap› | ‹name› | ‹S2 / compliance process› |
-| Platform / gateway / API Center / telemetry | ‹value› | ‹recommend / defer / reject + confidence› | ‹reference or gap› | ‹name› | ‹S3 / S6 / platform process› |
-| Agent engineering path | ‹value› | ‹recommend / defer / reject + confidence› | ‹reference or gap› | ‹name› | ‹S4 / architecture process› |
-| Evaluation, red-team, catalog, operating, or portfolio track | ‹value› | ‹recommend / defer / reject + confidence› | ‹reference or gap› | ‹name› | ‹S7-S12 / governance cadence› |
+| Entra / Agent ID / identity ownership | ‹value› | ‹recommend / defer / reject + confidence› | ‹reference or gap› | ‹name› | ‹identity process› |
+| Purview / data governance | ‹value› | ‹recommend / defer / reject + confidence› | ‹reference or gap› | ‹name› | ‹compliance process› |
+| Platform / gateway / API Center / telemetry | ‹value› | ‹recommend / defer / reject + confidence› | ‹reference or gap› | ‹name› | ‹platform or runtime-assurance process› |
+| Agent engineering path | ‹value› | ‹recommend / defer / reject + confidence› | ‹reference or gap› | ‹name› | ‹architecture process› |
+| Evaluation, adversarial testing, catalog, operations, or portfolio track | ‹value› | ‹recommend / defer / reject + confidence› | ‹reference or gap› | ‹name› | ‹governance cadence› |
 
 ## Review cadence
 
 - CoE meets ‹weekly/biweekly›; posture reviewed against the maturity score each ‹quarter›.
-- Re‑run the S0 assessment at S12 (capstone) and each subsequent quarter.
+- Re-run the baseline assessment at the portfolio review and each subsequent
+  quarter.

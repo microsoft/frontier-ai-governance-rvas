@@ -37,9 +37,8 @@ live data, set thresholds, create alerts, or prove an alert was received.
 | Quality, safety, or evaluation regression | | | | | | | |
 | Token, quota, or cost anomaly | | | | | | | |
 
-## Operating handoff and exceptions
+## Operating follow-up and exceptions
 
-| Finding, drift hypothesis, or exception | Evidence limit / alternative explanation | Accountable owner | Customer change or response process | Validation reference | Expiry / next review | S12 portfolio handoff |
+| Finding, drift hypothesis, or exception | Evidence limit / alternative explanation | Accountable owner | Customer change or response process | Validation reference | Expiry / next review | Portfolio-governance route |
 |---|---|---|---|---|---|---|
 | | | | | | | |
-

@@ -1,16 +1,14 @@
 # S12 Runbook: Portfolio Governance & Continuous Improvement
 
-Use this runbook with the visible
-[S12 co-delivery activity](../../docs/s12-portfolio-governance/index.md).
 The organization owns evidence, interpretation, and decisions; the facilitator
 maintains the timebox and report-only boundary.
 
 ## Activity card
 
 **90 minutes.** Entry condition: a bounded portfolio question; an approved
-records location; references to the S0 baseline and in-scope outcomes; and a
-governance lead, portfolio owner, and risk owner able to decide or formally
-defer.
+records location; references to the existing maturity baseline and in-scope
+outcomes; and a governance lead, portfolio owner, and risk owner able to
+decide or formally defer.
 
 1. Copy every template to the approved records system. Do not enter operational
    data, raw evidence, names, or notes in this repository.
@@ -25,8 +23,8 @@ defer.
    an approved reference supports the observation. Neither proposal authorizes
    rescoring, policy change, or enforcement.
 5. Use `governance-roadmap.template.md` to state investment criteria,
-   dependencies, owners, and decision status. Name the S0 domain or question
-   to revisit, evidence needed, and next review date.
+   dependencies, owners, and decision status. Name the maturity domain or
+   question to revisit, evidence needed, and next review date.
 6. Use `technical-decision-record.template.md` to record the portfolio reporting
    pattern, prioritization/reinvestment model, continuous-improvement cadence,
    alternatives rejected or deferred, and adoption stage.
@@ -35,7 +33,7 @@ defer.
    in the approved records system.
 8. Record the portfolio implementation backlog: investment priority,
    exception concentration, policy-evolution question, budget/funding gate,
-   owner readiness, maturity reassessment, S0 feedback, governance cadence,
+   owner readiness, maturity reassessment, governance-cadence feedback,
    recommendation, confidence, assumptions, evidence reference or gap, owner,
    and customer governance/change process.
 
@@ -44,7 +42,8 @@ defer.
 - Aggregated references retain their original scope and limitations.
 - A missing, stale, or partial reference is a finding, not a passing result.
 - An investment ranking is decision support, not funding approval.
-- A maturity movement is proposed until the next S0 assessment supports it.
+- A maturity movement is proposed until the next approved maturity assessment
+  supports it.
 - A policy question follows its separate governance and change route.
 
 ## Stop and hand off

@@ -14,11 +14,15 @@
   ],
   "properties": {
     "schema": { "const": "rvas.s8.threshold-comparison.v1" },
-    "native_scorecard_reference": { "type": "string" },
-    "native_scorecard_sha256": { "type": ["string", "null"] },
-    "customer_threshold_review_reference": { "type": "string" },
+    "native_scorecard_reference": { "type": "string", "minLength": 1 },
+    "native_scorecard_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "customer_threshold_review_reference": { "type": "string", "minLength": 1 },
     "categories": {
       "type": "array",
+      "minItems": 1,
       "items": {
         "type": "object",
         "additionalProperties": false,

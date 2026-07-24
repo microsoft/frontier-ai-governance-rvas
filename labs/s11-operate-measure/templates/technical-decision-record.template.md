@@ -1,8 +1,8 @@
 # Technical decision record
 
-[S11 Technical decisions](../../../docs/s11-operate-measure/technical.md) gives
-the observability-stack, cost-attribution, and alerting/drift option menus and
-selection criteria.
+[Technical-decisions guidance](../../../docs/s11-operate-measure/technical.md)
+gives the observability-stack, cost-attribution, and alerting/drift option
+menus and selection criteria.
 
 Copy this blank record into the customer's approved records system. It captures a
 customer-owned operating and measurement decision, the options considered, and
@@ -29,7 +29,7 @@ threshold, change production, or approve spend.
 | Cost attribution: Foundry project/model attribution | | | |
 | Cost attribution: tagging + PTU/committed-capacity allocation | | | |
 | Alerting: operations-owned route | | | |
-| Alerting/drift: governance review route or S7-baseline drift hypothesis | | | |
+| Alerting/drift: governance review route or approved-baseline drift hypothesis | | | |
 
 ## Chosen option and rationale
 
@@ -39,7 +39,7 @@ threshold, change production, or approve spend.
 | Rationale (criteria that decided it) | |
 | Alternatives rejected or deferred and why | |
 | Named owner(s) for observability, cost, alerting, and drift response | |
-| Dependencies (instrumentation, retention, allocation, S7 baseline, S12 portfolio, customer change process) | |
+| Dependencies (instrumentation, retention, allocation, approved baseline, portfolio governance, customer change process) | |
 | Verified-status caveat (availability / licensing / quota / pricing checked on) | |
 
 ## Adoption progress
@@ -47,6 +47,6 @@ threshold, change production, or approve spend.
 | Field | Record |
 |---|---|
 | Adoption stage (decided / backlogged / in adoption) | |
-| S0 operate/measure dimension advanced | |
+| Governance maturity objective supported | |
 | Next step and owner (customer operating/change process) | |
-| Review date and S12 portfolio reference | |
+| Review date and portfolio-review reference, if any | |

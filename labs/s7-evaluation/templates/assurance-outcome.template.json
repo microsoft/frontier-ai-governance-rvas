@@ -1,9 +1,13 @@
 {
   "schema": "rvas.delivery.assurance-handoff.v1",
-  "s3_gateway_proof_reference": "customer-record:s3-gateway-proof",
-  "s3_gateway_proof_decision": "accepted",
+  "gateway_proof_reference": "customer-record:accepted-s6-gateway-proof",
+  "gateway_proof_decision": "accepted",
   "evaluation_plan_reference": "customer-record:evaluation-plan",
   "assurance_owner_reference": "customer-role:assurance-owner",
+  "bounded_scope": "customer-defined workload, version, environment, and review period",
   "outcome": "continue",
-  "decision_reference": "customer-record:s7-assurance-decision"
+  "evidence_limit": "References only; no result is asserted outside the bounded scope.",
+  "decision_reference": "customer-record:s7-assurance-decision",
+  "review_date": "YYYY-MM-DD",
+  "next_review_date": "YYYY-MM-DD"
 }

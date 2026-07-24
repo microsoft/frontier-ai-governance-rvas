@@ -3,7 +3,8 @@
 This kit supports one authorized, customer-operated Microsoft Foundry AI Red
 Teaming Agent run against a customer-owned non-production endpoint. It contains
 no attack dataset, threshold policy, mock target, endpoint client, credentials,
-or customer evidence.
+or customer evidence. A completed scan is evidence for only its written scope;
+it is not a production approval or a claim that untested attack paths are safe.
 
 ## Workshop alignment
 
@@ -12,6 +13,11 @@ to confirm roles, the 90-minute monitored window, authorization, stop
 conditions, interpretation, and decision before following the runbook. The
 customer security/SOC lead and endpoint owner authorize and operate the run;
 the facilitator never supplies test data or operates the target.
+
+The customer leaves with references to the authorization, rules of engagement,
+SOC debrief, unchanged native scorecard, any threshold comparison, and a
+decision with an owner and due date. If any required reference or result is
+missing, the outcome is a blocker—not a substitute test or pass.
 
 Use [`runbook.md`](runbook.md) for authorization, the customer-operated run,
 native-scorecard handling, and evidence/decision handoff.

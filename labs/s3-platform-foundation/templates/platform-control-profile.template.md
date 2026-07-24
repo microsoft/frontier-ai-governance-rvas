@@ -32,19 +32,19 @@ telemetry service, and it is not proof that a control operates.
 
 | Path or dependency | Expected ingress / egress / private-connectivity behavior | DNS or hybrid dependency, if applicable | Owner | Evidence reference or gap | Later review |
 |---|---|---|---|---|---|
-| Caller to gateway | | | | | S6 |
-| Gateway to agent/model/backend | | | | | S6 |
-| Agent to tool/API/data | | | | | S5 / S6 |
-| Agent/platform to telemetry | | | | | S11 |
+| Caller to gateway | | | | | Runtime-assurance process |
+| Gateway to agent/model/backend | | | | | Runtime-assurance process |
+| Agent to tool/API/data | | | | | Tool/API or runtime-assurance process |
+| Agent/platform to telemetry | | | | | Operations process |
 | Administration and deployment path | | | | | Customer change process |
 
 ## Implementation backlog
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Follow-up process |
 |---|---|---|---|---|---|
-| Environment-equivalence and promotion prerequisites | | | | | S4 / customer change process |
-| Gateway, access-contract, backend, or policy baseline | | | | | S5 / S6 |
+| Environment-equivalence and promotion prerequisites | | | | | Engineering or customer change process |
+| Gateway, access-contract, backend, or policy baseline | | | | | Tool/API or runtime-assurance process |
 | Private endpoint, DNS, ingress, egress, or hybrid dependency | | | | | Network / security process |
-| Identity, RBAC, OBO, or workload-identity prerequisite | | | | | S1 / identity process |
-| Telemetry, correlation, retention, or alert route | | | | | S6 / S11 |
+| Identity, RBAC, OBO, or workload-identity prerequisite | | | | | Identity process |
+| Telemetry, correlation, retention, or alert route | | | | | Runtime-assurance or operations process |
 | Support, rollback, and production-change process | | | | | Customer change authority |

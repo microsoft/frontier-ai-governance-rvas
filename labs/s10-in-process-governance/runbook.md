@@ -1,7 +1,6 @@
 # S10 Runbook: In-Process Agent Governance
 
-Use this runbook with the visible [S10 co-delivery activity](../../docs/s10-in-process-governance/index.md).
-It is a customer-led, offline adoption-decision workshop, not an AGT trial or
+This is a customer-led, offline adoption-decision workshop, not an AGT trial or
 implementation. Do not retain raw customer source code, tool arguments,
 credentials, tenant data, or production audit records in this kit.
 
@@ -9,20 +8,22 @@ credentials, tenant data, or production audit records in this kit.
 
 - **Timebox:** 90 minutes: applicability and boundary (20 min), illustrative
   policy review (15 min), offline run and verification (20 min), limitations
-  and evidence needs (20 min), and adoption decision/handoff (15 min).
+  and evidence needs (20 min), and adoption decision and agreed follow-up (15 min).
 - **AI developer/maker:** describes the candidate boundary and reviews the
   illustration. **Governance lead / decision owner:** chooses investigate,
   defer, or reject. **Evidence owner:** references approved records. The
-  facilitator protects the boundary and records the handoff; platform and
+  facilitator protects the boundary and records agreed actions; platform and
   security specialists interpret their implications.
-- **Entry condition:** relevant S0-S9 findings and the S9 backlog are available by
-  reference, one bounded candidate agent-tool action can be described, and a
+- **Entry condition:** relevant prior findings are available by reference where
+  they exist, one bounded candidate agent-tool action can be described, and a
   decision owner is present or a deferred-decision owner and date are agreed.
 
 - [ ] Confirm an in-process tool-call boundary is meaningful for the selected
-  scope and that the relevant S0-S9 findings are available.
+  scope and record any relevant prior findings by reference.
 - [ ] Confirm no customer source code, endpoint, tenant, or production policy will change.
-- [ ] Review the pinned AGT Public Preview notice and known limitations.
+- [ ] If AGT is under consideration, record the source, date, and stated
+  release status and limitations in approved records. This kit does not verify
+  those claims.
 - [ ] Identify the governance lead who owns the adoption decision.
 - [ ] Review the illustrative deny-by-default policy in `policies/demo-policy.json`.
 
@@ -31,8 +32,9 @@ credentials, tenant data, or production audit records in this kit.
 The customer describes the candidate agent-tool boundary, current gateway,
 identity, data, and outcome controls, and the decision S10 could inform.
 Facilitator prompts: “Is an in-process decision meaningful here?” “Which
-control is not being replaced?” If no boundary exists, record S10 as not
-applicable for this pilot and return the rationale to the S6 backlog.
+control is not being replaced?” If no boundary exists, record the activity as
+not applicable for this scope and return the rationale to the customer's
+existing governance backlog.
 
 Copy `templates/applicability-review.template.md` into the approved customer
 records system and capture the applicability decision before running the
@@ -74,17 +76,18 @@ a design issue for a separate assessment, not an invitation to make a change.
    to replace a local record can recalculate it. If tamper evidence is required,
    use a signed record in customer-managed immutable external storage under the
    customer's retention and access process.
-7. Review the pinned AGT Public Preview and known limitations, then record
-   application fit, policy ownership, AGT Preview risk, residual limitations,
-   owner, and next review in the S6 follow-up backlog.
+7. If AGT is under consideration, record its source, date, stated release
+   status, limitations, application fit, policy ownership, residual risk,
+   owner, and next review in the customer's governance backlog. Do not treat
+   the workshop as verification of any AGT claim.
 8. Record the in-process governance implementation backlog in the applicability
    review: AGT release/API/limitation assessment, runtime/framework fit,
    policy owner, approval route, delegated authority, signed immutable audit
-   retention route, gateway/identity/data/runtime dependencies, S5/S6/S9
-   handoffs, rollback, verification, recommendation, confidence, assumptions,
-   owner, and customer SDLC/change process.
+   retention route, gateway/identity/data/runtime dependencies, rollback,
+   verification, recommendation, confidence, assumptions, owner, and customer
+   SDLC/change process.
 
-## Adoption decision, reference-only evidence, and handoff
+## Adoption decision and reference-only evidence
 
 - [ ] The run and `--verify` command both exit `0`.
 - [ ] Evidence has one allowed, one denied, and one approval-required attempt.
@@ -92,9 +95,9 @@ a design issue for a separate assessment, not an invitation to make a change.
   previous hash, and entry hash; `hash_chain_consistency.status` is `pass`.
 - [ ] The record remains labelled as an offline illustration, not AGT execution,
   downstream action success, production validation, or tamper evidence.
-- [ ] The S6 follow-up backlog records the adoption decision, owner, residual
-  risks, and next review. If tamper evidence is needed, it references the
-  customer-managed signed/immutable external record.
+- [ ] The customer governance backlog records the adoption decision, owner,
+  residual risks, and next review. If tamper evidence is needed, it references
+  the customer-managed signed/immutable external record.
 
 Choose **investigate further**, **defer**, or **reject** for the current
 architecture. “Investigate further” authorizes only a separate customer-owned
@@ -108,7 +111,7 @@ result or no-result, interpretation, owner, next review, and dependencies.
 
 | If | Then |
 |---|---|
-| No candidate boundary is meaningful | Record S10 as not applicable for this pilot; return to existing controls and the S6 backlog. |
+| No candidate boundary is meaningful | Record the activity as not applicable for this scope; retain the rationale with the existing controls and governance backlog. |
 | A participant asks to install AGT, change customer code, edit a production policy, use credentials, or access an endpoint | Stop the illustration and record a separate engineering and change-review follow-up. |
 | The illustration or hash verification fails | Record the failure and scope. Do not repair customer policy or claim tampering; assign an owner to investigate or defer the decision. |
 | Tamper evidence, outcome evidence, or compliance certification is required | Record the unmet requirement; use the customer’s signed immutable external-record and assurance paths. The local hash chain does not satisfy it. |

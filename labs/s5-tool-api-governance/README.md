@@ -6,7 +6,7 @@ decision-ready records for catalog ownership, publication criteria,
 naming/workspace, classification, caller identity, authority, versioning, and
 lifecycle.
 
-Use [`runbook.md`](runbook.md) with the S5 co-delivery activity. The customer
+Use [`runbook.md`](runbook.md) with the activity guide. The customer
 retains completed records and evidence references in its approved records
 system. This kit does not publish catalog entries, create workspaces, grant
 permissions, create identities, connect live integrations, or prove safe use.

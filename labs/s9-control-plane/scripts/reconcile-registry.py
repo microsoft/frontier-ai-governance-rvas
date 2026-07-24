@@ -363,6 +363,13 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
+    input_paths = {
+        args.registry.resolve(),
+        args.inventory.resolve(),
+        args.lifecycle_states.resolve(),
+    }
+    if args.out.resolve() in input_paths:
+        raise SystemExit("--out must not overwrite a supplied input file")
     report = reconcile(
         load_json(args.registry),
         load_json(args.inventory),

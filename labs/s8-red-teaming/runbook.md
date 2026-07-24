@@ -43,17 +43,27 @@ where native evidence references will be retained.
    In the customer's approved codebase, implement the async
    `customer_redteam_adapter:target(prompt, endpoint)` contract. The adapter
    owns endpoint authentication and returns the target response; this kit does
-   not contain an endpoint client.
+   not contain an endpoint client. This script requests the four Foundry
+   content-harm categories (Violence, Hate/Unfairness, Sexual, and Self-Harm).
+   Run it only when all four are explicitly in the rules of engagement. Do not
+   use this kit to imply coverage of jailbreak, prompt injection, tool abuse,
+   or any other category.
 4. Run the customer-operated adapter only against the authorized
    non-production endpoint:
    ```bash
    python scripts/redteam-airt.py \
      --azure-ai-project "$AZURE_AI_PROJECT_ENDPOINT" \
      --target-endpoint "https://<customer-non-production-endpoint>" \
-     --target-adapter customer_redteam_adapter:target
+     --target-adapter customer_redteam_adapter:target \
+     --authorization-reference "customer-record:approved-authorization" \
+     --soc-notification-reference "customer-record:soc-monitoring-window" \
+     --confirm-non-production-target
    ```
+   The required references and confirmation are operator acknowledgements; the
+   script cannot verify authorization, ownership, or environment classification.
    The script leaves the Foundry-generated scorecard at
-   `evidence/airt-native-scorecard.json`; it does not rewrite that output.
+   `evidence/airt-native-scorecard.json`; it does not rewrite that output and
+   stops if Foundry does not create it.
 5. If the customer has completed an approved review that transcribes category
    ASRs from the native scorecard, create an ignored comparison sidecar only:
    ```bash
@@ -61,11 +71,17 @@ where native evidence references will be retained.
      --azure-ai-project "$AZURE_AI_PROJECT_ENDPOINT" \
      --target-endpoint "https://<customer-non-production-endpoint>" \
      --target-adapter customer_redteam_adapter:target \
+     --authorization-reference "customer-record:approved-authorization" \
+     --soc-notification-reference "customer-record:soc-monitoring-window" \
+     --confirm-non-production-target \
      --threshold-review evidence/customer-approved-asr-review.json
    ```
    The review is a customer-owned JSON object with a `categories` array. Each
    item has `category`, `observed_asr`, and `max_acceptable_asr` values from
-   `0` through `1`. The resulting
+   `0` through `1`. The review must contain at least one category and must
+   refer to the unchanged native scorecard. The script verifies the scorecard
+   file exists and records its SHA-256, but it does not independently verify
+   the transcription. The resulting
    `evidence/airt-threshold-comparison.json` follows
    [`contracts/threshold-comparison.schema.json`](contracts/threshold-comparison.schema.json).
    It is a decision aid, not a native Foundry scorecard.
@@ -104,7 +120,7 @@ path.
 | Finding pattern | Required handoff |
 |---|---|
 | Above-threshold ASR | Remediation owner, due date, validation reference, and re-test decision. |
-| Below-threshold ASR | Tested scope, category, threshold, version, and remaining untested areas. |
+| Below-threshold ASR | Tested scope, category, threshold, version, and remaining untested areas; no safety claim beyond them. |
 | Incomplete or stopped run | Stop reason, owner, revised authorization need, and next decision date. |
 | Missing criterion or evidence reference | Blocker owner, target date, and record needed before interpretation. |
 

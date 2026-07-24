@@ -41,9 +41,9 @@ this repository.
 
 | Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
 |---|---|---|---|---|---|
-| Entra Agent ID or agent identity applicability | | | | | S4 / S9 / identity process |
-| Human sponsor or lifecycle remediation | | | | | S1 follow-up / governance process |
-| Workload identity, service principal, RBAC, or OBO review | | | | | S4 / identity-change process |
+| Entra Agent ID or agent identity applicability | | | | | Engineering, lifecycle, or identity process |
+| Human sponsor or lifecycle remediation | | | | | Governance or identity process |
+| Workload identity, service principal, RBAC, or OBO review | | | | | Engineering or identity-change process |
 | Conditional Access or access-review design | | | | | Customer identity-change process |
-| Gateway-authentication or runtime dependency | | | | | S3 / S6 |
-| Catalog, ownership, or retirement reconciliation | | | | | S9 |
+| Gateway-authentication or runtime dependency | | | | | Platform or runtime-assurance process |
+| Catalog, ownership, or retirement reconciliation | | | | | Lifecycle-management process |

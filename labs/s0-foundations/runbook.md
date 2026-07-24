@@ -49,9 +49,11 @@ stop the affected work.
 
 ## 5. Decide and hand off
 
-- [ ] Decision owner selects the next session(s), defers with a date, or accepts
-  a residual gap based on evidence-supported maturity, risk, owner, and
-  prerequisites. Record `designed`, `accepted_risk`, or `blocked`.
+- [ ] Decision owner selects the next capability path, records a deferral with
+  owner and review date, or accepts a residual gap based on
+  evidence-supported maturity, risk, owner, and prerequisites. Record the
+  control state as `designed`, `accepted_risk`, or `blocked`; for a deferral,
+  use the decision record's `backlogged` adoption stage.
 - [ ] Record a foundation backlog with the recommended next path, rationale,
   assumptions, alternatives, evidence gap or reference, owner, customer
   process, and adoption stage. Use it to route work; do not treat it as
@@ -68,5 +70,6 @@ stop the affected work.
 - [ ] Register only evidence references and retention/classification metadata
   in `04-operate/evidence-register.json`; put decision/owner/review date in
   `04-operate/decision-register.json`.
-- [ ] Handoff names next owner, S1/S2 dependency, and blocker path. Do not copy
-  scorecards, roadmaps, names, evidence, or notes into Git.
+- [ ] Handoff names the next owner, any identity or data/compliance dependency,
+  and the blocker path. Do not copy scorecards, roadmaps, names, evidence, or
+  notes into Git.

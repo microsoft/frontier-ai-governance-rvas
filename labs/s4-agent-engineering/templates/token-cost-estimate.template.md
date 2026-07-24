@@ -22,7 +22,7 @@ or approval to spend.
 | | | | | | |
 | | | | | | |
 
-## Attribution and FinOps handoff
+## Attribution and operating review
 
 | Field | Record |
 |---|---|
@@ -32,12 +32,12 @@ or approval to spend.
 | Foundry project / model-deployment attribution, if available | |
 | Azure Cost Management or other billing-view reference | |
 | Cost anomaly review trigger | |
-| S11 review cadence and evidence limitation | |
+| Operating-review cadence and evidence limitation | |
 
 ## Implementation backlog
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+| Backlog item | Applies / N/A / unknown / follow-up | Recommendation and confidence | Evidence reference or gap | Owner | Follow-up customer process |
 |---|---|---|---|---|---|
 | Model-tier and projected-token-cost decision | | | | | Cost / engineering process |
-| Attribution, quota, allocation, and billing-view limitation | | | | | FinOps process / S11 |
-| Cost anomaly review and escalation route | | | | | S11 |
+| Attribution, quota, allocation, and billing-view limitation | | | | | Customer FinOps process |
+| Cost anomaly review and escalation route | | | | | Customer operating process |

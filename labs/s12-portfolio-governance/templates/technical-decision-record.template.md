@@ -1,5 +1,3 @@
-[S12 Technical decisions](../../../docs/s12-portfolio-governance/technical.md)
-
 # Technical decision record
 
 Copy this blank record into the customer's approved records system. It captures a
@@ -7,9 +5,9 @@ customer-owned portfolio technical decision, the options considered, and the
 adoption stage. It does not create a dashboard, change production, alter policy,
 approve funding, or certify compliance.
 
-Use the S12 Technical decisions chapter for the portfolio-reporting,
-prioritization/reinvestment, and continuous-improvement option menus and
-selection criteria.
+Use the [technical-decisions guidance](../../../docs/s12-portfolio-governance/technical.md)
+for the portfolio-reporting, prioritization/reinvestment, and
+continuous-improvement option menus and selection criteria.
 
 ## Decision
 
@@ -24,7 +22,7 @@ selection criteria.
 | Option | Fit for this scope | Key trade-off / limitation | Chosen? (yes / no / deferred) |
 |---|---|---|---|
 | Executive scorecard or dashboard | | | |
-| Control-register rollup from S9 | | | |
+| Control-register rollup from prior operating reviews | | | |
 | Reports from governance evidence references | | | |
 | Risk-weighted prioritization | | | |
 | Value- and adoption-weighted prioritization | | | |
@@ -39,7 +37,7 @@ selection criteria.
 | Rationale (criteria that decided it) | |
 | Alternatives rejected or deferred and why | |
 | Named sponsor / owner | |
-| Dependencies (prior-session decisions, S0 baseline, S9 register, evidence references) | |
+| Dependencies (relevant prior decisions, maturity baseline, exception register, evidence references) | |
 | Verified-status caveat (availability / licensing checked on) | |
 
 ## Adoption progress
@@ -47,7 +45,7 @@ selection criteria.
 | Field | Record |
 |---|---|
 | Adoption stage (decided / backlogged / in adoption) | |
-| Prior-session decisions and adoption-progress rows aggregated | |
-| S0 maturity domains or questions to re-baseline | |
+| Relevant prior decisions and adoption-progress records aggregated | |
+| Maturity domains or questions to reassess | |
 | Next roadmap item and owner | |
 | Review date and portfolio roadmap reference | |

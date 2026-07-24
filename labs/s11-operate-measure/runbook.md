@@ -1,15 +1,14 @@
 # S11 Runbook: Operate, monitor, and FinOps review definition
 
-Use this runbook with the [S11 co-delivery activity](../../docs/s11-operate-measure/index.md).
 The customer selects scope, evidence references, owners, and decisions; the
 facilitator maintains the evidence-first, no-live-data, no-change boundary.
 
 ## Activity card
 
-**90 minutes.** Entry condition: S9 closeout or deferral, an accountable
-governance lead, service owner, cost owner where cost is in scope, and an
-approved records location. Stop any question with no accountable owner or
-authoritative evidence.
+**90 minutes.** Entry condition: an accountable governance lead, service owner,
+cost owner where cost is in scope, an approved records location, and any
+relevant prior closeout or deferral by reference. Stop any question with no
+accountable owner or authoritative evidence.
 
 1. Copy `templates/operating-review.template.md` and
    `templates/remediation-closure.template.md` into approved records. Copy
@@ -25,15 +24,16 @@ authoritative evidence.
    metric, target, threshold, allocation method, or outcome from the template.
    When quality trend, latency drift, or token-cost accountability is in scope,
    also copy `templates/quality-cost-latency-review.template.md`. It references
-   customer-held evidence only; Foundry traces are optional project-gated
-   context, and every cost observation needs an accountable spend-decision
-   owner.
+   customer-held evidence only. Any trace source requires the customer's
+   separate access approval; every cost observation needs an accountable
+   spend-decision owner.
    When production agent performance, including first-token latency, end-to-end
    latency, throughput, or error/saturation, is in scope, also copy
    `templates/performance-telemetry-review.template.md`. It references
    customer-held OpenTelemetry, Application Insights, or Foundry-trace evidence
-   only, records sampling and coverage limits, and reconciles against the S7
-   synthetic baseline as a drift hypothesis rather than a confirmed result.
+   only, records sampling and coverage limits, and reconciles against an
+   approved synthetic baseline, if available, as a drift hypothesis rather
+   than a confirmed result.
 4. For a suspected change, record a drift hypothesis, alternative explanations,
    evidence limits, test or observation plan, owner, and escalation trigger.
    Do not label the hypothesis confirmed or investigate live data in this
@@ -46,15 +46,16 @@ authoritative evidence.
 7. Record the operating implementation backlog in the operating-review record:
    Application Insights/OpenTelemetry or Foundry observability coverage,
    alerting/SOC route, remediation validation, review cadence, FinOps/cost
-   owner, quota or allocation limits, exception route, S12 handoff, recommendation,
-   confidence, assumptions, technical decision record reference, evidence
-   reference or gap, owner, and customer operating/change process.
+   owner, quota or allocation limits, exception route, portfolio-governance
+   route where applicable, recommendation, confidence, assumptions, technical
+   decision record reference, evidence reference or gap, owner, and customer
+   operating/change process.
 8. When the customer needs to connect signal coverage to response ownership,
    copy `templates/telemetry-alert-operating-model.template.md`. Map each
    gateway, agent-host, model/trace, dependency, identity/security, and
    cost/quota signal to its coverage limit, correlation method, retention
    boundary, source owner, alert route, remediation validation, and exception
-   handoff. Do not set a threshold, create an alert, or inspect live data in
+   route. Do not set a threshold, create an alert, or inspect live data in
    this session.
 
 No raw telemetry, identifiers, prompts, responses, costs, or business data

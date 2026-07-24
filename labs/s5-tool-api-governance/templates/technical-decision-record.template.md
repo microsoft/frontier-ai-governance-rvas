@@ -1,6 +1,6 @@
 # Technical decision record
 
-[S5 Technical decisions](../../../docs/s5-tool-api-governance/technical.md)
+[Technical-decision guide](../../../docs/s5-tool-api-governance/technical.md)
 lists the available options and selection criteria.
 
 Copy this blank record into the customer's approved records system. It captures a
@@ -40,7 +40,7 @@ gateway, connect a tool, or approve production use.
 | Alternatives rejected or deferred and why | |
 | Ownership and lifecycle owner | |
 | Least-privilege / credential-hygiene decision | |
-| Dependencies (S6 runtime evidence, S9 catalog/lifecycle reconciliation, S10 in-process boundary, customer change process) | |
+| Dependencies (runtime evidence, catalog/lifecycle reconciliation, in-process tool boundary, customer change process) | |
 | Verified-status caveat (availability / licensing / support checked on) | |
 
 ## Adoption progress
@@ -48,6 +48,6 @@ gateway, connect a tool, or approve production use.
 | Field | Record |
 |---|---|
 | Adoption stage (decided / backlogged / in adoption) | |
-| S0 tool/API maturity dimension advanced | |
+| Capability area improved | |
 | Next step and owner (customer publication or change process) | |
-| Review date and S12 portfolio reference | |
+| Review date and portfolio reference, if used | |

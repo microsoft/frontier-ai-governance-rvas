@@ -12,12 +12,12 @@
 
 ## Runtime-assurance implementation prerequisites
 
-| Prerequisite | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+| Prerequisite | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Follow-up process |
 |---|---|---|---|---|---|
-| Approved non-production route or test scope | | | | | S6 / platform process |
-| Expected policy and gateway evidence | | | | | S6 |
-| Correlation method and telemetry reviewer | | | | | S6 / S11 |
-| Safety, rollback, stop condition, or SOC route | | | | | S6 / S8 / security process |
+| Approved non-production route or test scope | | | | | Runtime-assurance or platform process |
+| Expected policy and gateway evidence | | | | | Runtime-assurance process |
+| Correlation method and telemetry reviewer | | | | | Runtime-assurance or operations process |
+| Safety, rollback, stop condition, or SOC route | | | | | Runtime-assurance, security-testing, or security process |
 | Production-approval boundary and release process | | | | | Customer change authority |
 
 ## Handoff statement

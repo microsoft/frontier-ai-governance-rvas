@@ -68,15 +68,31 @@ def load(path: Path) -> "OrderedDict[str, Domain]":
             code = row["domain"].strip()
             dom = domains.setdefault(code, Domain(code=code, name=row["domain_name"].strip()))
             dom.total += 1
-            weight = float(row["weight"]) if row["weight"].strip() else 1.0
+            try:
+                weight = float(row["weight"]) if row["weight"].strip() else 1.0
+            except ValueError:
+                raise SystemExit(
+                    f"{row['question_id']}: weight must be a positive number"
+                ) from None
+            if weight <= 0:
+                raise SystemExit(
+                    f"{row['question_id']}: weight must be greater than zero"
+                )
             raw = row["score"].strip()
             if not raw:
                 dom.unanswered.append(row["question_id"].strip())
                 continue
-            score = float(raw)
-            if not (MIN_SCORE <= score <= MAX_SCORE):
+            try:
+                score = float(raw)
+            except ValueError:
                 raise SystemExit(
-                    f"{row['question_id']}: score {score} out of range {MIN_SCORE}-{MAX_SCORE}"
+                    f"{row['question_id']}: score must be a whole number from "
+                    f"{MIN_SCORE} to {MAX_SCORE}"
+                ) from None
+            if not (MIN_SCORE <= score <= MAX_SCORE) or not score.is_integer():
+                raise SystemExit(
+                    f"{row['question_id']}: score must be a whole number from "
+                    f"{MIN_SCORE} to {MAX_SCORE}"
                 )
             dom.weighted_sum += score * weight
             dom.weight_total += weight
@@ -95,7 +111,7 @@ def main(argv: list[str]) -> int:
         raise SystemExit(f"scorecard not found: {path}")
     domains = load(path)
 
-    print(f"\nS0-S12 AI Maturity Assessment — {path.name}\n" + "=" * 52)
+    print(f"\nAI Governance Maturity Assessment — {path.name}\n" + "=" * 52)
     scored = [d for d in domains.values() if d.maturity is not None]
     for dom in domains.values():
         if dom.maturity is None:

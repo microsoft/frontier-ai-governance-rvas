@@ -28,7 +28,7 @@ conclusion from an incomplete trend.
 ## Latency drift review
 
 For first-token, throughput, and error-saturation review under real traffic, or
-reconciliation against an S7 synthetic baseline, use the
+reconciliation against an approved synthetic baseline, use the
 `performance-telemetry-review.template.md` addendum.
 
 | Component | Prior p95 reference | Current p95 reference | Observation | Drift hypothesis | Alternative | Test plan | Owner | Escalation trigger |
@@ -37,7 +37,7 @@ reconciliation against an S7 synthetic baseline, use the
 | Model inference | | | | | | | | |
 | Retrieval | | | | | | | | |
 | Tool calls | | | | | | | | |
-| End-to-end | | Foundry traces or Application Insights reference, if available | | | | | | |
+| End-to-end | | | | | | | | |
 
 ## Token-cost accountability
 
@@ -55,8 +55,8 @@ reconciliation against an S7 synthetic baseline, use the
 
 ## Implementation backlog
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Customer follow-up route |
 |---|---|---|---|---|---|
 | Quality-trend coverage or regression investigation | | | | | Evaluation / operations process |
 | Latency-drift observation or component-attribution gap | | | | | Platform operations |
-| Cost attribution, spend decision, or fine-tuning cost boundary | | | | | FinOps / S12 |
+| Cost attribution, spend decision, or fine-tuning cost boundary | | | | | FinOps or portfolio-governance process |

@@ -1,7 +1,7 @@
 # S11 Takeaway Kit: Operate, Monitor & FinOps
 
 This optional, offline kit supports a customer-owned 90-minute operating-review
-definition after S9. It covers evidence coverage, reliability, risk, quality,
+definition after a preceding operating review or formal deferral. It covers evidence coverage, reliability, risk, quality,
 cost ownership, adoption, business outcome, drift hypotheses, escalation,
 remediation validation, recurrence, and exceptions. It does not connect to
 live data, create a dashboard, calculate metrics, set thresholds, store
@@ -21,7 +21,7 @@ It complements rather than replaces `templates/operating-review.template.md`.
 `templates/performance-telemetry-review.template.md` is an optional addendum for
 production agent performance: first-token latency, end-to-end latency,
 throughput, and error/saturation from OpenTelemetry, Application Insights, or
-Foundry traces: including reconciliation against an S7 synthetic baseline as a
+Foundry traces, including reconciliation against an approved synthetic baseline as a
 drift hypothesis. See the
 [agent performance-testing guide](../../docs/reference/performance-testing-guide.md).
 

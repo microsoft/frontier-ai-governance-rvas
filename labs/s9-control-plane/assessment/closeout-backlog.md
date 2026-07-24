@@ -5,6 +5,12 @@ evidence to this kit.
 
 ## Closeout
 
+Choose one outcome and record why: **close** (no unowned gaps), **close with
+owned gaps** (each gap has an owner and due date), **defer** (a dependency has
+an owner and next decision date), or **do not close** (a required condition is
+missing). None of these outcomes confirms that a change or remediation has
+operated.
+
 | Field | Record |
 |---|---|
 | Engagement / bounded catalog reference | |

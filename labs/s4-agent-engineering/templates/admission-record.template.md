@@ -51,27 +51,27 @@
 Complete a lightweight row for every plausible path and deepen the rows for the
 selected path. For Microsoft Foundry Agent Service, use the example rows below.
 
-| Backlog area | Applies / N/A / unknown | Decision or required configuration | Evidence reference or gap | Owner | Later session or customer process |
+| Backlog area | Applies / N/A / unknown | Decision or required configuration | Evidence reference or gap | Owner | Follow-up customer process |
 |---|---|---|---|---|---|
 | Foundry project, subscription/resource boundary, environment, and owner | | | | | |
 | Agent type: prompt agent, hosted agent, or external agent using the Responses API | | | | | |
-| Model deployment or model-access path and model-operation owner | | | | | S7 / customer model governance |
+| Model deployment or model-access path and model-operation owner | | | | | Customer model-governance process |
 | Instructions, prompt asset, hosted-agent code package, or package review | | | | | Customer SDLC |
-| Tools, connected data, connectors, functions, APIs, and prohibited tools | | | | | S2 / S5 / S6 |
-| Entra identity, RBAC, managed identity, service principal, OBO, or agent identity consideration | | | | | S1 / customer identity process |
-| Content safety, prompt shield, gateway policy, human-control, or prohibited-action boundary | | | | | S6 / security process |
-| Tracing, logs, metrics, Application Insights/OpenTelemetry, or Foundry observability evidence | | | | | S7 / S11 / platform operations |
-| Evaluation target, dataset owner, threshold, scorecard, and release-assurance route | | | | | S7 |
-| Red-team authorization, scope, remediation route, and retest expectation | | | | | S8 |
-| Agent/catalog/lifecycle record, review cadence, and retirement owner | | | | | S9 / service owner |
+| Tools, connected data, connectors, functions, APIs, and prohibited tools | | | | | Customer data, tool, and runtime-control processes |
+| Entra identity, RBAC, managed identity, service principal, OBO, or agent identity consideration | | | | | Customer identity process |
+| Content safety, prompt shield, gateway policy, human-control, or prohibited-action boundary | | | | | Customer security process |
+| Tracing, logs, metrics, Application Insights/OpenTelemetry, or Foundry observability evidence | | | | | Customer platform-operations process |
+| Evaluation target, dataset owner, threshold, scorecard, and release-assurance route | | | | | Customer evaluation process |
+| Red-team authorization, scope, remediation route, and retest expectation | | | | | Customer security-testing process |
+| Agent/catalog/lifecycle record, review cadence, and retirement owner | | | | | Customer service-management process |
 | Customer change process, rollback owner, production-approval boundary, and post-release verification | | | | | Customer change authority |
 
 ## Cross-cutting governance-service applicability
 
 Mandatory consideration does not mean mandatory deployment. Record why each
-surface applies, does not apply, is unknown, or belongs to a later session.
+surface applies, does not apply, is unknown, or needs a follow-up customer action.
 
-| Governance surface | Applies / does not apply / unknown / later session | Decision, rationale, and owner | Evidence reference or next step |
+| Governance surface | Applies / does not apply / unknown / follow-up | Decision, rationale, and owner | Evidence reference or next step |
 |---|---|---|---|
 | Entra identity, RBAC, workload identity, and Agent ID | | | |
 | Purview or other data-governance boundary | | | |
@@ -111,7 +111,7 @@ surface applies, does not apply, is unknown, or belongs to a later session.
 | Human-control evidence, if applicable | | |
 | Access or action-limit evidence, if applicable | | |
 
-## Decision and handoff
+## Decision and next actions
 
 | Field | Record |
 |---|---|
@@ -121,5 +121,5 @@ surface applies, does not apply, is unknown, or belongs to a later session.
 | Decision owner and approver | |
 | Next review | |
 | Material-change triggers | |
-| Later-session routing | |
+| Follow-up owner and customer process | |
 | Retirement trigger and accountable owner | |

@@ -41,7 +41,8 @@ records only in the customer's approved records system.
    and owner.
 6. Decision owner uses the checklist decision tree, records the technical
    decision in `templates/technical-decision-record.template.md`, then hands
-   evidence references, state, owner, date, and S3/S5/S6 dependencies forward.
+   evidence references, state, owner, date, and any platform, tool/API, or
+   runtime-assurance dependencies to their owners.
 
 This session never deploys, reverses, or validates a Purview policy. Any
 customer policy change follows the customer's standard change, rollback, and

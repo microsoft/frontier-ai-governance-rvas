@@ -40,7 +40,7 @@ baseline, and record location.
 | Rationale (criteria that decided it) | |
 | Alternatives rejected or deferred and why | |
 | Named sponsor / owner | |
-| Dependencies (next session, capability owner, customer change process) | |
+| Dependencies (next capability owner and customer change process) | |
 | Verified-status caveat (framework/tooling availability checked on) | |
 
 ## Adoption progress
@@ -48,6 +48,6 @@ baseline, and record location.
 | Field | Record |
 |---|---|
 | Adoption stage (decided / backlogged / in adoption) | |
-| S0 maturity dimension advanced | |
-| Next step and owner | |
-| Review date and S12 portfolio reference | |
+| Maturity dimension advanced | |
+| Next action and owner | |
+| Review date and portfolio reference | |

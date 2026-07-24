@@ -17,7 +17,7 @@ policy deployment, endpoint access, or production use.
 | Tamper-evidence requirement, if any | |
 | Decision owner and review date | |
 
-## Evidence needed before any future engineering assessment
+## Evidence needed before any engineering assessment
 
 | Evidence need | Owner | Status / reference |
 |---|---|---|
@@ -39,10 +39,10 @@ policy deployment, endpoint access, or production use.
 
 ## In-process governance implementation backlog
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
+| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Customer follow-up route |
 |---|---|---|---|---|---|
 | AGT applicability, release status, API, and limitation assessment | | | | | Engineering assessment |
-| Tool-call policy owner, approval route, and delegated authority | | | | | S4 / S5 |
+| Tool-call policy owner, approval route, and delegated authority | | | | | Customer policy-governance process |
 | Integration, framework/runtime fit, rollback, and verification | | | | | Customer SDLC/change process |
 | Signed immutable audit record, retention, and tamper-evidence route | | | | | Records/security process |
-| Gateway, identity, data, runtime, or catalog dependency | | | | | S1 / S2 / S6 / S9 |
+| Gateway, identity, data, runtime, or catalog dependency | | | | | Relevant customer control owner |

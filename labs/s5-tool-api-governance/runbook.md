@@ -1,6 +1,6 @@
 # S5 Runbook: Report-only tool and API governance review
 
-Use this runbook with the [S5 practical activity](../../docs/s5-tool-api-governance/practical.md).
+Use this runbook with the [tool and API governance activity guide](../../docs/s5-tool-api-governance/practical.md).
 The customer operates its records and makes every decision. The facilitator
 keeps the 90-minute method, evidence boundary, and decision wording explicit.
 Do not store raw customer records in this kit.
@@ -9,7 +9,7 @@ Do not store raw customer records in this kit.
 
 - **Timebox:** 90 minutes: boundary (10 min), ownership and identity (15 min),
   naming/workspace (15 min), classification and authority (20 min), publication
-  and lifecycle review (20 min), decision and handoff (10 min).
+  and lifecycle review (20 min), decision and next actions (10 min).
 - **Customer activity owner:** prepares the candidate records. **Catalog owner:**
   keeps the entry current. **Technical owner:** explains version and intended
   behavior. **Evidence owner:** points to approved records. **Decision owner:**
@@ -56,10 +56,10 @@ Do not store raw customer records in this kit.
    records. Include API Center or catalog registration, gateway/APIM route,
    caller identity, MCP/connector/tool implementation path, version/material
    change boundary, runtime evidence dependency, recommendation, confidence,
-   assumptions, evidence reference or gap, owner, later session, and customer
+   assumptions, evidence reference or gap, owner, and follow-up customer
    process.
 
-## Interpretation and handoff
+## Interpretation and next actions
 
 Review only what the records support. A catalog entry, template, or absence of a
 finding does not prove safe use, authorization, compliance, runtime behavior,
@@ -77,6 +77,6 @@ verification process.
 | If | Then |
 |---|---|
 | Ownership, version, classification, caller identity, authority, or decision authority is missing | Stop the dependent review; record the gap, owner, target date, and hold or deferral. Do not infer or publish. |
-| A criterion needs a live test, permission grant, workspace change, or integration | Record the dependency and send it to the customer's approved change process. Do not perform it in S5. |
+| A criterion needs a live test, permission grant, workspace change, or integration | Record the dependency and send it to the customer's approved change process. Do not perform it in this review. |
 | Suspension or withdrawal is indicated | Record the trigger and required customer action path. The decision owner directs the customer-owned action and verification. |
 | No expected evidence exists | Record the no-result and scope. Hold, refine the question, use another customer control, or withdraw; never call absence a pass. |

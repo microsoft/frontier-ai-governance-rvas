@@ -16,7 +16,7 @@
 
 ## Maturity movement and policy questions
 
-| S0 domain or question | Observation reference | Proposed movement, no movement, unresolved status, or policy question | Limitation | Owner and review route |
+| Maturity domain or question | Observation reference | Proposed movement, no movement, unresolved status, or policy question | Limitation | Owner and review route |
 |---|---|---|---|---|
 | | | | | |
 
@@ -33,5 +33,5 @@
 | Cross-session exception concentration or recurring dependency | | | | | Governance/risk process |
 | Investment priority, budget gate, or owner-readiness decision | | | | | Portfolio/budget process |
 | Policy-evolution question or obsolete assumption | | | | | Policy governance process |
-| Maturity reassessment evidence and S0 feedback | | | | | S0 / governance cadence |
+| Maturity reassessment evidence and governance-cadence feedback | | | | | Customer maturity-assessment process |
 | Assurance, compliance, or external review route | | | | | Customer assurance process |

@@ -19,7 +19,7 @@ stage. It does not deploy, configure, connect to, test, or approve production.
 
 | Option | Fit for this scope | Key trade-off / limitation | Chosen? (yes / no / deferred) |
 |---|---|---|---|
-| Azure AI Landing Zones / Foundry Citadel-style greenfield platform | | | |
+| New landing-zone platform using an approved reference pattern | | | |
 | Integrate into an existing landing zone | | | |
 | Per-team platforms | | | |
 | Public endpoints behind a gateway only | | | |
@@ -38,12 +38,12 @@ stage. It does not deploy, configure, connect to, test, or approve production.
 | Alternatives rejected or deferred and why | |
 | Assumptions and evidence references | |
 | Named platform / security / change owner | |
-| Dependencies (S0 baseline, S6 runtime assurance, S9 catalog, S12 portfolio) | |
+| Dependencies (governance baseline, runtime assurance, lifecycle catalog, portfolio review) | |
 | Verified-status caveat (availability / licensing checked on) | |
 
 ## Adoption progress
 
-| Stage | S0 dimension | Next step + owner | Review date + S12 ref |
+| Stage | Maturity dimension | Next action + owner | Review date + portfolio reference |
 |---|---|---|---|
 | Decided | Platform foundation / trust boundary | | |
 | Backlogged | Platform implementation backlog | | |

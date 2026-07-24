@@ -6,28 +6,39 @@
   "additionalProperties": false,
   "required": [
     "schema",
-    "s3_gateway_proof_reference",
-    "s3_gateway_proof_decision",
+    "gateway_proof_reference",
+    "gateway_proof_decision",
     "evaluation_plan_reference",
     "assurance_owner_reference",
+    "bounded_scope",
     "outcome",
-    "decision_reference"
+    "evidence_limit",
+    "decision_reference",
+    "review_date",
+    "next_review_date"
   ],
   "properties": {
     "schema": {
       "const": "rvas.delivery.assurance-handoff.v1"
     },
-    "s3_gateway_proof_reference": {
-      "type": "string"
+    "gateway_proof_reference": {
+      "type": "string",
+      "minLength": 1
     },
-    "s3_gateway_proof_decision": {
+    "gateway_proof_decision": {
       "const": "accepted"
     },
     "evaluation_plan_reference": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "assurance_owner_reference": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
+    },
+    "bounded_scope": {
+      "type": "string",
+      "minLength": 1
     },
     "outcome": {
       "enum": [
@@ -36,7 +47,20 @@
       ]
     },
     "decision_reference": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_limit": {
+      "type": "string",
+      "minLength": 1
+    },
+    "review_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "next_review_date": {
+      "type": "string",
+      "format": "date"
     }
   }
 }
