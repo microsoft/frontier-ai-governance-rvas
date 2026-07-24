@@ -6,7 +6,7 @@ is not S6 evidence.
 
 ## Facilitated activity alignment
 
-Run this sequence during the [S6 90-minute co-delivery workshop](../../docs/s6-security-runtime/index.md#4-co-delivery-walkthrough).
+Run this sequence during the [S6 practical activity](../../docs/s6-security-runtime/practical.md).
 Before step 1, the facilitator confirms the customer platform operator,
 security reviewer/evidence owner, and decision owner; an approved
 non-production route; safe authentication handling; an evidence location; and

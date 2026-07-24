@@ -1,6 +1,6 @@
 # S5 Runbook: Report-only tool and API governance review
 
-Use this runbook with the visible [S5 co-delivery activity](../../docs/s5-tool-api-governance/index.md#4-co-delivery-walkthrough).
+Use this runbook with the [S5 practical activity](../../docs/s5-tool-api-governance/practical.md).
 The customer operates its records and makes every decision. The facilitator
 keeps the 90-minute method, evidence boundary, and decision wording explicit.
 Do not store raw customer records in this kit.

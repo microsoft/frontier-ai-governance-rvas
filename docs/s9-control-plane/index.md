@@ -39,7 +39,7 @@ The session does not guess, match by name, or fix records during the workshop. I
 
 Read the [S9 Concepts](concepts.md) before delivery.
 
-## 4. Co-delivery walkthrough
+## 4. Detailed facilitation reference
 
 !!! warning "Evidence-first, read-only boundary"
     This 90-minute session uses customer-held references and sample-only, normalized inputs. Do not connect to live data, copy raw records, or create a catalog, lifecycle, identity, access, policy, or production change.

@@ -67,7 +67,7 @@ material-change reapproval triggers.
 Read [S4 Concepts](concepts.md) for the authority model, Microsoft path choices,
 Foundry Agent Service example, evidence rules, material changes, and retirement.
 
-## 4. Co-delivery walkthrough
+## 4. Detailed facilitation reference
 
 !!! warning "Evidence-first, report-only boundary"
     This 90-minute session reviews customer-held evidence and records references

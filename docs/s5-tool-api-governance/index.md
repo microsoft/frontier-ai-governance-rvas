@@ -56,7 +56,7 @@ not publish a service, grant permission, create a caller identity, configure an
 integration, or test a live connection. Read [S5 Concepts](concepts.md) for the
 reasoning behind the record and its boundaries.
 
-## 4. Co-delivery walkthrough
+## 4. Detailed facilitation reference
 
 !!! warning "Evidence-first / report-only"
     This session reviews references and produces no live change. Do not publish

@@ -61,7 +61,7 @@ A directory search is not an agent inventory.
 Read the [S1 Concepts](concepts.md) for how Entra Agent ID, ownership, OBO, and
 the gateway boundary fit together.
 
-## 4. Co-delivery walkthrough
+## 4. Detailed facilitation reference
 
 !!! warning "Review-only boundary"
     This session changes nothing in the tenant and creates no policy. Don't treat

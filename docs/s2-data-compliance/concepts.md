@@ -29,7 +29,7 @@ product path unless the customer has a reason to retain the classic experience.
 
 It finds likely data-risk areas before a policy blocks or warns users.
 
-**In Co-deliver:** an empty result is still evidence. It can mean no in-scope workload was found, nothing turned up in the scope you checked, or a prerequisite is missing. Record which one the customer can stand behind.
+**In Facilitate the session:** an empty result is still evidence. It can mean no in-scope workload was found, nothing turned up in the scope you checked, or a prerequisite is missing. Record which one the customer can stand behind.
 
 ## Labels and DLP turn classification into controls
 
@@ -37,7 +37,7 @@ Sensitivity labels say how data should be handled. DLP policies use those labels
 
 For AI, that can mean spotting protected information in a prompt, a response, or a connected workflow. The customer has to confirm which workloads, locations, and conditions Purview supports in its tenant.
 
-The Co-deliver chapter starts in simulation or test mode, then reviews matches
+The Practical activity starts in simulation or test mode, then reviews matches
 and false positives before enforcement.
 
 ## Investigation needs an evidence trail

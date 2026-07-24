@@ -52,7 +52,7 @@ Runtime evidence must show the path the agent used. S6 records a redacted
 request correlation without changing production traffic. A component diagnostic
 can troubleshoot part of the stack, but it does not prove the gateway path.
 
-## 4. Co-delivery walkthrough
+## 4. Detailed facilitation reference
 
 !!! warning "Report-only / audit-first"
     Do not run against production traffic. A component diagnostic is not

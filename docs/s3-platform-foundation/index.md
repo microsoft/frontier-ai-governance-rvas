@@ -51,7 +51,7 @@ before runtime assurance relies on the path.
 
 Read [S3 Concepts](concepts.md) for the vocabulary and reasoning behind the review.
 
-## 4. Co-delivery walkthrough
+## 4. Detailed facilitation reference
 
 !!! warning "Evidence-first and report-only"
     No deployment, live integration, or environment access occurs in this

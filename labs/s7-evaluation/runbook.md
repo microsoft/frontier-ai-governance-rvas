@@ -5,7 +5,7 @@ customer-operated assurance review and decision handoff.
 
 ## Facilitated activity alignment
 
-Run this sequence during the [S7 90-minute co-delivery workshop](../../docs/s7-evaluation/index.md#4-co-delivery-walkthrough).
+Run this sequence during the [S7 practical activity](../../docs/s7-evaluation/practical.md).
 Before step 1, the facilitator confirms a customer assurance owner, platform
 and security reviewers/evidence owner, decision owner, approved record
 location, and accepted S6 entry evidence. The customer performs the review and

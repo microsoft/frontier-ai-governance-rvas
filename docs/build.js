@@ -64,12 +64,7 @@ const SESSION_CHAPTERS = [
   },
   { slug: 'concepts', label: 'Concepts', standalone: true },
   { slug: 'technical', label: 'Technical decisions', standalone: true, optional: true },
-  { slug: 'practical', label: 'Practical activity', standalone: true },
-  {
-    slug: 'co-deliver',
-    label: 'Co-deliver',
-    heading: /^4\. Co-delivery/i,
-  },
+  { slug: 'co-deliver', label: 'Facilitate the session', standalone: true },
   {
     slug: 'verify-handover',
     label: 'Verify and hand over',
@@ -83,7 +78,7 @@ const PAGES = [
   { slug: 'start-plan-engagement',        src: 'start/plan-engagement.md',    title: 'Plan the engagement',       nav: true, group: 'Start here' },
   { slug: 'how-to-deliver',               src: 'how-to-deliver.md',            title: 'How to deliver',            nav: true, group: 'Delivery' },
   { slug: 'delivery-session-readiness',   src: 'delivery/session-readiness.md', title: 'Check whether a session is ready', nav: true, group: 'Delivery' },
-  { slug: 'delivery-facilitation-pattern', src: 'delivery/facilitation-pattern.md', title: 'Facilitate a co-delivery working session', nav: true, group: 'Delivery' },
+  { slug: 'delivery-facilitation-pattern', src: 'delivery/facilitation-pattern.md', title: 'Facilitate a working session', nav: true, group: 'Delivery' },
   { slug: 'assessment',                   src: 'assessment/index.md',          title: 'Readiness Assessment',      nav: true,  group: null },
   { slug: 'platform-citadel-installation', src: 'delivery/platform-foundation/installation-work-package.md', title: 'Install Citadel platform', nav: true, group: 'Platform foundation' },
   { slug: 'platform-citadel-intake', src: 'delivery/platform-foundation/intake.md', title: 'Platform intake', nav: false, group: 'Platform foundation' },
@@ -125,6 +120,8 @@ SESSIONS.forEach((s) => {
   ROUTES[`${s.slug}/index.md`] = `session.html?s=${s.slug}`;
   ROUTES[`${s.slug}/concepts.md`] = `session.html?s=${s.slug}&chapter=concepts`;
   ROUTES[`${s.slug}/technical.md`] = `session.html?s=${s.slug}&chapter=technical`;
+  ROUTES[`${s.slug}/practical.md`] = `session.html?s=${s.slug}&chapter=co-deliver`;
+  ROUTES[`${s.slug}/facilitate.md`] = `session.html?s=${s.slug}&chapter=co-deliver`;
 });
 
 const ADMONITION_MAP = {
@@ -443,15 +440,23 @@ function main() {
       continue;
     }
     const practical = transform(practicalRaw, `${s.slug}/practical.md`);
-    fs.writeFileSync(path.join(PAGES_OUT, `${s.slug}-practical.md`), practical.md);
+    const facilitateRaw = readOptional(`${s.slug}/facilitate.md`);
+    if (facilitateRaw == null) {
+      console.error(`✖ Missing facilitation guide: docs/${s.slug}/facilitate.md`);
+      process.exitCode = 1;
+      continue;
+    }
+    const facilitate = transform(facilitateRaw, `${s.slug}/facilitate.md`);
+    const facilitationGuide = `## Do this\n\n${practical.md}\n## Facilitate the decision\n\n${facilitate.md}`;
+    fs.writeFileSync(path.join(PAGES_OUT, `${s.slug}-co-deliver.md`), facilitationGuide);
     searchDocs.push({
-      id: `${s.slug}-practical`,
+      id: `${s.slug}-co-deliver`,
       type: 'session',
       title: `${s.code} · ${clean}`,
-      section: 'Practical activity',
+      section: 'Facilitate the session',
       session: s.code,
-      url: `session.html?s=${s.slug}&chapter=practical`,
-      text: toPlainText(practical.md),
+      url: `session.html?s=${s.slug}&chapter=co-deliver`,
+      text: toPlainText(facilitationGuide),
     });
     const chapterMeta = SESSION_CHAPTERS
       .filter((chapter) => chapter.slug !== 'technical' || technical)
@@ -467,7 +472,7 @@ function main() {
     sessionMeta.push({
       slug: s.slug, code: s.code, title: clean, fullTitle: title || `${s.code} · ${clean}`,
       accent: s.accent, persona: s.persona, nist: s.nist, outcome: s.outcome, optional: Boolean(s.optional),
-      hasMermaid: hasMermaid || concepts.hasMermaid || practical.hasMermaid || Boolean(technical && technical.hasMermaid),
+      hasMermaid: hasMermaid || concepts.hasMermaid || practical.hasMermaid || facilitate.hasMermaid || Boolean(technical && technical.hasMermaid),
       hasDeck,
       chapters: chapterMeta,
       reviewed, reviewedNote, conceptsTitle: concepts.title || `${s.code} · ${clean} Concepts`,

@@ -7,7 +7,7 @@ or customer evidence.
 
 ## Workshop alignment
 
-Use the [S8 co-delivery workshop](../../docs/s8-red-teaming/index.md#4-co-delivery-walkthrough)
+Use the [S8 practical activity](../../docs/s8-red-teaming/practical.md)
 to confirm roles, the 90-minute monitored window, authorization, stop
 conditions, interpretation, and decision before following the runbook. The
 customer security/SOC lead and endpoint owner authorize and operate the run;

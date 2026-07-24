@@ -1,4 +1,4 @@
-# Facilitate a co-delivery working session
+# Facilitate a working session
 
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · Confirm current capability availability in the [Governance capability guide](../reference/governance-capability-guide.md) before using a product in a pilot.
@@ -8,6 +8,22 @@ Use this 90-minute method for any selected S0-S12 working session. The facilitat
 Run the session against one bounded pilot question. Do not turn it into a configuration workshop or a product tour.
 Complete [Check whether a session is ready](session-readiness.md) before booking
 the session.
+
+## How the session tabs work
+
+Use the session cards in this order:
+
+| Card | Use it for |
+|---|---|
+| Prepare | Confirm the outcome, prerequisites, and records the customer keeps. |
+| Concepts | Explain the terms and product context the room needs. |
+| Technical decisions | Compare options and agree on the decision criteria. |
+| Facilitate the session | Run the practical activity, then guide the agenda, prompts, interpretation, and decision. |
+| Verify and hand over | Check retained references, ownership, and the next review. |
+
+The first section of Facilitate the session is the practical activity. Observe
+the customer-led work, then focus the room on what the result means and what to
+decide.
 
 ## Activity model
 

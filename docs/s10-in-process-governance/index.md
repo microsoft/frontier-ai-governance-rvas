@@ -74,7 +74,7 @@ You may need both. One control does not prove the other is configured or working
 Read the [S10 Concepts](concepts.md) for the offline Preview boundary,
 hash-chain consistency, and what real tamper evidence requires.
 
-## 4. Co-delivery walkthrough
+## 4. Detailed facilitation reference
 
 Review the [Technical decisions](technical.md) chapter first: it holds the
 boundary option menu (gateway-only, in-process policy, defense in depth, or not

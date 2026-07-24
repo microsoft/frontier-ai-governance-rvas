@@ -47,7 +47,7 @@ Red teaming is useful only when the customer agrees on the target, success crite
 
 Read the [S8 Concepts](concepts.md) for authorization, Attack Success Rate as a decision aid, and the native-scorecard boundary.
 
-## 4. Co-delivery walkthrough
+## 4. Detailed facilitation reference
 
 !!! danger "Authorized test endpoint only"
     Stop if alerts, instability, or scope questions arise. Do not test third-party systems, production agents, user-facing workloads, or endpoints outside the written scope.

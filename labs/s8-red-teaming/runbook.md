@@ -5,7 +5,7 @@
 
 ## Facilitated activity alignment
 
-Run this sequence during the [S8 90-minute co-delivery workshop](../../docs/s8-red-teaming/index.md#4-co-delivery-walkthrough)
+Run this sequence during the [S8 practical activity](../../docs/s8-red-teaming/practical.md)
 and inside the approved SOC monitoring window. Before pre-flight, the
 facilitator confirms a customer security/SOC lead, endpoint owner, evidence
 owner, decision owner, written authorization, rules of engagement, safe

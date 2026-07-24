@@ -59,7 +59,7 @@ itself.
 
 Read the [S11 Concepts](concepts.md) before delivery.
 
-## 4. Co-delivery walkthrough
+## 4. Detailed facilitation reference
 
 !!! warning "Reference-only operating review"
     This 90-minute session is evidence-first and customer-owned. Do not query

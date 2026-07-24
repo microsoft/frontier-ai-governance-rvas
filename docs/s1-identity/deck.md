@@ -72,7 +72,7 @@ This is the most common conceptual trap. Visibility is not control. Make sure th
 
 - Setting up Conditional Access for workload identities depends on tenant, licensing, supported workloads, scope, exclusions, and the customer's change process.
 - A generic policy or break-glass template **can't** stand in for that.
-- **In Co-deliver:** S1 finds the missing owners and coverage gaps: the customer's own identity-change process owns any control they decide to add.
+- **In Facilitate the session:** S1 interprets missing owners and coverage gaps; the customer's identity-change process owns any control it decides to add.
 
 Note:
 Keep the boundary crisp: we surface findings; we do not design or roll out Conditional Access. If the customer decides to add a control, their identity-change process owns the design, any report-only trial, rollout, rollback, checks, and evidence.

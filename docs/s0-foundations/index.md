@@ -63,7 +63,7 @@ those owners, the current baseline, and the next gap to address.
 
 Read the [S0 Concepts](concepts.md) for the operating-model, maturity, risk, and target-architecture context.
 
-## 4. Co-delivery walkthrough
+## 4. Detailed facilitation reference
 
 Read [Technical decisions](technical.md) first. It covers operating-model and
 control-framework options and selection criteria.

@@ -47,9 +47,9 @@ Customer implementation and observation can run alongside governance delivery; d
 
 ## Practical activities
 
-Every session has a **Practical activity** card. It gives the customer one
-bounded action to perform after choosing the technical approach and before the
-facilitated co-delivery work.
+Every **Facilitate the session** card starts with a **Practical activity**. It
+gives the customer one bounded action to perform after choosing the technical
+approach.
 
 The customer performs environment actions, operates credentials, and retains
 evidence in its approved records system. The facilitator explains the method,
@@ -57,6 +57,11 @@ protects the boundary, and helps interpret the result. Use the card's offline
 or evidence-reference fallback if the required access, authorization,
 non-production target, or safe data is not available. Do not manufacture a
 result or use a template as evidence that a control is operating.
+
+The facilitator card is not a second runbook. Its practical-activity section
+owns the customer steps, expected signal, safe fallback, and activity evidence.
+Its facilitation section holds the timebox, prompts, interpretation, decision,
+and escalation.
 
 ## Non-production hard exit gate
 

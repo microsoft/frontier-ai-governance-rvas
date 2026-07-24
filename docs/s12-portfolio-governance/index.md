@@ -58,7 +58,7 @@ so leaders can make the next roadmap decision.
 
 Read the [S12 Concepts](concepts.md) before delivery.
 
-## 4. Co-delivery walkthrough
+## 4. Detailed facilitation reference
 
 Read [Technical decisions](technical.md) first. It covers portfolio reporting,
 prioritization and reinvestment, and continuous-improvement options and

@@ -29,7 +29,7 @@ capability limit. It complements rather than replaces the gateway-proof review.
 
 ## Workshop alignment
 
-Use the [S6 co-delivery workshop](../../docs/s6-security-runtime/index.md#4-co-delivery-walkthrough)
+Use the [S6 practical activity](../../docs/s6-security-runtime/practical.md)
 to establish roles, the 90-minute timebox, entry condition, interpretation, and
 decision before following this runbook. The customer platform operator performs
 the request; customer platform and security reviewers, not the facilitator,

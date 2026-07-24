@@ -41,7 +41,7 @@ Foundry evaluations and agent evaluators can help the customer test quality, saf
 
 Read the [S7 Concepts](concepts.md) for the boundary between evaluation results and the release decision.
 
-## 4. Co-delivery walkthrough
+## 4. Detailed facilitation reference
 
 !!! warning "Report-only / audit-first"
     A fixture score or a direct component test is not a release sign-off. S7 requires an accepted S6 gateway proof.

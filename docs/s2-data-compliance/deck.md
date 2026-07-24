@@ -73,7 +73,7 @@ An empty result can mean no discovered in-scope workload, no findings in the che
 - Confirm supported workloads, locations, and conditions in the tenant.
 
 Note:
-The Co-deliver chapter uses simulation or test mode first. The customer observes matches and false positives before deciding whether enforcement is safe. Do not create or enforce a production policy in this session.
+The Practical activity uses simulation or test mode first. The customer observes matches and false positives before deciding whether enforcement is safe. Do not create or enforce a production policy in this session.
 
 ---
 

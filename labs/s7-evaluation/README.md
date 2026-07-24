@@ -15,7 +15,7 @@ whose correlation was accepted by the named customer reviewers.
 
 ## Workshop alignment
 
-Use the [S7 co-delivery workshop](../../docs/s7-evaluation/index.md#4-co-delivery-walkthrough)
+Use the [S7 practical activity](../../docs/s7-evaluation/practical.md)
 to confirm the assurance owner, evidence reviewers, decision owner, 90-minute
 timebox, and S6 entry condition. The customer creates and decides on the
 assurance record; the facilitator does not operate an evaluator, certify a
