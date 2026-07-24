@@ -20,6 +20,10 @@ They leave with:
 
 ### What happens next
 
+**Next customer action:** give the evaluation, threshold, release, or rollback
+work to the named assurance and engineering owners before any release decision
+progresses.
+
 S7 produces an evaluation and release-sign-off backlog for the customer to work on later. The recommendation says whether to continue, hold, defer, or block release progress. It also names the next owner for the Foundry evaluation target, evaluator or scorecard, dataset, trace source, threshold, CI/CD or release process, rollback route, S8 red-team dependency, or S11 operating review, after current product and feature status are verified.
 
 ## 2. Prerequisites

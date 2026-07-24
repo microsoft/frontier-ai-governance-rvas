@@ -23,7 +23,11 @@ customer-owned runtime control matrix records the selected identity/network,
 gateway, model/agent, and tool boundaries, along with response ownership and
 evidence limits. It does not replace the accepted gateway proof.
 
-### Implementation pathway
+### What happens next
+
+**Next customer action:** assign any route, policy, telemetry, or correlation
+gap to the customer platform or security owner; use the accepted proof only when
+later assurance needs it.
 
 S6 produces a runtime-control backlog: accept, defer, or reject the proof;
 remediate route, policy, or telemetry gaps; route safety work; or block

@@ -26,6 +26,9 @@ templates, or customer records: those stay in the customer's own systems.
 
 ### What happens next
 
+**Next customer action:** give the identity or lifecycle owner the named gap,
+then start dependent work only when the required coverage is clear.
+
 S1 produces an identity backlog: retain the current setup, close source or owner
 gaps, assess Entra Agent ID coverage, route RBAC/OBO/Conditional Access work to
 the identity-change process, or pause dependent sessions.

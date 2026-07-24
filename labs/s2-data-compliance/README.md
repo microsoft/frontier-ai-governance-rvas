@@ -12,9 +12,11 @@ records only in the customer's approved records system.
 
 ## What this kit contains
 
-- [`runbook.md`](runbook.md) - entry point for the customer-operated review.
-- [`review-checklist.md`](review-checklist.md) - facilitator-ready review,
-  evidence-reference, decision, and handoff checklist.
+- **Start with [`review-checklist.md`](review-checklist.md).** It is the
+  customer-operated runbook, including the facilitated review, evidence
+  references, decision, and handoff checklist.
+- [`runbook.md`](runbook.md) is retained only for existing links and points to
+  the checklist.
 - [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md) - records the chosen option, alternatives, rationale, owner, and adoption stage.
 
 ## Prerequisites

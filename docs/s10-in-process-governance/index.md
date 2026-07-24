@@ -27,6 +27,9 @@ customer-managed signed record in immutable external storage.
 
 ### What happens next
 
+**Next customer action:** send the applicability decision and any engineering
+assessment to the policy owner and the customer's normal SDLC or change process.
+
 S10 creates a backlog item for later customer-owned engineering work. The
 recommendation states whether to investigate AGT further, defer, reject, or mark
 not applicable. It also names the policy owner, engineering assessment, audit

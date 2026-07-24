@@ -24,7 +24,11 @@ The customer keeps the completed record in its approved records system.
 runbook. Customer evidence stays in the customer system and is referenced, not
 copied into this repository.
 
-### Implementation pathway
+### What happens next
+
+**Next customer action:** give the publication or lifecycle decision to the
+catalog, platform, identity, and release owners who can complete the required
+work.
 
 S5 produces a publication backlog and records whether the candidate is
 publish-ready, on hold, rejected, suspended, or withdrawn.

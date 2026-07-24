@@ -16,6 +16,10 @@ They leave with:
 
 ### What happens next
 
+**Next customer action:** route the selected platform prerequisites to the
+customer's architecture, network, identity, security, or release process before
+asking runtime assurance to rely on the path.
+
 S3 produces a platform backlog: proceed to runtime assurance, close landing-zone,
 AI gateway, API Center, or telemetry prerequisites, or pause for missing
 ownership or evidence.

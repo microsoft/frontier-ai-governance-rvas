@@ -11,7 +11,7 @@ The customer leaves with a scored maturity baseline and prioritized governance r
 
 They leave with:
 
-- A customer-owned **AI-agent governance maturity baseline** across 7 domains on a 1-4 scale.
+- A customer-owned **AI-agent governance maturity baseline** across 13 S0-S12 domains on a 1-4 scale.
 - A prioritized roadmap that shows which governance gap to close first.
 - A named governance lead, executive sponsor, and decision owner for follow-on work.
 - References to the baseline and roadmap decision in the customer's approved records system or generated delivery workspace.
@@ -19,6 +19,10 @@ They leave with:
 `labs/s0-foundations/` contains blank templates and an offline scorer. It does not hold completed scorecards, roadmaps, names, notes, or evidence. The customer keeps those records in its approved system.
 
 ### What happens next
+
+**Next customer action:** choose the first roadmap item and assign it to the
+customer's existing governance, architecture, security, compliance, or change
+process.
 
 S0 turns the baseline into a governance backlog, naming the next track, owner,
 evidence gap, assumptions, and follow-up process. It does not deploy a control.

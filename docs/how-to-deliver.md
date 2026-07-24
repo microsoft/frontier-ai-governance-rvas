@@ -59,7 +59,13 @@ If any item is missing, stop the dependent action. Continue only with documentat
 
 ## Control states
 
-Use the same vocabulary throughout the curriculum:
+A **decision outcome** says what should happen next in that session: for
+example, proceed, hold, defer, reject, remediate, or accept risk. A **control
+state** says how far a customer control has progressed. They are related, but
+they are not interchangeable: a session can approve a next action while the
+related control remains designed or under observation.
+
+Use these control states throughout the curriculum:
 
 | State | Meaning |
 |---|---|

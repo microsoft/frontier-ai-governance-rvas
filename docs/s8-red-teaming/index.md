@@ -19,6 +19,9 @@ They leave with:
 
 ### What happens next
 
+**Next customer action:** route the selected remediation, accepted-risk, or
+re-test work through the customer security and non-production change process.
+
 S8 produces a remediation backlog for the customer to work on later. The recommendation says whether to remediate, accept risk, block, or re-test. It also names the next owner for the AI Red Teaming Agent or PyRIT adapter path, SOC authorization, category threshold, remediation, S6/S7/S11 dependency, or non-production change process.
 
 !!! warning "Safety / authorization required"

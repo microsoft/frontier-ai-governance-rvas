@@ -28,6 +28,10 @@ thresholds, store customer data, or implement a change.
 
 ### What happens next
 
+**Next customer action:** put the adopted review on the customer operating
+cadence, then assign its alerts, remediation checks, exceptions, and cost
+actions to named owners.
+
 S11 creates an operating backlog for later customer-owned work. The
 recommendation states whether to adopt, defer, or reject the review definition.
 It also names the Azure Monitor, Application Insights, OpenTelemetry, Foundry

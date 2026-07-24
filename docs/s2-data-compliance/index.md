@@ -20,6 +20,10 @@ They leave with:
 
 ### What happens next
 
+**Next customer action:** assign the selected data, classification, investigation,
+or report-only change work to its customer owner before dependent platform work
+continues.
+
 S2 produces a data-governance backlog: continue without a DLP change, prepare a
 report-only review, fix classification or investigation gaps, route a
 gateway/data dependency to S3/S6, or block dependent work.

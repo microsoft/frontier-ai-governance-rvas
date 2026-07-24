@@ -78,6 +78,7 @@ const SESSION_CHAPTERS = [
 
 const PAGES = [
   { slug: 'start-understand-rvas',        src: 'start/understand-rvas.md',    title: 'About AI Governance Platform', nav: true, group: 'Start here' },
+  { slug: 'start-customer-journey',       src: 'start/customer-journey.md',   title: 'What customers get',         nav: true, group: 'Start here' },
   { slug: 'start-plan-engagement',        src: 'start/plan-engagement.md',    title: 'Plan the engagement',       nav: true, group: 'Start here' },
   { slug: 'how-to-deliver',               src: 'how-to-deliver.md',            title: 'How to deliver',            nav: true, group: 'Delivery' },
   { slug: 'delivery-session-readiness',   src: 'delivery/session-readiness.md', title: 'Check whether a session is ready', nav: true, group: 'Delivery' },
@@ -101,6 +102,7 @@ const PAGES = [
 const ROUTES = {
   'index.md': 'index.html',
   'start/understand-rvas.md': 'page.html?p=start-understand-rvas',
+  'start/customer-journey.md': 'page.html?p=start-customer-journey',
   'start/plan-engagement.md': 'page.html?p=start-plan-engagement',
   'how-to-deliver.md': 'page.html?p=how-to-deliver',
   'delivery/session-readiness.md': 'page.html?p=delivery-session-readiness',

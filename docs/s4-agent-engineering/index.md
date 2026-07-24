@@ -30,7 +30,11 @@ system. `labs/s4-agent-engineering/` provides blank offline templates and the
 runbook. It does not hold customer code, data, credentials, integration settings,
 deployment steps, or production approval.
 
-### Implementation pathway
+### What happens next
+
+**Next customer action:** route the selected admission requirements and
+implementation path to the customer's engineering, security, architecture, and
+release owners.
 
 S4 is the agent admission and change-review decision point. It compares
 Microsoft paths and selects the next backlog. For a Foundry path, that is a
