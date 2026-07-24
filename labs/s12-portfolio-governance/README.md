@@ -14,11 +14,13 @@ certify compliance.
 
 ## Contents
 
-```text
-templates/
-  technical-decision-record.template.md
-  portfolio-review.template.md
-  exception-register.template.md
-  governance-roadmap.template.md
-runbook.md
-```
+- [Runbook](runbook.md): the activity sequence, decision boundary, and stop
+  conditions.
+- [Portfolio review](templates/portfolio-review.template.md): the bounded
+  question, evidence references, and review conclusion.
+- [Exception register](templates/exception-register.template.md): recurring,
+  cross-scope, or decision-blocking exceptions.
+- [Governance roadmap](templates/governance-roadmap.template.md): investment
+  priorities, dependencies, owners, and review dates.
+- [Technical decision record](templates/technical-decision-record.template.md):
+  the selected portfolio reporting and prioritization approach.

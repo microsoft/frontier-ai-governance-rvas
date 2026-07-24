@@ -14,9 +14,9 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import hashlib
 import importlib
 import inspect
-import hashlib
 import json
 from collections.abc import Callable, Coroutine
 from pathlib import Path

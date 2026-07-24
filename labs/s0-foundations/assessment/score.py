@@ -58,7 +58,7 @@ class Domain:
 
 
 def load(path: Path) -> "OrderedDict[str, Domain]":
-    domains: "OrderedDict[str, Domain]" = OrderedDict()
+    domains: OrderedDict[str, Domain] = OrderedDict()
     with path.open(newline="", encoding="utf-8") as fh:
         reader = csv.DictReader(fh)
         required = {"domain", "domain_name", "question_id", "weight", "score"}

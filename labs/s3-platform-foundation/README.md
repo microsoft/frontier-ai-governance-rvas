@@ -7,8 +7,13 @@ handoff for a bounded workload.
 
 Start with [runbook.md](runbook.md). Copy the templates to the organization's
 approved records location before entering any information. Use
-`templates/technical-decision-record.template.md` to record the platform
-topology, network-isolation, and gateway decision. Do not place
+[the technical decision record](templates/technical-decision-record.template.md)
+to record the platform topology, network-isolation, and gateway decision. Use
+[the platform-boundary review](templates/platform-boundary-review.template.md)
+to define the question, evidence expectation, limits, owners, and disposition.
+Use [the runtime-assurance handoff](templates/runtime-assurance-handoff.template.md)
+to give the runtime-assurance owner the bounded question, evidence expectations,
+open gaps, and stop conditions. Do not place
 workload data, network details, identities, credentials, event records, or
 completed evidence in this repository.
 
@@ -16,7 +21,8 @@ This kit does not deploy, configure, test, connect to a live environment,
 transfer data, or demonstrate that a reference architecture is operating. It
 contains no implementation instructions or reusable production configuration.
 
-Use `templates/platform-control-profile.template.md` when the customer needs a
+Use [the platform-control profile](templates/platform-control-profile.template.md)
+when the customer needs a
 single customer-owned view of environment equivalence, control ownership,
 network/route assumptions, evidence expectations, and the implementation
 backlog for engineering, runtime assurance, and operations owners.

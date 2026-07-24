@@ -14,6 +14,16 @@ function requireFile(filePath, description) {
   }
 }
 
+function markdownFiles(directory) {
+  return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const entryPath = path.join(directory, entry.name);
+    if (entry.isDirectory()) {
+      return markdownFiles(entryPath);
+    }
+    return entry.isFile() && entry.name.endsWith(".md") ? [entryPath] : [];
+  });
+}
+
 for (const entry of fs.readdirSync(labsRoot, { withFileTypes: true })) {
   if (!entry.isDirectory()) {
     continue;
@@ -45,6 +55,19 @@ for (const entry of fs.readdirSync(labsRoot, { withFileTypes: true })) {
       failures.push(
         `Lab entry point must link to its runbook: ${path.relative(root, readme)}`,
       );
+    }
+
+    const runbookContent = fs.existsSync(runbook) ? fs.readFileSync(runbook, "utf8") : "";
+    for (const material of markdownFiles(labPath)) {
+      if (material === readme) {
+        continue;
+      }
+      const materialPath = path.relative(labPath, material).split(path.sep).join("/");
+      if (!content.includes(materialPath) && !runbookContent.includes(materialPath)) {
+        failures.push(
+          `Lab material is not called out by its entry point or runbook: ${path.relative(root, material)}`,
+        );
+      }
     }
   }
 

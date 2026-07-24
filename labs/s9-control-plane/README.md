@@ -6,6 +6,9 @@ decisions, read-only identity reconciliation, remediation accountability, and
 closeout cadence. It does not connect to live data, infer records, write
 catalog data, execute a lifecycle change, or retain customer evidence.
 
+See [Lab files: scripts and CSV templates](../README.md) before running the
+read-only reconciliation helper.
+
 Use [`runbook.md`](runbook.md) for the required input shape, reconciliation,
 triage, closeout, and blocker pathways. Copy blank templates, including
 `templates/technical-decision-record.template.md`, to approved records; samples

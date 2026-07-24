@@ -6,6 +6,9 @@ no attack dataset, threshold policy, mock target, endpoint client, credentials,
 or customer evidence. A completed scan is evidence for only its written scope;
 it is not a production approval or a claim that untested attack paths are safe.
 
+See [Lab files: scripts and CSV templates](../README.md) before running the
+customer-operated adapter.
+
 ## Workshop alignment
 
 Use the [S8 practical activity](../../docs/s8-red-teaming/practical.md)

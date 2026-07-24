@@ -5,6 +5,9 @@ investigate in-process tool-call governance further. It illustrates
 tool-policy decisions and hash-chain consistency without installing, invoking,
 or validating AGT.
 
+See [Lab files: scripts and CSV templates](../README.md) for a plain-language
+description of the offline simulator and its output.
+
 ## Contents
 
 ```

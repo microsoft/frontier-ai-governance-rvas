@@ -8,6 +8,9 @@ Start with [runbook.md](runbook.md). Complete all customer records in the
 customer's approved records system or generated delivery workspace; never add a
 completed scorecard, roadmap, names, or evidence to this repository.
 
+See [Lab files: scripts and CSV templates](../README.md) before using a CSV or
+running an offline helper.
+
 ## Included templates and tools
 
 - `assessment/scorecard.csv`: blank 39-question baseline template across the

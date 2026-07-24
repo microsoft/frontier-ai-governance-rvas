@@ -4,6 +4,9 @@ S6 produces one runtime proof: a redacted record that a
 customer-operated non-production request reached the approved gateway path.
 It does not deploy, configure, or directly call Content Safety.
 
+See [Lab files: scripts and CSV templates](../README.md) before running the
+gateway helper.
+
 ## Customer action
 
 Follow [the runbook](runbook.md) to run
