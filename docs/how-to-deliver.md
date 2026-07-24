@@ -45,6 +45,19 @@ Plan for eight to twelve weeks. The exact length depends on architecture readine
 
 Customer implementation and observation can run alongside governance delivery; do not squeeze an observation period into a workshop.
 
+## Practical activities
+
+Every session has a **Practical activity** card. It gives the customer one
+bounded action to perform after choosing the technical approach and before the
+facilitated co-delivery work.
+
+The customer performs environment actions, operates credentials, and retains
+evidence in its approved records system. The facilitator explains the method,
+protects the boundary, and helps interpret the result. Use the card's offline
+or evidence-reference fallback if the required access, authorization,
+non-production target, or safe data is not available. Do not manufacture a
+result or use a template as evidence that a control is operating.
+
 ## Non-production hard exit gate
 
 Do not run a live runtime assurance request, live evaluation, or adversarial test until all items below are recorded:

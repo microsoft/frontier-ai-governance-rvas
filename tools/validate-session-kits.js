@@ -27,6 +27,7 @@ for (const entry of fs.readdirSync(labsRoot, { withFileTypes: true })) {
   requireFile(readme, "lab entry point");
   requireFile(runbook, "lab runbook");
   requireFile(path.join(docsRoot, entry.name, "index.md"), "rendered session page");
+  requireFile(path.join(docsRoot, entry.name, "practical.md"), "practical activity");
 
   for (const retiredFile of ["verify.md", "rollback.md"]) {
     const retiredPath = path.join(labPath, retiredFile);

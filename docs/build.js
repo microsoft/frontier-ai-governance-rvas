@@ -64,6 +64,7 @@ const SESSION_CHAPTERS = [
   },
   { slug: 'concepts', label: 'Concepts', standalone: true },
   { slug: 'technical', label: 'Technical decisions', standalone: true, optional: true },
+  { slug: 'practical', label: 'Practical activity', standalone: true },
   {
     slug: 'co-deliver',
     label: 'Co-deliver',
@@ -435,6 +436,23 @@ function main() {
         text: toPlainText(technical.md),
       });
     }
+    const practicalRaw = readOptional(`${s.slug}/practical.md`);
+    if (practicalRaw == null) {
+      console.error(`✖ Missing practical activity: docs/${s.slug}/practical.md`);
+      process.exitCode = 1;
+      continue;
+    }
+    const practical = transform(practicalRaw, `${s.slug}/practical.md`);
+    fs.writeFileSync(path.join(PAGES_OUT, `${s.slug}-practical.md`), practical.md);
+    searchDocs.push({
+      id: `${s.slug}-practical`,
+      type: 'session',
+      title: `${s.code} · ${clean}`,
+      section: 'Practical activity',
+      session: s.code,
+      url: `session.html?s=${s.slug}&chapter=practical`,
+      text: toPlainText(practical.md),
+    });
     const chapterMeta = SESSION_CHAPTERS
       .filter((chapter) => chapter.slug !== 'technical' || technical)
       .map(({ slug, label }) => ({ slug, label }));
@@ -449,7 +467,7 @@ function main() {
     sessionMeta.push({
       slug: s.slug, code: s.code, title: clean, fullTitle: title || `${s.code} · ${clean}`,
       accent: s.accent, persona: s.persona, nist: s.nist, outcome: s.outcome, optional: Boolean(s.optional),
-      hasMermaid: hasMermaid || concepts.hasMermaid || Boolean(technical && technical.hasMermaid),
+      hasMermaid: hasMermaid || concepts.hasMermaid || practical.hasMermaid || Boolean(technical && technical.hasMermaid),
       hasDeck,
       chapters: chapterMeta,
       reviewed, reviewedNote, conceptsTitle: concepts.title || `${s.code} · ${clean} Concepts`,
