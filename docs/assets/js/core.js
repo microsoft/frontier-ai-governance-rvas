@@ -156,6 +156,12 @@
   FP.initNav = function () {
     const toggle = document.querySelector('.nav-toggle');
     const links  = document.querySelector('.nav-links');
+    if (!toggle || !links || toggle.dataset.shellBound) return;
+    toggle.dataset.shellBound = '1';
+    const close = () => {
+      links.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    };
     if (toggle && links) {
       toggle.addEventListener('click', () => {
         const open = links.classList.toggle('open');
@@ -167,6 +173,10 @@
           links.classList.remove('open');
           toggle.setAttribute('aria-expanded', 'false');
         }
+      });
+      document.addEventListener('click', (e) => {
+        if (!links.classList.contains('open')) return;
+        if (!links.contains(e.target) && !toggle.contains(e.target)) close();
       });
     }
   };
