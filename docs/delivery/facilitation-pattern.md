@@ -6,6 +6,8 @@
 Use this 90-minute method for any selected S0-S12 working session. The facilitator runs the method; the customer acts, keeps evidence, and decides.
 
 Run the session against one bounded pilot question. Do not turn it into a configuration workshop or a product tour.
+Complete [Check whether a session is ready](session-readiness.md) before booking
+the session.
 
 ## Activity model
 

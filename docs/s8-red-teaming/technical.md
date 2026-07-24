@@ -17,7 +17,7 @@ current-status check before use.
 
 | Option | When it fits | Trade-off / limitation | Governance implication |
 |---|---|---|---|
-| **Automated Microsoft path** (AI Red Teaming Agent / PyRIT) | Repeatable category coverage is needed for an authorized non-production target | Availability, supported scenarios, and adapter work must be verified; automation does not replace judgment | Record approved tool path, operator, evidence owner, and what the run does not cover |
+| **Automated Microsoft path** (AI Red Teaming Agent / PyRIT) | Repeatable category coverage is needed for an authorized non-production target | The AI Red Teaming Agent supports documented Foundry targets, Azure tool paths, and regions only; use PyRIT or manual testing when it does not fit | Record approved tool path, operator, evidence owner, and what the run does not cover |
 | **Manual expert red-teaming** | Novel behaviors, high-risk workflows, or business-context attacks need expert exploration | Less repeatable; depends on scarce skill and careful scope control | Record expert role, authorization boundary, notes retained, and how findings become backlog |
 | **Third-party engagement** | Independence, specialist depth, regulatory expectation, or surge capacity is required | Cost, procurement, data handling, and evidence-sharing constraints | Record provider scope, legal approval, evidence location, and customer owner for remediation |
 | **Mixed approach** | Baseline repeatability and expert depth are both needed | More coordination and duplicated evidence paths | Record which method owns which category and how results reconcile |

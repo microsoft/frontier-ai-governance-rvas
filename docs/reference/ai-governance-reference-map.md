@@ -53,7 +53,7 @@ Runtime enforcement turns identity, data, tool, API, runtime-safety, and agent-g
 | Source | Relevant sessions | What it can inform | Stability |
 |---|---|---|---|
 | [Microsoft Purview](https://learn.microsoft.com/en-us/purview/purview) | S0, S2, S6, S9 | Data-governance and compliance setup questions. | Canonical Learn |
-| [DSPM for AI](https://learn.microsoft.com/en-us/purview/data-security-posture-management-learn-about) | S2, S11 | Discovery and posture-review scope. | Canonical Learn |
+| [Data Security Posture Management](https://learn.microsoft.com/en-us/purview/data-security-posture-management-learn-about) | S2, S11 | Discovery and posture-review scope. `DSPM for AI` is the classic product label. | Canonical Learn |
 | [Data Loss Prevention](https://learn.microsoft.com/en-us/purview/dlp-learn-about-dlp) | S2, S5, S6 | Data-exposure and boundary-control backlog items. | Canonical Learn |
 | [Sensitivity labels](https://learn.microsoft.com/en-us/purview/sensitivity-labels) | S2, S5 | Classification references for data-handling decisions. | Canonical Learn |
 | [Purview Audit](https://learn.microsoft.com/en-us/purview/audit-solutions-overview) | S2, S9, S11 | Customer-held audit-reference and retention questions. | Canonical Learn |
@@ -67,7 +67,7 @@ Runtime enforcement turns identity, data, tool, API, runtime-safety, and agent-g
 | [Azure AI Content Safety](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/overview) | S4, S6, S7 | Safety-control and evaluation planning. | Canonical Learn |
 | [Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection) | S6, S8 | Prompt-injection context and customer-owned testing scope. | Canonical Learn |
 | [Microsoft Foundry observability and evaluation](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability) | S7, S11 | Evaluation, trace, monitoring, and coverage-planning context. | Canonical Learn |
-| [Agent Evaluators for Generative AI](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators) | S7 | Named evaluator types and specific evaluation questions. | Canonical Learn; evaluator availability varies |
+| [Agent Evaluators for Generative AI](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators) | S7 | Named evaluator types and specific evaluation questions. | Canonical Learn; check preview status and use a GA or manual fallback for a production decision |
 | [Fine-tune Microsoft Foundry models](https://learn.microsoft.com/en-us/azure/foundry/how-to/fine-tune-models) | S4, S7, S11, S12 | Fine-tuning decision criteria, pre/post comparison, and training versus inference-cost questions. | Canonical Learn; verify model and region support |
 | [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management) | S11, S12 | Subscription-level cost attribution and portfolio planning. | Canonical Learn |
 | [ASSERT announcement](https://devblogs.microsoft.com/foundry/build-2026-open-trust-stack-ai-agents/) | S7, S8 | Policy-driven evaluation and before/after mitigation thinking. | Contextual announcement; verify current project status |

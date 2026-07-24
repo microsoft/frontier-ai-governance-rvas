@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rvas.s9.control-plane-registry.v1",
+  "title": "S9 control-plane registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "agents", "tools"],
+  "properties": {
+    "schema": { "const": "rvas.s9.control-plane-registry.v1" },
+    "capturedUtc": { "type": "string", "format": "date-time" },
+    "agents": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/agent" }
+    },
+    "tools": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/tool" }
+    }
+  },
+  "$defs": {
+    "reviewFields": {
+      "type": "object",
+      "properties": {
+        "lifecycleState": { "type": ["string", "null"] },
+        "lifecycleReviewRef": { "type": ["string", "null"] },
+        "materialChangeReviewStatus": {
+          "enum": ["not_applicable", "reviewed", "pending_review", "not_reviewed"]
+        },
+        "materialChangeReviewRef": { "type": ["string", "null"] },
+        "lifecycleTransition": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "required": ["fromState", "toState", "decisionOwner", "reviewRef"],
+          "properties": {
+            "fromState": { "type": "string", "minLength": 1 },
+            "toState": { "type": "string", "minLength": 1 },
+            "decisionOwner": { "type": "string", "minLength": 1 },
+            "reviewRef": { "type": "string", "minLength": 1 }
+          }
+        },
+        "closureOwner": { "type": ["string", "null"] },
+        "closureReviewRef": { "type": ["string", "null"] }
+      },
+      "required": ["materialChangeReviewStatus"]
+    },
+    "agent": {
+      "allOf": [
+        { "$ref": "#/$defs/reviewFields" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["registryId", "displayName", "executionMode", "managed"],
+          "properties": {
+            "registryId": { "type": "string", "minLength": 1 },
+            "displayName": { "type": "string", "minLength": 1 },
+            "identityObjectId": { "type": ["string", "null"] },
+            "executionMode": { "type": "string", "minLength": 1 },
+            "managed": { "type": "boolean" },
+            "accountableOwner": { "type": ["string", "null"] },
+            "technicalOwner": { "type": ["string", "null"] },
+            "lifecycleState": { "type": ["string", "null"] },
+            "lifecycleReviewRef": { "type": ["string", "null"] },
+            "materialChangeReviewStatus": {
+              "enum": ["not_applicable", "reviewed", "pending_review", "not_reviewed"]
+            },
+            "materialChangeReviewRef": { "type": ["string", "null"] },
+            "lifecycleTransition": { "$ref": "#/$defs/reviewFields/properties/lifecycleTransition" },
+            "closureOwner": { "type": ["string", "null"] },
+            "closureReviewRef": { "type": ["string", "null"] }
+          }
+        }
+      ]
+    },
+    "tool": {
+      "allOf": [
+        { "$ref": "#/$defs/reviewFields" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["toolId", "displayName"],
+          "properties": {
+            "toolId": { "type": "string", "minLength": 1 },
+            "displayName": { "type": "string", "minLength": 1 },
+            "parentRegistryId": { "type": ["string", "null"] },
+            "owner": { "type": ["string", "null"] },
+            "lifecycleState": { "type": ["string", "null"] },
+            "lifecycleReviewRef": { "type": ["string", "null"] },
+            "materialChangeReviewStatus": {
+              "enum": ["not_applicable", "reviewed", "pending_review", "not_reviewed"]
+            },
+            "materialChangeReviewRef": { "type": ["string", "null"] },
+            "lifecycleTransition": { "$ref": "#/$defs/reviewFields/properties/lifecycleTransition" },
+            "closureOwner": { "type": ["string", "null"] },
+            "closureReviewRef": { "type": ["string", "null"] }
+          }
+        }
+      ]
+    }
+  }
+}

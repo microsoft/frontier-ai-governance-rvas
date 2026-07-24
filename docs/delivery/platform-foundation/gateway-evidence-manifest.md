@@ -1,38 +1,42 @@
 # Customer-operated gateway proof evidence manifest
 
-Create one manifest per non-production gateway test. The adapter emits schema version `1.0` with safe references only. Store it with approved customer governance evidence, never credentials, endpoint values, raw responses, prompts, documents, or unredacted telemetry. Direct Content Safety component evidence must be recorded as `testMode: component`; it cannot satisfy the gateway-path proof fields.
+Create one manifest per non-production gateway test. The S6 adapter emits
+`rvas.delivery.gateway-proof.v1` with safe references only. Store it with
+approved customer governance evidence, never credentials, endpoint values, raw
+responses, prompts, documents, or unredacted telemetry. A direct component
+test cannot satisfy this gateway-path proof.
 
 ## Required fields
 
 | Field | Record |
 |---|---|
-| `schemaVersion`, `manifestType`, `capturedUtc` | Fixed version (`1.0`), manifest type, and capture time. |
-| `proofId`, `environmentLabel` | Correlation identifier and non-production environment label. |
-| `gatewayReference`, `accessContractReference` | Safe references to the customer platform and contract records; never a URL. |
-| `backendReference`, `policyReference` | Safe references to the approved backend and runtime policy/configuration record. |
-| `expectedBehavior` | Short, non-sensitive statement of the expected gateway behavior. |
-| `requestEvidenceReference`, `telemetryEvidenceReference` | Safe references to the customer request/change record and telemetry record. |
-| `result.state`, `review.state` | Adapter result (`request-submitted` or `request-failed`) and human review state (`pending`, `reviewed`, `accepted`, or `blocked`). |
+| `schema`, `pilot_agent_slug`, `environment_label` | Fixed schema name, safe agent identifier, and non-production environment label. |
+| `gateway_reference`, `access_contract_reference` | Safe references to the customer platform and contract records; never a URL. |
+| `backend_reference`, `policy_reference` | Safe references to the approved backend and runtime policy or configuration record. |
+| `correlation_id`, `expected_policy_behavior` | Correlation identifier and a short, non-sensitive expected behavior. |
+| `request_evidence_reference`, `telemetry_evidence_reference` | Safe references to the customer request or change record and telemetry record. |
+| `result` | `pass`, `fail`, or `blocked`. A pass records transport evidence only. |
 
 ## Redacted example
 
-```yaml
-schemaVersion: "1.0"
-manifestType: rvas.s3.gateway-proof
-capturedUtc: 2026-07-15T08:00:00Z
-proofId: rvas-s3-gateway-20260715T080000Z
-environmentLabel: customer-nonproduction
-gatewayReference: platform-record:gateway-np
-accessContractReference: contract-record:approved-route
-backendReference: backend-record:content-safety-np
-policyReference: policy-record:prompt-shields-v1
-expectedBehavior: Approved gateway route returns a recorded result
-requestEvidenceReference: change-record:request-window
-telemetryEvidenceReference: telemetry-record:proof-query
-result:
-  state: request-submitted
-review:
-  state: pending
+```json
+{
+  "schema": "rvas.delivery.gateway-proof.v1",
+  "pilot_agent_slug": "customer-agent",
+  "environment_label": "customer-nonproduction",
+  "gateway_reference": "platform-record:gateway-np",
+  "access_contract_reference": "contract-record:approved-route",
+  "backend_reference": "backend-record:content-safety-np",
+  "policy_reference": "policy-record:prompt-shields-v1",
+  "correlation_id": "rvas-s6-gateway-20260715T080000Z",
+  "request_evidence_reference": "change-record:request-window",
+  "telemetry_evidence_reference": "telemetry-record:proof-query",
+  "expected_policy_behavior": "Approved gateway route returns a recorded result",
+  "result": "pass"
+}
 ```
 
-The adapter writes only this manifest. A platform owner changes `review.state` after correlating the proof ID with customer telemetry; a submitted request is not an accepted control. Keep raw gateway traces, response output, and sensitive request details in separately approved customer systems.
+The adapter writes only this manifest. A platform owner records the
+correlation-review decision in the customer records system; a `pass` is not an
+accepted control. Keep raw gateway traces, response output, and sensitive
+request details in separately approved customer systems.

@@ -7,14 +7,14 @@ Map each AI Governance session to Microsoft capabilities with this guide. Before
 | Domain and session | Microsoft capabilities | What the facilitator uses them for | Availability to confirm |
 |---|---|---|---|
 | Operating model · S0 | Cloud Adoption Framework for AI, Well-Architected Framework for AI, AI Center of Excellence guidance | Ownership model, maturity discussion, and roadmap. | Current guidance. |
-| Identity · S1 | Microsoft Entra Agent ID, Conditional Access, Identity Protection, Agent 365 | Agent inventory, sponsorship, lifecycle, and access posture. | Agent-ID feature and Conditional-Access availability. |
-| Data · S2 | Microsoft Purview DSPM for AI, DLP, audit, eDiscovery, and information protection | Data exposure findings, DLP testing, and retained compliance evidence. | Licensing and tenant support. |
+| Identity · S1 | Microsoft Entra Agent ID, Conditional Access, Identity Protection, Agent 365 | Agent inventory, sponsorship, lifecycle, and access posture. | Agent 365 licensing plus Agent ID and Conditional Access coverage. |
+| Data · S2 | Microsoft Purview Data Security Posture Management, DLP, audit, eDiscovery, and information protection | Data exposure findings, DLP testing, and retained compliance evidence. | Licensing and tenant support. |
 | Platform & trust boundaries · S3 | Azure landing-zone, network, gateway, monitoring, and security capabilities | Customer-owned platform path and trust-boundary decision. | Region, network, feature, and ownership availability. |
 | Engineering & admission · S4 | Microsoft Foundry Agent Service, Copilot Studio / Power Platform governance, Microsoft 365 Copilot declarative agents, Entra identity/RBAC/Agent ID, Foundry evaluation and observability, Azure Monitor / Application Insights, Content Safety, Agent 365, API Center, and customer engineering/change processes | Product-specific implementation path, model choice, fine-tuning governance, latency budget, token-cost estimate, rollout decision, admission, and material-change review. | Tenant licensing, region, feature availability, approved engineering path, and customer change authority. |
 | Tool/API/MCP governance · S5 | API catalog, gateway, identity, and lifecycle capabilities | Controlled publication, authority, and withdrawal decisions. | Connector, protocol, and tenant support. |
-| Runtime assurance · S6 | Defender for Cloud AI-SPM, AI Threat Protection, Azure AI Content Safety, Azure Monitor / Application Insights | Security posture, threat signals, runtime safety, gateway correlation, and response ownership. | Region, service, telemetry, and feature availability. |
-| Evaluation & release assurance · S7 | Microsoft Foundry evaluations, agent evaluators (task completion, intent resolution, tool-call accuracy, response quality, safety), cloud evaluation, tracing, continuous evaluation where applicable, and CI/CD integration | Customer-owned evaluation-plan review, threshold governance, scorecard interpretation, and release decision. | Individual evaluator availability, test-data ownership, and integration path. |
-| Adversarial testing · S8 | PyRIT and the AI Red Teaming Agent | Authorized test scope, findings, and remediation evidence. | Red Teaming Agent availability and approved target. |
+| Runtime assurance · S6 | Defender for Cloud AI-SPM, Agent 365 agent security, Azure AI Content Safety, Azure Monitor / Application Insights | Security posture, threat signals, runtime safety, gateway correlation, and response ownership. | Agent 365 licensing for agent-level posture; region, telemetry, and feature availability. |
+| Evaluation & release assurance · S7 | Microsoft Foundry evaluations, agent evaluators, cloud evaluation, tracing, continuous evaluation where applicable, and CI/CD integration | Customer-owned evaluation-plan review, threshold governance, scorecard interpretation, and release decision. | Individual evaluator status; use a GA evaluator or manual review for a production decision. |
+| Adversarial testing · S8 | PyRIT and the AI Red Teaming Agent | Authorized test scope, findings, and remediation evidence. | Supported Foundry target, Azure tool path, region, and approved target. |
 | Control plane & lifecycle · S9 | Microsoft Agent 365, Entra Agent ID, API Center, platform telemetry | Reconcile agent, tool, identity, ownership, and lifecycle records. | Agent 365 licensing and connector status. |
 | In-process governance · S10 | Agent Governance Toolkit (AGT) | Offline example of application-process tool-call policy and audit evidence; adoption decision only. | Applicability, release status, and architecture fit. |
 | Operate, monitor & FinOps · S11 | Customer-held operational, security, quality, and cost evidence; Azure Monitor / Application Insights; Foundry observability; Azure Cost Management and FinOps Toolkit where used | Operating review, quality/latency/cost drift, cost accountability, and remediation cadence. | Evidence coverage, attribution limits, and owner availability. |
@@ -65,16 +65,16 @@ Filter these Microsoft capability categories to the session:
 
 ## Product-status notes
 
-- Microsoft Agent 365 and Microsoft Entra Agent ID have general-availability announcements, while some related access-control and connector features remain preview.
-- Purview DSPM, Defender AI-SPM, AI Threat Protection, and Prompt Shields include generally available capabilities; individual detections and integrations may be preview.
-- The `azure-ai-evaluation` SDK is generally available. Individual evaluators, agent evaluators, cloud evaluation, and continuous-evaluation features can vary. Verify the named evaluator categories before delivery. S7 references customer-owned evaluation work. It does not run a live evaluator or create a CI/CD gate.
+- Microsoft Agent 365 licensing is an early S1, S6, and S9 check. Agent-level security posture and some Entra agent-governance capabilities require it; availability varies by workload and tenant.
+- Use Microsoft Purview Data Security Posture Management. `DSPM for AI` is the classic product label and should not be the default delivery path.
+- The `azure-ai-evaluation` SDK is generally available. Individual agent evaluators, cloud evaluation, and continuous-evaluation features can vary. Do not use a preview-only evaluator as the sole automated production gate; use a GA evaluator or a customer-owned manual review. S7 references customer-owned evaluation work. It does not run a live evaluator or create a CI/CD gate.
 - Foundry fine-tuning is available for supported models and can vary by model, region, and feature. Verify support before you recommend a fine-tuning path or evaluation integration.
 - Foundry billing and project-level cost attribution may have scope limits. Confirm available views before you use them in a FinOps recommendation.
 - ASSERT policy-driven evaluation is contextual Build 2026 guidance. Verify its current project and preview status before you cite it in a customer backlog.
 - Microsoft Foundry Agent Service supports prompt agents, hosted agents, and existing external agents through the Responses API. S4 uses this only for implementation-path and backlog planning, not agent creation or deployment.
 - Copilot Studio agents are governed through Power Platform and Microsoft 365 controls such as environments, data policies, publication controls, audit, and tenant administration. Confirm environment, DLP, connector, ALM, and licensing requirements before you recommend that path.
 - Microsoft 365 Copilot declarative agents are configured through instructions, knowledge, actions, capabilities, and app metadata. Confirm the selected authoring tool, admin distribution route, and tenant controls before delivery.
-- PyRIT is open source. The managed AI Red Teaming Agent is preview.
+- PyRIT is open source. Before selecting the AI Red Teaming Agent, confirm that the target is a supported Foundry workload, its tools are supported, and the region supports the required cloud run. Use PyRIT or manual testing where it does not fit.
 - Foundry Citadel Platform is a reference architecture. AI Hub Gateway and Azure AI Landing Zones are accelerators with their own deployment guidance.
 - AGT is open source and Public Preview at the pinned curriculum revision. Its audit records governance attempts and decisions, not downstream action outcomes. It does not provide data provenance, an SBOM, or a ready-made human-approval UI. It is an applicability-based S10 topic, not a required customer control.[^agt]
 
@@ -108,8 +108,10 @@ The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC
 - [Microsoft Entra Agent ID](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id)
 - [Manage owners and sponsors for agent identities](https://learn.microsoft.com/en-us/entra/agent-id/manage-owners-sponsors-agents)
 - [Microsoft Purview for AI](https://learn.microsoft.com/en-us/purview/ai-microsoft-purview)
+- [Microsoft Purview Data Security Posture Management](https://learn.microsoft.com/en-us/purview/data-security-posture-management-learn-about)
 - [Azure API Center overview](https://learn.microsoft.com/en-us/azure/api-center/overview)
 - [Defender AI security posture management](https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-security-posture)
+- [Transition agent security to Agent 365](https://learn.microsoft.com/en-us/defender-xdr/security-for-ai/transition-agent-security-to-agent-365)
 - [Azure AI Content Safety Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection)
 - [Application Insights OpenTelemetry observability overview](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview)
 - [Microsoft Foundry Agent Service](https://learn.microsoft.com/en-us/azure/foundry/agents/overview)

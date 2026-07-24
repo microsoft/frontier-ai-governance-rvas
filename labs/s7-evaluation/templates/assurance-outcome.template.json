@@ -5,5 +5,5 @@
   "evaluation_plan_reference": "customer-record:evaluation-plan",
   "assurance_owner_reference": "customer-role:assurance-owner",
   "outcome": "continue",
-  "decision_reference": "customer-record:s4-assurance-decision"
+  "decision_reference": "customer-record:s7-assurance-decision"
 }

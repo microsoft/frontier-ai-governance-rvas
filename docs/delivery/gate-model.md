@@ -5,7 +5,7 @@ Use these gates with session-specific prerequisites and rollback steps. Record e
 | Gate | When | Pass condition | If it does not pass |
 |---|---|---|---|
 | Mobilisation | Before S0 | Sponsor, governance lead, core contacts, evidence location, and escalation route are named. | Run an ownership discussion; do not treat the programme as mobilised. |
-| Session readiness | Before each session | Required role, license, access, artifact inputs, and session-specific change conditions are available. | Record an owned prerequisite and move to another ready session or offline work. |
+| Session readiness | Before each session | The [session readiness check](session-readiness.md) is complete; required role, license, access, artifact inputs, and session-specific conditions are available. | Record an owned prerequisite and move to another ready session or offline work. |
 | Non-production hard exit | Before S6 runtime assurance, S7 live evaluation, or S8 testing | The requirements in [How to Deliver](../how-to-deliver.md#non-production-hard-exit-gate) are recorded. | Stop live test execution. No production substitute is allowed. |
 | Customer change | Before a customer applies a reviewed definition | The customer change owner, approver, change window, safe initial posture, and rollback are documented. | Retain the work as Designed or Reference only. |
 | Observation review | Before a production-readiness package | The customer reviewed agreed evidence, impact, false positives, findings, and rollback readiness. | Keep the control in its current safe posture or record an exception. |

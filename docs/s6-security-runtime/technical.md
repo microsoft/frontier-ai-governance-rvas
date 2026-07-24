@@ -64,7 +64,7 @@ Defender XDR, and integration availability before recording the decision.
 
 | Option | When it fits | Trade-off / limitation | Governance implication |
 |---|---|---|---|
-| **Defender for Cloud plus Defender XDR / SOC integration** | The customer already operates Defender-based triage, incident queues, and response playbooks | Depends on enabled plans, coverage, licensing, and SOC readiness | Route findings to existing incident ownership, severity, and SLA records |
+| **Defender for Cloud plus Defender XDR / SOC integration** | The customer already operates Defender-based triage, incident queues, and response playbooks | Agent-level posture requires Agent 365; also depends on enabled plans, coverage, and SOC readiness | Route findings to existing incident ownership, severity, and SLA records |
 | **Gateway telemetry-based alerting** | The gateway is the strongest evidence source and the SOC needs alerts tied to route or policy decisions | May miss workload-internal signals; alert quality depends on telemetry design | Record alert owner, thresholds, escalation route, and retained correlation evidence |
 | **Custom detection pipeline** | The customer has a mature data platform or regulated detection workflow needing bespoke joins | Highest engineering and maintenance burden | Treat as customer-owned security engineering backlog with response and audit owners |
 | **Manual review only for pilot** | Early non-production pilot where automated response is not yet in scope | Not scalable and not a production response model | Record as a temporary adoption gap with owner, review cadence, and escalation path |

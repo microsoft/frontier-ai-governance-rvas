@@ -20,9 +20,12 @@ or classification gaps, review a report-only DLP change, confirm investigation
 or retention, resolve gateway dependencies, or record `accepted_risk`/`blocked`.
 Policy rollout remains in the customer's compliance and change process.
 
-## DSPM for AI finds exposure before enforcement
+## Data Security Posture Management finds exposure before enforcement
 
-Data Security Posture Management for AI helps you spot oversharing, exposed sensitive data, risky access, and likely ways data could leak.[^dspm]
+Microsoft Purview Data Security Posture Management helps you spot
+oversharing, exposed sensitive data, risky access, and likely ways data could
+leak.[^dspm] `DSPM for AI` is the classic product label; use the current
+product path unless the customer has a reason to retain the classic experience.
 
 It finds likely data-risk areas before a policy blocks or warns users.
 

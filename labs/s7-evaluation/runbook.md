@@ -67,9 +67,9 @@ confidence, assumptions, evidence reference or gap, owner, and customer process.
 **Interpret and decide:** retain only safe references to the accepted S6 proof,
 evaluation plan, assurance owner, and decision. Choose `continue` only when the
 handoff contract is complete and the S6 decision is `accepted`; otherwise
-choose `hold`, defer, or record **blocked** with the dependency, owner, target
-date, and review date. A fixture score, evaluator result, or proposed gate is
-context for a customer-owned process, not an S7 exit.
+choose `hold`. Record a deferred or blocked reason, owner, target date, and
+review date in the customer decision record. A fixture score, evaluator result,
+or proposed gate is context for a customer-owned process, not an S7 exit.
 
 For a later operating review, retain customer-held references to the bounded
 workload, evaluation-plan/version, applicable runtime correlation, decision

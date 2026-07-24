@@ -19,6 +19,10 @@ Before S0, write down the first agent group or use-case question. Name the custo
 
 The customer may already have a platform path, or platform readiness may be a backlog item. Do not infer a control exists from the architecture alone.
 
+Before scheduling any session, use [Check whether a session is ready](../delivery/session-readiness.md).
+It identifies the small amount of prework that keeps a 90-minute session focused
+on a decision rather than missing prerequisites.
+
 ## Start with S0
 
 S0 sets the baseline and roadmap. Run the assessment with the customer. Do not use it as a pass/fail gate before the engagement starts.

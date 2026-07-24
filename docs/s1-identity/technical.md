@@ -31,6 +31,11 @@ sponsor and lifecycle ownership; tenant/licensing availability; whether it uses
 stored secrets or federated credentials; and how it interacts with runtime access (Decision
 2) and the gateway.
 
+**Foundry project coverage.** Foundry agents can share a project identity until
+they are published as individual agents. Do not treat one project identity as
+proof of a complete per-agent inventory. Record the coverage limit and use a
+separate customer record for agents that cannot yet be distinguished.
+
 ### Azure implementation track: identity is not one credential
 
 **Control chain to decide.** Separate the host workload identity (managed

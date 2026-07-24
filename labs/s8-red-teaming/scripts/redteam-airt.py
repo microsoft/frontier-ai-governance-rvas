@@ -170,7 +170,7 @@ def write_threshold_comparison(
     categories = load_threshold_review(review_path)
     comparison_output.parent.mkdir(parents=True, exist_ok=True)
     sidecar = {
-        "schema": "rvas.s5.threshold-comparison.v1",
+        "schema": "rvas.s8.threshold-comparison.v1",
         "native_scorecard_reference": str(native_scorecard),
         "native_scorecard_sha256": (
             hashlib.sha256(native_scorecard.read_bytes()).hexdigest()

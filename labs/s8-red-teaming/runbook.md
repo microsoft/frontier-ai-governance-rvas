@@ -66,8 +66,9 @@ where native evidence references will be retained.
    The review is a customer-owned JSON object with a `categories` array. Each
    item has `category`, `observed_asr`, and `max_acceptable_asr` values from
    `0` through `1`. The resulting
-   `evidence/airt-threshold-comparison.json` is a decision aid, not a native
-   Foundry scorecard.
+   `evidence/airt-threshold-comparison.json` follows
+   [`contracts/threshold-comparison.schema.json`](contracts/threshold-comparison.schema.json).
+   It is a decision aid, not a native Foundry scorecard.
 
 ## Evidence and decision handoff
 

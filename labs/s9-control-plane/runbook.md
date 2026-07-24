@@ -26,8 +26,10 @@ Copy `templates/catalog-stewardship.template.md`,
 `templates/technical-decision-record.template.md`, and
 `assessment/closeout-backlog.md` into approved records before the session.
 
-- [ ] The catalog uses `rvas.s9.control-plane-registry.v1` and contains
-  explicit `agents` and `tools` arrays.
+- [ ] The catalog follows
+  [`contracts/control-plane-registry.schema.json`](../../contracts/control-plane-registry.schema.json),
+  uses `rvas.s9.control-plane-registry.v1`, and contains explicit `agents` and
+  `tools` arrays.
 - [ ] Each agent identifies `registryId`, `displayName`, `identityObjectId` or
   `null`, execution mode, managed status, lifecycle state, accountable owner,
   technical owner, lifecycle-review reference, and material-change-review
