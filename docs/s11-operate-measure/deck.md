@@ -10,6 +10,9 @@ Governance lead · Service owner · Cost owner · 90-minute operating-review des
 
 The customer leaves with a repeatable review definition, owners, cadence, limits, and next review.
 
+Record **approve, defer, reject, or route** for the selected signal source,
+attribution method, alert route, and closure route.
+
 ---
 
 ## Review evidence, not dashboards
@@ -20,6 +23,8 @@ The customer leaves with a repeatable review definition, owners, cadence, limits
 - Unavailable, uninstrumented, and excluded paths are coverage gaps, not zero or pass.
 - Foundry traces, OpenTelemetry, and Application Insights can supply bounded operating signals.
 - A production score or trend is not release sign-off or control-enforcement proof.
+- Default to Azure Monitor/Application Insights with OpenTelemetry for app
+  paths; add Foundry observability only where verified and applicable.
 
 ---
 
@@ -63,7 +68,9 @@ Choose only relevant control-coverage, reliability, risk, quality, cost, adoptio
 
 ## Step 4: Drift, remediation, and exception routes · 30 min
 
-Record a hypothesis, alternatives, evidence limits, test or observation plan, owner, escalation trigger, validation, recurrence check, exception expiry, and closure reviewer.
+Record a hypothesis, alternatives, evidence limits, test or observation plan,
+owner, escalation trigger, validation, recurrence check, exception expiry,
+closure reviewer, acceptance evidence, and target date.
 
 ---
 
@@ -80,4 +87,7 @@ Approve, defer, or reject the review definition and technical choices. Record li
 - [ ] Drift hypotheses and findings have test, validation, recurrence, and escalation routes.
 - [ ] Operating and technical decisions are recorded or backlogged.
 
-The review definition and remediation references enter the customer governance cadence; implementation remains with customer engineering and change processes.
+The review definition and remediation references enter the customer governance
+cadence; hand off S7 baseline/evaluation, S12 lifecycle, and S13 portfolio work
+to named receiving owners. Implementation remains with customer engineering and
+change processes.

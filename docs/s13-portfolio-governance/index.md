@@ -10,6 +10,12 @@
 By the end of this session the customer has a portfolio review and next maturity
 roadmap across the in-scope agents.
 
+**Plain decision question:** On this date, should this roadmap item be
+**approved, deferred, rejected, or routed**? Triage **exception, risk, and
+investment** separately. The default is the customer-approved records system
+with verified Azure/Microsoft references where applicable; another source needs
+documented scope, freshness, owner, and limit.
+
 They leave with a customer-owned record that names:
 
 - evidence references, scope, coverage limits, and unresolved gaps;
@@ -83,7 +89,7 @@ decisions they own.
 | Review exceptions and portfolio risk | 20 min | Record recurring, cross-scope, or decision-blocking exceptions with owners, dependencies, and escalation routes. | **"Which exception can affect more than one scope?"** Unknown impact stays unknown. Do not turn it into low risk. |
 | Interpret maturity movement and policy questions | 15 min | Compare current observations with the relevant S0 baseline by domain. Document the evidence for any proposed movement. Capture policy questions as proposals with an owner and review path. | **"What changed in observed practice?"** **"What policy decision is being requested?"** Proposed movement or policy change is not approval. |
 | Prioritize investment | 15 min | Rank a small set of candidate investments using stated risk, dependency, evidence, effort, and decision criteria. | **"What would this unlock or reduce?"** Ranking informs a decision. It is not funding approval or a benefit claim. |
-| Decide the roadmap and feed S0 | 15 min | Approve, defer, or reject priorities. Assign owners and dates. Identify S0 domains and questions for the next baseline review. | **"What will S0 reassess, when, and with what evidence?"** Record remaining risk and unknowns alongside the roadmap. |
+| Decide the roadmap and feed S0 | 15 min | Approve, defer, reject, or route priorities. Assign owners, evidence, acceptance checks, and target dates. Identify S0 domains and questions for the next baseline review and customer funding/policy routes. | **"What will S0 reassess, when, and with what evidence?"** Record remaining risk and unknowns alongside the roadmap. |
 
 Use these portfolio interpretation aids:
 

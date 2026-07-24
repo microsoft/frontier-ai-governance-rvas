@@ -10,6 +10,12 @@ Choose portfolio reporting, prioritization, and review cadence. S13 produces a
 roadmap of decisions, deferrals, owners, and review evidence, not a dashboard or
 policy change.
 
+**Default and exception:** use the customer-approved records system and verified
+Azure/Microsoft governance or cost references where they fit. Use a dashboard,
+another reporting product, or another source only when its scope, freshness,
+ownership, evidence limit, and decision use are recorded. Availability,
+licensing, and configuration remain customer checks.
+
 ## Decision 1: Portfolio system of record & reporting
 
 Choose the reporting pattern against the executive audience, review cadence,

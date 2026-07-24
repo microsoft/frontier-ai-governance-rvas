@@ -24,6 +24,15 @@ They leave with:
 hold real identity data, exports, Conditional Access policies, break-glass
 templates, or customer records: those stay in the customer's own systems.
 
+### Plain decision
+
+**Question:** **Do we approve, defer, reject, or route this identity,
+sponsorship, and authority decision?** Default to Microsoft Entra and the
+customer's existing sponsorship/access-review process. An exception requires a
+documented coverage limit, owner, evidence reference, acceptance criterion, and
+target date. This result does not grant access, change the tenant, or approve
+production.
+
 ### What happens next
 
 **Next customer action:** give the identity or lifecycle owner the named gap,

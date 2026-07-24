@@ -48,3 +48,17 @@ stage. It does not deploy, configure, connect to, test, or approve production.
 | Decided | Platform foundation / trust boundary | | |
 | Backlogged | Platform implementation backlog | | |
 | In adoption | Evidence reconciliation / portfolio tracking | | |
+
+## Safe reference and handoff
+
+| Field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Evidence reference or stated gap | |
+| Acceptance criterion | |
+| Accountable owner | |
+| Target date | |
+| Handoff recipient and customer process | |
+
+This reference is not evidence of a deployed control and does not approve a
+customer-system change or production.

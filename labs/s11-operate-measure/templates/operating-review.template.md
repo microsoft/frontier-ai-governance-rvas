@@ -10,6 +10,7 @@
 | Evidence owner and approved evidence location | |
 | Review cadence and next review | |
 | Overall coverage, attribution, and latency limitations | |
+| Decision result: approve / defer / reject / route | |
 
 ## Review questions
 
@@ -48,3 +49,11 @@
 | Review cadence, operating owner, or support route | | | | | Operations process |
 | FinOps cost owner, allocation, quota type, Azure Cost Management, or FinOps Toolkit view (distinguish inference from fine-tuning training cost and record project, deployment, review-period, and shared-cost assumptions) | | | | | Cost-management process |
 | Portfolio risk, investment, or policy question | | | | | Portfolio-governance process |
+
+## Required handoff
+
+| Destination | Item reference | Receiving owner | Acceptance evidence | Target date |
+|---|---|---|---|---|
+| S7 evaluation/baseline | | | | |
+| S12 lifecycle | | | | |
+| S13 portfolio | | | | |

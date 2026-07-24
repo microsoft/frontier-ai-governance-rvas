@@ -11,6 +11,12 @@ S5 decides where the publication record lives, how MCP/tool access is governed,
 and what authority the caller has. The output is a recorded choice with
 rationale and backlog, not a platform change.
 
+**Default and exception.** Default to Azure API Center for the registry, Azure
+API Management for an approved exposed route, and Microsoft Entra identity for
+the caller, where current support fits. An exception needs a documented owner,
+reason, equivalent evidence and lifecycle controls, target date, and review
+trigger; verify current availability and support before choosing either path.
+
 ## Decision 1: Tool/API publication and registry system of record
 
 ![S5 illustrative tool-governance pattern: a publication record connects a tool or API to a selectable gateway-mediated, allow-list, or in-process policy boundary. It records intended controls; it does not approve publication or runtime use.](../assets/diagrams/s5-tool-api-governance-record-model.svg)

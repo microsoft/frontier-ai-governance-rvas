@@ -16,6 +16,9 @@ gateway, connect a tool, or approve production use.
 | Bounded API, tool, or MCP scope | |
 | Candidate identifier and version | |
 | Decision owner and date | |
+| Plain result (approve / defer / reject / route) | |
+| Evidence references and acceptance criteria | |
+| Target date and handoff (S6 and/or S9) | |
 
 ## Options considered
 
@@ -42,6 +45,7 @@ gateway, connect a tool, or approve production use.
 | Least-privilege / credential-hygiene decision | |
 | Dependencies (runtime evidence, catalog/lifecycle reconciliation, in-process tool boundary, customer change process) | |
 | Verified-status caveat (availability / licensing / support checked on) | |
+| Exception owner, reason, compensating control, and re-review trigger | |
 
 ## Adoption progress
 

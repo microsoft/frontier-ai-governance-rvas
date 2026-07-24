@@ -115,11 +115,14 @@ surface applies, does not apply, is unknown, or needs a follow-up customer actio
 
 | Field | Record |
 |---|---|
-| Decision: admit / defer / reject / return | |
+| Decision: approve / defer / reject / route | |
 | Permitted next lifecycle stage | |
 | Conditions, gaps, and dependencies | |
+| Evidence reference or stated gap | |
+| Acceptance criterion | |
 | Decision owner and approver | |
 | Next review | |
+| Target date | |
 | Material-change triggers | |
 | Follow-up owner and customer process | |
 | Retirement trigger and accountable owner | |

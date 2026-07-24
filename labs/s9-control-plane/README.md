@@ -6,6 +6,12 @@ decisions, read-only identity reconciliation, remediation accountability, and
 closeout cadence. It does not connect to live data, infer records, write
 catalog data, execute a lifecycle change, or retain customer evidence.
 
+**Decision:** approve, defer, reject, or route bounded catalog/lifecycle
+closure. The default is Azure API Center, Foundry, and Entra references
+reconciled in a customer register where coverage fits. An exception needs an
+owner, reason, compensating reconciliation, acceptance criteria, target date,
+and S11/S13 handoff.
+
 See [Lab files: scripts and CSV templates](../README.md) before running the
 read-only reconciliation helper.
 

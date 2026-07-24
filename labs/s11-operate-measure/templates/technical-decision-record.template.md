@@ -36,6 +36,7 @@ threshold, change production, or approve spend.
 | Field | Record |
 |---|---|
 | Selected option(s) | |
+| Result: approve / defer / reject / route | |
 | Rationale (criteria that decided it) | |
 | Alternatives rejected or deferred and why | |
 | Named owner(s) for observability, cost, alerting, and drift response | |
@@ -48,5 +49,5 @@ threshold, change production, or approve spend.
 |---|---|
 | Adoption stage (decided / backlogged / in adoption) | |
 | Governance maturity objective supported | |
-| Next step and owner (customer operating/change process) | |
+| Next step, owner, acceptance evidence, and target date (customer operating/change process) | |
 | Review date and portfolio-review reference, if any | |

@@ -65,7 +65,11 @@ The governance decision owner records one outcome:
 - **Defer:** a control, record, owner, or route is missing; name the blocker,
   target date, and decision limit.
 - **Reject:** the lifecycle cannot support the stated application scope.
+- **Route:** a required S2, S4, S7, S11, platform, or customer change decision
+  belongs to its receiving owner.
 
 For each gap, assign an implementation owner and completion evidence. Record
 limitations, explicit exclusions, and the next lifecycle review. S12 approval
-is never authorization to make a production change.
+is never authorization to make a production change. The release manifest must
+reconstruct service release, candidate artifact, deployment alias, evaluation
+decision, change decision, and rollback target.

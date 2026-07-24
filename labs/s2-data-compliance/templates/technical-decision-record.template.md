@@ -52,3 +52,17 @@ production.
 | Maturity dimension advanced | Data posture / compliance evidence / retention ownership |
 | Next step and owner | |
 | Review date and portfolio reference | |
+
+## Safe reference and handoff
+
+| Field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Evidence reference or stated gap | |
+| Acceptance criterion | |
+| Accountable owner | |
+| Target date | |
+| Handoff recipient and customer process | |
+
+This reference does not deploy enforcement, change a customer system, or approve
+production.

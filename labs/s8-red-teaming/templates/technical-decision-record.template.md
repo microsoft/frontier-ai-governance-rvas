@@ -14,6 +14,9 @@ or approve release.
 | Decision under review | ‹e.g. red-team approach / scope and rules of engagement / remediation routing› |
 | Bounded agent or endpoint scope | |
 | Decision owner and date | |
+| Plain result (approve / defer / reject / route) | |
+| Evidence references and acceptance criteria | |
+| Target date and handoff (S6, S7, and/or S9) | |
 
 ## Options considered
 
@@ -35,6 +38,7 @@ or approve release.
 | Authorization and rules-of-engagement owner | |
 | Dependencies (S6 runtime, S9 lifecycle, S10 controls, remediation backlog) | |
 | Verified-status caveat (availability / legal or SOC approval checked on) | |
+| Exception owner, reason, compensating authorization, and retest criteria | |
 
 ## Adoption progress
 

@@ -29,7 +29,22 @@ evidence limits. It does not replace the accepted gateway proof.
 gap to the customer platform or security owner; use the accepted proof only when
 later assurance needs it.
 
-S6 produces a runtime-control backlog: accept, defer, or reject the proof;
+### Plain decision and default path
+
+**Decision question:** *Approve, defer, reject, or route the selected gateway,
+application, or defense-in-depth runtime enforcement design?* An approval is a
+customer decision record, not a production-control approval.
+
+The default is layered Azure/Microsoft enforcement: Microsoft Entra identity and
+network controls, an Azure API Management or approved gateway route, supported
+Azure AI safety controls where verified, and application or tool controls for
+context the gateway cannot see. Use application-only enforcement or another
+customer control only when route coverage, latency, capability status, and
+evidence ownership make the default unsuitable. Record the exception owner,
+reason, compensating control, target date, and re-review trigger. Verify
+availability and feature limits before relying on any service.
+
+S6 produces a runtime-control backlog: approve, defer, reject, or route the proof;
 remediate route, policy, or telemetry gaps; route safety work; or block
 S7/S9/S11 dependencies until correlation is accepted.
 
@@ -71,7 +86,7 @@ owners. Stop before the request if any of these are absent.
 | Facilitator | Keeps the gateway-proof boundary, timebox, and decision wording; does not run the request or accept evidence. |
 | Customer platform operator | Runs the approved gateway-path request using `labs/s6-security-runtime/runbook.md`. |
 | Security reviewer / evidence owner | Matches the returned identifier with customer gateway telemetry and cites the approved records. |
-| Customer decision owner | Accepts, rejects, or defers the proof and owns the S4 handoff. |
+| Customer decision owner | Approves, rejects, defers, or routes the proof and owns the S7/S9 handoff. |
 
 1. **Set the room and orient: 20 min.** The facilitator records the pilot
    question: **"Did this approved non-production request go through the approved
@@ -120,7 +135,7 @@ owners. Stop before the request if any of these are absent.
    system.
 5. **Hand over: 10 min.** Read back the manifest reference, telemetry reference,
    correlation identifier, reviewer interpretation, decision reference, and next
-   owner. Hand only an accepted `pass` gateway-proof reference to S4. The gateway
+   owner. Hand only an accepted `pass` gateway-proof reference to S7 and S9. The gateway
    proof remains the runtime artifact. Record the selected option, rationale,
    and adoption stage with
    `labs/s6-security-runtime/templates/technical-decision-record.template.md`.
@@ -128,7 +143,7 @@ owners. Stop before the request if any of these are absent.
 **Blockers:** no approved non-production route, unsafe authentication handling,
 missing telemetry reviewer or evidence location, production-only availability, or
 an unresolved correlation. Record the safe stop point, owner, target date, and
-impact on S4. Do not run a direct diagnostic or fabricate local evidence to
+impact on S7/S9. Do not run a direct diagnostic or fabricate local evidence to
 continue.
 
 ## 5. Verification & evidence capture
@@ -138,7 +153,7 @@ continue.
   contract, backend, policy, request record, and telemetry record.
 - [ ] Customer platform and security owners accepted it after telemetry
   correlation.
-- [ ] The approved evidence system contains the decision and S4 handoff reference.
+- [ ] The approved evidence system contains the decision and S7/S9 handoff reference.
 - [ ] The technical decision record captures selected runtime-safety,
   threat-response, and gateway-correlation options, if decided.
 
@@ -149,5 +164,6 @@ the kit or public documentation.
 
 The adapter changes no gateway configuration. If the customer stops the test, it
 uses its own approved gateway and evidence-retention processes. The final
-customer record contains the acceptance, rejection, or blocked decision and the
-S4 handoff reference.
+customer record contains the approval, deferral, rejection, or routing decision.
+Handoff to S7 includes accepted correlation evidence and its limits; handoff to
+S9 includes the route, owner, version, and runtime-control exception record.

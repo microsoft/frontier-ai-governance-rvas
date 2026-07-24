@@ -10,6 +10,14 @@
 By the end of this session the customer has a repeatable operating review for
 Foundry observability, cost, drift, remediation, and exceptions.
 
+**Plain decision question:** For this workload and period, which signal source,
+attribution method, alert route, and closure route should the review use?
+Record **approve, defer, reject, or route**. Default to Azure
+Monitor/Application Insights with OpenTelemetry for customer application paths;
+use Microsoft Foundry observability where verified and applicable. Any exception
+needs documented coverage, attribution, retention, owner, and acceptance
+criteria.
+
 They leave with a customer-owned review definition that names:
 
 - the population, cadence, evidence coverage, accountable owners, and decision
@@ -85,7 +93,7 @@ specialists only for questions in scope.
 | Define balanced review questions | 20 min | Select only relevant coverage, reliability, risk, quality, cost ownership, adoption, human-review, and business-outcome questions. | **"Who interprets this?"** **"What decision follows?"** Do not turn every category into a required metric or target. |
 | Form drift hypotheses and routes | 15 min | Record observable drift hypotheses, other possible explanations, evidence limits, test or observation plan, owner, and escalation trigger. | **"What would challenge this hypothesis?"** **"When does it need escalation?"** A hypothesis is not a confirmed cause. |
 | Define remediation and exceptions | 15 min | Record finding owner, target date, validation and recurrence approach, exception expiry, escalation route, and next review. | **"What validates the remedy?"** **"Who accepts an exception?"** Reported completion is not closure until a reviewer checks validation and remaining exceptions. |
-| Decide and hand over | 15 min | Approve, defer, or reject the review definition and technical decision. Record limits and next review. | **"Which technical option is selected, deferred, or rejected?"** **"What remains unresolved?"** Adopting a review method does not authorize enforcement or change. |
+| Decide and hand over | 15 min | Approve, defer, reject, or route the review definition and technical decision. Record limits, acceptance evidence, target date, next review, and S7/S12/S13 handoffs. | **"Which technical option is selected, deferred, rejected, or routed?"** **"What remains unresolved?"** Adopting a review method does not authorize enforcement or change. |
 
 Use question examples to enrich the review, not to force metrics:
 

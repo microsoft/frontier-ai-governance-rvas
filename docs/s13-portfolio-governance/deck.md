@@ -10,6 +10,10 @@ Governance lead · Portfolio owner · Risk owner · 90-minute report-only portfo
 
 The output is roadmap priorities and S0 questions to revisit.
 
+On the review date, record **approve, defer, reject, or route**. Keep an
+exception, a risk, and an investment separate. Default to customer-approved
+records with verified Azure/Microsoft references where applicable.
+
 ---
 
 ## A portfolio is a decision view
@@ -63,7 +67,10 @@ Enter only references, scope, freshness, coverage, limits, and interpretation ow
 
 ## Step 3: Exceptions and maturity · 35 min
 
-Record recurring, cross-scope, or decision-blocking exceptions with owner, dependency, disposition, due date, and route. Compare relevant observations with S0, then capture any policy question as a proposal.
+Record recurring, cross-scope, or decision-blocking exceptions with owner,
+dependency, disposition, acceptance evidence, target date, and route. Keep risk
+assessment and investment proposals in their own records. Compare relevant
+observations with S0, then capture any policy question as a proposal.
 
 ---
 
@@ -80,4 +87,6 @@ Rank a small candidate set, then approve, defer, or reject priorities. Assign ow
 - [ ] Material exceptions, maturity items, policy questions, and priorities have support and decision status.
 - [ ] Roadmap names the next review and S0 reassessment.
 
-S13 remains report-only. The portfolio roadmap feeds the next S0 review; funding, policy, implementation, and assurance use separate customer authority.
+S13 remains report-only. The portfolio roadmap explicitly hands off to the next
+S0 review, customer funding, or policy ownership; funding, policy,
+implementation, and assurance use separate customer authority.

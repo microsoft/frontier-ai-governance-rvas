@@ -2,8 +2,14 @@
 
 | Phase | Time | Focus |
 |---|---:|---|
-| Set scope | 10 min | Confirm the workload and boundary question. |
-| Review | 30 min | Identify evidence and assumptions at each boundary. |
-| Decide | 50 min | Decide whether runtime assurance can proceed. |
+| Set boundary | 10 min | Confirm workload, owners, records location, and limits. |
+| Map readiness | 25 min | Identify expected Azure/Microsoft controls and evidence gaps. |
+| Decide and hand off | 10 min | Record approve, defer, reject, or route. |
 
-Ask: **“What proves this boundary is present?”**
+Ask: **“Do we approve, defer, reject, or route this platform-readiness decision?”**
+
+Default to the Azure/Microsoft platform pattern: Foundry, Citadel/AI Hub Gateway
+where customer-adopted, and APIM at the AI gateway boundary. An alternative needs
+architecture-owner rationale, evidence reference, acceptance criterion, and
+target date. Hand runtime security to S6, evaluation to S7, operations to S11,
+and catalog to S9. This is neither implementation approval nor production approval.

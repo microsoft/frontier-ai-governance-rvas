@@ -5,6 +5,12 @@ investigate in-process tool-call governance further. It illustrates
 tool-policy decisions and hash-chain consistency without installing, invoking,
 or validating AGT.
 
+**Decision:** gateway-only, in-process, both, or not applicable; record
+approve, defer, reject, or route. The Azure/Microsoft default is the existing
+gateway boundary. An in-process exception needs a real delegated-authority
+decision immediately before a tool call. Handoff decisions to S6, S9, and S11;
+this kit does not approve a customer-system or production change.
+
 See [Lab files: scripts and CSV templates](../README.md) for a plain-language
 description of the offline simulator and its output.
 

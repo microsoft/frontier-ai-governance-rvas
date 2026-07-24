@@ -5,20 +5,24 @@ go/no-go check, not another governance record. If an item is missing, record
 the blocker, owner, and next date in the customer register. Do not use the
 workshop to discover basic prerequisites.
 
-## Every session needs these five things
+## Every session needs these seven things
 
-1. **One decision.** State the question the customer will answer in the
-   session.
+1. **One simple decision.** State the question and its possible result:
+   approve, defer, reject, or route.
 2. **The right people.** Name the decision owner, activity owner, evidence
    owner, and any specialist reviewer.
 3. **A safe source.** Name the customer record, inventory, or environment that
    will be reviewed. Do not use a template as evidence.
-4. **A stop condition.** Agree what would make the team defer or block the
+4. **A technical default.** State the recommended Azure/Microsoft pattern and
+   the equivalent control required if it does not fit.
+5. **A stop condition.** Agree what would make the team defer or block the
    decision.
-5. **A place to record the result.** Use the approved customer records system
-   for evidence, decisions, and follow-up actions.
+6. **A useful artifact.** Name the decision record, work package, or review
+   that will be completed, including acceptance evidence and target date.
+7. **A named handoff.** Name the next customer process or session that owns
+   implementation or review.
 
-If all five are present, run the session. If not, prepare the missing item or
+If all seven are present, run the session. If not, prepare the missing item or
 select another ready session.
 
 ## Session-specific checks
@@ -37,6 +41,7 @@ select another ready session.
 | S9 | A normalized agent and tool inventory, identity source, lifecycle policy, and owners for reconciliation findings. |
 | S10 | One in-process tool-call boundary, the existing controls around it, and the application owner. |
 | S11 | One workload population, one operating question, evidence coverage limits, and the owners who act on a signal. |
+| S12 | One LLM application, stage owners for the inner and outer LLMOps loops, and approved data, evaluation, promotion, monitoring, and feedback routes. |
 | S13 | The S0 baseline, in-scope portfolio records, open exceptions, and the sponsor decision needed next. |
 
 ## Product and platform checks

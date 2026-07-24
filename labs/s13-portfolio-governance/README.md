@@ -12,6 +12,13 @@ The kit is evidence-first and report-only. It does not access live data, create
 a dashboard, retain operational records, change production, alter policy, or
 certify compliance.
 
+**Decision:** on the review date, approve, defer, reject, or route one roadmap
+item. Keep exception, risk, and investment separate. Default to the
+customer-approved records system and verified Azure/Microsoft references where
+applicable; exceptions need documented scope, freshness, owner, and evidence
+limit. Handoff goes to S0, customer funding, or policy ownership—not a
+customer-system or production approval.
+
 ## Contents
 
 - [Runbook](runbook.md): the activity sequence, decision boundary, and stop

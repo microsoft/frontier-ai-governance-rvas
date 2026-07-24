@@ -29,6 +29,7 @@ for the boundary option menu and selection criteria.
 | Field | Record |
 |---|---|
 | Selected option | |
+| Result: approve / defer / reject / route | |
 | Rationale (decision point, delegated authority, evidence need) | |
 | Alternatives rejected or deferred and why | |
 | Audit / tamper-evidence requirement and route | |
@@ -42,5 +43,5 @@ for the boundary option menu and selection criteria.
 | Adoption stage (decided / backlogged / in adoption) | |
 | Governance maturity objective supported | |
 | Customer backlog reference for any engineering assessment | |
-| Next step and owner (engineering / change process) | |
+| Next step, owner, acceptance evidence, and target date (engineering / change process) | |
 | Review date and portfolio-review reference, if any | |

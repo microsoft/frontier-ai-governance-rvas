@@ -84,3 +84,11 @@ Validate official product context before delivery: Prompt Shields can inform a
 runtime-safety control discussion, while Application Insights/OpenTelemetry or
 other customer telemetry can support correlation. Neither source replaces the
 customer's accepted gateway proof decision.
+
+## Decision and exception record
+
+Ask: **approve, defer, reject, or route this gateway, application, or
+defense-in-depth design?** Default to Entra, the approved gateway/APIM route,
+and supported Azure AI controls where verified. Any exception records its owner,
+reason, compensating evidence, acceptance criteria, target date, and S7/S9
+handoff. The customer alone implements any resulting change.

@@ -30,6 +30,15 @@ system. `labs/s4-agent-engineering/` provides blank offline templates and the
 runbook. It does not hold customer code, data, credentials, integration settings,
 deployment steps, or production approval.
 
+### Plain decision
+
+**Question:** **Do we approve, defer, reject, or route this Microsoft
+implementation-path and DEV-PRE-PRO admission decision?** Default to the
+Microsoft path that best fits the candidate. An exception must document the
+capability, data, authority, support, and operating reason plus owner, evidence
+reference, acceptance criterion, and target date. S4 selects and admits a path;
+it does not change a system or approve production.
+
 ### What happens next
 
 **Next customer action:** route the selected admission requirements and

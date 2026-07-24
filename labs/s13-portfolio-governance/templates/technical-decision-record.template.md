@@ -34,6 +34,7 @@ continuous-improvement option menus and selection criteria.
 | Field | Record |
 |---|---|
 | Selected option(s) | |
+| Result: approve / defer / reject / route | |
 | Rationale (criteria that decided it) | |
 | Alternatives rejected or deferred and why | |
 | Named sponsor / owner | |
@@ -47,5 +48,5 @@ continuous-improvement option menus and selection criteria.
 | Adoption stage (decided / backlogged / in adoption) | |
 | Relevant prior decisions and adoption-progress records aggregated | |
 | Maturity domains or questions to reassess | |
-| Next roadmap item and owner | |
+| Next roadmap item, owner, acceptance evidence, and target date | |
 | Review date and portfolio roadmap reference | |

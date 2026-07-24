@@ -82,6 +82,17 @@ Tie the outcome to the S0 baseline and S13 roadmap. Capture the choice,
 alternatives, and rationale in
 `labs/s4-agent-engineering/templates/technical-decision-record.template.md`.
 
+## Default, exception, and handoff
+
+Default to the Microsoft implementation path that fits the candidate: for
+example Copilot Studio, Microsoft Foundry Agent Service, Microsoft 365
+extensibility, or a custom Azure service. An alternative needs a documented
+capability, data, authority, support, and operations reason plus owner, evidence
+reference, acceptance criterion, and target date. Record **approve, defer,
+reject, or route** for DEV, PRE, or PRO admission. S4 selects and admits the
+path; hand runtime security to S6, evaluation to S7, monitoring to S11, and
+catalog work to S9. It does not approve production.
+
 ## Related references
 
 - [S4 Concepts](concepts.md): authority model, path choices, material changes, retirement.

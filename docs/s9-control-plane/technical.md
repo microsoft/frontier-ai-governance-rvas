@@ -11,6 +11,13 @@ Choose the authoritative record, reconciliation method, and lifecycle rule for
 one bounded population. S9 records the choices; customer processes implement
 any resulting change.
 
+**Default and exception.** Default to Azure API Center for eligible APIs and
+tools, Microsoft Foundry records for supported agents, and Microsoft Entra
+identity references, reconciled in a customer register. A different or
+federated authority requires a named owner, reason, field-level ownership,
+compensating reconciliation, target date, and review trigger. Verify current
+coverage and service scope first.
+
 ## Decision 1: What is the authoritative catalog / system of record?
 
 Choose the record the customer will treat as authoritative for the declared

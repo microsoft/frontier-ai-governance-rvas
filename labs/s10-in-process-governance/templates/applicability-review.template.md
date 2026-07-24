@@ -15,7 +15,7 @@ policy deployment, endpoint access, or production use.
 | Policy owner and approval route | |
 | Audit-record owner and retention need | |
 | Tamper-evidence requirement, if any | |
-| Decision owner and review date | |
+| Decision owner, target date, and review date | |
 
 ## Evidence needed before any engineering assessment
 
@@ -32,10 +32,11 @@ policy deployment, endpoint access, or production use.
 
 | Field | Record |
 |---|---|
-| Decision: investigate further / defer / reject / not applicable | |
+| Boundary: gateway-only / in-process / both / not applicable | |
+| Result: approve / defer / reject / route | |
 | Rationale and limitations | |
-| Owner and due date | |
-| Dependencies and next review | |
+| Owner, acceptance evidence, and due date | |
+| S6 / S9 / S11 dependencies and next review | |
 
 ## In-process governance implementation backlog
 

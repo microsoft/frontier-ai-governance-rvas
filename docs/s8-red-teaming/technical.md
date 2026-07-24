@@ -9,6 +9,12 @@
 Choose the test method, authorized scope, and remediation route. S8 records
 these choices and does not change production.
 
+**Default and exception.** Default to an authorized, customer-operated
+non-production Microsoft Foundry AI Red Teaming Agent path where supported.
+PyRIT, manual, or third-party testing requires a named exception owner, reason,
+authorization or compensating review, target date, and retest criteria. Verify
+current service status, target fit, and authorization before any run.
+
 ## Decision 1: Red-team approach & tooling
 
 Choose against authorization, repeatability and coverage, in-house skill,

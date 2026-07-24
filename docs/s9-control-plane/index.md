@@ -22,6 +22,21 @@ They leave with:
 **Next customer action:** assign every open catalog, ownership, lifecycle, or
 reconciliation gap to its steward and set the next review before closing it.
 
+### Plain decision and default path
+
+**Decision question:** *Approve, defer, reject, or route closure for this
+bounded catalog and lifecycle population?* Approval accepts the stewardship
+record and its owned gaps; it does not approve a lifecycle or production change.
+
+The default is an authoritative Azure/Microsoft-backed catalog view: Azure API
+Center for eligible APIs and tools, Microsoft Foundry records for supported
+agents, and Microsoft Entra identity references, reconciled in a
+customer-controlled register. Use an existing system or federated record only
+when field ownership, coverage, identifiers, lifecycle rules, and reconciliation
+cadence are explicit. Record the exception owner, reason, compensating
+reconciliation, target date, and review trigger. Verify current product
+availability and feature scope first.
+
 S9 produces a catalog and lifecycle backlog for customer-owned work. The recommendation says whether to close, close with owned gaps, defer, or keep open. It also names the next owner for Agent 365, Entra Agent ID, API Center, catalog stewardship, lifecycle, material-change review, reconciliation, retirement, recurrence, S11, or S13.
 
 ## 2. Prerequisites
@@ -102,3 +117,6 @@ Save only safe references in `04-operate/evidence-register.json` and the closeou
 ## 6. Change boundary
 
 S9 makes no live-data query and no catalog, lifecycle, identity, policy, access, or production change. Any change follows the customer's separate approved implementation, rollback, and verification process.
+Handoff to S11 includes reconciliation findings, evidence references, owners,
+exceptions, and cadence; handoff to S13 includes the approved closeout decision,
+residual risk, lifecycle status, and target dates.

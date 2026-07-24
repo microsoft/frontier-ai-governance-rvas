@@ -8,7 +8,10 @@ AI developer / maker · Governance lead · 90-minute offline decision session
 
 > **"Does this agent have a useful place to run a policy check just before it calls a tool?"**
 
-Choose investigate, defer, reject, or not applicable.
+Choose gateway-only, in-process, both, or not applicable; then record approve,
+defer, reject, or route. Default to the existing Azure/API gateway boundary.
+An in-process exception needs a real delegated-authority decision that the
+gateway cannot make.
 
 Note:
 This offline illustration neither installs AGT nor changes customer code, endpoints, tenant data, or policies.
@@ -66,7 +69,7 @@ This is neither AGT execution nor production, downstream-success, or tamper evid
 
 ## Step 4: Review limits and decide · 35 min
 
-Review the pinned AGT Preview and limitations, policy ownership, approval route, retention, and needed signed immutable evidence. Record fit, limits, risks, owner, due date, review point, and S6 dependency.
+Review the pinned AGT Preview and limitations, policy ownership, approval route, retention, and needed signed immutable evidence. Record fit, limits, risks, owner, acceptance evidence, target date, review point, and S6/S9/S11 handoffs.
 
 ---
 

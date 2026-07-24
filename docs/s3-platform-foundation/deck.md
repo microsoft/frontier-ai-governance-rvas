@@ -228,3 +228,16 @@ Use the blank platform-boundary review, runtime-assurance handoff, and technical
 Note:
 No result is not a pass: record scope, date, expected signal, and the limit.
 An API Management or gateway design does not prove traffic uses it.
+
+---
+
+## Decision slide
+
+**Do we approve, defer, reject, or route this platform-readiness decision?**
+
+- Default: Foundry, a customer-adopted Citadel/AI Hub Gateway accelerator where
+  applicable, and APIM at the AI gateway boundary.
+- Exception: architecture owner records rationale, evidence reference,
+  acceptance criterion, and target date.
+- Handoff: S6 runtime security, S7 evaluation, S11 monitoring, and S9 catalog.
+  This is not a deployment or production approval.

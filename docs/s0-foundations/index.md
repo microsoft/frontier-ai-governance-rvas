@@ -18,6 +18,14 @@ They leave with:
 
 `labs/s0-foundations/` contains blank templates and an offline scorer. It does not hold completed scorecards, roadmaps, names, notes, or evidence. The customer keeps those records in its approved system.
 
+### Plain decision
+
+**Question:** **Do we approve, defer, reject, or route the first governance
+backlog item?** Default to the customer's existing governance forum and
+backlog. Use another route only when the sponsor records the exception reason,
+owner, evidence reference, acceptance criterion, and target date. The result is
+planning only; it does not change a customer system or approve production.
+
 ### What happens next
 
 **Next customer action:** choose the first roadmap item and assign it to the

@@ -1,6 +1,6 @@
 # Portfolio exception register
 
-| Exception reference | Affected scope | Cross-scope effect or unknown | Risk owner | Disposition | Escalation or review route | Due date |
+| Exception reference | Affected scope | Cross-scope effect or unknown | Risk reference (if separate) | Owner | Disposition / route | Acceptance evidence | Due date |
 |---|---|---|---|---|---|---|
 | | | | | | | |
 

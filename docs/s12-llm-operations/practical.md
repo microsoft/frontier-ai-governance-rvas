@@ -17,6 +17,17 @@ outputs, credentials, production telemetry, or service configuration.
 4. Select the weakest lifecycle link and create one owner-backed implementation
    work item with completion evidence and a target date.
 
-**Decision test:** Can learning safely move from production feedback to a
+**Decision question:** Can learning safely move from production feedback to a
 curated candidate, through evaluation and promotion, then back into monitored
-operation? If not, defer the affected lifecycle claim.
+operation? Record **approve, defer, reject, or route**. If not, defer the
+affected lifecycle claim.
+
+**Azure/Microsoft default:** use protected source and customer change control,
+Foundry evaluation/observability where supported, and Azure Monitor/Application
+Insights for operation. An exception must name its verified service, owner,
+coverage limit, acceptance evidence, and target date.
+
+**Acceptance:** each of the seven stages has one artifact, gate, owner,
+safe-reference evidence, and handoff; the release manifest reconstructs the
+active route and rollback target. S12 changes and approves nothing in a customer
+system.

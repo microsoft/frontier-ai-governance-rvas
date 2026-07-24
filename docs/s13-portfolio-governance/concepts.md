@@ -6,6 +6,11 @@ Portfolio governance connects decisions across agents and scopes. It uses
 references, scope statements, and limits so leaders can see dependencies without
 copying operational records into one place.
 
+The default is the customer-approved records system, supplemented by verified
+Azure/Microsoft governance or cost references where applicable. A different
+source is an exception only when its scope, freshness, owner, and limits are
+recorded; it is not proof of a product configuration or portfolio coverage.
+
 ## Evidence keeps its limits when aggregated
 
 An evidence reference supports only the observation and scope it describes.

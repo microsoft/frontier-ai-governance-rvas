@@ -18,6 +18,15 @@ They leave with:
 
 `labs/s2-data-compliance/` contains a facilitator review checklist and data-governance handoff. Customer evidence stays in the approved customer records system. The delivery workspace stores references, not copied evidence.
 
+### Plain decision
+
+**Question:** **Do we approve, defer, reject, or route the proposed data-use
+enforcement decision?** Default to supported Microsoft Purview controls and the
+customer change-review process. If a workload, role, licensing, retention, or
+feature does not support the proposed control, record that exception with its
+owner, evidence reference, acceptance criterion, and target date; do not claim
+equivalent coverage. This session does not deploy enforcement or approve production.
+
 ### What happens next
 
 **Next customer action:** assign the selected data, classification, investigation,

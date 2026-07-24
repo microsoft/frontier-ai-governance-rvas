@@ -13,6 +13,13 @@ The customer answers one operating question:
 **is there a controlled path from data and experimentation to production,
 monitoring, feedback, and the next improvement cycle?**
 
+**Plain decision question:** Does this bounded workload have a controlled LLMOps
+inner and outer loop? Record **approve, defer, reject, or route**. Default to
+protected source and customer change control, Microsoft Foundry
+evaluation/observability where supported, and Azure Monitor/Application Insights
+for operations. An exception needs a verified service, owner, coverage limit,
+acceptance evidence, and target date.
+
 They leave with:
 
 - an LLMOps lifecycle canvas covering data curation, experimentation,
@@ -75,7 +82,7 @@ and acceptance evidence.
 | Map monitoring and feedback | 15 min | Select signals, interpretation/response owners, feedback purpose, and curation route. | What turns a signal into a hypothesis and feedback into governed data? |
 | Apply material changes | 15 min | Classify one data/feedback change, one candidate change, and one production-operation change. | Which accountable route must approve each change? |
 | Plan implementation | 15 min | Assign work, acceptance evidence, blockers, and review cadence. | What proves every stage is operational rather than aspirational? |
-| Decide | 10 min | Approve, defer, or reject the lifecycle model with limits. | Can learning safely travel from production back to the inner loop? |
+| Decide | 10 min | Approve, defer, reject, or route the lifecycle model with limits, acceptance evidence, target dates, and S2/S4/S7/S11 handoffs. | Can learning safely travel from production back to the inner loop? |
 
 ### Handoff boundaries
 

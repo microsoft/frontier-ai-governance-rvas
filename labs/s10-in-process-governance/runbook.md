@@ -36,6 +36,12 @@ control is not being replaced?” If no boundary exists, record the activity as
 not applicable for this scope and return the rationale to the customer's
 existing governance backlog.
 
+The default is gateway-only. Choose in-process or both only where a genuine
+pre-tool decision carries delegated authority that the gateway cannot make.
+Record gateway-only, in-process, both, or not applicable, then record
+approve, defer, reject, or route with owner, evidence, acceptance evidence,
+target date, and S6/S9/S11 handoff.
+
 Copy `templates/applicability-review.template.md` into the approved customer
 records system and capture the applicability decision before running the
 illustration.

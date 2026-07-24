@@ -225,3 +225,15 @@ Register the customer baseline reference and retention/classification metadata i
 Note:
 If ownership or evidence is missing, assign follow-up or record the gap; do not
 raise the score. S13 compares the same customer-held assessment later.
+
+---
+
+## Decision slide
+
+**Do we approve, defer, reject, or route the first governance backlog item?**
+
+- Default: the existing customer governance forum and backlog.
+- Exception: sponsor records reason, owner, evidence reference, acceptance
+  criterion, and target date.
+- Handoff: send the item to the named customer owner. This is not a system
+  change or production approval.

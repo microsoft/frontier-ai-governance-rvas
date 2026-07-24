@@ -199,7 +199,7 @@ Read back:
 - DSPM, DLP, and Audit/eDiscovery references
 - Interpretation and decision
 - Owner and review date
-- Dependencies for S3, S5, and S6
+- Dependencies for S3 platform, S5 tool/API, and S6 runtime-security owners
 
 Note:
 Store evidence in the customer's approved system. Capture chosen options and rationale in `templates/technical-decision-record.template.md`. Register references and retention/classification metadata in the generated workspace. For blockers, stop the dependent action and create a customer-owned backlog, change, or risk item with owner and date.
@@ -224,9 +224,23 @@ Capture references to the DSPM for AI review, DLP policy/change record where app
 
 - This kit makes **no tenant changes**.
 - Policy deployment, rollback, and verification stay in the customer's approved change process.
-- Findings feed **S3** security posture, **S5** adversarial-testing evidence, and **S6** reconciliation.
+- Findings feed **S3** platform work, **S5** tool/API work where relevant, and
+  **S6** runtime-security work. S2 retains data/compliance ownership.
 
 Note:
 For unavailable DSPM, unsupported DLP, missing investigation routes, or weak
 retention, document scope, route the gap, and keep the control `blocked` or
 `accepted_risk`.
+
+---
+
+## Decision slide
+
+**Do we approve, defer, reject, or route the proposed data-use enforcement
+decision?**
+
+- Default: supported Microsoft Purview controls and customer change review.
+- Exception: document the product/support limit, owner, evidence reference,
+  acceptance criterion, and target date.
+- Handoff: S3 platform dependencies and S6 runtime security. This does not
+  deploy enforcement or approve production.

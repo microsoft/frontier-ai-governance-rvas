@@ -1,7 +1,7 @@
 # Governance roadmap
 
-| Priority | Decision criteria and evidence reference | Dependency | Accountable owner | Decision status | Maturity domain or question to revisit | Evidence needed at reassessment | Review date |
-|---|---|---|---|---|---|---|---|
+| Priority | Record type: exception / risk / investment | Decision criteria and evidence reference | Dependency | Accountable owner | Decision status / acceptance evidence | Target date | Maturity domain or question to revisit | Evidence needed at reassessment | Review date |
+|---|---|---|---|---|---|---|---|---|---|
 | | | | | | | | |
 
 Decision criteria may include risk reduction, recurring exceptions, shared

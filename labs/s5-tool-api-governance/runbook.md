@@ -72,6 +72,14 @@ chooses to publish, grant access, create an integration, suspend, or withdraw,
 that work requires its separate approval, rollback, communication, and
 verification process.
 
+## Decision and exception record
+
+Ask: **approve, defer, reject, or route controlled publication for this exact
+version?** Default to API Center, API Management, and Entra where current
+service fit is verified. Any other path needs the reason, exception owner,
+compensating control, evidence reference, acceptance criteria, target date, and
+S6/S9 handoff in the customer record. This review never performs the change.
+
 ## Blocker pathways
 
 | If | Then |

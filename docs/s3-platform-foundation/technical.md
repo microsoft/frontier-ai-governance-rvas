@@ -93,6 +93,16 @@ technical decision record
 (`labs/s3-platform-foundation/templates/technical-decision-record.template.md`);
 the platform team owns deployment; governance records the decision.
 
+## Default, exception, and handoff
+
+Default to Microsoft Foundry, a customer-adopted Citadel/AI Hub Gateway
+accelerator where applicable, and Azure API Management at the AI gateway
+boundary. Citadel is an accelerator, not a Microsoft-managed service or proof of
+configuration. An alternative requires architecture-owner rationale, evidence
+reference, acceptance criterion, and target date. Record **approve, defer,
+reject, or route**; hand runtime security to S6, evaluation to S7, monitoring to
+S11, and catalog work to S9. No system change or production approval is made here.
+
 ## Related references
 
 - [S3 Concepts](concepts.md): trust boundaries, gateway boundary, private-connectivity assumptions, telemetry coverage, and platform backlog.

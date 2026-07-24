@@ -7,6 +7,13 @@ remediation validation, recurrence, and exceptions. It does not connect to
 live data, create a dashboard, calculate metrics, set thresholds, store
 customer data, or implement a change.
 
+**Decision:** choose signal source, attribution, alert route, and closure route;
+record approve, defer, reject, or route. Default to Azure Monitor/Application
+Insights with OpenTelemetry for app paths and use Foundry observability only
+where verified and applicable. Hand off evaluation/baseline work to S7,
+lifecycle work to S12, and portfolio work to S13. No template approves a
+customer-system change or production.
+
 Start with [runbook.md](runbook.md). Copy blank templates to approved records
 and retain only approved references in the delivery workspace.
 

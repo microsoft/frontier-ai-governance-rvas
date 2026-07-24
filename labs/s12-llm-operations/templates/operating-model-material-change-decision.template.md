@@ -14,6 +14,7 @@ release, or production use.
 | Classification: material / non-material / unknown | |
 | Governance decision owner and date | |
 | Effective date, exception expiry, or next review | |
+| Result: approve / defer / reject / route | |
 
 ## Mandatory routing assessment
 
@@ -37,3 +38,4 @@ release, or production use.
 | Required evidence before next stage and before PRO | |
 | Rollback/containment target and decision owner | |
 | Residual limitation and customer communication | |
+| Acceptance evidence, target date, and receiving owner | |

@@ -84,3 +84,11 @@ For a later operating review, retain customer-held references to the bounded
 workload, evaluation-plan/version, applicable runtime correlation, decision
 outcome, and reviewer. Do not copy evaluation cases, scores, prompts, or
 outputs into this kit.
+
+## Decision and exception record
+
+Ask: **approve, defer, reject, or route this bounded evaluation and
+release-evidence plan?** Default to Foundry evaluations where current support
+fits, with accepted S6 evidence and human interpretation. Any exception records
+its owner, reason, compensating review, acceptance criteria, target date, and
+S8/S11 handoff. This handoff does not approve a release or production change.

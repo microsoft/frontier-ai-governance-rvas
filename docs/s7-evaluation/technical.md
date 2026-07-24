@@ -8,6 +8,13 @@
 Choose evaluation evidence, a release-gate path, and a performance-evidence
 path for the bounded release. S7 records the choice; it does not implement it.
 
+**Default and exception.** Default to Microsoft Foundry evaluations or agent
+evaluators where current support fits, combined with accepted S6 evidence and a
+customer-owned release decision. A manual scorer, another service, or an
+explicit coverage gap is an exception only when its owner, reason,
+compensating review, target date, and return criteria are recorded. Verify
+availability, region, quota, and feature scope before use.
+
 ![S7 illustrative assurance pattern: accepted S6 runtime evidence precedes an evaluation plan covering selected quality, safety, groundedness, tool-use, regression, and human-review dimensions. The customer-owned assurance decision remains continue or hold.](../assets/diagrams/s7-evaluation-release-handoff.svg)
 
 ## Decision 1: Evaluation approach & scorers

@@ -13,6 +13,11 @@ LLMOps owner - AI developer - Service owner - 90-minute lifecycle review
 LLMOps manages the full lifecycle of developing, deploying, and maintaining
 LLM-based applications.
 
+Record **approve, defer, reject, or route**. The default is protected source
+and customer change control, Foundry evaluation/observability where supported,
+and Azure Monitor/Application Insights for operation. Verify service fit before
+using an exception.
+
 ---
 
 ## Inner loop: build a candidate
@@ -85,8 +90,12 @@ The services support LLMOps; they do not replace its decisions and ownership.
 
 ## Decide and hand over
 
-- [ ] Seven stages have owners, evidence, and exit decisions.
+- [ ] Seven stages have one artifact, one gate, owners, evidence, acceptance
+  criteria, target dates, and exit decisions.
 - [ ] Data and feedback use approved routes.
 - [ ] Candidates cannot bypass evaluation or promotion.
 - [ ] Production route and rollback target are reconstructable.
-- [ ] Backlog has owners, acceptance evidence, and review cadence.
+- [ ] Backlog has owners, acceptance evidence, target dates, and review cadence.
+
+Handoff to S2, S4, S7, and S11 is explicit. This session makes no
+customer-system change or production approval.

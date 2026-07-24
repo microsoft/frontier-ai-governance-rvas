@@ -120,6 +120,14 @@ reconciliation report is an input-quality and matching result only; confirm
 its source, date, and scope in the approved records before using it in a
 decision.
 
+## Decision and exception record
+
+Ask: **approve, defer, reject, or route closure for this bounded population?**
+Default to eligible API Center, Foundry, and Entra references reconciled in a
+customer register. Any other authority records its owner, reason,
+field-level/compensating reconciliation, acceptance criteria, target date, and
+S11/S13 handoff. This review changes no catalog or lifecycle state.
+
 ## Blocker pathways
 
 | If | Then |

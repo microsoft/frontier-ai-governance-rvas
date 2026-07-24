@@ -30,8 +30,25 @@ copied into this repository.
 catalog, platform, identity, and release owners who can complete the required
 work.
 
-S5 produces a publication backlog and records whether the candidate is
-publish-ready, on hold, rejected, suspended, or withdrawn.
+### Plain decision and default path
+
+**Decision question:** *Approve, defer, reject, or route this bounded tool, API,
+or MCP version for controlled publication?* Approve means the record may enter
+the customer's separate change process; it is never a publication or production
+approval.
+
+The default is an Azure/Microsoft path: record the candidate in Azure API
+Center (where available), expose an approved route through Azure API Management,
+and use Microsoft Entra workload or delegated identity with least privilege.
+Use an existing approved catalog, gateway, or identity pattern only when it
+covers the same owner, version, authority, lifecycle, and evidence fields.
+Document the exception owner, reason, compensating control, review date, and
+route back to the default. Verify service availability, licensing, and feature
+fit before relying on any named service.
+
+S5 produces a publication backlog and records the approve, defer, reject, or
+route result. A route result names S6 for runtime evidence and S9 for catalog
+and lifecycle reconciliation.
 
 It also names the execution path: API Center or catalog entry, [Azure API Management](https://learn.microsoft.com/en-us/azure/api-management/api-management-key-concepts)
 or AI Gateway route, caller identity, MCP or connector path, version boundary,
@@ -142,4 +159,6 @@ safely.
 S5 changes no catalog, workspace, service, identity, permission, integration, or
 lifecycle state. Any publication, permission grant, suspension, or withdrawal is
 customer-owned and follows the customer's approved change, rollback,
-communication, and verification process.
+communication, and verification process. Handoff to S6 includes the approved
+route and authority boundary; handoff to S9 includes the catalog identifier,
+owner, version, lifecycle state, and open exceptions.

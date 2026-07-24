@@ -10,6 +10,13 @@
 By the end of this session the customer decides whether an in-process tool-call
 policy check makes sense for one agent boundary.
 
+**Plain decision question:** For this bounded tool call, use
+**gateway-only, in-process, both, or not applicable**—then record
+**approve, defer, reject, or route**. The Microsoft/Azure default is the
+existing gateway boundary. An in-process exception needs a real pre-tool
+decision with delegated authority that gateway controls cannot make; verify AGT
+Preview status and fit before any assessment.
+
 They leave with:
 
 - a reviewed example tool-policy definition;
@@ -99,7 +106,7 @@ code, endpoints, tenant data, credentials, production policy, or raw records.
 | Review the example policy | 15 min | Open `labs/s10-in-process-governance/policies/demo-policy.json` and explain the allow, deny-default, and approval-required choices. | **"Who owns each delegated authority decision?"** **"Which action needs approval, and why?"** The file is an example, not a customer policy or a recommendation to copy into code. |
 | Run and check the offline illustration | 20 min | Run the two commands below. Confirm one allowed, denied, and approval-required simulated attempt. | **"What did the simulator evaluate?"** **"What did it not see?"** A pass means the local example has expected decisions and internally consistent hashes. It is not AGT execution, production validation, downstream success proof, or tamper evidence. |
 | Review limits and evidence needs | 20 min | Review the pinned AGT Public Preview and [known limitations](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md). Review customer needs for policy ownership, change review, records retention, and tamper evidence. | **"What evidence would a future engineering assessment need?"** **"Who owns signed immutable retention if tamper evidence is required?"** A local hash chain can be replaced and recalculated. It does not prove integrity, source, immutability, or later tampering. |
-| Decide and hand over | 15 min | Choose investigate further, defer, reject, or not applicable for the current architecture. Record fit, limits, remaining risks, owner, due date, review point, and S6 dependencies. | **"What decision can this offline illustration support?"** **"What must happen before engineering work starts?"** Adoption here only authorizes a separate assessment. It does not authorize installation, deployment, or policy change. |
+| Decide and hand over | 15 min | Choose gateway-only, in-process, both, or not applicable, then record approve, defer, reject, or route. Record fit, limits, remaining risks, owner, acceptance evidence, target date, review point, and S6/S9/S11 dependencies. | **"What decision can this offline illustration support?"** **"What must happen before engineering work starts?"** Adoption here only authorizes a separate assessment. It does not authorize installation, deployment, or policy change. |
 
 Before the decision, keep the evidence types separate:
 

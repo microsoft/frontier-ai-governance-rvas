@@ -19,6 +19,8 @@ decide or formally defer.
 3. Use `exception-register.template.md` for recurring, cross-scope, or
    decision-blocking exceptions. Record unknown impact as unknown and assign
    an owner, disposition, and escalation or review route.
+   Keep an exception (a permitted deviation), a risk (an uncertain effect), and
+   an investment (a proposed spend or capability action) in separate rows.
 4. Record proposed maturity movement and policy-evolution questions only when
    an approved reference supports the observation. Neither proposal authorizes
    rescoring, policy change, or enforcement.
@@ -28,7 +30,7 @@ decide or formally defer.
 6. Use `technical-decision-record.template.md` to record the portfolio reporting
    pattern, prioritization/reinvestment model, continuous-improvement cadence,
    alternatives rejected or deferred, and adoption stage.
-7. The decision owner approves, defers, or rejects the portfolio roadmap.
+7. The decision owner approves, defers, rejects, or routes the portfolio roadmap.
    Retain the decision, residual-risk disposition, limitations, and references
    in the approved records system.
 8. Record the portfolio implementation backlog: investment priority,
@@ -36,6 +38,9 @@ decide or formally defer.
    owner readiness, maturity reassessment, governance-cadence feedback,
    recommendation, confidence, assumptions, evidence reference or gap, owner,
    and customer governance/change process.
+   Route reassessment to S0, spending decisions to customer funding authority,
+   and policy questions to policy ownership; record receiving owner, acceptance
+   evidence, and target date.
 
 ## Interpretation rules
 

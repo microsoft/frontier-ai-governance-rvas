@@ -6,6 +6,12 @@ experimentation, evaluation) and outer loop (validate/deploy, inference,
 monitoring, feedback/data collection). Azure services support the workflow but
 do not replace its gates, evidence, and ownership.
 
+**Decision:** does this bounded workload have a controlled inner and outer
+loop? Record approve, defer, reject, or route. Default to protected source and
+customer change control, Foundry evaluation/observability where supported, and
+Azure Monitor/Application Insights for operations. Exceptions need a verified
+service, owner, evidence limit, acceptance evidence, and target date.
+
 Start with [runbook.md](runbook.md). Copy templates to the customer's approved
 records system and retain approved references only. The kit does not ingest data,
 change models/prompts, run evaluations, configure services, access live

@@ -41,20 +41,20 @@ const SITE = {
 };
 
 const SESSIONS = [
-  { slug: 's0-foundations', code: 'S0', phase: 'Govern', accent: '#032254', persona: 'Governance lead', nist: 'Govern', outcome: 'Baseline maturity assessment + prioritized roadmap' },
-  { slug: 's1-identity', code: 'S1', phase: 'Govern', accent: '#1A77E3', persona: 'Identity admin', nist: 'Govern · Manage', outcome: 'Identity, authority, and ownership review' },
-  { slug: 's2-data-compliance', code: 'S2', phase: 'Govern', accent: '#14868A', persona: 'Compliance / Data admin', nist: 'Map · Manage', outcome: 'Data governance, compliance evidence, and review actions' },
-  { slug: 's3-platform-foundation', code: 'S3', phase: 'Establish', accent: '#0F766E', persona: 'Platform owner', nist: 'Govern · Map · Manage', outcome: 'Trust-boundary decision + platform work list' },
-  { slug: 's4-agent-engineering', code: 'S4', phase: 'Establish', accent: '#7C3AED', persona: 'AI developer / maker', nist: 'Govern · Map · Measure', outcome: 'Agent admission standard + change-review record' },
-  { slug: 's5-tool-api-governance', code: 'S5', phase: 'Establish', accent: '#C2410C', persona: 'Platform owner', nist: 'Govern · Map · Manage', outcome: 'Controlled tool and API publication model' },
-  { slug: 's6-security-runtime', code: 'S6', phase: 'Assure', accent: '#DC2626', persona: 'Security / SOC', nist: 'Measure · Manage', outcome: 'Runtime assurance evidence + response ownership' },
-  { slug: 's7-evaluation', code: 'S7', phase: 'Assure', accent: '#504092', persona: 'AI developer / maker', nist: 'Measure · Manage', outcome: 'Quality, safety, and release-assurance decision' },
-  { slug: 's8-red-teaming', code: 'S8', phase: 'Assure', accent: '#EA580C', persona: 'Security / SOC', nist: 'Measure · Manage', outcome: 'Authorized adversarial-test findings + remediation decision' },
-  { slug: 's9-control-plane', code: 'S9', phase: 'Operate', accent: '#0078D4', persona: 'Governance lead', nist: 'Govern · Map · Manage', outcome: 'Control-plane reconciliation + lifecycle stewardship' },
-  { slug: 's10-in-process-governance', code: 'S10', phase: 'Operate', accent: '#0891B2', persona: 'AI developer / maker', nist: 'Govern · Measure · Manage', outcome: 'In-process policy applicability and adoption decision' },
-  { slug: 's11-operate-measure', code: 'S11', phase: 'Operate', accent: '#7C3AED', persona: 'Governance lead', nist: 'Govern · Measure · Manage', outcome: 'Operating review, drift, FinOps, and remediation cadence' },
+  { slug: 's0-foundations', code: 'S0', phase: 'Govern', accent: '#032254', persona: 'Governance lead', nist: 'Govern', outcome: 'Governance operating-model decision + first backlog' },
+  { slug: 's1-identity', code: 'S1', phase: 'Govern', accent: '#1A77E3', persona: 'Identity admin', nist: 'Govern · Manage', outcome: 'Agent identity and authority decision + implementation handoff' },
+  { slug: 's2-data-compliance', code: 'S2', phase: 'Govern', accent: '#14868A', persona: 'Compliance / Data admin', nist: 'Map · Manage', outcome: 'Data-use and enforcement decision + evidence handoff' },
+  { slug: 's3-platform-foundation', code: 'S3', phase: 'Establish', accent: '#0F766E', persona: 'Platform owner', nist: 'Govern · Map · Manage', outcome: 'Platform readiness decision + implementation work package' },
+  { slug: 's4-agent-engineering', code: 'S4', phase: 'Establish', accent: '#7C3AED', persona: 'AI developer / maker', nist: 'Govern · Map · Measure', outcome: 'Agent admission and promotion decision + build handoff' },
+  { slug: 's5-tool-api-governance', code: 'S5', phase: 'Establish', accent: '#C2410C', persona: 'Platform owner', nist: 'Govern · Map · Manage', outcome: 'Tool/API publication decision + controlled handoff' },
+  { slug: 's6-security-runtime', code: 'S6', phase: 'Assure', accent: '#DC2626', persona: 'Security / SOC', nist: 'Measure · Manage', outcome: 'Runtime enforcement decision + acceptance evidence' },
+  { slug: 's7-evaluation', code: 'S7', phase: 'Assure', accent: '#504092', persona: 'AI developer / maker', nist: 'Measure · Manage', outcome: 'Evaluation and release-gate decision + evidence package' },
+  { slug: 's8-red-teaming', code: 'S8', phase: 'Assure', accent: '#EA580C', persona: 'Security / SOC', nist: 'Measure · Manage', outcome: 'Adversarial finding decision + remediation handoff' },
+  { slug: 's9-control-plane', code: 'S9', phase: 'Operate', accent: '#0078D4', persona: 'Governance lead', nist: 'Govern · Map · Manage', outcome: 'Control-plane record and lifecycle decision + cadence' },
+  { slug: 's10-in-process-governance', code: 'S10', phase: 'Operate', accent: '#0891B2', persona: 'AI developer / maker', nist: 'Govern · Measure · Manage', outcome: 'In-process control decision + engineering handoff' },
+  { slug: 's11-operate-measure', code: 'S11', phase: 'Operate', accent: '#7C3AED', persona: 'Governance lead', nist: 'Govern · Measure · Manage', outcome: 'Workload operating-review decision + remediation handoff' },
   { slug: 's12-llm-operations', code: 'S12', phase: 'Operate', accent: '#2563EB', persona: 'LLMOps owner', nist: 'Govern · Map · Measure · Manage', outcome: 'End-to-end LLMOps lifecycle decision + implementation backlog' },
-  { slug: 's13-portfolio-governance', code: 'S13', phase: 'Operate', accent: '#475569', persona: 'Executive sponsor', nist: 'Govern · Map · Measure · Manage', outcome: 'Portfolio governance decision + next maturity roadmap' },
+  { slug: 's13-portfolio-governance', code: 'S13', phase: 'Operate', accent: '#475569', persona: 'Executive sponsor', nist: 'Govern · Map · Measure · Manage', outcome: 'Portfolio triage decision + dated governance roadmap' },
 ];
 
 const SESSION_CHAPTERS = [

@@ -24,8 +24,23 @@ They leave with:
 work to the named assurance and engineering owners before any release decision
 progresses.
 
+### Plain decision and default path
+
+**Decision question:** *Approve, defer, reject, or route this bounded
+evaluation, release-evidence, and performance-evidence plan?* Approval only
+accepts the evidence plan and handoff; it does not approve a customer-system
+change or production release.
+
+The default is Microsoft Foundry evaluations or agent evaluators where their
+current support, region, and scope fit, with an accepted S6 gateway proof and a
+customer-owned human decision. Use manual scoring, policy scenarios, another
+test service, or an explicit gap only when Foundry support, evaluation fit,
+data handling, or coverage does not fit. Record the exception owner, reason,
+compensating review, target date, and re-entry criteria. Verify current service
+status before use.
+
 S7 produces an evaluation and release-sign-off backlog. The recommendation says
-whether to continue, hold, defer, or block release progress. It names the owner
+whether to approve, defer, reject, or route release-progress work. It names the owner
 for the Foundry evaluation target, evaluator or scorecard, dataset, trace source,
 threshold, CI/CD or release process, rollback route, adversarial-testing work,
 or operating review, after current product and feature status are verified.
@@ -100,4 +115,8 @@ Save only safe references in `04-operate/evidence-register.json` and the decisio
 
 ## 6. Rollback and handoff
 
-S7 changes no evaluator, agent, or CI/CD gate. The customer can record `hold` or replace its sign-off decision through its own change and evidence process. The completed handoff remains customer owned.
+S7 changes no evaluator, agent, or CI/CD gate. The customer can record a
+deferral or replace its decision through its own change and evidence process.
+Handoff to S8 names adversarial gaps and test scope; handoff to S11 names
+approved evidence references, thresholds, owners, and review cadence. The
+completed handoff remains customer owned.

@@ -209,3 +209,16 @@ Use the admission record in the customer's approved records system. Reference on
 Note:
 Route requests for code, tenant configuration, live connection, deployment, or
 production approval through the appropriate engineering or change process.
+
+---
+
+## Decision slide
+
+**Do we approve, defer, reject, or route this Microsoft implementation-path and
+DEV-PRE-PRO admission decision?**
+
+- Default: the Microsoft path that fits the candidate.
+- Exception: record capability, data, authority, support, and operating reason,
+  plus owner, evidence reference, acceptance criterion, and target date.
+- Handoff: S6 runtime security, S7 evaluation, S11 monitoring, and S9 catalog.
+  S4 does not approve production.

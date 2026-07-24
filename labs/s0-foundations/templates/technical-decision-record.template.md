@@ -51,3 +51,17 @@ baseline, and record location.
 | Maturity dimension advanced | |
 | Next action and owner | |
 | Review date and portfolio reference | |
+
+## Safe reference and handoff
+
+| Field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Evidence reference or stated gap | |
+| Acceptance criterion | |
+| Accountable owner | |
+| Target date | |
+| Handoff recipient and customer process | |
+
+This reference records a planning decision only. It does not change a customer
+system or approve production.

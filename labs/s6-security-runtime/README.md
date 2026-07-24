@@ -4,6 +4,12 @@ S6 produces one runtime proof: a redacted record that a
 customer-operated non-production request reached the approved gateway path.
 It does not deploy, configure, or directly call Content Safety.
 
+**Decision:** approve, defer, reject, or route the gateway, application, or
+defense-in-depth design. The default is Microsoft Entra plus an approved
+gateway/APIM route and supported Azure AI controls where verified. An exception
+needs an owner, reason, compensating evidence, acceptance criteria, target date,
+and S7/S9 handoff.
+
 See [Lab files: scripts and CSV templates](../README.md) before running the
 gateway helper.
 

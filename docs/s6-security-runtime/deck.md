@@ -165,7 +165,7 @@ Read back safe references:
 - decision reference and next owner
 
 Note:
-Hand only an accepted pass gateway-proof reference to S4. The gateway proof remains the runtime artifact. Record selected option, rationale, and adoption stage with the technical decision record.
+Hand only an accepted pass gateway-proof reference to S7 and S9. The gateway proof remains the runtime artifact. Record selected option, rationale, and adoption stage with the technical decision record.
 
 ---
 
@@ -174,7 +174,7 @@ Hand only an accepted pass gateway-proof reference to S4. The gateway proof rema
 - [ ] Manifest validates against `gateway-proof.schema.json`.
 - [ ] It has `result: "pass"` and approved gateway, access contract, backend, policy, request, and telemetry references.
 - [ ] Platform and security owners accepted it after telemetry correlation.
-- [ ] Evidence system contains the decision and S4 handoff reference.
+- [ ] Evidence system contains the decision and S7/S9 handoff reference.
 - [ ] Technical decision record captures runtime-safety, threat-response, and gateway-correlation options, if decided.
 
 Note:
@@ -186,9 +186,9 @@ No raw prompt, document, endpoint, credential, response, or telemetry is saved i
 
 - The adapter changes no gateway configuration.
 - If the customer stops the test, customer gateway and evidence-retention processes apply.
-- Final record contains acceptance, rejection, or blocked decision and the S4 handoff reference.
+- Final record contains approval, deferral, rejection, or routing decision and the S7/S9 handoff reference.
 
 Note:
 For no approved non-production route, unsafe authentication, missing reviewer or
 record location, production-only availability, or unresolved correlation, record
-the stop point, owner, date, and S4 impact. Do not substitute a diagnostic.
+the stop point, owner, date, and S7/S9 impact. Do not substitute a diagnostic.

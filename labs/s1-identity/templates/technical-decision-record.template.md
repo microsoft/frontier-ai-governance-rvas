@@ -45,3 +45,16 @@ for the available options and selection criteria.
 | Maturity dimension advanced | |
 | Next step and owner (customer identity-change process) | |
 | Review date and portfolio reference | |
+
+## Safe reference and handoff
+
+| Field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Evidence reference or stated gap | |
+| Acceptance criterion | |
+| Accountable owner | |
+| Target date | |
+| Handoff recipient and customer process | |
+
+This reference does not grant access, change a tenant, or approve production.

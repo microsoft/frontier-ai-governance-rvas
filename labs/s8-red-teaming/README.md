@@ -6,6 +6,11 @@ no attack dataset, threshold policy, mock target, endpoint client, credentials,
 or customer evidence. A completed scan is evidence for only its written scope;
 it is not a production approval or a claim that untested attack paths are safe.
 
+**Decision:** approve, defer, reject, or route each finding. The default is an
+authorized non-production Foundry AI Red Teaming Agent run where supported.
+PyRIT, manual, or other paths require an owner, reason, compensating
+authorization, acceptance criteria, target date, and S6/S7/S9 handoff.
+
 See [Lab files: scripts and CSV templates](../README.md) before running the
 customer-operated adapter.
 

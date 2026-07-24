@@ -57,7 +57,9 @@ performance-testing guide](../reference/performance-testing-guide.md).
 
 When a fine-tuned model is in scope, record the base version, fine-tuned version, training-data governance reference, capability goal, pre/post comparison, and owner who accepts regressions.
 
-The S4 model-deployment backlog owns the engineering decision. S7 records whether the evaluation plan covers the new version. A fine-tuned evaluation still does not replace accepted S6 gateway proof.
+The customer model-deployment backlog owns the engineering decision. S7 records
+whether the evaluation plan covers the new version. A fine-tuned evaluation
+still does not replace accepted S6 gateway proof.
 
 ## Evaluation review becomes release backlog
 

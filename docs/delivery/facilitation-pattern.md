@@ -17,7 +17,7 @@ Use the session cards in this order:
 |---|---|
 | Prepare | Confirm the outcome, prerequisites, and records the customer keeps. |
 | Concepts | Explain the terms and product context the room needs. |
-| Technical decisions | Compare options and agree on the decision criteria. |
+| Technical decisions | Start with the Azure/Microsoft default, agree on its acceptance evidence, and record any equivalent-control exception. |
 | Facilitate the session | Run the practical activity, then guide the agenda, prompts, interpretation, and decision. |
 | Verify and hand over | Check retained references, ownership, and the next review. |
 
@@ -29,12 +29,12 @@ decide.
 
 | Step | Time | Facilitate | Customer does | Leave with |
 |---|---:|---|---|---|
-| Set the room | 10 min | State the pilot question, intended control state, evidence location, decision owner, and stop condition. Confirm the roles below. | Confirm scope, safe posture, and who can make or accept the decision. | A shared working agreement. |
+| Set the room | 10 min | State the pilot question, Azure/Microsoft default, evidence location, decision owner, and stop condition. Confirm the roles below. | Confirm scope, safe posture, and who can make or accept the decision. | A shared working agreement. |
 | Orient on the pilot | 10 min | Restate the use case, representative input or scenario, expected signal, and evidence needed to answer the question. | Show the approved pilot context and identify the evidence source. | A testable question and evidence plan. |
 | Customer-led action and review | 30 min | Read the agreed question aloud. Keep the work in the safe posture. Ask for the output and its context. | Perform the action or retrieve the existing result in the customer environment. Review it with the relevant specialist. | A result, a verified no-result, or a recorded blocker. |
 | Interpret together | 15 min | Separate fact, inference, and recommendation. Compare the result with the expected signal and evidence boundary. | Explain operational meaning, constraints, and impact. | A shared interpretation and control state. |
-| Decide | 15 min | Present the available decisions and record the chosen one, owner, due date, and review point. | Accept, defer, or reject the next action through the right customer authority. | A customer-owned decision record. |
-| Hand over | 10 min | Read back the evidence reference, decision, open items, and next session dependency. | Keep the record and confirm the next owner. | A handoff with a dated next action. |
+| Decide | 15 min | Present the available decisions and record the chosen one, exception if any, owner, due date, acceptance evidence, and review point. | Accept, defer, reject, or route the next action through the right customer authority. | A customer-owned decision record. |
+| Hand over | 10 min | Read back the evidence reference, decision, open items, acceptance owner, and next session dependency. | Keep the record and confirm the next owner. | A handoff with a dated next action. |
 
 ## Roles in the room
 

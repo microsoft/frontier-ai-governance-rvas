@@ -134,3 +134,11 @@ path.
 | Remediation owner, validation reference, or re-test decision | | | | | S6 / S7 / customer SDLC |
 | Operating alert, recurrence, or monitoring update | | | | | S11 / SOC process |
 | Blocker for production release or catalog/lifecycle status | | | | | S9 / customer release process |
+
+## Decision and exception record
+
+Ask: **approve, defer, reject, or route each authorized finding?** Default to
+the supported Foundry AI Red Teaming Agent path for a customer-owned
+non-production target. Any other path records its owner, reason, compensating
+authorization, evidence reference, acceptance criteria, target date, and
+S6/S7/S9 handoff. No decision changes a customer system or approves production.

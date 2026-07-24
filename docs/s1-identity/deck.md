@@ -185,3 +185,16 @@ Save only the list *reference* and its retention/classification note in `04-oper
 Note:
 For a missing trusted source or sponsor, record the gap, owner, and date. Treat
 OBO as visibility-only unless a supported source says otherwise.
+
+---
+
+## Decision slide
+
+**Do we approve, defer, reject, or route this identity, sponsorship, and
+authority decision?**
+
+- Default: Microsoft Entra and the customer sponsorship/access-review process.
+- Exception: record the coverage limit, owner, evidence reference, acceptance
+  criterion, and target date.
+- Handoff: identity-change process; S4 admits agent paths. No access grant or
+  production approval occurs here.

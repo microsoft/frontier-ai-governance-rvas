@@ -16,15 +16,15 @@ or personal data.
 
 ## Inner and outer loop
 
-| Stage | Purpose and in-scope artifact | Owner | Approved evidence reference and limit | Exit decision / handoff |
-|---|---|---|---|---|
-| Data curation | | | | S2 / experiment |
-| Experimentation | | | | Evaluation |
-| Evaluation | | | | S7 / validate and deploy |
-| Validate and deploy | | | | Customer change / inference |
-| Inference | | | | S11 / service support |
-| Monitor | | | | Investigate / improve |
-| Feedback and data collection | | | | S2 / data curation |
+| Stage | One artifact | One gate / exit decision | Owner | Approved evidence reference and limit | Acceptance evidence / target date | Handoff |
+|---|---|---|---|---|---|---|
+| Data curation | | | | | | S2 / experiment |
+| Experimentation | | | | | | Evaluation |
+| Evaluation | | | | | | S7 / validate and deploy |
+| Validate and deploy | | | | | | Customer change / inference |
+| Inference | | | | | | S11 / service support |
+| Monitor | | | | | | Investigate / improve |
+| Feedback and data collection | | | | | | S2 / data curation |
 
 ## Candidate release manifest
 
@@ -38,6 +38,7 @@ or personal data.
 | DEV/PRE/PRO promotion and customer change decision | | | |
 | Rollback target | | | |
 | Monitoring and feedback collection route | | | |
+| Release reconstruction reviewer, acceptance evidence, and target date | | | |
 
 ## Lifecycle completeness check
 

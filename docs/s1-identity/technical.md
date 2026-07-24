@@ -90,6 +90,15 @@ Record the choice, the alternatives considered, and the rationale in the
 technical decision record (`labs/s1-identity/templates/technical-decision-record.template.md`).
 S1 leaves a decision record as well as the inventory.
 
+## Default, exception, and handoff
+
+Default to Microsoft Entra and the customer's existing sponsorship and
+access-review process. Use another source or path only when Entra coverage does
+not fit the workload and the exception records its limit, owner, evidence
+reference, acceptance criterion, and target date. Record **approve, defer,
+reject, or route** and hand implementation to the identity-change process; S4
+owns agent-path admission. This record grants neither access nor production approval.
+
 ## Related references
 
 - [S1 Concepts](concepts.md): why sponsorship, OBO, and the gateway boundary fit together.

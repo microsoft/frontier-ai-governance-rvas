@@ -50,7 +50,7 @@ product availability before relying on any Microsoft or Azure capability.
 | **Data residency / region pinning** | The path has cross-border or customer-policy constraints on where data is processed or stored | Region support and service behavior vary; pinning does not solve classification or retention | Record approved regions, exceptions, and owner for product-status verification |
 | **GDPR and records-of-processing mapping** | Personal data may enter prompts, retrieval, logs, or outputs | Requires legal/privacy ownership; technical evidence alone is not the record | Record lawful basis, processing purpose, evidence references, and privacy owner |
 | **Sector-specific regulation mapping** | Finance, health, public-sector, or other regulated data is in scope | Obligations differ by jurisdiction and policy; this kit does not provide legal approval | Record applicable rule set, control owner, and blocker or accepted-risk path |
-| **Retention ownership** | Audit, eDiscovery, legal hold, or records-management obligations decide whether evidence is usable | Retention gaps can make later investigation impossible even when controls exist | Record retention owner, review date, and S5/S6/S13 dependency |
+| **Retention ownership** | Audit, eDiscovery, legal hold, or records-management obligations decide whether evidence is usable | Retention gaps can make later investigation impossible even when controls exist | Record retention owner, review date, and any S6 runtime-security, S9 catalog, or S11 operating dependency |
 
 ## Decisions made & adoption progress
 
@@ -66,6 +66,16 @@ an S13-ready record of the data situation, evidence, and review actions.
 Capture the chosen option, alternatives, rationale, owner, and adoption stage in
 the technical decision record (`labs/s2-data-compliance/templates/technical-decision-record.template.md`).
 S2 leaves the decision, evidence references, and review actions.
+
+## Default, exception, and handoff
+
+Default to the supported Microsoft Purview control and customer change-review
+path. If a workload, role, license, retention setting, or feature is unavailable,
+record the specific limit rather than claiming equivalent enforcement; name the
+owner, evidence reference, acceptance criterion, and target date. Record
+**approve, defer, reject, or route**. S2 owns data/compliance; route platform
+work to S3 and runtime security to S6. It does not deploy a policy or approve
+production.
 
 ## Related references
 

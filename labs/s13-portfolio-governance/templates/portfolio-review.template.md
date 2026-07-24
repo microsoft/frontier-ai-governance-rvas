@@ -7,6 +7,7 @@
 | Governance lead / portfolio owner / risk owner | |
 | Approved records location | |
 | Review date and next review | |
+| Decision result: approve / defer / reject / route | |
 
 ## Aggregated evidence references
 
@@ -20,9 +21,15 @@
 |---|---|---|---|---|
 | | | | | |
 
+## Separate portfolio triage
+
+| Record type: exception / risk / investment | Reference | Scope, limit, and rationale | Accountable owner | Disposition / route | Target date |
+|---|---|---|---|---|---|
+| | | | | | |
+
 ## Investment prioritization
 
-| Candidate investment | Risk or dependency addressed | Evidence strength | Expected governance value | Effort / constraint | Accountable owner | Decision status |
+| Candidate investment | Risk or dependency addressed | Evidence strength | Expected governance value | Effort / constraint | Accountable owner | Decision status / acceptance evidence / target date |
 |---|---|---|---|---|---|---|
 | | | | | | | |
 

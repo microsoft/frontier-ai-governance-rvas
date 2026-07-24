@@ -22,8 +22,23 @@ They leave with:
 **Next customer action:** route the selected remediation, accepted-risk, or
 re-test work through the customer security and non-production change process.
 
+### Plain decision and default path
+
+**Decision question:** *Approve, defer, reject, or route each authorized
+adversarial-test finding to a control owner?* Approval accepts a remediation
+plan or bounded risk decision; it is not production approval and does not
+change a customer system.
+
+The default is an authorized, customer-operated non-production Microsoft
+Foundry AI Red Teaming Agent path where currently supported, with the native
+scorecard retained by the customer. Use PyRIT, manual testing, or a third-party
+engagement only when support, target type, scope, authorization, or test
+coverage makes the default unsuitable. Record the exception owner, reason,
+compensating authorization or review, target date, and retest criteria. Verify
+current service availability and scope before use.
+
 S8 produces a remediation backlog. The recommendation says whether to remediate,
-accept risk, block, or re-test. It names the owner for the AI Red Teaming Agent
+approve, defer, reject, or route the finding. It names the owner for the AI Red Teaming Agent
 or PyRIT adapter path, SOC authorization, category threshold, remediation,
 runtime assurance, evaluation, operating review, or non-production change
 process.
@@ -96,4 +111,8 @@ Save only safe references in `04-operate/evidence-register.json` and the decisio
 
 ## 6. Change boundary
 
-S8 does not deploy a production control. The customer alone pauses, resets, or changes its non-production endpoint and follows its own cleanup, incident, and change processes.
+S8 does not deploy a production control. The customer alone pauses, resets, or
+changes its non-production endpoint and follows its own cleanup, incident, and
+change processes. Handoff to S6 names runtime-control findings, to S7 names
+evaluation or retest evidence, and to S9 names lifecycle, ownership, and
+catalog effects.

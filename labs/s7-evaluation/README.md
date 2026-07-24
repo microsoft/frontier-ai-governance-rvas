@@ -6,6 +6,12 @@ quality-measurement-plan extension, outcome template, and contracts. It does not
 run an evaluator, score a fixture, create local evidence, or block a pull
 request.
 
+**Decision:** approve, defer, reject, or route the bounded evaluation,
+release-evidence, and performance-evidence plan. The default is Foundry
+evaluations where current support fits, with accepted S6 evidence and a human
+decision. An exception needs an owner, reason, compensating review, acceptance
+criteria, target date, and S8/S11 handoff.
+
 ## Customer review
 
 Follow [the runbook](runbook.md). Before S7 can exit, the customer must have an accepted S6 gateway proof: a

@@ -18,6 +18,10 @@ accountable owner or authoritative evidence.
 2. Define one bounded population, review period, review cadence, and decision.
    Record the evidence reference plus known coverage, attribution, and latency
    limits for each chosen question.
+   Default to Azure Monitor/Application Insights with OpenTelemetry for
+   application-path signals; add Foundry observability only where current
+   availability, coverage, and configuration are verified. Any exception names
+   its source, owner, limit, acceptance evidence, and target date.
 3. Select only relevant coverage, reliability, risk, quality, cost ownership,
    adoption, human-review, and business-outcome questions. Record an
    interpretation owner and decision or escalation route. Do not infer a
@@ -41,7 +45,7 @@ accountable owner or authoritative evidence.
 5. For each finding, record accountable-owner acceptance, target date,
    remediation validation reference, recurrence check, exception expiry or
    escalation route, closure reviewer, and next review.
-6. The governance lead approves, defers, or rejects the review definition.
+6. The governance lead approves, defers, rejects, or routes the review definition.
    Retain the decision reference and limitations in approved records.
 7. Record the operating implementation backlog in the operating-review record:
    Application Insights/OpenTelemetry or Foundry observability coverage,
@@ -57,6 +61,9 @@ accountable owner or authoritative evidence.
    boundary, source owner, alert route, remediation validation, and exception
    route. Do not set a threshold, create an alert, or inspect live data in
    this session.
+   Hand off synthetic/evaluation work to S7, lifecycle work to S12, and
+   cross-workload priority to S13 with receiving owner, acceptance evidence,
+   and target date.
 
 No raw telemetry, identifiers, prompts, responses, costs, or business data
 belong in this kit. S11 does not query live data or make a monitoring,

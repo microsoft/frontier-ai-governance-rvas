@@ -12,6 +12,13 @@ routed, and what correlation evidence supports a gateway decision. It changes
 no production traffic or product configuration; implementation remains with the
 customer's security, platform, SOC, identity, and change processes.
 
+**Default and exception.** Default to Microsoft Entra identity, an approved
+Azure API Management or customer gateway route, and supported Azure AI safety
+controls with application controls where needed. Use a different or
+application-only design only with a named owner, reason, compensating evidence,
+target date, and re-review trigger. Verify feature support and route coverage
+before relying on a control.
+
 ![S6 illustrative layered-runtime pattern: identity and network, gateway, model or agent, and tool boundaries can produce correlated safe evidence for a customer-owned acceptance decision. A direct diagnostic remains distinct from gateway-path proof.](../assets/diagrams/s6-security-runtime-correlation-flow.svg)
 
 ## Decision 1: Where are runtime safety controls enforced?

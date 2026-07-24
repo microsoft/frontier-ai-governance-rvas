@@ -16,6 +16,9 @@ telemetry, change a control, or approve production.
 | Bounded release or workload scope | |
 | Decision owner and date | |
 | S6 proof and evaluation-plan references | |
+| Plain result (approve / defer / reject / route) | |
+| Evidence references and acceptance criteria | |
+| Target date and handoff (S8 and/or S11) | |
 
 ## Options considered
 
@@ -38,6 +41,7 @@ telemetry, change a control, or approve production.
 | Threshold, SLO, or interpretation owner | |
 | Dependencies (S8 red team, S11 production review, release/change process) | |
 | Verified-status caveat (availability / region / quota / pricing checked on) | |
+| Exception owner, reason, compensating review, and re-entry criteria | |
 
 ## Adoption progress
 

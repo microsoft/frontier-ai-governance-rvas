@@ -48,3 +48,17 @@ chapter for the path matrix and selection criteria. It complements
 | Selected-path configuration backlog reference | |
 | Follow-up owner and customer process | |
 | Review date and portfolio reference, if used | |
+
+## Safe reference and handoff
+
+| Field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Evidence reference or stated gap | |
+| Acceptance criterion | |
+| Accountable owner | |
+| Target date | |
+| Handoff recipient and customer process | |
+
+This records an implementation-path and lifecycle-admission decision only. It
+does not create code, change a customer system, or approve production.

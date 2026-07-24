@@ -18,20 +18,20 @@ contains only safe templates, offline tools, and guidance.
 
 | # | Session | Durable outcome |
 |---|---|---|
-| S0 | Foundations & Governance Operating Model | Baseline maturity assessment and prioritised roadmap |
-| S1 | Agent Identity, Authority & Access | Identity, sponsorship, authority-boundary, and ownership review |
-| S2 | Data Governance & Compliance | Data posture findings, evidence, and review actions |
-| S3 | Enterprise Platform & Trust Boundaries | Trust-boundary decision and platform implementation backlog |
-| S4 | Agent Engineering & Admission Standards | Admission standard and material-change review record |
-| S5 | API, Tool & MCP Governance | Controlled publication and lifecycle governance model |
-| S6 | Security Posture & Runtime Assurance | Runtime assurance evidence and response ownership |
-| S7 | Quality, Safety Evaluation & Release Assurance | Quality/safety and release-assurance decision |
-| S8 | Adversarial Testing & Remediation | Authorized-test findings and remediation decision |
-| S9 | Control Plane, Catalog & Lifecycle | Reconciliation and lifecycle stewardship record |
-| S10 | In-Process Agent Governance | Applicability and adoption decision for a tool-call policy boundary |
-| S11 | Operate, Monitor & FinOps | Operating review, drift, cost, and remediation cadence |
+| S0 | Foundations & Governance Operating Model | Governance operating-model decision and first backlog |
+| S1 | Agent Identity, Authority & Access | Agent identity and authority decision with implementation handoff |
+| S2 | Data Governance & Compliance | Data-use and enforcement decision with evidence handoff |
+| S3 | Enterprise Platform & Trust Boundaries | Platform readiness decision and implementation work package |
+| S4 | Agent Engineering & Admission Standards | Agent admission and promotion decision with build handoff |
+| S5 | API, Tool & MCP Governance | Tool/API publication decision with controlled handoff |
+| S6 | Security Posture & Runtime Assurance | Runtime enforcement decision with acceptance evidence |
+| S7 | Quality, Safety Evaluation & Release Assurance | Evaluation and release-gate decision with evidence package |
+| S8 | Adversarial Testing & Remediation | Adversarial finding decision with remediation handoff |
+| S9 | Control Plane, Catalog & Lifecycle | Control-plane record and lifecycle decision with cadence |
+| S10 | In-Process Agent Governance | In-process control decision with engineering handoff |
+| S11 | Operate, Monitor & FinOps | Workload operating-review decision with remediation handoff |
 | S12 | LLMOps | End-to-end LLMOps lifecycle decision and implementation backlog |
-| S13 | Portfolio Governance & Continuous Improvement | Portfolio decision and next maturity roadmap |
+| S13 | Portfolio Governance & Continuous Improvement | Portfolio triage decision and dated governance roadmap |
 
 S10 is selected only when the customer's architecture includes a meaningful
 in-process tool-call boundary. Every other session is selected by the S0 scope,

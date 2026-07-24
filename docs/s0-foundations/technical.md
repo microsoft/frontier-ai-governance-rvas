@@ -53,6 +53,14 @@ What S0 leaves behind is a baseline maturity assessment and prioritized roadmap 
 
 Capture the choice, alternatives, and rationale in the technical decision record (`labs/s0-foundations/templates/technical-decision-record.template.md`).
 
+## Default, exception, and handoff
+
+Default to the customer's existing governance forum and backlog. Route elsewhere
+only with a sponsor-approved exception that names the reason, owner, evidence
+reference, acceptance criterion, and target date. Record **approve, defer,
+reject, or route**; hand the resulting item to its customer owner. This decision
+does not authorize a customer-system change or production use.
+
 ## Related references
 
 - [S0 Concepts](concepts.md): operating model, maturity baseline, risk routing, and customer-owned evidence.

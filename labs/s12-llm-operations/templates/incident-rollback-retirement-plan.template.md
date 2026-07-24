@@ -32,6 +32,7 @@ or deployment instruction.
 | Field | Record |
 |---|---|
 | Current monitoring/feedback readiness: ready / deferred / blocked | |
+| Decision result: approve / defer / reject / route | |
 | Known limitations and unsupported claims | |
-| Open work items and target dates | |
+| Open work items, owner, acceptance evidence, and target dates | |
 | Next lifecycle review, escalation, or retirement date | |

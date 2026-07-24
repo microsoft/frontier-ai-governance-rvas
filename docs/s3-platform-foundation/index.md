@@ -14,6 +14,15 @@ They leave with:
 
 `labs/s3-platform-foundation/` contains blank offline templates only. It does not hold workload data, credentials, network details, event records, or completed evidence. The customer keeps those records in its approved system.
 
+### Plain decision
+
+**Question:** **Do we approve, defer, reject, or route this platform-readiness
+decision?** Default to the Azure/Microsoft platform pattern: Microsoft Foundry,
+a customer-adopted Citadel/AI Hub Gateway accelerator where applicable, and
+Azure API Management for the AI gateway boundary. An alternative requires architecture-owner rationale,
+evidence reference, acceptance criterion, and target date. It is not a system
+change or production approval.
+
 ### What happens next
 
 **Next customer action:** route the selected platform prerequisites to the

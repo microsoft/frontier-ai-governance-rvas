@@ -14,6 +14,9 @@ lifecycle state, or approve production.
 | Decision under review | ‹e.g. authoritative system of record / reconciliation cadence / material-change and retirement governance› |
 | Bounded agent, tool, model, or catalog scope | |
 | Decision owner and date | |
+| Plain result (approve / defer / reject / route) | |
+| Evidence references and acceptance criteria | |
+| Target date and handoff (S11 and/or S13) | |
 
 ## Options considered
 
@@ -38,6 +41,7 @@ lifecycle state, or approve production.
 | Accountable steward / technical owner | |
 | Dependencies (S11 cadence, S13 portfolio, platform/catalog/change process) | |
 | Verified-status caveat (availability / licensing / feature status checked on) | |
+| Exception owner, reason, compensating reconciliation, and re-review trigger | |
 
 ## Adoption progress
 

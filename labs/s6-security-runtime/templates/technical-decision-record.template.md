@@ -14,6 +14,9 @@ change traffic, or approve production.
 | Decision under review | ‹runtime safety placement / threat-response route / gateway correlation evidence› |
 | Bounded agent or workload scope | |
 | Decision owner and date | |
+| Plain result (approve / defer / reject / route) | |
+| Evidence references and acceptance criteria | |
+| Target date and handoff (S7 and/or S9) | |
 
 ## Options considered
 
@@ -37,6 +40,7 @@ change traffic, or approve production.
 | Runtime assurance evidence reference | |
 | Response owner and SLA / review route | |
 | Verified-status caveat (capability availability checked on) | |
+| Exception owner, reason, compensating control, and re-review trigger | |
 
 ## Adoption progress
 
