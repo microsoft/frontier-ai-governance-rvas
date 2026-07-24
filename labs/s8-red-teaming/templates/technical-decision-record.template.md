@@ -1,50 +1,55 @@
-# Technical decision record
+# Technical Decision Record
 
-[S8 Technical decisions](../../../docs/s8-red-teaming/technical.md)
+Copy this template into the customer's approved records system. Use it to turn the S8 Red Teaming decision into a Microsoft-platform control record and backlog handoff.
 
-Copy this blank record into the customer's approved records system. It captures a
-customer-owned adversarial-testing decision, the options considered, and the
-adoption stage. It does not authorize testing, change production, grant access,
-or approve release.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-## Decision
+## Scope
 
 | Field | Record |
 |---|---|
-| Decision under review | ‹e.g. red-team approach / scope and rules of engagement / remediation routing› |
-| Bounded agent or endpoint scope | |
-| Decision owner and date | |
-| Plain result (approve / defer / reject / route) | |
-| Evidence references and acceptance criteria | |
-| Target date and handoff (S6, S7, and/or S9) | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Options considered
+## Microsoft control path
 
-| Option | Fit for this scope | Key trade-off / limitation | Chosen? (yes / no / deferred) |
-|---|---|---|---|
-| Automated Microsoft path (AI Red Teaming Agent / PyRIT) | | | |
-| Manual expert red-teaming | | | |
-| Third-party engagement | | | |
-| Non-production / staging / production-exception / blocked scope | | | |
-| Remediation route: safety filter / prompt hardening / gateway or in-process control / tool-permission reduction | | | |
+Default path: **AI Red Teaming Agent, PyRIT, Azure AI Content Safety, Defender, and SOC remediation routes**.
 
-## Chosen option and rationale
+Inspect: the red-team plan/run record, PyRIT or AI Red Teaming Agent finding, Azure AI Content Safety result, Defender/Sentinel case, and remediation owner record.
 
-| Field | Record |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | AI Red Teaming Agent, PyRIT, Azure AI Content Safety, Defender, and SOC remediation routes | | | | | red team lead, safety owner, SOC, product owner, and release manager |
+
+## Decision and acceptance
+
+| Decision field | Record |
 |---|---|
-| Selected option(s) | |
-| Rationale (criteria that decided it) | |
-| Alternatives rejected or deferred and why | |
-| Authorization and rules-of-engagement owner | |
-| Dependencies (S6 runtime, S9 lifecycle, S10 controls, remediation backlog) | |
-| Verified-status caveat (availability / legal or SOC approval checked on) | |
-| Exception owner, reason, compensating authorization, and retest criteria | |
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create a red-team remediation backlog item for each confirmed finding, missing safety control, unowned risk, retest requirement, or SOC escalation route. |
+| Handoff owner and customer process | red team lead, safety owner, SOC, product owner, and release manager |
+| Next review trigger | |
 
-## Adoption progress
+## Exception
 
-| Field | Record |
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
 |---|---|
-| Adoption stage (decided / backlogged / in adoption) | |
-| S0 adversarial/security dimension advanced | |
-| Next step and owner (customer remediation, retest, or authorization process) | |
-| Review date and S13 portfolio reference | |
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “remediate jailbreak finding RT-014”; evidence location “red-team finding and retest record”; accepted when the safety owner confirms the control and SOC route.

@@ -1,62 +1,55 @@
-# Quality, cost, and latency review addendum
+# Quality Cost Latency Review
 
-Use this optional addendum with the operating-review template when bounded
-quality trends, latency drift, or token-cost accountability are in scope. It
-references customer-held evidence only; it does not query live data or draw a
-conclusion from an incomplete trend.
+Copy this template into the customer's approved records system. Use it to turn the S11 Operate & Measure decision into a Microsoft-platform control record and backlog handoff.
 
-## Scope and accountability
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
+
+## Scope
 
 | Field | Record |
 |---|---|
-| Bounded population and review period | |
-| Evidence location | |
-| Quality owner | |
-| Latency owner | |
-| Cost owner / spend decision owner | |
-| Review cadence | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Quality trend review
+## Microsoft control path
 
-| Dimension | Prior-period reference | Current-period reference | Observation | Alternative explanation | Interpretation owner | Decision or escalation |
+Default path: **Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit**.
+
+Inspect: the Foundry observability view, Azure Monitor metric/alert, Application Insights trace, Log Analytics query, Cost Management view, and FinOps review record.
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
 |---|---|---|---|---|---|---|
-| Task completion | | | | | | |
-| Groundedness | | | | | | |
-| Safety | | | | | | |
-| Tool-use accuracy | | | | | | |
+| | Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit | | | | | service operations, FinOps owner, platform monitoring, and product owner |
 
-## Latency drift review
+## Decision and acceptance
 
-For first-token, throughput, and error-saturation review under real traffic, or
-reconciliation against an approved synthetic baseline, use the
-`performance-telemetry-review.template.md` addendum.
-
-| Component | Prior p95 reference | Current p95 reference | Observation | Drift hypothesis | Alternative | Test plan | Owner | Escalation trigger |
-|---|---|---|---|---|---|---|---|---|
-| Time to first token | | | | | | | | |
-| Model inference | | | | | | | | |
-| Retrieval | | | | | | | | |
-| Tool calls | | | | | | | | |
-| End-to-end | | | | | | | | |
-
-## Token-cost accountability
-
-| Workload / agent | Prior-period cost reference | Current-period cost reference | Observation | Attribution limit | Spend decision owner | Escalation |
-|---|---|---|---|---|---|---|
-| | | | | | | |
-
-## Model-version change
-
-| Question | Record |
+| Decision field | Record |
 |---|---|
-| Has the model, version, or fine-tuning configuration changed? | |
-| What evaluation evidence covers the change? | |
-| What population or attribution limit prevents a conclusion? | |
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create an operations backlog item for missing telemetry, alert threshold, quality/cost/latency review, remediation owner, operating cadence, or FinOps action. |
+| Handoff owner and customer process | service operations, FinOps owner, platform monitoring, and product owner |
+| Next review trigger | |
 
-## Implementation backlog
+## Exception
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Customer follow-up route |
-|---|---|---|---|---|---|
-| Quality-trend coverage or regression investigation | | | | | Evaluation / operations process |
-| Latency-drift observation or component-attribution gap | | | | | Platform operations |
-| Cost attribution, spend decision, or fine-tuning cost boundary | | | | | FinOps or portfolio-governance process |
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “add latency/cost alert for production agent”; evidence location “Azure Monitor alert and Cost Management view”; accepted when operations and FinOps owners accept the cadence.

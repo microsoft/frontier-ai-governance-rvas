@@ -1,17 +1,20 @@
-# Practical workshop: identity, sponsor, and authority
+# Practical workshop: agent identity pattern
 
-**Customer owner:** Identity administrator. **Timebox:** 45 minutes. Use a
-customer-approved source and records location; do not copy identity data here.
+**Microsoft default:** Microsoft Entra Agent ID, Entra workload identities, Conditional Access, Azure RBAC, and Agent 365 where available.
 
-1. Review one bounded agent record and its source coverage, sponsor, lifecycle,
-   identity type, and authority boundary.
-2. Default: use Microsoft Entra and the customer's existing sponsorship and
-   access-review process. Use a different source only when Entra does not cover
-   the workload or the customer documents the coverage limit, owner, and review
-   date.
-3. Ask: **“Do we approve, defer, reject, or route this identity, sponsorship,
-   and authority decision?”**
-4. Record the result with owner, source/evidence reference, acceptance
-   criterion, and target date in the safe-reference template.
-5. Hand access or policy changes to the customer identity-change process and
-   send admission questions to S4. No tenant change or production approval occurs.
+**Customer decision:** Approve, defer, reject, or route the identity pattern for the pilot agent.
+
+## Work the decision
+
+1. Select one bounded pilot or backlog item and name the customer decision owner.
+2. Inspect the proposed agent identity record, workload identity inventory, Conditional Access policy scope, Azure RBAC assignments, and Agent 365 record where available.
+3. Fill this row in the customer-approved records system:
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| Pilot decision | Microsoft Entra Agent ID, Entra workload identities, Conditional Access, Azure RBAC, and Agent 365 where available | Identity platform owner | Customer-approved record | Decision, acceptance test, exception status, and handoff are complete | Customer date | Identity operations |
+
+4. Use this decision tree: if the Microsoft path fits, approve it; if records are missing, defer with an acceptance test; if the path cannot meet the use case, reject or route to an exception owner.
+5. For an exception, record: reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
+
+**Boundary:** Keep customer data in customer-approved systems; production changes require customer change approval.

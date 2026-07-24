@@ -1,91 +1,49 @@
-# S11 Runbook: Operate, monitor, and FinOps review definition
+# S11 Operate & Measure Runbook
 
-The customer selects scope, evidence references, owners, and decisions; the
-facilitator maintains the evidence-first, no-live-data, no-change boundary.
+Use this runbook to facilitate a customer decision and backlog handoff. The facilitator guides the questions; the customer inspects its Microsoft records and owns all decisions.
 
-## Activity card
+> **Boundary:** Use safe references only. Keep customer identifiers, secrets, prompt text, model outputs, telemetry exports, and live configuration out of this repository.
 
-**90 minutes.** Entry condition: an accountable governance lead, service owner,
-cost owner where cost is in scope, an approved records location, and any
-relevant prior closeout or deferral by reference. Stop any question with no
-accountable owner or authoritative evidence.
+## Entry condition
 
-1. Copy `templates/operating-review.template.md` and
-   `templates/remediation-closure.template.md` into approved records. Copy
-   `templates/technical-decision-record.template.md` when observability-stack,
-   cost-attribution, or alerting/drift options are being selected, deferred, or
-   rejected.
-2. Define one bounded population, review period, review cadence, and decision.
-   Record the evidence reference plus known coverage, attribution, and latency
-   limits for each chosen question.
-   Default to Azure Monitor/Application Insights with OpenTelemetry for
-   application-path signals; add Foundry observability only where current
-   availability, coverage, and configuration are verified. Any exception names
-   its source, owner, limit, acceptance evidence, and target date.
-3. Select only relevant coverage, reliability, risk, quality, cost ownership,
-   adoption, human-review, and business-outcome questions. Record an
-   interpretation owner and decision or escalation route. Do not infer a
-   metric, target, threshold, allocation method, or outcome from the template.
-   When quality trend, latency drift, or token-cost accountability is in scope,
-   also copy `templates/quality-cost-latency-review.template.md`. It references
-   customer-held evidence only. Any trace source requires the customer's
-   separate access approval; every cost observation needs an accountable
-   spend-decision owner.
-   When production agent performance, including first-token latency, end-to-end
-   latency, throughput, or error/saturation, is in scope, also copy
-   `templates/performance-telemetry-review.template.md`. It references
-   customer-held OpenTelemetry, Application Insights, or Foundry-trace evidence
-   only, records sampling and coverage limits, and reconciles against an
-   approved synthetic baseline, if available, as a drift hypothesis rather
-   than a confirmed result.
-4. For a suspected change, record a drift hypothesis, alternative explanations,
-   evidence limits, test or observation plan, owner, and escalation trigger.
-   Do not label the hypothesis confirmed or investigate live data in this
-   session.
-5. For each finding, record accountable-owner acceptance, target date,
-   remediation validation reference, recurrence check, exception expiry or
-   escalation route, closure reviewer, and next review.
-6. The governance lead approves, defers, rejects, or routes the review definition.
-   Retain the decision reference and limitations in approved records.
-7. Record the operating implementation backlog in the operating-review record:
-   Application Insights/OpenTelemetry or Foundry observability coverage,
-   alerting/SOC route, remediation validation, review cadence, FinOps/cost
-   owner, quota or allocation limits, exception route, portfolio-governance
-   route where applicable, recommendation, confidence, assumptions, technical
-   decision record reference, evidence reference or gap, owner, and customer
-   operating/change process.
-8. When the customer needs to connect signal coverage to response ownership,
-   copy `templates/telemetry-alert-operating-model.template.md`. Map each
-   gateway, agent-host, model/trace, dependency, identity/security, and
-   cost/quota signal to its coverage limit, correlation method, retention
-   boundary, source owner, alert route, remediation validation, and exception
-   route. Do not set a threshold, create an alert, or inspect live data in
-   this session.
-   Hand off synthetic/evaluation work to S7, lifecycle work to S12, and
-   cross-workload priority to S13 with receiving owner, acceptance evidence,
-   and target date.
+Bring a bounded workload or portfolio slice, the decision owner, implementation owner, evidence owner, and the approved customer records location. If any owner or location is missing, create a blocker backlog item instead of completing the decision.
 
-No raw telemetry, identifiers, prompts, responses, costs, or business data
-belong in this kit. S11 does not query live data or make a monitoring,
-remediation, exception, policy, identity, or production change.
+## 1. Inspect the Microsoft control path
 
-## Safe interpretation rules
+Default Microsoft path: **Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit**.
 
-- An evidence gap, excluded population, or delayed record is a coverage
-  limitation, not a zero result, no-cost result, or pass.
-- Reliability, risk, quality, cost, adoption, and business outcome are
-  different questions. Do not use one as proof of another.
-- A cost observation requires an accountable spend decision owner and stated
-  attribution limits; it does not by itself establish value or fault.
-- A closed remediation needs a validation reference and recurrence result.
-  Remaining risk must be accepted through an explicit exception or escalation
-  route.
+Customer action: inspect the Foundry observability view, Azure Monitor metric/alert, Application Insights trace, Log Analytics query, Cost Management view, and FinOps review record. Confirm the record exists, has an accountable owner, names the environment/scope, and can be referenced from the customer record system.
 
-## Blocker pathways
+## 2. Complete the work records
 
-| If | Then |
-|---|---|
-| No evidence, owner, decision use, or approved records location | Block the affected question; record the gap, owner, date, and next review. Do not manufacture a measure or decision. |
-| A drift hypothesis needs data collection or analysis | Record the hypothesis and separately governed observation plan; do not query live data during S11. |
-| A finding requires a configuration, monitoring, policy, remediation, or exception change | Create an owned follow-up and use the customer's approved change process; do not make the change during S11. |
-| Validation or recurrence evidence is unavailable | Keep the item open or explicitly escalate; do not mark it closed based only on reported completion. |
+- [ ] Copy `templates/operating-review.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
+- [ ] Copy `templates/performance-telemetry-review.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
+- [ ] Copy `templates/quality-cost-latency-review.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
+- [ ] Copy `templates/remediation-closure.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
+- [ ] Copy `templates/technical-decision-record.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
+- [ ] Copy `templates/telemetry-alert-operating-model.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
+
+Ask: **Which Microsoft record proves this decision is ready to hand off, and who operates it next?**
+
+## 3. Decide
+
+Record one result:
+
+- **Approve** when the Microsoft control path is present, owned, evidenced, and accepted by the receiving owner.
+- **Defer** when a record, owner, acceptance test, or target date is missing.
+- **Reject** when the proposed path cannot meet the bounded scope.
+- **Route** when another Microsoft control owner must decide first.
+
+## 4. Create implementation backlog
+
+Create an operations backlog item for missing telemetry, alert threshold, quality/cost/latency review, remediation owner, operating cadence, or FinOps action.
+
+Each backlog item must include Microsoft control path, owner, evidence location, accepted when, exception if any, target date, and handoff. Use this row shape:
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Exception | Target date | Handoff |
+|---|---|---|---|---|---|---|---|
+| | Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit | | | | | | service operations, FinOps owner, platform monitoring, and product owner |
+
+## 5. Hand off
+
+Handoff to service operations, FinOps owner, platform monitoring, and product owner. The receiving owner accepts only the backlog items with clear acceptance tests, target dates, and evidence locations. Keep the final records in the customer-approved system.

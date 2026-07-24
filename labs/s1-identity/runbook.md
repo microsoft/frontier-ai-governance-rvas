@@ -1,76 +1,45 @@
-# S1 Runbook
+# S1 Identity & Access Runbook
 
-> **Boundary:** this is an inventory-review and ownership-decision session. It
-> does not use a heuristic discovery query, create a Conditional Access policy,
-> validate a break-glass configuration, or retain customer evidence in Git.
+Use this runbook to facilitate a customer decision and backlog handoff. The facilitator guides the questions; the customer inspects its Microsoft records and owns all decisions.
 
-## Activity card
+> **Boundary:** Use safe references only. Keep customer identifiers, secrets, prompt text, model outputs, telemetry exports, and live configuration out of this repository.
 
-**90 minutes.** Facilitator runs the evidence-first review; identity
-administrator performs the customer action; governance lead owns the decision;
-evidence owner records references; security reviewer interprets risk. Entry
-condition: bounded workload, authorized source, approved records location, and
-decision owner. Stop a population whose source, access, or owner is missing.
+## Entry condition
 
-## 1. Set the question and source boundary
+Bring a bounded workload or portfolio slice, the decision owner, implementation owner, evidence owner, and the approved customer records location. If any owner or location is missing, create a blocker backlog item instead of completing the decision.
 
-- [ ] Customer identifies the workload, identity administrator, source,
-  coverage, exclusions, review date, evidence reference, and stop condition.
-- [ ] Facilitator asks: “What can this source authoritatively describe?” and
-  “What cannot it prove?” A service-principal listing, tag/name match, or
-  unsupported result is not an Agent ID inventory.
-- [ ] A documented source-coverage statement is a result. If the authorized
-  source is unavailable, record unsupported/blocked scope, owner, and date;
-  do not substitute a directory query.
+## 1. Inspect the Microsoft control path
 
-## 2. Customer-led inventory review
+Default Microsoft path: **Microsoft Entra Agent ID, Entra workload identities, Conditional Access, Azure RBAC, and Agent 365 where available**.
 
-- [ ] Copy `templates/identity-inventory-review.template.md` into the approved
-  customer records system before entering source, owner, or identity
-  information.
-- [ ] Administrator reviews each in-scope record with the
-  [inventory schema](README.md#identity-inventory-schema): classification,
-  workload, sponsor, lifecycle, purpose, source reference, risk context,
-  reviewer, and next review.
-- [ ] Ask: “Who owns purpose and lifecycle?”, “What ties this to the
-  workload?”, and “What action follows this finding?”
-- [ ] Record a complete review as meaningful result. Record no entries only
-  with source/scope/date/reviewer. Record missing attributes as unsupported
-  coverage; missing source/access/owner is blocked. Keep identifiers, exports,
-  and sponsor information in customer systems.
+Customer action: inspect the Entra application or managed identity record, Agent ID/Agent 365 record when available, Conditional Access assignment, Azure RBAC scope, and identity owner record. Confirm the record exists, has an accountable owner, names the environment/scope, and can be referenced from the customer record system.
 
-## 3. Interpret corroboration correctly
+## 2. Complete the work records
 
-- [ ] Treat service principal, managed identity, OBO, or application data only
-  as corroboration. Ask whether it proves Agent ID status; record its limit.
-- [ ] Record whether the reviewed activity is user-delegated or agent-operated,
-  the approved tool/action scope, accountable approver, and material changes
-  that require reapproval. This is an authority-boundary review, not a policy
-  design or access change.
+- [ ] Copy `templates/identity-inventory-review.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
+- [ ] Copy `templates/technical-decision-record.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
 
-## 4. Make the ownership decision
+Ask: **Which Microsoft record proves this decision is ready to hand off, and who operates it next?**
 
-- [ ] Governance lead chooses remediation (`designed`), `accepted_risk`, or
-  `blocked` based on coverage, attributable sponsor, lifecycle, access-risk
-  context, and customer authority. Record an unready decision as `backlogged`
-  in the technical decision record with an owner and review date.
-- [ ] Record identity implementation backlog rows: Entra Agent ID applicability,
-  sponsor remediation, workload identity/RBAC/OBO review, Conditional Access or
-  access-review change owner, engineering-admission dependency,
-  gateway-authentication dependency, and catalog/lifecycle dependency where
-  applicable.
-- [ ] For each row, record recommendation, confidence, assumptions, evidence
-  reference or gap, owner, follow-up process or customer identity-change
-  process, and the boundary that this review makes no access or tenant change.
-- [ ] Record the customer inventory/source reference and retention metadata in
-  `04-operate/evidence-register.json`, and decision/owner/approver/date in
-  `04-operate/decision-register.json`.
+## 3. Decide
 
-## 5. Hand off without designing controls
+Record one result:
 
-- [ ] Read back evidence reference, control state, next owner, and any
-  runtime-assurance or lifecycle-reconciliation dependency. If no decision
-  owner attended, record deferred owner/date.
-- [ ] Hand Conditional Access, break-glass, access remediation, and enforcement
-  to the customer identity-change process; it owns design, change safety,
-  verification, and evidence retention.
+- **Approve** when the Microsoft control path is present, owned, evidenced, and accepted by the receiving owner.
+- **Defer** when a record, owner, acceptance test, or target date is missing.
+- **Reject** when the proposed path cannot meet the bounded scope.
+- **Route** when another Microsoft control owner must decide first.
+
+## 4. Create implementation backlog
+
+Create an identity backlog item for each missing agent/workload identity record, least-privilege role assignment, Conditional Access control, or owner review.
+
+Each backlog item must include Microsoft control path, owner, evidence location, accepted when, exception if any, target date, and handoff. Use this row shape:
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Exception | Target date | Handoff |
+|---|---|---|---|---|---|---|---|
+| | Microsoft Entra Agent ID, Entra workload identities, Conditional Access, Azure RBAC, and Agent 365 where available | | | | | | identity platform owner, application owner, and security operations |
+
+## 5. Hand off
+
+Handoff to identity platform owner, application owner, and security operations. The receiving owner accepts only the backlog items with clear acceptance tests, target dates, and evidence locations. Keep the final records in the customer-approved system.

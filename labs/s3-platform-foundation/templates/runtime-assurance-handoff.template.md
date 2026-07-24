@@ -1,28 +1,55 @@
-# Runtime-assurance handoff
+# Runtime Assurance Handoff
+
+Copy this template into the customer's approved records system. Use it to turn the S3 Platform Foundation decision into a Microsoft-platform control record and backlog handoff.
+
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
+
+## Scope
 
 | Field | Record |
 |---|---|
-| Bounded runtime question | |
-| Boundary-review reference | |
-| Expected evidence and correlation method | |
-| Coverage window and known limits | |
-| Open gaps and stop conditions | |
-| Platform and security interpretation owners | |
-| Decision reference and next review | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Runtime-assurance implementation prerequisites
+## Microsoft control path
 
-| Prerequisite | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Follow-up process |
-|---|---|---|---|---|---|
-| Approved non-production route or test scope | | | | | Runtime-assurance or platform process |
-| Expected policy and gateway evidence | | | | | Runtime-assurance process |
-| Correlation method and telemetry reviewer | | | | | Runtime-assurance or operations process |
-| Safety, rollback, stop condition, or SOC route | | | | | Runtime-assurance, security-testing, or security process |
-| Production-approval boundary and release process | | | | | Customer change authority |
+Default path: **Azure landing zones, Microsoft Foundry, Azure API Management AI Gateway or Citadel-aligned gateway, private networking, and Azure Monitor**.
 
-## Handoff statement
+Inspect: the landing-zone subscription/resource group, Foundry project, API gateway configuration, private networking route, Azure Policy assignment, and Azure Monitor workspace.
 
-This record defines an evidence question only. It does not prove deployment,
-live integration, control operation, or the operation of a reference
-architecture. Runtime assurance must use its own authorized method and record
-its independent interpretation.
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Azure landing zones, Microsoft Foundry, Azure API Management AI Gateway or Citadel-aligned gateway, private networking, and Azure Monitor | | | | | cloud platform team, network/security team, and application delivery owner |
+
+## Decision and acceptance
+
+| Decision field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create a platform-foundation backlog item for each missing boundary control, environment separation, network route, policy assignment, monitor, or runtime handoff. |
+| Handoff owner and customer process | cloud platform team, network/security team, and application delivery owner |
+| Next review trigger | |
+
+## Exception
+
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “route PRE inference through APIM AI Gateway”; evidence location “APIM policy record”; accepted when PRE traffic has private network, policy, and monitor references.

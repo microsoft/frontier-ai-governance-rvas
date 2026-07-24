@@ -22,7 +22,7 @@ payloads or endpoints.
 
 ![Gateway requests and matching telemetry correlation determine acceptance; direct diagnostics do not prove the gateway path.](../assets/diagrams/s6-security-runtime-correlation-flow.svg)
 
-A completed adapter request does not prove policy enforcement. Platform and
+A completed adapter request is accepted only as adapter readiness. Platform and
 security owners use `correlation_id` to review gateway telemetry and record an
 acceptance decision, separate from the transport result (`pass` or `fail`).
 

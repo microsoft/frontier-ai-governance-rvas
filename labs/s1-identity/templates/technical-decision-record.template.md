@@ -1,60 +1,55 @@
-# Technical decision record
+# Technical Decision Record
 
-Copy this blank record into the customer's approved records system. It captures a
-customer-owned technical decision, the options considered, and the adoption
-stage. It does not make a tenant change, grant access, or approve production.
+Copy this template into the customer's approved records system. Use it to turn the S1 Identity & Access decision into a Microsoft-platform control record and backlog handoff.
 
-See the [S1 Technical decisions](../../../docs/s1-identity/technical.md) chapter
-for the available options and selection criteria.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-## Decision
+## Scope
 
 | Field | Record |
 |---|---|
-| Decision under review | ‹e.g. agent identity path / runtime access control› |
-| Bounded agent or workload scope | |
-| Decision owner and date | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Options considered
+## Microsoft control path
 
-| Option | Fit for this scope | Key trade-off / limitation | Chosen? (yes / no / deferred) |
-|---|---|---|---|
-| Microsoft Entra Agent ID | | | |
-| Managed identity | | | |
-| App registration + service principal | | | |
-| Workload identity federation | | | |
-| On-behalf-of (delegated) | | | |
-| Runtime access: Conditional Access / gateway JWT / both / none | | | |
+Default path: **Microsoft Entra Agent ID, Entra workload identities, Conditional Access, Azure RBAC, and Agent 365 where available**.
 
-## Chosen option and rationale
+Inspect: the Entra application or managed identity record, Agent ID/Agent 365 record when available, Conditional Access assignment, Azure RBAC scope, and identity owner record.
 
-| Field | Record |
-|---|---|
-| Selected option(s) | |
-| Rationale (criteria that decided it) | |
-| Alternatives rejected or deferred and why | |
-| Named sponsor / owner | |
-| Dependencies (runtime assurance, lifecycle reconciliation, identity-change process) | |
-| Verified-status caveat (availability / licensing checked on) | |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Microsoft Entra Agent ID, Entra workload identities, Conditional Access, Azure RBAC, and Agent 365 where available | | | | | identity platform owner, application owner, and security operations |
 
-## Adoption progress
+## Decision and acceptance
 
-| Field | Record |
-|---|---|
-| Adoption stage (decided / backlogged / in adoption) | |
-| Maturity dimension advanced | |
-| Next step and owner (customer identity-change process) | |
-| Review date and portfolio reference | |
-
-## Safe reference and handoff
-
-| Field | Record |
+| Decision field | Record |
 |---|---|
 | Result (approve / defer / reject / route) | |
-| Evidence reference or stated gap | |
-| Acceptance criterion | |
-| Accountable owner | |
-| Target date | |
-| Handoff recipient and customer process | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create an identity backlog item for each missing agent/workload identity record, least-privilege role assignment, Conditional Access control, or owner review. |
+| Handoff owner and customer process | identity platform owner, application owner, and security operations |
+| Next review trigger | |
 
-This reference does not grant access, change a tenant, or approve production.
+## Exception
+
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “register support-agent workload identity”; evidence location “Entra app record and RBAC assignment”; accepted when the app owner and identity owner verify least privilege and review date.

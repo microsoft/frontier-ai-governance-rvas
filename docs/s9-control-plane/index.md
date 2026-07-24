@@ -57,7 +57,7 @@ Read the [S9 Concepts](concepts.md) before delivery.
 ## 4. Detailed facilitation reference
 
 !!! warning "Evidence-first, read-only boundary"
-    This 90-minute session uses customer-held references and sample-only, normalized inputs. Do not connect to live data, copy raw records, or create a catalog, lifecycle, identity, access, policy, or production change.
+    This 90-minute session uses customer-held references and sample-only, normalized inputs. Live data, raw records, catalog changes, lifecycle changes, identity/access changes, policy changes, and production changes stay outside the session.
 
 **Timebox:** 90 minutes. **Roles:** facilitator, governance lead, catalog steward, evidence owner, service owner. Include identity, risk, security, or finance reviewers only when the question needs them. The facilitator protects the boundary and decision wording. The governance lead owns the closeout decision.
 
@@ -68,7 +68,7 @@ reconciliation-cadence, and change/versioning options and selection criteria.
 |---|---:|---|---|
 | Set scope and decision boundary | 10 min | Select one bounded catalog population, review period, records location, and closeout decision. | **"Which system-of-record, reconciliation cadence, or lifecycle decision can this session support?"** **"What remains a separate customer-owned change?"** Stop on missing authority or evidence. |
 | Review catalog stewardship | 15 min | Review agent and tool entries for purpose, accountable owner, technical steward, lifecycle state, and parent relationship. | **"Who owns this entry through closure?"** **"Can a tool extend authority beyond its reviewed use?"** Unknowns are findings, not assumptions. |
-| Review lifecycle and material changes | 15 min | Identify transitions, suspensions, retirements, and material changes in scope; reference their decision and review records. | **"Was this destination permitted?"** **"Who reviewed the authority or operating-scope change?"** Do not execute the transition or remediation here. |
+| Review lifecycle and material changes | 15 min | Identify transitions, suspensions, retirements, and material changes in scope; reference their decision and review records. | **"Was this destination permitted?"** **"Who reviewed the authority or operating-scope change?"** Execute transitions or remediation only through the customer's change process. |
 | Reconcile and triage | 20 min | Run the read-only identifier comparison and review identity, ownership, lifecycle, material-review, tool-parent, and closure findings. | **"Is this a record-quality gap, a stewardship gap, or a separately governed change?"** A no-result is not a pass without scope and expected signal. |
 | Set remediation and recurrence | 15 min | Assign every open item an owner, due date, validation reference, recurrence check, exception route, and escalation path. | **"What validates the remedy?"** **"What detects recurrence?"** Closure without validation remains open. |
 | Close out and set cadence | 15 min | Choose close, close with owned gaps, defer, or do not close; record approver and next review. | **"Who accepts remaining risk?"** **"When will catalog stewardship, reconciliation, and closure status be reviewed again?"** |
@@ -101,9 +101,9 @@ Save only safe references in `04-operate/evidence-register.json` and the closeou
 
 | Blocker | Safe response and handoff |
 |---|---|
-| No accountable owner, decision owner, or evidence reference | Stop the affected step; record the gap, owner, target date, and reschedule. Do not manufacture evidence or acceptance. |
-| Catalog field is incomplete or cannot be normalized explicitly | Record an input-quality finding and return it to its accountable steward. Do not match by name or rewrite fields during the session. |
-| A lifecycle transition, suspension, retirement, remediation, or material change is needed | Create an owned backlog item and use the customer's separate approved change, rollback, and verification process. Do not make the change in S9. |
+| No accountable owner, decision owner, or Agent 365/API Center/Entra record | Stop the affected step; record the gap, owner, target date, and reschedule. Acceptance waits for the missing record. |
+| Catalog field is incomplete or cannot be normalized explicitly | Record an input-quality finding and return it to its accountable steward. Match only by explicit identifiers; field cleanup belongs to the steward. |
+| A lifecycle transition, suspension, retirement, remediation, or material change is needed | Create an owned backlog item and use the customer's separate approved change, rollback, and verification process. |
 | Expected evidence is absent or coverage is unsupported | Record the bounded scope and interpretation; observe, refine the question, use another customer control, or defer. Never treat absence as a pass. |
 
 ## 5. Verification & evidence capture

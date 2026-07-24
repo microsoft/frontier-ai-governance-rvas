@@ -1,37 +1,55 @@
-# Latency budget record
+# Latency Budget
 
-Copy this blank record into the customer's approved records system. It records
-customer-owned targets, evidence references, and ownership; it does not measure
-latency or set a production service-level objective.
+Copy this template into the customer's approved records system. Use it to turn the S4 Agent Engineering decision into a Microsoft-platform control record and backlog handoff.
 
-## Bounded scenario
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
+
+## Scope
 
 | Field | Record |
 |---|---|
-| Interaction type and user population | |
-| p50 / p95 / p99 expectation | |
-| Budget owner | |
-| Regression owner and review trigger | |
-| Evidence location and review date | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Component attribution
+## Microsoft control path
 
-| Component | Allocation target | Evidence reference | Attribution limit |
-|---|---|---|---|
-| Model inference | | | |
-| Retrieval / vector search | | | |
-| Tool calls / external APIs | | | |
-| Orchestration / agent loop | | | |
-| Gateway / network | | | |
-| End-to-end, if available | | Application Insights, OpenTelemetry, or Foundry traces where enabled | |
+Default path: **Microsoft Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, or a custom Azure app path**.
 
-Foundry tracing is an optional, project-gated evidence source. Record its
-sampling, retention, population, and availability limits before using it.
+Inspect: the Foundry agent, Copilot Studio agent, Microsoft 365 Copilot extension, or custom Azure app record plus model deployment, rollout, and release records.
 
-## Implementation backlog
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Microsoft Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, or a custom Azure app path | | | | | agent engineering owner, product owner, platform owner, and release manager |
 
-| Backlog item | Applies / N/A / unknown / follow-up | Recommendation and confidence | Evidence reference or gap | Owner | Follow-up customer process |
-|---|---|---|---|---|---|
-| Component attribution and latency evidence source | | | | | Engineering / platform operations |
-| Regression threshold, review route, and escalation owner | | | | | Customer operating process |
-| Operating-review route for latency drift | | | | | Customer operating process |
+## Decision and acceptance
+
+| Decision field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create an engineering backlog item for any missing admission criterion, model-selection record, token/cost guardrail, latency budget, rollout gate, or retirement trigger. |
+| Handoff owner and customer process | agent engineering owner, product owner, platform owner, and release manager |
+| Next review trigger | |
+
+## Exception
+
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “select Foundry Agent Service for claims assistant”; evidence location “model-selection record”; accepted when rollout, cost, latency, and retirement gates have owners.

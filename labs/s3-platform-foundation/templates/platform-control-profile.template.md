@@ -1,50 +1,55 @@
-# Platform control profile
+# Platform Control Profile
 
-Copy this blank profile into the approved customer records system. It records
-the intended platform control design, accountable owners, and evidence
-expectations. It does not configure a network, gateway, identity, policy, or
-telemetry service, and it is not proof that a control operates.
+Copy this template into the customer's approved records system. Use it to turn the S3 Platform Foundation decision into a Microsoft-platform control record and backlog handoff.
 
-## Scope and environment equivalence
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
+
+## Scope
 
 | Field | Record |
 |---|---|
-| Bounded workload and architecture reference | |
-| Platform decision owner and review date | |
-| Environment labels used by the customer | |
-| Production-equivalence statement for pre-production | |
-| Explicit DEV-to-production differences and accepted rationale | |
-| Approved records location and stop condition | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Control responsibility matrix
+## Microsoft control path
 
-| Layer / control area | Intended purpose | Design option / reference | Accountable owner | Evidence expected later | Known limit or dependency |
-|---|---|---|---|---|---|
-| Identity and workload access | | | | | |
-| Ingress and gateway boundary | | | | | |
-| Model, agent, or hosted execution | | | | | |
-| Tool/API publication and authority | | | | | |
-| Data and private-connectivity path | | | | | |
-| Telemetry, retention, and correlation | | | | | |
-| Security response and operations | | | | | |
+Default path: **Azure landing zones, Microsoft Foundry, Azure API Management AI Gateway or Citadel-aligned gateway, private networking, and Azure Monitor**.
 
-## Network and route assumptions
+Inspect: the landing-zone subscription/resource group, Foundry project, API gateway configuration, private networking route, Azure Policy assignment, and Azure Monitor workspace.
 
-| Path or dependency | Expected ingress / egress / private-connectivity behavior | DNS or hybrid dependency, if applicable | Owner | Evidence reference or gap | Later review |
-|---|---|---|---|---|---|
-| Caller to gateway | | | | | Runtime-assurance process |
-| Gateway to agent/model/backend | | | | | Runtime-assurance process |
-| Agent to tool/API/data | | | | | Tool/API or runtime-assurance process |
-| Agent/platform to telemetry | | | | | Operations process |
-| Administration and deployment path | | | | | Customer change process |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Azure landing zones, Microsoft Foundry, Azure API Management AI Gateway or Citadel-aligned gateway, private networking, and Azure Monitor | | | | | cloud platform team, network/security team, and application delivery owner |
 
-## Implementation backlog
+## Decision and acceptance
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Follow-up process |
-|---|---|---|---|---|---|
-| Environment-equivalence and promotion prerequisites | | | | | Engineering or customer change process |
-| Gateway, access-contract, backend, or policy baseline | | | | | Tool/API or runtime-assurance process |
-| Private endpoint, DNS, ingress, egress, or hybrid dependency | | | | | Network / security process |
-| Identity, RBAC, OBO, or workload-identity prerequisite | | | | | Identity process |
-| Telemetry, correlation, retention, or alert route | | | | | Runtime-assurance or operations process |
-| Support, rollback, and production-change process | | | | | Customer change authority |
+| Decision field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create a platform-foundation backlog item for each missing boundary control, environment separation, network route, policy assignment, monitor, or runtime handoff. |
+| Handoff owner and customer process | cloud platform team, network/security team, and application delivery owner |
+| Next review trigger | |
+
+## Exception
+
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “route PRE inference through APIM AI Gateway”; evidence location “APIM policy record”; accepted when PRE traffic has private network, policy, and monitor references.

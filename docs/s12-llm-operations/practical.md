@@ -1,33 +1,20 @@
-# Do this
+# Practical workshop: LLMOps lifecycle gate
 
-**Customer owner:** LLMOps owner, AI developer, and service owner
+**Microsoft default:** Microsoft Learn LLMOps inner/outer-loop lifecycle: data curation, experimentation, evaluation, validate/deploy, inference, monitor, and feedback/data collection.
 
-Use a fictional or sanitized workload. Do not use live data, prompt text,
-outputs, credentials, production telemetry, or service configuration.
+**Customer decision:** Approve, defer, reject, or route the next LLMOps lifecycle gate.
 
-1. Complete one lifecycle-canvas row for each inner-loop stage: data curation,
-   experimentation, and evaluation. Name the artifact, owner, evidence
-   location, exit decision, and S2/S7 handoff.
-2. Complete the outer-loop rows for validate/deploy, inference, monitoring, and
-   feedback/data collection. Include the PRE/PRO gate, release manifest,
-   rollback target, monitoring signal, and feedback-to-curation rule.
-3. Classify three changes: reuse feedback in an evaluation dataset, change a
-   retrieval/prompt candidate, and alter telemetry retention. Apply the S2,
-   S7, S11, platform, or customer-change route.
-4. Select the weakest lifecycle link and create one owner-backed implementation
-   work item with completion evidence and a target date.
+## Work the decision
 
-**Decision question:** Can learning safely move from production feedback to a
-curated candidate, through evaluation and promotion, then back into monitored
-operation? Record **approve, defer, reject, or route**. If not, defer the
-affected lifecycle claim.
+1. Select one bounded pilot or backlog item and name the customer decision owner.
+2. Inspect the Microsoft Learn LLMOps lifecycle record: data curation, experimentation, evaluation, validate/deploy, inference, monitor, and feedback/data collection.
+3. Fill this row in the customer-approved records system:
 
-**Azure/Microsoft default:** use protected source and customer change control,
-Foundry evaluation/observability where supported, and Azure Monitor/Application
-Insights for operation. An exception must name its verified service, owner,
-coverage limit, acceptance evidence, and target date.
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| Pilot decision | Microsoft Learn LLMOps inner/outer-loop lifecycle: data curation, experimentation, evaluation, validate/deploy, inference, monitor, and feedback/data collection | ML platform owner | Customer-approved record | Decision, acceptance test, exception status, and handoff are complete | Customer date | MLOps release team |
 
-**Acceptance:** each of the seven stages has one artifact, gate, owner,
-safe-reference evidence, and handoff; the release manifest reconstructs the
-active route and rollback target. S12 changes and approves nothing in a customer
-system.
+4. Use this decision tree: if the Microsoft path fits, approve it; if records are missing, defer with an acceptance test; if the path cannot meet the use case, reject or route to an exception owner.
+5. For an exception, record: reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
+
+**Boundary:** Keep customer data in customer-approved systems; production changes require customer change approval.

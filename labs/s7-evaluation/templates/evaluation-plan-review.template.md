@@ -1,58 +1,55 @@
-# Evaluation plan review
+# Evaluation Plan Review
 
-Copy this template into the approved customer records system. S7 references
-customer-owned evaluation and release-assurance work; it does not run a live
-evaluator, create a CI/CD gate, or store prompts, outputs, datasets, scores, or
-telemetry in this repository.
+Copy this template into the customer's approved records system. Use it to turn the S7 Evaluation decision into a Microsoft-platform control record and backlog handoff.
 
-## Evaluation scope
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
+
+## Scope
 
 | Field | Record |
 |---|---|
-| Bounded workload, version, or candidate release | |
-| Accepted S6 gateway-proof decision reference | |
-| Evaluation plan reference | |
-| Assurance owner | |
+| Workload / capability / portfolio scope | |
 | Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
 | Approved records location | |
-| Review date and next review | |
+| Target date | |
 
-## Coverage and interpretation
+## Microsoft control path
 
-| Evaluation question | Evidence reference and coverage limit | Interpretation owner | Decision use |
-|---|---|---|---|
-| Quality or task completion | | | |
-| Groundedness / retrieval quality | | | |
-| Safety or policy behavior | | | |
-| Tool-use or action-boundary behavior | | | |
-| Regression or release comparison | | | |
-| Human-review or escalation behavior | | | |
-| Known unsupported scope or no-result | | | |
+Default path: **Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing where applicable**.
 
-## Release-assurance decision prompts
+Inspect: the Foundry evaluation run, evaluator/scorer configuration, dataset/scenario reference, CI/CD gate, release decision, and Azure Load Testing record when applicable.
 
-- What decision can this evaluation plan support: continue, hold, defer, or
-  block?
-- Which evaluator, dataset, trace, or review result is customer-owned and
-  approved by reference?
-- What does the evaluation not cover: population, version, tool path, data
-  source, model behavior, or operating period?
-- Which failure, regression, or unsupported result must become an owned finding
-  before release progression?
-- Which customer process owns any future CI/CD gate, threshold, observation
-  period, rollback, and verification?
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing where applicable | | | | | evaluation owner, QA/release owner, model or agent owner, and operations owner |
 
-## Evaluation implementation backlog
+## Decision and acceptance
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
-|---|---|---|---|---|---|
-| Foundry evaluation target, evaluator type (task completion / intent resolution / tool call accuracy / response quality / safety), scorecard, or trace source | | | | | Evaluation process |
-| Pre/post fine-tune evaluation comparison, if a fine-tuned model is in scope | | | | | Customer model owner / evaluation process |
-| Dataset, scenario coverage, or unsupported population gap | | | | | Customer evaluation owner |
-| Release threshold, hold/continue decision, or CI/CD gate owner | | | | | Customer release process |
-| Tool-use, action-boundary, safety, or human-review evaluation | | | | | S6 / S8 / customer evaluation process |
-| Regression, rollback, observation period, or post-release verification | | | | | Customer SDLC / S11 |
-| Operating review, trend, or remediation-validation handoff | | | | | S11 |
-| Evaluation suite definition, version, and renewal trigger | | | | | Customer evaluation owner / S11 |
-| Continuous evaluation cadence, production sampling scope, and coverage owner | | | | | Customer evaluation / platform process |
-| Trace-to-dataset ownership, harvest scope, and curation review | | | | | Customer evaluation owner / S9 |
+| Decision field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create an evaluation backlog item for missing scenarios, scoring thresholds, owner review, CI/CD gate, load-test coverage, or release decision evidence. |
+| Handoff owner and customer process | evaluation owner, QA/release owner, model or agent owner, and operations owner |
+| Next review trigger | |
+
+## Exception
+
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “gate release on safety and groundedness eval”; evidence location “Foundry evaluation run”; accepted when thresholds, owner signoff, and CI gate are recorded.

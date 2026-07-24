@@ -1,68 +1,55 @@
-# Technical decision record
+# Technical Decision Record
 
-[S2 Technical decisions](../../../docs/s2-data-compliance/technical.md): option
-menus and selection criteria for this record.
+Copy this template into the customer's approved records system. Use it to turn the S2 Data Compliance decision into a Microsoft-platform control record and backlog handoff.
 
-Copy this blank record into the customer's approved records system. It captures a
-customer-owned technical decision, the options considered, rationale, owner, and
-adoption stage. It does not make a tenant change, export content, or approve
-production.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-## Decision
+## Scope
 
 | Field | Record |
 |---|---|
-| Decision under review | ‹e.g. data classification / PII and retrieval handling / compliance and residency mapping› |
-| Bounded agent, workload, and data-source scope | |
-| Decision owner and date | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Options considered
+## Microsoft control path
 
-| Option | Fit for this scope | Key trade-off / limitation | Chosen? (yes / no / deferred) |
-|---|---|---|---|
-| Microsoft Purview Information Protection (sensitivity labels and DLP) | | | |
-| Existing enterprise DLP or classification process | | | |
-| Manual / customer-defined classification | | | |
-| Gateway PII masking (AI Hub Gateway / Citadel pattern) | | | |
-| Upstream data minimization at the source | | | |
-| Microsoft Purview data map / DSPM for AI review | | | |
-| Azure AI Content Safety | | | |
-| Data residency / region pinning | | | |
-| GDPR and records-of-processing mapping | | | |
-| Sector-specific regulation mapping | | | |
-| Retention ownership | | | |
+Default path: **Microsoft Purview Data Security Posture Management, Data Loss Prevention, sensitivity labels, audit, and eDiscovery**.
 
-## Chosen option and rationale
+Inspect: the Purview DSPM finding, sensitivity-label policy, DLP policy, audit/eDiscovery retention setting, data source record, and data owner decision.
 
-| Field | Record |
-|---|---|
-| Selected option(s) | |
-| Rationale (criteria that decided it) | |
-| Alternatives rejected or deferred and why | |
-| Evidence references (customer records system only) | |
-| Named owner(s) | |
-| Dependencies (classification, source permissions, platform, tool/API, runtime assurance, and customer change process) | |
-| Verified-status caveat (availability / licensing / region checked on) | |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Microsoft Purview Data Security Posture Management, Data Loss Prevention, sensitivity labels, audit, and eDiscovery | | | | | data owner, privacy/compliance team, and Purview administrator |
 
-## Adoption progress
+## Decision and acceptance
 
-| Field | Record |
-|---|---|
-| Adoption stage (decided / backlogged / in adoption) | |
-| Maturity dimension advanced | Data posture / compliance evidence / retention ownership |
-| Next step and owner | |
-| Review date and portfolio reference | |
-
-## Safe reference and handoff
-
-| Field | Record |
+| Decision field | Record |
 |---|---|
 | Result (approve / defer / reject / route) | |
-| Evidence reference or stated gap | |
-| Acceptance criterion | |
-| Accountable owner | |
-| Target date | |
-| Handoff recipient and customer process | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create a data-governance backlog item for each missing label, DLP rule, audit route, retention decision, or data-owner approval. |
+| Handoff owner and customer process | data owner, privacy/compliance team, and Purview administrator |
+| Next review trigger | |
 
-This reference does not deploy enforcement, change a customer system, or approve
-production.
+## Exception
+
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “label retrieval corpus”; evidence location “Purview sensitivity-label policy”; accepted when the data owner approves the label and DLP route before ingestion.

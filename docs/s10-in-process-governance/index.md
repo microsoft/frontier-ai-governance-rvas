@@ -77,7 +77,7 @@ invokes a tool. Capture:
 Gateway controls govern traffic at the platform boundary. An in-process policy
 check can make a separate decision inside the agent before a tool call runs.
 
-You may need both. One control does not prove the other is configured or working.
+You may need both. Each control is accepted only with its own configuration and operating evidence.
 
 Read the [S10 Concepts](concepts.md) for the offline Preview boundary,
 hash-chain consistency, and what real tamper evidence requires.
@@ -102,11 +102,11 @@ code, endpoints, tenant data, credentials, production policy, or raw records.
 
 | Activity | Time | Customer operation | Facilitator prompts and interpretation |
 |---|---:|---|---|
-| Choose the boundary option | 20 min | Describe one action immediately before a tool invocation and the delegated authority it carries. Name the existing gateway, data, identity, evaluation, and runtime controls. Then pick from the boundary menu. | **"Which boundary option fits this tool call: gateway-only, in-process, both, or not applicable, and what delegated authority makes the difference?"** **"Which existing control stays in place regardless?"** Record the choice and rationale; "not applicable" is a valid recorded decision. Do not force adoption. |
+| Choose the boundary option | 20 min | Describe one action immediately before a tool invocation and the delegated authority it carries. Name the existing gateway, data, identity, evaluation, and runtime controls. Then pick from the boundary menu. | **"Which boundary option fits this tool call: gateway-only, in-process, both, or not applicable, and what delegated authority makes the difference?"** **"Which existing control stays in place regardless?"** Record the choice and rationale; "not applicable" is a valid recorded decision. Adopt AGT only when the boundary test justifies it. |
 | Review the example policy | 15 min | Open `labs/s10-in-process-governance/policies/demo-policy.json` and explain the allow, deny-default, and approval-required choices. | **"Who owns each delegated authority decision?"** **"Which action needs approval, and why?"** The file is an example, not a customer policy or a recommendation to copy into code. |
 | Run and check the offline illustration | 20 min | Run the two commands below. Confirm one allowed, denied, and approval-required simulated attempt. | **"What did the simulator evaluate?"** **"What did it not see?"** A pass means the local example has expected decisions and internally consistent hashes. It is not AGT execution, production validation, downstream success proof, or tamper evidence. |
-| Review limits and evidence needs | 20 min | Review the pinned AGT Public Preview and [known limitations](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md). Review customer needs for policy ownership, change review, records retention, and tamper evidence. | **"What evidence would a future engineering assessment need?"** **"Who owns signed immutable retention if tamper evidence is required?"** A local hash chain can be replaced and recalculated. It does not prove integrity, source, immutability, or later tampering. |
-| Decide and hand over | 15 min | Choose gateway-only, in-process, both, or not applicable, then record approve, defer, reject, or route. Record fit, limits, remaining risks, owner, acceptance evidence, target date, review point, and S6/S9/S11 dependencies. | **"What decision can this offline illustration support?"** **"What must happen before engineering work starts?"** Adoption here only authorizes a separate assessment. It does not authorize installation, deployment, or policy change. |
+| Review limits and evidence needs | 20 min | Review the pinned AGT Public Preview and [known limitations](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md). Review customer needs for policy ownership, change review, records retention, and tamper evidence. | **"What evidence would a future engineering assessment need?"** **"Who owns signed immutable retention if tamper evidence is required?"** Accept a local hash chain only as an illustration; integrity, source, immutability, and tamper evidence need signed retention. |
+| Decide and hand over | 15 min | Choose gateway-only, in-process, both, or not applicable, then record approve, defer, reject, or route. Record fit, limits, remaining risks, owner, acceptance evidence, target date, review point, and S6/S9/S11 dependencies. | **"What decision can this offline illustration support?"** **"What must happen before engineering work starts?"** Adoption here only authorizes a separate assessment; installation, deployment, or policy change needs the customer's engineering/change process. |
 
 Before the decision, keep the evidence types separate:
 
@@ -138,7 +138,7 @@ customer's approved records system. Record the boundary choice and rationale in
 `templates/technical-decision-record.template.md`. Record the scope, observed
 result or no-result, limits, decision, owner, next review, and dependencies.
 
-Do not retain raw customer source code, tool arguments, credentials, tenant data,
+Keep raw customer source code, tool arguments, credentials, tenant data,
 or production audit records in this kit. The simulator output remains labelled
 **offline illustration, not AGT execution**.
 
@@ -147,9 +147,9 @@ or production audit records in this kit. The simulator output remains labelled
 | Blocker | Safe response and handoff |
 |---|---|
 | No meaningful candidate in-process tool boundary | Mark S10 not applicable for the bounded pilot. Record the reason and owner, then return to the S6 backlog or existing controls. |
-| A participant requests AGT installation, customer-code changes, production policy edits, credentials, or endpoint access | Stop the illustration. Create a separate customer-owned engineering and change-review item. Do not use a demonstration as approval. |
-| The policy illustration or hash verification fails | Record the observed failure and its scope. Do not repair customer policy or claim tampering. Assign an owner to investigate the offline artifact or defer the decision. |
-| Tamper evidence, outcome evidence, or compliance certification is required | Record the unmet requirement. Route it to customer-managed signed immutable external storage and the right assurance process. Do not describe the local hash chain as enough. |
+| A participant requests AGT installation, customer-code changes, production policy edits, credentials, or endpoint access | Stop the illustration. Create a separate customer-owned engineering and change-review item. A demonstration is not approval. |
+| The policy illustration or hash verification fails | Record the observed failure and its scope. Assign an owner to investigate the offline artifact or defer the decision; customer policy repair and tamper claims need separate review. |
+| Tamper evidence, outcome evidence, or compliance certification is required | Record the unmet requirement. Route it to customer-managed signed immutable external storage and the right assurance process. Accept the local hash chain only as an offline illustration. |
 
 ## 5. Verification & evidence capture
 

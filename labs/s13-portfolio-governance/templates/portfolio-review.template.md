@@ -1,44 +1,55 @@
-# Portfolio review record
+# Portfolio Review
+
+Copy this template into the customer's approved records system. Use it to turn the S13 Portfolio Governance decision into a Microsoft-platform control record and backlog handoff.
+
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
+
+## Scope
 
 | Field | Record |
 |---|---|
-| Portfolio question and decision | |
-| Population and review period | |
-| Governance lead / portfolio owner / risk owner | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
 | Approved records location | |
-| Review date and next review | |
-| Decision result: approve / defer / reject / route | |
+| Target date | |
 
-## Aggregated evidence references
+## Microsoft control path
 
-| Reference | Scope and period | Freshness | Coverage limit or unknown | Interpretation owner | Portfolio relevance |
-|---|---|---|---|---|---|
-| | | | | | |
+Default path: **Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the S0 re-baseline**.
 
-## Maturity movement and policy questions
+Inspect: Agent 365/control-plane inventory, exception register, Azure Cost Management view, operating evidence from S11, roadmap, and S0 baseline record.
 
-| Maturity domain or question | Observation reference | Proposed movement, no movement, unresolved status, or policy question | Limitation | Owner and review route |
-|---|---|---|---|---|
-| | | | | |
-
-## Separate portfolio triage
-
-| Record type: exception / risk / investment | Reference | Scope, limit, and rationale | Accountable owner | Disposition / route | Target date |
-|---|---|---|---|---|---|
-| | | | | | |
-
-## Investment prioritization
-
-| Candidate investment | Risk or dependency addressed | Evidence strength | Expected governance value | Effort / constraint | Accountable owner | Decision status / acceptance evidence / target date |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
 |---|---|---|---|---|---|---|
-| | | | | | | |
+| | Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the S0 re-baseline | | | | | portfolio governance board, finance/FinOps owner, control-plane steward, and session owners |
 
-## Portfolio implementation backlog
+## Decision and acceptance
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Customer governance/process route |
-|---|---|---|---|---|---|
-| Cross-session exception concentration or recurring dependency | | | | | Governance/risk process |
-| Investment priority, budget gate, or owner-readiness decision | | | | | Portfolio/budget process |
-| Policy-evolution question or obsolete assumption | | | | | Policy governance process |
-| Maturity reassessment evidence and governance-cadence feedback | | | | | Customer maturity-assessment process |
-| Assurance, compliance, or external review route | | | | | Customer assurance process |
+| Decision field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create a portfolio-governance backlog item for each unowned exception, stale control-plane record, unfunded roadmap item, missing operating evidence, or re-baseline trigger. |
+| Handoff owner and customer process | portfolio governance board, finance/FinOps owner, control-plane steward, and session owners |
+| Next review trigger | |
+
+## Exception
+
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “close expired exception EX-007”; evidence location “exception register and roadmap item”; accepted when owner, funding decision, target date, and re-baseline impact are recorded.

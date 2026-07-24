@@ -72,6 +72,7 @@ Keep customer data, credentials, raw exports, and tenant-specific configuration 
 
 Use official product guidance to confirm terminology, feature availability, and supported patterns before the customer chooses an action. It supports the pilot. It does not replace customer evidence or prescribe portal click paths.
 
+- [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md)
 - [Microsoft Entra Agent ID guidance](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id)
 - [Microsoft Purview for AI guidance](https://learn.microsoft.com/en-us/purview/ai-microsoft-purview)
 - [Defender AI security posture management guidance](https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-security-posture)

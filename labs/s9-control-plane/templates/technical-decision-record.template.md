@@ -1,53 +1,55 @@
-# Technical decision record
+# Technical Decision Record
 
-[S9 Technical decisions](../../../docs/s9-control-plane/technical.md)
+Copy this template into the customer's approved records system. Use it to turn the S9 Control Plane decision into a Microsoft-platform control record and backlog handoff.
 
-Copy this blank record into the customer's approved records system. It captures a
-customer-owned control-plane, reconciliation, and lifecycle decision for the
-bounded S9 population. It does not query live data, change a catalog, update a
-lifecycle state, or approve production.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-## Decision
+## Scope
 
 | Field | Record |
 |---|---|
-| Decision under review | ‹e.g. authoritative system of record / reconciliation cadence / material-change and retirement governance› |
-| Bounded agent, tool, model, or catalog scope | |
-| Decision owner and date | |
-| Plain result (approve / defer / reject / route) | |
-| Evidence references and acceptance criteria | |
-| Target date and handoff (S11 and/or S13) | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Options considered
+## Microsoft control path
 
-| Option | Fit for this scope | Key trade-off / limitation | Chosen? (yes / no / deferred) |
-|---|---|---|---|
-| Azure API Center as authoritative inventory | | | |
-| Microsoft Foundry catalog / project records as authoritative inventory | | | |
-| Customer control-register as authoritative inventory | | | |
-| Federated authoritative view | | | |
-| Manual periodic review | | | |
-| Evidence-driven reconciliation | | | |
-| Automated inventory sync | | | |
-| Material-change / versioning / retirement rule | | | |
+Default path: **Microsoft Agent 365, Microsoft Entra Agent ID, Azure API Center, and platform telemetry**.
 
-## Chosen option and rationale
+Inspect: the Agent 365 or agent catalog record, Entra Agent ID/workload identity, API Center entry, ownership metadata, telemetry reference, and stewardship cadence.
 
-| Field | Record |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Microsoft Agent 365, Microsoft Entra Agent ID, Azure API Center, and platform telemetry | | | | | control-plane steward, identity owner, API platform owner, and portfolio governance |
+
+## Decision and acceptance
+
+| Decision field | Record |
 |---|---|
-| Selected option(s) | |
-| Rationale (criteria that decided it) | |
-| Alternatives rejected or deferred and why | |
-| Accountable steward / technical owner | |
-| Dependencies (S11 cadence, S13 portfolio, platform/catalog/change process) | |
-| Verified-status caveat (availability / licensing / feature status checked on) | |
-| Exception owner, reason, compensating reconciliation, and re-review trigger | |
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create a control-plane backlog item for each missing catalog record, owner, identity link, API dependency, telemetry pointer, stale record, or review cadence. |
+| Handoff owner and customer process | control-plane steward, identity owner, API platform owner, and portfolio governance |
+| Next review trigger | |
 
-## Adoption progress
+## Exception
 
-| Field | Record |
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
 |---|---|
-| Adoption stage (decided / backlogged / in adoption) | |
-| S0 control-plane dimension advanced | |
-| Next step and owner (customer records or change process) | |
-| Review date and S11/S13 handoff reference | |
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “link agent record to API dependency”; evidence location “Agent 365 record and API Center entry”; accepted when steward review shows owner, identity, and telemetry links.

@@ -27,8 +27,8 @@ belong in the governance record.
 
 Keep findings separate from follow-up. A reviewed list can support a sponsor
 decision, lifecycle review, Agent ID coverage investigation, RBAC/OBO follow-up,
-access review, or blocker. It does not create an identity, grant access, set up
-Conditional Access, or approve production use.
+access review, or blocker. Identity creation, access grants, Conditional Access setup,
+and production approval stay in the customer's implementation process.
 
 The backlog names the sponsor, identity/OBO review, access-control owner,
 gateway-authentication dependency, and S9 reconciliation.

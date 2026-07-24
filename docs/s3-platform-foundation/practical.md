@@ -1,18 +1,20 @@
-# Practical workshop: platform readiness
+# Practical workshop: platform foundation path
 
-**Customer owner:** Platform owner. **Timebox:** 45 minutes. Map one bounded
-non-production path from records; do not test or configure it.
+**Microsoft default:** Azure landing zones, Microsoft Foundry, Azure API Management AI Gateway or Citadel-aligned gateway, private networking, and Azure Monitor.
 
-1. Trace identity, network, gateway, model, tool, and telemetry boundaries.
-2. Default: use Microsoft Foundry, a customer-adopted Citadel/AI Hub Gateway
-   accelerator where applicable, and Azure API Management for the AI gateway
-   boundary. Citadel is an accelerator, not proof of a deployed configuration.
-   Use another pattern only when the architecture owner documents why, the
-   control equivalence sought, limits, owner, and review date.
-3. Ask: **“Do we approve, defer, reject, or route this platform-readiness
-   decision?”**
-4. Record the result with evidence reference or gap, owner, acceptance
-   criterion, and target date.
-5. Hand runtime-security evidence requirements to S6, evaluation to S7,
-   monitoring operation to S11, and catalog work to S9. No deployment, system
-   change, or production approval occurs.
+**Customer decision:** Approve, defer, reject, or route the platform foundation for the pilot.
+
+## Work the decision
+
+1. Select one bounded pilot or backlog item and name the customer decision owner.
+2. Inspect the Azure landing zone subscription plan, Foundry project boundary, gateway pattern, private networking requirement, and Azure Monitor workspace route.
+3. Fill this row in the customer-approved records system:
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| Pilot decision | Azure landing zones, Microsoft Foundry, Azure API Management AI Gateway or Citadel-aligned gateway, private networking, and Azure Monitor | Cloud platform owner | Customer-approved record | Decision, acceptance test, exception status, and handoff are complete | Customer date | Platform engineering |
+
+4. Use this decision tree: if the Microsoft path fits, approve it; if records are missing, defer with an acceptance test; if the path cannot meet the use case, reject or route to an exception owner.
+5. For an exception, record: reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
+
+**Boundary:** Keep customer data in customer-approved systems; production changes require customer change approval.

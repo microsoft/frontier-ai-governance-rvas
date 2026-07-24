@@ -57,7 +57,7 @@ Agents are more than chat interfaces. They can use non-human identities, retriev
 S0 surfaces those gaps before technical sessions. Intake captures intended
 capability, data exposure, human oversight, accountable sponsor, and product.
 
-**Boundary:** S0 identifies and prioritizes risk. It does not replace identity controls in S1, data controls in S2, platform boundaries in S3, or validation in S4 and S5.
+**Boundary:** S0 identifies and prioritizes risk. Identity controls, data controls, platform boundaries, and validation stay in S1-S5.
 
 ## The target architecture gives the model somewhere to land
 

@@ -1,18 +1,17 @@
 # Facilitate the decision
 
-**Decision question:** On this date, should this portfolio roadmap item be
-**approved, deferred, rejected, or routed**? Keep **exception, risk, and
-investment** as separate records.
+**Decision to produce:** Approve, defer, reject, or route the portfolio re-baseline item.
 
-| Phase | Time | Safe output |
-|---|---:|---|
-| Set scope | 10 min | Portfolio slice, date, decision owner, and records location. |
-| Triage | 30 min | Exception disposition, risk assessment, or investment proposal—never merged. |
-| Date the roadmap | 25 min | Owner, evidence, acceptance check, target date, and funding/policy route. |
-| Decide and hand off | 25 min | Result and S0/customer-funding/policy handoff. |
+| Step | Prompt | Output |
+|---|---|---|
+| 1 | Which record did we inspect for Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the S0 re-baseline? | Platform record named. |
+| 2 | What is today's decision: approve, defer, reject, or route? | One decision selected. |
+| 3 | What acceptance test proves the decision is ready? | Acceptance test written as an observable condition. |
+| 4 | Is there an exception; if yes, who owns it and when is it reviewed? | Exception recorded or marked none. |
+| 5 | Who receives the handoff: Executive governance forum or another named owner? | Named handoff owner and next meeting/process. |
 
-**Azure/Microsoft default:** use the customer-approved records system and
-Azure/Microsoft governance or cost references only where available and verified.
-Use another reporting source only when its scope, freshness, ownership, and
-evidence limits are documented. No product capability or configuration is
-assumed.
+Default to **Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the S0 re-baseline**. For an exception, record: reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
+
+Close with this sentence: **“Portfolio governance owner owns the decision record; Executive governance forum receives the handoff when the acceptance test is met.”**
+
+**Boundary:** Keep the session to decision records and customer-approved evidence locations.

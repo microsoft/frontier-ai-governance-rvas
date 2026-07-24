@@ -1,38 +1,35 @@
-# S11 Takeaway Kit: Operate, Monitor & FinOps
+# S11 Operate & Measure Work Package
 
-This optional, offline kit supports a customer-owned 90-minute operating-review
-definition after a preceding operating review or formal deferral. It covers evidence coverage, reliability, risk, quality,
-cost ownership, adoption, business outcome, drift hypotheses, escalation,
-remediation validation, recurrence, and exceptions. It does not connect to
-live data, create a dashboard, calculate metrics, set thresholds, store
-customer data, or implement a change.
+This lab kit is a practical Microsoft-platform work package to connect operational telemetry, quality, cost, latency, alerting, and remediation into customer operations. It starts with the Microsoft default control path, records the customer decision, and creates implementation backlog items that a named owner can accept.
 
-**Decision:** choose signal source, attribution, alert route, and closure route;
-record approve, defer, reject, or route. Default to Azure Monitor/Application
-Insights with OpenTelemetry for app paths and use Foundry observability only
-where verified and applicable. Hand off evaluation/baseline work to S7,
-lifecycle work to S12, and portfolio work to S13. No template approves a
-customer-system change or production.
+**Microsoft default:** Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit.
 
-Start with [runbook.md](runbook.md). Copy blank templates to approved records
-and retain only approved references in the delivery workspace.
+Start with [runbook.md](runbook.md). Copy only blank templates into the customer's approved records system, then store completed evidence there.
 
-`templates/technical-decision-record.template.md` captures the selected,
-deferred, or rejected observability-stack, cost-attribution, and alerting/drift
-decision with owners and adoption stage.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-`templates/quality-cost-latency-review.template.md` is an optional addendum for
-bounded quality trend, latency drift, and token-cost accountability questions.
-It complements rather than replaces `templates/operating-review.template.md`.
+## Work package outcome
 
-`templates/performance-telemetry-review.template.md` is an optional addendum for
-production agent performance: first-token latency, end-to-end latency,
-throughput, and error/saturation from OpenTelemetry, Application Insights, or
-Foundry traces, including reconciliation against an approved synthetic baseline as a
-drift hypothesis. See the
-[agent performance-testing guide](../../docs/reference/performance-testing-guide.md).
+By the end of the kit, the customer has:
 
-`templates/telemetry-alert-operating-model.template.md` maps the
-customer-held signal sources, correlation and retention limits, alert-response
-ownership, suppression review, remediation validation, and exception handoff.
-It defines an operating model; it does not create alerts or query telemetry.
+- inspected the Foundry observability view, Azure Monitor metric/alert, Application Insights trace, Log Analytics query, Cost Management view, and FinOps review record;
+- recorded approve, defer, reject, or route with owner and target date;
+- created backlog for gaps using acceptance tests and a receiving handoff;
+- documented any exception with reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
+
+## Included records
+
+| Record | Use |
+|---|---|
+| [`templates/operating-review.template.md`](templates/operating-review.template.md) | Capture the operating review as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/performance-telemetry-review.template.md`](templates/performance-telemetry-review.template.md) | Capture the performance telemetry review as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/quality-cost-latency-review.template.md`](templates/quality-cost-latency-review.template.md) | Capture the quality cost latency review as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/remediation-closure.template.md`](templates/remediation-closure.template.md) | Capture the remediation closure as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md) | Capture the technical decision record as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/telemetry-alert-operating-model.template.md`](templates/telemetry-alert-operating-model.template.md) | Capture the telemetry alert operating model as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+
+## Handoff
+
+Default handoff goes to service operations, FinOps owner, platform monitoring, and product owner. Create an operations backlog item for missing telemetry, alert threshold, quality/cost/latency review, remediation owner, operating cadence, or FinOps action.
+
+Example: Work item “add latency/cost alert for production agent”; evidence location “Azure Monitor alert and Cost Management view”; accepted when operations and FinOps owners accept the cadence.

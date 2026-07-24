@@ -1,48 +1,55 @@
-# Model selection and fine-tuning record
+# Model Selection Record
 
-Copy this blank record into the customer's approved records system. It records
-a decision and references only; it does not select, deploy, fine-tune, or
-approve a model.
+Copy this template into the customer's approved records system. Use it to turn the S4 Agent Engineering decision into a Microsoft-platform control record and backlog handoff.
 
-## Scope and ownership
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
+
+## Scope
 
 | Field | Record |
 |---|---|
-| Bounded workload / candidate | |
-| Engineering owner | |
-| Service owner | |
-| Cost owner | |
-| Governance decision owner | |
-| Decision and review references | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Model-selection comparison
+## Microsoft control path
 
-| Candidate model or deployment | Capability fit | Context / residency / licensing consideration | Latency and cost trade-off | Evidence reference or gap | Recommendation |
-|---|---|---|---|---|---|
-| | | | | | |
-| | | | | | |
+Default path: **Microsoft Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, or a custom Azure app path**.
 
-## Fine-tuning applicability
+Inspect: the Foundry agent, Copilot Studio agent, Microsoft 365 Copilot extension, or custom Azure app record plus model deployment, rollout, and release records.
 
-| Question | Record |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Microsoft Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, or a custom Azure app path | | | | | agent engineering owner, product owner, platform owner, and release manager |
+
+## Decision and acceptance
+
+| Decision field | Record |
 |---|---|
-| Capability gap and alternative considered | |
-| Fine-tuning decision: applies / N/A / unknown / later | |
-| Training-data source, classification, retention, and owner | |
-| Base-model and fine-tuned-version references | |
-| Required pre/post evaluation comparison | |
-| Model-version pinning and update-review trigger | |
-| Model-operation risk owner | |
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create an engineering backlog item for any missing admission criterion, model-selection record, token/cost guardrail, latency budget, rollout gate, or retirement trigger. |
+| Handoff owner and customer process | agent engineering owner, product owner, platform owner, and release manager |
+| Next review trigger | |
 
-Fine-tuning may use a Foundry capability where available, or a customer
-engineering path. Verify supported model, region, and feature status before
-making a customer backlog recommendation.
+## Exception
 
-## Implementation backlog
+Complete this section only when the Microsoft default is not used.
 
-| Backlog item | Applies / N/A / unknown / follow-up | Recommendation and confidence | Evidence reference or gap | Owner | Follow-up customer process |
-|---|---|---|---|---|---|
-| Approved model deployment or model-access path | | | | | Engineering / platform process |
-| Fine-tuning capability gap, training-data governance, and lifecycle owner | | | | | Customer SDLC and model-governance process |
-| Pre/post model-version evaluation comparison | | | | | Customer evaluation process |
-| Model-version pinning, update review, or retirement trigger | | | | | Customer service-management process |
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “select Foundry Agent Service for claims assistant”; evidence location “model-selection record”; accepted when rollout, cost, latency, and retirement gates have owners.

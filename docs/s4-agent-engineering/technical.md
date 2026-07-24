@@ -1,100 +1,63 @@
 # S4 · Agent Engineering: Technical decisions
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-17 · Microsoft agent-path capabilities and Foundry
-    features change over time. Confirm current product status in the
-    [Platform technical guide](../reference/platform-technical-guide.md) and
-    official product docs before delivery.
+    Last reviewed: 2026-07-24 · Microsoft Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, model availability, fine-tuning, and deployment features vary by tenant, region, license, quota, and product maturity. Verify official docs before delivery.
 
-S4 is the path-selection decision point. It compares six paths and records the
-associated model-selection and admission decisions. A recommendation creates a
-backlog and ownership; it does not deploy or configure a product.
+## Microsoft default
 
-## Decision 1: Which Microsoft implementation path?
+Default to the Microsoft implementation path that fits the candidate: Copilot Studio, Microsoft Foundry Agent Service, Microsoft 365 Copilot extensibility, workflow automation, or a custom Azure app on Foundry models. S4 records path selection, model/deployment choice, admission, and promotion gates.
 
-Choose based on the agent's **authority**, **users and data**, needed
-**customization/control**, **engineering owner**, and the controls each path
-exposes.
+## Decision tree
 
-| Path | When it fits | Trade-off / limitation | Governance surface to backlog |
-|---|---|---|---|
-| **Copilot Studio** | Low-code makers, business workflows, fast iteration | Less low-level control; governed largely via Power Platform | Power Platform DLP, environment routing, connector governance |
-| **Microsoft Foundry Agent Service** | Pro-code agents needing tools, models, tracing, evaluation | Requires platform/engineering ownership | Project/model, agent type, tools, identity, telemetry, evaluation, red-team, catalog |
-| **Custom Azure app/service on Foundry models & tools** | Deep customization, bespoke orchestration or integration | Most engineering to own; broadest attack/governance surface | Identity, gateway, network, telemetry, evaluation: all customer-owned |
-| **Microsoft 365 Copilot extensibility** | Agents extending M365 Copilot in the productivity surface | Bounded to the M365 extensibility model | M365 Copilot governance, Agent 365, connector/data governance |
-| **Workflow automation** | Deterministic, rules-first automation with limited agency | Not suited to open-ended reasoning tasks | Connector governance, run history, change control |
-| **Research / prototype isolation** | Experiments not intended for production | Must stay isolated; not an admission to ship | Isolation boundary, data handling, explicit non-production label |
+1. **If a low-code business workflow fits**, choose Copilot Studio and apply Power Platform governance.
+2. **If a pro-code agent needs tools, traces, evaluations, or custom orchestration**, choose Microsoft Foundry Agent Service or a custom Azure app on Foundry models.
+3. **If the agent lives in the Microsoft 365 productivity surface**, choose Microsoft 365 Copilot extensibility and Agent 365 governance where available.
+4. **If deterministic automation is enough**, choose workflow automation instead of an agent.
+5. **If production evidence is missing**, hold at DEV or PRE and route S6/S7/S9/S11 prerequisites.
 
-Record the recommendation, **confidence**, **assumptions**, and the
-**alternatives rejected or deferred**: the rejected options are part of the
-decision, not noise.
+| Path | Microsoft control surface to inspect | Admission emphasis |
+|---|---|---|
+| Copilot Studio | Power Platform environment, DLP policy, connector inventory, maker ownership | connector and environment governance |
+| Foundry Agent Service | Foundry project, agent, model deployment, tool, trace, evaluation records | tool, model, telemetry, and evaluation readiness |
+| Custom Azure app | app repo/release, managed identity, API Management route, Azure Monitor telemetry | full engineering ownership |
+| M365 Copilot extensibility | M365 Copilot admin/extension records, Agent 365 where available, Graph connector/data controls | M365 data and extension governance |
+| Workflow automation | Power Automate/Logic Apps/run history/connector records | deterministic change control |
+| Prototype isolation | sandbox owner, data boundary, expiration date | explicit non-production constraint |
 
-## Decision 2: Model selection (and fine-tuning, if in scope)
+## Platform checks
 
-Model choice is a governance decision as well as an engineering one. Record
-capability fit, latency, cost tier, data residency, licensing, deployment
-availability, and version ownership. Use the deployment aliases owned by
-platform infra rather than hard-coding model names. A fine-tuning proposal needs
-a stated capability gap, an alternative considered, training-data governance, and
-a base-vs-fine-tuned comparison owner.
-
-See the [quality, cost, latency & rollout guide](../reference/quality-cost-latency-guide.md)
-and the [agent performance-testing guide](../reference/performance-testing-guide.md)
-for the selection criteria and the latency/throughput evidence that support this
-decision.
-
-## Decision 3: Admission standard for the chosen path
-
-The admission requirements and test expectations must **match the agent's
-authority archetype** (advises / confirms-with-human / acts-in-boundary /
-coordinates). Higher authority raises the bar for evidence, human-control points,
-evaluation, and red-team coverage. Record what the agent must satisfy before it
-ships or materially changes, plus material-change and retirement triggers.
-
-## Decision 4: What is the controlled promotion model?
-
-Map the customer's approved labels to a clear DEV → PRE → PRO decision path.
-DEV is for isolated development and experimentation with explicit
-non-production boundaries; PRE is for integration, certification, and
-regression evidence with stated production-equivalence assumptions; PRO is a
-separate customer change-authority decision for live operation.
-
-| Stage | Entry decision | Evidence that can inform the next decision | What it cannot prove |
-|---|---|---|---|
-| **DEV** | S4 admission to a bounded non-production activity | Purpose, authority, ownership, selected-path backlog, and basic non-production controls | Integration safety, production readiness, or operating control effectiveness |
-| **PRE** | Customer promotion into certification/integration scope | S3 platform-control profile, accepted S6 gateway proof, S7 evaluation/assurance references, and any applicable S8 disposition | That PRE exactly mirrors PRO, unless the customer records the equivalence evidence and limits |
-| **PRO** | Separate production change decision | S9 lifecycle/catalog reference, rollback and support route, operating/alert ownership, and customer approvals | Future quality, safety, availability, or control effectiveness |
-
-Record the customer labels, population, promotion gate, explicit differences,
-rollback owner, change authority, and resulting state in
-`labs/s4-agent-engineering/templates/rollout-decision-record.template.md`.
-Promotion is a decision record, not an instruction to deploy.
-
-## Decisions made & adoption progress
-
-| Adoption stage | What "done" looks like at S4 |
+| Check | Microsoft product/control record |
 |---|---|
-| **Decided** | One bounded candidate is classified, a path is chosen with rationale, and admission requirements are set |
-| **Backlogged** | The selected-path configuration backlog has owners and customer-process routing |
-| **In adoption** | Engineering builds the backlog outside this session; assurance and catalog records are reviewed through their accountable customer processes |
+| Path fit | Copilot Studio, Foundry, M365 Copilot extensibility, Power Platform, or Azure app architecture record |
+| Model/deployment | Foundry model deployment alias, quota/capacity, region, version owner, fine-tuning proposal if any |
+| Admission | authority archetype, human-control point, S6 runtime proof need, S7 evaluation plan, S8 red-team trigger |
+| Promotion | DEV/PRE/PRO labels, release manifest, rollback owner, customer change approval record |
+| Catalog/handoff | Azure API Center or S9 register entry, S11 operations owner |
 
-Tie the outcome to the S0 baseline and S13 roadmap. Capture the choice,
-alternatives, and rationale in
-`labs/s4-agent-engineering/templates/technical-decision-record.template.md`.
+## Decision matrix
 
-## Default, exception, and handoff
+| Stage | Entry decision | Accepted when... | Next route |
+|---|---|---|---|
+| DEV | bounded engineering/prototype admission | owner, data boundary, path choice, and non-production label are recorded | S6/S7 backlog |
+| PRE | integration/certification admission | S3 platform profile, S6 runtime proof plan, S7 evaluation plan, and rollback owner are recorded | customer release process |
+| PRO | customer production decision | S9 lifecycle entry, S11 support/alert route, accepted S7 evidence, and customer approvals are in the approved record | operations |
 
-Default to the Microsoft implementation path that fits the candidate: for
-example Copilot Studio, Microsoft Foundry Agent Service, Microsoft 365
-extensibility, or a custom Azure service. An alternative needs a documented
-capability, data, authority, support, and operations reason plus owner, evidence
-reference, acceptance criterion, and target date. Record **approve, defer,
-reject, or route** for DEV, PRE, or PRO admission. S4 selects and admits the
-path; hand runtime security to S6, evaluation to S7, monitoring to S11, and
-catalog work to S9. It does not approve production.
+## Acceptance tests
+
+| Work item | Accepted when... | Handoff |
+|---|---|---|
+| Path selection | selected path, rejected alternatives, assumptions, and owner are recorded | Engineering owner |
+| Model selection | deployment alias, model/version owner, residency/quota/cost limits, and fine-tuning rationale if any are recorded | Platform/model owner |
+| Admission | authority archetype maps to required safety, evaluation, red-team, and human-control gates | Release owner |
+| Promotion | DEV/PRE/PRO gate, rollback owner, and material-change trigger are recorded | Change authority |
+
+## Boundary note
+
+S4 selects and admits a path; deployment, configuration, and production approval stay with the customer process.
 
 ## Related references
 
 - [S4 Concepts](concepts.md): authority model, path choices, material changes, retirement.
-- [Platform technical guide](../reference/platform-technical-guide.md): Citadel layers and platform/governance boundary.
-- [Quality, cost, latency & rollout guide](../reference/quality-cost-latency-guide.md) and [performance-testing guide](../reference/performance-testing-guide.md).
+- [S6 technical decisions](../s6-security-runtime/technical.md), [S7 technical decisions](../s7-evaluation/technical.md), and [S9 technical decisions](../s9-control-plane/technical.md).
+- [Quality, cost, latency & rollout guide](../reference/quality-cost-latency-guide.md).
+- [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md).

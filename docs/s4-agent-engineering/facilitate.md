@@ -1,16 +1,17 @@
 # Facilitate the decision
 
-| Phase | Time | Focus |
-|---|---:|---|
-| Set candidate | 10 min | Confirm purpose, authority, owners, and requested DEV/PRE/PRO stage. |
-| Compare paths | 25 min | Select a Microsoft path and identify required evidence. |
-| Admit and hand off | 10 min | Record approve, defer, reject, or route. |
+**Decision to produce:** Approve, defer, reject, or route the agent engineering path.
 
-Ask: **“Do we approve, defer, reject, or route this implementation-path and
-DEV-PRE-PRO admission decision?”**
+| Step | Prompt | Output |
+|---|---|---|
+| 1 | Which record did we inspect for Microsoft Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, or a custom Azure app path? | Platform record named. |
+| 2 | What is today's decision: approve, defer, reject, or route? | One decision selected. |
+| 3 | What acceptance test proves the decision is ready? | Acceptance test written as an observable condition. |
+| 4 | Is there an exception; if yes, who owns it and when is it reviewed? | Exception recorded or marked none. |
+| 5 | Who receives the handoff: Engineering team or another named owner? | Named handoff owner and next meeting/process. |
 
-Default to the suitable Microsoft implementation path. An exception must state
-the capability, data, authority, support, and operations reason plus owner,
-evidence reference, acceptance criterion, and target date. Hand runtime
-security to S6, evaluation to S7, monitoring to S11, and catalog to S9. S4
-never approves a production change.
+Default to **Microsoft Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, or a custom Azure app path**. For an exception, record: reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
+
+Close with this sentence: **“Agent product owner owns the decision record; Engineering team receives the handoff when the acceptance test is met.”**
+
+**Boundary:** Keep the session to decision records and customer-approved evidence locations.

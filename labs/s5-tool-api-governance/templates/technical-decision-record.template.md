@@ -1,57 +1,55 @@
-# Technical decision record
+# Technical Decision Record
 
-[Technical-decision guide](../../../docs/s5-tool-api-governance/technical.md)
-lists the available options and selection criteria.
+Copy this template into the customer's approved records system. Use it to turn the S5 Tool & API Governance decision into a Microsoft-platform control record and backlog handoff.
 
-Copy this blank record into the customer's approved records system. It captures a
-customer-owned publication, MCP/tool governance, or tool-authentication decision
-and its adoption stage. It does not publish a service, grant access, configure a
-gateway, connect a tool, or approve production use.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-## Decision
+## Scope
 
 | Field | Record |
 |---|---|
-| Decision under review | ‹e.g. publication registry / MCP governance model / tool authentication› |
-| Bounded API, tool, or MCP scope | |
-| Candidate identifier and version | |
-| Decision owner and date | |
-| Plain result (approve / defer / reject / route) | |
-| Evidence references and acceptance criteria | |
-| Target date and handoff (S6 and/or S9) | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Options considered
+## Microsoft control path
 
-| Option | Fit for this scope | Key trade-off / limitation | Chosen? (yes / no / deferred) |
-|---|---|---|---|
-| Azure API Center registry + Azure API Management products | | | |
-| Existing API-management estate or service catalog | | | |
-| Ad-hoc list / no registry yet | | | |
-| Gateway-mediated or brokered MCP through the governance hub | | | |
-| Allow-list of vetted MCP servers/tools | | | |
-| In-process tool-call policy boundary | | | |
-| Per-tool OAuth scopes | | | |
-| Managed identity | | | |
-| Delegated on-behalf-of (OBO) | | | |
+Default path: **Azure API Center, Azure API Management, Entra/JWT, access contracts, connector governance, and MCP publication controls**.
 
-## Chosen option and rationale
+Inspect: the API Center entry, APIM product/API policy, Entra app/JWT validation, access contract, connector approval, and MCP publication record.
 
-| Field | Record |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Azure API Center, Azure API Management, Entra/JWT, access contracts, connector governance, and MCP publication controls | | | | | API platform owner, tool owner, identity owner, and consuming-agent owner |
+
+## Decision and acceptance
+
+| Decision field | Record |
 |---|---|
-| Selected option(s) | |
-| Rationale (criteria that decided it) | |
-| Alternatives rejected or deferred and why | |
-| Ownership and lifecycle owner | |
-| Least-privilege / credential-hygiene decision | |
-| Dependencies (runtime evidence, catalog/lifecycle reconciliation, in-process tool boundary, customer change process) | |
-| Verified-status caveat (availability / licensing / support checked on) | |
-| Exception owner, reason, compensating control, and re-review trigger | |
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create a tool/API backlog item for missing catalog metadata, owner, auth contract, APIM policy, connector approval, MCP publication guardrail, or consumer review. |
+| Handoff owner and customer process | API platform owner, tool owner, identity owner, and consuming-agent owner |
+| Next review trigger | |
 
-## Adoption progress
+## Exception
 
-| Field | Record |
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
 |---|---|
-| Adoption stage (decided / backlogged / in adoption) | |
-| Capability area improved | |
-| Next step and owner (customer publication or change process) | |
-| Review date and portfolio reference, if used | |
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “publish claims lookup API”; evidence location “API Center entry and APIM product”; accepted when Entra/JWT, schema, throttling, and consumer contract are approved.

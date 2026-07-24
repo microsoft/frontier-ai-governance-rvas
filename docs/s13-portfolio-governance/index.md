@@ -97,7 +97,7 @@ Use these portfolio interpretation aids:
 |---|---|
 | Exception concentration | Does the same exception, owner gap, dependency, or evidence limit recur across multiple scopes? |
 | Investment priority | What risk, dependency, evidence strength, expected benefit, effort, and decision status support the ranking? |
-| Maturity movement | Which S0 question, scope, and evidence reference support movement, no movement, or unresolved status? |
+| Maturity movement | Which S0 question, scope, and portfolio record support movement, no movement, or unresolved status? |
 | Policy evolution | Is there a gap, conflict, obsolete assumption, or clarification need that requires a separate policy decision? |
 | S0 feedback | Which S0 baseline domain should be re-baselined, what changed since S0, and what evidence must be available before that review? |
 

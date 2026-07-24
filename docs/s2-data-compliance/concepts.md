@@ -11,7 +11,7 @@ This page explains the Purview data-and-compliance controls used in S2. [S2 Prep
 
 Governance has to answer more than "is this agent allowed to run?" It also has to answer which data reaches the agent, which sensitive data can show up in prompts or responses, and what evidence is left after an interaction.
 
-Microsoft Purview brings data security and compliance to AI workloads and connected apps.[^purview] S2 uses Purview for data classification, discovery, policy review, investigation, and evidence references. It does not build a new model gateway.
+Microsoft Purview brings data security and compliance to AI workloads and connected apps.[^purview] S2 uses Purview for data classification, discovery, policy review, investigation, and Purview records. Gateway work stays in the platform/runtime sessions.
 
 ## Findings turn into a work list the customer owns
 

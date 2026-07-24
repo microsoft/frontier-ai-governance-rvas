@@ -1,50 +1,33 @@
-# S7 Takeaway Kit: Evaluation & Assurance
+# S7 Evaluation Work Package
 
-S7 is an assurance handoff, not a live agent-evaluation gate. It contains a
-customer-owned technical decision record, evaluation-plan review template,
-quality-measurement-plan extension, outcome template, and contracts. It does not
-run an evaluator, score a fixture, create local evidence, or block a pull
-request.
+This lab kit is a practical Microsoft-platform work package to turn quality, risk, and performance criteria into Foundry evaluation and release gates. It starts with the Microsoft default control path, records the customer decision, and creates implementation backlog items that a named owner can accept.
 
-**Decision:** approve, defer, reject, or route the bounded evaluation,
-release-evidence, and performance-evidence plan. The default is Foundry
-evaluations where current support fits, with accepted S6 evidence and a human
-decision. An exception needs an owner, reason, compensating review, acceptance
-criteria, target date, and S8/S11 handoff.
+**Microsoft default:** Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing where applicable.
 
-## Customer review
+Start with [runbook.md](runbook.md). Copy only blank templates into the customer's approved records system, then store completed evidence there.
 
-Follow [the runbook](runbook.md). Before S7 can exit, the customer must have an accepted S6 gateway proof: a
-`pass` manifest conforming to
-[`contracts/gateway-proof.schema.json`](../../contracts/gateway-proof.schema.json)
-whose correlation has been reviewed and accepted by named customer reviewers.
-A `pass` in the manifest is test output, not reviewer acceptance.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-## Workshop alignment
+## Work package outcome
 
-Use the [S7 practical activity](../../docs/s7-evaluation/practical.md)
-to confirm the assurance owner, evidence reviewers, decision owner, 90-minute
-timebox, and S6 entry condition. The customer creates and decides on the
-assurance record; the facilitator does not operate an evaluator, certify a
-score, or create a CI/CD gate.
+By the end of the kit, the customer has:
+
+- inspected the Foundry evaluation run, evaluator/scorer configuration, dataset/scenario reference, CI/CD gate, release decision, and Azure Load Testing record when applicable;
+- recorded approve, defer, reject, or route with owner and target date;
+- created backlog for gaps using acceptance tests and a receiving handoff;
+- documented any exception with reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
+
+## Included records
+
+| Record | Use |
+|---|---|
+| [`templates/evaluation-plan-review.template.md`](templates/evaluation-plan-review.template.md) | Capture the evaluation plan review as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/performance-test-plan.template.md`](templates/performance-test-plan.template.md) | Capture the performance test plan as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/quality-measurement-plan.template.md`](templates/quality-measurement-plan.template.md) | Capture the quality measurement plan as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md) | Capture the technical decision record as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
 
 ## Handoff
 
-Create the customer technical decision record from
-`templates/technical-decision-record.template.md`, then create the
-evaluation-plan review from `templates/evaluation-plan-review.template.md`.
-Where quality dimensions or threshold governance are in scope, add
-`templates/quality-measurement-plan.template.md` and validate the completed
-quality threshold decision against
-`contracts/quality-threshold-decision.schema.json`. Where synthetic performance
-or load testing is in scope, add
-`templates/performance-test-plan.template.md` to record the workload model,
-first-token and end-to-end targets, and environment fidelity (see the
-[agent performance-testing guide](../../docs/reference/performance-testing-guide.md)).
-Then create the outcome
-record from `templates/assurance-outcome.template.json` and validate its shape
-against `contracts/assurance-handoff.schema.json`. Keep the completed records,
-any evaluation outputs, and any future gate decision in the customer's approved
-system. Do not commit them here. The completed outcome identifies the bounded
-scope, evidence limit, decision, and next review; `continue` advances this
-assurance handoff only. It does not approve a production release.
+Default handoff goes to evaluation owner, QA/release owner, model or agent owner, and operations owner. Create an evaluation backlog item for missing scenarios, scoring thresholds, owner review, CI/CD gate, load-test coverage, or release decision evidence.
+
+Example: Work item “gate release on safety and groundedness eval”; evidence location “Foundry evaluation run”; accepted when thresholds, owner signoff, and CI gate are recorded.

@@ -44,7 +44,7 @@ runtime assurance, evaluation, operating review, or non-production change
 process.
 
 !!! warning "Safety / authorization required"
-    Do not run adversarial activity unless the SOC has been notified, written authorization and rules of engagement are approved, and the target is a customer-owned **NON-PRODUCTION** test agent/endpoint only.
+    Run adversarial activity only after SOC notification, approved written authorization and rules of engagement, and confirmation that the target is a customer-owned **NON-PRODUCTION** test agent/endpoint.
 
 ## 2. Prerequisites
 
@@ -62,19 +62,19 @@ process.
 
 ## 3. Why this session matters
 
-Red teaming is useful only when the customer agrees on the target, success criteria, safety limits, and response path before the first probe. S8 gives the customer evidence for that exact scope. It does not claim the agent is secure everywhere.
+Red teaming is useful only when the customer agrees on the target, success criteria, safety limits, and response path before the first probe. S8 evidence is accepted only for that exact scope.
 
 Read the [S8 Concepts](concepts.md) for authorization, Attack Success Rate as a decision aid, and the native-scorecard boundary.
 
 ## 4. Detailed facilitation reference
 
 !!! danger "Authorized test endpoint only"
-    Stop if alerts, instability, or scope questions arise. Do not test third-party systems, production agents, user-facing workloads, or endpoints outside the written scope.
+    Stop if alerts, instability, or scope questions arise. Test only customer-approved non-production endpoints inside the written scope.
 
 Read [Technical decisions](technical.md) first. It covers red-team approach,
 scope and authorization, and remediation-routing options and selection criteria.
 
-**Timebox:** 90 minutes inside the approved monitoring window. **Entry condition:** written authorization and rules of engagement are approved; the SOC is notified with a contact and window; the target is confirmed customer-owned and non-production; an endpoint owner can stop it; and customer test categories, thresholds if used, evidence location, and decision owner are approved. Do not start or resume a scan if any condition expires or changes.
+**Timebox:** 90 minutes inside the approved monitoring window. **Entry condition:** written authorization and rules of engagement are approved; the SOC is notified with a contact and window; the target is confirmed customer-owned and non-production; an endpoint owner can stop it; and customer test categories, thresholds if used, evidence location, and decision owner are approved. Start or resume a scan only while every condition remains valid.
 
 | Role | Workshop responsibility |
 |---|---|
@@ -85,7 +85,7 @@ scope and authorization, and remediation-routing options and selection criteria.
 
 1. **Set the room and orient** *(20 min)*: use `labs/s8-red-teaming/runbook.md` to confirm authorization, rules of engagement, SOC window, target label, stop conditions, evidence boundary, and the technical-decision record. The facilitator asks: **"Is this exact target customer-owned and non-production?"**, **"Who can stop the run?"**, **"Which scorecard, decision record, and remediation backlog will the customer keep?"**, and **"Which red-team approach, authorized scope, and remediation-routing option are being decided today?"** Stop at pre-flight if any answer is missing or uncertain.
 2. **Customer runs the authorized test** *(30 min)*: the endpoint owner runs the approved adapter only in the authorized window. If the scan cannot complete during the workshop, the customer retrieves the completed run's native scorecard for review later. The customer operates credentials, target access, categories, and test data in its approved environment. Foundry's `airt-native-scorecard.json` is preserved unchanged. This kit does not create a mock target, attack dataset, or replacement scorecard.
-3. **Interpret the findings together** *(15 min)*: the SOC lead and endpoint owner compare the native scorecard with the written scope, target version, categories, sample context, and any approved threshold review. Ask: **"Was the run authorized and contained?"**, **"What does each ASR mean for this category and sample?"**, and **"Did an alert, instability, or scope change require a stop?"** An optional `airt-threshold-comparison.json` is a sidecar that references the native scorecard. It is not native evidence and does not prove the system is secure.
+3. **Interpret the findings together** *(15 min)*: the SOC lead and endpoint owner compare the native scorecard with the written scope, target version, categories, sample context, and any approved threshold review. Ask: **"Was the run authorized and contained?"**, **"What does each ASR mean for this category and sample?"**, and **"Did an alert, instability, or scope change require a stop?"** An optional `airt-threshold-comparison.json` is a sidecar that references the native scorecard. Accept the sidecar only as threshold rationale; the native scorecard remains the evidence.
 
    Interpret each category as a practical finding:
 
@@ -107,7 +107,7 @@ scope and authorization, and remediation-routing options and selection criteria.
 - [ ] SOC debrief records authorized alerts/incidents and any endpoint cleanup.
 - [ ] The decision register records remediation, accepted risk, blocked status, or a re-test date.
 
-Save only safe references in `04-operate/evidence-register.json` and the decision in `04-operate/decision-register.json`, in the generated delivery workspace. Do not put scorecards, prompts, attack data, endpoint details, credentials, or customer evidence in Git.
+Save only safe references in `04-operate/evidence-register.json` and the decision in `04-operate/decision-register.json`, in the generated delivery workspace. Keep scorecards, prompts, attack data, endpoint details, credentials, and customer evidence out of Git.
 
 ## 6. Change boundary
 

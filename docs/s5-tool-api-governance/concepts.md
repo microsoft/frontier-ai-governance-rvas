@@ -22,8 +22,9 @@ verification remain separate processes.
 The S5 recommendation names the publication path and rejected or deferred
 alternatives. Its backlog may cover registration, gateway route, caller identity,
 MCP/connector path, authority, lifecycle, runtime evidence, record
-reconciliation, and change ownership. It does not publish, grant permission,
-configure, or prove runtime safety.
+reconciliation, and change ownership. Publishing, permission grants,
+configuration, and runtime-safety proof stay in the customer's implementation
+and assurance processes.
 
 ## Ownership is specific and lasting
 
@@ -74,7 +75,7 @@ reference for exceptions. S5 neither grants authority nor tests it.
 A publication or lifecycle decision applies to a specific version and stated
 configuration boundary. A material change in interface, data handling, caller
 identity, authority, ownership, classification, or dependency requires re-review.
-A version label alone does not prove that nothing material changed. The owner
+A version label alone is accepted only as an identifier. The owner
 records the assessment and disposition.
 
 ## Lifecycle includes stopping use
@@ -89,7 +90,7 @@ or use and keeps only the records the customer must retain. Both need a trigger,
 owner, communication path, verification reference, and reconsideration or closure
 decision.
 
-The S5 record documents these facts. It does not take the action.
+The S5 record documents these facts; the customer change process takes the action.
 
 ## Evidence-first keeps uncertainty visible
 
@@ -100,8 +101,8 @@ signal.
 ## Runtime enforcement is a shared concern
 
 Azure API Management or an AI Gateway policy can enforce part of an approved
-publication decision while a tool is invoked. It does not replace identity, data,
-observability, lifecycle, or in-process checks that may also apply.
+publication decision while a tool is invoked. Keep separate identity, data,
+observability, lifecycle, and in-process checks where they apply.
 
 Treat runtime enforcement as the connection between controls. S5 identifies the
 intended boundary and owner. S6 reviews bounded runtime evidence. S9 and S11 keep

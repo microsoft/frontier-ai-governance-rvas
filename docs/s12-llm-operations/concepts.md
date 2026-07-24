@@ -54,8 +54,8 @@ to data curation and experimentation, not an unreviewed production change.
 Treat prompts, retrieval configuration, evaluation datasets, model/deployment
 aliases, and feedback datasets as controlled learning artifacts. Each needs an
 owner, safe reference, version/provenance, intended use, review trigger, and
-retirement route. A version alone does not prove that an artifact is suitable,
-evaluated, approved, or deployed correctly.
+retirement route. Accepted when suitability, evaluation, approval, and
+deployment status are recorded separately from the version identifier.
 
 ## Azure implementation principle
 
@@ -75,5 +75,5 @@ decision flow, evidence, and ownership across them.
 - **S12** connects the lifecycle, sets stage gates, assigns artifact ownership,
   and ensures feedback safely informs the next inner-loop iteration.
 
-A handoff is a required route and evidence reference, not proof that another
-team has completed its work.
+A handoff is a required route and Microsoft record location; it only proves
+another team has accepted the next work item.

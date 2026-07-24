@@ -1,16 +1,17 @@
 # Facilitate the decision
 
-| Phase | Time | Focus |
-|---|---:|---|
-| Set scope | 10 min | Confirm one workload, source, owner, and stop condition. |
-| Review record | 25 min | Check coverage, sponsor, lifecycle, and authority. |
-| Decide and hand off | 10 min | Record approve, defer, reject, or route. |
+**Decision to produce:** Approve, defer, reject, or route the identity pattern for the pilot agent.
 
-Ask: **“Do we approve, defer, reject, or route this identity, sponsorship, and
-authority decision?”**
+| Step | Prompt | Output |
+|---|---|---|
+| 1 | Which record did we inspect for Microsoft Entra Agent ID, Entra workload identities, Conditional Access, Azure RBAC, and Agent 365 where available? | Platform record named. |
+| 2 | What is today's decision: approve, defer, reject, or route? | One decision selected. |
+| 3 | What acceptance test proves the decision is ready? | Acceptance test written as an observable condition. |
+| 4 | Is there an exception; if yes, who owns it and when is it reviewed? | Exception recorded or marked none. |
+| 5 | Who receives the handoff: Identity operations or another named owner? | Named handoff owner and next meeting/process. |
 
-Default to Microsoft Entra and the existing sponsorship/access-review process.
-An exception needs a documented unsupported-coverage reason, owner, evidence
-reference, acceptance criterion, and target date. Route implementation to the
-identity-change process and agent-path admission to S4; no production approval
-is made here.
+Default to **Microsoft Entra Agent ID, Entra workload identities, Conditional Access, Azure RBAC, and Agent 365 where available**. For an exception, record: reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
+
+Close with this sentence: **“Identity platform owner owns the decision record; Identity operations receives the handoff when the acceptance test is met.”**
+
+**Boundary:** Keep the session to decision records and customer-approved evidence locations.

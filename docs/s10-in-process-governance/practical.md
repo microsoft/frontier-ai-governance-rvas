@@ -1,20 +1,20 @@
-# Do this
+# Practical workshop: in-process governance exception path
 
-**Customer owner:** Engineering owner. **Timebox:** 20 minutes. Use a fictional
-or sanitized tool call; do not use customer code, credentials, endpoints, or
-tenant data.
+**Microsoft default:** Agent Governance Toolkit only when gateway controls cannot make the needed in-process decision.
 
-1. Record one tool-call reference, delegated authority, existing gateway
-   control, policy owner, evidence owner, and review target date.
-2. Choose gateway-only, in-process, both, or not applicable. The Microsoft
-   default is gateway-only; an exception needs a real pre-tool decision that
-   gateway control cannot make.
-3. Run `python labs/s10-in-process-governance/pipelines/run_mock.py` and verify
-   its local record. This is an offline illustration, not AGT or production
-   evidence.
-4. Complete the technical decision record with decision result
-   (approve/defer/reject/route), acceptance evidence, and explicit handoff to
-   S6, S9, and S11 as applicable.
+**Customer decision:** Approve, defer, reject, or route the in-process governance exception.
 
-**Acceptance:** the record names owner, evidence reference and limit, boundary
-choice, target date, and next route. No customer-system change is made.
+## Work the decision
+
+1. Select one bounded pilot or backlog item and name the customer decision owner.
+2. Inspect the gateway control decision, the reason gateway controls cannot decide in process, and the Agent Governance Toolkit policy point proposed for the agent runtime.
+3. Fill this row in the customer-approved records system:
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| Pilot decision | Agent Governance Toolkit only when gateway controls cannot make the needed in-process decision | Runtime governance owner | Customer-approved record | Decision, acceptance test, exception status, and handoff are complete | Customer date | Application engineering |
+
+4. Use this decision tree: if the Microsoft path fits, approve it; if records are missing, defer with an acceptance test; if the path cannot meet the use case, reject or route to an exception owner.
+5. For an exception, record: reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
+
+**Boundary:** Keep customer data in customer-approved systems; production changes require customer change approval.

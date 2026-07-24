@@ -1,80 +1,72 @@
-# S9 · Control Plane, Catalog & Lifecycle
+# S9 · Control Plane
 
 **Facilitator deck**
 
-Governance lead · Catalog steward · Service owner · 90-minute read-only reconciliation
+Microsoft default: **Microsoft Agent 365, Microsoft Entra Agent ID, Azure API Center, and platform telemetry**.
 
-## The reconciliation question
-
-> **"Do the agent, identity, tool, and lifecycle records agree for this bounded population?"**
-
-Record close, close with owned gaps, defer, or remain open.
+Concrete decision: **Approve, defer, reject, or route the control-plane record.**
 
 ---
 
-## What S9 reviews
+## Start with the Microsoft path
 
-![Reconciliation gaps route to a lifecycle backlog.](../assets/diagrams/s9-reconciliation-gap-flow.svg)
+- Default control path: Microsoft Agent 365, Microsoft Entra Agent ID, Azure API Center, and platform telemetry.
+- Customer inspects: Inspect the Agent 365 record where available, Entra Agent ID or workload identity record, API Center dependencies, and platform telemetry fields.
+- Decision owner: Control-plane owner.
 
-- A catalog entry needs purpose, accountable owner, steward, lifecycle state, and review reference.
-- Compare explicit identifiers; never infer a match from names or aliases.
-- A lifecycle transition or material authority, tool, data, model, scope, or ownership change needs a decision trail.
-
----
-
-## Boundary and entry
-
-- **Entry:** baseline, normalized identity inventory, normalized catalog, governance authority, and approved records location.
-- **Boundary:** approved references and sample-only normalized inputs; no live-data query or catalog, identity, access, policy, lifecycle, or production change.
-- Missing authority or evidence stops the affected step and becomes an owned gap.
+Note:
+Open with the default platform path and the decision the customer must make.
 
 ---
 
-## Step 1: Scope and stewardship · 25 min
+## Decide with platform records
 
-Choose one population, review period, records location, and closeout decision. Review agent and tool purpose, owners, stewards, lifecycle state, and parent relationship.
+- Approve when the Microsoft path fits and the acceptance test is clear.
+- Defer when a required record or owner is missing.
+- Reject when the use case cannot meet the control path.
+- Route when an exception owner must accept an equivalent control.
 
-> **"Who owns this entry through closure? Can this tool extend authority beyond its reviewed use?"**
-
----
-
-## Step 2: Lifecycle review · 15 min
-
-Reference in-scope transitions, suspensions, retirements, material changes, and their decisions.
-
-> **"Was this destination permitted? Who reviewed the authority or operating-scope change?"**
+Note:
+Keep the discussion on records, owners, and acceptance tests.
 
 ---
 
-## Step 3: Reconcile and triage · 20 min
+## Acceptance test
 
-Run the read-only comparison:
+The decision is ready when the record names:
 
-```bash
-python labs/s9-control-plane/scripts/reconcile-registry.py \
-  --registry labs/s9-control-plane/data/agent-registry.sample.json \
-  --inventory labs/s9-control-plane/data/s1-agent-inventory.sample.json \
-  --out labs/s9-control-plane/evidence/reconciliation-report.json
-```
+- Microsoft control path
+- Owner
+- Evidence location
+- Accepted-when condition
+- Target date
+- Handoff: Operations governance
 
-- Record-quality gap → accountable steward.
-- Stewardship gap → assign accountable owner.
-- Governed change → customer change process.
-- Unsupported coverage → record limit and next review.
+Note:
+The acceptance test should be observable by the team that receives the handoff.
 
 ---
 
-## Step 4: Remediate and close · 30 min
+## Exception, if any
 
-Assign owner, due date, validation reference, recurrence check, exception route, and escalation path for every open item. Then choose close, close with owned gaps, defer, or do not close.
+An exception needs:
+
+- Reason and equivalent control
+- Owner and evidence location
+- Acceptance test and target date
+- Review trigger
+
+Note:
+Use an exception for a documented equivalent control with an owner and review trigger.
 
 ---
 
-## Verification and handoff
+## Close the session
 
-- [ ] Entries have owner, steward, lifecycle state, and approved reference.
-- [ ] Material changes and transitions have decision references.
-- [ ] Unmatched and invalid records remain findings.
-- [ ] Residual findings have owner, due date, validation, recurrence, route, and status.
+- Decision: approve, defer, reject, or route.
+- Decision owner: Control-plane owner.
+- Handoff: Operations governance.
+- Boundary: customer data stays in approved systems; production changes use customer change approval.
 
-Reference the baseline, catalog, identity inventory, reconciliation report, lifecycle decisions, technical decision, and closeout in customer records. S9 makes no change; implementation, rollback, and verification remain with customer processes.
+Note:
+End with the decision record and the named handoff.

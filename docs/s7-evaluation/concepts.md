@@ -33,7 +33,7 @@ Agent evaluators do not produce one universal quality answer. The plan should na
 | Intent resolution | Did the agent understand the user's intent for these scenarios and rubric? | A rubric judgment does not apply to all production input. |
 | Tool-call accuracy | Did the agent call the right tool with the right parameters for these cases? | Tool or boundary changes require a new evaluation. |
 | Response quality | Did the response meet groundedness, relevance, or coherence criteria? | Criteria and population coverage depend on the evaluator. |
-| Safety / policy behavior | Did the behavior meet the tested safety policy? | It does not replace S8 authorization or runtime controls. |
+| Safety / policy behavior | Did the behavior meet the tested safety policy? | Accepted only with separate S8 authorization and runtime controls. |
 
 ## Quality thresholds are customer decisions
 

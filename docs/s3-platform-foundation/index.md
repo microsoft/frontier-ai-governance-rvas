@@ -12,7 +12,7 @@ They leave with:
 - Where useful, a customer-owned profile that lists the environment, owners,
   route assumptions, evidence needed, and backlog.
 
-`labs/s3-platform-foundation/` contains blank offline templates only. It does not hold workload data, credentials, network details, event records, or completed evidence. The customer keeps those records in its approved system.
+`labs/s3-platform-foundation/` contains blank offline templates only. Keep workload data, credentials, network details, event records, and completed evidence in the customer's approved system.
 
 ### Plain decision
 
@@ -20,7 +20,7 @@ They leave with:
 decision?** Default to the Azure/Microsoft platform pattern: Microsoft Foundry,
 a customer-adopted Citadel/AI Hub Gateway accelerator where applicable, and
 Azure API Management for the AI gateway boundary. An alternative requires architecture-owner rationale,
-evidence reference, acceptance criterion, and target date. It is not a system
+platform record location, acceptance criterion, and target date. It is not a system
 change or production approval.
 
 ### What happens next
@@ -83,7 +83,7 @@ network isolation, and gateway options and selection criteria.
 
 ## 5. Verification & evidence capture
 
-- [ ] Each stated boundary names its purpose, accountable owner, evidence reference, coverage limit, and status.
+- [ ] Each stated boundary names its purpose, accountable owner, Azure landing-zone/API Management record, coverage limit, and status.
 - [ ] Ingress, egress, private-connectivity assumptions, and hybrid dependencies are stated without claiming they were tested.
 - [ ] The AI gateway or Azure API Management boundary is named where it mediates runtime access.
 - [ ] Identity and telemetry boundaries separate expected coverage from observed operation.

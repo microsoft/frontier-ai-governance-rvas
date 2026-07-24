@@ -1,50 +1,31 @@
-# S1 Takeaway Kit: Identity & Ownership Review
+# S1 Identity & Access Work Package
 
-This kit supports one safe, customer-operated action: review an
-administrator-sourced identity inventory, assign accountable ownership, and
-hand off a decision. It does not discover identities, query a tenant, export
-records, create Conditional Access, supply a break-glass design, or make any
-tenant change.
+This lab kit is a practical Microsoft-platform work package to decide how agent, workload, and human identities will be represented and governed. It starts with the Microsoft default control path, records the customer decision, and creates implementation backlog items that a named owner can accept.
 
-Start with [runbook.md](runbook.md). Copy
-[`templates/identity-inventory-review.template.md`](templates/identity-inventory-review.template.md)
-to the customer's approved records system before entering any information, and
-[`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md)
-to record the chosen identity path and runtime-access option, rationale, and
-adoption stage. Keep
-inventory data, object identifiers, sponsor details, exports, and evidence only
-in the customer's approved records system or generated delivery workspace.
+**Microsoft default:** Microsoft Entra Agent ID, Entra workload identities, Conditional Access, Azure RBAC, and Agent 365 where available.
 
-## Supported-admin-source boundary
+Start with [runbook.md](runbook.md). Copy only blank templates into the customer's approved records system, then store completed evidence there.
 
-Use a current, customer-authorized administrative source for the workload in
-scope: an available Microsoft Entra Agent ID/governance experience, the
-workload's supported administration experience, or a customer-controlled
-authoritative inventory. Record the source, workload coverage, review date, and
-known exclusions with the customer record.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-Do **not** infer an Agent ID inventory by listing service principals and matching
-names or tags. A service-principal, managed-identity, OBO, or application
-inventory can be useful corroborating context, but it is not proof that an
-identity is an Entra Agent ID and does not establish complete workload coverage.
+## Work package outcome
 
-## Identity inventory schema
+By the end of the kit, the customer has:
 
-The inventory is a customer record, not an export in this repository. For each
-reviewed entry, use this schema in the customer system:
+- inspected the Entra application or managed identity record, Agent ID/Agent 365 record when available, Conditional Access assignment, Azure RBAC scope, and identity owner record;
+- recorded approve, defer, reject, or route with owner and target date;
+- created backlog for gaps using acceptance tests and a receiving handoff;
+- documented any exception with reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
 
-| Field | Meaning |
+## Included records
+
+| Record | Use |
 |---|---|
-| Record and source reference | Customer record ID plus the authoritative source and export/view reference |
-| Source coverage | Workload, scope, known exclusions, and statement of what the source can support |
-| Identity classification | `Agent ID`, service principal, managed identity, OBO, or another customer-defined type |
-| Identity and workload reference | Customer-safe identifier or link, display name, and platform/workload |
-| Accountable sponsor | Human owner responsible for business purpose, lifecycle, and access justification |
-| Lifecycle and purpose | Proposed, active, suspended, retired, and the approved business purpose |
-| Access context and risk references | Whether activity is user-delegated or agent-operated; links to customer permission, risk, exception, or change records |
-| Authority boundary | Tool or action scope, accountable approver, and material changes that require reapproval |
-| Review metadata | Reviewer, review date, finding, decision state, and next review date |
+| [`templates/identity-inventory-review.template.md`](templates/identity-inventory-review.template.md) | Capture the identity inventory review as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md) | Capture the technical decision record as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
 
-Conditional Access design, break-glass exclusions, and any enforcement decision
-remain with the customer's approved identity-change process; this kit provides
-no deployable policy or template for them.
+## Handoff
+
+Default handoff goes to identity platform owner, application owner, and security operations. Create an identity backlog item for each missing agent/workload identity record, least-privilege role assignment, Conditional Access control, or owner review.
+
+Example: Work item “register support-agent workload identity”; evidence location “Entra app record and RBAC assignment”; accepted when the app owner and identity owner verify least privilege and review date.

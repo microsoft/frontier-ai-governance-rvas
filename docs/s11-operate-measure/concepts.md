@@ -26,7 +26,7 @@ available, review period, sampling, retention, evaluator type and version, and
 interpretation owner.
 
 A production evaluation score is an operating signal. It is not sign-off to ship
-and does not prove a control was enforced.
+and is accepted only for the signal, scope, and time period it records.
 
 ## Production performance telemetry is a distinct operating signal
 
@@ -49,7 +49,7 @@ or evidence coverage, not confirmed drift. Use
 
 Cost review asks who owns the spend decision, which service or workload is in
 scope, what allocation limits apply, and which decision the evidence can support.
-It does not set a metric, target, chargeback method, or threshold.
+The customer sets each metric, target, chargeback method, and threshold.
 
 FinOps evidence should travel with an owner and a limit. A subscription total,
 model bill, token count, trace sample, or allocation view helps only when the
@@ -79,7 +79,7 @@ check, exception or escalation route, and next review.
 
 Remediation is not closed because someone reports the work complete. Closure
 requires a reviewer to check validation and remaining exceptions. S11 records
-this operating method. It does not query live data, fix an issue, or change
+this operating method. Live queries, fixes, and configuration changes stay in
 production.
 
 Useful sources include Foundry traces and evaluations, Azure Monitor or

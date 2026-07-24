@@ -1,82 +1,72 @@
-# S10 · In-Process Agent Governance
+# S10 · In-Process Governance
 
 **Facilitator deck**
 
-AI developer / maker · Governance lead · 90-minute offline decision session
+Microsoft default: **Agent Governance Toolkit only when gateway controls cannot make the needed in-process decision**.
 
-## One boundary decision
+Concrete decision: **Approve, defer, reject, or route the in-process governance exception.**
 
-> **"Does this agent have a useful place to run a policy check just before it calls a tool?"**
+---
 
-Choose gateway-only, in-process, both, or not applicable; then record approve,
-defer, reject, or route. Default to the existing Azure/API gateway boundary.
-An in-process exception needs a real delegated-authority decision that the
-gateway cannot make.
+## Start with the Microsoft path
+
+- Default control path: Agent Governance Toolkit only when gateway controls cannot make the needed in-process decision.
+- Customer inspects: Inspect the gateway control decision, the reason gateway controls cannot decide in process, and the Agent Governance Toolkit policy point proposed for the agent runtime.
+- Decision owner: Runtime governance owner.
 
 Note:
-This offline illustration neither installs AGT nor changes customer code, endpoints, tenant data, or policies.
+Open with the default platform path and the decision the customer must make.
 
 ---
 
-## Boundary and evidence
+## Decide with platform records
 
-![In-process governance logs tool calls with local hash-chain consistency; signed immutable external records provide tamper evidence.](../assets/diagrams/s10-policy-boundary-and-evidence.svg)
-
-- Gateway and in-process checks make different decisions; either, both, or neither may fit.
-- The simulator models AGT's policy-and-audit idea. It does not import, test, certify, or integrate AGT.
-- A local hash chain is an internal-consistency check, not tamper evidence.
-- Tamper evidence requires customer-managed signed immutable external records.
-
----
-
-## Entry and stop condition
-
-- **Entry:** S0–S9 findings and S9 backlog, one bounded agent-tool call, AI developer/maker, governance decision owner, and approved references.
-- **Stop:** no meaningful in-process boundary; request for installation, source-code change, tenant access, credentials, or production policy; failed illustration; or unmet tamper-evidence requirement.
-
-Record the blocker and route it to the customer engineering, assurance, or change process.
-
----
-
-## Step 1: Choose the boundary · 20 min
-
-Describe the action immediately before the tool invocation, its delegated authority, and existing gateway, identity, data, evaluation, and runtime controls.
-
-> **"Gateway-only, in-process, both, or not applicable, and why?"**
-
----
-
-## Step 2: Review the example policy · 15 min
-
-Open `labs/s10-in-process-governance/policies/demo-policy.json`. Review allow, deny-default, and approval-required decisions and name the owner of each delegated authority decision.
-
----
-
-## Step 3: Run the illustration · 20 min
-
-```bash
-python labs/s10-in-process-governance/pipelines/run_mock.py
-python labs/s10-in-process-governance/pipelines/run_mock.py \
-  --verify labs/s10-in-process-governance/evidence/policy-decision-audit.json
-```
-
-Confirm allowed, denied, and approval-required attempts and `hash_chain_consistency.status: pass`.
+- Approve when the Microsoft path fits and the acceptance test is clear.
+- Defer when a required record or owner is missing.
+- Reject when the use case cannot meet the control path.
+- Route when an exception owner must accept an equivalent control.
 
 Note:
-This is neither AGT execution nor production, downstream-success, or tamper evidence.
+Keep the discussion on records, owners, and acceptance tests.
 
 ---
 
-## Step 4: Review limits and decide · 35 min
+## Acceptance test
 
-Review the pinned AGT Preview and limitations, policy ownership, approval route, retention, and needed signed immutable evidence. Record fit, limits, risks, owner, acceptance evidence, target date, review point, and S6/S9/S11 handoffs.
+The decision is ready when the record names:
+
+- Microsoft control path
+- Owner
+- Evidence location
+- Accepted-when condition
+- Target date
+- Handoff: Application engineering
+
+Note:
+The acceptance test should be observable by the team that receives the handoff.
 
 ---
 
-## Verification and handoff
+## Exception, if any
 
-- [ ] Run remained offline with no tenant access.
-- [ ] Record includes allowed, denied, and approval-required decisions; policy version; attempt details; timestamp; and hashes.
-- [ ] The decision and owner are in the S6 follow-up backlog.
+An exception needs:
 
-S10 makes no tenant, endpoint, code, or policy change. Any assessment or implementation uses a separate engineering and change-review path.
+- Reason and equivalent control
+- Owner and evidence location
+- Acceptance test and target date
+- Review trigger
+
+Note:
+Use an exception for a documented equivalent control with an owner and review trigger.
+
+---
+
+## Close the session
+
+- Decision: approve, defer, reject, or route.
+- Decision owner: Runtime governance owner.
+- Handoff: Application engineering.
+- Boundary: customer data stays in approved systems; production changes use customer change approval.
+
+Note:
+End with the decision record and the named handoff.

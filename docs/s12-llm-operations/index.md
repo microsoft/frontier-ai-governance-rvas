@@ -25,7 +25,7 @@ They leave with:
 - an LLMOps lifecycle canvas covering data curation, experimentation,
   evaluation, validate/deploy, inference, monitoring, and feedback/data
   collection;
-- a named owner, evidence reference, input, output, and decision gate for each
+- a named owner, Microsoft record location, input, output, and decision gate for each
   stage;
 - a safe-reference release manifest for a bounded PRE or PRO candidate;
 - material-change routes that prevent feedback, experiments, and production

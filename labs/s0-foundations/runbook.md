@@ -1,75 +1,44 @@
-# S0 Runbook
+# S0 Foundations & Operating Model Runbook
 
-> **Boundary:** S0 is an offline baseline-and-decision session. Do not run
-> tenant discovery, collect tenant identifiers, or save customer records in this
-> repository.
+Use this runbook to facilitate a customer decision and backlog handoff. The facilitator guides the questions; the customer inspects its Microsoft records and owns all decisions.
 
-## Activity card
+> **Boundary:** Use safe references only. Keep customer identifiers, secrets, prompt text, model outputs, telemetry exports, and live configuration out of this repository.
 
-**90 minutes.** Facilitator runs the method; governance lead performs the
-customer action; executive sponsor is the decision owner; evidence owner keeps
-references in the approved customer system. Entry condition: named sponsor and
-governance lead, a bounded pilot question, and an approved evidence location.
-If an owner or location is missing, record the blocker, owner, and date, then
-stop the affected work.
+## Entry condition
 
-## 1. Set the room and question
+Bring a bounded workload or portfolio slice, the decision owner, implementation owner, evidence owner, and the approved customer records location. If any owner or location is missing, create a blocker backlog item instead of completing the decision.
 
-- [ ] Customer states the priority question, safe offline posture, decision
-  owner, evidence reference location, and stop condition.
+## 1. Inspect the Microsoft control path
 
-## 2. Create the customer copy
+Default Microsoft path: **Cloud Adoption Framework for AI, Well-Architected Framework for AI, and AI Center of Excellence guidance**.
 
-- [ ] Customer creates a dated baseline record and copies the blank
-  `assessment/scorecard.csv`, `coe/operating-model.md`, `coe/raci.csv`, and
-  `templates/technical-decision-record.template.md` there before entering
-  customer information.
-- [ ] Facilitator asks: “What proof supports a maturity score?” and “Who
-  resolves a disagreement?” A template or facilitator note is not evidence.
+Customer action: inspect the customer governance charter, AI CoE/RACI record, control-framework baseline, and approved decision register location. Confirm the record exists, has an accountable owner, names the environment/scope, and can be referenced from the customer record system.
 
-## 3. Customer-led baseline review
+## 2. Complete the work records
 
-- [ ] Customer scores the 39 questions and captures rationale/dissent in its
-  record. Ask: “What observed practice supports this?” and “What is the gap,
-  not the aspiration?”
-- [ ] Record a score or explicitly unanswered question as the result. For a
-  no-result, record the reviewed question, unavailable evidence, scope, and
-  reviewer, do not call it a pass.
-- [ ] For unsupported assessment evidence or an absent required owner, record
-  the limitation/blocker, owner, and review date; do not invent a score.
+- [ ] Copy `templates/technical-decision-record.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
 
-## 4. Generate and interpret the roadmap
+Ask: **Which Microsoft record proves this decision is ready to hand off, and who operates it next?**
 
-- [ ] Customer runs the scorer against its approved copy:
-  ```bash
-  python labs/s0-foundations/assessment/score.py /approved/customer/path/scorecard.csv
-  ```
-  Ask whether its ranking matches risk and dependencies. This output is a
-  recommendation, not an audit verdict.
+## 3. Decide
 
-## 5. Decide and hand off
+Record one result:
 
-- [ ] Decision owner selects the next capability path, records a deferral with
-  owner and review date, or accepts a residual gap based on
-  evidence-supported maturity, risk, owner, and prerequisites. Record the
-  control state as `designed`, `accepted_risk`, or `blocked`; for a deferral,
-  use the decision record's `backlogged` adoption stage.
-- [ ] Record a foundation backlog with the recommended next path, rationale,
-  assumptions, alternatives, evidence gap or reference, owner, customer
-  process, and adoption stage. Use it to route work; do not treat it as
-  approval to deploy or configure Microsoft services.
-- [ ] For each relevant capability track, mark applicability: operating model,
-  Entra/Agent ID, Purview/data governance, platform/gateway/API Center,
-  Copilot Studio/Foundry/Microsoft 365 Copilot extensibility, runtime safety,
-  evaluation/observability, catalog/lifecycle, FinOps, and customer SDLC or
-  release process.
-- [ ] Retain references to the dated baseline, RACI/operating model, scorer
-  output, and decision in the customer system. If the decision owner is absent,
-  mark **deferred** and assign owner/date.
+- **Approve** when the Microsoft control path is present, owned, evidenced, and accepted by the receiving owner.
+- **Defer** when a record, owner, acceptance test, or target date is missing.
+- **Reject** when the proposed path cannot meet the bounded scope.
+- **Route** when another Microsoft control owner must decide first.
 
-- [ ] Register only evidence references and retention/classification metadata
-  in `04-operate/evidence-register.json`; put decision/owner/review date in
-  `04-operate/decision-register.json`.
-- [ ] Handoff names the next owner, any identity or data/compliance dependency,
-  and the blocker path. Do not copy scorecards, roadmaps, names, evidence, or
-  notes into Git.
+## 4. Create implementation backlog
+
+Create a foundation backlog item with selected operating model, baseline framework, accountable owner, acceptance test, target date, and receiving governance process.
+
+Each backlog item must include Microsoft control path, owner, evidence location, accepted when, exception if any, target date, and handoff. Use this row shape:
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Exception | Target date | Handoff |
+|---|---|---|---|---|---|---|---|
+| | Cloud Adoption Framework for AI, Well-Architected Framework for AI, and AI Center of Excellence guidance | | | | | | AI governance lead, executive sponsor, and the next session owner |
+
+## 5. Hand off
+
+Handoff to AI governance lead, executive sponsor, and the next session owner. The receiving owner accepts only the backlog items with clear acceptance tests, target dates, and evidence locations. Keep the final records in the customer-approved system.

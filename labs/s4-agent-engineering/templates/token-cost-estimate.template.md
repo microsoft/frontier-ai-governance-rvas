@@ -1,43 +1,55 @@
-# Token cost estimate record
+# Token Cost Estimate
 
-Copy this blank record into the customer's approved records system. It is an
-estimate and governance aid, not billing evidence, a chargeback calculation,
-or approval to spend.
+Copy this template into the customer's approved records system. Use it to turn the S4 Agent Engineering decision into a Microsoft-platform control record and backlog handoff.
 
-## Workload and budget
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-| Field | Record |
-|---|---|
-| Bounded workload / agent | |
-| Average input tokens: system, context, and user | |
-| Average output tokens | |
-| Context-window utilisation assumption | |
-| Projected volume and review period | |
-| Cost owner and spend-decision owner | |
-
-## Model tier comparison
-
-| Candidate model / tier | Input and output pricing reference | Volume assumption | Estimated period cost | Capability / latency trade-off | Owner |
-|---|---|---|---|---|---|
-| | | | | | |
-| | | | | | |
-
-## Attribution and operating review
+## Scope
 
 | Field | Record |
 |---|---|
-| Project, resource, subscription, and allocation method | |
-| Shared-cost and regional assumptions | |
-| Rate-limited or committed-capacity quota consideration | |
-| Foundry project / model-deployment attribution, if available | |
-| Azure Cost Management or other billing-view reference | |
-| Cost anomaly review trigger | |
-| Operating-review cadence and evidence limitation | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Implementation backlog
+## Microsoft control path
 
-| Backlog item | Applies / N/A / unknown / follow-up | Recommendation and confidence | Evidence reference or gap | Owner | Follow-up customer process |
-|---|---|---|---|---|---|
-| Model-tier and projected-token-cost decision | | | | | Cost / engineering process |
-| Attribution, quota, allocation, and billing-view limitation | | | | | Customer FinOps process |
-| Cost anomaly review and escalation route | | | | | Customer operating process |
+Default path: **Microsoft Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, or a custom Azure app path**.
+
+Inspect: the Foundry agent, Copilot Studio agent, Microsoft 365 Copilot extension, or custom Azure app record plus model deployment, rollout, and release records.
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Microsoft Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, or a custom Azure app path | | | | | agent engineering owner, product owner, platform owner, and release manager |
+
+## Decision and acceptance
+
+| Decision field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create an engineering backlog item for any missing admission criterion, model-selection record, token/cost guardrail, latency budget, rollout gate, or retirement trigger. |
+| Handoff owner and customer process | agent engineering owner, product owner, platform owner, and release manager |
+| Next review trigger | |
+
+## Exception
+
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “select Foundry Agent Service for claims assistant”; evidence location “model-selection record”; accepted when rollout, cost, latency, and retirement gates have owners.

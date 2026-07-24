@@ -1,41 +1,55 @@
-# S9 Catalog Stewardship Record
+# Catalog Stewardship
 
-Copy this blank template into approved records. It documents a review; it does
-not authorize a lifecycle transition, material change, suspension, retirement,
-or decommissioning.
+Copy this template into the customer's approved records system. Use it to turn the S9 Control Plane decision into a Microsoft-platform control record and backlog handoff.
 
-Complete a closeout only after every listed finding has a disposition. A
-reconciliation match is not proof of ownership, approval, or control operation;
-record its bounded scope and source date.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
+
+## Scope
 
 | Field | Record |
 |---|---|
-| Bounded catalog population and review period | |
-| Governance lead / decision owner | |
-| Catalog steward and evidence owner | |
-| Approved evidence location | |
-| Reconciliation reference and coverage limitations | |
-| Review cadence and next review | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Agent and tool stewardship
+## Microsoft control path
 
-| Entry type / identifier | Purpose and parent relationship | Accountable owner | Technical steward | Lifecycle state / review reference | Material-change status / review reference | Closure owner / review reference | Decision or escalation |
-|---|---|---|---|---|---|---|---|
-| | | | | | | | |
-| | | | | | | | |
+Default path: **Microsoft Agent 365, Microsoft Entra Agent ID, Azure API Center, and platform telemetry**.
 
-## Lifecycle and material-change review
+Inspect: the Agent 365 or agent catalog record, Entra Agent ID/workload identity, API Center entry, ownership metadata, telemetry reference, and stewardship cadence.
 
-| Entry identifier | Transition or change in scope | Decision owner | Review reference | Required follow-up | Validation / recurrence check | Exception / escalation |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
 |---|---|---|---|---|---|---|
-| | | | | | | |
+| | Microsoft Agent 365, Microsoft Entra Agent ID, Azure API Center, and platform telemetry | | | | | control-plane steward, identity owner, API platform owner, and portfolio governance |
 
-## Catalog and lifecycle implementation backlog
+## Decision and acceptance
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
-|---|---|---|---|---|---|
-| Agent 365, Entra Agent ID, API Center, or registry reconciliation | | | | | Catalog process |
-| Steward, owner, parent-tool relationship, or lifecycle-state fix | | | | | S1 / S5 / service owner |
-| Material-change, suspension, withdrawal, or retirement route | | | | | Customer change process |
-| Validation, recurrence, exception, or escalation check | | | | | S11 / S13 |
-| Closeout decision, residual risk, or next-review cadence | | | | | Governance process |
+| Decision field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create a control-plane backlog item for each missing catalog record, owner, identity link, API dependency, telemetry pointer, stale record, or review cadence. |
+| Handoff owner and customer process | control-plane steward, identity owner, API platform owner, and portfolio governance |
+| Next review trigger | |
+
+## Exception
+
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “link agent record to API dependency”; evidence location “Agent 365 record and API Center entry”; accepted when steward review shows owner, identity, and telemetry links.

@@ -28,7 +28,7 @@ Suspension stops use while review happens. Retirement ends intended use but keep
 
 ![Reconciled identity records expose lifecycle gaps that route to a steward or change-process backlog.](../assets/diagrams/s9-reconciliation-gap-flow.svg)
 
-S9 compares explicit identity identifiers in the catalog with the normalized identity inventory. It does not infer matches from names, aliases, or nearby fields.
+S9 compares explicit identity identifiers in the catalog with the normalized identity inventory. Accept matches only on explicit identifiers, not names, aliases, or nearby fields.
 
 Unmatched identities, catalog-only entries, missing owners, invalid lifecycle states, unreviewed material changes, and incomplete closure records are findings for accountable owners.
 
@@ -52,7 +52,7 @@ Closeout can happen with owned gaps only when the decision owner records the res
 
 A fleet control plane can show agents, ownership, lifecycle state, and gaps across systems. An in-process control can make a decision inside an agent workflow before a specific tool action.
 
-S9 reconciles fleet-level records and dependencies. It does not infer that a workflow control is installed. It also does not treat a catalog entry as proof of runtime behavior.
+S9 reconciles fleet-level records and dependencies. Accept workflow-control installation and runtime behavior only from their own operating records.
 
 ## Related official references
 

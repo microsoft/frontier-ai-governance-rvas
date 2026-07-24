@@ -79,7 +79,7 @@ path, assumptions, alternatives, and accountable owners.
 Fine-tuning may fit when the customer has a bounded capability gap and approved
 training-data governance. It needs a base-versus-fine-tuned evaluation
 comparison, model-version owner, SDLC route, and release route. S4 records those
-dependencies. It does not train, evaluate, or deploy a model. See the
+dependencies. Training, evaluation, and deployment use later approved work. See the
 [quality, cost, latency, and rollout guide](../reference/quality-cost-latency-guide.md).
 
 ## Latency and cost are governed, not only measured
@@ -87,8 +87,8 @@ dependencies. It does not train, evaluate, or deploy a model. See the
 A latency budget records the user expectation, component limits, coverage limit,
 regression owner, and operating-review route. A token-cost estimate records
 assumptions, model-tier trade-offs, spending owner, allocation limits, and
-FinOps handoff. A trace or price sheet helps the review. It does not make the
-decision alone.
+FinOps handoff. A trace or price sheet helps the review. Accept cost readiness
+only when the decision names the owner, limits, and operating-review route.
 
 Foundry tracing may add context where the customer enables it. Application
 Insights and OpenTelemetry are general telemetry routes. Record the evidence
@@ -168,7 +168,7 @@ tests.
 
 The record should distinguish **planned**, **observed**, **passed**, **failed**,
 and **not applicable**. Offline test evidence proves only the stated test. It
-does not prove live integration, operating effectiveness, or production readiness.
+is accepted only after separate live-integration, operating-effectiveness, and production-readiness checks.
 
 ## Material changes require reapproval
 

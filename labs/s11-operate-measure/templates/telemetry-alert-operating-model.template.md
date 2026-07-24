@@ -1,47 +1,55 @@
-# Telemetry and alert operating model
+# Telemetry Alert Operating Model
 
-Copy this blank model into the approved customer records system. It defines how
-customer-held telemetry can support a decision and response. It does not query
-live data, set thresholds, create alerts, or prove an alert was received.
+Copy this template into the customer's approved records system. Use it to turn the S11 Operate & Measure decision into a Microsoft-platform control record and backlog handoff.
 
-## Scope and telemetry contract
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
+
+## Scope
 
 | Field | Record |
 |---|---|
-| Bounded workload, environment, and review period | |
-| Correlation method / join key | |
-| Population, sampling, retention, and privacy limits | |
-| Evidence owner and approved records location | |
-| Operations, security/SOC, service, and cost owners | |
-| Review cadence and next review | |
-| Decision result: approve / defer / reject / route | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Signal coverage and attribution
+## Microsoft control path
 
-| Signal source | Intended signals / decision use | Population and coverage limit | Correlation or attribution limit | Retention/privacy limit | Source owner | Interpretation owner |
+Default path: **Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit**.
+
+Inspect: the Foundry observability view, Azure Monitor metric/alert, Application Insights trace, Log Analytics query, Cost Management view, and FinOps review record.
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
 |---|---|---|---|---|---|---|
-| Gateway / API Management | | | | | | |
-| Agent host / OpenTelemetry / Application Insights | | | | | | |
-| Model or Foundry traces/evaluation signals | | | | | | |
-| Tool, API, data, or dependency telemetry | | | | | | |
-| Identity, network, or security records | | | | | | |
-| Cost / quota / capacity record | | | | | | |
+| | Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit | | | | | service operations, FinOps owner, platform monitoring, and product owner |
 
-## Alert and response catalogue
+## Decision and acceptance
 
-| Signal or condition | Severity and decision use | Threshold / detection reference | Initial responder | Escalation route | Required correlation/evidence | Suppression or false-positive review | Remediation validation and recurrence check |
-|---|---|---|---|---|---|---|---|
-| Gateway error, latency, or throttling | | | | | | | |
-| Guardrail or policy detection | | | | | | | |
-| Agent/tool/dependency failure | | | | | | | |
-| Identity or authorization anomaly | | | | | | | |
-| Quality, safety, or evaluation regression | | | | | | | |
-| Token, quota, or cost anomaly | | | | | | | |
+| Decision field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create an operations backlog item for missing telemetry, alert threshold, quality/cost/latency review, remediation owner, operating cadence, or FinOps action. |
+| Handoff owner and customer process | service operations, FinOps owner, platform monitoring, and product owner |
+| Next review trigger | |
 
-## Operating follow-up and exceptions
+## Exception
 
-| Finding, drift hypothesis, or exception | Evidence limit / alternative explanation | Accountable owner | Customer change or response process | Validation reference | Expiry / next review | Portfolio-governance route |
-|---|---|---|---|---|---|---|
-| | | | | | | |
+Complete this section only when the Microsoft default is not used.
 
-No row creates an alert, changes a customer system, or approves production.
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “add latency/cost alert for production agent”; evidence location “Azure Monitor alert and Cost Management view”; accepted when operations and FinOps owners accept the cadence.

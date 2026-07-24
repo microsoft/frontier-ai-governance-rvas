@@ -1,40 +1,34 @@
-# S0 Takeaway Kit: Foundations & Operating Model
+# S0 Foundations & Operating Model Work Package
 
-This kit supports one safe, customer-operated action: establish a governance
-maturity baseline and decide the next owned work. It has no tenant connection,
-licensing check, policy, deployment, rollback, or evidence-export function.
+This lab kit is a practical Microsoft-platform work package to baseline the AI governance operating model and route the first owned backlog. It starts with the Microsoft default control path, records the customer decision, and creates implementation backlog items that a named owner can accept.
 
-Start with [runbook.md](runbook.md). Complete all customer records in the
-customer's approved records system or generated delivery workspace; never add a
-completed scorecard, roadmap, names, or evidence to this repository.
+**Microsoft default:** Cloud Adoption Framework for AI, Well-Architected Framework for AI, and AI Center of Excellence guidance.
 
-See [Lab files: scripts and CSV templates](../README.md) before using a CSV or
-running an offline helper.
+Start with [runbook.md](runbook.md). Copy only blank templates into the customer's approved records system, then store completed evidence there.
 
-## Included templates and tools
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-- `assessment/scorecard.csv`: blank 39-question baseline template across the
-  thirteen governance domains.
-- `assessment/score.py`: offline weighted-score and roadmap generator.
-- `assessment/compare.py`: offline baseline-to-exit comparison tool.
-- `coe/operating-model.md` and `coe/raci.csv`: blank ownership templates.
-- `templates/technical-decision-record.template.md`: blank record for the chosen option, alternatives considered, rationale, owner, and adoption stage.
+## Work package outcome
 
-## Baseline schema
+By the end of the kit, the customer has:
 
-The scorecard is a template, not a customer record. Its rows use the following
-schema:
+- inspected the customer governance charter, AI CoE/RACI record, control-framework baseline, and approved decision register location;
+- recorded approve, defer, reject, or route with owner and target date;
+- created backlog for gaps using acceptance tests and a receiving handoff;
+- documented any exception with reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
 
-| Field | Meaning |
+## Included records
+
+| Record | Use |
 |---|---|
-| `domain`, `domain_name` | Stable domain identifier and display name |
-| `question_id`, `question` | Stable assessment question identifier and prompt |
-| `concept_explanation` | Guidance for interpreting the question |
-| `weight` | Positive relative weight used by the offline scorer |
-| `score` | Customer-agreed maturity score: blank or a whole number from `1` to `4` |
+| [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md) | Capture the technical decision record as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
 
-`score.py` requires `domain`, `domain_name`, `question_id`, `weight`, and
-`score`; it does not transmit or store the completed baseline. Save a customer
-copy before entering scores.
+## Additional kit materials
 
-<!-- Verified: static-only: validated in CI (ruff + py_compile + CSV load). -->
+- `coe/operating-model.md`: operating-model canvas for the AI CoE/RACI handoff.
+
+## Handoff
+
+Default handoff goes to AI governance lead, executive sponsor, and the next session owner. Create a foundation backlog item with selected operating model, baseline framework, accountable owner, acceptance test, target date, and receiving governance process.
+
+Example: Work item “approve hub-and-spoke AI governance model”; evidence location “customer decision register FG-001”; accepted when the sponsor signs the RACI and S1/S2 owners accept their backlog.

@@ -1,47 +1,55 @@
-# Runtime control matrix
+# Runtime Control Matrix
 
-Copy this blank matrix into the approved customer records system. It turns a
-selected risk into an explicit control placement, response, and evidence
-expectation. It does not enable a policy, inspect live traffic, or prove that a
-control blocked or allowed a request.
+Copy this template into the customer's approved records system. Use it to turn the S6 Security Runtime decision into a Microsoft-platform control record and backlog handoff.
 
-## Scope and decision
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
+
+## Scope
 
 | Field | Record |
 |---|---|
-| Bounded workload, environment, and route | |
-| Risk/control decision owner | |
-| Platform, security, and operations reviewers | |
-| Gateway-proof reference, if available | |
-| Approved records location and review date | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Risk-to-control matrix
+## Microsoft control path
 
-| Risk or failure mode | Inspection point | Selected control layer | Expected action: block / allow / annotate / escalate | Control owner | Response owner and route | Evidence expected later | Coverage limit / capability caveat |
-|---|---|---|---|---|---|---|---|
-| Unauthorized user or workload access | | Identity / network / gateway | | | | | |
-| Direct prompt injection or harmful input | | Gateway / model / agent | | | | | |
-| Indirect injection from tool or retrieved content | | Agent / tool response | | | | | |
-| Unauthorized or excessive tool action | | Gateway / in-process tool boundary | | | | | |
-| Sensitive-data or PII exposure | | Gateway / model / application | | | | | |
-| Unsafe or ungrounded output | | Model / application / human review | | | | | |
-| Token, rate, or availability abuse | | Gateway / platform | | | | | |
-| Missing correlation or telemetry | | Gateway / application / operations | | | | | |
+Default path: **Azure API Management AI Gateway, Azure AI Content Safety Prompt Shields, Defender for Cloud AI posture, Defender XDR, Sentinel, and Application Insights**.
 
-## Layer interaction and evidence
+Inspect: the APIM AI Gateway policy, Prompt Shields configuration, Defender for Cloud AI posture finding, Defender XDR/Sentinel incident route, and Application Insights correlation fields.
 
-| Control decision | Conflict or bypass scenario | Resolution rule | Correlation / evidence reference | Owner | Review cadence |
-|---|---|---|---|---|---|
-| Gateway and model/agent controls | | | | | |
-| Gateway and in-process tool controls | | | | | |
-| Runtime decision and SOC/operations response | | | | | |
-| Safety/telemetry retention and privacy boundary | | | | | |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Azure API Management AI Gateway, Azure AI Content Safety Prompt Shields, Defender for Cloud AI posture, Defender XDR, Sentinel, and Application Insights | | | | | security engineering, SOC, platform operations, and application owner |
 
-## Follow-up backlog
+## Decision and acceptance
 
-| Backlog item | Applies / N/A / unknown / follow-up | Recommendation and confidence | Evidence reference or gap | Owner | Follow-up customer process |
-|---|---|---|---|---|---|
-| Gateway proof and correlation acceptance | | | | | Customer security and evaluation processes |
-| Policy, guardrail, tool-control, or response routing | | | | | Customer security or platform process |
-| Identity, data, or tool-authority dependency | | | | | Customer identity, data-governance, and tool-governance processes |
-| Alert, retention, operational review, or remediation route | | | | | Customer operating process |
+| Decision field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create a runtime-security backlog item for each missing gateway policy, prompt shield, posture finding owner, detection rule, incident route, or telemetry correlation field. |
+| Handoff owner and customer process | security engineering, SOC, platform operations, and application owner |
+| Next review trigger | |
+
+## Exception
+
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “correlate prompt shield event to Sentinel case”; evidence location “Application Insights operation id and Sentinel incident”; accepted when SOC can trace and triage the event.

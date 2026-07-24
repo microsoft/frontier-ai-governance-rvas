@@ -1,92 +1,72 @@
-# S13 · Portfolio Governance & Continuous Improvement
+# S13 · Portfolio Governance
 
 **Facilitator deck**
 
-Governance lead · Portfolio owner · Risk owner · 90-minute report-only portfolio review
+Microsoft default: **Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the S0 re-baseline**.
 
-## One portfolio decision
-
-> **"What roadmap decision can this review support, and what remains unknown?"**
-
-The output is roadmap priorities and S0 questions to revisit.
-
-On the review date, record **approve, defer, reject, or route**. Keep an
-exception, a risk, and an investment separate. Default to customer-approved
-records with verified Azure/Microsoft references where applicable.
+Concrete decision: **Approve, defer, reject, or route the portfolio re-baseline item.**
 
 ---
 
-## A portfolio is a decision view
+## Start with the Microsoft path
 
-- Use approved references, scope, freshness, and coverage limits to connect decisions across agents.
-- Aggregation does not turn partial evidence into complete coverage or operating-effectiveness proof.
-- Recurring exceptions, shared dependencies, and decision-blocking gaps reveal portfolio pressure only when their effect and owner are known.
+- Default control path: Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the S0 re-baseline.
+- Customer inspects: Inspect Agent 365 and control-plane records, Cost Management summaries, operating evidence from S11, and the S0 baseline scorecard.
+- Decision owner: Portfolio governance owner.
 
----
-
-## Investment, maturity, and policy
-
-- Rank investments by risk, dependency, evidence strength, governance value, effort, timing, and owner readiness.
-- Model-capability proposals need evaluation, cost, data-governance, version, and assurance references.
-- Maturity movement needs the same S0 question, scope, and scale, or a stated change.
-- Policy questions are proposals with an owner and review route, not policy changes.
+Note:
+Open with the default platform path and the decision the customer must make.
 
 ---
 
-## S0 feedback loop
+## Decide with platform records
 
-![Portfolio review feeds a roadmap into the next S0 assessment.](../assets/diagrams/s13-portfolio-to-s0-feedback-loop.svg)
+- Approve when the Microsoft path fits and the acceptance test is clear.
+- Defer when a required record or owner is missing.
+- Reject when the use case cannot meet the control path.
+- Route when an exception owner must accept an equivalent control.
 
-S13 supplies a dated roadmap and reassessment questions. The next S0 review is a separate, evidence-based customer assessment.
-
----
-
-## Entry and boundary
-
-- **Entry:** approved records location; governance, portfolio, and risk owners; S0 baseline and in-scope outcome references; portfolio question, population, and period.
-- **Boundary:** no live systems, raw records, dashboard, policy or production change, funding approval, or compliance conclusion.
-- Missing evidence remains a visible limit; do not replace it with an estimate or aggregate label.
+Note:
+Keep the discussion on records, owners, and acceptance tests.
 
 ---
 
-## Step 1: Set scope · 10 min
+## Acceptance test
 
-Define population, period, decision, records location, and stop condition.
+The decision is ready when the record names:
 
-> **"What portfolio decision can this review support?"**
+- Microsoft control path
+- Owner
+- Evidence location
+- Accepted-when condition
+- Target date
+- Handoff: Executive governance forum
 
----
-
-## Step 2: Aggregate references · 15 min
-
-Enter only references, scope, freshness, coverage, limits, and interpretation owner.
-
-> **"What does this cover and exclude?"**
-
----
-
-## Step 3: Exceptions and maturity · 35 min
-
-Record recurring, cross-scope, or decision-blocking exceptions with owner,
-dependency, disposition, acceptance evidence, target date, and route. Keep risk
-assessment and investment proposals in their own records. Compare relevant
-observations with S0, then capture any policy question as a proposal.
+Note:
+The acceptance test should be observable by the team that receives the handoff.
 
 ---
 
-## Step 4: Prioritize and decide · 30 min
+## Exception, if any
 
-Rank a small candidate set, then approve, defer, or reject priorities. Assign owners, dates, remaining-risk dispositions, next governance review, and the S0 domains or questions to reassess.
+An exception needs:
+
+- Reason and equivalent control
+- Owner and evidence location
+- Acceptance test and target date
+- Review trigger
+
+Note:
+Use an exception for a documented equivalent control with an owner and review trigger.
 
 ---
 
-## Verification and handoff
+## Close the session
 
-- [ ] Portfolio scope, owners, period, and records location are explicit.
-- [ ] Aggregated items preserve reference, scope, freshness, limit, and interpretation owner.
-- [ ] Material exceptions, maturity items, policy questions, and priorities have support and decision status.
-- [ ] Roadmap names the next review and S0 reassessment.
+- Decision: approve, defer, reject, or route.
+- Decision owner: Portfolio governance owner.
+- Handoff: Executive governance forum.
+- Boundary: customer data stays in approved systems; production changes use customer change approval.
 
-S13 remains report-only. The portfolio roadmap explicitly hands off to the next
-S0 review, customer funding, or policy ownership; funding, policy,
-implementation, and assurance use separate customer authority.
+Note:
+End with the decision record and the named handoff.

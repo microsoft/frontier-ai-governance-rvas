@@ -1,52 +1,55 @@
-# Technical decision record
+# Technical Decision Record
 
-Copy this blank record into the customer's approved records system. It captures a
-customer-owned portfolio technical decision, the options considered, and the
-adoption stage. It does not create a dashboard, change production, alter policy,
-approve funding, or certify compliance.
+Copy this template into the customer's approved records system. Use it to turn the S13 Portfolio Governance decision into a Microsoft-platform control record and backlog handoff.
 
-Use the [technical-decisions guidance](../../../docs/s13-portfolio-governance/technical.md)
-for the portfolio-reporting, prioritization/reinvestment, and
-continuous-improvement option menus and selection criteria.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-## Decision
+## Scope
 
 | Field | Record |
 |---|---|
-| Decision under review | ‹e.g. portfolio reporting pattern / prioritization model / improvement cadence› |
-| Portfolio scope and review period | |
-| Decision owner and date | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Options considered
+## Microsoft control path
 
-| Option | Fit for this scope | Key trade-off / limitation | Chosen? (yes / no / deferred) |
-|---|---|---|---|
-| Executive scorecard or dashboard | | | |
-| Control-register rollup from prior operating reviews | | | |
-| Reports from governance evidence references | | | |
-| Risk-weighted prioritization | | | |
-| Value- and adoption-weighted prioritization | | | |
-| Maturity-gap-driven prioritization | | | |
-| Continuous-improvement cadence and metrics | | | |
+Default path: **Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the S0 re-baseline**.
 
-## Chosen option and rationale
+Inspect: Agent 365/control-plane inventory, exception register, Azure Cost Management view, operating evidence from S11, roadmap, and S0 baseline record.
 
-| Field | Record |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the S0 re-baseline | | | | | portfolio governance board, finance/FinOps owner, control-plane steward, and session owners |
+
+## Decision and acceptance
+
+| Decision field | Record |
 |---|---|
-| Selected option(s) | |
-| Result: approve / defer / reject / route | |
-| Rationale (criteria that decided it) | |
-| Alternatives rejected or deferred and why | |
-| Named sponsor / owner | |
-| Dependencies (relevant prior decisions, maturity baseline, exception register, evidence references) | |
-| Verified-status caveat (availability / licensing checked on) | |
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create a portfolio-governance backlog item for each unowned exception, stale control-plane record, unfunded roadmap item, missing operating evidence, or re-baseline trigger. |
+| Handoff owner and customer process | portfolio governance board, finance/FinOps owner, control-plane steward, and session owners |
+| Next review trigger | |
 
-## Adoption progress
+## Exception
 
-| Field | Record |
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
 |---|---|
-| Adoption stage (decided / backlogged / in adoption) | |
-| Relevant prior decisions and adoption-progress records aggregated | |
-| Maturity domains or questions to reassess | |
-| Next roadmap item, owner, acceptance evidence, and target date | |
-| Review date and portfolio roadmap reference | |
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “close expired exception EX-007”; evidence location “exception register and roadmap item”; accepted when owner, funding decision, target date, and re-baseline impact are recorded.

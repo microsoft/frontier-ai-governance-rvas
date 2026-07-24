@@ -1,19 +1,17 @@
 # Facilitate the decision
 
-**Decision question:** For this workload and period, which **signal source,
-attribution method, alert route, and closure route** should the operating review
-use? Record **approve, defer, reject, or route**.
+**Decision to produce:** Approve, defer, reject, or route the operating measurement path.
 
-| Phase | Time | Safe output |
-|---|---:|---|
-| Set scope | 10 min | Workload, period, owner, evidence reference, and coverage limit. |
-| Map signal and attribution | 25 min | Source, correlation/attribution limit, alert owner, and route. |
-| Test closure design | 25 min | Finding owner, validation, recurrence check, exception/closure route. |
-| Decide and hand off | 30 min | Decision, acceptance evidence, target date, and S7/S12/S13 handoffs. |
+| Step | Prompt | Output |
+|---|---|---|
+| 1 | Which record did we inspect for Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit? | Platform record named. |
+| 2 | What is today's decision: approve, defer, reject, or route? | One decision selected. |
+| 3 | What acceptance test proves the decision is ready? | Acceptance test written as an observable condition. |
+| 4 | Is there an exception; if yes, who owns it and when is it reviewed? | Exception recorded or marked none. |
+| 5 | Who receives the handoff: SRE and FinOps or another named owner? | Named handoff owner and next meeting/process. |
 
-**Azure/Microsoft default:** use Azure Monitor/Application Insights with
-OpenTelemetry for customer application paths; add Microsoft Foundry
-observability where it is available and covers the Foundry workload. Use an
-exception only when a customer-approved source provides the needed signal with
-documented coverage, retention, attribution, and owner. Verify availability and
-configuration; do not claim an alert or telemetry configuration exists.
+Default to **Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit**. For an exception, record: reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
+
+Close with this sentence: **“Service operations owner owns the decision record; SRE and FinOps receives the handoff when the acceptance test is met.”**
+
+**Boundary:** Keep the session to decision records and customer-approved evidence locations.

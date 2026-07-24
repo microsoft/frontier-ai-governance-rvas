@@ -1,54 +1,55 @@
-# Technical decision record
+# Technical Decision Record
 
-[S7 Technical decisions](../../../docs/s7-evaluation/technical.md) is the option
-menu for evaluation approach, release-gate mechanism, and performance evidence.
+Copy this template into the customer's approved records system. Use it to turn the S7 Evaluation decision into a Microsoft-platform control record and backlog handoff.
 
-Copy this blank record into the customer's approved records system. It captures a
-customer-owned release-assurance technical decision, the options considered, and
-the adoption stage. It does not run an evaluator, configure CI/CD, query
-telemetry, change a control, or approve production.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-## Decision
+## Scope
 
 | Field | Record |
 |---|---|
-| Decision under review | ‹e.g. evaluation approach / release gate / performance evidence path› |
-| Bounded release or workload scope | |
-| Decision owner and date | |
-| S6 proof and evaluation-plan references | |
-| Plain result (approve / defer / reject / route) | |
-| Evidence references and acceptance criteria | |
-| Target date and handoff (S8 and/or S11) | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Options considered
+## Microsoft control path
 
-| Option | Fit for this scope | Key trade-off / limitation | Chosen? (yes / no / deferred) |
-|---|---|---|---|
-| Azure AI Foundry evaluators / agent evaluators (verify status and scope) | | | |
-| Manual annotation / customer scorers | | | |
-| Policy-scenario assertion suites | | | |
-| Manual S7 assurance sign-off | | | |
-| Cloud evaluation in CI/CD / continuous evaluation (verify status and scope) | | | |
-| Synthetic load / production telemetry / both (verify service/source status) | | | |
+Default path: **Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing where applicable**.
 
-## Chosen option and rationale
+Inspect: the Foundry evaluation run, evaluator/scorer configuration, dataset/scenario reference, CI/CD gate, release decision, and Azure Load Testing record when applicable.
 
-| Field | Record |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing where applicable | | | | | evaluation owner, QA/release owner, model or agent owner, and operations owner |
+
+## Decision and acceptance
+
+| Decision field | Record |
 |---|---|
-| Selected option(s) | |
-| Rationale (criteria that decided it) | |
-| Alternatives rejected or deferred and why | |
-| Threshold, SLO, or interpretation owner | |
-| Dependencies (S8 red team, S11 production review, release/change process) | |
-| Verified-status caveat (availability / region / quota / pricing checked on) | |
-| Exception owner, reason, compensating review, and re-entry criteria | |
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create an evaluation backlog item for missing scenarios, scoring thresholds, owner review, CI/CD gate, load-test coverage, or release decision evidence. |
+| Handoff owner and customer process | evaluation owner, QA/release owner, model or agent owner, and operations owner |
+| Next review trigger | |
 
-## Adoption progress
+## Exception
 
-| Field | Record |
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
 |---|---|
-| Adoption stage (decided / backlogged / in adoption) | |
-| S0 evaluation dimension advanced | |
-| Next step and owner (customer release or engineering process) | |
-| Evidence reference and approved records location | |
-| Review date and S13 portfolio reference | |
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “gate release on safety and groundedness eval”; evidence location “Foundry evaluation run”; accepted when thresholds, owner signoff, and CI gate are recorded.

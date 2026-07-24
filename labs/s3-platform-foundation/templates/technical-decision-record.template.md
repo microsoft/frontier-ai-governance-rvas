@@ -1,64 +1,55 @@
-[S3 Technical decisions](../../../docs/s3-platform-foundation/technical.md)
+# Technical Decision Record
 
-# Technical decision record
+Copy this template into the customer's approved records system. Use it to turn the S3 Platform Foundation decision into a Microsoft-platform control record and backlog handoff.
 
-Copy this blank record into the customer's approved records system. It captures
-a customer-owned platform decision, the options considered, and the adoption
-stage. It does not deploy, configure, connect to, test, or approve production.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-## Decision
+## Scope
 
 | Field | Record |
 |---|---|
-| Decision under review | ‹e.g. platform topology / network isolation / governance hub placement› |
-| Bounded workload or platform scope | |
-| Decision owner and date | |
-| Verified-status caveat (availability / licensing checked on) | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Options considered
+## Microsoft control path
 
-| Option | Fit for this scope | Key trade-off / limitation | Chosen? (yes / no / deferred) |
-|---|---|---|---|
-| New landing-zone platform using an approved reference pattern | | | |
-| Integrate into an existing landing zone | | | |
-| Per-team platforms | | | |
-| Public endpoints behind a gateway only | | | |
-| Private endpoints / VNet integration | | | |
-| Hub-and-spoke private networking | | | |
-| AI Hub Gateway (Azure API Management) + Azure API Center registry | | | |
-| Existing API management estate | | | |
-| No central gateway yet | | | |
+Default path: **Azure landing zones, Microsoft Foundry, Azure API Management AI Gateway or Citadel-aligned gateway, private networking, and Azure Monitor**.
 
-## Chosen option and rationale
+Inspect: the landing-zone subscription/resource group, Foundry project, API gateway configuration, private networking route, Azure Policy assignment, and Azure Monitor workspace.
 
-| Field | Record |
-|---|---|
-| Selected option(s) | |
-| Rationale (criteria that decided it) | |
-| Alternatives rejected or deferred and why | |
-| Assumptions and evidence references | |
-| Named platform / security / change owner | |
-| Dependencies (governance baseline, runtime assurance, lifecycle catalog, portfolio review) | |
-| Verified-status caveat (availability / licensing checked on) | |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Azure landing zones, Microsoft Foundry, Azure API Management AI Gateway or Citadel-aligned gateway, private networking, and Azure Monitor | | | | | cloud platform team, network/security team, and application delivery owner |
 
-## Adoption progress
+## Decision and acceptance
 
-| Stage | Maturity dimension | Next action + owner | Review date + portfolio reference |
-|---|---|---|---|
-| Decided | Platform foundation / trust boundary | | |
-| Backlogged | Platform implementation backlog | | |
-| In adoption | Evidence reconciliation / portfolio tracking | | |
-
-## Safe reference and handoff
-
-| Field | Record |
+| Decision field | Record |
 |---|---|
 | Result (approve / defer / reject / route) | |
-| Evidence reference or stated gap | |
-| Acceptance criterion | |
-| Accountable owner | |
-| Target date | |
-| Handoff recipient and customer process | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create a platform-foundation backlog item for each missing boundary control, environment separation, network route, policy assignment, monitor, or runtime handoff. |
+| Handoff owner and customer process | cloud platform team, network/security team, and application delivery owner |
+| Next review trigger | |
 
-This reference is not evidence of a deployed control and does not approve a
-customer-system change or production.
+## Exception
+
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “route PRE inference through APIM AI Gateway”; evidence location “APIM policy record”; accepted when PRE traffic has private network, policy, and monitor references.

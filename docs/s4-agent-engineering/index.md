@@ -27,7 +27,7 @@ They leave with:
 
 The customer keeps the implementation decision package in its approved records
 system. `labs/s4-agent-engineering/` provides blank offline templates and the
-runbook. It does not hold customer code, data, credentials, integration settings,
+runbook. Keep customer code, data, credentials, integration settings,
 deployment steps, or production approval.
 
 ### Plain decision
@@ -67,7 +67,7 @@ security, change, release, and production approval remain customer processes.
 
 You do not need source code, a live integration, endpoint access, tenant changes,
 or a production environment. You may use product documentation to decide the path
-and backlog. Do not run deployment steps in this session.
+and backlog. Deployment steps stay in the customer's delivery process.
 
 ## 3. Why this session matters
 
@@ -82,9 +82,9 @@ Foundry Agent Service example, evidence rules, material changes, and retirement.
 
 !!! warning "Evidence-first, report-only boundary"
     This 90-minute session reviews customer-held evidence and records references
-    and decisions only. Do not generate or change customer code, configure
-    Microsoft services, connect to live systems, run integrations, publish an
-    agent, or grant production approval.
+    and decisions only. Customer code generation or changes, Microsoft service
+    configuration, live connections, integrations, agent publication, and
+    production approval stay in the customer's delivery process.
 
 **Roles:** the facilitator keeps the method and boundary; the engineering owner
 explains the candidate; the service owner accepts operational ownership; the
@@ -94,7 +94,7 @@ when their requirements apply.
 
 **Entry condition:** the candidate has a purpose, intended users, proposed
 authority boundary, owners, and an approved records location. If one is missing,
-record the dependency and stop that decision. Do not infer it.
+record the dependency and stop that decision. Acceptance waits for the missing record.
 
 **What the customer actually does:** the customer reviews one agent candidate,
 chooses the right Microsoft implementation path, and decides whether it can enter
@@ -102,8 +102,8 @@ the next controlled lifecycle stage.
 
 | Activity | Time | Customer action | Facilitator prompts and interpretation |
 |---|---:|---|---|
-| Set the scope and stop condition | 10 min | State the candidate's purpose, users, intended outcome, excluded use, and decision needed. | **"What exactly are we reviewing, and what would make us stop?"** A vague candidate is blocked. Do not broaden the session to make it fit. |
-| Classify the candidate | 10 min | Choose the closest authority archetype and describe the tool/action boundary, human involvement, and escalation path. | **"Does it advise, ask a person to confirm, act inside a fixed boundary, or coordinate other actions?"** If the authority is unclear, record an unclassified finding. Do not admit it. |
+| Set the scope and stop condition | 10 min | State the candidate's purpose, users, intended outcome, excluded use, and decision needed. | **"What exactly are we reviewing, and what would make us stop?"** A vague candidate is blocked; keep the session scope fixed. |
+| Classify the candidate | 10 min | Choose the closest authority archetype and describe the tool/action boundary, human involvement, and escalation path. | **"Does it advise, ask a person to confirm, act inside a fixed boundary, or coordinate other actions?"** If the authority is unclear, record an unclassified finding and hold admission. |
 | Compare Microsoft implementation paths | 20 min | Complete the six-path matrix: Copilot Studio, Foundry Agent Service, custom Azure service, Microsoft 365 Copilot extensibility, workflow automation, or research/prototype. | **"Which path fits the users, authority, data boundary, engineering owner, and operating model?"** Use the [Technical decisions](technical.md) path matrix for selection criteria and trade-offs. Record the recommendation, confidence, assumptions, and rejected alternatives. |
 | Build the selected-path backlog | 20 min | For the recommended path, record configuration rows, owners, dependencies, evidence references, and the customer process that will handle each item. | **"What must the customer configure, validate, or approve next?"** For Foundry Agent Service, cover project/model, agent type, tools, identity, runtime controls, telemetry, evaluation, red-team, catalog, and change process. Where in scope, use the model-selection, latency-budget, and token-cost-estimate records to name the owner and limitation. |
 | Review cross-cutting governance services | 15 min | Mark each relevant governance surface as applies, does not apply, unknown, or needs action outside this session. | **"Which product control or customer process must review this path?"** Consider Entra/Agent ID, Purview, telemetry, Foundry observability, Content Safety, Power Platform DLP, M365 Copilot governance, Agent 365, API Center, and customer change records. Consideration is required; deployment is not. |
@@ -139,8 +139,8 @@ production readiness.
 |---|---|
 | Purpose, authority boundary, classification, recommended implementation path, or required owner is missing | Stop the admission decision. Record the missing item, owner, target date, and lifecycle activity that cannot proceed. |
 | A participant requests code generation, tenant configuration, live connection, deployment execution, or production approval | Stop that request in this session. Create a separate customer-owned engineering or change item under the right process. |
-| Test evidence is incomplete, fails, or does not cover the claimed authority | Record the limitation and decision dependency. Do not treat a planned, partial, or failed test as an admission pass. |
-| A material change is already proposed or the candidate is no longer needed | Require reapproval before the change, or route to the retirement process. Do not carry forward admission by assumption. |
+| Test evidence is incomplete, fails, or does not cover the claimed authority | Record the limitation and decision dependency. Accept admission only after passing, in-scope test evidence. |
+| A material change is already proposed or the candidate is no longer needed | Require reapproval before the change, or route to the retirement process. Admission ends unless reapproved. |
 
 ## 5. Verification & evidence capture
 

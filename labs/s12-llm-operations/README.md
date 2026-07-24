@@ -1,27 +1,32 @@
-# S12 Takeaway Kit: LLMOps lifecycle
+# S12 LLMOps Lifecycle Work Package
 
-This offline kit turns an LLMOps decision into a customer-owned implementation
-handoff. It covers the Microsoft LLMOps inner loop (data curation,
-experimentation, evaluation) and outer loop (validate/deploy, inference,
-monitoring, feedback/data collection). Azure services support the workflow but
-do not replace its gates, evidence, and ownership.
+This lab kit is a practical Microsoft-platform work package to preserve the Microsoft LLMOps inner/outer loop with safe references, gates, and handoffs. It starts with the Microsoft default control path, records the customer decision, and creates implementation backlog items that a named owner can accept.
 
-**Decision:** does this bounded workload have a controlled inner and outer
-loop? Record approve, defer, reject, or route. Default to protected source and
-customer change control, Foundry evaluation/observability where supported, and
-Azure Monitor/Application Insights for operations. Exceptions need a verified
-service, owner, evidence limit, acceptance evidence, and target date.
+**Microsoft default:** Microsoft Learn LLMOps lifecycle: data curation, experimentation, evaluation, validate/deploy, inference, monitor, and feedback/data collection.
 
-Start with [runbook.md](runbook.md). Copy templates to the customer's approved
-records system and retain approved references only. The kit does not ingest data,
-change models/prompts, run evaluations, configure services, access live
-telemetry, or approve production.
+Start with [runbook.md](runbook.md). Copy only blank templates into the customer's approved records system, then store completed evidence there.
 
-| Template | Use |
+> **Safety boundary:** Use safe references only. Do not enter prompt text, model outputs, customer data, secrets, live configuration, telemetry exports, or personal data in this repository.
+
+## Work package outcome
+
+By the end of the kit, the customer has:
+
+- inspected the data-curation record, experiment/candidate artifact, Foundry evaluation, validate/deploy release record, inference route, Azure Monitor/Application Insights signal, and governed feedback route;
+- recorded approve, defer, reject, or route with owner and target date;
+- created backlog for gaps using acceptance tests and a receiving handoff;
+- documented any exception with reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
+
+## Included records
+
+| Record | Use |
 |---|---|
-| [`templates/model-prompt-operations-register.template.md`](templates/model-prompt-operations-register.template.md) | Map all seven lifecycle stages and record the candidate release manifest. |
-| [`templates/operating-model-material-change-decision.template.md`](templates/operating-model-material-change-decision.template.md) | Apply stage gates and route lifecycle changes to S2/S4/S7/S11/platform/change owners. |
-| [`templates/incident-rollback-retirement-plan.template.md`](templates/incident-rollback-retirement-plan.template.md) | Define monitoring, feedback-to-curation, incident, rollback, deprecation, and retirement routes. |
+| [`templates/incident-rollback-retirement-plan.template.md`](templates/incident-rollback-retirement-plan.template.md) | Capture the incident rollback retirement plan as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/model-prompt-operations-register.template.md`](templates/model-prompt-operations-register.template.md) | Capture the model prompt operations register as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/operating-model-material-change-decision.template.md`](templates/operating-model-material-change-decision.template.md) | Capture the operating model material change decision as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
 
-The templates contain safe references, not raw data, prompt content, model
-outputs, secrets, live configuration, or authority to proceed.
+## Handoff
+
+Default handoff goes to data owner, experiment owner, evaluation owner, platform/change owner, service operations, and governance owner. Create an LLMOps backlog item for each lifecycle stage missing an owner, gate, Microsoft record location, rollback route, feedback-to-curation control, or target date.
+
+Example: Work item “connect feedback to curated dataset review”; evidence location “feedback queue and S2 data-curation record”; accepted when no production observation mutates prompts or data without gate review.

@@ -13,11 +13,11 @@ recorded; it is not proof of a product configuration or portfolio coverage.
 
 ## Evidence keeps its limits when aggregated
 
-An evidence reference supports only the observation and scope it describes.
+An Azure, Entra, Purview, Foundry, Monitor, or Agent 365 record supports only the observation and scope it describes.
 Freshness, exclusions, collection limits, and interpretation ownership must stay
 with it.
 
-Combining partial references does not prove complete coverage, operating
+Combining partial references is accepted only for the covered scope; operating
 effectiveness, or a portfolio-wide conclusion.
 
 ## Exceptions expose concentrations and dependencies
@@ -65,7 +65,7 @@ Identifying the question does not approve new policy or change existing policy.
 
 ![Portfolio review turns records, exceptions, and risks into a roadmap that feeds the next S0 assessment.](../assets/diagrams/s13-portfolio-to-s0-feedback-loop.svg)
 
-The portfolio roadmap feeds the next S0 assessment. It does not replace it. S0
+The portfolio roadmap feeds the next S0 assessment. S0
 reassesses selected domains with customer-held evidence and a fresh decision.
 
 This keeps the improvement loop honest: observe, interpret, decide, act through
@@ -111,7 +111,7 @@ Portfolio learning is the feedback step in the Policy-Control-Visibility-Proof
 loop. It can identify repeated evidence gaps, exception patterns, or a policy
 question that needs an owner.
 
-It does not automatically change policy. Each proposed change still needs scope,
+Policy changes still need scope,
 reason, approval, implementation, and a later evidence review.
 
 See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)

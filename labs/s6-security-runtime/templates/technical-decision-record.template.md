@@ -1,53 +1,55 @@
-[Technical-decision guide](../../../docs/s6-security-runtime/technical.md)
+# Technical Decision Record
 
-# Technical decision record
+Copy this template into the customer's approved records system. Use it to turn the S6 Security Runtime decision into a Microsoft-platform control record and backlog handoff.
 
-Copy this blank record into the customer's approved records system. It captures a
-customer-owned runtime-assurance decision, the options considered, and the
-adoption stage. It does not configure a gateway, enable a security product,
-change traffic, or approve production.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-## Decision
+## Scope
 
 | Field | Record |
 |---|---|
-| Decision under review | ‹runtime safety placement / threat-response route / gateway correlation evidence› |
-| Bounded agent or workload scope | |
-| Decision owner and date | |
-| Plain result (approve / defer / reject / route) | |
-| Evidence references and acceptance criteria | |
-| Target date and handoff (S7 and/or S9) | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Options considered
+## Microsoft control path
 
-| Option | Fit for this scope | Key trade-off / limitation | Chosen? (yes / no / deferred) |
-|---|---|---|---|
-| Runtime safety: gateway enforcement | | | |
-| Runtime safety: in-application enforcement | | | |
-| Runtime safety: defense in depth | | | |
-| Threat response: Defender for Cloud + Defender XDR / SOC | | | |
-| Threat response: gateway telemetry alerting | | | |
-| Threat response: custom pipeline or manual pilot review | | | |
-| Correlation evidence: gateway / application / both / insufficient | | | |
+Default path: **Azure API Management AI Gateway, Azure AI Content Safety Prompt Shields, Defender for Cloud AI posture, Defender XDR, Sentinel, and Application Insights**.
 
-## Chosen option and rationale
+Inspect: the APIM AI Gateway policy, Prompt Shields configuration, Defender for Cloud AI posture finding, Defender XDR/Sentinel incident route, and Application Insights correlation fields.
 
-| Field | Record |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Azure API Management AI Gateway, Azure AI Content Safety Prompt Shields, Defender for Cloud AI posture, Defender XDR, Sentinel, and Application Insights | | | | | security engineering, SOC, platform operations, and application owner |
+
+## Decision and acceptance
+
+| Decision field | Record |
 |---|---|
-| Selected option(s) | |
-| Rationale (criteria that decided it) | |
-| Alternatives rejected or deferred and why | |
-| Runtime assurance evidence reference | |
-| Response owner and SLA / review route | |
-| Verified-status caveat (capability availability checked on) | |
-| Exception owner, reason, compensating control, and re-review trigger | |
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create a runtime-security backlog item for each missing gateway policy, prompt shield, posture finding owner, detection rule, incident route, or telemetry correlation field. |
+| Handoff owner and customer process | security engineering, SOC, platform operations, and application owner |
+| Next review trigger | |
 
-## Adoption progress
+## Exception
 
-| Field | Record |
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
 |---|---|
-| Adoption stage (decided / backlogged / in adoption) | |
-| Capability area improved | |
-| Next step and owner (security / platform / SOC / identity / change process) | |
-| Gateway-proof reference, if used | |
-| Review date and portfolio reference, if used | |
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “correlate prompt shield event to Sentinel case”; evidence location “Application Insights operation id and Sentinel incident”; accepted when SOC can trace and triage the event.

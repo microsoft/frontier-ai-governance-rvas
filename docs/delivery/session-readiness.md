@@ -50,7 +50,10 @@ Before relying on a Microsoft product, confirm the customer has the required
 tenant, licensing, region, and supported workload. If the product does not fit,
 record the limitation and use an equivalent customer control or defer the
 session. The [Governance capability guide](../reference/governance-capability-guide.md)
-lists product-specific checks.
+lists product-specific checks. The
+[Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md)
+defines the default control path, exception rule, and acceptance-test fields
+each session should use.
 
 ## Record a blocker simply
 

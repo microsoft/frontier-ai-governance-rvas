@@ -1,54 +1,32 @@
-# S6 Takeaway Kit: Security Runtime
+# S6 Security Runtime Work Package
 
-S6 produces one runtime proof: a redacted record that a
-customer-operated non-production request reached the approved gateway path.
-It does not deploy, configure, or directly call Content Safety.
+This lab kit is a practical Microsoft-platform work package to connect prompt, gateway, posture, detection, telemetry, and incident controls for runtime operation. It starts with the Microsoft default control path, records the customer decision, and creates implementation backlog items that a named owner can accept.
 
-**Decision:** approve, defer, reject, or route the gateway, application, or
-defense-in-depth design. The default is Microsoft Entra plus an approved
-gateway/APIM route and supported Azure AI controls where verified. An exception
-needs an owner, reason, compensating evidence, acceptance criteria, target date,
-and S7/S9 handoff.
+**Microsoft default:** Azure API Management AI Gateway, Azure AI Content Safety Prompt Shields, Defender for Cloud AI posture, Defender XDR, Sentinel, and Application Insights.
 
-See [Lab files: scripts and CSV templates](../README.md) before running the
-gateway helper.
+Start with [runbook.md](runbook.md). Copy only blank templates into the customer's approved records system, then store completed evidence there.
 
-## Customer action
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-Follow [the runbook](runbook.md) to run
-`scripts/test_gateway_prompt_shield.sh` through the approved gateway. The
-adapter writes only the manifest defined by
-[`contracts/gateway-proof.schema.json`](../../contracts/gateway-proof.schema.json);
-it never writes prompts, documents, endpoint values, credentials, telemetry, or
-gateway responses.
+## Work package outcome
 
-Use
-[`templates/gateway-correlation-review.template.md`](templates/gateway-correlation-review.template.md)
-in the approved customer records system to record platform and security
-reviewer interpretation of the manifest, telemetry correlation, and acceptance
-decision. Use
-[`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md)
-to record the runtime-safety, threat-response, and gateway-correlation option
-selected, the rationale, and the adoption stage.
+By the end of the kit, the customer has:
 
-Use `templates/runtime-control-matrix.template.md` to assign each relevant risk
-to a selected identity/network, gateway, model/agent, or tool boundary; record
-the expected action, control/response owner, evidence expectation, and
-capability limit. It complements rather than replaces the gateway-proof review.
+- inspected the APIM AI Gateway policy, Prompt Shields configuration, Defender for Cloud AI posture finding, Defender XDR/Sentinel incident route, and Application Insights correlation fields;
+- recorded approve, defer, reject, or route with owner and target date;
+- created backlog for gaps using acceptance tests and a receiving handoff;
+- documented any exception with reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
 
-## Workshop alignment
+## Included records
 
-Use the [S6 practical activity](../../docs/s6-security-runtime/practical.md)
-to establish roles, the 90-minute timebox, entry condition, interpretation, and
-decision before following this runbook. The customer platform operator performs
-the request; customer platform and security reviewers, not the facilitator,
-correlate it and decide whether the canonical gateway proof is accepted.
+| Record | Use |
+|---|---|
+| [`templates/gateway-correlation-review.template.md`](templates/gateway-correlation-review.template.md) | Capture the gateway correlation review as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/runtime-control-matrix.template.md`](templates/runtime-control-matrix.template.md) | Capture the runtime control matrix as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md) | Capture the technical decision record as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
 
-## Using the proof record
+## Handoff
 
-The customer platform and security owners correlate the manifest's
-`correlation_id` with their gateway telemetry and record an accept, reject, or
-blocked decision in their approved evidence system. Only an accepted, `pass`
-gateway proof may be cited in an agent-admission decision. Keep the technical
-decision record with the customer's approved evidence. Do not commit the
-manifest or customer records to this repository.
+Default handoff goes to security engineering, SOC, platform operations, and application owner. Create a runtime-security backlog item for each missing gateway policy, prompt shield, posture finding owner, detection rule, incident route, or telemetry correlation field.
+
+Example: Work item “correlate prompt shield event to Sentinel case”; evidence location “Application Insights operation id and Sentinel incident”; accepted when SOC can trace and triage the event.

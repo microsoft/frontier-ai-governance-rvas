@@ -1,9 +1,9 @@
 # What customers get from the curriculum
 
 AI Governance Platform helps a customer turn one bounded AI-agent question into
-owned work. It does not replace architecture, security, change, or funding
-processes. It gives those processes clearer decisions, evidence references, and
-owners.
+owned work. Architecture, security, change, and funding processes keep their
+authority; the curriculum gives them clearer decisions, evidence references,
+and owners.
 
 ## The journey
 

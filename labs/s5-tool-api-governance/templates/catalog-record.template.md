@@ -1,35 +1,55 @@
-# Catalog record: offline template
+# Catalog Record
 
-> Store this completed record in the approved customer records system. References
-> only; do not include credentials, endpoints, payloads, raw logs, or customer data.
+Copy this template into the customer's approved records system. Use it to turn the S5 Tool & API Governance decision into a Microsoft-platform control record and backlog handoff.
+
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
+
+## Scope
 
 | Field | Record |
 |---|---|
-| Candidate identifier and type (API, tool, or MCP service) | |
-| Version and material-change boundary | |
-| Intended purpose and consumers | |
-| Customer source reference and checked scope | |
-| Catalog owner / technical owner / decision owner | |
-| Proposed name and confusion check | |
-| Workspace or namespace decision and rationale | |
-| Classification reference; allowed and restricted data categories | |
-| Caller identity reference and authentication expectation | |
-| Authority scope: allowed actions, resource boundary, constraints | |
-| Prohibited actions and exception or escalation route | |
-| Lifecycle state and next review date | |
-| Suspension trigger and withdrawal path | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-**Unknowns and gaps:**
+## Microsoft control path
 
-**Record owner and last review date:**
+Default path: **Azure API Center, Azure API Management, Entra/JWT, access contracts, connector governance, and MCP publication controls**.
 
-## Tool/API implementation backlog
+Inspect: the API Center entry, APIM product/API policy, Entra app/JWT validation, access contract, connector approval, and MCP publication record.
 
-| Backlog item | Applies / N/A / unknown / follow-up | Recommendation and confidence | Evidence reference or gap | Owner | Follow-up customer process |
-|---|---|---|---|---|---|
-| API Center, catalog, workspace, or namespace registration | | | | | Customer catalog process |
-| Gateway/APIM route, access contract, or backend policy | | | | | Customer platform and security processes |
-| Caller identity, authentication, RBAC, or OBO boundary | | | | | Customer identity process |
-| MCP service, connector, tool, function, or API implementation path | | | | | Customer SDLC |
-| Versioning, material-change boundary, suspension, or withdrawal route | | | | | Customer change process |
-| Runtime evidence, safety control, or telemetry dependency | | | | | Customer security and operating processes |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Azure API Center, Azure API Management, Entra/JWT, access contracts, connector governance, and MCP publication controls | | | | | API platform owner, tool owner, identity owner, and consuming-agent owner |
+
+## Decision and acceptance
+
+| Decision field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create a tool/API backlog item for missing catalog metadata, owner, auth contract, APIM policy, connector approval, MCP publication guardrail, or consumer review. |
+| Handoff owner and customer process | API platform owner, tool owner, identity owner, and consuming-agent owner |
+| Next review trigger | |
+
+## Exception
+
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “publish claims lookup API”; evidence location “API Center entry and APIM product”; accepted when Entra/JWT, schema, throttling, and consumer contract are approved.

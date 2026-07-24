@@ -90,6 +90,7 @@ const PAGES = [
   { slug: 'reference-platform-technical', src: 'reference/platform-technical-guide.md', title: 'Platform technical guide', nav: true, group: 'Reference' },
   { slug: 'reference-governance-capabilities', src: 'reference/governance-capability-guide.md', title: 'Governance capability guide', nav: true, group: 'Reference' },
   { slug: 'reference-ai-governance-map', src: 'reference/ai-governance-reference-map.md', title: 'Microsoft AI governance reference map', nav: true, group: 'Reference' },
+  { slug: 'reference-microsoft-platform-governance-playbook', src: 'reference/microsoft-platform-governance-playbook.md', title: 'Microsoft platform governance playbook', nav: true, group: 'Reference' },
   { slug: 'reference-quality-cost-latency', src: 'reference/quality-cost-latency-guide.md', title: 'Quality, cost, latency, and rollout governance', nav: true, group: 'Reference' },
   { slug: 'reference-performance-testing', src: 'reference/performance-testing-guide.md', title: 'Agent performance-testing governance', nav: true, group: 'Reference' },
 ];
@@ -114,6 +115,7 @@ const ROUTES = {
   'reference/platform-technical-guide.md': 'page.html?p=reference-platform-technical',
   'reference/governance-capability-guide.md': 'page.html?p=reference-governance-capabilities',
   'reference/ai-governance-reference-map.md': 'page.html?p=reference-ai-governance-map',
+  'reference/microsoft-platform-governance-playbook.md': 'page.html?p=reference-microsoft-platform-governance-playbook',
   'reference/quality-cost-latency-guide.md': 'page.html?p=reference-quality-cost-latency',
   'reference/performance-testing-guide.md': 'page.html?p=reference-performance-testing',
 };

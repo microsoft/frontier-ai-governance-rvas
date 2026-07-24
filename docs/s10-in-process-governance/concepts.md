@@ -18,7 +18,7 @@ action inside the agent application before the tool runs.
 
 AGT's documented `govern()` pattern wraps a tool call with policy evaluation and
 audit logging. The offline S10 simulator models that policy-and-audit idea only.
-It does not import, test, or certify AGT.[^agt-readme]
+S10 does not import, test, or certify AGT.[^agt-readme]
 
 ## Hash-chain consistency is not tamper evidence
 
@@ -38,8 +38,8 @@ A policy-and-audit record can show which policy version checked an attempted
 action. It can show whether the action was allowed, denied, or sent for
 approval.
 
-It does not show whether an allowed downstream action succeeded. For example,
-allowing a notification tool does not prove an email was delivered.[^agt-limitations]
+It records the in-process decision, not downstream success. For example,
+allowing a notification tool is accepted only as an in-process allow decision, not delivery evidence.[^agt-limitations]
 
 ## A policy records a governance decision
 
@@ -91,7 +91,7 @@ those tracks into an unstated product claim.
 
 The Agent Control Specification describes portable, declarative checkpoints for
 policy evaluation across an agent workflow. It is useful vocabulary for a future
-engineering assessment. It does not change S10's offline boundary.
+engineering assessment. S10's offline boundary still applies.
 
 Before a customer relies on an open-source implementation, capture the reviewed
 version or commit, supported runtime, limitations, and ownership decision in the

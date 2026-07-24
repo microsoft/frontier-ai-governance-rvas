@@ -76,9 +76,10 @@ reasoning behind the record and its boundaries.
 ## 4. Detailed facilitation reference
 
 !!! warning "Evidence-first / report-only"
-    This session reviews references and produces no live change. Do not publish
-    catalog entries, grant permissions, create identities, connect to a live
-    service, or use a catalog record as proof of safe use.
+    This session reviews references and produces no live change. Catalog
+    publication, permission grants, identity creation, live connections, and
+    safe-use proof stay in the customer's implementation and assurance
+    processes.
 
 Read [Technical decisions](technical.md) first. It covers publication and
 registry, MCP governance, and tool-authentication options and criteria.
@@ -95,8 +96,8 @@ each entry.
 | Activity | Time | Customer operation | Facilitator prompts and interpretation |
 |---|---:|---|---|
 | Set boundary and decision question | 10 min | Name the candidate set, intended decision, records location, and authorities. | **"What is in scope, what is out of scope, and what would make us stop?"** Record references and expected signals only. |
-| Establish catalog ownership and identity | 15 min | Use the offline catalog template to name the accountable owner, technical owner, candidate identifier, version, intended consumers, and source reference. | **"Who owns the lifecycle decision, and is this the exact version under review?"** Unknown ownership or version is a finding. Do not infer it. |
-| Decide naming and workspace placement | 15 min | Record the proposed name, namespace or workspace, alternatives considered, collision or confusion risk, and accountable decision owner. | **"Can a reviewer distinguish this entry from a similarly named service?"** **"Does the workspace match the classification and audience?"** Do not create or move any workspace item. |
+| Establish catalog ownership and identity | 15 min | Use the offline catalog template to name the accountable owner, technical owner, candidate identifier, version, intended consumers, and source reference. | **"Who owns the lifecycle decision, and is this the exact version under review?"** Unknown ownership or version is a finding; acceptance waits for the owner and version. |
+| Decide naming and workspace placement | 15 min | Record the proposed name, namespace or workspace, alternatives considered, collision or confusion risk, and accountable decision owner. | **"Can a reviewer distinguish this entry from a similarly named service?"** **"Does the workspace match the classification and audience?"** Workspace changes belong to the approved customer process. |
 | Classify and bound authority | 20 min | Record classification, data-handling limits, caller identity reference, authentication expectation, delegated or non-delegated authority, allowed actions, prohibited actions, and boundary conditions. | **"What is the minimum authority this caller needs for this exact version and use?"** **"Can we prove the caller identity separately from the authority scope?"** A broad or unknown scope is a finding, not an approval. |
 | Apply publication and lifecycle criteria | 20 min | Compare the record with the publication criteria, record evidence references and gaps, then choose proposed, publish-ready, hold, suspended, or withdrawn. | **"Which criterion has evidence?"** **"What event triggers suspension or withdrawal?"** Publish-ready is a decision state, not an instruction to publish. |
 | Decide and hand over | 10 min | The decision owner accepts, defers, rejects, suspends, or withdraws the stated disposition and assigns every gap. | **"Who owns each next action, and when is the next review?"** Read back only safe references, decision, owner, date, and remaining risk. |
@@ -124,7 +125,7 @@ authorization.
 
 Reference the candidate source, ownership record, classification record, identity
 and authority references, workspace and naming decision, version record,
-lifecycle decision, and approval or deferral. Do not copy the evidence. The
+lifecycle decision, and approval or deferral. Keep evidence payloads in the customer system. The
 customer keeps the completed offline templates in its approved records system.
 
 The handoff states the candidate identifier and version, reviewed scope, observed
@@ -139,10 +140,10 @@ safely.
 | Blocker | Safe response and handoff |
 |---|---|
 | No accountable owner, decision authority, or records location | Stop the candidate review. Record the missing dependency, owner, target date, and reschedule. |
-| Name, workspace, classification, version, caller identity, or authority scope is unknown | Record an evidence or design gap; keep a proposed or hold disposition. Do not infer, publish, or grant access. |
-| The candidate needs a permission, identity, integration, workspace, or catalog change | Assign a customer-owned change through the applicable approval, rollback, and verification process. Do not make the change in S5. |
+| Name, workspace, classification, version, caller identity, or authority scope is unknown | Record an evidence or design gap; keep a proposed or hold disposition. Acceptance waits for explicit records. |
+| The candidate needs a permission, identity, integration, workspace, or catalog change | Assign a customer change through the applicable approval, rollback, and verification process. |
 | A suspension or withdrawal is needed | Record the trigger, scope, customer owner, communication reference, and verification reference. The customer performs the action through its approved process. |
-| No expected evidence exists or a criterion cannot be assessed | Record what was checked and what was missing. Defer, refine the question, use another customer control, or withdraw the candidate. Do not treat absence as a pass. |
+| No expected evidence exists or a criterion cannot be assessed | Record what was checked and what was missing. Defer, refine the question, use another customer control, or withdraw the candidate. Absence is a gap. |
 
 ## 5. Verification & evidence capture
 

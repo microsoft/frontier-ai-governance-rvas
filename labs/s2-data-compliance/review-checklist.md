@@ -1,7 +1,7 @@
 # S2 Data & Compliance Review Checklist
 
-> **Boundary:** this is a review-and-decision session. It does not deploy,
-> export, roll back, or simulate a Purview policy from this repository.
+> **Boundary:** this is a review-and-decision session. It creates no deployment,
+> export, rollback, or Purview policy simulation from this repository.
 
 ## Activity card
 
@@ -26,7 +26,7 @@ route. This is not a product tour or policy-creation exercise.
 
 - [ ] Customer states the question: “What sensitive-data exposure and
   investigation evidence must this path support?” Record pilot, sponsor, safe
-  posture, evidence reference, decision owner, and stop condition.
+  posture, Purview record location, decision owner, and stop condition.
 
 ## 2. Customer maps the path and dependencies *(15 min)*
 
@@ -53,7 +53,7 @@ route. This is not a product tour or policy-creation exercise.
 - [ ] Classify the outcome explicitly:
   - **Result:** scoped finding/posture evidence with an interpretation.
   - **No-result:** no in-scope finding after the checked scope/date/reviewer is
-    recorded; it does not prove absence of exposure.
+    recorded; accepted only as no result for the checked scope.
   - **Unsupported:** documented workload/capability limitation; record the
     supporting documentation reference and alternative-control owner.
   - **Blocked:** licensing, role, or prerequisite prevents review; record
@@ -81,7 +81,7 @@ route. This is not a product tour or policy-creation exercise.
 - [ ] Investigator and administrator verify which supported Audit records and
   eDiscovery scope can locate relevant AI interactions or administrative
   changes for this workload; record route, responsible role, retention/hold
-  limitation, and customer evidence reference.
+  limitation, and customer Audit/eDiscovery record.
 - [ ] Ask: “Which event or item answers the investigation question?”, “What
   retention, permission, and legal-hold constraints apply?”, and “Who receives
   and assesses a concern?”
@@ -136,7 +136,7 @@ change safety. This session cannot promote a control to enforcement.
 
 ## 7. Handoff and blocker path *(5 min)*
 
-- [ ] Add evidence references and classification/retention metadata to the
+- [ ] Add Purview, Audit, and eDiscovery records plus classification/retention metadata to the
   generated workspace's `04-operate/evidence-register.json`.
 - [ ] Add the control decision, risk owner, approver, and review date to
   `04-operate/decision-register.json`.

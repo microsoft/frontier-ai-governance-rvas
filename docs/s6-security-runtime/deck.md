@@ -2,193 +2,71 @@
 
 **Facilitator deck**
 
-Security / SOC · Governance lead · 90-minute report-only runtime evidence review
+Microsoft default: **Azure API Management AI Gateway, Azure AI Content Safety Prompt Shields, Defender for Cloud AI posture, Defender XDR, Sentinel, and Application Insights**.
 
-Note:
-This report-only, audit-first runtime-evidence session does not run against
-production traffic. A component diagnostic is not gateway-path proof; the
-customer operates the approved request and records its evidence.
+Concrete decision: **Approve, defer, reject, or route the runtime security control path.**
 
 ---
 
-## One runtime artifact
+## Start with the Microsoft path
 
-> **"Did this approved non-production request go through the approved gateway path with a correlation we can review?"**
-
-The customer keeps a redacted gateway proof and acceptance decision.
+- Default control path: Azure API Management AI Gateway, Azure AI Content Safety Prompt Shields, Defender for Cloud AI posture, Defender XDR, Sentinel, and Application Insights.
+- Customer inspects: Inspect the gateway policy route, Prompt Shields coverage, Defender for Cloud AI posture finding, Defender XDR/Sentinel routing, and Application Insights telemetry plan.
+- Decision owner: Security operations owner.
 
 Note:
-By the end, the customer should have one reviewable runtime artifact: a gateway proof manifest with safe references and a correlation_id. Platform and security owners must match that correlation_id to gateway telemetry before accepting it as enforcement evidence.
+Open with the default platform path and the decision the customer must make.
 
 ---
 
-## Why this matters
+## Decide with platform records
 
-- Runtime evidence must show the path the agent actually used.
-- A component diagnostic can troubleshoot part of the stack.
-- It does not prove the gateway path.
-- S6 records correlation without changing production traffic.
+- Approve when the Microsoft path fits and the acceptance test is clear.
+- Defer when a required record or owner is missing.
+- Reject when the use case cannot meet the control path.
+- Route when an exception owner must accept an equivalent control.
 
 Note:
-A direct Content Safety call can diagnose that component, but cannot prove the
-agent used the customer gateway, access contract, backend, or policy.
+Keep the discussion on records, owners, and acceptance tests.
 
 ---
 
-## Gateway proof is not a component diagnostic
+## Acceptance test
 
-- Direct component testing is labeled diagnostic.
-- Gateway proof comes from the gateway adapter.
-- The manifest holds safe references and a correlation identifier.
-- It does not store raw payloads or endpoints.
+The decision is ready when the record names:
+
+- Microsoft control path
+- Owner
+- Evidence location
+- Accepted-when condition
+- Target date
+- Handoff: SOC
 
 Note:
-Name the artifact precisely: gateway-proof manifest from the gateway adapter. It conforms to the gateway-proof contract and contains safe references plus correlation_id. Never treat direct component testing as gateway enforcement evidence.
+The acceptance test should be observable by the team that receives the handoff.
 
 ---
 
-## Correlation makes the request reviewable
+## Exception, if any
 
-![Gateway correlation determines runtime acceptance.](../assets/diagrams/s6-security-runtime-correlation-flow.svg)
+An exception needs:
 
-Transport result and security acceptance are different decisions.
+- Reason and equivalent control
+- Owner and evidence location
+- Acceptance test and target date
+- Review trigger
 
 Note:
-Walk the flow: adapter request, manifest, correlation_id, approved gateway telemetry, platform/security interpretation, acceptance decision. A completed adapter request is not enough by itself. The customer reviewers decide whether the observed telemetry supports the expected policy behavior.
+Use an exception for a documented equivalent control with an owner and review trigger.
 
 ---
 
-## Runtime safety remains layered
+## Close the session
 
-- Prompt injection and harmful-content detection are only part of the boundary.
-- Gateway policy, identity, scoped tools, data controls, telemetry, and human review may also apply.
-- Defender and posture capabilities can support broader review where enabled.
-- They do not replace S6 gateway proof.
-
-Note:
-Keep five questions separate: did the request complete, does the correlation appear, does the route match, does the observed path support expected policy behavior, and who accepted the interpretation. Prompt Shields results or component diagnostics may add context, but not gateway-path proof by themselves.
-
----
-
-## Runtime evidence becomes backlog
-
-- Recommend the next runtime path with confidence and assumptions.
-- Backlog gateway route remediation, policy review, telemetry correlation, SOC
-  route, identity/data dependencies, and named customer-process handoffs.
-- The recommendation does not deploy controls or prove production effectiveness.
+- Decision: approve, defer, reject, or route.
+- Decision owner: Security operations owner.
+- Handoff: SOC.
+- Boundary: customer data stays in approved systems; production changes use customer change approval.
 
 Note:
-Route work to customer platform, security, SOC, identity, data, change, or operating processes. S6 can block S7, S9, or S11 dependencies until correlation is accepted.
-
----
-
-## Technical decisions stay customer-owned
-
-- Runtime safety placement: gateway, application, defense in depth, or deferred.
-- Threat response route: Defender/SOC, gateway telemetry alerting, custom pipeline, or manual pilot review.
-- Correlation evidence: gateway, application, defense in depth, or insufficient.
-
-Note:
-These are decision menus, not deployment steps. S6 changes no production traffic, configures no product, and leaves implementation with the customer's security, platform, SOC, identity, and change processes.
-
----
-
-## The activity: how we'll work
-
-- **Timebox:** 90 minutes · **five steps**
-- **Entry condition:** approved non-production route, safe authentication handling, record locations, and named platform/security/evidence/decision owners.
-- Missing any of these? **Stop before the request.**
-
-Note:
-Preview the five steps: orient, customer-operated gateway request, interpret together, customer decision, hand over. The facilitator keeps the boundary and wording; the customer platform operator runs the approved request; platform and security reviewers interpret telemetry.
-
----
-
-## Step 1: Set the room and orient · 20 min
-
-> **"Which gateway route, policy, and runtime-control option are in scope?"**
-> **"Who can interpret telemetry and accept this proof?"**
-> **"What result makes us stop instead of guessing enforcement?"**
-
-Confirm this run is non-production, the expected policy behavior, stop condition, and evidence locations.
-
-Note:
-Record the pilot question and scope. Do not proceed without the approved route, safe test scope, authentication handling, and reviewers who can interpret telemetry.
-
----
-
-## Step 2: Customer-operated gateway request · 30 min
-
-The platform operator performs one approved gateway-path request using the runbook.
-
-> **"Are we still inside the approved non-production route and safe evidence boundary?"**
-
-Note:
-The facilitator observes the boundary without handling credentials or payloads. The customer records only safe references to the generated manifest, request record, telemetry record, and correlation identifier in its approved system. A direct component call is a separate diagnostic, not a substitute.
-
----
-
-## Step 3: Interpret together · 15 min
-
-> **"Does the manifest match the gateway-proof contract?"**
-> **"Does `correlation_id` appear in approved gateway telemetry?"**
-> **"Does the observed path support expected policy behavior, or are we missing proof?"**
-
-Record observed fact and reviewer interpretation.
-
-Note:
-Separate adapter transport result from acceptance decision. Do not copy prompts, responses, endpoint values, credentials, or telemetry. Use the gateway correlation review template in the customer's records system.
-
----
-
-## Step 4: Customer decision · 15 min
-
-Accepted proof requires:
-
-- conforming manifest
-- `result: "pass"`
-- required safe references
-- platform and security acceptance of telemetry correlation
-
-Note:
-A pass without reviewer acceptance is not enforcement evidence. A fail, missing correlation, or unresolved scope is rejected, deferred, or blocked. Do not convert it to a pass. The decision owner records control state and review date.
-
----
-
-## Step 5: Hand over · 10 min
-
-Read back safe references:
-
-- manifest and telemetry references
-- correlation identifier
-- reviewer interpretation
-- decision reference and next owner
-
-Note:
-Hand only an accepted pass gateway-proof reference to S7 and S9. The gateway proof remains the runtime artifact. Record selected option, rationale, and adoption stage with the technical decision record.
-
----
-
-## Verification & evidence
-
-- [ ] Manifest validates against `gateway-proof.schema.json`.
-- [ ] It has `result: "pass"` and approved gateway, access contract, backend, policy, request, and telemetry references.
-- [ ] Platform and security owners accepted it after telemetry correlation.
-- [ ] Evidence system contains the decision and S7/S9 handoff reference.
-- [ ] Technical decision record captures runtime-safety, threat-response, and gateway-correlation options, if decided.
-
-Note:
-No raw prompt, document, endpoint, credential, response, or telemetry is saved in the kit or public documentation. Keep the evidence in customer-approved systems and reference it safely.
-
----
-
-## Change boundary & hand-off
-
-- The adapter changes no gateway configuration.
-- If the customer stops the test, customer gateway and evidence-retention processes apply.
-- Final record contains approval, deferral, rejection, or routing decision and the S7/S9 handoff reference.
-
-Note:
-For no approved non-production route, unsafe authentication, missing reviewer or
-record location, production-only availability, or unresolved correlation, record
-the stop point, owner, date, and S7/S9 impact. Do not substitute a diagnostic.
+End with the decision record and the named handoff.

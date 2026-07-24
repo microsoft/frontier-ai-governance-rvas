@@ -1,53 +1,55 @@
-# Technical decision record
+# Technical Decision Record
 
-[Technical-decisions guidance](../../../docs/s11-operate-measure/technical.md)
-gives the observability-stack, cost-attribution, and alerting/drift option
-menus and selection criteria.
+Copy this template into the customer's approved records system. Use it to turn the S11 Operate & Measure decision into a Microsoft-platform control record and backlog handoff.
 
-Copy this blank record into the customer's approved records system. It captures a
-customer-owned operating and measurement decision, the options considered, and
-the adoption stage. It does not query live telemetry, create a dashboard, set a
-threshold, change production, or approve spend.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-## Decision
+## Scope
 
 | Field | Record |
 |---|---|
-| Decision under review | ‹e.g. observability stack / cost attribution / alerting and drift response› |
-| Bounded workload, population, and review period | |
-| Decision owner and date | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
 | Approved records location | |
+| Target date | |
 
-## Options considered
+## Microsoft control path
 
-| Option | Fit for this scope | Key trade-off / limitation | Chosen? (yes / no / deferred) |
-|---|---|---|---|
-| Observability: OpenTelemetry + Application Insights / Azure Monitor | | | |
-| Observability: Foundry observability | | | |
-| Observability: both, with sampling and retention policy | | | |
-| Cost attribution: Azure Cost Management by subscription/resource | | | |
-| Cost attribution: Foundry project/model attribution | | | |
-| Cost attribution: tagging + PTU/committed-capacity allocation | | | |
-| Alerting: operations-owned route | | | |
-| Alerting/drift: governance review route or approved-baseline drift hypothesis | | | |
+Default path: **Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit**.
 
-## Chosen option and rationale
+Inspect: the Foundry observability view, Azure Monitor metric/alert, Application Insights trace, Log Analytics query, Cost Management view, and FinOps review record.
 
-| Field | Record |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit | | | | | service operations, FinOps owner, platform monitoring, and product owner |
+
+## Decision and acceptance
+
+| Decision field | Record |
 |---|---|
-| Selected option(s) | |
-| Result: approve / defer / reject / route | |
-| Rationale (criteria that decided it) | |
-| Alternatives rejected or deferred and why | |
-| Named owner(s) for observability, cost, alerting, and drift response | |
-| Dependencies (instrumentation, retention, allocation, approved baseline, portfolio governance, customer change process) | |
-| Verified-status caveat (availability / licensing / quota / pricing checked on) | |
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create an operations backlog item for missing telemetry, alert threshold, quality/cost/latency review, remediation owner, operating cadence, or FinOps action. |
+| Handoff owner and customer process | service operations, FinOps owner, platform monitoring, and product owner |
+| Next review trigger | |
 
-## Adoption progress
+## Exception
 
-| Field | Record |
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
 |---|---|
-| Adoption stage (decided / backlogged / in adoption) | |
-| Governance maturity objective supported | |
-| Next step, owner, acceptance evidence, and target date (customer operating/change process) | |
-| Review date and portfolio-review reference, if any | |
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “add latency/cost alert for production agent”; evidence location “Azure Monitor alert and Cost Management view”; accepted when operations and FinOps owners accept the cadence.

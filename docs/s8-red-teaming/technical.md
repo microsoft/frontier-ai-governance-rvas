@@ -1,79 +1,53 @@
 # S8 · Adversarial Testing & Remediation: Technical decisions
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-17 · Red-teaming products, Prompt Shields, Content
-    Safety, and related governance features change over time. Verify current
-    status and availability in the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
-    before delivery.
+    Last reviewed: 2026-07-24 · AI Red Teaming Agent, PyRIT, Azure AI Content Safety, Prompt Shields, Defender, and related governance features vary by target, region, license, and service status. Verify official docs, authorization, and customer rules of engagement before any run.
 
-Choose the test method, authorized scope, and remediation route. S8 records
-these choices and does not change production.
+## Microsoft default
 
-**Default and exception.** Default to an authorized, customer-operated
-non-production Microsoft Foundry AI Red Teaming Agent path where supported.
-PyRIT, manual, or third-party testing requires a named exception owner, reason,
-authorization or compensating review, target date, and retest criteria. Verify
-current service status, target fit, and authorization before any run.
+Default to an authorized, customer-operated non-production Microsoft AI Red Teaming Agent path where supported, with PyRIT or manual expert testing for unsupported targets. Route findings to Azure AI Content Safety/Prompt Shields, gateway, in-process, permissions, or lifecycle backlog as appropriate.
 
-## Decision 1: Red-team approach & tooling
+## Decision tree
 
-Choose against authorization, repeatability and coverage, in-house skill,
-evidence needs, cost, and cadence. Named products and features require a
-current-status check before use.
+1. **If the target fits the Microsoft AI Red Teaming Agent support matrix**, use it for repeatable category coverage in authorized non-production scope.
+2. **If the target or category is unsupported**, use PyRIT or manual expert testing with the same authorization record.
+3. **If production testing is requested**, defer to the customer's legal, SOC, business, and change process.
+4. **If rules of engagement, stop conditions, evidence handling, or SOC contact are missing**, block testing.
+5. **If findings map to controls**, route to Prompt Shields/Content Safety, gateway, prompt, tool-permission, or lifecycle owner and require retest criteria.
 
-| Option | When it fits | Trade-off / limitation | Governance implication |
-|---|---|---|---|
-| **Automated Microsoft path** (AI Red Teaming Agent / PyRIT) | Repeatable category coverage is needed for an authorized non-production target | The AI Red Teaming Agent supports documented Foundry targets, Azure tool paths, and regions only; use PyRIT or manual testing when it does not fit | Record approved tool path, operator, evidence owner, and what the run does not cover |
-| **Manual expert red-teaming** | Novel behaviors, high-risk workflows, or business-context attacks need expert exploration | Less repeatable; depends on scarce skill and careful scope control | Record expert role, authorization boundary, notes retained, and how findings become backlog |
-| **Third-party engagement** | Independence, specialist depth, regulatory expectation, or surge capacity is required | Cost, procurement, data handling, and evidence-sharing constraints | Record provider scope, legal approval, evidence location, and customer owner for remediation |
-| **Mixed approach** | Baseline repeatability and expert depth are both needed | More coordination and duplicated evidence paths | Record which method owns which category and how results reconcile |
+| Decision | Microsoft default | Exception criteria |
+|---|---|---|
+| Test method | AI Red Teaming Agent where supported; PyRIT for repeatable custom testing | manual/third-party expertise is required |
+| Scope | authorized non-production target with monitoring and reset path | production-like or production exception is formally approved by customer process |
+| Remediation | Azure AI Content Safety/Prompt Shields, gateway controls, Defender/SOC route, lifecycle block | prompt/tool/code fix is the actual owner boundary |
 
-## Decision 2: Scope & rules of engagement
+## Platform checks
 
-The governing test is whether the target, timing, operators, categories, stop
-conditions, evidence handling, and legal/SOC authorization are explicit before
-testing begins.
-
-| Option | When it fits | Trade-off / limitation | Governance implication |
-|---|---|---|---|
-| **Non-production bounded test** | The customer can name the endpoint, version, owner, monitoring window, and rollback/reset path | Findings support only the tested scope | Default S8 path; record target, categories, SOC contact, stop conditions, and evidence references |
-| **Production-like staging scope** | Risk tier or regulatory expectation needs realistic integrations without customer-facing production impact | Higher blast-radius planning and monitoring are required | Record dependencies, alert handling, data limits, and explicit authorization |
-| **Production exception assessment** | A customer authority requires limited testing of a live system under formal process | Not a workshop run; legal, SOC, business, and change approvals are mandatory | Record as deferred to the customer process; S8 may define criteria but does not execute it |
-| **Blocked / not authorized** | Authorization, target ownership, non-production status, or rules of engagement are missing | No test evidence is produced | Valid decision; record blocker, owner, target date, and S13 portfolio impact |
-
-## Decision 3: Remediation routing & retest
-
-Choose the response path against finding severity, technical owner, verification
-evidence, and whether the fix belongs in prompt, gateway, runtime, tool, or
-lifecycle controls.
-
-| Option | When it fits | Trade-off / limitation | Governance implication |
-|---|---|---|---|
-| **Safety filter / shielding control** (Content Safety / Prompt Shields) | Findings map to supported harmful-content, prompt-injection, or input/output filtering controls | Feature availability and coverage must be verified; filters do not prove the agent is safe | Record control owner, configured scope, residual risk, and retest evidence |
-| **Prompt or system-instruction hardening** | The weakness is caused by role framing, refusal criteria, grounding, or response policy | Can be brittle; needs regression tests and version ownership | Record prompt owner, change route, before/after evidence, and retest date |
-| **Gateway or in-process policy control** | Tool calls, data access, or high-authority actions need enforcement before execution | Adds platform or code ownership; verify relevant in-process capability status before adoption | Record the platform or code owner, approval path, and evidence requirement |
-| **Tool-permission reduction / lifecycle block** | Excessive agency, data exfiltration, or tool abuse shows the agent has too much authority | May reduce functionality or delay release | Record permission owner, lifecycle impact, accepted-risk or release-block decision, and retest criteria |
-
-## Decisions made & adoption progress
-
-S8 should move the customer from the adversarial and security part of the **S0
-maturity baseline** toward the **S13 portfolio** view with an adversarial-testing
-decision and remediation backlog.
-
-| Adoption stage | What "done" looks like at S8 |
+| Check | Microsoft product/control record |
 |---|---|
-| **Decided** | The red-team approach, authorized scope/rules of engagement, and remediation-routing path are chosen for the bounded target |
-| **Backlogged** | Findings, blockers, retest needs, enforcement controls, and lifecycle updates are routed with owners and evidence references |
-| **In adoption** | Customer teams remediate and retest outside this session; portfolio owners track status and residual risk |
+| Tooling fit | AI Red Teaming Agent target support, PyRIT test plan, Foundry project/target reference |
+| Authorization | rules of engagement, SOC notification, legal/change approval, stop conditions |
+| Safety controls | Azure AI Content Safety, Prompt Shields, APIM/gateway policy, S10 in-process policy if applicable |
+| Detection/response | Defender for Cloud, Defender XDR, Sentinel, SOC ticket/playbook |
+| Remediation lifecycle | S9 catalog state, S4 material-change trigger, S7 retest/evaluation reference |
 
-Record the choice, alternatives considered, authorization caveat, and adoption
-stage in `labs/s8-red-teaming/templates/technical-decision-record.template.md`.
-What S8 leaves behind is the decision plus the remediation backlog, not a
-production change.
+## Acceptance tests
+
+| Work item | Accepted when... | Handoff |
+|---|---|---|
+| Test approach | method, operator, target, categories, support-status caveat, and cost/coverage limits are recorded | Red-team owner |
+| Rules of engagement | target, timing, operators, data limits, stop conditions, SOC/legal contacts, and evidence handling are approved | Customer security/legal |
+| Findings route | each finding has severity, control owner, remediation path, release impact, and retest criterion | Remediation owner |
+| Portfolio impact | unresolved blockers and accepted risks are visible to S13 with owner and review date | Portfolio owner |
+
+## Boundary note
+
+S8 defines and records authorized testing and remediation; workshop activity never attacks production systems.
 
 ## Related references
 
 - [S8 Concepts](concepts.md): authorization, Attack Success Rate, native scorecard boundaries, and remediation backlog.
-- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md): Prompt Shields, Defender, and ASSERT context.
-- [Governance capability guide](../reference/governance-capability-guide.md): current availability context for governance and testing capabilities.
-- [Platform technical guide](../reference/platform-technical-guide.md): gateway and in-process control boundaries.
+- [S6 technical decisions](../s6-security-runtime/technical.md): runtime control placement.
+- [S7 technical decisions](../s7-evaluation/technical.md): retest and release assurance.
+- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md).
+- [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md).

@@ -21,7 +21,7 @@ to gateway telemetry before they accept it as enforcement evidence.
 Where a customer needs to map defence-in-depth before adoption, the
 customer-owned runtime control matrix records the selected identity/network,
 gateway, model/agent, and tool boundaries, along with response ownership and
-evidence limits. It does not replace the accepted gateway proof.
+evidence limits. Accept it only alongside the gateway proof.
 
 ### What happens next
 
@@ -65,7 +65,7 @@ correlation.
 
 Runtime evidence must show the path the agent used. S6 records a redacted
 request correlation without changing production traffic. A component diagnostic
-can troubleshoot part of the stack, but it does not prove the gateway path.
+can troubleshoot part of the stack. Accept gateway-path proof only from the correlated gateway evidence.
 
 ## 4. Detailed facilitation reference
 

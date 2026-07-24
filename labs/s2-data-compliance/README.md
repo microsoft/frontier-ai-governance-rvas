@@ -1,49 +1,34 @@
-# S2 Takeaway Kit: Data & Compliance Review
+# S2 Data Compliance Work Package
 
-This kit helps a facilitator and customer compliance team make a decision about
-data exposure for one representative AI-agent path. It intentionally does **not**
-contain an export script, a deployable Purview policy, tenant IDs, or a fake
-Purview configuration schema.
+This lab kit is a practical Microsoft-platform work package to route data use through Purview-backed classification, policy, audit, and retention controls. It starts with the Microsoft default control path, records the customer decision, and creates implementation backlog items that a named owner can accept.
 
-Microsoft Purview capabilities and supported workload coverage change. Use the
-customer's current Purview experience and approved operating procedures to
-review DSPM for AI, DLP, Audit, and eDiscovery. Store exports and investigation
-records only in the customer's approved records system.
+**Microsoft default:** Microsoft Purview Data Security Posture Management, Data Loss Prevention, sensitivity labels, audit, and eDiscovery.
 
-## What this kit contains
+Start with [runbook.md](runbook.md). Copy only blank templates into the customer's approved records system, then store completed evidence there.
 
-- **Start with [`review-checklist.md`](review-checklist.md).** It is the
-  customer-operated runbook, including the facilitated review, evidence
-  references, decision, and handoff checklist.
-- [`runbook.md`](runbook.md) is retained only for existing links and points to
-  the checklist.
-- [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md) - records the chosen option, alternatives, rationale, owner, and adoption stage.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-## Prerequisites
+## Work package outcome
 
-- Compliance/Data administrator, governance lead, and the owner of the pilot
-  agent path.
-- Confirmed Purview licensing and workload coverage for the intended DSPM for
-  AI, DLP, Audit, and eDiscovery capabilities.
-- An approved customer records-system location for evidence references and a
-  named change approver if a policy change is proposed.
+By the end of the kit, the customer has:
 
-## Run order
+- inspected the Purview DSPM finding, sensitivity-label policy, DLP policy, audit/eDiscovery retention setting, data source record, and data owner decision;
+- recorded approve, defer, reject, or route with owner and target date;
+- created backlog for gaps using acceptance tests and a receiving handoff;
+- documented any exception with reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
 
-1. Set the bounded path, approved evidence location, and investigation owner.
-2. Map input, retrieval, tool, output, classification, and control
-   dependencies.
-3. Customer reviews scoped DSPM for AI evidence and records a result,
-   documented no-result, unsupported capability, or blocker.
-4. Customer confirms DLP coverage and decides no change, **designed**, or a
-   customer-owned **report-only** change review.
-5. Customer reviews the Audit/eDiscovery investigation route, scope, retention,
-   and owner.
-6. Decision owner uses the checklist decision tree, records the technical
-   decision in `templates/technical-decision-record.template.md`, then hands
-   evidence references, state, owner, date, and any platform, tool/API, or
-   runtime-assurance dependencies to their owners.
+## Included records
 
-This session never deploys, reverses, or validates a Purview policy. Any
-customer policy change follows the customer's standard change, rollback, and
-verification process.
+| Record | Use |
+|---|---|
+| [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md) | Capture the technical decision record as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+
+## Additional kit materials
+
+- `review-checklist.md`: customer checklist for Purview DSPM, DLP, labels, audit, eDiscovery, owner, and backlog readiness.
+
+## Handoff
+
+Default handoff goes to data owner, privacy/compliance team, and Purview administrator. Create a data-governance backlog item for each missing label, DLP rule, audit route, retention decision, or data-owner approval.
+
+Example: Work item “label retrieval corpus”; evidence location “Purview sensitivity-label policy”; accepted when the data owner approves the label and DLP route before ingestion.

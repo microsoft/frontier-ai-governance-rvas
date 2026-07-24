@@ -19,7 +19,7 @@ S8 is limited to an authorized, customer-owned, non-production endpoint with wri
 
 Attack Success Rate (ASR) is the share of attempts that meet the agreed adversarial success condition. Lower is better, but the number only makes sense with its category, sample size, target version, and approved threshold.
 
-A result above tolerance becomes a remediation item with an owner. A result below tolerance supports the tested scope. It does not prove the whole system is secure.
+A result above tolerance becomes a remediation item with an owner. A result below tolerance is accepted only for the tested scope.
 
 For each category, ask four plain questions: what behavior did we test, what counted as success, why would that response be unacceptable, and what would prove the fix worked? This keeps the scorecard tied to the customer's rules of engagement.
 
@@ -27,7 +27,7 @@ For each category, ask four plain questions: what behavior did we test, what cou
 
 S8 should recommend a remediation, accepted-risk, blocked, or re-test path with confidence and assumptions. Typical backlog rows include AI Red Teaming Agent or PyRIT adapter path, authorization and rules of engagement, SOC monitoring window, category threshold, above-threshold remediation owner, validation reference, re-test criteria, operating alert update, S6/S7/S11 handoff, and production-release blocker.
 
-The backlog does not authorize testing outside the written scope. It does not approve production release.
+The backlog authorizes only the written test scope; production release needs the customer's release process.
 
 ## Native scorecard and threshold review are different records
 

@@ -1,54 +1,53 @@
 # S10 · In-Process Governance: Technical decisions
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-17 · The Agent Governance Toolkit (AGT) is Public
-    Preview and pinned in this curriculum; verify current status and limitations
-    before delivery. See the [Platform technical guide](../reference/platform-technical-guide.md).
+    Last reviewed: 2026-07-24 · Use Agent Governance Toolkit (AGT) only when gateway controls cannot make the needed in-process decision. AGT status and limitations can change; verify official docs, customer code ownership, and support posture before assessment.
 
-Choose where, if anywhere, a policy check belongs immediately before a tool
-call. S10 records that decision, including “not applicable”; it installs and
-executes nothing.
+## Microsoft default
 
-## Decision: Where does the tool-call policy boundary live?
+Default to Azure API Management/gateway controls for route-level authentication, policy, quota, and telemetry. Choose Agent Governance Toolkit-style in-process checks only when a real allow/deny/approval decision must happen immediately before a local tool call and the customer owns the code path.
 
-The deciding test is whether there is a **real decision point immediately before
-a tool call**, what **delegated authority** that call carries, and whether the
-customer needs **audit or tamper evidence** for it.
+## Decision tree
 
-| Option | When it fits | Trade-off / limitation | Governance implication |
-|---|---|---|---|
-| **Gateway-only** (API Management / governance hub) | The meaningful control point is at the platform boundary; tool calls are mediated there | Cannot see or decide inside the agent process before a local tool call | Sufficient when there is no in-process decision point; record it as the deliberate choice |
-| **In-process policy check** (AGT-style `govern()` before the tool call) | There is a genuine pre-tool decision point with allow / deny / approval semantics inside the process | Preview maturity; runs in customer code; needs an engineering assessment and owner | Adds a decision the gateway cannot make; record policy owner, approval route, and audit retention |
-| **Defense in depth** (gateway **and** in-process) | High-authority tool actions where boundary and in-process controls should reinforce each other | Two controls and owners to build, correlate, and maintain | Strongest setup; one control never proves the other is configured or working |
-| **Not applicable** (for this architecture) | No real in-process boundary, or no delegated authority worth a local check | Forcing adoption would be theatre | A valid, recorded decision: route back to existing controls and the S6 backlog |
+1. **If the gateway can make the meaningful decision**, use gateway-only and send evidence to S6.
+2. **If the decision requires prompt/tool/user context inside the process**, assess an AGT-style `govern()` boundary with engineering ownership.
+3. **If the action is high-authority**, consider defense in depth: gateway plus in-process decision, with correlation ownership.
+4. **If there is no local tool decision point or delegated authority**, record "not applicable" and route back to S5/S6 controls.
 
-## Supporting decision: What evidence does the boundary need?
-
-If an in-process boundary is chosen, decide the **audit and tamper-evidence**
-requirement separately. A local hash chain shows internal consistency only; it
-can be replaced and recalculated. Real tamper evidence needs a customer-managed
-**signed record in immutable external storage**, owned and retained correctly.
-
-| Evidence need | Suitable option | What it cannot do |
+| Boundary | Use when | Accepted when... |
 |---|---|---|
-| Understand policy decisions & consistency | Offline simulator record | Prove AGT execution, production validity, or tamper evidence |
-| Know which policy checked an action | In-process audit record (future assessment) | Prove downstream success or compliance by itself |
-| Tamper evidence | Signed immutable external record | Replace policy ownership, approval, or technical validation |
+| Gateway-only | API Management/governance hub is the control point | route, policy, telemetry, and owner are recorded in S6 |
+| In-process AGT-style check | local tool call needs immediate allow/deny/approval | code owner, policy owner, approval route, audit record, and support caveat are recorded |
+| Defense in depth | high-authority action needs both controls | gateway and in-process decisions have correlation and conflict-review owners |
+| Not applicable | no real in-process control point exists | rationale and alternate S5/S6 controls are recorded |
 
-## Decisions made & adoption progress
+## Platform checks
 
-| Adoption stage | What "done" looks like at S10 |
+| Check | Microsoft product/control record |
 |---|---|
-| **Decided** | The boundary option is chosen (including "not applicable") with the delegated-authority and evidence rationale recorded |
-| **Backlogged** | Any in-process assessment, policy ownership, and immutable-audit route are added to the S6 backlog with owners |
-| **In adoption** | A separate engineering assessment evaluates installation/code change; S6 reconciles the runtime evidence |
+| Gateway alternative | Azure API Management API/product/policy/backend and telemetry record |
+| In-process applicability | customer architecture/code owner, tool-call location, delegated authority, policy decision point |
+| AGT readiness | AGT version/status, official limitation note, installation assessment backlog |
+| Audit/tamper evidence | in-process audit record design, signed immutable external storage plan, retention owner |
+| Runtime correlation | S6 correlation ID plan, reviewer, and retention location |
 
-Adoption here authorizes only a separate assessment, not installation,
-deployment, or a policy change. Tie the decision to the **S0 maturity baseline**
-and **S13 portfolio**, and capture it in the technical decision record
-(`labs/s10-in-process-governance/templates/technical-decision-record.template.md`).
+## Acceptance tests
+
+| Work item | Accepted when... | Handoff |
+|---|---|---|
+| Applicability | the team can point to the exact pre-tool decision and delegated authority it governs | Engineering owner |
+| Boundary choice | gateway-only, in-process, defense-in-depth, or not-applicable is selected with rationale | S6 runtime owner |
+| Audit need | simulator, audit, or signed immutable external record requirement is chosen with owner | Security/compliance |
+| Implementation backlog | any AGT assessment is routed as a separate customer code/security task | Customer engineering |
+
+## Boundary note
+
+S10 authorizes only an applicability decision or separate engineering assessment; it installs nothing and changes no policy.
 
 ## Related references
 
-- [S10 Concepts](concepts.md): the offline Preview boundary, hash-chain consistency, and what real tamper evidence requires.
-- [Platform technical guide](../reference/platform-technical-guide.md): where AGT sits relative to gateway/network controls.
+- [S10 Concepts](concepts.md): offline Preview boundary, hash-chain consistency, and tamper-evidence requirements.
+- [S5 technical decisions](../s5-tool-api-governance/technical.md): tool publication and gateway boundary.
+- [S6 technical decisions](../s6-security-runtime/technical.md): runtime correlation.
+- [Platform technical guide](../reference/platform-technical-guide.md).
+- [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md).

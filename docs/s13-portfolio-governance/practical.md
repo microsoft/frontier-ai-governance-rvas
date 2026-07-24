@@ -1,17 +1,20 @@
-# Do this
+# Practical workshop: portfolio re-baseline decision
 
-**Customer owner:** Portfolio owner with governance and risk owners. **Timebox:**
-20 minutes. Use approved references only.
+**Microsoft default:** Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the S0 re-baseline.
 
-1. Set the portfolio slice and review date. Triage one **exception**, one
-   **risk**, and one **investment** separately; do not rename one as another.
-2. Date one roadmap item with owner, safe evidence reference and limit,
-   acceptance evidence, target date, and funding/policy dependency.
-3. Decide **approve, defer, reject, or route** the item and identify the next
-   S0 question, customer funding gate, or policy route.
+**Customer decision:** Approve, defer, reject, or route the portfolio re-baseline item.
 
-**Azure/Microsoft default:** customer-approved records and verified
-Azure/Microsoft references. Any other source is an exception only with recorded
-scope, freshness, owner, and limit.
+## Work the decision
 
-No funding, policy, customer-system, or production approval occurs here.
+1. Select one bounded pilot or backlog item and name the customer decision owner.
+2. Inspect Agent 365 and control-plane records, Cost Management summaries, operating evidence from S11, and the S0 baseline scorecard.
+3. Fill this row in the customer-approved records system:
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| Pilot decision | Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the S0 re-baseline | Portfolio governance owner | Customer-approved record | Decision, acceptance test, exception status, and handoff are complete | Customer date | Executive governance forum |
+
+4. Use this decision tree: if the Microsoft path fits, approve it; if records are missing, defer with an acceptance test; if the path cannot meet the use case, reject or route to an exception owner.
+5. For an exception, record: reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
+
+**Boundary:** Keep customer data in customer-approved systems; production changes require customer change approval.

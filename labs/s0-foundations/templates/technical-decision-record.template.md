@@ -1,67 +1,55 @@
-# Technical decision record
+# Technical Decision Record
 
-Copy this blank record into the customer's approved records system. It captures a
-customer-owned technical decision, the options considered, and the adoption
-stage. It does not make a tenant change, configure tooling, or approve
-production.
+Copy this template into the customer's approved records system. Use it to turn the S0 Foundations & Operating Model decision into a Microsoft-platform control record and backlog handoff.
 
-[S0 Technical decisions](../../../docs/s0-foundations/technical.md) covers
-options and selection criteria for the operating model, control-framework
-baseline, and record location.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-## Decision
+## Scope
 
 | Field | Record |
 |---|---|
-| Decision under review | ‹e.g. governance operating model / control-framework baseline / system of record› |
-| Bounded pilot or portfolio scope | |
-| Decision owner and date | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Options considered
+## Microsoft control path
 
-| Option | Fit for this scope | Key trade-off / limitation | Chosen? (yes / no / deferred) |
-|---|---|---|---|
-| Centralized governance board | | | |
-| Federated hub-and-spoke | | | |
-| Embedded in-team governance | | | |
-| Hybrid operating model | | | |
-| NIST AI RMF | | | |
-| ISO/IEC 42001 | | | |
-| Microsoft Responsible AI Standard | | | |
-| EU AI Act risk-tiering | | | |
-| Existing internal framework | | | |
-| System of record: control/decision register / Purview, Foundry, or API Center records / spreadsheet / work-management system | | | |
+Default path: **Cloud Adoption Framework for AI, Well-Architected Framework for AI, and AI Center of Excellence guidance**.
 
-## Chosen option and rationale
+Inspect: the customer governance charter, AI CoE/RACI record, control-framework baseline, and approved decision register location.
 
-| Field | Record |
-|---|---|
-| Selected option(s) | |
-| Rationale (criteria that decided it) | |
-| Alternatives rejected or deferred and why | |
-| Named sponsor / owner | |
-| Dependencies (next capability owner and customer change process) | |
-| Verified-status caveat (framework/tooling availability checked on) | |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Cloud Adoption Framework for AI, Well-Architected Framework for AI, and AI Center of Excellence guidance | | | | | AI governance lead, executive sponsor, and the next session owner |
 
-## Adoption progress
+## Decision and acceptance
 
-| Field | Record |
-|---|---|
-| Adoption stage (decided / backlogged / in adoption) | |
-| Maturity dimension advanced | |
-| Next action and owner | |
-| Review date and portfolio reference | |
-
-## Safe reference and handoff
-
-| Field | Record |
+| Decision field | Record |
 |---|---|
 | Result (approve / defer / reject / route) | |
-| Evidence reference or stated gap | |
-| Acceptance criterion | |
-| Accountable owner | |
-| Target date | |
-| Handoff recipient and customer process | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create a foundation backlog item with selected operating model, baseline framework, accountable owner, acceptance test, target date, and receiving governance process. |
+| Handoff owner and customer process | AI governance lead, executive sponsor, and the next session owner |
+| Next review trigger | |
 
-This reference records a planning decision only. It does not change a customer
-system or approve production.
+## Exception
+
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “approve hub-and-spoke AI governance model”; evidence location “customer decision register FG-001”; accepted when the sponsor signs the RACI and S1/S2 owners accept their backlog.

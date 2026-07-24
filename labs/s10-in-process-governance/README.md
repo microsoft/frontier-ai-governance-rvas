@@ -1,61 +1,31 @@
-# S10 Takeaway Kit: In-Process Agent Governance
+# S10 In-Process Governance Work Package
 
-An offline, dependency-free facilitator-led activity for deciding whether to
-investigate in-process tool-call governance further. It illustrates
-tool-policy decisions and hash-chain consistency without installing, invoking,
-or validating AGT.
+This lab kit is a practical Microsoft-platform work package to decide whether in-process checks are needed after gateway and platform controls are exhausted. It starts with the Microsoft default control path, records the customer decision, and creates implementation backlog items that a named owner can accept.
 
-**Decision:** gateway-only, in-process, both, or not applicable; record
-approve, defer, reject, or route. The Azure/Microsoft default is the existing
-gateway boundary. An in-process exception needs a real delegated-authority
-decision immediately before a tool call. Handoff decisions to S6, S9, and S11;
-this kit does not approve a customer-system or production change.
+**Microsoft default:** Agent Governance Toolkit only when gateway controls cannot make the needed in-process decision.
 
-See [Lab files: scripts and CSV templates](../README.md) for a plain-language
-description of the offline simulator and its output.
+Start with [runbook.md](runbook.md). Copy only blank templates into the customer's approved records system, then store completed evidence there.
 
-## Contents
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-```
-policies/
-  demo-policy.json                  illustrative deny-by-default policy
-pipelines/
-  run_mock.py                       offline decision and hash-chain simulator
-evidence/
-  .gitkeep                          generated customer evidence is ignored
-runbook.md                           run, verification, and decision record
-```
+## Work package outcome
 
-## Prerequisites
+By the end of the kit, the customer has:
 
-- Python 3.11+.
-- No network, cloud service, Azure subscription, AGT package, customer source
-  code, credentials, or endpoint is required.
+- inspected the existing gateway/platform control, the runtime decision point, Agent Governance Toolkit applicability record, policy owner, and evidence route;
+- recorded approve, defer, reject, or route with owner and target date;
+- created backlog for gaps using acceptance tests and a receiving handoff;
+- documented any exception with reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
 
-## Run order
+## Included records
 
-1. Review `policies/demo-policy.json`; it is illustrative and not a customer
-   deployment policy.
-2. Follow [`runbook.md`](runbook.md) for applicability, policy review, the
-   illustration, limitation interpretation, blocker pathways, and the
-   adoption decision.
+| Record | Use |
+|---|---|
+| [`templates/applicability-review.template.md`](templates/applicability-review.template.md) | Capture the applicability review as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md) | Capture the technical decision record as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
 
-Use
-[`templates/applicability-review.template.md`](templates/applicability-review.template.md)
-in the approved customer records system to record whether an in-process
-tool-call decision point is meaningful and what evidence an engineering
-assessment would need. Use
-[`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md)
-to record the chosen boundary option (gateway-only, in-process, both, or not
-applicable), the rationale, and the adoption stage.
+## Handoff
 
-The audit record shows governance attempts and decisions only. It does not
-attest to downstream tool execution, action success, or tamper evidence. Tamper
-evidence requires customer-managed signed and immutable external storage.
+Default handoff goes to agent engineering owner, policy owner, runtime operations, and release manager. Create an in-process-governance backlog item only for decisions the gateway cannot enforce; include policy owner, runtime evidence, test, target date, and rollback route.
 
-Run the illustration from this directory:
-
-```bash
-python pipelines/run_mock.py
-python pipelines/run_mock.py --verify evidence/policy-decision-audit.json
-```
+Example: Work item “add in-process policy for tool result summarization”; evidence location “Agent Governance Toolkit policy record”; accepted when gateway limits are documented and release owner approves rollback.

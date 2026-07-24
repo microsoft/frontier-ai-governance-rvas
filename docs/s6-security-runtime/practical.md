@@ -1,11 +1,20 @@
-# Do this
+# Practical workshop: runtime security control path
 
-**Customer owner:** Platform or security operator
+**Microsoft default:** Azure API Management AI Gateway, Azure AI Content Safety Prompt Shields, Defender for Cloud AI posture, Defender XDR, Sentinel, and Application Insights.
 
-1. Set the approved non-production variables in `labs/s6-security-runtime/runbook.md`.
-2. Run `bash labs/s6-security-runtime/scripts/test_gateway_prompt_shield.sh`.
-3. Correlate the emitted ID with gateway telemetry and record the review decision.
+**Customer decision:** Approve, defer, reject, or route the runtime security control path.
 
-**Stop:** Use only the approved non-production route with named reviewers and safe authentication handling.
+## Work the decision
 
-**If unavailable:** Validate the manifest shape and assign the missing route, policy, authentication, or telemetry prerequisite.
+1. Select one bounded pilot or backlog item and name the customer decision owner.
+2. Inspect the gateway policy route, Prompt Shields coverage, Defender for Cloud AI posture finding, Defender XDR/Sentinel routing, and Application Insights telemetry plan.
+3. Fill this row in the customer-approved records system:
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| Pilot decision | Azure API Management AI Gateway, Azure AI Content Safety Prompt Shields, Defender for Cloud AI posture, Defender XDR, Sentinel, and Application Insights | Security operations owner | Customer-approved record | Decision, acceptance test, exception status, and handoff are complete | Customer date | SOC |
+
+4. Use this decision tree: if the Microsoft path fits, approve it; if records are missing, defer with an acceptance test; if the path cannot meet the use case, reject or route to an exception owner.
+5. For an exception, record: reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
+
+**Boundary:** Keep customer data in customer-approved systems; production changes require customer change approval.

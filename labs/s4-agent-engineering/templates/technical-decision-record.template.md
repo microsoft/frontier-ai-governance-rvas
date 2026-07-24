@@ -1,64 +1,55 @@
-# Technical decision record
+# Technical Decision Record
 
-Copy this blank record into the customer's approved records system. It captures a
-customer-owned technical decision, the options considered, and the adoption
-stage. It does not generate code, configure a product, or approve production.
+Copy this template into the customer's approved records system. Use it to turn the S4 Agent Engineering decision into a Microsoft-platform control record and backlog handoff.
 
-See the [technical-decision guide](../../../docs/s4-agent-engineering/technical.md)
-chapter for the path matrix and selection criteria. It complements
-`admission-record.template.md` as the durable decision artifact.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-## Decision
+## Scope
 
 | Field | Record |
 |---|---|
-| Decision under review | ‹implementation path / model selection / admission standard› |
-| Bounded agent candidate and authority archetype | |
-| Decision owner and date | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Options considered: implementation path
+## Microsoft control path
 
-| Path | Fit for users / authority / data boundary | Key trade-off / limitation | Chosen? (yes / no / deferred) |
-|---|---|---|---|
-| Copilot Studio | | | |
-| Microsoft Foundry Agent Service | | | |
-| Custom Azure app/service on Foundry | | | |
-| Microsoft 365 Copilot extensibility | | | |
-| Workflow automation | | | |
-| Research / prototype isolation | | | |
+Default path: **Microsoft Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, or a custom Azure app path**.
 
-## Chosen path and rationale
+Inspect: the Foundry agent, Copilot Studio agent, Microsoft 365 Copilot extension, or custom Azure app record plus model deployment, rollout, and release records.
 
-| Field | Record |
-|---|---|
-| Selected path | |
-| Confidence and rationale (criteria that decided it) | |
-| Alternatives rejected or deferred and why | |
-| Model selection / fine-tuning decision reference | |
-| Admission requirements matched to authority archetype | |
-| Engineering and service owners | |
-| Verified-status caveat (product capability checked on) | |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Microsoft Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, or a custom Azure app path | | | | | agent engineering owner, product owner, platform owner, and release manager |
 
-## Adoption progress
+## Decision and acceptance
 
-| Field | Record |
-|---|---|
-| Adoption stage (decided / backlogged / in adoption) | |
-| Capability area improved | |
-| Selected-path configuration backlog reference | |
-| Follow-up owner and customer process | |
-| Review date and portfolio reference, if used | |
-
-## Safe reference and handoff
-
-| Field | Record |
+| Decision field | Record |
 |---|---|
 | Result (approve / defer / reject / route) | |
-| Evidence reference or stated gap | |
-| Acceptance criterion | |
-| Accountable owner | |
-| Target date | |
-| Handoff recipient and customer process | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create an engineering backlog item for any missing admission criterion, model-selection record, token/cost guardrail, latency budget, rollout gate, or retirement trigger. |
+| Handoff owner and customer process | agent engineering owner, product owner, platform owner, and release manager |
+| Next review trigger | |
 
-This records an implementation-path and lifecycle-admission decision only. It
-does not create code, change a customer system, or approve production.
+## Exception
+
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “select Foundry Agent Service for claims assistant”; evidence location “model-selection record”; accepted when rollout, cost, latency, and retirement gates have owners.

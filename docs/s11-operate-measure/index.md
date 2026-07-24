@@ -70,10 +70,10 @@ Read the [S11 Concepts](concepts.md) before delivery.
 ## 4. Detailed facilitation reference
 
 !!! warning "Reference-only operating review"
-    This 90-minute session is evidence-first and customer-owned. Do not query
-    live data, copy telemetry, identifiers, prompts, responses, costs, or
-    business data into the kit. Do not make a monitoring, remediation,
-    exception, policy, identity, or production change.
+    This 90-minute session is evidence-first and customer-owned. Live queries,
+    telemetry, identifiers, prompts, responses, costs, and business data stay
+    out of the kit. Monitoring, remediation, exception, policy, identity, and
+    production changes stay in the customer's operating process.
 
 Review the [Technical decisions](technical.md) chapter first: it holds the
 observability-stack, cost-attribution, and alerting/drift option menus and
@@ -89,8 +89,8 @@ specialists only for questions in scope.
 |---|---:|---|---|
 | Set the operating question | 10 min | Select one population, review period, decision, owners, and records location. | **"What decision can this review support?"** **"What is out of scope?"** Stop if the question has no owner or trusted evidence. |
 | Map evidence coverage | 15 min | Record evidence references, population and time coverage, exclusions, latency, and attribution limits for each selected question. | **"What can this record not support?"** For Foundry workloads, ask which project, deployment, agent identifier, token-attribution method, evaluator type, and version the evidence covers. Missing coverage is a finding, not zero risk or zero cost. |
-| Review quality, latency, and cost trends (optional) | Within the 20 min review-question activity | When in scope, complete the quality-cost-latency addendum using prior and current references. Do not duplicate the quality or cost question. | **"What else could explain the change?"** **"Who owns the spend decision?"** A trend is an operating signal, not sign-off to ship. |
-| Define balanced review questions | 20 min | Select only relevant coverage, reliability, risk, quality, cost ownership, adoption, human-review, and business-outcome questions. | **"Who interprets this?"** **"What decision follows?"** Do not turn every category into a required metric or target. |
+| Review quality, latency, and cost trends (optional) | Within the 20 min review-question activity | When in scope, complete the quality-cost-latency addendum using prior and current references. Use one quality or cost question per decision. | **"What else could explain the change?"** **"Who owns the spend decision?"** A trend is an operating signal, not sign-off to ship. |
+| Define balanced review questions | 20 min | Select only relevant coverage, reliability, risk, quality, cost ownership, adoption, human-review, and business-outcome questions. | **"Who interprets this?"** **"What decision follows?"** Require metrics or targets only for categories that affect the decision. |
 | Form drift hypotheses and routes | 15 min | Record observable drift hypotheses, other possible explanations, evidence limits, test or observation plan, owner, and escalation trigger. | **"What would challenge this hypothesis?"** **"When does it need escalation?"** A hypothesis is not a confirmed cause. |
 | Define remediation and exceptions | 15 min | Record finding owner, target date, validation and recurrence approach, exception expiry, escalation route, and next review. | **"What validates the remedy?"** **"Who accepts an exception?"** Reported completion is not closure until a reviewer checks validation and remaining exceptions. |
 | Decide and hand over | 15 min | Approve, defer, reject, or route the review definition and technical decision. Record limits, acceptance evidence, target date, next review, and S7/S12/S13 handoffs. | **"Which technical option is selected, deferred, rejected, or routed?"** **"What remains unresolved?"** Adopting a review method does not authorize enforcement or change. |
@@ -114,7 +114,7 @@ references to the workload, review period, relevant version or control decision,
 outcome category, allocation context where applicable, and reviewer decision.
 These categories help the review. They are not a required event schema.
 
-Do not retain raw payloads, personal data, credentials, identifiers, or business
+Keep raw payloads, personal data, credentials, identifiers, and business
 data in this kit.
 
 ## 5. Verification & evidence capture

@@ -1,94 +1,47 @@
-# S7 Runbook: Assurance Handoff
+# S7 Evaluation Runbook
 
-S7 does not operate a live evaluation or gate. Its one action is a
-customer-operated assurance review and decision handoff.
+Use this runbook to facilitate a customer decision and backlog handoff. The facilitator guides the questions; the customer inspects its Microsoft records and owns all decisions.
 
-## Facilitated activity alignment
+> **Boundary:** Use safe references only. Keep customer identifiers, secrets, prompt text, model outputs, telemetry exports, and live configuration out of this repository.
 
-Run this sequence during the [S7 practical activity](../../docs/s7-evaluation/practical.md).
-Before step 1, the facilitator confirms a customer assurance owner, platform
-and security reviewers/evidence owner, decision owner, approved record
-location, and accepted S6 entry evidence. The customer performs the review and
-chooses the outcome; the facilitator keeps the assurance boundary and records
-the handoff.
+## Entry condition
 
-1. Confirm the customer evidence system contains an S6 gateway-proof manifest
-   conforming to
-   [`contracts/gateway-proof.schema.json`](../../contracts/gateway-proof.schema.json),
-   with `result: "pass"`.
-2. Confirm named customer platform and security reviewers have accepted that
-   proof after correlating its `correlation_id` with gateway telemetry. A passed
-   request without this acceptance is not an S7 entry condition.
-3. The customer assurance owner copies
-   `templates/technical-decision-record.template.md` into the approved customer
-   records system to record the selected evaluation approach, release-gate
-   mechanism, performance-evidence path, alternatives considered, and
-   verified-status caveats. Then the owner copies
-   `templates/evaluation-plan-review.template.md` into the approved customer
-   records system to record evaluation coverage, limits, interpretation owners,
-   and release-decision use. They also copy
-   `templates/assurance-outcome.template.json` into their approved records
-   system, records only references (not raw evidence), and selects `continue`
-   or `hold`. They state the bounded scope and evidence limit; `continue`
-   means the handoff record is complete, not that production use is approved.
-   Where quality thresholds are in scope, the assurance owner also copies
-   `templates/quality-measurement-plan.template.md`, records customer-owned
-   dimensions, evaluator options, coverage limitations, threshold governance,
-   and baseline references, then creates
-   `templates/quality-threshold-decision.template.json` and validates that
-   threshold decision against
-   `contracts/quality-threshold-decision.schema.json`. Ask which evaluators are
-   universal versus project-gated, who proposes and approves the threshold, and
-   which population is not covered.
-   Where synthetic performance or load testing is in scope, the owner also
-   copies `templates/performance-test-plan.template.md` to record the workload
-   model, first-token / end-to-end / throughput / error-saturation targets, and
-   environment-fidelity limits (quota/PTU, stubs versus live, data parity). The
-   load engine (for example Azure Load Testing, after current service status,
-   region, quota, and pricing are verified) is customer-run and referenced, not
-   operated by this kit; production reconciliation of any drift hands off to S11.
-4. Validate a new assurance-outcome record against
-   `contracts/assurance-handoff.schema.json`. The assurance exit is complete
-   only when the customer acceptance decision is `accepted`, the outcome is
-   recorded, and the decision reference, review date, and next review date are
-   present. If any is missing, choose `hold` and record the owner and target
-   date for completion. Existing `v1` records remain valid against
-   `contracts/assurance-handoff.v1.schema.json`; use the `v2` template for a
-   new review.
+Bring a bounded workload or portfolio slice, the decision owner, implementation owner, evidence owner, and the approved customer records location. If any owner or location is missing, create a blocker backlog item instead of completing the decision.
 
-Customer teams may run Foundry Evaluations or introduce a CI gate separately in
-their own approved delivery process after current status, availability, and
-scope are verified. Those results do not replace the accepted S6 gateway proof
-and are not produced by this kit. Use the evaluation-plan review to distinguish
-quality, groundedness, safety, tool-use, regression, human-review, and
-unsupported-scope questions. A score or metric is useful only with its bounded
-population, version, evaluator, coverage limit, interpretation owner, and
-release decision.
+## 1. Inspect the Microsoft control path
 
-Record the evaluation implementation backlog in the evaluation-plan review:
-Foundry evaluation target (after current status and scope are verified),
-evaluator type or scorecard, dataset/scenario owner, trace source, unsupported
-scope, evaluation-suite version, continuous-evaluation cadence where available,
-release threshold, future CI/CD or release-gate owner, rollback/observation
-route, S8 red-team dependency, S11 operating-review handoff, recommendation,
-confidence, assumptions, evidence reference or gap, owner, and customer process.
+Default Microsoft path: **Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing where applicable**.
 
-**Interpret and decide:** retain only safe references to the accepted S6 proof,
-evaluation plan, assurance owner, and decision. Choose `continue` only when the
-handoff contract is complete and the S6 decision is `accepted`; otherwise
-choose `hold`. Record a deferred or blocked reason, owner, target date, and
-review date in the customer decision record. A fixture score, evaluator result,
-or proposed gate is context for a customer-owned process, not an S7 exit.
+Customer action: inspect the Foundry evaluation run, evaluator/scorer configuration, dataset/scenario reference, CI/CD gate, release decision, and Azure Load Testing record when applicable. Confirm the record exists, has an accountable owner, names the environment/scope, and can be referenced from the customer record system.
 
-For a later operating review, retain customer-held references to the bounded
-workload, evaluation-plan/version, applicable runtime correlation, decision
-outcome, and reviewer. Do not copy evaluation cases, scores, prompts, or
-outputs into this kit.
+## 2. Complete the work records
 
-## Decision and exception record
+- [ ] Copy `templates/evaluation-plan-review.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
+- [ ] Copy `templates/performance-test-plan.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
+- [ ] Copy `templates/quality-measurement-plan.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
+- [ ] Copy `templates/technical-decision-record.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
 
-Ask: **approve, defer, reject, or route this bounded evaluation and
-release-evidence plan?** Default to Foundry evaluations where current support
-fits, with accepted S6 evidence and human interpretation. Any exception records
-its owner, reason, compensating review, acceptance criteria, target date, and
-S8/S11 handoff. This handoff does not approve a release or production change.
+Ask: **Which Microsoft record proves this decision is ready to hand off, and who operates it next?**
+
+## 3. Decide
+
+Record one result:
+
+- **Approve** when the Microsoft control path is present, owned, evidenced, and accepted by the receiving owner.
+- **Defer** when a record, owner, acceptance test, or target date is missing.
+- **Reject** when the proposed path cannot meet the bounded scope.
+- **Route** when another Microsoft control owner must decide first.
+
+## 4. Create implementation backlog
+
+Create an evaluation backlog item for missing scenarios, scoring thresholds, owner review, CI/CD gate, load-test coverage, or release decision evidence.
+
+Each backlog item must include Microsoft control path, owner, evidence location, accepted when, exception if any, target date, and handoff. Use this row shape:
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Exception | Target date | Handoff |
+|---|---|---|---|---|---|---|---|
+| | Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing where applicable | | | | | | evaluation owner, QA/release owner, model or agent owner, and operations owner |
+
+## 5. Hand off
+
+Handoff to evaluation owner, QA/release owner, model or agent owner, and operations owner. The receiving owner accepts only the backlog items with clear acceptance tests, target dates, and evidence locations. Keep the final records in the customer-approved system.

@@ -16,14 +16,14 @@ They leave with:
 - A named governance lead, executive sponsor, and decision owner for follow-on work.
 - References to the baseline and roadmap decision in the customer's approved records system or generated delivery workspace.
 
-`labs/s0-foundations/` contains blank templates and an offline scorer. It does not hold completed scorecards, roadmaps, names, notes, or evidence. The customer keeps those records in its approved system.
+`labs/s0-foundations/` contains blank templates and an offline scorer. Keep completed scorecards, roadmaps, names, notes, and evidence in the customer's approved system.
 
 ### Plain decision
 
 **Question:** **Do we approve, defer, reject, or route the first governance
 backlog item?** Default to the customer's existing governance forum and
 backlog. Use another route only when the sponsor records the exception reason,
-owner, evidence reference, acceptance criterion, and target date. The result is
+owner, customer record location, acceptance criterion, and target date. The result is
 planning only; it does not change a customer system or approve production.
 
 ### What happens next
@@ -33,7 +33,7 @@ customer's existing governance, architecture, security, compliance, or change
 process.
 
 S0 turns the baseline into a governance backlog, naming the next track, owner,
-evidence gap, assumptions, and follow-up process. It does not deploy a control.
+evidence gap, assumptions, and follow-up process. Control deployment stays in the customer's approved change process.
 
 | Pathway area | Example backlog decision |
 |---|---|
@@ -53,7 +53,7 @@ The customer's copy of the scorecard has one row per assessment question:
 | `weight` | Relative weighting for the offline roadmap |
 | `score` | Customer-agreed blank or `1`-`4` maturity value |
 
-The scorer needs every field except `concept_explanation`. It does not send or store the customer baseline.
+The scorer needs every field except `concept_explanation` and runs offline against the customer's retained baseline.
 
 ## 2. Prerequisites
 
@@ -83,8 +83,8 @@ control-framework options and selection criteria.
 **Timebox:** 90 minutes. **Roles:** facilitator, governance lead, executive
 sponsor, evidence owner, and domain reviewers. **To start:** sponsor, governance
 lead, approved evidence location, and a bounded pilot question. If one is
-missing, stop that part and assign the blocker. Do not create a substitute
-record in Git.
+missing, stop that part and assign the blocker. Keep substitute records out of
+Git.
 
 **What the customer actually does:** the governance lead scores the baseline with customer participants, then the sponsor chooses the next owned governance work.
 
@@ -95,7 +95,7 @@ record in Git.
    ```bash
    python labs/s0-foundations/assessment/score.py /approved/customer/path/scorecard.csv
    ```
-   The facilitator asks: **"Which option from the Technical decisions menus does this ranking support, and which alternative is rejected or deferred?"** and **"Which prerequisite must be owned before S1 or S2 can start?"** The scorer ranks lower scores first and breaks ties by total question weight. It recommends a roadmap; it does not make the decision. If the tool cannot run, keep the completed baseline reference, record the blocker, and assign remediation. Do not invent a score by hand.
+   The facilitator asks: **"Which option from the Technical decisions menus does this ranking support, and which alternative is rejected or deferred?"** and **"Which prerequisite must be owned before S1 or S2 can start?"** The scorer ranks lower scores first and breaks ties by total question weight. It recommends a roadmap; it does not make the decision. If the tool cannot run, keep the completed baseline reference, record the blocker, and assign remediation. Accept only customer-entered scores.
 5. **Decide and hand off** *(15 min)* - the decision owner chooses the next
    piece of work, defers with a date, or accepts a stated gap. The decision uses
    maturity evidence, business risk, accountable ownership, and prerequisites.
@@ -111,9 +111,9 @@ record in Git.
 - [ ] The offline scorer produces an overall maturity score and prioritized roadmap.
 - [ ] The customer record names the governance owner, sponsor, decision, and next review date.
 - [ ] The evidence register contains references only, not copied scorecards, roadmaps, names, or meeting notes.
-- [ ] Any unanswered, unsupported, or blocked domain has a checked scope, owner, evidence reference, and review date.
+- [ ] Any unanswered, unsupported, or blocked domain has a checked scope, owner, customer record location, and review date.
 
-Register the customer baseline reference and retention/classification metadata in `04-operate/evidence-register.json`. Register the roadmap decision in `04-operate/decision-register.json` in the generated delivery workspace. Do not copy the baseline, roadmap, operating model, or RACI into this repository.
+Register the customer baseline reference and retention/classification metadata in `04-operate/evidence-register.json`. Register the roadmap decision in `04-operate/decision-register.json` in the generated delivery workspace. Keep the baseline, roadmap, operating model, and RACI out of this repository.
 
 ## 6. Change boundary
 

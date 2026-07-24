@@ -1,69 +1,67 @@
 # S12 · LLMOps: Azure implementation blueprint
 
 !!! warning "Verify before adopting"
-    This is an Azure/Microsoft reference operating model. Verify current
-    Microsoft Foundry, Azure Monitor, Application Insights, API Management,
-    region, quota, and customer requirements before implementation.
+    Last reviewed: 2026-07-24 · This is a Microsoft Learn-aligned LLMOps operating model. Verify current Microsoft Foundry, Azure Monitor, Application Insights, Azure API Management, CI/CD, region, quota, and customer requirements before implementation.
 
-S12 makes the LLMOps lifecycle operational. It prescribes the minimum
-engineering records and decision gates needed to move learning from data to
-production and back into governed improvement. It does not select a model,
-configure Azure resources, or approve a production release.
+## Microsoft default
 
-## Reference lifecycle and Azure mapping
+Default to the Microsoft LLMOps lifecycle: **data curation → experimentation → evaluation → validate/deploy → inference → monitor → feedback/data collection**. Preserve the Microsoft Learn inner-loop and outer-loop model: the inner loop improves data, prompts, retrieval, code, and evaluation assets; the outer loop promotes, serves, observes, and feeds governed learning back into the inner loop.
 
-| Stage | Azure/Microsoft implementation default | Required governance record | Exit decision |
+## Lifecycle decision tree
+
+1. **If the change affects data, prompts, retrieval, tools, model behavior, fine-tuning, or evaluation assets**, route it to the inner loop and create a new candidate.
+2. **If the candidate is ready for release consideration**, require S7 evaluation and customer validate/deploy controls before PRE or PRO.
+3. **If the change affects deployment alias, gateway, identity, quota, capacity, telemetry, or support**, route it to the outer loop platform/change process.
+4. **If production monitoring or feedback suggests improvement**, create a hypothesis and curated candidate dataset; never mutate production directly.
+
+## Microsoft Learn LLMOps lifecycle mapping
+
+| Stage | Azure/Microsoft implementation default | Required governance record | Accepted when... |
 |---|---|---|---|
-| Data curation | Customer-governed data source and transformation process; approved references to data and retrieval/evaluation assets. | Data purpose, source/provenance, transformation, retention, owner, and S2 decision. | Suitable for the stated experiment/evaluation use, or blocked. |
-| Experimentation | Protected source repository and reproducible candidate references for prompts, retrieval configuration, model/deployment choices, and code. | Hypothesis, candidate/release reference, experiment population, owner, and limitations. | Worth evaluating, abandoned, or requires new data/control. |
-| Evaluation | Microsoft Foundry evaluators/agent evaluators where supported, customer rubrics, and versioned scenario datasets. | Scorer/rubric, dataset/scenario version, coverage, threshold owner, results reference, and S7 decision. | Candidate meets the defined gate, fails, or needs iteration. |
-| Validate and deploy | DEV -> PRE -> PRO promotion through customer CI/CD, IaC, and change control. | Release manifest linking service release, deployment alias, instruction release, evaluation evidence, approver, and rollback target. | Promote, hold, rollback, or reject. |
-| Inference | Foundry deployment behind a customer-owned alias; selected gateway/backend contract and managed identity/network path where applicable. | Service/deployment route, owner, dependency and support path, performance assumptions. | Ready for approved workload, or constrained/deferred. |
-| Monitor | Foundry observability where applicable plus Application Insights/Azure Monitor and customer alerting. | Signal, population, retention/coverage limit, interpretation owner, escalation route, and S11 reference. | Normal operation, investigate, contain, or improve. |
-| Feedback and collection | Approved feedback capture and curation pipeline; feedback enters a candidate dataset, never a direct production mutation. | Purpose, consent/privacy route, sampling/quality rule, retention, owner, and S2/S11 handoff. | Reuse for inner-loop curation, discard, or investigate. |
+| Data curation | customer-governed data source, transformation, retrieval/evaluation asset references | purpose, source/provenance, transformation, retention, owner, S2 decision | data is suitable for the stated experiment/evaluation or the gap is blocked with owner |
+| Experimentation | protected source repo and reproducible candidate references for prompts, retrieval, model/deployment choices, and code | hypothesis, candidate/release reference, population, owner, limitations | candidate is worth evaluating, abandoned, or needs new data/control |
+| Evaluation | Microsoft Foundry evaluators/agent evaluators where supported plus customer rubrics and versioned scenarios | scorer/rubric, dataset/scenario version, coverage, threshold owner, result reference, S7 decision | candidate meets the defined gate or is routed for iteration/rejection |
+| Validate/deploy | DEV → PRE → PRO through customer CI/CD, IaC, and change control | release manifest with service release, deployment alias, instruction/retrieval release, evaluation evidence, approver, rollback target | promote, hold, rollback, or reject decision is recorded by customer authority |
+| Inference | Foundry deployment behind customer-owned alias; API Management/gateway/backend contract and managed identity/network path where applicable | service/deployment route, owner, dependency/support path, performance assumptions | workload route is ready for approved use or constrained/deferred |
+| Monitor | Foundry observability where applicable plus Application Insights, Azure Monitor, Log Analytics, and customer alerting | signal, population, retention/coverage limit, interpretation owner, escalation route, S11 reference | normal, investigate, contain, or improve route is recorded |
+| Feedback/data collection | approved feedback capture and curation pipeline; feedback enters candidate data, not direct production mutation | purpose, consent/privacy route, sampling/quality rule, retention, owner, S2/S11 handoff | reuse, discard, or investigate decision is recorded |
 
-## Non-negotiable lifecycle controls
-
-1. **Reproducibility:** every experiment and promotion has a safe reference to
-   its code/configuration, candidate artifacts, data/evaluation version, and
-   outcome. Do not put sensitive contents in the S12 kit.
-2. **Separated environments:** DEV, PRE, and PRO have named purposes,
-   promotion authority, and stated equivalence limits. PRE evidence is not
-   automatic PRO approval.
-3. **Stage gates:** a candidate cannot skip from an experiment to PRO. It needs
-   S7 evaluation/release assurance and a customer change decision.
-4. **Closed-loop learning:** feedback/data collection requires governance before
-   it becomes curation input; monitoring signals create a hypothesis, not an
-   automatic root cause or model change.
-5. **Reconstructable inference:** the active PRO route is recoverable from a
-   release manifest: service release, deployment alias, instruction/retrieval
-   release, evaluation reference, approval, and rollback target.
-
-## Material-change decision matrix
+## Material-change matrix
 
 | Change | Lifecycle effect | Mandatory route |
 |---|---|---|
-| New data source, feedback reuse, retention, or transformation | Changes data-curation fitness and privacy/compliance assumptions. | S2, then experiment/evaluation owner. |
-| Prompt, retrieval, tool-use, model, fine-tuning, or configuration behavior change | Creates a new experimental candidate. | Experiment record, S7 evaluation, customer change before PRO. |
-| New model/provider, family, region, or deployment path | Changes selection, inference dependencies, and possibly behavior. | S4 admission/selection, S7, platform/change control, S11 as applicable. |
-| Deployment alias, fallback, quota, capacity, gateway, or identity change | Changes validation/deployment or inference dependencies. | Platform/change control; S7/S11 where behavior or operations change. |
-| Evaluation dataset, scorer, rubric, or threshold change | Changes what the team can claim from evaluation. | S7 decision and recorded comparison/coverage impact. |
-| Telemetry, alert, retention, cost allocation, or incident route change | Changes monitoring and feedback-loop evidence. | S11 and customer change route. |
+| New data source, feedback reuse, retention, or transformation | changes data-curation fitness and privacy/compliance assumptions | S2, then experiment/evaluation owner |
+| Prompt, retrieval, tool-use, model, fine-tuning, or configuration behavior change | creates a new inner-loop candidate | experiment record, S7 evaluation, customer change before PRO |
+| New model/provider, family, region, or deployment path | changes selection, inference dependencies, and possibly behavior | S4 admission/selection, S7, platform/change control, S11 as applicable |
+| Deployment alias, fallback, quota, capacity, gateway, or identity change | changes validate/deploy or inference dependencies | platform/change control; S7/S11 where behavior or operations change |
+| Evaluation dataset, scorer, rubric, or threshold change | changes the evaluation claim | S7 decision and comparison/coverage impact record |
+| Telemetry, alert, retention, cost allocation, or incident route change | changes monitoring and feedback-loop evidence | S11 and customer change route |
 
-## Implementation handoff and acceptance
+## Platform checks
 
-| Work item | Owner | Completion evidence |
+| Check | Microsoft product/control record |
+|---|---|
+| Candidate provenance | source repository/release reference, prompt/retrieval/model config reference, Foundry project |
+| Evaluation gate | Foundry evaluation/agent evaluator result, rubric/scenario dataset version, S7 decision |
+| Release reconstruction | CI/CD run, IaC reference, deployment alias, approval, rollback target |
+| Inference route | Foundry deployment, API Management backend/gateway route, managed identity/RBAC, network record |
+| Monitoring and feedback | Foundry traces, Application Insights/Azure Monitor/Log Analytics, feedback pipeline, S2 privacy/retention record |
+
+## Acceptance tests
+
+| Work item | Accepted when... | Handoff |
 |---|---|---|
-| Map one workload across all seven LLMOps stages | LLMOps/service owner | Completed lifecycle canvas with owner and record at every stage. |
-| Version inner-loop artifacts and experiment records | Engineering/instruction owner | Protected source/release convention and completed experiment reference. |
-| Establish the evaluation gate | S7/release owner | Scenario/rubric and accepted evaluation decision reference. |
-| Establish promotion and reconstruction | Platform/service/change owner | DEV/PRE/PRO record and completed release manifest with rollback target. |
-| Establish inference operations | Platform/service owner | Deployment alias, support/dependency, and performance-assumption references. |
-| Establish monitoring and feedback governance | S11, S2, and service owner | Signal/feedback definitions, ownership, coverage limits, and escalation/curation routes. |
+| Seven-stage map | one workload has owner, record location, and decision state for every lifecycle stage | LLMOps/service owner |
+| Inner-loop reproducibility | data, prompt/retrieval, code, model/deployment, evaluation, and outcome references can be reconstructed safely | Engineering owner |
+| Outer-loop promotion | DEV/PRE/PRO gate, release manifest, approval, and rollback target are recorded | Platform/change owner |
+| Feedback loop | monitoring/feedback signals have privacy route, curation owner, quality rule, and next inner-loop action | S11/S2/service owner |
 
-## Boundaries
+## Boundary note
 
-S12 uses the results of S2, S4, S7, and S11 but does not duplicate their
-decisions. Its value is the joined-up workflow: every production signal and
-user-feedback item has a governed route back to the correct inner-loop stage,
-with an accountable owner and evidence trail.
+S12 joins prior decisions into an LLMOps workflow; it selects no model, configures no Azure resource, and approves no production release.
+
+## Related references
+
+- [S2 technical decisions](../s2-data-compliance/technical.md), [S4 technical decisions](../s4-agent-engineering/technical.md), [S7 technical decisions](../s7-evaluation/technical.md), and [S11 technical decisions](../s11-operate-measure/technical.md).
+- [Platform technical guide](../reference/platform-technical-guide.md).
+- [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md).

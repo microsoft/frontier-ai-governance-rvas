@@ -1,56 +1,55 @@
-# Production performance-telemetry review
+# Performance Telemetry Review
 
-Use this optional addendum with the operating-review template when production
-agent performance, including first-token latency, end-to-end latency, throughput,
-or error/saturation under real traffic, is in scope. It references customer-held
-telemetry only; it does not query live data, create a dashboard, or draw a
-conclusion from an incomplete sample.
+Copy this template into the customer's approved records system. Use it to turn the S11 Operate & Measure decision into a Microsoft-platform control record and backlog handoff.
 
-See the [agent performance-testing guide](../../../docs/reference/performance-testing-guide.md)
-for the metric taxonomy and the synthetic-versus-production model. Pair this
-with an approved synthetic baseline reference where one exists.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-## Scope and accountability
+## Scope
 
 | Field | Record |
 |---|---|
-| Bounded population and review period | |
-| Telemetry source (OpenTelemetry / Application Insights / Foundry traces) | |
-| Sampling, retention, and correlation reference | |
-| Performance owner | |
-| Interpretation owner | |
-| Review cadence | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Production performance observations
+## Microsoft control path
 
-| Metric | Prior-period reference | Current-period reference | Observation | Coverage / sampling limit | Interpretation owner | Decision or escalation |
+Default path: **Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit**.
+
+Inspect: the Foundry observability view, Azure Monitor metric/alert, Application Insights trace, Log Analytics query, Cost Management view, and FinOps review record.
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
 |---|---|---|---|---|---|---|
-| Time to first token / first byte (p95) | | | | | | |
-| End-to-end latency (p95 / p99) | | | | | | |
-| Throughput / concurrency | | | | | | |
-| Error rate & saturation (429 / timeout) | | | | | | |
-| Per-component attribution | | | | | | |
+| | Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit | | | | | service operations, FinOps owner, platform monitoring, and product owner |
 
-An uninstrumented or excluded path is a coverage gap, not a zero result.
+## Decision and acceptance
 
-## Synthetic baseline reconciliation
-
-| Field | Record |
+| Decision field | Record |
 |---|---|
-| Approved synthetic baseline reference | |
-| Production-versus-synthetic gap observed | |
-| Drift hypothesis (workload mix / config / model version / quota / coverage) | |
-| Alternative explanation | |
-| Test or observation plan | |
-| Owner and escalation trigger | |
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create an operations backlog item for missing telemetry, alert threshold, quality/cost/latency review, remediation owner, operating cadence, or FinOps action. |
+| Handoff owner and customer process | service operations, FinOps owner, platform monitoring, and product owner |
+| Next review trigger | |
 
-A production-versus-synthetic gap is a drift hypothesis, not confirmed drift.
+## Exception
 
-## Implementation backlog
+Complete this section only when the Microsoft default is not used.
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Customer follow-up route |
-|---|---|---|---|---|---|
-| Production performance telemetry coverage (OTel / App Insights / Foundry) | | | | | Platform operations |
-| First-token / end-to-end / saturation observation or attribution gap | | | | | Platform operations |
-| Synthetic-baseline reconciliation and drift investigation | | | | | Evaluation or operations process |
-| Alert route and recurrence check for performance regression | | | | | Customer operating process |
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “add latency/cost alert for production agent”; evidence location “Azure Monitor alert and Cost Management view”; accepted when operations and FinOps owners accept the cadence.

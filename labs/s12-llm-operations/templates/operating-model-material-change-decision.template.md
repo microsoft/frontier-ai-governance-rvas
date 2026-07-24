@@ -1,41 +1,39 @@
-# S12 LLMOps stage-gate and material-change decision
+# Operating model material-change decision
 
-Copy this safe-reference template into the customer's approved records system.
-It classifies a lifecycle change; it does not authorize data use, deployment,
-release, or production use.
+Copy this template into the customer's approved records system. Use it to decide whether an LLMOps lifecycle change is safe to approve, defer, reject, or route.
 
-## Change decision
+> **Safety boundary:** Use safe references only. Do not enter prompt text, model outputs, customer data, secrets, live configuration, telemetry exports, or personal data in this repository.
 
-| Field | Record |
-|---|---|
-| Application/service and affected lifecycle stage | |
-| Proposed change and approved reference | |
-| Current and proposed candidate/release-manifest references | |
-| Classification: material / non-material / unknown | |
-| Governance decision owner and date | |
-| Effective date, exception expiry, or next review | |
-| Result: approve / defer / reject / route | |
+## Microsoft control path
 
-## Mandatory routing assessment
+Default path: **Microsoft Learn LLMOps lifecycle: data curation, experimentation, evaluation, validate/deploy, inference, monitor, and feedback/data collection**.
 
-| Impact question | Yes / no / unknown | Required route and evidence |
-|---|---|---|
-| Does it add/reuse data, feedback, retention, or a transformation? | | S2 data decision and curation record |
-| Does it change model, prompt, retrieval, tool use, fine-tuning, or behavior? | | Experiment record, S7 evaluation, customer change before PRO |
-| Does it change a model/provider, deployment path, region, or inference dependency? | | S4 where selection changes; platform/change control; S7/S11 as applicable |
-| Does it change evaluation data, scorer, rubric, coverage, or threshold? | | S7 comparison and decision record |
-| Does it change telemetry, alerts, incident operation, capacity, or cost allocation? | | S11 and customer change route |
-| Is control, evidence, or ownership unavailable? | | Defer; record gap, owner, target date, and limitation |
+Inspect the affected lifecycle-stage record, Foundry evaluation or equivalent evaluation gate, customer change record, inference route, monitoring signal, and feedback/data-curation route.
 
-## Decision and exception record
+| Change type | Microsoft control path | Owner | Evidence location | Accepted when | Exception | Target date | Handoff |
+|---|---|---|---|---|---|---|---|
+| Data/feedback change | Purview/data-curation and feedback route | | | data owner approves purpose, retention, transformation, and reuse gate | | | S2 / data curation |
+| Candidate behavior change | experiment artifact plus Foundry evaluation/release decision | | | evaluation owner accepts scenario, threshold, and promotion recommendation | | | S7 / release owner |
+| Retrieval or prompt configuration change | protected artifact reference and customer change record | | | rollback target and reviewer can reconstruct the release without raw prompt/output content | | | platform/change owner |
+| Production-operation change | inference route, Azure Monitor/Application Insights, and operations record | | | operations owner accepts signal, alert, rollback, and support route | | | S11 / service owner |
+
+## Decision
 
 | Field | Record |
 |---|---|
-| Decision: advance / hold / reject | |
-| Rationale and lifecycle assumptions affected | |
-| Required S2, S4, S7, S11, platform, supplier, or change handoffs | |
-| Equivalent control for an exception | |
-| Required evidence before next stage and before PRO | |
-| Rollback/containment target and decision owner | |
-| Residual limitation and customer communication | |
-| Acceptance evidence, target date, and receiving owner | |
+| Result (approve / defer / reject / route) | |
+| Decision rationale | |
+| Backlog item to create | Create an LLMOps backlog item for the missing owner, gate, Microsoft record location, rollback route, feedback-to-curation control, or target date. |
+| Next review trigger | production promotion, material model/prompt/data change, incident, audit, or product availability change |
+
+## Exception
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |

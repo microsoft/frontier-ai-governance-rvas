@@ -1,18 +1,20 @@
-# Do this
+# Practical workshop: operations measurement path
 
-**Customer owner:** Service owner with cost owner where needed. **Timebox:** 20
-minutes. Work from approved references only.
+**Microsoft default:** Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit.
 
-1. Choose one workload, population, period, and decision question.
-2. Record one signal source, attribution/correlation limit, alert or escalation
-   route, and interpretation owner. Default to Azure Monitor/Application
-   Insights plus OpenTelemetry; use Foundry observability only where verified
-   and relevant.
-3. Record one finding with validation evidence, recurrence check, closure
-   reviewer, exception expiry or escalation route, target date, and owner.
-4. Decide **approve, defer, reject, or route** the review design; hand work to
-   S7 (baseline/evaluation), S12 (lifecycle), and S13 (portfolio) as needed.
+**Customer decision:** Approve, defer, reject, or route the operating measurement path.
 
-**Acceptance:** a safe-reference record has owner, evidence, acceptance check,
-target date, and explicit handoff. It creates no alert, metric, remediation, or
-production approval.
+## Work the decision
+
+1. Select one bounded pilot or backlog item and name the customer decision owner.
+2. Inspect the Foundry observability view, Azure Monitor workspace, Application Insights traces, Log Analytics queries, Cost Management scope, and FinOps Toolkit cadence.
+3. Fill this row in the customer-approved records system:
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| Pilot decision | Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit | Service operations owner | Customer-approved record | Decision, acceptance test, exception status, and handoff are complete | Customer date | SRE and FinOps |
+
+4. Use this decision tree: if the Microsoft path fits, approve it; if records are missing, defer with an acceptance test; if the path cannot meet the use case, reject or route to an exception owner.
+5. For an exception, record: reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
+
+**Boundary:** Keep customer data in customer-approved systems; production changes require customer change approval.

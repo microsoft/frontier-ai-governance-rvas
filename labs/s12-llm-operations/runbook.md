@@ -1,75 +1,46 @@
-# S12 Runbook: LLMOps lifecycle decision
+# S12 LLMOps Lifecycle Runbook
 
-Use this runbook with the [S12 activity guide](../../docs/s12-llm-operations/index.md).
-The customer decides the lifecycle operating model and implementation handoff;
-the facilitator protects the boundary.
+Use this runbook to facilitate a customer decision and backlog handoff. The facilitator guides the questions; the customer inspects its Microsoft records and owns all decisions.
 
-> **Boundary:** define stages, controls, owners, evidence, and backlog only. Do
-> not ingest data, alter prompts/models, run experiments/evaluations, deploy,
-> configure services, query live data, execute an incident, or approve
-> production.
+> **Boundary:** Use safe references only. Keep prompt text, model outputs, customer data, secrets, live configuration, telemetry exports, and personal data out of this repository.
 
 ## Entry condition
 
-Bring one bounded LLM application/service, named data, experiment, evaluation,
-platform, service, governance, and evidence owners, plus an approved records
-location. Unknown ownership or route is a blocker to record, not an assumption
-to resolve in the workshop.
+Bring a bounded workload or portfolio slice, the decision owner, implementation owner, evidence owner, and the approved customer records location. If any owner or location is missing, create a blocker backlog item instead of completing the decision.
 
-## 1. Map the inner loop
+## 1. Inspect the Microsoft control path
 
-1. Copy `templates/model-prompt-operations-register.template.md`.
-2. For **data curation**, record the intended use, approved source/provenance
-   reference, transformation, owner, limitation, and S2 handoff.
-3. For **experimentation**, record the hypothesis, candidate/release reference,
-   population, owner, and the decision the result can inform.
-4. For **evaluation**, record the scenario/dataset, scorer or rubric, coverage,
-   threshold owner, and S7 route.
+Default Microsoft path: **Microsoft Learn LLMOps lifecycle: data curation, experimentation, evaluation, validate/deploy, inference, monitor, and feedback/data collection**.
 
-Ask: **"What turns this data into a reproducible candidate, and what proves the
-candidate is worth promoting?"**
+Customer action: inspect the data-curation record, experiment/candidate artifact, Foundry evaluation, validate/deploy release record, inference route, Azure Monitor/Application Insights signal, and governed feedback route. Confirm the record exists, has an accountable owner, names the environment/scope, and can be referenced from the customer record system.
 
-## 2. Map deployment and inference
+## 2. Complete the work records
 
-Record DEV -> PRE -> PRO purpose, promotion authority, and environment limits.
-For one PRE candidate, complete the release-manifest references to the candidate
-artifact, evaluation evidence, service release, deployment/inference route,
-change decision, and rollback target.
+- [ ] Copy `templates/incident-rollback-retirement-plan.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
+- [ ] Copy `templates/model-prompt-operations-register.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
+- [ ] Copy `templates/operating-model-material-change-decision.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
 
-Ask: **"Can a reviewer reconstruct the active route and undo it through the
-approved change process?"** If not, defer the affected promotion claim.
+Ask: **Which Microsoft record proves this decision is ready to hand off, and who operates it next?**
 
-## 3. Map monitoring and feedback
+## 3. Decide
 
-Copy `templates/incident-rollback-retirement-plan.template.md`. For monitoring,
-record the signal, population/retention limit, interpretation owner, escalation
-route, and S11 handoff. For feedback, record purpose, privacy/consent and
-retention route, quality/curation rule, and the S2 route before reuse.
+Record one result:
 
-Ask: **"How does a production observation become a governed improvement rather
-than an automatic production mutation?"**
+- **Approve** when the Microsoft control path is present, owned, evidenced, and accepted by the receiving owner.
+- **Defer** when a record, owner, acceptance test, or target date is missing.
+- **Reject** when the proposed path cannot meet the bounded scope.
+- **Route** when another Microsoft control owner must decide first.
 
-## 4. Apply stage gates to change
+## 4. Create implementation backlog
 
-Copy `templates/operating-model-material-change-decision.template.md`. Classify
-at least one feedback/data change, one candidate behavior change, and one
-production-operation change. Route each according to the template; do not
-substitute a pull request, dashboard, or version number for a decision.
+Create an LLMOps backlog item for each lifecycle stage missing an owner, gate, Microsoft record location, rollback route, feedback-to-curation control, or target date.
 
-## 5. Decide and hand over
+Each backlog item must include Microsoft control path, owner, evidence location, accepted when, exception if any, target date, and handoff. Use this row shape:
 
-The governance decision owner records one outcome:
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Exception | Target date | Handoff |
+|---|---|---|---|---|---|---|---|
+| | Microsoft Learn LLMOps lifecycle: data curation, experimentation, evaluation, validate/deploy, inference, monitor, and feedback/data collection | | | | | | data owner, experiment owner, evaluation owner, platform/change owner, service operations, and governance owner |
 
-- **Approve:** every stage has an owner, evidence, exit gate, and accepted
-  handoff.
-- **Defer:** a control, record, owner, or route is missing; name the blocker,
-  target date, and decision limit.
-- **Reject:** the lifecycle cannot support the stated application scope.
-- **Route:** a required S2, S4, S7, S11, platform, or customer change decision
-  belongs to its receiving owner.
+## 5. Hand off
 
-For each gap, assign an implementation owner and completion evidence. Record
-limitations, explicit exclusions, and the next lifecycle review. S12 approval
-is never authorization to make a production change. The release manifest must
-reconstruct service release, candidate artifact, deployment alias, evaluation
-decision, change decision, and rollback target.
+Handoff to data owner, experiment owner, evaluation owner, platform/change owner, service operations, and governance owner. The receiving owner accepts only the backlog items with clear acceptance tests, target dates, and evidence locations. Keep the final records in the customer-approved system.

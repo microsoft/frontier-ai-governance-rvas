@@ -1,93 +1,72 @@
-# S11 · Operate, Monitor & FinOps
+# S11 · Operate & Measure
 
 **Facilitator deck**
 
-Governance lead · Service owner · Cost owner · 90-minute operating-review design session
+Microsoft default: **Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit**.
 
-## One operating question
-
-> **"What decision can this review support, and what evidence limits travel with it?"**
-
-The customer leaves with a repeatable review definition, owners, cadence, limits, and next review.
-
-Record **approve, defer, reject, or route** for the selected signal source,
-attribution method, alert route, and closure route.
+Concrete decision: **Approve, defer, reject, or route the operating measurement path.**
 
 ---
 
-## Review evidence, not dashboards
+## Start with the Microsoft path
 
-![Operating review produces decisions and drift hypotheses.](../assets/diagrams/s11-operating-review-flow.svg)
+- Default control path: Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit.
+- Customer inspects: Inspect the Foundry observability view, Azure Monitor workspace, Application Insights traces, Log Analytics queries, Cost Management scope, and FinOps Toolkit cadence.
+- Decision owner: Service operations owner.
 
-- Every question needs population, period, coverage limit, owner, and decision use.
-- Unavailable, uninstrumented, and excluded paths are coverage gaps, not zero or pass.
-- Foundry traces, OpenTelemetry, and Application Insights can supply bounded operating signals.
-- A production score or trend is not release sign-off or control-enforcement proof.
-- Default to Azure Monitor/Application Insights with OpenTelemetry for app
-  paths; add Foundry observability only where verified and applicable.
+Note:
+Open with the default platform path and the decision the customer must make.
 
 ---
 
-## FinOps and drift
+## Decide with platform records
 
-- Record workload scope, shared-cost assumptions, allocation limits, cost owner, and exclusions.
-- Training and inference cost are distinct for fine-tuned models.
-- Difference from an S7 synthetic baseline is a drift hypothesis until tested against workload, version, quota, configuration, and coverage changes.
+- Approve when the Microsoft path fits and the acceptance test is clear.
+- Defer when a required record or owner is missing.
+- Reject when the use case cannot meet the control path.
+- Route when an exception owner must accept an equivalent control.
 
----
-
-## Entry and boundary
-
-- **Entry:** S9 closeout or documented deferral, question owners, evidence references, and approved records location.
-- **Boundary:** approved references only; no live-data query, copied telemetry, dashboard, metric, threshold, remediation, policy, identity, or production change.
-- No trusted evidence or accountable owner means the question is blocked.
+Note:
+Keep the discussion on records, owners, and acceptance tests.
 
 ---
 
-## Step 1: Define the review · 10 min
+## Acceptance test
 
-Select one population, period, decision, owners, and records location.
+The decision is ready when the record names:
 
-> **"What is out of scope?"**
+- Microsoft control path
+- Owner
+- Evidence location
+- Accepted-when condition
+- Target date
+- Handoff: SRE and FinOps
 
----
-
-## Step 2: Map coverage · 15 min
-
-For every question, record evidence references, coverage, exclusions, latency and attribution limits, and, where relevant, Foundry project, deployment, agent/run identifier, evaluator, and version.
-
----
-
-## Step 3: Select questions · 20 min
-
-Choose only relevant control-coverage, reliability, risk, quality, cost, adoption, human-review, or business-outcome questions.
-
-> **"Who interprets this? What decision follows? What else could explain a change?"**
+Note:
+The acceptance test should be observable by the team that receives the handoff.
 
 ---
 
-## Step 4: Drift, remediation, and exception routes · 30 min
+## Exception, if any
 
-Record a hypothesis, alternatives, evidence limits, test or observation plan,
-owner, escalation trigger, validation, recurrence check, exception expiry,
-closure reviewer, acceptance evidence, and target date.
+An exception needs:
+
+- Reason and equivalent control
+- Owner and evidence location
+- Acceptance test and target date
+- Review trigger
+
+Note:
+Use an exception for a documented equivalent control with an owner and review trigger.
 
 ---
 
-## Step 5: Decide and hand over · 15 min
+## Close the session
 
-Approve, defer, or reject the review definition and technical choices. Record limits, unresolved gaps, and next review.
+- Decision: approve, defer, reject, or route.
+- Decision owner: Service operations owner.
+- Handoff: SRE and FinOps.
+- Boundary: customer data stays in approved systems; production changes use customer change approval.
 
----
-
-## Verification and handoff
-
-- [ ] Population, decision, owners, cadence, and evidence location are recorded.
-- [ ] Selected questions have coverage limits and interpretation owners.
-- [ ] Drift hypotheses and findings have test, validation, recurrence, and escalation routes.
-- [ ] Operating and technical decisions are recorded or backlogged.
-
-The review definition and remediation references enter the customer governance
-cadence; hand off S7 baseline/evaluation, S12 lifecycle, and S13 portfolio work
-to named receiving owners. Implementation remains with customer engineering and
-change processes.
+Note:
+End with the decision record and the named handoff.

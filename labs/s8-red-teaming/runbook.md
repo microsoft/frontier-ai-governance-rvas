@@ -1,144 +1,44 @@
-# S8 Runbook: Authorized customer-operated red teaming
+# S8 Red Teaming Runbook
 
-> **Safety:** adversarial testing is authorized-scope only. Notify the SOC before
-> any run. Target only a customer-owned **NON-PRODUCTION** test agent/endpoint.
+Use this runbook to facilitate a customer decision and backlog handoff. The facilitator guides the questions; the customer inspects its Microsoft records and owns all decisions.
 
-## Facilitated activity alignment
+> **Boundary:** Use safe references only. Keep customer identifiers, secrets, prompt text, model outputs, telemetry exports, and live configuration out of this repository.
 
-Run this sequence during the [S8 practical activity](../../docs/s8-red-teaming/practical.md)
-and inside the approved SOC monitoring window. Before pre-flight, the
-facilitator confirms a customer security/SOC lead, endpoint owner, evidence
-owner, decision owner, written authorization, rules of engagement, safe
-non-production target, stop conditions, and customer-approved categories and
-thresholds (when used). The customer alone operates target access, credentials,
-test data, and the adapter. Stop rather than infer authorization if a condition
-is missing or changes.
+## Entry condition
 
-## Pre-flight
+Bring a bounded workload or portfolio slice, the decision owner, implementation owner, evidence owner, and the approved customer records location. If any owner or location is missing, create a blocker backlog item instead of completing the decision.
 
-- [ ] SOC notified, with named contact and monitoring window.
-- [ ] Written authorization approved and stored with the engagement record.
-- [ ] Rules of engagement agreed: target, timing, categories, stop conditions,
-  and evidence handling.
-- [ ] Target confirmed as customer-owned and non-production.
-- [ ] Endpoint owner is available to pause or reset the non-production target.
-- [ ] Customer-approved test categories and ASR thresholds are recorded in the
-  engagement record; this kit does not provide them.
+## 1. Inspect the Microsoft control path
 
-The rules of engagement should be explicit enough that any participant can
-answer: who may operate the adapter, which exact endpoint and version are in
-scope, which categories and attack strategies are approved, which data may be
-used, what alert or instability stops the run, who approves continuation, and
-where native evidence references will be retained.
+Default Microsoft path: **AI Red Teaming Agent, PyRIT, Azure AI Content Safety, Defender, and SOC remediation routes**.
 
-## Customer-operated path
+Customer action: inspect the red-team plan/run record, PyRIT or AI Red Teaming Agent finding, Azure AI Content Safety result, Defender/Sentinel case, and remediation owner record. Confirm the record exists, has an accountable owner, names the environment/scope, and can be referenced from the customer record system.
 
-1. Confirm the authorization, written scope, SOC monitoring window, target,
-   stop conditions, test categories, and ASR thresholds before connecting a scan.
-2. Install dependencies in the customer's environment:
-   ```bash
-   python -m pip install "azure-ai-evaluation[redteam]" azure-identity
-   ```
-3. Configure credentials and project details per the customer's Foundry standard.
-   In the customer's approved codebase, implement the async
-   `customer_redteam_adapter:target(prompt, endpoint)` contract. The adapter
-   owns endpoint authentication and returns the target response; this kit does
-   not contain an endpoint client. This script requests the four Foundry
-   content-harm categories (Violence, Hate/Unfairness, Sexual, and Self-Harm).
-   Run it only when all four are explicitly in the rules of engagement. Do not
-   use this kit to imply coverage of jailbreak, prompt injection, tool abuse,
-   or any other category.
-4. Run the customer-operated adapter only against the authorized
-   non-production endpoint:
-   ```bash
-   python scripts/redteam-airt.py \
-     --azure-ai-project "$AZURE_AI_PROJECT_ENDPOINT" \
-     --target-endpoint "https://<customer-non-production-endpoint>" \
-     --target-adapter customer_redteam_adapter:target \
-     --authorization-reference "customer-record:approved-authorization" \
-     --soc-notification-reference "customer-record:soc-monitoring-window" \
-     --confirm-non-production-target
-   ```
-   The required references and confirmation are operator acknowledgements; the
-   script cannot verify authorization, ownership, or environment classification.
-   The script leaves the Foundry-generated scorecard at
-   `evidence/airt-native-scorecard.json`; it does not rewrite that output and
-   stops if Foundry does not create it.
-5. If the customer has completed an approved review that transcribes category
-   ASRs from the native scorecard, create an ignored comparison sidecar only:
-   ```bash
-   python scripts/redteam-airt.py \
-     --azure-ai-project "$AZURE_AI_PROJECT_ENDPOINT" \
-     --target-endpoint "https://<customer-non-production-endpoint>" \
-     --target-adapter customer_redteam_adapter:target \
-     --authorization-reference "customer-record:approved-authorization" \
-     --soc-notification-reference "customer-record:soc-monitoring-window" \
-     --confirm-non-production-target \
-     --threshold-review evidence/customer-approved-asr-review.json
-   ```
-   The review is a customer-owned JSON object with a `categories` array. Each
-   item has `category`, `observed_asr`, and `max_acceptable_asr` values from
-   `0` through `1`. The review must contain at least one category and must
-   refer to the unchanged native scorecard. The script verifies the scorecard
-   file exists and records its SHA-256, but it does not independently verify
-   the transcription. The resulting
-   `evidence/airt-threshold-comparison.json` follows
-   [`contracts/threshold-comparison.schema.json`](contracts/threshold-comparison.schema.json).
-   It is a decision aid, not a native Foundry scorecard.
+## 2. Complete the work records
 
-## Evidence and decision handoff
+- [ ] Copy `templates/technical-decision-record.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
 
-- [ ] The native Foundry scorecard and run metadata are referenced in the
-  customer's approved records system.
-- [ ] If thresholds were reviewed, the ignored comparison sidecar is retained
-  beside the native scorecard and every above-threshold category has a
-  remediation owner and due date.
-- [ ] SOC de-brief records authorized alerts/incidents and the endpoint owner
-  records any required cleanup.
-- [ ] Governance lead records the remediation, accepted-risk, blocked, or
-  re-test decision in the approved decision register.
+Ask: **Which Microsoft record proves this decision is ready to hand off, and who operates it next?**
 
-## Stop conditions
+## 3. Decide
 
-Stop the run if the endpoint behaves unexpectedly, the SOC requests a pause, the
-run drifts outside written scope, or any participant is unsure whether an action
-is authorized.
+Record one result:
 
-## Interpretation and decision
+- **Approve** when the Microsoft control path is present, owned, evidenced, and accepted by the receiving owner.
+- **Defer** when a record, owner, acceptance test, or target date is missing.
+- **Reject** when the proposed path cannot meet the bounded scope.
+- **Route** when another Microsoft control owner must decide first.
 
-Review the native Foundry scorecard with its authorized scope, target version,
-categories, and run context. A below-threshold ASR supports only that tested
-scope; every above-threshold category needs a remediation owner and due date.
-The optional comparison sidecar is a customer-approved decision aid, not a
-replacement for the unchanged native scorecard. Retain only safe references to
-the authorization, rules of engagement, SOC window/de-brief, scorecard, optional
-sidecar, and decision register. If authorization, monitoring, target ownership,
-scope, capability, or result review is blocked, stop, record the blocker with
-an owner and target date, and do not substitute a mock or alternate testing
-path.
+## 4. Create implementation backlog
 
-| Finding pattern | Required handoff |
-|---|---|
-| Above-threshold ASR | Remediation owner, due date, validation reference, and re-test decision. |
-| Below-threshold ASR | Tested scope, category, threshold, version, and remaining untested areas; no safety claim beyond them. |
-| Incomplete or stopped run | Stop reason, owner, revised authorization need, and next decision date. |
-| Missing criterion or evidence reference | Blocker owner, target date, and record needed before interpretation. |
+Create a red-team remediation backlog item for each confirmed finding, missing safety control, unowned risk, retest requirement, or SOC escalation route.
 
-## Adversarial-testing implementation backlog
+Each backlog item must include Microsoft control path, owner, evidence location, accepted when, exception if any, target date, and handoff. Use this row shape:
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
-|---|---|---|---|---|---|
-| AI Red Teaming Agent or PyRIT/customer adapter path | | | | | Customer testing process |
-| Authorization, rules of engagement, SOC window, or stop condition | | | | | Security/SOC process |
-| Category threshold, ASR interpretation, or accepted-risk route | | | | | Governance/risk process |
-| Remediation owner, validation reference, or re-test decision | | | | | S6 / S7 / customer SDLC |
-| Operating alert, recurrence, or monitoring update | | | | | S11 / SOC process |
-| Blocker for production release or catalog/lifecycle status | | | | | S9 / customer release process |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Exception | Target date | Handoff |
+|---|---|---|---|---|---|---|---|
+| | AI Red Teaming Agent, PyRIT, Azure AI Content Safety, Defender, and SOC remediation routes | | | | | | red team lead, safety owner, SOC, product owner, and release manager |
 
-## Decision and exception record
+## 5. Hand off
 
-Ask: **approve, defer, reject, or route each authorized finding?** Default to
-the supported Foundry AI Red Teaming Agent path for a customer-owned
-non-production target. Any other path records its owner, reason, compensating
-authorization, evidence reference, acceptance criteria, target date, and
-S6/S7/S9 handoff. No decision changes a customer system or approves production.
+Handoff to red team lead, safety owner, SOC, product owner, and release manager. The receiving owner accepts only the backlog items with clear acceptance tests, target dates, and evidence locations. Keep the final records in the customer-approved system.

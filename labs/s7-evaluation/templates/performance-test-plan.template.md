@@ -1,78 +1,55 @@
-# Performance test plan (pre-production synthetic load)
+# Performance Test Plan
 
-Copy this blank plan into the customer's approved records system. It is an
-optional S7 addendum for bounded synthetic load testing before release. It
-records customer-owned targets, the workload model, environment fidelity, and
-ownership; it does not run a load test, provision a load service, or set a
-production service-level objective.
+Copy this template into the customer's approved records system. Use it to turn the S7 Evaluation decision into a Microsoft-platform control record and backlog handoff.
 
-See the [agent performance-testing guide](../../../docs/reference/performance-testing-guide.md)
-for the metric taxonomy and the two-evidence-source model.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-## Bounded scenario and workload model
+## Scope
 
 | Field | Record |
 |---|---|
-| Interaction type and user population | |
-| Streaming on / off | |
-| Concurrency / arrival profile and ramp | |
-| Test duration and think time | |
-| Prompt / payload mix and representativeness | |
-| Load run owner | |
-| Evidence location and review date | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Metric targets
+## Microsoft control path
 
-| Metric | Target | Evidence reference | Coverage / attribution limit |
-|---|---|---|---|
-| Time to first token / first byte (p50 / p95 / p99) | | | |
-| Inter-token latency / tokens per second | | | |
-| End-to-end latency (p50 / p95 / p99) | | | |
-| Throughput / concurrency / requests per second | | | |
-| Error rate & saturation (429 / timeout) | | | |
-| Per-component attribution (model / retrieval / tool / orchestration / gateway) | | | |
+Default path: **Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing where applicable**.
 
-A benchmark is not a service-level objective. The customer owns the baseline,
-the interpretation, and any release-decision use.
+Inspect: the Foundry evaluation run, evaluator/scorer configuration, dataset/scenario reference, CI/CD gate, release decision, and Azure Load Testing record when applicable.
 
-## Environment and fidelity
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing where applicable | | | | | evaluation owner, QA/release owner, model or agent owner, and operations owner |
 
-| Field | Record |
+## Decision and acceptance
+
+| Decision field | Record |
 |---|---|
-| Test-versus-production parity | |
-| Model deployment, quota, and PTU ceiling | |
-| Data residency and dataset parity | |
-| Downstream tools / retrieval: live or stubbed | |
-| Load-run cost and rate-limit / quota risk to shared deployments | |
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create an evaluation backlog item for missing scenarios, scoring thresholds, owner review, CI/CD gate, load-test coverage, or release decision evidence. |
+| Handoff owner and customer process | evaluation owner, QA/release owner, model or agent owner, and operations owner |
+| Next review trigger | |
 
-## Load engine reference
+## Exception
 
-| Field | Record |
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
 |---|---|
-| Load engine (e.g. Azure Load Testing; k6 / JMeter are alternatives) | |
-| Who runs the load test | |
-| Where results and run configuration are stored | |
-| Correlation reference to runtime / gateway telemetry | |
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
 
-This kit references the load engine and its outputs as customer evidence. It
-does not run the engine or provision the service.
+## Filled example
 
-## Baseline and interpretation
-
-| Field | Record |
-|---|---|
-| Baseline version, model, and dataset references | |
-| Current version and comparison reference | |
-| Regression owner and hold / escalation route | |
-| Interpretation owner | |
-| Linkage to the S7 assurance outcome | |
-
-## Implementation backlog
-
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
-|---|---|---|---|---|---|
-| Workload model and synthetic-load coverage | | | | | Customer engineering / platform operations |
-| First-token and end-to-end target evidence source | | | | | Customer evaluation process |
-| Environment fidelity and quota / PTU risk | | | | | Platform operations |
-| Regression baseline, threshold, and release-decision owner | | | | | Customer release process |
-| Production reconciliation handoff for performance drift | | | | | S11 |
+Example: Work item “gate release on safety and groundedness eval”; evidence location “Foundry evaluation run”; accepted when thresholds, owner signoff, and CI gate are recorded.

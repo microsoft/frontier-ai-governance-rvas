@@ -1,107 +1,55 @@
 # S5 · API, Tool & MCP Governance: Technical decisions
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-17 · Azure API Center, Azure API Management,
-    managed identity, delegated OAuth flows, and Model Context Protocol (MCP)
-    governance patterns change over time. Verify current status, tenant
-    availability, and limitations before delivery. See the
-    [Platform technical guide](../reference/platform-technical-guide.md).
+    Last reviewed: 2026-07-24 · Azure API Center, Azure API Management, Entra/JWT, managed identity, delegated OAuth flows, MCP governance patterns, and connector controls change over time. Verify official docs, tenant support, and customer policy before delivery.
 
-S5 decides where the publication record lives, how MCP/tool access is governed,
-and what authority the caller has. The output is a recorded choice with
-rationale and backlog, not a platform change.
+## Microsoft default
 
-**Default and exception.** Default to Azure API Center for the registry, Azure
-API Management for an approved exposed route, and Microsoft Entra identity for
-the caller, where current support fits. An exception needs a documented owner,
-reason, equivalent evidence and lifecycle controls, target date, and review
-trigger; verify current availability and support before choosing either path.
+Default to Azure API Center for the publication record, Azure API Management for approved exposed routes, Microsoft Entra/JWT for caller identity, and customer connector/MCP publication controls. Use S10 only when the needed decision must happen inside the agent process immediately before a tool call.
 
-## Decision 1: Tool/API publication and registry system of record
+![S5 illustrative tool-governance pattern: a publication record connects a tool or API to a selectable gateway-mediated, allow-list, or in-process policy boundary. It records intended controls without approving publication or runtime use.](../assets/diagrams/s5-tool-api-governance-record-model.svg)
 
-![S5 illustrative tool-governance pattern: a publication record connects a tool or API to a selectable gateway-mediated, allow-list, or in-process policy boundary. It records intended controls; it does not approve publication or runtime use.](../assets/diagrams/s5-tool-api-governance-record-model.svg)
+## Decision tree
 
-Choose the system that can hold the candidate's **discoverability**, **owner**,
-**version/lifecycle state**, and **exposure-control intent** without implying
-that publication or runtime safety has already been approved.
+1. **If a tool/API is externally exposed or shared**, register it in Azure API Center or the approved catalog before broad use.
+2. **If traffic can route through a gateway**, use Azure API Management products/policies and Entra/JWT authentication.
+3. **If tool source trust is the main risk**, use an allow-list with owner, version, review date, and suspension trigger.
+4. **If a local pre-call allow/deny/approval decision is required**, route to [S10 technical decisions](../s10-in-process-governance/technical.md).
+5. **If caller identity, scope, or withdrawal trigger is unknown**, reject or defer publication.
 
-| Option | When it fits | Trade-off / limitation | Governance implication |
-|---|---|---|---|
-| **Azure API Center registry + Azure API Management products** | The customer wants a Microsoft-centered publication record paired with product/consumer exposure boundaries | Product availability, feature coverage, and tenant fit must be verified; registry and gateway records still need owners | Strong fit when discovery, ownership, version, lifecycle, and exposure intent should reconcile across platform records |
-| **Existing API-management estate or service catalog** | The customer already has an approved catalog/gateway process that can carry S5 fields | May need field mapping for owner, authority, lifecycle, MCP/tool type, and version evidence | Valid if the estate is the system of record; record required extensions and the reconciliation owner |
-| **Ad-hoc list / no registry yet** | Early discovery, isolated prototype review, or no approved publication path exists | Weak discoverability, ownership drift, lifecycle gaps, and unclear exposure control | Record as a gap or hold state; backlog a controlled publication model before broad use |
+| Decision | Microsoft default | Exception criteria |
+|---|---|---|
+| Registry | Azure API Center entry with owner, lifecycle, version, exposure intent | existing catalog can carry the same fields |
+| Exposed route | Azure API Management API/product/policy/backend | existing gateway has equivalent auth, quota, logging, and lifecycle records |
+| Caller authority | Entra app/managed identity/OBO with least privilege | customer identity provider is authoritative and auditable |
+| MCP/tool governance | gateway-mediated route or reviewed allow-list | in-process decision is required and assigned to S10 |
 
-## Decision 2: MCP server and tool governance model
+## Platform checks
 
-Choose the boundary based on **where the tool runs**, the **trust of the tool
-source**, whether a **pre-call policy decision** is needed, and how the caller is
-**authenticated**.
-
-| Option | When it fits | Trade-off / limitation | Governance implication |
-|---|---|---|---|
-| **Gateway-mediated or brokered MCP through the governance hub** | Tool traffic can route through a controlled boundary that authenticates callers and applies publication policy | Does not decide inside the agent process before a local tool call; current MCP and gateway support must be verified | Centralizes exposure control and audit expectations; pair with runtime evidence and lifecycle reconciliation |
-| **Allow-list of vetted MCP servers/tools** | A small set of sources is reviewed, named, versioned, and owned before use | Allow-lists age quickly and may miss per-call context or delegated authority | Good for source trust and lifecycle control; record vetting owner, review date, and suspension trigger |
-| **In-process tool-call policy boundary** | The meaningful decision is immediately before the tool call, inside the agent or orchestrator | Requires engineering assessment and customer code ownership; see [S10 technical decisions](../s10-in-process-governance/technical.md) for the boundary menu | Backlog when pre-call allow/deny/approval semantics are required beyond gateway or allow-list controls |
-
-### Azure implementation track: publication does not equal authority
-
-**Control chain to decide.** Treat the catalog record, gateway-mediated API/MCP
-route, reviewed allow-list, and in-process pre-call policy as separate controls.
-Azure API Management can centralize authentication, quota, routing, and
-telemetry for a selected published route. It cannot make an allow/deny/approval
-decision immediately before a local in-process tool call; that belongs to an
-application boundary such as the S10 applicability decision.
-
-**Failure modes to test in the customer design.** A catalog entry can be
-mistaken for a security approval; an MCP server can be published without a
-named caller identity or withdrawal trigger; a broad OAuth scope can authorize
-more than the documented tool action; a gateway policy can be assumed to cover
-local calls; and an allow-list can age without review or suspension ownership.
-
-**Evidence and record.** Capture the candidate/version, source trust, intended
-consumers, classification, caller identity, allowed and prohibited actions,
-resource boundary, selected policy boundary, lifecycle owner, review date,
-suspension trigger, and evidence limits. Do not put endpoint values, secrets,
-payloads, or live policy exports in the kit.
-
-**Backlog sequence.** Establish the system of record and lifecycle path, then
-select gateway, allow-list, or in-process enforcement and assign its owner.
-Assign identity prerequisites, runtime-path evidence, and material
-change/withdrawal reconciliation to their accountable customer owners.
-
-## Decision 3: Tool authentication and least privilege
-
-Choose the credential model by the **authority and blast radius** the tool
-carries, the **data it can reach**, and whether activity can be **audited** back
-to the correct workload or user. Prefer federated credentials over stored
-secrets wherever the customer's platform supports them.
-
-| Option | When it fits | Trade-off / limitation | Governance implication |
-|---|---|---|---|
-| **Per-tool OAuth scopes** | A tool needs explicit, narrow API permissions that can be reviewed per action or resource | Scope design and consent can sprawl; status and consent model must be verified | Record least-privilege scopes, owner, consent authority, and review trigger for material changes |
-| **Managed identity** | The tool runs as an Azure workload calling Azure resources under workload identity | Identifies the workload, not always the individual tool purpose or human sponsor | Useful for secret hygiene and audit; still record sponsor, resource boundary, and lifecycle owner |
-| **Delegated on-behalf-of (OBO)** | The tool must act as a signed-in user with user-context authorization | Blast radius follows user permissions and downstream consent; availability and app design must be verified | Record delegated authority, prohibited actions, audit route, and fallback when user context is unavailable |
-
-## Decisions made & adoption progress
-
-S5 handles tool and API publication governance. The customer assigns portfolio
-implications and catalog/lifecycle reconciliation to accountable owners as the
-records mature.
-
-| Adoption stage | What "done" looks like at S5 |
+| Check | Microsoft product/control record |
 |---|---|
-| **Decided** | A registry/publication model, MCP/tool-governance boundary, and tool-authentication approach are chosen or explicitly deferred for each bounded candidate set |
-| **Backlogged** | Registry field mapping, gateway/APIM route, MCP vetting, least-privilege scope, credential hygiene, and lifecycle gaps have customer owners and customer-process routing |
-| **In adoption** | The customer implements the controlled publication model outside S5; the accountable runtime, catalog/lifecycle, and portfolio owners review the evidence and risk |
+| Publication record | Azure API Center API/tool entry, version, lifecycle state, owner |
+| Gateway control | Azure API Management product, subscription, policy, backend, quota, telemetry |
+| Identity and consent | Entra app registration/service principal, managed identity, OAuth scopes, consent record, JWT validation |
+| Connector/MCP source | Copilot Studio/Power Platform connector policy, MCP server allow-list, package/source review |
+| Lifecycle and withdrawal | deprecation notice, suspension trigger, material-change route, S9 catalog entry |
 
-Record the choices, alternatives, rationale, and adoption stage in
-`labs/s5-tool-api-governance/templates/technical-decision-record.template.md`.
-The record remains offline unless the customer moves it through its approved
-records process.
+## Acceptance tests
+
+| Work item | Accepted when... | Handoff |
+|---|---|---|
+| Publication | candidate, version, source trust, owner, consumers, allowed actions, and lifecycle state are recorded | Catalog/API owner |
+| Auth and least privilege | caller identity, scopes/RBAC, prohibited actions, consent owner, and review trigger are recorded | Identity/API owner |
+| Boundary selection | gateway, allow-list, or S10 in-process route is selected with owner and evidence location | Platform/security |
+| Withdrawal | suspension trigger, deprecation path, and affected dependency owner are recorded | S9 lifecycle owner |
+
+## Boundary note
+
+S5 records tool/API governance choices; it publishes nothing and authorizes no runtime use.
 
 ## Related references
 
 - [S5 Concepts](concepts.md): catalog decisions, publication backlog, identity/authority boundary, and lifecycle states.
-- [Platform technical guide](../reference/platform-technical-guide.md): governance hub, API gateway, and platform-boundary context.
-- [Governance capability guide](../reference/governance-capability-guide.md): capability availability and ownership considerations.
-- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md): API Management, Entra, and related governance references.
+- [S10 technical decisions](../s10-in-process-governance/technical.md): in-process policy boundary.
+- [Platform technical guide](../reference/platform-technical-guide.md).
+- [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md).

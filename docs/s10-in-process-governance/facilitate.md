@@ -1,22 +1,17 @@
 # Facilitate the decision
 
-**Decision question:** For this bounded tool call, should the policy boundary be
-**gateway-only, in-process, both, or not applicable**? Record an
-**approve, defer, reject, or route** result.
+**Decision to produce:** Approve, defer, reject, or route the in-process governance exception.
 
-| Phase | Time | Safe output |
-|---|---:|---|
-| Set scope | 15 min | Tool-call reference, delegated authority, owner, and evidence limit. |
-| Compare boundaries | 25 min | Gateway-only / in-process / both / not-applicable rationale. |
-| Run the illustration | 20 min | Offline policy and hash-consistency result only. |
-| Decide and hand off | 30 min | Decision, target date, acceptance evidence, and S6/S9/S11 routes. |
+| Step | Prompt | Output |
+|---|---|---|
+| 1 | Which record did we inspect for Agent Governance Toolkit only when gateway controls cannot make the needed in-process decision? | Platform record named. |
+| 2 | What is today's decision: approve, defer, reject, or route? | One decision selected. |
+| 3 | What acceptance test proves the decision is ready? | Acceptance test written as an observable condition. |
+| 4 | Is there an exception; if yes, who owns it and when is it reviewed? | Exception recorded or marked none. |
+| 5 | Who receives the handoff: Application engineering or another named owner? | Named handoff owner and next meeting/process. |
 
-**Azure/Microsoft default:** keep the existing Azure/API gateway control as the
-platform boundary. Add an in-process AGT-style assessment only when a real
-pre-tool decision carries delegated authority that the gateway cannot make.
-Use both only when the authority and evidence need justify two owned controls.
-Otherwise record gateway-only or not applicable. AGT is Preview; verify its
-current status and fit before an assessment.
+Default to **Agent Governance Toolkit only when gateway controls cannot make the needed in-process decision**. For an exception, record: reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
 
-Copy the safe-reference templates to approved records. No result approves
-installation, customer-code change, production policy, or production use.
+Close with this sentence: **“Runtime governance owner owns the decision record; Application engineering receives the handoff when the acceptance test is met.”**
+
+**Boundary:** Keep the session to decision records and customer-approved evidence locations.

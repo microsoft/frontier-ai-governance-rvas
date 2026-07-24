@@ -1,91 +1,72 @@
-# S8 · Adversarial Testing
+# S8 · Red Teaming
 
 **Facilitator deck**
 
-Security / SOC · AI developer / maker · 90-minute authorized non-production test review
+Microsoft default: **AI Red Teaming Agent, PyRIT, Azure AI Content Safety, Defender, and SOC remediation routes**.
 
-## The safety-test question
+Concrete decision: **Approve, defer, reject, or route the AI red-team plan.**
 
-> **"What did this authorized test show for this exact non-production target?"**
+---
 
-The customer retains native run evidence and a remediation, accepted-risk, blocked, or re-test decision.
+## Start with the Microsoft path
+
+- Default control path: AI Red Teaming Agent, PyRIT, Azure AI Content Safety, Defender, and SOC remediation routes.
+- Customer inspects: Inspect the AI Red Teaming Agent or PyRIT test plan, Content Safety checks, Defender signal route, and SOC remediation queue.
+- Decision owner: AI red-team lead.
 
 Note:
-S8 is an authorized misuse-test review. It neither approves release nor authorizes activity beyond written scope.
+Open with the default platform path and the decision the customer must make.
 
 ---
 
-## The safety boundary
+## Decide with platform records
 
-- Customer-owned **non-production** target only.
-- Written rules of engagement, target ownership, categories, success criteria, and stop conditions.
-- Notified SOC with contact and monitoring window.
-- Customer provides and retains test data, credentials, endpoint access, and evidence.
+- Approve when the Microsoft path fits and the acceptance test is clear.
+- Defer when a required record or owner is missing.
+- Reject when the use case cannot meet the control path.
+- Route when an exception owner must accept an equivalent control.
 
-> Missing authorization, a stoppable target, or SOC coverage means **stop**.
-
----
-
-## Attack Success Rate is a decision aid
-
-![Attack success rate determines remediation or tested-scope support.](../assets/diagrams/s8-red-teaming-asr-decision.svg)
-
-ASR requires the agreed category, sample, target version, success condition, and threshold. Below tolerance supports the tested scope only; above tolerance needs owned remediation.
+Note:
+Keep the discussion on records, owners, and acceptance tests.
 
 ---
 
-## Keep evidence types distinct
+## Acceptance test
 
-- Preserve the Foundry native scorecard unchanged.
-- A threshold-comparison sidecar may reference it; it is not a replacement scorecard.
-- Managed AI Red Teaming Agent availability is Preview; PyRIT uses the same authorization and evidence rules.
+The decision is ready when the record names:
 
----
+- Microsoft control path
+- Owner
+- Evidence location
+- Accepted-when condition
+- Target date
+- Handoff: Security remediation owner
 
-## Entry and stop condition
-
-- **Entry:** approved authorization and rules, notified SOC, customer-owned non-production target, endpoint owner with stop/reset path, categories, evidence location, and decision owner.
-- **Stop:** any expired or changed condition, alert, instability, or scope drift.
-
----
-
-## Step 1: Pre-flight · 20 min
-
-Confirm the target, operators, SOC window, stop conditions, evidence boundary, and the red-team approach, scope, and remediation-routing choices.
-
-> **"Is this target customer-owned and non-production? Who can stop the run?"**
+Note:
+The acceptance test should be observable by the team that receives the handoff.
 
 ---
 
-## Step 2: Customer runs the authorized test · 30 min
+## Exception, if any
 
-- Endpoint owner runs the approved adapter only in the authorized window.
-- Customer operates credentials, target access, categories, and test data.
-- Preserve `airt-native-scorecard.json`; if the run cannot complete, review the completed native evidence later.
+An exception needs:
 
----
+- Reason and equivalent control
+- Owner and evidence location
+- Acceptance test and target date
+- Review trigger
 
-## Step 3: Interpret findings · 15 min
-
-> **"Was the run authorized and contained? What does each ASR mean for this category and sample?"**
-
-- Compare native evidence with scope, target version, categories, and approved thresholds.
-- Above threshold: assign remediation, owner, validation reference, and re-test date.
-- Incomplete, alerted, unstable, or drifting runs: block, stop, or re-authorize before re-run.
+Note:
+Use an exception for a documented equivalent control with an owner and review trigger.
 
 ---
 
-## Step 4: Decide and hand over · 25 min
+## Close the session
 
-Record remediation, accepted risk, blocked status, or re-test date. Reference authorization, SOC debrief, run metadata, native scorecard, optional sidecar, decision, and technical decision record. Customer owners perform cleanup and incident actions.
+- Decision: approve, defer, reject, or route.
+- Decision owner: AI red-team lead.
+- Handoff: Security remediation owner.
+- Boundary: customer data stays in approved systems; production changes use customer change approval.
 
----
-
-## Verification and handoff
-
-- [ ] Native scorecard and metadata are referenced in approved records.
-- [ ] Threshold sidecars remain with native evidence.
-- [ ] Above-threshold categories have owners and dates.
-- [ ] SOC debrief and decision are recorded.
-
-S8 does not deploy a production control. Residual gaps route to S6, S7, and S11 as applicable.
+Note:
+End with the decision record and the named handoff.

@@ -1,18 +1,20 @@
-# Practical workshop: implementation-path admission
+# Practical workshop: agent build path
 
-**Customer owner:** Engineering owner. **Timebox:** 45 minutes. Review one
-candidate using references only; do not build, connect, or deploy it.
+**Microsoft default:** Microsoft Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, or a custom Azure app path.
 
-1. Record purpose, users, authority, human-control point, owners, and the
-   proposed DEV, PRE, or PRO lifecycle stage.
-2. Default: choose the Microsoft implementation path that fits the candidate,
-   such as Copilot Studio, Microsoft Foundry Agent Service, Microsoft 365
-   extensibility, or a custom Azure service. Use another path only when the
-   engineering owner documents capability, data, authority, support, and
-   operational reasons.
-3. Ask: **“Do we approve, defer, reject, or route this implementation-path and
-   DEV-PRE-PRO admission decision?”**
-4. Record the result, evidence reference or gap, owner, acceptance criterion,
-   and target date in the admission record.
-5. Hand runtime security to S6, evaluation to S7, monitoring to S11, and catalog
-   registration to S9. S4 selects and admits paths only; it makes no production approval.
+**Customer decision:** Approve, defer, reject, or route the agent engineering path.
+
+## Work the decision
+
+1. Select one bounded pilot or backlog item and name the customer decision owner.
+2. Inspect the product fit record for Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, and custom Azure app delivery.
+3. Fill this row in the customer-approved records system:
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| Pilot decision | Microsoft Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, or a custom Azure app path | Agent product owner | Customer-approved record | Decision, acceptance test, exception status, and handoff are complete | Customer date | Engineering team |
+
+4. Use this decision tree: if the Microsoft path fits, approve it; if records are missing, defer with an acceptance test; if the path cannot meet the use case, reject or route to an exception owner.
+5. For an exception, record: reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
+
+**Boundary:** Keep customer data in customer-approved systems; production changes require customer change approval.

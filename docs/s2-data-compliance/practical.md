@@ -1,16 +1,20 @@
-# Practical workshop: data-use enforcement
+# Practical workshop: data guardrail path
 
-**Customer owner:** Compliance or data administrator. **Timebox:** 45 minutes.
-Review one bounded path and retain references only in the customer system.
+**Microsoft default:** Microsoft Purview Data Security Posture Management, Data Loss Prevention, sensitivity labels, audit, and eDiscovery.
 
-1. Trace input, retrieval, tool, output, classification, and investigation
-   points for the path.
-2. Default: review supported Microsoft Purview DSPM for AI, labels, DLP, and
-   Audit/eDiscovery routes. If workload support, licensing, retention, or roles
-   are missing, document the gap and route it; do not claim equivalent coverage.
-3. Ask: **“Do we approve, defer, reject, or route the proposed data-use
-   enforcement decision?”**
-4. Record the result, evidence reference or gap, owner, acceptance criterion,
-   and target date in the technical decision record.
-5. Hand data/compliance work to its owner; route platform dependencies to S3 and
-   runtime-security work to S6. This is not a policy deployment or production approval.
+**Customer decision:** Approve, defer, reject, or route the data guardrail for the pilot scenario.
+
+## Work the decision
+
+1. Select one bounded pilot or backlog item and name the customer decision owner.
+2. Inspect the Purview DSPM finding, DLP policy scope, sensitivity-label coverage, audit retention record, and eDiscovery hold route for the pilot data class.
+3. Fill this row in the customer-approved records system:
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| Pilot decision | Microsoft Purview Data Security Posture Management, Data Loss Prevention, sensitivity labels, audit, and eDiscovery | Data governance owner | Customer-approved record | Decision, acceptance test, exception status, and handoff are complete | Customer date | Compliance operations |
+
+4. Use this decision tree: if the Microsoft path fits, approve it; if records are missing, defer with an acceptance test; if the path cannot meet the use case, reject or route to an exception owner.
+5. For an exception, record: reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
+
+**Boundary:** Keep customer data in customer-approved systems; production changes require customer change approval.

@@ -29,7 +29,7 @@ templates, or customer records: those stay in the customer's own systems.
 **Question:** **Do we approve, defer, reject, or route this identity,
 sponsorship, and authority decision?** Default to Microsoft Entra and the
 customer's existing sponsorship/access-review process. An exception requires a
-documented coverage limit, owner, evidence reference, acceptance criterion, and
+documented coverage limit, owner, Entra record location, acceptance criterion, and
 target date. This result does not grant access, change the tenant, or approve
 production.
 
@@ -124,7 +124,7 @@ is undecided.
    date. Never copy real IDs or exports here.
 5. **Hand off without designing controls** *(10 min)*: the facilitator reads
    back the control state (`observed`, `accepted_risk`, or `blocked`), the
-   evidence reference, the next owner, and the S6 dependency. Any Conditional
+   Entra record location, the next owner, and the S6 dependency. Any Conditional
    Access, break-glass, or remediation request goes to the customer's
    identity-change process. If no decision-maker was there, mark the decision
    deferred with an owner and date.
@@ -137,7 +137,7 @@ is undecided.
 - [ ] Every ownership, accepted-risk, and coverage-gap decision has an owner, an
   approver, and a next review date.
 - [ ] Every "nothing found", missing capability, and blocker records what you
-  checked, the evidence reference, the owner, and the review date.
+  checked, the Entra record location, the owner, and the review date.
 
 Save only the list reference and its retention/classification note in
 `04-operate/evidence-register.json`, and the decision in

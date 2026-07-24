@@ -1,49 +1,55 @@
-# In-process governance applicability review
+# Applicability Review
 
-Copy this template into the approved customer records system. It supports an
-adoption decision only; it does not authorize AGT installation, code change,
-policy deployment, endpoint access, or production use.
+Copy this template into the customer's approved records system. Use it to turn the S10 In-Process Governance decision into a Microsoft-platform control record and backlog handoff.
 
-## Candidate boundary
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-| Field | Record |
-|---|---|
-| Candidate agent/workload reference | |
-| Candidate tool action and delegated authority | |
-| Existing gateway/API controls | |
-| Existing identity, data, evaluation, and runtime controls | |
-| Policy owner and approval route | |
-| Audit-record owner and retention need | |
-| Tamper-evidence requirement, if any | |
-| Decision owner, target date, and review date | |
-
-## Evidence needed before any engineering assessment
-
-| Evidence need | Owner | Status / reference |
-|---|---|---|
-| Current AGT source, release status, APIs, and limitations reviewed | | |
-| Supported language/runtime and framework fit reviewed | | |
-| Policy ownership and change-review route defined | | |
-| Audit storage, retention, access, and tamper-evidence route defined | | |
-| Gateway, identity, data, runtime, and outcome controls remain in force | | |
-| Rollback, verification, and production-change process identified | | |
-
-## Decision
+## Scope
 
 | Field | Record |
 |---|---|
-| Boundary: gateway-only / in-process / both / not applicable | |
-| Result: approve / defer / reject / route | |
-| Rationale and limitations | |
-| Owner, acceptance evidence, and due date | |
-| S6 / S9 / S11 dependencies and next review | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## In-process governance implementation backlog
+## Microsoft control path
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Customer follow-up route |
-|---|---|---|---|---|---|
-| AGT applicability, release status, API, and limitation assessment | | | | | Engineering assessment |
-| Tool-call policy owner, approval route, and delegated authority | | | | | Customer policy-governance process |
-| Integration, framework/runtime fit, rollback, and verification | | | | | Customer SDLC/change process |
-| Signed immutable audit record, retention, and tamper-evidence route | | | | | Records/security process |
-| Gateway, identity, data, runtime, or catalog dependency | | | | | Relevant customer control owner |
+Default path: **Agent Governance Toolkit only when gateway controls cannot make the needed in-process decision**.
+
+Inspect: the existing gateway/platform control, the runtime decision point, Agent Governance Toolkit applicability record, policy owner, and evidence route.
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Agent Governance Toolkit only when gateway controls cannot make the needed in-process decision | | | | | agent engineering owner, policy owner, runtime operations, and release manager |
+
+## Decision and acceptance
+
+| Decision field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create an in-process-governance backlog item only for decisions the gateway cannot enforce; include policy owner, runtime evidence, test, target date, and rollback route. |
+| Handoff owner and customer process | agent engineering owner, policy owner, runtime operations, and release manager |
+| Next review trigger | |
+
+## Exception
+
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “add in-process policy for tool result summarization”; evidence location “Agent Governance Toolkit policy record”; accepted when gateway limits are documented and release owner approves rollback.

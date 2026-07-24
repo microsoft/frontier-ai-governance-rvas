@@ -98,7 +98,7 @@ release-gate, and performance-evidence options and selection criteria.
    where applicable, and reviewer. Do not treat a score, event field, or missing
    record as proof of coverage.
 4. **Make the customer decision** *(15 min)*: `continue` is available only when the handoff contract is complete, the referenced S6 proof decision is `accepted`, and the decision owner records a decision reference. Otherwise choose `hold` or defer with an owner and review date. Foundry evaluation work with status verified may inform the decision, but it cannot replace the accepted S6 proof.
-5. **Hand over** *(10 min)*: the assurance owner keeps the completed record in the customer system and reads back the S6-proof reference, technical-decision record reference, evaluation-plan reference, outcome, decision reference, next owner, and review date. The record informs the next delivery action. It does not authorize a deployment or change a control.
+5. **Hand over** *(10 min)*: the assurance owner keeps the completed record in the customer system and reads back the S6-proof reference, technical-decision record reference, evaluation-plan reference, outcome, decision reference, next owner, and review date. The record informs the next delivery action; deployment and control changes need the customer's release process.
 
 **Blockers:** no accepted S6 proof, unavailable reviewers, missing evaluation plan or decision owner, invalid handoff record, or no approved evidence location. Record `hold` or **blocked** with the missing dependency, owner, target date, and next review. Do not create local substitute evidence or turn a fixture result into a sign-off.
 

@@ -1,48 +1,55 @@
-# Quality measurement plan
+# Quality Measurement Plan
 
-Copy this blank plan into the customer's approved records system. It extends
-the evaluation-plan review with bounded quality questions. It does not run an
-evaluator, set a threshold, or create a release gate.
+Copy this template into the customer's approved records system. Use it to turn the S7 Evaluation decision into a Microsoft-platform control record and backlog handoff.
 
-Use `quality-threshold-decision.template.json` only after every selected
-dimension has a threshold reference, an evaluator reference, an accountable
-threshold owner, and a stated coverage limit. Otherwise record `provisional`
-or `blocked`; do not treat an empty or unreviewed dimension as approved.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
-## Quality dimensions and coverage
-
-| Dimension | Customer-owned definition | Measurement method | Evaluator or reviewer | Threshold reference | Coverage population | Exclusions |
-|---|---|---|---|---|---|---|
-| Task completion | | | | | | |
-| Groundedness / retrieval quality | | | | | | |
-| Coherence / fluency | | | | | | |
-| Safety / policy compliance | | | | | | |
-| Tool-use accuracy | | | | | | |
-| Latency at quality | | | | | | |
-| Human-review agreement | | | | | | |
-
-Manual annotation and customer-designed scorers are universal options. Foundry
-evaluators, agent evaluators, cloud evaluation, and continuous evaluation may
-be project-gated or vary by capability; verify current status before use.
-
-## Threshold and baseline governance
+## Scope
 
 | Field | Record |
 |---|---|
-| Threshold proposer and approver | |
-| Regression owner and hold / escalation route | |
-| Baseline version, evaluator, dataset, and scenario references | |
-| Current version and comparison reference | |
-| Dataset owner, version, sampling approach, and known gaps | |
-| Quality-threshold decision reference | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Implementation backlog
+## Microsoft control path
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
-|---|---|---|---|---|---|
-| Evaluator type and bounded question | | | | | Customer evaluation process |
-| Dataset, scenario coverage, and excluded population | | | | | Customer evaluation owner |
-| Evaluation suite definition, version, and renewal trigger | | | | | Customer SDLC / S9 |
-| Continuous evaluation cadence and production-sampling scope | | | | | Customer platform process / S11 |
-| Trace-to-dataset ownership and curation review | | | | | Customer evaluation owner / S9 |
-| Threshold approval, regression response, and release-gate owner | | | | | Customer release process |
+Default path: **Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing where applicable**.
+
+Inspect: the Foundry evaluation run, evaluator/scorer configuration, dataset/scenario reference, CI/CD gate, release decision, and Azure Load Testing record when applicable.
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing where applicable | | | | | evaluation owner, QA/release owner, model or agent owner, and operations owner |
+
+## Decision and acceptance
+
+| Decision field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create an evaluation backlog item for missing scenarios, scoring thresholds, owner review, CI/CD gate, load-test coverage, or release decision evidence. |
+| Handoff owner and customer process | evaluation owner, QA/release owner, model or agent owner, and operations owner |
+| Next review trigger | |
+
+## Exception
+
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “gate release on safety and groundedness eval”; evidence location “Foundry evaluation run”; accepted when thresholds, owner signoff, and CI gate are recorded.

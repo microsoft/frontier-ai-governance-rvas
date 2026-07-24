@@ -1,64 +1,47 @@
-# S13 Runbook: Portfolio Governance & Continuous Improvement
+# S13 Portfolio Governance Runbook
 
-The organization owns evidence, interpretation, and decisions; the facilitator
-maintains the timebox and report-only boundary.
+Use this runbook to facilitate a customer decision and backlog handoff. The facilitator guides the questions; the customer inspects its Microsoft records and owns all decisions.
 
-## Activity card
+> **Boundary:** Use safe references only. Keep customer identifiers, secrets, prompt text, model outputs, telemetry exports, and live configuration out of this repository.
 
-**90 minutes.** Entry condition: a bounded portfolio question; an approved
-records location; references to the existing maturity baseline and in-scope
-outcomes; and a governance lead, portfolio owner, and risk owner able to
-decide or formally defer.
+## Entry condition
 
-1. Copy every template to the approved records system. Do not enter operational
-   data, raw evidence, names, or notes in this repository.
-2. Define one population, review period, decision, and stop condition in
-   `portfolio-review.template.md`. Record evidence references with scope,
-   freshness, coverage limit, and interpretation owner. Do not infer missing
-   coverage.
-3. Use `exception-register.template.md` for recurring, cross-scope, or
-   decision-blocking exceptions. Record unknown impact as unknown and assign
-   an owner, disposition, and escalation or review route.
-   Keep an exception (a permitted deviation), a risk (an uncertain effect), and
-   an investment (a proposed spend or capability action) in separate rows.
-4. Record proposed maturity movement and policy-evolution questions only when
-   an approved reference supports the observation. Neither proposal authorizes
-   rescoring, policy change, or enforcement.
-5. Use `governance-roadmap.template.md` to state investment criteria,
-   dependencies, owners, and decision status. Name the maturity domain or
-   question to revisit, evidence needed, and next review date.
-6. Use `technical-decision-record.template.md` to record the portfolio reporting
-   pattern, prioritization/reinvestment model, continuous-improvement cadence,
-   alternatives rejected or deferred, and adoption stage.
-7. The decision owner approves, defers, rejects, or routes the portfolio roadmap.
-   Retain the decision, residual-risk disposition, limitations, and references
-   in the approved records system.
-8. Record the portfolio implementation backlog: investment priority,
-   exception concentration, policy-evolution question, budget/funding gate,
-   owner readiness, maturity reassessment, governance-cadence feedback,
-   recommendation, confidence, assumptions, evidence reference or gap, owner,
-   and customer governance/change process.
-   Route reassessment to S0, spending decisions to customer funding authority,
-   and policy questions to policy ownership; record receiving owner, acceptance
-   evidence, and target date.
+Bring a bounded workload or portfolio slice, the decision owner, implementation owner, evidence owner, and the approved customer records location. If any owner or location is missing, create a blocker backlog item instead of completing the decision.
 
-## Interpretation rules
+## 1. Inspect the Microsoft control path
 
-- Aggregated references retain their original scope and limitations.
-- A missing, stale, or partial reference is a finding, not a passing result.
-- An investment ranking is decision support, not funding approval.
-- A maturity movement is proposed until the next approved maturity assessment
-  supports it.
-- A policy question follows its separate governance and change route.
+Default Microsoft path: **Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the S0 re-baseline**.
 
-## Stop and hand off
+Customer action: inspect Agent 365/control-plane inventory, exception register, Azure Cost Management view, operating evidence from S11, roadmap, and S0 baseline record. Confirm the record exists, has an accountable owner, names the environment/scope, and can be referenced from the customer record system.
 
-| Condition | Safe response |
-|---|---|
-| No decision owner, approved records location, or bounded scope | Stop the dependent activity; assign an owner and review date. |
-| No authoritative evidence reference or coverage is unknown | Record the limitation and request the needed evidence; do not estimate or synthesize a conclusion. |
-| An exception requires a technical, access, policy, or production change | Route it to the authorized change process; do not make the change in this session. |
-| A compliance conclusion or certification is requested | Record the requirement and route it to the appropriate assurance process; S13 cannot provide it. |
+## 2. Complete the work records
 
-No dashboard, live-data connection, production change, policy modification, or
-compliance certification is part of this kit.
+- [ ] Copy `templates/exception-register.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
+- [ ] Copy `templates/governance-roadmap.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
+- [ ] Copy `templates/portfolio-review.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
+- [ ] Copy `templates/technical-decision-record.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
+
+Ask: **Which Microsoft record proves this decision is ready to hand off, and who operates it next?**
+
+## 3. Decide
+
+Record one result:
+
+- **Approve** when the Microsoft control path is present, owned, evidenced, and accepted by the receiving owner.
+- **Defer** when a record, owner, acceptance test, or target date is missing.
+- **Reject** when the proposed path cannot meet the bounded scope.
+- **Route** when another Microsoft control owner must decide first.
+
+## 4. Create implementation backlog
+
+Create a portfolio-governance backlog item for each unowned exception, stale control-plane record, unfunded roadmap item, missing operating evidence, or re-baseline trigger.
+
+Each backlog item must include Microsoft control path, owner, evidence location, accepted when, exception if any, target date, and handoff. Use this row shape:
+
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Exception | Target date | Handoff |
+|---|---|---|---|---|---|---|---|
+| | Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the S0 re-baseline | | | | | | portfolio governance board, finance/FinOps owner, control-plane steward, and session owners |
+
+## 5. Hand off
+
+Handoff to portfolio governance board, finance/FinOps owner, control-plane steward, and session owners. The receiving owner accepts only the backlog items with clear acceptance tests, target dates, and evidence locations. Keep the final records in the customer-approved system.

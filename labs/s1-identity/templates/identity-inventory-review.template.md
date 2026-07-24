@@ -1,49 +1,55 @@
-# Identity inventory review
+# Identity Inventory Review
 
-Copy this template into the approved customer records system. Do not store
-object identifiers, personal data, exports, screenshots, or tenant evidence in
-this repository.
+Copy this template into the customer's approved records system. Use it to turn the S1 Identity & Access decision into a Microsoft-platform control record and backlog handoff.
 
-## Source coverage
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
+
+## Scope
 
 | Field | Record |
 |---|---|
-| Bounded workload or agent population | |
-| Authoritative source or admin experience | |
-| Source reference and review date | |
-| Known exclusions and coverage limits | |
-| Identity administrator / reviewer | |
-| Governance decision owner | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
 | Approved records location | |
-| Stop condition | |
+| Target date | |
 
-## Reviewed identities
+## Microsoft control path
 
-| Entry reference | Identity classification | Workload / platform | Accountable sponsor | Technical owner | Lifecycle state and purpose | User-delegated or agent-operated activity | Authority boundary / tool-action scope | Access or risk reference | Finding / decision | Next review |
-|---|---|---|---|---|---|---|---|---|---|---|
-| | Agent ID / service principal / managed identity / OBO / other | | | | | | | | | |
-| | Agent ID / service principal / managed identity / OBO / other | | | | | | | | | |
+Default path: **Microsoft Entra Agent ID, Entra workload identities, Conditional Access, Azure RBAC, and Agent 365 where available**.
 
-## Decision prompts
+Inspect: the Entra application or managed identity record, Agent ID/Agent 365 record when available, Conditional Access assignment, Azure RBAC scope, and identity owner record.
 
-- What can the selected source authoritatively describe, and what can it not
-  prove?
-- Which entries have a sponsor accountable for purpose, lifecycle, and access
-  review?
-- Which activity is user-delegated, agent-operated, or only corroborating
-  context?
-- Which missing source, owner, lifecycle, authority, or review field becomes an
-  owned finding?
-- What customer identity-change process owns any Conditional Access,
-  break-glass, access-remediation, rollback, or verification work?
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+|---|---|---|---|---|---|---|
+| | Microsoft Entra Agent ID, Entra workload identities, Conditional Access, Azure RBAC, and Agent 365 where available | | | | | identity platform owner, application owner, and security operations |
 
-## Identity implementation backlog
+## Decision and acceptance
 
-| Backlog item | Applies / N/A / unknown / later | Recommendation and confidence | Evidence reference or gap | Owner | Later session or customer process |
-|---|---|---|---|---|---|
-| Entra Agent ID or agent identity applicability | | | | | Engineering, lifecycle, or identity process |
-| Human sponsor or lifecycle remediation | | | | | Governance or identity process |
-| Workload identity, service principal, RBAC, or OBO review | | | | | Engineering or identity-change process |
-| Conditional Access or access-review design | | | | | Customer identity-change process |
-| Gateway-authentication or runtime dependency | | | | | Platform or runtime-assurance process |
-| Catalog, ownership, or retirement reconciliation | | | | | Lifecycle-management process |
+| Decision field | Record |
+|---|---|
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create an identity backlog item for each missing agent/workload identity record, least-privilege role assignment, Conditional Access control, or owner review. |
+| Handoff owner and customer process | identity platform owner, application owner, and security operations |
+| Next review trigger | |
+
+## Exception
+
+Complete this section only when the Microsoft default is not used.
+
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “register support-agent workload identity”; evidence location “Entra app record and RBAC assignment”; accepted when the app owner and identity owner verify least privilege and review date.

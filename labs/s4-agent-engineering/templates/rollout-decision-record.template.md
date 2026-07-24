@@ -1,56 +1,55 @@
-# Staged rollout decision record
+# Rollout Decision Record
 
-Copy this blank record into the customer's approved records system. It assembles
-customer-held references; it does not authorize a deployment, change a
-production environment, or replace the customer's change authority.
+Copy this template into the customer's approved records system. Use it to turn the S4 Agent Engineering decision into a Microsoft-platform control record and backlog handoff.
 
-## Candidate and decision
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
+
+## Scope
 
 | Field | Record |
 |---|---|
-| Agent / workload reference | |
-| Admission-record reference | |
-| Customer change authority | |
-| Decision: proceed to next stage / hold / defer / rejected | |
-| Decision owner and review date | |
+| Workload / capability / portfolio scope | |
+| Decision owner | |
+| Implementation owner | |
+| Evidence owner | |
+| Approved records location | |
+| Target date | |
 
-## Environment and promotion model
+## Microsoft control path
 
-The labels below are a recommended DEV → PRE → PRO model. Map them to the
-customer's approved environment names. A stage record names a promotion
-decision; it does not approve deployment or change a production environment.
+Default path: **Microsoft Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, or a custom Azure app path**.
 
-| Stage | Purpose | Minimum control expectation | Evidence / promotion decision |
-|---|---|---|---|
-| DEV | Rapid development and isolated experimentation | No static credentials; bounded data/actions; basic logging; explicit non-production label | Customer engineering evidence and admission to the next controlled activity |
-| PRE | Integration, certification, and regression validation | Production-equivalent control intent for the selected path; test data where appropriate; runtime/evaluation evidence available | Accepted gateway proof and assurance decision, subject to stated coverage limits |
-| PRO | Live user or business operation | Customer-approved change, operational ownership, configured response/rollback path, and retained evidence references | Separate production-change decision and customer lifecycle/operating review |
+Inspect: the Foundry agent, Copilot Studio agent, Microsoft 365 Copilot extension, or custom Azure app record plus model deployment, rollout, and release records.
 
-## Stage plan
-
-| Stage | Environment label | Population | Entry-condition references | Exit condition / promotion decision | Rollback reference | Owner | Status |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
 |---|---|---|---|---|---|---|
-| DEV / non-production development | | | Admission record | | | | |
-| PRE / certification | | | Platform profile; accepted gateway proof; assurance decision | | | | |
-| Limited or expanded preview, if used | | | Security finding-disposition reference, if applicable | | | | |
-| PRO / production | | | Catalog-registration reference and customer change decision | | | | |
+| | Microsoft Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, or a custom Azure app path | | | | | agent engineering owner, product owner, platform owner, and release manager |
 
-## Cross-session evidence assembly
+## Decision and acceptance
 
-| Reference | Record |
+| Decision field | Record |
 |---|---|
-| Gateway-proof reference and accepted result | |
-| Assurance reference and outcome | |
-| Security-test finding disposition, if applicable | |
-| Catalog registration, if applicable | |
-| Rollback owner, communication route, and post-rollback verification | |
+| Result (approve / defer / reject / route) | |
+| Customer decision rationale | |
+| Accepted when | |
+| Backlog item to create | Create an engineering backlog item for any missing admission criterion, model-selection record, token/cost guardrail, latency budget, rollout gate, or retirement trigger. |
+| Handoff owner and customer process | agent engineering owner, product owner, platform owner, and release manager |
+| Next review trigger | |
 
-Production promotion is always a separate customer change-authority decision.
+## Exception
 
-## Implementation backlog
+Complete this section only when the Microsoft default is not used.
 
-| Backlog item | Applies / N/A / unknown / follow-up | Recommendation and confidence | Evidence reference or gap | Owner | Follow-up customer process |
-|---|---|---|---|---|---|
-| Stage entry / exit conditions and rollback readiness | | | | | Customer change process |
-| Gateway proof, assurance, and finding-disposition dependencies | | | | | Customer security and evaluation processes |
-| Catalog and lifecycle-record dependency | | | | | Customer service-management process |
+| Exception field | Record |
+|---|---|
+| Reason | |
+| Equivalent control | |
+| Owner | |
+| Evidence location | |
+| Acceptance test | |
+| Target date | |
+| Review trigger | |
+
+## Filled example
+
+Example: Work item “select Foundry Agent Service for claims assistant”; evidence location “model-selection record”; accepted when rollout, cost, latency, and retirement gates have owners.

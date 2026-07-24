@@ -33,13 +33,13 @@ Ingress is traffic entering a protected workload boundary. Egress is traffic lea
 A hybrid dependency spans more than one operational environment or connects to an externally managed service. It can add separate identity, routing, logging, retention, and incident-response obligations.
 
 The review identifies accountability changes and the evidence that would bridge
-them. It does not establish either side's health or security.
+them. Accept health or security only from each side's own records.
 
 ## Identity boundaries are authority boundaries
 
 Identity review asks which actor or workload is expected to start an action, which authority is delegated, which actions are privileged, and who owns the identity lifecycle.
 
-An identity appearing in a record is not proof that its permissions are appropriate. It also does not prove a session used that identity. Those questions require authorized runtime-assurance work.
+An identity appearing in a record is accepted only as an identifier match. Permission fitness and session use require authorized runtime-assurance work.
 
 ## Telemetry coverage is not telemetry proof
 

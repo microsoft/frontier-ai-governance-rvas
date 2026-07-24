@@ -2,7 +2,7 @@
 """Generate and verify offline S10 policy-decision hash-chain evidence.
 
 This dependency-free simulator illustrates a deny-by-default tool policy and
-hash-linked decision records. It does not import, invoke, or validate AGT.
+hash-linked decision records. AGT import, invocation, and validation are out of scope.
 """
 from __future__ import annotations
 
