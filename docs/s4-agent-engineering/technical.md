@@ -12,9 +12,9 @@ backlog and ownership; it does not deploy or configure a product.
 
 ## Decision 1: Which Microsoft implementation path?
 
-Choose against the agent's **authority boundary**, **users and data boundary**,
-required **customization/control**, **engineering ownership**, and the
-**governance surface** each path exposes.
+Choose based on the agent's **authority**, **users and data**, needed
+**customization/control**, **engineering owner**, and the controls each path
+exposes.
 
 | Path | When it fits | Trade-off / limitation | Governance surface to backlog |
 |---|---|---|---|

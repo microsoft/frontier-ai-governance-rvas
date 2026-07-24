@@ -53,7 +53,8 @@ Read the [S2 Concepts](concepts.md) for DSPM, labels and DLP, investigation evid
 **Customer action:** the compliance administrator reviews authorized Purview
 evidence for the path, checks coverage, and brings a decision to the risk owner.
 
-Review the [Technical decisions](technical.md) chapter first: it holds the data-classification, PII-handling, and compliance option menus and selection criteria this walkthrough decides between.
+Read [Technical decisions](technical.md) first. It covers data-classification,
+PII-handling, and compliance options and selection criteria.
 
 1. **Set the evidence and investigation question** *(10 min)* - the facilitator asks: **"For this path, what sensitive-data exposure are we trying to understand, where is the evidence, and who investigates an incident?"** The customer records the pilot scope, safe starting state, evidence references, owner, and stop condition in `labs/s2-data-compliance/review-checklist.md` in its approved system. A useful result is a bounded path and named investigation route. If there is no records location, compliance owner, or investigation owner, stop that part and assign it.
 2. **Map the path and dependencies** *(15 min)* - the pilot owner traces inputs, retrieval sources, tools, outputs, classifications, and data locations. The facilitator asks: **"Where could sensitive data enter, persist, or leave?"**, **"Which label or classification should apply?"**, and **"Which permission or runtime control changes the risk?"** Record dependencies on labels, classification, DLP workload/location support, audit retention, eDiscovery permissions and hold process, IRM/Communication Compliance where applicable, and gateway protection as separate controls. A missing classification or unknown workload support is a finding.

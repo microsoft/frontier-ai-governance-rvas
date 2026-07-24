@@ -1,6 +1,6 @@
 # S6 Takeaway Kit: Security Runtime
 
-S6 produces one runtime evidence artifact: a redacted proof that a
+S6 produces one runtime proof: a redacted record that a
 customer-operated non-production request reached the approved gateway path.
 It does not deploy, configure, or directly call Content Safety.
 

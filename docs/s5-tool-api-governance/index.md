@@ -59,7 +59,8 @@ reasoning behind the record and its boundaries.
     catalog entries, grant permissions, create identities, connect to a live
     service, or use a catalog record as proof of safe use.
 
-Review the [Technical decisions](technical.md) chapter first: it holds the publication/registry, MCP-governance, and tool-authentication option menus and selection criteria this walkthrough decides between.
+Read [Technical decisions](technical.md) first. It covers publication and
+registry, MCP governance, and tool-authentication options and criteria.
 
 **Timebox:** 90 minutes. **Entry condition:** the bounded candidate list,
 customer evidence location, required owners, and decision authority are available.

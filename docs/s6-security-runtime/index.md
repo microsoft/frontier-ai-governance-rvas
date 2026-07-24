@@ -54,7 +54,8 @@ can troubleshoot part of the stack, but it does not prove the gateway path.
     Do not run against production traffic. A component diagnostic is not
     gateway-path proof.
 
-Review the [Technical decisions](technical.md) chapter first: it holds the content-safety, threat-detection, and gateway-correlation option menus and selection criteria this walkthrough decides between.
+Read [Technical decisions](technical.md) first. It covers content safety,
+threat detection, and gateway-correlation options and selection criteria.
 
 **Timebox:** 90 minutes. **Entry condition:** the customer has an approved
 non-production gateway route, safe test scope and authentication handling,

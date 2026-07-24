@@ -58,7 +58,7 @@ capability, data exposure, human oversight, accountable sponsor, and product.
 
 ## The target architecture gives the model somewhere to land
 
-The Foundry Citadel Platform organizes AI governance into Governance Hub, AI Control Plane, Agent Identity, and Security Fabric layers.[^citadel] The operating model is the human layer across those components.
+The Foundry Citadel Platform organizes AI governance into Governance Hub, AI Control Plane, Agent Identity, and Security Fabric layers.[^citadel] The operating model defines the people and decisions across those components.
 
 S0 does not require that platform to be deployed. It helps the customer decide who will own platform evidence and exceptions once the platform exists. See the [Platform technical guide](../reference/platform-technical-guide.md) for the technical mapping.
 

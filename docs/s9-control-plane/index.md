@@ -43,7 +43,8 @@ Read the [S9 Concepts](concepts.md) before delivery.
 
 **Timebox:** 90 minutes. **Roles:** facilitator, governance lead, catalog steward, evidence owner, service owner. Include identity, risk, security, or finance reviewers only when the question needs them. The facilitator protects the boundary and decision wording. The governance lead owns the closeout decision.
 
-Review the [Technical decisions](technical.md) chapter first: it holds the system-of-record, reconciliation-cadence, and change/versioning option menus and selection criteria this walkthrough decides between.
+Read [Technical decisions](technical.md) first. It covers system-of-record,
+reconciliation-cadence, and change/versioning options and selection criteria.
 
 | Activity | Time | Customer operation | Facilitator prompts and interpretation |
 |---|---:|---|---|

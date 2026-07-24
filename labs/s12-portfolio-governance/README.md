@@ -1,9 +1,9 @@
 # S12 Takeaway Kit: Portfolio Governance & Continuous Improvement
 
 This offline kit supports a 90-minute, facilitator-led portfolio review. It
-helps an organization reference evidence, interpret exceptions and
-portfolio-level risk, prioritize investment, identify maturity and policy
-questions, and route the next roadmap into S0.
+helps an organization review evidence, interpret exceptions and risk,
+prioritize investment, identify maturity and policy questions, and feed the
+next roadmap back into S0.
 
 Start with [runbook.md](runbook.md). Copy the blank templates to the approved
 records system before entering any information.

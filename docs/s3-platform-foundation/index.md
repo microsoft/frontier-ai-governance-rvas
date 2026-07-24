@@ -9,9 +9,8 @@ They leave with:
 - A customer-owned review of the enterprise platform boundary, including trust boundaries, owners, evidence expectations, and coverage limits.
 - A decision on whether the workload is ready for runtime assurance or needs platform prerequisites first.
 - A runtime-assurance handoff that names open gaps, owners, stop conditions, and evidence references.
-- Where useful, a customer-owned platform control profile that connects
-  environment equivalence, layer ownership, route assumptions, evidence
-  expectations, and the implementation backlog.
+- Where useful, a customer-owned profile that lists the environment, owners,
+  route assumptions, evidence needed, and backlog.
 
 `labs/s3-platform-foundation/` contains blank offline templates only. It does not hold workload data, credentials, network details, event records, or completed evidence. The customer keeps those records in its approved system.
 
@@ -59,7 +58,8 @@ Read [S3 Concepts](concepts.md) for the vocabulary and reasoning behind the revi
 
 **What the customer actually does:** the platform owner maps the enterprise platform and AI gateway boundary, then the decision owner records what is ready, missing, or blocked.
 
-Review the [Technical decisions](technical.md) chapter first: it holds the platform-topology, network-isolation, and gateway option menus and selection criteria this walkthrough decides between.
+Read [Technical decisions](technical.md) first. It covers platform topology,
+network isolation, and gateway options and selection criteria.
 
 1. **Set the review contract** *(10 min)* - state the workload, decision, boundaries, approved records location, and stop condition. The facilitator asks: **"What can this review state, and what remains unverified?"** A missing owner or records location blocks the affected topic.
 2. **Map trust, connectivity, and gateway boundaries** *(20 min)* - identify the workload, operator, identity, network, data, service, administration, and AI gateway boundaries. Record expected private-connectivity controls, ingress points, egress destinations, and hybrid dependencies. For the gateway, name Azure API Management when it is the customer route and record what API or model access it is expected to mediate. The facilitator asks: **"Where does authority or data handling change?"** and **"Which topology, network-isolation, or gateway option fits this scope, and what evidence would support that choice later?"**

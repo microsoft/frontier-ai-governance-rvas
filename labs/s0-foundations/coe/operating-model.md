@@ -4,7 +4,7 @@
 
 ## Purpose
 
-Establish accountable ownership for AI‑agent governance and the cadence by which it operates.
+Define who owns AI-agent governance and how often the group meets.
 
 ## Ownership
 

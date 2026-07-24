@@ -103,7 +103,7 @@ S0 makes these gaps visible before technical sessions begin. The use-case intake
 ## The target architecture gives the model somewhere to land
 
 - Foundry Citadel Platform organizes governance into platform layers.
-- The operating model is the **human layer** across those components.
+- The operating model defines the **people and decisions** across those components.
 - S0 does not require that platform to be deployed.
 - It decides who will own platform evidence and exceptions once the platform exists.
 

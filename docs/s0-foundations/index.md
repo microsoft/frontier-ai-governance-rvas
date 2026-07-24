@@ -61,7 +61,8 @@ Read the [S0 Concepts](concepts.md) for the operating-model, maturity, risk, and
 
 ## 4. Co-delivery walkthrough
 
-Review the [Technical decisions](technical.md) chapter first: it holds the operating-model and control-framework option menus and selection criteria this walkthrough decides between.
+Read [Technical decisions](technical.md) first. It covers operating-model and
+control-framework options and selection criteria.
 
 !!! warning "Offline baseline only"
     S0 makes no tenant changes or tenant queries. Copy the blank templates to

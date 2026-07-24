@@ -8,7 +8,7 @@
     [Platform technical guide](../reference/platform-technical-guide.md).
 
 S5 decides where the publication record lives, how MCP/tool access is governed,
-and what authority the caller carries. The output is a recorded choice with
+and what authority the caller has. The output is a recorded choice with
 rationale and backlog, not a platform change.
 
 ## Decision 1: Tool/API publication and registry system of record
@@ -78,10 +78,9 @@ secrets wherever the customer's platform supports them.
 
 ## Decisions made & adoption progress
 
-S5 advances the tool and API part of the **S0 maturity baseline** by creating a
-lasting controlled-publication and lifecycle governance model, and sends the
-portfolio-level implications to **S12**; **S9** owns catalog and lifecycle
-reconciliation as records mature.
+S5 handles tool and API publication governance, sends portfolio implications to
+**S12**, and leaves catalog and lifecycle reconciliation to **S9** as records
+mature.
 
 | Adoption stage | What "done" looks like at S5 |
 |---|---|

@@ -1,8 +1,8 @@
 # S4 Takeaway Kit: Agent Engineering & Admission Standards
 
-This offline kit supports one safe activity: review and record a
-product-anchored implementation decision package for a bounded agent
-candidate. It is evidence-first and report-only. It does not generate customer
+This offline kit supports one safe activity: review and record a decision
+package for a bounded agent candidate. It is evidence-first and report-only.
+It does not generate customer
 code, configure Microsoft services, connect to live systems, implement a
 change, publish an agent, or grant production approval.
 

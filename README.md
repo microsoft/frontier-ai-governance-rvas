@@ -1,6 +1,6 @@
 # AI Governance Platform
 
-**A composable S0-S12 curriculum for governing enterprise AI agents.**
+**A practical S0-S12 curriculum for governing AI agents in enterprise environments.**
 
 This repository publishes a co-delivered curriculum for establishing and
 operating AI-agent governance in a customer's environment. Each session leaves

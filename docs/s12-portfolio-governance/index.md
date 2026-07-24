@@ -56,7 +56,9 @@ Read the [S12 Concepts](concepts.md) before delivery.
 
 ## 4. Co-delivery walkthrough
 
-Review the [Technical decisions](technical.md) chapter first: it holds the portfolio-reporting, prioritization/reinvestment, and continuous-improvement option menus and selection criteria this walkthrough decides between.
+Read [Technical decisions](technical.md) first. It covers portfolio reporting,
+prioritization and reinvestment, and continuous-improvement options and
+selection criteria.
 
 !!! warning "Evidence-first and report-only"
     Work from approved references only. Do not import raw records, connect to
@@ -84,7 +86,7 @@ Use these portfolio interpretation aids:
 | Topic | Prompt |
 |---|---|
 | Exception concentration | Does the same exception, owner gap, dependency, or evidence limit recur across multiple scopes? |
-| Investment priority | What risk, dependency, evidence strength, expected governance value, effort, and decision status support the ranking? |
+| Investment priority | What risk, dependency, evidence strength, expected benefit, effort, and decision status support the ranking? |
 | Maturity movement | Which S0 question, scope, and evidence reference support movement, no movement, or unresolved status? |
 | Policy evolution | Is there a gap, conflict, obsolete assumption, or clarification need that requires a separate policy decision? |
 | S0 feedback | Which S0 baseline domain should be re-baselined, what changed since S0, and what evidence must be available before that review? |

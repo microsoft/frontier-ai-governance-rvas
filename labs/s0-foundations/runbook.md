@@ -52,11 +52,10 @@ stop the affected work.
 - [ ] Decision owner selects the next session(s), defers with a date, or accepts
   a residual gap based on evidence-supported maturity, risk, owner, and
   prerequisites. Record `designed`, `accepted_risk`, or `blocked`.
-- [ ] Record a foundation implementation backlog with the recommended next
-  path, confidence, assumptions, rejected or deferred paths, owner, evidence
-  reference or gap, customer process, chosen option, alternatives considered,
-  rationale, owner, and adoption stage. Use the backlog to route work; do not
-  treat it as approval to deploy or configure a Microsoft capability.
+- [ ] Record a foundation backlog with the recommended next path, rationale,
+  assumptions, alternatives, evidence gap or reference, owner, customer
+  process, and adoption stage. Use it to route work; do not treat it as
+  approval to deploy or configure Microsoft services.
 - [ ] For each relevant capability track, mark applicability: operating model,
   Entra/Agent ID, Purview/data governance, platform/gateway/API Center,
   Copilot Studio/Foundry/Microsoft 365 Copilot extensibility, runtime safety,

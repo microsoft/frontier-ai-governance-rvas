@@ -2,8 +2,8 @@
 
 Use this runbook with the visible [S4 co-delivery activity](../../docs/s4-agent-engineering/index.md).
 The customer reviews its records and makes decisions; the facilitator preserves
-the 90-minute, evidence-first, report-only boundary while producing a
-product-anchored implementation decision package.
+the 90-minute, evidence-first, report-only boundary while producing a decision
+package.
 
 > **Boundary:** do not request or generate customer code, execute
 > framework-specific implementation, connect to a live system, execute an
@@ -101,9 +101,9 @@ consequence of a latency regression?” and “Is fine-tuning justified, and who
 owns the training-data review?” These records do not calculate cost, collect
 telemetry, or fine-tune a model.
 
-## 4. Review cross-cutting governance services and test expectations
+## 4. Review related governance services and test expectations
 
-1. Mark each cross-cutting governance surface as applies, does not apply,
+1. Mark each related governance area as applies, does not apply,
    unknown, or later-session item: Entra/Agent ID, Purview/data governance,
    Azure Monitor/Application Insights/OpenTelemetry, Foundry
    evaluation/observability, Content Safety/runtime policy, Power Platform DLP

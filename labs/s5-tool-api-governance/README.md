@@ -1,7 +1,7 @@
 # S5 Takeaway Kit: API, Tool & MCP Governance
 
 This kit supports a facilitator-led, customer-operated, 90-minute governance
-review for a bounded API, tool, or MCP service set. It produces offline,
+review for a bounded API, tool, or MCP service. It produces offline,
 decision-ready records for catalog ownership, publication criteria,
 naming/workspace, classification, caller identity, authority, versioning, and
 lifecycle.

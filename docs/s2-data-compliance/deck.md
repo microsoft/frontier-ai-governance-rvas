@@ -5,8 +5,7 @@
 Compliance / Data admin · Governance lead · 90-minute report-only review session
 
 Note:
-This **report-only / audit-first** session uses DLP simulation/test only; it must
-not block users or agents. Timebox: 90 minutes. Roles: facilitator,
+This session uses DLP simulation only; it must not block users or agents. Timebox: 90 minutes. Roles: facilitator,
 Compliance/Data administrator, governance lead or delegated risk authority,
 evidence owner, pilot-agent owner, and Audit/eDiscovery investigator or legal
 specialist.

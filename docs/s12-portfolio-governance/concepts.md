@@ -30,7 +30,7 @@ session outcome. Each view still needs a population and owner.
 ## Investment priority is a transparent trade-off
 
 Prioritization should state the decision criteria: risk, dependency, evidence
-strength, expected governance value, effort, timing, and accountable owner. The
+strength, expected benefit, effort, timing, and accountable owner. The
 ranked list informs authorized decision-makers. It is not a promise of benefit
 or approval to spend.
 

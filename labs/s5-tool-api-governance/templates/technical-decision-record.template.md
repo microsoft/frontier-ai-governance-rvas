@@ -1,6 +1,7 @@
 # Technical decision record
 
-[S5 Technical decisions](../../../docs/s5-tool-api-governance/technical.md) lists the option menus and selection criteria.
+[S5 Technical decisions](../../../docs/s5-tool-api-governance/technical.md)
+lists the available options and selection criteria.
 
 Copy this blank record into the customer's approved records system. It captures a
 customer-owned publication, MCP/tool governance, or tool-authentication decision

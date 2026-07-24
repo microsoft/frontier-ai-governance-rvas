@@ -42,7 +42,8 @@ Read the [S7 Concepts](concepts.md) for the boundary between evaluation results 
 !!! warning "Report-only / audit-first"
     A fixture score or a direct component test is not a release sign-off. S7 requires an accepted S6 gateway proof.
 
-Review the [Technical decisions](technical.md) chapter first: it holds the evaluation-approach, release-gate, and performance-evidence option menus and selection criteria this walkthrough decides between.
+Read [Technical decisions](technical.md) first. It covers evaluation approach,
+release-gate, and performance-evidence options and selection criteria.
 
 **Timebox:** 90 minutes. **Entry condition:** the customer's records system contains an S6 gateway-proof manifest with `result: "pass"`, and the named platform and security reviewers accepted its telemetry correlation. The room also has an assurance owner, a decision owner, an evaluation-plan reference, and an approved records location. If S6 acceptance is missing, stop at review.
 

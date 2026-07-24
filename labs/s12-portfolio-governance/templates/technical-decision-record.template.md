@@ -25,7 +25,7 @@ selection criteria.
 |---|---|---|---|
 | Executive scorecard or dashboard | | | |
 | Control-register rollup from S9 | | | |
-| BI on governance evidence references | | | |
+| Reports from governance evidence references | | | |
 | Risk-weighted prioritization | | | |
 | Value- and adoption-weighted prioritization | | | |
 | Maturity-gap-driven prioritization | | | |

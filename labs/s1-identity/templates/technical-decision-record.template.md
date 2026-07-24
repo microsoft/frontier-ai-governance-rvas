@@ -5,7 +5,7 @@ customer-owned technical decision, the options considered, and the adoption
 stage. It does not make a tenant change, grant access, or approve production.
 
 See the [S1 Technical decisions](../../../docs/s1-identity/technical.md) chapter
-for the option menus and selection criteria.
+for the available options and selection criteria.
 
 ## Decision
 

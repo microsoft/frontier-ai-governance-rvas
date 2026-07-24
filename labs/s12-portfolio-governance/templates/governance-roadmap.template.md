@@ -4,9 +4,9 @@
 |---|---|---|---|---|---|---|---|
 | | | | | | | | |
 
-Decision criteria may include risk reduction, recurring exception pressure,
-shared dependency, evidence strength, expected governance value, effort,
-timing, and accountable owner readiness. A roadmap item is approved only when
+Decision criteria may include risk reduction, recurring exceptions, shared
+dependencies, evidence strength, expected benefit, effort, timing, and owner
+readiness. A roadmap item is approved only when
 the customer's decision owner records that status in the approved records
 system.
 

@@ -2,9 +2,9 @@
 
 AI Governance Platform is a co-delivered S0-S12 curriculum for deciding agent ownership, applicable Microsoft controls, and retained customer evidence. The facilitator runs the method; customer administrators perform privileged actions, and customer owners make decisions and accept risk.
 
-## Why AI-agent governance needs an enterprise journey
+## Why AI-agent governance needs a complete approach
 
-An agent can read business data, call tools, act for a user, use its own identity, and change quickly. A one-time assessment does not cover the resulting ownership, identity, data, platform, engineering, security, and operating decisions. Where possible, sessions use the customer's Microsoft environment, including Entra Agent ID, Purview, Defender, Foundry, and Azure API Management.
+An agent can read business data, call tools, act for a user, use its own identity, and change quickly. One assessment cannot cover the resulting decisions about ownership, identity, data, platform, engineering, security, and operations. Where possible, sessions use the customer's Microsoft environment, including Entra Agent ID, Purview, Defender, Foundry, and Azure API Management.
 
 ![A governed path turns strategic ambition into decisions leaders can stand behind: ambition and use cases feed accountable decisions, then enforceable controls, then evidence and observation, then portfolio learning, which loops back to ambition to learn and improve. Each stage leaves the customer with a decision, a control state, or an evidence reference.](../assets/diagrams/proof-flow.svg)
 

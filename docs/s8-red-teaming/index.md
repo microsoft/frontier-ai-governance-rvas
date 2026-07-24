@@ -49,7 +49,8 @@ Read the [S8 Concepts](concepts.md) for authorization, Attack Success Rate as a 
 !!! danger "Authorized test endpoint only"
     Stop if alerts, instability, or scope questions arise. Do not test third-party systems, production agents, user-facing workloads, or endpoints outside the written scope.
 
-Review the [Technical decisions](technical.md) chapter first: it holds the red-team-approach, scope/authorization, and remediation-routing option menus and selection criteria this walkthrough decides between.
+Read [Technical decisions](technical.md) first. It covers red-team approach,
+scope and authorization, and remediation-routing options and selection criteria.
 
 **Timebox:** 90 minutes inside the approved monitoring window. **Entry condition:** written authorization and rules of engagement are approved; the SOC is notified with a contact and window; the target is confirmed customer-owned and non-production; an endpoint owner can stop it; and customer test categories, thresholds if used, evidence location, and decision owner are approved. Do not start or resume a scan if any condition expires or changes.
 

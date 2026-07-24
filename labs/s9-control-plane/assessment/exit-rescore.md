@@ -1,6 +1,6 @@
 # S9 Exit Re-score
 
-S9 closes the loop opened in S0 by re-running the same maturity instrument.
+S9 re-runs the same maturity scorecard used in S0.
 
 ## Steps
 
@@ -25,8 +25,8 @@ S9 closes the loop opened in S0 by re-running the same maturity instrument.
      | tee evidence/maturity-lift.txt
    ```
    `compare.py` prints per-domain baseline→exit deltas, overall lift, and the domains still below the target maturity (the residual-gap backlog). Capture
-   `evidence/maturity-lift.txt` as the engagement's proof of measurable
-   improvement. The comparison is mandatory for S9 closeout.
+   `evidence/maturity-lift.txt` as the comparison record. The comparison is
+   required for S9 closeout.
 
 The table below is auto-produced by `compare.py`; fill the backlog-owner column by hand:
 
