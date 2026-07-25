@@ -68,45 +68,7 @@ Read [S12 Concepts](concepts.md) for the inner/outer loops and [Technical
 decisions](technical.md) for the Azure implementation mapping, lifecycle gates,
 and acceptance evidence.
 
-## 4. Detailed facilitation reference
-
-!!! warning "Design the operating system; do not operate it here"
-    The group may define controls, gates, owners, evidence, and a backlog. Do
-    not ingest data, select or alter a model, change prompts, run evaluation,
-    deploy infrastructure, query production telemetry, or approve production.
-
-| Activity | Time | Customer action | Facilitator decision test |
-|---|---:|---|---|
-| Map the inner loop | 20 min | Identify curation, experiment, and evaluation inputs, owners, records, and exit gates. | What turns a learning idea into an evaluable candidate? |
-| Map validate/deploy and inference | 15 min | Define DEV/PRE/PRO promotion, release manifest, inference dependencies, and rollback route. | What evidence supports promotion, and can the active route be reconstructed? |
-| Map monitoring and feedback | 15 min | Select signals, interpretation/response owners, feedback purpose, and curation route. | What turns a signal into a hypothesis and feedback into governed data? |
-| Apply material changes | 15 min | Classify one data/feedback change, one candidate change, and one production-operation change. | Which accountable route must approve each change? |
-| Plan implementation | 15 min | Assign work, acceptance evidence, blockers, and review cadence. | What proves every stage is operational rather than aspirational? |
-| Decide | 10 min | Approve, defer, reject, or route the lifecycle model with limits, acceptance evidence, target dates, and S2/S4/S7/S11 handoffs. | Can learning safely travel from production back to the inner loop? |
-
-### Handoff boundaries
-
-- **S2:** data governance, privacy, retention, and compliance.
-- **S4:** initial implementation-path and model selection/admission.
-- **S7:** candidate evaluation and release assurance.
-- **S11:** production monitoring, incident operation, capacity, and FinOps.
-- **S12:** lifecycle orchestration, stage gates, artifact ownership, and the
-  governed feedback-to-curation loop.
-
-## 5. Verification & evidence capture
-
-- [ ] All seven LLMOps stages have a purpose, owner, approved record, and
-  decision/exit condition.
-- [ ] Data and feedback only enter curation through an owned S2-governed route.
-- [ ] Candidates are reproducible and cannot bypass evaluation or promotion.
-- [ ] The active PRE/PRO route is reconstructable from a release manifest and
-  has a rollback target.
-- [ ] Monitoring signals have coverage limits, an interpretation owner, and an
-  S11 escalation route.
-- [ ] The customer decision, backlog, limitations, and next lifecycle review are
-  recorded.
-
-## 6. Change boundary
+## 4. Change boundary
 
 S12 makes no data, model, prompt, evaluation, deployment, infrastructure,
 telemetry, incident, or production change. Customer data, engineering, release,

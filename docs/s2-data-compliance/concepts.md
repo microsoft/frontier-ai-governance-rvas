@@ -29,7 +29,7 @@ product path unless the customer has a reason to retain the classic experience.
 
 It finds likely data-risk areas before a policy blocks or warns users.
 
-**In Facilitate the session:** an empty result is still evidence. It can mean no in-scope workload was found, nothing turned up in the scope you checked, or a prerequisite is missing. Record which one the customer can stand behind.
+**In the practical workshop:** an empty result is still evidence. It can mean no in-scope workload was found, nothing turned up in the scope you checked, or a prerequisite is missing. Record which one the customer can stand behind.
 
 ## Labels and DLP turn classification into controls
 

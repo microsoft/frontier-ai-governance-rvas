@@ -61,16 +61,11 @@ const SESSION_CHAPTERS = [
   {
     slug: 'prepare',
     label: 'Prepare',
-    heading: /^(?:1\. Outcome|2\. Prerequisites|3\. Why)/i,
+    heading: /^(?:1\. Outcome|2\. Prerequisites|3\. Why|4\. (?:Customer-owned )?(?:Rollback|Change boundary))/i,
   },
   { slug: 'concepts', label: 'Concepts', standalone: true },
   { slug: 'technical', label: 'Technical decisions', standalone: true, optional: true },
-  { slug: 'co-deliver', label: 'Facilitate the session', standalone: true },
-  {
-    slug: 'verify-handover',
-    label: 'Verify and hand over',
-    heading: /^(?:5\. Verification|6\. (?:Customer-owned )?(?:Rollback|Change boundary))/i,
-  },
+  { slug: 'co-deliver', label: 'Practical workshop', standalone: true },
 ];
 
 const PAGES = [
@@ -124,7 +119,6 @@ SESSIONS.forEach((s) => {
   ROUTES[`${s.slug}/concepts.md`] = `session.html?s=${s.slug}&chapter=concepts`;
   ROUTES[`${s.slug}/technical.md`] = `session.html?s=${s.slug}&chapter=technical`;
   ROUTES[`${s.slug}/practical.md`] = `session.html?s=${s.slug}&chapter=co-deliver`;
-  ROUTES[`${s.slug}/facilitate.md`] = `session.html?s=${s.slug}&chapter=co-deliver`;
 });
 
 const ADMONITION_MAP = {
@@ -443,23 +437,15 @@ function main() {
       continue;
     }
     const practical = transform(practicalRaw, `${s.slug}/practical.md`);
-    const facilitateRaw = readOptional(`${s.slug}/facilitate.md`);
-    if (facilitateRaw == null) {
-      console.error(`✖ Missing facilitation guide: docs/${s.slug}/facilitate.md`);
-      process.exitCode = 1;
-      continue;
-    }
-    const facilitate = transform(facilitateRaw, `${s.slug}/facilitate.md`);
-    const facilitationGuide = `## Do this\n\n${practical.md}\n## Facilitate the decision\n\n${facilitate.md}`;
-    fs.writeFileSync(path.join(PAGES_OUT, `${s.slug}-co-deliver.md`), facilitationGuide);
+    fs.writeFileSync(path.join(PAGES_OUT, `${s.slug}-co-deliver.md`), practical.md);
     searchDocs.push({
       id: `${s.slug}-co-deliver`,
       type: 'session',
       title: `${s.code} · ${clean}`,
-      section: 'Facilitate the session',
+      section: 'Practical workshop',
       session: s.code,
       url: `session.html?s=${s.slug}&chapter=co-deliver`,
-      text: toPlainText(facilitationGuide),
+      text: toPlainText(practical.md),
     });
     const chapterMeta = SESSION_CHAPTERS
       .filter((chapter) => chapter.slug !== 'technical' || technical)
@@ -475,7 +461,7 @@ function main() {
     sessionMeta.push({
       slug: s.slug, code: s.code, title: clean, fullTitle: title || `${s.code} · ${clean}`,
       accent: s.accent, persona: s.persona, nist: s.nist, outcome: s.outcome, optional: Boolean(s.optional),
-      hasMermaid: hasMermaid || concepts.hasMermaid || practical.hasMermaid || facilitate.hasMermaid || Boolean(technical && technical.hasMermaid),
+      hasMermaid: hasMermaid || concepts.hasMermaid || practical.hasMermaid || Boolean(technical && technical.hasMermaid),
       hasDeck,
       chapters: chapterMeta,
       reviewed, reviewedNote, conceptsTitle: concepts.title || `${s.code} · ${clean} Concepts`,

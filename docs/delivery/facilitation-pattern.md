@@ -18,12 +18,10 @@ Use the session cards in this order:
 | Prepare | Confirm the outcome, prerequisites, and records the customer keeps. |
 | Concepts | Explain the terms and product context the room needs. |
 | Technical decisions | Start with the Azure/Microsoft default, agree on its acceptance evidence, and record any equivalent-control exception. |
-| Facilitate the session | Run the practical activity, then guide the agenda, prompts, interpretation, and decision. |
-| Verify and hand over | Check retained references, ownership, and the next review. |
+| Practical workshop | Run the customer activity and record the decision, evidence references, ownership, and next review. |
 
-The first section of Facilitate the session is the practical activity. Observe
-the customer-led work, then focus the room on what the result means and what to
-decide.
+Observe the customer-led practical workshop, then focus the room on what the
+result means and what to decide.
 
 ## Activity model
 

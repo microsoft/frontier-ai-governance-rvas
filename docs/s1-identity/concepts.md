@@ -51,7 +51,7 @@ Setting up Conditional Access for workload identities depends on the tenant,
 licensing, which workloads support it, scope, exclusions, and the customer's
 change process. A generic policy or break-glass template can't stand in for that.
 
-**In Facilitate the session:** S1 finds owner and coverage gaps. Identity controls proceed
+**In the practical workshop:** S1 finds owner and coverage gaps. Identity controls proceed
 through the customer's identity-change process.
 
 ## Seeing an agent isn't the same as controlling it

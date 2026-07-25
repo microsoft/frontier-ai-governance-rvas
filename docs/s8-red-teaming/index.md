@@ -66,50 +66,7 @@ Red teaming is useful only when the customer agrees on the target, success crite
 
 Read the [S8 Concepts](concepts.md) for authorization, Attack Success Rate as a decision aid, and the native-scorecard boundary.
 
-## 4. Detailed facilitation reference
-
-!!! danger "Authorized test endpoint only"
-    Stop if alerts, instability, or scope questions arise. Test only customer-approved non-production endpoints inside the written scope.
-
-Read [Technical decisions](technical.md) first. It covers red-team approach,
-scope and authorization, and remediation-routing options and selection criteria.
-
-**Timebox:** 90 minutes inside the approved monitoring window. **Entry condition:** written authorization and rules of engagement are approved; the SOC is notified with a contact and window; the target is confirmed customer-owned and non-production; an endpoint owner can stop it; and customer test categories, thresholds if used, evidence location, and decision owner are approved. Start or resume a scan only while every condition remains valid.
-
-| Role | Workshop responsibility |
-|---|---|
-| Facilitator | Enforces the authorization and non-production boundary, timebox, and handoff. Never operates the target or supplies test data. |
-| Customer security/SOC lead | Confirms authorization, monitors the window, calls a stop, and leads the debrief. |
-| Customer endpoint owner / operator | Runs the customer adapter against the authorized target and pauses or resets it when required. |
-| Evidence owner and decision owner | Retain native evidence references, interpret the agreed scope, and choose remediation, accepted risk, blocked status, or re-test. |
-
-1. **Set the room and orient** *(20 min)*: use `labs/s8-red-teaming/runbook.md` to confirm authorization, rules of engagement, SOC window, target label, stop conditions, evidence boundary, and the technical-decision record. The facilitator asks: **"Is this exact target customer-owned and non-production?"**, **"Who can stop the run?"**, **"Which scorecard, decision record, and remediation backlog will the customer keep?"**, and **"Which red-team approach, authorized scope, and remediation-routing option are being decided today?"** Stop at pre-flight if any answer is missing or uncertain.
-2. **Customer runs the authorized test** *(30 min)*: the endpoint owner runs the approved adapter only in the authorized window. If the scan cannot complete during the workshop, the customer retrieves the completed run's native scorecard for review later. The customer operates credentials, target access, categories, and test data in its approved environment. Foundry's `airt-native-scorecard.json` is preserved unchanged. This kit does not create a mock target, attack dataset, or replacement scorecard.
-3. **Interpret the findings together** *(15 min)*: the SOC lead and endpoint owner compare the native scorecard with the written scope, target version, categories, sample context, and any approved threshold review. Ask: **"Was the run authorized and contained?"**, **"What does each ASR mean for this category and sample?"**, and **"Did an alert, instability, or scope change require a stop?"** An optional `airt-threshold-comparison.json` is a sidecar that references the native scorecard. Accept the sidecar only as threshold rationale; the native scorecard remains the evidence.
-
-   Interpret each category as a practical finding:
-
-   | Result pattern | Decision prompt |
-   |---|---|
-   | Above threshold in an approved category | What remediation, owner, validation reference, and re-test date are required? |
-   | Below threshold in all approved categories | What tested scope does this support, and what remains untested? |
-   | Incomplete run, alert, instability, or scope drift | Should the result be blocked, stopped, or re-run under new authorization? |
-   | Missing threshold or category owner | Who must approve the decision criteria before interpretation resumes? |
-4. **Make the customer decision** *(15 min)*: the decision owner assigns a remediation owner and due date for each above-threshold category. They can also record accepted risk, **blocked**, or a re-test date through customer authority. A below-threshold result supports only the tested scope. A sidecar alone, incomplete run, unauthorized target, production target, or out-of-scope target cannot support a decision.
-5. **Hand over** *(10 min)*: the evidence owner records safe references to the authorization, rules of engagement, SOC window and debrief, native scorecard and run metadata, optional comparison sidecar, decision register, and `templates/technical-decision-record.template.md` output. Remediation and remaining gaps go to the customer's backlog. Endpoint cleanup and incident actions stay with their customer owners.
-
-**Blockers:** missing or expired authorization, no SOC monitoring, production or third-party target, unavailable endpoint owner, unavailable managed capability, unapproved categories or thresholds, alerts, instability, or scope drift. Stop the dependent action, retain safe references and the stop rationale, assign an owner and target date, and never replace the native path with a mock or unapproved test.
-
-## 5. Verification & evidence capture
-
-- [ ] The native scorecard and run metadata are referenced in the approved customer records system.
-- [ ] If a threshold review occurred, the comparison sidecar is retained with the native scorecard and above-threshold categories have owners and due dates.
-- [ ] SOC debrief records authorized alerts/incidents and any endpoint cleanup.
-- [ ] The decision register records remediation, accepted risk, blocked status, or a re-test date.
-
-Save only safe references in `04-operate/evidence-register.json` and the decision in `04-operate/decision-register.json`, in the generated delivery workspace. Keep scorecards, prompts, attack data, endpoint details, credentials, and customer evidence out of Git.
-
-## 6. Change boundary
+## 4. Change boundary
 
 S8 does not deploy a production control. The customer alone pauses, resets, or
 changes its non-production endpoint and follows its own cleanup, incident, and

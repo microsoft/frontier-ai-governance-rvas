@@ -71,50 +71,6 @@ those owners, the current baseline, and the next gap to address.
 
 Read the [S0 Concepts](concepts.md) for the operating-model, maturity, risk, and target-architecture context.
 
-## 4. Detailed facilitation reference
-
-Read [Technical decisions](technical.md) first. It covers operating-model and
-control-framework options and selection criteria.
-
-!!! warning "Offline baseline only"
-    S0 makes no tenant changes or tenant queries. Copy the blank templates to
-    the customer's approved record location before entering any customer data.
-
-**Timebox:** 90 minutes. **Roles:** facilitator, governance lead, executive
-sponsor, evidence owner, and domain reviewers. **To start:** sponsor, governance
-lead, approved evidence location, and a bounded pilot question. If one is
-missing, stop that part and assign the blocker. Keep substitute records out of
-Git.
-
-**What the customer actually does:** the governance lead scores the baseline with customer participants, then the sponsor chooses the next owned governance work.
-
-1. **Set the room and question** *(10 min)* - the facilitator asks: **"Which governance capability must we prioritize for this pilot, and who can decide?"** The customer confirms the session stays offline, and names the decision owner, evidence location, and stop condition. A useful start has named roles and an approved record location. If there is no sponsor, owner, or records location, mark that area blocked. Record the working agreement reference.
-2. **Create the customer copy** *(10 min)* - the governance lead copies `labs/s0-foundations/assessment/scorecard.csv`, `coe/operating-model.md`, and `coe/raci.csv` to the approved customer system. The facilitator asks: **"Which evidence would justify a 1 instead of a 4?"** and **"Who resolves a disagreement?"** A completed customer copy is evidence. A facilitator-held template is not. If the customer cannot retain the copy safely, mark the activity blocked and assign the records-location owner.
-3. **Customer scores the baseline** *(35 min)* - customer participants score the 39 questions and record rationale and dissent in their copy. The facilitator asks: **"What current practice supports this score?"**, **"What is the real gap, not the aspiration?"**, and **"Which owner can change it?"** A useful result is a score or an explicitly unanswered item with rationale. If the evidence cannot support a score, record what was checked, the scope, and the reviewer. If a required owner or source is missing, stop that domain and continue only with independent domains.
-4. **Generate and read the roadmap** *(20 min)* - the customer runs the offline scorer against its copy:
-   ```bash
-   python labs/s0-foundations/assessment/score.py /approved/customer/path/scorecard.csv
-   ```
-   The facilitator asks: **"Which option from the Technical decisions menus does this ranking support, and which alternative is rejected or deferred?"** and **"Which prerequisite must be owned before S1 or S2 can start?"** The scorer ranks lower scores first and breaks ties by total question weight. It recommends a roadmap; it does not make the decision. If the tool cannot run, keep the completed baseline reference, record the blocker, and assign remediation. Accept only customer-entered scores.
-5. **Decide and hand off** *(15 min)* - the decision owner chooses the next
-   piece of work, defers with a date, or accepts a stated gap. The decision uses
-   maturity evidence, business risk, accountable ownership, and prerequisites.
-   The facilitator reads back the control state (`designed`, `accepted_risk`, or
-   `blocked`), next owner, date, backlog item, identity/data dependency, and the
-   reference to `templates/technical-decision-record.template.md`. If the
-   decision owner is missing, mark the decision deferred with an owner and
-   review date.
-
-## 5. Verification & evidence capture
-
-- [ ] The customer scorecard has all 39 questions scored or explicitly marked unanswered.
-- [ ] The offline scorer produces an overall maturity score and prioritized roadmap.
-- [ ] The customer record names the governance owner, sponsor, decision, and next review date.
-- [ ] The evidence register contains references only, not copied scorecards, roadmaps, names, or meeting notes.
-- [ ] Any unanswered, unsupported, or blocked domain has a checked scope, owner, customer record location, and review date.
-
-Register the customer baseline reference and retention/classification metadata in `04-operate/evidence-register.json`. Register the roadmap decision in `04-operate/decision-register.json` in the generated delivery workspace. Keep the baseline, roadmap, operating model, and RACI out of this repository.
-
-## 6. Change boundary
+## 4. Change boundary
 
 S0 makes no tenant changes. Customer capability, licensing, ownership, and delivery gaps go to the customer backlog. Any later change uses the customer's approved process.
