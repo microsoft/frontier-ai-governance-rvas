@@ -1,9 +1,9 @@
 # Microsoft platform governance playbook
 
-Use this playbook to keep every S0-S13 lesson practical. A lesson should start
+Use this playbook to keep every S0-S13 module practical. A module should start
 with the Microsoft platform path, not with abstract governance language.
 
-## The lesson shape
+## The module shape
 
 Every session must answer these four questions:
 

@@ -30,7 +30,7 @@
         theme: 'neutral',
         securityLevel: 'strict',
         fontFamily: '"Inter", "Segoe UI", system-ui, sans-serif',
-        flowchart: { curve: 'basis' },
+        flowchart: { curve: 'linear' },
         themeVariables: { primaryColor: '#DDE6F7', primaryBorderColor: '#1A77E3', lineColor: '#47494E' },
       });
       // mermaid.run animates draw; nothing motion-heavy, but honor the flag by

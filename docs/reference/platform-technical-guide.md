@@ -13,22 +13,6 @@ The [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-
 | Agent Identity | Link agents to sponsors, lifecycle, and access context. | Microsoft Entra Agent ID, Microsoft Agent 365. |
 | Security Fabric | Protect data and respond to security and runtime-safety risk. | Microsoft Defender, Microsoft Purview, Microsoft Entra, Content Safety. |
 
-## What the platform team provides
-
-The [AI Hub Gateway / Citadel Governance Hub](https://aka.ms/ai-hub-gateway) is a deployable accelerator for the Governance Hub. Its `citadel-v1` branch includes an Azure API Management AI gateway, an API Center registry, access contracts, gateway safety and PII-masking patterns, Entra/JWT authentication, telemetry, and private-network options.
-
-Azure AI Landing Zones provide the application landing-zone base for AI workloads. The [Agent Governance Toolkit (AGT)](https://github.com/microsoft/agent-governance-toolkit/tree/b680c49cc956727c5249771ddba7ee21a635a676) provides open-source in-process policy and agent-security capabilities. At the pinned revision used by this curriculum, AGT is a **Public Preview** and may change before general availability.[^agt]
-
-AGT runs inside the application process. It can check a tool-call policy before the call reaches a downstream tool. It can also record the allow, deny, or approval decision. It complements Citadel network and gateway controls. It does not replace them.
-
-This curriculum neither claims an official AGT-Citadel integration nor makes AGT required for the integrated platform path.
-
-The platform team owns:
-
-- gateway, private-network, backend-pool, and resiliency design;
-- platform pipelines, access and backend contracts, and telemetry plumbing;
-- accelerator deployment and its operating support model.
-
 ## Where the AI Governance programme uses platform evidence
 
 | Platform record | Programme use |
@@ -53,5 +37,3 @@ Before an integrated session needs platform evidence, record:
 4. the current platform readiness gaps and their owners.
 
 For accelerator deployment, use the [AI Hub Gateway deployment guidance](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/tree/citadel-v1/guides) and the [Azure AI Landing Zones](https://github.com/Azure/AI-Landing-Zones) documentation. Confirm the selected branch, prerequisites, and product status before customer delivery.
-
-[^agt]: [AGT README at pinned commit `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/README.md), Public Preview notice and `govern()` example.

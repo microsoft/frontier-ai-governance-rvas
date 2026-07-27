@@ -156,11 +156,49 @@
   FP.initNav = function () {
     const toggle = document.querySelector('.nav-toggle');
     const links  = document.querySelector('.nav-links');
+    const dropdowns = Array.from(document.querySelectorAll('.nav-dropdown'));
+    const closeDropdowns = (except) => {
+      dropdowns.forEach((dropdown) => {
+        if (dropdown !== except) {
+          dropdown.classList.remove('open');
+          const btn = dropdown.querySelector('.nav-dropdown-toggle');
+          if (btn) btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    };
+    let boundDropdown = false;
+    dropdowns.forEach((dropdown) => {
+      if (dropdown.dataset.dropdownBound) return;
+      dropdown.dataset.dropdownBound = '1';
+      boundDropdown = true;
+      const btn = dropdown.querySelector('.nav-dropdown-toggle');
+      if (!btn) return;
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = !dropdown.classList.contains('open');
+        closeDropdowns(dropdown);
+        dropdown.classList.toggle('open', open);
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      dropdown.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => closeDropdowns());
+      });
+    });
+    if (boundDropdown) {
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeDropdowns();
+      });
+      document.addEventListener('click', (e) => {
+        if (!dropdowns.some((dropdown) => dropdown.contains(e.target))) closeDropdowns();
+      });
+    }
+
     if (!toggle || !links || toggle.dataset.shellBound) return;
     toggle.dataset.shellBound = '1';
     const close = () => {
       links.classList.remove('open');
       toggle.setAttribute('aria-expanded', 'false');
+      closeDropdowns();
     };
     if (toggle && links) {
       toggle.addEventListener('click', () => {
@@ -273,12 +311,192 @@
     }
   }
 
+  function compactNumberedTables(root) {
+    var tables = root.querySelectorAll('table');
+    for (var i = 0; i < tables.length; i++) {
+      var table = tables[i];
+      var headerRow = table.tHead && table.tHead.rows.length ? table.tHead.rows[0] : table.querySelector('tr');
+      if (!headerRow || headerRow.cells.length < 3) continue;
+
+      var firstHeader = headerRow.cells[0];
+      if ((firstHeader.textContent || '').trim() !== '#') continue;
+
+      table.classList.add('md-table-compact-numbered');
+      firstHeader.parentNode.removeChild(firstHeader);
+
+      var rows = table.tBodies.length ? table.tBodies[0].rows : table.querySelectorAll('tr');
+      for (var r = 0; r < rows.length; r++) {
+        var row = rows[r];
+        if (row === headerRow || row.cells.length < 2) continue;
+
+        var numberCell = row.cells[0];
+        var labelCell = row.cells[1];
+        var number = (numberCell.textContent || '').trim();
+        var main = document.createElement('div');
+        main.className = 'md-merged-main';
+        while (labelCell.firstChild) main.appendChild(labelCell.firstChild);
+
+        var merged = document.createElement('div');
+        merged.className = 'md-merged-cell';
+        if (number) {
+          var index = document.createElement('span');
+          index.className = 'md-merged-index';
+          index.textContent = number;
+          merged.appendChild(index);
+        }
+        merged.appendChild(main);
+        labelCell.appendChild(merged);
+        numberCell.parentNode.removeChild(numberCell);
+      }
+    }
+  }
+
+  function dropTableColumns(root, headersToDrop) {
+    var targets = {};
+    for (var h = 0; h < headersToDrop.length; h++) {
+      targets[normalizeHeader(headersToDrop[h])] = true;
+    }
+
+    var tables = root.querySelectorAll('table');
+    for (var i = 0; i < tables.length; i++) {
+      var table = tables[i];
+      var headerRow = table.tHead && table.tHead.rows.length ? table.tHead.rows[0] : table.querySelector('tr');
+      if (!headerRow) continue;
+
+      var dropIndexes = [];
+      for (var c = 0; c < headerRow.cells.length; c++) {
+        if (targets[normalizeHeader(headerRow.cells[c].textContent || '')]) dropIndexes.push(c);
+      }
+      if (!dropIndexes.length) continue;
+
+      for (var r = 0; r < table.rows.length; r++) {
+        var row = table.rows[r];
+        for (var d = dropIndexes.length - 1; d >= 0; d--) {
+          var cell = row.cells[dropIndexes[d]];
+          if (cell) cell.parentNode.removeChild(cell);
+        }
+      }
+    }
+  }
+
+  function normalizeHeader(value) {
+    return String(value || '').replace(/\s+/g, ' ').trim().toLowerCase();
+  }
+
+  function addChoiceDiagrams(root) {
+    var tables = root.querySelectorAll('table');
+    for (var i = 0; i < tables.length; i++) {
+      var table = tables[i];
+      if (table.dataset.choiceDiagram === '1') continue;
+
+      var headerRow = table.tHead && table.tHead.rows.length ? table.tHead.rows[0] : table.querySelector('tr');
+      if (!headerRow) continue;
+
+      var headers = [];
+      for (var h = 0; h < headerRow.cells.length; h++) {
+        headers.push(normalizeHeader(headerRow.cells[h].textContent || ''));
+      }
+
+      var optionIndex = headers.indexOf('option');
+      var bestWhenIndex = headers.indexOf('best when');
+      if (optionIndex === -1 || bestWhenIndex === -1) continue;
+
+      var rows = table.tBodies.length ? table.tBodies[0].rows : [];
+      if (!rows.length) continue;
+
+      var choices = [];
+      for (var r = 0; r < rows.length; r++) {
+        var row = rows[r];
+        if (row.cells.length <= Math.max(optionIndex, bestWhenIndex)) continue;
+        choices.push({
+          option: cleanChoiceText(row.cells[optionIndex].textContent || ''),
+          reproducible: cellText(row, headers.indexOf('reproducible')),
+          creates: cellText(row, headers.indexOf('creates storage + embedding')),
+          bestWhen: cleanChoiceText(row.cells[bestWhenIndex].textContent || ''),
+        });
+      }
+      if (choices.length < 2) continue;
+
+      table.dataset.choiceDiagram = '1';
+      table.insertAdjacentElement('beforebegin', renderChoiceDiagram(choices));
+    }
+  }
+
+  function cellText(row, index) {
+    if (index < 0 || !row.cells[index]) return '';
+    return cleanChoiceText(row.cells[index].textContent || '');
+  }
+
+  function cleanChoiceText(value) {
+    return String(value || '').replace(/\s+/g, ' ').trim();
+  }
+
+  function renderChoiceDiagram(choices) {
+    var figure = document.createElement('figure');
+    figure.className = 'choice-diagram';
+    figure.setAttribute('aria-label', 'Choice diagram generated from the option table');
+
+    var head = document.createElement('figcaption');
+    head.className = 'choice-diagram-head';
+    head.innerHTML =
+      '<span class="choice-diagram-kicker">Decision sketch</span>' +
+      '<strong>Pick the path by what you need to keep true.</strong>';
+    figure.appendChild(head);
+
+    var rail = document.createElement('div');
+    rail.className = 'choice-diagram-rail';
+    rail.setAttribute('aria-hidden', 'true');
+    figure.appendChild(rail);
+
+    var list = document.createElement('div');
+    list.className = 'choice-diagram-list';
+    choices.slice(0, 5).forEach(function (choice, index) {
+      list.appendChild(renderChoiceCard(choice, index));
+    });
+    figure.appendChild(list);
+
+    return figure;
+  }
+
+  function renderChoiceCard(choice, index) {
+    var card = document.createElement('section');
+    card.className = 'choice-diagram-card';
+    if (/\bdefault\b/i.test(choice.option)) card.classList.add('choice-diagram-card-default');
+
+    var title = document.createElement('h4');
+    title.textContent = choice.option.replace(/\s*\(default\)\s*/i, '').trim() || 'Option ' + (index + 1);
+    card.appendChild(title);
+
+    var tags = document.createElement('div');
+    tags.className = 'choice-diagram-tags';
+    if (/\bdefault\b/i.test(choice.option)) tags.appendChild(choiceTag('Default'));
+    if (choice.reproducible) tags.appendChild(choiceTag('Reproducible: ' + choice.reproducible));
+    if (choice.creates) tags.appendChild(choiceTag(choice.creates));
+    if (tags.childNodes.length) card.appendChild(tags);
+
+    var best = document.createElement('p');
+    best.textContent = choice.bestWhen || 'Use when this path best matches the customer context.';
+    card.appendChild(best);
+
+    return card;
+  }
+
+  function choiceTag(label) {
+    var tag = document.createElement('span');
+    tag.className = 'choice-diagram-tag';
+    tag.textContent = label;
+    return tag;
+  }
+
   FP.renderMd = function (rawMd, targetEl) {
     if (!rawMd) { targetEl.innerHTML = '<p class="text-dim">No content.</p>'; return; }
     if (window.marked) {
       targetEl.innerHTML = window.marked.parse(rawMd, { breaks: false, gfm: true });
       try { decorateAlerts(targetEl); } catch (e) { /* non-fatal */ }
       try { decorateLabLinks(targetEl); } catch (e) { /* non-fatal */ }
+      try { dropTableColumns(targetEl, ['Cost while idle']); } catch (e) { /* non-fatal */ }
+      try { compactNumberedTables(targetEl); } catch (e) { /* non-fatal */ }
+      try { addChoiceDiagrams(targetEl); } catch (e) { /* non-fatal */ }
     } else {
       // Fallback: wrap in <pre> if marked not available
       const pre = document.createElement('pre');

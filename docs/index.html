@@ -26,12 +26,23 @@
       <nav class="nav-links" aria-label="Primary" id="navLinks">
         <a href="index.html" aria-current="page">Home</a>
         <a href="page.html?p=start-understand-rvas">About AI Governance Platform</a>
-        <a href="page.html?p=start-customer-journey">What customers get</a>
         <a href="index.html#sessions">Sessions</a>
         <a href="set.html">Build a session set</a>
-        <a href="page.html?p=start-plan-engagement">Plan the engagement</a>
-        <a href="page.html?p=delivery-facilitation-pattern">Facilitation method</a>
-        <a href="page.html?p=reference-platform-technical">Reference</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">
+            Guides
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 6l4 4 4-4" />
+            </svg>
+          </button>
+          <div class="nav-dropdown-menu" role="menu">
+            <a href="page.html?p=start-customer-journey" role="menuitem">What customers get</a>
+            <a href="page.html?p=start-plan-engagement" role="menuitem">Plan the engagement</a>
+            <a href="page.html?p=delivery-facilitation-pattern" role="menuitem">Facilitation method</a>
+            <a href="page.html?p=reference-platform-technical" role="menuitem">Reference</a>
+          </div>
+        </div>
         <a class="gh" href="https://github.com/microsoft/frontier-ai-governance-rvas" target="_blank" rel="noopener"
           aria-label="View source on GitHub">GitHub ↗</a>
       </nav>
@@ -109,6 +120,11 @@
             <div class="mod-name">Run the curriculum</div>
             <div class="mod-count">S0-S13 sessions · evidence · owned backlog</div>
           </a>
+          <a href="page.html?p=reference-platform-technical" class="hero-mod-card" style="--mod-color:#475569">
+            <span class="hero-chip">06</span>
+            <div class="mod-name">Reference the platform</div>
+            <div class="mod-count">Capabilities · architecture · governance map</div>
+          </a>
         </div>
       </div>
     </section>
@@ -153,7 +169,7 @@
         <div class="shead reveal">
           <div>
             <span class="eyebrow">Curriculum</span>
-            <h2 id="sessionsHeading" style="margin-top:14px">Thirteen sessions, one practical governance path.</h2>
+            <h2 id="sessionsHeading" style="margin-top:14px">Fourteen sessions, one practical governance path.</h2>
             <p>Each runbook covers prerequisites, the co-delivery walkthrough, verification, evidence capture, rollback,
               and facilitator notes. Concepts pages explain the product and governance context.</p>
           </div>
