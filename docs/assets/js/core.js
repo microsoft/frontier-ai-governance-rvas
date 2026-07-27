@@ -680,7 +680,8 @@
   function isVerificationStepList(list, items) {
     var heading = nearestPreviousHeading(list);
     var headingText = heading ? cleanChoiceText(heading.textContent || '') : '';
-    if (/\b(verify|verification|validate|validation|work the decision)\b/i.test(headingText)) return true;
+    if (/\bwork the decision\b/i.test(headingText)) return false;
+    if (/\b(verify|verification|validate|validation)\b/i.test(headingText)) return true;
 
     var joined = items.map(function (item) {
       return cleanChoiceText(item.textContent || '');
