@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/styles.css" />
   <link rel="stylesheet" href="assets/css/shell.css" />
@@ -37,7 +37,7 @@
             </svg>
           </button>
           <div class="nav-dropdown-menu" role="menu">
-            <a href="page.html?p=start-customer-journey" role="menuitem">What customers get</a>
+            <a href="page.html?p=start-customer-journey" role="menuitem">Customer-owned outcomes</a>
             <a href="page.html?p=start-plan-engagement" role="menuitem">Plan the engagement</a>
             <a href="page.html?p=delivery-facilitation-pattern" role="menuitem">Facilitation method</a>
             <a href="page.html?p=reference-platform-technical" role="menuitem">Reference</a>
@@ -72,59 +72,86 @@
         <div>
           <span class="eyebrow">AI Governance Platform · Microsoft AI governance curriculum</span>
           <h1 id="heroHeading">Govern AI agents with decisions,<br><span class="accent">evidence, and owners.</span></h1>
-          <p class="lede">AI Governance Platform helps customers govern AI agents inside their Microsoft environment with clear owners, product evidence, and change decisions.</p>
-          <p class="lede byo-lede">The S0-S13 curriculum starts with priority use cases and ends with records the customer can keep, review, and improve.</p>
+          <p class="lede">AI Governance Platform helps customers govern AI agents inside their Microsoft environment with clear owners, Microsoft capability references, and change decisions.</p>
+          <p class="lede byo-lede">The S0-S13 curriculum starts with a bounded governance question and ends with customer-owned records they can keep, review, and improve.</p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="page.html?p=start-customer-journey">
-              See the customer journey
+            <a class="btn btn-primary" href="page.html?p=start-plan-engagement">
+              Plan a governed working session
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
-            <a class="btn btn-ghost" href="#sessions">View the sessions</a>
-            <a class="btn btn-ghost" href="set.html">Build a session set</a>
+            <a class="btn btn-ghost" href="set.html">Plan a report-only session set</a>
+            <a class="btn btn-ghost" href="#sessions">Browse all sessions</a>
           </div>
           <div class="stats stats-4" aria-label="Curriculum statistics">
-            <div class="stat"><span class="stat-num" id="stat-sessions">13</span><span class="stat-lbl">Sessions</span>
+            <div class="stat"><span class="stat-num" id="stat-sessions" aria-live="polite">—</span><span class="stat-lbl">Sessions</span>
             </div>
-            <div class="stat"><span class="stat-num" id="stat-domains">4</span><span class="stat-lbl">Phases</span>
+            <div class="stat"><span class="stat-num" id="stat-path" aria-live="polite">—</span><span class="stat-lbl">Path</span>
             </div>
-            <div class="stat"><span class="stat-num" id="stat-frameworks">S0-S13</span><span class="stat-lbl">S0-S13
-                path</span></div>
-            <div class="stat"><span class="stat-num" id="stat-personas">7</span><span class="stat-lbl">Core roles</span>
+            <div class="stat"><span class="stat-num" id="stat-nist" aria-live="polite">—</span><span class="stat-lbl">NIST functions</span></div>
+            <div class="stat"><span class="stat-num" id="stat-roles" aria-live="polite">—</span><span class="stat-lbl">Role groups</span>
             </div>
           </div>
         </div>
 
-        <div class="hero-modules" aria-label="Facilitator guide">
-          <a href="page.html?p=start-understand-rvas" class="hero-mod-card" style="--mod-color:#032254">
-            <span class="hero-chip">01</span>
-            <div class="mod-name">About AI Governance Platform</div>
-            <div class="mod-count">Governance problem · Citadel · outcomes</div>
-          </a>
-          <a href="page.html?p=start-customer-journey" class="hero-mod-card" style="--mod-color:#1A77E3">
-            <span class="hero-chip">02</span>
-            <div class="mod-name">What customers get</div>
-            <div class="mod-count">Decisions · owned work · review cadence</div>
-          </a>
-          <a href="page.html?p=start-plan-engagement" class="hero-mod-card" style="--mod-color:#14868A">
-            <span class="hero-chip">03</span>
-            <div class="mod-name">Plan the engagement</div>
-            <div class="mod-count">Roles · safety · S0 baseline · sequence</div>
-          </a>
-          <a href="page.html?p=delivery-facilitation-pattern" class="hero-mod-card" style="--mod-color:#DC2626">
-            <span class="hero-chip">04</span>
-            <div class="mod-name">Facilitation method</div>
-            <div class="mod-count">Pilot · evidence · decision · handoff</div>
-          </a>
-          <a href="#sessions" class="hero-mod-card" style="--mod-color:#504092">
-            <span class="hero-chip">05</span>
-            <div class="mod-name">Run the curriculum</div>
-            <div class="mod-count">S0-S13 sessions · evidence · owned backlog</div>
-          </a>
-          <a href="page.html?p=reference-platform-technical" class="hero-mod-card" style="--mod-color:#475569">
-            <span class="hero-chip">06</span>
-            <div class="mod-name">Reference the platform</div>
-            <div class="mod-count">Capabilities · architecture · governance map</div>
-          </a>
+        <div class="decision-brief reveal" aria-label="Decision record flow">
+          <div class="decision-brief-head">
+            <span class="decision-brief-kicker">Decision record</span>
+            <h2>One bounded question becomes an owned handoff.</h2>
+          </div>
+          <ol class="decision-record-flow">
+            <li>
+              <span class="record-step">Question</span>
+              <strong>What must be governed before this agent scales?</strong>
+              <p>Start from a priority use case, control gap, or operating decision.</p>
+            </li>
+            <li>
+              <span class="record-step">Reference</span>
+              <strong>Which Microsoft capability or policy informs the choice?</strong>
+              <p>Use public documentation and customer-provided evidence references.</p>
+            </li>
+            <li>
+              <span class="record-step">Owner</span>
+              <strong>Who can approve, implement, or accept the risk?</strong>
+              <p>Name the customer decision owner and the operating process.</p>
+            </li>
+            <li>
+              <span class="record-step">Handoff</span>
+              <strong>What record or backlog item leaves the session?</strong>
+              <p>End with a customer-owned decision artifact, not repository evidence.</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight boundary-section" aria-labelledby="boundaryHeading">
+      <div class="wrap">
+        <div class="evidence-boundary reveal">
+          <div>
+            <span class="eyebrow">Evidence boundary</span>
+            <h2 id="boundaryHeading">This site prepares decisions. It does not store customer evidence.</h2>
+            <p>Use the templates and runbooks to facilitate a bounded governance session. Customer identifiers, tenant configuration, exports, screenshots, credentials, logs, and operating evidence stay in the customer’s own systems.</p>
+          </div>
+          <div class="boundary-grid" aria-label="What the site does and does not do">
+            <div class="boundary-card boundary-card-do">
+              <span class="boundary-label">This site helps you</span>
+              <ul>
+                <li>Frame the governance question.</li>
+                <li>Identify owners and decision paths.</li>
+                <li>Reference public Microsoft capability guidance.</li>
+                <li>Create customer-owned handoff records.</li>
+              </ul>
+            </div>
+            <div class="boundary-card boundary-card-dont">
+              <span class="boundary-label">This site does not</span>
+              <ul>
+                <li>Prove a customer control is deployed.</li>
+                <li>Store customer evidence or tenant data.</li>
+                <li>Approve risk or production change.</li>
+                <li>Replace the customer’s records system.</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -134,31 +161,34 @@
         <div class="shead reveal">
           <div>
             <span class="eyebrow">Start here</span>
-            <h2 id="guideHeading" style="margin-top:14px">Plan the work before you run it.</h2>
-            <p>Use these guides to explain AI Governance Platform, bring the right people, and run one bounded working session at a time.</p>
+            <h2 id="guideHeading" style="margin-top:14px">Choose the path by the job in front of you.</h2>
+            <p>Start with the role, risk, or operating decision you need to move. Each lane points to the first useful guide or session set.</p>
           </div>
         </div>
-        <div class="steps-grid reveal">
-          <a class="step-item" href="page.html?p=start-understand-rvas">
-            <div class="step-num">01</div>
-            <div class="step-title">About AI Governance Platform</div>
-            <p class="step-desc">Explain what each session gives the customer: a decision, an owner, and evidence to keep.</p>
+        <div class="role-lanes reveal" aria-label="Role-based starting paths">
+          <a class="role-lane role-lane-primary" href="page.html?p=start-plan-engagement">
+            <span class="role-lane-label">Facilitator</span>
+            <h3>Plan the first governed working session.</h3>
+            <p>Confirm roles, safe targets, the S0 baseline, and the session order before you bring the customer into the room.</p>
+            <span class="role-lane-action">Start with engagement planning</span>
           </a>
-          <a class="step-item" href="page.html?p=start-customer-journey">
-            <div class="step-num">02</div>
-            <div class="step-title">What customers get</div>
-            <p class="step-desc">See how each session produces a decision and owned work through existing customer processes.</p>
+          <a class="role-lane" href="page.html?p=start-customer-journey">
+            <span class="role-lane-label">Governance / security leader</span>
+            <h3>See what the customer owns after each session.</h3>
+            <p>Review how decisions, owners, and evidence references move into customer processes without becoming repository proof.</p>
+            <span class="role-lane-action">See customer-owned outcomes</span>
           </a>
-          <a class="step-item" href="page.html?p=start-plan-engagement">
-            <div class="step-num">03</div>
-            <div class="step-title">Plan the engagement</div>
-            <p class="step-desc">Confirm roles, readiness, safe targets, S0 baseline work, and session order.</p>
+          <a class="role-lane" href="#sessions">
+            <span class="role-lane-label">Platform / identity / data admin</span>
+            <h3>Find the sessions tied to your control area.</h3>
+            <p>Use persona and NIST chips to move quickly from your operating domain to the relevant runbook.</p>
+            <span class="role-lane-action">Browse the session map</span>
           </a>
-          <a class="step-item" href="page.html?p=delivery-facilitation-pattern">
-            <div class="step-num">04</div>
-            <div class="step-title">Facilitation method</div>
-            <p class="step-desc">Run one pilot question through customer action, interpretation, decision, and handoff.
-            </p>
+          <a class="role-lane" href="set.html">
+            <span class="role-lane-label">Session designer</span>
+            <h3>Assemble a focused session set.</h3>
+            <p>Create a bounded sequence for identity, data, runtime assurance, evaluation, operations, or portfolio improvement.</p>
+            <span class="role-lane-action">Build a session set</span>
           </a>
         </div>
       </div>
@@ -169,8 +199,8 @@
         <div class="shead reveal">
           <div>
             <span class="eyebrow">Curriculum</span>
-            <h2 id="sessionsHeading" style="margin-top:14px">Fourteen sessions, one practical governance path.</h2>
-            <p>Each runbook covers prerequisites, the co-delivery walkthrough, verification, evidence capture, rollback,
+            <h2 id="sessionsHeading" style="margin-top:14px">S0-S13: fourteen sessions, one practical governance path.</h2>
+            <p>Each runbook covers prerequisites, the co-delivery walkthrough, verification prompts, evidence references, rollback considerations,
               and facilitator notes. Concepts pages explain the product and governance context.</p>
           </div>
         </div>

@@ -13,15 +13,20 @@
       return;
     }
 
-    renderStats(data.stats || {});
+    renderStats(data.sessions || [], data.stats || {});
     renderSessionCards(data.sessions || []);
   }
 
-  function renderStats(stats) {
-    _set('stat-sessions', stats.sessions);
-    _set('stat-domains', stats.domains);
-    _set('stat-frameworks', stats.frameworks);
-    _set('stat-personas', stats.personas);
+  function renderStats(sessions, stats) {
+    const sessionCount = sessions.length || stats.sessions || null;
+    const pathRange = getPathRange(sessions);
+    const nistCount = countNistFunctions(sessions) || stats.frameworks || null;
+    const roleCount = countUnique(sessions.map((s) => s.persona).filter(Boolean)) || stats.personas || null;
+
+    _set('stat-sessions', sessionCount);
+    _set('stat-path', pathRange);
+    _set('stat-nist', nistCount);
+    _set('stat-roles', roleCount);
   }
 
   function renderSessionCards(sessions) {
@@ -52,6 +57,27 @@
   function _set(id, val) {
     const el = document.getElementById(id);
     if (el && val != null) el.textContent = val;
+  }
+
+  function getPathRange(sessions) {
+    const codes = sessions.map((s) => s.code).filter(Boolean);
+    if (!codes.length) return null;
+    return codes.length === 1 ? codes[0] : codes[0] + '-' + codes[codes.length - 1];
+  }
+
+  function countNistFunctions(sessions) {
+    const known = ['Govern', 'Map', 'Measure', 'Manage'];
+    const found = new Set();
+    sessions.forEach((session) => {
+      known.forEach((fn) => {
+        if (String(session.nist || '').includes(fn)) found.add(fn);
+      });
+    });
+    return found.size;
+  }
+
+  function countUnique(values) {
+    return new Set(values.map((value) => String(value).trim()).filter(Boolean)).size;
   }
 
   document.addEventListener('DOMContentLoaded', init);

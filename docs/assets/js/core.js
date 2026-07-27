@@ -1,4 +1,4 @@
-/* Agentic DevOps — shared helpers: data loading, theme, nav, badges, scroll-reveal. */
+/* AI Governance Platform — shared helpers: data loading, theme, nav, badges, scroll-reveal. */
 (function () {
   'use strict';
 

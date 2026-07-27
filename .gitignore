@@ -32,3 +32,6 @@ labs/**/evidence/*
 
 # Graphify
 graphify-out/
+
+# Impeccable
+.impeccable
