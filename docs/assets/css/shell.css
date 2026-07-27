@@ -200,6 +200,16 @@ main { flex: 1 0 auto; }
   display: flex;
   align-items: center;
 }
+@media (min-width: 768px) {
+  .nav-dropdown::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: max(100%, 240px);
+    height: 8px;
+  }
+}
 .nav-dropdown-toggle {
   display: inline-flex;
   align-items: center;

@@ -1,43 +1,44 @@
-# S10 In-Process Governance Work Package
+# S10 Conditional In-Process Governance Work Package
 
-This lab helps the customer make one bounded in-process governance decision and hand it to the right owner. The facilitator guides the method; the customer inspects its own Microsoft records, chooses the decision, and keeps completed evidence in its approved records system.
+This optional lab helps the customer decide whether one bounded tool-call boundary should stay gateway-only, add an in-process decision, use both, or be marked not applicable. The facilitator guides the method; the customer inspects its own Microsoft records and keeps completed evidence in its approved records system.
 
-> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, live configuration, tenant policy, or customer evidence in this repository.
 
 ## Entry condition
 
-Bring a bounded workload or portfolio slice, the decision owner, implementation owner, evidence owner, and the approved customer records location. If any owner or location is missing, create a blocker backlog item instead of completing the decision.
+Bring one bounded workload or portfolio slice, the decision owner, code or implementation owner, policy owner, evidence owner, audit-record route, and the approved customer records location. If there is no real pre-tool decision with delegated authority, use the skip path and record **not applicable** instead of opening an AGT or in-process-governance adoption task.
 
 ## Work package outcome
 
-By the end of the lab, the customer has inspected the existing gateway/platform control, runtime decision point, Agent Governance Toolkit applicability record, policy owner, and evidence route; recorded approve, defer, reject, or route; created backlog for gaps; and documented any exception.
+By the end of the lab, the customer has recorded one conditional decision: **gateway-only**, **in-process candidate**, **both**, or **not applicable**; then **approve**, **defer**, **reject**, or **route** the resulting record. Any in-process candidate remains a separate customer engineering assessment. AGT is only one possible implementation candidate and is subject to Public Preview status, limitations, customer code ownership, and support review.
 
 ## Required record
 
 | Record | Use |
 |---|---|
-| [`../templates/decision-record.template.md`](../templates/decision-record.template.md) | Shared required customer-owned record for the session decision, evidence reference, acceptance test, exception status, backlog, target date, and handoff. |
+| [`templates/decision-record.template.md`](templates/decision-record.template.md) | S10-specific customer-owned record for the applicability decision, exact pre-tool decision, delegated authority, owner, audit route, evidence reference, skip reason, acceptance test, caveat, backlog, target date, and handoff. |
 
 ## Facilitation flow
 
-1. Inspect the Microsoft control path: **Agent Governance Toolkit only when gateway controls cannot make the needed in-process decision**.
-2. Confirm the record exists, has an accountable owner, names the environment or scope, and can be referenced from the customer record system.
-3. Copy the required decision record into the customer's approved records system and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, backlog, and handoff fields.
-4. Ask: **Which Microsoft record proves this decision is ready to hand off, and who operates it next?**
-5. Record one result: approve, defer, reject, or route.
-6. Create an in-process-governance backlog item only for decisions the gateway cannot enforce; include policy owner, runtime evidence, test, target date, and rollback route.
+1. Confirm the candidate tool action and the exact decision needed immediately before the tool runs: allow, deny, approval, or route.
+2. Confirm delegated authority, code or implementation owner, policy owner, evidence owner, and audit-record route. If any required owner or route is missing, **defer** or **route**; do not treat the lab as adoption approval.
+3. Compare the existing gateway/platform control with the proposed local decision. If the gateway can make the meaningful decision, record **gateway-only** and hand off through the normal control path.
+4. If both gateway and local context are needed, record **both** and name the correlation, conflict-review, and audit owners.
+5. If only local pre-tool context can make the decision, record **in-process candidate** and create a customer-owned engineering assessment backlog item. Include AGT Public Preview caveat only if AGT is considered.
+6. If there is no real in-process decision point or delegated authority, record **not applicable**, name the alternate S11/S13 or customer-backlog path, and stop S10.
+7. Copy the decision record into the customer's approved records system and complete only safe references in this repository.
 
 ## Decision criteria
 
-- **Approve** when the Microsoft control path is present, owned, evidenced, and accepted by the receiving owner.
-- **Defer** when a record, owner, acceptance test, or target date is missing.
-- **Reject** when the proposed path cannot meet the bounded scope.
-- **Route** when another Microsoft control owner must decide first.
+- **Approve** when the selected path is bounded, owned, evidenced by safe reference, and accepted by the receiving owner.
+- **Defer** when the exact pre-tool decision, delegated authority, owner, audit route, evidence reference, acceptance test, or target date is missing.
+- **Reject** when the proposed path cannot meet the bounded scope or would imply unsupported customer-system change.
+- **Route** when another Microsoft control owner, code owner, policy owner, audit owner, or exception owner must decide first.
 
 ## Session-specific considerations
 
-When completing the shared decision record, capture the applicability review that proves why gateway/platform controls cannot make the needed in-process decision.
+Capture why the gateway path is sufficient, why a local pre-tool decision is needed, why both are needed, or why S10 is not applicable. Keep AGT conditional: note its Public Preview status and limitations only as inputs to a future assessment, not as a required adoption task.
 
 ## Handoff
 
-Handoff to agent engineering owner, policy owner, runtime operations, and release manager. The receiving owner accepts only backlog items with clear acceptance tests, target dates, and evidence locations. Keep final records in the customer-approved system.
+Handoff to the named gateway/runtime owner, application engineering owner, policy owner, audit-record owner, and release or backlog owner as applicable. The receiving owner accepts only records or backlog items with clear acceptance tests, target dates, evidence locations, exception status, and safe customer-approved references.
