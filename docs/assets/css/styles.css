@@ -1342,6 +1342,20 @@ h4 { font-size: 1rem; font-weight: 600; letter-spacing: 0; }
 .md-step-accordion {
   margin: 0;
 }
+.md-step-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--c-line-soft);
+  border-radius: var(--r);
+  background: linear-gradient(180deg, #fff, #f8fbff);
+  box-shadow: var(--shadow-card);
+  color: var(--c-heading);
+  font-weight: 700;
+}
+.md-step-card .md-accordion-label,
 .md-step-accordion .md-accordion-label {
   background: #e0e7ff;
   color: #3730a3;
@@ -1353,7 +1367,11 @@ h4 { font-size: 1rem; font-weight: 600; letter-spacing: 0; }
   .md-accordion summary {
     grid-template-columns: minmax(0, 1fr) auto;
   }
-  .md-accordion-label {
+  .md-step-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .md-accordion-label,
+  .md-step-card .md-accordion-label {
     grid-column: 1 / -1;
     width: fit-content;
   }

@@ -709,6 +709,21 @@
 
   function wrapListItemStep(item, stepNumber) {
     var title = stepTitle(item) || 'Step ' + stepNumber;
+    var body = document.createElement('div');
+    body.className = 'md-accordion-body';
+    while (item.firstChild) body.appendChild(item.firstChild);
+    removeLeadingStepTitle(body, title);
+
+    if (!hasMeaningfulContent(body)) {
+      var card = document.createElement('div');
+      card.className = 'md-step-card';
+      card.innerHTML =
+        '<span class="md-accordion-label">Step ' + FP.esc(stepNumber) + '</span>' +
+        '<span class="md-accordion-title">' + FP.esc(title) + '</span>';
+      item.appendChild(card);
+      return;
+    }
+
     var details = document.createElement('details');
     details.className = 'md-accordion md-step-accordion';
 
@@ -718,13 +733,13 @@
       '<span class="md-accordion-title">' + FP.esc(title) + '</span>';
     details.appendChild(summary);
 
-    var body = document.createElement('div');
-    body.className = 'md-accordion-body';
-    while (item.firstChild) body.appendChild(item.firstChild);
-    removeLeadingStepTitle(body, title);
-    if (cleanChoiceText(body.textContent || '') || body.querySelector('*')) details.appendChild(body);
-
+    details.appendChild(body);
     item.appendChild(details);
+  }
+
+  function hasMeaningfulContent(node) {
+    if (cleanChoiceText(node.textContent || '')) return true;
+    return !!node.querySelector('table, ul, ol, blockquote, pre, figure, img, details');
   }
 
   function stepTitle(item) {
