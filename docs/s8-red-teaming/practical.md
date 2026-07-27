@@ -8,6 +8,9 @@
 
 1. Select one bounded pilot or backlog item and name the customer decision owner.
 2. Inspect the AI Red Teaming Agent or PyRIT test plan, Content Safety checks, Defender signal route, and SOC remediation queue.
+   - Evidence example: the plan names abuse cases, test harness, Content Safety checks, signal destination, severity owner, and retest date.
+   - Defer blocker example: high-risk prompts have no remediation owner, no retest trigger, or no SOC intake path.
+   - Acceptance-test cue: prepared findings show exploit class, expected control response, severity, remediation queue, and closure evidence.
 3. Fill this row in the customer-approved records system:
 
 | Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |

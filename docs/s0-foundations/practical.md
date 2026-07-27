@@ -8,6 +8,9 @@
 
 1. Select one bounded pilot or backlog item and name the customer decision owner.
 2. Inspect the AI operating-model assessment, Well-Architected AI review notes, AI Center of Excellence charter, and the customer governance backlog.
+   - Evidence example: a named backlog item mapped to an operating-model gap, architecture review note, and CoE decision forum.
+   - Defer blocker example: the decision owner or exception forum is not named.
+   - Acceptance-test cue: the backlog item has a clear approve/defer/reject/route outcome and a recheck trigger for the next governance forum.
 3. Fill this row in the customer-approved records system:
 
 | Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |

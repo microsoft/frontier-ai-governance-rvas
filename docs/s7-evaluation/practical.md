@@ -8,6 +8,9 @@
 
 1. Select one bounded pilot or backlog item and name the customer decision owner.
 2. Inspect the Foundry evaluation plan, agent evaluator selection, cloud evaluation record, CI/CD gate, and Azure Load Testing need.
+   - Evidence example: the pilot has an evaluation dataset location, evaluator names, pass thresholds, CI/CD gate owner, and load-test need.
+   - Defer blocker example: no baseline score exists for groundedness, safety, task success, latency, or regression tolerance.
+   - Acceptance-test cue: release can only proceed when the prepared gate shows threshold results and a named approver or exception owner.
 3. Fill this row in the customer-approved records system:
 
 | Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |

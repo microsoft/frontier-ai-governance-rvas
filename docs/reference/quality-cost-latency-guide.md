@@ -4,7 +4,7 @@
     Last reviewed: 2026-07-17. Verify capability, model, region, pricing, and
     availability before delivery.
 
-Use this guide with S4, S7, and S11 to turn quality, model, latency, cost, and rollout questions into customer-owned records. It does not select a model, run an evaluation, set an SLO, approve spend, or authorize a production change.
+Use this guide with S4, S7, and S11 to turn quality, model, latency, cost, and rollout questions into customer-owned records. It does not select a model, run an evaluation, set an SLO, approve spend, authorize a production change, or store customer evidence.
 
 ## Model selection and fine-tuning
 
@@ -27,7 +27,9 @@ available, but individual evaluator status and scope must be verified.
 
 An evaluation score is not a threshold decision. The customer owns the baseline,
 dataset and scenario version, threshold approval, interpretation, and release
-or escalation route. ASSERT is contextual policy-scenario guidance; verify
+or escalation route. Record when evidence expires, when it must be refreshed,
+who can approve a threshold change, and where regression evidence is retained
+in the customer system. ASSERT is contextual policy-scenario guidance; verify
 current status before using it in a customer backlog.
 
 ## Latency governance
@@ -57,7 +59,9 @@ allocation decision.
 
 ## Rollout governance
 
-Staged rollout assembles S4 admission, S6 gateway proof, S7 assurance, applicable S8 finding disposition, and S9 lifecycle references. Each stage needs a population, entry and exit conditions, rollback reference, owner, and status. Production promotion remains a customer change-authority decision.
+Staged rollout assembles S4 admission, S6 gateway proof, S7 assurance, applicable S8 finding disposition, and S9 lifecycle references. Each stage needs a population, entry and exit conditions, human approver, incident route, rollback trigger, rollback owner, verification step, evidence refresh point, decommissioning or withdrawal route, owner, and status. Production promotion remains a customer change-authority decision.
+
+Where a third-party model, tool, connector, data source, or managed service is part of rollout, record the customer supplier-risk or procurement route and the session that will carry the gap forward. Use S4 for admission and material change, S5 for interface authority and withdrawal, S12 for provider lifecycle and incident routing, and S13 for portfolio exceptions. Do not treat this guide as legal, compliance, or supplier-assurance sign-off.
 
 ## Product-status notes
 

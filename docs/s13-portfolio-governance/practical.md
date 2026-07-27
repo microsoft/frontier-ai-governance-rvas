@@ -8,6 +8,9 @@
 
 1. Select one bounded pilot or backlog item and name the customer decision owner.
 2. Inspect Agent 365 and control-plane records, Cost Management summaries, operating evidence from S11, and the S0 baseline scorecard.
+   - Evidence example: the portfolio item links agent inventory, cost trend, operating score, baseline delta, executive owner, and next funding decision.
+   - Defer blocker example: benefits, operating cost, risk posture, or owner accountability cannot be compared across pilots.
+   - Acceptance-test cue: re-baseline evidence supports continue, pause, retire, or route-to-exception decisions without changing customer records outside approved systems.
 3. Fill this row in the customer-approved records system:
 
 | Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |

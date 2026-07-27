@@ -8,6 +8,9 @@
 
 1. Select one bounded pilot or backlog item and name the customer decision owner.
 2. Inspect the gateway policy route, Prompt Shields coverage, Defender for Cloud AI posture finding, Defender XDR/Sentinel routing, and Application Insights telemetry plan.
+   - Evidence example: runtime traffic has a gateway policy, prompt-shield setting, posture finding owner, SOC route, and trace correlation field.
+   - Defer blocker example: blocked prompts, anomalous tool calls, or security alerts cannot be traced to an incident queue.
+   - Acceptance-test cue: prepared tests cover prompt injection blocking, alert routing, and trace lookup using customer-approved telemetry.
 3. Fill this row in the customer-approved records system:
 
 | Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |

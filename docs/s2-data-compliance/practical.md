@@ -8,6 +8,9 @@
 
 1. Select one bounded pilot or backlog item and name the customer decision owner.
 2. Inspect the Purview DSPM finding, DLP policy scope, sensitivity-label coverage, audit retention record, and eDiscovery hold route for the pilot data class.
+   - Evidence example: a pilot data class with sensitivity label coverage, DLP policy scope, audit retention, and an eDiscovery contact.
+   - Defer blocker example: sample prompts or outputs contain regulated data that has no label, retention rule, or discovery route.
+   - Acceptance-test cue: the team can show where the data class is labeled, monitored, and held without exporting customer records.
 3. Fill this row in the customer-approved records system:
 
 | Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |

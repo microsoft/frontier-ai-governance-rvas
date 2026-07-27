@@ -10,17 +10,23 @@ workshop to discover basic prerequisites.
 1. **One simple decision.** State the question and its possible result:
    approve, defer, reject, or route.
 2. **The right people.** Name the decision owner, activity owner, evidence
-   owner, and any specialist reviewer.
+   owner, human approver where approval is possible, and any specialist
+   reviewer.
 3. **A safe source.** Name the customer record, inventory, or environment that
-   will be reviewed. Do not use a template as evidence.
+   will be reviewed. Do not use a template as evidence, and do not copy
+   customer prompts, outputs, telemetry, contracts, credentials, or regulated
+   records into this repository.
 4. **A technical default.** State the recommended Azure/Microsoft pattern and
    the equivalent control required if it does not fit.
 5. **A stop condition.** Agree what would make the team defer or block the
-   decision.
+   decision, who receives an incident or escalation, and which rollback or
+   reversal route applies if the session affects an implementation path.
 6. **A useful artifact.** Name the decision record, work package, or review
-   that will be completed, including acceptance evidence and target date.
+   that will be completed, including acceptance evidence, retention or refresh
+   treatment, and target date.
 7. **A named handoff.** Name the next customer process or session that owns
-   implementation or review.
+   implementation, review, supplier follow-up, exception closure, retirement,
+   or decommissioning.
 
 If all seven are present, run the session. If not, prepare the missing item or
 select another ready session.
@@ -33,16 +39,16 @@ select another ready session.
 | S1 | The identity inventory source, its coverage, its owner, and the agent platform or identity path in scope. |
 | S2 | Data classification, data owner, applicable records, and whether a safe simulation or review is available. |
 | S3 | Current architecture or platform evidence, platform owner, intended environment, and known trust-boundary decisions. |
-| S4 | One bounded agent candidate, its technical owner, architecture summary, and the decision that needs to be made. |
-| S5 | A bounded list of tools, APIs, or MCP services; their owners; caller identity; and current version or source. |
+| S4 | One bounded agent candidate, its technical owner, architecture summary, human approval or material-change route, supplier dependency if any, and the decision that needs to be made. |
+| S5 | A bounded list of tools, APIs, MCP services, or third-party interfaces; their owners; caller identity; current version or source; and withdrawal route. |
 | S6 | An approved non-production route, test caller, test window, telemetry reviewer, and a safe way to correlate the request. |
-| S7 | The accepted S6 proof when a gateway path is in scope, an evaluation-plan owner, and the decision the evidence will support. |
-| S8 | Written authorization, rules of engagement, SOC contact, non-production target, stop conditions, and remediation owner. |
-| S9 | A normalized agent and tool inventory, identity source, lifecycle policy, and owners for reconciliation findings. |
-| S10 | One in-process tool-call boundary, the existing controls around it, and the application owner. |
-| S11 | One workload population, one operating question, evidence coverage limits, and the owners who act on a signal. |
-| S12 | One LLM application, stage owners for the inner and outer LLMOps loops, and approved data, evaluation, promotion, monitoring, and feedback routes. |
-| S13 | The S0 baseline, in-scope portfolio records, open exceptions, and the sponsor decision needed next. |
+| S7 | The accepted S6 proof when a gateway path is in scope, an evaluation-plan owner, threshold approver, evidence refresh route, and the decision the evidence will support. |
+| S8 | Written authorization, rules of engagement, SOC contact, non-production target, stop conditions, rollback or containment route, and remediation owner. |
+| S9 | A normalized agent and tool inventory, identity source, lifecycle policy, decommissioning route, and owners for reconciliation findings. |
+| S10 | One in-process tool-call boundary, the existing controls around it, human approval expectations, and the application owner. |
+| S11 | One workload population, one operating question, evidence coverage limits, incident and rollback routing, and the owners who act on a signal. |
+| S12 | One LLM application, stage owners for the inner and outer LLMOps loops, and approved data, evaluation, promotion, monitoring, feedback, incident, rollback, deprecation, and provider/supplier-change routes. |
+| S13 | The S0 baseline, in-scope portfolio records, open exceptions, supplier or lifecycle gaps, decommissioning backlog, and the sponsor decision needed next. |
 
 ## Product and platform checks
 
@@ -54,6 +60,15 @@ lists product-specific checks. The
 [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md)
 defines the default control path, exception rule, and acceptance-test fields
 each session should use.
+
+## Readiness gaps to route, not solve in the workshop
+
+If pre-S0 triage or session readiness finds missing supplier ownership,
+incident routing, human approval, evidence lifecycle, rollback, or
+decommissioning coverage, record the gap in the customer register with an
+owner. Use S4, S5, S12, and S13 as the current routing path for supplier and
+third-party questions unless the customer already has a separate procurement,
+legal, security, or vendor-risk process that owns the decision.
 
 ## Record a blocker simply
 

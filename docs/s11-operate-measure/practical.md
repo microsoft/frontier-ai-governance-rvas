@@ -8,6 +8,9 @@
 
 1. Select one bounded pilot or backlog item and name the customer decision owner.
 2. Inspect the Foundry observability view, Azure Monitor workspace, Application Insights traces, Log Analytics queries, Cost Management scope, and FinOps Toolkit cadence.
+   - Evidence example: operational evidence includes service health, trace sampling, query owner, cost allocation tag, and FinOps review cadence.
+   - Defer blocker example: usage, cost, latency, or failure signals cannot be attributed to the pilot owner.
+   - Acceptance-test cue: the prepared runbook can answer current cost, error rate, latency trend, and escalation path from approved records.
 3. Fill this row in the customer-approved records system:
 
 | Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |

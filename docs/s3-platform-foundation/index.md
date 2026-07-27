@@ -1,5 +1,8 @@
 # S3 · Enterprise Platform & Trust Boundaries
 
+!!! info "Freshness"
+    Last reviewed: 2026-07-27 · Verify current capability availability, platform assumptions, and customer evidence before delivery.
+
 ## 1. Outcome & what the customer keeps
 
 The customer leaves with a platform-boundary review and a runtime-assurance handoff.

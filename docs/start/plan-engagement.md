@@ -15,7 +15,9 @@ Use this guide to prepare the S0-S13 AI Governance curriculum. The facilitator r
 
 ## Establish the initial scope
 
-Before S0, write down the first agent group or use-case question. Name the customer records location, decision owner, known architecture limits, and safe stop condition.
+Before S0, write down the first agent group or use-case question. Name the customer records location, decision owner, known architecture limits, safe stop condition, and whether any third-party model, tool, connector, data source, managed service, or supplier process is involved.
+
+Use the pre-S0 conversation as triage, not an assessment. Confirm the use case is bounded enough to discuss, that the customer knows where records will live, and that any obvious high-risk, regulated, safety-critical, production-impacting, or externally supplied dependency has a named owner and route before the first workshop. If the customer cannot name a decision owner, evidence owner, approval route, or safe review target, keep the item as readiness work instead of starting S0.
 
 The customer may already have a platform path, or platform readiness may be a backlog item. Accept control readiness only from the customer record.
 
@@ -33,7 +35,7 @@ The assessment can select any S1-S13 session. Keep these dependencies:
 
 - S3 sets the platform assumptions used by S4-S8.
 - S4 admission standards feed S5 publication and later change decisions.
-- S5 authority and exposure decisions feed S6-S10 assurance.
+- S5 authority, exposure, tool/API/MCP, and supplier-interface decisions feed S6-S10 assurance.
 - S6-S8 require a customer-approved non-production target when live activity is proposed.
 - S9 reconciles evidence from the earlier sessions you selected.
 - S10 runs only when an in-process tool-call boundary exists.
@@ -45,7 +47,11 @@ The assessment can select any S1-S13 session. Keep these dependencies:
 
 Start with the least disruptive posture: report-only access controls; simulated, test, or notify-mode data controls; and decisions before platform or engineering deployment. Runtime assurance, evaluation, and adversarial testing need an approved non-production or explicitly authorized target. Production promotion remains a customer change decision.
 
-Before a privileged change, confirm the approver, window, rollback path, and evidence-retention route. Notify security operations before adversarial testing. See [How to Deliver](../how-to-deliver.md#non-production-hard-exit-gate) for the live-action exit gate.
+Before a privileged change, confirm the human approver, change window, incident contact, rollback owner, rollback trigger, verification step, and evidence-retention route. Notify security operations before adversarial testing. See [How to Deliver](../how-to-deliver.md#non-production-hard-exit-gate) for the live-action exit gate.
+
+Keep customer evidence in customer systems. This curriculum can reference a record, gap, owner, date, decision, or retention treatment, but it must not copy customer prompts, outputs, telemetry, credentials, supplier contracts, audit evidence, or regulated records into the repository. Treat evidence age, refresh cadence, retention, and deletion as customer-owned lifecycle decisions.
+
+Third-party and supplier governance is visible during planning, but the curriculum does not create a full supplier-assurance program or legal conclusion. Route supplier dependencies through the existing session path: S4 for admission and material-change review, S5 for tool/API/MCP authority and withdrawal, S12 for model/provider lifecycle and incident routes, and S13 for portfolio gaps, exceptions, and future work.
 
 ## Evidence flow
 
@@ -55,10 +61,10 @@ Before a privileged change, confirm the approver, window, rollback path, and evi
 | S1-S2 | Authority and data findings | S3-S8 design and assurance context |
 | S3-S5 | Platform, admission, and publication decisions | S6-S10 runtime and change context |
 | S6-S8 | Runtime, evaluation, and adversarial findings | S9 reconciliation and S11 operating review |
-| S9 | Reconciliation, lifecycle, and closure backlog | S10-S13 |
+| S9 | Reconciliation, lifecycle, closure, retirement, and decommissioning backlog | S10-S13 |
 | S10 | Applicability or adoption decision | S11 operating backlog |
-| S11 | Operating evidence, drift, cost, and remediation decisions | S12 operating-model decision and S13 portfolio review |
-| S12 | Model/prompt operations decision, lifecycle gaps, and handoffs | S13 portfolio review |
+| S11 | Operating evidence, incidents, drift, cost, rollback, and remediation decisions | S12 operating-model decision and S13 portfolio review |
+| S12 | Model/prompt operations decision, lifecycle gaps, incident routes, deprecation, and handoffs | S13 portfolio review |
 | S13 | Portfolio decision and next roadmap | Next S0 cycle |
 
 ## Start the curriculum

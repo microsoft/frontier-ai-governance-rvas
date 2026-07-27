@@ -8,6 +8,9 @@
 
 1. Select one bounded pilot or backlog item and name the customer decision owner.
 2. Inspect the proposed agent identity record, workload identity inventory, Conditional Access policy scope, Azure RBAC assignments, and Agent 365 record where available.
+   - Evidence example: an agent identity or workload identity tied to least-privilege RBAC, Conditional Access scope, and an owner who can rotate credentials.
+   - Defer blocker example: the pilot uses a shared user account, unmanaged secret, or broad contributor role.
+   - Acceptance-test cue: token issuance, access denial outside scope, and ownership rotation are documented as preparation checks.
 3. Fill this row in the customer-approved records system:
 
 | Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |

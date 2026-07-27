@@ -8,6 +8,9 @@
 
 1. Select one bounded pilot or backlog item and name the customer decision owner.
 2. Inspect the API Center entry, API Management policy route, Entra/JWT contract, connector approval record, and MCP publication criteria.
+   - Evidence example: the proposed tool has an API Center owner, APIM policy route, JWT audience/scope, connector approval, and MCP publication criteria.
+   - Defer blocker example: the tool can invoke write actions without a contract, rate limit, audit trail, or revocation owner.
+   - Acceptance-test cue: admission criteria include auth failure, over-scope request, and tool withdrawal checks.
 3. Fill this row in the customer-approved records system:
 
 | Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |

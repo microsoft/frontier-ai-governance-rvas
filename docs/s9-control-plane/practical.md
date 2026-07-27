@@ -8,6 +8,9 @@
 
 1. Select one bounded pilot or backlog item and name the customer decision owner.
 2. Inspect the Agent 365 record where available, Entra Agent ID or workload identity record, API Center dependencies, and platform telemetry fields.
+   - Evidence example: the agent record links identity, owner, tool dependencies, telemetry keys, data class, and lifecycle status.
+   - Defer blocker example: the agent exists in code or a demo tenant but is absent from the control-plane inventory.
+   - Acceptance-test cue: a reviewer can find who owns the agent, what it can call, where it logs, and how to disable it.
 3. Fill this row in the customer-approved records system:
 
 | Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |

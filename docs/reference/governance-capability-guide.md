@@ -11,7 +11,7 @@ Map each AI Governance session to Microsoft capabilities with this guide. Before
 | Data · S2 | Microsoft Purview Data Security Posture Management, DLP, audit, eDiscovery, and information protection | Data exposure findings, DLP testing, and retained compliance evidence. | Licensing and tenant support. |
 | Platform & trust boundaries · S3 | Azure landing-zone, network, gateway, monitoring, and security capabilities | Customer-owned platform path and trust-boundary decision. | Region, network, feature, and ownership availability. |
 | Engineering & admission · S4 | Microsoft Foundry Agent Service, Copilot Studio / Power Platform governance, Microsoft 365 Copilot declarative agents, Entra identity/RBAC/Agent ID, Foundry evaluation and observability, Azure Monitor / Application Insights, Content Safety, Agent 365, API Center, and customer engineering/change processes | Product-specific implementation path, model choice, fine-tuning governance, latency budget, token-cost estimate, rollout decision, admission, and material-change review. | Tenant licensing, region, feature availability, approved engineering path, and customer change authority. |
-| Tool/API/MCP governance · S5 | API catalog, gateway, identity, and lifecycle capabilities | Controlled publication, authority, and withdrawal decisions. | Connector, protocol, and tenant support. |
+| Tool/API/MCP governance · S5 | API catalog, gateway, identity, supplier-interface, and lifecycle capabilities | Controlled publication, authority, third-party interface visibility, and withdrawal decisions. | Connector, protocol, supplier, and tenant support. |
 | Runtime assurance · S6 | Defender for Cloud AI-SPM, Agent 365 agent security, Azure AI Content Safety, Azure Monitor / Application Insights | Security posture, threat signals, runtime safety, gateway correlation, and response ownership. | Agent 365 licensing for agent-level posture; region, telemetry, and feature availability. |
 | Evaluation & release assurance · S7 | Microsoft Foundry evaluations, agent evaluators, cloud evaluation, tracing, continuous evaluation where applicable, and CI/CD integration | Customer-owned evaluation-plan review, threshold governance, scorecard interpretation, and release decision. | Individual evaluator status; use a GA evaluator or manual review for a production decision. |
 | Adversarial testing · S8 | PyRIT and the AI Red Teaming Agent | Authorized test scope, findings, and remediation evidence. | Supported Foundry target, Azure tool path, region, and approved target. |
@@ -19,11 +19,13 @@ Map each AI Governance session to Microsoft capabilities with this guide. Before
 | In-process governance · S10 | Agent Governance Toolkit (AGT) | Offline example of application-process tool-call policy and audit evidence; adoption decision only. | Applicability, release status, and architecture fit. |
 | Operate, monitor & FinOps · S11 | Customer-held operational, security, quality, and cost evidence; Azure Monitor / Application Insights; Foundry observability; Azure Cost Management and FinOps Toolkit where used | Operating review, quality/latency/cost drift, cost accountability, and remediation cadence. | Evidence coverage, attribution limits, and owner availability. |
 | LLM operations · S12 | Customer-held model, prompt, change, incident, and lifecycle records; Microsoft Foundry model and deployment context where used | Provider-neutral model and prompt lifecycle decisions, material-change routes, operational ownership, and deprecation/retirement backlog. | Provider capability, model availability, region, quota, licensing, contract, and customer-change-process fit. |
-| Portfolio governance · S13 | Customer-held governance, risk, and portfolio records | Portfolio decision, exception review, and next roadmap. | Decision authority and records availability. |
+| Portfolio governance · S13 | Customer-held governance, risk, supplier, lifecycle, and portfolio records | Portfolio decision, exception review, supplier-governance gaps, decommissioning backlog, and next roadmap. | Decision authority and records availability. |
 
 ## Implementation pathway taxonomy
 
 Each session should turn evidence review into an implementation pathway: a customer-owned backlog and decision aid, not an instruction to deploy, configure, publish, grant access, or approve production use.
+
+References should point to customer-held records. Do not store customer prompts, outputs, telemetry, credentials, contracts, audit evidence, or regulated records in the curriculum repository. Record only the customer reference, owner, gap, decision, review date, retention or refresh treatment, and handoff.
 
 Use the same row shape across sessions:
 
@@ -35,8 +37,8 @@ Use the same row shape across sessions:
 | Confidence and assumptions | Why the evidence reviewed in this session supports the recommendation. |
 | Evidence reference or gap | Customer-held record reference, nothing found, tool limitation, blocker, or missing prerequisite. |
 | Owner | Named business, engineering, platform, security, identity, data, service, cost, or portfolio owner. |
-| Later route | Follow-on session or customer architecture, security, change, release, support, or production-approval process. |
-| Boundary | What the session does not configure, deploy, prove, or approve. |
+| Later route | Follow-on session or customer architecture, security, supplier-risk, procurement, change, release, support, incident, rollback, retirement, decommissioning, or production-approval process. |
+| Boundary | What the session does not configure, deploy, prove, approve, certify, or legally determine. |
 
 Filter these Microsoft capability categories to the session:
 
@@ -46,10 +48,11 @@ Filter these Microsoft capability categories to the session:
 | Entra identity and Agent ID | Which human sponsor, Agent ID, workload identity, RBAC, Conditional Access, OBO, or lifecycle review is needed? |
 | Purview and data governance | Which DSPM, DLP, label, audit, eDiscovery, retention, or investigation capability applies? |
 | Platform, gateway, and API Center | Which landing-zone, network, gateway, API Center, access-contract, telemetry, or platform-owner backlog item is needed? |
+| Third-party and supplier governance | Which model, tool, connector, data source, managed service, contract, supplier-risk, security, procurement, material-change, incident, or withdrawal route needs customer review? |
 | Copilot Studio and Power Platform | Which environment, Managed Environment, DLP, connector, solution, ALM, publication, or monitoring decision applies? |
 | Microsoft Foundry Agent Service | Which project, model, agent type, instructions/code package, tools, identity, observability, evaluation, or publication item applies? |
 | Model selection and fine-tuning | Which model fits capability, cost, latency, and data-residency needs? Is fine-tuning justified, who owns training-data review, and which comparison is required? |
-| Model and prompt operations | Which approved model/provider and prompt or system-instruction references, versioning method, material-change route, lifecycle owner, incident/rollback path, and deprecation route apply? |
+| Model and prompt operations | Which approved model/provider and prompt or system-instruction references, versioning method, human approval point, material-change route, lifecycle owner, incident/rollback path, and deprecation route apply? |
 | Quality measurement and threshold governance | Which dimensions and evaluators apply, which option works everywhere or requires Foundry, and who approves thresholds and owns regressions? |
 | Latency budgeting | Which component targets, attribution limits, regression owner, and telemetry reference apply? |
 | Token cost and FinOps | Which tier, cost owner, allocation approach, quota or capacity consideration, and spend-decision route apply? |
@@ -59,7 +62,9 @@ Filter these Microsoft capability categories to the session:
 | Evaluation and observability | Which Foundry evaluation, evaluator, scorecard, trace, release threshold, or Application Insights/OpenTelemetry item applies? |
 | Catalog and lifecycle | Which Agent 365, Entra Agent ID, API Center, registry, steward, material-change, retirement, or recurrence item applies? |
 | FinOps and operating evidence | Which cost owner, allocation, Azure Cost Management, FinOps Toolkit, operational review, or remediation-validation item applies? |
-| Customer SDLC and release | Which architecture/security review, CI/CD gate, release, rollback, verification, or production-approval process owns execution? |
+| Customer SDLC and release | Which architecture/security review, CI/CD gate, release, rollback, verification, incident, decommissioning, or production-approval process owns execution? |
+
+Supplier governance is an optional or future gap unless the customer already has the process and records ready. For now, route supplier questions through S4 admission, S5 interface governance, S12 provider and model lifecycle, and S13 portfolio exceptions. Do not present this curriculum as a substitute for legal, procurement, compliance, privacy, or formal supplier-risk review.
 
 ## The capability map
 
@@ -82,7 +87,7 @@ Filter these Microsoft capability categories to the session:
 
 ## Framework alignment
 
-The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC 42001, and EU AI Act work. This illustrative mapping does not replace customer responsibility for risk classification, legal interpretation, or formal conformity assessment.
+The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC 42001, and EU AI Act work. This illustrative mapping does not replace customer responsibility for risk classification, legal interpretation, supplier due diligence, compliance decisions, or formal conformity assessment.
 
 | Session | NIST AI RMF | ISO/IEC 42001 | EU AI Act |
 |---|---|---|---|

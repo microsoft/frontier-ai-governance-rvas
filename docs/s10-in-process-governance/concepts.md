@@ -3,10 +3,11 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · This page describes AGT from pinned primary sources at [commit `b680c49`](https://github.com/microsoft/agent-governance-toolkit/tree/b680c49cc956727c5249771ddba7ee21a635a676). AGT is Public Preview.
 
-S10 asks one practical question: does this agent have a useful place to run a
-policy check just before it calls a tool? Use the [S10 Prepare](index.md)
-chapter for the offline workshop. Use this page to explain why that check is
-different from gateway, data, identity, and outcome controls.
+S10 asks one practical question: does this agent have a real in-process
+tool-call boundary where policy must decide before the tool runs? If the answer
+is no, S10 is not applicable. Use the [S10 Prepare](index.md) chapter for the
+offline workshop. Use this page to explain why that check is different from
+gateway, data, identity, and outcome controls.
 
 ## A different enforcement point
 
@@ -14,11 +15,25 @@ different from gateway, data, identity, and outcome controls.
 
 Citadel's Governance Hub can apply shared controls at the network and API
 gateway boundary. An in-process governance library can check the requested tool
-action inside the agent application before the tool runs.
+action inside the agent application before the tool runs, but only when the
+agent has a local delegated-authority decision that the gateway cannot make.
 
 AGT's documented `govern()` pattern wraps a tool call with policy evaluation and
 audit logging. The offline S10 simulator models that policy-and-audit idea only.
-S10 does not import, test, or certify AGT.[^agt-readme]
+AGT is one implementation candidate for a future engineering assessment; it is
+not the identity of S10. S10 does not import, test, or certify AGT.[^agt-readme]
+
+## When S10 is not applicable
+
+Skip S10 when the agent has no local tool-call decision point, no delegated
+authority to constrain, or when gateway, identity, data, evaluation, or runtime
+controls already make the meaningful decision. Record **not applicable**, cite
+the alternate control path or backlog item, and continue with S11/S13 or the
+customer backlog.
+
+Do not create an AGT investigation just because the session exists. A future AGT
+assessment is justified only by a specific pre-tool allow, deny, approval, or
+route decision that needs in-process context.
 
 ## Hash-chain consistency is not tamper evidence
 
@@ -50,10 +65,12 @@ allowed, what needs approval, how policies change, and how records are retained.
 The sample policy is intentionally generic. Do not copy it into a customer
 application without separate engineering, security, and change review.
 
-## Applicability becomes an adoption backlog
+## Applicability becomes a conditional backlog
 
-The S10 recommendation should say whether to investigate AGT further, defer,
-reject, or mark the boundary not applicable. Typical backlog rows include:
+The S10 recommendation should say whether to keep gateway-only, investigate an
+in-process implementation such as AGT, use both controls, defer, reject, or mark
+the boundary not applicable. Typical backlog rows, when S10 is applicable,
+include:
 
 - AGT release, API, and limitation assessment;
 - language and runtime fit;

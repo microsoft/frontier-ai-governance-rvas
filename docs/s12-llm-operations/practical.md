@@ -11,6 +11,9 @@
 3. Identify the model lifecycle state for the workload: approved baseline,
    candidate versions, fallback model, deprecated versions, retirement
    condition, switch authority, and rollback trigger.
+   - Evidence example: a candidate model links to training or prompt changes, evaluation results, deployment alias, fallback model, and rollback owner.
+   - Defer blocker example: the team cannot explain who may switch aliases, when fallback activates, or what retires the prior version.
+   - Acceptance-test cue: prepared lifecycle checks cover canary results, fallback routing, rollback trigger, and retirement evidence before automation is enabled.
 4. Fill this row in the customer-approved records system:
 
 | Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |

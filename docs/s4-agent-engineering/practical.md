@@ -8,6 +8,9 @@
 
 1. Select one bounded pilot or backlog item and name the customer decision owner.
 2. Inspect the product fit record for Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, and custom Azure app delivery.
+   - Evidence example: the pilot has a build-path comparison covering orchestration needs, channel fit, data connectors, and lifecycle ownership.
+   - Defer blocker example: the team chose a build path before confirming required tools, human handoff, or deployment model.
+   - Acceptance-test cue: the selected path can demonstrate a prepared happy path, failure path, and owner handoff without implying production approval.
 3. Fill this row in the customer-approved records system:
 
 | Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
