@@ -3,7 +3,8 @@
 Each session lab under `labs/s*/` is now a single-file work package:
 
 - `README.md` is the session entry point and facilitation guide.
-- `templates/decision-record.template.md` is the required customer-facing record. Copy it into the customer's approved records system and complete it there.
+- `templates/decision-record.template.md` is the shared required customer-facing record. Copy it into the customer's approved records system and complete it there.
+- S1 and S12 include small addendum templates for identity review and model lifecycle details.
 
 Shared helpers under `labs/helpers/` support offline illustration or reusable checks. They do not deploy services, change a tenant, or make a customer decision.
 

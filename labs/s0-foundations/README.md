@@ -21,7 +21,7 @@ By the end of the lab, the customer has:
 
 | Record | Use |
 |---|---|
-| [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for the session decision, evidence reference, acceptance test, exception status, backlog, target date, and handoff. |
+| [`../templates/decision-record.template.md`](../templates/decision-record.template.md) | Shared required customer-owned record for the session decision, evidence reference, acceptance test, exception status, backlog, target date, and handoff. |
 
 ## Facilitation flow
 
@@ -38,6 +38,10 @@ By the end of the lab, the customer has:
 - **Defer** when a record, owner, acceptance test, or target date is missing.
 - **Reject** when the proposed path cannot meet the bounded scope.
 - **Route** when another Microsoft control owner must decide first.
+
+## Session-specific considerations
+
+When completing the shared decision record, capture the technical decision record reference that supports the selected operating model, baseline framework, accountable owner, and receiving governance process.
 
 ## Handoff
 

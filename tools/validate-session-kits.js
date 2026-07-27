@@ -41,17 +41,15 @@ for (const entry of fs.readdirSync(labsRoot, { withFileTypes: true })) {
   if (!entry.isDirectory()) {
     continue;
   }
-  if (entry.name === "helpers") {
+  if (entry.name === "helpers" || entry.name === "templates") {
     continue;
   }
 
   const labPath = path.join(labsRoot, entry.name);
   const sessionId = entry.name.split("-")[0];
   const readme = path.join(labPath, "README.md");
-  const decisionTemplate = path.join(labPath, "templates", "decision-record.template.md");
 
   requireFile(readme, "lab entry point");
-  requireFile(decisionTemplate, "required decision record template");
   requireFile(path.join(docsRoot, entry.name, "index.md"), "rendered session page");
   requireFile(path.join(docsRoot, entry.name, "practical.md"), "practical activity");
 
@@ -101,6 +99,9 @@ if (fs.existsSync(labsReadme)) {
 } else {
   failures.push("Missing lab helper index: labs/README.md");
 }
+
+const sharedDecisionTemplate = path.join(labsRoot, "templates", "decision-record.template.md");
+requireFile(sharedDecisionTemplate, "shared decision record template");
 
 if (failures.length) {
   console.error(failures.join("\n"));

@@ -30,7 +30,8 @@ By the end of the lab, the customer has:
 
 | Record | Use |
 |---|---|
-| [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for the identity decision, evidence reference, lifecycle review, access assessment, exception status, backlog, target date, and handoff. |
+| [`../templates/decision-record.template.md`](../templates/decision-record.template.md) | Shared required customer-owned record for the identity decision, evidence reference, acceptance test, exception status, backlog, target date, and handoff. |
+| [`templates/identity-review.addendum.md`](templates/identity-review.addendum.md) | S1 addendum for identity source coverage, lifecycle, credential/federation, access scope, OBO/delegated authority, and identity backlog details. |
 
 ## Facilitation flow
 

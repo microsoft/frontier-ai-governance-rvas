@@ -102,8 +102,8 @@ The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC
 | S8 | Govern, Measure, Manage | Roles, lifecycle, operations | Art. 9, 12, 15 |
 | S9 | Govern, Map, Manage | Policies, roles, operations | Art. 12, 72 |
 | S10 | Govern, Measure, Manage | Operational controls and evidence | Art. 9, 12, 15 |
-| S11 | Measure, Manage | Monitoring, measurement, and improvement | Art. 12, 15, 72 |
-| S12 | Govern, Map, Manage | Operational planning and lifecycle change | Art. 9, 12, 15 |
+| S11 | Govern, Measure, Manage | Monitoring, measurement, and improvement | Art. 12, 15, 72 |
+| S12 | Govern, Map, Measure, Manage | Operational planning and lifecycle change | Art. 9, 12, 15 |
 | S13 | Govern, Map, Measure, Manage | Leadership, performance, and improvement | Art. 9, 17, 72 |
 
 ## Sources

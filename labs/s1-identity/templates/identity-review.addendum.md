@@ -1,13 +1,10 @@
-# S1 Identity & Access Decision Record
+# S1 Identity Review Addendum
 
-Copy this template into the customer's approved records system. Use it to record
-the required customer decision for S1 Identity & Access.
+Use this addendum with the shared [`../../templates/decision-record.template.md`](../../templates/decision-record.template.md). Copy both into the customer's approved records system when the identity decision needs detailed identity-path review.
 
-> **Safety boundary:** Use safe references only. Do not place customer
-> identifiers, secrets, prompt text, model outputs, telemetry exports, live
-> configuration, access grants, or tenant changes in this repository.
+> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, live configuration, access grants, token claims, or tenant changes in this repository.
 
-## Scope
+## Identity scope
 
 | Field | Record |
 |---|---|
@@ -16,34 +13,14 @@ the required customer decision for S1 Identity & Access.
 | Identity type | Agent identity / app registration / service principal / managed identity / federated workload identity / delegated user context / not applicable / unknown |
 | Agent / host mapping reference | |
 | Runtime host / deployment environment reference | |
-| Decision owner | |
 | Identity administrator | |
 | Human sponsor | |
-| Technical / implementation owner | |
-| Evidence owner | |
 | Handoff owner | |
-| Approved records location | |
 | Stop condition | |
-| Target date | |
-
-## Microsoft control path
-
-Default path: **Microsoft Entra Agent ID, Entra workload identities, Conditional Access, Azure RBAC, and Agent 365 where available**
-
-Inspect: inspect the Entra application or managed identity record, Agent
-ID/Agent 365 record when available, Conditional Access assignment, Azure RBAC
-scope, gateway or tool boundary, and identity owner record. Confirm the record
-exists, has an accountable owner, names the environment/scope, and can be
-referenced from the customer record system.
-
-| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
-|---|---|---|---|---|---|---|
-| | Microsoft Entra Agent ID, Entra workload identities, Conditional Access, Azure RBAC, and Agent 365 where available | | | | | |
 
 ## Identity path review
 
-Record references only. Do not copy identifiers, configuration, token claims,
-secrets, prompts, outputs, exports, or access assignments.
+Record references only. Do not copy identifiers, configuration, token claims, secrets, prompts, outputs, exports, or access assignments.
 
 | Review field | Record |
 |---|---|
@@ -74,75 +51,17 @@ secrets, prompts, outputs, exports, or access assignments.
 | Review date | |
 | Next review trigger | Purpose change / scope change / credential change / owner change / CA/RBAC change / incident / scheduled review / decommission |
 
-## Customer decision
+## Identity review questions
 
-| Decision field | Record |
-|---|---|
-| Result | Approve / defer / reject / route / blocked |
-| Customer decision rationale | |
-| Evidence reference | |
-| Accepted when | |
-| Exception status | None / proposed / accepted / rejected |
-| Backlog item to create | |
-| Handoff owner and customer process | |
-| Review date | |
-| Next review trigger | |
+- Which Agent ID/Agent 365, Entra workload identity, host, Conditional Access, RBAC, gateway, and owner/lifecycle records were checked?
+- Which identity does the agent use at runtime, and which host workload can assert or obtain it?
+- Which human sponsor is accountable, what lifecycle state is recorded, and what event forces re-approval?
+- Who owns the credential or federation path, what trust boundary can mint tokens, and what review or rotation trigger applies?
+- Which access boundary is minimum for the bounded workload, and which assignments are needed, excessive, unknown, unused, or not applicable?
+- Which records show the applicable Conditional Access policy, RBAC role, API scope, connector, gateway, or tool boundary?
+- If the agent acts on behalf of a user, which consent, downstream API, revocation, and audit/investigation routes apply?
 
-## Required considerations
-
-Use the prompts below only to make the single decision complete. Do not create
-separate customer records unless the receiving owner asks for them. Keep answers
-short and references-only.
-
-- Identity source coverage: Which Agent ID/Agent 365, Entra workload identity,
-  host, Conditional Access, RBAC, gateway, and owner/lifecycle records were
-  checked?
-- Runtime mapping: Which identity does the agent use at runtime, and which host
-  workload can assert or obtain it?
-- Sponsorship and lifecycle: Which human sponsor is accountable, what lifecycle
-  state is recorded, and what event forces re-approval?
-- Credential/federation: Who owns the credential or federation path, what trust
-  boundary can mint tokens, and what review or rotation trigger applies?
-- Least privilege: Which access boundary is minimum for the bounded workload,
-  and which assignments are needed, excessive, unknown, unused, or not
-  applicable?
-- Conditional Access, RBAC, and gateway controls: Which records show the
-  applicable policy, role, scope, connector, API, gateway, or tool boundary?
-- OBO/delegated authority: If the agent acts on behalf of a user, which consent,
-  downstream API, revocation, and audit/investigation routes apply?
-- Handoff: Which owner accepts backlog items, target dates, acceptance tests,
-  exception state, and evidence locations?
-
-
-## Session-specific review questions
-
-Use this table to preserve the lesson-specific review questions or record
-references that shaped the decision. Keep the entries short and references-only;
-do not paste prompt text, outputs, or customer data.
-
-| Review question or reference | Customer answer / reference | Decision impact |
-|---|---|---|
-| | | |
-
-## Exception
-
-Complete this section only when the Microsoft default is not used or when the customer accepts residual risk.
-
-| Exception field | Record |
-|---|---|
-| Reason | |
-| Equivalent control | |
-| Owner | |
-| Evidence location | |
-| Acceptance test | |
-| Target date | |
-| Review trigger | |
-
-## Backlog and handoff
-
-Create an identity backlog item for each gap that prevents an owned,
-least-privilege, reviewable identity path. Use the customer-approved backlog and
-records system.
+## Identity backlog categories
 
 | Backlog category | When to use | Required handoff fields |
 |---|---|---|
@@ -154,17 +73,7 @@ records system.
 | OBO audit route | Delegated authority, consent, revocation, downstream API, or investigation route is unclear or blocked | API/tool owner, audit route reference, revocation verification, acceptance test, target date |
 | S9 reconciliation | Identity decision must be reconciled with S9 controls, residual-risk acceptance, or downstream security operations handoff | S9 owner, reconciliation question, evidence location, acceptance test, target date |
 
-Handoff to identity platform owner, application/workload owner, and security
-operations. The receiving owner accepts only backlog items with a clear
-Microsoft control path, owner, evidence location, acceptance test, exception
-state if any, target date, and customer handoff process. Keep final records in
-the customer-approved system.
-
 ## Safe filled examples
-
-These examples show the expected depth without storing customer identifiers,
-secrets, prompts, outputs, telemetry exports, live configuration, access grants,
-or tenant changes.
 
 | Field | Safe example |
 |---|---|

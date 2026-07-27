@@ -6,6 +6,8 @@
   const REFERENCE_GROUP = [
     { slug: 'reference-platform-technical', label: 'Platform technical guide' },
     { slug: 'reference-governance-capabilities', label: 'Governance capability guide' },
+    { slug: 'reference-nist-session-map', label: 'NIST AI RMF session map' },
+    { slug: 'reference-ai-governance-map', label: 'Microsoft AI governance reference map' },
   ];
   const START_HERE_GROUP = [
     { slug: 'start-understand-rvas', label: 'About AI Governance Platform' },
