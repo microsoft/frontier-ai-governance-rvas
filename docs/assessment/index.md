@@ -40,14 +40,14 @@ The assessment has fourteen domains. Each domain maps to one S0-S13 session and 
 
 ## Fillable scorecard
 
-The scorecard and auto-scorer are in the S0 takeaway kit:
+The scorecard and auto-scorer are in the shared lab helpers:
 
-- `labs/s0-foundations/optional/assessment/scorecard.csv` - fill the `score` column (1-4) with accountable stakeholders.
-- `labs/s0-foundations/optional/assessment/score.py` - computes per-domain and overall weighted maturity and ranks lower-scoring domains first; total question weight breaks ties.
-- `labs/s0-foundations/optional/assessment/compare.py` - at S13, computes the weighted baseline-to-exit lift per domain and the residual-gap backlog.
+- `labs/helpers/maturity-assessment/scorecard.csv` - fill the `score` column (1-4) with accountable stakeholders.
+- `labs/helpers/maturity-assessment/score.py` - computes per-domain and overall weighted maturity and ranks lower-scoring domains first; total question weight breaks ties.
+- `labs/helpers/maturity-assessment/compare.py` - at S13, computes the weighted baseline-to-exit lift per domain and the residual-gap backlog.
 
 ```bash
-python labs/s0-foundations/optional/assessment/score.py labs/s0-foundations/optional/assessment/scorecard.csv
+python labs/helpers/maturity-assessment/score.py labs/helpers/maturity-assessment/scorecard.csv
 ```
 
 ## Reading the result

@@ -16,10 +16,10 @@ They leave with:
 - A technical decision record reference for the selected evaluation approach, release-gate mechanism, and performance-evidence path.
 - A release sign-off record that says `continue` or `hold`, names the decision owner, and records the next action.
 
-`labs/s7-evaluation/` holds one required decision-record template. Optional
-schemas and machine-readable handoff examples live under `optional/` for teams
-that want automation support. The kit does **not** hold live evaluators, prompt
-data, scores, CI/CD gates, telemetry, or customer records.
+`labs/s7-evaluation/` holds the single-file work package and required
+decision-record template. Shared helpers, when needed, live under
+`labs/helpers/`. The kit does **not** hold live evaluators, prompt data,
+scores, CI/CD gates, telemetry, or customer records.
 
 ### What happens next
 

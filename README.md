@@ -42,7 +42,7 @@ production change.
 
 ```text
 docs/     Static session site, delivery guidance, references, and assessment
-labs/     Per-session offline kits: templates, schemas, scripts, and runbooks
+labs/     Per-session README work packages, required templates, and shared offline helpers
 tools/    Safe workspace generation and static validation
 ```
 

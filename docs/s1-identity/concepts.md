@@ -3,8 +3,9 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-06 · Check Agent ID and Conditional Access availability in the [Governance capability guide](../reference/governance-capability-guide.md).
 
-This page explains why S1 starts with a trusted list and an owner for every
-agent. Go back to [S1 Prepare](index.md) for the run order.
+This page explains why S1 starts with a trusted list, an accountable sponsor, and
+a clear authority boundary for every agent or agent-like workload. Go back to
+[S1 Prepare](index.md) for the run order.
 
 ## Every agent needs an owner you can name
 
@@ -18,20 +19,57 @@ it does and how long it lives.**[^entra]
 
 That's why the session starts by reviewing a trusted list and naming a sponsor.
 If something goes wrong, you can't respond well unless you can say what your
-list covers, which identity is which agent, and who owns it.
+list covers, which identity is which agent, who owns the credential or federation
+path, what delegated authority it can use, and how far runtime access reaches.
 
 An agent identity is more than an app registration: its sponsor and lifecycle
 belong in the governance record.
 
+## Common patterns S1 records
+
+S1 does not assume every agent has the same identity shape. The review records
+the pattern that is actually present and the question that remains open:
+
+- **Agent identity available:** an Agent ID or Agent 365 record can support the
+  agent-to-sponsor relationship where those capabilities are available for the
+  workload. Record the source, sponsor, lifecycle state, and coverage limit.
+- **Directory or app identity only:** a service principal, app registration, or
+  managed identity may prove that code can authenticate, but it does not by
+  itself prove the agent, sponsor, purpose, or lifecycle decision. Record the
+  credential owner, rotation or federation review, and the missing agent-governance
+  evidence.
+- **Delegated or OBO authority:** an agent may act for a user or workflow. Record
+  where consent, OBO, sign-in, or audit telemetry will be reviewed, and treat that
+  telemetry as authority evidence, not as the agent inventory.
+- **Gateway-mediated access:** a gateway or API Management policy may validate a
+  token and limit runtime API access. Record the boundary and gateway owner, but
+  keep it separate from tenant identity sponsorship.
+- **No trusted identity record:** if the source cannot prove the identity,
+  sponsor, credential owner, or boundary, S1 records a gap and routes the item to
+  review or block; it does not infer missing identity data.
+
 ## Findings turn into a short backlog
 
 Keep findings separate from follow-up. A reviewed list can support a sponsor
-decision, lifecycle review, Agent ID coverage investigation, RBAC/OBO follow-up,
-access review, or blocker. Identity creation, access grants, Conditional Access setup,
+decision, lifecycle review, Agent ID or Agent 365 coverage investigation,
+credential rotation or federation recertification, RBAC/OBO follow-up, access
+review, or blocker. Identity creation, access grants, Conditional Access setup,
 and production approval stay in the customer's implementation process.
 
-The backlog names the sponsor, identity/OBO review, access-control owner,
-gateway-authentication dependency, and S9 reconciliation.
+The backlog names the sponsor, credential or federation owner, identity/OBO
+review, access-control owner, gateway-authentication dependency, review trigger,
+and S9 reconciliation.
+
+The decision path is intentionally small:
+
+- **Keep** when source coverage, sponsor, credential ownership, authority, and
+  access boundary are clear enough for the customer's process.
+- **Review** when the item needs sponsor confirmation, credential recertification,
+  OBO analysis, or boundary clarification.
+- **Retire** when the agent, credential, or app identity no longer has a valid
+  purpose or sponsor.
+- **Block** when the authority path, owner, or boundary is unclear enough that
+  dependent work should pause.
 
 ## The list is your first control
 
@@ -42,8 +80,10 @@ from and which workload it covers.
 
 S1 does not export or guess at identity data. Service-principal,
 managed-identity, app, or OBO views can support a record but cannot prove an
-agent identity or complete coverage. Record the trusted source, its limits,
-sponsor, lifecycle, and decision.
+agent identity or complete coverage. Agent ID and Agent 365 records, directory
+or app records, OBO telemetry, and gateway-authentication logs answer different
+questions; none is a universal inventory. Record the trusted source, its limits,
+sponsor, credential owner, access boundary, lifecycle, and decision.
 
 ## Conditional Access is a separate change the customer owns
 
@@ -57,12 +97,27 @@ through the customer's identity-change process.
 ## Seeing an agent isn't the same as controlling it
 
 An agent acting for a user (OBO) can show up in telemetry without having its own
-Agent ID you can govern on its own. S1 records these as gaps, not as "handled."[^a365]
+Agent ID you can govern on its own. S1 records these as authority evidence and
+coverage gaps, not as "handled."[^a365]
 
 Gateway authentication is a related but separate control. The gateway's
 JWT validation at the API Management layer guards runtime access to the gateway;
 Entra Agent ID and sponsorship govern the identity plane in the tenant. You
 often need both, and neither replaces the other.[^citadel]
+
+## Lifecycle review is deeper than ownership
+
+Naming a sponsor is the start, not the end. The sponsor confirms the business
+purpose and accountable team. The credential or federation owner confirms who
+maintains secrets, certificates, managed identity assignments, or workload
+federation. The access-control owner confirms which RBAC, API, data, or gateway
+boundary limits the agent.
+
+S1 records the next review trigger: scheduled recertification, credential
+rotation, sponsor change, product retirement, environment promotion, new data
+scope, OBO consent change, incident, or failed evidence check. That trigger
+drives the keep/review/retire/block path and keeps the review from becoming a
+static spreadsheet.
 
 [^entra]: Microsoft Learn - [What is Microsoft Entra Agent ID?](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id); [Agent ID governance overview](https://learn.microsoft.com/en-us/entra/id-governance/agent-id-governance-overview).
 [^a365]: Microsoft Learn - [Agent 365 Overview](https://learn.microsoft.com/en-us/microsoft-agent-365/overview).

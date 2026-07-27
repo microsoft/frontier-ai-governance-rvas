@@ -20,7 +20,7 @@ Keep changes within the repository's boundaries:
 
 - `docs/` contains the published curriculum, delivery guidance, and reference
   material.
-- `labs/` contains session runbooks, templates, schemas, and offline tools.
+- `labs/` contains session work packages, templates, and shared offline helpers.
 - `contracts/` contains shared JSON schemas.
 - `diagrams/` contains source diagrams and their generated assets.
 
