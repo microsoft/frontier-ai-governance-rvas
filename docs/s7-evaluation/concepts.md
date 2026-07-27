@@ -50,8 +50,9 @@ and referenced, not operated by this kit. Record the environment-fidelity limits
 (quota/PTU ceiling, live versus stubbed tools, data parity) because a synthetic
 result does not transfer to production without them. A benchmark is not a
 service-level objective; assign production drift review to the operating owner.
-Use `templates/performance-test-plan.template.md` and the [agent
-performance-testing guide](../reference/performance-testing-guide.md).
+Use the S7 `templates/decision-record.template.md` performance-evidence
+section and the [agent performance-testing
+guide](../reference/performance-testing-guide.md).
 
 ## Fine-tuning changes the baseline
 

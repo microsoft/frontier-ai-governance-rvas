@@ -1,10 +1,10 @@
 # S0 Foundations & Operating Model Work Package
 
-This lab kit is a practical Microsoft-platform work package to baseline the AI governance operating model and route the first owned backlog. It starts with the Microsoft default control path, records the customer decision, and creates implementation backlog items that a named owner can accept.
+This lab kit helps the customer make one bounded Microsoft-platform governance decision and hand it to the right owner. The facilitator guides the method; the customer inspects its own records, chooses the decision, and keeps completed evidence in its approved records system.
 
-**Microsoft default:** Cloud Adoption Framework for AI, Well-Architected Framework for AI, and AI Center of Excellence guidance.
+**Microsoft default:** Cloud Adoption Framework for AI, Well-Architected Framework for AI, and AI Center of Excellence guidance
 
-Start with [runbook.md](runbook.md). Copy only blank templates into the customer's approved records system, then store completed evidence there.
+Start with [runbook.md](runbook.md). Copy only the required blank decision record into the customer's approved records system, then store completed evidence there.
 
 > **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
@@ -17,18 +17,22 @@ By the end of the kit, the customer has:
 - created backlog for gaps using acceptance tests and a receiving handoff;
 - documented any exception with reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
 
-## Included records
+## Required record
 
 | Record | Use |
 |---|---|
-| [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md) | Capture the technical decision record as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for the session decision, evidence reference, acceptance test, exception status, backlog, target date, and handoff. |
 
-## Additional kit materials
+## Optional materials
 
-- `coe/operating-model.md`: operating-model canvas for the AI CoE/RACI handoff.
+These materials support facilitation, offline illustration, automation, or deeper implementation. They are not required to complete the lab decision.
+
+| Material | Use |
+|---|---|
+| `optional/assessment/` | Optional supporting materials (3 files). |
+| `optional/coe/` | Optional supporting materials (2 files). |
+| [`optional/coe/operating-model.md`](optional/coe/operating-model.md) | Optional operating-model aid for CoE ownership, cadence, intake, backlog, and review discussions. |
 
 ## Handoff
 
-Default handoff goes to AI governance lead, executive sponsor, and the next session owner. Create a foundation backlog item with selected operating model, baseline framework, accountable owner, acceptance test, target date, and receiving governance process.
-
-Example: Work item “approve hub-and-spoke AI governance model”; evidence location “customer decision register FG-001”; accepted when the sponsor signs the RACI and S1/S2 owners accept their backlog.
+Handoff to AI governance lead, executive sponsor, and the next session owner. The receiving owner accepts only the backlog items with clear acceptance tests, target dates, and evidence locations. Keep the final records in the customer-approved system.

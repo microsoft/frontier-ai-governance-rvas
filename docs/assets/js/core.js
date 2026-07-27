@@ -488,6 +488,280 @@
     return tag;
   }
 
+  function addContentAccordions(root) {
+    wrapOptionDetailSections(root);
+    wrapTroubleshootingContent(root);
+    wrapVerifyStepLists(root);
+  }
+
+  function wrapOptionDetailSections(root) {
+    var optionMap = collectOptionLabels(root);
+    var keys = Object.keys(optionMap);
+    if (!keys.length) return;
+
+    var headings = Array.prototype.slice.call(root.querySelectorAll('h2, h3, h4, h5, h6'));
+    headings.forEach(function (heading) {
+      if (!heading.parentNode || heading.closest('details')) return;
+      var match = optionHeadingMatch(heading.textContent || '', optionMap);
+      if (!match) return;
+      wrapHeadingSection(heading, {
+        summary: match.summary,
+        label: 'Option ' + match.key,
+        className: 'md-accordion-option',
+      });
+    });
+  }
+
+  function collectOptionLabels(root) {
+    var optionMap = {};
+    var tables = root.querySelectorAll('table');
+    for (var i = 0; i < tables.length; i++) {
+      var table = tables[i];
+      var headerRow = table.tHead && table.tHead.rows.length ? table.tHead.rows[0] : table.querySelector('tr');
+      if (!headerRow) continue;
+
+      var optionIndex = -1;
+      for (var h = 0; h < headerRow.cells.length; h++) {
+        if (normalizeHeader(headerRow.cells[h].textContent || '') === 'option') {
+          optionIndex = h;
+          break;
+        }
+      }
+      if (optionIndex === -1) continue;
+
+      var rows = table.tBodies.length ? table.tBodies[0].rows : [];
+      for (var r = 0; r < rows.length; r++) {
+        var cell = rows[r].cells[optionIndex];
+        if (!cell) continue;
+        var parsed = parseOptionText(cell.textContent || '');
+        if (parsed) optionMap[parsed.key] = parsed.label;
+      }
+    }
+    return optionMap;
+  }
+
+  function parseOptionText(value) {
+    var text = cleanChoiceText(value);
+    var match = text.match(/^(?:option\s*)?([A-Z])(?:[\.)]|[\s:—-]+)\s*(.+)$/i);
+    if (!match) return null;
+    return {
+      key: match[1].toUpperCase(),
+      label: cleanChoiceText(match[2] || ''),
+    };
+  }
+
+  function optionHeadingMatch(value, optionMap) {
+    var parsed = parseOptionText(value);
+    if (parsed && optionMap[parsed.key]) {
+      return { key: parsed.key, summary: parsed.key + '. ' + (parsed.label || optionMap[parsed.key]) };
+    }
+
+    var heading = cleanChoiceText(value).toLowerCase();
+    var keys = Object.keys(optionMap);
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+      var label = optionMap[key];
+      if (label && heading === label.toLowerCase()) {
+        return { key: key, summary: key + '. ' + label };
+      }
+    }
+    return null;
+  }
+
+  function wrapTroubleshootingContent(root) {
+    var headings = Array.prototype.slice.call(root.querySelectorAll('h2, h3, h4, h5, h6'));
+    headings.forEach(function (heading) {
+      if (!heading.parentNode || heading.closest('details')) return;
+      if (!/\btroubleshoot(?:ing)?\b/i.test(heading.textContent || '')) return;
+      wrapHeadingSection(heading, {
+        summary: cleanChoiceText(heading.textContent || 'Troubleshooting'),
+        label: 'Troubleshooting',
+        className: 'md-accordion-troubleshooting',
+      });
+    });
+
+    var paragraphs = Array.prototype.slice.call(root.querySelectorAll('p'));
+    paragraphs.forEach(function (paragraph) {
+      if (!paragraph.parentNode || paragraph.closest('details')) return;
+      var text = cleanChoiceText(paragraph.textContent || '');
+      var match = text.match(/^troubleshooting\s*:\s*/i);
+      if (!match) return;
+      wrapParagraphRun(paragraph, {
+        summary: 'Troubleshooting',
+        className: 'md-accordion-troubleshooting',
+      });
+    });
+  }
+
+  function wrapHeadingSection(heading, opts) {
+    var level = headingLevel(heading);
+    var details = document.createElement('details');
+    details.className = 'md-accordion ' + opts.className;
+
+    var summary = document.createElement('summary');
+    summary.innerHTML =
+      '<span class="md-accordion-label">' + FP.esc(opts.label) + '</span>' +
+      '<span class="md-accordion-title">' + FP.esc(opts.summary) + '</span>';
+    details.appendChild(summary);
+
+    var body = document.createElement('div');
+    body.className = 'md-accordion-body';
+
+    var node = heading.nextSibling;
+    while (node) {
+      if (node.nodeType === 1 && /^H[1-6]$/.test(node.tagName) && headingLevel(node) <= level) break;
+      var next = node.nextSibling;
+      body.appendChild(node);
+      node = next;
+    }
+
+    details.appendChild(body);
+    heading.replaceWith(details);
+  }
+
+  function wrapParagraphRun(paragraph, opts) {
+    var details = document.createElement('details');
+    details.className = 'md-accordion ' + opts.className;
+
+    var summary = document.createElement('summary');
+    summary.innerHTML =
+      '<span class="md-accordion-label">' + FP.esc(opts.summary) + '</span>' +
+      '<span class="md-accordion-title">' + FP.esc(opts.summary) + '</span>';
+    details.appendChild(summary);
+
+    var body = document.createElement('div');
+    body.className = 'md-accordion-body';
+    paragraph.innerHTML = paragraph.innerHTML.replace(/^(\s*<[^>]+>)*\s*Troubleshooting\s*:\s*/i, '');
+    body.appendChild(paragraph.cloneNode(true));
+
+    var node = paragraph.nextSibling;
+    while (node) {
+      if (node.nodeType === 1 && /^(H[1-6]|TABLE|FIGURE|DETAILS)$/.test(node.tagName)) break;
+      if (node.nodeType === 1 && node.matches && node.matches('p, ul, ol, blockquote, pre')) {
+        var next = node.nextSibling;
+        body.appendChild(node);
+        node = next;
+        continue;
+      }
+      if (node.nodeType === 3 && !node.textContent.trim()) {
+        var nextText = node.nextSibling;
+        node.parentNode.removeChild(node);
+        node = nextText;
+        continue;
+      }
+      break;
+    }
+
+    details.appendChild(body);
+    paragraph.replaceWith(details);
+  }
+
+  function wrapVerifyStepLists(root) {
+    var lists = Array.prototype.slice.call(root.querySelectorAll('ol'));
+    lists.forEach(function (list) {
+      if (!list.parentNode || list.closest('details') || list.dataset.stepAccordion === '1') return;
+      var items = directListItems(list);
+      if (items.length < 3 || !isVerificationStepList(list, items)) return;
+
+      list.dataset.stepAccordion = '1';
+      list.classList.add('md-step-accordion-list');
+      items.forEach(function (item, index) {
+        wrapListItemStep(item, index + 1);
+      });
+    });
+  }
+
+  function directListItems(list) {
+    return Array.prototype.filter.call(list.children, function (child) {
+      return child.tagName === 'LI';
+    });
+  }
+
+  function isVerificationStepList(list, items) {
+    var heading = nearestPreviousHeading(list);
+    var headingText = heading ? cleanChoiceText(heading.textContent || '') : '';
+    if (/\b(verify|verification|validate|validation|work the decision)\b/i.test(headingText)) return true;
+
+    var joined = items.map(function (item) {
+      return cleanChoiceText(item.textContent || '');
+    }).join(' ');
+    return /\b(inspect|fill|record|accepted when|decision tree|exception|evidence|handoff)\b/i.test(joined) &&
+      /\b(customer-approved|decision|evidence|record|acceptance test)\b/i.test(joined);
+  }
+
+  function nearestPreviousHeading(node) {
+    var current = node;
+    while (current && current.previousSibling) {
+      current = current.previousSibling;
+      if (current.nodeType === 1 && /^H[1-6]$/.test(current.tagName)) return current;
+    }
+    var parent = node.parentElement;
+    while (parent && parent !== document.body) {
+      var sibling = parent.previousSibling;
+      while (sibling) {
+        if (sibling.nodeType === 1 && /^H[1-6]$/.test(sibling.tagName)) return sibling;
+        sibling = sibling.previousSibling;
+      }
+      parent = parent.parentElement;
+    }
+    return null;
+  }
+
+  function wrapListItemStep(item, stepNumber) {
+    var title = stepTitle(item) || 'Step ' + stepNumber;
+    var details = document.createElement('details');
+    details.className = 'md-accordion md-step-accordion';
+
+    var summary = document.createElement('summary');
+    summary.innerHTML =
+      '<span class="md-accordion-label">Step ' + FP.esc(stepNumber) + '</span>' +
+      '<span class="md-accordion-title">' + FP.esc(title) + '</span>';
+    details.appendChild(summary);
+
+    var body = document.createElement('div');
+    body.className = 'md-accordion-body';
+    while (item.firstChild) body.appendChild(item.firstChild);
+    removeLeadingStepTitle(body, title);
+    if (cleanChoiceText(body.textContent || '') || body.querySelector('*')) details.appendChild(body);
+
+    item.appendChild(details);
+  }
+
+  function stepTitle(item) {
+    var firstBlock = firstMeaningfulChild(item);
+    var text = firstBlock ? cleanChoiceText(firstBlock.textContent || '') : cleanChoiceText(item.textContent || '');
+    if (!text) return '';
+    var firstSentence = text.match(/^(.+?[.!?])(?:\s|$)/);
+    var title = firstSentence ? firstSentence[1] : text;
+    return title.length > 140 ? title.slice(0, 137).replace(/\s+\S*$/, '') + '...' : title;
+  }
+
+  function firstMeaningfulChild(node) {
+    for (var child = node.firstChild; child; child = child.nextSibling) {
+      if (child.nodeType === 3 && child.textContent.trim()) return child;
+      if (child.nodeType === 1) return child;
+    }
+    return null;
+  }
+
+  function removeLeadingStepTitle(body, title) {
+    var first = firstMeaningfulChild(body);
+    if (!first) return;
+
+    if (first.nodeType === 1 && /^(P|DIV)$/.test(first.tagName) && cleanChoiceText(first.textContent || '') === title) {
+      first.parentNode.removeChild(first);
+      return;
+    }
+
+    if (first.nodeType === 3 && cleanChoiceText(first.textContent || '') === title) {
+      first.parentNode.removeChild(first);
+    }
+  }
+
+  function headingLevel(el) {
+    return Number((el.tagName || 'H6').slice(1)) || 6;
+  }
+
   FP.renderMd = function (rawMd, targetEl) {
     if (!rawMd) { targetEl.innerHTML = '<p class="text-dim">No content.</p>'; return; }
     if (window.marked) {
@@ -497,6 +771,7 @@
       try { dropTableColumns(targetEl, ['Cost while idle']); } catch (e) { /* non-fatal */ }
       try { compactNumberedTables(targetEl); } catch (e) { /* non-fatal */ }
       try { addChoiceDiagrams(targetEl); } catch (e) { /* non-fatal */ }
+      try { addContentAccordions(targetEl); } catch (e) { /* non-fatal */ }
     } else {
       // Fallback: wrap in <pre> if marked not available
       const pre = document.createElement('pre');

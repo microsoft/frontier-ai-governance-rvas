@@ -1,10 +1,10 @@
 # S8 Red Teaming Work Package
 
-This lab kit is a practical Microsoft-platform work package to route adversarial findings into Microsoft-supported safety controls and remediation. It starts with the Microsoft default control path, records the customer decision, and creates implementation backlog items that a named owner can accept.
+This lab kit helps the customer make one bounded Microsoft-platform governance decision and hand it to the right owner. The facilitator guides the method; the customer inspects its own records, chooses the decision, and keeps completed evidence in its approved records system.
 
-**Microsoft default:** AI Red Teaming Agent, PyRIT, Azure AI Content Safety, Defender, and SOC remediation routes.
+**Microsoft default:** AI Red Teaming Agent, PyRIT, Azure AI Content Safety, Defender, and SOC remediation routes
 
-Start with [runbook.md](runbook.md). Copy only blank templates into the customer's approved records system, then store completed evidence there.
+Start with [runbook.md](runbook.md). Copy only the required blank decision record into the customer's approved records system, then store completed evidence there.
 
 > **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
@@ -17,14 +17,21 @@ By the end of the kit, the customer has:
 - created backlog for gaps using acceptance tests and a receiving handoff;
 - documented any exception with reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
 
-## Included records
+## Required record
 
 | Record | Use |
 |---|---|
-| [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md) | Capture the technical decision record as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for the session decision, evidence reference, acceptance test, exception status, backlog, target date, and handoff. |
+
+## Optional materials
+
+These materials support facilitation, offline illustration, automation, or deeper implementation. They are not required to complete the lab decision.
+
+| Material | Use |
+|---|---|
+| `optional/contracts/` | Optional supporting materials (1 file). |
+| `optional/scripts/` | Optional supporting materials (1 file). |
 
 ## Handoff
 
-Default handoff goes to red team lead, safety owner, SOC, product owner, and release manager. Create a red-team remediation backlog item for each confirmed finding, missing safety control, unowned risk, retest requirement, or SOC escalation route.
-
-Example: Work item “remediate jailbreak finding RT-014”; evidence location “red-team finding and retest record”; accepted when the safety owner confirms the control and SOC route.
+Handoff to red team lead, safety owner, SOC, product owner, and release manager. The receiving owner accepts only the backlog items with clear acceptance tests, target dates, and evidence locations. Keep the final records in the customer-approved system.

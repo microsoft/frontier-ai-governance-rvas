@@ -30,4 +30,4 @@ All applicable criteria must be evidenced in the manifest:
 6. Any unavailable control, missing telemetry, unexpected route, or direct
    component-only result is a blocked/deferred item with an owner and date.
 
-The customer may use `labs/s6-security-runtime/scripts/test_gateway_prompt_shield.sh` only where an approved gateway route exposes a Prompt Shields-compatible request contract. It emits a versioned references-only manifest, retaining no raw response bodies, prompts, documents, endpoint values, or credentials. It is a smoke-test adapter, not gateway deployment or policy configuration.
+The customer may use `labs/s6-security-runtime/optional/scripts/test_gateway_prompt_shield.sh` only where an approved gateway route exposes a Prompt Shields-compatible request contract. It emits a versioned references-only manifest, retaining no raw response bodies, prompts, documents, endpoint values, or credentials. It is a smoke-test adapter, not gateway deployment or policy configuration.

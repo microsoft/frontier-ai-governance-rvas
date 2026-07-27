@@ -1,10 +1,10 @@
 # S9 Control Plane Work Package
 
-This lab kit is a practical Microsoft-platform work package to make agent, identity, API, ownership, and telemetry records discoverable and stewarded. It starts with the Microsoft default control path, records the customer decision, and creates implementation backlog items that a named owner can accept.
+This lab kit helps the customer make one bounded Microsoft-platform governance decision and hand it to the right owner. The facilitator guides the method; the customer inspects its own records, chooses the decision, and keeps completed evidence in its approved records system.
 
-**Microsoft default:** Microsoft Agent 365, Microsoft Entra Agent ID, Azure API Center, and platform telemetry.
+**Microsoft default:** Microsoft Agent 365, Microsoft Entra Agent ID, Azure API Center, and platform telemetry
 
-Start with [runbook.md](runbook.md). Copy only blank templates into the customer's approved records system, then store completed evidence there.
+Start with [runbook.md](runbook.md). Copy only the required blank decision record into the customer's approved records system, then store completed evidence there.
 
 > **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
@@ -17,20 +17,25 @@ By the end of the kit, the customer has:
 - created backlog for gaps using acceptance tests and a receiving handoff;
 - documented any exception with reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
 
-## Included records
+## Required record
 
 | Record | Use |
 |---|---|
-| [`templates/catalog-stewardship.template.md`](templates/catalog-stewardship.template.md) | Capture the catalog stewardship as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
-| [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md) | Capture the technical decision record as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for the session decision, evidence reference, acceptance test, exception status, backlog, target date, and handoff. |
 
-## Additional kit materials
+## Optional materials
 
-- `assessment/closeout-backlog.md`: closeout backlog structure for stale or missing control-plane records.
-- `assessment/exit-rescore.md`: exit rescore checklist for control-plane maturity.
+These materials support facilitation, offline illustration, automation, or deeper implementation. They are not required to complete the lab decision.
+
+| Material | Use |
+|---|---|
+| `optional/assessment/` | Optional supporting materials (2 files). |
+| [`optional/assessment/closeout-backlog.md`](optional/assessment/closeout-backlog.md) | Optional closeout backlog structure for stale or missing control-plane records. |
+| [`optional/assessment/exit-rescore.md`](optional/assessment/exit-rescore.md) | Optional S0-to-exit comparison aid when the customer chooses to re-score maturity. |
+| `optional/data/` | Optional supporting materials (2 files). |
+| `optional/policies/` | Optional supporting materials (1 file). |
+| `optional/scripts/` | Optional supporting materials (1 file). |
 
 ## Handoff
 
-Default handoff goes to control-plane steward, identity owner, API platform owner, and portfolio governance. Create a control-plane backlog item for each missing catalog record, owner, identity link, API dependency, telemetry pointer, stale record, or review cadence.
-
-Example: Work item “link agent record to API dependency”; evidence location “Agent 365 record and API Center entry”; accepted when steward review shows owner, identity, and telemetry links.
+Handoff to control-plane steward, identity owner, API platform owner, and portfolio governance. The receiving owner accepts only the backlog items with clear acceptance tests, target dates, and evidence locations. Keep the final records in the customer-approved system.

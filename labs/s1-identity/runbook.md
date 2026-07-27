@@ -1,6 +1,6 @@
 # S1 Identity & Access Runbook
 
-Use this runbook to facilitate a customer decision and backlog handoff. The facilitator guides the questions; the customer inspects its Microsoft records and owns all decisions.
+Use this runbook to facilitate one customer decision and backlog handoff. The facilitator guides the questions; the customer inspects its Microsoft records and owns all decisions.
 
 > **Boundary:** Use safe references only. Keep customer identifiers, secrets, prompt text, model outputs, telemetry exports, and live configuration out of this repository.
 
@@ -14,10 +14,11 @@ Default Microsoft path: **Microsoft Entra Agent ID, Entra workload identities, C
 
 Customer action: inspect the Entra application or managed identity record, Agent ID/Agent 365 record when available, Conditional Access assignment, Azure RBAC scope, and identity owner record. Confirm the record exists, has an accountable owner, names the environment/scope, and can be referenced from the customer record system.
 
-## 2. Complete the work records
+## 2. Complete the required decision record
 
-- [ ] Copy `templates/identity-inventory-review.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
-- [ ] Copy `templates/technical-decision-record.template.md` and complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, and handoff fields.
+- [ ] Copy `templates/decision-record.template.md` into the customer's approved records system.
+- [ ] Complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, backlog, and handoff fields.
+- [ ] Keep customer evidence payloads in the customer's approved records system; store only safe references in the decision record.
 
 Ask: **Which Microsoft record proves this decision is ready to hand off, and who operates it next?**
 
@@ -34,12 +35,10 @@ Record one result:
 
 Create an identity backlog item for each missing agent/workload identity record, least-privilege role assignment, Conditional Access control, or owner review.
 
-Each backlog item must include Microsoft control path, owner, evidence location, accepted when, exception if any, target date, and handoff. Use this row shape:
-
-| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Exception | Target date | Handoff |
-|---|---|---|---|---|---|---|---|
-| | Microsoft Entra Agent ID, Entra workload identities, Conditional Access, Azure RBAC, and Agent 365 where available | | | | | | identity platform owner, application owner, and security operations |
+Each backlog item must include Microsoft control path, owner, evidence location, accepted when, exception if any, target date, and handoff.
 
 ## 5. Hand off
 
 Handoff to identity platform owner, application owner, and security operations. The receiving owner accepts only the backlog items with clear acceptance tests, target dates, and evidence locations. Keep the final records in the customer-approved system.
+
+The receiving owner accepts only backlog items with clear acceptance tests, target dates, and evidence locations. Keep the final records in the customer-approved system.

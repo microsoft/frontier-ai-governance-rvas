@@ -354,7 +354,7 @@ function toPlainText(md) {
   s = s.replace(/^\s*[-*+]\s+/gm, ' ');             // list bullets
   s = s.replace(/^\s*\d+\.\s+/gm, ' ');             // ordered list markers
   s = s.replace(/^\s*\|.*$/gm, (row) => row.replace(/\|/g, ' ')); // tables
-  s = s.replace(/[*_~]{1,3}/g, '');                 // emphasis punctuation
+  s = s.replace(/[*~]{1,3}/g, '');                  // emphasis punctuation; keep underscores in code paths
   s = s.replace(/\[\^[^\]]+\]/g, ' ');              // stray footnote refs
   s = s.replace(/\s+/g, ' ').trim();
   return s.length > SEARCH_TEXT_CAP ? s.slice(0, SEARCH_TEXT_CAP) : s;

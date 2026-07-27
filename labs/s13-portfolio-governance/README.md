@@ -1,10 +1,10 @@
 # S13 Portfolio Governance Work Package
 
-This lab kit is a practical Microsoft-platform work package to roll session evidence into portfolio review, exception management, roadmap, cost, and re-baseline decisions. It starts with the Microsoft default control path, records the customer decision, and creates implementation backlog items that a named owner can accept.
+This lab kit helps the customer make one bounded Microsoft-platform governance decision and hand it to the right owner. The facilitator guides the method; the customer inspects its own records, chooses the decision, and keeps completed evidence in its approved records system.
 
-**Microsoft default:** Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the S0 re-baseline.
+**Microsoft default:** Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the S0 re-baseline
 
-Start with [runbook.md](runbook.md). Copy only blank templates into the customer's approved records system, then store completed evidence there.
+Start with [runbook.md](runbook.md). Copy only the required blank decision record into the customer's approved records system, then store completed evidence there.
 
 > **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
@@ -17,17 +17,12 @@ By the end of the kit, the customer has:
 - created backlog for gaps using acceptance tests and a receiving handoff;
 - documented any exception with reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
 
-## Included records
+## Required record
 
 | Record | Use |
 |---|---|
-| [`templates/exception-register.template.md`](templates/exception-register.template.md) | Capture the exception register as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
-| [`templates/governance-roadmap.template.md`](templates/governance-roadmap.template.md) | Capture the governance roadmap as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
-| [`templates/portfolio-review.template.md`](templates/portfolio-review.template.md) | Capture the portfolio review as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
-| [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md) | Capture the technical decision record as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for the session decision, evidence reference, acceptance test, exception status, backlog, target date, and handoff. |
 
 ## Handoff
 
-Default handoff goes to portfolio governance board, finance/FinOps owner, control-plane steward, and session owners. Create a portfolio-governance backlog item for each unowned exception, stale control-plane record, unfunded roadmap item, missing operating evidence, or re-baseline trigger.
-
-Example: Work item “close expired exception EX-007”; evidence location “exception register and roadmap item”; accepted when owner, funding decision, target date, and re-baseline impact are recorded.
+Handoff to portfolio governance board, finance/FinOps owner, control-plane steward, and session owners. The receiving owner accepts only the backlog items with clear acceptance tests, target dates, and evidence locations. Keep the final records in the customer-approved system.

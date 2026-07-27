@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-27T08:55:52.317+02:00",
+  "title": "Design System: AI Governance Platform",
+  "extensions": {
+    "colorMeta": {
+      "rvap-blue": {
+        "role": "primary",
+        "displayName": "RVAP Blue",
+        "canonical": "#1A77E3",
+        "tonalRamp": ["#032254", "#063A75", "#0B579F", "#1A77E3", "#4B96EA", "#8ABCF3", "#BFDBFE", "#E6F0FF"]
+      },
+      "deep-navy": {
+        "role": "primary",
+        "displayName": "Deep Navy",
+        "canonical": "#032254",
+        "tonalRamp": ["#020A1A", "#031434", "#032254", "#0F3A7A", "#245B9F", "#6E9BD0", "#BFDBFE", "#EEF6FF"]
+      },
+      "surface-blue-wash": {
+        "role": "neutral",
+        "displayName": "Blue-Wash Canvas",
+        "canonical": "#F5F8FE",
+        "tonalRamp": ["#1F2937", "#475569", "#94A3B8", "#DDE6F7", "#EEF1FA", "#F5F8FE", "#FAFBFD", "#FFFFFF"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#111827",
+        "tonalRamp": ["#030712", "#111827", "#374151", "#6B7280", "#9CA3AF", "#D1D5DB", "#E5E7EB", "#F9FAFB"]
+      },
+      "assurance-red": {
+        "role": "tertiary",
+        "displayName": "Assurance Red",
+        "canonical": "#DC2626",
+        "tonalRamp": ["#450A0A", "#7F1D1D", "#991B1B", "#DC2626", "#F87171", "#FCA5A5", "#FECACA", "#FEF2F2"]
+      },
+      "govern-teal": {
+        "role": "secondary",
+        "displayName": "Govern Teal",
+        "canonical": "#14868A",
+        "tonalRamp": ["#042F2E", "#134E4A", "#0F766E", "#14868A", "#2DD4BF", "#99F6E4", "#CCFBF1", "#F0FDFA"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Executive Display",
+        "purpose": "Hero headlines and major page statements."
+      },
+      "body": {
+        "displayName": "Facilitator Body",
+        "purpose": "Long-form governance guidance and workshop copy."
+      },
+      "label": {
+        "displayName": "Evidence Coordinate Label",
+        "purpose": "Eyebrows, badges, session codes, statistics, and metadata."
+      }
+    },
+    "shadows": [
+      {
+        "name": "ambient-low",
+        "value": "0 4px 20px -8px rgba(3, 34, 84, 0.12), 0 1px 3px rgba(3, 34, 84, 0.06)",
+        "purpose": "Soft resting elevation for low-emphasis surfaces."
+      },
+      {
+        "name": "card-lift",
+        "value": "0 1px 3px rgba(3, 34, 84, 0.08), 0 4px 12px rgba(3, 34, 84, 0.06)",
+        "purpose": "Default cards, diagrams, dropdowns, and structured containers."
+      },
+      {
+        "name": "hero-glass-lift",
+        "value": "0 24px 60px rgba(3, 34, 84, 0.28)",
+        "purpose": "Dark-hero statistics and glass panels only."
+      },
+      {
+        "name": "modal-lift",
+        "value": "0 18px 48px -12px rgba(3, 34, 84, 0.35), 0 1px 3px rgba(3, 34, 84, 0.08), 0 4px 12px rgba(3, 34, 84, 0.06)",
+        "purpose": "Search and temporary overlays."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Default easing for hover lifts, reveals, and compact state changes."
+      },
+      {
+        "name": "state-fast",
+        "value": "0.18s",
+        "purpose": "Buttons and link state transitions."
+      },
+      {
+        "name": "reveal",
+        "value": "0.6s cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Section reveal transitions, disabled under reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "tablet",
+        "value": "768px"
+      },
+      {
+        "name": "hero-two-column",
+        "value": "900px"
+      },
+      {
+        "name": "wide-nav",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The decisive action control, blue on light surfaces and white on dark heroes.",
+      "html": "<button class=\"ds-btn-primary\">See the customer journey</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 7px; padding: 11px 22px; border: none; border-radius: 7px; background: var(--c-accent, #1A77E3); color: #fff; font-family: var(--font-body, Inter, system-ui, sans-serif); font-size: 0.9rem; font-weight: 600; line-height: 1; box-shadow: 0 4px 20px -6px rgba(26, 119, 227, 0.10); transition: opacity 0.18s, transform 0.18s cubic-bezier(0.22, 1, 0.36, 1); } .ds-btn-primary:hover { opacity: 0.9; } .ds-btn-primary:active { transform: scale(0.97); } .ds-btn-primary:focus-visible { outline: 2px solid var(--c-accent, #1A77E3); outline-offset: 3px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action that keeps the page quiet until the user hovers or focuses.",
+      "html": "<button class=\"ds-btn-ghost\">View the sessions</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; gap: 7px; padding: 11px 22px; border: 1px solid var(--c-line, #E3E6ED); border-radius: 7px; background: transparent; color: var(--c-fg, #111827); font-family: var(--font-body, Inter, system-ui, sans-serif); font-size: 0.9rem; font-weight: 600; line-height: 1; transition: background 0.18s, border-color 0.18s, transform 0.18s cubic-bezier(0.22, 1, 0.36, 1); } .ds-btn-ghost:hover { background: var(--c-600, #EEF1FA); border-color: var(--c-dim, #47494E); } .ds-btn-ghost:active { transform: scale(0.97); } .ds-btn-ghost:focus-visible { outline: 2px solid var(--c-accent, #1A77E3); outline-offset: 3px; }"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Sticky white brand shell with compact decision-oriented labels.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-nav-brand\">RVAP</span><a class=\"ds-nav-link ds-nav-link-active\" href=\"#\">Home</a><a class=\"ds-nav-link\" href=\"#\">Sessions</a><button class=\"ds-nav-icon\" aria-label=\"Search\">⌕</button></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 8px; min-height: 58px; padding: 0 24px; border: 1px solid var(--c-line, #E3E6ED); border-radius: 12px; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(16px) saturate(160%); font-family: var(--font-body, Inter, system-ui, sans-serif); } .ds-nav-brand { margin-right: auto; color: var(--c-heading, #032254); font-family: var(--font-display, Outfit, system-ui, sans-serif); font-weight: 700; } .ds-nav-link { padding: 6px 11px; border-radius: 7px; color: var(--c-dim, #47494E); font-size: 0.875rem; font-weight: 500; text-decoration: none; transition: color 0.2s, background 0.2s; } .ds-nav-link:hover, .ds-nav-link-active { color: var(--c-fg, #111827); background: var(--c-600, #EEF1FA); } .ds-nav-icon { width: 36px; height: 36px; border: 0; border-radius: 7px; background: transparent; color: var(--c-dim, #47494E); } .ds-nav-icon:hover { background: var(--c-600, #EEF1FA); color: var(--c-fg, #111827); } .ds-nav-link:focus-visible, .ds-nav-icon:focus-visible { outline: 2px solid var(--c-accent, #1A77E3); outline-offset: 2px; }"
+    },
+    {
+      "name": "Session Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "A structured session handoff card with phase color, code chip, and evidence outcome.",
+      "html": "<article class=\"ds-session-card\"><div class=\"ds-session-chip\">S7</div><h3>Quality, Safety Evaluation & Release Assurance</h3><p><strong>Durable outcome</strong><br>Evaluation and release-gate decision with evidence package.</p></article>",
+      "css": ".ds-session-card { position: relative; overflow: hidden; display: grid; gap: 14px; padding: 24px 22px 20px; border: 1px solid var(--c-line, #E3E6ED); border-radius: 12px; background: var(--c-800, #FFFFFF); box-shadow: 0 1px 3px rgba(3, 34, 84, 0.08), 0 4px 12px rgba(3, 34, 84, 0.06); color: var(--c-fg, #111827); transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s; } .ds-session-card::before { content: \"\"; position: absolute; inset: 0 0 auto 0; height: 3px; background: #504092; } .ds-session-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px -12px rgba(3, 34, 84, 0.28), 0 2px 6px rgba(3, 34, 84, 0.08); } .ds-session-chip { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 7px; background: #504092; color: #fff; font-family: var(--font-mono, monospace); font-weight: 600; } .ds-session-card h3 { margin: 0; color: var(--c-heading, #032254); font-family: var(--font-display, Outfit, system-ui, sans-serif); font-size: 1.1rem; line-height: 1.2; } .ds-session-card p { margin: 0; color: var(--c-dim, #47494E); font-size: 0.9rem; line-height: 1.6; } .ds-session-card strong { color: var(--c-faint, #6B7280); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; }"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Compact semantic metadata for status, phase, persona, and framework alignment.",
+      "html": "<span class=\"ds-badge\">Preview</span>",
+      "css": ".ds-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 7px; border: 1px solid rgba(250, 204, 21, 0.2); border-radius: 4px; background: rgba(250, 204, 21, 0.12); color: #CA8A04; font-family: var(--font-mono, monospace); font-size: 0.63rem; font-weight: 600; letter-spacing: 0.04em; line-height: 1.4; text-transform: uppercase; }"
+    },
+    {
+      "name": "Search Modal",
+      "kind": "input",
+      "refersTo": "search-input",
+      "description": "Command-palette search for cross-session navigation and evidence lookup.",
+      "html": "<div class=\"ds-search-modal\"><label class=\"ds-search-box\"><span>⌕</span><input placeholder=\"Search all content\" /></label><div class=\"ds-search-result\"><strong>Plan the engagement</strong><span>Start here</span><p>Confirm roles, readiness, safe targets, S0 baseline work, and session order.</p></div></div>",
+      "css": ".ds-search-modal { width: min(640px, 100%); overflow: hidden; border: 1px solid var(--c-line, #E3E6ED); border-radius: 18px; background: var(--c-800, #FFFFFF); box-shadow: 0 18px 48px -12px rgba(3, 34, 84, 0.35), 0 1px 3px rgba(3, 34, 84, 0.08), 0 4px 12px rgba(3, 34, 84, 0.06); font-family: var(--font-body, Inter, system-ui, sans-serif); } .ds-search-box { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--c-line, #E3E6ED); color: var(--c-faint, #6B7280); } .ds-search-box input { flex: 1; min-width: 0; border: 0; outline: none; background: transparent; color: var(--c-fg, #111827); font: inherit; font-size: 1rem; } .ds-search-result { padding: 9px 12px; margin: 6px; border-radius: 7px; } .ds-search-result:hover { background: rgba(26, 119, 227, 0.10); } .ds-search-result strong { display: block; color: var(--c-fg, #111827); font-size: 0.95rem; } .ds-search-result span { display: inline-block; margin-top: 1px; color: var(--c-accent-dim, #0078D4); font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; } .ds-search-result p { margin: 3px 0 0; color: var(--c-dim, #47494E); font-size: 0.83rem; line-height: 1.5; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Evidence Briefing Room",
+    "overview": "The AI Governance Platform visual system should feel like a calm executive briefing room for decisions that need evidence, owners, and safe handoff. It is calm, executive, evidence-first, facilitator-friendly, and Microsoft-aligned: a structured workspace where cross-functional leaders can scan, trust, and act without mistaking templates for proof.\n\nThe system uses RVAP light surfaces, Deep Navy authority, RVAP Blue action, and compact mono labels to create the rhythm of a professional governance packet. It avoids playful consumer SaaS, dark cyber dashboards, decorative gradients that dilute the evidence hierarchy, and fabricated proof signals.",
+    "keyCharacteristics": [
+      "Light, breathable documentation canvas with restrained institutional color.",
+      "Strong navy-to-blue hero moments reserved for orientation and confidence.",
+      "Cards, chips, and session rails that clarify ownership, phase, evidence, and sequence.",
+      "Mono labels used as coordinates, not as decoration.",
+      "Motion and depth kept subtle so content remains the product."
+    ],
+    "rules": [
+      {
+        "name": "The Evidence First Rule",
+        "body": "Color must clarify status, phase, ownership, or action; it must not imply proof that the customer has not provided.",
+        "section": "colors"
+      },
+      {
+        "name": "The Blue Scarcity Rule",
+        "body": "RVAP Blue is strongest when it is rare. Use it for decisive affordances and evidence links, not for washing every module.",
+        "section": "colors"
+      },
+      {
+        "name": "The Semantic Exception Rule",
+        "body": "Green, caution gold, red, purple, teal, and slate are allowed when they encode real status, phase, or assurance meaning.",
+        "section": "colors"
+      },
+      {
+        "name": "The Briefing Hierarchy Rule",
+        "body": "Every screen should make the next decision obvious through one strong headline, short explanatory prose, and compact metadata.",
+        "section": "typography"
+      },
+      {
+        "name": "The Mono Coordinates Rule",
+        "body": "Mono type labels navigation, state, and evidence coordinates; do not use it for body paragraphs or decorative texture.",
+        "section": "typography"
+      },
+      {
+        "name": "The Scannable Handoff Rule",
+        "body": "Dense governance material must be chunked into cards, steps, chips, and facts before it becomes a wall of prose.",
+        "section": "layout"
+      },
+      {
+        "name": "The Tonal Before Shadow Rule",
+        "body": "Prefer surface color, border, and accent bars first; add shadow only when interaction or modal priority needs it.",
+        "section": "elevation"
+      },
+      {
+        "name": "The No Novel Silhouette Rule",
+        "body": "New components should use the existing 7/12/18px radius scale and thin border language unless a user explicitly asks for a new visual world.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do preserve the RVAP light canvas, Deep Navy authority, and RVAP Blue action hierarchy.",
+      "Do use cards, chips, and fact rows to make owners, evidence, session phase, and next decisions scannable.",
+      "Do keep focus rings visible and use the existing 2px RVAP Blue outline treatment.",
+      "Do use semantic accent colors when they encode real phase, status, risk, or assurance meaning.",
+      "Do keep long-form documentation readable with narrow measures, plain language, and generous section rhythm."
+    ],
+    "donts": [
+      "Don't use dark cyber dashboard styling, neon security tropes, or decorative gradients that compete with evidence hierarchy.",
+      "Don't use color, badges, charts, or testimonials to imply customer proof that the product does not have.",
+      "Don't turn mono labels into body copy or decorative noise.",
+      "Don't introduce new corner-radius scales, heavy shadows, or ornamental component silhouettes without an explicit redesign request.",
+      "Don't collapse status and phase colors into RVAP Blue when the distinction carries meaning."
+    ]
+  }
+}

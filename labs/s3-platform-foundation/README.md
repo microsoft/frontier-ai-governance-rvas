@@ -1,10 +1,10 @@
 # S3 Platform Foundation Work Package
 
-This lab kit is a practical Microsoft-platform work package to confirm the Azure landing-zone, Foundry, gateway, network, and monitoring boundary before build work proceeds. It starts with the Microsoft default control path, records the customer decision, and creates implementation backlog items that a named owner can accept.
+This lab kit helps the customer make one bounded Microsoft-platform governance decision and hand it to the right owner. The facilitator guides the method; the customer inspects its own records, chooses the decision, and keeps completed evidence in its approved records system.
 
-**Microsoft default:** Azure landing zones, Microsoft Foundry, Azure API Management AI Gateway or Citadel-aligned gateway, private networking, and Azure Monitor.
+**Microsoft default:** Azure landing zones, Microsoft Foundry, Azure API Management AI Gateway or Citadel-aligned gateway, private networking, and Azure Monitor
 
-Start with [runbook.md](runbook.md). Copy only blank templates into the customer's approved records system, then store completed evidence there.
+Start with [runbook.md](runbook.md). Copy only the required blank decision record into the customer's approved records system, then store completed evidence there.
 
 > **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, or live configuration in this repository.
 
@@ -17,17 +17,12 @@ By the end of the kit, the customer has:
 - created backlog for gaps using acceptance tests and a receiving handoff;
 - documented any exception with reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
 
-## Included records
+## Required record
 
 | Record | Use |
 |---|---|
-| [`templates/platform-boundary-review.template.md`](templates/platform-boundary-review.template.md) | Capture the platform boundary review as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
-| [`templates/platform-control-profile.template.md`](templates/platform-control-profile.template.md) | Capture the platform control profile as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
-| [`templates/runtime-assurance-handoff.template.md`](templates/runtime-assurance-handoff.template.md) | Capture the runtime assurance handoff as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
-| [`templates/technical-decision-record.template.md`](templates/technical-decision-record.template.md) | Capture the technical decision record as a Microsoft-platform work record with owner, acceptance, exception, target date, and handoff. |
+| [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for the session decision, evidence reference, acceptance test, exception status, backlog, target date, and handoff. |
 
 ## Handoff
 
-Default handoff goes to cloud platform team, network/security team, and application delivery owner. Create a platform-foundation backlog item for each missing boundary control, environment separation, network route, policy assignment, monitor, or runtime handoff.
-
-Example: Work item “route PRE inference through APIM AI Gateway”; evidence location “APIM policy record”; accepted when PRE traffic has private network, policy, and monitor references.
+Handoff to cloud platform team, network/security team, and application delivery owner. The receiving owner accepts only the backlog items with clear acceptance tests, target dates, and evidence locations. Keep the final records in the customer-approved system.
