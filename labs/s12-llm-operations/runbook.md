@@ -14,13 +14,25 @@ Default Microsoft path: **Microsoft Learn LLMOps lifecycle: data curation, exper
 
 Customer action: inspect the data-curation record, experiment/candidate artifact, Foundry evaluation, validate/deploy release record, inference route, Azure Monitor/Application Insights signal, and governed feedback route. Confirm the record exists, has an accountable owner, names the environment/scope, and can be referenced from the customer record system.
 
+Also inspect the model lifecycle record for the workload: approved baseline
+model or deployment alias, candidate versions, fallback model, deprecated
+versions, retirement condition, comparison evidence, switch authority, rollout
+stage, and rollback trigger. If these are not recorded, treat model switching as
+not yet automation-ready.
+
 ## 2. Complete the required decision record
 
 - [ ] Copy `templates/decision-record.template.md` into the customer's approved records system.
 - [ ] Complete the Microsoft control path, owner, evidence location, acceptance, exception, target date, backlog, and handoff fields.
+- [ ] Complete the model lifecycle fields: baseline, candidates, fallback,
+  deprecated/retired state, test evidence, rollout/switch authority, rollback
+  trigger, and retirement trigger.
 - [ ] Keep customer evidence payloads in the customer's approved records system; store only safe references in the decision record.
 
 Ask: **Which Microsoft record proves this decision is ready to hand off, and who operates it next?**
+
+Ask: **What must be true before testing, canary rollout, alias switching,
+fallback routing, or retirement can be automated for a new model version?**
 
 ## 3. Decide
 
@@ -33,9 +45,9 @@ Record one result:
 
 ## 4. Create implementation backlog
 
-Create an LLMOps backlog item for each lifecycle stage missing an owner, gate, Microsoft record location, rollback route, feedback-to-curation control, or target date.
+Create an LLMOps backlog item for each lifecycle stage missing an owner, gate, Microsoft record location, rollback route, feedback-to-curation control, model lifecycle decision, or target date.
 
-Each backlog item must include Microsoft control path, owner, evidence location, accepted when, exception if any, target date, and handoff.
+Each backlog item must include Microsoft control path, owner, evidence location, accepted when, exception if any, model version or deployment alias affected, target date, and handoff.
 
 ## 5. Hand off
 

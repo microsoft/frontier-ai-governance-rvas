@@ -27,6 +27,9 @@ They leave with:
   collection;
 - a named owner, Microsoft record location, input, output, and decision gate for each
   stage;
+- a model lifecycle decision for approved, candidate, fallback, deprecated, and
+  retired model versions, including who can approve model switching and what
+  evidence is required before rollout;
 - a safe-reference release manifest for a bounded PRE or PRO candidate;
 - material-change routes that prevent feedback, experiments, and production
   changes from bypassing the required S2, S4, S7, S11, platform, or customer
@@ -63,6 +66,13 @@ repeatable way to curate data, learn through experiments, evaluate candidates,
 promote deliberately, operate inference, observe outcomes, and turn governed
 feedback into the next iteration. Without that loop, production changes are
 untraceable and monitoring produces observations without improvement.
+
+This session also makes model lifecycle choices explicit. The customer should
+understand which model versions are in use, which versions are candidates or
+fallbacks, which are deprecated or retired, and who decides when to test, roll
+out, roll back, or switch between them. Capturing those decisions now lets the
+team later automate regression testing, canary rollout, model alias changes,
+fallback routing, and retirement without re-opening basic ownership questions.
 
 Read [S12 Concepts](concepts.md) for the inner/outer loops and [Technical
 decisions](technical.md) for the Azure implementation mapping, lifecycle gates,

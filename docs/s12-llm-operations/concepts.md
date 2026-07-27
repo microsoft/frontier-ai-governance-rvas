@@ -57,6 +57,21 @@ owner, safe reference, version/provenance, intended use, review trigger, and
 retirement route. Accepted when suitability, evaluation, approval, and
 deployment status are recorded separately from the version identifier.
 
+## Model versions need lifecycle decisions
+
+Model choice is not a one-time selection. For each bounded workload, record the
+approved model version or deployment alias, any candidate versions under test,
+the fallback model, deprecated versions, and the retirement condition. The team
+must know who can approve testing a new model version, who can promote it, who
+can switch traffic or roll back, and which evaluation, safety, cost, latency,
+capacity, and support evidence is required.
+
+Those decisions are the automation contract. Once ownership, thresholds, rollout
+stages, fallback rules, telemetry, and rollback triggers are documented, the
+team can automate regression suites, comparison runs, canary or phased rollout,
+alias switching, provider/model failover, and retirement workflows without
+guessing who has authority or what evidence is sufficient.
+
 ## Azure implementation principle
 
 For Azure/Microsoft workloads, use Microsoft Foundry and the customer platform

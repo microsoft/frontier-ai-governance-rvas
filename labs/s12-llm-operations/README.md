@@ -13,6 +13,10 @@ Start with [runbook.md](runbook.md). Copy only the required blank decision recor
 By the end of the kit, the customer has:
 
 - inspected the data-curation record, experiment/candidate artifact, Foundry evaluation, validate/deploy release record, inference route, Azure Monitor/Application Insights signal, and governed feedback route;
+- recorded the model lifecycle state for approved baseline, candidate,
+  fallback, deprecated, and retired model versions;
+- decided who can approve testing, rollout, traffic switching, rollback, and
+  retirement, plus the evidence needed before those steps can be automated;
 - recorded approve, defer, reject, or route with owner and target date;
 - created backlog for gaps using acceptance tests and a receiving handoff;
 - documented any exception with reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.

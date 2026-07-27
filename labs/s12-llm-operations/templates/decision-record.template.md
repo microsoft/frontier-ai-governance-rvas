@@ -25,6 +25,25 @@ Inspect: inspect the data-curation record, experiment/candidate artifact, Foundr
 |---|---|---|---|---|---|---|
 | | Microsoft Learn LLMOps lifecycle: data curation, experimentation, evaluation, validate/deploy, inference, monitor, and feedback/data collection | | | | | |
 
+## Model lifecycle decision
+
+Use safe references only. Record enough ownership and evidence to let the team
+later automate model testing, rollout, switching, fallback, and retirement.
+
+| Model lifecycle field | Record |
+|---|---|
+| Approved baseline model / deployment alias | |
+| Candidate model versions under test | |
+| Fallback model / route | |
+| Deprecated or retired model versions | |
+| Evaluation, safety, cost, latency, capacity, and support evidence required before rollout | |
+| Authority to approve testing | |
+| Authority to promote or switch traffic | |
+| Canary / phased rollout criteria | |
+| Rollback trigger and rollback target | |
+| Retirement trigger and removal owner | |
+| Automation backlog for testing, rollout, alias switching, fallback, or retirement | |
+
 ## Customer decision
 
 | Decision field | Record |
@@ -71,10 +90,15 @@ Complete this section only when the Microsoft default is not used or when the cu
 
 ## Backlog and handoff
 
-Create an LLMOps backlog item for each lifecycle stage missing an owner, gate, Microsoft record location, rollback route, feedback-to-curation control, or target date.
+Create an LLMOps backlog item for each lifecycle stage missing an owner, gate, Microsoft record location, rollback route, feedback-to-curation control, model lifecycle decision, or target date.
 
 Handoff to data owner, experiment owner, evaluation owner, platform/change owner, service operations, and governance owner. The receiving owner accepts only the backlog items with clear acceptance tests, target dates, and evidence locations. Keep the final records in the customer-approved system.
 
 ## Filled example
 
 Work item “connect feedback to curated dataset review”; evidence location “feedback queue and S2 data-curation record”; accepted when no production observation mutates prompts or data without gate review.
+
+Work item “prepare model-version rollout automation”; evidence location
+“evaluation run, release manifest, and gateway alias record”; accepted when the
+candidate model has pass/fail thresholds, switch authority, canary criteria,
+fallback target, and rollback trigger recorded.
