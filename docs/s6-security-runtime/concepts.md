@@ -1,87 +1,130 @@
 # S6 · Security Runtime Concepts
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-15 · Confirm runtime-control availability in the [Governance capability guide](../reference/governance-capability-guide.md).
+    Last reviewed: 2026-07-15 · Confirm runtime-control availability in the
+    [Governance capability guide](../reference/governance-capability-guide.md).
 
 This page explains S6's evidence boundary. Use [S6 Prepare](index.md) for the
 customer validation steps.
+
+## The runtime path is the evidence unit
+
+Runtime assurance is not a product label. Reviewers need to trace one request
+through the selected path: caller, app, gateway or app-only route, backend
+model/agent, tool/API route, response path, telemetry, SOC route, and records
+location.
+
+The useful question is:
+
+> Did this request travel through the expected path, did the expected control
+> points see it, and did a named customer reviewer accept the interpretation?
 
 ## Gateway evidence is different from a component diagnostic
 
 A direct call to a Content Safety endpoint can diagnose that component. It cannot
 prove the agent request used the customer gateway, access contract, backend, or
-policy. S6 labels direct component testing as a diagnostic. It never treats it as
-gateway enforcement evidence.
+policy. Prompt Shields tests, prepared prompts, and direct component smoke tests
+are diagnostic unless they are tied to the approved runtime path and accepted by
+customer reviewers.
 
 The S6 artifact is a
 [`gateway-proof`](../../contracts/gateway-proof.schema.json) manifest from the
 gateway adapter. It holds safe references and a correlation identifier, not raw
-payloads or endpoints.
+payloads, endpoints, policies, logs, or incident content.
 
-## Correlation makes a request reviewable
+## Correlation is a contract, not just a field
 
-![Gateway requests and matching telemetry correlation determine acceptance; direct diagnostics do not prove the gateway path.](../assets/diagrams/s6-security-runtime-correlation-flow.svg)
+![Runtime-path acceptance requires correlation across request, route, telemetry, reviewer, and response ownership. Diagnostics stay separate from acceptance proof.](../assets/diagrams/s6-security-runtime-correlation-flow.svg)
 
-A completed adapter request is accepted only as adapter readiness. Platform and
-security owners use `correlation_id` to review gateway telemetry and record an
-acceptance decision, separate from the transport result (`pass` or `fail`).
+A `correlation_id` is useful only when the customer knows where it is created,
+where it propagates, which sources record it, which query finds it, which time
+window applies, which blind spots remain, and who accepts the result.
 
-## Runtime safety remains layered
+For delivery, keep six questions separate:
 
-Prompt injection and harmful-content detection are only part of a runtime
-boundary.[^contentsafety] Gateway policy, identity, scoped tools, data controls,
-telemetry, and human review may also apply. The adapter supplies evidence; it
-does not configure these controls.
+1. Did the request complete?
+2. Does the correlation appear in approved telemetry?
+3. Does the route match the approved path?
+4. Did the expected policy decision point run or fail closed?
+5. Does the SOC or response route receive the right signal?
+6. Who accepted the interpretation and retention boundary?
 
-The review should separate the risk, the inspection point, and the action. A
-guardrail can inspect user input, gateway traffic, model input, tool calls, tool
-responses, final output, telemetry, or a sampled production record. The action
-may be block, annotate, log, escalate, hold for review, or route to another
-session. If the record says only "Content Safety is enabled," S6 should ask
-where it runs, what it inspects, what it does, who owns the threshold, and how a
-reviewer would find the correlated event.
+## Control placement comes before product claims
+
+Runtime safety remains layered. A control may inspect user input, gateway
+traffic, model input, retrieved content, tool calls, tool responses, final
+output, telemetry, or sampled operating records. The action may be block, deny,
+annotate, redact, log, throttle, fail over, escalate, hold for review, or route
+to another owner.
 
 Keep these distinctions visible:
 
-- Azure AI Content Safety direct tests are diagnostics unless they are tied to
-  the approved gateway or app route.
-- Foundry content filtering or Prompt Shields can be model/agent controls, but
-  they do not prove APIM policy execution.
-- APIM policy can enforce a shared route, but it may not see local prompt
-  assembly, streaming behavior, tool-response context, or in-process approval
-  decisions.
+- APIM AI Gateway policy can enforce a shared route, but may not see local
+  prompt assembly, streaming behavior, tool-response context, or in-process
+  approval decisions.
+- Foundry model or agent controls can inspect model/agent behavior where
+  supported, but do not prove gateway policy execution.
+- App-only controls can be valid controls when honestly recorded as app-only;
+  they are not gateway proof.
 - Tool-call and tool-response controls are separate from final-response safety.
+- SOC or posture tooling can route findings and incidents, but request-level
+  proof still needs correlation to the bounded path.
 
-For delivery, keep five questions separate:
+## Threats need inspection points and actions
 
-1. Did the request complete?
-2. Does the correlation appear in approved gateway telemetry?
-3. Does the route match the approved path?
-4. Does the observed path support the expected policy behavior?
-5. Who accepted the interpretation?
+Runtime records should connect each risk to where it is inspected, what action
+is taken, which telemetry proves the action, and who reviews it.
 
-A Prompt Shields result or component diagnostic may add runtime-safety context.
-It is not gateway-path proof by itself.[^appinsights]
+| Risk | Inspection point | Typical action |
+|---|---|---|
+| Direct prompt injection | User input, gateway policy, model input | Block, annotate, log, escalate. |
+| Indirect prompt injection | Retrieved documents, connector output, tool response | Block response, quarantine source, require human review. |
+| Harmful content | User input, model output, final response | Block, redact, annotate, escalate by severity. |
+| PII or sensitive data leakage | Prompt, context, tool response, model output, logs | Redact, block, route to data owner. |
+| Unsupported or hallucinated answer | RAG context, model output, final response, sampled trace | Annotate, hold, route to evaluation owner. |
+| Tool abuse or off-task action | Tool call, parameters, tool response, local execution boundary | Deny, require approval, log, route to tool/API or app owner. |
+| Unauthorized access | Gateway, backend, identity provider, data service | Deny closed, log, route to identity/platform/SOC owner. |
+| Cost or availability abuse | Gateway request, model call, token metrics, backend saturation | Throttle, reject, fail over, alert operating owner. |
 
-Microsoft Defender for Cloud and AI security posture capabilities can help the
-customer review the security posture, findings, and security-owner routing where enabled. They
-support the runtime security picture. They do not replace the gateway proof and
-correlation decision.
+If the record says only that a product is enabled, ask what it inspected, what it
+did, what telemetry shows it, and who accepted the result.
 
-## Runtime evidence becomes a work list
+## Acceptance requires a customer reviewer
 
-S6 should recommend the next runtime path with confidence and assumptions. Typical
-work-list rows include gateway or Azure API Management route remediation, Content
-Safety or Prompt Shields policy review, telemetry correlation, SOC alert or
-debrief route, identity or data-control dependency, evaluation prerequisite,
-catalog lifecycle update, and operating evidence coverage.
+The adapter can produce a request result and safe references. It cannot interpret
+customer telemetry or decide that enforcement occurred. Acceptance belongs to
+named customer platform and security reviewers who can inspect the customer
+records and record the decision in the approved records system.
 
-The recommendation routes work to the appropriate platform, security, SOC,
-identity, data, change, or operating process; it does not change traffic or
-prove production effectiveness.
+Typical outcomes:
 
-[^contentsafety]: Microsoft Learn - [Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection).
-[^appinsights]: Microsoft Learn - [Application Insights OpenTelemetry observability overview](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview).
+- **Accept** when route, control point, telemetry, correlation, SOC/response, and
+  retention are reviewable.
+- **Defer** when a gap has an owner and accepted-when condition.
+- **Reject** when the runtime path cannot meet the required control expectation.
+- **Route** when another owner must decide first.
+- **Block** when authorization, records location, safe evidence handling, or
+  ownership is missing.
+- **Diagnostic-only** when the evidence is useful but not runtime-path proof.
+
+## SOC route and retention are part of runtime readiness
+
+Runtime security is incomplete if blocked prompts, suspicious tool calls,
+unauthorized access, or model-risk alerts cannot reach a monitored queue with
+severity owner, monitoring window, escalation route, stop condition, and records
+owner.
+
+Retention also matters. The record should say where runtime logs, alert records,
+diagnostic notes, and decision references live; which export, deletion, or hold
+expectations apply; and which owner can preserve investigation references.
+
+## Material changes reopen acceptance
+
+Re-review the runtime-path package when any material field changes: route,
+gateway policy, model/agent setting, prompt assembly, tool schema, tool-response
+handling, identity, scopes/RBAC, telemetry destination, correlation field, SOC
+route, severity threshold, retention policy, owner, environment, or lifecycle
+state.
 
 ## Related official references
 

@@ -1,72 +1,191 @@
-# S6 · Security Runtime
+# S6 · Runtime-Path Evidence Workshop
 
 **Facilitator deck**
 
-Microsoft default: **Azure API Management AI Gateway, Azure AI Content Safety Prompt Shields, Defender for Cloud AI posture, Defender XDR, Sentinel, and Application Insights**.
+Microsoft default: **Azure API Management AI Gateway, Azure AI Content Safety
+Prompt Shields, Defender for Cloud AI posture, Defender XDR, Sentinel,
+Application Insights, and Azure Monitor**.
 
-Concrete decision: **Approve, defer, reject, or route the runtime security control path.**
-
----
-
-## Start with the Microsoft path
-
-- Default control path: Azure API Management AI Gateway, Azure AI Content Safety Prompt Shields, Defender for Cloud AI posture, Defender XDR, Sentinel, and Application Insights.
-- Customer inspects: Inspect the gateway policy route, Prompt Shields coverage, Defender for Cloud AI posture finding, Defender XDR/Sentinel routing, and Application Insights telemetry plan.
-- Decision owner: Security operations owner.
-
-Note:
-Open with the default platform path and the decision the customer must make.
+Concrete decision: **Can this non-production request be traced through the
+expected runtime path, policy decision points, telemetry, SOC route, and
+retention process?**
 
 ---
 
-## Decide with platform records
+## Runtime path, not product label
 
-- Approve when the Microsoft path fits and the acceptance test is clear.
-- Defer when a required record or owner is missing.
-- Reject when the use case cannot meet the control path.
-- Route when an exception owner must accept an equivalent control.
+- Do not accept "APIM is enabled" or "Content Safety is enabled" as proof.
+- Trace one caller, one app, one route, one backend, one tool/API path, one
+  response path, and one correlation contract.
+- The output is a runtime-path acceptance package, not deployment or production
+  approval.
 
 Note:
-Keep the discussion on records, owners, and acceptance tests.
+Start with the path the request actually follows. Product names come second.
 
 ---
 
-## Acceptance test
+## Trace the reviewed request
 
-The decision is ready when the record names:
+![Runtime-path acceptance requires correlation across request, route, telemetry, reviewer, and response ownership. Diagnostics stay separate from acceptance proof.](../assets/diagrams/s6-security-runtime-correlation-flow.svg)
 
-- Microsoft control path
-- Owner
-- Evidence location
-- Accepted-when condition
-- Target date
-- Handoff: SOC
+- Caller identity and workload identity.
+- Gateway/APIM or app-only route.
+- Backend model/agent and tool/API route.
+- Policy decision point and response path.
+- Telemetry destination, correlation field, SOC route, retention owner.
 
 Note:
-The acceptance test should be observable by the team that receives the handoff.
+Every acceptance decision should be able to point to this trace.
 
 ---
 
-## Exception, if any
+## Gateway proof vs diagnostic
 
-An exception needs:
-
-- Reason and equivalent control
-- Owner and evidence location
-- Acceptance test and target date
-- Review trigger
+- Gateway-proof package: safe manifest references plus customer telemetry
+  correlation and reviewer decision.
+- Transport result: request completed, failed, or was blocked; not a security
+  decision by itself.
+- Diagnostic: direct Content Safety, Prompt Shields, prepared prompt, or
+  component smoke test.
+- App-only evidence: valid only for the app boundary, not a gateway claim.
 
 Note:
-Use an exception for a documented equivalent control with an owner and review trigger.
+Do not let diagnostic evidence become a production or gateway-proof claim.
 
 ---
 
-## Close the session
+## Control placement layers
 
-- Decision: approve, defer, reject, or route.
-- Decision owner: Security operations owner.
-- Handoff: SOC.
-- Boundary: customer data stays in approved systems; production changes use customer change approval.
+| Layer | Example controls |
+|---|---|
+| Identity/network | Entra, JWT, managed identity, RBAC, Conditional Access, private route. |
+| Gateway | APIM policy, quota, content safety intent, token metrics, diagnostics, backend routing. |
+| Model/agent | Foundry/model safety settings, Prompt Shields, content filtering, trace. |
+| App/in-process | Prompt assembly, streaming, tool approval, local policy, task adherence. |
+| Tool/API | Tool-call inspection, tool-response scanning, least-privilege operation boundary. |
+| SOC/operations | Defender posture, XDR/Sentinel, queue, playbook, alert owner, retention. |
 
 Note:
-End with the decision record and the named handoff.
+Ask where the control inspects, what action it takes, and what telemetry proves
+that action.
+
+---
+
+## Threat-to-control map
+
+- Direct prompt injection: inspect user input/gateway/model input.
+- Indirect prompt injection: inspect retrieved documents, connector output, tool
+  response.
+- Harmful content: inspect input, model output, final response.
+- Sensitive data leakage: inspect prompt, context, response, logs.
+- Unsupported answers: inspect grounding, citations, evaluator or sampled trace.
+- Tool abuse: inspect tool call, parameters, response, local execution boundary.
+- Unauthorized access: inspect gateway, backend, identity provider, data service.
+- Cost/availability abuse: inspect gateway, model call, token metrics, backend.
+
+Note:
+Every risk needs an owner, action, telemetry source, limitation, and hard stop.
+
+---
+
+## Gateway-proof acceptance package
+
+Use safe references for:
+
+- environment and scoped request;
+- gateway route and access contract;
+- backend model/agent/service;
+- policy reference and expected behavior;
+- correlation ID;
+- request evidence reference;
+- telemetry evidence reference;
+- transport result;
+- customer reviewer decision and limitation.
+
+Note:
+The manifest is evidence input. Acceptance is a separate customer reviewer
+decision.
+
+---
+
+## Correlation and telemetry contract
+
+Record:
+
+- where correlation is created and propagated;
+- which sources record it: gateway, app, backend, model/agent, tool/API, SOC;
+- query owner, time window, expected signal, and permissions;
+- retention/export/deletion/hold owner;
+- known blind spots;
+- reviewer and review cadence.
+
+Note:
+A correlation field name is not enough. The room must know who queried what and
+what they expected to see.
+
+---
+
+## SOC and response route
+
+- Defender for Cloud AI posture record or explicit gap.
+- Defender XDR, Sentinel, customer SIEM, or manual review route.
+- SOC queue, playbook, incident type, severity owner, SLA, monitoring window.
+- Escalation path and stop condition.
+- Feedback loop for threshold tuning, route remediation, or evaluation backlog.
+
+Note:
+Runtime control that cannot be operated is not ready for downstream reliance.
+
+---
+
+## Retention and evidence handling
+
+- Runtime logs.
+- Alert and incident records.
+- Diagnostic notes.
+- Decision references.
+- Export, deletion, discovery, and hold expectations.
+- Evidence owner and approved records location.
+
+Note:
+Never copy raw prompts, outputs, logs, policies, endpoints, incident payloads, or
+tenant details into this repository.
+
+---
+
+## Failure modes and hard stops
+
+- No approved records location.
+- No route owner or reviewer.
+- No correlation propagation.
+- No telemetry query owner.
+- No SOC route for actionable signals.
+- No retention/export/deletion owner.
+- App-only control mislabeled as gateway proof.
+- Direct diagnostic mislabeled as enforcement.
+- Gateway blind to local tool-response or app context.
+- Unsupported Prompt Shields or product capability scope.
+
+Note:
+Defer when fixable with owner and accepted-when condition. Block when evidence
+cannot be handled safely.
+
+---
+
+## Decision artifact and handoff
+
+Decision options:
+
+- accept runtime-path evidence;
+- defer with owner, accepted-when condition, and target date;
+- reject unsafe or unsupported path;
+- route to platform, gateway, app, identity, SOC, observability, data, legal, or
+  records owner;
+- block until safe evidence handling is possible;
+- diagnostic-only when useful but not runtime-path proof.
+
+Note:
+Close with the acceptance package and backlog, not a meeting summary. S6 changes
+no tenant policy, deploys no control, proves no production enforcement, and
+approves no production use.

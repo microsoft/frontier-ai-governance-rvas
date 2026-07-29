@@ -1,77 +1,113 @@
 # S6 · Security Runtime
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-15 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).
+    Last reviewed: 2026-07-15 · Capability and availability context is in the
+    [Governance capability guide](../reference/governance-capability-guide.md).
+    Verify tenant support, region, licensing, telemetry access, and customer
+    policy before delivery.
 
 <span class="rvas-badge rvas-persona">Security / SOC</span> <span class="rvas-badge rvas-persona">Governance lead</span>
 
 ## 1. Outcome & what the customer keeps
 
-The customer leaves with one reviewable runtime artifact: **a redacted gateway
-proof for an approved non-production request.**
+The customer leaves with one reviewable runtime artifact: **a runtime-path
+acceptance package for one bounded non-production request.**
 
-The proof is a gateway proof manifest that conforms to
-[`contracts/gateway-proof.schema.json`](../../contracts/gateway-proof.schema.json).
-It contains safe references and a `correlation_id`.
+The package answers:
 
-The adapter does not deploy a safety platform or prove a direct Content Safety
-call. The customer platform and security owners must match the `correlation_id`
-to gateway telemetry before they accept it as enforcement evidence.
+> Can this request be traced through the expected runtime path, policy decision
+> points, telemetry, SOC route, and retention process well enough for named
+> customer reviewers to accept or reject the runtime-control claim?
 
-Where a customer needs to map defence-in-depth before adoption, the
-customer-owned runtime control matrix records the selected identity/network,
-gateway, model/agent, and tool boundaries, along with response ownership and
-evidence limits. Accept it only alongside the gateway proof.
+They keep:
+
+- A runtime-path trace card naming caller identity, application/workload
+  identity, gateway or app-only route, backend model/agent, tool/API route,
+  response path, correlation field, telemetry destination, SOC route, retention
+  owner, and approved records location.
+- A gateway-proof and telemetry correlation package using safe references and
+  the [`gateway-proof`](../../contracts/gateway-proof.schema.json) manifest
+  shape.
+- A control-placement map that separates identity/network, gateway, model/agent,
+  app/in-process, tool, SOC, operating, and records controls.
+- A threat-to-control map for prompt injection, harmful content, data leakage,
+  unsupported answers, tool abuse, unauthorized access, cost/availability abuse,
+  and route bypass.
+- A customer reviewer decision: accept, defer, reject, route, block, or mark
+  diagnostic-only.
+
+The adapter does not deploy a safety platform, configure APIM, change live
+policy, or prove a direct Content Safety call. A completed request is transport
+evidence, not a security decision. The customer platform and security owners
+must match the `correlation_id` to customer-owned telemetry before accepting it
+as runtime-path evidence.
 
 ### What happens next
 
-**Next customer action:** assign any route, policy, telemetry, or correlation
-gap to the customer platform or security owner; use the accepted proof only when
-later assurance needs it.
+**Next customer action:** assign any route, policy, telemetry, correlation, SOC,
+retention, or reviewer gap to the customer platform/gateway, application,
+identity, security, SOC, observability, data/privacy, runtime assurance,
+evaluation, catalog/control-plane, operations, or records owner.
 
 ### Plain decision and default path
 
-**Decision question:** *Approve, defer, reject, or route the selected gateway,
-application, or defense-in-depth runtime enforcement design?* An approval is a
-customer decision record, not a production-control approval.
+**Decision question:** *Accept, defer, reject, route, block, or mark
+diagnostic-only for this bounded runtime-control claim?* Acceptance is a
+customer decision record for the reviewed path; it is not deployment,
+enforcement proof, live-policy change, production-control approval, or
+production approval.
 
-The default is layered Azure/Microsoft enforcement: Microsoft Entra identity and
-network controls, an Azure API Management or approved gateway route, supported
-Azure AI safety controls where verified, and application or tool controls for
-context the gateway cannot see. Use application-only enforcement or another
-customer control only when route coverage, latency, capability status, and
-evidence ownership make the default unsuitable. Record the exception owner,
-reason, compensating control, target date, and re-review trigger. Verify
-availability and feature limits before relying on any service.
+The default is layered Azure/Microsoft enforcement:
 
-S6 produces a runtime-control backlog: approve, defer, reject, or route the proof;
-remediate route, policy, or telemetry gaps; route safety work; or block release,
-catalog, and operating dependencies until correlation is accepted.
+1. Microsoft Entra identity and network controls for route access.
+2. Azure API Management AI Gateway or an approved customer gateway where shared
+   runtime controls fit.
+3. Azure AI Content Safety, Prompt Shields, Foundry model/agent controls, or
+   app/in-process controls where the inspection point requires them.
+4. Tool/API controls for tool calls, tool parameters, tool responses, and local
+   action boundaries.
+5. Defender for Cloud AI posture, Defender XDR, Sentinel, SOC playbooks, and
+   Application Insights/Azure Monitor for detection, response, correlation, and
+   retention where enabled.
 
-Security reviewers may use Microsoft Defender for Cloud and AI security posture
-capabilities for broader security and threat context where the customer has them
-enabled. See [Defender AI security posture management](https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-security-posture)
-for product context. The S6 artifact is still the gateway proof and reviewed
-correlation.
+Use application-only enforcement or another customer control only when route
+coverage, context visibility, latency, capability status, and evidence ownership
+make the default unsuitable. Record the exception owner, reason, compensating
+control, target date, review trigger, and exact claim that remains unsupported.
 
 ## 2. Prerequisites
 
-- A deployed customer gateway with an approved non-production route and runtime policy.
-- A customer operator who can supply authentication without recording it here.
-- Customer-owned request and telemetry record locations.
-- Named platform and security reviewers who can interpret the telemetry.
+- One bounded non-production request path and one customer-approved test scope.
+- Customer-owned request, telemetry, SOC, and records locations.
+- Named application, gateway/platform, identity, security, SOC, telemetry,
+  retention, evidence, and reviewer owners.
+- Authorization to inspect customer records without exporting raw evidence into
+  this repository.
+- Known correlation field or a backlog owner for creating one.
+
+If the route owner, correlation propagation, telemetry destination, SOC queue,
+retention owner, or customer reviewer is missing, the safe result is defer,
+route, block, or diagnostic-only.
 
 ## 3. Why this session matters
 
-Runtime evidence must show the path the agent used. S6 records a redacted
-request correlation without changing production traffic. A component diagnostic
-can troubleshoot part of the stack. Accept gateway-path proof only from the correlated gateway evidence.
+Runtime security is reviewable only when the path is reviewable. "Content Safety
+is enabled" or "APIM is in front" is not enough. The customer needs to know where
+the control runs, what it inspects, what action it takes, what telemetry it
+emits, how the event joins to the request, who reviews the interpretation, and
+what happens when the control fails or is bypassed.
 
-## 4. Rollback and handoff
+S6 records that runtime-path package. It does not publish a route, configure a
+gateway, grant access, run production traffic, export logs, prove production
+enforcement, or approve production.
 
-The adapter changes no gateway configuration. If the customer stops the test, it
-uses its own approved gateway and evidence-retention processes. The final
-customer record contains the approval, deferral, rejection, or routing decision.
-Release-assurance handoff includes accepted correlation evidence and its limits;
-catalog/control-plane handoff includes the route, owner, version, and
-runtime-control exception record.
+## 4. Change boundary and handoff
+
+S6 changes no gateway configuration, app code, model setting, SOC rule, live
+policy, tenant setting, alert route, retention policy, or lifecycle state. Any
+deployment, configuration, permission grant, runtime test, incident workflow, or
+production release follows the customer's approved change and evidence process.
+
+Release-assurance handoff includes accepted runtime-path evidence and its
+limits. Catalog/control-plane handoff includes the route, owner, version,
+runtime-control exception, material-change triggers, and open blockers.
