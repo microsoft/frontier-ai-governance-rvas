@@ -1,119 +1,149 @@
 # S13 · Portfolio Governance & Continuous Improvement Concepts
 
+## The portfolio review card is the unit of accountability
+
+Portfolio governance starts with one bounded review card: portfolio slice,
+population, review period, decision question, included scope, excluded scope,
+decision forum, owners, and approved records location. Without that card, a
+"portfolio view" becomes a dashboard tour with no decision boundary.
+
+The review card also names who can interpret the rollup: portfolio owner, risk
+owner, evidence owner, roadmap owner, control-plane steward, operating review
+owner, finance or capacity owner where relevant, and baseline owner.
+
+![S13 portfolio decision package: review card, source lineage, scorecard, exception concentration, dependency clusters, prioritization, roadmap action, baseline feedback, blocked gaps, and safe evidence boundary.](../assets/diagrams/s13-portfolio-to-s0-feedback-loop.svg)
+
 ## A portfolio is a decision view, not a data lake
 
-Portfolio governance connects decisions across agents and scopes. It uses
-references, scope statements, and limits so leaders can see dependencies without
-copying operational records into one place.
+Portfolio governance connects decisions across agents and scopes. It uses safe
+references, scope statements, freshness dates, coverage limits, and owners so
+leaders can see patterns without copying operational records into one place.
 
 The default is the customer-approved records system, supplemented by verified
-Azure/Microsoft governance or cost references where applicable. A different
-source is an exception only when its scope, freshness, owner, and limits are
-recorded; it is not proof of a product configuration or portfolio coverage.
+Microsoft governance, operating, or cost references where applicable. A
+different source is an exception only when its scope, freshness, owner, and
+limits are recorded. A source reference is not proof of product configuration or
+fleet coverage beyond the population it describes.
 
-## Evidence keeps its limits when aggregated
+## Lineage travels with every metric
 
-An Azure, Entra, Purview, Foundry, Monitor, or Agent 365 record supports only the observation and scope it describes.
-Freshness, exclusions, collection limits, and interpretation ownership must stay
-with it.
+Every scorecard field or trend needs a source reference, source owner,
+freshness date, refresh cadence, population, excluded scope, coverage limit,
+interpretation owner, and action implication. The same rule applies to cost,
+assurance, exceptions, operating health, maturity movement, and dependency
+views.
 
-Combining partial references is accepted only for the covered scope; operating
-effectiveness, or a portfolio-wide conclusion.
+Missing, stale, sampled, unsupported, or unavailable evidence is a coverage
+limit. It is not a zero, a pass, or proof that the issue does not exist.
+
+## Scorecards are decision aids
+
+A portfolio scorecard can summarize coverage, residual risk, assurance,
+operating health, cost/capacity, maturity, exception age, dependencies, roadmap
+status, owner readiness, and confidence. It should make trade-offs visible; it
+should not hide uncertainty behind one aggregate number.
+
+The scorecard does not certify compliance, prove operating effectiveness,
+approve funding, or prove production readiness. It supports a customer forum
+that still owns the decision.
 
 ## Exceptions expose concentrations and dependencies
 
 An exception is not automatically a portfolio risk. It matters to the portfolio
-when its effect, recurrence, shared dependency, or decision consequence is clear.
-Unknown impact, ownership, or scope remains unresolved and needs review or
-escalation.
+when its population, recurrence, shared dependency, residual risk, or decision
+consequence is clear. Unknown impact, ownership, or scope remains unresolved
+and needs review or escalation.
 
-Useful exception views include repeated ownership gaps, recurring evidence
-coverage limits, shared platform or identity dependencies, repeated policy
-waivers, unresolved high-impact findings, and risks that block more than one
-session outcome. Each view still needs a population and owner.
+Useful views include:
 
-## Investment priority is a transparent trade-off
+- exception by owner;
+- exception by control domain;
+- exception by platform, identity, model, gateway, data, tool/API, or telemetry
+  dependency;
+- exception by age, severity, expiry, or recurrence;
+- accepted-risk items nearing or past review date; and
+- unowned blockers repeated across multiple roadmap items.
 
-Prioritization should state the decision criteria: risk, dependency, evidence
-strength, expected benefit, effort, timing, and accountable owner. The
-ranked list informs authorized decision-makers. It is not a promise of benefit
-or approval to spend.
+Each view needs population, affected items, repeated pattern, owner, escalation
+route, and closure criterion.
 
-Model capability investments, including fine-tuning, need the same clear
-criteria: capability gap, pre/post evaluation reference, training and inference
-cost impact, training-data governance, model-version lifecycle owner, and release
-assurance dependency. Without those customer-held references, the item remains a
-proposal with an explicit gap. S13 does not approve training or deployment.
+## Dependency clusters drive sequence, not blame
 
-## Maturity movement describes supported change
+Dependencies show which items should be sequenced together. A shared identity
+gap, model deployment dependency, gateway route, telemetry blind spot, or
+control-plane record conflict may block many teams. The portfolio decision
+should name the sequence owner and unblock path rather than rank each dependent
+item separately and pretend they can move alone.
 
-A maturity comparison is useful only against the same question, scope, and scale,
-or against a clearly changed one. Evidence can support movement, no movement, or
-an unresolved assessment.
+## Weights are governance decisions
 
-Activity completion and filled-in templates do not prove a new capability.
+Prioritization should state the criteria: risk reduction, business value,
+cost/capacity impact, coverage improvement, dependency leverage, maturity
+movement, urgency, confidence, and effort or complexity. Weights are allowed
+only when the governance forum owns them.
 
-## Policy evolution needs a separate decision
+The ranked list informs authorized decision-makers. It is not a promise of
+benefit, funding approval, or risk reduction. Record rejected alternatives,
+sensitivity or uncertainty, and the forum that accepted the weighting method.
 
-Portfolio review can identify a policy question: a gap, conflict, old assumption,
-or need for clarification. Capture the proposal, reason, affected scope, owner,
-and review route.
+Model capability investments, including fine-tuning, follow the same rules:
+capability gap, data governance, evaluation comparison, training and inference
+cost impact, model/deployment lifecycle owner, release-readiness path, and
+operating signal. Without those references, the item remains a proposal with an
+explicit gap.
 
-Identifying the question does not approve new policy or change existing policy.
+## Roadmap item without owner is not a roadmap
 
-## Continuous improvement closes through S0
+Each roadmap action needs action type, accountable owner, implementation owner,
+evidence owner, funding/capacity owner where relevant, dependency owner, target
+date, acceptance test, evidence reference, exception status, next review
+trigger, and escalation forum.
 
-![Portfolio review turns records, exceptions, and risks into a roadmap that feeds the next S0 assessment.](../assets/diagrams/s13-portfolio-to-s0-feedback-loop.svg)
+If no owner can act, the item is deferred or blocked. Ranking an unowned item
+creates noise, not progress.
 
-The portfolio roadmap feeds the next S0 assessment. S0
-reassesses selected domains with customer-held evidence and a fresh decision.
+## Baseline feedback proposes questions
+
+Portfolio review feeds the next foundation baseline by proposing questions:
+decision rights, evidence-system expectations, risk appetite, funding model,
+forum cadence, ownership model, policy ambiguity, or roadmap sequencing. It
+does not change the baseline or policy by itself.
 
 This keeps the improvement loop honest: observe, interpret, decide, act through
-approved processes, then reassess.
+approved processes, then reassess selected baseline questions with fresh
+customer-held evidence.
 
-## Portfolio decisions become roadmap backlog
+## Framework mapping is not certification
 
-The S13 recommendation should turn the review into a dated governance roadmap.
-Typical backlog rows include recurring exception pressure, cross-session
-dependency, investment priority, policy question, budget or funding gate, owner
-readiness, model-version governance, fine-tuning evaluation dependency, Foundry
-project cost-accountability gap, maturity reassessment evidence, S0 feedback,
-and governance cadence.
+Framework references such as NIST AI RMF, ISO/IEC 42001, the EU AI Act, and
+Microsoft Responsible AI principles can structure questions. They do not turn
+portfolio aggregation into a conformity conclusion. S13 records which
+customer-owned references can support the next governance decision and which
+assurance activity remains separate.
 
-The roadmap routes decisions to the appropriate customer governance, budget,
-risk, policy, assurance, or change process.
+## Failure modes to call out
 
-Framework references such as NIST AI RMF, ISO/IEC 42001, and the EU AI Act can
-help structure questions. S13 does not issue a conformity conclusion. It records
-which customer-owned references can support the next governance decision and
-which assurance activity remains separate.
-
-## Report-only boundaries preserve decision integrity
-
-This session does not create a dashboard, access live data, deploy a change, or
-provide compliance certification. Those activities need their own authorization,
-technical validation, and assurance evidence.
-
-S13 records what the current references can support and what remains unknown.
+| Failure mode | Why it breaks portfolio governance |
+|---|---|
+| Dashboard-only review | Leaders see charts but no decision question, population, owner, or action. |
+| Stale inventory treated as complete fleet | Gaps become invisible because missing records look like zero findings. |
+| Aggregate score hides excluded high-risk workload | Portfolio decision appears safer than the covered scope supports. |
+| Cost total has no allocation owner | Spend cannot drive action, chargeback, showback, or capacity planning. |
+| Accepted-risk item past expiry | Residual risk continues without the promised review trigger. |
+| Dependency cluster has no sequence owner | Many roadmap items remain blocked while each team waits for another. |
+| Funding item has no capacity basis | Investment request cannot connect to service demand or constraints. |
+| Maturity movement claimed from activity completion | Completing workshops or templates is mistaken for operating capability. |
+| Framework table treated as compliance proof | Mapping replaces evidence, assurance, and accountable decisions. |
 
 ## Related official references
 
 | Reference | What it can inform |
 |---|---|
-| [Microsoft Foundry observability](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability) | Portfolio-level quality and cost signal planning. |
-| [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management) | Portfolio cost aggregation starting point. |
-| [Fine-tune Microsoft Foundry models](https://learn.microsoft.com/en-us/azure/foundry/how-to/fine-tune-models) | Model capability investment input; verify availability. |
-| [NIST AI RMF](https://www.nist.gov/itl/ai-risk-management-framework) | Portfolio roadmap framing. |
-
-## Proof improves policy through a new decision
-
-Portfolio learning is the feedback step in the Policy-Control-Visibility-Proof
-loop. It can identify repeated evidence gaps, exception patterns, or a policy
-question that needs an owner.
-
-Policy changes still need scope,
-reason, approval, implementation, and a later evidence review.
+| [Microsoft Foundry observability](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability) | Portfolio-level quality, health, and cost signal planning. |
+| [Azure Cost Management](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/overview-cost-management) | Cost aggregation, allocation, and FinOps starting point. |
+| [Fine-tune Microsoft Foundry models](https://learn.microsoft.com/en-us/azure/foundry/how-to/fine-tune-models) | Model capability investment input; verify availability and governance requirements. |
+| [NIST AI RMF](https://www.nist.gov/itl/ai-risk-management-framework) | Portfolio roadmap framing, not certification. |
 
 See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
-for the Policy-Control-Visibility-Proof lens and sources that support portfolio
-learning without turning aggregation into a compliance conclusion.
+for sources that can support portfolio learning without turning aggregation into
+a compliance conclusion.

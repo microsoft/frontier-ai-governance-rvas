@@ -1,63 +1,126 @@
-# Practical workshop: portfolio governance decision route
+# Practical workshop: portfolio decision package
 
-**Microsoft default:** Agent 365 and control-plane records, Azure Cost Management, operating evidence, roadmap, and baseline re-measurement.
+**Microsoft default:** Agent 365 and Microsoft control-plane records where
+available, customer-approved exception and roadmap records, Azure Cost
+Management and FinOps records for investment decisions, operating/evaluation/
+red-team records for assurance, and the foundation baseline for re-measurement.
 
-**Customer decision:** Approve, defer, reject, or route one bounded portfolio-governance decision. This is a prioritization and handoff decision only; it does not change tenant policy, prove runtime enforcement, or approve production use.
+**Customer decision:** Continue, pause, retire, fund, defer, route, or block one
+bounded portfolio item. This is a prioritization and handoff decision only; it
+does not change tenant policy, prove runtime enforcement, approve funding,
+certify compliance, or approve production use.
 
-## Work the decision
+## Work the package
 
-1. **Choose the portfolio question.** Select one bounded portfolio slice, pilot set, roadmap item, exception set, or capacity/cost decision. Name the portfolio decision owner, roadmap owner, evidence owner, finance/FinOps owner if relevant, and receiving forum.
-2. **Assemble the rollup by reference.** Use customer-approved records for Agent 365/control-plane inventory, exception register, cost/capacity view, operating evidence, roadmap, and baseline. Record source lineage, freshness date, coverage limits, and owner for each source.
-3. **Classify the route.** Pick the route that best fits the scenario before discussing acceptance:
+1. **Choose the portfolio slice and review period.** Select one pilot cohort,
+   agent population, capability group, roadmap item set, exception set,
+   dependency cluster, or cost/capacity decision. Name the included and excluded
+   scope, decision forum, review period, portfolio owner, roadmap owner, risk
+   owner, evidence owner, control-plane steward, operating review owner, and
+   FinOps/capacity owner where relevant.
+2. **Build the review card.** Record decision question, population, review
+   period, decision forum, approved records location, evidence limits, and stop
+   condition.
+3. **Assemble source lineage and coverage.** Use customer-approved references
+   for inventory/control-plane, identity, tool/API, model/deployment, assurance,
+   operating health, exceptions, cost/capacity, roadmap, and baseline records.
+   Record source owner, freshness, population, exclusions, coverage limit, and
+   interpretation owner before making a recommendation.
+4. **Build the scorecard.** Fill only the fields that can be supported by safe
+   references. Use coverage, residual risk, assurance, operating health,
+   cost/capacity, maturity, exception age, dependency, roadmap, owner readiness,
+   and confidence fields.
+5. **Identify concentration and clusters.** Look for repeated exceptions,
+   accepted-risk expiry, shared dependencies, unowned blockers, stale evidence,
+   cost/capacity pressure, and roadmap items that need sequencing.
+6. **Compare trade-offs.** Apply risk/value/cost/capacity/coverage/dependency/
+   maturity/urgency/confidence/effort criteria. Use weights only when the
+   governance forum owns them.
+7. **Define roadmap action and owner readiness.** Record action type,
+   accountable owner, implementation owner, evidence owner, funding/capacity
+   owner where relevant, dependency owner, target date, acceptance test,
+   evidence reference, exception status, and next review trigger.
+8. **Record baseline feedback.** Decide whether repeated patterns open a
+   baseline question about ownership, evidence expectations, risk appetite,
+   funding, cadence, policy, or sequencing.
+9. **Record outcome and handoff.** Continue, pause, retire, fund, defer, route,
+   or block with rationale, owner, acceptance test, target date, evidence
+   reference, and review trigger.
+
+## Scenario routes
 
 | Scenario | Route | Practical decision cue |
 |---|---|---|
-| Complete rollup is available | Portfolio decision | Approve only as a handoff when source lineage, freshness, coverage limits, prioritization rationale, roadmap owner, and baseline re-measurement trigger are recorded. |
-| Evidence is incomplete, stale, or not comparable | Evidence blocker | Defer until each missing source has an owner, target date, evidence location, freshness expectation, coverage limit, and recheck trigger. |
-| Cost, capacity, or funding decision is needed | Finance / capacity route | Route to finance, FinOps, platform capacity, or sponsor owner with cost basis, capacity assumption, decision date, and roadmap impact. |
-| Risk and value conflict | Governance prioritization route | Route to the portfolio forum with risk/value rationale, affected controls, exception status, value hypothesis, and stop or continue criteria. |
-| No action owner for a portfolio item | Ownership blocker | Defer or block until roadmap owner, implementation owner, evidence owner, and receiving process are named. |
-| Portfolio change alters foundation assumptions | Baseline re-measurement trigger | Route to the baseline owner when scope, risk appetite, operating model, forum, ownership, funding, or roadmap sequencing changes. |
-
-4. **Inspect portfolio tradeoffs without changing records.** Compare risk, value, cost, capacity, operating readiness, exception status, and roadmap dependency using references only. Do not paste customer evidence into this repository.
-5. **Record the outcome and handoff.** Approve only when the rollup is traceable and fresh enough for the receiving owner to act. Otherwise defer with acceptance checks, reject if the item cannot meet the bounded portfolio goal, or route to finance, risk, roadmap, operating, or baseline owner.
+| Complete rollup with clear owners | Continue / fund / roadmap handoff | Act only when lineage, freshness, coverage limits, prioritization rationale, roadmap owner, target date, and baseline trigger are recorded. |
+| Stale control-plane inventory | Defer evidence reliance | Record stale source, affected population, owner, refresh expectation, coverage limit, and recheck trigger. |
+| Expired accepted-risk item | Route or block | Escalate to risk owner with expiry, affected items, residual risk, closure criterion, and roadmap impact. |
+| High-cost, low-evidence capability | Pause / route / defer | Require cost allocation owner, value hypothesis, evidence plan, capacity basis, and stop/continue criteria. |
+| Shared identity, gateway, model, data, or telemetry dependency | Dependency cluster | Name sequence owner, first unblock action, downstream items, and review trigger. |
+| Evidence gap hidden by aggregate score | Split or block conclusion | Do not use the aggregate until excluded population and confidence limit are visible. |
+| Cost/capacity pressure | Finance / capacity route | Route with cost basis, allocation owner, capacity assumption, decision date, and roadmap impact. |
+| No roadmap owner | Block or defer | Assign accountable owner, implementation owner, evidence owner, receiving forum, and target date before prioritization. |
+| Maturity movement claim | Baseline feedback | Require stable question, same scope or explicit scope change, supporting references, and owner acceptance. |
+| Framework mapping request | Assurance route | Use framework to structure questions; do not issue certification or conformity conclusion. |
+| Funding request | Customer funding process | S13 can provide rationale and references, not funding approval. |
+| Repeated ownership or evidence gap | Baseline feedback trigger | Open owner and evidence-system questions for the baseline owner and governance forum. |
 
 ## Decision record
 
-Fill this record in the customer-approved records system. Store only safe references here; completed evidence remains in customer systems.
+Fill this record in the customer-approved records system. Store only safe
+references here; completed evidence remains in customer systems.
 
 | Field | Record |
 |---|---|
-| Work item | Portfolio governance decision |
-| Portfolio slice | Pilot set, roadmap item, exception set, capability group, or capacity/cost decision |
-| Source lineage | Agent/control-plane inventory, exception register, cost/capacity view, S11 evidence, roadmap, and S0 baseline references |
-| Freshness | Review date, expected refresh cadence, stale sources, and owner |
-| Coverage limit | Workloads, agents, regions, business units, cost centers, controls, or evidence sources excluded from the rollup |
-| Prioritization rationale | Risk/value/cost/capacity tradeoff, decision options, selected route, and stop or continue criteria |
-| Roadmap owner | Accountable owner for sequencing, funding, backlog, and next forum |
-| Baseline re-measurement trigger | Portfolio change that requires operating-model or baseline update, or explicit no-trigger rationale |
-| Handoff | Owner and customer process that accepts the decision or backlog item |
-
-## Decision tree
-
-- **Approve** when source lineage, freshness, coverage limits, prioritization rationale, roadmap owner, evidence location, acceptance check, target date, and baseline re-measurement trigger are complete.
-- **Defer** when evidence is incomplete, stale, non-comparable, unowned, or lacks coverage/freshness limits, but a named owner can close the gap.
-- **Reject** when the portfolio item cannot meet the bounded risk, value, cost, capacity, or operating-readiness goal.
-- **Route** when finance, FinOps, platform capacity, risk, roadmap, evidence, operating, exception, or baseline owner must decide first.
-
-For an exception, record: reason, affected portfolio item, source limitation, residual risk, value or cost impact, equivalent control or compensating review, owner, evidence location, acceptance test, target date, roadmap impact, and review trigger.
+| Work item | Portfolio decision package |
+| Review card | Portfolio slice, population, review period, decision question, included/excluded scope, decision forum, owners, records location, evidence limits, stop condition |
+| Source lineage | Inventory/control-plane, identity, tool/API, model/deployment, assurance, operating, exception, cost/capacity, roadmap, and baseline references with freshness and coverage limits |
+| Scorecard | Coverage, residual risk, assurance, operating health, cost/capacity, maturity, exception age, dependency, roadmap, owner readiness, and confidence fields |
+| Exception concentration | Population, pattern, affected items, shared dependency, risk consequence, owner, escalation, closure criterion |
+| Dependency cluster | Dependency type, blocked roadmap items, sequence owner, first unblock action, downstream effect, risk if ignored, review trigger |
+| Prioritization | Criteria, weights if used, owner, rationale, rejected alternatives, uncertainty, decision forum, action implication |
+| Roadmap action | Continue / pause / retire / fund / defer / route / block / monitor / re-baseline / open policy question |
+| Owner readiness | Accountable owner, implementation owner, evidence owner, funding/capacity owner, dependency owner, target date, acceptance test |
+| Baseline feedback | Trigger, question, owner, evidence references, target forum, accepted-when condition, review trigger |
+| Decision | Result, rationale, evidence reference, exception status, backlog item, handoff owner, next review trigger |
 
 ## Acceptance checks
 
-| Check | Accepted when... | Handoff |
+| Check | Accepted when... | Receiving owner |
 |---|---|---|
-| Source lineage | every rollup metric or claim traces to a customer-approved Agent/control-plane, exception, cost, S11, roadmap, or S0 record reference | Evidence owner |
-| Freshness | each source has a review date, expected refresh cadence, stale/not-available state, and owner | Portfolio operations |
-| Coverage limit | included and excluded workloads, agents, regions, controls, cost centers, and evidence sources are named | Control-plane steward |
-| Prioritization rationale | continue, pause, retire, fund, defer, or route decision cites risk, value, cost/capacity, operating readiness, and exception status | Portfolio forum |
-| Roadmap owner | sequencing, funding, backlog, target date, and receiving process have an accountable owner | Roadmap owner |
-| Baseline re-measurement trigger | changes to scope, risk appetite, operating model, ownership, funding, or roadmap sequencing are routed to the baseline owner, or no-trigger rationale is recorded | Baseline owner |
-| No action owner | any unowned portfolio item is deferred or blocked with owner-assignment action, target date, and recheck forum | Executive sponsor |
-| Workshop safety | the activity records decisions only, copies no customer evidence into the repository, changes no tenant policy, and makes no deployment, enforcement, runtime-proof, or production-approval claim | Workshop facilitator |
+| Review card | population, period, included/excluded scope, forum, owners, records location, evidence limits, and stop condition are recorded | Portfolio owner |
+| Source lineage | every rollup metric or claim traces to source owner, freshness date, coverage limit, interpretation owner, and safe reference | Evidence owner |
+| Scorecard | fields are supported by references and confidence/coverage limits are visible | Portfolio/governance owner |
+| Exception concentration | population, affected items, repeated pattern, shared dependency, escalation route, and closure criterion are recorded | Risk owner |
+| Dependency cluster | sequence owner, first unblock action, blocked items, downstream effects, and review trigger are recorded | Roadmap owner |
+| Prioritization | criteria, weights, rationale, rejected alternatives, uncertainty, decision forum, and action implication are recorded | Governance forum |
+| Roadmap action | owner, target date, acceptance test, evidence reference, exception status, blocked-by list, and next review trigger are recorded | Roadmap owner |
+| Baseline feedback | question, trigger, owner, evidence references, target forum, accepted-when condition, and review trigger are recorded | Baseline owner |
+| Workshop safety | the activity records decisions only, copies no customer evidence into the repository, changes no tenant policy, and makes no dashboard, funding, compliance, runtime-proof, enforcement, or production-approval claim | Facilitator |
 
-**Boundary:** Keep customer evidence in customer-approved systems; store references only. This workshop records portfolio prioritization and handoffs only.
+## Decision tree
+
+- **Continue** when the action should proceed through the receiving customer
+  process with owner, evidence, target date, and review trigger.
+- **Pause** when the item should stop expanding until evidence, cost, risk, or
+  ownership changes.
+- **Retire** when the item should enter the customer's retirement/removal
+  process with dependency review and retained-record route.
+- **Fund** when the package is ready for the customer funding process. This is
+  not funding approval.
+- **Defer** when evidence is incomplete, stale, non-comparable, unowned, or lacks
+  coverage/freshness limits, but a named owner can close the gap.
+- **Route** when finance, FinOps, platform capacity, risk, roadmap, evidence,
+  operating, exception, assurance, legal/compliance, policy, or baseline owner
+  must decide first.
+- **Block** when ownership, forum authority, evidence location,
+  cost/capacity basis, roadmap ownership, source lineage, or scope clarity
+  prevents a defensible decision.
+
+For an exception, record: reason, affected portfolio item, source limitation,
+residual risk, value or cost impact, equivalent control or compensating review
+if one exists, owner, evidence reference, acceptance test, target date, roadmap
+impact, expiry, and review trigger.
+
+**Boundary:** Keep customer evidence in customer-approved systems; store
+references only. This workshop records portfolio prioritization and handoffs
+only.
