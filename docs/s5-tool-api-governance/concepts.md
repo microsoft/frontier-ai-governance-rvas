@@ -1,127 +1,162 @@
 # S5 · API, Tool & MCP Governance Concepts
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-15 · Apply the customer's current policy and
-    approval model to every candidate and material change.
+    Last reviewed: 2026-07-15 · Apply the customer's current policy, service
+    support, region, licensing, and approval model to every candidate and
+    material change.
 
 This page explains the operating model behind S5. Use [S5 Prepare](index.md) for
-the 90-minute customer co-delivery method.
+the customer co-delivery method.
 
-## A catalog is a decision record, not a safety proof
+## A tool call is the governance unit
 
-A catalog makes a candidate easier to find and review. It can record ownership,
-intended use, classification, caller identity, authority, and lifecycle decisions.
-It cannot prove that a tool is safe, that a caller is authorized, that policy is
-enforced, or that a live integration behaves as claimed.
+An API or tool is not governable in the abstract. Reviewers need to trace one
+consumer calling one operation through a known identity and route. The useful
+question is:
 
-S5 records evidence references and a decision. Implementation and runtime
-verification remain separate processes.
+> Can this caller perform this operation, on this data, through this route, with
+> this audit trail, and can the customer stop it?
 
-## Publication decisions become a work list
+That trace turns tool governance from vague approval into a practical admission
+package.
 
-The S5 recommendation names the publication path and rejected or deferred
-alternatives. Its backlog may cover registration, gateway route, caller identity,
-MCP/connector path, authority, lifecycle, runtime evidence, record
-reconciliation, and change ownership. Publishing, permission grants,
-configuration, and runtime-safety proof stay in the customer's implementation
-and assurance processes.
+## A catalog is a decision record, not safety proof
 
-## Ownership is specific and lasting
+A catalog or API Center entry makes a candidate discoverable and reviewable. It
+can record ownership, intended use, classification, caller identity, authority,
+version, lifecycle, and consumer scope. It cannot prove the caller is
+authorized, APIM policy is enforced, a connector permission is safe, an MCP tool
+behaves correctly, or a live integration is operating as claimed.
 
-Catalog ownership answers who keeps the record current and coordinates review.
-Technical ownership answers who understands the candidate's behavior and version.
-A decision owner accepts publication readiness, hold, suspension, or withdrawal.
-One person may hold more than one role, but the record must say so.
+S5 records evidence references and a decision. Implementation, runtime
+verification, and production release remain separate customer processes.
 
-An entry with no accountable owner is not ready for publication. It stays
-proposed or on hold until someone accepts responsibility.
+## Operation authority is more important than product label
 
-## Names and workspaces are control decisions
+Product categories are not enough. A low-risk route can become unsafe when it
+allows broad writes, admin actions, data export, cross-tenant calls, or external
+side effects. A useful admission record classifies the operation:
 
-Names should show the candidate's purpose and boundary without implying more
-safety than reviewers have proved. A workspace, namespace, or collection signals
-its audience and the rules that apply.
+| Operation class | Admission implication |
+|---|---|
+| Read-only lookup | Requires caller identity, data boundary, audit, rate/quota, consumer acceptance, and withdrawal. |
+| Write or update | Requires explicit allowed fields/actions, approval or rollback owner, stronger audit, and over-scope handling. |
+| Admin or destructive | Usually block, route to exception, or require a separate high-authority review. |
+| External side effect | Requires recipient/target boundary, notification or compensation path, and incident route. |
+| Bulk export or sensitive data | Requires data owner, minimization, DLP/privacy route, retention/export handling, and consumer acceptance. |
+| Tool chaining or dynamic selection | Requires consumer review, in-process or runtime-control handoff, and stricter material-change triggers. |
 
-Record why the placement fits the classification, potential name confusion, and
-the approver. S5 does not create, move, or publish an entry.
+If the operation authority is unknown, the route is not ready.
 
-## Classification sets the review depth
+## Admission decisions become a technical work list
 
-Classification captures the handling limits that shape whether and how a
-candidate may be considered. The record should state the classification
-reference, intended data categories, restricted data categories, and unresolved
-assumptions. It should not make a broad claim that the candidate is compliant or
-safe.
+The S5 decision names the selected route and rejected or deferred alternatives.
+Its backlog may cover API Center registration, APIM product/API/backend policy
+route, Entra app or managed identity, delegated/OBO scope, connector approval,
+MCP publication, allow-list, quota, audit, correlation, consumer review,
+withdrawal, record reconciliation, and change ownership.
 
-If the classification is unknown, reviewers cannot decide whether the workspace,
-caller, and authority choices fit the risk. The right result is a gap or hold,
-not a guessed classification.
+Publishing, permission grants, APIM configuration, connector consent, MCP server
+publication, and runtime-safety proof stay in customer implementation and
+assurance processes.
 
-## Caller identity and authority are different questions
+## Ownership must follow the route
 
-Caller identity answers *who or what is expected to invoke the candidate* and how
-that identity is established. Authority scope answers *what that caller is
+Catalog ownership answers who keeps the record current. Technical ownership
+answers who understands the candidate behavior and version. Platform ownership
+answers who owns the gateway, product, backend, diagnostics, and quota. Identity
+ownership answers who owns app registration, managed identity, scopes, consent,
+credential rotation, and revocation. Consumer ownership answers who accepts the
+operation boundary for the agent or application that will call the tool.
+
+An entry with no accountable owner, no consumer owner, or no withdrawal owner is
+not ready for admission.
+
+## Identity and authority are different controls
+
+Caller identity answers *who or what is expected to invoke the candidate* and
+how that identity is established. Authority scope answers *what that caller is
 allowed to cause*, under which conditions, and what is prohibited.
 
-An identity reference without a bounded authority scope is incomplete. A scope
-without an identifiable caller cannot be reviewed.
+An Entra app, managed identity, OAuth/OBO flow, or JWT audience without bounded
+scopes and operation authority is incomplete. A scope without a consumer and
+revocation owner cannot be reviewed.
 
-State authority as the minimum needed: allowed actions, resource or data
-boundary, constraints, prohibited actions, escalation route, and approval
-reference for exceptions. S5 neither grants authority nor tests it.
+State authority as minimum needed: allowed operations, resource or data
+boundary, constraints, prohibited actions, approval route, exception owner,
+rollback behavior, and revocation path. S5 neither grants authority nor tests it.
 
-## Versioning makes a decision reproducible
+## APIM, connector, MCP, and allow-list routes are different packages
 
-A publication or lifecycle decision applies to a specific version and stated
-configuration boundary. A material change in interface, data handling, caller
-identity, authority, ownership, classification, or dependency requires re-review.
-A version label alone is accepted only as an identifier. The owner
-records the assessment and disposition.
+The same tool-call decision may land on different control surfaces:
 
-## Lifecycle includes stopping use
+| Route | Package focus |
+|---|---|
+| API Center/APIM | Catalog/API Center metadata, product/API/backend route, JWT validation, backend auth, quotas, policy intent, diagnostics, correlation, and withdrawal. |
+| Allow-list | Source, package/version, allowed operations, consumers, expiry, review cadence, revocation owner, and stop condition. |
+| Connector governance | Connector owner, environment, permission model, admin consent, DLP/data boundary, publication/withdrawal path, and consumer review. |
+| MCP publication | Server/tool schema, version, auth scopes, consumer scope, rate/quota, audit, publication state, and unpublish trigger. |
+| Runtime-control referral | Operation needs a per-call allow/deny/approval decision, runtime evidence, or in-process policy before use. |
 
-Useful lifecycle states distinguish at least **proposed**, **publish-ready**,
-**published**, **hold**, **suspended**, and **withdrawn**. The customer may use
-different labels if their meanings and transition authority are explicit.
+Do not reuse one generic checklist for every route.
 
-Suspension is a temporary restriction while the customer investigates,
-remediates, or decides. Withdrawal removes the candidate from intended discovery
-or use and keeps only the records the customer must retain. Both need a trigger,
-owner, communication path, verification reference, and reconsideration or closure
-decision.
+## Gateway policy intent is not runtime proof
 
-The S5 record documents these facts; the customer change process takes the action.
+APIM or AI Gateway policy families can express the intended publication
+boundary: caller authentication, backend authentication, quotas, token limits,
+content safety, prompt shields, blocklists, semantic cache, token metrics,
+diagnostics, backend resilience, fallback, circuit breaker, and retry.
+
+Those are admission-planning fields until the customer proves the configured
+route with its own runtime evidence. S5 records policy intent, policy owner,
+expected evidence reference, and runtime handoff. It does not paste live policy,
+configure APIM, or claim enforcement.
+
+## Consumer acceptance is required
+
+Tool risk depends on the consumer. The consuming agent or app owner must accept:
+
+- allowed operations and blocked operations;
+- over-scope request handling;
+- input and output contract assumptions;
+- failure, retry, fallback, and timeout behavior;
+- audit/correlation fields;
+- review cadence and material-change triggers.
+
+Without consumer acceptance, the same API may be technically valid but unsafe for
+the proposed use.
+
+## Withdrawability is an admission criterion
+
+Before a tool is admitted, the customer should know how to stop its use. A
+withdrawal-ready route names how to disable or remove publication, revoke
+permissions, remove allow-list entries, withdraw connector consent, unpublish
+MCP tools, rotate credentials, notify consumers, preserve audit or investigation
+references, and record closure.
+
+If withdrawal is not executable, admission should be deferred, rejected, routed,
+or blocked.
+
+## Versioning and material changes reopen admission
+
+A decision applies to a specific version and stated configuration boundary. A
+material change in schema, operation, data class, caller identity, auth scopes,
+gateway route, policy family, connector permission, MCP tool definition, rate or
+quota, telemetry, owner, consumer, or lifecycle state requires review.
+
+A version label alone is accepted only as an identifier. The owner records the
+assessment and disposition.
 
 ## Evidence-first keeps uncertainty visible
 
 Every material statement needs a customer-held reference, owner, or explicit
-unknown. "Nothing found" is useful only with the checked scope and expected
-signal.
-
-## Runtime enforcement is a shared concern
-
-Azure API Management or an AI Gateway policy can enforce part of an approved
-publication decision while a tool is invoked. Keep separate identity, data,
-observability, lifecycle, and in-process checks where they apply.
-
-Treat runtime enforcement as the connection between controls. S5 identifies the
-intended boundary and owner. Runtime assurance reviews bounded path evidence.
-Control-plane and operating-review records keep lifecycle and operating signals
-current.
-
-For an APIM-mediated route, S5 should record which policy families are expected:
-caller authentication, backend authentication, quotas, content-safety checks,
-blocklists, semantic cache, token metrics, diagnostics, and backend resilience.
-Those names are publication-planning fields, not proof that the policy ran.
-
-MCP server publication follows the same rule. A server can be registered,
-reviewed, published, suspended, or withdrawn, but each state needs a version,
-owner, allowed action boundary, consumer scope, and withdrawal trigger. The
-record should say whether the route is gateway-mediated, allow-listed, or
-requires an in-process decision before tool use.
+unknown. "Nothing found" is useful only with checked scope, time range,
+workload support, permissions, expected signal, and reviewer. The right result
+for a gap is not guessed safety; it is defer, route, reject, block, or backlog.
 
 ## Related official references
 
 See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
 for API Management AI Gateway, Azure Policy, Entra, and data-governance
-references that can inform a customer-owned publication and enforcement backlog.
+references that can inform a customer-owned admission, publication, and
+enforcement backlog.

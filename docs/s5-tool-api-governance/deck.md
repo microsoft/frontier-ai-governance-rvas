@@ -1,72 +1,186 @@
-# S5 · Tool & API Governance
+# S5 · Tool-Call Admission Workshop
 
 **Facilitator deck**
 
-Microsoft default: **Azure API Center, Azure API Management, Entra/JWT, access contracts, connector governance, and MCP publication controls**.
+Microsoft default: **Azure API Center, Azure API Management, Entra/JWT,
+managed identity or delegated OAuth, connector governance, allow-lists, and MCP
+publication controls**.
 
-Concrete decision: **Approve, defer, reject, or route the tool/API admission decision.**
-
----
-
-## Start with the Microsoft path
-
-- Default control path: Azure API Center, Azure API Management, Entra/JWT, access contracts, connector governance, and MCP publication controls.
-- Customer inspects: Inspect the API Center entry, API Management policy route, Entra/JWT contract, connector approval record, and MCP publication criteria.
-- Decision owner: API governance owner.
-
-Note:
-Open with the default platform path and the decision the customer must make.
+Concrete decision: **Can this bounded consumer call this bounded operation
+through an approved Microsoft control path, and can the customer withdraw it?**
 
 ---
 
-## Decide with platform records
+## The tool call is the governance unit
 
-- Approve when the Microsoft path fits and the acceptance test is clear.
-- Defer when a required record or owner is missing.
-- Reject when the use case cannot meet the control path.
-- Route when an exception owner must accept an equivalent control.
+- Do not approve "API access" in the abstract.
+- Trace one consumer, one route, one identity contract, one operation, one data
+  boundary, one audit path, and one withdrawal path.
+- The output is an admission package, not a publication or production approval.
 
 Note:
-Keep the discussion on records, owners, and acceptance tests.
+The practical question is not whether an API exists. It is what the consumer can
+cause and how the customer can stop it.
 
 ---
 
-## Acceptance test
+## Trace the call path
 
-The decision is ready when the record names:
+![S5 tool/API admission package: trace one consumer through identity, catalog/API Center, gateway or alternative route, operation boundary, audit/correlation, and withdrawal path before admitting the tool.](../assets/diagrams/s5-tool-api-governance-record-model.svg)
 
-- Microsoft control path
-- Owner
-- Evidence location
-- Accepted-when condition
-- Target date
-- Handoff: API platform team
+- Consumer agent/app/workflow.
+- Caller identity and auth flow.
+- Catalog/API Center record.
+- APIM/gateway, connector, MCP, allow-list, or runtime-control route.
+- Operation boundary, audit/correlation, consumer acceptance, withdrawal.
 
 Note:
-The acceptance test should be observable by the team that receives the handoff.
+Use this as the room map. Every decision should land somewhere on this trace.
 
 ---
 
-## Exception, if any
+## Classify operation risk
 
-An exception needs:
-
-- Reason and equivalent control
-- Owner and evidence location
-- Acceptance test and target date
-- Review trigger
+| Operation | What changes |
+|---|---|
+| Read-only | Data class, audit, quota, and withdrawal still matter. |
+| Write/update | Approval, rollback, idempotency, and over-scope handling matter. |
+| Admin/destructive | Usually block, route to exception, or require high-authority review. |
+| External side effect | Target boundary, notification, compensation, and incident route matter. |
+| Bulk/export | Data owner, minimization, DLP/privacy, retention, and quota matter. |
+| Dynamic tool chaining | Runtime or in-process control and stricter change triggers matter. |
 
 Note:
-Use an exception for a documented equivalent control with an owner and review trigger.
+If operation authority is unknown, do not proceed to product selection.
 
 ---
 
-## Close the session
+## Compare admission routes
 
-- Decision: approve, defer, reject, or route.
-- Decision owner: API governance owner.
-- Handoff: API platform team.
-- Boundary: customer data stays in approved systems; production changes use customer change approval.
+| Route | Fits when |
+|---|---|
+| API Center/APIM | Shared or exposed API needs catalog, gateway, identity, quota, diagnostics, and lifecycle. |
+| Allow-list | Narrow pilot tool with owner, version, consumer, expiry, and revocation. |
+| Connector governance | Platform/SaaS connector needs permission, consent, DLP, environment, and withdrawal owner. |
+| MCP publication | Server/tool schema, auth, version, rate/quota, audit, consumers, and unpublish path are reviewable. |
+| Runtime-control referral | Per-call allow/deny/approval or runtime proof is needed before use. |
+| Reject/block/withdraw | Authority is unsafe, owner is missing, audit is absent, or withdrawal is not executable. |
 
 Note:
-End with the decision record and the named handoff.
+Record rejected alternatives. Otherwise the "route" is just a preference.
+
+---
+
+## The control-path package
+
+The package must name:
+
+- catalog/API Center entry and lifecycle state;
+- APIM product/API/backend/policy route or exception;
+- Entra app, managed identity, delegated/OBO path, JWT audience, scopes, consent,
+  and credential owner;
+- connector/MCP/allow-list record where applicable;
+- rate/quota/cost/abuse controls;
+- audit, diagnostics, correlation field, and retention/export expectation;
+- consumer acceptance and material-change triggers;
+- withdrawal path and closure owner.
+
+Note:
+No raw endpoints, live policy, secrets, payloads, telemetry exports, or customer
+evidence go in this repository.
+
+---
+
+## APIM AI Gateway policy intent
+
+Policy names are checklist anchors, not proof:
+
+- `validate-jwt` for caller authentication.
+- backend auth through managed identity, credential manager, or approved route.
+- `rate-limit`, `quota`, and `llm-token-limit` for throttling and token budget.
+- `llm-content-safety`, Prompt Shields, and blocklists for gateway safety intent.
+- `llm-semantic-cache-lookup` only when data class and retention allow it.
+- `llm-emit-token-metric`, diagnostics, and correlation for operating review.
+- backend pool, retry, circuit breaker, overflow, and fallback for resilience.
+
+Note:
+S5 records policy intent and owner. Runtime assurance proves what actually ran.
+
+---
+
+## Identity and least privilege
+
+- Caller identity: Entra app, managed identity, OBO/delegated flow, service
+  principal, or approved equivalent.
+- Authority: scopes, roles, RBAC, data/resource boundary, allowed operations,
+  prohibited operations, exception route.
+- Revocation: consent withdrawal, scope/RBAC removal, credential rotation,
+  managed identity disablement, consumer notification.
+
+Note:
+Identity without bounded authority is incomplete. Authority without revocation is
+not admissible.
+
+---
+
+## Quota, cost, abuse, telemetry
+
+- Choose the counter key: subscription, team, application, user/session, agent
+  identity, or custom header.
+- Name quota owner, cost owner, abuse owner, exception owner, and review cadence.
+- Name join fields for request, agent/app, consumer, user/session, environment,
+  owner, API, tool call, and model/token usage where relevant.
+
+Note:
+If the customer cannot join call activity to owner and consumer, later operating
+review becomes guesswork.
+
+---
+
+## Consumer acceptance
+
+The consuming owner accepts:
+
+- allowed and blocked operations;
+- input/output contract and over-scope handling;
+- timeout, retry, idempotency, fallback, and manual route;
+- audit/correlation fields;
+- material-change triggers and review cadence.
+
+Note:
+The same API can be safe for one consumer and unsafe for another.
+
+---
+
+## Withdrawal-first design
+
+Before admission, record how to:
+
+- disable API/gateway route, connector, MCP tool, or allow-list entry;
+- remove permission, consent, RBAC, scope, or credential;
+- rotate secrets/certificates;
+- notify consumers and release owners;
+- preserve audit/investigation references;
+- verify withdrawal and record closure or reconsideration.
+
+Note:
+If it cannot be withdrawn, it should not be admitted.
+
+---
+
+## Decision artifact and handoff
+
+Decision options:
+
+- approve admission into the customer change process;
+- defer with owner, accepted-when condition, and target date;
+- reject unsafe tool;
+- route to platform, identity, connector/MCP, runtime, evaluation, data/privacy,
+  catalog, release, or exception owner;
+- withdraw existing route;
+- block until consumer, owner, scope, audit, or revocation becomes clear.
+
+Note:
+Close with the package and backlog, not a meeting summary. S5 changes no tenant
+policy, grants no permission, configures no gateway, proves no runtime control,
+and approves no production use.
