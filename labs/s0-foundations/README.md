@@ -44,7 +44,7 @@ By the end of the lab, the customer has a customer-owned decision record that su
 5. Ask: **Which forum owns this foundation decision, what baseline is it mapped to, and who accepts the next action?**
 6. Classify the route: no owner/forum, split ownership, missing baseline, unclear exception path, missing acceptance criteria, or complete handoff.
 7. Record one result in the customer system: approve, defer, reject, route, or blocked.
-8. Create a foundation backlog item for each missing owner/forum, split-ownership issue, missing baseline, unclear exception path, missing acceptance test, missing record location, or S13 re-baseline trigger.
+8. Create a foundation backlog item for each missing owner/forum, split-ownership issue, missing baseline, unclear exception path, missing acceptance test, missing record location, or S12 re-baseline trigger.
 9. Handoff the decision record and backlog references to the receiving owner. Keep final evidence only in the customer-approved records system.
 
 ## Decision criteria
@@ -64,11 +64,11 @@ By the end of the lab, the customer has a customer-owned decision record that su
 | Missing baseline | Defer | Map Microsoft/customer baseline, scope, exclusions, evidence location, owner, and target date. |
 | Exception path unclear | Route | Name risk/governance forum, residual-risk owner, equivalent control, review cadence, and stop condition. |
 | Backlog lacks acceptance | Defer | Add gap owner, accepted-when check, evidence reference, target date, and receiving process. |
-| S13 indicates roadmap, risk, value, capacity, or cost change | Route to re-baseline | Record S13 decision reference, S0 baseline owner, trigger, target date, and forum. |
+| S12 indicates roadmap, risk, value, capacity, or cost change | Route to re-baseline | Record S12 decision reference, S0 baseline owner, trigger, target date, and forum. |
 
 ## Session-specific considerations
 
-When completing the shared decision record, capture the technical decision record reference that supports the selected operating model, baseline framework, accountable owner, receiving governance process, exception path, and S13 re-baseline trigger.
+When completing the shared decision record, capture the technical decision record reference that supports the selected operating model, baseline framework, accountable owner, receiving governance process, exception path, and S12 re-baseline trigger.
 
 ## Handoff
 

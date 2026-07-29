@@ -16,7 +16,7 @@ Default to a customer AI governance forum anchored in Microsoft Cloud Adoption F
 
 | Decision | Microsoft default | Choose an exception only when |
 |---|---|---|
-| Operating model | CAF/AI Center of Excellence-aligned forum plus domain owners | A regulated internal forum is already authoritative and can carry S0-S13 fields |
+| Operating model | CAF/AI Center of Excellence-aligned forum plus domain owners | A regulated internal forum is already authoritative and can carry S0-S12 fields |
 | Baseline framework | CAF for AI + Well-Architected AI, mapped to NIST AI RMF or ISO/IEC 42001 as needed | Legal/compliance requires a different primary framework |
 | Record location | Customer governance/control register with links to Purview, Foundry, API Center, or Azure work items | No approved register exists; use a temporary owned document with a migration trigger |
 

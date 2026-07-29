@@ -151,7 +151,7 @@ use.
   diagnostics, SOC route, and retention boundaries.
 - [Evaluation technical decisions](../s7-evaluation/technical.md): downstream
   release-assurance inputs.
-- [Operating and measurement decisions](../s11-operate-measure/technical.md):
+- [Operating and measurement decisions](../s10-operate-measure/technical.md):
   operating telemetry and alerting.
 - [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md).
 - [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md).

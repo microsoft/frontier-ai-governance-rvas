@@ -4,12 +4,12 @@
     Last reviewed: 2026-07-17. Verify capability, service availability, region,
     quota, and pricing before delivery.
 
-Use this guide with S4, S7, and S11 to turn agent-performance questions, first-response speed, load behaviour, and production drift, into customer-owned records. It does not run a load test, query live telemetry, set an SLO, or authorize a production change.
+Use this guide with S4, S7, and S10 to turn agent-performance questions, first-response speed, load behaviour, and production drift, into customer-owned records. It does not run a load test, query live telemetry, set an SLO, or authorize a production change.
 
 Use **two complementary evidence sources**:
 
 1. **Pre-production synthetic load** (S7): a bounded test-environment workload under controlled concurrency before release.
-2. **Production telemetry** (S11): OpenTelemetry, Application Insights, or Foundry traces on real traffic, reconciled with the synthetic baseline.
+2. **Production telemetry** (S10): OpenTelemetry, Application Insights, or Foundry traces on real traffic, reconciled with the synthetic baseline.
 
 A synthetic benchmark is not a production SLO, and a production sample is not a controlled experiment. Record each source's population and attribution limits.
 
@@ -39,7 +39,7 @@ Synthetic load answers whether an interaction holds its first-token and end-to-e
 - **Environment fidelity.** Record test-to-production parity: model deployment, quota and PTU ceiling, data residency, and whether downstream tools and retrieval are live or stubbed. Shared model deployments can throttle unrelated workloads, so record run quota and cost.
 - **Interpretation.** The customer owns the baseline, regression owner, and release-decision use. A passed load run is assurance evidence, not production sign-off.
 
-## Production measurement (S11)
+## Production measurement (S10)
 
 Production telemetry asks whether real traffic meets its recorded expectation and is drifting, using customer instrumentation.
 
@@ -60,7 +60,7 @@ Production telemetry asks whether real traffic meets its recorded expectation an
   interaction target and component attribution this guide measures against.
 - [S7 evaluation and release assurance](../s7-evaluation/index.md) hosts the
   synthetic load-test plan as pre-release assurance evidence.
-- [S11 operate, monitor, and FinOps](../s11-operate-measure/index.md) hosts the
+- [S10 operate, monitor, and FinOps](../s10-operate-measure/index.md) hosts the
   production performance-telemetry review and drift handling.
 - [Quality, cost, latency, and rollout governance](quality-cost-latency-guide.md)
   places latency alongside quality, model selection, cost, and rollout.

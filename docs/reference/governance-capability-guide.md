@@ -16,10 +16,9 @@ Map each AI Governance session to Microsoft capabilities with this guide. Before
 | Evaluation & release assurance · S7 | Microsoft Foundry evaluations, agent evaluators, cloud evaluation, tracing, continuous evaluation where applicable, and CI/CD integration | Customer-owned evaluation-plan review, threshold governance, scorecard interpretation, and release decision. | Individual evaluator status; use a GA evaluator or manual review for a production decision. |
 | Adversarial testing · S8 | PyRIT and the AI Red Teaming Agent | Authorized test scope, findings, and remediation evidence. | Supported Foundry target, Azure tool path, region, and approved target. |
 | Control plane & lifecycle · S9 | Microsoft Agent 365, Entra Agent ID, API Center, platform telemetry | Reconcile agent, tool, identity, ownership, and lifecycle records. | Agent 365 licensing and connector status. |
-| In-process governance · S10 | Agent Governance Toolkit (AGT) | Offline example of application-process tool-call policy and audit evidence; adoption decision only. | Applicability, release status, and architecture fit. |
-| Operate, monitor & FinOps · S11 | Customer-held operational, security, quality, and cost evidence; Azure Monitor / Application Insights; Foundry observability; Azure Cost Management and FinOps Toolkit where used | Operating review, quality/latency/cost drift, cost accountability, and remediation cadence. | Evidence coverage, attribution limits, and owner availability. |
-| LLM operations · S12 | Customer-held model, prompt, change, incident, and lifecycle records; Microsoft Foundry model and deployment context where used | Provider-neutral model and prompt lifecycle decisions, material-change routes, operational ownership, and deprecation/retirement backlog. | Provider capability, model availability, region, quota, licensing, contract, and customer-change-process fit. |
-| Portfolio governance · S13 | Customer-held governance, risk, supplier, lifecycle, and portfolio records | Portfolio decision, exception review, supplier-governance gaps, decommissioning backlog, and next roadmap. | Decision authority and records availability. |
+| Operate, monitor & FinOps · S10 | Customer-held operational, security, quality, and cost evidence; Azure Monitor / Application Insights; Foundry observability; Azure Cost Management and FinOps Toolkit where used | Operating review, quality/latency/cost drift, cost accountability, and remediation cadence. | Evidence coverage, attribution limits, and owner availability. |
+| LLM operations · S11 | Customer-held model, prompt, change, incident, and lifecycle records; Microsoft Foundry model and deployment context where used | Provider-neutral model and prompt lifecycle decisions, material-change routes, operational ownership, and deprecation/retirement backlog. | Provider capability, model availability, region, quota, licensing, contract, and customer-change-process fit. |
+| Portfolio governance · S12 | Customer-held governance, risk, supplier, lifecycle, and portfolio records | Portfolio decision, exception review, supplier-governance gaps, decommissioning backlog, and next roadmap. | Decision authority and records availability. |
 
 ## Implementation pathway taxonomy
 
@@ -83,7 +82,6 @@ Supplier governance is an optional or future gap unless the customer already has
 - Microsoft 365 Copilot declarative agents are configured through instructions, knowledge, actions, capabilities, and app metadata. Confirm the selected authoring tool, admin distribution route, and tenant controls before delivery.
 - PyRIT is open source. Before selecting the AI Red Teaming Agent, confirm that the target is a supported Foundry workload, its tools are supported, and the region supports the required cloud run. Use PyRIT or manual testing where it does not fit.
 - Foundry Citadel Platform is a reference architecture. AI Hub Gateway and Azure AI Landing Zones are accelerators with their own deployment guidance.
-- AGT is open source and Public Preview at the pinned curriculum revision. Its audit records governance attempts and decisions, not downstream action outcomes. It does not provide data provenance, an SBOM, or a ready-made human-approval UI. It is an applicability-based S10 topic, not a required customer control.[^agt]
 
 ## Framework alignment
 
@@ -101,10 +99,9 @@ The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC
 | S7 | Measure, Manage | Validation and operations | Art. 9, 12, 15, 72 |
 | S8 | Govern, Measure, Manage | Roles, lifecycle, operations | Art. 9, 12, 15 |
 | S9 | Govern, Map, Manage | Policies, roles, operations | Art. 12, 72 |
-| S10 | Govern, Measure, Manage | Operational controls and evidence | Art. 9, 12, 15 |
-| S11 | Govern, Measure, Manage | Monitoring, measurement, and improvement | Art. 12, 15, 72 |
-| S12 | Govern, Map, Measure, Manage | Operational planning and lifecycle change | Art. 9, 12, 15 |
-| S13 | Govern, Map, Measure, Manage | Leadership, performance, and improvement | Art. 9, 17, 72 |
+| S10 | Govern, Measure, Manage | Monitoring, measurement, and improvement | Art. 12, 15, 72 |
+| S11 | Govern, Map, Measure, Manage | Operational planning and lifecycle change | Art. 9, 12, 15 |
+| S12 | Govern, Map, Measure, Manage | Leadership, performance, and improvement | Art. 9, 17, 72 |
 
 ## Sources
 
@@ -135,7 +132,3 @@ The curriculum produces practical evidence that may support NIST AI RMF, ISO/IEC
 - [PyRIT](https://github.com/microsoft/PyRIT)
 - [FinOps documentation](https://learn.microsoft.com/en-us/cloud-computing/finops/)
 - [FinOps Toolkit](https://microsoft.github.io/finops-toolkit/)
-- [AGT README at pinned commit `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/README.md)
-- [AGT known limitations at pinned commit `b680c49`](https://github.com/microsoft/agent-governance-toolkit/blob/b680c49cc956727c5249771ddba7ee21a635a676/docs/LIMITATIONS.md)
-
-[^agt]: The AGT source describes Public Preview releases and documents these limitations at the pinned commit. Verify product status and fit before customer delivery.

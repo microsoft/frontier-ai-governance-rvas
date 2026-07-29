@@ -1,6 +1,6 @@
 # How to Deliver
 
-This facilitator playbook for the S0-S13 curriculum complements [Plan the engagement](start/plan-engagement.md), the session guides, and the customer's change process. The facilitator protects scope, evidence boundaries, and decision language; customer administrators perform privileged actions, while customer owners approve changes and accept risk.
+This facilitator playbook for the S0-S12 curriculum complements [Plan the engagement](start/plan-engagement.md), the session guides, and the customer's change process. The facilitator protects scope, evidence boundaries, and decision language; customer administrators perform privileged actions, while customer owners approve changes and accept risk.
 
 ## Delivery outcome
 
@@ -10,8 +10,8 @@ At close, the customer should have:
 - customer-owned evidence and a control state for each in-scope session;
 - an owner and decision for each prerequisite, exception, and remediation item;
 - an S9 reconciliation and lifecycle-stewardship record;
-- an S11 operating-review cadence; and
-- an S13 portfolio decision and next maturity roadmap.
+- an S10 operating-review cadence; and
+- an S12 portfolio decision and next maturity roadmap.
 
 Templates, samples, and offline tool output aid preparation; they do not prove that a customer control is deployed or operating.
 
@@ -30,9 +30,9 @@ The curriculum is flexible, but the dependencies are not optional.
 | Govern | S0-S2 | Baseline the operating model, identity and authority, and data posture. |
 | Establish | S3-S5 | Define the platform path, agent admission, and tool/API exposure controls. |
 | Assure | S6-S8 | Review runtime security, evaluation and release evidence, and approved adversarial testing. |
-| Operate | S9-S13 | Reconcile the control plane, assess in-process governance where it applies, operate with evidence, and make portfolio decisions. |
+| Operate | S9-S12 | Reconcile the control plane, operate with evidence, and make portfolio decisions. |
 
-The S0 roadmap may reorder sessions within a phase, not waive dependencies. S10 runs only where an in-process tool-call boundary exists; S13 feeds the next S0 baseline.
+The S0 roadmap may reorder sessions within a phase, not waive dependencies. S12 feeds the next S0 baseline.
 
 ## Suggested cadence
 
@@ -41,7 +41,7 @@ Plan for eight to twelve weeks. The exact length depends on architecture readine
 1. **Mobilize and govern:** run S0-S2; set up the evidence register and decision owners.
 2. **Establish the enterprise path:** run S3-S5; send platform, engineering, and publication gaps to the customer's implementation process.
 3. **Assure safely:** run S6-S8 only when the customer provides the non-production target, reviewers, and authorization.
-4. **Operate and improve:** run S9-S13; reconcile evidence, set the operating cadence, and agree portfolio priorities.
+4. **Operate and improve:** run S9-S12; reconcile evidence, set the operating cadence, and agree portfolio priorities.
 
 Customer implementation and observation can run alongside governance delivery; do not squeeze an observation period into a workshop.
 
@@ -95,4 +95,4 @@ Raise maturity only when customer evidence shows an operating control. A referen
 
 ## Close the cycle
 
-At S13, the customer records system references the S0 baseline, selected-session evidence, S9 reconciliation, S11 review, open exceptions, remediation validation, and portfolio decision. The executive sponsor accepts the prioritized roadmap and next review date.
+At S12, the customer records system references the S0 baseline, selected-session evidence, S9 reconciliation, S10 review, open exceptions, remediation validation, and portfolio decision. The executive sponsor accepts the prioritized roadmap and next review date.

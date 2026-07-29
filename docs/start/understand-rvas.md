@@ -1,6 +1,6 @@
 # About AI Governance Platform
 
-AI Governance Platform is a co-delivered S0-S13 curriculum for deciding agent ownership, applicable Microsoft controls, and retained customer evidence. The facilitator runs the method; customer administrators perform privileged actions, and customer owners make decisions and accept risk.
+AI Governance Platform is a co-delivered S0-S12 curriculum for deciding agent ownership, applicable Microsoft controls, and retained customer evidence. The facilitator runs the method; customer administrators perform privileged actions, and customer owners make decisions and accept risk.
 
 The curriculum identifies the next platform, security, engineering, or operating
 action; the customer carries it out through its existing processes. See [What
@@ -30,9 +30,9 @@ The programme is one curriculum. S0 sets scope, baseline, and delivery order. Th
 | Govern | Set the accountable foundation. | S0-S2 |
 | Establish | Define the platform path and engineering controls. | S3-S5 |
 | Assure | Review runtime security, quality, and release readiness. | S6-S8 |
-| Operate | Reconcile records, run operating reviews, govern LLM operations, and improve the portfolio. | S9-S13 |
+| Operate | Reconcile records, run operating reviews, govern LLM operations, and improve the portfolio. | S9-S12 |
 
-## S0-S13 outcome map
+## S0-S12 outcome map
 
 | Session | Customer question | Decision and retained outcome |
 |---|---|---|
@@ -46,10 +46,9 @@ The programme is one curriculum. S0 sets scope, baseline, and delivery order. Th
 | S7 · Evaluation | Is quality and safety evidence strong enough to proceed? | Evaluation and release decision. |
 | S8 · Adversarial testing | What happens under approved misuse testing? | Findings, remediation, and residual-risk decision. |
 | S9 · Control plane | Do agent, identity, tool, and lifecycle records match? | Reconciliation and stewardship backlog. |
-| S10 · In-process governance | Does this workload need an in-process tool-call policy check? | Applicability and adoption decision. |
-| S11 · Operate | What do operational evidence and trends require next? | Operating review, FinOps, drift, and remediation cadence. |
-| S12 · LLM operations | How are approved models and prompts versioned, changed, and retired? | Model and prompt operating-model decision and lifecycle backlog. |
-| S13 · Portfolio | Which portfolio decisions improve governance next? | Portfolio review and next maturity roadmap. |
+| S10 · Operate | What do operational evidence and trends require next? | Operating review, FinOps, drift, and remediation cadence. |
+| S11 · LLM operations | How are approved models and prompts versioned, changed, and retired? | Model and prompt operating-model decision and lifecycle backlog. |
+| S12 · Portfolio | Which portfolio decisions improve governance next? | Portfolio review and next maturity roadmap. |
 
 ## Evidence and change boundary
 

@@ -46,7 +46,7 @@ A maturity score describes how repeatable a capability is today. The S0 assessme
 
 The discussion behind the score matters more than the number. A low score can show a missing owner, missing evidence, or an untested control. A high score should have proof behind it.
 
-S13 repeats the same assessment later. The customer compares the current state with the baseline and assigns the remaining gaps.
+S12 repeats the same assessment later. The customer compares the current state with the baseline and assigns the remaining gaps.
 
 The baseline prioritizes the next session; it is not an audit verdict.
 

@@ -4,7 +4,7 @@
     Last reviewed: 2026-07-17. Verify capability, model, region, pricing, and
     availability before delivery.
 
-Use this guide with S4, S7, and S11 to turn quality, model, latency, cost, and rollout questions into customer-owned records. It does not select a model, run an evaluation, set an SLO, approve spend, authorize a production change, or store customer evidence.
+Use this guide with S4, S7, and S10 to turn quality, model, latency, cost, and rollout questions into customer-owned records. It does not select a model, run an evaluation, set an SLO, approve spend, authorize a production change, or store customer evidence.
 
 ## Model selection and fine-tuning
 

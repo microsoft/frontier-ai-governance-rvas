@@ -1,6 +1,6 @@
 # Microsoft platform governance playbook
 
-Use this playbook to keep every S0-S13 module practical. A module should start
+Use this playbook to keep every S0-S12 module practical. A module should start
 with the Microsoft platform path, not with abstract governance language.
 
 ## The module shape
@@ -37,10 +37,9 @@ Use this structure in session pages, decks, runbooks, and templates.
 | S7 | Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing where applicable. |
 | S8 | AI Red Teaming Agent, PyRIT, Azure AI Content Safety, Defender, and SOC remediation routes. |
 | S9 | Microsoft Agent 365, Microsoft Entra Agent ID, Azure API Center, and platform telemetry. |
-| S10 | Agent Governance Toolkit only when gateway controls cannot make the needed in-process decision. |
-| S11 | Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit. |
-| S12 | Microsoft LLMOps lifecycle: data curation, experimentation, evaluation, validate/deploy, inference, monitor, and feedback/data collection. |
-| S13 | Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the baseline re-measurement. |
+| S10 | Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit. |
+| S11 | Microsoft LLMOps lifecycle: data curation, experimentation, evaluation, validate/deploy, inference, monitor, and feedback/data collection. |
+| S12 | Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the baseline re-measurement. |
 
 ## Editing rules
 

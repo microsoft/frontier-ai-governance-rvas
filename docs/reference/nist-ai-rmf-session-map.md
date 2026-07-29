@@ -1,9 +1,9 @@
 # NIST AI RMF session map
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-27 · This page maps the S0-S13 curriculum to the NIST AI Risk Management Framework functions for delivery planning. It is contextual guidance, not customer evidence, certification, legal advice, or a conformity assessment.
+    Last reviewed: 2026-07-27 · This page maps the S0-S12 curriculum to the NIST AI Risk Management Framework functions for delivery planning. It is contextual guidance, not customer evidence, certification, legal advice, or a conformity assessment.
 
-Use this map when a customer starts from the NIST AI RMF nomenclature instead of the S0-S13 sequence. It shows which working sessions can help frame, inspect, measure, or route a customer-owned governance decision.
+Use this map when a customer starts from the NIST AI RMF nomenclature instead of the S0-S12 sequence. It shows which working sessions can help frame, inspect, measure, or route a customer-owned governance decision.
 
 The mapping is based on the session outcomes and handoffs in this curriculum:
 
@@ -26,10 +26,9 @@ The mapping is based on the session outcomes and handoffs in this curriculum:
 | [S7 · Evaluation Evidence & Release Readiness](../s7-evaluation/index.md) |  |  | ✓ | ✓ |
 | [S8 · Authorized Red Teaming & Retest](../s8-red-teaming/index.md) | ✓ |  | ✓ | ✓ |
 | [S9 · Control-Plane Reconciliation & Lifecycle](../s9-control-plane/index.md) | ✓ | ✓ |  | ✓ |
-| [S10 · In-Process Tool-Call Controls](../s10-in-process-governance/index.md) | ✓ |  | ✓ | ✓ |
-| [S11 · Operating Evidence & FinOps](../s11-operate-measure/index.md) | ✓ |  | ✓ | ✓ |
-| [S12 · LLMOps Change Control](../s12-llm-operations/index.md) | ✓ | ✓ | ✓ | ✓ |
-| [S13 · Portfolio Evidence & Roadmap](../s13-portfolio-governance/index.md) | ✓ | ✓ | ✓ | ✓ |
+| [S10 · Operating Evidence & FinOps](../s10-operate-measure/index.md) | ✓ |  | ✓ | ✓ |
+| [S11 · LLMOps Change Control](../s11-llm-operations/index.md) | ✓ | ✓ | ✓ | ✓ |
+| [S12 · Portfolio Evidence & Roadmap](../s12-portfolio-governance/index.md) | ✓ | ✓ | ✓ | ✓ |
 
 ## How to use this map
 
@@ -37,9 +36,9 @@ Start with the function the customer is asking about, then pick the smallest ses
 
 | If the customer asks... | Start with... | Then check... |
 |---|---|---|
-| Who owns AI-agent decisions and exceptions? | S0, S1, S9, S13 | Whether S11 needs an operating cadence. |
-| What systems, data, tools, and lifecycle records are in scope? | S1, S2, S3, S5, S9, S12 | Whether S13 needs a portfolio-level view. |
-| How do we evaluate safety, quality, runtime behavior, or cost? | S4, S6, S7, S8, S10, S11, S12 | Whether S4 or S7 owns release thresholds. |
-| How do findings become action? | S2, S3, S5, S6, S7, S8, S9, S10, S11, S12, S13 | Whether the customer has an approved change, risk, or backlog route. |
+| Who owns AI-agent decisions and exceptions? | S0, S1, S9, S12 | Whether S10 needs an operating cadence. |
+| What systems, data, tools, and lifecycle records are in scope? | S1, S2, S3, S5, S9, S11 | Whether S12 needs a portfolio-level view. |
+| How do we evaluate safety, quality, runtime behavior, or cost? | S4, S6, S7, S8, S10, S11 | Whether S4 or S7 owns release thresholds. |
+| How do findings become action? | S2, S3, S5, S6, S7, S8, S9, S10, S11, S12 | Whether the customer has an approved change, risk, or backlog route. |
 
 This page does not prove that a customer control is deployed or operating. Completed session artifacts should stay in the customer-approved records system with scope, owner, limitations, review date, and decision route.

@@ -11,7 +11,7 @@ The customer leaves with a scored maturity baseline and prioritized governance r
 
 They leave with:
 
-- A customer-owned **AI-agent governance maturity baseline** across 13 S0-S13 domains on a 1-4 scale.
+- A customer-owned **AI-agent governance maturity baseline** across 13 S0-S12 domains on a 1-4 scale.
 - A prioritized roadmap that shows which governance gap to close first.
 - A named governance lead, executive sponsor, and decision owner for follow-on work.
 - References to the baseline and roadmap decision in the customer's approved records system or generated delivery workspace.

@@ -163,6 +163,6 @@ S9 records and reconciles control-plane state. Customer stewards implement catal
 ## Related references
 
 - [S9 Concepts](concepts.md): registry accountability, join keys, lifecycle trail, reconciliation, and closeout accountability.
-- [Identity technical decisions](../s1-identity/technical.md), [tool/API governance technical decisions](../s5-tool-api-governance/technical.md), and [operate/measure technical decisions](../s11-operate-measure/technical.md).
+- [Identity technical decisions](../s1-identity/technical.md), [tool/API governance technical decisions](../s5-tool-api-governance/technical.md), and [operate/measure technical decisions](../s10-operate-measure/technical.md).
 - [Governance capability guide](../reference/governance-capability-guide.md).
 - [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md).

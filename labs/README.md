@@ -4,7 +4,7 @@ Each session lab under `labs/s*/` is now a single-file work package:
 
 - `README.md` is the session entry point and facilitation guide.
 - `templates/decision-record.template.md` is the shared required customer-facing record. Copy it into the customer's approved records system and complete it there.
-- S1 and S12 include small addendum templates for identity review and model lifecycle details.
+- S1 and S11 include small addendum templates for identity review and model lifecycle details.
 
 Shared helpers under `labs/helpers/` support offline illustration or reusable checks. They do not deploy services, change a tenant, or make a customer decision.
 
@@ -23,8 +23,6 @@ Shared helpers under `labs/helpers/` support offline illustration or reusable ch
 | `helpers/control-plane-reconciliation/data/agent-registry.sample.json` | Sample S9 catalog input for the reconciliation helper. | Nothing for sample use. | Nothing by itself. | Yes. Sample data only. |
 | `helpers/control-plane-reconciliation/data/s1-agent-inventory.sample.json` | Sample S1 identity-inventory input for the reconciliation helper. | Nothing for sample use. | Nothing by itself. | Yes. Sample data only. |
 | `helpers/control-plane-reconciliation/policies/lifecycle-states.json` | Lifecycle-state transition policy for the reconciliation helper. | Nothing for sample use. | Nothing by itself. | Yes. Sample policy only. |
-| `helpers/in-process-policy-demo/pipelines/run_mock.py` | Demonstrates allow, deny, and approval-required decisions using an offline sample policy and verifies the example hash chain. | Nothing for the default example; an existing evidence JSON for `--verify`. | `helpers/in-process-policy-demo/evidence/policy-decision-audit.json` for the illustration. | Yes. Offline illustration only; it does not run AGT or customer code. |
-| `helpers/in-process-policy-demo/policies/demo-policy.json` | Sample deny-by-default policy for the S10 offline illustration. | Nothing for sample use. | Nothing by itself. | Yes. Sample policy only. |
 
 ## Commands you can run locally
 
@@ -40,10 +38,6 @@ python labs/helpers/maturity-assessment/compare.py baseline.csv exit.csv --targe
 # Reconcile the supplied S9 samples
 python labs/helpers/control-plane-reconciliation/scripts/reconcile-registry.py
 
-# Run and verify the S10 offline illustration
-python labs/helpers/in-process-policy-demo/pipelines/run_mock.py
-python labs/helpers/in-process-policy-demo/pipelines/run_mock.py \
-  --verify labs/helpers/in-process-policy-demo/evidence/policy-decision-audit.json
 ```
 
 ## How to read outputs

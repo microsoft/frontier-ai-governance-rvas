@@ -216,7 +216,7 @@ release authority makes any production decision.
   performance assurance, and release-readiness limits.
 - [Runtime security decisions](../s6-security-runtime/technical.md): runtime
   evidence prerequisite.
-- [Operating and measurement decisions](../s11-operate-measure/technical.md):
+- [Operating and measurement decisions](../s10-operate-measure/technical.md):
   production telemetry reconciliation.
 - [Quality, cost, latency & rollout guide](../reference/quality-cost-latency-guide.md).
 - [Performance-testing guide](../reference/performance-testing-guide.md).

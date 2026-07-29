@@ -215,7 +215,7 @@ use.
 
 - [S5 Concepts](concepts.md): tool-call boundary, admission package, consumer
   acceptance, and withdrawal-first design.
-- [In-process governance technical decisions](../s10-in-process-governance/technical.md):
+- Runtime-control implementation should have a named policy owner, evidence route, and enforcement boundary before use.
   per-call policy boundary.
 - [Platform technical guide](../reference/platform-technical-guide.md).
 - [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md).

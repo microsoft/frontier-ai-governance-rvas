@@ -1,6 +1,6 @@
 # Evidence and decision register
 
-The governance lead owns the customer copy; the facilitator keeps it current through S13. Store links and identifiers rather than sensitive exports in meeting notes.
+The governance lead owns the customer copy; the facilitator keeps it current through S12. Store links and identifiers rather than sensitive exports in meeting notes.
 
 ## Evidence boundary
 
@@ -25,7 +25,7 @@ Use one row per control, prerequisite, finding, or exception.
 
 ## Minimum close record
 
-Before S13 closes, confirm that the register points to:
+Before S12 closes, confirm that the register points to:
 
 - foundation baseline scorecard, roadmap, operating model, and RACI;
 - available identity, data, platform, engineering, tool/API, runtime,

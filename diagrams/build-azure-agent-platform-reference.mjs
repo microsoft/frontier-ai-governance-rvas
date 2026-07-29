@@ -3,7 +3,7 @@ import { C, rect, text, node, connect, arrow, write } from "./lib.mjs";
 
 const els = [];
 els.push(text(40, 24, 1500, "Azure agent platform reference pattern", C.found, { size: 26, align: "left" }));
-els.push(text(40, 60, 1500, "A planning view for S3, S5, S6, and S11. It names reviewable planes and evidence routes; it is not proof of a deployed topology.", C.neutral, { size: 14, align: "left" }));
+els.push(text(40, 60, 1500, "A planning view for S3, S5, S6, and S10. It names reviewable planes and evidence routes; it is not proof of a deployed topology.", C.neutral, { size: 14, align: "left" }));
 
 els.push(rect(40, 108, 1320, 92, { bg: "#eef2ff", st: C.identity.st, tx: C.identity.tx }, { strokeStyle: "dashed", roundness: { type: 3 } }));
 els.push(text(58, 122, 1280, "Identity plane: user identity · host workload identity · agent identity · delegated authority · resource authorization", C.identity, { size: 16, align: "left" }));

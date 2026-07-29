@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare an S0 baseline scorecard against an S13 exit scorecard.
+"""Compare an S0 baseline scorecard against an S12 exit scorecard.
 
 Computes per-domain and overall maturity lift and prints a residual-gap backlog
 (domains still below a target maturity at exit). Reuses the loader and domain

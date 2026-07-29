@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Auto-scorer for the S0-S13 AI maturity assessment.
+"""Auto-scorer for the S0-S12 AI maturity assessment.
 
 Reads a scorecard CSV (see scorecard.csv) where each row has a 1-4 ``score``
 and a ``weight``. Prints per-domain weighted maturity, overall maturity, and a
@@ -34,9 +34,9 @@ DOMAIN_TO_SESSION = {
     "D7": "S7 Evaluation / release",
     "D8": "S8 Adversarial testing",
     "D9": "S9 Control plane / lifecycle",
-    "D10": "S10 In-process governance",
-    "D11": "S11 Operate / monitor / FinOps",
-    "D12": "S13 Portfolio governance",
+    "D10": "S10 Operate / monitor / FinOps",
+    "D11": "S11 LLM operations",
+    "D12": "S12 Portfolio governance",
 }
 
 

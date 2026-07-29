@@ -16,7 +16,7 @@ The [Foundry Citadel Platform](https://github.com/Azure-Samples/foundry-citadel-
 ## Azure agent platform reference pattern
 
 An Azure agent platform commonly separates the route into six reviewable planes.
-The pattern helps S3, S5, S6, and S11 ask the right evidence questions; it is
+The pattern helps S3, S5, S6, and S10 ask the right evidence questions; it is
 not a deployable topology and does not prove that a customer environment is
 configured this way.
 
@@ -42,7 +42,7 @@ For operations, the same platform profile should say how a reviewer connects the
 gateway request, orchestration trace, execution-host dependency call, data/tool
 record, safety event, token metric, and cost view. If telemetry is exported to a
 SIEM or external observability platform, record the approved export path and data
-handling boundary before S11 relies on it.
+handling boundary before S10 relies on it.
 
 ## Where the AI Governance programme uses platform evidence
 
@@ -52,7 +52,7 @@ handling boundary before S11 relies on it.
 | API Center and access-contract records | S5 and S9 review publication, exposure, identity, ownership, and lifecycle records. |
 | Gateway authentication and safety configuration | S1 and S6 review the matching identity and runtime-safety evidence. |
 | Gateway data-protection configuration | S2 reviews it alongside Purview data and compliance controls. |
-| Traces, evaluations, usage, and cost telemetry | S7, S8, S9, and S11 use approved references to this evidence for evaluation-plan review, remediation, reconciliation, operating, and cost decisions. |
+| Traces, evaluations, usage, and cost telemetry | S7, S8, S9, and S10 use approved references to this evidence for evaluation-plan review, remediation, reconciliation, operating, and cost decisions. |
 
 The AI Governance programme does not rebuild these capabilities; it assigns owners, reviews evidence, and records resulting decisions and gaps.
 

@@ -1,6 +1,6 @@
 # Check whether a session is ready
 
-Use this checklist before scheduling a selected S0-S13 session. It is a quick
+Use this checklist before scheduling a selected S0-S12 session. It is a quick
 go/no-go check, not another governance record. If an item is missing, record
 the blocker, owner, and next date in the customer register. Do not use the
 workshop to discover basic prerequisites.
@@ -45,10 +45,9 @@ select another ready session.
 | S7 | Accepted runtime-control evidence when a gateway path is in scope, an evaluation-plan owner, threshold approver, evidence refresh route, and the decision the evidence will support. |
 | S8 | Written authorization, rules of engagement, SOC contact, non-production target, stop conditions, rollback or containment route, and remediation owner. |
 | S9 | A normalized agent and tool inventory, identity source, lifecycle policy, decommissioning route, and owners for reconciliation findings. |
-| S10 | One in-process tool-call boundary, the existing controls around it, human approval expectations, and the application owner. |
-| S11 | One workload population, one operating question, evidence coverage limits, incident and rollback routing, and the owners who act on a signal. |
-| S12 | One LLM application, stage owners for the inner and outer LLMOps loops, and approved data, evaluation, promotion, monitoring, feedback, incident, rollback, deprecation, and provider/supplier-change routes. |
-| S13 | The S0 baseline, in-scope portfolio records, open exceptions, supplier or lifecycle gaps, decommissioning backlog, and the sponsor decision needed next. |
+| S10 | One workload population, one operating question, evidence coverage limits, incident and rollback routing, and the owners who act on a signal. |
+| S11 | One LLM application, stage owners for the inner and outer LLMOps loops, and approved data, evaluation, promotion, monitoring, feedback, incident, rollback, deprecation, and provider/supplier-change routes. |
+| S12 | The S0 baseline, in-scope portfolio records, open exceptions, supplier or lifecycle gaps, decommissioning backlog, and the sponsor decision needed next. |
 
 ## Product and platform checks
 

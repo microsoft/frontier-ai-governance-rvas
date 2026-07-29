@@ -12,7 +12,7 @@ Facilitators and customer governance, platform, security, identity, data, and AI
 
 ## Product Purpose
 
-AI Governance Platform is a practical S0-S13 curriculum for governing AI agents in enterprise environments. It helps customers turn bounded AI-agent governance questions into clear decisions, named owners, evidence references, and improvement backlog items. Success means the customer leaves each selected session with a durable, customer-owned decision or reference that can be reviewed, implemented, and improved through existing customer processes.
+AI Governance Platform is a practical S0-S12 curriculum for governing AI agents in enterprise environments. It helps customers turn bounded AI-agent governance questions into clear decisions, named owners, evidence references, and improvement backlog items. Success means the customer leaves each selected session with a durable, customer-owned decision or reference that can be reviewed, implemented, and improved through existing customer processes.
 
 ## Positioning
 

@@ -1,6 +1,6 @@
 # AI Governance Platform
 
-**A practical S0-S13 curriculum for governing AI agents in enterprise environments.**
+**A practical S0-S12 curriculum for governing AI agents in enterprise environments.**
 
 This repository publishes a co-delivered curriculum for establishing and
 operating AI-agent governance in a customer's environment. Each session leaves
@@ -14,7 +14,7 @@ contains only safe templates, offline tools, and guidance.
 | Govern | S0-S2 | Establish ownership, identity/authority, and data responsibilities. |
 | Establish | S3-S5 | Define the platform, engineering, and tool/API governance that makes controls enforceable. |
 | Assure | S6-S8 | Review runtime security, quality/release assurance, and adversarial resilience. |
-| Operate | S9-S13 | Steward lifecycle and control records, operate with evidence, govern LLM and prompt changes, and improve the portfolio. |
+| Operate | S9-S12 | Steward lifecycle and control records, operate with evidence, govern LLM and prompt changes, and improve the portfolio. |
 
 | # | Session | Durable outcome |
 |---|---|---|
@@ -28,15 +28,12 @@ contains only safe templates, offline tools, and guidance.
 | S7 | Quality, Safety Evaluation & Release Assurance | Evaluation and release-gate decision with evidence package |
 | S8 | Adversarial Testing & Remediation | Adversarial finding decision with remediation handoff |
 | S9 | Control Plane, Catalog & Lifecycle | Control-plane record and lifecycle decision with cadence |
-| S10 | In-Process Agent Governance | In-process control decision with engineering handoff |
-| S11 | Operate, Monitor & FinOps | Workload operating-review decision with remediation handoff |
-| S12 | LLMOps | End-to-end LLMOps lifecycle decision and implementation backlog |
-| S13 | Portfolio Governance & Continuous Improvement | Portfolio triage decision and dated governance roadmap |
+| S10 | Operate, Monitor & FinOps | Workload operating-review decision with remediation handoff |
+| S11 | LLMOps | End-to-end LLMOps lifecycle decision and implementation backlog |
+| S12 | Portfolio Governance & Continuous Improvement | Portfolio triage decision and dated governance roadmap |
 
-S10 is selected only when the customer's architecture includes a meaningful
-in-process tool-call boundary. Every other session is selected by the S0 scope,
-evidence, dependencies, and customer priorities; no session authorizes a
-production change.
+Sessions are selected by the S0 scope, evidence, dependencies, and customer
+priorities; no session authorizes a production change.
 
 ## Repository layout
 

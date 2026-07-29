@@ -13,9 +13,9 @@ and owners.
 | **S1-S2 · Establish accountability** | Clear ownership and an honest view of identity and data-control coverage. | Close owner, access, classification, investigation, or compliance gaps before depending on the workload. |
 | **S3-S5 · Define the path** | A platform-boundary decision, admission requirements, and a tool/API publication model. | Route the selected platform, engineering, and lifecycle work through architecture, security, and release teams. |
 | **S6-S8 · Build assurance** | Runtime-path, evaluation, and authorized adversarial-test decisions with evidence references. | Resolve gaps, hold progress where needed, and use the customer's separate release process for any change. |
-| **S9-S11 · Operate the service** | Reconciled ownership and lifecycle records plus an operating review for risk, drift, remediation, and cost. | Run the agreed review cadence and validate that open actions are actually resolved. |
-| **S12 · Govern LLM operations** | A model-and-prompt operating-model decision with lifecycle, material-change, and ownership routes. | Implement the approved backlog through the customer's model, platform, engineering, supplier, and change processes. |
-| **S13 · Improve the portfolio** | A portfolio decision, investment priorities, and the next maturity roadmap. | Fund or schedule the selected work and revisit the relevant S0 baseline questions. |
+| **S9-S10 · Operate the service** | Reconciled ownership and lifecycle records plus an operating review for risk, drift, remediation, and cost. | Run the agreed review cadence and validate that open actions are actually resolved. |
+| **S11 · Govern LLM operations** | A model-and-prompt operating-model decision with lifecycle, material-change, and ownership routes. | Implement the approved backlog through the customer's model, platform, engineering, supplier, and change processes. |
+| **S12 · Improve the portfolio** | A portfolio decision, investment priorities, and the next maturity roadmap. | Fund or schedule the selected work and revisit the relevant S0 baseline questions. |
 
 ## What stays with the customer
 

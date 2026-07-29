@@ -24,10 +24,10 @@ of truth for the published SVG assets.
 | `s7-evaluation-release-handoff.excalidraw` | `docs/assets/diagrams/s7-evaluation-release-handoff.svg` | `docs/s7-evaluation/concepts.md` |
 | `s8-red-teaming-asr-decision.excalidraw` | `docs/assets/diagrams/s8-red-teaming-asr-decision.svg` | `docs/s8-red-teaming/concepts.md` |
 | `s9-reconciliation-gap-flow.excalidraw` | `docs/assets/diagrams/s9-reconciliation-gap-flow.svg` | `docs/s9-control-plane/concepts.md` |
-| `s10-policy-boundary-and-evidence.excalidraw` | `docs/assets/diagrams/s10-policy-boundary-and-evidence.svg` | `docs/s10-in-process-governance/concepts.md` |
-| `s11-end-to-end-traceability-flow.excalidraw` | `docs/assets/diagrams/s11-end-to-end-traceability-flow.svg` | `docs/s11-operate-measure/technical.md` |
-| `s11-operating-review-flow.excalidraw` | `docs/assets/diagrams/s11-operating-review-flow.svg` | `docs/s11-operate-measure/concepts.md` |
-| `s13-portfolio-to-s0-feedback-loop.excalidraw` | `docs/assets/diagrams/s13-portfolio-to-s0-feedback-loop.svg` | `docs/s13-portfolio-governance/concepts.md` |
+| `s10-end-to-end-traceability-flow.excalidraw` | `docs/assets/diagrams/s10-end-to-end-traceability-flow.svg` | `docs/s10-operate-measure/technical.md` |
+| `s10-operating-review-flow.excalidraw` | `docs/assets/diagrams/s10-operating-review-flow.svg` | `docs/s10-operate-measure/concepts.md` |
+| `s11-llmops-change-control-flow.excalidraw` | `docs/assets/diagrams/s11-llmops-change-control-flow.svg` | `docs/s11-llm-operations/concepts.md` |
+| `s12-portfolio-to-s0-feedback-loop.excalidraw` | `docs/assets/diagrams/s12-portfolio-to-s0-feedback-loop.svg` | `docs/s12-portfolio-governance/concepts.md` |
 
 The `.excalidraw` files are the editable source of truth: open them directly at
 <https://excalidraw.com> (File → Open) to tweak by hand. The `build-*.mjs`

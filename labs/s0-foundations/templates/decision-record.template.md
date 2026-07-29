@@ -37,7 +37,7 @@ Default path: **Cloud Adoption Framework for AI, Well-Architected Framework for 
 
 | Scenario field | Record |
 |---|---|
-| Route selected | No owner/forum / split ownership / missing baseline / exception path / backlog acceptance gap / complete handoff / S13 re-baseline trigger |
+| Route selected | No owner/forum / split ownership / missing baseline / exception path / backlog acceptance gap / complete handoff / S12 re-baseline trigger |
 | Missing owner, forum, or record | |
 | Baseline gap or coverage limit | |
 | Exception path gap | |
@@ -77,7 +77,7 @@ Complete this section only when the Microsoft default is not used or when the cu
 
 ## Backlog and handoff
 
-Create a foundation backlog item for each missing owner/forum, split-ownership issue, missing baseline mapping, unclear exception path, missing record location, incomplete acceptance test, missing target date, or S13 re-baseline trigger.
+Create a foundation backlog item for each missing owner/forum, split-ownership issue, missing baseline mapping, unclear exception path, missing record location, incomplete acceptance test, missing target date, or S12 re-baseline trigger.
 
 | Backlog field | Record |
 |---|---|
