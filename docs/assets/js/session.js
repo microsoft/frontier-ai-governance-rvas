@@ -45,6 +45,7 @@
     renderChapterNav(session, chapters, chapter.slug);
     renderKit(session);
     renderDeck(session);
+    renderServices(session);
     renderSetReturn(kiosk);
     renderSessionNav(navigationSessions, navigationIndex, chapters, chapterIndex);
     await renderChapter(session, chapter);
@@ -102,6 +103,24 @@
         window.open(url, '_blank', 'noopener'); // popup blocked → new tab fallback
       }
     });
+  }
+
+  function renderServices(session) {
+    const panel = document.getElementById('servicePanel');
+    const list = document.getElementById('serviceIconList');
+    if (!panel || !list) return;
+    const services = Array.isArray(session.services) ? session.services : [];
+    if (!services.length) { panel.hidden = true; return; }
+    panel.hidden = false;
+    list.innerHTML = services.map((service) =>
+      `<div class="service-icon-item">` +
+        `<span class="service-icon-mark" aria-hidden="true"><img src="${FP.esc(service.icon)}" alt="" loading="lazy"></span>` +
+        `<span class="service-icon-copy">` +
+          `<span class="service-icon-name">${FP.esc(service.label)}</span>` +
+          `<span class="service-icon-category">${FP.esc(service.category)}</span>` +
+        `</span>` +
+      `</div>`
+    ).join('');
   }
 
   function renderSetReturn(kiosk) {

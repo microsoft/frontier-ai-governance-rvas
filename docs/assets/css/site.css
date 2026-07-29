@@ -42,6 +42,57 @@
   justify-content: center;
 }
 
+/* ── Session Microsoft service icons ─────────────────────────────── */
+.service-icon-list {
+  display: grid;
+  gap: 8px;
+}
+.service-icon-item {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 9px 10px;
+  border: 1px solid var(--c-line-soft);
+  border-radius: var(--r-sm);
+  background: linear-gradient(180deg, #fff, var(--c-850));
+}
+.service-icon-mark {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid color-mix(in srgb, var(--c-accent) 12%, var(--c-line));
+  border-radius: var(--r-sm);
+  background: #fff;
+}
+.service-icon-mark img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+.service-icon-copy {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+.service-icon-name {
+  color: var(--c-heading);
+  font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.service-icon-category {
+  color: var(--c-faint);
+  font-family: var(--font-mono);
+  font-size: 0.70rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
 /* ── Homepage briefing composition ───────────────────────────────── */
 .decision-brief {
   align-self: stretch;

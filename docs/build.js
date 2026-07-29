@@ -41,20 +41,20 @@ const SITE = {
 };
 
 const SESSIONS = [
-  { slug: 's0-foundations', code: 'S0', phase: 'Govern', accent: '#032254', persona: 'Governance lead', nist: 'Govern · Map', outcome: 'Governance operating-model decision + first backlog' },
-  { slug: 's1-identity', code: 'S1', phase: 'Govern', accent: '#1A77E3', persona: 'Identity admin', nist: 'Govern · Map · Manage', outcome: 'Agent identity and authority decision + implementation handoff' },
-  { slug: 's2-data-compliance', code: 'S2', phase: 'Govern', accent: '#14868A', persona: 'Compliance / Data admin', nist: 'Map · Manage', outcome: 'Data-use and enforcement decision + evidence handoff' },
-  { slug: 's3-platform-foundation', code: 'S3', phase: 'Establish', accent: '#0F766E', persona: 'Platform owner', nist: 'Govern · Map · Manage', outcome: 'Platform readiness decision + implementation work package' },
-  { slug: 's4-agent-engineering', code: 'S4', phase: 'Establish', accent: '#7C3AED', persona: 'AI developer / maker', nist: 'Govern · Map · Measure', outcome: 'Agent admission and promotion decision + build handoff' },
-  { slug: 's5-tool-api-governance', code: 'S5', phase: 'Establish', accent: '#C2410C', persona: 'Platform owner', nist: 'Govern · Map · Manage', outcome: 'Tool/API publication decision + controlled handoff' },
-  { slug: 's6-security-runtime', code: 'S6', phase: 'Assure', accent: '#DC2626', persona: 'Security / SOC', nist: 'Measure · Manage', outcome: 'Runtime enforcement decision + acceptance evidence' },
-  { slug: 's7-evaluation', code: 'S7', phase: 'Assure', accent: '#504092', persona: 'AI developer / maker', nist: 'Measure · Manage', outcome: 'Evaluation and release-gate decision + evidence package' },
-  { slug: 's8-red-teaming', code: 'S8', phase: 'Assure', accent: '#EA580C', persona: 'Security / SOC', nist: 'Govern · Measure · Manage', outcome: 'Adversarial finding decision + remediation handoff' },
-  { slug: 's9-control-plane', code: 'S9', phase: 'Operate', accent: '#0078D4', persona: 'Governance lead', nist: 'Govern · Map · Manage', outcome: 'Control-plane record and lifecycle decision + cadence' },
-  { slug: 's10-in-process-governance', code: 'S10', phase: 'Operate', accent: '#0891B2', persona: 'AI developer / maker', nist: 'Govern · Measure · Manage', outcome: 'In-process control decision + engineering handoff' },
-  { slug: 's11-operate-measure', code: 'S11', phase: 'Operate', accent: '#7C3AED', persona: 'Governance lead', nist: 'Govern · Measure · Manage', outcome: 'Workload operating-review decision + remediation handoff' },
-  { slug: 's12-llm-operations', code: 'S12', phase: 'Operate', accent: '#2563EB', persona: 'LLMOps owner', nist: 'Govern · Map · Measure · Manage', outcome: 'End-to-end LLMOps lifecycle decision + implementation backlog' },
-  { slug: 's13-portfolio-governance', code: 'S13', phase: 'Operate', accent: '#475569', persona: 'Executive sponsor', nist: 'Govern · Map · Measure · Manage', outcome: 'Portfolio triage decision + dated governance roadmap' },
+  { slug: 's0-foundations', code: 'S0', phase: 'Govern', accent: '#032254', persona: 'Governance lead', nist: 'Govern · Map', outcome: 'Governance operating-model decision + first backlog', services: ['agent-365', 'copilot-studio', 'microsoft-teams'] },
+  { slug: 's1-identity', code: 'S1', phase: 'Govern', accent: '#1A77E3', persona: 'Identity admin', nist: 'Govern · Map · Manage', outcome: 'Agent identity and authority decision + implementation handoff', services: ['microsoft-entra-id', 'microsoft-entra-workload-id', 'agent-365', 'azure-key-vault', 'azure-api-management'] },
+  { slug: 's2-data-compliance', code: 'S2', phase: 'Govern', accent: '#14868A', persona: 'Compliance / Data admin', nist: 'Map · Manage', outcome: 'Data-use and enforcement decision + evidence handoff', services: ['azure-ai-content-safety', 'sharepoint', 'azure-api-management', 'application-insights'] },
+  { slug: 's3-platform-foundation', code: 'S3', phase: 'Establish', accent: '#0F766E', persona: 'Platform owner', nist: 'Govern · Map · Manage', outcome: 'Platform readiness decision + implementation work package', services: ['azure-ai-foundry', 'azure-openai', 'azure-ai-search', 'azure-api-management', 'azure-container-apps', 'azure-kubernetes-service'] },
+  { slug: 's4-agent-engineering', code: 'S4', phase: 'Establish', accent: '#7C3AED', persona: 'AI developer / maker', nist: 'Govern · Map · Measure', outcome: 'Agent admission and promotion decision + build handoff', services: ['foundry-agent-service', 'copilot-studio', 'agent-365', 'power-automate', 'azure-api-management', 'application-insights'] },
+  { slug: 's5-tool-api-governance', code: 'S5', phase: 'Establish', accent: '#C2410C', persona: 'Platform owner', nist: 'Govern · Map · Manage', outcome: 'Tool/API publication decision + controlled handoff', services: ['azure-api-management', 'microsoft-entra-id', 'azure-ai-content-safety', 'copilot-studio', 'azure-policy'] },
+  { slug: 's6-security-runtime', code: 'S6', phase: 'Assure', accent: '#DC2626', persona: 'Security / SOC', nist: 'Measure · Manage', outcome: 'Runtime enforcement decision + acceptance evidence', services: ['microsoft-defender-for-cloud', 'microsoft-sentinel', 'azure-api-management', 'azure-monitor', 'application-insights', 'azure-ai-content-safety'] },
+  { slug: 's7-evaluation', code: 'S7', phase: 'Assure', accent: '#504092', persona: 'AI developer / maker', nist: 'Measure · Manage', outcome: 'Evaluation and release-gate decision + evidence package', services: ['azure-ai-foundry', 'azure-ai-content-safety', 'application-insights', 'azure-monitor', 'microsoft-teams'] },
+  { slug: 's8-red-teaming', code: 'S8', phase: 'Assure', accent: '#EA580C', persona: 'Security / SOC', nist: 'Govern · Measure · Manage', outcome: 'Adversarial finding decision + remediation handoff', services: ['microsoft-defender-for-cloud', 'microsoft-sentinel', 'azure-ai-foundry', 'azure-ai-content-safety'] },
+  { slug: 's9-control-plane', code: 'S9', phase: 'Operate', accent: '#0078D4', persona: 'Governance lead', nist: 'Govern · Map · Manage', outcome: 'Control-plane record and lifecycle decision + cadence', services: ['microsoft-entra-id', 'azure-ai-foundry', 'azure-api-management', 'azure-monitor', 'application-insights', 'microsoft-teams'] },
+  { slug: 's10-in-process-governance', code: 'S10', phase: 'Operate', accent: '#0891B2', persona: 'AI developer / maker', nist: 'Govern · Measure · Manage', outcome: 'In-process control decision + engineering handoff', services: ['azure-api-management', 'azure-logic-apps', 'application-insights'] },
+  { slug: 's11-operate-measure', code: 'S11', phase: 'Operate', accent: '#7C3AED', persona: 'Governance lead', nist: 'Govern · Measure · Manage', outcome: 'Workload operating-review decision + remediation handoff', services: ['microsoft-defender-for-cloud', 'azure-ai-foundry', 'azure-monitor', 'application-insights'] },
+  { slug: 's12-llm-operations', code: 'S12', phase: 'Operate', accent: '#2563EB', persona: 'LLMOps owner', nist: 'Govern · Map · Measure · Manage', outcome: 'End-to-end LLMOps lifecycle decision + implementation backlog', services: ['azure-ai-foundry', 'azure-api-management', 'azure-monitor', 'application-insights', 'microsoft-teams'] },
+  { slug: 's13-portfolio-governance', code: 'S13', phase: 'Operate', accent: '#475569', persona: 'Executive sponsor', nist: 'Govern · Map · Measure · Manage', outcome: 'Portfolio triage decision + dated governance roadmap', services: ['agent-365', 'azure-ai-foundry', 'azure-monitor', 'application-insights', 'microsoft-teams'] },
 ];
 
 const SESSION_CHAPTERS = [
@@ -67,6 +67,32 @@ const SESSION_CHAPTERS = [
   { slug: 'technical', label: 'Technical decisions', standalone: true, optional: true },
   { slug: 'co-deliver', label: 'Practical workshop', standalone: true },
 ];
+
+const SERVICE_ICONS = {
+  'agent-365': { label: 'Microsoft Agent 365', category: 'Agent governance', icon: 'assets/img/microsoft-icons/agent-365.svg' },
+  'application-insights': { label: 'Application Insights', category: 'Telemetry', icon: 'assets/img/microsoft-icons/application-insights.svg' },
+  'azure-ai-content-safety': { label: 'Azure AI Content Safety', category: 'AI safety', icon: 'assets/img/microsoft-icons/azure-ai-content-safety.svg' },
+  'azure-ai-foundry': { label: 'Microsoft Foundry', category: 'AI platform', icon: 'assets/img/microsoft-icons/azure-ai-foundry.svg' },
+  'azure-ai-search': { label: 'Azure AI Search', category: 'Retrieval', icon: 'assets/img/microsoft-icons/azure-ai-search.svg' },
+  'azure-api-management': { label: 'Azure API Management', category: 'Gateway', icon: 'assets/img/microsoft-icons/azure-api-management.svg' },
+  'azure-container-apps': { label: 'Azure Container Apps', category: 'Runtime', icon: 'assets/img/microsoft-icons/azure-container-apps.svg' },
+  'azure-key-vault': { label: 'Azure Key Vault', category: 'Secrets', icon: 'assets/img/microsoft-icons/azure-key-vault.svg' },
+  'azure-kubernetes-service': { label: 'Azure Kubernetes Service', category: 'Runtime', icon: 'assets/img/microsoft-icons/azure-kubernetes-service.svg' },
+  'azure-logic-apps': { label: 'Azure Logic Apps', category: 'Workflow', icon: 'assets/img/microsoft-icons/azure-logic-apps.svg' },
+  'azure-monitor': { label: 'Azure Monitor', category: 'Observability', icon: 'assets/img/microsoft-icons/azure-monitor.svg' },
+  'azure-openai': { label: 'Azure OpenAI', category: 'Model service', icon: 'assets/img/microsoft-icons/azure-openai.svg' },
+  'azure-policy': { label: 'Azure Policy', category: 'Governance', icon: 'assets/img/microsoft-icons/azure-policy.svg' },
+  'copilot-studio': { label: 'Microsoft Copilot Studio', category: 'Agent builder', icon: 'assets/img/microsoft-icons/copilot-studio.svg' },
+  'foundry-agent-service': { label: 'Foundry Agent Service', category: 'Agent runtime', icon: 'assets/img/microsoft-icons/foundry-agent-service.svg' },
+  'microsoft-defender-for-cloud': { label: 'Microsoft Defender for Cloud', category: 'Security', icon: 'assets/img/microsoft-icons/microsoft-defender-for-cloud.svg' },
+  'microsoft-entra-id': { label: 'Microsoft Entra ID', category: 'Identity', icon: 'assets/img/microsoft-icons/microsoft-entra-id.svg' },
+  'microsoft-entra-workload-id': { label: 'Microsoft Entra Workload ID', category: 'Workload identity', icon: 'assets/img/microsoft-icons/microsoft-entra-workload-id.svg' },
+  'microsoft-sentinel': { label: 'Microsoft Sentinel', category: 'SIEM', icon: 'assets/img/microsoft-icons/microsoft-sentinel.svg' },
+  'microsoft-teams': { label: 'Microsoft Teams', category: 'Collaboration', icon: 'assets/img/microsoft-icons/microsoft-teams.svg' },
+  'power-automate': { label: 'Power Automate', category: 'Workflow', icon: 'assets/img/microsoft-icons/power-automate.svg' },
+  'power-platform': { label: 'Microsoft Power Platform', category: 'Business apps', icon: 'assets/img/microsoft-icons/power-platform.svg' },
+  'sharepoint': { label: 'SharePoint', category: 'Content', icon: 'assets/img/microsoft-icons/sharepoint.svg' },
+};
 
 const PAGES = [
   { slug: 'start-understand-rvas',        src: 'start/understand-rvas.md',    title: 'About AI Governance Platform', nav: true, group: 'Start here' },
@@ -132,6 +158,31 @@ const ADMONITION_MAP = {
 };
 
 const unresolvedMdLinks = [];
+const serviceIconErrors = [];
+
+function resolveSessionServices(serviceIds, sessionSlug) {
+  if (!Array.isArray(serviceIds) || !serviceIds.length) return [];
+  const seen = new Set();
+  return serviceIds
+    .filter((id) => {
+      if (!seen.has(id)) { seen.add(id); return true; }
+      serviceIconErrors.push(`docs/build.js:${sessionSlug}: duplicate service id "${id}"`);
+      return false;
+    })
+    .map((id) => {
+      const service = SERVICE_ICONS[id];
+      if (!service) {
+        serviceIconErrors.push(`docs/build.js:${sessionSlug}: unknown service id "${id}"`);
+        return null;
+      }
+      if (!fs.existsSync(path.join(DOCS, service.icon))) {
+        serviceIconErrors.push(`docs/build.js:${sessionSlug}: missing icon for "${id}" at docs/${service.icon}`);
+        return null;
+      }
+      return { id, ...service };
+    })
+    .filter(Boolean);
+}
 
 /* ─── Transform helpers ──────────────────────────────────────────────────── */
 
@@ -465,6 +516,7 @@ function main() {
       accent: s.accent, persona: s.persona, nist: s.nist, outcome: s.outcome, optional: Boolean(s.optional),
       hasMermaid: hasMermaid || concepts.hasMermaid || practical.hasMermaid || Boolean(technical && technical.hasMermaid),
       hasDeck,
+      services: resolveSessionServices(s.services, s.slug),
       chapters: chapterMeta,
       reviewed, reviewedNote, conceptsTitle: concepts.title || `${s.code} · ${clean} Concepts`,
       conceptsHasMermaid: concepts.hasMermaid, conceptsReviewed: concepts.reviewed || reviewed,
@@ -517,6 +569,12 @@ function main() {
     unresolvedMdLinks.forEach((link) => {
       console.error(`  docs/${link.source}: ${link.target} → ${link.resolved}`);
     });
+    process.exitCode = 1;
+  }
+
+  if (serviceIconErrors.length) {
+    console.error('✖ Service icon metadata errors:');
+    serviceIconErrors.forEach((message) => console.error(`  ${message}`));
     process.exitCode = 1;
   }
 
