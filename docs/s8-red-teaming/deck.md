@@ -2,71 +2,207 @@
 
 **Facilitator deck**
 
-Microsoft default: **AI Red Teaming Agent, PyRIT, Azure AI Content Safety, Defender, and SOC remediation routes**.
+Microsoft default: **AI Red Teaming Agent where supported; PyRIT or manual approved alternate; Azure AI Content Safety, Prompt Shields, Defender, Sentinel, and SOC remediation routes**.
 
-Concrete decision: **Approve, defer, reject, or route the AI red-team plan.**
-
----
-
-## Start with the Microsoft path
-
-- Default control path: AI Red Teaming Agent, PyRIT, Azure AI Content Safety, Defender, and SOC remediation routes.
-- Customer inspects: Inspect the AI Red Teaming Agent or PyRIT test plan, Content Safety checks, Defender signal route, and SOC remediation queue.
-- Decision owner: AI red-team lead.
-
-Note:
-Open with the default platform path and the decision the customer must make.
+Concrete decision: **Approve, defer, reject, route, block, remediate, retest, or accept risk for one authorized non-production target and category.**
 
 ---
 
-## Decide with platform records
+## Authorized adversarial testing, not "run attacks"
 
-- Approve when the Microsoft path fits and the acceptance test is clear.
-- Defer when a required record or owner is missing.
-- Reject when the use case cannot meet the control path.
-- Route when an exception owner must accept an equivalent control.
+- S8 is a defensive, customer-authorized, non-production remediation workshop.
+- The unit of work is one target, one version, one category set, and one evidence boundary.
+- The output is a remediation and retest package, not offensive capability or production approval.
 
 Note:
-Keep the discussion on records, owners, and acceptance tests.
+Open by taking the heat out of "red team." This is controlled safety evidence with a receiving owner.
 
 ---
 
-## Acceptance test
+## Target card
 
-The decision is ready when the record names:
-
-- Microsoft control path
-- Owner
-- Evidence location
-- Accepted-when condition
-- Target date
-- Handoff: Security remediation owner
+- Target: agent, app, endpoint, workflow, or model route.
+- Version: prompt/model/tool/data/policy/build version in scope.
+- Environment: non-production only.
+- Owners: target, evidence, severity, remediation, retest.
+- Safety: reset/rollback path, monitoring window, production-impact exclusion.
 
 Note:
-The acceptance test should be observable by the team that receives the handoff.
+If the customer cannot name the target version and reset path, the workshop should create a blocker instead of pretending the test is scoped.
 
 ---
 
-## Exception, if any
+## Rules of engagement are the first control
 
-An exception needs:
-
-- Reason and equivalent control
-- Owner and evidence location
-- Acceptance test and target date
-- Review trigger
+- Authorization reference and approved time window.
+- Operators, methods/tools, permitted categories, excluded categories.
+- Data limits, prohibited activity, cost/rate limits.
+- Stop conditions and escalation route.
+- SOC contact and legal/risk contact where required.
+- Evidence handling, retention owner, visibility limits.
 
 Note:
-Use an exception for a documented equivalent control with an owner and review trigger.
+ROE is not paperwork. It is the control that makes adversarial activity bounded and defensible.
 
 ---
 
-## Close the session
+## Category taxonomy
 
-- Decision: approve, defer, reject, or route.
-- Decision owner: AI red-team lead.
-- Handoff: Security remediation owner.
-- Boundary: customer data stays in approved systems; production changes use customer change approval.
+- Direct prompt injection.
+- Indirect prompt injection.
+- Sensitive-data disclosure.
+- Tool abuse or unsafe action.
+- Hallucination or grounding failure.
+- Harmful or policy-violating content.
+- Protected-material concern.
+- Cost or availability abuse.
+- Unauthorized access.
 
 Note:
-End with the decision record and the named handoff.
+Ask "which category are we testing and what counts as success?" before anyone looks at scores.
+
+---
+
+## Method route
+
+| Route | Use when |
+|---|---|
+| AI Red Teaming Agent | Target and category are supported and customer can operate the native path. |
+| PyRIT | Approved custom repeatable testing is needed. |
+| Manual expert | Human/domain judgment is required. |
+| Third-party | Customer requires an independent or specialist engagement. |
+| Unsupported route | No approved method safely covers the target/category. |
+| Production request | Defer to customer legal, SOC, business, risk, and change process. |
+
+Note:
+Unsupported is an honest route. Never force a mock test to fill a governance cell.
+
+---
+
+## ASR, threshold, and sample limits
+
+- ASR = attempts that meet the agreed success condition.
+- ASR only makes sense with category, sample size, target version, method, and threshold.
+- Below threshold supports the tested scope only.
+- Above threshold creates remediation or risk decision work.
+- Not-comparable results stay diagnostic until the customer accepts interpretation rules.
+
+Note:
+Make threshold ownership explicit. A tool score does not accept risk.
+
+---
+
+## Severity interpretation
+
+Severity is not just ASR. Combine:
+
+- impact;
+- exploitability;
+- exposure;
+- detectability;
+- response burden;
+- release or backlog impact.
+
+Note:
+Severity should tell the receiving owner what they must do next, not just how bad the score looks.
+
+---
+
+## Native scorecard vs decision sidecar
+
+- Native scorecards and run records stay unchanged in the customer records system.
+- Prompts, outputs, payloads, datasets, endpoint details, and incident payloads stay out of this repository.
+- A threshold-comparison sidecar can reference native evidence.
+- The sidecar is a decision aid, not a replacement scorecard.
+
+Note:
+This slide protects the repository boundary and keeps evidence provenance clean.
+
+---
+
+## Finding record
+
+Each finding needs:
+
+- category and technique;
+- affected route and target version;
+- evidence reference;
+- impact, exploitability, exposure, detectability;
+- severity and limitation;
+- owner and remediation route;
+- stop condition if risk remains active;
+- retest criterion and target date.
+
+Note:
+If it has no owner or retest criterion, it is an observation, not a governed finding.
+
+---
+
+## Finding-to-control remediation map
+
+| Finding type | Likely receiving owner |
+|---|---|
+| Prompt injection | Prompt/design, runtime-control, in-process policy |
+| Indirect injection | Data/retrieval, tool-response, runtime-control |
+| Sensitive data | Data/privacy, output safety, investigation |
+| Unsafe tool action | Tool/API, identity, approval gate, catalog |
+| Unsafe content | Content Safety, Prompt Shields, safety owner |
+| Unauthorized access | Identity, platform, data, SOC |
+| Cost abuse | Gateway, platform, FinOps, operations |
+
+Note:
+Keep the discussion practical: who changes something, what evidence closes it, and when it gets retested.
+
+---
+
+## Stop conditions and release impact
+
+- Stop if authorization scope is exceeded.
+- Stop if production impact appears possible.
+- Stop if SOC/legal/operational escalation triggers.
+- Hold or block release/change activity when severity exceeds tolerance.
+- Accepted risk needs authority, expiry, compensating action, and review trigger.
+
+Note:
+The stop condition is part of the package, not an emergency afterthought.
+
+---
+
+## Retest and closure
+
+- Retest same category and success condition unless an alternate is justified.
+- Record changed target version and comparison rule.
+- Preserve retest evidence in customer systems.
+- Closure requires severity/remediation owner acceptance.
+- Reopen on material target, method, category, threshold, route, or control change.
+
+Note:
+A lower ASR closes only the scoped finding. It does not certify product safety.
+
+---
+
+## Failure modes and hard stops
+
+- No written authorization or ROE.
+- Production target requested.
+- Missing SOC/legal contact where required.
+- Unsupported target forced into mock coverage.
+- Raw prompts, outputs, scorecards, or payloads copied into the wrong place.
+- Finding has no remediation owner.
+- Remediation has no retest criterion.
+- Below-threshold ASR generalized beyond tested scope.
+
+Note:
+These are not facilitation preferences; they are blockers or route decisions.
+
+---
+
+## Workshop artifact and handoff
+
+- Artifact: authorized red-team remediation package.
+- Decision: approve, defer, reject, route, block, remediate, retest, or accept risk.
+- Handoff: target owner, red-team lead, SOC, legal/risk, remediation owner, retest owner, release/lifecycle owner.
+- Boundary: safe references only; no production testing; no tenant change; no production-approval claim.
+
+Note:
+End with the package, owner, target date, and retest closure path.

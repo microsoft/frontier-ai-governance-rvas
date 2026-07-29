@@ -1,43 +1,84 @@
-// S8 — Attack Success Rate is a decision aid: above tolerance -> remediation, below -> supports scope.
+// S8 - Authorized red-team remediation package: ROE -> method -> finding -> remediation -> retest.
 import { C, text, node, connect, diamond, labelIn, arrow, write } from "./lib.mjs";
 
 const els = [];
-els.push(text(40, 24, 1500, "S8 · Attack Success Rate is a decision aid", C.advers, { size: 26, align: "left" }));
-els.push(text(40, 60, 1500, "ASR only makes sense with its category, sample size, target version, and approved threshold. Above tolerance becomes a remediation item; below tolerance supports the tested scope.", C.neutral, { size: 14, align: "left" }));
 
-// setup chain across the top
-const chain = [
-  "Target",
-  "Attack\ncategories",
-  "Sample\nsize",
-  "Target\nversion",
-  "Approved\nthreshold",
-];
-let cx = 40;
-const cn = [];
-chain.forEach((t) => {
-  cn.push(node(els, cx, 150, 170, 84, C.advers, t, { titleSize: 14 }));
-  cx += 194;
+els.push(text(40, 24, 1500, "S8 · Authorized red-team remediation package", C.advers, { size: 26, align: "left" }));
+els.push(text(
+  40,
+  60,
+  1500,
+  "Evidence is scoped to the authorized target, category, method, threshold, finding owner, remediation path, and retest closure. Scorecards and run records stay in customer systems.",
+  C.neutral,
+  { size: 14, align: "left" },
+));
+
+const roe = node(els, 40, 150, 210, 100, C.advers, "Authorized target\n+ ROE", {
+  titleSize: 15,
+  sub: "non-prod · owners · stop conditions",
+  subSize: 12,
 });
-for (let i = 0; i < cn.length - 1; i++) connect(els, cn[i], cn[i + 1], { stroke: C.advers.st });
+const method = node(els, 310, 150, 220, 100, C.advers, "Category +\nmethod route", {
+  titleSize: 15,
+  sub: "AI Red Teaming Agent · PyRIT · manual",
+  subSize: 12,
+});
+const evidence = node(els, 590, 150, 230, 100, C.neutral, "Native scorecard\nor run reference", {
+  titleSize: 15,
+  sub: "preserved externally",
+  subSize: 12,
+});
 
-// attempts -> ASR
-const attempts = node(els, 40, 320, 200, 90, C.advers, "Authorized attempts", { titleSize: 14, sub: "on a non-prod endpoint", subSize: 12 });
-const dx = 320, dy = 300, dw = 210, dh = 130;
+connect(els, roe, method, { stroke: C.advers.st });
+connect(els, method, evidence, { stroke: C.advers.st });
+
+const dx = 880, dy = 130, dw = 240, dh = 140;
 els.push(diamond(dx, dy, dw, dh, C.advers));
-els.push(labelIn(dx, dy, dw, dh, "Attack Success\nRate vs threshold", C.advers, { size: 14 }));
-const asr = { x: dx, y: dy, w: dw, h: dh, cx: dx + dw / 2, cy: dy + dh / 2, r: dx + dw, b: dy + dh };
-connect(els, attempts, asr, { stroke: C.advers.st });
-els.push(arrow(cn[2].cx, cn[2].b, asr.cx, asr.y, { stroke: C.advers.st, curved: false, dashed: true, endArrowhead: null }));
+els.push(labelIn(dx, dy, dw, dh, "ASR / qualitative\nresult vs threshold", C.advers, { size: 14 }));
+const threshold = { x: dx, y: dy, w: dw, h: dh, cx: dx + dw / 2, cy: dy + dh / 2, r: dx + dw, b: dy + dh };
+connect(els, evidence, threshold, { stroke: C.advers.st });
 
-const above = node(els, 600, 250, 260, 90, C.amber, "Above tolerance", { titleSize: 15, sub: "remediation item with an owner", subSize: 12 });
-const below = node(els, 600, 390, 260, 90, C.start, "Below tolerance", { titleSize: 15, sub: "supports the tested scope only", subSize: 12 });
-els.push(arrow(asr.r, asr.cy - 12, above.x, above.cy, { stroke: C.amber.st, curved: false }));
-els.push(arrow(asr.r, asr.cy + 12, below.x, below.cy, { stroke: C.start.st, curved: false }));
+const finding = node(els, 1190, 90, 260, 96, C.amber, "Above tolerance\nor severity finding", {
+  titleSize: 15,
+  sub: "category · technique · affected route",
+  subSize: 12,
+});
+const scoped = node(els, 1190, 230, 260, 96, C.start, "Below tolerance", {
+  titleSize: 15,
+  sub: "supports tested scope only",
+  subSize: 12,
+});
+els.push(arrow(threshold.r, threshold.cy - 22, finding.x, finding.cy, { stroke: C.amber.st, curved: false }));
+els.push(arrow(threshold.r, threshold.cy + 22, scoped.x, scoped.cy, { stroke: C.start.st, curved: false }));
 
-// native scorecard -> optional comparison sidecar
-const native = node(els, 950, 250, 230, 90, C.neutral, "Foundry native scorecard", { titleSize: 14, sub: "preserved unchanged", subSize: 12 });
-const sidecar = node(els, 950, 390, 230, 90, C.neutral, "Comparison sidecar", { titleSize: 14, sub: "optional · references native", subSize: 12 });
-connect(els, native, sidecar, { stroke: C.neutral.st, dashed: true });
+const remediation = node(els, 1190, 410, 260, 110, C.amber, "Remediation owner\n+ control surface", {
+  titleSize: 15,
+  sub: "Prompt Shields · gateway · tool · data · SOC",
+  subSize: 12,
+});
+connect(els, finding, remediation, { stroke: C.amber.st });
+
+const retest = node(els, 880, 430, 240, 100, C.start, "Retest closure", {
+  titleSize: 15,
+  sub: "same category · evidence accepted",
+  subSize: 12,
+});
+connect(els, remediation, retest, { stroke: C.start.st });
+els.push(arrow(retest.x, retest.cy, evidence.cx, evidence.b, { stroke: C.start.st, curved: true, dashed: true }));
+
+const blocked = node(els, 40, 410, 250, 110, C.security, "Blocked / route", {
+  titleSize: 15,
+  sub: "missing ROE · unsupported target · production request",
+  subSize: 12,
+});
+els.push(arrow(roe.cx, roe.b, blocked.cx, blocked.y, { stroke: C.security.st, curved: false, dashed: true }));
+els.push(arrow(method.cx, method.b, blocked.r, blocked.cy, { stroke: C.security.st, curved: true, dashed: true }));
+
+const boundary = node(els, 360, 420, 400, 100, C.neutral, "Safe evidence boundary", {
+  titleSize: 15,
+  sub: "repository records references only · no prompts, outputs, payloads, scorecards, or production claims",
+  subSize: 12,
+});
+connect(els, evidence, boundary, { stroke: C.neutral.st, dashed: true });
 
 write(new URL("./s8-red-teaming-asr-decision.excalidraw", import.meta.url).pathname, els);
