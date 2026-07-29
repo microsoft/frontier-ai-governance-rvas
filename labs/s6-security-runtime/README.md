@@ -12,7 +12,6 @@ Bring a bounded workload or portfolio slice, decision owner, application owner, 
 
 | Record | Required use |
 |---|---|
-| [`runbook.md`](runbook.md) | Step-by-step runtime-security review flow, including identity, route, policy decision, Prompt Shields diagnostics, SOC route, telemetry correlation, retention, blockers, and handoff. |
 | [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for the decision, evidence references, acceptance tests, exception status, backlog, target date, and handoff. Copy it into the customer's approved records system before completion. |
 
 ## Work package outcomes
@@ -31,7 +30,7 @@ By the end of the lab, the customer has a customer-owned decision record that su
 ## Facilitation flow
 
 1. Confirm the customer has a bounded scope, owners, authorization to inspect records, and an approved records location. If not, stop the decision and create a blocker backlog item.
-2. Follow [`runbook.md`](runbook.md), then copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system. Keep only safe references in this repository.
+2. Copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system. Keep only safe references in this repository.
 3. Map the Microsoft control path: **Azure API Management AI Gateway, Azure AI Content Safety Prompt Shields, Defender for Cloud AI posture, Defender XDR, Microsoft Sentinel, and Application Insights**.
 4. Ask: **Which customer-owned Microsoft record proves the scoped runtime route is ready to hand off, and who operates it next?**
 5. Record one result in the customer system: approve, defer, reject, route, or blocked.

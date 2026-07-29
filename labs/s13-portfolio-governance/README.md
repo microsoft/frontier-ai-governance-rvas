@@ -27,6 +27,15 @@ By the end of the lab, the customer has a customer-owned decision record that su
 - **S0 re-baseline trigger:** whether the portfolio decision changes scope, risk appetite, operating model, ownership, funding, or roadmap sequencing enough to route back to S0.
 - **Backlog and handoff:** incomplete evidence, stale rollup, cost/capacity decision, risk/value conflict, or missing action owner captured with owner, acceptance test, target date, evidence location, and recheck trigger.
 
+## Technical capture fields
+
+| Area | Fields to capture |
+|---|---|
+| Scorecard | Coverage, residual risk, assurance, operating health, cost/capacity, maturity, exception age, dependency, roadmap owner. |
+| Prioritization | Risk, value, cost/capacity, coverage, dependency, confidence, weights, rejected alternatives, decision forum. |
+| Exception concentration | Exception by owner, control/session, platform dependency, age/severity, recurrence, and escalation route. |
+| S0 feedback | Baseline change trigger, policy question, operating-model gap, funding assumption, roadmap sequencing change, next S0 owner. |
+
 ## Facilitation flow
 
 1. Confirm the customer has a bounded portfolio question, owners, receiving forum, and approved records location. If not, stop the decision and create a blocker backlog item.

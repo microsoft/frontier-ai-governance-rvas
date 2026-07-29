@@ -20,6 +20,62 @@ Default to a customer AI governance forum anchored in Microsoft Cloud Adoption F
 | Baseline framework | CAF for AI + Well-Architected AI, mapped to NIST AI RMF or ISO/IEC 42001 as needed | Legal/compliance requires a different primary framework |
 | Record location | Customer governance/control register with links to Purview, Foundry, API Center, or Azure work items | No approved register exists; use a temporary owned document with a migration trigger |
 
+## Decision-rights and RACI matrix
+
+| Role | Accountable | Responsible | Consulted | Informed |
+|---|---|---|---|---|
+| Executive sponsor | Risk appetite, funding, escalation, forum authority. | Names accountable forum. | Portfolio, legal/risk, business owners. | S13 roadmap outcomes. |
+| Governance lead | S0 baseline, decision route, exception process, forum cadence. | Runs forum and backlog routing. | Security, data, platform, operations. | All session owners. |
+| Product/business owner | Purpose, value hypothesis, user scope, accepted business risk. | Maintains use-case ownership. | Governance and release owners. | Support and operations. |
+| Platform owner | Platform capability, environment readiness, gateway/telemetry route. | Routes S3/S5/S6/S11 work. | Identity, security, operations. | Product and governance. |
+| Identity owner | Identity sponsorship, authority model, lifecycle route. | Routes S1 decisions. | Security, platform, app owner. | S9 steward. |
+| Data/compliance owner | Data classification, privacy, retention, investigation route. | Routes S2 decisions. | Legal/risk, platform, product. | Release owner. |
+| Security/runtime owner | Runtime controls, red-team route, incident handoff. | Routes S6/S8/S10 decisions. | SOC, legal/risk, platform. | Portfolio forum. |
+| Release/change owner | DEV/PRE/PRO gate, rollback, production approval process. | Routes S4/S7/S12 decisions. | Operations, product, security. | Governance forum. |
+| Operations owner | Monitoring, alerts, support, FinOps, operating review. | Routes S11 decisions. | Platform, product, finance. | S13 forum. |
+| Portfolio owner | Roadmap, prioritization, re-baseline trigger. | Routes S13 decisions. | Sponsor, finance, governance. | Session owners. |
+
+## Exception template
+
+| Field | Required record |
+|---|---|
+| Exception reference | Customer record ID, scope, affected workload/session, request date. |
+| Risk statement | What requirement is not met and what could happen. |
+| Compensating control | Temporary equivalent control, owner, coverage limit, evidence reference. |
+| Owner and approver | Request owner, risk owner, approval authority, escalation route. |
+| Duration | Review date, expiry date, renewal criteria, stop condition. |
+| Evidence | Customer-held evidence reference, reviewer, retention owner. |
+| Impact | Release/roadmap impact, affected sessions, S13 visibility. |
+| Closure | Remediation target, validation reference, closure owner, recurrence check. |
+
+## Escalation cadence and SLA model
+
+| Trigger | Escalation target | Suggested SLA record |
+|---|---|---|
+| Missing accountable owner | Governance lead and executive sponsor. | Owner named or item blocked by next forum. |
+| Expired exception | Risk owner and governance forum. | Review before expiry; escalation if no disposition. |
+| Production-impacting blocker | Release/change owner and sponsor. | Same-cycle decision or hold recorded. |
+| Cross-domain conflict | Governance forum with affected domain owners. | Conflict owner and target decision date. |
+| High-risk red-team or runtime finding | Security/SOC/risk and release owner. | Immediate route per customer severity model. |
+| Portfolio dependency concentration | S13 forum and S0 baseline owner. | Re-baseline trigger and roadmap decision date. |
+
+## Evidence-system field model
+
+Later sessions should use the same minimum fields so decisions can roll up
+without copying sensitive evidence.
+
+| Field | Purpose |
+|---|---|
+| Decision reference | Stable customer record ID or link placeholder. |
+| Scope | Workload, environment, session, version, included/excluded boundaries. |
+| Owner | Accountable owner, evidence owner, receiving owner. |
+| Decision state | Approve, defer, reject, route, blocked, accepted risk, or session-specific state. |
+| Evidence reference | Customer-held record, not raw evidence. |
+| Evidence limits | Freshness, coverage, unsupported areas, assumptions. |
+| Exception | Exception reference, expiry, compensating control, approver. |
+| Backlog | Gap, owner, acceptance test, target date, release/roadmap impact. |
+| Review trigger | Date, material change, incident, release stage, or S13 re-baseline signal. |
+
 ## Platform checks
 
 Inspect these customer-owned records; store only safe references in this repo.

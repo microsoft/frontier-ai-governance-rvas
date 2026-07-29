@@ -33,7 +33,13 @@
           "retention_reference": { "type": "string" },
           "captured_at": { "type": "string", "format": "date-time" },
           "integrity_reference": { "type": "string" },
-          "redaction_status": { "type": "string" }
+          "redaction_status": { "type": "string" },
+          "scope": { "type": "string" },
+          "freshness_date": { "type": "string", "format": "date" },
+          "coverage_limit": { "type": "string" },
+          "unsupported_area": { "type": "string" },
+          "review_trigger": { "type": "string" },
+          "receiving_owner": { "type": "string" }
         }
       }
     }

@@ -12,7 +12,6 @@ Bring a bounded workload or portfolio slice, decision owner, implementation owne
 
 | Record | Required use |
 |---|---|
-| [`runbook.md`](runbook.md) | Step-by-step control-plane reconciliation flow, including source of record, steward, conflict rule, lifecycle state, material-change trigger, retirement evidence route, decision state, blockers, and handoff. |
 | [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for the reconciliation decision, evidence references, acceptance test, exception status, backlog, target date, and handoff. Copy it into the customer's approved records system before completion. |
 
 ## Work package outcomes
@@ -27,10 +26,19 @@ By the end of the lab, the customer has a customer-owned decision record that su
 - **Blockers and backlog:** missing source of record, steward, owner, identity link, API/tool dependency, Foundry/API Center linkage, telemetry pointer, lifecycle state, conflict rule, retirement evidence, cadence, or evidence location captured with owner, acceptance test, target date, and review trigger.
 - **Handoff:** control-plane steward, identity owner, API platform owner, Foundry/platform owner, portfolio governance, and operations governance accept the decision or backlog with clear acceptance criteria.
 
+## Technical capture fields
+
+| Area | Fields to capture |
+|---|---|
+| Registry fields | Agent/workload, identity, tool/API, model, data source, telemetry, lifecycle, owner, exception, and evidence-reference fields. |
+| Source-of-record joins | Agent 365, Entra Agent ID/workload identity, Foundry, API Center, API Management, Azure Monitor/Application Insights, and customer register join keys. |
+| Lifecycle | Proposed, active-review, publish-ready, published, hold, suspended, deprecated, retired, or withdrawn state with transition owner and review reference. |
+| Drift finding | Missing owner, stale version, orphan identity, uncataloged API/tool, route mismatch, telemetry gap, lifecycle conflict, exception aging, owner, target date, and route. |
+
 ## Facilitation flow
 
 1. Confirm the customer has a bounded scope, owners, steward, and approved records location. If not, stop the decision and create a blocker backlog item.
-2. Follow [`runbook.md`](runbook.md), then copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system. Complete only safe references in this repository.
+2. Copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system. Complete only safe references in this repository.
 3. Inspect the Microsoft control path: **Microsoft Agent 365, Microsoft Entra Agent ID, Azure API Center, Microsoft Foundry, federated registers, and platform telemetry references**.
 4. Ask: **Which customer-owned Microsoft record is authoritative for this agent or workload, what happens when records conflict, and who operates the record next?**
 5. Record one result in the customer system: approve, defer, reject, route, or blocked.

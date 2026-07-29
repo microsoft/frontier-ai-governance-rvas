@@ -12,7 +12,6 @@ Bring a bounded API, tool, connector, MCP publication, allow-list request, or co
 
 | Record | Required use |
 |---|---|
-| [`runbook.md`](runbook.md) | Step-by-step tool/API admission, route, owner/version/auth/rate/audit/revocation, withdrawal, consumer-review, and downstream handoff flow. |
 | [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for route decision, admission checks, withdrawal checks, evidence references, acceptance test, exception status, backlog, target date, and handoff. Copy it into the customer's approved records system before completion. |
 
 ## Work package outcomes
@@ -29,7 +28,7 @@ By the end of the lab, the customer has a customer-owned decision record that su
 ## Facilitation flow
 
 1. Confirm the customer has a bounded tool/API scenario, owners, and an approved records location. If not, stop the decision and create a blocker backlog item.
-2. Follow [`runbook.md`](runbook.md), then copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system.
+2. Copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system.
 3. Classify the route across **API Center/APIM, allow-list, connector, MCP publication, S10 referral, and reject unsafe tool**.
 4. Ask: **Which customer-owned Microsoft record proves this tool is admissible, bounded, reviewable, and withdrawable, and who accepts each consumer?**
 5. Record one result: approve, defer, reject, route, withdraw, or blocked.

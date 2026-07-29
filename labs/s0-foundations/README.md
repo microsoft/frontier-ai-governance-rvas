@@ -26,6 +26,15 @@ By the end of the lab, the customer has a customer-owned decision record that su
 - **Exceptions:** reason, equivalent control, owner, acceptance test, target date, evidence reference, and review trigger when the default path is not used.
 - **Backlog and handoff:** missing owner/forum, split ownership, baseline gap, unclear exception path, or missing acceptance criteria captured with owner, target date, evidence location, accepted-when check, and recheck trigger.
 
+## Technical capture fields
+
+| Area | Fields to capture |
+|---|---|
+| Decision rights | Sponsor, governance lead, product, platform, identity, data, security, release, operations, portfolio RACI. |
+| Exception | Risk statement, compensating control, owner, approver, review date, expiry, evidence reference, escalation route, closure criterion. |
+| Escalation | Trigger, target forum, SLA/cadence, owner, target decision date, stop condition. |
+| Evidence model | Decision reference, scope, owner, decision state, evidence reference, limits, exception, backlog, review trigger. |
+
 ## Facilitation flow
 
 1. Confirm the customer has a bounded scope, owners, receiving forum, and approved records location. If not, stop the decision and create a blocker backlog item.

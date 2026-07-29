@@ -12,7 +12,6 @@ Bring a bounded workload or portfolio slice, decision owner, evaluation owner, i
 
 | Record | Required use |
 |---|---|
-| [`runbook.md`](runbook.md) | Step-by-step evaluation-gate flow, including route selection, scenario set, evaluator/rubric version, baseline, thresholds, CI/CD gate, load test, diagnostic-only path, decision state, blockers, and handoff. |
 | [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for the evaluation decision, safe evidence references, acceptance test, exception status, backlog, target date, and handoff. Copy it into the customer's approved records system before completion. |
 
 ## Work package outcomes
@@ -29,7 +28,7 @@ By the end of the lab, the customer has a customer-owned decision record that su
 ## Facilitation flow
 
 1. Confirm the customer has a bounded scope, owners, and an approved records location. If not, stop the decision and create a blocker backlog item.
-2. Follow [`runbook.md`](runbook.md), then copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system. Complete only safe references in this repository.
+2. Copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system. Complete only safe references in this repository.
 3. Inspect the Microsoft control path: **Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing where applicable**.
 4. Select the route: Foundry evaluator, manual rubric, CI/CD gate, load test, diagnostic-only because S6/S3 prerequisites are missing, or mixed route.
 5. Ask: **Which scenario set, evaluator version, threshold owner, baseline, and release/hold owner make this gate ready for handoff?**

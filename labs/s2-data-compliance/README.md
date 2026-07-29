@@ -12,7 +12,6 @@ Bring a bounded workload or portfolio slice, decision owner, implementation owne
 
 | Record | Required use |
 |---|---|
-| [`runbook.md`](runbook.md) | Step-by-step data-path and compliance review flow, including classification, DSPM, DLP, investigation, retention, gateway dependency, decision state, blockers, and handoff. |
 | [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for the decision, evidence references, acceptance test, exception status, backlog, target date, and handoff. Copy it into the customer's approved records system before completion. |
 
 ## Work package outcomes
@@ -28,10 +27,19 @@ By the end of the lab, the customer has a customer-owned decision record that su
 - **Blockers and backlog:** missing owner, record location, classification, DSPM access, DLP readiness, investigation route, retention/hold decision, gateway dependency, license/access, or scope clarity captured with owner, acceptance test, target date, evidence location, and review trigger.
 - **Handoff:** receiving data owner, privacy/compliance team, Purview administrator, and any gateway/runtime owner accept the decision or backlog with clear acceptance criteria.
 
+## Technical capture fields
+
+| Area | Fields to capture |
+|---|---|
+| Data-path map | Source, prompt/input, retrieval, tool request, tool response, final response, logs/telemetry, evaluation data, and evidence reference. |
+| Control reviews | Classification, DSPM/exposure, DLP/report-only, audit/eDiscovery, retention/legal hold, residency/privacy, and unsupported workload notes. |
+| Minimization | Source filter, retrieval filter, app redaction, gateway masking, model/output check, telemetry minimization, and known bypass paths. |
+| Handoff | Data owner, compliance owner, records owner, gateway/runtime owner, acceptance test, target date, blocker, and release impact. |
+
 ## Facilitation flow
 
 1. Confirm the customer has a bounded scope, owners, and an approved records location. If not, stop the decision and create a blocker backlog item.
-2. Follow [`runbook.md`](runbook.md), then copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system. Complete only safe references in this repository.
+2. Copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system. Complete only safe references in this repository.
 3. Map the data path and inspect the Microsoft control path: **Microsoft Purview Data Security Posture Management, Data Loss Prevention, sensitivity labels, audit, eDiscovery, retention/hold route, and any gateway dependency**.
 4. Ask: **Which customer-owned Microsoft record proves this bounded data path is ready to hand off, and who operates it next?**
 5. Record one result in the customer system: approve, defer, reject, route, or blocked.

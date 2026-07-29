@@ -12,7 +12,6 @@ Bring a bounded workload or portfolio slice, decision owner, data owner, experim
 
 | Record | Required use |
 |---|---|
-| [`runbook.md`](runbook.md) | Step-by-step seven-stage LLMOps lifecycle flow, including data curation, experiment, evaluation, validate/deploy, inference, monitor, feedback, model rollout/fallback, decision state, blockers, and handoff. |
 | [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for the lifecycle decision, safe evidence references, acceptance test, exception status, backlog, target date, and handoff. Copy it into the customer's approved records system before completion. |
 | [`templates/model-lifecycle.addendum.md`](templates/model-lifecycle.addendum.md) | Required addendum when model-version rollout, alias switching, fallback, rollback, retirement, or automation readiness is in scope. |
 
@@ -26,10 +25,19 @@ By the end of the lab, the customer has a customer-owned decision record that su
 - **Automation prerequisites:** evidence required before test automation, canary rollout, alias switching, fallback routing, feedback-to-curation, or retirement automation is enabled.
 - **Blockers and backlog:** missing baseline/candidate/fallback, S7 evaluation, switch authority, rollback trigger, retirement owner, monitoring owner, feedback gate, evidence location, access/license, or scope clarity captured with owner, acceptance test, target date, evidence location, and review trigger.
 
+## Technical capture fields
+
+| Area | Fields to capture |
+|---|---|
+| Release manifest | Release reference, prompt/instruction version, retrieval config, tool schema, model alias, evaluation reference, runtime-control reference, telemetry reference, rollback target, approver. |
+| Version contracts | Prompt, model, dataset, evaluation rubric, retrieval index, tool schema, deployment alias, owner, review trigger, retirement route. |
+| Alias/fallback/canary | Switch authority, traffic stage, failover trigger, monitoring signal, rollback target, stop condition, exception path. |
+| Feedback curation | S11 signal, hypothesis, S2 privacy/retention route, curation owner, dataset/scenario candidate, S7 evaluation route, mutation gate. |
+
 ## Facilitation flow
 
 1. Confirm the customer has a bounded scope, owners, and an approved records location. If not, stop the decision and create a blocker backlog item.
-2. Follow [`runbook.md`](runbook.md), then copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system. Use [`templates/model-lifecycle.addendum.md`](templates/model-lifecycle.addendum.md) when rollout, fallback, rollback, or retirement details are in scope. Complete only safe references in this repository.
+2. Copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system. Use [`templates/model-lifecycle.addendum.md`](templates/model-lifecycle.addendum.md) when rollout, fallback, rollback, or retirement details are in scope. Complete only safe references in this repository.
 3. Inspect the Microsoft control path: **Microsoft Learn LLMOps lifecycle: data curation, experimentation, evaluation, validate/deploy, inference, monitor, and feedback/data collection**.
 4. Walk the seven stages and record owner, evidence reference, acceptance check, blocker, and handoff for each stage.
 5. Ask: **Which baseline, candidate, fallback, switch authority, rollback trigger, retirement condition, and S7 evaluation record make this lifecycle gate ready for handoff?**

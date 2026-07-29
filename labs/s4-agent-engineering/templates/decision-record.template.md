@@ -61,6 +61,20 @@ Default paths: **Copilot Studio, Microsoft Foundry Agent Service, Microsoft 365 
 | Release or change process | |
 | Retirement trigger | |
 
+## Agent package record
+
+| Field | Record |
+|---|---|
+| Instruction / workflow / hosted package reference | |
+| Model or deployment alias | |
+| Tool / API / connector list and versions | |
+| Data-source references and owner | |
+| Identity mode and authority owner | |
+| Telemetry / correlation route | |
+| Release manifest reference | |
+| Rollback owner and target | |
+| Material-change triggers | |
+
 ## Model, latency, and cost
 
 | Field | Record |

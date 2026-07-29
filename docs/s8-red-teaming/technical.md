@@ -26,6 +26,72 @@ Default to an authorized, customer-operated non-production Microsoft AI Red Team
 | Remediation | Azure AI Content Safety/Prompt Shields, gateway controls, Defender/SOC route, prompt/tool/code fix, lifecycle block | Actual owner boundary sits in app design, tool permission, data path, model choice, or accepted-risk route |
 | Retest | Same method or approved alternate verifies the fix against the agreed criterion | Fix cannot be safely retested, target changed, or evidence cannot be retained |
 
+## Rules-of-engagement fields
+
+| Field | Required record |
+|---|---|
+| Target | Target reference, version, environment, owner, support status, reset/rollback path. |
+| Operators | Named operator roles, permitted tools, approval reference, monitoring window. |
+| Categories | Approved attack categories, excluded categories, threshold owner, sample-size note. |
+| Data limits | Permitted synthetic/customer-held test data, prohibited data, prompt/output evidence handling. |
+| Stop conditions | Safety, legal, operational, SOC, cost, or production-impact triggers that halt testing. |
+| Contacts | SOC, legal/risk, target owner, red-team lead, remediation owner, escalation route. |
+| Evidence handling | Customer record location, retention/export/deletion owner, visibility limits, native-scorecard treatment. |
+| Retest criteria | Fix owner, retest method, success criterion, acceptance owner, target date. |
+
+## Attack category taxonomy
+
+| Category | Maps to controls |
+|---|---|
+| Direct prompt injection | S6 input/model controls, S7 regression cases, S10 local policy where tool call is affected. |
+| Indirect prompt injection | S2 source hygiene, S6 retrieval/tool-response controls, S7 groundedness/safety tests. |
+| Sensitive-data disclosure | S2 data controls, S6 output safety/masking, S11 investigation route. |
+| Tool abuse or unsafe action | S1 authority, S5 tool/API governance, S6/S10 runtime policy, S9 catalog. |
+| Hallucination/grounding failure | S7 evaluation, retrieval/source controls, S11 drift review. |
+| Harmful or policy-violating content | Azure AI Content Safety/Prompt Shields, S6 controls, S7 safety tests. |
+| Protected-material or copyright risk | S6 protected material controls, S7 rubric, legal/risk owner. |
+| Cost/availability abuse | S5 quotas, S6 rate/abuse controls, S11 FinOps/alert route. |
+| Cross-tenant or unauthorized access | S1 identity, S2 data boundary, S3 platform/network, SOC route. |
+
+## Finding record shape
+
+Use this shape for the customer-owned decision note that references native run
+evidence. Do not store prompts, outputs, attack payloads, or scorecards here.
+
+```json
+{
+  "findingRef": "finding-id-placeholder",
+  "targetRef": "target-version-placeholder",
+  "category": "indirect_prompt_injection",
+  "technique": "technique-placeholder",
+  "severity": "high",
+  "exploitability": "bounded-non-production",
+  "exposure": "tested-scope-only",
+  "affectedRoute": "tool-or-response-route-placeholder",
+  "evidenceRef": "customer-native-scorecard-or-run-record",
+  "owner": "remediation-owner-placeholder",
+  "remediationRoute": "s6-runtime-control",
+  "releaseImpact": "hold-pre-until-retest",
+  "retestCriterion": "criterion-placeholder",
+  "acceptedRiskRef": null
+}
+```
+
+## Severity and retest protocol
+
+| Severity input | Interpretation |
+|---|---|
+| Impact | User, data, financial, operational, legal, safety, or reputation consequence if the behavior occurred in intended scope. |
+| Exploitability | Skill, access, repeatability, automation potential, and prerequisite conditions. |
+| Exposure | Affected users, channels, tools, data classes, environments, and shared dependencies. |
+| Detectability | Whether S11/SOC/gateway/app telemetry would observe the behavior. |
+| Release impact | Continue, hold, block, route, accepted risk, or emergency containment. |
+
+Retest should use the same target category and success criterion unless the
+customer records why an alternate method is more reliable. A lower ASR after a
+change supports only the tested scope and method; it does not certify production
+safety.
+
 ## Platform checks
 
 | Check | Microsoft product/control record |

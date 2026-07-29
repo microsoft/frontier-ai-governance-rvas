@@ -47,6 +47,65 @@ Default to the Microsoft LLMOps lifecycle: **data curation â†’ experimentation â
 | Evaluation dataset, scorer, rubric, or threshold change | changes the evaluation claim | S7 decision and comparison/coverage impact record |
 | Telemetry, alert, retention, cost allocation, or incident route change | changes monitoring and feedback-loop evidence | S11 and customer change route |
 
+## Release manifest reference shape
+
+Use a release manifest to join artifact versions without copying prompts,
+datasets, outputs, or tenant configuration into the curriculum.
+
+```json
+{
+  "releaseRef": "release-id-placeholder",
+  "workloadRef": "agent-or-app-placeholder",
+  "environment": "pre",
+  "promptRef": "instruction-version-placeholder",
+  "retrievalRef": "index-or-query-config-placeholder",
+  "toolSchemaRefs": ["tool-schema-version-placeholder"],
+  "model": {
+    "deploymentAlias": "model-alias-placeholder",
+    "fallbackAlias": "fallback-alias-placeholder"
+  },
+  "evaluationRef": "s7-evaluation-record-placeholder",
+  "runtimeControlRef": "s6-control-record-placeholder",
+  "telemetryRef": "s11-operating-record-placeholder",
+  "rollbackTarget": "prior-release-placeholder",
+  "approverRef": "customer-change-authority-placeholder"
+}
+```
+
+## Version contracts
+
+| Artifact | Version contract | Reapproval trigger |
+|---|---|---|
+| Prompt/instruction | Safe reference, semantic version or release ID, owner, intended use, prompt-change rationale, rollback target. | Any behavior-changing instruction, system prompt, tool instruction, or safety instruction change. |
+| Model/deployment | Deployment alias, model family/version, region/residency assumption, capacity/quota owner, fallback, deprecation date. | Alias target, fallback, model version/family/provider/region, or quota/capacity change. |
+| Dataset/scenario | Dataset reference, source provenance, split, transformation, retention, rubric coverage, privacy route. | New source, transformation, retention, label/rubric change, or feedback reuse. |
+| Evaluation rubric | Evaluator/scorer version, threshold owner, unsupported dimensions, manual review route, S7 reference. | Threshold, scorer, rubric wording, evaluator version, or coverage change. |
+| Retrieval index/config | Source list, filter, ranking/query config, refresh cadence, cache behavior, data owner. | Source, filter, ranking, refresh, or permission-boundary change. |
+| Tool schema | Tool/API schema version, gateway route, allowed action, owner, S5 reference. | New parameter, action, target, connector, or permission scope. |
+| Deployment alias | Alias owner, target release, traffic stage, switch authority, monitoring signal, rollback target. | Traffic movement, failover, rollback, or emergency switch. |
+
+## Alias, fallback, and canary governance record
+
+| Field | Record |
+|---|---|
+| Switch authority | Role or process allowed to move traffic or change alias target. |
+| Traffic stage | DEV/PRE/PRO, canary percentage or population, start/end time, excluded users. |
+| Failover trigger | Availability, latency, quality, safety, cost, quota, or incident signal that permits fallback. |
+| Monitoring signal | Metric/query/alert reference and interpretation owner. |
+| Rollback target | Prior release, model alias, gateway route, prompt/retrieval bundle, and owner. |
+| Stop condition | Threshold or incident route that halts rollout. |
+
+## Feedback curation path
+
+Production feedback is a candidate input, not a direct production mutation.
+
+1. S11 signal or feedback queue identifies a hypothesis.
+2. S2 reviews privacy, retention, consent, and data-use limits.
+3. Curation owner creates a candidate dataset or scenario reference.
+4. Experiment owner creates a candidate prompt/retrieval/model/tool change.
+5. S7 evaluates the candidate against baseline and known risks.
+6. Customer change authority decides whether the manifest can advance.
+
 ## Platform checks
 
 | Check | Microsoft product/control record |

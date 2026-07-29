@@ -40,6 +40,50 @@ Use this matrix to make the practical workshop scenario-driven. Each row asks fo
 | Residency/privacy | Whether the data path, telemetry, model endpoint, gateway, and evidence location meet approved residency and privacy constraints | approved region/service residency documentation, privacy/legal processing record, tenant data-boundary note | region or tenant support unknown; legal basis unresolved; cross-border path unreviewed | route to privacy/legal; record no residency approval |
 | Gateway/runtime minimization | Where sensitive fields are minimized before prompt assembly, retrieval, tool call, response, or logs | source filter, retrieval query, gateway masking rule, APIM route, app redaction owner, telemetry sampling/minimization record | gateway cannot see the field; streaming/tool output bypasses gateway; unsupported masking claim | move minimization to source/app boundary; do not claim gateway coverage |
 
+## Data-path reference map
+
+Record every segment as a reference to customer-held evidence. S2 does not
+copy data, prompts, outputs, exports, or tenant configuration.
+
+| Segment | Minimum fields | Common control question |
+|---|---|---|
+| Source system | Workload, source owner, data class, region/residency, permission model, retention owner, last review date. | Is the source approved for this scenario and least-privilege access path? |
+| Prompt/input | Input producer, allowed sensitive classes, prohibited fields, minimization point, logging behavior. | Can sensitive input enter the model path, and where is it reduced? |
+| Retrieval context | Index/source, query scope, filter, ranking owner, connector identity, cache/storage behavior. | Can retrieval surface overshared or stale content? |
+| Tool request | Tool/API, parameter classes, identity mode, gateway route, policy owner, downstream system. | Does a tool call send regulated data to another boundary? |
+| Tool response | Response classes, truncation/redaction point, log/correlation path, failure behavior. | Can returned data bypass source controls or gateway masking? |
+| Final response | Display channel, sharing target, storage/copy route, output-safety dependency, user notice if any. | Could generated content expose or transform sensitive data? |
+| Logs/telemetry | Fields logged, sampling, masking, retention, access owner, investigation owner. | Are logs minimized and usable for investigation without becoming a new data store risk? |
+| Evaluation data | Dataset source, de-identification owner, retention, rubric owner, reuse limits. | Is evaluation using approved non-production or properly governed records? |
+| Evidence reference | Record system, evidence owner, review date, scope, limitations, expiry. | Can reviewers find the decision evidence without exporting customer data? |
+
+## Purview, DLP, audit, and eDiscovery review shapes
+
+Use these shapes when turning technical evidence into a decision record.
+
+| Review | Fields to capture | Blocker examples | Fallback route |
+|---|---|---|---|
+| Purview classification | Workload, label or sensitive-information type, classifier source, coverage scope, reviewer, unsupported locations. | Label owner missing; source not scanned; classifier does not cover the data type. | Manual data-owner attestation plus classification backlog. |
+| DSPM/exposure | Finding ID/reference, affected source, exposure type, access group, remediation owner, residual risk. | Workload unsupported; ACL export unavailable; oversharing owner unknown. | Source-permission review before broad agent access. |
+| DLP/report-only | Policy/report reference, condition, workload, mode, match count, false-positive owner, exception owner. | Missing license/role; unsupported connector/condition; enforcement would require live change. | Record observation gap and route to compliance/change owner. |
+| Audit/eDiscovery | Query route, workload coverage, time range, retention/hold owner, reviewer, investigation handoff. | Audit disabled; no case owner; route excludes the workload. | Legal/compliance backlog with manual review route. |
+| Retention/legal hold | Source retention, log retention, evidence retention, hold process, deletion owner, expiry/review date. | Evidence store unapproved; hold route missing; residency/legal basis unresolved. | Defer release recommendation pending records/privacy decision. |
+
+## Runtime minimization placement
+
+Runtime minimization belongs at the earliest technically reliable point. Record
+coverage limits explicitly, especially when streaming, tool responses, or
+direct service calls bypass a gateway.
+
+| Placement | Example record | Limitation to record |
+|---|---|---|
+| Source filter | Source query scope, ACL group, label filter, row/field projection owner. | Does not protect user-entered prompt text or downstream tool responses. |
+| Retrieval query | Index filter, semantic ranker scope, connector identity, cache behavior. | Ranking can surface sensitive snippets if source access is too broad. |
+| Application redaction | Field allow-list, redaction library/policy version, test owner, fallback behavior. | App must see the field before it can redact it. |
+| Gateway masking | APIM/gateway route, masking policy reference, observed field classes, bypass routes. | Only covers traffic routed through that gateway and supported content forms. |
+| Model/output check | Safety/output check reference, action on match, reviewer route. | Output checks do not prove source permission or legal basis. |
+| Telemetry minimization | Logged fields, sampling/masking rule, retention/access owner. | Logs may still retain correlation metadata requiring privacy review. |
+
 ## Platform checks
 
 | Check | Microsoft product/control record |

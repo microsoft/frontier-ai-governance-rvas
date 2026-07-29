@@ -12,7 +12,6 @@ Bring a bounded workload or portfolio slice, the decision owner, product owner, 
 
 | Record | Required use |
 |---|---|
-| [`runbook.md`](runbook.md) | Step-by-step agent route, admission, promotion, model/latency/cost, and S6/S7/S9 handoff flow. |
 | [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for the route decision, authority level, evidence references, DEV/PRE/PRO gates, acceptance test, exception status, backlog, target date, and handoff. Copy it into the customer's approved records system before completion. |
 
 ## Work package outcomes
@@ -27,10 +26,23 @@ By the end of the lab, the customer has a customer-owned decision record that su
 - **Downstream handoffs:** S5 tool/API dependency, S6 runtime-assurance prerequisite, S7 evaluation prerequisite, S9 control-plane/catalog handoff, and any blocker.
 - **Blockers and backlog:** missing owner, record location, route rationale, authority, gate, model/cost/latency owner, S5/S6/S7/S9 prerequisite, or scope clarity captured with owner, target date, evidence location, acceptance test, and review trigger.
 
+## Technical capture fields
+
+Capture these fields in the customer-owned decision record when they apply. Use
+references and placeholders only; do not store prompts, outputs, endpoints, or
+live configuration in this repository.
+
+| Area | Fields to capture |
+|---|---|
+| Implementation path | Selected path, rejected alternatives, environment or project reference, package/version reference, owner, lifecycle state, support boundary. |
+| Agent package | Instruction/workflow/package reference, model or deployment alias, tools/actions/API versions, data sources, identity mode, telemetry route, release manifest reference, rollback owner. |
+| Authority and gates | Authority archetype, human-control point, S5/S6/S7/S8/S9/S11 prerequisites, blocker rule, receiving owner. |
+| Material changes | Prompt/workflow, model alias, tool schema, data source, identity/RBAC, gateway route, telemetry, owner, and publication-channel change triggers. |
+
 ## Facilitation flow
 
 1. Confirm the customer has a bounded scope, owners, and an approved records location. If not, stop the decision and create a blocker backlog item.
-2. Follow [`runbook.md`](runbook.md), then copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system.
+2. Copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system.
 3. Classify the route across **Copilot Studio, Foundry Agent, Microsoft 365 extension, custom app, workflow-not-agent, and prototype-only**.
 4. Ask: **Which route gives this agent the right authority, lifecycle owner, gate path, model/cost/latency owner, and downstream handoff without implying production approval?**
 5. Record one result: approve, defer, reject, route, blocked, or prototype-only.

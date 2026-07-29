@@ -21,6 +21,78 @@ Default to Azure API Management/gateway controls for route-level authentication,
 | Defense in depth | high-authority action needs both controls | gateway and in-process decisions have correlation and conflict-review owners |
 | Not applicable | no real in-process control point exists | rationale and alternate S5/S6/S11/S13 or customer-backlog path are recorded |
 
+## Checkpoint taxonomy
+
+| Checkpoint | Decision context | Typical owner |
+|---|---|---|
+| Pre-tool selection | Candidate tool/action list, user/session context, task intent, authority limit. | Policy owner and engineering owner. |
+| Pre-parameter binding | Proposed parameters, data class, target system, identity mode, prohibited fields. | Data/security owner and code owner. |
+| Pre-execution | Final tool/action, resource target, approval requirement, break-glass condition, correlation ID. | Runtime/control owner. |
+| Post-tool response | Returned status/data class, unexpected fields, failure mode, redaction/minimization route. | Engineering and data owner. |
+| Pre-final response | User-visible content, sensitive data, action summary, required disclosure or hold-for-review. | Product/runtime owner. |
+| Human approval | Reviewer role, approval scope, expiry, escalation route, audit retention. | Business/process owner. |
+
+## Policy decision event shape
+
+Use this as a reference shape for a customer-owned event design. It is not a
+deployment instruction.
+
+```json
+{
+  "eventType": "in_process_policy_decision",
+  "eventVersion": "1.0",
+  "decisionUtc": "2026-01-01T00:00:00Z",
+  "correlationId": "operation-id-placeholder",
+  "agentRef": "agent-registry-id-placeholder",
+  "sessionRef": "session-ref-placeholder",
+  "checkpoint": "pre_execution",
+  "tool": {
+    "name": "approved-tool-name",
+    "version": "tool-schema-version-placeholder",
+    "targetRef": "target-system-placeholder"
+  },
+  "policy": {
+    "policyId": "policy-id-placeholder",
+    "policyVersion": "policy-version-placeholder"
+  },
+  "decision": "approve",
+  "allowedOutcomes": ["allow", "deny", "approve", "escalate", "defer", "break_glass"],
+  "reasonCode": "human-approval-required",
+  "reviewerRef": "reviewer-role-placeholder",
+  "downstreamOutcomeKnown": false,
+  "evidenceRef": "customer-record-reference"
+}
+```
+
+Decision values should be explicit:
+
+| Decision | Meaning |
+|---|---|
+| `allow` | Policy permits the action without additional human approval. |
+| `deny` | Policy blocks the action and records a reason. |
+| `approve` | A named reviewer or role approved the action. |
+| `escalate` | A higher authority must decide before execution. |
+| `defer` | Missing context prevents a safe decision. |
+| `break_glass` | Emergency path invoked under a separately governed procedure. |
+
+## Gateway correlation and conflict handling
+
+| Case | Record |
+|---|---|
+| Gateway allows, in-process denies | Local policy reason, gateway route reference, conflict reviewer, user-facing behavior, S6/S11 evidence route. |
+| Gateway denies, in-process allows | Gateway denial wins for runtime; local policy owner reviews why the local rule was less restrictive. |
+| Gateway not in path | Reason gateway cannot observe or decide, compensating control, telemetry/correlation route. |
+| In-process audit missing | Treat as control evidence gap; do not claim in-process decision effectiveness. |
+| Correlation mismatch | Record operation/trace mismatch, affected time range, owner, and investigation route. |
+
+## Tamper-evidence boundary
+
+Local hash-chain consistency shows only that a copied record is internally
+consistent. It is not immutable proof. A production design that needs tamper
+evidence should record external signed storage, append-only retention, access
+control, key owner, time-source assumption, export route, and reviewer cadence.
+S10 records the need and owner; it does not configure or certify storage.
+
 ## Platform checks
 
 | Check | Microsoft product/control record |

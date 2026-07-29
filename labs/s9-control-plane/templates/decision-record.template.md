@@ -46,6 +46,19 @@ Default path: **Microsoft Agent 365, Microsoft Entra Agent ID, Azure API Center,
 | Steward and review cadence | |
 | Record-quality owner | |
 
+## Canonical registry fields
+
+| Field family | Record |
+|---|---|
+| Agent / workload | |
+| Identity | |
+| Tool / API / action | |
+| Model / deployment | |
+| Data source | |
+| Telemetry | |
+| Lifecycle / exception | |
+| Source-of-record join key | |
+
 ## Reconciliation checks
 
 | Check | Record |
@@ -54,9 +67,10 @@ Default path: **Microsoft Agent 365, Microsoft Entra Agent ID, Azure API Center,
 | Conflict rule / winning source | |
 | Conflict resolver | |
 | Stale-record rule | |
-| Lifecycle state (proposed / pilot / active / exception / suspended / retiring / retired) | |
+| Lifecycle state (proposed / active-review / publish-ready / published / hold / suspended / deprecated / retired / withdrawn) | |
 | Material-change trigger | |
 | Retirement evidence route | |
+| Drift rule (missing owner / stale version / orphan identity / uncataloged tool / route mismatch / telemetry gap / lifecycle conflict / exception aging) | |
 | Known unsupported or unreviewed path | |
 
 ## Customer decision

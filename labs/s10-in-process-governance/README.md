@@ -12,6 +12,15 @@ Bring one bounded workload or portfolio slice, the decision owner, code or imple
 
 By the end of the lab, the customer has recorded one conditional decision: **gateway-only**, **in-process candidate**, **both**, or **not applicable**; then **approve**, **defer**, **reject**, or **route** the resulting record. Any in-process candidate remains a separate customer engineering assessment. AGT is only one possible implementation candidate and is subject to Public Preview status, limitations, customer code ownership, and support review.
 
+## Technical capture fields
+
+| Area | Fields to capture |
+|---|---|
+| Checkpoint | Pre-tool selection, pre-parameter binding, pre-execution, post-tool response, pre-final response, or human approval. |
+| Policy decision | Correlation ID, agent/session reference, tool name/version, target reference, policy ID/version, decision, reason code, reviewer, downstream-outcome caveat. |
+| Gateway correlation | Gateway route reference, APIM/policy decision if any, conflict owner, correlation mismatch handling, S6/S11 evidence route. |
+| Tamper evidence | Audit storage owner, immutable/signed storage need, retention owner, key owner, access owner, and limitation note. |
+
 ## Required record
 
 | Record | Use |
@@ -24,9 +33,11 @@ By the end of the lab, the customer has recorded one conditional decision: **gat
 2. Confirm delegated authority, code or implementation owner, policy owner, evidence owner, and audit-record route. If any required owner or route is missing, **defer** or **route**; do not treat the lab as adoption approval.
 3. Compare the existing gateway/platform control with the proposed local decision. If the gateway can make the meaningful decision, record **gateway-only** and hand off through the normal control path.
 4. If both gateway and local context are needed, record **both** and name the correlation, conflict-review, and audit owners.
-5. If only local pre-tool context can make the decision, record **in-process candidate** and create a customer-owned engineering assessment backlog item. Include AGT Public Preview caveat only if AGT is considered.
-6. If there is no real in-process decision point or delegated authority, record **not applicable**, name the alternate S11/S13 or customer-backlog path, and stop S10.
-7. Copy the decision record into the customer's approved records system and complete only safe references in this repository.
+5. Identify the checkpoint: pre-tool selection, pre-parameter binding, pre-execution, post-tool response, pre-final response, or human approval.
+6. Record the policy decision event fields and tamper-evidence requirement. If signed immutable external storage is required, route it as customer-owned engineering/security work.
+7. If only local pre-tool context can make the decision, record **in-process candidate** and create a customer-owned engineering assessment backlog item. Include AGT Public Preview caveat only if AGT is considered.
+8. If there is no real in-process decision point or delegated authority, record **not applicable**, name the alternate S11/S13 or customer-backlog path, and stop S10.
+9. Copy the decision record into the customer's approved records system and complete only safe references in this repository.
 
 ## Decision criteria
 

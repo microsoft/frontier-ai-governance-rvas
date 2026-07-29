@@ -12,7 +12,6 @@ Bring a bounded non-production target, target owner, decision owner, red-team op
 
 | Record | Required use |
 |---|---|
-| [`runbook.md`](runbook.md) | Step-by-step adversarial-testing review flow, including authorization, method selection, unsupported-target route, threshold interpretation, remediation owner, stop condition, retest criterion, blockers, and handoff. |
 | [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for the decision, evidence references, acceptance tests, exception status, backlog, target date, and handoff. Copy it into the customer's approved records system before completion. |
 
 ## Work package outcomes
@@ -27,10 +26,19 @@ By the end of the lab, the customer has a customer-owned decision record that su
 - **Blockers and backlog:** missing ROE, SOC/legal contact, stop condition, supported method, category threshold, severity owner, remediation owner, retest criterion, evidence location, or exception approval captured with owner, acceptance test, target date, and review trigger.
 - **Handoff:** red-team lead, security owner, SOC, legal/risk owner, remediation owner, evaluation owner, product owner, and release/lifecycle owner accept the decision or backlog with clear acceptance criteria.
 
+## Technical capture fields
+
+| Area | Fields to capture |
+|---|---|
+| Rules of engagement | Target, environment, operators, categories, data limits, stop conditions, monitoring, contacts, evidence handling, retest criteria. |
+| Attack category | Direct/indirect prompt injection, sensitive-data disclosure, tool abuse, hallucination, harmful content, protected material, cost/availability, unauthorized access. |
+| Finding | Category, technique, severity, exploitability, exposure, affected route, evidence reference, owner, remediation route, release impact, retest criterion. |
+| Retest | Method, target version, criterion, owner, evidence reference, acceptance owner, limitation, remaining risk. |
+
 ## Facilitation flow
 
 1. Confirm the customer has approved written authorization, a customer-owned non-production target, owners, stop condition, SOC/legal contacts, and an approved records location. If not, stop the decision and create a blocker backlog item.
-2. Follow [`runbook.md`](runbook.md), then copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system. Keep only safe references in this repository.
+2. Copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system. Keep only safe references in this repository.
 3. Select the Microsoft control path: **AI Red Teaming Agent where supported; PyRIT/manual approved alternate; Azure AI Content Safety/Prompt Shields; Defender/Sentinel; SOC remediation routes**.
 4. Ask: **Which customer-owned record proves this authorized finding is ready to remediate, accept, reject, route, block, or retest, and who operates it next?**
 5. Record one result in the customer system: approve, defer, reject, route, blocked, accepted risk, remediation required, or retest required.

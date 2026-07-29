@@ -25,7 +25,6 @@ By the end of the lab, the customer has:
 
 | Record | Use |
 |---|---|
-| [`runbook.md`](runbook.md) | Step-by-step platform-boundary readiness review flow, including platform profile, trust-boundary mapping, gateway route, network/private assumptions, telemetry, correlation, retention, decision, and blocker path. |
 | [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for the session decision, evidence reference, acceptance test, exception status, backlog, target date, and handoff. |
 
 ## Facilitation flow

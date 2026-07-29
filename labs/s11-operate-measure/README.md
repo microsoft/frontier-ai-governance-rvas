@@ -12,7 +12,6 @@ Bring a bounded workload or portfolio slice, decision owner, service operations 
 
 | Record | Required use |
 |---|---|
-| [`runbook.md`](runbook.md) | Step-by-step operating review flow, including signal population, correlation key, retention, threshold owner, FinOps rule, escalation path, drift hypothesis, decision state, blockers, and handoff. |
 | [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for the operating-review decision, evidence references, acceptance test, exception status, backlog, target date, and handoff. Copy it into the customer's approved records system before completion. |
 
 ## Work package outcomes
@@ -30,7 +29,7 @@ By the end of the lab, the customer has a customer-owned decision record that su
 ## Facilitation flow
 
 1. Confirm the customer has a bounded scope, owners, escalation path, and approved records location. If not, stop the decision and create a blocker backlog item.
-2. Follow [`runbook.md`](runbook.md), then copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system. Complete only safe references in this repository.
+2. Copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system. Complete only safe references in this repository.
 3. Inspect the Microsoft control path: **Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit**.
 4. Ask: **Which customer-owned Microsoft record lets operations explain current health, cost, drift, threshold ownership, and escalation without exporting telemetry?**
 5. Record one result in the customer system: approve, defer, reject, route, or blocked.

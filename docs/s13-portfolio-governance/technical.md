@@ -21,6 +21,69 @@ Default to Agent 365 and Microsoft control-plane records where available, Azure 
 | Prioritization | risk + value + maturity + dependency triage using S0 baseline and S9/S11 evidence | legal/regulatory cycle imposes a stricter order |
 | Continuous improvement | quarterly portfolio review with event-driven triggers | higher-risk portfolio requires shorter cadence |
 
+## Portfolio scorecard field model
+
+| Field group | Example fields | Source route |
+|---|---|---|
+| Coverage | Total scoped agents, cataloged agents, uncataloged findings, supported/unsupported workloads, stale records. | S9 register and platform records. |
+| Residual risk | Open high-risk findings, expired exceptions, unowned blockers, repeated control gaps, accepted-risk expiry. | S6/S7/S8/S9/S10 decision records. |
+| Assurance | Evaluation coverage, red-team status, runtime-control evidence, release-gate status, retest status. | S6/S7/S8 and release records. |
+| Operating health | Alert trend, incident/backlog trend, telemetry gaps, latency/cost/capacity signal, support owner. | S11 operating records. |
+| Cost/capacity | Cost center/tag, model/deployment spend, PTU/committed capacity, quota pressure, forecast owner. | Azure Cost Management, Foundry/project, FinOps record. |
+| Maturity | S0 baseline score, current evidence status, movement rationale, blocked domains. | S0 baseline and session closeouts. |
+| Exception age | Exception count, age bucket, owner, expiry, escalation, recurrence. | Exception register and S13 forum. |
+| Dependency | Shared identity, tool/API, data source, model, gateway, platform, or owner dependency. | S3/S5/S9/S11 records. |
+| Roadmap | Initiative, owner, target date, funding/capacity status, decision forum, next review trigger. | Portfolio roadmap. |
+
+## Prioritization mechanics
+
+Use weights only when the governance forum owns them. Scores are decision aids,
+not proof of value or risk reduction.
+
+| Dimension | Suggested scale | Notes |
+|---|---|---|
+| Risk reduction | 1-5 | Higher when item closes high-impact residual risk, expired exception, or repeated control gap. |
+| Business value | 1-5 | Higher when owner has a measurable outcome and adoption route. |
+| Cost/capacity impact | 1-5 | Higher when spend/capacity pressure or savings opportunity is material. |
+| Coverage improvement | 1-5 | Higher when item improves many agents, shared controls, or critical dependency visibility. |
+| Dependency leverage | 1-5 | Higher when item unblocks multiple sessions, teams, or roadmap items. |
+| Confidence | 1-5 | Penalize stale, unsupported, or thin evidence. |
+
+Example portfolio formula for discussion:
+
+```text
+priority_score =
+  (risk_weight * risk_reduction) +
+  (value_weight * business_value) +
+  (coverage_weight * coverage_improvement) +
+  (dependency_weight * dependency_leverage) -
+  (cost_weight * cost_or_capacity_burden)
+```
+
+Record the weights, owner, alternatives rejected, and decision forum. Do not use
+the formula as automatic funding approval.
+
+## Exception concentration and dependency views
+
+| View | Use |
+|---|---|
+| Exception by owner | Finds overloaded or missing accountable teams. |
+| Exception by control/session | Shows repeated S1/S2/S5/S6/S7/S9/S11 gaps that may need baseline or policy work. |
+| Exception by platform dependency | Identifies shared gateway, identity, data source, model, or telemetry blockers. |
+| Exception by age/severity | Escalates expired or high-impact items. |
+| Dependency cluster | Groups roadmap items that should be sequenced together. |
+
+## S13-to-S0 feedback loop
+
+| Portfolio signal | S0 action |
+|---|---|
+| Repeated ownership gap | Revisit decision rights, RACI, or forum cadence. |
+| Repeated evidence gap | Update baseline evidence-system expectations. |
+| New risk appetite issue | Open S0 policy/baseline question for sponsor decision. |
+| Cost/capacity pressure | Revisit funding, prioritization, or service tier assumptions. |
+| Roadmap dependency concentration | Re-baseline scope and sequencing assumptions. |
+| Matured control with stable evidence | Record maturity movement and next review cadence. |
+
 ## Platform checks
 
 | Check | Microsoft product/control record |
