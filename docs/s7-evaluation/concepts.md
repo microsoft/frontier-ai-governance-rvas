@@ -1,4 +1,4 @@
-# S7 · Evaluation & Assurance Concepts
+# S7 · Evaluation Evidence & Release Readiness Concepts
 
 !!! info "Freshness"
     Last reviewed: 2026-07-24 · Review customer-owned evaluator availability separately from this release-readiness handoff.

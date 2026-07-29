@@ -1,4 +1,4 @@
-# S11 · Operate & Measure
+# S11 · Operating Evidence & FinOps
 
 **Facilitator deck**
 

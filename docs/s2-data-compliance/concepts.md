@@ -1,4 +1,4 @@
-# S2 · Data & Compliance Concepts
+# S2 · Data-Path Trace & Control Map Concepts
 
 !!! info "Freshness"
     Last reviewed: 2026-07-06 · Confirm tenant licensing and product availability in the [Governance capability guide](../reference/governance-capability-guide.md).

@@ -1,4 +1,4 @@
-# S6 · Security Runtime
+# S6 · Runtime Path Evidence & Response
 
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · Capability and availability context is in the

@@ -1,4 +1,4 @@
-# S9 · Control Plane
+# S9 · Control-Plane Reconciliation & Lifecycle
 
 **Facilitator deck**
 

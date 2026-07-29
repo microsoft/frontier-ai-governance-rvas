@@ -1,4 +1,4 @@
-# S7 · Evaluation & Assurance
+# S7 · Evaluation Evidence & Release Readiness
 
 !!! info "Freshness"
     Last reviewed: 2026-07-24 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).

@@ -1,4 +1,4 @@
-# S3 · Enterprise Platform & Trust Boundaries: Technical decisions
+# S3 · Platform Route & Trust Boundaries: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-24 · Azure landing zones, Microsoft Foundry, Azure API Management AI Gateway, Azure API Center, private networking, and Azure Monitor capabilities vary by tenant, region, license, SKU, and service maturity. Verify official docs and customer platform status before delivery.

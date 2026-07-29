@@ -1,4 +1,4 @@
-# S5 · API, Tool & MCP Governance
+# S5 · Tool/API Admission & Withdrawal
 
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · Reconfirm the customer's applicable policies,

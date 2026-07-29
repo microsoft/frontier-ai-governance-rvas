@@ -1,4 +1,4 @@
-# S9 · Control Plane, Catalog & Lifecycle: Technical decisions
+# S9 · Control-Plane Reconciliation & Lifecycle: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-29 · Agent 365, Microsoft Entra Agent ID, Azure API Center, Foundry records, API Management, and platform telemetry vary by tenant, region, license, workload, and feature maturity. Verify official docs and customer coverage before delivery.

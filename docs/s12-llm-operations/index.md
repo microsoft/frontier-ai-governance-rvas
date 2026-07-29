@@ -1,4 +1,4 @@
-# S12 · LLMOps
+# S12 · LLMOps Change Control
 
 !!! info "Freshness"
     Last reviewed: 2026-07-24. Verify current Azure service capabilities,

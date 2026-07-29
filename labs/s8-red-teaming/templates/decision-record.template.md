@@ -1,6 +1,6 @@
 # Decision Record
 
-Copy this template into the customer's approved records system. Use it to record the required adversarial-testing, remediation, and retest decision for S8 Red Teaming.
+Copy this template into the customer's approved records system. Use it to record the required adversarial-testing, remediation, and retest decision for S8 Authorized Red Teaming & Retest.
 
 > **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, live configuration, endpoint clients, credentials, attack datasets, native scorecards, run records, incident payloads, or production approval claims in this repository. Do not run production tests or change tenant configuration during the lab.
 

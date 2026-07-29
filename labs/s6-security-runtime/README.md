@@ -1,4 +1,4 @@
-# S6 Security Runtime Work Package
+# S6 Runtime Path Evidence & Response Work Package
 
 This lab helps the customer make one bounded runtime-path acceptance decision
 for one non-production request. The facilitator guides the review method; the

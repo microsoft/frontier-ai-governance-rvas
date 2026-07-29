@@ -1,4 +1,4 @@
-# S9 · Control Plane, Catalog & Lifecycle
+# S9 · Control-Plane Reconciliation & Lifecycle
 
 !!! info "Freshness"
     Last reviewed: 2026-07-29 · Validate Agent 365, Entra Agent ID, API Center, Foundry, Monitor, and customer catalog coverage before delivery.

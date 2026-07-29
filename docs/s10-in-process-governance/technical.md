@@ -1,4 +1,4 @@
-# S10 · Conditional In-Process Tool-Call Governance: Technical decisions
+# S10 · In-Process Tool-Call Controls: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-24 · Use Agent Governance Toolkit (AGT) only as one candidate implementation when gateway controls cannot make the needed in-process tool-call decision. AGT status and limitations can change; verify official docs, customer code ownership, and support posture before assessment.

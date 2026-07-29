@@ -23,20 +23,20 @@ The assessment has fourteen domains. Each domain maps to one S0-S13 session and 
 
 | # | Domain (canonical session) |
 |---|------------------------------|
-| D0 | Operating model (S0) |
-| D1 | Identity / authority (S1) |
-| D2 | Data (S2) |
-| D3 | Platform / trust boundaries (S3) |
-| D4 | Engineering / admission (S4) |
-| D5 | Tool / API / MCP (S5) |
-| D6 | Runtime security (S6) |
-| D7 | Evaluation / release (S7) |
-| D8 | Adversarial testing (S8) |
-| D9 | Control plane / lifecycle (S9) |
-| D10 | In-process governance (S10) |
-| D11 | Operate / monitor / FinOps (S11) |
-| D12 | LLM operations (S12) |
-| D13 | Portfolio governance (S13) |
+| D0 | Governance baseline / operating model (S0) |
+| D1 | Agent identity path (S1) |
+| D2 | Data-path trace / control map (S2) |
+| D3 | Platform route / trust boundaries (S3) |
+| D4 | Agent build path / admission (S4) |
+| D5 | Tool/API admission / withdrawal (S5) |
+| D6 | Runtime path evidence / response (S6) |
+| D7 | Evaluation evidence / release readiness (S7) |
+| D8 | Authorized red teaming / retest (S8) |
+| D9 | Control-plane reconciliation / lifecycle (S9) |
+| D10 | In-process tool-call controls (S10) |
+| D11 | Operating evidence / FinOps (S11) |
+| D12 | LLMOps change control (S12) |
+| D13 | Portfolio evidence / roadmap (S13) |
 
 ## Fillable scorecard
 

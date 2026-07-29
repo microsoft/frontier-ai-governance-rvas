@@ -1,7 +1,7 @@
 # Decision Record
 
 Copy this template into the customer's approved records system. Use it to record
-the required runtime-path acceptance decision for S6 Security Runtime.
+the required runtime-path acceptance decision for S6 Runtime Path Evidence & Response.
 
 > **Safety boundary:** Use safe references only. Do not place customer
 > identifiers, secrets, prompt text, model outputs, telemetry exports, live

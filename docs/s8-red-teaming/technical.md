@@ -1,4 +1,4 @@
-# S8 · Adversarial Testing & Remediation: Technical decisions
+# S8 · Authorized Red Teaming & Retest: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-27 · AI Red Teaming Agent, PyRIT, Azure AI Content Safety, Prompt Shields, Defender, and related governance features vary by target, region, license, and service status. Verify official docs, authorization, and customer rules of engagement before any run.

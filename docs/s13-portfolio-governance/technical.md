@@ -1,4 +1,4 @@
-# S13 · Portfolio Governance & Continuous Improvement: Technical decisions
+# S13 · Portfolio Evidence & Roadmap: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-29 · Agent 365, Microsoft control-plane records, Azure Cost Management, operating evidence, reporting, analytics, and governance capabilities vary by tenant, license, region, product maturity, and configuration. Verify official docs and customer records before delivery.

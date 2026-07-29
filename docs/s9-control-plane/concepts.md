@@ -1,4 +1,4 @@
-# S9 · Control Plane, Catalog & Lifecycle Concepts
+# S9 · Control-Plane Reconciliation & Lifecycle Concepts
 
 !!! info "Freshness"
     Last reviewed: 2026-07-29 · Validate current Microsoft service names, availability, and customer coverage before delivery.

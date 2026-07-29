@@ -1,4 +1,4 @@
-# S10 · Conditional In-Process Tool-Call Governance
+# S10 · In-Process Tool-Call Controls
 
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · AGT claims in this session are pinned to [commit `b680c49`](https://github.com/microsoft/agent-governance-toolkit/tree/b680c49cc956727c5249771ddba7ee21a635a676). AGT is Public Preview; verify current status before customer delivery.

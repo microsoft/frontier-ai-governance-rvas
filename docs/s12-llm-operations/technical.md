@@ -1,4 +1,4 @@
-# S12 · LLMOps: Azure implementation blueprint
+# S12 · LLMOps Change Control: Technical decisions
 
 !!! warning "Verify before adopting"
     Last reviewed: 2026-07-24 · This is a Microsoft Learn-aligned LLMOps operating model. Verify current Microsoft Foundry, Azure Monitor, Application Insights, Azure API Management, CI/CD, region, quota, and customer requirements before implementation.

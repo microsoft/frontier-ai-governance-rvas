@@ -1,4 +1,4 @@
-# S3 · Enterprise Platform & Trust Boundaries
+# S3 · Platform Route & Trust Boundaries
 
 !!! info "Freshness"
     Last reviewed: 2026-07-27 · Verify current capability availability, platform assumptions, and customer evidence before delivery.

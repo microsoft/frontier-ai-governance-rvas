@@ -1,4 +1,4 @@
-# S10 · In-Process Agent Governance Concepts
+# S10 · In-Process Tool-Call Controls Concepts
 
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · This page describes AGT from pinned primary sources at [commit `b680c49`](https://github.com/microsoft/agent-governance-toolkit/tree/b680c49cc956727c5249771ddba7ee21a635a676). AGT is Public Preview.

@@ -1,4 +1,4 @@
-# S6 · Runtime-Path Evidence Workshop
+# S6 · Runtime Path Evidence & Response
 
 **Facilitator deck**
 

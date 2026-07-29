@@ -1,4 +1,4 @@
-# S1 · Identity Path Workshop
+# S1 · Agent Identity Path
 
 **Facilitator deck**
 

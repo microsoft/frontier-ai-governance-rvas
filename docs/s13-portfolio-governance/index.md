@@ -1,4 +1,4 @@
-# S13 · Portfolio Governance & Continuous Improvement
+# S13 · Portfolio Evidence & Roadmap
 
 !!! info "Freshness"
     Last reviewed: 2026-07-29. Verify current Microsoft service capabilities,

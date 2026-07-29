@@ -1,4 +1,4 @@
-# S0 Foundations & Operating Model Work Package
+# S0 Governance Baseline & Operating Model Work Package
 
 This lab helps the customer make one bounded governance operating-model decision and hand it to the right owner. The facilitator guides the method; the customer inspects its own Microsoft records, chooses the decision, and keeps completed evidence in its approved records system.
 

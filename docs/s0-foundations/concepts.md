@@ -1,4 +1,4 @@
-# S0 · Foundations & Operating Model Concepts
+# S0 · Governance Baseline & Operating Model Concepts
 
 !!! info "Freshness"
     Last reviewed: 2026-07-06 · Shared platform context is in the [Platform technical guide](../reference/platform-technical-guide.md).

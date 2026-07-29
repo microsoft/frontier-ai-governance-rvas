@@ -1,4 +1,4 @@
-# S1 · Identity & Ownership: Technical decisions
+# S1 · Agent Identity Path: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-24 · Microsoft Entra Agent ID, workload identities, Conditional Access for workload identities, Azure RBAC, and Agent 365 coverage vary by tenant, license, region, workload, and product maturity. Verify official docs and tenant status before delivery.

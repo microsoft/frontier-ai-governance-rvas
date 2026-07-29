@@ -1,4 +1,4 @@
-# S5 · API, Tool & MCP Governance: Technical decisions
+# S5 · Tool/API Admission & Withdrawal: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-24 · Azure API Center, Azure API Management,

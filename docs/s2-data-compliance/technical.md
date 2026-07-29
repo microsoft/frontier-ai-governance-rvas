@@ -1,4 +1,4 @@
-# S2 · Data Governance & Compliance: Technical decisions
+# S2 · Data-Path Trace & Control Map: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-24 · Microsoft Purview DSPM for AI, DLP, sensitivity labels, audit, eDiscovery, gateway masking, and Azure AI safety features vary by tenant, workload, region, and license. Verify official docs and tenant status before delivery.

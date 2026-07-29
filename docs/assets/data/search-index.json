@@ -1,10 +1,10 @@
 {
-  "builtAt": "2026-07-29T18:04:58.741Z",
+  "builtAt": "2026-07-29T18:17:02.161Z",
   "docs": [
     {
       "id": "s0-foundations-prepare",
       "type": "session",
-      "title": "S0 · Foundations & Operating Model",
+      "title": "S0 · Governance Baseline & Operating Model",
       "section": "Prepare",
       "session": "S0",
       "url": "session.html?s=s0-foundations&chapter=prepare",
@@ -13,7 +13,7 @@
     {
       "id": "s0-foundations-concepts",
       "type": "session",
-      "title": "S0 · Foundations & Operating Model",
+      "title": "S0 · Governance Baseline & Operating Model",
       "section": "Concepts",
       "session": "S0",
       "url": "session.html?s=s0-foundations&chapter=concepts",
@@ -22,7 +22,7 @@
     {
       "id": "s0-foundations-technical",
       "type": "session",
-      "title": "S0 · Foundations & Operating Model",
+      "title": "S0 · Governance Baseline & Operating Model",
       "section": "Technical decisions",
       "session": "S0",
       "url": "session.html?s=s0-foundations&chapter=technical",
@@ -31,7 +31,7 @@
     {
       "id": "s0-foundations-co-deliver",
       "type": "session",
-      "title": "S0 · Foundations & Operating Model",
+      "title": "S0 · Governance Baseline & Operating Model",
       "section": "Practical workshop",
       "session": "S0",
       "url": "session.html?s=s0-foundations&chapter=co-deliver",
@@ -40,7 +40,7 @@
     {
       "id": "s1-identity-prepare",
       "type": "session",
-      "title": "S1 · Identity Path Workshop",
+      "title": "S1 · Agent Identity Path",
       "section": "Prepare",
       "session": "S1",
       "url": "session.html?s=s1-identity&chapter=prepare",
@@ -49,7 +49,7 @@
     {
       "id": "s1-identity-concepts",
       "type": "session",
-      "title": "S1 · Identity Path Workshop",
+      "title": "S1 · Agent Identity Path",
       "section": "Concepts",
       "session": "S1",
       "url": "session.html?s=s1-identity&chapter=concepts",
@@ -58,7 +58,7 @@
     {
       "id": "s1-identity-technical",
       "type": "session",
-      "title": "S1 · Identity Path Workshop",
+      "title": "S1 · Agent Identity Path",
       "section": "Technical decisions",
       "session": "S1",
       "url": "session.html?s=s1-identity&chapter=technical",
@@ -67,7 +67,7 @@
     {
       "id": "s1-identity-co-deliver",
       "type": "session",
-      "title": "S1 · Identity Path Workshop",
+      "title": "S1 · Agent Identity Path",
       "section": "Practical workshop",
       "session": "S1",
       "url": "session.html?s=s1-identity&chapter=co-deliver",
@@ -76,7 +76,7 @@
     {
       "id": "s2-data-compliance-prepare",
       "type": "session",
-      "title": "S2 · Data & Compliance",
+      "title": "S2 · Data-Path Trace & Control Map",
       "section": "Prepare",
       "session": "S2",
       "url": "session.html?s=s2-data-compliance&chapter=prepare",
@@ -85,7 +85,7 @@
     {
       "id": "s2-data-compliance-concepts",
       "type": "session",
-      "title": "S2 · Data & Compliance",
+      "title": "S2 · Data-Path Trace & Control Map",
       "section": "Concepts",
       "session": "S2",
       "url": "session.html?s=s2-data-compliance&chapter=concepts",
@@ -94,7 +94,7 @@
     {
       "id": "s2-data-compliance-technical",
       "type": "session",
-      "title": "S2 · Data & Compliance",
+      "title": "S2 · Data-Path Trace & Control Map",
       "section": "Technical decisions",
       "session": "S2",
       "url": "session.html?s=s2-data-compliance&chapter=technical",
@@ -103,7 +103,7 @@
     {
       "id": "s2-data-compliance-co-deliver",
       "type": "session",
-      "title": "S2 · Data & Compliance",
+      "title": "S2 · Data-Path Trace & Control Map",
       "section": "Practical workshop",
       "session": "S2",
       "url": "session.html?s=s2-data-compliance&chapter=co-deliver",
@@ -112,7 +112,7 @@
     {
       "id": "s3-platform-foundation-prepare",
       "type": "session",
-      "title": "S3 · Enterprise Platform & Trust Boundaries",
+      "title": "S3 · Platform Route & Trust Boundaries",
       "section": "Prepare",
       "session": "S3",
       "url": "session.html?s=s3-platform-foundation&chapter=prepare",
@@ -121,7 +121,7 @@
     {
       "id": "s3-platform-foundation-concepts",
       "type": "session",
-      "title": "S3 · Enterprise Platform & Trust Boundaries",
+      "title": "S3 · Platform Route & Trust Boundaries",
       "section": "Concepts",
       "session": "S3",
       "url": "session.html?s=s3-platform-foundation&chapter=concepts",
@@ -130,7 +130,7 @@
     {
       "id": "s3-platform-foundation-technical",
       "type": "session",
-      "title": "S3 · Enterprise Platform & Trust Boundaries",
+      "title": "S3 · Platform Route & Trust Boundaries",
       "section": "Technical decisions",
       "session": "S3",
       "url": "session.html?s=s3-platform-foundation&chapter=technical",
@@ -139,7 +139,7 @@
     {
       "id": "s3-platform-foundation-co-deliver",
       "type": "session",
-      "title": "S3 · Enterprise Platform & Trust Boundaries",
+      "title": "S3 · Platform Route & Trust Boundaries",
       "section": "Practical workshop",
       "session": "S3",
       "url": "session.html?s=s3-platform-foundation&chapter=co-deliver",
@@ -148,7 +148,7 @@
     {
       "id": "s4-agent-engineering-prepare",
       "type": "session",
-      "title": "S4 · Agent Engineering & Admission Standards",
+      "title": "S4 · Agent Build Path & Admission",
       "section": "Prepare",
       "session": "S4",
       "url": "session.html?s=s4-agent-engineering&chapter=prepare",
@@ -157,7 +157,7 @@
     {
       "id": "s4-agent-engineering-concepts",
       "type": "session",
-      "title": "S4 · Agent Engineering & Admission Standards",
+      "title": "S4 · Agent Build Path & Admission",
       "section": "Concepts",
       "session": "S4",
       "url": "session.html?s=s4-agent-engineering&chapter=concepts",
@@ -166,7 +166,7 @@
     {
       "id": "s4-agent-engineering-technical",
       "type": "session",
-      "title": "S4 · Agent Engineering & Admission Standards",
+      "title": "S4 · Agent Build Path & Admission",
       "section": "Technical decisions",
       "session": "S4",
       "url": "session.html?s=s4-agent-engineering&chapter=technical",
@@ -175,7 +175,7 @@
     {
       "id": "s4-agent-engineering-co-deliver",
       "type": "session",
-      "title": "S4 · Agent Engineering & Admission Standards",
+      "title": "S4 · Agent Build Path & Admission",
       "section": "Practical workshop",
       "session": "S4",
       "url": "session.html?s=s4-agent-engineering&chapter=co-deliver",
@@ -184,7 +184,7 @@
     {
       "id": "s5-tool-api-governance-prepare",
       "type": "session",
-      "title": "S5 · API, Tool & MCP Governance",
+      "title": "S5 · Tool/API Admission & Withdrawal",
       "section": "Prepare",
       "session": "S5",
       "url": "session.html?s=s5-tool-api-governance&chapter=prepare",
@@ -193,7 +193,7 @@
     {
       "id": "s5-tool-api-governance-concepts",
       "type": "session",
-      "title": "S5 · API, Tool & MCP Governance",
+      "title": "S5 · Tool/API Admission & Withdrawal",
       "section": "Concepts",
       "session": "S5",
       "url": "session.html?s=s5-tool-api-governance&chapter=concepts",
@@ -202,7 +202,7 @@
     {
       "id": "s5-tool-api-governance-technical",
       "type": "session",
-      "title": "S5 · API, Tool & MCP Governance",
+      "title": "S5 · Tool/API Admission & Withdrawal",
       "section": "Technical decisions",
       "session": "S5",
       "url": "session.html?s=s5-tool-api-governance&chapter=technical",
@@ -211,7 +211,7 @@
     {
       "id": "s5-tool-api-governance-co-deliver",
       "type": "session",
-      "title": "S5 · API, Tool & MCP Governance",
+      "title": "S5 · Tool/API Admission & Withdrawal",
       "section": "Practical workshop",
       "session": "S5",
       "url": "session.html?s=s5-tool-api-governance&chapter=co-deliver",
@@ -220,7 +220,7 @@
     {
       "id": "s6-security-runtime-prepare",
       "type": "session",
-      "title": "S6 · Security Runtime",
+      "title": "S6 · Runtime Path Evidence & Response",
       "section": "Prepare",
       "session": "S6",
       "url": "session.html?s=s6-security-runtime&chapter=prepare",
@@ -229,7 +229,7 @@
     {
       "id": "s6-security-runtime-concepts",
       "type": "session",
-      "title": "S6 · Security Runtime",
+      "title": "S6 · Runtime Path Evidence & Response",
       "section": "Concepts",
       "session": "S6",
       "url": "session.html?s=s6-security-runtime&chapter=concepts",
@@ -238,7 +238,7 @@
     {
       "id": "s6-security-runtime-technical",
       "type": "session",
-      "title": "S6 · Security Runtime",
+      "title": "S6 · Runtime Path Evidence & Response",
       "section": "Technical decisions",
       "session": "S6",
       "url": "session.html?s=s6-security-runtime&chapter=technical",
@@ -247,7 +247,7 @@
     {
       "id": "s6-security-runtime-co-deliver",
       "type": "session",
-      "title": "S6 · Security Runtime",
+      "title": "S6 · Runtime Path Evidence & Response",
       "section": "Practical workshop",
       "session": "S6",
       "url": "session.html?s=s6-security-runtime&chapter=co-deliver",
@@ -256,7 +256,7 @@
     {
       "id": "s7-evaluation-prepare",
       "type": "session",
-      "title": "S7 · Evaluation & Assurance",
+      "title": "S7 · Evaluation Evidence & Release Readiness",
       "section": "Prepare",
       "session": "S7",
       "url": "session.html?s=s7-evaluation&chapter=prepare",
@@ -265,7 +265,7 @@
     {
       "id": "s7-evaluation-concepts",
       "type": "session",
-      "title": "S7 · Evaluation & Assurance",
+      "title": "S7 · Evaluation Evidence & Release Readiness",
       "section": "Concepts",
       "session": "S7",
       "url": "session.html?s=s7-evaluation&chapter=concepts",
@@ -274,7 +274,7 @@
     {
       "id": "s7-evaluation-technical",
       "type": "session",
-      "title": "S7 · Evaluation & Assurance",
+      "title": "S7 · Evaluation Evidence & Release Readiness",
       "section": "Technical decisions",
       "session": "S7",
       "url": "session.html?s=s7-evaluation&chapter=technical",
@@ -283,7 +283,7 @@
     {
       "id": "s7-evaluation-co-deliver",
       "type": "session",
-      "title": "S7 · Evaluation & Assurance",
+      "title": "S7 · Evaluation Evidence & Release Readiness",
       "section": "Practical workshop",
       "session": "S7",
       "url": "session.html?s=s7-evaluation&chapter=co-deliver",
@@ -292,7 +292,7 @@
     {
       "id": "s8-red-teaming-prepare",
       "type": "session",
-      "title": "S8 · Adversarial Testing",
+      "title": "S8 · Authorized Red Teaming & Retest",
       "section": "Prepare",
       "session": "S8",
       "url": "session.html?s=s8-red-teaming&chapter=prepare",
@@ -301,7 +301,7 @@
     {
       "id": "s8-red-teaming-concepts",
       "type": "session",
-      "title": "S8 · Adversarial Testing",
+      "title": "S8 · Authorized Red Teaming & Retest",
       "section": "Concepts",
       "session": "S8",
       "url": "session.html?s=s8-red-teaming&chapter=concepts",
@@ -310,7 +310,7 @@
     {
       "id": "s8-red-teaming-technical",
       "type": "session",
-      "title": "S8 · Adversarial Testing",
+      "title": "S8 · Authorized Red Teaming & Retest",
       "section": "Technical decisions",
       "session": "S8",
       "url": "session.html?s=s8-red-teaming&chapter=technical",
@@ -319,7 +319,7 @@
     {
       "id": "s8-red-teaming-co-deliver",
       "type": "session",
-      "title": "S8 · Adversarial Testing",
+      "title": "S8 · Authorized Red Teaming & Retest",
       "section": "Practical workshop",
       "session": "S8",
       "url": "session.html?s=s8-red-teaming&chapter=co-deliver",
@@ -328,7 +328,7 @@
     {
       "id": "s9-control-plane-prepare",
       "type": "session",
-      "title": "S9 · Control Plane, Catalog & Lifecycle",
+      "title": "S9 · Control-Plane Reconciliation & Lifecycle",
       "section": "Prepare",
       "session": "S9",
       "url": "session.html?s=s9-control-plane&chapter=prepare",
@@ -337,7 +337,7 @@
     {
       "id": "s9-control-plane-concepts",
       "type": "session",
-      "title": "S9 · Control Plane, Catalog & Lifecycle",
+      "title": "S9 · Control-Plane Reconciliation & Lifecycle",
       "section": "Concepts",
       "session": "S9",
       "url": "session.html?s=s9-control-plane&chapter=concepts",
@@ -346,7 +346,7 @@
     {
       "id": "s9-control-plane-technical",
       "type": "session",
-      "title": "S9 · Control Plane, Catalog & Lifecycle",
+      "title": "S9 · Control-Plane Reconciliation & Lifecycle",
       "section": "Technical decisions",
       "session": "S9",
       "url": "session.html?s=s9-control-plane&chapter=technical",
@@ -355,7 +355,7 @@
     {
       "id": "s9-control-plane-co-deliver",
       "type": "session",
-      "title": "S9 · Control Plane, Catalog & Lifecycle",
+      "title": "S9 · Control-Plane Reconciliation & Lifecycle",
       "section": "Practical workshop",
       "session": "S9",
       "url": "session.html?s=s9-control-plane&chapter=co-deliver",
@@ -364,7 +364,7 @@
     {
       "id": "s10-in-process-governance-prepare",
       "type": "session",
-      "title": "S10 · Conditional In-Process Tool-Call Governance",
+      "title": "S10 · In-Process Tool-Call Controls",
       "section": "Prepare",
       "session": "S10",
       "url": "session.html?s=s10-in-process-governance&chapter=prepare",
@@ -373,7 +373,7 @@
     {
       "id": "s10-in-process-governance-concepts",
       "type": "session",
-      "title": "S10 · Conditional In-Process Tool-Call Governance",
+      "title": "S10 · In-Process Tool-Call Controls",
       "section": "Concepts",
       "session": "S10",
       "url": "session.html?s=s10-in-process-governance&chapter=concepts",
@@ -382,7 +382,7 @@
     {
       "id": "s10-in-process-governance-technical",
       "type": "session",
-      "title": "S10 · Conditional In-Process Tool-Call Governance",
+      "title": "S10 · In-Process Tool-Call Controls",
       "section": "Technical decisions",
       "session": "S10",
       "url": "session.html?s=s10-in-process-governance&chapter=technical",
@@ -391,7 +391,7 @@
     {
       "id": "s10-in-process-governance-co-deliver",
       "type": "session",
-      "title": "S10 · Conditional In-Process Tool-Call Governance",
+      "title": "S10 · In-Process Tool-Call Controls",
       "section": "Practical workshop",
       "session": "S10",
       "url": "session.html?s=s10-in-process-governance&chapter=co-deliver",
@@ -400,7 +400,7 @@
     {
       "id": "s11-operate-measure-prepare",
       "type": "session",
-      "title": "S11 · Operate, Monitor & FinOps",
+      "title": "S11 · Operating Evidence & FinOps",
       "section": "Prepare",
       "session": "S11",
       "url": "session.html?s=s11-operate-measure&chapter=prepare",
@@ -409,7 +409,7 @@
     {
       "id": "s11-operate-measure-concepts",
       "type": "session",
-      "title": "S11 · Operate, Monitor & FinOps",
+      "title": "S11 · Operating Evidence & FinOps",
       "section": "Concepts",
       "session": "S11",
       "url": "session.html?s=s11-operate-measure&chapter=concepts",
@@ -418,7 +418,7 @@
     {
       "id": "s11-operate-measure-technical",
       "type": "session",
-      "title": "S11 · Operate, Monitor & FinOps",
+      "title": "S11 · Operating Evidence & FinOps",
       "section": "Technical decisions",
       "session": "S11",
       "url": "session.html?s=s11-operate-measure&chapter=technical",
@@ -427,7 +427,7 @@
     {
       "id": "s11-operate-measure-co-deliver",
       "type": "session",
-      "title": "S11 · Operate, Monitor & FinOps",
+      "title": "S11 · Operating Evidence & FinOps",
       "section": "Practical workshop",
       "session": "S11",
       "url": "session.html?s=s11-operate-measure&chapter=co-deliver",
@@ -436,7 +436,7 @@
     {
       "id": "s12-llm-operations-prepare",
       "type": "session",
-      "title": "S12 · LLMOps",
+      "title": "S12 · LLMOps Change Control",
       "section": "Prepare",
       "session": "S12",
       "url": "session.html?s=s12-llm-operations&chapter=prepare",
@@ -445,7 +445,7 @@
     {
       "id": "s12-llm-operations-concepts",
       "type": "session",
-      "title": "S12 · LLMOps",
+      "title": "S12 · LLMOps Change Control",
       "section": "Concepts",
       "session": "S12",
       "url": "session.html?s=s12-llm-operations&chapter=concepts",
@@ -454,7 +454,7 @@
     {
       "id": "s12-llm-operations-technical",
       "type": "session",
-      "title": "S12 · LLMOps",
+      "title": "S12 · LLMOps Change Control",
       "section": "Technical decisions",
       "session": "S12",
       "url": "session.html?s=s12-llm-operations&chapter=technical",
@@ -463,7 +463,7 @@
     {
       "id": "s12-llm-operations-co-deliver",
       "type": "session",
-      "title": "S12 · LLMOps",
+      "title": "S12 · LLMOps Change Control",
       "section": "Practical workshop",
       "session": "S12",
       "url": "session.html?s=s12-llm-operations&chapter=co-deliver",
@@ -472,7 +472,7 @@
     {
       "id": "s13-portfolio-governance-prepare",
       "type": "session",
-      "title": "S13 · Portfolio Governance & Continuous Improvement",
+      "title": "S13 · Portfolio Evidence & Roadmap",
       "section": "Prepare",
       "session": "S13",
       "url": "session.html?s=s13-portfolio-governance&chapter=prepare",
@@ -481,7 +481,7 @@
     {
       "id": "s13-portfolio-governance-concepts",
       "type": "session",
-      "title": "S13 · Portfolio Governance & Continuous Improvement",
+      "title": "S13 · Portfolio Evidence & Roadmap",
       "section": "Concepts",
       "session": "S13",
       "url": "session.html?s=s13-portfolio-governance&chapter=concepts",
@@ -490,7 +490,7 @@
     {
       "id": "s13-portfolio-governance-technical",
       "type": "session",
-      "title": "S13 · Portfolio Governance & Continuous Improvement",
+      "title": "S13 · Portfolio Evidence & Roadmap",
       "section": "Technical decisions",
       "session": "S13",
       "url": "session.html?s=s13-portfolio-governance&chapter=technical",
@@ -499,7 +499,7 @@
     {
       "id": "s13-portfolio-governance-co-deliver",
       "type": "session",
-      "title": "S13 · Portfolio Governance & Continuous Improvement",
+      "title": "S13 · Portfolio Evidence & Roadmap",
       "section": "Practical workshop",
       "session": "S13",
       "url": "session.html?s=s13-portfolio-governance&chapter=co-deliver",
@@ -559,7 +559,7 @@
       "title": "Readiness Assessment",
       "section": "",
       "url": "page.html?p=assessment",
-      "text": "Use the S0-S13 AI maturity assessment twice: S0 - baseline. Record the current state and create the prioritized session roadmap. S13 - exit score. Re-run the same assessment, compare it with the baseline, and record the remaining gaps. How it works The assessment has fourteen domains. Each domain maps to one S0-S13 session and uses a 1-4 maturity scale. Blank answers stay visible and do not count toward weighted maturity until assessed. Level Name Meaning ------- ------ --------- 1 Ad-hoc No consistent control; reactive 2 Repeatable Some controls exist but are manual or inconsistent 3 Defined Documented, enforced, and owned 4 Optimized Automated, measured, and continuously improved Domains # Domain (canonical session) --- ------------------------------ D0 Operating model (S0) D1 Identity / authority (S1) D2 Data (S2) D3 Platform / trust boundaries (S3) D4 Engineering / admission (S4) D5 Tool / API / MCP (S5) D6 Runtime security (S6) D7 Evaluation / release (S7) D8 Adversarial testing (S8) D9 Control plane / lifecycle (S9) D10 In-process governance (S10) D11 Operate / monitor / FinOps (S11) D12 LLM operations (S12) D13 Portfolio governance (S13) Fillable scorecard The scorecard and auto-scorer are in the shared lab helpers: labs/helpers/maturity-assessment/scorecard.csv - fill the score column (1-4) with accountable stakeholders. labs/helpers/maturity-assessment/score.py - computes per-domain and overall weighted maturity and ranks lower-scoring domains first; total question weight breaks ties. labs/helpers/maturity-assessment/compare.py - at S13, computes the weighted baseline-to-exit lift per domain and the residual-gap backlog. Reading the result Session artifacts support reassessment. Change a score only when accountable stakeholders show the relevant control is in place and operating."
+      "text": "Use the S0-S13 AI maturity assessment twice: S0 - baseline. Record the current state and create the prioritized session roadmap. S13 - exit score. Re-run the same assessment, compare it with the baseline, and record the remaining gaps. How it works The assessment has fourteen domains. Each domain maps to one S0-S13 session and uses a 1-4 maturity scale. Blank answers stay visible and do not count toward weighted maturity until assessed. Level Name Meaning ------- ------ --------- 1 Ad-hoc No consistent control; reactive 2 Repeatable Some controls exist but are manual or inconsistent 3 Defined Documented, enforced, and owned 4 Optimized Automated, measured, and continuously improved Domains # Domain (canonical session) --- ------------------------------ D0 Governance baseline / operating model (S0) D1 Agent identity path (S1) D2 Data-path trace / control map (S2) D3 Platform route / trust boundaries (S3) D4 Agent build path / admission (S4) D5 Tool/API admission / withdrawal (S5) D6 Runtime path evidence / response (S6) D7 Evaluation evidence / release readiness (S7) D8 Authorized red teaming / retest (S8) D9 Control-plane reconciliation / lifecycle (S9) D10 In-process tool-call controls (S10) D11 Operating evidence / FinOps (S11) D12 LLMOps change control (S12) D13 Portfolio evidence / roadmap (S13) Fillable scorecard The scorecard and auto-scorer are in the shared lab helpers: labs/helpers/maturity-assessment/scorecard.csv - fill the score column (1-4) with accountable stakeholders. labs/helpers/maturity-assessment/score.py - computes per-domain and overall weighted maturity and ranks lower-scoring domains first; total question weight breaks ties. labs/helpers/maturity-assessment/compare.py - at S13, computes the weighted baseline-to-exit lift per domain and the residual-gap backlog. Reading the result Session artifacts support reassessment. Change a score only when accountable stakeholders show the relevant control is in place and operating."
     },
     {
       "id": "platform-citadel-installation",
@@ -631,7 +631,7 @@
       "title": "NIST AI RMF session map",
       "section": "Reference",
       "url": "page.html?p=reference-nist-session-map",
-      "text": "Use this map when a customer starts from the NIST AI RMF nomenclature instead of the S0-S13 sequence. It shows which working sessions can help frame, inspect, measure, or route a customer-owned governance decision. The mapping is based on the session outcomes and handoffs in this curriculum: Govern sessions establish ownership, accountability, policy routes, lifecycle decisions, or operating cadence. Map sessions identify the system, data, identity, platform, model, tool, lifecycle, or portfolio context that must be understood before a decision. Measure sessions evaluate quality, safety, runtime behavior, cost, drift, performance, or assurance evidence. Manage sessions turn findings into remediations, accepted risks, backlog items, operating reviews, or improvement routes. Session coverage matrix Session Govern Map Measure Manage --- :---: :---: :---: :---: S0 · Foundations & Operating Model ✓ ✓ S1 · Identity & Ownership Review ✓ ✓ ✓ S2 · Data & Compliance ✓ ✓ S3 · Enterprise Platform & Trust Boundaries ✓ ✓ ✓ S4 · Agent Engineering & Admission Standards ✓ ✓ ✓ S5 · API, Tool & MCP Governance ✓ ✓ ✓ S6 · Security Runtime ✓ ✓ S7 · Evaluation & Assurance ✓ ✓ S8 · Adversarial Testing ✓ ✓ ✓ S9 · Control Plane, Catalog & Lifecycle ✓ ✓ ✓ S10 · Conditional In-Process Tool-Call Governance ✓ ✓ ✓ S11 · Operate, Monitor & FinOps ✓ ✓ ✓ S12 · LLMOps ✓ ✓ ✓ ✓ S13 · Portfolio Governance & Continuous Improvement ✓ ✓ ✓ ✓ How to use this map Start with the function the customer is asking about, then pick the smallest session set that can produce a named decision owner, evidence reference, and next route. If the customer asks... Start with... Then check... --- --- --- Who owns AI-agent decisions and exceptions? S0, S1, S9, S13 Whether S11 needs an operating cadence. What systems, data, tools, and lifecycle records are in scope? S1, S2, S3, S5, S9, S12 Whether S13 needs a portfolio-level view. How do we evaluate safety, quality, runtime behavior, or cost? S4, S6, S7, S8, S10, S11, S12 Whether S4 or S7 owns release thresholds. How do findings become action? S2, S3, S5, S6, S7, S8, S9, S10, S11, S12, S13 Whether the customer has an approved change, risk, or backlog route. This page does not prove that a customer control is deployed or operating. Completed session artifacts should stay in the customer-approved records system with scope, owner, limitations, review date, and decision route."
+      "text": "Use this map when a customer starts from the NIST AI RMF nomenclature instead of the S0-S13 sequence. It shows which working sessions can help frame, inspect, measure, or route a customer-owned governance decision. The mapping is based on the session outcomes and handoffs in this curriculum: Govern sessions establish ownership, accountability, policy routes, lifecycle decisions, or operating cadence. Map sessions identify the system, data, identity, platform, model, tool, lifecycle, or portfolio context that must be understood before a decision. Measure sessions evaluate quality, safety, runtime behavior, cost, drift, performance, or assurance evidence. Manage sessions turn findings into remediations, accepted risks, backlog items, operating reviews, or improvement routes. Session coverage matrix Session Govern Map Measure Manage --- :---: :---: :---: :---: S0 · Governance Baseline & Operating Model ✓ ✓ S1 · Agent Identity Path ✓ ✓ ✓ S2 · Data-Path Trace & Control Map ✓ ✓ S3 · Platform Route & Trust Boundaries ✓ ✓ ✓ S4 · Agent Build Path & Admission ✓ ✓ ✓ S5 · Tool/API Admission & Withdrawal ✓ ✓ ✓ S6 · Runtime Path Evidence & Response ✓ ✓ S7 · Evaluation Evidence & Release Readiness ✓ ✓ S8 · Authorized Red Teaming & Retest ✓ ✓ ✓ S9 · Control-Plane Reconciliation & Lifecycle ✓ ✓ ✓ S10 · In-Process Tool-Call Controls ✓ ✓ ✓ S11 · Operating Evidence & FinOps ✓ ✓ ✓ S12 · LLMOps Change Control ✓ ✓ ✓ ✓ S13 · Portfolio Evidence & Roadmap ✓ ✓ ✓ ✓ How to use this map Start with the function the customer is asking about, then pick the smallest session set that can produce a named decision owner, evidence reference, and next route. If the customer asks... Start with... Then check... --- --- --- Who owns AI-agent decisions and exceptions? S0, S1, S9, S13 Whether S11 needs an operating cadence. What systems, data, tools, and lifecycle records are in scope? S1, S2, S3, S5, S9, S12 Whether S13 needs a portfolio-level view. How do we evaluate safety, quality, runtime behavior, or cost? S4, S6, S7, S8, S10, S11, S12 Whether S4 or S7 owns release thresholds. How do findings become action? S2, S3, S5, S6, S7, S8, S9, S10, S11, S12, S13 Whether the customer has an approved change, risk, or backlog route. This page does not prove that a customer control is deployed or operating. Completed session artifacts should stay in the customer-approved records system with scope, owner, limitations, review date, and decision route."
     },
     {
       "id": "reference-ai-governance-map",

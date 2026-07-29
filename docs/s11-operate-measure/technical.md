@@ -1,4 +1,4 @@
-# S11 · Operate, Monitor & FinOps: Technical decisions
+# S11 · Operating Evidence & FinOps: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-29 · Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, FinOps Toolkit, PTU/committed capacity, alerts, exports, and pricing vary by tenant, region, SKU, and configuration. Verify official docs and customer status before delivery.

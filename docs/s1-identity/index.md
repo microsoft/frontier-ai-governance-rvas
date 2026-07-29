@@ -1,4 +1,4 @@
-# S1 · Identity Path Workshop
+# S1 · Agent Identity Path
 
 !!! info "Freshness"
     Last reviewed: 2026-07-06 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).

@@ -1,4 +1,4 @@
-# S0 · Foundations & Governance Operating Model: Technical decisions
+# S0 · Governance Baseline & Operating Model: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-24 · Start from Microsoft Cloud Adoption Framework for AI, Well-Architected Framework for AI, and AI Center of Excellence guidance. Verify current Microsoft guidance, tenant tooling, region, and license status before delivery.

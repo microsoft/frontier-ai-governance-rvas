@@ -1,4 +1,4 @@
-# S2 · Data & Compliance
+# S2 · Data-Path Trace & Control Map
 
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).

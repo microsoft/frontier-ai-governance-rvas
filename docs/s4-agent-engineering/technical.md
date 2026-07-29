@@ -1,4 +1,4 @@
-# S4 · Agent Engineering: Technical decisions
+# S4 · Agent Build Path & Admission: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-24 · Microsoft Foundry Agent Service, Copilot Studio, Microsoft 365 Copilot extensibility, model availability, fine-tuning, and deployment features vary by tenant, region, license, quota, and product maturity. Verify official docs before delivery.

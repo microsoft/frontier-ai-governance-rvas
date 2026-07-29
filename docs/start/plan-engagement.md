@@ -69,4 +69,4 @@ Third-party and supplier governance is visible during planning, but the curricul
 
 ## Start the curriculum
 
-Begin with [S0 · Foundations & Governance Operating Model](../s0-foundations/index.md). Use [How to Deliver](../how-to-deliver.md) and the individual session guides to plan the selected sequence.
+Begin with [S0 · Governance Baseline & Operating Model](../s0-foundations/index.md). Use [How to Deliver](../how-to-deliver.md) and the individual session guides to plan the selected sequence.

@@ -1,4 +1,4 @@
-# S7 · Evaluation & Assurance
+# S7 · Evaluation Evidence & Release Readiness
 
 **Facilitator deck**
 

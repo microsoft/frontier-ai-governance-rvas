@@ -1,4 +1,4 @@
-# S6 · Security Runtime Concepts
+# S6 · Runtime Path Evidence & Response Concepts
 
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · Confirm runtime-control availability in the

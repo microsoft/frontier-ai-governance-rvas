@@ -1,4 +1,4 @@
-# S3 · Platform-Route Trace Workshop
+# S3 · Platform Route & Trust Boundaries
 
 **Facilitator deck**
 

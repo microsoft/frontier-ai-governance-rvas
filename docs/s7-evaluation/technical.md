@@ -1,4 +1,4 @@
-# S7 · Quality, Safety Evaluation & Release Assurance: Technical decisions
+# S7 · Evaluation Evidence & Release Readiness: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-24 · Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing availability vary by region, quota, pricing, SDK/version, and workload. Verify official docs and customer status before delivery.

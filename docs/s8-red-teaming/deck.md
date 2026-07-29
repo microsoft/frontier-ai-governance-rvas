@@ -1,4 +1,4 @@
-# S8 · Red Teaming
+# S8 · Authorized Red Teaming & Retest
 
 **Facilitator deck**
 

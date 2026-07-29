@@ -1,4 +1,4 @@
-# S4 · Agent Engineering & Admission Concepts
+# S4 · Agent Build Path & Admission Concepts
 
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · Reconfirm applicable admission requirements

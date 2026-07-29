@@ -1,4 +1,4 @@
-# S8 · Adversarial Testing Concepts
+# S8 · Authorized Red Teaming & Retest Concepts
 
 !!! info "Freshness"
     Last reviewed: 2026-07-27 · Validate AI Red Teaming Agent availability in the [Governance capability guide](../reference/governance-capability-guide.md) and current Microsoft Learn pages before delivery.

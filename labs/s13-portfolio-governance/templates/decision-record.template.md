@@ -1,7 +1,7 @@
 # S13 Portfolio Decision Record
 
 Copy this template into the customer's approved records system. Use it to record
-the required portfolio-governance decision for S13 Portfolio Governance.
+the required portfolio-governance decision for S13 Portfolio Evidence & Roadmap.
 
 > **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, cost exports, inventory exports, dashboards, live configuration, access grants, tenant changes, runtime proof, enforcement evidence, funding approval, compliance certification, or production approval claims in this repository. Do not change tenant configuration or live policy during the lab.
 

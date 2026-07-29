@@ -1,4 +1,4 @@
-# S6 · Security Posture & Runtime Assurance: Technical decisions
+# S6 · Runtime Path Evidence & Response: Technical decisions
 
 !!! info "Freshness"
     Last reviewed: 2026-07-24 · Azure API Management AI Gateway, Azure AI

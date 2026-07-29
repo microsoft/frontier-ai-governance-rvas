@@ -1,4 +1,4 @@
-# S12 · LLMOps
+# S12 · LLMOps Change Control
 
 **Facilitator deck**
 

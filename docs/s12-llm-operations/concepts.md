@@ -1,4 +1,4 @@
-# S12 · LLMOps concepts
+# S12 · LLMOps Change Control Concepts
 
 !!! info "Freshness"
     Last reviewed: 2026-07-24. Confirm current Azure service capabilities,

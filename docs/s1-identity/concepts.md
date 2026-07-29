@@ -1,4 +1,4 @@
-# S1 · Identity & Access Concepts
+# S1 · Agent Identity Path Concepts
 
 !!! info "Freshness"
     Last reviewed: 2026-07-06 · Check Agent ID and Conditional Access availability in the [Governance capability guide](../reference/governance-capability-guide.md).

@@ -1,4 +1,4 @@
-# S11 · Operate, Monitor & FinOps
+# S11 · Operating Evidence & FinOps
 
 !!! info "Freshness"
     Last reviewed: 2026-07-29 · Verify current Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, FinOps Toolkit, alerting, and export capabilities before delivery.

@@ -1,4 +1,4 @@
-# S5 · Tool-Call Admission Workshop
+# S5 · Tool/API Admission & Withdrawal
 
 **Facilitator deck**
 

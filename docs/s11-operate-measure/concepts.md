@@ -1,4 +1,4 @@
-# S11 · Operate, Monitor & FinOps Concepts
+# S11 · Operating Evidence & FinOps Concepts
 
 !!! info "Freshness"
     Last reviewed: 2026-07-29 · Validate current Microsoft service capabilities and customer configuration before delivery.

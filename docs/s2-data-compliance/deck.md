@@ -1,4 +1,4 @@
-# S2 · Data-Path Trace Workshop
+# S2 · Data-Path Trace & Control Map
 
 **Facilitator deck**
 

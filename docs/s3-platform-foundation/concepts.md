@@ -1,4 +1,4 @@
-# S3 · Enterprise Platform & Trust Boundaries Concepts
+# S3 · Platform Route & Trust Boundaries Concepts
 
 This page explains the vocabulary used by the [S3 session](index.md). It describes review questions, not a deployable design.
 

@@ -1,4 +1,4 @@
-# S8 Red Teaming Work Package
+# S8 Authorized Red Teaming & Retest Work Package
 
 This lab helps the customer make one bounded adversarial-testing, remediation, and retest decision. The facilitator guides the method; the customer inspects or operates its own Microsoft records, chooses the decision, and keeps completed evidence in its approved records system.
 

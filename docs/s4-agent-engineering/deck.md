@@ -1,4 +1,4 @@
-# S4 · Build-Path Selection Workshop
+# S4 · Agent Build Path & Admission
 
 **Facilitator deck**
 

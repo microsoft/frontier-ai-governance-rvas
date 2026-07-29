@@ -16,20 +16,20 @@ The mapping is based on the session outcomes and handoffs in this curriculum:
 
 | Session | Govern | Map | Measure | Manage |
 |---|:---:|:---:|:---:|:---:|
-| [S0 · Foundations & Operating Model](../s0-foundations/index.md) | ✓ | ✓ |  |  |
-| [S1 · Identity & Ownership Review](../s1-identity/index.md) | ✓ | ✓ |  | ✓ |
-| [S2 · Data & Compliance](../s2-data-compliance/index.md) |  | ✓ |  | ✓ |
-| [S3 · Enterprise Platform & Trust Boundaries](../s3-platform-foundation/index.md) | ✓ | ✓ |  | ✓ |
-| [S4 · Agent Engineering & Admission Standards](../s4-agent-engineering/index.md) | ✓ | ✓ | ✓ |  |
-| [S5 · API, Tool & MCP Governance](../s5-tool-api-governance/index.md) | ✓ | ✓ |  | ✓ |
-| [S6 · Security Runtime](../s6-security-runtime/index.md) |  |  | ✓ | ✓ |
-| [S7 · Evaluation & Assurance](../s7-evaluation/index.md) |  |  | ✓ | ✓ |
-| [S8 · Adversarial Testing](../s8-red-teaming/index.md) | ✓ |  | ✓ | ✓ |
-| [S9 · Control Plane, Catalog & Lifecycle](../s9-control-plane/index.md) | ✓ | ✓ |  | ✓ |
-| [S10 · Conditional In-Process Tool-Call Governance](../s10-in-process-governance/index.md) | ✓ |  | ✓ | ✓ |
-| [S11 · Operate, Monitor & FinOps](../s11-operate-measure/index.md) | ✓ |  | ✓ | ✓ |
-| [S12 · LLMOps](../s12-llm-operations/index.md) | ✓ | ✓ | ✓ | ✓ |
-| [S13 · Portfolio Governance & Continuous Improvement](../s13-portfolio-governance/index.md) | ✓ | ✓ | ✓ | ✓ |
+| [S0 · Governance Baseline & Operating Model](../s0-foundations/index.md) | ✓ | ✓ |  |  |
+| [S1 · Agent Identity Path](../s1-identity/index.md) | ✓ | ✓ |  | ✓ |
+| [S2 · Data-Path Trace & Control Map](../s2-data-compliance/index.md) |  | ✓ |  | ✓ |
+| [S3 · Platform Route & Trust Boundaries](../s3-platform-foundation/index.md) | ✓ | ✓ |  | ✓ |
+| [S4 · Agent Build Path & Admission](../s4-agent-engineering/index.md) | ✓ | ✓ | ✓ |  |
+| [S5 · Tool/API Admission & Withdrawal](../s5-tool-api-governance/index.md) | ✓ | ✓ |  | ✓ |
+| [S6 · Runtime Path Evidence & Response](../s6-security-runtime/index.md) |  |  | ✓ | ✓ |
+| [S7 · Evaluation Evidence & Release Readiness](../s7-evaluation/index.md) |  |  | ✓ | ✓ |
+| [S8 · Authorized Red Teaming & Retest](../s8-red-teaming/index.md) | ✓ |  | ✓ | ✓ |
+| [S9 · Control-Plane Reconciliation & Lifecycle](../s9-control-plane/index.md) | ✓ | ✓ |  | ✓ |
+| [S10 · In-Process Tool-Call Controls](../s10-in-process-governance/index.md) | ✓ |  | ✓ | ✓ |
+| [S11 · Operating Evidence & FinOps](../s11-operate-measure/index.md) | ✓ |  | ✓ | ✓ |
+| [S12 · LLMOps Change Control](../s12-llm-operations/index.md) | ✓ | ✓ | ✓ | ✓ |
+| [S13 · Portfolio Evidence & Roadmap](../s13-portfolio-governance/index.md) | ✓ | ✓ | ✓ | ✓ |
 
 ## How to use this map
 

@@ -1,4 +1,4 @@
-# S11 Operate & Measure Work Package
+# S11 Operating Evidence & FinOps Work Package
 
 This lab helps the customer make one bounded operating-review decision and hand it to the right owner. It is not a tenant change, live-control validation, deployment, runtime proof, telemetry export, dashboard build, alert configuration, budget setting, or production approval. The facilitator guides the method; the customer inspects its own Microsoft records, chooses the decision, and keeps completed evidence in its approved records system.
 

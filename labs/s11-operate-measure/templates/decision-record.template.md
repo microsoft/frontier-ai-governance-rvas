@@ -1,6 +1,6 @@
 # Decision Record
 
-Copy this template into the customer's approved records system. Use it to record the required operating-review decision for S11 Operate & Measure.
+Copy this template into the customer's approved records system. Use it to record the required operating-review decision for S11 Operating Evidence & FinOps.
 
 > **Safety boundary:** Use safe references only. Do not place customer identifiers, tenant IDs, object IDs, secrets, prompt text, model outputs, telemetry exports, live configuration, tenant-change details, runtime proof, enforcement evidence, incident payloads, cost exports, dashboard exports, or production approval claims in this repository. Do not change tenant configuration, live policy, dashboard, alert, threshold, budget, telemetry export, or runtime control during the lab.
 

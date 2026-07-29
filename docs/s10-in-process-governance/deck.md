@@ -1,4 +1,4 @@
-# S10 · Conditional In-Process Tool-Call Governance
+# S10 · In-Process Tool-Call Controls
 
 **Facilitator deck**
 

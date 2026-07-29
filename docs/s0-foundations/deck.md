@@ -1,4 +1,4 @@
-# S0 · Foundations & Operating Model
+# S0 · Governance Baseline & Operating Model
 
 **Facilitator deck**
 
