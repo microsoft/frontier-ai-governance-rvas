@@ -9,12 +9,52 @@ Default to Microsoft Purview Data Security Posture Management, sensitivity label
 
 S2 is a decision-recording gate, not a data movement or policy-authoring activity. It should prove that the reviewed AI scenario has a named data path, data owner, observation owner, and compliance route before the practical workshop asks participants to make release or backlog decisions.
 
-## Decision tree
+## Workshop route: trace the data path
 
-1. **If sensitivity labels and DLP already cover the data path**, use Purview as the primary classification and policy record.
-2. **If Purview findings show oversharing or unknown exposure**, backlog source-permission and retention fixes before broad agent access.
-3. **If data enters through prompts, retrieval, tools, or responses**, map each entry point to a source owner and least-privilege boundary.
-4. **If residency, retention, legal basis, or eDiscovery is unresolved**, defer or route to privacy/compliance before release decisions.
+1. **Choose one bounded AI scenario.** Name the workload, environment, business
+   owner, data owner, compliance decision owner, evidence owner, and approved
+   records location.
+2. **Draw the data path.** Record source system, prompt/input, retrieval context,
+   tool request, tool response, final response, logs/telemetry, evaluation data,
+   downstream sharing, and evidence reference.
+3. **Classify each segment.** Record label/classifier/data class, source owner,
+   exposure status, and whether the segment is labeled, unlabeled, overexposed,
+   unknown, unsupported, not applicable, or outside scope.
+4. **Interpret Purview/DSPM evidence.** Record result, validated no-result,
+   unsupported, blocked, or not applicable. Do not treat empty findings as proof
+   without scope, time range, workload support, reviewer, role/license, and
+   source details.
+5. **Assess DLP/report-only readiness.** For each entry point, record whether DLP
+   is existing, report-only/simulation, enforced, designed, unavailable, not
+   applicable, or blocked. S2 does not deploy or enforce policy.
+6. **Trace investigation and retention.** Name audit, eDiscovery, legal hold,
+   Insider Risk, Communication Compliance, privacy, service log, and
+   records-management routes where applicable.
+7. **Place minimization and identify bypasses.** Decide whether sensitive fields
+   are reduced at source, retrieval, app, gateway, output, telemetry, or not at
+   all. Record streaming, tool-response, direct-service, and logging bypasses.
+8. **Close decision and backlog.** Approve only when every required segment has a
+   control statement, owner, limitation, accepted-when condition, and handoff.
+
+### Data-path trace card
+
+Record references only. Do not copy prompts, outputs, documents, Purview
+exports, audit records, tenant configuration, source names, policy artifacts, or
+runtime evidence into this repository.
+
+| Field | What to record |
+|---|---|
+| Scenario scope | Workload, environment, user group, business purpose, data owner, compliance owner, and customer record location. |
+| Source data | Source system, data class, region/residency, permission model, label/classifier, retention owner, overexposure status. |
+| Prompt/input | Input producer, sensitive classes allowed or denied, minimization point, DLP/workload support, logging behavior. |
+| Retrieval context | Index/source, connector identity, query/filter scope, cache behavior, stale or overshared content risk. |
+| Tool request | Tool/API, parameter classes, identity mode, gateway route, downstream system, data-processing owner. |
+| Tool response | Response classes, truncation/redaction point, log/correlation route, failure behavior, bypass risk. |
+| Final response | Display channel, copy/share/save route, output check, user notice, downstream recipient. |
+| Logs and telemetry | Fields logged, sampling/masking, retention, access owner, investigation owner, SIEM or workspace route. |
+| Evaluation reuse | Dataset source, de-identification owner, retention, reuse limit, approval route. |
+| Evidence reference | Evidence system, evidence owner, review date, scope, limitations, expiry, hold/deletion owner. |
+| Decision | Approve/defer/reject/route/blocked, accepted-when condition, target date, handoff, release/backlog impact. |
 
 | Decision | Microsoft default | Exception criteria |
 |---|---|---|
@@ -39,6 +79,42 @@ Use this matrix to make the practical workshop scenario-driven. Each row asks fo
 | Retention | Which retention policy governs source content, AI interaction logs, evidence notes, and investigation records | retention label/policy reference, records-management owner, source-system retention record | retention owner missing; evidence storage not approved; logs have unclear retention | hold release recommendation; backlog retention mapping |
 | Residency/privacy | Whether the data path, telemetry, model endpoint, gateway, and evidence location meet approved residency and privacy constraints | approved region/service residency documentation, privacy/legal processing record, tenant data-boundary note | region or tenant support unknown; legal basis unresolved; cross-border path unreviewed | route to privacy/legal; record no residency approval |
 | Gateway/runtime minimization | Where sensitive fields are minimized before prompt assembly, retrieval, tool call, response, or logs | source filter, retrieval query, gateway masking rule, APIM route, app redaction owner, telemetry sampling/minimization record | gateway cannot see the field; streaming/tool output bypasses gateway; unsupported masking claim | move minimization to source/app boundary; do not claim gateway coverage |
+
+## Outcome interpretation
+
+Use this table to keep evidence language honest.
+
+| Outcome | Use when | Required fields |
+|---|---|---|
+| Result | A supported Microsoft or customer-owned record shows a finding, label, match, alert, audit route, exposure, or classification. | Record source, reviewer, date, workload, segment, limitation, owner, and next action. |
+| No result | A supported review found no matching signal in the agreed scope. | Query/scope, time range, workload support, role/license, reviewer, source, and why absence is meaningful. |
+| Unsupported | The workload, connector, data location, role, license, region, tenant feature, or condition cannot support the expected control. | Unsupported slice, residual risk, owner, alternative review path, target date, release impact. |
+| Blocked | The team cannot complete the review safely. | Missing dependency, owner, escalation path, accepted-when condition, target date, and what must stop. |
+| Not applicable | The segment genuinely does not contain that data or route in the bounded scenario. | Scope statement, reviewer, date, and trigger for re-review if the path changes. |
+
+## DLP/report-only readiness checklist
+
+| Check | Question |
+|---|---|
+| Entry point | Is the policy mapped to prompt/input, retrieval, tool request, tool response, final response, sharing, or storage? |
+| Workload support | Does the relevant workload, connector, condition, role, license, region, and tenant support the intended observation? |
+| Mode | Is the policy existing, report-only/simulation, enforced, designed, unavailable, not applicable, or blocked for this segment? |
+| Match handling | Who reviews matches, false positives, exceptions, and tuning? |
+| Enforcement boundary | What would enforcement affect, and which customer change process owns it? |
+| Evidence safety | Where is the report reference stored without exporting sensitive content into delivery materials? |
+| Failure route | What happens when DLP cannot observe the segment: source restriction, app redaction, gateway control, or blocker? |
+
+## Investigation and retention checklist
+
+| Review area | Required question |
+|---|---|
+| Audit | Which audit route can find user, app, agent, prompt, retrieval, tool, response, or sharing activity for the workload? |
+| eDiscovery/legal hold | Who can place or review a hold, and which content/log locations are in or out of scope? |
+| Insider Risk / Communication Compliance | Is the path relevant to those processes, and who owns triage if a signal appears? |
+| Service/application logs | Which service logs, app traces, or telemetry workspaces preserve correlation without retaining unnecessary content? |
+| Retention | Which policy governs source content, AI interaction logs, transcripts, evidence notes, and investigation records? |
+| Deletion/export | Who owns deletion, export, hold, and approved evidence storage decisions? |
+| Privacy/residency | Which region, tenant boundary, legal basis, or processing record must be confirmed before continuation? |
 
 ## Data-path reference map
 

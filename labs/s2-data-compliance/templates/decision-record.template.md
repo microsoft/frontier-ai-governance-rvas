@@ -21,14 +21,32 @@ Copy this template into the customer's approved records system. Use it to record
 
 | Path segment | Safe reference / owner / notes |
 |---|---|
+| Source system / source data | |
 | Prompt or input path | |
-| Retrieval source or source data | |
-| Tool output or downstream action | |
-| Generated response | |
-| Logs, telemetry, transcripts, or evidence notes | |
+| Retrieval context / index / connector | |
+| Tool request / downstream action | |
+| Tool response / returned data | |
+| Generated response / display channel | |
+| Logs, telemetry, transcripts, or traces | |
+| Evaluation data or trace reuse | |
 | Downstream sharing or storage | |
 | Investigation or legal/compliance record | |
 | Minimization point | |
+| Known bypass path | |
+
+## Segment control map
+
+| Segment | Classification / DSPM | DLP / report-only | Audit / eDiscovery | Retention / privacy | Minimization / gateway |
+|---|---|---|---|---|---|
+| Source system | | | | | |
+| Prompt/input | | | | | |
+| Retrieval context | | | | | |
+| Tool request | | | | | |
+| Tool response | | | | | |
+| Final response | | | | | |
+| Logs/telemetry | | | | | |
+| Evaluation data | | | | | |
+| Downstream sharing/storage | | | | | |
 
 ## Classification and DSPM posture
 
@@ -36,6 +54,8 @@ Copy this template into the customer's approved records system. Use it to record
 |---|---|
 | Sensitivity label / classifier / data class | |
 | DSPM outcome (result / no-result / unsupported / blocked) | |
+| No-result scope proof | Workload support / time range / source / role / license / reviewer / query scope |
+| Not-applicable segment | |
 | Reviewed scope and time window | |
 | Reviewer / observation owner | |
 | Unsupported workload, role, license, location, or tenant condition | |
@@ -46,12 +66,30 @@ Copy this template into the customer's approved records system. Use it to record
 | Field | Record |
 |---|---|
 | DLP posture (covered / report-only-ready / designed / gap / not-applicable / blocked) | |
+| DLP entry point | Prompt / retrieval / tool request / tool response / final response / storage / sharing |
+| DLP workload, connector, condition, role, license, region support | |
 | DLP reviewer and false-positive owner | |
 | Audit route | |
 | eDiscovery / legal hold route | |
 | Insider Risk / Communication Compliance / privacy route if applicable | |
 | Retention or records-management owner | |
+| Deletion / export / legal hold owner | |
 | Evidence storage / export / deletion / hold expectation | |
+
+## Minimization and bypasses
+
+| Field | Record |
+|---|---|
+| Source filter | |
+| Retrieval filter | |
+| Application redaction | |
+| Gateway masking / routing | |
+| Output check | |
+| Telemetry minimization | |
+| Evaluation-data de-identification or reuse limit | |
+| Direct service-call bypass | |
+| Streaming / tool-response / cache bypass | |
+| Remaining data-risk owner | |
 
 ## Gateway / Purview boundary
 
@@ -96,7 +134,7 @@ Complete this section only when the Microsoft default is not used or when the cu
 
 ## Backlog and handoff
 
-Create a data-governance backlog item for each missing label, classifier, DSPM review, DLP readiness record, audit/eDiscovery route, retention decision, data-owner approval, gateway dependency, unsupported capability, or access/license blocker.
+Create a data-governance backlog item for each missing label, classifier, DSPM review, DLP readiness record, audit/eDiscovery route, retention decision, minimization point, bypass review, evaluation-data approval, data-owner approval, gateway dependency, unsupported capability, or access/license blocker.
 
 Handoff to the data owner, privacy/compliance team, Purview administrator, records-management owner, and any gateway/runtime owner. The receiving owner accepts only backlog items with clear acceptance tests, target dates, evidence locations, and review triggers. Keep final records in the customer-approved system.
 
