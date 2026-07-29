@@ -43,15 +43,15 @@ Default to an authorized, customer-operated non-production Microsoft AI Red Team
 
 | Category | Maps to controls |
 |---|---|
-| Direct prompt injection | S6 input/model controls, S7 regression cases, S10 local policy where tool call is affected. |
-| Indirect prompt injection | S2 source hygiene, S6 retrieval/tool-response controls, S7 groundedness/safety tests. |
-| Sensitive-data disclosure | S2 data controls, S6 output safety/masking, S11 investigation route. |
-| Tool abuse or unsafe action | S1 authority, S5 tool/API governance, S6/S10 runtime policy, S9 catalog. |
-| Hallucination/grounding failure | S7 evaluation, retrieval/source controls, S11 drift review. |
-| Harmful or policy-violating content | Azure AI Content Safety/Prompt Shields, S6 controls, S7 safety tests. |
-| Protected-material or copyright risk | S6 protected material controls, S7 rubric, legal/risk owner. |
-| Cost/availability abuse | S5 quotas, S6 rate/abuse controls, S11 FinOps/alert route. |
-| Cross-tenant or unauthorized access | S1 identity, S2 data boundary, S3 platform/network, SOC route. |
+| Direct prompt injection | input/model controls, regression cases, local policy where tool call is affected. |
+| Indirect prompt injection | source hygiene, retrieval/tool-response controls, groundedness/safety tests. |
+| Sensitive-data disclosure | data controls, output safety/masking, investigation route. |
+| Tool abuse or unsafe action | authority model, tool/API governance, runtime/in-process policy, catalog record. |
+| Hallucination/grounding failure | evaluation, retrieval/source controls, drift review. |
+| Harmful or policy-violating content | Azure AI Content Safety/Prompt Shields, runtime controls, safety tests. |
+| Protected-material or copyright risk | protected-material controls, evaluation rubric, legal/risk owner. |
+| Cost/availability abuse | quotas, rate/abuse controls, FinOps/alert route. |
+| Cross-tenant or unauthorized access | identity, data boundary, platform/network, SOC route. |
 
 ## Finding record shape
 
@@ -70,7 +70,7 @@ evidence. Do not store prompts, outputs, attack payloads, or scorecards here.
   "affectedRoute": "tool-or-response-route-placeholder",
   "evidenceRef": "customer-native-scorecard-or-run-record",
   "owner": "remediation-owner-placeholder",
-  "remediationRoute": "s6-runtime-control",
+  "remediationRoute": "runtime-control",
   "releaseImpact": "hold-pre-until-retest",
   "retestCriterion": "criterion-placeholder",
   "acceptedRiskRef": null
@@ -84,7 +84,7 @@ evidence. Do not store prompts, outputs, attack payloads, or scorecards here.
 | Impact | User, data, financial, operational, legal, safety, or reputation consequence if the behavior occurred in intended scope. |
 | Exploitability | Skill, access, repeatability, automation potential, and prerequisite conditions. |
 | Exposure | Affected users, channels, tools, data classes, environments, and shared dependencies. |
-| Detectability | Whether S11/SOC/gateway/app telemetry would observe the behavior. |
+| Detectability | Whether operating, SOC, gateway, or app telemetry would observe the behavior. |
 | Release impact | Continue, hold, block, route, accepted risk, or emergency containment. |
 
 Retest should use the same target category and success criterion unless the
@@ -100,9 +100,9 @@ safety.
 | Authorization | rules of engagement, SOC notification, legal/risk contact, permitted operators, stop conditions, evidence handling |
 | Target safety | non-production target, owner, version, reset/rollback path, dependencies, monitoring window, no production-user impact |
 | Category threshold | customer-approved ASR/category threshold, qualitative tolerance, sample-size note, threshold owner |
-| Safety controls | Azure AI Content Safety, Prompt Shields, APIM/gateway policy, S10 in-process policy, tool-permission boundary if applicable |
+| Safety controls | Azure AI Content Safety, Prompt Shields, APIM/gateway policy, in-process policy, tool-permission boundary if applicable |
 | Detection/response | Defender for Cloud, Defender XDR, Sentinel, SOC ticket/playbook, severity owner, escalation contact |
-| Remediation lifecycle | S9 catalog state, S4 material-change trigger, S7 retest/evaluation reference, S13 portfolio blocker |
+| Remediation lifecycle | catalog state, material-change trigger, retest/evaluation reference, portfolio blocker |
 | Evidence handling | native scorecard or run record retained by customer; sidecar references only; retention/export/deletion owner named |
 
 ## Acceptance tests
@@ -116,7 +116,7 @@ safety.
 | Threshold interpretation | category threshold, sample size, ASR or qualitative result, limitation, decision owner, and accepted-risk authority are recorded | Threshold owner |
 | Findings route | each finding has severity, control owner, remediation path, release impact, stop condition if needed, and retest criterion | Remediation owner |
 | Retest closure | fix evidence and retest result are retained in customer systems and accepted by severity/remediation owner | Evaluation / release owner |
-| Portfolio impact | unresolved blockers and accepted risks are visible to S13 with owner and review date | Portfolio owner |
+| Portfolio impact | unresolved blockers and accepted risks are visible to portfolio governance with owner and review date | Portfolio owner |
 
 ## Boundary note
 

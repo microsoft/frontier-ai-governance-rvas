@@ -15,7 +15,7 @@
 | Narrow tool use in a bounded pilot | Allow-list | Defer or approve only with owner, allowed operations, consumers, expiry/review date, revocation owner, and evidence reference. No open-ended write access. |
 | Platform or SaaS connector provides the action | Connector | Route through connector governance when permission model, admin consent, DLP/data boundary, environment, owner, and withdrawal path are recorded. |
 | MCP server/tool is shared with agents or developers | MCP publication | Approve publication only when tool schema, auth scopes, version, owner, audit, rate/quotas, revocation, consumer review, and catalog state are complete. |
-| Tool implies runtime guardrail, enforcement, monitoring, or gateway proof | S10 referral | Route to S10 or runtime/security owner; S5 may record admission criteria but must not claim enforcement or production runtime proof. |
+| Tool implies runtime guardrail, enforcement, monitoring, or gateway proof | Runtime-control referral | Route to the in-process governance or runtime/security owner; S5 may record admission criteria but must not claim enforcement or production runtime proof. |
 | Tool has unsafe authority, missing owner, unbounded data/action scope, or no revocation path | Reject unsafe tool | Reject or block until bounded scope, owner, auth, audit, rate/quotas, revocation, and consumer review are feasible. |
 
 3. **Inspect required records.** Record safe references for API Center entry, APIM product/API policy route or exception, Entra app/JWT contract, connector approval, MCP publication criteria, allow-list, and consumer review.
@@ -23,7 +23,7 @@
    - Defer blocker example: the tool can invoke write actions without a contract, least-privilege scopes, rate limit, audit route, version owner, or withdrawal path.
 4. **Complete tool admission checks.** For each operation, record owner, version, auth scopes, data/action boundary, rate/quotas, audit route, revocation path, consumer review, expiry/review date, and receiving owner.
 5. **Run withdrawal checks.** Record how the customer would disable, remove, deprecate, rotate credential, withdraw connector consent, unpublish MCP entry, remove allow-list entry, notify consumers, and preserve audit/investigation references. Defer if the withdrawal owner or consumer impact is unknown.
-6. **Set downstream handoffs.** Route identity gaps to identity owner, platform route gaps to S3, runtime/enforcement proof to S6/S10, evaluation or tool behavior evidence to S7, and catalog/control-plane lifecycle to S9.
+6. **Set downstream handoffs.** Route identity gaps to the identity owner, platform route gaps to the platform owner, runtime/enforcement proof to runtime or in-process governance owners, evaluation or tool behavior evidence to the evaluation owner, and catalog/control-plane lifecycle to the catalog owner.
 7. **Record the outcome.** Approve only when admission and withdrawal checks are complete with owner, target date, evidence reference, accepted-when checks, and consumer handoff. Otherwise defer, reject, route, withdraw, or block.
 
 ## Decision record
@@ -33,7 +33,7 @@ Fill this record in the customer-approved records system. Store only safe refere
 | Field | Record |
 |---|---|
 | Work item | Pilot tool/API admission decision |
-| Route decision | API Center/APIM, allow-list, connector, MCP publication, S10 referral, reject unsafe tool, withdraw, defer, or route |
+| Route decision | API Center/APIM, allow-list, connector, MCP publication, runtime-control referral, reject unsafe tool, withdraw, defer, or route |
 | Tool/API identity | Name/reference, owner, business purpose, environment, consuming agent/app, and approved records location |
 | Version and lifecycle | Version, state, change owner, review cadence, expiry date, deprecation/withdrawal trigger |
 | Operation boundary | Read/write/admin operations, data classes, side effects, human approval need, and blocked operations |
@@ -42,7 +42,7 @@ Fill this record in the customer-approved records system. Store only safe refere
 | Audit and investigation | Audit route, correlation field, log/evidence owner, investigation path, and retention/export expectation |
 | Revocation and withdrawal | Disable path, permission removal, connector consent withdrawal, MCP unpublish, allow-list removal, consumer notification, and rollback owner |
 | Consumer review | Consuming agent/app owner, review result, accepted operations, over-scope handling, and next review trigger |
-| S10/S6/S7/S9 handoff | Runtime/enforcement referral, runtime-assurance prerequisite, evaluation evidence need, and catalog/control-plane owner |
+| Control handoff | Runtime/enforcement referral, runtime-assurance prerequisite, evaluation evidence need, and catalog/control-plane owner |
 | Defer criteria | Missing owner, version, auth scope, rate/quota, audit route, revocation path, consumer review, or unsafe operation boundary |
 | Acceptance checks | Admission route, owners, version, auth, rate/quotas, audit, revocation, consumer review, exception status, target date, and handoff are complete |
 
@@ -60,7 +60,7 @@ For an exception, record: reason, affected operation, unsupported or unverified 
 
 | Check | Accepted when... | Handoff |
 |---|---|---|
-| Route | API Center/APIM, allow-list, connector, MCP publication, S10 referral, or rejection route is justified for the bounded scenario | API governance owner |
+| Route | API Center/APIM, allow-list, connector, MCP publication, runtime-control referral, or rejection route is justified for the bounded scenario | API governance owner |
 | Owner and version | tool/API owner, platform owner, identity owner, consumer owner, version, lifecycle state, and review cadence are named | Tool owner |
 | Auth scopes | audience, scopes/roles, consent owner, credential owner, and least-privilege gaps are recorded | Identity owner |
 | Rate/quotas | rate limit, quota, throttling behavior, abuse owner, and exception path are explicit | API platform owner |

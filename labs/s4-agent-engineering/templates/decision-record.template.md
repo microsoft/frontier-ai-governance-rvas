@@ -91,11 +91,11 @@ Default paths: **Copilot Studio, Microsoft Foundry Agent Service, Microsoft 365 
 
 | Handoff | Record |
 |---|---|
-| S3 platform-boundary prerequisite | |
-| S5 tool/API admission prerequisite | |
-| S6 runtime-assurance prerequisite | |
-| S7 evaluation evidence prerequisite | |
-| S9 catalog/control-plane handoff | |
+| Platform-boundary prerequisite | |
+| Tool/API admission prerequisite | |
+| Runtime-assurance prerequisite | |
+| Evaluation evidence prerequisite | |
+| Catalog/control-plane handoff | |
 | Stop condition before downstream reliance | |
 
 ## Customer decision
@@ -131,10 +131,10 @@ Complete this section only when the Microsoft default route is not used or when 
 
 ## Backlog and handoff
 
-Create an agent-engineering backlog item for each missing route rationale, authority owner, human handoff, admission criterion, DEV/PRE/PRO gate, model owner, latency budget, cost owner, S3 platform prerequisite, S5 tool/API prerequisite, S6 runtime prerequisite, S7 evaluation prerequisite, S9 catalog handoff, retirement trigger, or exception approval.
+Create an agent-engineering backlog item for each missing route rationale, authority owner, human handoff, admission criterion, DEV/PRE/PRO gate, model owner, latency budget, cost owner, platform prerequisite, tool/API prerequisite, runtime prerequisite, evaluation prerequisite, catalog handoff, retirement trigger, or exception approval.
 
 Handoff to agent engineering owner, product owner, release manager, model/cost owner, platform owner, tool/API owner, runtime-assurance owner, evaluation owner, and control-plane/catalog owner as applicable. The receiving owner accepts only backlog items with clear acceptance tests, target dates, evidence locations, and review triggers. Keep final records in the customer-approved system.
 
 ## Filled example
 
-Work item "choose build route for bounded service-desk assistant"; route "Foundry Agent with S5 tool/API admission blocker"; evidence location "customer-approved route comparison, DEV/PRE gate reference, model/cost owner reference, and S7 evaluation handoff reference"; accepted when the product, engineering, model/cost, release, S5, S6, S7, and S9 owners accept the route and blockers without implying production approval.
+Work item "choose build route for bounded service-desk assistant"; route "Foundry Agent with tool/API admission blocker"; evidence location "customer-approved route comparison, DEV/PRE gate reference, model/cost owner reference, and evaluation handoff reference"; accepted when the product, engineering, model/cost, release, tool/API, runtime, evaluation, and catalog owners accept the route and blockers without implying production approval.

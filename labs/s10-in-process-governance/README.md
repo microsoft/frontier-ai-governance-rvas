@@ -18,7 +18,7 @@ By the end of the lab, the customer has recorded one conditional decision: **gat
 |---|---|
 | Checkpoint | Pre-tool selection, pre-parameter binding, pre-execution, post-tool response, pre-final response, or human approval. |
 | Policy decision | Correlation ID, agent/session reference, tool name/version, target reference, policy ID/version, decision, reason code, reviewer, downstream-outcome caveat. |
-| Gateway correlation | Gateway route reference, APIM/policy decision if any, conflict owner, correlation mismatch handling, S6/S11 evidence route. |
+| Gateway correlation | Gateway route reference, APIM/policy decision if any, conflict owner, correlation mismatch handling, runtime and operating evidence route. |
 | Tamper evidence | Audit storage owner, immutable/signed storage need, retention owner, key owner, access owner, and limitation note. |
 
 ## Required record
@@ -36,7 +36,7 @@ By the end of the lab, the customer has recorded one conditional decision: **gat
 5. Identify the checkpoint: pre-tool selection, pre-parameter binding, pre-execution, post-tool response, pre-final response, or human approval.
 6. Record the policy decision event fields and tamper-evidence requirement. If signed immutable external storage is required, route it as customer-owned engineering/security work.
 7. If only local pre-tool context can make the decision, record **in-process candidate** and create a customer-owned engineering assessment backlog item. Include AGT Public Preview caveat only if AGT is considered.
-8. If there is no real in-process decision point or delegated authority, record **not applicable**, name the alternate S11/S13 or customer-backlog path, and stop S10.
+8. If there is no real in-process decision point or delegated authority, record **not applicable**, name the alternate operating, portfolio, or customer-backlog path, and stop S10.
 9. Copy the decision record into the customer's approved records system and complete only safe references in this repository.
 
 ## Decision criteria

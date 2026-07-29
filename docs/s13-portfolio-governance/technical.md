@@ -5,34 +5,34 @@
 
 ## Microsoft default
 
-Default to Agent 365 and Microsoft control-plane records where available, Azure Cost Management and FinOps records for investment decisions, S9/S11 operating evidence for coverage and drift, and the S0 baseline for re-measurement. S13 turns session decisions into the next portfolio roadmap.
+Default to Agent 365 and Microsoft control-plane records where available, Azure Cost Management and FinOps records for investment decisions, control-plane and operating evidence for coverage and drift, and the S0 baseline for re-measurement. S13 turns session decisions into the next portfolio roadmap.
 
 ## Decision tree
 
-1. **If Agent 365, Entra, Foundry, Azure API Center, and S11 records cover the portfolio question**, roll them up into the customer scorecard.
-2. **If evidence is mixed or incomplete**, use the S9 control register as the reconciliation spine and show coverage limits.
+1. **If Agent 365, Entra, Foundry, Azure API Center, and operating records cover the portfolio question**, roll them up into the customer scorecard.
+2. **If evidence is mixed or incomplete**, use the control-plane register as the reconciliation spine and show coverage limits.
 3. **If spend or capacity is the main decision**, use Azure Cost Management, Foundry/project context, PTU/committed-capacity allocation, and FinOps analysis.
 4. **If risk, value, maturity, and dependency priorities conflict**, use a hybrid triage with weights and owner agreement.
 5. **If no owner can act on the roadmap**, route or defer rather than create a dashboard with no decision path.
 
 | Decision | Microsoft default | Exception criteria |
 |---|---|---|
-| Portfolio reporting | Agent 365/Entra/Foundry/API Center/S9/S11 rollup into customer scorecard | approved GRC/BI tool is authoritative and preserves lineage |
-| Prioritization | risk + value + maturity + dependency triage using S0 baseline and S9/S11 evidence | legal/regulatory cycle imposes a stricter order |
+| Portfolio reporting | Agent 365/Entra/Foundry/API Center/control-plane/operating rollup into customer scorecard | approved GRC/BI tool is authoritative and preserves lineage |
+| Prioritization | risk + value + maturity + dependency triage using S0 baseline and control-plane/operating evidence | legal/regulatory cycle imposes a stricter order |
 | Continuous improvement | quarterly portfolio review with event-driven triggers | higher-risk portfolio requires shorter cadence |
 
 ## Portfolio scorecard field model
 
 | Field group | Example fields | Source route |
 |---|---|---|
-| Coverage | Total scoped agents, cataloged agents, uncataloged findings, supported/unsupported workloads, stale records. | S9 register and platform records. |
-| Residual risk | Open high-risk findings, expired exceptions, unowned blockers, repeated control gaps, accepted-risk expiry. | S6/S7/S8/S9/S10 decision records. |
-| Assurance | Evaluation coverage, red-team status, runtime-control evidence, release-gate status, retest status. | S6/S7/S8 and release records. |
+| Coverage | Total scoped agents, cataloged agents, uncataloged findings, supported/unsupported workloads, stale records. | Control-plane register and platform records. |
+| Residual risk | Open high-risk findings, expired exceptions, unowned blockers, repeated control gaps, accepted-risk expiry. | Runtime, evaluation, red-team, catalog, and in-process decision records. |
+| Assurance | Evaluation coverage, red-team status, runtime-control evidence, release-gate status, retest status. | Runtime, evaluation, red-team, and release records. |
 | Operating health | Alert trend, incident/backlog trend, telemetry gaps, latency/cost/capacity signal, support owner. | S11 operating records. |
 | Cost/capacity | Cost center/tag, model/deployment spend, PTU/committed capacity, quota pressure, forecast owner. | Azure Cost Management, Foundry/project, FinOps record. |
 | Maturity | S0 baseline score, current evidence status, movement rationale, blocked domains. | S0 baseline and session closeouts. |
 | Exception age | Exception count, age bucket, owner, expiry, escalation, recurrence. | Exception register and S13 forum. |
-| Dependency | Shared identity, tool/API, data source, model, gateway, platform, or owner dependency. | S3/S5/S9/S11 records. |
+| Dependency | Shared identity, tool/API, data source, model, gateway, platform, or owner dependency. | Platform, tool/API, control-plane, and operating records. |
 | Roadmap | Initiative, owner, target date, funding/capacity status, decision forum, next review trigger. | Portfolio roadmap. |
 
 ## Prioritization mechanics
@@ -68,7 +68,7 @@ the formula as automatic funding approval.
 | View | Use |
 |---|---|
 | Exception by owner | Finds overloaded or missing accountable teams. |
-| Exception by control/session | Shows repeated S1/S2/S5/S6/S7/S9/S11 gaps that may need baseline or policy work. |
+| Exception by control domain | Shows repeated identity, data, tool/API, runtime, evaluation, catalog, or operating gaps that may need baseline or policy work. |
 | Exception by platform dependency | Identifies shared gateway, identity, data source, model, or telemetry blockers. |
 | Exception by age/severity | Escalates expired or high-impact items. |
 | Dependency cluster | Groups roadmap items that should be sequenced together. |
@@ -91,7 +91,7 @@ the formula as automatic funding approval.
 | Agent/control coverage | Agent 365, Entra Agent ID, Azure API Center, Foundry project, S9 register |
 | Operating health | S11 Azure Monitor/Application Insights/Foundry observability records, alert/drift review |
 | Cost and capacity | Azure Cost Management, budgets, tags, PTU/committed capacity, FinOps Toolkit analysis |
-| Assurance backlog | S6/S7/S8 accepted evidence, findings, exceptions, retest status |
+| Assurance backlog | runtime, evaluation, and red-team accepted evidence, findings, exceptions, retest status |
 | Baseline movement | S0 maturity baseline, S13 roadmap, owner adoption status, review cadence |
 
 ## Acceptance tests
@@ -105,7 +105,7 @@ the formula as automatic funding approval.
 
 ## Boundary note
 
-S13 creates the portfolio roadmap and next S0 re-baseline; it creates no dashboard, policy, budget, or production approval.
+S13 creates the portfolio roadmap and next baseline re-measurement; it creates no dashboard, policy, budget, or production approval.
 
 ## Related references
 

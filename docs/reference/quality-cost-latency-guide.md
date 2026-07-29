@@ -59,9 +59,20 @@ allocation decision.
 
 ## Rollout governance
 
-Staged rollout assembles S4 admission, S6 gateway proof, S7 assurance, applicable S8 finding disposition, and S9 lifecycle references. Each stage needs a population, entry and exit conditions, human approver, incident route, rollback trigger, rollback owner, verification step, evidence refresh point, decommissioning or withdrawal route, owner, and status. Production promotion remains a customer change-authority decision.
+Staged rollout assembles agent admission, gateway proof, evaluation assurance,
+applicable red-team finding disposition, and lifecycle references. Each stage
+needs a population, entry and exit conditions, human approver, incident route,
+rollback trigger, rollback owner, verification step, evidence refresh point,
+decommissioning or withdrawal route, owner, and status. Production promotion
+remains a customer change-authority decision.
 
-Where a third-party model, tool, connector, data source, or managed service is part of rollout, record the customer supplier-risk or procurement route and the session that will carry the gap forward. Use S4 for admission and material change, S5 for interface authority and withdrawal, S12 for provider lifecycle and incident routing, and S13 for portfolio exceptions. Do not treat this guide as legal, compliance, or supplier-assurance sign-off.
+Where a third-party model, tool, connector, data source, or managed service is
+part of rollout, record the customer supplier-risk or procurement route and the
+capability owner that will carry the gap forward. Use agent engineering for
+admission and material change, tool/API governance for interface authority and
+withdrawal, LLMOps for provider lifecycle and incident routing, and portfolio
+governance for portfolio exceptions. Do not treat this guide as legal,
+compliance, or supplier-assurance sign-off.
 
 ## Product-status notes
 

@@ -40,7 +40,7 @@ Use this structure in session pages, decks, runbooks, and templates.
 | S10 | Agent Governance Toolkit only when gateway controls cannot make the needed in-process decision. |
 | S11 | Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit. |
 | S12 | Microsoft LLMOps lifecycle: data curation, experimentation, evaluation, validate/deploy, inference, monitor, and feedback/data collection. |
-| S13 | Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the S0 re-baseline. |
+| S13 | Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the baseline re-measurement. |
 
 ## Editing rules
 

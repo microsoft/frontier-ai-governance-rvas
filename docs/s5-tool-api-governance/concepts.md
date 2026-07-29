@@ -105,8 +105,9 @@ publication decision while a tool is invoked. Keep separate identity, data,
 observability, lifecycle, and in-process checks where they apply.
 
 Treat runtime enforcement as the connection between controls. S5 identifies the
-intended boundary and owner. S6 reviews bounded runtime evidence. S9 and S11 keep
-the records and operating signals current.
+intended boundary and owner. Runtime assurance reviews bounded path evidence.
+Control-plane and operating-review records keep lifecycle and operating signals
+current.
 
 For an APIM-mediated route, S5 should record which policy families are expected:
 caller authentication, backend authentication, quotas, content-safety checks,
@@ -117,7 +118,7 @@ MCP server publication follows the same rule. A server can be registered,
 reviewed, published, suspended, or withdrawn, but each state needs a version,
 owner, allowed action boundary, consumer scope, and withdrawal trigger. The
 record should say whether the route is gateway-mediated, allow-listed, or
-requires an S10 in-process decision before tool use.
+requires an in-process decision before tool use.
 
 ## Related official references
 

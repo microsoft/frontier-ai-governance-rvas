@@ -41,13 +41,13 @@ to data curation and experimentation, not an unreviewed production change.
 
 | LLMOps stage | Decision the team must make | Minimum evidence |
 |---|---|---|
-| Data curation | Is this data permitted, fit for purpose, traceable, and sufficiently representative for the stated use? | Data source, transformation, ownership, quality/privacy limit, and S2 route. |
+| Data curation | Is this data permitted, fit for purpose, traceable, and sufficiently representative for the stated use? | Data source, transformation, ownership, quality/privacy limit, and data-governance route. |
 | Experimentation | Which hypothesis and candidate combination are we testing, and what can the result prove? | Candidate/version reference, hypothesis, experiment owner, population, and limits. |
-| Evaluation | What measures, pass/fail criteria, and human judgment determine suitability? | Dataset/scenario, scorer/rubric, threshold owner, coverage limit, and S7 route. |
+| Evaluation | What measures, pass/fail criteria, and human judgment determine suitability? | Dataset/scenario, scorer/rubric, threshold owner, coverage limit, and evaluation route. |
 | Validate and deploy | May this candidate advance from DEV to PRE or PRO? | Release manifest, accepted evidence, change authority, rollback, and exclusions. |
 | Inference | Is the production route reliable and governed for its authority and demand? | Deployment/service route, identity/dependency owner, performance assumptions, and support path. |
-| Monitor | Which signal triggers review, escalation, rollback, or investigation? | Signal definition, coverage/retention limit, interpretation owner, and S11 route. |
-| Feedback and collection | Which feedback can enter learning, and under what privacy, quality, and consent rules? | Collection purpose, approval, retention, curation owner, and S2/S11 route. |
+| Monitor | Which signal triggers review, escalation, rollback, or investigation? | Signal definition, coverage/retention limit, interpretation owner, and operating route. |
+| Feedback and collection | Which feedback can enter learning, and under what privacy, quality, and consent rules? | Collection purpose, approval, retention, curation owner, and data/operating route. |
 
 ## A learning artifact has a lifecycle
 
@@ -83,11 +83,11 @@ decision flow, evidence, and ownership across them.
 
 ## Handoffs preserve accountability
 
-- **S2** owns data governance, privacy, retention, and compliance decisions.
-- **S4** owns initial implementation-path and model selection/admission.
-- **S7** owns evaluation and release-assurance evidence.
-- **S11** owns production monitoring, incident operation, capacity, and FinOps.
-- **S12** connects the lifecycle, sets stage gates, assigns artifact ownership,
+- **Data governance** owns privacy, retention, and compliance decisions.
+- **Agent engineering** owns initial implementation-path and model selection/admission.
+- **Evaluation** owns evaluation and release-assurance evidence.
+- **Operations** owns production monitoring, incident operation, capacity, and FinOps.
+- **LLMOps** connects the lifecycle, sets stage gates, assigns artifact ownership,
   and ensures feedback safely informs the next inner-loop iteration.
 
 A handoff is a required route and Microsoft record location; it only proves

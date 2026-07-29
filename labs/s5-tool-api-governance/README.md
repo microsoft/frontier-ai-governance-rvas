@@ -18,21 +18,21 @@ Bring a bounded API, tool, connector, MCP publication, allow-list request, or co
 
 By the end of the lab, the customer has a customer-owned decision record that summarizes:
 
-- **Admission route:** API Center/APIM, allow-list, connector, MCP publication, S10 referral, reject unsafe tool, withdraw, defer, or route.
+- **Admission route:** API Center/APIM, allow-list, connector, MCP publication, runtime-control referral, reject unsafe tool, withdraw, defer, or route.
 - **Tool/API profile:** owner, version, business purpose, environment, operation boundary, consuming agent/app, and approved records location.
 - **Control checks:** auth audience/scopes, consent owner, rate/quotas, audit route, correlation field, revocation path, consumer review, and review cadence.
 - **Withdrawal readiness:** disable path, permission removal, connector consent withdrawal, MCP unpublish, allow-list removal, credential rotation, consumer notification, rollback owner, and investigation references.
-- **Downstream handoffs:** S3 platform route, S6/S10 runtime or enforcement referral, S7 evaluation evidence, S9 control-plane/catalog lifecycle, and blockers.
+- **Downstream handoffs:** platform route, runtime or enforcement referral, evaluation evidence, control-plane/catalog lifecycle, and blockers.
 - **Blockers and backlog:** missing owner, version, auth scope, rate/quota, audit route, revocation owner, withdrawal path, consumer review, record location, unsafe authority, or scope clarity captured with owner, target date, evidence location, acceptance test, and review trigger.
 
 ## Facilitation flow
 
 1. Confirm the customer has a bounded tool/API scenario, owners, and an approved records location. If not, stop the decision and create a blocker backlog item.
 2. Copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system.
-3. Classify the route across **API Center/APIM, allow-list, connector, MCP publication, S10 referral, and reject unsafe tool**.
+3. Classify the route across **API Center/APIM, allow-list, connector, MCP publication, runtime-control referral, and reject unsafe tool**.
 4. Ask: **Which customer-owned Microsoft record proves this tool is admissible, bounded, reviewable, and withdrawable, and who accepts each consumer?**
 5. Record one result: approve, defer, reject, route, withdraw, or blocked.
-6. Create a tool/API backlog item for each missing catalog record, owner, version, auth contract, APIM policy route, rate/quota, audit route, connector approval, MCP publication guardrail, revocation path, withdrawal path, consumer review, S10 referral, or unsafe operation boundary.
+6. Create a tool/API backlog item for each missing catalog record, owner, version, auth contract, APIM policy route, rate/quota, audit route, connector approval, MCP publication guardrail, revocation path, withdrawal path, consumer review, runtime-control referral, or unsafe operation boundary.
 7. Handoff the completed decision record and backlog references to receiving owners. Keep final evidence only in the customer-approved records system.
 
 ## Decision criteria
@@ -46,4 +46,4 @@ By the end of the lab, the customer has a customer-owned decision record that su
 
 ## Handoff
 
-Handoff to API platform owner, tool owner, identity owner, connector owner, consuming-agent owner, security/compliance owner, runtime/S10 owner, evaluation owner, and control-plane/catalog owner as applicable. The receiving owner accepts only decisions or backlog items with clear acceptance tests, target dates, evidence locations, and review triggers. Keep final records in the customer-approved system.
+Handoff to API platform owner, tool owner, identity owner, connector owner, consuming-agent owner, security/compliance owner, runtime or in-process governance owner, evaluation owner, and control-plane/catalog owner as applicable. The receiving owner accepts only decisions or backlog items with clear acceptance tests, target dates, evidence locations, and review triggers. Keep final records in the customer-approved system.

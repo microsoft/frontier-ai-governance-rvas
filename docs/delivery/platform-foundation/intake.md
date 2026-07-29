@@ -26,7 +26,7 @@ their result for the selected environment:
   connection/access contracts;
 - application client identity, gateway authentication method, and non-production
   test caller;
-- Content Safety/runtime-policy availability and policy owner where S6 runtime
+- Content Safety/runtime-policy availability and policy owner where runtime
   evidence is required;
 - Log Analytics/Application Insights/SIEM destination, retention, access, and
   correlation approach;
@@ -39,7 +39,7 @@ Mark a missing prerequisite **blocked** with an owner and target date. Do not su
 
 | Milestone | Governance use |
 |---|---|
-| Platform path and owners recorded | S0 can establish the ownership and readiness backlog. |
-| Non-production gateway acceptance passed | S1 authentication evidence, S2 gateway data-protection evidence, and S6 gateway runtime evidence may start. |
+| Platform path and owners recorded | The foundation baseline can establish the ownership and readiness backlog. |
+| Non-production gateway acceptance passed | Authentication evidence, gateway data-protection evidence, and gateway runtime evidence may start. |
 | Gateway telemetry and contracts handed over | Evaluation, testing, and catalog owners may correlate results and reconcile exposure records. |
-| Deferred items owned | S9 records the remaining platform gaps; it does not deploy the platform. |
+| Deferred items owned | The control-plane record captures the remaining platform gaps; it does not deploy the platform. |

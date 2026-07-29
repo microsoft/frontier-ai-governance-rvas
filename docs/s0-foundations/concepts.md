@@ -21,10 +21,10 @@ It becomes useful when the customer records owners, decisions, and follow-up.
 
 ## The baseline becomes a work list
 
-S0 ends with a foundation path, not just a maturity score. It can sequence S1
-before S4, prepare S2 evidence before data policy work, assign a platform owner
-before S3 or S6, or hold a use case until sponsorship and records ownership are
-clear.
+S0 ends with a foundation path, not just a maturity score. It can sequence
+identity review before agent admission, prepare data evidence before data policy
+work, assign a platform owner before platform or runtime assurance, or hold a
+use case until sponsorship and records ownership are clear.
 
 Use Microsoft capability names only when they route ownership. S0 does not
 configure Entra, Purview, Foundry, Copilot Studio, a gateway, observability,
@@ -57,7 +57,9 @@ Agents are more than chat interfaces. They can use non-human identities, retriev
 S0 surfaces those gaps before technical sessions. Intake captures intended
 capability, data exposure, human oversight, accountable sponsor, and product.
 
-**Boundary:** S0 identifies and prioritizes risk. Identity controls, data controls, platform boundaries, and validation stay in S1-S5.
+**Boundary:** S0 identifies and prioritizes risk. Identity controls, data
+controls, platform boundaries, and validation stay with the accountable domain
+owners.
 
 ## The target architecture gives the model somewhere to land
 

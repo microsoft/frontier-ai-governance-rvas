@@ -7,17 +7,17 @@ This page explains the sign-off boundary behind S7. [S7 Prepare](index.md) start
 
 ## Evaluation is not a release sign-off
 
-![Accepted S6 proof precedes evaluation, then the assurance owner decides to continue or hold.](../assets/diagrams/s7-evaluation-release-handoff.svg)
+![Accepted runtime-control evidence precedes evaluation, then the assurance owner decides to continue or hold.](../assets/diagrams/s7-evaluation-release-handoff.svg)
 
 Customer teams can use Microsoft Foundry evaluations and agent evaluators to review quality, safety, groundedness, tool use, and task completion. Those results can inform a release decision.
 
 They do not prove runtime gateway enforcement. A fixture result, local scorecard, or proposed CI gate is not enough.
 
-S7 requires the accepted S6 gateway proof first. The sign-off record then rests on a customer-reviewed production-path control, not on an evaluator result alone.
+S7 requires accepted runtime-control evidence first. The sign-off record then rests on a customer-reviewed production-path control, not on an evaluator result alone.
 
 ## Plan scope and evidence
 
-The plan records the accepted S6 proof, evaluation plan, assurance owner,
+The plan records the accepted runtime-control evidence, evaluation plan, assurance owner,
 decision, and what each result can support: quality, groundedness, safety, tool
 use, regression, human review, or unsupported scope. Keep completed records in
 the customer evidence system; do not store raw prompts, outputs, telemetry,
@@ -40,7 +40,7 @@ Agent evaluators do not produce one universal quality answer. The plan should na
 | Intent resolution | Did the agent understand the user's intent for these scenarios and rubric? | A rubric judgment does not apply to all production input. |
 | Tool-call accuracy | Did the agent call the right tool with the right parameters for these cases? | Tool or boundary changes require a new evaluation. |
 | Response quality | Did the response meet groundedness, relevance, or coherence criteria? | Criteria and population coverage depend on the evaluator. |
-| Safety / policy behavior | Did the behavior meet the tested safety policy? | Accepted only with separate S8 authorization and runtime controls. |
+| Safety / policy behavior | Did the behavior meet the tested safety policy? | Accepted only with separate authorization and runtime controls. |
 
 ## Quality thresholds are customer decisions
 
@@ -72,18 +72,19 @@ When a fine-tuned model is in scope, record the base version, fine-tuned version
 
 The customer model-deployment backlog owns the engineering decision. S7 records
 whether the evaluation plan covers the new version. A fine-tuned evaluation
-still does not replace accepted S6 gateway proof.
+still does not replace accepted runtime-control evidence.
 
 ## Evaluation review becomes release backlog
 
 Name the release-sign-off path, confidence, assumptions, evaluation target,
 scenario or dataset owner, coverage gap, threshold, release-gate owner, and any
-S8 or S11 dependency. The customer release process owns implementation.
+authorized safety-testing or operating-evidence dependency. The customer release
+process owns implementation.
 
 ## A decision is explicit
 
-The assurance owner selects `continue` or `hold` only after the S6 acceptance
-condition is met. A planned customer-owned evaluation or CI gate may add input.
+The assurance owner selects `continue` or `hold` only after the runtime-control
+acceptance condition is met. A planned customer-owned evaluation or CI gate may add input.
 The customer still owns how it runs, stores evidence, and enforces the result.
 
 [^foundry-eval]: Microsoft Learn - [Run evaluations from the Microsoft Foundry portal](https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluate-generative-ai-app); [Agent Evaluators for Generative AI](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators); [Cloud Evaluation with the Microsoft Foundry SDK](https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/cloud-evaluation).

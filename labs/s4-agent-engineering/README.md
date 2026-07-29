@@ -23,8 +23,8 @@ By the end of the lab, the customer has a customer-owned decision record that su
 - **Authority level:** inform, draft, recommend, act-with-approval, autonomous, or blocked, plus human handoff and stop condition.
 - **Admission and promotion:** DEV/PRE/PRO gate owners, evidence references, promotion blockers, and receiving process.
 - **Model, latency, and cost ownership:** model selection, quota/cost budget, latency target, fallback behavior, and review cadence.
-- **Downstream handoffs:** S5 tool/API dependency, S6 runtime-assurance prerequisite, S7 evaluation prerequisite, S9 control-plane/catalog handoff, and any blocker.
-- **Blockers and backlog:** missing owner, record location, route rationale, authority, gate, model/cost/latency owner, S5/S6/S7/S9 prerequisite, or scope clarity captured with owner, target date, evidence location, acceptance test, and review trigger.
+- **Downstream handoffs:** tool/API dependency, runtime-assurance prerequisite, evaluation prerequisite, control-plane/catalog handoff, and any blocker.
+- **Blockers and backlog:** missing owner, record location, route rationale, authority, gate, model/cost/latency owner, downstream prerequisite, or scope clarity captured with owner, target date, evidence location, acceptance test, and review trigger.
 
 ## Technical capture fields
 
@@ -36,7 +36,7 @@ live configuration in this repository.
 |---|---|
 | Implementation path | Selected path, rejected alternatives, environment or project reference, package/version reference, owner, lifecycle state, support boundary. |
 | Agent package | Instruction/workflow/package reference, model or deployment alias, tools/actions/API versions, data sources, identity mode, telemetry route, release manifest reference, rollback owner. |
-| Authority and gates | Authority archetype, human-control point, S5/S6/S7/S8/S9/S11 prerequisites, blocker rule, receiving owner. |
+| Authority and gates | Authority archetype, human-control point, tool/runtime/evaluation/testing/catalog/operations prerequisites, blocker rule, receiving owner. |
 | Material changes | Prompt/workflow, model alias, tool schema, data source, identity/RBAC, gateway route, telemetry, owner, and publication-channel change triggers. |
 
 ## Facilitation flow
@@ -46,7 +46,7 @@ live configuration in this repository.
 3. Classify the route across **Copilot Studio, Foundry Agent, Microsoft 365 extension, custom app, workflow-not-agent, and prototype-only**.
 4. Ask: **Which route gives this agent the right authority, lifecycle owner, gate path, model/cost/latency owner, and downstream handoff without implying production approval?**
 5. Record one result: approve, defer, reject, route, blocked, or prototype-only.
-6. Create an engineering backlog item for each missing route rationale, owner, admission criterion, model-selection record, token/cost guardrail, latency budget, DEV/PRE/PRO gate, S5 tool/API dependency, S6 runtime prerequisite, S7 evaluation prerequisite, S9 catalog handoff, or retirement trigger.
+6. Create an engineering backlog item for each missing route rationale, owner, admission criterion, model-selection record, token/cost guardrail, latency budget, DEV/PRE/PRO gate, tool/API dependency, runtime prerequisite, evaluation prerequisite, catalog handoff, or retirement trigger.
 7. Handoff the completed decision record and backlog references to receiving owners. Keep final evidence only in the customer-approved records system.
 
 ## Decision criteria

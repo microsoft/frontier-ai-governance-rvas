@@ -38,7 +38,7 @@ For each category, ask five plain questions: what behavior did we test, what cou
 
 ## Findings become remediation backlog
 
-S8 should recommend a remediation, accepted-risk, blocked, rejected, routed, or re-test path with confidence and assumptions. Typical backlog rows include AI Red Teaming Agent, PyRIT, or manual path; authorization and rules of engagement; SOC/legal contact; category threshold; severity owner; control owner; validation reference; re-test criteria; operating alert update; S6/S7/S9/S13 handoff; and release blocker.
+S8 should recommend a remediation, accepted-risk, blocked, rejected, routed, or re-test path with confidence and assumptions. Typical backlog rows include AI Red Teaming Agent, PyRIT, or manual path; authorization and rules of engagement; SOC/legal contact; category threshold; severity owner; control owner; validation reference; re-test criteria; operating alert update; runtime, evaluation, catalog, and portfolio handoff; and release blocker.
 
 A backlog item is useful only when a receiving owner can act on it. Each item should name the affected category, tested scope, severity, proposed control owner, evidence reference, acceptance test, target date, stop condition if risk remains active, and next review trigger.
 

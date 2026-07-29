@@ -71,7 +71,7 @@ Record references only. Do not copy identifiers, configuration, token claims, se
 | Least-privilege RBAC | RBAC, API permission, Graph scope, connector, or resource assignment is excessive, unknown, unused, or unowned | Scope owner, minimum-needed access statement, evidence reference, acceptance test, target date |
 | Conditional Access scope | Conditional Access, workload identity policy, gateway, or tool-control coverage is missing, unclear, or out of scope | Policy/control owner, scope reference, exception state, acceptance test, target date |
 | OBO audit route | Delegated authority, consent, revocation, downstream API, or investigation route is unclear or blocked | API/tool owner, audit route reference, revocation verification, acceptance test, target date |
-| S9 reconciliation | Identity decision must be reconciled with S9 controls, residual-risk acceptance, or downstream security operations handoff | S9 owner, reconciliation question, evidence location, acceptance test, target date |
+| Control-plane reconciliation | Identity decision must be reconciled with control-plane records, residual-risk acceptance, or downstream security operations handoff | Control-plane owner, reconciliation question, evidence location, acceptance test, target date |
 
 ## Safe filled examples
 

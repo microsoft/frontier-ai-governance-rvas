@@ -28,7 +28,7 @@ Default path: **Microsoft Foundry evaluations, agent evaluators, cloud evaluatio
 | Route selected (Foundry evaluator / manual rubric / CI/CD gate / load test / diagnostic-only / mixed) | |
 | Microsoft control path reference | |
 | Environment or scope assumption | |
-| S6/S3 prerequisite or diagnostic-only limit | |
+| Runtime/platform prerequisite or diagnostic-only limit | |
 | Evidence-reference location | |
 
 ## Scenario set and evaluator
@@ -93,7 +93,7 @@ Complete this section only when the Microsoft default is not used or when the cu
 
 ## Backlog and handoff
 
-Create an evaluation backlog item for each missing scenario set, evaluator version, rubric version, baseline, threshold owner, CI/CD gate, load-test evidence, S6/S3 prerequisite, exception owner, release/hold owner, unsupported capability, or access/license blocker.
+Create an evaluation backlog item for each missing scenario set, evaluator version, rubric version, baseline, threshold owner, CI/CD gate, load-test evidence, runtime/platform prerequisite, exception owner, release/hold owner, unsupported capability, or access/license blocker.
 
 Handoff to the evaluation owner, model/agent owner, QA/release owner, runtime/platform owner where applicable, and governance owner. The receiving owner accepts only backlog items with clear acceptance tests, target dates, evidence locations, exception status, and release/hold ownership. Keep final records in the customer-approved system.
 

@@ -22,7 +22,7 @@ Open with the applicability question. AGT is an implementation candidate, not th
 ## Skip when not applicable
 
 - If no real in-process boundary exists, record **not applicable**.
-- Continue with S11/S13 or the customer backlog.
+- Continue with operating review, portfolio governance, or the customer backlog.
 - Do not open an AGT adoption task just to complete S10.
 
 Note:
@@ -52,7 +52,7 @@ The decision is ready when the record names:
 - Evidence location
 - Accepted-when condition
 - Target date
-- Handoff: S11/S13, customer backlog, or application engineering
+- Handoff: operating review, portfolio governance, customer backlog, or application engineering
 
 Note:
 The acceptance test should be observable by the team that receives the handoff.
@@ -77,7 +77,7 @@ Use an exception for a documented equivalent control with an owner and review tr
 
 - Decision: gateway-only, in-process, both, or not applicable; then approve, defer, reject, or route.
 - Decision owner: Runtime governance owner.
-- Handoff: S11/S13, customer backlog, or application engineering.
+- Handoff: operating review, portfolio governance, customer backlog, or application engineering.
 - Boundary: customer data stays in approved systems; production changes use customer change approval. S10 does not deploy AGT or prove production suitability.
 
 Note:

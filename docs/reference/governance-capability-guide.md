@@ -56,7 +56,7 @@ Filter these Microsoft capability categories to the session:
 | Quality measurement and threshold governance | Which dimensions and evaluators apply, which option works everywhere or requires Foundry, and who approves thresholds and owns regressions? |
 | Latency budgeting | Which component targets, attribution limits, regression owner, and telemetry reference apply? |
 | Token cost and FinOps | Which tier, cost owner, allocation approach, quota or capacity consideration, and spend-decision route apply? |
-| Staged rollout governance | Which S4/S6/S7/S8/S9 references are assembled, and who is the customer change authority for promotion? |
+| Staged rollout governance | Which agent-engineering, runtime, evaluation, red-team, and control-plane references are assembled, and who is the customer change authority for promotion? |
 | Microsoft 365 Copilot extensibility | Which declarative-agent instructions, knowledge, actions, capabilities, metadata, distribution, or tenant-governance item applies? |
 | Runtime safety and SOC operations | Which Content Safety, prompt shield, gateway policy, runtime-control, alert, SOC contact, or remediation route applies? |
 | Evaluation and observability | Which Foundry evaluation, evaluator, scorecard, trace, release threshold, or Application Insights/OpenTelemetry item applies? |
@@ -64,7 +64,7 @@ Filter these Microsoft capability categories to the session:
 | FinOps and operating evidence | Which cost owner, allocation, Azure Cost Management, FinOps Toolkit, operational review, or remediation-validation item applies? |
 | Customer SDLC and release | Which architecture/security review, CI/CD gate, release, rollback, verification, incident, decommissioning, or production-approval process owns execution? |
 
-Supplier governance is an optional or future gap unless the customer already has the process and records ready. For now, route supplier questions through S4 admission, S5 interface governance, S12 provider and model lifecycle, and S13 portfolio exceptions. Do not present this curriculum as a substitute for legal, procurement, compliance, privacy, or formal supplier-risk review.
+Supplier governance is an optional or future gap unless the customer already has the process and records ready. For now, route supplier questions through agent admission, interface governance, provider/model lifecycle, and portfolio exceptions. Do not present this curriculum as a substitute for legal, procurement, compliance, privacy, or formal supplier-risk review.
 
 ## The capability map
 
@@ -72,9 +72,9 @@ Supplier governance is an optional or future gap unless the customer already has
 
 ## Product-status notes
 
-- Microsoft Agent 365 licensing is an early S1, S6, and S9 check. Agent-level security posture and some Entra agent-governance capabilities require it; availability varies by workload and tenant.
+- Microsoft Agent 365 licensing is an early identity, runtime, and control-plane check. Agent-level security posture and some Entra agent-governance capabilities require it; availability varies by workload and tenant.
 - Use Microsoft Purview Data Security Posture Management. `DSPM for AI` is the classic product label and should not be the default delivery path.
-- The `azure-ai-evaluation` SDK is generally available. Individual agent evaluators, cloud evaluation, and continuous-evaluation features can vary. Do not use a preview-only evaluator as the sole automated production gate; use a GA evaluator or a customer-owned manual review. S7 references customer-owned evaluation work. It does not run a live evaluator or create a CI/CD gate.
+- The `azure-ai-evaluation` SDK is generally available. Individual agent evaluators, cloud evaluation, and continuous-evaluation features can vary. Do not use a preview-only evaluator as the sole automated production gate; use a GA evaluator or a customer-owned manual review. Evaluation references customer-owned evaluation work. They do not run a live evaluator or create a CI/CD gate.
 - Foundry fine-tuning is available for supported models and can vary by model, region, and feature. Verify support before you recommend a fine-tuning path or evaluation integration.
 - Foundry billing and project-level cost attribution may have scope limits. Confirm available views before you use them in a FinOps recommendation.
 - ASSERT policy-driven evaluation is contextual Build 2026 guidance. Verify its current project and preview status before you cite it in a customer backlog.

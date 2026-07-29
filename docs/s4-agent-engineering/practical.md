@@ -15,7 +15,7 @@
 | Business-user authored assistant, constrained process, low-code lifecycle | Copilot Studio | Approve only when environment, maker/admin ownership, connector use, handoff, and ALM/promotion path are recorded. |
 | Multi-step agent requiring model/tool orchestration, evaluation hooks, or engineering lifecycle | Foundry Agent | Approve only when model choice, evaluation handoff, tool boundary, telemetry expectation, and DEV/PRE/PRO gate owner are named. |
 | Assistant embedded in Microsoft 365 work patterns | M365 extension | Route through the M365 extensibility owner when channel, identity, data boundary, app permission, review process, and consumer experience are recorded. |
-| Custom UX, custom backend, bespoke orchestration, or nonstandard integration | Custom app | Defer until platform boundary, API/tool governance, identity, gateway, telemetry, and release owners are named. Route S3/S5/S6/S7/S9 prerequisites explicitly. |
+| Custom UX, custom backend, bespoke orchestration, or nonstandard integration | Custom app | Defer until platform boundary, API/tool governance, identity, gateway, telemetry, and release owners are named. Route platform, tool/API, runtime, evaluation, and catalog prerequisites explicitly. |
 | Deterministic workflow or automation without agentic reasoning | Workflow-not-agent | Reject the agent route and route to workflow, app, or automation owner when fixed rules, approvals, or RPA are sufficient. |
 | Exploration without owners, gates, or evidence location | Prototype-only | Mark prototype-only; block promotion until admission, authority, model/cost, latency, evaluation, runtime, and control-plane handoffs are complete. |
 
@@ -24,7 +24,7 @@
    - Defer blocker example: the team chose a build path before confirming required tools, authority level, human handoff, model ownership, latency budget, or DEV/PRE/PRO promotion route.
 5. **Run the admission and promotion flow.** Confirm the proposed path has a named owner for DEV, PRE, and PRO gates. S4 may define readiness criteria and handoff blockers, but must not claim deployment, enforcement, runtime proof, or production approval.
 6. **Confirm model, latency, and cost ownership.** Record the owner of model selection, quota, latency target, cost budget, fallback behavior, and review cadence. Defer if any are unknown.
-7. **Set downstream handoffs.** Record what S6 runtime assurance, S7 evaluation, and S9 control-plane/catalog owners must receive before they can act. Route S5 when tools/APIs are required and S3 when platform boundary assumptions are unresolved.
+7. **Set downstream handoffs.** Record what runtime assurance, evaluation, and control-plane/catalog owners must receive before they can act. Route to tool/API owners when tools/APIs are required and to platform owners when boundary assumptions are unresolved.
 8. **Record the outcome.** Approve only when the route rationale, authority level, owners, gates, model/latency/cost ownership, accepted-when checks, defer criteria, and handoffs are complete. Otherwise defer, reject, route, block, or mark prototype-only.
 
 ## Decision record
@@ -40,11 +40,11 @@ Fill this record in the customer-approved records system. Store only safe refere
 | Human handoff | Approval point, exception path, receiving owner, and stop condition |
 | DEV/PRE/PRO gate | Gate owner, gate purpose, evidence reference, and promotion blocker for each stage |
 | Model/latency/cost owner | Model choice owner, quota/cost owner, latency target, fallback behavior, and review cadence |
-| Tool/API dependency | Required S5 tool/API admission, connector, allow-list, or rejection decision |
-| S6 handoff | Runtime-assurance owner, expected telemetry/correlation, action audit route, and stop condition |
-| S7 handoff | Evaluation owner, scenario set, quality/safety acceptance, and unresolved evidence gap |
-| S9 handoff | Catalog/control-plane owner, lifecycle state, exception/backlog reference, and retirement trigger |
-| Defer criteria | Missing owner, unresolved authority, unsupported route, incomplete handoff, missing gate, model/cost/latency gap, or missing S5/S6/S7/S9 prerequisite |
+| Tool/API dependency | Required tool/API admission, connector, allow-list, or rejection decision |
+| Runtime handoff | Runtime-assurance owner, expected telemetry/correlation, action audit route, and stop condition |
+| Evaluation handoff | Evaluation owner, scenario set, quality/safety acceptance, and unresolved evidence gap |
+| Catalog handoff | Catalog/control-plane owner, lifecycle state, exception/backlog reference, and retirement trigger |
+| Defer criteria | Missing owner, unresolved authority, unsupported route, incomplete handoff, missing gate, model/cost/latency gap, or missing platform/tool/runtime/evaluation/catalog prerequisite |
 | Acceptance checks | Route rationale, authority, owners, gates, model/cost/latency, handoff, exception status, target date, and backlog are complete |
 
 ## Decision tree
@@ -65,10 +65,10 @@ For an exception, record: reason, route not used, equivalent control or compensa
 | Authority level | allowed actions, human approval point, exception path, and stop condition are explicit | Business owner |
 | DEV/PRE/PRO gate | each gate has an owner, purpose, evidence reference, blocker rule, and receiving process | Release owner |
 | Model/latency/cost | model selection, latency target, quota/cost owner, fallback, and review cadence are named | Model/cost owner |
-| Tool/API dependency | every tool, connector, API, action, or allow-list need is routed to S5 or rejected as unsafe | Tool/API owner |
-| S6 runtime handoff | expected telemetry, correlation, action audit route, reviewer, and stop condition are recorded without claiming runtime proof | Runtime assurance owner |
-| S7 evaluation handoff | scenario set, evaluation owner, acceptance criteria, and evidence gap are recorded without claiming evaluation completion | Evaluation owner |
-| S9 control-plane handoff | catalog/control-plane lifecycle owner, state, exception, retirement trigger, and consumer review need are recorded | Control-plane owner |
+| Tool/API dependency | every tool, connector, API, action, or allow-list need is routed to the tool/API owner or rejected as unsafe | Tool/API owner |
+| Runtime handoff | expected telemetry, correlation, action audit route, reviewer, and stop condition are recorded without claiming runtime proof | Runtime assurance owner |
+| Evaluation handoff | scenario set, evaluation owner, acceptance criteria, and evidence gap are recorded without claiming evaluation completion | Evaluation owner |
+| Control-plane handoff | catalog/control-plane lifecycle owner, state, exception, retirement trigger, and consumer review need are recorded | Control-plane owner |
 | Workshop safety | the activity records decisions only, copies no customer evidence into the repository, changes no tenant policy, and makes no deployment, enforcement, runtime-proof, or production-approval claim | Workshop facilitator |
 
 **Boundary:** Keep customer data and evidence in customer-approved systems; store references only. This workshop changes no tenant policy, proves no runtime enforcement, and does not approve production.

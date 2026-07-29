@@ -52,7 +52,7 @@ Keep the decisions separate:
 | Classification/exposure | Whether each segment is labeled, unlabeled, overexposed, unknown, unsupported, or out of scope. |
 | DLP/report-only readiness | Whether a supported Purview DLP scenario can be reviewed in simulation/report-only mode, with false-positive and owner review. |
 | Investigation route | Which audit, eDiscovery, IRM, Communication Compliance, legal hold, retention, or customer process would handle a concern. |
-| Gateway/runtime dependency | Which masking, routing, logging, or tool-control need belongs to S3/S6 or another platform owner. |
+| Gateway/runtime dependency | Which masking, routing, logging, or tool-control need belongs to a platform, runtime, or other accountable owner. |
 | Decision state | Whether the item is approved to continue, deferred, rejected, `accepted_risk`, or `blocked`. |
 
 ## Data Security Posture Management finds exposure before enforcement
@@ -113,7 +113,7 @@ classification, DLP review, audit retention, legal hold, or compliance
 ownership. And a Purview policy does not stand up a runtime gateway, prove tool
 authorization, or guarantee masking on paths Purview cannot see. When the data
 path needs runtime control, record the dependency and route it to the appropriate
-platform session instead of treating it as a Purview checklist item.
+platform or runtime owner instead of treating it as a Purview checklist item.
 
 [^purview]: Microsoft Learn - [Microsoft Purview for AI](https://learn.microsoft.com/en-us/purview/ai-microsoft-purview).
 [^dspm]: Microsoft Learn - [Data Security Posture Management](https://learn.microsoft.com/en-us/purview/data-security-posture-management-learn-about).

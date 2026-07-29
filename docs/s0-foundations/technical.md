@@ -24,16 +24,16 @@ Default to a customer AI governance forum anchored in Microsoft Cloud Adoption F
 
 | Role | Accountable | Responsible | Consulted | Informed |
 |---|---|---|---|---|
-| Executive sponsor | Risk appetite, funding, escalation, forum authority. | Names accountable forum. | Portfolio, legal/risk, business owners. | S13 roadmap outcomes. |
+| Executive sponsor | Risk appetite, funding, escalation, forum authority. | Names accountable forum. | Portfolio, legal/risk, business owners. | Roadmap outcomes. |
 | Governance lead | S0 baseline, decision route, exception process, forum cadence. | Runs forum and backlog routing. | Security, data, platform, operations. | All session owners. |
 | Product/business owner | Purpose, value hypothesis, user scope, accepted business risk. | Maintains use-case ownership. | Governance and release owners. | Support and operations. |
-| Platform owner | Platform capability, environment readiness, gateway/telemetry route. | Routes S3/S5/S6/S11 work. | Identity, security, operations. | Product and governance. |
-| Identity owner | Identity sponsorship, authority model, lifecycle route. | Routes S1 decisions. | Security, platform, app owner. | S9 steward. |
-| Data/compliance owner | Data classification, privacy, retention, investigation route. | Routes S2 decisions. | Legal/risk, platform, product. | Release owner. |
-| Security/runtime owner | Runtime controls, red-team route, incident handoff. | Routes S6/S8/S10 decisions. | SOC, legal/risk, platform. | Portfolio forum. |
-| Release/change owner | DEV/PRE/PRO gate, rollback, production approval process. | Routes S4/S7/S12 decisions. | Operations, product, security. | Governance forum. |
-| Operations owner | Monitoring, alerts, support, FinOps, operating review. | Routes S11 decisions. | Platform, product, finance. | S13 forum. |
-| Portfolio owner | Roadmap, prioritization, re-baseline trigger. | Routes S13 decisions. | Sponsor, finance, governance. | Session owners. |
+| Platform owner | Platform capability, environment readiness, gateway/telemetry route. | Routes platform, tool/API, runtime, and operating work. | Identity, security, operations. | Product and governance. |
+| Identity owner | Identity sponsorship, authority model, lifecycle route. | Routes identity decisions. | Security, platform, app owner. | Control-plane steward. |
+| Data/compliance owner | Data classification, privacy, retention, investigation route. | Routes data decisions. | Legal/risk, platform, product. | Release owner. |
+| Security/runtime owner | Runtime controls, red-team route, incident handoff. | Routes runtime, adversarial-testing, and in-process decisions. | SOC, legal/risk, platform. | Portfolio forum. |
+| Release/change owner | DEV/PRE/PRO gate, rollback, production approval process. | Routes agent-admission, evaluation, and LLMOps decisions. | Operations, product, security. | Governance forum. |
+| Operations owner | Monitoring, alerts, support, FinOps, operating review. | Routes operating decisions. | Platform, product, finance. | Portfolio forum. |
+| Portfolio owner | Roadmap, prioritization, re-baseline trigger. | Routes portfolio decisions. | Sponsor, finance, governance. | Session owners. |
 
 ## Exception template
 
@@ -45,7 +45,7 @@ Default to a customer AI governance forum anchored in Microsoft Cloud Adoption F
 | Owner and approver | Request owner, risk owner, approval authority, escalation route. |
 | Duration | Review date, expiry date, renewal criteria, stop condition. |
 | Evidence | Customer-held evidence reference, reviewer, retention owner. |
-| Impact | Release/roadmap impact, affected sessions, S13 visibility. |
+| Impact | Release/roadmap impact, affected domains, portfolio visibility. |
 | Closure | Remediation target, validation reference, closure owner, recurrence check. |
 
 ## Escalation cadence and SLA model
@@ -57,7 +57,7 @@ Default to a customer AI governance forum anchored in Microsoft Cloud Adoption F
 | Production-impacting blocker | Release/change owner and sponsor. | Same-cycle decision or hold recorded. |
 | Cross-domain conflict | Governance forum with affected domain owners. | Conflict owner and target decision date. |
 | High-risk red-team or runtime finding | Security/SOC/risk and release owner. | Immediate route per customer severity model. |
-| Portfolio dependency concentration | S13 forum and S0 baseline owner. | Re-baseline trigger and roadmap decision date. |
+| Portfolio dependency concentration | Portfolio forum and baseline owner. | Re-baseline trigger and roadmap decision date. |
 
 ## Evidence-system field model
 
@@ -74,7 +74,7 @@ without copying sensitive evidence.
 | Evidence limits | Freshness, coverage, unsupported areas, assumptions. |
 | Exception | Exception reference, expiry, compensating control, approver. |
 | Backlog | Gap, owner, acceptance test, target date, release/roadmap impact. |
-| Review trigger | Date, material change, incident, release stage, or S13 re-baseline signal. |
+| Review trigger | Date, material change, incident, release stage, or portfolio re-baseline signal. |
 
 ## Platform checks
 
@@ -92,9 +92,9 @@ Inspect these customer-owned records; store only safe references in this repo.
 | Work item | Accepted when... | Handoff |
 |---|---|---|
 | Operating model | one forum can approve, defer, reject, or route each AI-agent decision and has named domain owners | Governance sponsor |
-| Baseline framework | the chosen Microsoft baseline and any regulatory overlay are mapped to S1-S13 ownership gaps | Governance/risk owner |
+| Baseline framework | the chosen Microsoft baseline and any regulatory overlay are mapped to ownership gaps | Governance/risk owner |
 | Evidence record | decisions include alternatives, rationale, owner, evidence location, target date, and review trigger | Records/GRC owner |
-| Roadmap | each S0 gap is assigned to a later session or customer process | S13 portfolio owner |
+| Roadmap | each foundation gap is assigned to a capability owner or customer process | Portfolio owner |
 
 ## Boundary note
 

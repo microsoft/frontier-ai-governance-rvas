@@ -17,7 +17,7 @@
 | Missing baseline framework or operating-model record | Baseline gap | Defer until the chosen Microsoft baseline, customer policy mapping, scope, evidence location, owner, target date, and recheck trigger are recorded. |
 | Exception path is unclear | Exception-route gap | Route to the risk or governance forum that can accept residual risk. Record reason, equivalent control, owner, acceptance test, and review trigger. |
 | Backlog item lacks acceptance criteria | Handoff gap | Defer until the backlog item names the gap owner, accepted-when check, target date, evidence reference, and receiving owner. |
-| Baseline exists but needs later re-baseline | Re-baseline trigger | Approve only the bounded handoff, and record which change in scope, risk, regulation, portfolio priority, or S13 decision triggers S0 re-baseline. |
+| Baseline exists but needs later re-baseline | Re-baseline trigger | Approve only the bounded handoff, and record which change in scope, risk, regulation, portfolio priority, or portfolio decision triggers baseline re-measurement. |
 
 4. **Inspect evidence by reference only.** Use customer-approved records for the governance charter, decision forum minutes/reference, RACI, control-framework baseline, exception register, and backlog. Do not copy customer evidence into this repository.
 5. **Record the outcome and handoff.** Approve only when the forum, baseline, record location, gap owner, target date, recheck trigger, and receiving owner are complete. Otherwise defer with a specific acceptance test, reject if the proposed path cannot meet the bounded scope, or route to the accountable owner/forum.
@@ -35,7 +35,7 @@ Fill this record in the customer-approved records system. Store only safe refere
 | Decision-register location | Customer-approved record location and reference format |
 | Gap or blocker | Missing owner/forum, split ownership, missing baseline, unclear exception path, or missing acceptance criteria |
 | Acceptance checks | Forum named, baseline mapped, record location identified, gap owner assigned, target date set, recheck trigger recorded, and handoff accepted |
-| S13 dependency | Portfolio decision, risk/value conflict, roadmap change, or capacity/cost decision that would trigger S0 re-baseline |
+| Portfolio dependency | Portfolio decision, risk/value conflict, roadmap change, or capacity/cost decision that would trigger baseline re-measurement |
 | Handoff | Owner and customer process that accepts the decision or backlog item |
 
 ## Decision tree

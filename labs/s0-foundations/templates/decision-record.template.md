@@ -41,7 +41,7 @@ Default path: **Cloud Adoption Framework for AI, Well-Architected Framework for 
 | Missing owner, forum, or record | |
 | Baseline gap or coverage limit | |
 | Exception path gap | |
-| S13 dependency or re-baseline trigger | |
+| Portfolio dependency or re-baseline trigger | |
 | Receiving owner and process | |
 
 ## Customer decision

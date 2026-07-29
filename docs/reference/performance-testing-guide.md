@@ -37,7 +37,7 @@ Synthetic load answers whether an interaction holds its first-token and end-to-e
 - **Workload model.** Record interaction types, concurrency and arrival profile, ramp, duration, prompt/payload mix, and streaming. A workload unlike real usage produces an unhelpful number.
 - **Load engine.** **Azure Load Testing** is a suitable customer-run engine for synthetic load and client-side latency and error metrics; k6 and Apache JMeter are valid alternatives. This kit references the engine and outputs as customer evidence; it does not run a test or provision the service.
 - **Environment fidelity.** Record test-to-production parity: model deployment, quota and PTU ceiling, data residency, and whether downstream tools and retrieval are live or stubbed. Shared model deployments can throttle unrelated workloads, so record run quota and cost.
-- **Interpretation.** The customer owns the baseline, regression owner, and release-decision use. A passed load run is S7 assurance evidence, not production sign-off.
+- **Interpretation.** The customer owns the baseline, regression owner, and release-decision use. A passed load run is assurance evidence, not production sign-off.
 
 ## Production measurement (S11)
 

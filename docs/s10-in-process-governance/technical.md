@@ -9,17 +9,17 @@ Default to Azure API Management/gateway controls for route-level authentication,
 
 ## Decision tree
 
-1. **If the gateway can make the meaningful decision**, use gateway-only and send evidence to S6.
+1. **If the gateway can make the meaningful decision**, use gateway-only and send evidence to the runtime-assurance owner.
 2. **If the decision requires prompt/tool/user context inside the process**, assess an AGT-style `govern()` boundary with engineering ownership.
 3. **If the action is high-authority**, consider defense in depth: gateway plus in-process decision, with correlation ownership.
-4. **If there is no local tool decision point or delegated authority**, record **not applicable**, stop S10 work, and route to S11/S13 or the customer backlog.
+4. **If there is no local tool decision point or delegated authority**, record **not applicable**, stop S10 work, and route to operating review, portfolio governance, or the customer backlog.
 
 | Boundary | Use when | Accepted when... |
 |---|---|---|
-| Gateway-only | API Management/governance hub is the control point | route, policy, telemetry, and owner are recorded in S6 |
+| Gateway-only | API Management/governance hub is the control point | route, policy, telemetry, and owner are recorded in the runtime-control evidence |
 | In-process AGT-style check | local tool call needs immediate allow/deny/approval | code owner, policy owner, approval route, audit record, and support caveat are recorded |
 | Defense in depth | high-authority action needs both controls | gateway and in-process decisions have correlation and conflict-review owners |
-| Not applicable | no real in-process control point exists | rationale and alternate S5/S6/S11/S13 or customer-backlog path are recorded |
+| Not applicable | no real in-process control point exists | rationale and alternate tool/API, runtime, operating, portfolio, or customer-backlog path are recorded |
 
 ## Checkpoint taxonomy
 
@@ -79,7 +79,7 @@ Decision values should be explicit:
 
 | Case | Record |
 |---|---|
-| Gateway allows, in-process denies | Local policy reason, gateway route reference, conflict reviewer, user-facing behavior, S6/S11 evidence route. |
+| Gateway allows, in-process denies | Local policy reason, gateway route reference, conflict reviewer, user-facing behavior, runtime and operating evidence route. |
 | Gateway denies, in-process allows | Gateway denial wins for runtime; local policy owner reviews why the local rule was less restrictive. |
 | Gateway not in path | Reason gateway cannot observe or decide, compensating control, telemetry/correlation route. |
 | In-process audit missing | Treat as control evidence gap; do not claim in-process decision effectiveness. |
@@ -101,17 +101,17 @@ S10 records the need and owner; it does not configure or certify storage.
 | In-process applicability | customer architecture/code owner, tool-call location, delegated authority, policy decision point |
 | AGT readiness | AGT version/status, official limitation note, installation assessment backlog |
 | Audit/tamper evidence | in-process audit record design, signed immutable external storage plan, retention owner |
-| Runtime correlation | S6 correlation ID plan, reviewer, and retention location |
+| Runtime correlation | correlation ID plan, reviewer, and retention location |
 
 ## Acceptance tests
 
 | Work item | Accepted when... | Handoff |
 |---|---|---|
 | Applicability | the team can point to the exact pre-tool decision and delegated authority it governs | Engineering owner |
-| Boundary choice | gateway-only, in-process, defense-in-depth, or not-applicable is selected with rationale | S6 runtime owner |
+| Boundary choice | gateway-only, in-process, defense-in-depth, or not-applicable is selected with rationale | Runtime owner |
 | Audit need | simulator, audit, or signed immutable external record requirement is chosen with owner | Security/compliance |
 | Implementation backlog | any AGT assessment is routed as a separate customer code/security task | Customer engineering |
-| Hard skip | no real in-process boundary exists, **not applicable** is recorded, and no AGT action is opened | S11/S13 or customer backlog owner |
+| Hard skip | no real in-process boundary exists, **not applicable** is recorded, and no AGT action is opened | Operating, portfolio, or customer backlog owner |
 
 ## Boundary note
 

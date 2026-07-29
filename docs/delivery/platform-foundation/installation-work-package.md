@@ -30,8 +30,8 @@ approved backends and access contracts, authentication, telemetry, deployment
 pipeline, rollback, support, and promotion authority.
 
 Use the [RACI](raci.md) to assign accountable people. Record each unavailable
-prerequisite as blocked with an owner and target date; S0 may proceed with that
-readiness backlog, but gateway-dependent validation waits.
+prerequisite as blocked with an owner and target date; the foundation baseline
+may proceed with that readiness backlog, but gateway-dependent validation waits.
 
 ## 3. Deploy the external accelerator
 
@@ -64,8 +64,9 @@ manifest](gateway-evidence-manifest.md) using safe references only. The
 platform owner returns the acceptance decision, manifest, change and rollback
 references, support route, and deferred-item list to the governance lead.
 
-The facilitator then releases the relevant session gates: S1-S3 may consume
-platform evidence after acceptance; S4-S5 and S6-S8 use the handed-over contracts
+The facilitator then releases the relevant governance gates: identity, data,
+and platform reviews may consume platform evidence after acceptance; engineering,
+tool/API, runtime, evaluation, and red-team reviews use the handed-over contracts
 and telemetry records as applicable.
 
 ## 6. Respect the delivery boundary

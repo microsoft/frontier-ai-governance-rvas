@@ -63,9 +63,9 @@ Default path: **Azure landing zones, Microsoft Foundry, Azure API Management AI 
 
 | Handoff | Record |
 |---|---|
-| S6 runtime proof prerequisite | |
-| S7 evaluation evidence prerequisite | |
-| S9 control-plane / catalog handoff | |
+| Runtime proof prerequisite | |
+| Evaluation evidence prerequisite | |
+| Control-plane / catalog handoff | |
 | Stop condition before downstream reliance | |
 
 ## Customer decision
@@ -99,10 +99,10 @@ Complete this section only when the Microsoft default is not used or when the cu
 
 ## Backlog and handoff
 
-Create a platform-foundation backlog item for each missing platform owner, trust-boundary record, gateway route, egress route, network/private route, identity boundary, policy assignment, telemetry coverage, correlation approach, retention/export record, S6 runtime proof prerequisite, S7 evaluation prerequisite, S9 catalog handoff, unsupported support condition, or exception approval.
+Create a platform-foundation backlog item for each missing platform owner, trust-boundary record, gateway route, egress route, network/private route, identity boundary, policy assignment, telemetry coverage, correlation approach, retention/export record, runtime-proof prerequisite, evaluation prerequisite, catalog handoff, unsupported support condition, or exception approval.
 
 Handoff to cloud platform team, network/security team, identity owner, observability owner, security runtime owner, evaluation owner, control-plane/catalog steward, and application delivery owner as applicable. The receiving owner accepts only backlog items with clear acceptance tests, target dates, and evidence locations. Keep final records in the customer-approved system.
 
 ## Filled example
 
-Work item "confirm pre-production inference boundary"; evidence location "customer-approved gateway-route reference, private-route reference, telemetry-retention reference, and catalog handoff reference"; accepted when the receiving platform owner accepts the route and S6 runtime proof, S7 evaluation evidence, and S9 catalog handoff prerequisites are identified.
+Work item "confirm pre-production inference boundary"; evidence location "customer-approved gateway-route reference, private-route reference, telemetry-retention reference, and catalog handoff reference"; accepted when the receiving platform owner accepts the route and runtime-proof, evaluation-evidence, and catalog-handoff prerequisites are identified.

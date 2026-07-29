@@ -48,7 +48,7 @@ Keep answers short and references-only. Do not paste sensitive prompts, outputs,
 | Who owns policy changes and approval route? | | |
 | Where will audit records be retained? | | |
 | If AGT is considered, what Public Preview caveat or limitation must be assessed? | | |
-| If not applicable, what alternate S11/S13 or customer-backlog path remains? | | |
+| If not applicable, what alternate operating, portfolio, or customer-backlog path remains? | | |
 
 ## Decision paths
 
@@ -57,7 +57,7 @@ Keep answers short and references-only. Do not paste sensitive prompts, outputs,
 | Gateway-only | Gateway/platform control can make the meaningful decision and owner accepts the reference | No in-process or AGT adoption item is needed |
 | In-process candidate | A real local pre-tool decision and delegated authority exist and gateway controls cannot decide it | Create only a customer-owned engineering assessment item |
 | Both | Gateway control and local context are both needed | Name correlation, conflict-review, audit, and owner routes |
-| Not applicable | No real local decision point or delegated authority exists | Preserve skip path; no adoption task is needed; route to S11/S13 or customer backlog |
+| Not applicable | No real local decision point or delegated authority exists | Preserve skip path; no adoption task is needed; route to operating review, portfolio governance, or customer backlog |
 
 ## Exception or future assessment
 
@@ -96,4 +96,4 @@ Create a customer-owned backlog item only for a gap that prevents the selected d
 | Boundary choice | "Not applicable" |
 | Rationale | "No delegated local pre-tool decision was identified; gateway control remains the customer-owned path" |
 | Evidence reference | "Customer-approved control record reference; no prompts, outputs, telemetry, policy, or tool arguments copied here" |
-| Backlog item | "None for S10; route operating observation to S11 review backlog" |
+| Backlog item | "None for S10; route operating observation to the operating-review backlog" |

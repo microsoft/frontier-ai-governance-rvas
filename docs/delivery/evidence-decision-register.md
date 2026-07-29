@@ -27,13 +27,14 @@ Use one row per control, prerequisite, finding, or exception.
 
 Before S13 closes, confirm that the register points to:
 
-- S0 baseline scorecard, roadmap, operating model, and RACI;
-- available S1 through S8 evidence, including blocked or reference-only work;
-- the S9 registry reconciliation, S0/S13 maturity comparison, and
+- foundation baseline scorecard, roadmap, operating model, and RACI;
+- available identity, data, platform, engineering, tool/API, runtime,
+  evaluation, and red-team evidence, including blocked or reference-only work;
+- the registry reconciliation, maturity comparison, and
   `compare.py` maturity-lift output;
-- the S11 operating-review and remediation references;
+- the operating-review and remediation references;
 - residual gaps with owners, due dates, and the next governance review;
-- the S13 portfolio decision and next roadmap; and
+- the portfolio decision and next roadmap; and
 - any production-readiness package handed to the customer change authority.
 
 Apply the customer's retention, access, and data-classification rules to the register, links, and supporting artifacts.

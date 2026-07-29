@@ -65,16 +65,16 @@ It is not gateway-path proof by itself.[^appinsights]
 
 Microsoft Defender for Cloud and AI security posture capabilities can help the
 customer review the security posture, findings, and security-owner routing where enabled. They
-support the runtime security picture. They do not replace the S6 gateway proof
-and correlation decision.
+support the runtime security picture. They do not replace the gateway proof and
+correlation decision.
 
 ## Runtime evidence becomes a work list
 
 S6 should recommend the next runtime path with confidence and assumptions. Typical
 work-list rows include gateway or Azure API Management route remediation, Content
 Safety or Prompt Shields policy review, telemetry correlation, SOC alert or
-debrief route, identity or data-control dependency, S7 evaluation prerequisite,
-S9 catalog lifecycle update, and S11 operating evidence coverage.
+debrief route, identity or data-control dependency, evaluation prerequisite,
+catalog lifecycle update, and operating evidence coverage.
 
 The recommendation routes work to the appropriate platform, security, SOC,
 identity, data, change, or operating process; it does not change traffic or

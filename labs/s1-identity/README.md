@@ -53,7 +53,7 @@ By the end of the lab, the customer has:
 
 ## Backlog categories
 
-Create customer-owned backlog items for missing sponsor, Agent ID coverage investigation, credential hygiene, least-privilege RBAC, Conditional Access scope, OBO audit route, or S9 reconciliation. Each backlog item must include dependency, owner, impact, acceptance test, target date, approved records location, and receiving process.
+Create customer-owned backlog items for missing sponsor, Agent ID coverage investigation, credential hygiene, least-privilege RBAC, Conditional Access scope, OBO audit route, or control-plane reconciliation. Each backlog item must include dependency, owner, impact, acceptance test, target date, approved records location, and receiving process.
 
 ## Blocker path
 

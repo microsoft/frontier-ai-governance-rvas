@@ -29,7 +29,7 @@ Default path: **Microsoft Learn LLMOps lifecycle: data curation, experimentation
 |---|---|
 | Data curation | |
 | Experiment | |
-| Evaluation / S7 dependency | |
+| Evaluation dependency | |
 | Validate / deploy | |
 | Inference | |
 | Monitor | |
@@ -97,10 +97,10 @@ Complete this section only when the Microsoft default is not used or when the cu
 
 ## Backlog and handoff
 
-Create an LLMOps backlog item for each missing data-curation owner, experiment lineage, S7 evaluation record, validate/deploy record, inference route, monitoring signal, feedback gate, baseline/candidate/fallback state, switch authority, rollback trigger, retirement owner, automation prerequisite, unsupported capability, or access/license blocker.
+Create an LLMOps backlog item for each missing data-curation owner, experiment lineage, evaluation record, validate/deploy record, inference route, monitoring signal, feedback gate, baseline/candidate/fallback state, switch authority, rollback trigger, retirement owner, automation prerequisite, unsupported capability, or access/license blocker.
 
 Handoff to the data owner, experiment owner, evaluation owner, platform/change owner, service operations owner, and governance owner. The receiving owner accepts only backlog items with clear acceptance tests, target dates, evidence locations, exception status, model version or deployment alias where relevant, switch authority, rollback trigger, and retirement owner. Keep final records in the customer-approved system.
 
 ## Filled example
 
-Work item "prepare candidate model rollout handoff"; evidence location "customer-approved curated-data reference, experiment lineage reference, S7 evaluation record, release manifest, alias record, monitor signal, and fallback route reference"; accepted when baseline, candidate, fallback, switch authority, rollback trigger, retirement owner, automation prerequisites, exception status, and handoff are recorded.
+Work item "prepare candidate model rollout handoff"; evidence location "customer-approved curated-data reference, experiment lineage reference, evaluation record, release manifest, alias record, monitor signal, and fallback route reference"; accepted when baseline, candidate, fallback, switch authority, rollback trigger, retirement owner, automation prerequisites, exception status, and handoff are recorded.

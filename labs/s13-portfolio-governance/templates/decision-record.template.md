@@ -21,16 +21,16 @@ Copy this template into the customer's approved records system. Use it to record
 
 ## Portfolio rollup
 
-Default path: **Agent 365 and control-plane records, Azure Cost Management, operating evidence from S11, roadmap, and the S0 baseline**
+Default path: **Agent 365 and control-plane records, Azure Cost Management, operating evidence, roadmap, and the baseline**
 
 | Source | Safe reference | Freshness / review date | Coverage limit | Owner |
 |---|---|---|---|---|
 | Agent 365 / control-plane inventory | | | | |
 | Exception register | | | | |
 | Azure Cost Management or capacity view | | | | |
-| S11 operating evidence | | | | |
+| Operating evidence | | | | |
 | Roadmap / funding / sequencing record | | | | |
-| S0 baseline / operating-model record | | | | |
+| Baseline / operating-model record | | | | |
 
 ## Prioritization
 
@@ -50,12 +50,12 @@ Default path: **Agent 365 and control-plane records, Azure Cost Management, oper
 
 | Scenario field | Record |
 |---|---|
-| Route selected | Complete rollup / incomplete evidence / cost-capacity decision / risk-value conflict / no action owner / S0 re-baseline trigger |
+| Route selected | Complete rollup / incomplete evidence / cost-capacity decision / risk-value conflict / no action owner / baseline re-measurement trigger |
 | Incomplete, stale, or non-comparable evidence | |
 | Cost, capacity, or funding decision needed | |
 | Risk/value conflict | |
 | Missing action owner | |
-| S0 re-baseline trigger or no-trigger rationale | |
+| Baseline re-measurement trigger or no-trigger rationale | |
 | Receiving owner and process | |
 
 ## Customer decision
@@ -94,7 +94,7 @@ Complete this section only when the Microsoft default is not used or when the cu
 
 ## Backlog and handoff
 
-Create a portfolio-governance backlog item for each unowned exception, stale control-plane record, incomplete evidence source, missing freshness/coverage statement, unfunded roadmap item, missing operating evidence, cost/capacity decision, risk/value conflict, no action owner, or S0 re-baseline trigger.
+Create a portfolio-governance backlog item for each unowned exception, stale control-plane record, incomplete evidence source, missing freshness/coverage statement, unfunded roadmap item, missing operating evidence, cost/capacity decision, risk/value conflict, no action owner, or baseline re-measurement trigger.
 
 | Backlog field | Record |
 |---|---|
@@ -113,4 +113,4 @@ The receiving owner accepts only backlog items with clear acceptance tests, targ
 
 ## Filled example
 
-Work item "prioritize pilot cohort for next funding review"; evidence location "customer-approved inventory, exception, cost, S11 operating, roadmap, and S0 baseline references"; accepted when source lineage, freshness, coverage limits, risk/value/cost rationale, roadmap owner, target date, S0 re-baseline trigger, and handoff owner are recorded.
+Work item "prioritize pilot cohort for next funding review"; evidence location "customer-approved inventory, exception, cost, operating, roadmap, and baseline references"; accepted when source lineage, freshness, coverage limits, risk/value/cost rationale, roadmap owner, target date, baseline re-measurement trigger, and handoff owner are recorded.

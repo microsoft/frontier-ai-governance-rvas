@@ -6,8 +6,8 @@
 ## 1. Outcome & what the customer keeps
 
 The customer leaves with a platform-readiness record for the workload boundary:
-what is assumed, who owns it, what is not yet evidenced, and which later session
-may rely on the path.
+what is assumed, who owns it, what is not yet evidenced, and which downstream
+decision may rely on the path.
 
 They leave with:
 
@@ -25,9 +25,8 @@ They leave with:
 - A blocker/defer list that identifies the customer process and owner for each
   prerequisite, such as architecture review, network design, identity review,
   security approval, release management, or evidence retention.
-- An explicit handoff to S6 runtime assurance, S7 security review, and S9
-  control-plane/evaluation work that states what those sessions may assess later
-  and what S3 did not prove.
+- An explicit handoff to runtime-assurance, evaluation, and catalog/control-plane
+  owners that states what they may assess later and what S3 did not prove.
 
 `labs/s3-platform-foundation/` contains blank offline templates only. Keep workload data, credentials, network details, event records, and completed evidence in the customer's approved system.
 
@@ -50,7 +49,7 @@ S3 produces a platform backlog: proceed to runtime assurance, close landing-zone
 AI gateway, API Center, private-connectivity, identity, telemetry, correlation,
 retention/export, or ownership prerequisites, or pause for missing evidence.
 
-The AI gateway is the trust boundary for runtime access. In this curriculum, that usually means Azure API Management acting as the gateway layer for AI APIs and model access. Platform changes still go through the customer's architecture, network, identity, security, or release processes before S6/S7/S9 rely on the path.
+The AI gateway is the trust boundary for runtime access. In this curriculum, that usually means Azure API Management acting as the gateway layer for AI APIs and model access. Platform changes still go through the customer's architecture, network, identity, security, or release processes before runtime, evaluation, or catalog decisions rely on the path.
 
 ## 2. Platform profile list
 
@@ -66,11 +65,11 @@ record references to customer-approved systems only.
 | Gateway or egress path | The route callers or workloads are expected to use for AI service access, model access, tool calls, or outbound dependencies, including whether Azure API Management or another accountable gateway is in scope. |
 | Private route | The private-connectivity assumption, where the path should terminate, who owns it, and what later evidence would be needed before runtime assurance relies on it. |
 | Identity boundary | The caller, workload identity, delegated authority, privileged role, or managed identity boundary that changes authority across the route. |
-| Telemetry and correlation | The expected event classes, correlation key or method, time window, known blind spots, and whether S6/S7/S9 need runtime records to connect a request, identity, gateway route, and backend action. |
+| Telemetry and correlation | The expected event classes, correlation key or method, time window, known blind spots, and whether downstream owners need runtime records to connect a request, identity, gateway route, and backend action. |
 | Retention/export owner | The owner and customer system responsible for retaining or exporting platform records; customer records stay in that system and are not copied into this repo. |
 | Platform owner | The person or team accountable for the platform boundary, not just the workload team using it. |
 | Decision status | Proceed with assumptions, defer, route to a customer process, or stop. State the acceptance criterion and target date when the decision is not proceed. |
-| Blocker | The missing owner, route, record, review, or policy decision that prevents S6/S7/S9 from using the platform path as an assurance input. |
+| Blocker | The missing owner, route, record, review, or policy decision that prevents downstream assurance owners from using the platform path as an input. |
 
 ## 3. Prerequisites
 
@@ -98,16 +97,16 @@ before runtime assurance relies on the path.
 Workshop examples:
 
 - **Proceed with assumptions:** the workload has a named platform owner, a
-  customer-held gateway design, a known correlation method, and an S6 evidence
+  customer-held gateway design, a known correlation method, and a runtime-evidence
   request for runtime records. S3 records the assumption and hands off the
   evidence question; it does not claim the route operated.
 - **Defer for network route:** the design depends on private connectivity, but
   the termination point, egress path, or network owner is unclear. Route the
-  blocker to the customer's network or architecture process before S6 relies on
+  blocker to the customer's network or architecture process before runtime assurance relies on
   the path.
 - **Route to security or identity:** a managed identity, privileged role, or
   delegated authority crosses the platform boundary without a named lifecycle
-  owner. S3 records the blocker and asks S7 or the customer identity process to
+  owner. S3 records the blocker and asks the release or identity process to
   assess the authority later.
 - **Stop for unsupported SaaS boundary:** a managed or third-party service is
   material to the workload, but the customer cannot identify tenant boundary,

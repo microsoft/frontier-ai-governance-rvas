@@ -8,9 +8,9 @@
 ## 1. Outcome & what the customer keeps
 
 By the end of this session the customer decides whether an in-process tool-call
-policy check is applicable for one agent boundary. S10 is optional: use it only
-when there is a real decision to make immediately before a local tool call and
-gateway controls cannot make that decision.
+policy check is applicable for one agent boundary. The in-process path is
+optional: use it only when there is a real decision to make immediately before a
+local tool call and gateway controls cannot make that decision.
 
 **Plain decision question:** For this bounded tool call, use
 **gateway-only, in-process, both, or not applicable**—then record
@@ -22,8 +22,8 @@ Preview status and fit before any assessment.
 !!! success "Hard skip path"
     If no real in-process tool-call boundary exists, stop S10. Record **not
     applicable**, name the gateway or backlog path that remains in scope, and
-    continue with S11/S13 or the customer backlog. Do not create an AGT adoption
-    action just to complete this session.
+    continue with operating review, portfolio governance, or the customer
+    backlog. Do not create an AGT adoption action just to complete this session.
 
 They leave with:
 
@@ -63,7 +63,7 @@ owns next steps.
 
 ## 2. Prerequisites
 
-- S0-S9 findings and the S9 backlog are ready to review.
+- Prior governance findings and the control-plane backlog are ready to review.
 - An AI developer or maker can explain the customer's agent tool-call path.
 - A governance lead can make or defer the applicability decision.
 - Python 3.11+ is available for the offline simulator.
@@ -74,8 +74,8 @@ code, credentials, production endpoint, or tenant change.
 
 ### Applicability worksheet
 
-Use S10 only when the customer can point to a real decision just before an agent
-invokes a tool. Capture:
+Use the in-process path only when the customer can point to a real decision just
+before an agent invokes a tool. Capture:
 
 - the candidate tool action and delegated authority;
 - the gateway, identity, data, evaluation, and runtime controls that still apply;
@@ -86,7 +86,8 @@ invokes a tool. Capture:
 
 If the worksheet cannot identify both a local pre-tool decision and delegated
 authority, select **not applicable**. Do not continue into policy simulation or
-AGT assessment; route the finding to S11/S13 or the customer backlog.
+AGT assessment; route the finding to operating review, portfolio governance, or
+the customer backlog.
 
 ## 3. Why this session matters
 

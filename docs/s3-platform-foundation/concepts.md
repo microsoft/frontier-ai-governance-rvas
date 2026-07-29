@@ -9,8 +9,9 @@ not reviewable.
 
 ## Platform profile is the working record
 
-A platform profile is the customer-owned record of the route S6, S7, or S9 is
-later being asked to trust. It should name the hosting pattern, environment
+A platform profile is the customer-owned record that runtime assurance,
+evaluation, and control-plane owners are later being asked to trust. It should
+name the hosting pattern, environment
 boundary, gateway or egress path, private-route assumption, identity boundary,
 telemetry and correlation coverage, retention/export owner, platform owner,
 decision status, and blocker.
@@ -25,8 +26,8 @@ uses the route.
 Example profile decisions:
 
 - **Proceed with assumptions:** the gateway route, platform owner, correlation
-  method, and record-retention owner are named, and S6 has a bounded runtime
-  evidence question to assess later.
+  method, and record-retention owner are named, and the runtime owner has a
+  bounded evidence question to assess later.
 - **Defer:** private connectivity is expected, but the network termination point
   or egress path is not recorded in a customer-approved system.
 - **Route:** the identity boundary depends on a privileged role or delegated
@@ -67,7 +68,8 @@ Workshop blockers include:
 - The gateway covers application callers, but a background job, tool connector,
   or administrator path reaches the model service another way.
 - A policy is planned for the gateway, but no customer record identifies who can
-  change it, how changes are reviewed, or what S6/S7 should inspect later.
+  change it, how changes are reviewed, or what runtime/evaluation owners should
+  inspect later.
 
 ## Private connectivity is an assumption until evidenced
 
@@ -80,8 +82,8 @@ Ingress is traffic entering a protected workload boundary. Egress is traffic lea
 Private-route assumptions need enough detail to route the next decision: source
 boundary, destination boundary, termination point, egress path, network owner,
 expected evidence source, and known exceptions. If the group cannot say where
-the path starts or ends, S3 should defer the handoff rather than let S6 treat the
-route as assurance-ready.
+the path starts or ends, S3 should defer the handoff rather than let runtime
+assurance treat the route as ready.
 
 Scenario: a Foundry-hosted workload is described as private, but the workshop
 cannot identify whether the intended pattern is public access with restrictions,
@@ -92,8 +94,9 @@ For Azure platform routes, "private" usually has several separate records:
 private endpoint placement, private DNS resolution, VNet or managed network
 integration, subnet segmentation, NSG or firewall policy, route propagation, and
 monitoring. S3 should record which of those records exists, who owns each one,
-and which later session can rely on it. A single architecture diagram, endpoint
-URL, or resource name is not enough to accept the private-route assumption.
+and which later assurance or operating review can rely on it. A single
+architecture diagram, endpoint URL, or resource name is not enough to accept the
+private-route assumption.
 
 ## Hybrid dependencies widen the review boundary
 
@@ -116,9 +119,9 @@ An identity appearing in a record is accepted only as an identifier match. Permi
 
 Identity blockers are often ownership blockers. If no one owns the lifecycle for
 a managed identity, service principal, delegated permission, privileged role, or
-break-glass path, S3 should not hand the route to S6 as ready. Record the owner
-needed and whether S7, the customer identity team, or a security review must
-decide before the route is relied on.
+break-glass path, S3 should not hand the route to runtime assurance as ready.
+Record the owner needed and whether the evaluation owner, customer identity
+team, or security review must decide before the route is relied on.
 
 ## Telemetry coverage is not telemetry proof
 
@@ -137,8 +140,8 @@ log field, gateway log, or export job, record the assumption and owner.
 
 Scenario: gateway logs exist, application logs exist, and model-service records
 exist, but no shared identifier or documented time-window method connects them.
-S3 should record a correlation blocker and route it before S6/S9 treat the path
-as evaluable.
+S3 should record a correlation blocker and route it before runtime or
+control-plane owners treat the path as evaluable.
 
 ## Platform security needs clear ownership
 
@@ -158,15 +161,15 @@ authorized observation to assess stated behavior for a stated scope and time;
 it can reject the handoff or identify a coverage gap.
 
 Readiness is not operating proof. S3 can say a profile is coherent enough for a
-later session to ask for evidence. It cannot say traffic flowed through the
+later owner to ask for evidence. It cannot say traffic flowed through the
 gateway, private connectivity was enforced, identities were least-privileged,
-logs were emitted, or controls passed. S6 assesses runtime behavior, S7 assesses
-security questions, and S9 assesses evaluation and control-plane evidence using
-authorized customer records.
+logs were emitted, or controls passed. Runtime owners assess runtime behavior,
+evaluation owners assess release and safety questions, and control-plane owners
+reconcile evidence using authorized customer records.
 
 ## Platform review becomes a work list
 
-S3 should recommend a platform foundation path with confidence and assumptions. Typical work-list rows include landing-zone readiness, private connectivity, Azure API Management or AI gateway route, API Center/access-contract record, identity boundary, telemetry coverage, platform-security owner, S6 runtime-proof prerequisite, and customer architecture/security/change-process route.
+S3 should recommend a platform foundation path with confidence and assumptions. Typical work-list rows include landing-zone readiness, private connectivity, Azure API Management or AI gateway route, API Center/access-contract record, identity boundary, telemetry coverage, platform-security owner, runtime-proof prerequisite, and customer architecture/security/change-process route.
 
 For Foundry-hosted workloads, the review may also need a network-isolation question: public, managed VNet, bring-your-own VNet, or hybrid path, with an accountable platform owner.
 

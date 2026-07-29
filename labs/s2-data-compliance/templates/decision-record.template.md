@@ -61,7 +61,7 @@ Copy this template into the customer's approved records system. Use it to record
 | What gateway/runtime controls may observe or mask | |
 | Path Purview cannot see | |
 | Path gateway cannot see | |
-| Dependency routed to S3/S6 or platform owner | |
+| Dependency routed to platform or runtime owner | |
 
 ## Customer decision
 

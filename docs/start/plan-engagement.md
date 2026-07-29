@@ -34,7 +34,7 @@ Missing roles, records, licenses, platform evidence, or safe targets become read
 The assessment can select any S1-S13 session. Keep these dependencies:
 
 - S3 sets the platform assumptions used by S4-S8.
-- S4 admission standards feed S5 publication and later change decisions.
+- Agent admission standards feed tool/API publication and later change decisions.
 - S5 authority, exposure, tool/API/MCP, and supplier-interface decisions feed S6-S10 assurance.
 - S6-S8 require a customer-approved non-production target when live activity is proposed.
 - S9 reconciles evidence from the earlier sessions you selected.

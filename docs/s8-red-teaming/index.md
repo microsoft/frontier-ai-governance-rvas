@@ -14,7 +14,9 @@ They leave with:
 - A customer-retained native Microsoft Foundry AI Red Teaming Agent scorecard where the target is supported, or an approved PyRIT/manual-test record for an authorized alternate path.
 - A customer-approved threshold-comparison sidecar only when the customer performs a threshold review against its own criteria.
 - A remediation, accepted-risk, blocked, rejected, or re-test decision with severity owner, target date, and evidence location reference.
-- A handoff to S6 for runtime-control gaps, S7 for evaluation/retest evidence, S9/S13 for lifecycle and portfolio blockers, and SOC/legal for monitoring or exception decisions.
+- A handoff to runtime-control owners for runtime gaps, evaluation owners for
+  retest evidence, lifecycle and portfolio owners for blockers, and SOC/legal
+  for monitoring or exception decisions.
 
 `labs/s8-red-teaming/` holds the facilitator runbook and decision-record template. Native scorecards, prompts, outputs, datasets, endpoint details, and customer evidence stay in the approved customer records system. This kit does not hold endpoint clients, credentials, attack datasets, or customer evidence.
 
@@ -51,10 +53,10 @@ S8 produces a remediation backlog, not offensive capability. Each recommendation
 
 Red teaming is useful only when the customer agrees on target, authorization, success criteria, safety limits, response path, and retest evidence before the first probe. S8 evidence is accepted only for the exact authorized scope and target version.
 
-A scorecard without a remediation owner is an observation, not governance. A prepared or synthetic test is a diagnostic aid, not proof of production control operation. A below-threshold result supports only the tested scope; it does not approve production release or replace S6/S7/S9 decisions.
+A scorecard without a remediation owner is an observation, not governance. A prepared or synthetic test is a diagnostic aid, not proof of production control operation. A below-threshold result supports only the tested scope; it does not approve production release or replace runtime, evaluation, or control-plane decisions.
 
 Read the [S8 Concepts](concepts.md) for authorization, Attack Success Rate as a decision aid, native-scorecard boundaries, and remediation backlog.
 
 ## 4. Change boundary
 
-S8 does not deploy controls, test production, grant production approval, or change customer systems. The customer alone pauses, resets, changes, or cleans up its non-production endpoint and follows its own legal, SOC, incident, and change processes. Handoff to S6 names runtime-control findings, to S7 names evaluation or retest evidence, to S9 names lifecycle/catalog effects, and to S13 names portfolio blockers.
+S8 does not deploy controls, test production, grant production approval, or change customer systems. The customer alone pauses, resets, changes, or cleans up its non-production endpoint and follows its own legal, SOC, incident, and change processes. Runtime handoff names control findings, evaluation handoff names retest evidence, catalog handoff names lifecycle effects, and portfolio handoff names blockers.

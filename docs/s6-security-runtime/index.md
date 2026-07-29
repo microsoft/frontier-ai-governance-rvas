@@ -45,8 +45,8 @@ reason, compensating control, target date, and re-review trigger. Verify
 availability and feature limits before relying on any service.
 
 S6 produces a runtime-control backlog: approve, defer, reject, or route the proof;
-remediate route, policy, or telemetry gaps; route safety work; or block
-S7/S9/S11 dependencies until correlation is accepted.
+remediate route, policy, or telemetry gaps; route safety work; or block release,
+catalog, and operating dependencies until correlation is accepted.
 
 Security reviewers may use Microsoft Defender for Cloud and AI security posture
 capabilities for broader security and threat context where the customer has them
@@ -72,5 +72,6 @@ can troubleshoot part of the stack. Accept gateway-path proof only from the corr
 The adapter changes no gateway configuration. If the customer stops the test, it
 uses its own approved gateway and evidence-retention processes. The final
 customer record contains the approval, deferral, rejection, or routing decision.
-Handoff to S7 includes accepted correlation evidence and its limits; handoff to
-S9 includes the route, owner, version, and runtime-control exception record.
+Release-assurance handoff includes accepted correlation evidence and its limits;
+catalog/control-plane handoff includes the route, owner, version, and
+runtime-control exception record.

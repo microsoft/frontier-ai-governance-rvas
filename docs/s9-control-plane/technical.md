@@ -13,7 +13,7 @@ Default to Agent 365 and Entra Agent ID for supported agent identity/lifecycle r
 2. **If APIs/tools are central**, anchor on Azure API Center and join agent/model/identity fields from Agent 365, Entra, or Foundry.
 3. **If Foundry owns engineering records**, use Foundry for agents/models/evaluations and reconcile tool/API lifecycle with Azure API Center.
 4. **If the estate is mixed**, use a federated view with field-level source ownership and conflict rules.
-5. **If no steward can reconcile drift**, hold lifecycle closure and route to S13.
+5. **If no steward can reconcile drift**, hold lifecycle closure and route to portfolio governance.
 
 | Decision | Microsoft default | Exception criteria |
 |---|---|---|
@@ -30,11 +30,11 @@ and customer lifecycle records.
 | Entity | Minimum fields |
 |---|---|
 | Agent/workload | Registry ID, display name, purpose, implementation path, environment, lifecycle state, accountable owner, technical owner, support owner, risk tier, exception status, evidence reference. |
-| Identity | Agent ID or workload identity reference, sponsor, authority mode, disabled/retired state, resource-authorization owner, S1 review reference. |
-| Tool/API/action | Tool ID, API Center/API Management/MCP reference, schema version, parent/consumer agent, gateway route, owner, lifecycle state, S5 review reference. |
-| Model/deployment | Model family, deployment alias, region/residency, quota owner, evaluation baseline, fallback, S7/S12 review reference. |
-| Data source | Source reference, classification, permission boundary, minimization point, data owner, S2 review reference. |
-| Telemetry | Trace/correlation field, Application Insights/Monitor reference, alert owner, retention owner, S11 review reference. |
+| Identity | Agent ID or workload identity reference, sponsor, authority mode, disabled/retired state, resource-authorization owner, identity review reference. |
+| Tool/API/action | Tool ID, API Center/API Management/MCP reference, schema version, parent/consumer agent, gateway route, owner, lifecycle state, tool/API review reference. |
+| Model/deployment | Model family, deployment alias, region/residency, quota owner, evaluation baseline, fallback, evaluation/LLMOps review reference. |
+| Data source | Source reference, classification, permission boundary, minimization point, data owner, data review reference. |
+| Telemetry | Trace/correlation field, Application Insights/Monitor reference, alert owner, retention owner, operating review reference. |
 | Lifecycle | Current state, prior state, transition owner, material-change trigger, exception expiry, retirement evidence route, next review date. |
 
 ## Source-of-record join matrix
@@ -69,14 +69,14 @@ drift and closure.
 
 | Finding | Rule | Route |
 |---|---|---|
-| Missing owner/steward | Lifecycle cannot close without a named owner. | S9 steward backlog; S13 if portfolio-level ownership is unclear. |
-| Stale version | Version, model alias, tool schema, or data-source reference is older than the recorded review. | Material-change review and S12/S5/S2 as applicable. |
-| Orphan identity | Entra/workload identity exists without cataloged agent or owner. | S1 owner and lifecycle steward; consider suspension/retirement route. |
-| Uncataloged API/tool | Gateway/API Center shows callable capability missing from agent registry. | S5 publication route and S9 relationship update. |
+| Missing owner/steward | Lifecycle cannot close without a named owner. | Steward backlog; portfolio governance if portfolio-level ownership is unclear. |
+| Stale version | Version, model alias, tool schema, or data-source reference is older than the recorded review. | Material-change review and LLMOps, tool/API, or data owner as applicable. |
+| Orphan identity | Entra/workload identity exists without cataloged agent or owner. | Identity owner and lifecycle steward; consider suspension/retirement route. |
+| Uncataloged API/tool | Gateway/API Center shows callable capability missing from agent registry. | Publication route and relationship update. |
 | Route mismatch | Agent record, gateway route, API catalog, or telemetry route disagree. | Preserve conflict and assign resolver; do not pick by name similarity. |
-| Telemetry gap | Cataloged production item has no trace/correlation or alert owner. | S11 operating backlog; do not claim runtime proof. |
+| Telemetry gap | Cataloged production item has no trace/correlation or alert owner. | Operating backlog; do not claim runtime proof. |
 | Lifecycle conflict | One source says active while another says suspended/retired. | Decision owner resolves with evidence reference and effective date. |
-| Exception aging | Exception is expired or lacks next review. | Exception owner or S13 governance escalation. |
+| Exception aging | Exception is expired or lacks next review. | Exception owner or portfolio governance escalation. |
 
 ## Platform checks
 

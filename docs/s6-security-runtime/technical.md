@@ -30,15 +30,15 @@ owner, correlation method, and feature-availability caveat.
 
 | Risk | Typical inspection points | Candidate controls | Action to record |
 |---|---|---|---|
-| Hallucination or unsupported answer | Model output, RAG context, final response, sampled production evaluation | Groundedness checks, evaluators, human review, source citation policy | Annotate, block, route to S7 evaluation, or open operating-review hypothesis. |
+| Hallucination or unsupported answer | Model output, RAG context, final response, sampled production evaluation | Groundedness checks, evaluators, human review, source citation policy | Annotate, block, route to evaluation owner, or open operating-review hypothesis. |
 | Direct prompt injection | User input, gateway policy, model input | Prompt Shields, gateway content-safety policy, app-side prompt validation | Block, annotate, log, escalate to SOC or safety reviewer. |
-| Indirect prompt injection | Retrieved documents, tool responses, connector output, model input | Prompt Shields for indirect attacks, tool-response scanning, allow-list/source review | Block tool response, quarantine source, require human review, route to S5/S10. |
-| PII or sensitive data leakage | Prompt, retrieval context, tool response, model output, logs | Data classification, masking, PII detection, DLP, retention controls | Block, redact, annotate, route to S2 records/compliance owner. |
+| Indirect prompt injection | Retrieved documents, tool responses, connector output, model input | Prompt Shields for indirect attacks, tool-response scanning, allow-list/source review | Block tool response, quarantine source, require human review, route to tool/API or in-process governance owner. |
+| PII or sensitive data leakage | Prompt, retrieval context, tool response, model output, logs | Data classification, masking, PII detection, DLP, retention controls | Block, redact, annotate, route to data/compliance owner. |
 | Harmful content | User input, model output, final response | Azure AI Content Safety, Foundry content filtering, gateway moderation | Block, annotate, log, escalate according to severity. |
-| Protected material | Model output, code/text generation, release evidence | Protected-material detection, manual review, policy-specific evaluator | Block, hold release, route to S7 or legal/compliance process. |
-| Tool abuse or off-task action | Tool call, tool parameters, tool response, local execution boundary | Tool call inspection, task-adherence checks, allow-list, in-process policy, least-privilege API scopes | Deny call, require approval, log, route to S5/S10. |
-| Cost or availability abuse | Gateway request, model call, token metrics, backend saturation | Token quota, rate limit, circuit breaker, budget alert, model backend failover | Throttle, reject, fail over, alert S11 operating/FinOps owner. |
-| Unauthorized access | Gateway, backend, data service, identity provider | JWT validation, managed identity, RBAC, Conditional Access, private route | Deny closed, log, route to S1/S3/SOC owner. |
+| Protected material | Model output, code/text generation, release evidence | Protected-material detection, manual review, policy-specific evaluator | Block, hold release, route to evaluation or legal/compliance process. |
+| Tool abuse or off-task action | Tool call, tool parameters, tool response, local execution boundary | Tool call inspection, task-adherence checks, allow-list, in-process policy, least-privilege API scopes | Deny call, require approval, log, route to tool/API or in-process governance owner. |
+| Cost or availability abuse | Gateway request, model call, token metrics, backend saturation | Token quota, rate limit, circuit breaker, budget alert, model backend failover | Throttle, reject, fail over, alert operating/FinOps owner. |
+| Unauthorized access | Gateway, backend, data service, identity provider | JWT validation, managed identity, RBAC, Conditional Access, private route | Deny closed, log, route to identity, platform, or SOC owner. |
 
 ### Control placement and diagnostic boundary
 
@@ -61,11 +61,11 @@ which next layer contains the risk and how the event is visible.
 
 | Layer | What it controls | Typical failure action | Evidence to route |
 |---|---|---|---|
-| Identity and network | Who can reach the route and whether traffic can bypass approved private/gateway paths. | Deny closed, block route, or route to S1/S3. | Entra sign-in, gateway auth, private route record, NSG/firewall logs. |
+| Identity and network | Who can reach the route and whether traffic can bypass approved private/gateway paths. | Deny closed, block route, or route to identity/platform owner. | Entra sign-in, gateway auth, private route record, NSG/firewall logs. |
 | Gateway | Shared auth, quotas, prompt/response safety, logging, routing, backend resilience. | 403, 429, block/annotate, fallback, or alert. | APIM policy reference, gateway log, correlation ID, token metrics. |
-| Model | Native content filtering, protected material, Prompt Shields, groundedness where available. | Block, annotate, controlled error, or route to S7. | Foundry model/agent safety setting, trace, evaluation reference. |
-| Agent and tools | Tool selection, tool parameters, tool response handling, task adherence, source trust. | Deny call, require approval, quarantine response, route to S5/S10. | Tool-call trace, allow-list, in-process audit, gateway/tool log. |
-| Governance and operations | Alerting, incident route, retention, evaluation, drift review, threshold tuning. | Escalate, hold release, open remediation, update backlog. | S6 acceptance record, S7 evaluation, S11 operating review, SOC ticket. |
+| Model | Native content filtering, protected material, Prompt Shields, groundedness where available. | Block, annotate, controlled error, or route to evaluation owner. | Foundry model/agent safety setting, trace, evaluation reference. |
+| Agent and tools | Tool selection, tool parameters, tool response handling, task adherence, source trust. | Deny call, require approval, quarantine response, route to tool/API or in-process governance owner. | Tool-call trace, allow-list, in-process audit, gateway/tool log. |
+| Governance and operations | Alerting, incident route, retention, evaluation, drift review, threshold tuning. | Escalate, hold release, open remediation, update backlog. | Runtime-control acceptance record, evaluation record, operating review, SOC ticket. |
 
 ### Foundry content-filter intervention points
 
@@ -89,8 +89,8 @@ fallback review if the feature is preview or unavailable.
 | Phase | Minimum technical backlog item | Handoff |
 |---|---|---|
 | Baseline | Enable or record model content-filtering posture, gateway content-safety intent, token limits, logging, and managed identity use where supported. | Platform/security/identity. |
-| Agent guardrails | Record Prompt Shields, indirect-injection coverage, tool-call/tool-response inspection, PII detection, and task-adherence applicability. | Security, agent owner, S5/S10. |
-| Quality and groundedness | Record groundedness, protected material, risk/safety evaluations, and threshold owners. | S7 assurance owner. |
+| Agent guardrails | Record Prompt Shields, indirect-injection coverage, tool-call/tool-response inspection, PII detection, and task-adherence applicability. | Security, agent owner, tool/API or in-process governance owner. |
+| Quality and groundedness | Record groundedness, protected material, risk/safety evaluations, and threshold owners. | Evaluation assurance owner. |
 | Operations | Record alert rules, SOC route, telemetry correlation, threshold review, and monthly or release-based policy review. | S11 operating/SOC owner. |
 
 ## Platform checks

@@ -28,8 +28,8 @@ not the identity of S10. S10 does not import, test, or certify AGT.[^agt-readme]
 Skip S10 when the agent has no local tool-call decision point, no delegated
 authority to constrain, or when gateway, identity, data, evaluation, or runtime
 controls already make the meaningful decision. Record **not applicable**, cite
-the alternate control path or backlog item, and continue with S11/S13 or the
-customer backlog.
+the alternate control path or backlog item, and continue with operating review,
+portfolio governance, or the customer backlog.
 
 Do not create an AGT investigation just because the session exists. A future AGT
 assessment is justified only by a specific pre-tool allow, deny, approval, or
@@ -78,7 +78,7 @@ include:
 - delegated authority decision;
 - signed immutable audit-retention route;
 - gateway, identity, data, and runtime dependencies;
-- S5 tool boundary, S6 runtime dependency, and S9 catalog record; and
+- tool boundary, runtime dependency, and catalog record; and
 - rollback, verification, and the customer SDLC change process.
 
 The backlog does not authorize installation, code change, policy deployment,

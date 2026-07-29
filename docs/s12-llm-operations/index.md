@@ -32,8 +32,8 @@ They leave with:
   evidence is required before rollout;
 - a safe-reference release manifest for a bounded PRE or PRO candidate;
 - material-change routes that prevent feedback, experiments, and production
-  changes from bypassing the required S2, S4, S7, S11, platform, or customer
-  change decisions; and
+  changes from bypassing the required data, agent-engineering, evaluation,
+  operating, platform, or customer change decisions; and
 - an approve, defer, or reject decision with a practical implementation backlog.
 
 `labs/s12-llm-operations/` contains offline templates and a runbook. They retain
@@ -53,7 +53,8 @@ resources or authorize production.
 - Named data, experiment, evaluation, platform, service, governance, and
   evidence owners.
 - An approved records location and customer data/change/incident processes.
-- Available S2, S4, S7, and S11 handoff routes, even if evidence is incomplete.
+- Available data, agent-engineering, evaluation, and operating handoff routes,
+  even if evidence is incomplete.
 
 The session can start with gaps, but unknown ownership, data purpose, evaluation
 route, promotion authority, monitoring route, or feedback governance defers the

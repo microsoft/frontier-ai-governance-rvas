@@ -15,7 +15,7 @@
 | Manual rubric route | SME review or red-team rubric is the current control | Defer automation until rubric version, sample method, reviewer role, pass/fail rule, adjudication owner, and evidence reference are recorded. |
 | CI/CD gate route | Release pipeline should stop or warn based on evaluation results | Record gate mode, threshold owner, exception owner, release/hold owner, and rollback/handoff path. Do not treat the record as production approval. |
 | Load-test route | Latency, throughput, cost, quota, or regression tolerance affects the decision | Link Azure Load Testing or equivalent customer-approved performance evidence to evaluation acceptance. |
-| Diagnostic-only route | S6 runtime assurance, telemetry, gateway, or environment prerequisites are missing | Mark the gate diagnostic-only and defer release reliance until S6/S3 prerequisites and evidence owners are named. |
+| Diagnostic-only route | Runtime assurance, telemetry, gateway, or environment prerequisites are missing | Mark the gate diagnostic-only and defer release reliance until runtime/platform prerequisites and evidence owners are named. |
 
 3. **Inspect scenario and evaluator coverage.** Record the scenario set, source of scenarios, scenario owner, environment assumption, data/tool boundary, evaluator/scorer names, evaluator version, rubric version, and any unsupported slice. Empty or passing results are not enough unless scope, time window, reviewer, and baseline are recorded.
 4. **Confirm baseline and threshold ownership.** Name the baseline run or score, candidate run, pass/fail thresholds, regression tolerance, threshold owner, and exception owner. If no baseline exists for groundedness, safety, task success, latency, cost, or quality regression, defer with an acceptance test.
@@ -37,8 +37,8 @@ Fill this record in the customer-approved records system. Store only safe refere
 | Threshold owner | Owner for pass/fail thresholds, threshold changes, and exception criteria |
 | CI/CD gate | Pipeline/check reference, gate mode, evidence requirement, exception path, and receiving release/hold owner |
 | Load test | Performance, latency, quota, cost, or regression evidence reference and owner, when applicable |
-| S6/S3 dependency | Runtime, telemetry, gateway, environment, or platform prerequisite that limits release reliance |
-| Defer criteria | Missing scenario set, evaluator version, baseline, threshold owner, load-test evidence, S6 prerequisite, release/hold owner, or evidence location |
+| Runtime/platform dependency | Runtime, telemetry, gateway, environment, or platform prerequisite that limits release reliance |
+| Defer criteria | Missing scenario set, evaluator version, baseline, threshold owner, load-test evidence, runtime prerequisite, release/hold owner, or evidence location |
 | Accepted when | Scenario set, evaluator/rubric version, baseline, threshold owner, evidence reference, exception status, release/hold owner, target date, and handoff are complete |
 
 ## Acceptance checks
@@ -51,7 +51,7 @@ Fill this record in the customer-approved records system. Store only safe refere
 | Baseline | baseline and candidate references exist for quality, safety, groundedness, task success, latency, or other selected metrics | Model/agent owner |
 | CI/CD gate | gate mode, release/hold owner, exception owner, and pipeline evidence reference are recorded without claiming automatic release approval | Release owner |
 | Load test | performance evidence owner and acceptance rule are recorded when latency, quota, throughput, or cost matters | Performance owner |
-| Diagnostic-only path | missing S6/S3/runtime prerequisites are named and the record is not used as release reliance | Runtime/platform owner |
+| Diagnostic-only path | missing runtime/platform prerequisites are named and the record is not used as release reliance | Runtime/platform owner |
 | Workshop safety | no customer evidence is copied here, no tenant/live-policy change is made, and no runtime-proof or production-approval claim is made | Facilitator |
 
 ## Decision tree
@@ -60,7 +60,7 @@ Fill this record in the customer-approved records system. Store only safe refere
 - **Defer** when records, scenario coverage, evaluator version, baseline, thresholds, load-test evidence, or owners are missing. Include owner, target date, acceptance test, and review trigger.
 - **Reject** when the scoped evaluation path cannot meet the bounded question safely.
 - **Route** when release engineering, product, security, runtime assurance, platform, legal/compliance, or an exception owner must decide first.
-- **Block** when missing approved records location, owner, access, S6/S3 prerequisite, or scope clarity prevents a decision.
+- **Block** when missing approved records location, owner, access, runtime/platform prerequisite, or scope clarity prevents a decision.
 
 For an exception, record: reason, affected scenario, unsupported evaluator or gate, equivalent customer-owned control if one exists, owner, evidence location reference, acceptance test, target date, receiving owner, and review trigger.
 

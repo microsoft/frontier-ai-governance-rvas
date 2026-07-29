@@ -2,7 +2,7 @@
 
 **Facilitator deck**
 
-Microsoft default: **Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the S0 re-baseline**.
+Microsoft default: **Agent 365 and control-plane records, Azure Cost Management, operating evidence, and baseline re-measurement**.
 
 Concrete decision: **Approve, defer, reject, or route the portfolio re-baseline item.**
 
@@ -10,7 +10,7 @@ Concrete decision: **Approve, defer, reject, or route the portfolio re-baseline 
 
 ## Start with the Microsoft path
 
-- Default control path: Agent 365 and control-plane records, Azure Cost Management, operating evidence, and the S0 re-baseline.
+- Default control path: Agent 365 and control-plane records, Azure Cost Management, operating evidence, and baseline re-measurement.
 - Customer inspects: Inspect Agent 365 and control-plane records, Cost Management summaries, operating evidence from S11, and the S0 baseline scorecard.
 - Decision owner: Portfolio governance owner.
 

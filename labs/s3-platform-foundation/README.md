@@ -16,7 +16,7 @@ By the end of the lab, the customer has:
 - built a platform profile across landing zone, Foundry or equivalent AI platform, gateway, private route, identity boundary, policy guardrail, telemetry, correlation, and retention;
 - mapped the trust boundaries between application, gateway, model/platform route, data plane, control plane, operations, and security monitoring;
 - inspected the gateway route, network/private assumptions, telemetry coverage, correlation, and retention using customer-owned records only;
-- identified prerequisites for S6 runtime proof, S7 evaluation evidence, and S9 catalog handoff;
+- identified prerequisites for runtime proof, evaluation evidence, and catalog handoff;
 - recorded approve, defer, reject, or route with owner and target date;
 - created blocker or implementation backlog for gaps using acceptance tests and a receiving handoff;
 - documented any exception with reason, equivalent control, owner, evidence location, acceptance test, target date, and review trigger.
@@ -35,14 +35,14 @@ By the end of the lab, the customer has:
 4. Inspect the gateway route without copying live configuration or running traffic.
 5. Inspect network and private-route assumptions without deployments, network tests, access grants, or tenant changes.
 6. Inspect telemetry coverage, correlation, and retention without exporting telemetry or pasting event payloads.
-7. Confirm S6 runtime proof, S7 evaluation prerequisite, and S9 catalog handoff are identified or assigned as blockers.
+7. Confirm runtime proof, evaluation prerequisite, and catalog handoff are identified or assigned as blockers.
 8. Copy the required decision record into the customer's approved records system and complete the platform profile, readiness fields, owner, evidence location, acceptance, exception, target date, backlog, and handoff fields.
 9. Record one result: approve, defer, reject, or route.
-10. Create a platform-boundary backlog item for each missing platform owner, trust-boundary record, gateway route, network/private route, identity boundary, policy assignment, telemetry coverage, correlation approach, retention record, S6 runtime proof prerequisite, S7 evaluation prerequisite, S9 catalog handoff, or exception approval.
+10. Create a platform-boundary backlog item for each missing platform owner, trust-boundary record, gateway route, network/private route, identity boundary, policy assignment, telemetry coverage, correlation approach, retention record, runtime-proof prerequisite, evaluation prerequisite, catalog handoff, or exception approval.
 
 ## Decision criteria
 
-- **Approve** when the platform profile, trust boundary, gateway route, network/private route, identity boundary, telemetry coverage, correlation, retention, S6 prerequisite, S7 prerequisite, and S9 handoff are present, owned, evidenced, and accepted by the receiving owner.
+- **Approve** when the platform profile, trust boundary, gateway route, network/private route, identity boundary, telemetry coverage, correlation, retention, runtime prerequisite, evaluation prerequisite, and catalog handoff are present, owned, evidenced, and accepted by the receiving owner.
 - **Defer** when a record, owner, acceptance test, evidence reference, prerequisite, or target date is missing.
 - **Reject** when the proposed path cannot meet the bounded scope.
 - **Route** when another Microsoft control owner must decide first.

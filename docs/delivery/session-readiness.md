@@ -42,7 +42,7 @@ select another ready session.
 | S4 | One bounded agent candidate, its technical owner, architecture summary, human approval or material-change route, supplier dependency if any, and the decision that needs to be made. |
 | S5 | A bounded list of tools, APIs, MCP services, or third-party interfaces; their owners; caller identity; current version or source; and withdrawal route. |
 | S6 | An approved non-production route, test caller, test window, telemetry reviewer, and a safe way to correlate the request. |
-| S7 | The accepted S6 proof when a gateway path is in scope, an evaluation-plan owner, threshold approver, evidence refresh route, and the decision the evidence will support. |
+| S7 | Accepted runtime-control evidence when a gateway path is in scope, an evaluation-plan owner, threshold approver, evidence refresh route, and the decision the evidence will support. |
 | S8 | Written authorization, rules of engagement, SOC contact, non-production target, stop conditions, rollback or containment route, and remediation owner. |
 | S9 | A normalized agent and tool inventory, identity source, lifecycle policy, decommissioning route, and owners for reconciliation findings. |
 | S10 | One in-process tool-call boundary, the existing controls around it, human approval expectations, and the application owner. |
@@ -66,9 +66,10 @@ each session should use.
 If pre-S0 triage or session readiness finds missing supplier ownership,
 incident routing, human approval, evidence lifecycle, rollback, or
 decommissioning coverage, record the gap in the customer register with an
-owner. Use S4, S5, S12, and S13 as the current routing path for supplier and
-third-party questions unless the customer already has a separate procurement,
-legal, security, or vendor-risk process that owns the decision.
+owner. Use agent-engineering, tool/API governance, LLMOps, and portfolio
+governance as the current routing path for supplier and third-party questions
+unless the customer already has a separate procurement, legal, security, or
+vendor-risk process that owns the decision.
 
 ## Record a blocker simply
 

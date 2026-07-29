@@ -9,8 +9,8 @@ approve, defer, reject, or route the resulting backlog item.
 
 !!! success "Skip path"
     If there is no real in-process boundary, record **not applicable** and stop
-    S10. Continue with S11/S13 or the customer backlog. Do not open an AGT
-    adoption task just to complete this workshop.
+    S10. Continue with operating review, portfolio governance, or the customer
+    backlog. Do not open an AGT adoption task just to complete this workshop.
 
 ## Work the decision
 
@@ -28,7 +28,7 @@ approve, defer, reject, or route the resulting backlog item.
 
 | Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
 |---|---|---|---|---|---|---|
-| Applicability decision | Gateway-only, in-process candidate, both, or not applicable | Runtime governance owner | Customer-approved record | Decision, rationale, acceptance test or skip reason, and handoff are complete | Customer date | S11/S13, customer backlog, or application engineering |
+| Applicability decision | Gateway-only, in-process candidate, both, or not applicable | Runtime governance owner | Customer-approved record | Decision, rationale, acceptance test or skip reason, and handoff are complete | Customer date | Operating review, portfolio governance, customer backlog, or application engineering |
 
 6. Use this decision tree: if gateway-only fits, approve and route evidence to
    the normal control path; if the in-process boundary is real but records are

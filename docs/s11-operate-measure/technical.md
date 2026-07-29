@@ -15,7 +15,7 @@ Default to Microsoft Foundry observability for Foundry agents/models, Azure Moni
 2. **If a custom app owns the path**, instrument OpenTelemetry/Application Insights and join model/gateway traces where available.
 3. **If cost allocation is required**, start with Azure Cost Management source records, then apply tags, Foundry context, PTU/committed-capacity allocation, or FinOps Toolkit analysis.
 4. **If an alert lacks owner, threshold, population, or route**, backlog coverage before claiming operating control.
-5. **If production signals diverge from S7 evidence**, create a drift hypothesis and test plan rather than immediate root-cause claims.
+5. **If production signals diverge from evaluation evidence**, create a drift hypothesis and test plan rather than immediate root-cause claims.
 
 | Decision | Microsoft default | Exception criteria |
 |---|---|---|
@@ -51,12 +51,12 @@ suppression rule, and review cadence.
 
 | Area | Example signal | Decision route |
 |---|---|---|
-| Entry layer | Gateway 5xx rate, latency, throttling, policy block, quota breach. | Service/platform owner, S6/S11 evidence route, FinOps owner where cost-related. |
-| Agent or orchestration | Execution failure, high latency, unexpected tool count, quality/safety score drop, anomalous token usage. | Agent owner, S7 drift hypothesis, S11 operating review. |
+| Entry layer | Gateway 5xx rate, latency, throttling, policy block, quota breach. | Service/platform owner, runtime and operating evidence route, FinOps owner where cost-related. |
+| Agent or orchestration | Execution failure, high latency, unexpected tool count, quality/safety score drop, anomalous token usage. | Agent owner, evaluation drift hypothesis, operating review. |
 | Execution host | App errors, dependency failures, CPU/memory saturation, instance restart, managed identity failure. | Engineering/SRE owner, incident or remediation backlog. |
-| Identity and security | Repeated authentication failure, unauthorized access, unexpected agent sign-in, non-approved model or tool route. | Identity/security/SOC owner, S1/S6/S9 handoff. |
+| Identity and security | Repeated authentication failure, unauthorized access, unexpected agent sign-in, non-approved model or tool route. | Identity/security/SOC owner, runtime and catalog-control handoff. |
 | Model and FinOps | High token consumption, capacity saturation, backend failover, inference errors, slow model response. | Model/platform owner, capacity owner, FinOps route. |
-| Data and compliance | Unexpected data dependency, failed private endpoint/DNS path, retention/export gap, sensitive-data alert. | Data/compliance owner, S2/S3/S11 handoff. |
+| Data and compliance | Unexpected data dependency, failed private endpoint/DNS path, retention/export gap, sensitive-data alert. | Data/compliance owner, platform and operating handoff. |
 
 ### Export and SIEM route
 
@@ -116,12 +116,12 @@ Recommended attributes for operating review:
 
 | Attribute | Why it matters |
 |---|---|
-| `agent.id` | Ties runtime telemetry to the S1/S9 identity and catalog record. |
+| `agent.id` | Ties runtime telemetry to the identity and catalog/control-plane record. |
 | `operation.id` or W3C trace context | Joins gateway, app, model, tool, and data records. |
 | `model.deployment` | Supports quality, latency, quota, and cost attribution. |
-| `tool.name` and `tool.decision` | Supports S5/S10 tool-governance review. |
+| `tool.name` and `tool.decision` | Supports tool/API and in-process governance review. |
 | `token.input` and `token.output` | Supports FinOps and anomaly review. |
-| `guardrail.decision` | Supports S6 safety placement and S11 alert review. |
+| `guardrail.decision` | Supports runtime safety placement and operating alert review. |
 
 #### OTel Collector export reference
 
@@ -173,7 +173,7 @@ conflicts with operational needs.
 | Alerts | Azure Monitor alert rule/action group, SOC ticket/playbook, on-call route, suppression rule |
 | Export route | Event Hub export, OTel Collector or function, SIEM connector, destination owner, data-handling boundary |
 | Cost | Azure Cost Management export/view, tags, budget, PTU/committed-capacity record, FinOps Toolkit report |
-| Drift review | S7 baseline reference, production population, hypothesis, test/observation plan, next review date |
+| Drift review | evaluation baseline reference, production population, hypothesis, test/observation plan, next review date |
 
 ## Acceptance tests
 
@@ -182,7 +182,7 @@ conflicts with operational needs.
 | Observability | signal, population, exclusions, correlation key, retention, interpretation owner, and decision route are recorded | Operations owner |
 | Cost model | source billing record, allocation rule, tag/capacity owner, shared-cost assumption, and review cadence are recorded | FinOps owner |
 | Alert route | threshold owner, action group/SOC route, acknowledgement expectation, suppression rule, and review cadence are recorded | Service/SOC owner |
-| Drift response | production variance has hypothesis, alternatives, test plan, owner, and S7/S13 linkage | Operating review owner |
+| Drift response | production variance has hypothesis, alternatives, test plan, owner, and evaluation/portfolio linkage | Operating review owner |
 
 ## Boundary note
 

@@ -5,7 +5,7 @@
 
 ## Microsoft default
 
-Default to Azure API Center for the publication record, Azure API Management for approved exposed routes, Microsoft Entra/JWT for caller identity, and customer connector/MCP publication controls. Use S10 only when the needed decision must happen inside the agent process immediately before a tool call.
+Default to Azure API Center for the publication record, Azure API Management for approved exposed routes, Microsoft Entra/JWT for caller identity, and customer connector/MCP publication controls. Use the in-process governance path only when the needed decision must happen inside the agent process immediately before a tool call.
 
 ![S5 illustrative tool-governance pattern: a publication record connects a tool or API to a selectable gateway-mediated, allow-list, or in-process policy boundary. It records intended controls without approving publication or runtime use.](../assets/diagrams/s5-tool-api-governance-record-model.svg)
 
@@ -14,7 +14,7 @@ Default to Azure API Center for the publication record, Azure API Management for
 1. **If a tool/API is externally exposed or shared**, register it in Azure API Center or the approved catalog before broad use.
 2. **If traffic can route through a gateway**, use Azure API Management products/policies and Entra/JWT authentication.
 3. **If tool source trust is the main risk**, use an allow-list with owner, version, review date, and suspension trigger.
-4. **If a local pre-call allow/deny/approval decision is required**, route to [S10 technical decisions](../s10-in-process-governance/technical.md).
+4. **If a local pre-call allow/deny/approval decision is required**, route to the in-process governance owner.
 5. **If caller identity, scope, or withdrawal trigger is unknown**, reject or defer publication.
 
 | Decision | Microsoft default | Exception criteria |
@@ -22,7 +22,7 @@ Default to Azure API Center for the publication record, Azure API Management for
 | Registry | Azure API Center entry with owner, lifecycle, version, exposure intent | existing catalog can carry the same fields |
 | Exposed route | Azure API Management API/product/policy/backend | existing gateway has equivalent auth, quota, logging, and lifecycle records |
 | Caller authority | Entra app/managed identity/OBO with least privilege | customer identity provider is authoritative and auditable |
-| MCP/tool governance | gateway-mediated route or reviewed allow-list | in-process decision is required and assigned to S10 |
+| MCP/tool governance | gateway-mediated route or reviewed allow-list | in-process decision is required and assigned to an in-process governance owner |
 
 ### APIM AI Gateway governance checklist
 
@@ -32,14 +32,14 @@ behavior.
 
 | Control | Decision to record | Evidence or owner |
 |---|---|---|
-| Caller authentication | Whether caller JWT validation, product subscription, or another approved identity path is required. | APIM API/product/policy reference, Entra app or issuer/audience owner, S1 identity handoff. |
+| Caller authentication | Whether caller JWT validation, product subscription, or another approved identity path is required. | APIM API/product/policy reference, Entra app or issuer/audience owner, identity handoff. |
 | Backend authentication | Whether APIM uses managed identity, credential manager, or another approved route to reach the backend. | Managed identity or credential owner, backend record, rotation/revocation path. |
-| Token and rate quotas | Which consumer key drives quota: subscription, team, application, user/session, or agent identity. | `llm-token-limit`, rate-limit policy, quota owner, exception process, S11 cost owner. |
-| Prompt/response safety | Whether gateway-level Content Safety, Prompt Shields, blocklists, or response moderation are intended. | APIM policy owner, Content Safety resource owner, S6 runtime-safety handoff. |
-| Semantic cache | Whether semantic caching is allowed for this data class and use case. | Cache owner, embeddings backend, privacy/retention decision, S2 data route. |
-| Token metrics | Which dimensions should be emitted for cost and operations review. | `llm-emit-token-metric` dimensions, Application Insights or Log Analytics owner, S11 handoff. |
-| Resilience | Whether load balancing, circuit breaker, retry, PTU overflow, or fallback backends are part of the publication route. | Backend pool, capacity owner, failure behavior, S11 operating route. |
-| Diagnostics | Which logs, correlation fields, and retention/export paths support later runtime proof. | Diagnostic settings, correlation header, retention owner, S6/S11 reviewer. |
+| Token and rate quotas | Which consumer key drives quota: subscription, team, application, user/session, or agent identity. | `llm-token-limit`, rate-limit policy, quota owner, exception process, cost owner. |
+| Prompt/response safety | Whether gateway-level Content Safety, Prompt Shields, blocklists, or response moderation are intended. | APIM policy owner, Content Safety resource owner, runtime-safety handoff. |
+| Semantic cache | Whether semantic caching is allowed for this data class and use case. | Cache owner, embeddings backend, privacy/retention decision, data-governance route. |
+| Token metrics | Which dimensions should be emitted for cost and operations review. | `llm-emit-token-metric` dimensions, Application Insights or Log Analytics owner, operating handoff. |
+| Resilience | Whether load balancing, circuit breaker, retry, PTU overflow, or fallback backends are part of the publication route. | Backend pool, capacity owner, failure behavior, operating route. |
+| Diagnostics | Which logs, correlation fields, and retention/export paths support later runtime proof. | Diagnostic settings, correlation header, retention owner, runtime and operations reviewers. |
 
 Example policy names such as `validate-jwt`, `llm-token-limit`,
 `llm-content-safety`, `llm-semantic-cache-lookup`, and
@@ -116,8 +116,8 @@ not customer policy, deployment instructions, or runtime proof.
 
 For resilience, record whether backends use priority, weight, circuit breaker,
 retry, fallback, or regional failover. A fallback path can change cost,
-latency, data residency, and evaluation assumptions; route those changes to
-S7/S11 where relevant.
+latency, data residency, and evaluation assumptions; route those changes to the
+evaluation and operating-review owners where relevant.
 
 ### MCP and API publication lifecycle
 
@@ -127,15 +127,16 @@ and transition authority before broad use.
 | Stage | S5 record | Handoff |
 |---|---|---|
 | Proposed | Candidate name, version, owner, intended consumers, allowed actions, classification, and source-trust assumptions. | Catalog/API owner. |
-| Review or certification | Gateway route, identity path, quota, safety, data handling, observability, and withdrawal conditions. | Platform, security, identity, data, and S6/S7 owners as needed. |
+| Review or certification | Gateway route, identity path, quota, safety, data handling, observability, and withdrawal conditions. | Platform, security, identity, data, runtime, and evaluation owners as needed. |
 | Publish-ready | Approved publication boundary, known exceptions, lifecycle owner, material-change trigger, and runtime-proof prerequisite. | Customer change/release process. |
-| Published | Catalog/API Center entry, route status, version, consumer communication, support owner, and operating review route. | S9 lifecycle and S11 operating owners. |
-| Suspended or withdrawn | Trigger, affected consumers, disable route, evidence-retention route, reconsideration owner, and closure decision. | S9 lifecycle owner and incident/change route. |
+| Published | Catalog/API Center entry, route status, version, consumer communication, support owner, and operating review route. | Catalog lifecycle and operating owners. |
+| Suspended or withdrawn | Trigger, affected consumers, disable route, evidence-retention route, reconsideration owner, and closure decision. | Catalog lifecycle owner and incident/change route. |
 
 Publication through APIM can make a tool discoverable and enforce selected
 policies. It does not prove the tool is safe, that every consumer uses the
-route, or that downstream effects are acceptable. S6 reviews runtime evidence
-for a bounded path; S9 reconciles catalog and lifecycle state.
+route, or that downstream effects are acceptable. Runtime assurance reviews
+bounded path evidence; the control-plane record reconciles catalog and lifecycle
+state.
 
 ## Platform checks
 
@@ -145,7 +146,7 @@ for a bounded path; S9 reconciles catalog and lifecycle state.
 | Gateway control | Azure API Management product, subscription, policy, backend, quota, safety policy, semantic cache, telemetry |
 | Identity and consent | Entra app registration/service principal, managed identity, OAuth scopes, consent record, JWT validation |
 | Connector/MCP source | Copilot Studio/Power Platform connector policy, MCP server allow-list, package/source review |
-| Lifecycle and withdrawal | deprecation notice, suspension trigger, material-change route, S9 catalog entry |
+| Lifecycle and withdrawal | deprecation notice, suspension trigger, material-change route, catalog/control-plane entry |
 
 ## Acceptance tests
 
@@ -154,7 +155,7 @@ for a bounded path; S9 reconciles catalog and lifecycle state.
 | Publication | candidate, version, source trust, owner, consumers, allowed actions, and lifecycle state are recorded | Catalog/API owner |
 | Auth and least privilege | caller identity, scopes/RBAC, prohibited actions, consent owner, and review trigger are recorded | Identity/API owner |
 | Boundary selection | gateway, allow-list, or S10 in-process route is selected with owner and evidence location | Platform/security |
-| Withdrawal | suspension trigger, deprecation path, and affected dependency owner are recorded | S9 lifecycle owner |
+| Withdrawal | suspension trigger, deprecation path, and affected dependency owner are recorded | Lifecycle owner |
 
 ## Boundary note
 
