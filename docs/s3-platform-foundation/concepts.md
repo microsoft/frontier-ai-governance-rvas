@@ -7,21 +7,21 @@ proceed with named assumptions, defer until a prerequisite is closed, route a
 blocker to the customer process that owns it, or stop because the boundary is
 not reviewable.
 
-## Platform profile is the working record
+## Platform route is the working record
 
-A platform profile is the customer-owned record that runtime assurance,
+A platform-route trace is the customer-owned record that runtime assurance,
 evaluation, and control-plane owners are later being asked to trust. It should
-name the hosting pattern, environment
-boundary, gateway or egress path, private-route assumption, identity boundary,
-telemetry and correlation coverage, retention/export owner, platform owner,
-decision status, and blocker.
+name the caller, application or orchestrator, hosting pattern, environment
+boundary, gateway ingress, model/tool/data egress, private-route assumption,
+identity boundary, telemetry and correlation coverage, retention/export owner,
+registry/catalog owner, platform owner, decision status, and blocker.
 
-The profile is not a deployment inventory. It is a readiness record that says:
-"for this bounded workload, this is the platform route we believe is intended;
-these are the owners; these are the assumptions; this is where later evidence
-must come from." If any of those pieces are missing, the profile should say who
-must resolve the blocker before runtime, security, or control-plane assurance
-uses the route.
+The route trace is not a deployment inventory. It is a readiness record that
+says: "for this bounded workload, this is the platform route we believe is
+intended; these are the owners; these are the assumptions; this is where later
+evidence must come from." If any of those pieces are missing, the record should
+say who must resolve the blocker before runtime, security, evaluation, or
+control-plane assurance uses the route.
 
 Example profile decisions:
 
@@ -43,6 +43,23 @@ The review makes those transitions explicit and names the evidence required for
 each claim. A diagram shows intended design, not operating routes, identities,
 or controls.
 
+## Route-control map
+
+Use this map when the discussion drifts into product names instead of route
+segments.
+
+| Route segment | Microsoft surface to inspect | What S3 records |
+|---|---|---|
+| Landing zone and environment | Azure subscription, resource group, Azure Policy, CAF/Well-Architected review, approved exception record | Boundary, platform owner, support caveat, policy assumption, release impact. |
+| AI platform/orchestration | Microsoft Foundry project/workspace, model deployment, agent/tool record, app host | Hosting pattern, project/workspace owner, model/tool dependency, unsupported SKU/region/tenant caveat. |
+| Gateway ingress | Azure API Management API/product/policy/backend/logs or approved customer gateway record | Caller route, auth/policy owner, backend mapping, bypass path, log owner, change route. |
+| Tool/API egress | APIM backend route, firewall/proxy rule, connector/tool record, API owner | Allowed destinations, direct outbound exceptions, tool/API owner, egress blocker. |
+| Private network | Private Link, private DNS, VNet/subnet, NSG, route table, firewall, managed VNet/BYO VNet record | Termination point, DNS owner, public-endpoint exception, route owner, validation owner. |
+| Identity boundary | Entra identity, managed identity, app registration, OBO/delegated access, RBAC/API permissions | Human/workload/gateway/tool/resource identities, authority changes, missing lifecycle owner. |
+| Telemetry and correlation | Azure Monitor, Application Insights, Log Analytics, diagnostic settings, gateway logs, trace headers | Correlation origin, propagation point, log destination, time window, blind spots, reviewer. |
+| Retention and export | Log retention setting, approved export/storage route, records owner | Retention owner, evidence access route, deletion/hold expectation, export limitation. |
+| Registry/catalog | Azure API Center, model/tool/API catalog, lifecycle record, version owner | API/tool/model entry, gateway/backend mapping, lifecycle status, exception/backlog owner. |
+
 ## The AI gateway is a platform trust boundary
 
 ![The gateway trust boundary controls caller access to AI services and tools, with platform ownership and S6 assurance.](../assets/diagrams/s3-gateway-trust-boundary.svg)
@@ -59,6 +76,16 @@ owns policy changes, where gateway records live, and how a later reviewer would
 correlate a request through the route. A gateway design does not prove that
 traffic cannot bypass it, that a policy is effective, or that every backend is
 covered.
+
+Concrete gateway failure modes:
+
+- APIM exists, but model/tool egress uses a direct route the gateway cannot see.
+- The gateway covers interactive callers, but background jobs or administrators
+  reach the backend another way.
+- A policy is described, but no owner can say who can change it, where changes
+  are reviewed, or which logs show the decision.
+- Gateway logs exist, but no correlation key connects them to application,
+  model, tool, or data records.
 
 Workshop blockers include:
 
@@ -97,6 +124,17 @@ monitoring. S3 should record which of those records exists, who owns each one,
 and which later assurance or operating review can rely on it. A single
 architecture diagram, endpoint URL, or resource name is not enough to accept the
 private-route assumption.
+
+Concrete private-route failure modes:
+
+- The team says "private endpoint," but cannot identify DNS zone linkage or
+  fallback-to-public behavior.
+- The route is private for ingress, but egress to tools, data, or monitoring is
+  broad or unowned.
+- Managed VNet, BYO VNet, and hybrid routing are mentioned interchangeably
+  without a selected pattern.
+- NSG or firewall telemetry exists, but no reviewer owns denied traffic,
+  unexpected public endpoint use, or flow-log retention.
 
 ## Hybrid dependencies widen the review boundary
 
@@ -142,6 +180,17 @@ Scenario: gateway logs exist, application logs exist, and model-service records
 exist, but no shared identifier or documented time-window method connects them.
 S3 should record a correlation blocker and route it before runtime or
 control-plane owners treat the path as evaluable.
+
+Useful telemetry failure modes:
+
+- Empty logs are treated as proof without query scope, time window, route
+  coverage, diagnostic status, sampling, and reviewer.
+- Gateway logs and app traces exist, but no trace ID, request ID, session ID, or
+  documented time-window method connects them.
+- Managed SaaS offers only partial audit/export fields, but the route is still
+  treated as fully observable.
+- Retention is known for operational dashboards but not for authorized evidence
+  review or export.
 
 ## Platform security needs clear ownership
 

@@ -11,18 +11,69 @@ S3 is a readiness and handoff gate, not a deployment or runtime-proof activity. 
 
 ![S3 illustrative Azure platform pattern: callers cross an optional gateway trust boundary to orchestration or hosted execution, private data access, identity, and observability layers. The pattern identifies decisions and evidence expectations without claiming a deployed topology.](../assets/diagrams/s3-gateway-trust-boundary.svg)
 
-## Decision tree
+## Workshop route: trace the platform path
 
 Use this route during workshop scenarios. Record the decision, evidence source, availability caveat, and owner for every gap. Do not change tenant policy, deploy resources, approve production, copy customer evidence into the repo, or claim runtime proof from S3.
 
-1. **Confirm platform landing zone.** If the customer has a governed Azure landing zone, map the workload to subscription/resource group, policy, identity, network, logging, and ownership boundaries. If not, record the authoritative platform exception and backlog Azure/enterprise alignment deltas.
-2. **Select the hosting pattern.** If Microsoft Foundry is supported for the tenant, region, license, SKU, and workload, use it as the primary AI platform record. If the workload is managed SaaS or a custom app, record the host owner and which controls are outside Foundry visibility.
-3. **Name the gateway route.** If traffic can cross Azure API Management AI Gateway or a customer-approved gateway, record ingress, egress/tool, policy, auth, and log routes. If no gateway exists, defer runtime proof and route the gap to platform/security.
-4. **Validate private-network assumptions.** If sensitivity or policy requires private routing, require Private Link, VNet integration, DNS, route table, firewall, and owner records. If the private route is unknown, do not accept the topology as ready.
-5. **Separate identity boundaries.** Record user, workload, managed identity/app registration, delegated OBO, and tool/API identities separately. If the identity boundary is shared, unnamed, or tenant support is unknown, route to identity and platform owners before release decisions rely on it.
-6. **Confirm telemetry and correlation path.** Record where correlation IDs originate, propagate, and land across gateway, app, model/agent, tools, and logs. If no correlation ID path exists, runtime assurance cannot claim reviewed-request proof and evaluation cannot rely on execution evidence.
-7. **Assign retention, export, and registry ownership.** Name owners for Log Analytics/Application Insights retention, approved export path, API Center/catalog entries, and evidence references. Missing owners block S3 acceptance for the affected route.
-8. **Close handoffs.** If the platform, control owners, blockers, and runtime/evaluation/catalog handoff owners are recorded, accept S3. Otherwise defer or route with release impact and target owner.
+1. **Choose one pilot route.** Name the caller, workload, environment, business
+   purpose, platform owner, security owner, network owner where relevant,
+   telemetry owner, evidence owner, and approved records location.
+2. **Confirm landing zone and hosting pattern.** If the customer has a governed
+   Azure landing zone, map the route to subscription/resource group, policy,
+   identity, network, logging, and ownership boundaries. If Microsoft Foundry is
+   supported for the tenant, region, license, SKU, and workload, use it as the AI
+   platform record. If the workload is managed SaaS, custom Azure app, hybrid, or
+   non-Azure, record the host owner and which controls are outside Foundry
+   visibility.
+3. **Trace ingress through the gateway.** If traffic can cross Azure API
+   Management AI Gateway or a customer-approved gateway, record caller, API,
+   product/policy, auth, backend/model route, logs, owner, and bypasses. If no
+   gateway exists, defer gateway proof and route the gap to platform/security.
+4. **Trace egress to model, tools, APIs, and data.** Record backend route,
+   outbound tool/API calls, connector owner, retrieval/data dependencies, allowed
+   destinations, firewall/proxy decision, and direct-route exceptions.
+5. **Validate private-network assumptions.** If sensitivity or policy requires
+   private routing, require Private Link, VNet integration, private DNS, route
+   table, firewall/NSG, public-endpoint exception, flow-log route, and owner
+   records. If the private route is unknown, do not accept the topology as ready.
+6. **Separate identity boundaries.** Record human caller, workload identity,
+   managed identity/app registration, delegated OBO, gateway identity, tool/API
+   identity, and resource authorization separately. If the identity boundary is
+   shared, unnamed, or tenant support is unknown, route to identity and platform
+   owners before release decisions rely on it.
+7. **Confirm telemetry and correlation path.** Record where correlation IDs
+   originate, propagate, and land across gateway, app, model/agent, tools, data,
+   and logs. If no correlation ID path exists, runtime assurance cannot claim
+   reviewed-request proof and evaluation cannot rely on execution evidence.
+8. **Assign retention, export, and registry ownership.** Name owners for Log
+   Analytics/Application Insights retention, approved export path, API
+   Center/catalog entries, route lifecycle records, and evidence references.
+   Missing owners block S3 acceptance for the affected route.
+9. **Close downstream evidence requests.** If the platform route, control owners,
+   blockers, and runtime/evaluation/catalog handoff owners are recorded, accept
+   the readiness decision. Otherwise defer or route with release impact and
+   target owner.
+
+### Platform-route trace card
+
+Record references only. Do not copy customer architecture diagrams, network
+details, endpoint names, telemetry exports, resource IDs, tenant IDs, secrets,
+live configuration, or evidence payloads into this repository.
+
+| Field | What to record |
+|---|---|
+| Pilot route | Caller, workload, environment, business purpose, customer record location, and stop condition. |
+| Landing zone | Tenant/subscription/resource group, Azure Policy or exception posture, platform owner, support caveats. |
+| Hosting pattern | Foundry-hosted, Azure app-hosted, managed SaaS, hybrid, non-Azure, unsupported, or exception route. |
+| Gateway ingress | APIM/customer gateway API, product, policy, backend/model route, auth owner, route owner, bypass owner. |
+| Model/tool/data egress | Model endpoint, tool/API route, connector, retrieval/data dependency, allowed destination, direct-route exception. |
+| Private network | Public/private/managed VNet/BYO VNet/hybrid/deferred path, Private Link, DNS, VNet/subnet, firewall/NSG, route table, flow-log owner. |
+| Identity boundary | Human caller, workload identity, managed identity/app registration, OBO/delegated path, gateway identity, tool/API identity, resource authorization. |
+| Telemetry/correlation | Trace/correlation origin, propagation point, gateway/app/model/tool/data log destinations, time-window method, reviewer, blind spots. |
+| Retention/export | Log retention, approved export route, evidence access owner, deletion/hold expectation, records owner. |
+| Registry/catalog | API Center/catalog/tool/model entry, route/backend mapping, version, lifecycle status, owner, exception/backlog reference. |
+| Downstream evidence | Runtime proof question, evaluation evidence need, catalog/control-plane reconciliation, acceptance criteria. |
+| Decision | Proceed with assumptions, defer, route, reject, or blocked with owner, target date, release impact, and review trigger. |
 
 ### Platform decision/control matrix
 
@@ -39,6 +90,52 @@ Use this matrix to make S3 decision-oriented. Product names are not proof: each 
 | Retention/export | Who owns log/evidence retention, approved export, investigation access, and deletion/records requirements | Log Analytics retention setting, Application Insights retention, Purview/records owner, approved evidence storage/export path | missing retention owner; unapproved export path; customer evidence would need copying into repo | hold acceptance for evidence route; route to compliance and records owners |
 | Registry/API Center | Which APIs, tools, model endpoints, and lifecycle states are cataloged for control-plane reconciliation | Azure API Center API/tool entry, API owner, version/lifecycle status, backend/gateway mapping | API Center unavailable; route not cataloged; owner/version missing | route to catalog/control-plane owner; record registry gap and release impact |
 | Platform ownership | Who owns each platform backlog item, exception, review date, and support check | platform backlog/ticket, architecture decision record, support matrix link/reference, named owner and target date | no runtime/evaluation/catalog handoff owner; unsupported dependency with no exception owner | defer or reject release recommendation until owner and decision path exist |
+
+### Gateway/APIM readiness checklist
+
+| Check | Question |
+|---|---|
+| Caller route | Which users, apps, jobs, agents, tools, or administrators must enter through the gateway? |
+| API and product | Which APIM API, product, backend, policy, subscription, or equivalent gateway route represents the path? |
+| Model/backend route | Which model endpoint, Foundry deployment, API backend, or app service does the gateway reach? |
+| Tool/API egress | Which outbound tool/API calls are routed through gateway, proxy, firewall, or direct exception? |
+| Auth and policy owner | Who owns authentication, authorization, throttling, content/policy controls, and change approval? |
+| Bypass | Which direct, admin, background job, connector, or hybrid routes bypass the gateway, and who owns the exception? |
+| Logs and correlation | Which gateway logs and correlation fields allow later reviewers to connect caller, backend, tool, and data action? |
+| Support caveat | Which SKU, tenant, region, policy, streaming, payload, or connector limits affect the route? |
+
+### Private network outcome interpretation
+
+| Outcome | Use when | Required fields |
+|---|---|---|
+| Private route selected | The customer has selected a private route pattern for the bounded path. | VNet/subnet, Private Endpoint, private DNS, firewall/NSG, route table, owner, public-endpoint exception, validation owner. |
+| Public route approved | The route is intentionally public or public-with-controls. | Architecture/security owner, gateway/identity/telemetry compensating controls, exception status, review trigger. |
+| Managed network selected | The platform uses a managed network pattern where supported. | Foundry/network mode, supported region/SKU, outbound rules, private endpoints, owner, limitation. |
+| BYO VNet selected | The customer-owned VNet is part of the platform route. | VNet/subnet, integration method, DNS, NSG/firewall, peering/hybrid route, owner. |
+| Hybrid route selected | The path crosses on-premises, partner, or externally managed networks. | Boundary, routing owner, support owner, log/export route, incident escalation path. |
+| Deferred or blocked | The private route is required but not designable from current records. | Missing component, affected path, network/platform owner, accepted-when condition, release impact. |
+
+### Telemetry and correlation checklist
+
+| Review area | Required question |
+|---|---|
+| Correlation origin | Which request ID, trace ID, session ID, header, run ID, or time-window method starts the trace? |
+| Propagation | Where is the correlation key propagated: gateway, app, Foundry/model, tool/API, data, and logs? |
+| Destination | Which Application Insights, Azure Monitor, Log Analytics, gateway, app, model, data, or SIEM record receives it? |
+| Coverage limits | Which segments are sampled, unsupported, managed by SaaS, unlogged, or outside the customer's export path? |
+| Empty results | Which query, time range, diagnostic status, route coverage, sampling, and reviewer make absence meaningful? |
+| Retention/export | Who owns retention, export, evidence access, deletion/hold, and approved records location? |
+| Downstream use | Which runtime, evaluation, or operating-review owner can rely on the trace later, and what must still be proven? |
+
+### Registry and catalog handoff checklist
+
+| Record | Question |
+|---|---|
+| API/tool/model entry | Is the API, tool, model endpoint, gateway route, backend, or connector registered where the customer expects to govern it? |
+| Version and lifecycle | Which version, environment, lifecycle state, deprecation route, and owner apply? |
+| Gateway/backend mapping | Does the registry identify whether traffic uses APIM/gateway, direct route, or exception route? |
+| Access contract | Which identity, auth, rate limit, data class, owner, and support expectation belongs to the route? |
+| Exception/backlog | Which missing entry, owner, unsupported capability, or route mismatch must be fixed before control-plane reliance? |
 
 ### Azure agent platform reference pattern
 
@@ -80,7 +177,7 @@ Use this checklist to prevent "private" from becoming an unsupported label.
 Use these rows as a review template. Customers may use different names or
 topology; record the actual approved records and owners.
 
-| Segment | Purpose | Typical sizing question | S3 evidence to record |
+| Segment | Purpose | Typical sizing question | Evidence to record |
 |---|---|---|---|
 | Platform VNet | Main network boundary for the agent platform route. | Is the address space large enough for orchestration, execution, private endpoints, and growth? | VNet/subscription/resource-group owner, peering/route owner, approved exceptions. |
 | Orchestration subnet | Hosts or connects the AI orchestration plane where supported. | Does the platform need managed network, BYO VNet, or hybrid connectivity? | Foundry network mode, subnet or managed-network record, route owner. |

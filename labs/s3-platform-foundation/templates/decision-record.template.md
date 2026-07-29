@@ -18,17 +18,21 @@ Copy this template into the customer's approved records system. Use it to record
 | Approved records location | |
 | Target date | |
 
-## Platform profile
+## Platform-route trace
 
 Default path: **Azure landing zones, Microsoft Foundry, Azure API Management AI Gateway or Citadel-aligned gateway, private networking where risk requires it, Azure API Center, and Azure Monitor/Application Insights**
 
-| Profile field | Record |
+| Route field | Record |
 |---|---|
+| Caller / workload / environment | |
 | Hosting pattern and environment boundary | |
 | Foundry or equivalent AI platform record | |
-| Data, tool, and external dependencies | |
-| Gateway assumption and owner | |
-| Registry / API Center assumption | |
+| Application / orchestrator boundary | |
+| Gateway ingress route and owner | |
+| Model / backend route | |
+| Tool / API egress route | |
+| Data and external dependencies | |
+| Registry / API Center / catalog record | |
 | Platform maturity or support limits | |
 | Evidence-reference location | |
 
@@ -38,6 +42,7 @@ Default path: **Azure landing zones, Microsoft Foundry, Azure API Management AI 
 |---|---|
 | Caller / application authority change | |
 | Gateway / egress route | |
+| Gateway bypass or direct-route exception | |
 | Model or service boundary | |
 | Tool / API boundary | |
 | Data-plane boundary | |
@@ -51,13 +56,29 @@ Default path: **Azure landing zones, Microsoft Foundry, Azure API Management AI 
 |---|---|
 | Network route (public / private / managed VNet / BYO VNet / hybrid / deferred) | |
 | Private Link / DNS / VNet / firewall owner if applicable | |
+| Public endpoint exception owner if applicable | |
+| NSG / route table / flow-log owner if applicable | |
 | Identity boundary and lifecycle owner | |
+| Human / workload / gateway / tool / resource identity split | |
 | Telemetry destination | |
 | Trace or correlation field | |
 | Correlation propagation point | |
 | Reviewer and review cadence | |
 | Coverage limits and blind spots | |
 | Retention / export / discovery owner | |
+
+## Registry, catalog, and downstream evidence
+
+| Field | Record |
+|---|---|
+| API Center / catalog entry | |
+| API / tool / model route version | |
+| Gateway/backend mapping | |
+| Lifecycle state and owner | |
+| Access contract reference | |
+| Runtime evidence question | |
+| Evaluation evidence question | |
+| Control-plane reconciliation question | |
 
 ## Downstream prerequisites
 
