@@ -93,6 +93,199 @@
   text-transform: uppercase;
 }
 
+/* ── Homepage service filter + service map ───────────────────────── */
+.service-filter {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-lg);
+  background: linear-gradient(180deg, #fff, var(--c-850));
+  box-shadow: var(--shadow-card);
+}
+.service-filter-head,
+.service-map-toolbar {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.service-filter-label {
+  display: block;
+  color: var(--c-accent-dim);
+  font-family: var(--font-mono);
+  font-size: 0.70rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.service-filter-count {
+  color: var(--c-faint);
+  font-family: var(--font-mono);
+  font-size: 0.70rem;
+}
+.service-filter-options {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
+}
+.service-filter-chip {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: min(280px, 82vw);
+  padding: 7px 10px;
+  border: 1px solid var(--c-line-soft);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--c-heading);
+  box-shadow: 0 1px 2px rgba(3, 34, 84, 0.04);
+}
+.service-filter-chip[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--c-accent) 48%, var(--c-line));
+  background: color-mix(in srgb, var(--c-accent) 8%, #fff);
+}
+.service-filter-chip:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 3px;
+}
+.service-filter-icon,
+.session-card-service {
+  display: grid;
+  place-items: center;
+  flex: none;
+  border: 1px solid var(--c-line-soft);
+  border-radius: 999px;
+  background: #fff;
+}
+.service-filter-icon {
+  width: 26px;
+  height: 26px;
+}
+.service-filter-icon img,
+.session-card-service img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+.service-filter-all-mark {
+  color: var(--c-accent-dim);
+  font-family: var(--font-mono);
+  font-size: 0.70rem;
+  font-weight: 800;
+}
+.service-filter-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.service-filter-total {
+  color: var(--c-faint);
+  font-family: var(--font-mono);
+  font-size: 0.70rem;
+}
+.session-card-services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 2px;
+}
+.session-card-service {
+  width: 28px;
+  height: 28px;
+}
+.service-map-lede {
+  max-width: 68ch;
+  color: var(--c-dim);
+  margin: 16px 0 0;
+}
+.service-map-search {
+  display: grid;
+  gap: 7px;
+  min-width: min(100%, 420px);
+}
+.service-map-search input {
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-sm);
+  background: #fff;
+  color: var(--c-fg);
+  font: inherit;
+}
+.service-map-search input:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 3px;
+}
+.service-map-table-wrap {
+  margin-top: 24px;
+  overflow-x: auto;
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-lg);
+  background: #fff;
+  box-shadow: var(--shadow-card);
+}
+.service-map-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+.service-map-table th,
+.service-map-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--c-line-soft);
+  text-align: left;
+  vertical-align: top;
+}
+.service-map-table thead th {
+  background: var(--c-700);
+  color: var(--c-faint);
+  font-family: var(--font-mono);
+  font-size: 0.70rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.service-map-table tbody tr:last-child th,
+.service-map-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.service-map-service {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--c-heading);
+}
+.service-map-session-list {
+  display: grid;
+  gap: 8px;
+}
+.service-map-session {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border: 1px solid var(--c-line-soft);
+  border-radius: var(--r-sm);
+  color: inherit;
+}
+.service-map-session:hover {
+  border-color: var(--c-accent);
+  background: color-mix(in srgb, var(--c-accent) 5%, #fff);
+}
+.service-map-session:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 3px;
+}
+.service-map-session small {
+  display: block;
+  color: var(--c-faint);
+}
+
 /* ── Homepage briefing composition ───────────────────────────────── */
 .decision-brief {
   align-self: stretch;
