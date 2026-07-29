@@ -1,14 +1,62 @@
-# Practical workshop: scenario-driven agent engineering path
+# Practical workshop: select one agent build path
 
-**Microsoft default:** Copilot Studio, Microsoft Foundry Agent Service, Microsoft 365 Copilot extensibility, or a custom Azure app path.
+**Microsoft default:** Copilot Studio, Microsoft Foundry Agent Service,
+Microsoft 365 Copilot extensibility, workflow automation, or a custom Azure app
+path.
 
-**Customer decision:** Approve, defer, reject, route, or mark prototype-only for the scoped agent engineering path. This is a design, admission, and handoff decision only; it is not a deployment, runtime-proof, live-policy change, or production approval.
+**Customer decision:** Can this candidate enter the next controlled engineering
+stage on a named Microsoft build path with a complete agent package? This is a
+design, admission, and handoff decision only; it is not a deployment,
+runtime-proof, live-policy change, or production approval.
 
-## Work the decision
+## Facilitation flow
 
-1. **Choose the agent scenario.** Select one bounded pilot, backlog item, or capability slice. Name the product owner, engineering owner, model/cost owner, release owner, evidence owner, and customer-approved records location.
-2. **Define authority and autonomy.** Record whether the agent informs, drafts, recommends, acts with human approval, or acts autonomously. Defer any scenario that cannot name the human handoff, approval point, rollback path, or owner for agent action.
-3. **Classify the build route before discussing tooling.** Use the route table below to choose the smallest Microsoft-aligned engineering path that fits the channel, orchestration, data, tool, lifecycle, and governance needs.
+1. **Choose the agent scenario.** Select one bounded pilot, backlog item, or
+   capability slice. Name the product owner, engineering owner, model/cost owner,
+   release owner, evidence owner, and customer-approved records location.
+2. **Define authority and actions.** Record whether the candidate informs,
+   drafts, recommends, acts with human approval, acts autonomously, coordinates
+   components, or is blocked. Inventory allowed actions, prohibited actions,
+   tools, targets, human handoff, approval point, exception path, fallback,
+   rollback owner, and stop condition.
+3. **Compare build routes before selecting tooling.** Choose the smallest
+   Microsoft-aligned engineering path that fits the channel, orchestration, data,
+   tool, lifecycle, and governance needs. Record rejected alternatives and
+   assumptions.
+4. **Build the selected-path package.** Record safe references for instruction,
+   workflow, hosted package, declarative manifest, model route, tools/actions,
+   data sources, identity mode, runtime controls, evaluation, telemetry,
+   release/rollback, support, lifecycle state, and material-change triggers.
+5. **Confirm model, latency, cost, and fine-tuning ownership.** Record the owner
+   of model selection, quota, latency target, cost budget, fallback behavior,
+   fine-tuning rationale if any, and review cadence. Defer if any are unknown.
+6. **Define DEV/PRE/PRO gates.** Confirm the proposed path has a named owner,
+   purpose, evidence reference, accepted-when condition, blocker rule, rollback
+   route, and receiving process for each applicable gate. S4 may define readiness
+   criteria and handoff blockers, but must not claim deployment, enforcement,
+   runtime proof, or production approval.
+7. **Set downstream prerequisites.** Record what platform, identity, data,
+   tool/API, runtime assurance, evaluation, red-team, catalog/control-plane,
+   operations, and retirement owners must receive before they can act.
+8. **Record the outcome.** Approve only when route rationale, authority,
+   package, owners, gates, model/latency/cost ownership, accepted-when checks,
+   defer criteria, and handoffs are complete. Otherwise defer, reject, route,
+   block, or mark prototype-only.
+
+## Workshop artifact
+
+| Artifact field | Capture prompt |
+|---|---|
+| Candidate card | Which scenario, users, purpose, channel, environment, lifecycle state, owner, and stop condition are in scope? |
+| Authority/action inventory | What can the agent do, what is prohibited, what needs human approval, and who owns fallback/rollback? |
+| Build-path comparison | Why does the selected Microsoft path fit better than Copilot Studio, Foundry, M365 extension, custom app, workflow, or prototype-only alternatives? |
+| Selected-path package | Which instruction/workflow/package, model, tool/API, data, identity, runtime, evaluation, telemetry, release, support, and lifecycle fields are required? |
+| Model/latency/cost | Who owns model choice, quota, latency, budget, fallback, fine-tuning rationale, and review cadence? |
+| DEV/PRE/PRO gates | What does each gate mean, who owns it, what evidence reference is needed, and what blocks promotion? |
+| Downstream prerequisites | Which platform, identity, data, tool/API, runtime, evaluation, red-team, catalog, operations, or retirement owner must accept a backlog item? |
+| Decision | Approve, defer, reject, route, blocked, or prototype-only with owner, accepted-when condition, target date, and review trigger. |
+
+## Scenario examples
 
 | Scenario | Route | Practical decision cue |
 |---|---|---|
@@ -18,14 +66,16 @@
 | Custom UX, custom backend, bespoke orchestration, or nonstandard integration | Custom app | Defer until platform boundary, API/tool governance, identity, gateway, telemetry, and release owners are named. Route platform, tool/API, runtime, evaluation, and catalog prerequisites explicitly. |
 | Deterministic workflow or automation without agentic reasoning | Workflow-not-agent | Reject the agent route and route to workflow, app, or automation owner when fixed rules, approvals, or RPA are sufficient. |
 | Exploration without owners, gates, or evidence location | Prototype-only | Mark prototype-only; block promotion until admission, authority, model/cost, latency, evaluation, runtime, and control-plane handoffs are complete. |
+| Fine-tuning is proposed to close a quality gap | Fine-tuning backlog | Defer until capability gap, training-data governance, base-versus-tuned evaluation, model-version owner, and release process are recorded. |
+| Product route is unsupported in tenant/region/license/SKU | Capability blocker | Route to product/platform owner; record unsupported slice, alternate route if any, target date, and release impact. |
 
-4. **Inspect the engineering path.** Record safe references for the build path, channel, data/tool dependencies, model or service boundary, human handoff, prompt/behavior ownership, lifecycle owner, and known unsupported assumptions.
-   - Evidence-reference example: the customer records name the Foundry project or Copilot Studio environment, M365 app/extension route, custom app repository, owner, target environment, model/cost owner, and release gate owner.
-   - Defer blocker example: the team chose a build path before confirming required tools, authority level, human handoff, model ownership, latency budget, or DEV/PRE/PRO promotion route.
-5. **Run the admission and promotion flow.** Confirm the proposed path has a named owner for DEV, PRE, and PRO gates. S4 may define readiness criteria and handoff blockers, but must not claim deployment, enforcement, runtime proof, or production approval.
-6. **Confirm model, latency, and cost ownership.** Record the owner of model selection, quota, latency target, cost budget, fallback behavior, and review cadence. Defer if any are unknown.
-7. **Set downstream handoffs.** Record what runtime assurance, evaluation, and control-plane/catalog owners must receive before they can act. Route to tool/API owners when tools/APIs are required and to platform owners when boundary assumptions are unresolved.
-8. **Record the outcome.** Approve only when the route rationale, authority level, owners, gates, model/latency/cost ownership, accepted-when checks, defer criteria, and handoffs are complete. Otherwise defer, reject, route, block, or mark prototype-only.
+Evidence-reference example: the customer records name the Foundry project or
+Copilot Studio environment, M365 app/extension route, custom app repository,
+owner, target environment, model/cost owner, and release gate owner.
+
+Defer blocker example: the team chose a build path before confirming required
+tools, authority level, human handoff, model ownership, latency budget, or
+DEV/PRE/PRO promotion route.
 
 ## Decision record
 
@@ -36,10 +86,10 @@ Fill this record in the customer-approved records system. Store only safe refere
 | Work item | Pilot agent engineering decision |
 | Route decision | Copilot Studio, Foundry Agent, M365 extension, custom app, workflow-not-agent, prototype-only, reject, or route |
 | Path rationale | Why this path fits the channel, orchestration, tool, data, lifecycle, and ownership needs |
-| Authority level | Inform, draft, recommend, act-with-approval, autonomous, or blocked |
-| Human handoff | Approval point, exception path, receiving owner, and stop condition |
+| Authority/action inventory | Inform, draft, recommend, act-with-approval, autonomous, coordinating, or blocked; allowed actions, prohibited actions, approval point, exception path, fallback, rollback owner, and stop condition |
 | DEV/PRE/PRO gate | Gate owner, gate purpose, evidence reference, and promotion blocker for each stage |
 | Model/latency/cost owner | Model choice owner, quota/cost owner, latency target, fallback behavior, and review cadence |
+| Selected-path package | Instruction/workflow/package reference, model route, tools/actions/APIs/connectors, data sources, identity mode, runtime controls, evaluation, telemetry, release/rollback, support boundary, lifecycle state, and material-change triggers |
 | Tool/API dependency | Required tool/API admission, connector, allow-list, or rejection decision |
 | Runtime handoff | Runtime-assurance owner, expected telemetry/correlation, action audit route, and stop condition |
 | Evaluation handoff | Evaluation owner, scenario set, quality/safety acceptance, and unresolved evidence gap |

@@ -7,13 +7,55 @@
 
 Default to the Microsoft implementation path that fits the candidate: Copilot Studio, Microsoft Foundry Agent Service, Microsoft 365 Copilot extensibility, workflow automation, or a custom Azure app on Foundry models. S4 records path selection, model/deployment choice, admission, and promotion gates.
 
-## Decision tree
+## Workshop route: build the agent package
 
-1. **If a low-code business workflow fits**, choose Copilot Studio and apply Power Platform governance.
-2. **If a pro-code agent needs tools, traces, evaluations, or custom orchestration**, choose Microsoft Foundry Agent Service or a custom Azure app on Foundry models.
-3. **If the agent lives in the Microsoft 365 productivity surface**, choose Microsoft 365 Copilot extensibility and Agent 365 governance where available.
-4. **If deterministic automation is enough**, choose workflow automation instead of an agent.
-5. **If production evidence is missing**, hold at DEV or PRE and route runtime, evaluation, catalog, and operating prerequisites.
+1. **Choose one bounded candidate.** Name product owner, engineering owner,
+   service owner, model/latency/cost owner, release owner, evidence owner, and
+   approved records location.
+2. **Classify authority and action.** Record inform, draft, recommend,
+   act-with-approval, autonomous, coordinating, or blocked. Inventory allowed
+   actions, prohibited actions, human-control point, exception path, fallback,
+   rollback owner, and stop condition.
+3. **Compare Microsoft build paths.** Check Copilot Studio, Microsoft Foundry
+   Agent Service, Microsoft 365 Copilot extensibility, custom Azure app, workflow
+   automation, and prototype-only. Record why one fits and why others are
+   rejected or deferred.
+4. **Build the selected-path package.** Record instruction/workflow/package
+   reference, model route, tools/actions/APIs/connectors, data sources, identity
+   mode, runtime controls, evaluation, telemetry, release/rollback, support
+   boundary, lifecycle state, and material-change triggers.
+5. **Decide model, latency, cost, quota, and fallback.** Record owner, model
+   route, capacity/quota limit, latency target, cost guardrail, fallback
+   behavior, fine-tuning rationale if any, and review cadence.
+6. **Define DEV/PRE/PRO gates.** Record gate owner, gate purpose,
+   accepted-when criteria, blocker rule, evidence reference, receiving process,
+   rollback/decommission trigger, and what remains out of scope.
+7. **Route downstream prerequisites.** Name platform, identity, data, tool/API,
+   runtime, evaluation, red-team, catalog/control-plane, operations, and
+   retirement owners where needed.
+8. **Close the admission decision.** Approve the engineering path only when the
+   package and next-stage gate are complete enough for receiving owners to act.
+   Otherwise defer, reject, route, block, or mark prototype-only.
+
+### Agent candidate card
+
+Record references only. Do not copy customer code, prompts, outputs, endpoints,
+tenant IDs, telemetry, live configuration, repository contents, or credentials
+into this repository.
+
+| Field | What to record |
+|---|---|
+| Candidate scope | Scenario, users, business purpose, environment, lifecycle state, customer record location. |
+| Authority | Inform, draft, recommend, act-with-approval, autonomous, coordinating, or blocked. |
+| Action inventory | Allowed tools/actions/targets, prohibited actions, approval point, exception route, fallback, rollback owner, stop condition. |
+| Channel and UX | Copilot Studio channel, Microsoft 365 Copilot surface, custom app UI/API, workflow trigger, or prototype boundary. |
+| Data and tools | Data categories, retrieval/source path, tool/API/connector needs, data owner, minimization or exclusion. |
+| Build route | Selected Microsoft path, rejected alternatives, assumptions, unsupported route caveats. |
+| Package owner | Engineering owner, service owner, support owner, release owner, evidence owner. |
+| Model/cost/latency | Model route, quota/capacity owner, latency target, cost guardrail, fallback, fine-tuning review. |
+| Gates | DEV/PRE/PRO owner, accepted-when criteria, blocker, rollback/decommission trigger. |
+| Downstream prerequisites | Platform, identity, data, tool/API, runtime, evaluation, red-team, catalog, operations, retirement. |
+| Decision | Approve, defer, reject, route, blocked, or prototype-only with owner, target date, review trigger. |
 
 | Path | Microsoft control surface to inspect | Admission emphasis |
 |---|---|---|
@@ -38,6 +80,17 @@ the customer system of record; do not create or deploy the agent from S4.
 | Workflow automation | Trigger, deterministic steps, connector list, AI step if any, human approval, run history, exception handling, owner, retirement route. | Power Platform/Logic Apps governance, data and connector checks, change owner, operating route if production. |
 | Prototype isolation | Sandbox boundary, excluded data/actions/users, expiry date, learning objective, evidence owner, promotion trigger. | Reclassification before integration; no PRE/PRO route until admission is reopened. |
 
+### Route comparison: when not to use a path
+
+| Path | Do not use when... | Safer route |
+|---|---|---|
+| Copilot Studio | The candidate needs bespoke orchestration, custom runtime code, non-governed connectors, or engineering lifecycle controls outside the environment strategy. | Foundry Agent Service, custom Azure app, or workflow automation. |
+| Foundry Agent Service | The scenario is a simple deterministic workflow, the tenant/region/SKU does not support required features, or tool/data/identity owners are unknown. | Workflow automation, prototype-only, or defer with Foundry backlog. |
+| Microsoft 365 Copilot extensibility | The candidate needs a custom UX/runtime outside M365, unreviewed Graph permissions, or action governance the tenant cannot support. | Custom Azure app, Copilot Studio, or defer to M365 admin owner. |
+| Custom Azure app | The team cannot own SDLC, platform route, gateway/API exposure, telemetry, rollback, support, or catalog records. | Foundry Agent Service, Copilot Studio, or route to platform engineering. |
+| Workflow automation | The task requires reasoning, dynamic tool selection, contextual response generation, or non-deterministic planning. | Copilot Studio, Foundry Agent Service, or custom app. |
+| Prototype-only | The candidate needs real users, production data, external actions, or promotion without admission. | Reopen admission and select an operational route. |
+
 ### Agent package record
 
 Every selected path should produce a package record with enough technical detail
@@ -56,6 +109,39 @@ configuration.
 | Evaluation | Scenario/dataset/rubric reference, threshold owner, unsupported dimensions, evaluation owner. |
 | Telemetry | Trace/correlation method, token/cost metric route, alert/support owner, operating owner. |
 | Release and rollback | DEV/PRE/PRO gate, approver, release manifest, rollback target, decommissioning trigger. |
+
+### Model, latency, cost, and fine-tuning checklist
+
+| Check | Question |
+|---|---|
+| Model route | Which model family, deployment alias, provider path, region, residency assumption, and version owner apply? |
+| Capability fit | Which task, language, context, tool-use, grounding, or safety requirement drives the model choice? |
+| Latency | What user-facing latency target exists, which component owns it, and what happens when it is missed? |
+| Cost and quota | Who owns token budget, quota/capacity, rate limits, allocation limits, and spending review? |
+| Fallback | Which fallback model, no-answer behavior, queue, or manual route applies when model/service capacity is unavailable? |
+| Fine-tuning | Which bounded capability gap justifies it, who owns training data, and what base-versus-tuned evaluation comparison is required? |
+| Review trigger | Which model, prompt, package, data, tool, quota, or cost change forces reapproval? |
+
+### Gate outcome table
+
+| Gate | Purpose | Accepted when | Hard stop |
+|---|---|---|---|
+| DEV | Controlled engineering/prototype work. | Candidate card, authority, selected route, package owner, data boundary, and non-production label are recorded. | No owner, unclear authority, no evidence location, or prototype using real users/data/actions outside isolation. |
+| PRE | Integration or certification readiness. | Platform route, tool/API dependencies, identity boundary, runtime proof plan, evaluation plan, rollback owner, and support owner are recorded. | No gate owner, no rollback, unresolved action authority, unsupported route, or missing runtime/evaluation prerequisite. |
+| PRO | Customer production decision outside S4. | Customer change process has accepted lifecycle, support, monitoring, evaluation evidence, and production approval records. | S4 record alone is being treated as production approval. |
+
+### Downstream handoff checklist
+
+| Handoff | Required question |
+|---|---|
+| Platform | Which environment, gateway, network, telemetry, and deployment assumptions must platform owners accept? |
+| Identity | Which user, host, agent, delegated, managed identity, RBAC, or app permission path must identity owners review? |
+| Data | Which source, retrieval, prompt, output, telemetry, or evaluation-data boundary must data/compliance owners review? |
+| Tool/API | Which tools, connectors, APIs, actions, schemas, permissions, publication, and withdrawal routes must owners accept? |
+| Runtime | Which safeguards, denied actions, human controls, telemetry, correlation, and incident routes must runtime owners assess later? |
+| Evaluation | Which scenario set, dataset, rubric, threshold, scorecard, and release decision owner must be ready? |
+| Red-team | Which authorization, scope, target, rules of engagement, and remediation route are required before adversarial testing? |
+| Catalog/control-plane | Which agent/tool/API/model route, lifecycle state, version, owner, exception, and retirement record must be registered? |
 
 ### Authority-to-gate matrix
 

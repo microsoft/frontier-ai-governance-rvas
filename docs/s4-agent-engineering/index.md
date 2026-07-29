@@ -9,20 +9,38 @@
 ## 1. Outcome & what the customer keeps
 
 The customer answers one question:
-**can this agent move to the next controlled stage, and on which Microsoft path?**
+**which Microsoft build path fits this bounded agent candidate, and what package
+must engineering own before it moves to the next controlled stage?**
 
 They leave with:
 
-- A classification for one bounded agent candidate and the authority it may use.
-- A recommended Microsoft implementation path, with confidence, assumptions,
-  and alternatives the customer rejected or deferred.
+- An **agent candidate card** for one bounded scenario: purpose, users,
+  authority, action boundary, human-control point, data/tool dependencies,
+  channel, environment, lifecycle state, and stop condition.
+- An **authority/action inventory**: inform, draft, recommend,
+  act-with-approval, autonomous, coordinating, or blocked; allowed actions,
+  prohibited actions, approval point, exception path, fallback, rollback owner,
+  and material-change triggers.
+- A **build-path comparison** across Copilot Studio, Microsoft Foundry Agent
+  Service, Microsoft 365 Copilot extensibility, custom Azure app, workflow
+  automation, and prototype-only.
+- A selected Microsoft implementation path, with confidence, assumptions, and
+  alternatives the customer rejected or deferred.
+- A concrete **agent package record** for the selected path: instruction or
+  workflow reference, model route, tool/API/connector list, data sources,
+  identity mode, runtime controls, evaluation plan, telemetry route, release and
+  rollback owner, lifecycle state, and support boundary.
 - A configuration backlog for the selected path, including owners and the
   customer process that will handle each item.
 - A review of governance services that may apply, such as Entra, Purview,
   Foundry, telemetry, Content Safety, gateway policy, and catalog records.
-- Admission requirements and test expectations that match the agent's authority.
+- Admission requirements, DEV/PRE/PRO gate criteria, and test expectations that
+  match the agent's authority.
+- Model, latency, cost, quota, fallback, and fine-tuning ownership where
+  applicable.
 - A decision to admit the candidate to the next controlled stage, defer it,
-  reject it, or return it for missing evidence.
+  reject it as non-agent or unsafe, route it, block it, or mark it
+  prototype-only.
 - Material-change and retirement triggers.
 
 The customer keeps the implementation decision package in its approved records
@@ -32,12 +50,13 @@ deployment steps, or production approval.
 
 ### Plain decision
 
-**Question:** **Do we approve, defer, reject, or route this Microsoft
-implementation-path and DEV-PRE-PRO admission decision?** Default to the
+**Question:** **Can this candidate enter the next controlled engineering stage
+on a named Microsoft build path with a complete agent package?** Default to the
 Microsoft path that best fits the candidate. An exception must document the
 capability, data, authority, support, and operating reason plus owner, evidence
 reference, acceptance criterion, and target date. S4 selects and admits a path;
-it does not change a system or approve production.
+it does not create code, configure a product, change a system, test runtime
+behavior, or approve production.
 
 ### What happens next
 
@@ -47,10 +66,10 @@ release owners.
 
 In this session, the customer decides whether one bounded agent can move to its
 next non-production stage. The decision records the agent's permitted authority,
-the Microsoft implementation path, the evidence still needed, and the owner of
-each follow-up item. For a Foundry path, the output is a Foundry Agent Service
-backlog, not a live deployment. See [Microsoft Foundry Agent
-Service](https://learn.microsoft.com/en-us/azure/foundry/agents/overview).
+the selected Microsoft implementation path, the package fields engineering must
+own, the evidence still needed, and the owner of each follow-up item. For a
+Foundry path, the output is a Foundry Agent Service package backlog, not a live
+deployment. See [Microsoft Foundry Agent Service](https://learn.microsoft.com/en-us/azure/foundry/agents/overview).
 
 Before the agent is released or changed in a way that affects this decision, the
 customer must review the recorded requirements again. Architecture, engineering,
@@ -72,7 +91,18 @@ and backlog. Deployment steps stay in the customer's delivery process.
 ## 3. Why this session matters
 
 Admission needs a named owner, clear purpose and authority boundary, and a
-reviewable Microsoft path. S4 records the next work, exclusions, and
+reviewable Microsoft path. The practical question is not "which product do we
+like?" It is:
+
+1. What can the agent do?
+2. Which actions are allowed, denied, or require human approval?
+3. Which Microsoft path fits the channel, orchestration, data, tool, lifecycle,
+   and operating model?
+4. What package does engineering need to own for that path?
+5. Which model, latency, cost, quota, evaluation, runtime, catalog, and release
+   owners must accept the next step?
+
+S4 records the build route, exclusions, package backlog, gate plan, and
 material-change reapproval triggers.
 
 Read [S4 Concepts](concepts.md) for the authority model, Microsoft path choices,

@@ -5,9 +5,10 @@
     before each delivery.
 
 Use [S4 Prepare](index.md) for the 90-minute co-delivery method. This page
-explains the admission decision for one agent: what it may do, what evidence is
-needed, and who owns the next work. It recommends a Microsoft path and backlog,
-not deployment or production use.
+explains the build-path and admission decision for one agent candidate: what it
+may do, which Microsoft path fits, what package engineering must own, and who
+owns the next work. It recommends a Microsoft path and backlog, not deployment
+or production use.
 
 ## Classification is about authority
 
@@ -46,6 +47,42 @@ approval.
 The matrix records why one path fits the authority, users, data boundary,
 engineering ownership, and operating model better than the alternatives.
 
+## Build-path control map
+
+Use this map when the conversation starts with a preferred product before the
+candidate's authority and package needs are understood.
+
+| Build path | Microsoft surfaces to inspect | What S4 records |
+|---|---|---|
+| Copilot Studio / Power Platform | Environment, Managed Environment, DLP policy, connector inventory, authentication, solutions/ALM, publication route, monitoring/audit | Maker/admin owner, environment zone, connector boundary, action inventory, ALM/promotion route, monitoring owner, retirement trigger. |
+| Microsoft Foundry Agent Service | Foundry project, agent type, model deployment, instructions or hosted package, tools, identity/RBAC, tracing, evaluation, safety settings | Project boundary, model route, tool/data list, identity mode, observability/evaluation owners, runtime controls, package/change owner. |
+| Microsoft 365 Copilot extensibility | Declarative instructions, knowledge sources, actions/plugins, Graph permissions, app metadata, admin distribution, tenant governance | User/channel fit, knowledge/action scope, Graph permission owner, admin review, distribution route, Agent 365 lifecycle where available. |
+| Custom Azure app | Repository/release, model/API backend, APIM/gateway route, workload identity, data dependencies, app telemetry, IaC, rollback, support | Engineering owner, platform boundary, gateway/tool/API route, telemetry/correlation, release/rollback, service-operation owner. |
+| Workflow automation | Power Automate or Logic Apps trigger, deterministic steps, connectors, human approval, run history, exception route | Why agentic reasoning is not needed, workflow owner, connector/data policy, approval point, audit trail, change owner. |
+| Prototype-only | Sandbox, excluded users/data/actions, expiry date, learning objective, evidence owner | Isolation boundary, no-promotion condition, expiry, reclassification trigger, admission blocker list. |
+
+Concrete failure modes should be named:
+
+- **Product chosen before authority is known:** the team cannot say whether the
+  candidate informs, drafts, recommends, acts with approval, or acts
+  autonomously.
+- **Workflow disguised as an agent:** deterministic routing or approval can meet
+  the need without agentic behavior.
+- **Foundry selected without tool/data ownership:** model and agent records are
+  not enough if tools, data, identity, telemetry, and evaluation owners are
+  missing.
+- **Copilot Studio selected without environment governance:** maker/admin,
+  connector, DLP, ALM, publication, and monitoring owners are not named.
+- **M365 extension selected without Graph/action boundary:** knowledge, actions,
+  permissions, app metadata, and admin distribution are not reviewable.
+- **Custom app selected without platform route:** repository exists, but
+  gateway, identity, telemetry, rollback, support, or catalog records are
+  missing.
+- **Model choice without operating owner:** latency, cost, quota, fallback, and
+  model-version review are unowned.
+- **Prototype leaks into promotion:** exploration continues without reopening
+  admission, gates, evidence, and downstream prerequisites.
+
 ## Foundry Agent Service worked example
 
 For a Microsoft Foundry Agent Service candidate, S4 produces a configuration
@@ -69,6 +106,10 @@ its admission decision and to reassess a material change.
 
 Use the same structure for other paths, but deepen only the selected path and
 briefly record rejected or deferred alternatives.
+
+The selected path only becomes useful when the package record says what is in
+scope and what is deliberately excluded. A "Foundry agent," "Copilot Studio
+agent," or "custom app" label is not enough.
 
 ## Model selection and fine-tuning are governance decisions
 
@@ -138,6 +179,13 @@ For candidates that can request or perform actions, the package also states:
   and
 - operational ownership, review cadence, incident or issue route, and known
   limitations.
+
+Authority also drives path fit. Advisory and drafting assistants often fit a
+lower-control path if channel, data, and ownership are simple. Action agents need
+tool/API inventory, identity boundary, runtime control, negative testing, and
+auditable approval or denial behavior. Coordinating agents require dependency
+maps, recovery paths, per-component evidence expectations, and escalation
+ownership.
 
 Evidence is a reference to a customer-held record. A claim, demonstration, or
 empty field is not evidence.

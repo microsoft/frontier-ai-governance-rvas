@@ -37,6 +37,17 @@ Default paths: **Copilot Studio, Microsoft Foundry Agent Service, Microsoft 365 
 | Unsupported or unreviewed assumption | |
 | Evidence-reference location | |
 
+## Agent candidate card
+
+| Field | Record |
+|---|---|
+| Business purpose and users | |
+| Channel / user experience | |
+| Environment / lifecycle state | |
+| Candidate owner and support boundary | |
+| Stop condition | |
+| Prototype isolation or promotion trigger if applicable | |
+
 ## Authority and handoff
 
 | Field | Record |
@@ -44,8 +55,10 @@ Default paths: **Copilot Studio, Microsoft Foundry Agent Service, Microsoft 365 
 | Authority level | Inform / draft / recommend / act-with-approval / autonomous / blocked |
 | Allowed actions | |
 | Blocked actions | |
+| Tool / target / data category inventory | |
 | Human approval point | |
 | Exception path | |
+| Fallback behavior | |
 | Stop condition | |
 | Rollback or fallback owner | |
 | Business owner acceptance | |
@@ -66,10 +79,13 @@ Default paths: **Copilot Studio, Microsoft Foundry Agent Service, Microsoft 365 
 | Field | Record |
 |---|---|
 | Instruction / workflow / hosted package reference | |
+| Declarative manifest or solution reference if applicable | |
 | Model or deployment alias | |
 | Tool / API / connector list and versions | |
 | Data-source references and owner | |
 | Identity mode and authority owner | |
+| Runtime-control or human-control route | |
+| Evaluation scenario/rubric/threshold route | |
 | Telemetry / correlation route | |
 | Release manifest reference | |
 | Rollback owner and target | |
@@ -81,21 +97,38 @@ Default paths: **Copilot Studio, Microsoft Foundry Agent Service, Microsoft 365 
 |---|---|
 | Model selection owner | |
 | Model or service boundary | |
+| Region / residency / version owner | |
 | Latency target and owner | |
 | Quota / cost budget owner | |
 | Token/cost guardrail or review cadence | |
 | Fallback behavior | |
+| Fine-tuning rationale / training-data owner / base-vs-tuned comparison if applicable | |
 | Known model, latency, quota, or cost gap | |
+
+## DEV / PRE / PRO gates
+
+| Gate field | Record |
+|---|---|
+| DEV purpose / accepted when / blocker | |
+| PRE purpose / accepted when / blocker | |
+| PRO customer-change process / out-of-scope note | |
+| Gate receiving owner | |
+| Rollback / decommissioning trigger | |
 
 ## Downstream prerequisites
 
 | Handoff | Record |
 |---|---|
 | Platform-boundary prerequisite | |
+| Identity prerequisite | |
+| Data-boundary prerequisite | |
 | Tool/API admission prerequisite | |
 | Runtime-assurance prerequisite | |
 | Evaluation evidence prerequisite | |
+| Red-team readiness prerequisite | |
 | Catalog/control-plane handoff | |
+| Operations/support prerequisite | |
+| Retirement prerequisite | |
 | Stop condition before downstream reliance | |
 
 ## Customer decision
@@ -131,7 +164,7 @@ Complete this section only when the Microsoft default route is not used or when 
 
 ## Backlog and handoff
 
-Create an agent-engineering backlog item for each missing route rationale, authority owner, human handoff, admission criterion, DEV/PRE/PRO gate, model owner, latency budget, cost owner, platform prerequisite, tool/API prerequisite, runtime prerequisite, evaluation prerequisite, catalog handoff, retirement trigger, or exception approval.
+Create an agent-engineering backlog item for each missing candidate-card field, route rationale, authority owner, action inventory, human handoff, package field, admission criterion, DEV/PRE/PRO gate, model owner, latency budget, cost owner, fine-tuning review, platform prerequisite, identity prerequisite, data prerequisite, tool/API prerequisite, runtime prerequisite, evaluation prerequisite, red-team readiness prerequisite, catalog handoff, operations owner, retirement trigger, or exception approval.
 
 Handoff to agent engineering owner, product owner, release manager, model/cost owner, platform owner, tool/API owner, runtime-assurance owner, evaluation owner, and control-plane/catalog owner as applicable. The receiving owner accepts only backlog items with clear acceptance tests, target dates, evidence locations, and review triggers. Keep final records in the customer-approved system.
 
