@@ -50,7 +50,7 @@ retention/residency/privacy, gateway/runtime dependency, and final decision
 state. Default to supported Microsoft Purview controls and the customer
 change-review process. If a workload, role, licensing, location, retention rule,
 or feature does not support the proposed control, record that exception with its
-owner, Purview record location, acceptance criterion, and target date; do not
+owner, Purview record location, acceptance criterion, and target event; do not
 claim equivalent coverage. This session does not deploy enforcement or approve
 production.
 
@@ -60,7 +60,7 @@ production.
 or report-only change work to its customer owner before dependent platform work
 continues.
 
-S2 produces a data-governance backlog: continue without a DLP change, prepare a
+S2 produces a data-technical backlog: continue without a DLP change, prepare a
 report-only review, fix classification or investigation gaps, remediate
 oversharing, clarify retention/legal hold, move minimization earlier in the path,
 route a gateway/data dependency to platform or runtime owners, or block dependent
@@ -117,7 +117,7 @@ the evidence an investigator can use. It checks classification, discovery,
 sensitivity-label, DLP, audit, retention, and legal/compliance ownership before
 any policy leaves simulation or report-only review.
 
-Read the [S2 Concepts](concepts.md) for DSPM, labels and DLP, investigation evidence, and the boundary between Purview and gateway masking.
+Use [Technical decisions](technical.md) for DSPM, labels, DLP, investigation evidence, and the boundary between Purview and gateway masking.
 
 ## 4. Change boundary
 

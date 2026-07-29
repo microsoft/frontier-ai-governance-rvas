@@ -9,13 +9,13 @@ and owners.
 
 | Stage | Customer gets | What the customer does next |
 |---|---|---|
-| **S0 · Set direction** | A maturity baseline, named leaders, and a prioritized roadmap. | Choose the first gap to close and assign it to the relevant existing process. |
+| **S0 · Set direction** | A baseline card, named owner, evidence location, and first technical blocker. | Assign the blocker to the relevant existing process. |
 | **S1-S2 · Establish accountability** | Clear ownership and an honest view of identity and data-control coverage. | Close owner, access, classification, investigation, or compliance gaps before depending on the workload. |
 | **S3-S5 · Define the path** | A platform-boundary decision, admission requirements, and a tool/API publication model. | Route the selected platform, engineering, and lifecycle work through architecture, security, and release teams. |
 | **S6-S8 · Build assurance** | Runtime-path, evaluation, and authorized adversarial-test decisions with evidence references. | Resolve gaps, hold progress where needed, and use the customer's separate release process for any change. |
-| **S9-S10 · Operate the service** | Reconciled ownership and lifecycle records plus an operating review for risk, drift, remediation, and cost. | Run the agreed review cadence and validate that open actions are actually resolved. |
+| **S9-S10 · Operate the service** | Reconciled ownership and lifecycle records plus operating evidence for risk, drift, remediation, and cost. | Validate that open actions are actually resolved. |
 | **S11 · Govern LLM operations** | A model-and-prompt operating-model decision with lifecycle, material-change, and ownership routes. | Implement the approved backlog through the customer's model, platform, engineering, supplier, and change processes. |
-| **S12 · Improve the portfolio** | A portfolio decision, investment priorities, and the next maturity roadmap. | Fund or schedule the selected work and revisit the relevant S0 baseline questions. |
+| **S12 · Improve the portfolio** | A portfolio decision with source lineage, priority trade-off, and baseline feedback. | Fund, schedule, defer, or block the selected technical action through the customer process. |
 
 ## What stays with the customer
 

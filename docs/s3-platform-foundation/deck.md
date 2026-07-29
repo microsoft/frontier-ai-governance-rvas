@@ -107,21 +107,6 @@ handoff when the platform route changes authority.
 
 ---
 
-## Telemetry and correlation
-
-- Record where trace/request/session IDs originate, propagate, and land.
-- Connect gateway logs, app traces, model/agent events, tool/API records, data
-  access logs, and security/operations workspaces.
-- Empty logs are not proof without query scope, time window, route coverage,
-  diagnostic status, sampling, and reviewer.
-- Name retention/export owner and approved evidence route.
-
-Note:
-If no correlation path exists, later runtime or evaluation work cannot rely on
-execution evidence from this route.
-
----
-
 ## API Center and catalog handoff
 
 - Register API, tool, model endpoint, gateway route, backend, version, lifecycle
@@ -165,7 +150,7 @@ The record must capture:
 - telemetry/correlation and retention/export route;
 - API Center/catalog handoff;
 - decision: proceed with assumptions, defer, route, reject, or blocked with
-  owner, target date, release impact, and review trigger.
+  owner, target event, release impact, and recheck condition.
 
 Note:
 Close with the route artifact, not a meeting summary. S3 deploys nothing, tests

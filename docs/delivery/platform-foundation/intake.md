@@ -33,7 +33,7 @@ their result for the selected environment:
 - deployment pipeline, change record, rollback owner, support/on-call route,
   and production-promotion authority.
 
-Mark a missing prerequisite **blocked** with an owner and target date. Do not substitute an unapproved direct backend call for gateway acceptance.
+Mark a missing prerequisite **blocked** with an owner and target event. Do not substitute an unapproved direct backend call for gateway acceptance.
 
 ## Session gates
 

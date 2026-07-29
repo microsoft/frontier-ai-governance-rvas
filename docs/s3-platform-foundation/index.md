@@ -1,162 +1,90 @@
 # S3 · Platform Route & Trust Boundaries
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-27 · Verify current capability availability, platform assumptions, and customer evidence before delivery.
+    Last reviewed: 2026-07-27 · Verify current capability availability, platform assumptions, and customer-owned evidence before delivery.
 
 ## 1. Outcome & what the customer keeps
 
-The customer leaves with a concrete trace of one platform route: who calls it,
-where it enters the platform, which gateway or direct path it uses, which model,
-tool, or data dependency it reaches, which identities cross boundaries, where
-telemetry and correlation land, and which platform owners must close blockers
-before later assurance relies on the route.
+S3 traces one platform route end to end: caller, app or orchestrator, gateway or
+direct path, model/tool/data dependency, identity boundary, private-network
+assumption, telemetry path, registry record, and blocker owner.
 
-They leave with:
+The customer keeps a **platform-route trace card** with:
 
-- A customer-owned **platform-route trace card** that names the caller,
-  application or orchestrator, hosting pattern, landing-zone boundary, gateway
-  ingress, model/API/tool egress, data dependency, identity boundary, telemetry
-  path, retention/export owner, registry/catalog entry, decision status, and
-  blocker or defer route.
-- A **segment route map** for caller, app/orchestrator, gateway, model endpoint,
-  tool/API egress, data dependency, network/private route, identity,
-  telemetry/logging, retention/export, and API Center/catalog record.
-- A **trust-boundary decision** for the route later assurance owners are being
-  asked to use: proceed with stated assumptions, defer until a prerequisite is
-  closed, route to a customer platform process, or stop because ownership,
-  evidence, support status, or route scope is missing.
-- A **gateway/APIM boundary statement** covering ingress, backend/model route,
-  tool/API egress, policy owner, log owner, bypasses, and change owner.
-- A **private-route decision** covering public, private, managed VNet,
-  bring-your-own VNet, hybrid, deferred, or unsupported route, with Private
-  Link, DNS, VNet/subnet, firewall/NSG, route-table, and network-telemetry
-  owners where applicable.
-- A **telemetry/correlation plan** that says where trace or correlation IDs
-  originate, propagate, land, and fail across gateway, app, model, tool, data,
-  and log records.
-- A **registry/control-plane handoff** for API, tool, model, gateway route,
-  backend, lifecycle, owner, version, and exception records where applicable.
-- Gateway, network, telemetry, and correlation assumptions written as review
-  inputs, not as proof that controls are deployed, operating, or approved for
-  production.
-- A blocker/defer list that identifies the customer process and owner for each
-  prerequisite, such as architecture review, network design, identity review,
-  security approval, release management, or evidence retention.
-- An explicit handoff to runtime-assurance, evaluation, and catalog/control-plane
-  owners that states what they may assess later and what S3 did not prove.
+- caller, workload, environment, and stop condition;
+- hosting pattern: Foundry-hosted, Azure app-hosted, managed SaaS, hybrid,
+  non-Azure, prototype, or unsupported;
+- gateway ingress and model/tool/API egress route;
+- private route, DNS, VNet/subnet, firewall/NSG, route-table, and public-endpoint
+  exception status where relevant;
+- human, workload, managed, delegated, gateway, tool/API, and resource identities;
+- telemetry destination, correlation method, retention/export owner, and blind
+  spots;
+- API Center/catalog/model/tool route record, lifecycle owner, and exception;
+- decision: proceed with assumptions, defer, route, reject, or block.
 
-`labs/s3-platform-foundation/` contains blank offline templates only. Keep workload data, credentials, network details, event records, and completed evidence in the customer's approved system.
+`labs/s3-platform-foundation/` contains blank offline templates only. Keep
+workload data, credentials, network details, event records, architecture
+exports, and completed evidence in the customer's approved system.
 
 ### Plain decision
 
-**Question:** **Can this pilot route be used as a named platform path for later
-runtime, evaluation, and control-plane work without pretending it is deployed,
-private, observable, or production-ready?** Default to the Azure/Microsoft
-platform pattern: Azure landing zones, Microsoft Foundry where supported, Azure
-API Management AI Gateway or a customer-approved gateway for the AI boundary,
+**Can this pilot route be named as the platform path for later runtime,
+evaluation, and control-plane work without pretending it is deployed, private,
+observable, or production-ready?**
+
+Default to Azure landing zones, Microsoft Foundry where supported, Azure API
+Management AI Gateway or a customer-approved gateway for the AI boundary,
 private networking where risk requires it, Azure Monitor/Application Insights
-for telemetry, and Azure API Center for registry where applicable. An alternative
-requires architecture-owner rationale, platform record location, acceptance
-criterion, target date, and downstream impact. It is not a system change,
-runtime proof, or production approval.
+for telemetry, and Azure API Center for registry where applicable. Any
+alternative needs an architecture-owner rationale and a concrete acceptance
+criterion.
 
-### What happens next
+## 2. Workshop flow
 
-**Next customer action:** route the selected platform prerequisites to the
-customer's architecture, network, identity, security, or release process before
-asking runtime assurance to rely on the path.
+1. **Pick one route.** Name the caller, workload, environment, business purpose,
+   platform owner, security owner, telemetry owner, and evidence owner.
+2. **Draw the execution path.** Identify caller -> app/orchestrator -> gateway
+   or direct route -> model/tool/API/data dependency -> response/log path.
+3. **Classify the hosting pattern.** Record whether the route is Foundry-hosted,
+   Azure app-hosted, managed SaaS, hybrid, non-Azure, prototype-only, or
+   unsupported.
+4. **Check the gateway boundary.** Record APIM/customer gateway API, backend,
+   auth, policy owner, log owner, bypasses, and direct-route exceptions.
+5. **Check private-network claims.** Do not accept "private" without route
+   owner, termination point, Private Endpoint/DNS owner, egress path, firewall
+   or NSG owner, and later validation reference.
+6. **Separate identities.** Record human caller, workload identity, managed
+   identity/app registration, delegated/OBO path, gateway identity, tool/API
+   identity, and resource authorization separately.
+7. **Define telemetry and correlation.** State where the trace/correlation key
+   starts, where it propagates, where it breaks, who can query it, and how long
+   records are retained.
+8. **Record catalog and lifecycle ownership.** Name the API Center/catalog/tool/
+   model route record, version, lifecycle owner, and exception owner.
+9. **Decide.** Proceed only for the stated route and assumptions. Otherwise
+   defer, route, reject, or block with the technical gap and owner.
 
-S3 produces a platform backlog: proceed to runtime assurance only with stated
-assumptions, close landing-zone, hosting-pattern, AI gateway, API Center,
-private-connectivity, identity, telemetry, correlation, retention/export,
-network/DNS, egress/tool, SaaS-support, or ownership prerequisites, or pause for
-missing evidence.
+## 3. Hard stops
 
-The AI gateway is a trust boundary for runtime access, not proof of enforcement.
-In this curriculum, that usually means Azure API Management acting as the
-gateway layer for AI APIs, model access, tool routes, and selected policy
-controls. Platform changes still go through the customer's architecture,
-network, identity, security, or release processes before runtime, evaluation, or
-catalog decisions rely on the path.
+- No named platform owner for the route.
+- Product label exists but tenant, region, SKU, network mode, or support status
+  is unknown.
+- Gateway route is planned but direct ingress or tool/API egress can bypass it.
+- Private route is claimed without DNS, termination, egress, and owner details.
+- Shared or broad identity crosses a platform boundary without lifecycle owner.
+- Telemetry exists but no correlation key, query owner, time window, or retention
+  owner is recorded.
+- Managed SaaS or hybrid dependency cannot expose boundary, log, retention, or
+  export information.
+- API/tool/model route has no registry/catalog owner or lifecycle state.
 
-## 2. Platform-route trace card
+## 4. Change boundary
 
-Use this list to make the platform-readiness decision inspectable. It captures
-the route the review believes is intended, what is merely assumed, and where a
-blocker must be routed. Do not paste customer evidence into the list; record
-references to customer-approved systems only.
+S3 authorizes no platform change. It does not deploy resources, configure APIM,
+test networking, change tenant policy, export telemetry, prove runtime control
+operation, or approve production. Network, identity, platform, telemetry, and
+runtime changes stay in the customer's approved change process.
 
-| Field | What this list captures |
-| --- | --- |
-| Pilot route | The caller, workload, environment, business purpose, and target platform path being reviewed. |
-| Hosting pattern | The intended platform shape, such as Foundry-hosted, Azure app-hosted, gateway-fronted API access, managed SaaS, private workload, hybrid dependency, or unsupported pattern requiring architecture-owner review. |
-| Environment boundary | The customer-owned boundary for the review: tenant, subscription, landing zone, workspace, application environment, network segment, or externally managed service boundary by reference. |
-| Gateway ingress | The route callers are expected to use for AI service access, model access, tool calls, or outbound dependencies, including whether Azure API Management or another accountable gateway is in scope. |
-| Model/tool/data egress | The backend, model endpoint, tool/API, connector, retrieval, data, or outbound service path and its owner. |
-| Private route | The private-connectivity assumption, where the path should terminate, who owns it, and what later evidence would be needed before runtime assurance relies on it. |
-| Identity boundary | The caller, workload identity, managed identity, app registration, delegated authority, privileged role, gateway identity, tool identity, or resource authorization boundary that changes authority across the route. |
-| Telemetry and correlation | The expected event classes, correlation key or method, propagation point, time window, known blind spots, and whether downstream owners need runtime records to connect a request, identity, gateway route, model/tool action, and backend action. |
-| Retention/export owner | The owner and customer system responsible for retaining or exporting platform records; customer records stay in that system and are not copied into this repo. |
-| Registry/catalog record | The API Center, catalog, tool registry, model/endpoint record, version, lifecycle owner, and exception status where applicable. |
-| Platform owner | The person or team accountable for the platform boundary, not just the workload team using it. |
-| Decision status | Proceed with assumptions, defer, route to a customer process, or stop. State the acceptance criterion and target date when the decision is not proceed. |
-| Blocker | The missing owner, route, record, review, or policy decision that prevents downstream assurance owners from using the platform path as an input. |
-
-## 3. Prerequisites
-
-- A bounded workload and review question.
-- A platform owner, security owner, evidence owner, and decision owner.
-- A customer-approved location for records and an agreed stop condition.
-- Existing customer-held architecture, network, identity, gateway, or telemetry materials that can be cited by reference, if available.
-- A clear statement of what this review can and cannot claim.
-
-This session maps evidence expectations; it does not inspect, validate, or
-change the environment.
-
-- **Included:** trust boundaries; private-connectivity assumptions; ingress and egress paths; hybrid dependencies; identity boundaries; telemetry coverage; platform-security ownership; AI gateway boundary; and readiness for runtime assurance.
-- **Excluded:** deployment, configuration, network testing, live integration, traffic capture, access changes, data transfer, and acceptance of a control as operating.
-- **Evidence rule:** record references, coverage, dates, interpretation, and limits. Do not copy records, payloads, identifiers, diagrams with sensitive detail, or claims into the templates.
-
-A reference architecture can guide the discussion. It is not evidence that the design is deployed or operating.
-
-## 4. Why this session matters
-
-AI requests cross users, apps, gateways, model services, tools, data sources,
-identity systems, networks, logs, and catalogs. S3 makes each boundary, owner,
-and evidence expectation explicit before runtime assurance relies on the path.
-
-The route trace asks:
-
-1. Which caller or workload starts the request?
-2. Which app, orchestrator, or Foundry project owns execution?
-3. Which gateway route mediates ingress and which path can bypass it?
-4. Which model endpoint, tool/API, connector, or data dependency is reached?
-5. Which private-network, DNS, firewall, or egress decision applies?
-6. Which identities and authorities cross each boundary?
-7. Which telemetry and correlation records should connect the route later?
-8. Which API Center/catalog and retention/export owners must keep records?
-
-Workshop examples:
-
-- **Proceed with assumptions:** the workload has a named platform owner, a
-  customer-held gateway design, a known correlation method, and a runtime-evidence
-  request for runtime records. S3 records the assumption and hands off the
-  evidence question; it does not claim the route operated.
-- **Defer for network route:** the design depends on private connectivity, but
-  the termination point, egress path, or network owner is unclear. Route the
-  blocker to the customer's network or architecture process before runtime assurance relies on
-  the path.
-- **Route to security or identity:** a managed identity, privileged role, or
-  delegated authority crosses the platform boundary without a named lifecycle
-  owner. S3 records the blocker and asks the release or identity process to
-  assess the authority later.
-- **Stop for unsupported SaaS boundary:** a managed or third-party service is
-  material to the workload, but the customer cannot identify tenant boundary,
-  record location, retention owner, or export path. Do not treat the service as
-  assurance-ready until those conditions are resolved.
-
-Read [S3 Concepts](concepts.md) for the vocabulary and reasoning behind the review.
-
-## 5. Change boundary
-
-This session authorizes no change. Network, identity, platform, telemetry, and runtime changes stay in the customer's approved change process, including safety review, rollback, verification, and evidence retention.
+Use [Technical decisions](technical.md) for gateway, private-network, identity,
+telemetry, and catalog checks.

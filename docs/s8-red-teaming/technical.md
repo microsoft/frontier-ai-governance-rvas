@@ -13,7 +13,7 @@ Default to an authorized, customer-operated, non-production Microsoft AI Red Tea
 2. **Complete rules of engagement.** Confirm authorization, operators, methods/tools, categories, excluded categories, data limits, prohibited activity, stop conditions, SOC/legal contacts, evidence handling, and retest criteria.
 3. **Choose category and method.** Select AI Red Teaming Agent where supported, or an approved PyRIT/manual/third-party route when support or policy requires it. Record unsupported-target or production-test request routes honestly.
 4. **Define threshold and severity before interpretation.** Record ASR or qualitative threshold, sample/context note, severity model, threshold owner, accepted-risk authority, and not-comparable handling.
-5. **Preserve native or run evidence externally.** Store scorecards, prompts, outputs, datasets, and run records only in the customer-approved records system. The S8 package records safe references.
+5. **Preserve native or run evidence externally.** Store run records, prompts, outputs, datasets, and run records only in the customer-approved records system. The S8 package records safe references.
 6. **Write finding records.** Capture category, technique, affected route, evidence reference, impact, exploitability, exposure, detectability, severity, and limitation.
 7. **Map findings to remediation controls.** Name the receiving owner, remediation hypothesis, acceptance test, release/backlog impact, and stop condition.
 8. **Define retest closure.** Record retest method, changed target version, comparison rule, closure evidence reference, acceptance owner, remaining risk, and reopen trigger.
@@ -28,7 +28,7 @@ Default to an authorized, customer-operated, non-production Microsoft AI Red Tea
 | Reset/rollback | How the non-production target is reset, rolled back, or paused if the stop condition fires. |
 | Monitoring window | Start/end window, SOC monitoring expectation, alert/noise caveat, and contact route. |
 | Dependencies | Model, tool/API, data/retrieval, identity, gateway, network, or third-party dependency that affects interpretation. |
-| Approved records location | Customer system where native scorecard, run record, prompts, outputs, and findings are retained. |
+| Approved records location | Customer system where native run record, run record, prompts, outputs, and findings are retained. |
 | Evidence owner | Owner of retention, access, export, deletion, and legal hold handling for test evidence. |
 
 ## Rules-of-engagement package
@@ -43,20 +43,20 @@ Default to an authorized, customer-operated, non-production Microsoft AI Red Tea
 | Prohibited activity | Activity excluded by safety, legal, operational, cost, or production-impact constraints. |
 | Stop conditions | Safety, legal, operational, SOC, cost, rate, production-impact, or instability triggers that halt testing. |
 | Contacts | SOC, legal/risk where required, target owner, red-team lead, remediation owner, escalation route. |
-| Evidence handling | Customer record location, native-scorecard treatment, visibility limits, retention/export/deletion owner. |
-| Retest criteria | Fix owner, retest method, success criterion, acceptance owner, target date, and reopen trigger. |
+| Evidence handling | Customer record location, native-run-record treatment, visibility limits, retention/export/deletion owner. |
+| Retest criteria | Fix owner, retest method, success criterion, acceptance owner, target event, and reopen trigger. |
 
 ## Category and method route
 
 | Route | Use when | Required records | Do not claim |
 |---|---|---|---|
-| AI Red Teaming Agent | Target/category is supported and customer can operate the native route safely. | Foundry project/target reference, support status, categories, native scorecard reference, limitations. | Do not claim coverage for unsupported targets, excluded categories, or production safety. |
+| AI Red Teaming Agent | Target/category is supported and customer can operate the native route safely. | Foundry project/target reference, support status, categories, native run record reference, limitations. | Do not claim coverage for unsupported targets, excluded categories, or production safety. |
 | PyRIT | Customer approves repeatable custom testing or the supported native route does not cover the target/category. | Test plan reference, operator, target adapter boundary, category, run record reference, evidence handling. | Do not ship payloads, endpoint clients, or raw run data in this repository. |
-| Manual expert testing | Domain judgment, policy nuance, or unsupported route requires approved human testing. | Operator role, method note, category, success condition, evidence record, reviewer, limitation. | Do not treat notes as a native scorecard or automated coverage. |
+| Manual expert testing | Domain judgment, policy nuance, or unsupported route requires approved human testing. | Operator role, method note, category, success condition, evidence record, reviewer, limitation. | Do not treat notes as a native run record or automated coverage. |
 | Third-party engagement | Customer requires an external specialist or independent assessment. | Engagement owner, authorization, evidence boundary, category scope, severity model, retest/closure route. | Do not import third-party artifacts into this repository. |
-| Unsupported target/category | No approved method safely covers the target or category. | Reason, support caveat, owner, alternate assurance path if any, target date, exception route. | Do not create mock coverage. |
+| Unsupported target/category | No approved method safely covers the target or category. | Reason, support caveat, owner, alternate assurance path if any, target event, exception route. | Do not create mock coverage. |
 | Production-test request | Requested scope touches production users, data, systems, or change process. | Deferral route to customer legal, SOC, business, risk, and change owners. | S8 does not authorize or approve production testing. |
-| Blocked route | Authorization, non-production scope, evidence handling, SOC/legal contact, stop condition, or retest path is missing. | Blocker, owner, acceptance test, target date, review trigger. | Do not start or accept adversarial activity. |
+| Blocked route | Authorization, non-production scope, evidence handling, SOC/legal contact, stop condition, or retest path is missing. | Blocker, owner, acceptance test, target event, recheck condition. | Do not start or accept adversarial activity. |
 
 ## Attack category taxonomy
 
@@ -81,7 +81,7 @@ Default to an authorized, customer-operated, non-production Microsoft AI Red Tea
 | Sample/context note | Sample size, prompt/run set reference, reviewer, method, target version, and limitations. |
 | Threshold/tolerance | Customer-approved category threshold or qualitative tolerance, with threshold owner. |
 | Interpretation | Above, at, below, disputed, not comparable, diagnostic-only, or blocked. |
-| Accepted-risk authority | Owner who can accept residual risk, with expiry and review trigger where applicable. |
+| Accepted-risk authority | Owner who can accept residual risk, with expiry and recheck condition where applicable. |
 
 Severity combines impact, exploitability, exposure, detectability, response burden, and release/backlog impact.
 
@@ -96,7 +96,7 @@ Severity combines impact, exploitability, exposure, detectability, response burd
 
 ## Finding record shape
 
-Use this shape for the customer-owned decision note that references native run evidence. Do not store prompts, outputs, attack payloads, endpoint details, telemetry exports, or scorecards here.
+Use this shape for the customer-owned decision note that references native run evidence. Do not store prompts, outputs, attack payloads, endpoint details, telemetry exports, or run records here.
 
 ```json
 {
@@ -111,7 +111,7 @@ Use this shape for the customer-owned decision note that references native run e
   "exposure": "tested-scope-only",
   "detectability": "telemetry-or-manual-review-placeholder",
   "affectedRoute": "retrieval-or-tool-response-route-placeholder",
-  "evidenceRef": "customer-native-scorecard-or-run-record",
+  "evidenceRef": "customer-native-run-record-or-run-record",
   "owner": "remediation-owner-placeholder",
   "remediationRoute": "runtime-control",
   "releaseImpact": "hold-pre-until-retest",
@@ -141,7 +141,7 @@ Use this shape for the customer-owned decision note that references native run e
 | Retest method | Same method/category or approved alternate with reason. |
 | Changed target version | Prompt, model, tool, data, identity, gateway, policy, or app change being retested. |
 | Comparison rule | Same success condition, ASR threshold, qualitative rubric, or manual adjudication rule. |
-| Evidence reference | Customer-owned retest run/scorecard/reference, not copied into the repository. |
+| Evidence reference | Customer-owned retest run/run record/reference, not copied into the repository. |
 | Closure owner | Severity/remediation owner who accepts closure. |
 | Remaining risk | Residual limitation, accepted-risk reference, or blocked/reopen condition. |
 | Reopen trigger | Material target, method, category, threshold, route, or control change. |
@@ -157,7 +157,7 @@ Use this shape for the customer-owned decision note that references native run e
 | Safety controls | Azure AI Content Safety, Prompt Shields, APIM/gateway policy, in-process policy, tool-permission boundary if applicable. |
 | Detection/response | Defender for Cloud, Defender XDR, Sentinel, SOC ticket/playbook, severity owner, escalation contact. |
 | Remediation lifecycle | Catalog/lifecycle state, material-change trigger, retest/evaluation reference, release or portfolio blocker. |
-| Evidence handling | Native scorecard or run record retained by customer; sidecar references only; retention/export/deletion owner named. |
+| Evidence handling | native run record or run record retained by customer; sidecar references only; retention/export/deletion owner named. |
 
 ## Acceptance tests
 
@@ -175,12 +175,10 @@ Use this shape for the customer-owned decision note that references native run e
 
 ## Boundary note
 
-S8 defines and records authorized testing and remediation. Workshop activity never attacks production systems, changes tenant policy, ships attack datasets, stores customer prompts/outputs/scorecards in this repository, or claims production control operation from synthetic or prepared tests.
+S8 defines and records authorized testing and remediation. Workshop activity never attacks production systems, changes tenant policy, ships attack datasets, stores customer prompts/outputs/run records in this repository, or claims production control operation from synthetic or prepared tests.
 
 ## Related references
 
-- [S8 Concepts](concepts.md): authorization, category evidence, ASR interpretation, native scorecard boundaries, and remediation backlog.
-- [S8 Practical workshop](practical.md): scenario-driven authorization, finding, remediation, and retest flow.
 - [S6 technical decisions](../s6-security-runtime/technical.md): runtime control placement.
 - [S7 technical decisions](../s7-evaluation/technical.md): retest and release assurance.
 - [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md).

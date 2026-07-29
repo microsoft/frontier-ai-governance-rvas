@@ -29,7 +29,7 @@ Set the tone: S1 is practical architecture review, not spreadsheet ownership.
 
 ![Entra Agent ID links sponsored agent identities to tenant controls, while runtime access controls remain separate.](../assets/diagrams/s1-agent-identity-model.svg)
 
-- **Sponsor:** accountable for purpose, lifecycle, and review trigger.
+- **Sponsor:** accountable for purpose, lifecycle, and recheck condition.
 - **Agent identity:** accountable runtime actor where supported.
 - **Host identity:** managed identity, federated credential, app registration, or
   service principal that can request or exchange tokens.
@@ -118,7 +118,7 @@ systems.
 - No known disable route.
 
 Note:
-Defer with a named owner and target date when fixable. Reject production
+Defer with a named owner and target event when fixable. Reject production
 onboarding when unaudited access, unmanaged credentials, or unbounded privilege
 remain.
 
@@ -134,7 +134,7 @@ The record must capture:
 - Minimum authorization boundary and denied actions.
 - Audit route and disable route.
 - Decision: approve, defer, reject, or route with owner, accepted-when condition,
-  target date, and review trigger.
+  target event, and recheck condition.
 
 Note:
 Close with the artifact, not a generic meeting summary. S1 changes nothing in

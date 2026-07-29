@@ -53,7 +53,7 @@ evaluation, catalog/control-plane, operations, or records owner.
 
 **Decision question:** *Accept, defer, reject, route, block, or mark
 diagnostic-only for this bounded runtime-control claim?* Acceptance is a
-customer decision record for the reviewed path; it is not deployment,
+customer decision artifact for the reviewed path; it is not deployment,
 enforcement proof, live-policy change, production-control approval, or
 production approval.
 
@@ -73,7 +73,7 @@ The default is layered Azure/Microsoft enforcement:
 Use application-only enforcement or another customer control only when route
 coverage, context visibility, latency, capability status, and evidence ownership
 make the default unsuitable. Record the exception owner, reason, compensating
-control, target date, review trigger, and exact claim that remains unsupported.
+control, target event, recheck condition, and exact claim that remains unsupported.
 
 ## 2. Prerequisites
 

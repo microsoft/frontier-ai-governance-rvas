@@ -20,7 +20,7 @@ Use this structure in session pages, decks, runbooks, and templates.
 | Decision tree | Simple if/then choices that lead to approve, defer, reject, or route. |
 | Platform checks | The records, settings, signals, or support limits the customer must inspect. |
 | Acceptance tests | The conditions that must be true before the decision can move forward. |
-| Exception | Equivalent control, owner, evidence location, reason, target date, and review trigger. |
+| Exception | Equivalent control, owner, evidence location, reason, target event, and recheck condition. |
 | Handoff | The named customer process or team that implements, operates, or reviews the next step. |
 
 ## Default Microsoft paths
@@ -48,7 +48,7 @@ Write less about limits and more about action.
 | Replace | With |
 |---|---|
 | "This does not prove..." | "Accepted when..." |
-| "Record the gap." | "Create this backlog item: owner, acceptance test, target date." |
+| "Record the gap." | "Create this backlog item: owner, acceptance test, target event." |
 | "Customer-owned evidence reference." | The specific record: Entra record, Purview finding, Foundry evaluation, API Center entry, Azure Monitor alert, and so on. |
 | Repeated boundary warnings | One short boundary note per page. |
 | Generic options | Microsoft default first, then exception criteria. |
@@ -64,14 +64,14 @@ An exception is valid only when all fields are present:
 | Owner | The person or team accountable for the exception. |
 | Evidence location | Where the customer keeps proof of the exception. |
 | Acceptance test | What must be true for the exception to be accepted. |
-| Target date | When the exception is resolved or reviewed. |
-| Review trigger | The event that forces re-review, such as production promotion, product availability, material change, or audit. |
+| target event | When the exception is resolved or reviewed. |
+| recheck condition | The event that forces re-review, such as production promotion, product availability, material change, or audit. |
 
 ## Acceptance-test pattern
 
 Every template should include this row shape:
 
-| Work item | Microsoft control path | Owner | Evidence location | Accepted when | Target date | Handoff |
+| Work item | Microsoft control path | Owner | Evidence location | Accepted when | target event | Handoff |
 |---|---|---|---|---|---|---|
 | | | | | | | |
 

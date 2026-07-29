@@ -31,7 +31,7 @@ result means and what to decide.
 | Orient on the pilot | 10 min | Restate the use case, representative input or scenario, expected signal, and evidence needed to answer the question. | Show the approved pilot context and identify the evidence source. | A testable question and evidence plan. |
 | Customer-led action and review | 30 min | Read the agreed question aloud. Keep the work in the safe posture. Ask for the output and its context. | Perform the action or retrieve the existing result in the customer environment. Review it with the relevant specialist. | A result, a verified no-result, or a recorded blocker. |
 | Interpret together | 15 min | Separate fact, inference, and recommendation. Compare the result with the expected signal and evidence boundary. | Explain operational meaning, constraints, and impact. | A shared interpretation and control state. |
-| Decide | 15 min | Present the available decisions and record the chosen one, exception if any, owner, due date, acceptance evidence, and review point. | Accept, defer, reject, or route the next action through the right customer authority. | A customer-owned decision record. |
+| Decide | 15 min | Present the available decisions and record the chosen one, exception if any, owner, due date, acceptance evidence, and review point. | Accept, defer, reject, or route the next action through the right customer authority. | A customer-owned decision artifact. |
 | Hand over | 10 min | Read back the evidence reference, decision, open items, acceptance owner, and next session dependency. | Keep the record and confirm the next owner. | A handoff with a dated next action. |
 
 ## Roles in the room
@@ -64,7 +64,7 @@ Keep customer data, credentials, raw exports, and tenant-specific configuration 
 | Result supports the question | Record the evidence reference, interpretation, control state, and decision. | Hand over observation, remediation, or production-readiness work to the customer owner. |
 | No result | Record the completed action or review, source and scope checked, date, and interpretation. Do not call absence of a result a pass without expected-signal context. | Observe longer, adjust the pilot question, or close with stated residual risk. |
 | Unsupported | Record the product or capability limit as observed or documented. Do not invent a workaround or product commitment. | Choose another customer control, defer pending product review, or add an owned backlog item. |
-| Blocked | Record the missing dependency, safe stop point, owner, target date, and effect on sequence. | Stop the dependent action; continue only with unblocked work or reschedule. Do not substitute a production action or fabricated evidence. |
+| Blocked | Record the missing dependency, safe stop point, owner, target event, and effect on sequence. | Stop the dependent action; continue only with unblocked work or reschedule. Do not substitute a production action or fabricated evidence. |
 
 ## Product guidance as supporting source
 

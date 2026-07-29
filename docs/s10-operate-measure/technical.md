@@ -14,12 +14,12 @@ Default to Microsoft Foundry observability for Foundry agents/models, Azure Moni
 1. **Choose workload and review period.** Select one pilot, agent, model route, application, API/tool path, or portfolio slice.
 2. **Build the operating review card.** Record population, excluded paths, decision use, owners, evidence location, and cadence.
 3. **Map signal coverage.** Record source, population, sampling, time window, retention, exclusions, query owner, interpretation owner, and threshold owner.
-4. **Define correlation method.** Record join keys across gateway, orchestration/model/agent, execution host, tool/data dependency, monitor/log store, cost allocation, and decision record.
+4. **Define correlation method.** Record join keys across gateway, orchestration/model/agent, execution host, tool/data dependency, monitor/log store, cost allocation, and decision artifact.
 5. **Define retention and evidence handling.** Record retention owner, export owner, sensitive-data boundary, deletion/legal-hold route, and safe-reference location.
 6. **Define alert and response ownership.** Record threshold owner, severity, action group or SOC route, suppression review, tuning cadence, escalation, and validation method.
 7. **Define FinOps and capacity allocation.** Record billing source, tags/dimensions, committed capacity or quota allocation, budget/anomaly owner, and review cadence.
 8. **Classify drift hypotheses.** Record changed signal, possible causes, evidence limits, owner, observation/test plan, and action route.
-9. **Define remediation validation and exceptions.** Record validation reference, reviewer, recurrence check, exception owner, expiry, remaining risk, and next review trigger.
+9. **Define remediation validation and exceptions.** Record validation reference, reviewer, recurrence check, exception owner, expiry, remaining risk, and next recheck condition.
 10. **Decide.** Adopt, defer, reject, route, or block the operating review package.
 
 ## Operating review card
@@ -55,7 +55,7 @@ Status values: populated, missing, sampled, planned, unavailable, blocked, or di
 
 For an Azure agent platform, S10 should record which signals let an operating review follow one request across the route. The flow below is illustrative and must be mapped to the customer's actual platform records.
 
-![End-to-end traceability flow across gateway, orchestration, execution host, data/tool dependency, monitor, shared correlation method, and operating decision record.](../assets/diagrams/s10-end-to-end-traceability-flow.svg)
+![End-to-end traceability flow across gateway, orchestration, execution host, data/tool dependency, monitor, shared correlation method, and operating decision artifact.](../assets/diagrams/s10-end-to-end-traceability-flow.svg)
 
 | Hop | Signal to identify | Operating question |
 |---|---|---|
@@ -100,7 +100,7 @@ Alerts are useful only when they have an owner, threshold, population, action, s
 | Shared-cost assumption | Subscription, PTU/committed capacity, shared endpoint, shared gateway, shared telemetry, or shared support cost. |
 | Cost boundary | Inference, training/fine-tuning, evaluation, storage, telemetry, export, gateway, or support cost. |
 | Budget/anomaly route | Budget owner, anomaly owner, action trigger, exception route, and review cadence. |
-| Capacity owner | Quota/PTU/committed-capacity owner, saturation action, fallback owner, and target date. |
+| Capacity owner | Quota/PTU/committed-capacity owner, saturation action, fallback owner, and target event. |
 
 ## Drift hypothesis record
 
@@ -110,7 +110,7 @@ Alerts are useful only when they have an owner, threshold, population, action, s
 | Population and period | Workload slice, time window, sampling, exclusions, and baseline reference if applicable. |
 | Possible causes | Workload mix, configuration, model version, prompt/tool change, quota pressure, dependency issue, data change, evidence coverage. |
 | Evidence limits | Missing signal, sampled signal, correlation gap, retention gap, cost allocation caveat, or manual-review limitation. |
-| Owner and test plan | Owner, observation/test plan, validation reference, target date, and next review. |
+| Owner and test plan | Owner, observation/test plan, validation reference, target event, and next review. |
 | Action route | Product backlog, evaluation review, incident/problem route, capacity action, FinOps action, exception review, or portfolio visibility. |
 
 ## Remediation validation and exception package
@@ -118,7 +118,7 @@ Alerts are useful only when they have an owner, threshold, population, action, s
 | Field | Required record |
 |---|---|
 | Finding/action | Alert, drift hypothesis, cost action, coverage gap, export gap, incident/problem item, or exception. |
-| Owner and target date | Accountable owner and accepted completion date. |
+| Owner and target event | Accountable owner and accepted completion date. |
 | Validation reference | Customer-owned query, alert record, review note, cost review, incident/problem record, or change record. |
 | Reviewer | Person or role that accepts validation. |
 | Recurrence check | When the finding is checked again and what reopens it. |
@@ -244,7 +244,7 @@ The export design must say what happens when the collector falls behind, the des
 | Cost model | source billing record, allocation rule, tag/capacity owner, shared-cost assumption, action route, and review cadence are recorded. | FinOps owner |
 | Alert route | threshold owner, action group/SOC route, acknowledgement expectation, suppression rule, validation method, and review cadence are recorded. | Service/SOC owner |
 | Drift response | production variance has hypothesis, alternatives, evidence limits, test plan, owner, and action route. | Operating review owner |
-| Remediation closure | validation reference, reviewer, remaining risk, recurrence check, and next review trigger are recorded. | Receiving owner |
+| Remediation closure | validation reference, reviewer, remaining risk, recurrence check, and next recheck condition are recorded. | Receiving owner |
 
 ## Boundary note
 
@@ -252,7 +252,6 @@ S10 records operating decisions and owners; it creates no dashboard, alert, budg
 
 ## Related references
 
-- [S10 Concepts](concepts.md): operating review, Foundry observability, FinOps, drift, escalation, and closure boundaries.
 - [Evaluation technical decisions](../s7-evaluation/technical.md): evaluation baseline and release-readiness evidence.
 - [Portfolio governance technical decisions](../s12-portfolio-governance/technical.md): portfolio prioritization.
 - [Quality, cost, latency, and rollout guide](../reference/quality-cost-latency-guide.md).

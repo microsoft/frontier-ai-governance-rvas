@@ -38,7 +38,7 @@ priorities; no session authorizes a production change.
 ## Repository layout
 
 ```text
-docs/     Static session site, delivery guidance, references, and assessment
+docs/     Static session site, delivery guidance, and references
 labs/     Per-session README work packages, required templates, and shared offline helpers
 tools/    Safe workspace generation and static validation
 ```

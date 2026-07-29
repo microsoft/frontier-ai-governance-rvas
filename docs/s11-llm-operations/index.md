@@ -43,7 +43,7 @@ They leave with:
   switch, fallback, rollback, retirement, and automation authority;
 - a rollout/fallback/rollback package with stage entry conditions, stop
   conditions, monitoring signals, rollback target, switch authority, and
-  review trigger;
+  recheck condition;
 - a feedback-to-curation gate that turns operating signals into candidate
   learning inputs, not direct production mutations; and
 - a backlog for missing ownership, evidence reference, stage gate, fallback,
@@ -100,10 +100,8 @@ hypothesis, a curated dataset candidate, or a new evaluation scenario. They do
 not directly mutate production prompts, retrieval sources, model aliases, or
 tool behavior without gate review.
 
-Read [S11 Concepts](concepts.md) for the inner/outer loop and artifact-control
-model, [Technical decisions](technical.md) for the Azure implementation mapping
-and record shapes, and [Practical workshop](practical.md) for the facilitation
-sequence.
+Use [Technical decisions](technical.md) for the inner/outer loop,
+artifact-control model, Azure implementation mapping, and record shapes.
 
 ## 4. Change boundary
 

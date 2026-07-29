@@ -7,7 +7,7 @@ Use this guide to prepare the S0-S12 AI Governance curriculum. The facilitator r
 | Role | Main contribution |
 |---|---|
 | Executive sponsor | Sets direction, clears blockers, and accepts portfolio priorities. |
-| Governance lead | Owns the operating model, evidence record, and improvement backlog. |
+| Governance lead | Owns the baseline card, evidence record, and first technical blocker. |
 | Platform owner | Owns the platform path, trust-boundary decisions, and platform evidence. |
 | Identity, data, and security administrators | Open and operate the relevant customer controls. |
 | AI developer or maker | Explains agent implementation, testing, changes, and tool boundaries. |
@@ -17,7 +17,13 @@ Use this guide to prepare the S0-S12 AI Governance curriculum. The facilitator r
 
 Before S0, write down the first agent group or use-case question. Name the customer records location, decision owner, known architecture limits, safe stop condition, and whether any third-party model, tool, connector, data source, managed service, or supplier process is involved.
 
-Use the pre-S0 conversation as triage, not an assessment. Confirm the use case is bounded enough to discuss, that the customer knows where records will live, and that any obvious high-risk, regulated, safety-critical, production-impacting, or externally supplied dependency has a named owner and route before the first workshop. If the customer cannot name a decision owner, evidence owner, approval route, or safe review target, keep the item as readiness work instead of starting S0.
+Use the pre-S0 conversation as triage, not a scoring exercise. Confirm the use
+case is bounded enough to discuss, that the customer knows where records will
+live, and that any obvious high-risk, regulated, safety-critical,
+production-impacting, or externally supplied dependency has a named owner and
+route before the first workshop. If the customer cannot name a decision owner,
+evidence owner, approval route, or safe review target, keep the item as readiness
+work instead of starting S0.
 
 The customer may already have a platform path, or platform readiness may be a backlog item. Accept control readiness only from the customer record.
 
@@ -27,11 +33,12 @@ on a decision rather than missing prerequisites.
 
 ## Start with S0
 
-S0 sets the baseline and roadmap. Run the assessment with the customer; use it for prioritization, not as a pre-engagement pass/fail gate.
+S0 creates the baseline card and selects the first technical blocker to close.
+Use it for routing, not as a pass/fail gate.
 
 Missing roles, records, licenses, platform evidence, or safe targets become readiness items with owners.
 
-The assessment can select any S1-S12 session. Keep these dependencies:
+S0 can route to any S1-S12 session. Keep these dependencies:
 
 - S3 sets the platform assumptions used by S4-S8.
 - Agent admission standards feed tool/API publication and later change decisions.
@@ -40,7 +47,7 @@ The assessment can select any S1-S12 session. Keep these dependencies:
 - S9 reconciles evidence from the earlier sessions you selected.
 - S10 uses customer-held operational evidence and decisions.
 - S11 governs model and prompt operations where the customer can control or materially change those assets.
-- S12 aggregates the selected session outcomes into the portfolio roadmap.
+- S12 aggregates selected session outcomes into portfolio technical actions.
 
 ## Deliver safely
 

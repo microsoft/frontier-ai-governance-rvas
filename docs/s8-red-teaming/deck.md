@@ -92,82 +92,6 @@ Make threshold ownership explicit. A tool score does not accept risk.
 
 ---
 
-## Severity interpretation
-
-Severity is not just ASR. Combine:
-
-- impact;
-- exploitability;
-- exposure;
-- detectability;
-- response burden;
-- release or backlog impact.
-
-Note:
-Severity should tell the receiving owner what they must do next, not just how bad the score looks.
-
----
-
-## Native scorecard vs decision sidecar
-
-- Native scorecards and run records stay unchanged in the customer records system.
-- Prompts, outputs, payloads, datasets, endpoint details, and incident payloads stay out of this repository.
-- A threshold-comparison sidecar can reference native evidence.
-- The sidecar is a decision aid, not a replacement scorecard.
-
-Note:
-This slide protects the repository boundary and keeps evidence provenance clean.
-
----
-
-## Finding record
-
-Each finding needs:
-
-- category and technique;
-- affected route and target version;
-- evidence reference;
-- impact, exploitability, exposure, detectability;
-- severity and limitation;
-- owner and remediation route;
-- stop condition if risk remains active;
-- retest criterion and target date.
-
-Note:
-If it has no owner or retest criterion, it is an observation, not a governed finding.
-
----
-
-## Finding-to-control remediation map
-
-| Finding type | Likely receiving owner |
-|---|---|
-| Prompt injection | Prompt/design, runtime-control, in-process policy |
-| Indirect injection | Data/retrieval, tool-response, runtime-control |
-| Sensitive data | Data/privacy, output safety, investigation |
-| Unsafe tool action | Tool/API, identity, approval gate, catalog |
-| Unsafe content | Content Safety, Prompt Shields, safety owner |
-| Unauthorized access | Identity, platform, data, SOC |
-| Cost abuse | Gateway, platform, FinOps, operations |
-
-Note:
-Keep the discussion practical: who changes something, what evidence closes it, and when it gets retested.
-
----
-
-## Stop conditions and release impact
-
-- Stop if authorization scope is exceeded.
-- Stop if production impact appears possible.
-- Stop if SOC/legal/operational escalation triggers.
-- Hold or block release/change activity when severity exceeds tolerance.
-- Accepted risk needs authority, expiry, compensating action, and review trigger.
-
-Note:
-The stop condition is part of the package, not an emergency afterthought.
-
----
-
 ## Retest and closure
 
 - Retest same category and success condition unless an alternate is justified.
@@ -187,7 +111,7 @@ A lower ASR closes only the scoped finding. It does not certify product safety.
 - Production target requested.
 - Missing SOC/legal contact where required.
 - Unsupported target forced into mock coverage.
-- Raw prompts, outputs, scorecards, or payloads copied into the wrong place.
+- Raw prompts, outputs, run records, or payloads copied into the wrong place.
 - Finding has no remediation owner.
 - Remediation has no retest criterion.
 - Below-threshold ASR generalized beyond tested scope.
@@ -205,4 +129,4 @@ These are not facilitation preferences; they are blockers or route decisions.
 - Boundary: safe references only; no production testing; no tenant change; no production-approval claim.
 
 Note:
-End with the package, owner, target date, and retest closure path.
+End with the package, owner, target event, and retest closure path.

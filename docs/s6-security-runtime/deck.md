@@ -109,36 +109,6 @@ decision.
 
 ---
 
-## Correlation and telemetry contract
-
-Record:
-
-- where correlation is created and propagated;
-- which sources record it: gateway, app, backend, model/agent, tool/API, SOC;
-- query owner, time window, expected signal, and permissions;
-- retention/export/deletion/hold owner;
-- known blind spots;
-- reviewer and review cadence.
-
-Note:
-A correlation field name is not enough. The room must know who queried what and
-what they expected to see.
-
----
-
-## SOC and response route
-
-- Defender for Cloud AI posture record or explicit gap.
-- Defender XDR, Sentinel, customer SIEM, or manual review route.
-- SOC queue, playbook, incident type, severity owner, SLA, monitoring window.
-- Escalation path and stop condition.
-- Feedback loop for threshold tuning, route remediation, or evaluation backlog.
-
-Note:
-Runtime control that cannot be operated is not ready for downstream reliance.
-
----
-
 ## Retention and evidence handling
 
 - Runtime logs.
@@ -178,7 +148,7 @@ cannot be handled safely.
 Decision options:
 
 - accept runtime-path evidence;
-- defer with owner, accepted-when condition, and target date;
+- defer with owner, accepted-when condition, and target event;
 - reject unsafe or unsupported path;
 - route to platform, gateway, app, identity, SOC, observability, data, legal, or
   records owner;

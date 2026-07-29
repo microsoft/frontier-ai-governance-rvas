@@ -212,8 +212,6 @@ release authority makes any production decision.
 
 ## Related references
 
-- [S7 Concepts](concepts.md): evaluation boundaries, threshold ownership,
-  performance assurance, and release-readiness limits.
 - [Runtime security decisions](../s6-security-runtime/technical.md): runtime
   evidence prerequisite.
 - [Operating and measurement decisions](../s10-operate-measure/technical.md):

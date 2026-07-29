@@ -3,7 +3,7 @@
 **Facilitator deck**
 
 Workshop decision: **Can this bounded portfolio slice produce a defensible next
-roadmap decision from customer-owned references, with lineage, freshness,
+technical action decision from customer-owned references, with lineage, freshness,
 coverage limits, exception concentration, dependency clusters, cost/capacity
 basis, prioritization rationale, owner readiness, and baseline feedback
 triggers?**
@@ -16,7 +16,7 @@ compliance, prove runtime enforcement, approve production, or change a baseline.
 
 ## Portfolio decision package, not dashboard tour
 
-![S12 portfolio decision package: review card, source lineage, scorecard, exception concentration, dependency clusters, prioritization, roadmap action, baseline feedback, blocked gaps, and safe references.](../assets/diagrams/s12-portfolio-to-s0-feedback-loop.svg)
+![S12 portfolio decision package: review card, source lineage, decision table, exception concentration, dependency clusters, prioritization, technical action, baseline feedback, blocked gaps, and safe references.](../assets/diagrams/s12-portfolio-to-s0-feedback-loop.svg)
 
 - Start with one portfolio slice and review period.
 - Decide: continue, pause, retire, fund, defer, route, or block.
@@ -25,14 +25,14 @@ compliance, prove runtime enforcement, approve production, or change a baseline.
 
 Note:
 If the room starts discussing charts before agreeing the population and decision
-forum, stop and build the review card first.
+owner process, stop and build the review card first.
 
 ---
 
 ## Portfolio review card
 
 - Portfolio slice and review period.
-- Decision question and receiving forum.
+- Decision question and receiving owner process.
 - Included and excluded agents, workloads, regions, controls, cost centers, and
   evidence sources.
 - Portfolio, risk, roadmap, evidence, operations, FinOps/capacity, and baseline
@@ -61,14 +61,14 @@ coverage limit, interpretation owner, and safe reference.
 
 ---
 
-## Portfolio scorecard field families
+## portfolio decision table field families
 
 - Coverage.
 - Residual risk.
 - Assurance.
 - Operating health.
 - Cost/capacity.
-- Maturity.
+- baseline evidence.
 - Exception age.
 - Dependency.
 - Roadmap.
@@ -76,7 +76,7 @@ coverage limit, interpretation owner, and safe reference.
 - Confidence.
 
 Note:
-The scorecard is a decision aid. It is not compliance certification, funding
+The decision table is a decision aid. It is not compliance certification, funding
 approval, or proof of operating effectiveness.
 
 ---
@@ -112,68 +112,6 @@ not a blame map.
 
 ---
 
-## Prioritization weights and trade-offs
-
-- Risk reduction.
-- Business value.
-- Cost/capacity impact.
-- Coverage improvement.
-- Dependency leverage.
-- Maturity movement.
-- Urgency.
-- Confidence.
-- Effort/complexity.
-
-Note:
-Weights are governance decisions. Record who owns them, why alternatives were
-rejected, and where uncertainty could change the result.
-
----
-
-## Cost/capacity and owner readiness
-
-- Cost center, tag, project, model/deployment spend, quota, and capacity owner.
-- PTU or committed-capacity allocation where applicable.
-- Shared-cost assumptions and excluded spend.
-- Accountable owner, implementation owner, evidence owner, funding owner, and
-  receiving forum.
-
-Note:
-Cost without allocation ownership cannot drive action. Roadmap without owner is
-not a roadmap.
-
----
-
-## Roadmap action package
-
-- Action: continue, pause, retire, fund, defer, route, block, monitor,
-  re-baseline, or open policy question.
-- Rationale: risk, value, cost, capacity, coverage, dependency, maturity.
-- Owner, target date, acceptance test, evidence reference.
-- Exception status, blocked-by list, and next review trigger.
-
-Note:
-S12 can prepare a funding package. It cannot approve funding.
-
----
-
-## Baseline feedback triggers
-
-- Repeated ownership gap.
-- Repeated evidence gap.
-- New risk appetite issue.
-- Cost/capacity pressure.
-- Roadmap dependency concentration.
-- Matured control with stable evidence.
-- Stale baseline assumption.
-- Policy ambiguity.
-
-Note:
-Baseline feedback proposes a question and owner. It does not change policy or
-the baseline in the room.
-
----
-
 ## Framework and assurance boundary
 
 - NIST AI RMF, ISO/IEC 42001, EU AI Act, and Microsoft Responsible AI principles
@@ -197,14 +135,14 @@ Do not let a mapping table become a conformity claim.
 - Cost/capacity decision has no allocation owner.
 - Accepted-risk item is past expiry.
 - Dependency cluster has no sequence owner.
-- Roadmap action has no owner.
+- technical action has no owner.
 - Funding approval requested in the workshop.
 - Framework mapping treated as certification.
-- Maturity movement lacks stable baseline and evidence.
+- baseline movement lacks stable baseline and evidence.
 
 Note:
 Translate each failure into defer, route, block, or backlog with owner,
-acceptance test, target date, evidence reference, and review trigger.
+acceptance test, target event, evidence reference, and recheck condition.
 
 ---
 
@@ -212,10 +150,10 @@ acceptance test, target date, evidence reference, and review trigger.
 
 - Portfolio review card.
 - Source-lineage and coverage package.
-- Scorecard package.
+- Decision table package.
 - Exception concentration and dependency package.
 - Prioritization and trade-off record.
-- Roadmap action and owner-readiness package.
+- technical action and owner-readiness package.
 - Baseline feedback record.
 - Decision and backlog.
 

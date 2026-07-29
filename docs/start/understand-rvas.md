@@ -9,7 +9,11 @@ decision to customer-owned work.
 
 ## Why AI-agent governance needs a complete approach
 
-An agent can read business data, call tools, act for a user, use its own identity, and change quickly. One assessment cannot cover the resulting decisions about ownership, identity, data, platform, engineering, security, and operations. Where possible, sessions use the customer's Microsoft environment, including Entra Agent ID, Purview, Defender, Foundry, and Azure API Management.
+An agent can read business data, call tools, act for a user, use its own
+identity, and change quickly. One generic review cannot cover the resulting
+decisions about ownership, identity, data, platform, engineering, security, and
+operations. Where possible, sessions use the customer's Microsoft environment,
+including Entra Agent ID, Purview, Defender, Foundry, and Azure API Management.
 
 ![A governed path turns strategic ambition into decisions leaders can stand behind: ambition and use cases feed accountable decisions, then enforceable controls, then evidence and observation, then portfolio learning, which loops back to ambition to learn and improve. Each stage leaves the customer with a decision, a control state, or an evidence reference.](../assets/diagrams/proof-flow.svg)
 
@@ -36,7 +40,7 @@ The programme is one curriculum. S0 sets scope, baseline, and delivery order. Th
 
 | Session | Customer question | Decision and retained outcome |
 |---|---|---|
-| S0 · Foundations | Who owns governance, and where do we start? | Baseline, operating model, and prioritized roadmap. |
+| S0 · Foundations | Who owns the pilot, and what technical blocker is first? | Baseline card, owner, evidence location, and first technical action. |
 | S1 · Identity | Which identity and access boundary applies to each agent? | Ownership and authority review. |
 | S2 · Data | What data may the agent access, process, or expose? | Data findings and review actions. |
 | S3 · Platform | Which enterprise platform path and trust boundary do we use? | Platform-path decision and work list. |
@@ -46,9 +50,9 @@ The programme is one curriculum. S0 sets scope, baseline, and delivery order. Th
 | S7 · Evaluation | Is quality and safety evidence strong enough to proceed? | Evaluation and release decision. |
 | S8 · Adversarial testing | What happens under approved misuse testing? | Findings, remediation, and residual-risk decision. |
 | S9 · Control plane | Do agent, identity, tool, and lifecycle records match? | Reconciliation and stewardship backlog. |
-| S10 · Operate | What do operational evidence and trends require next? | Operating review, FinOps, drift, and remediation cadence. |
+| S10 · Operate | What do operational evidence and trends require next? | Operating review, FinOps, drift hypothesis, and validation action. |
 | S11 · LLM operations | How are approved models and prompts versioned, changed, and retired? | Model and prompt operating-model decision and lifecycle backlog. |
-| S12 · Portfolio | Which portfolio decisions improve governance next? | Portfolio review and next maturity roadmap. |
+| S12 · Portfolio | Which portfolio decisions improve the next technical action? | Portfolio review, source lineage, priority trade-off, and baseline feedback. |
 
 ## Evidence and change boundary
 
@@ -56,4 +60,4 @@ The curriculum records customer-owned decisions and safe references; it does not
 
 ## Continue with delivery planning
 
-Read [Plan the engagement](plan-engagement.md) for roles, sequencing, dependencies, and safety rules. Use the [Readiness Assessment](../assessment/index.md) to set the S0 baseline.
+Read [Plan the engagement](plan-engagement.md) for roles, sequencing, dependencies, and safety rules.

@@ -60,7 +60,7 @@ current support, region, and scope fit, paired with customer-owned human
 interpretation and accepted runtime-path evidence. Use manual scoring, policy
 scenarios, CI/CD cloud evaluation, load testing, another approved test service,
 or an explicit diagnostic-only gap when Foundry support, evaluator fit, data
-handling, automation maturity, performance needs, or coverage does not fit.
+handling, automation readiness, performance needs, or coverage does not fit.
 
 S7 prepares release-readiness evidence. It does not approve production, change a
 pipeline, configure Foundry, set thresholds for the customer, run load tests, or
@@ -91,8 +91,8 @@ safety, groundedness, tool use, task adherence, and regression where current
 availability and scope are verified. They inform the decision. They do not
 replace accepted runtime-path evidence or the customer's release process.
 
-Read the [S7 Concepts](concepts.md) for the boundary between evaluation
-evidence, diagnostic-only evidence, and release reliance.
+Use [Technical decisions](technical.md) for evaluator routes, diagnostic-only
+boundaries, threshold ownership, and release-readiness evidence.
 
 ## 4. Rollback and handoff
 

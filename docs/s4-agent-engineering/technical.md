@@ -55,7 +55,7 @@ into this repository.
 | Model/cost/latency | Model route, quota/capacity owner, latency target, cost guardrail, fallback, fine-tuning review. |
 | Gates | DEV/PRE/PRO owner, accepted-when criteria, blocker, rollback/decommission trigger. |
 | Downstream prerequisites | Platform, identity, data, tool/API, runtime, evaluation, red-team, catalog, operations, retirement. |
-| Decision | Approve, defer, reject, route, blocked, or prototype-only with owner, target date, review trigger. |
+| Decision | Approve, defer, reject, route, blocked, or prototype-only with owner, target event, recheck condition. |
 
 | Path | Microsoft control surface to inspect | Admission emphasis |
 |---|---|---|
@@ -101,7 +101,7 @@ configuration.
 |---|---|
 | Package identity | Agent/package name, version or release reference, environment, owner, lifecycle state, support boundary. |
 | Instructions or workflow | Prompt/instruction reference, workflow definition, hosted code package, or declarative manifest reference; no raw prompts in this repo. |
-| Model route | Model family/deployment alias, region/residency assumption, quota/capacity owner, fallback model if any, model-version review trigger. |
+| Model route | Model family/deployment alias, region/residency assumption, quota/capacity owner, fallback model if any, model-version recheck condition. |
 | Tools and APIs | Tool/action/API list, version/schema, gateway route, allowed/prohibited actions, publication state. |
 | Data sources | Source category, classification, retrieval/search path, minimization point, data owner. |
 | Identity | User, host workload, agent, delegated/OBO, and resource authorization assumptions; identity owner. |
@@ -120,7 +120,7 @@ configuration.
 | Cost and quota | Who owns token budget, quota/capacity, rate limits, allocation limits, and spending review? |
 | Fallback | Which fallback model, no-answer behavior, queue, or manual route applies when model/service capacity is unavailable? |
 | Fine-tuning | Which bounded capability gap justifies it, who owns training data, and what base-versus-tuned evaluation comparison is required? |
-| Review trigger | Which model, prompt, package, data, tool, quota, or cost change forces reapproval? |
+| recheck condition | Which model, prompt, package, data, tool, quota, or cost change forces reapproval? |
 
 ### Gate outcome table
 
@@ -139,7 +139,7 @@ configuration.
 | Data | Which source, retrieval, prompt, output, telemetry, or evaluation-data boundary must data/compliance owners review? |
 | Tool/API | Which tools, connectors, APIs, actions, schemas, permissions, publication, and withdrawal routes must owners accept? |
 | Runtime | Which safeguards, denied actions, human controls, telemetry, correlation, and incident routes must runtime owners assess later? |
-| Evaluation | Which scenario set, dataset, rubric, threshold, scorecard, and release decision owner must be ready? |
+| Evaluation | Which scenario set, dataset, rubric, threshold, run record, and release decision owner must be ready? |
 | Red-team | Which authorization, scope, target, rules of engagement, and remediation route are required before adversarial testing? |
 | Catalog/control-plane | Which agent/tool/API/model route, lifecycle state, version, owner, exception, and retirement record must be registered? |
 
@@ -199,7 +199,6 @@ S4 selects and admits a path; deployment, configuration, and production approval
 
 ## Related references
 
-- [S4 Concepts](concepts.md): authority model, path choices, material changes, retirement.
 - [Runtime security decisions](../s6-security-runtime/technical.md), [evaluation decisions](../s7-evaluation/technical.md), and [control-plane decisions](../s9-control-plane/technical.md).
 - [Quality, cost, latency & rollout guide](../reference/quality-cost-latency-guide.md).
 - [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md).

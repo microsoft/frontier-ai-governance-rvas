@@ -108,35 +108,6 @@ S5 records policy intent and owner. Runtime assurance proves what actually ran.
 
 ---
 
-## Identity and least privilege
-
-- Caller identity: Entra app, managed identity, OBO/delegated flow, service
-  principal, or approved equivalent.
-- Authority: scopes, roles, RBAC, data/resource boundary, allowed operations,
-  prohibited operations, exception route.
-- Revocation: consent withdrawal, scope/RBAC removal, credential rotation,
-  managed identity disablement, consumer notification.
-
-Note:
-Identity without bounded authority is incomplete. Authority without revocation is
-not admissible.
-
----
-
-## Quota, cost, abuse, telemetry
-
-- Choose the counter key: subscription, team, application, user/session, agent
-  identity, or custom header.
-- Name quota owner, cost owner, abuse owner, exception owner, and review cadence.
-- Name join fields for request, agent/app, consumer, user/session, environment,
-  owner, API, tool call, and model/token usage where relevant.
-
-Note:
-If the customer cannot join call activity to owner and consumer, later operating
-review becomes guesswork.
-
----
-
 ## Consumer acceptance
 
 The consuming owner accepts:
@@ -173,7 +144,7 @@ If it cannot be withdrawn, it should not be admitted.
 Decision options:
 
 - approve admission into the customer change process;
-- defer with owner, accepted-when condition, and target date;
+- defer with owner, accepted-when condition, and target event;
 - reject unsafe tool;
 - route to platform, identity, connector/MCP, runtime, evaluation, data/privacy,
   catalog, release, or exception owner;

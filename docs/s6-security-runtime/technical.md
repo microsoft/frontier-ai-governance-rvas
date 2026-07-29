@@ -54,7 +54,7 @@ controls when the gateway cannot see the needed context.
 | Telemetry | Log destination, trace/correlation field, propagation point, query owner, time window, retention/export owner. |
 | Response route | Defender posture record, Defender XDR/Sentinel route, SOC queue, severity owner, monitoring window, escalation path. |
 | Evidence status | Gateway-path proof, app-only evidence, model/agent evidence, SOC signal, diagnostic-only, planned, unsupported, or blocked. |
-| Decision | Accept, defer, reject, route, block, or diagnostic-only with owner, target date, review trigger, and limitation. |
+| Decision | Accept, defer, reject, route, block, or diagnostic-only with owner, target event, recheck condition, and limitation. |
 
 ## Gateway-proof acceptance package
 
@@ -147,8 +147,6 @@ use.
 
 ## Related references
 
-- [S6 Concepts](concepts.md): runtime path, gateway proof, correlation,
-  diagnostics, SOC route, and retention boundaries.
 - [Evaluation technical decisions](../s7-evaluation/technical.md): downstream
   release-assurance inputs.
 - [Operating and measurement decisions](../s10-operate-measure/technical.md):

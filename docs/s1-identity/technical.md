@@ -42,18 +42,18 @@ approve exceptions, or change tenant policy from this page.
    without review and break-glass rationale.
 7. **Close disable, audit, and lifecycle.** If source coverage, review cadence,
    retirement route, disable owner, and audit evidence are recorded, accept the
-   decision record. Otherwise defer with a named owner and target date.
+   decision artifact. Otherwise defer with a named owner and target event.
 
 ### Identity architecture card
 
-Use this card as the technical anchor for the decision record. Record references
+Use this card as the technical anchor for the decision artifact. Record references
 only; do not copy tenant identifiers, token claims, raw logs, secrets, endpoints,
 or access assignments into this repository.
 
 | Field | What to record |
 |---|---|
 | Pilot scope | Bounded agent/workload, environment, business purpose, and customer record location. |
-| Human accountability | Sponsor, technical owner, lifecycle owner, security reviewer, operations owner, next review trigger. |
+| Human accountability | Sponsor, technical owner, lifecycle owner, security reviewer, operations owner, next recheck condition. |
 | Agent identity | Agent ID / Agent 365 / app or service-principal record / customer register reference, source coverage, lifecycle state. |
 | Host workload identity | Managed identity, workload federation, app registration, service principal, or host record that can obtain or exchange tokens. |
 | Runtime mode | App-only/autonomous, OBO/delegated, or mixed with separated authority sections. |
@@ -61,7 +61,7 @@ or access assignments into this repository.
 | Authorization boundary | RBAC role, API/Graph scope, connector permission, gateway product/route, data zone, environment, and denied actions. |
 | Audit route | Sign-in, audit, gateway, application, resource, and SIEM/log workspace references that distinguish user, host, agent, gateway, and backend. |
 | Disable route | Which object or route is disabled first, who owns it, what broader impact exists, and how audit metadata is preserved. |
-| Backlog | Missing record, owner, narrowing work, provisioning automation, audit gap, or unsupported capability with acceptance test and target date. |
+| Backlog | Missing record, owner, narrowing work, provisioning automation, audit gap, or unsupported capability with acceptance test and target event. |
 
 ### Identity pattern matrix
 
@@ -105,7 +105,7 @@ background. Record both paths if both exist.
 |---|---|---|---|
 | Autonomous or app-only | Host workload identity or federated credential obtains agent or resource tokens without a user context | Scheduled work, background processing, service-to-service integration | Sponsor, app-only purpose, non-secret credential path, least-privilege resource scopes, denied actions, incident disable route. |
 | On-behalf-of user | User token is exchanged for delegated access through an approved OBO flow | The agent performs user-scoped actions such as reading or writing resources the user may access | User intent trigger, delegated scopes, consent owner, audit correlation between user/app/agent, prohibited privileged actions, fallback behavior. |
-| Mixed mode | Separate app-only and delegated flows are both present | The same agent has background duties and user-initiated actions | Two decision records or one record with two clearly separated authority sections; do not let app-only permissions substitute for user-scoped approval. |
+| Mixed mode | Separate app-only and delegated flows are both present | The same agent has background duties and user-initiated actions | Two decision artifacts or one record with two clearly separated authority sections; do not let app-only permissions substitute for user-scoped approval. |
 
 ### App-only and OBO inspection checklists
 
@@ -172,7 +172,7 @@ as a backlog item. S1 does not request consent or grant roles.
 | Disable a family of agents | Blueprint, Conditional Access, gateway product, or shared backend route. | Treat as broader impact and route through security/change ownership. |
 | Review creation | Entra audit log or customer identity-change record. | Confirm object type, creator, sponsor, and source system. |
 | Review sign-in | Agent sign-in, workload identity sign-in, gateway auth log, app trace. | Confirm whether the sign-in proves agent action or only host credential use. |
-| Sponsor transfer | Agent identity governance record or customer control register. | Tie owner changes to review trigger and next access recertification. |
+| Sponsor transfer | Agent identity governance record or customer control register. | Tie owner changes to recheck condition and next access recertification. |
 
 ## Platform checks
 
@@ -194,7 +194,7 @@ as a backlog item. S1 does not request consent or grant roles.
 | Denied outside scope | the record names what the agent must not do, how out-of-scope requests fail closed, and who reviews denied or attempted actions | Application owner + security owner |
 | Credential/federation owner | managed identity, federated credential, app credential, or exception has an owner, rotation/revocation path, retirement trigger, and explicit rejection of shared accounts or unmanaged stored secrets | Identity/platform engineering |
 | OBO audit and prohibited actions | delegated access records user intent, OBO scopes, audit correlation between user/app/agent, prohibited production actions, fallback behavior, and denial of privilege elevation outside the user's approved scope | Application owner + audit owner |
-| Lifecycle/review/retire route | onboarding, periodic review, ownership transfer, incident response, and retirement/removal routes are recorded with evidence owners and target dates for gaps | Identity governance + service owner |
+| Lifecycle/review/retire route | onboarding, periodic review, ownership transfer, incident response, and retirement/removal routes are recorded with evidence owners and target events for gaps | Identity governance + service owner |
 
 ## Boundary note
 
@@ -202,7 +202,6 @@ S1 records identity and access decisions; it grants no access and approves no pr
 
 ## Related references
 
-- [S1 Concepts](concepts.md): sponsorship, OBO, and gateway boundary.
 - [S9 technical decisions](../s9-control-plane/technical.md): catalog reconciliation.
 - [Governance capability guide](../reference/governance-capability-guide.md): Agent ID and Conditional Access availability.
 - [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md).

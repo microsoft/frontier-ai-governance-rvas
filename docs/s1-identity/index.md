@@ -44,7 +44,7 @@ applicable, APIM or gateway JWT boundaries where used, and Agent 365 records
 where available.
 
 An exception requires a documented coverage limit, owner, Microsoft record
-location, accepted-when criterion, target date, and review trigger. This result
+location, accepted-when criterion, target event, and recheck condition. This result
 does not create identities, grant access, change tenant policy, or approve
 production.
 
@@ -67,7 +67,7 @@ For the pilot agent or portfolio slice, the review records:
 - **Evidence source:** where the record came from, which product or tenant scope
   it covers, and what it explicitly excludes.
 - **Human sponsor:** who is accountable for purpose, lifecycle, acceptable use,
-  and review triggers.
+  and recheck conditions.
 - **Agent identity:** whether there is an Agent ID/Agent 365 record or another
   directory/control-plane record that can represent the agent as an accountable
   runtime actor.
@@ -80,7 +80,7 @@ For the pilot agent or portfolio slice, the review records:
 - **Audit and disable route:** which owner can stop the agent or credential path,
   and which sign-in, audit, gateway, application, or resource logs preserve the
   actor and correlation path.
-- **Lifecycle review:** purpose, current state, review trigger, reviewer, review
+- **Lifecycle review:** purpose, current state, recheck condition, reviewer, review
   date, findings, next review date, and retirement condition.
 
 Real IDs, customer identity payloads, tokens, and personal data stay in the
@@ -116,8 +116,8 @@ S1 produces a trusted list, named accountability, and an honest coverage
 statement. A directory search is not an agent inventory, OBO telemetry is not an
 ownership record, and gateway authentication is not production approval.
 
-Read the [S1 Concepts](concepts.md) for how Entra Agent ID, ownership, OBO, and
-the gateway boundary fit together.
+Use [Technical decisions](technical.md) for the Entra Agent ID object model,
+OBO/app-only paths, and gateway boundary checks.
 
 ## 4. Change boundary
 

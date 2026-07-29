@@ -9,25 +9,24 @@ of truth for the published SVG assets.
 |--------------------------|----------------------------------------|-----------------------------|
 | `journey.excalidraw`     | `docs/assets/diagrams/journey.svg`     | `docs/start/understand-rvas.md` |
 | `landscape.excalidraw`   | `docs/assets/diagrams/landscape.svg`   | `docs/reference/governance-capability-guide.md` |
-| `assessment.excalidraw`  | `docs/assets/diagrams/assessment.svg`  | `docs/assessment/index.md`  |
 | `azure-agent-platform-reference.excalidraw` | `docs/assets/diagrams/azure-agent-platform-reference.svg` | `docs/reference/platform-technical-guide.md` |
-| `s0-operating-model-handoff.excalidraw` | `docs/assets/diagrams/s0-operating-model-handoff.svg` | `docs/s0-foundations/concepts.md` |
+| `s0-operating-model-handoff.excalidraw` | `docs/assets/diagrams/s0-operating-model-handoff.svg` | `docs/s0-foundations/technical.md` |
 | `s1-autonomous-agent-backend-auth-flow.excalidraw` | `docs/assets/diagrams/s1-autonomous-agent-backend-auth-flow.svg` | `docs/s1-identity/technical.md` |
-| `s1-agent-identity-model.excalidraw` | `docs/assets/diagrams/s1-agent-identity-model.svg` | `docs/s1-identity/concepts.md` |
+| `s1-agent-identity-model.excalidraw` | `docs/assets/diagrams/s1-agent-identity-model.svg` | `docs/s1-identity/technical.md` |
 | `s1-user-agent-backend-auth-flow.excalidraw` | `docs/assets/diagrams/s1-user-agent-backend-auth-flow.svg` | `docs/s1-identity/technical.md` |
-| `s2-compliance-flow.excalidraw` | `docs/assets/diagrams/s2-compliance-flow.svg` | `docs/s2-data-compliance/concepts.md` |
-| `s3-gateway-trust-boundary.excalidraw` | `docs/assets/diagrams/s3-gateway-trust-boundary.svg` | `docs/s3-platform-foundation/concepts.md` |
+| `s2-compliance-flow.excalidraw` | `docs/assets/diagrams/s2-compliance-flow.svg` | `docs/s2-data-compliance/technical.md` |
+| `s3-gateway-trust-boundary.excalidraw` | `docs/assets/diagrams/s3-gateway-trust-boundary.svg` | `docs/s3-platform-foundation/technical.md` |
 | `s3-private-dns-resolution-flow.excalidraw` | `docs/assets/diagrams/s3-private-dns-resolution-flow.svg` | `docs/s3-platform-foundation/technical.md` |
-| `s4-authority-admission-tree.excalidraw` | `docs/assets/diagrams/s4-authority-admission-tree.svg` | `docs/s4-agent-engineering/concepts.md` |
+| `s4-authority-admission-tree.excalidraw` | `docs/assets/diagrams/s4-authority-admission-tree.svg` | `docs/s4-agent-engineering/technical.md` |
 | `s5-tool-api-governance-record-model.excalidraw` | `docs/assets/diagrams/s5-tool-api-governance-record-model.svg` | `docs/s5-tool-api-governance/technical.md` |
-| `s6-security-runtime-correlation-flow.excalidraw` | `docs/assets/diagrams/s6-security-runtime-correlation-flow.svg` | `docs/s6-security-runtime/concepts.md` |
-| `s7-evaluation-release-handoff.excalidraw` | `docs/assets/diagrams/s7-evaluation-release-handoff.svg` | `docs/s7-evaluation/concepts.md` |
-| `s8-red-teaming-asr-decision.excalidraw` | `docs/assets/diagrams/s8-red-teaming-asr-decision.svg` | `docs/s8-red-teaming/concepts.md` |
-| `s9-reconciliation-gap-flow.excalidraw` | `docs/assets/diagrams/s9-reconciliation-gap-flow.svg` | `docs/s9-control-plane/concepts.md` |
+| `s6-security-runtime-correlation-flow.excalidraw` | `docs/assets/diagrams/s6-security-runtime-correlation-flow.svg` | `docs/s6-security-runtime/technical.md` |
+| `s7-evaluation-release-handoff.excalidraw` | `docs/assets/diagrams/s7-evaluation-release-handoff.svg` | `docs/s7-evaluation/technical.md` |
+| `s8-red-teaming-asr-decision.excalidraw` | `docs/assets/diagrams/s8-red-teaming-asr-decision.svg` | `docs/s8-red-teaming/technical.md` |
+| `s9-reconciliation-gap-flow.excalidraw` | `docs/assets/diagrams/s9-reconciliation-gap-flow.svg` | `docs/s9-control-plane/technical.md` |
 | `s10-end-to-end-traceability-flow.excalidraw` | `docs/assets/diagrams/s10-end-to-end-traceability-flow.svg` | `docs/s10-operate-measure/technical.md` |
-| `s10-operating-review-flow.excalidraw` | `docs/assets/diagrams/s10-operating-review-flow.svg` | `docs/s10-operate-measure/concepts.md` |
-| `s11-llmops-change-control-flow.excalidraw` | `docs/assets/diagrams/s11-llmops-change-control-flow.svg` | `docs/s11-llm-operations/concepts.md` |
-| `s12-portfolio-to-s0-feedback-loop.excalidraw` | `docs/assets/diagrams/s12-portfolio-to-s0-feedback-loop.svg` | `docs/s12-portfolio-governance/concepts.md` |
+| `s10-operating-review-flow.excalidraw` | `docs/assets/diagrams/s10-operating-review-flow.svg` | `docs/s10-operate-measure/technical.md` |
+| `s11-llmops-change-control-flow.excalidraw` | `docs/assets/diagrams/s11-llmops-change-control-flow.svg` | `docs/s11-llm-operations/technical.md` |
+| `s12-portfolio-to-s0-feedback-loop.excalidraw` | `docs/assets/diagrams/s12-portfolio-to-s0-feedback-loop.svg` | `docs/s12-portfolio-governance/technical.md` |
 
 The `.excalidraw` files are the editable source of truth: open them directly at
 <https://excalidraw.com> (File → Open) to tweak by hand. The `build-*.mjs`

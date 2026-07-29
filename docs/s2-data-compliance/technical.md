@@ -54,7 +54,7 @@ runtime evidence into this repository.
 | Logs and telemetry | Fields logged, sampling/masking, retention, access owner, investigation owner, SIEM or workspace route. |
 | Evaluation reuse | Dataset source, de-identification owner, retention, reuse limit, approval route. |
 | Evidence reference | Evidence system, evidence owner, review date, scope, limitations, expiry, hold/deletion owner. |
-| Decision | Approve/defer/reject/route/blocked, accepted-when condition, target date, handoff, release/backlog impact. |
+| Decision | Approve/defer/reject/route/blocked, accepted-when condition, target event, handoff, release/backlog impact. |
 
 | Decision | Microsoft default | Exception criteria |
 |---|---|---|
@@ -68,11 +68,11 @@ runtime evidence into this repository.
 
 ## Data-control matrix
 
-Use this matrix to make the practical workshop scenario-driven. Each row asks for a decision record, evidence route, blocker condition, and safe handoff. Do not infer control coverage from product names alone; verify workload, location, role, license, region, and tenant support before recording a control as available.
+Use this matrix to make the practical workshop scenario-driven. Each row asks for a decision artifact, evidence route, blocker condition, and safe handoff. Do not infer control coverage from product names alone; verify workload, location, role, license, region, and tenant support before recording a control as available.
 
 | Control area | Decision to record | Evidence / control record | Scenario blocker | Safe route |
 |---|---|---|---|---|
-| Classification | Which data sources, fields, and prompt/retrieval slices are in scope, and whether each has a sensitivity label or named classification gap | Purview Information Protection label, label policy, scanner/classifier finding, or customer-approved classifier record | no label owner; source classification unknown; classifier cannot inspect the location | backlog classification gap with data owner and target date; do not claim label coverage |
+| Classification | Which data sources, fields, and prompt/retrieval slices are in scope, and whether each has a sensitivity label or named classification gap | Purview Information Protection label, label policy, scanner/classifier finding, or customer-approved classifier record | no label owner; source classification unknown; classifier cannot inspect the location | backlog classification gap with data owner and target event; do not claim label coverage |
 | Exposure review | Whether the AI path increases access to overshared, stale, or privileged content | Purview DSPM for AI/data map finding, SharePoint/OneDrive permissions review, source ACL export reviewed in customer tenant | workload unsupported; source ACL unavailable; no source owner | route to source-system owner; limit scenario to reviewed sources only |
 | DLP/report-only readiness | Whether a report-only or simulation state can observe the scenario before any enforcement decision | DLP policy in report-only/simulation mode, matched condition list, exception list, alert/report owner | missing license/role; unsupported workload, condition, or connector; policy would require production change | record DLP as not established; request compliance owner review before enforcement discussion |
 | Audit/eDiscovery | How an investigation would find relevant user, prompt, retrieval, and document activity without exporting customer data | Purview audit search route, eDiscovery case/hold owner, workload audit availability record | audit disabled or unavailable; no eDiscovery case owner; route cannot cover the workload | route to compliance/legal; use synthetic workshop facts only |
@@ -88,8 +88,8 @@ Use this table to keep evidence language honest.
 |---|---|---|
 | Result | A supported Microsoft or customer-owned record shows a finding, label, match, alert, audit route, exposure, or classification. | Record source, reviewer, date, workload, segment, limitation, owner, and next action. |
 | No result | A supported review found no matching signal in the agreed scope. | Query/scope, time range, workload support, role/license, reviewer, source, and why absence is meaningful. |
-| Unsupported | The workload, connector, data location, role, license, region, tenant feature, or condition cannot support the expected control. | Unsupported slice, residual risk, owner, alternative review path, target date, release impact. |
-| Blocked | The team cannot complete the review safely. | Missing dependency, owner, escalation path, accepted-when condition, target date, and what must stop. |
+| Unsupported | The workload, connector, data location, role, license, region, tenant feature, or condition cannot support the expected control. | Unsupported slice, residual risk, owner, alternative review path, target event, release impact. |
+| Blocked | The team cannot complete the review safely. | Missing dependency, owner, escalation path, accepted-when condition, target event, and what must stop. |
 | Not applicable | The segment genuinely does not contain that data or route in the bounded scenario. | Scope statement, reviewer, date, and trigger for re-review if the path changes. |
 
 ## DLP/report-only readiness checklist
@@ -135,7 +135,7 @@ copy data, prompts, outputs, exports, or tenant configuration.
 
 ## Purview, DLP, audit, and eDiscovery review shapes
 
-Use these shapes when turning technical evidence into a decision record.
+Use these shapes when turning technical evidence into a decision artifact.
 
 | Review | Fields to capture | Blocker examples | Fallback route |
 |---|---|---|---|
@@ -188,7 +188,7 @@ direct service calls bypass a gateway.
 | Work item | Accepted when... | Handoff |
 |---|---|---|
 | Data path | every source-to-prompt, retrieval, tool, response, log, and evidence path is named with workload, region, tenant boundary, owner, and minimization point | Scenario owner |
-| Classification | each in-scope source has verified label/classifier coverage or a named classification gap with owner, target date, and release impact | Data/compliance owner |
+| Classification | each in-scope source has verified label/classifier coverage or a named classification gap with owner, target event, and release impact | Data/compliance owner |
 | Policy state | DLP, label, and retention references state whether they are existing, report-only/simulation, enforced, not available, or not applicable; no policy change is made by S2 | Compliance owner |
 | Observation owner | every DLP report, DSPM finding, audit search, telemetry view, or manual review has a named reviewer and review cadence | Observation owner |
 | Audit/eDiscovery route | a reviewer can explain how an investigation would find relevant records without exporting customer data, or the route is blocked with owner and escalation | Legal/compliance |
@@ -202,7 +202,6 @@ S2 records data decisions and routes remediation; it exports no customer data an
 
 ## Related references
 
-- [S2 Concepts](concepts.md): Purview review, labels, DLP, investigation evidence, and gateway masking boundaries.
 - [S6 technical decisions](../s6-security-runtime/technical.md): runtime safety placement.
 - [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md): Purview, DLP, audit, eDiscovery, residency, and compliance sources.
 - [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md).

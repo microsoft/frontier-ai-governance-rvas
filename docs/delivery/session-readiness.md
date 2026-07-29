@@ -21,9 +21,9 @@ workshop to discover basic prerequisites.
 5. **A stop condition.** Agree what would make the team defer or block the
    decision, who receives an incident or escalation, and which rollback or
    reversal route applies if the session affects an implementation path.
-6. **A useful artifact.** Name the decision record, work package, or review
+6. **A useful artifact.** Name the decision artifact, work package, or review
    that will be completed, including acceptance evidence, retention or refresh
-   treatment, and target date.
+   treatment, and target event.
 7. **A named handoff.** Name the next customer process or session that owns
    implementation, review, supplier follow-up, exception closure, retirement,
    or decommissioning.

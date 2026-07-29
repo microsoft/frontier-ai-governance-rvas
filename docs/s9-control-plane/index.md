@@ -46,10 +46,10 @@ Agent governance breaks when the catalog, identity, tool/API, model, data, telem
 
 Names, dashboards, screenshots, and exports can support the record, but they do not become truth by themselves. Join keys are evidence; names are hints. A telemetry pointer records observability coverage; it does not prove runtime control effectiveness. A retired or suspended label is not enough without closure evidence and a retained record.
 
-Read the [S9 Concepts](concepts.md) for registry accountability, field-level source-of-record ownership, explicit join keys, reconciliation findings, lifecycle states, and closeout with owned gaps.
+Use [Technical decisions](technical.md) for registry accountability, field-level source-of-record ownership, explicit join keys, reconciliation findings, lifecycle states, and closeout with owned gaps.
 
 ## 4. Change boundary
 
 S9 makes no live-data query and no catalog, lifecycle, identity, policy, access, retirement, enforcement, runtime, or production change. Any correction follows the customer's separate approved implementation, rollback, verification, retention, and change process.
 
-Operational handoff includes reconciliation findings, evidence references, owners, exceptions, cadence, and recurrence checks. Portfolio handoff includes the closeout decision, residual risk, lifecycle status, target dates, and unresolved blockers.
+Operational handoff includes reconciliation findings, evidence references, owners, exceptions, cadence, and recurrence checks. Portfolio handoff includes the closeout decision, residual risk, lifecycle status, target events, and unresolved blockers.

@@ -89,44 +89,6 @@ Without a baseline, the team is staring at a number with no release meaning.
 
 ---
 
-## 7. Thresholds and exceptions are customer decisions
-
-- Foundry and evaluator outputs inform thresholds.
-- They do not set thresholds or accept risk.
-- Record threshold owner, exception owner, expiry, compensating review, and
-  override route.
-
-Note:
-Keep the customer owner visible. An evaluator default is not a risk decision.
-
----
-
-## 8. CI/CD gate behavior and override route
-
-- Manual review, blocking CI/CD, warning CI/CD, mixed, diagnostic-only, or not
-  applicable.
-- Pipeline identity and secretless route.
-- Evidence storage and raw prompt/output handling boundary.
-- Failure behavior, override owner, rollback/remediation owner.
-
-Note:
-The workshop may prepare a gate record. It does not turn on a gate or approve
-release.
-
----
-
-## 9. Performance and cost evidence
-
-- Workload model and concurrency.
-- First-token/TTFB, inter-token, end-to-end p50/p95/p99.
-- Throughput, errors, saturation, quota/PTU/capacity.
-- Token cost, cache/fallback behavior, operating reconciliation owner.
-
-Note:
-Performance misses are release-readiness findings, not side notes.
-
----
-
 ## 10. Finding-to-action map
 
 - Low groundedness -> retrieval, source, or prompt backlog.

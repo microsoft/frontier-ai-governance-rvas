@@ -120,7 +120,7 @@ Use this shape for customer-owned decision notes that reference source systems. 
 | Telemetry gap | Cataloged item has no trace/correlation, query owner, alert owner, retention owner, or review cadence. | Operating backlog; do not claim runtime proof. |
 | Lifecycle conflict | One source says active while another says suspended, deprecated, retired, or withdrawn. | Decision owner resolves with evidence reference and effective date. |
 | Exception aging | Exception is expired or lacks next review. | Exception owner or portfolio governance escalation. |
-| Unsupported coverage | A required field family has no approved source for the bounded population. | Document coverage limit, owner, alternate route, and review trigger. |
+| Unsupported coverage | A required field family has no approved source for the bounded population. | Document coverage limit, owner, alternate route, and recheck condition. |
 
 ## Closeout with owned gaps
 
@@ -129,10 +129,10 @@ Use this shape for customer-owned decision notes that reference source systems. 
 | Gap reference | Finding type, affected record, source systems, and safe evidence reference. |
 | Owner | Named accountable owner, not a team alias. |
 | Acceptance test | What proves the gap is closed or accepted. |
-| Target date | Date or milestone accepted by the receiving owner. |
+| target event | Date or milestone accepted by the receiving owner. |
 | Validation reference | Customer-owned reference that will verify closure. |
 | Recurrence check | When the gap is rechecked or reopened. |
-| Exception route | Residual risk owner, expiry, compensating control, and review trigger if accepted. |
+| Exception route | Residual risk owner, expiry, compensating control, and recheck condition if accepted. |
 | Portfolio/reporting impact | Whether the gap affects portfolio, release/change, operations, legal/risk, or backlog reporting. |
 
 ## Platform checks
@@ -154,7 +154,7 @@ Use this shape for customer-owned decision notes that reference source systems. 
 | Reconciliation | findings, cadence, evidence source, reviewer, conflict rule, exception path, and next review date are recorded. | Control-plane owner |
 | Material change | triggers cover authority, tools, data, model, telemetry, owner, operating scope, risk tier, and evaluation/red-team asset changes. | Lifecycle owner |
 | Retirement | suspended/retired entries have closure owner, validation reference, retained record, recurrence check, and reopen trigger. | Portfolio/catalog owner |
-| Closeout with gaps | every gap has owner, acceptance test, evidence reference, target date, recurrence check, and next review trigger. | Receiving owner |
+| Closeout with gaps | every gap has owner, acceptance test, evidence reference, target event, recurrence check, and next recheck condition. | Receiving owner |
 
 ## Boundary note
 
@@ -162,7 +162,6 @@ S9 records and reconciles control-plane state. Customer stewards implement catal
 
 ## Related references
 
-- [S9 Concepts](concepts.md): registry accountability, join keys, lifecycle trail, reconciliation, and closeout accountability.
 - [Identity technical decisions](../s1-identity/technical.md), [tool/API governance technical decisions](../s5-tool-api-governance/technical.md), and [operate/measure technical decisions](../s10-operate-measure/technical.md).
 - [Governance capability guide](../reference/governance-capability-guide.md).
 - [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md).

@@ -27,14 +27,13 @@ Use one row per control, prerequisite, finding, or exception.
 
 Before S12 closes, confirm that the register points to:
 
-- foundation baseline scorecard, roadmap, operating model, and RACI;
+- foundation baseline decision, operating model, and technical blockers;
 - available identity, data, platform, engineering, tool/API, runtime,
   evaluation, and red-team evidence, including blocked or reference-only work;
-- the registry reconciliation, maturity comparison, and
-  `compare.py` maturity-lift output;
+- the registry reconciliation and portfolio evidence references;
 - the operating-review and remediation references;
-- residual gaps with owners, due dates, and the next governance review;
-- the portfolio decision and next roadmap; and
+- residual technical gaps with owners, validation references, and next action;
+- the portfolio decision and next technical roadmap action; and
 - any production-readiness package handed to the customer change authority.
 
 Apply the customer's retention, access, and data-classification rules to the register, links, and supporting artifacts.

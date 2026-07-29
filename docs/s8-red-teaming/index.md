@@ -18,17 +18,17 @@ They leave with:
 - A **finding-to-remediation map**: each finding has a receiving control owner, release/backlog impact, stop condition if risk remains active, and retest criterion.
 - A **retest closure record**: retest method, changed target version, comparison rule, closure evidence reference, acceptance owner, remaining risk, and reopen trigger.
 
-Native scorecards, prompts, outputs, datasets, endpoint details, attack payloads, incident payloads, and customer evidence stay in the approved customer records system. This kit does not hold endpoint clients, credentials, attack datasets, raw scorecards, or customer evidence.
+native run records, prompts, outputs, datasets, endpoint details, attack payloads, incident payloads, and customer evidence stay in the approved customer records system. This kit does not hold endpoint clients, credentials, attack datasets, raw run records, or customer evidence.
 
 ### What happens next
 
-**Next customer action:** route each finding to the remediation, accepted-risk, blocked, rejected, or retest process named in the decision record. No finding is closed until the receiving owner accepts the fix evidence and retest criterion in the customer system.
+**Next customer action:** route each finding to the remediation, accepted-risk, blocked, rejected, or retest process named in the decision artifact. No finding is closed until the receiving owner accepts the fix evidence and retest criterion in the customer system.
 
 ### Plain decision and default path
 
 **Decision question:** *Can this specific non-production target be tested or reviewed under written rules of engagement, with known attack categories, safe evidence handling, owned thresholds, a defensible finding record, a remediation owner, a stop condition, and a retest criterion?*
 
-The default is an authorized, customer-operated, non-production Microsoft Foundry AI Red Teaming Agent path where the target, region, category, and service status are supported. Use PyRIT, manual expert testing, or a third-party engagement only when support, target type, category coverage, authorization, or customer policy makes the default unsuitable. Record the exception owner, reason, support caveat, target date, severity owner, remediation owner, and retest criterion.
+The default is an authorized, customer-operated, non-production Microsoft Foundry AI Red Teaming Agent path where the target, region, category, and service status are supported. Use PyRIT, manual expert testing, or a third-party engagement only when support, target type, category coverage, authorization, or customer policy makes the default unsuitable. Record the exception owner, reason, support caveat, target event, severity owner, remediation owner, and retest criterion.
 
 S8 produces a remediation package, not offensive capability. Each recommendation names whether to remediate, accept risk, defer, reject, route, block, or retest. It also names the red-team lead, target owner, SOC/legal contact, threshold owner, severity owner, remediation owner, retest owner, evidence owner, and release or lifecycle blocker where relevant.
 
@@ -53,9 +53,11 @@ S8 produces a remediation package, not offensive capability. Each recommendation
 
 Red teaming is useful only when the customer agrees on target, authorization, category, success criteria, safety limits, response path, and retest evidence before the first probe. Adversarial-test evidence is accepted only for the exact authorized scope, category, target version, sample, method, and threshold.
 
-A scorecard without a remediation owner is an observation, not governance. A prepared or synthetic test is a diagnostic aid, not proof of production control operation. A below-threshold result supports only the tested scope; it does not approve production release or replace runtime, evaluation, control-plane, release, or legal decisions.
+A run record without a remediation owner is an observation, not governance. A prepared or synthetic test is a diagnostic aid, not proof of production control operation. A below-threshold result supports only the tested scope; it does not approve production release or replace runtime, evaluation, control-plane, release, or legal decisions.
 
-Read the [S8 Concepts](concepts.md) for authorization, ASR interpretation, native-scorecard boundaries, finding-to-remediation ownership, and retest closure.
+Use [Technical decisions](technical.md) for authorization, ASR interpretation,
+native-run-record boundaries, finding-to-remediation ownership, and retest
+closure.
 
 ## 4. Change boundary
 

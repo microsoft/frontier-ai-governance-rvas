@@ -1,98 +1,89 @@
 # How to Deliver
 
-This facilitator playbook for the S0-S12 curriculum complements [Plan the engagement](start/plan-engagement.md), the session guides, and the customer's change process. The facilitator protects scope, evidence boundaries, and decision language; customer administrators perform privileged actions, while customer owners approve changes and accept risk.
+This facilitator playbook keeps the S0-S12 curriculum practical. Each session
+selects one bounded technical unit of work, records safe references, and decides
+whether to proceed, defer, route, reject, or block.
 
 ## Delivery outcome
 
 At close, the customer should have:
 
-- an S0 baseline, operating model, and selected session roadmap;
-- customer-owned evidence and a control state for each in-scope session;
-- an owner and decision for each prerequisite, exception, and remediation item;
-- an S9 reconciliation and lifecycle-stewardship record;
-- an S10 operating-review cadence; and
-- an S12 portfolio decision and next maturity roadmap.
+- an S0 technical baseline card and first blocker;
+- one customer-owned artifact for each completed session;
+- named owners for blockers and acceptance checks;
+- control-plane reconciliation for the in-scope population;
+- operating evidence and FinOps signals for the selected workload; and
+- a portfolio action package with source lineage and blocker visibility.
 
-Templates, samples, and offline tool output aid preparation; they do not prove that a customer control is deployed or operating.
+Templates and samples are preparation aids. They never prove that a customer
+control is deployed, operating, or approved for production.
 
 ## Before the first session
 
-Name the executive sponsor, governance lead, platform owner, identity administrator, compliance or data administrator, security operations contact, AI developer or maker lead, and evidence owner.
+Confirm:
 
-Confirm the records location, change process, escalation route, and initial platform path. Run S0 first. Missing roles, licenses, records, architecture decisions, or safe test targets become owned backlog items, not workshop shortcuts.
+- sponsor and decision owner;
+- evidence location;
+- bounded pilot or route;
+- platform, identity, data, security, engineering, operations, and evidence
+  owners as needed;
+- safe non-production target where runtime, evaluation, or adversarial work is
+  requested.
 
-## Curriculum sequencing
+If an owner, evidence location, or safe target is missing, create a blocker
+instead of starting downstream work.
 
-The curriculum is flexible, but the dependencies are not optional.
+## Lean session model
 
-| Phase | Session sequence | Delivery purpose |
+Each session has three working surfaces:
+
+| Surface | Use |
+|---|---|
+| Session page | Outcome, workshop flow, hard stops, and change boundary. |
+| Technical decisions | Microsoft service path, control checks, schemas/snippets, failure modes. |
+| Lab kit | One compact README and one technical artifact template. |
+
+Decks are secondary facilitator assets. They summarize the workshop; they are
+not a separate source of truth.
+
+## Sequencing
+
+The sequence is flexible, but dependencies are real:
+
+| Phase | Sessions | Practical question |
 |---|---|---|
-| Govern | S0-S2 | Baseline the operating model, identity and authority, and data posture. |
-| Establish | S3-S5 | Define the platform path, agent admission, and tool/API exposure controls. |
-| Assure | S6-S8 | Review runtime security, evaluation and release evidence, and approved adversarial testing. |
-| Operate | S9-S12 | Reconcile the control plane, operate with evidence, and make portfolio decisions. |
+| Govern | S0-S2 | Who owns the pilot, identity path, and data path? |
+| Establish | S3-S5 | Which platform, build path, and tool/API route are acceptable? |
+| Assure | S6-S8 | What runtime, evaluation, and red-team evidence can be trusted? |
+| Operate | S9-S12 | Which records reconcile, which signals operate, and which portfolio action follows? |
 
-The S0 roadmap may reorder sessions within a phase, not waive dependencies. S12 feeds the next S0 baseline.
-
-## Suggested cadence
-
-Plan for eight to twelve weeks. The exact length depends on architecture readiness, observation periods, and customer change lead times.
-
-1. **Mobilize and govern:** run S0-S2; set up the evidence register and decision owners.
-2. **Establish the enterprise path:** run S3-S5; send platform, engineering, and publication gaps to the customer's implementation process.
-3. **Assure safely:** run S6-S8 only when the customer provides the non-production target, reviewers, and authorization.
-4. **Operate and improve:** run S9-S12; reconcile evidence, set the operating cadence, and agree portfolio priorities.
-
-Customer implementation and observation can run alongside governance delivery; do not squeeze an observation period into a workshop.
-
-## Practical workshops
-
-Every **Practical workshop** card gives the customer one bounded action to
-perform after choosing the technical approach.
-
-The customer performs environment actions, operates credentials, and retains
-evidence in its approved records system. The facilitator explains the method,
-protects the boundary, and helps interpret the result. Use the card's offline
-or evidence-reference fallback if the required access, authorization,
-non-production target, or safe data is not available. Do not manufacture a
-result or use a template as evidence that a control is operating.
-
-The practical workshop is not a second runbook. It owns the customer steps,
-expected signal, safe fallback, activity evidence, decision, and handoff.
+Do not use a later session to paper over a missing earlier technical owner or
+evidence reference.
 
 ## Non-production hard exit gate
 
-Do not run a live runtime assurance request, live evaluation, or adversarial test until all items below are recorded:
+Do not run runtime assurance, evaluation, or adversarial activity until:
 
 - the target is customer-owned and non-production;
-- the endpoint owner can stop, reset, or isolate the target;
-- the written scope, test window, and rollback contact are present;
-- the target contains no production users or unapproved customer data; and
-- for S8, written authorization, rules of engagement, and security-operations notification are confirmed.
+- the owner can stop, reset, or isolate it;
+- scope, window, and rollback contact are recorded;
+- no production users or unapproved customer data are in scope;
+- S8 has written authorization and rules of engagement.
 
-If any item is missing, stop the dependent action. Continue only with documentation, offline work, or another unblocked session.
+If any item is missing, stop the activity and continue only with offline review
+or another unblocked session.
 
-## Control states
+## Control language
 
-A **decision outcome** says what should happen next in that session: for
-example, proceed, hold, defer, reject, remediate, or accept risk. A **control
-state** says how far a customer control has progressed. They are related, but
-they are not interchangeable: a session can approve a next action while the
-related control remains designed or under observation.
-
-Use these control states throughout the curriculum:
+Use concrete states:
 
 | State | Meaning |
 |---|---|
-| Reference only | The team reviewed a reusable starting point; no customer control is claimed. |
-| Designed | The customer defined the control, owner, and change path. |
-| Deployed, observe | The customer applied a report-only, simulation, alerts-only, or non-production control and is collecting evidence. |
-| Observed | The observation period ended, and the customer reviewed impact, findings, and rollback readiness. |
-| Production-ready | The customer has a complete approval package; the curriculum does not turn on enforcement. |
-| Exception or blocked | A dependency, risk acceptance, or capability gap prevents progress and has an owner and review date. |
+| Reference only | Reviewed as a starting point; no customer control is claimed. |
+| Designed | Owner, route, and acceptance check are defined. |
+| Observing | Customer is collecting non-production, report-only, simulation, or alert evidence. |
+| Accepted for next process | Evidence package is ready for the customer's separate process. |
+| Blocked | A missing owner, unsupported service, unsafe evidence path, or unresolved technical gap stops reliance. |
 
-Raise maturity only when customer evidence shows an operating control. A reference-only artifact never raises maturity.
-
-## Close the cycle
-
-At S12, the customer records system references the S0 baseline, selected-session evidence, S9 reconciliation, S10 review, open exceptions, remediation validation, and portfolio decision. The executive sponsor accepts the prioritized roadmap and next review date.
+Avoid vague scoring or ceremony language. Record the technical blocker
+and next action.

@@ -16,4 +16,4 @@ Hold a short weekly review of gates, evidence quality, customer-owned changes, o
 
 ## When the plan changes
 
-Move an unready session rather than improvising around a missing role, license, platform record, architecture decision, or safe target. Update its sequence, dependency, owner, and target date in the customer register. Preserve S0 as entry and S12 as the current-cycle portfolio close.
+Move an unready session rather than improvising around a missing role, license, platform record, architecture decision, or safe target. Update its sequence, dependency, owner, and target event in the customer register. Preserve S0 as entry and S12 as the current-cycle portfolio close.

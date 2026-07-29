@@ -92,58 +92,7 @@ Names, aliases, screenshots, and owner guesses are hints, not joins.
 - Unsupported field coverage.
 
 Note:
-Each finding needs affected reference, source systems, conflict rule, owner, target date, validation reference, and recurrence check.
-
----
-
-## Lifecycle state machine
-
-- proposed;
-- active_review;
-- publish_ready;
-- published;
-- hold;
-- suspended;
-- deprecated;
-- retired;
-- withdrawn.
-
-Note:
-Lifecycle is a decision trail, not a label. A transition needs owner, review reference, effective date, and permitted destination.
-
----
-
-## Material-change triggers
-
-- Owner or steward change.
-- Identity or authority change.
-- Tool/API schema or gateway route change.
-- Model deployment or alias change.
-- Data source or classification change.
-- Telemetry pointer change.
-- Risk tier or exception change.
-- Lifecycle state change.
-- Operating scope change.
-
-Note:
-Material change reopens the package because prior reconciliation may no longer describe the population.
-
----
-
-## Closeout with owned gaps
-
-Close with gaps only when every gap has:
-
-- owner;
-- acceptance test;
-- target date;
-- evidence reference;
-- recurrence check;
-- exception route if residual risk is accepted;
-- receiving process and next review trigger.
-
-Note:
-Closeout accepts accountability, not absence of findings.
+Each finding needs affected reference, source systems, conflict rule, owner, target event, validation reference, and recurrence check.
 
 ---
 

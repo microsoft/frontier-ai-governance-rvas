@@ -1,92 +1,36 @@
-# S4 Build-Path Selection Work Package
+# S4 · Agent Build Path & Admission lab kit
 
-This lab helps the customer select one Microsoft-aligned build path for a
-bounded agent candidate and hand the resulting package backlog to the right
-owner. It is not a deployment, runtime-proof, live-policy change, or
-production-approval exercise. The facilitator guides the method; the customer
-inspects its own Microsoft records, chooses the decision, and keeps completed
-evidence in its approved records system.
+Use this lab to produce one compact technical go/no-go artifact. Work in the customer's approved records system; this repository keeps only blank templates and safe field shapes.
 
-> **Safety boundary:** Use safe references only. Do not place customer identifiers, secrets, prompt text, model outputs, telemetry exports, live configuration, tenant-change details, runtime proof, enforcement evidence, or production approval claims in this repository.
+## Inputs
 
-## Entry condition
+- One bounded scenario, route, workload, change, or portfolio slice.
+- Named customer owner for the decision and evidence location.
+- Safe references to existing Microsoft records where available.
+- Known stop condition for missing owner, unsupported service, or unsafe evidence handling.
 
-Bring a bounded workload or portfolio slice, the decision owner, product owner, engineering owner, model/cost owner, release owner, evidence owner, receiving downstream owners, and the approved customer records location. If any owner or location is missing, create a blocker backlog item instead of completing the decision.
+## Steps
 
-## Required records
+1. Select the bounded unit of work.
+2. Fill the technical package fields in the local template.
+3. Mark each field as accepted, blocked, unsupported, not applicable, or needs customer review.
+4. Record only safe references; do not paste customer evidence, prompts, outputs, telemetry, exports, endpoints, secrets, or tenant identifiers.
+5. Decide proceed, defer, route, reject, or block based on the technical gaps.
 
-| Record | Required use |
-|---|---|
-| [`templates/decision-record.template.md`](templates/decision-record.template.md) | Required customer-owned record for the route decision, authority level, evidence references, DEV/PRE/PRO gates, acceptance test, exception status, backlog, target date, and handoff. Copy it into the customer's approved records system before completion. |
+## Required technical fields
 
-## Work package outcomes
+- Agent candidate
+- Authority/action class
+- Selected Microsoft build path
+- Model/tool/data package
+- DEV/PRE/PRO gates
+- Material-change trigger
 
-By the end of the lab, the customer has a customer-owned decision record that summarizes:
+## Files
 
-- **Agent candidate card:** purpose, users, channel, environment, lifecycle
-  state, authority, owner, and stop condition.
-- **Agent route:** Copilot Studio, Foundry Agent, Microsoft 365 extension, custom app, workflow-not-agent, prototype-only, reject, or route.
-- **Route rationale:** channel, orchestration, data/tool dependency, lifecycle, ownership, and support assumptions.
-- **Authority/action inventory:** inform, draft, recommend, act-with-approval,
-  autonomous, coordinating, or blocked, plus allowed actions, prohibited actions,
-  human handoff, exception path, fallback, rollback owner, and stop condition.
-- **Selected-path package:** instruction/workflow/package reference, model route,
-  tools/actions/APIs/connectors, data sources, identity mode, runtime controls,
-  evaluation, telemetry, release/rollback, support boundary, lifecycle state, and
-  material-change triggers.
-- **Admission and promotion:** DEV/PRE/PRO gate owners, evidence references, promotion blockers, and receiving process.
-- **Model, latency, and cost ownership:** model selection, quota/cost budget,
-  latency target, fallback behavior, fine-tuning rationale if any, and review
-  cadence.
-- **Downstream handoffs:** tool/API dependency, runtime-assurance prerequisite, evaluation prerequisite, control-plane/catalog handoff, and any blocker.
-- **Blockers and backlog:** missing owner, record location, route rationale, authority, gate, model/cost/latency owner, downstream prerequisite, or scope clarity captured with owner, target date, evidence location, acceptance test, and review trigger.
+- `templates/decision-record.template.md`
+- `../templates/decision-record.template.md` for the shared short decision wrapper when needed.
 
-## Technical capture fields
+## Output
 
-Capture these fields in the customer-owned decision record when they apply. Use
-references and placeholders only; do not store prompts, outputs, endpoints, or
-live configuration in this repository.
-
-| Area | Fields to capture |
-|---|---|
-| Candidate card | Purpose, users, channel, environment, lifecycle state, authority, owners, evidence location, and stop condition. |
-| Implementation path | Selected path, rejected alternatives, environment or project reference, package/version reference, owner, lifecycle state, support boundary. |
-| Agent package | Instruction/workflow/package reference, model or deployment alias, tools/actions/API versions, data sources, identity mode, runtime-control route, evaluation route, telemetry route, release manifest reference, rollback owner. |
-| Authority and gates | Authority archetype, allowed/prohibited actions, human-control point, tool/runtime/evaluation/testing/catalog/operations prerequisites, blocker rule, receiving owner. |
-| Model/cost/latency | Model choice, region/residency, quota, latency target, cost guardrail, fallback, fine-tuning rationale, and review cadence. |
-| Material changes | Prompt/workflow, model alias, tool schema, data source, identity/RBAC, gateway route, telemetry, owner, and publication-channel change triggers. |
-
-## Facilitation flow
-
-1. Confirm the customer has a bounded scope, owners, and an approved records location. If not, stop the decision and create a blocker backlog item.
-2. Copy [`templates/decision-record.template.md`](templates/decision-record.template.md) into the customer-owned records system.
-3. Build the candidate card and authority/action inventory before discussing
-   product fit.
-4. Classify the route across **Copilot Studio, Foundry Agent, Microsoft 365
-   extension, custom app, workflow-not-agent, and prototype-only**.
-5. Ask: **Which route gives this agent the right authority, package owner, gate
-   path, model/cost/latency owner, and downstream handoff without implying
-   production approval?**
-6. Record one result: approve, defer, reject, route, blocked, or prototype-only.
-7. Create an engineering backlog item for each missing route rationale, owner,
-   admission criterion, package field, model-selection record, token/cost
-   guardrail, latency budget, fine-tuning review, DEV/PRE/PRO gate, tool/API
-   dependency, runtime prerequisite, evaluation prerequisite, catalog handoff, or
-   retirement trigger.
-8. Handoff the completed decision record and backlog references to receiving
-   owners. Keep final evidence only in the customer-approved records system.
-
-## Decision criteria
-
-- **Approve** when the route rationale, authority/action inventory, selected-path
-  package, owners, evidence reference, DEV/PRE/PRO gates, model/cost/latency
-  ownership, acceptance checks, and downstream handoffs are complete.
-- **Defer** when a gap has a named owner, target date, acceptance test, evidence location, and next review trigger.
-- **Reject** when the scoped use case should be a deterministic workflow or cannot meet bounded safety, ownership, or lifecycle needs.
-- **Route** when another Microsoft control owner, platform owner, tool/API owner, M365 owner, runtime owner, evaluation owner, control-plane owner, or exception owner must decide first.
-- **Blocked** when access, ownership, record location, route rationale, gate path, model/cost/latency ownership, or scope clarity prevents a decision.
-- **Prototype-only** when exploration can continue but promotion is blocked until admission, gates, evidence, and handoffs are complete.
-
-## Handoff
-
-Handoff to agent engineering owner, product owner, release manager, model/cost owner, platform owner, tool/API owner, runtime-assurance owner, evaluation owner, and control-plane/catalog owner as applicable. The receiving owner accepts only decisions or backlog items with clear acceptance tests, target dates, evidence locations, and review triggers. Keep final records in the customer-approved system.
+A customer-owned artifact that names the Microsoft service path, control boundary, evidence reference, blocker, and next technical action. The lab does not deploy, configure, grant access, export data, prove production control operation, or approve release.

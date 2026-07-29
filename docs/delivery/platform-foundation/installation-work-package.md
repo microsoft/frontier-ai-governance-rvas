@@ -30,7 +30,7 @@ approved backends and access contracts, authentication, telemetry, deployment
 pipeline, rollback, support, and promotion authority.
 
 Use the [RACI](raci.md) to assign accountable people. Record each unavailable
-prerequisite as blocked with an owner and target date; the foundation baseline
+prerequisite as blocked with an owner and target event; the foundation baseline
 may proceed with that readiness backlog, but gateway-dependent validation waits.
 
 ## 3. Deploy the external accelerator

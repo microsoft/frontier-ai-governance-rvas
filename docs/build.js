@@ -59,12 +59,10 @@ const SESSIONS = [
 const SESSION_CHAPTERS = [
   {
     slug: 'prepare',
-    label: 'Prepare',
+    label: 'Session flow',
     heading: /^(?:1\. Outcome|2\. Prerequisites|3\. Why|4\. (?:Customer-owned )?(?:Rollback|Change boundary))/i,
   },
-  { slug: 'concepts', label: 'Concepts', standalone: true },
   { slug: 'technical', label: 'Technical decisions', standalone: true, optional: true },
-  { slug: 'co-deliver', label: 'Practical workshop', standalone: true },
 ];
 
 const SERVICE_ICONS = {
@@ -108,7 +106,6 @@ const PAGES = [
   { slug: 'how-to-deliver',               src: 'how-to-deliver.md',            title: 'How to deliver',            nav: true, group: 'Delivery' },
   { slug: 'delivery-session-readiness',   src: 'delivery/session-readiness.md', title: 'Check whether a session is ready', nav: true, group: 'Delivery' },
   { slug: 'delivery-facilitation-pattern', src: 'delivery/facilitation-pattern.md', title: 'Facilitate a working session', nav: true, group: 'Delivery' },
-  { slug: 'assessment',                   src: 'assessment/index.md',          title: 'Readiness Assessment',      nav: true,  group: null },
   { slug: 'platform-citadel-installation', src: 'delivery/platform-foundation/installation-work-package.md', title: 'Install Citadel platform', nav: true, group: 'Platform foundation' },
   { slug: 'platform-citadel-intake', src: 'delivery/platform-foundation/intake.md', title: 'Platform intake', nav: false, group: 'Platform foundation' },
   { slug: 'platform-citadel-raci', src: 'delivery/platform-foundation/raci.md', title: 'Platform RACI', nav: false, group: 'Platform foundation' },
@@ -134,7 +131,6 @@ const ROUTES = {
   'how-to-deliver.md': 'page.html?p=how-to-deliver',
   'delivery/session-readiness.md': 'page.html?p=delivery-session-readiness',
   'delivery/facilitation-pattern.md': 'page.html?p=delivery-facilitation-pattern',
-  'assessment/index.md': 'page.html?p=assessment',
   'delivery/platform-foundation/installation-work-package.md': 'page.html?p=platform-citadel-installation',
   'delivery/platform-foundation/intake.md': 'page.html?p=platform-citadel-intake',
   'delivery/platform-foundation/raci.md': 'page.html?p=platform-citadel-raci',
@@ -151,9 +147,7 @@ const ROUTES = {
 };
 SESSIONS.forEach((s) => {
   ROUTES[`${s.slug}/index.md`] = `session.html?s=${s.slug}`;
-  ROUTES[`${s.slug}/concepts.md`] = `session.html?s=${s.slug}&chapter=concepts`;
   ROUTES[`${s.slug}/technical.md`] = `session.html?s=${s.slug}&chapter=technical`;
-  ROUTES[`${s.slug}/practical.md`] = `session.html?s=${s.slug}&chapter=co-deliver`;
 });
 
 const ADMONITION_MAP = {
@@ -377,23 +371,13 @@ function transform(raw, srcRelPath) {
 }
 
 function splitRunbookChapters(md, sessionSlug) {
-  const matches = [...md.matchAll(/^##\s+(.+)$/gm)];
-  const prefix = matches.length ? md.slice(0, matches[0].index).trim() : '';
-  const sections = matches.map((match, index) => ({
-    heading: match[1].trim(),
-    body: md.slice(match.index, matches[index + 1]?.index).trim(),
+  if (!md.trim()) {
+    throw new Error(`Could not build session page for ${sessionSlug}.`);
+  }
+  return SESSION_CHAPTERS.filter((chapter) => !chapter.standalone).map((chapter) => ({
+    ...chapter,
+    md,
   }));
-
-  return SESSION_CHAPTERS.filter((chapter) => !chapter.standalone).map((chapter) => {
-    const body = sections
-      .filter((section) => chapter.heading.test(section.heading))
-      .map((section) => section.body);
-    if (chapter.slug === 'prepare' && prefix) body.unshift(prefix);
-    if (!body.length) {
-      throw new Error(`Could not build ${chapter.slug} chapter for ${sessionSlug}.`);
-    }
-    return { ...chapter, md: `${body.join('\n\n')}\n` };
-  });
 }
 
 /* ─── Search index helpers ───────────────────────────────────────────────── */
@@ -447,11 +431,9 @@ function main() {
   const searchDocs = [];
   for (const s of SESSIONS) {
     const rel = `${s.slug}/index.md`;
-    const conceptsRel = `${s.slug}/concepts.md`;
-    const [raw, conceptsRaw] = [read(rel), read(conceptsRel)];
-    if (raw == null || conceptsRaw == null) continue;
+    const raw = read(rel);
+    if (raw == null) continue;
     const { title, md, hasMermaid, reviewed, reviewedNote } = transform(raw, rel);
-    const concepts = transform(conceptsRaw, conceptsRel);
     const clean = title.replace(/^S\d+\s*·\s*/, '').trim() || title;
     const chapters = splitRunbookChapters(md, s.slug);
     chapters.forEach((chapter) => {
@@ -465,16 +447,6 @@ function main() {
         url: `session.html?s=${s.slug}&chapter=${chapter.slug}`,
         text: toPlainText(chapter.md),
       });
-    });
-    fs.writeFileSync(path.join(PAGES_OUT, `${s.slug}-concepts.md`), concepts.md);
-    searchDocs.push({
-      id: `${s.slug}-concepts`,
-      type: 'session',
-      title: `${s.code} · ${clean}`,
-      section: 'Concepts',
-      session: s.code,
-      url: `session.html?s=${s.slug}&chapter=concepts`,
-      text: toPlainText(concepts.md),
     });
     const technicalRaw = readOptional(`${s.slug}/technical.md`);
     const technical = technicalRaw == null ? null : transform(technicalRaw, `${s.slug}/technical.md`);
@@ -490,23 +462,6 @@ function main() {
         text: toPlainText(technical.md),
       });
     }
-    const practicalRaw = readOptional(`${s.slug}/practical.md`);
-    if (practicalRaw == null) {
-      console.error(`✖ Missing practical activity: docs/${s.slug}/practical.md`);
-      process.exitCode = 1;
-      continue;
-    }
-    const practical = transform(practicalRaw, `${s.slug}/practical.md`);
-    fs.writeFileSync(path.join(PAGES_OUT, `${s.slug}-co-deliver.md`), practical.md);
-    searchDocs.push({
-      id: `${s.slug}-co-deliver`,
-      type: 'session',
-      title: `${s.code} · ${clean}`,
-      section: 'Practical workshop',
-      session: s.code,
-      url: `session.html?s=${s.slug}&chapter=co-deliver`,
-      text: toPlainText(practical.md),
-    });
     const chapterMeta = SESSION_CHAPTERS
       .filter((chapter) => chapter.slug !== 'technical' || technical)
       .map(({ slug, label }) => ({ slug, label }));
@@ -521,13 +476,11 @@ function main() {
     sessionMeta.push({
       slug: s.slug, code: s.code, title: clean, fullTitle: title || `${s.code} · ${clean}`,
       accent: s.accent, persona: s.persona, nist: s.nist, outcome: s.outcome, optional: Boolean(s.optional),
-      hasMermaid: hasMermaid || concepts.hasMermaid || practical.hasMermaid || Boolean(technical && technical.hasMermaid),
+      hasMermaid: hasMermaid || Boolean(technical && technical.hasMermaid),
       hasDeck,
       services: resolveSessionServices(s.services, s.slug),
       chapters: chapterMeta,
-      reviewed, reviewedNote, conceptsTitle: concepts.title || `${s.code} · ${clean} Concepts`,
-      conceptsHasMermaid: concepts.hasMermaid, conceptsReviewed: concepts.reviewed || reviewed,
-      conceptsReviewedNote: concepts.reviewedNote,
+      reviewed, reviewedNote,
       technicalTitle: technical ? (technical.title || `${s.code} · ${clean} Technical decisions`) : undefined,
       technicalReviewed: technical ? (technical.reviewed || reviewed) : undefined,
       technicalReviewedNote: technical ? technical.reviewedNote : undefined,

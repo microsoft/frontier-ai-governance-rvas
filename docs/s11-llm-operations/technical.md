@@ -34,7 +34,7 @@ and outer-loop model, but make it concrete for one change.
 | Intended stage | Data curation, experimentation, evaluation, validate/deploy, inference, monitor, or feedback/data collection. |
 | Decision owner | Customer role or process allowed to accept this lifecycle record. |
 | Artifact owners | Data, experiment, engineering, evaluation, platform/change, operations, LLMOps, and governance owners as applicable. |
-| Approved records location | Customer-approved location for completed evidence and decision records. |
+| Approved records location | Customer-approved location for completed evidence and decision artifacts. |
 | Evidence limits | Missing, sampled, unsupported, stale, or out-of-scope evidence that constrains the decision. |
 | Stop condition | Condition that halts rollout, automation, feedback reuse, alias movement, fallback, or retirement. |
 | Target customer process | Change review, release review, backlog, experiment queue, evaluation queue, operations review, exception review, or portfolio review. |
@@ -43,7 +43,7 @@ and outer-loop model, but make it concrete for one change.
 
 | Stage | Microsoft implementation default | Required record | Accepted when... |
 |---|---|---|---|
-| Data curation | Customer-governed data source, transformation, retrieval/evaluation asset reference, feedback queue where applicable. | Purpose, source/provenance, transformation, retention, privacy/data owner, quality limit, curation output reference. | Data is fit for the stated experiment or evaluation, or the gap is blocked with owner, acceptance test, and review trigger. |
+| Data curation | Customer-governed data source, transformation, retrieval/evaluation asset reference, feedback queue where applicable. | Purpose, source/provenance, transformation, retention, privacy/data owner, quality limit, curation output reference. | Data is fit for the stated experiment or evaluation, or the gap is blocked with owner, acceptance test, and recheck condition. |
 | Experimentation | Protected source repo, reproducible candidate reference, Microsoft Foundry project or customer experiment record where supported. | Hypothesis, candidate artifact, parameters or prompt-change reference, population, experiment owner, cost/capacity assumption, limitations. | Candidate is worth evaluating, abandoned, or needs a new data/control/engineering action. |
 | Evaluation | Microsoft Foundry evaluators/agent evaluators where supported, manual rubric, load/performance evidence where relevant. | Scenario/dataset reference, evaluator or rubric version, threshold owner, baseline/candidate comparison, unsupported slices, result reference. | Candidate meets the defined evidence package, remains diagnostic-only, or is routed for iteration/rejection. |
 | Validate/deploy | Customer CI/CD, IaC, release manifest, environment controls, and change review. | Release manifest, environment, alias target, change authority, canary criteria, excluded population, rollback target, release/hold owner. | The receiving process can decide promote, hold, roll back, or reject without reconstructing missing lifecycle facts. |
@@ -115,7 +115,7 @@ deployment records into the curriculum.
 | Approved baseline | Workload, alias or model reference, evaluation baseline, operating signal, owner, support/capacity assumption, rollback target. | "Current production model" without manifest, owner, or comparison evidence. |
 | Candidate | Hypothesis, artifact references, experiment lineage, scenario/evaluation route, threshold owner, cost/latency/capacity assumption, excluded slices. | New model ID or prompt branch with no comparison question. |
 | Fallback | Target alias/route, activation trigger, switch authority, monitoring signal, compatibility/dependency check, capacity owner, recovery owner. | "Previous version" with no capacity, support, or trigger. |
-| Deprecated | Replacement reference, dependent workloads, support end date, user impact, exception owner, retirement target date. | Old artifact kept because nobody knows who uses it. |
+| Deprecated | Replacement reference, dependent workloads, support end date, user impact, exception owner, retirement target event. | Old artifact kept because nobody knows who uses it. |
 | Retired | Removal owner, dependency review, retained-record location, rollback limitation, closure evidence reference, reopen trigger. | Deleted artifact with no dependency or investigation trail. |
 | Blocked | Missing owner, evidence, lineage, support, legal/privacy route, switch authority, rollback target, or approved record location. | Silent deferral without owner or acceptance test. |
 
@@ -147,9 +147,9 @@ review. It must not record production approval.
 
 | Decision | Meaning in S11 |
 |---|---|
-| Ready for next process | The safe references, owners, blockers, rollback/fallback route, evidence limits, and review trigger are complete enough for the customer process to decide. |
+| Ready for next process | The safe references, owners, blockers, rollback/fallback route, evidence limits, and recheck condition are complete enough for the customer process to decide. |
 | Not ready | Required artifact, owner, evidence reference, route, or stop condition is missing. |
-| Accepted risk | Residual risk is owned by the customer's accepted-risk authority, with expiry, evidence reference, and review trigger. |
+| Accepted risk | Residual risk is owned by the customer's accepted-risk authority, with expiry, evidence reference, and recheck condition. |
 
 ## Feedback-to-curation package
 
@@ -185,7 +185,7 @@ review. It must not record production approval.
 | Feedback can mutate production directly | Block until a data/privacy route, curation gate, and evaluation/change route exist. |
 | Monitoring cannot inform stop/fallback/rollback | Defer rollout readiness or mark operating evidence as insufficient. |
 | Unsupported evaluator, feature, region, SKU, or connector path | Route to the product/platform owner and record limitation; do not treat as proof. |
-| Automation prerequisite missing | Keep the step manual and create backlog with owner, acceptance test, and review trigger. |
+| Automation prerequisite missing | Keep the step manual and create backlog with owner, acceptance test, and recheck condition. |
 
 ## Related references
 

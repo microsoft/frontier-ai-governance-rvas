@@ -15,11 +15,11 @@ They leave with:
 
 - An **operating review card**: workload, capability, environment, model/agent/app/API/tool path, review period, population, excluded paths, decision owner, operations owner, telemetry owner, FinOps owner, product owner, escalation owner, evidence owner, approved records location, and review cadence.
 - A **signal coverage package** for usage, quality, safety, latency, errors, dependency health, tool/API behavior, identity/security, cost, capacity, feedback, business outcome, and control-coverage signals.
-- An **end-to-end correlation package** that names the join method across gateway, orchestration/model/agent, execution host, tool/data dependency, monitor/log store, and decision record.
+- An **end-to-end correlation package** that names the join method across gateway, orchestration/model/agent, execution host, tool/data dependency, monitor/log store, and decision artifact.
 - An **alert and response package** with threshold owner, action group or SOC route, acknowledgment expectation, suppression review, escalation path, validation method, and incident/problem/change handoff.
 - A **FinOps and capacity package** with billing source, tags or dimensions, PTU/committed-capacity allocation, quota/capacity owner, shared-cost assumptions, budget/anomaly route, and review cadence.
 - A **drift hypothesis and quality review package** that records production signal changes as hypotheses with owners, evidence limits, test plans, and action routes.
-- A **remediation validation and exception package** with owner, target date, validation reference, recurrence check, remaining risk, and next review trigger.
+- A **remediation validation and exception package** with owner, target event, validation reference, recurrence check, remaining risk, and next recheck condition.
 
 `labs/s10-operate-measure/` holds offline templates and a runbook. It does **not** connect to live data, create a dashboard, calculate metrics, set thresholds, store customer data, configure alerts, export telemetry, set budgets, or implement a change.
 
@@ -45,7 +45,8 @@ Microsoft Foundry observability can provide traces, token usage, latency, and ev
 
 Empty, planned, sampled, excluded, or unavailable signals are coverage limits. They are not zero results, health proof, or control proof. A cost view without allocation owner is not an action. A remediation item is not closed until a reviewer accepts validation evidence.
 
-Read the [S10 Concepts](concepts.md) before delivery.
+Use [Technical decisions](technical.md) for signal coverage, correlation,
+alert routing, FinOps, drift, and validation checks.
 
 ## 4. Change boundary
 

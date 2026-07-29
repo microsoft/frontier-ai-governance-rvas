@@ -80,7 +80,7 @@ Use this slide when someone says, "Purview covers it" without naming the segment
 | No result | A supported review found no signal in a recorded scope, time range, workload, and source. |
 | Unsupported | Workload, connector, location, role, license, region, or condition blocks coverage. |
 | Blocked | Missing owner, evidence location, scope, retention, legal, or gateway detail stops the decision. |
-| Not applicable | The segment is outside the bounded path, with a re-review trigger if it changes. |
+| Not applicable | The segment is outside the bounded path, with a re-recheck condition if it changes. |
 
 Note:
 No-result is not a green light unless the review scope is credible.
@@ -98,21 +98,6 @@ No-result is not a green light unless the review scope is credible.
 
 Note:
 S2 may prepare a report-only review. It does not deploy enforcement.
-
----
-
-## Investigation and retention route
-
-- Which audit search finds the relevant user, app, agent, document, or sharing
-  records?
-- Which eDiscovery, legal hold, privacy, Insider Risk, or Communication
-  Compliance owner receives an observation?
-- Which retention policy governs source content, interaction logs, evidence
-  notes, and investigation records?
-- Which logs become a new regulated data store?
-
-Note:
-A DLP policy is not an investigation plan.
 
 ---
 
@@ -156,8 +141,8 @@ The record must capture:
 - DLP/report-only readiness;
 - audit/eDiscovery/retention route;
 - minimization placement and bypasses;
-- decision: approve, defer, reject, route, or blocked with owner, target date,
-  handoff, and review trigger.
+- decision: approve, defer, reject, route, or blocked with owner, target event,
+  handoff, and recheck condition.
 
 Note:
 Close with the artifact, not a meeting summary. S2 changes no policy, exports no

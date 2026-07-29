@@ -16,7 +16,7 @@ automation, configure resources, or approve production.
 
 ![S11 LLMOps change control package: change card, lifecycle stages, artifact versions, release manifest, rollout authority, feedback curation, automation readiness, blocked gaps, and safe references.](../assets/diagrams/s11-llmops-change-control-flow.svg)
 
-- Start with one change, not a maturity speech.
+- Start with one change, not a lifecycle speech.
 - Possible changes: prompt, retrieval, tool schema, model, dataset, rubric,
   deployment alias, fallback, feedback, retirement, or automation.
 - The artifact is a customer-owned change control package.
@@ -107,51 +107,6 @@ assumptions apply, and what retirement or rollback route exists.
 
 ---
 
-## Alias, fallback, and rollback authority
-
-- Who can approve testing?
-- Who can start canary or phased rollout?
-- Who can move traffic or switch an alias?
-- Who can activate fallback?
-- Who can roll back?
-- Who can retire or remove a version?
-- Who can enable automation?
-
-Note:
-Aliases and gateway routes are authority boundaries. If authority is unclear,
-the safe answer is defer or block.
-
----
-
-## Rollout stage plan and stop conditions
-
-- Stages: DEV, PRE, limited preview, expanded preview, production-change
-  readiness, or customer equivalent.
-- For each stage: entry conditions, traffic population, excluded users,
-  monitoring signal, stop condition, fallback trigger, rollback target, review
-  date, and authority.
-- S11 may say "ready for separate change review"; it may not approve production.
-
-Note:
-Canary without a stop condition is not a controlled rollout plan.
-
----
-
-## Feedback-to-curation gate
-
-- Signal or feedback source.
-- Hypothesis and affected population.
-- Privacy, consent, retention, and legal-hold route.
-- Curation rule and owner.
-- Candidate dataset, scenario, prompt, retrieval, model, or tool reference.
-- Evaluation route and mutation gate.
-
-Note:
-Feedback is learning fuel only after it passes through data/privacy, curation,
-evaluation, and change gates.
-
----
-
 ## Automation readiness
 
 - Regression testing.
@@ -184,7 +139,7 @@ Automation follows evidence; it does not replace it.
 
 Note:
 Translate every failure into defer, route, block, or backlog with owner,
-acceptance test, target date, evidence location, and review trigger.
+acceptance test, target event, evidence location, and recheck condition.
 
 ---
 

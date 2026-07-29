@@ -178,7 +178,7 @@ Record fallback behavior, owner, review cadence, and downstream handoff.
 | Failure behavior | Timeout, retry, idempotency, fallback, manual route, and error surface. |
 | Over-scope handling | What happens when the agent asks for an unapproved operation or data class. |
 | Audit/correlation | Which request, tool call, agent/app, user/session, owner, and environment fields are joinable. |
-| Review triggers | Schema, route, scope, data, quota, owner, consumer, connector, MCP, policy, or lifecycle change. |
+| recheck conditions | Schema, route, scope, data, quota, owner, consumer, connector, MCP, policy, or lifecycle change. |
 
 ## Material-change triggers
 
@@ -203,7 +203,7 @@ Record fallback behavior, owner, review cadence, and downstream handoff.
 | Notify consumers | Consuming-agent/app owner, release owner, and communication route. |
 | Preserve investigation references | Audit/correlation, diagnostic logs, retention/export owner, and incident route. |
 | Verify withdrawal | Customer-owned verification reference and reviewer. |
-| Close or reconsider | Lifecycle owner, backlog/change process, and next review trigger. |
+| Close or reconsider | Lifecycle owner, backlog/change process, and next recheck condition. |
 
 ## Boundary note
 
@@ -213,8 +213,6 @@ use.
 
 ## Related references
 
-- [S5 Concepts](concepts.md): tool-call boundary, admission package, consumer
-  acceptance, and withdrawal-first design.
 - Runtime-control implementation should have a named policy owner, evidence route, and enforcement boundary before use.
   per-call policy boundary.
 - [Platform technical guide](../reference/platform-technical-guide.md).

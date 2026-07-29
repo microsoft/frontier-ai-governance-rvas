@@ -54,7 +54,7 @@ deployment steps, or production approval.
 on a named Microsoft build path with a complete agent package?** Default to the
 Microsoft path that best fits the candidate. An exception must document the
 capability, data, authority, support, and operating reason plus owner, evidence
-reference, acceptance criterion, and target date. S4 selects and admits a path;
+reference, acceptance criterion, and target event. S4 selects and admits a path;
 it does not create code, configure a product, change a system, test runtime
 behavior, or approve production.
 
@@ -65,7 +65,7 @@ implementation path to the customer's engineering, security, architecture, and
 release owners.
 
 In this session, the customer decides whether one bounded agent can move to its
-next non-production stage. The decision records the agent's permitted authority,
+next non-production stage. The decision artifacts the agent's permitted authority,
 the selected Microsoft implementation path, the package fields engineering must
 own, the evidence still needed, and the owner of each follow-up item. For a
 Foundry path, the output is a Foundry Agent Service package backlog, not a live
@@ -105,8 +105,8 @@ like?" It is:
 S4 records the build route, exclusions, package backlog, gate plan, and
 material-change reapproval triggers.
 
-Read [S4 Concepts](concepts.md) for the authority model, Microsoft path choices,
-Foundry Agent Service example, evidence rules, material changes, and retirement.
+Use [Technical decisions](technical.md) for the authority model, Microsoft path
+choices, selected-path package fields, material changes, and retirement.
 
 ## 4. Change boundary
 

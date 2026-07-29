@@ -93,63 +93,6 @@ The review is allowed to reference evidence, not become a telemetry dump.
 
 ---
 
-## Alert route and response ownership
-
-- Signal and population.
-- Threshold owner.
-- Action group or SOC route.
-- Severity and acknowledgment expectation.
-- Suppression rule and tuning cadence.
-- Validation method and escalation path.
-
-Note:
-An alert without owner, suppression review, and validation route is not an operating control.
-
----
-
-## FinOps and capacity ownership
-
-- Billing source and scope.
-- Tag, dimension, project, deployment, or cost-center rule.
-- Shared-subscription or committed-capacity assumption.
-- Inference, training, evaluation, gateway, telemetry, or support cost boundary.
-- Budget/anomaly owner.
-- Quota/PTU/capacity owner.
-
-Note:
-Cost evidence is actionable only when attribution and ownership are explicit.
-
----
-
-## Drift hypothesis, not instant root cause
-
-- Changed signal.
-- Population and period.
-- Possible causes.
-- Evidence limits.
-- Owner and observation/test plan.
-- Action route and next review.
-
-Note:
-Production signal variance is a hypothesis until tested. Avoid declaring drift from a chart alone.
-
----
-
-## Remediation validation and recurrence
-
-- Finding or action.
-- Owner and target date.
-- Validation reference.
-- Reviewer acceptance.
-- Remaining risk.
-- Exception route if needed.
-- Recurrence check and reopen trigger.
-
-Note:
-Work complete is not closure. Closure requires validation accepted by a reviewer.
-
----
-
 ## Export and SIEM boundaries
 
 - Source workspace or diagnostic setting.
@@ -190,4 +133,4 @@ These become defer, route, or block decisions.
 - Boundary: no live query, dashboard build, alert setup, budget setting, telemetry export, runtime proof, or production approval.
 
 Note:
-End with owners, target dates, evidence references, validation, and recurrence.
+End with owners, target events, evidence references, validation, and recurrence.

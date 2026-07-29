@@ -2,71 +2,50 @@
 
 **Facilitator deck**
 
-Microsoft default: **Cloud Adoption Framework for AI, Well-Architected Framework for AI, and AI Center of Excellence guidance**.
-
-Concrete decision: **Approve, defer, reject, or route the first AI governance backlog item.**
+Decision: **select the first technical blocker to close, or stop because the pilot is not ready.**
 
 ---
 
-## Start with the Microsoft path
+## Start with one pilot
 
-- Default control path: Cloud Adoption Framework for AI, Well-Architected Framework for AI, and AI Center of Excellence guidance.
-- Customer inspects: Inspect the AI operating-model assessment, Well-Architected AI review notes, AI Center of Excellence charter, and the customer governance backlog.
-- Decision owner: Governance lead.
-
-Note:
-Open with the default platform path and the decision the customer must make.
+- One capability or agent candidate.
+- One customer evidence location.
+- One sponsor and decision owner.
+- One stop condition.
 
 ---
 
-## Decide with platform records
+## Baseline card
 
-- Approve when the Microsoft path fits and the acceptance test is clear.
-- Defer when a required record or owner is missing.
-- Reject when the use case cannot meet the control path.
-- Route when an exception owner must accept an equivalent control.
-
-Note:
-Keep the discussion on records, owners, and acceptance tests.
-
----
-
-## Acceptance test
-
-The decision is ready when the record names:
-
-- Microsoft control path
-- Owner
-- Evidence location
-- Accepted-when condition
-- Target date
-- Handoff: Architecture review board
-
-Note:
-The acceptance test should be observable by the team that receives the handoff.
+- Pilot / capability.
+- Microsoft service path.
+- Decision owner.
+- Evidence location.
+- First blocker.
+- Next technical action.
 
 ---
 
-## Exception, if any
+## Route the first blocker
 
-An exception needs:
-
-- Reason and equivalent control
-- Owner and evidence location
-- Acceptance test and target date
-- Review trigger
-
-Note:
-Use an exception for a documented equivalent control with an owner and review trigger.
+- Identity unclear -> identity owner.
+- Data path unclear -> data/privacy owner.
+- Platform route unclear -> platform owner.
+- Tool/API authority broad -> API/tool owner.
+- Runtime or telemetry missing -> security or operations owner.
 
 ---
 
-## Close the session
+## Hard stops
 
-- Decision: approve, defer, reject, or route.
-- Decision owner: Governance lead.
-- Handoff: Architecture review board.
-- Boundary: customer data stays in approved systems; production changes use customer change approval.
+- No decision owner.
+- No approved evidence location.
+- Scope too broad.
+- Customer evidence would need to enter this repo.
+- The decision is legal, compliance, production, or funding approval.
 
-Note:
-End with the decision record and the named handoff.
+---
+
+## Output
+
+Proceed, defer, route, reject, or block with the owner, acceptance check, and next technical action.

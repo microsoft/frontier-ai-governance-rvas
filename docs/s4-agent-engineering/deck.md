@@ -107,21 +107,6 @@ Every path has a different control package. Do not reuse one checklist for all.
 
 ---
 
-## Model, latency, cost, and fine-tuning
-
-- Model choice affects capability, cost, latency, residency, quota, version
-  ownership, and fallback behavior.
-- Fine-tuning requires a bounded capability gap, training-data governance, and
-  base-versus-tuned evaluation comparison.
-- Record budget owner, latency target, quota owner, fallback route, and review
-  cadence before gate acceptance.
-
-Note:
-Model choice is not just engineering preference; it changes lifecycle and
-operating risk.
-
----
-
 ## DEV / PRE / PRO gates
 
 - **DEV:** candidate card, authority, selected route, package owner, data
