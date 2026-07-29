@@ -8,87 +8,153 @@
 [Microsoft's LLMOps guidance](https://learn.microsoft.com/en-us/ai/playbook/technology-guidance/generative-ai/mlops-in-openai/)
 defines LLMOps as the collection of tools and processes that manages the
 end-to-end development, deployment, and maintenance of LLM-based applications.
-It is not a model inventory, a prompt repository, or a dashboard in isolation.
-It is the operating system that turns learning from an application into
-controlled improvement.
+In this curriculum, S12 turns that lifecycle into a customer-owned change
+control package. It is not a model inventory, prompt repository, dashboard, or
+generic approval gate.
+
+![S12 LLMOps change control package: a bounded change moves through lifecycle stages, artifact version contracts, release manifest, rollout/fallback/rollback authority, feedback curation, automation readiness, and a safe evidence boundary.](../assets/diagrams/s12-llmops-change-control-flow.svg)
+
+## The change package is the unit of control
+
+Start with one bounded change:
+
+- prompt or instruction update;
+- retrieval source, index, filter, ranking, or refresh change;
+- tool/API schema or authority change;
+- candidate model, provider, region, deployment, or fine-tuning proposal;
+- evaluation dataset, rubric, scorer, or threshold change;
+- deployment alias, canary, fallback, rollback, or retirement change;
+- monitoring signal or feedback-to-curation change; or
+- automation of test, rollout, switching, fallback, feedback, or retirement.
+
+The change package names the affected artifacts, safe references, owners,
+intended lifecycle stage, evidence limits, stop conditions, and receiving
+customer process. Without that package, teams argue about "LLMOps maturity"
+instead of deciding whether a specific change can safely move.
 
 ## The inner and outer loops
 
-The inner loop improves a candidate solution before production:
+The inner loop improves a candidate solution before release reliance:
 
-1. **Data curation:** understand, transform, and enrich the data used for
+1. **Data curation:** understand, transform, and enrich data used for
    grounding, examples, evaluation, or fine-tuning.
 2. **Experimentation:** test candidate approaches such as prompt engineering,
-   retrieval optimization, model selection, fine-tuning, and tuning.
-3. **Evaluation:** define fit-for-purpose measures and compare candidates at
-   the points that affect solution performance.
+   retrieval optimization, model selection, fine-tuning, tool behavior, and
+   application changes.
+3. **Evaluation:** compare candidates against versioned scenarios, rubrics,
+   thresholds, and known limits.
 
-The outer loop operates the approved solution:
+The outer loop operates and changes the approved solution:
 
-4. **Validate and deploy:** validate production fitness, compare candidates
-   where appropriate, and promote through controlled environments.
-5. **Inference:** provide reliable, low-latency, high-throughput responses for
-   the intended workload.
-6. **Monitor:** assess health, resource use, anomalies, privacy/safety signals,
-   and solution performance.
-7. **Feedback and data collection:** collect governed user feedback and
-   operational learning to enrich the next validation dataset.
+4. **Validate and deploy:** prepare a release manifest and submit the candidate
+   to the customer change process.
+5. **Inference:** serve the approved route with known identity, gateway/API,
+   model, capacity, fallback, and support boundaries.
+6. **Monitor:** observe health, usage, quality, safety, capacity, cost, drift,
+   feedback, and control coverage.
+7. **Feedback and data collection:** collect governed feedback and operating
+   learning as candidate inputs for the next inner-loop iteration.
 
-The feedback stage closes the loop: production learning becomes a governed input
-to data curation and experimentation, not an unreviewed production change.
+The feedback stage closes the loop only when it is gated. Production learning
+becomes a hypothesis, curated dataset candidate, or evaluation scenario. It is
+not an unreviewed production prompt, retrieval, model, or tool mutation.
 
 ## A governance decision at every stage
 
-| LLMOps stage | Decision the team must make | Minimum evidence |
+| LLMOps stage | Decision the team must make | Minimum record |
 |---|---|---|
-| Data curation | Is this data permitted, fit for purpose, traceable, and sufficiently representative for the stated use? | Data source, transformation, ownership, quality/privacy limit, and data-governance route. |
-| Experimentation | Which hypothesis and candidate combination are we testing, and what can the result prove? | Candidate/version reference, hypothesis, experiment owner, population, and limits. |
-| Evaluation | What measures, pass/fail criteria, and human judgment determine suitability? | Dataset/scenario, scorer/rubric, threshold owner, coverage limit, and evaluation route. |
-| Validate and deploy | May this candidate advance from DEV to PRE or PRO? | Release manifest, accepted evidence, change authority, rollback, and exclusions. |
-| Inference | Is the production route reliable and governed for its authority and demand? | Deployment/service route, identity/dependency owner, performance assumptions, and support path. |
-| Monitor | Which signal triggers review, escalation, rollback, or investigation? | Signal definition, coverage/retention limit, interpretation owner, and operating route. |
-| Feedback and collection | Which feedback can enter learning, and under what privacy, quality, and consent rules? | Collection purpose, approval, retention, curation owner, and data/operating route. |
+| Data curation | Is the data permitted, representative, retained correctly, and traceable for this candidate? | Source reference, transformation, purpose, owner, quality/privacy limit, and data/privacy route. |
+| Experimentation | Which hypothesis and candidate artifact are being tested, and what can the result prove? | Candidate/version reference, experiment owner, population, parameters or prompt-change reference, cost/capacity assumption, and limits. |
+| Evaluation | What measures, pass/fail criteria, and human judgment determine suitability? | Scenario or dataset reference, scorer/rubric version, threshold owner, baseline/candidate comparison, unsupported slices, and interpretation owner. |
+| Validate/deploy | Can the candidate move to the customer's next release or change process? | Release manifest, environment, alias target, approver/change authority, excluded population, rollback target, and hold/continue decision. |
+| Inference | Is the route reliable and governed for its authority, dependencies, fallback, and demand? | Deployment/service route, identity and gateway/API boundary, quota/capacity owner, cost owner, support path, and fallback trigger. |
+| Monitor | Which signal triggers review, rollback, fallback, escalation, or investigation? | Signal definition, population, retention/coverage limit, query owner, interpretation owner, alert route, and operating reference. |
+| Feedback and collection | Which feedback can enter learning, and under what quality, privacy, consent, and retention rules? | Collection purpose, feedback queue reference, sampling/quality rule, privacy route, curation owner, mutation gate, and next candidate owner. |
 
-## A learning artifact has a lifecycle
+## Artifact references are the release manifest
 
-Treat prompts, retrieval configuration, evaluation datasets, model/deployment
-aliases, and feedback datasets as controlled learning artifacts. Each needs an
-owner, safe reference, version/provenance, intended use, review trigger, and
-retirement route. Accepted when suitability, evaluation, approval, and
-deployment status are recorded separately from the version identifier.
+The release manifest is not a dump of prompts, datasets, outputs, policies, or
+telemetry. It is a safe join record that points to customer-approved artifact
+locations. A useful manifest can reconstruct which prompt, retrieval config,
+tool schema, model alias, evaluation record, runtime-control reference,
+telemetry reference, rollback target, and change authority belonged to the
+candidate.
 
-## Model versions need lifecycle decisions
+If an artifact cannot be referenced safely, it is not ready for a controlled
+release discussion. If a manifest names only a model version but not the prompt,
+retrieval, tool schema, evaluation, and rollback target, it cannot explain what
+actually changed.
 
-Model choice is not a one-time selection. For each bounded workload, record the
-approved model version or deployment alias, any candidate versions under test,
-the fallback model, deprecated versions, and the retirement condition. The team
-must know who can approve testing a new model version, who can promote it, who
-can switch traffic or roll back, and which evaluation, safety, cost, latency,
-capacity, and support evidence is required.
+## Model alias is an authority boundary
 
-Those decisions are the automation contract. Once ownership, thresholds, rollout
-stages, fallback rules, telemetry, and rollback triggers are documented, the
-team can automate regression suites, comparison runs, canary or phased rollout,
-alias switching, provider/model failover, and retirement workflows without
-guessing who has authority or what evidence is sufficient.
+Deployment aliases and gateway routes are operating authority, not just
+configuration labels. Moving an alias, changing a fallback target, or switching
+traffic changes which model or release receives work. S12 records who can
+approve testing, canary or phased rollout, alias movement, fallback activation,
+rollback, retirement, and automation enablement.
 
-## Azure implementation principle
+Fallback is also a governed route. A fallback target needs a known owner,
+evaluation and operating assumptions, trigger, monitoring signal, customer
+process, and rollback or recovery target. "Use the old model" is not a fallback
+plan unless dependencies, compatibility, capacity, and support are reviewed.
 
-For Azure/Microsoft workloads, use Microsoft Foundry and the customer platform
-to connect the lifecycle: protected source and IaC records for change
-provenance; Foundry evaluation and observability where applicable; and
-Application Insights/Azure Monitor and the customer incident/change processes
-for operation. The selected services are implementation choices. LLMOps is the
-decision flow, evidence, and ownership across them.
+## Learning artifacts have lifecycles
+
+Treat prompts, retrieval configuration, tool schemas, datasets, evaluation
+rubrics, deployment aliases, feedback queues, and rollout plans as controlled
+learning artifacts. Each needs an owner, safe reference, provenance, intended
+use, version or release ID, review trigger, material-change rule, and retirement
+route.
+
+The lifecycle state is separate from the identifier. A model or prompt can be
+candidate, approved baseline, fallback, deprecated, retired, or blocked. The
+state tells the team how it may be used; the identifier only tells the team what
+object is being discussed.
+
+## Automation follows evidence, not optimism
+
+Automation is allowed only after manual ownership and evidence prerequisites
+are explicit. Regression tests, scenario comparison, canary rollout, alias
+switching, fallback routing, feedback-to-curation, and retirement workflows
+need:
+
+- trigger and owner;
+- evidence references and accepted-when condition;
+- threshold or stop condition;
+- rollback or manual override owner;
+- exception route; and
+- validation reference.
+
+Automating an unclear lifecycle does not make it controlled; it makes the
+mistake repeat faster.
+
+## Failure modes to call out
+
+| Failure mode | Why it breaks the lifecycle |
+|---|---|
+| Unversioned prompt or retrieval change | The candidate cannot be reconstructed or compared to baseline. |
+| Model alias moved without switch authority | Traffic changes outside the approved release/change boundary. |
+| Canary without stop condition | The rollout has no defined moment to hold, roll back, or fall back. |
+| Fallback target not reviewed | Incident response may shift users to an unsupported or unsafe route. |
+| Evaluation threshold changed without owner | A score becomes a moving target instead of a customer risk decision. |
+| Feedback mutates prompts or data directly | Production observations bypass privacy, quality, evaluation, and release gates. |
+| Monitoring signal cannot inform rollback | Operations can observe a problem but cannot execute a controlled decision. |
+| Retirement lacks dependency check | Removing an artifact may break hidden consumers or rollback paths. |
+| Automation enabled before manual evidence exists | The pipeline executes policy that no owner has accepted. |
 
 ## Handoffs preserve accountability
 
-- **Data governance** owns privacy, retention, and compliance decisions.
-- **Agent engineering** owns initial implementation-path and model selection/admission.
-- **Evaluation** owns evaluation and release-assurance evidence.
-- **Operations** owns production monitoring, incident operation, capacity, and FinOps.
-- **LLMOps** connects the lifecycle, sets stage gates, assigns artifact ownership,
-  and ensures feedback safely informs the next inner-loop iteration.
+- **Data/privacy owner** accepts data use, retention, and feedback curation.
+- **Engineering/experiment owner** accepts candidate artifact lineage.
+- **Evaluation baseline owner** accepts scenario, rubric, threshold, and
+  comparison records.
+- **Platform/change owner** accepts release manifest, environment, alias, and
+  rollout authority.
+- **Operations owner** accepts monitoring, alert, fallback, rollback, and
+  support routes.
+- **LLMOps owner** connects the lifecycle, stage gates, artifact ownership, and
+  automation prerequisites.
+- **Governance owner** records exception, review trigger, and unresolved risk.
 
-A handoff is a required route and Microsoft record location; it only proves
-another team has accepted the next work item.
+A handoff is useful only when the receiving owner accepts a specific work item
+with an acceptance test, target date, evidence location, and review trigger.
