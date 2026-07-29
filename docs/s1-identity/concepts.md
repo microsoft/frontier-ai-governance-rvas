@@ -7,7 +7,7 @@ This page explains why S1 starts with a trusted list, an accountable sponsor, an
 a clear authority boundary for every agent or agent-like workload. Go back to
 [S1 Prepare](index.md) for the run order.
 
-## Every agent needs an owner you can name
+## Every agent needs an identity path you can trace
 
 ![Entra Agent ID links sponsored agent identities to tenant controls, while runtime access controls remain separate.](../assets/diagrams/s1-agent-identity-model.svg)
 
@@ -17,20 +17,36 @@ identity, and an agent user account). The object model isn't the point. The
 point is simple: **every agent needs a human sponsor who is accountable for what
 it does and how long it lives.**[^entra]
 
-That's why the session starts by reviewing a trusted list and naming a sponsor.
-If something goes wrong, you can't respond well unless you can say what your
-list covers, which identity is which agent, who owns the credential or federation
-path, what delegated authority it can use, and how far runtime access reaches.
+That's why the session starts by tracing one pilot identity path, not by filling
+in a generic owner column. If something goes wrong, you can't respond well unless
+you can say what your list covers, which identity is which agent, which host can
+request tokens, who owns the credential or federation path, what delegated
+authority it can use, which actions are denied, which resource scope limits it,
+and how the customer disables and audits it.
 
 An agent identity is more than an app registration: its sponsor and lifecycle
 belong in the governance record.
 
 The implementation path may include a blueprint, blueprint principal, agent
 identity, managed identity, federated credential, app registration, gateway
-record, and target-resource RBAC. S1 keeps those pieces separate. A host
-credential can prove a workload can request a token; it does not prove the agent
-has a sponsor, lifecycle state, delegated authority boundary, or least-privilege
-resource access.
+record, audit/sign-in log, and target-resource RBAC. S1 keeps those pieces
+separate. A host credential can prove a workload can request a token; it does
+not prove the agent has a sponsor, lifecycle state, delegated authority boundary,
+least-privilege resource access, denied-action policy, or emergency disable
+route.
+
+## The practical control map
+
+Use this map when the conversation starts drifting back to abstract ownership.
+
+| Control question | Microsoft surface to inspect | What S1 records |
+|---|---|---|
+| Who is accountable for purpose and lifecycle? | Entra Agent ID, Agent 365, customer control register | Sponsor, lifecycle owner, current state, review trigger, retirement condition. |
+| Which actor is the agent? | Agent identity, app/service principal, customer inventory record | Agent identity reference, coverage limit, authority mode, source status. |
+| Which host can mint or exchange tokens? | Managed identity, federated credential, app registration, service principal | Host identity, issuer/subject or credential owner, revocation route. |
+| Is the agent app-only, OBO, or mixed? | OBO flow records, app permissions, delegated scopes, sign-in/audit logs | Runtime mode, user intent trigger, app-only purpose, prohibited actions. |
+| What can the agent reach? | Azure RBAC, Graph/API permissions, connector permissions, gateway products/routes | Minimum scopes, broad or unknown permissions, denied actions, narrowing backlog. |
+| Can the customer stop and investigate it? | Agent ID state, Conditional Access, RBAC removal, gateway suspension, sign-in/audit/gateway/app logs | Disable owner, incident path, audit correlation evidence, retention owner. |
 
 ## Common patterns S1 records
 
@@ -59,17 +75,35 @@ the pattern that is actually present and the question that remains open:
   sponsor, credential owner, or boundary, S1 records a gap and routes the item to
   review or block; it does not infer missing identity data.
 
+## Concrete failure modes
+
+The workshop should call out unsafe designs plainly:
+
+- **Shared app registration across unrelated agents:** action attribution and
+  lifecycle decisions collapse.
+- **Unmanaged stored secret:** credential rotation, revocation, and incident
+  containment depend on manual hygiene.
+- **Broad Graph/API permission:** app-only authority can exceed the agent's
+  bounded purpose.
+- **OBO without correlation:** logs cannot distinguish user intent, app behavior,
+  and agent action.
+- **Gateway-authenticated but ownerless:** runtime JWT validation exists, but
+  the tenant has no accountable agent sponsor or lifecycle record.
+- **No disable route:** the customer cannot say whether to disable an agent
+  identity, host credential, gateway route, RBAC assignment, or backend access.
+
 ## Findings turn into a short backlog
 
-Keep findings separate from follow-up. A reviewed list can support a sponsor
-decision, lifecycle review, Agent ID or Agent 365 coverage investigation,
-credential rotation or federation recertification, RBAC/OBO follow-up, access
-review, or blocker. Identity creation, access grants, Conditional Access setup,
-and production approval stay in the customer's implementation process.
+Keep findings separate from follow-up. A reviewed identity path can support a
+sponsor decision, lifecycle review, Agent ID or Agent 365 coverage
+investigation, managed identity or federation recertification, RBAC/API/OBO
+follow-up, access review, audit-correlation fix, provisioning automation backlog,
+or blocker. Identity creation, access grants, Conditional Access setup, Graph
+consent, and production approval stay in the customer's implementation process.
 
 The backlog names the sponsor, credential or federation owner, identity/OBO
-review, access-control owner, gateway-authentication dependency, review trigger,
-and S9 reconciliation.
+review, access-control owner, gateway-authentication dependency, audit/disable
+owner, review trigger, and control-plane reconciliation.
 
 The decision path is intentionally small:
 
