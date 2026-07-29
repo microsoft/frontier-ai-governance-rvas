@@ -1,67 +1,114 @@
-# Practical workshop: evaluation gate
+# Practical workshop: evaluation evidence package
 
-**Microsoft default:** Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing where applicable.
+**Microsoft default:** Microsoft Foundry evaluations, agent evaluators, cloud
+evaluation, CI/CD integration, and Azure Load Testing where applicable.
 
-**Customer decision:** Approve, defer, reject, route, or block the evaluation gate for one bounded workload. This is an evidence-readiness and handoff decision only; it is not automatic release approval.
+**Customer decision:** Continue, hold, defer, reject, route, block, or mark
+diagnostic-only for one bounded candidate change. This is an evidence-readiness
+and handoff decision only; it is not automatic release approval.
 
 ## Work the decision
 
-1. **Choose the gate scope.** Select one pilot, prompt flow, agent capability, model version, retrieval change, or backlog item. Name the customer decision owner, evaluation owner, release/hold owner, evidence owner, implementation owner, and approved records location.
-2. **Choose the evaluation route.** Use the smallest route that fits the evidence available:
+1. **Choose the candidate change.** Select one pilot, prompt/instruction,
+   agent capability, model version, retrieval change, tool/API change,
+   policy/control change, deployment alias, or release package. Name the model
+   or agent owner, scenario owner, evaluation owner, threshold owner, evidence
+   owner, release/hold owner, rollback/remediation owner, and approved records
+   location.
+2. **Confirm runtime prerequisite.** If accepted runtime-path evidence exists
+   for the route and environment, reference it safely. If it does not, mark the
+   package diagnostic-only and do not use it for release reliance.
+3. **Build the scenario-set package.** Record scenario-set reference, source,
+   owner, population, sampling method, included and excluded slices, data/tool
+   boundary, environment assumption, reviewer role, time window, and
+   material-change triggers.
+4. **Choose the evaluation route.** Use the smallest route that fits the
+   question and evidence available:
 
 | Route | Use when | Practical decision cue |
 |---|---|---|
-| Foundry evaluator route | Microsoft Foundry evaluations or agent evaluators are configured for the scoped workload | Approve only when scenario set, evaluator names and versions, baseline, thresholds, run reference, and gate owner are recorded. |
-| Manual rubric route | SME review or red-team rubric is the current control | Defer automation until rubric version, sample method, reviewer role, pass/fail rule, adjudication owner, and evidence reference are recorded. |
-| CI/CD gate route | Release pipeline should stop or warn based on evaluation results | Record gate mode, threshold owner, exception owner, release/hold owner, and rollback/handoff path. Do not treat the record as production approval. |
-| Load-test route | Latency, throughput, cost, quota, or regression tolerance affects the decision | Link Azure Load Testing or equivalent customer-approved performance evidence to evaluation acceptance. |
-| Diagnostic-only route | Runtime assurance, telemetry, gateway, or environment prerequisites are missing | Mark the gate diagnostic-only and defer release reliance until runtime/platform prerequisites and evidence owners are named. |
+| Foundry evaluator route | Microsoft Foundry evaluations cover the selected dimension and environment. | Continue only when scenario set, evaluator names and versions, baseline, thresholds, run reference, limitation, and interpretation owner are recorded. |
+| Agent evaluator route | Tool use, task completion, intent resolution, or agent behavior must be reviewed. | Record tool boundary, trace reference, task rubric, unsupported paths, and re-evaluation trigger. |
+| Manual rubric route | SME, domain, policy, legal, or human-review judgment is the current control. | Defer automation until rubric version, sample method, reviewer role, pass/fail rule, adjudication owner, and evidence reference are recorded. |
+| CI/CD gate route | Release pipeline should stop or warn based on evaluation results. | Record gate mode, pipeline identity, threshold owner, exception owner, evidence storage, failure behavior, release/hold owner, and rollback path. |
+| Load-test route | Latency, throughput, cost, quota, saturation, or regression tolerance affects the decision. | Link Azure Load Testing or equivalent customer-approved performance evidence to evaluation acceptance and operating reconciliation. |
+| Diagnostic-only route | Runtime assurance, telemetry, gateway, evaluator support, or environment prerequisites are missing. | Mark the package diagnostic-only and defer release reliance until prerequisites and evidence owners are named. |
 
-3. **Inspect scenario and evaluator coverage.** Record the scenario set, source of scenarios, scenario owner, environment assumption, data/tool boundary, evaluator/scorer names, evaluator version, rubric version, and any unsupported slice. Empty or passing results are not enough unless scope, time window, reviewer, and baseline are recorded.
-4. **Confirm baseline and threshold ownership.** Name the baseline run or score, candidate run, pass/fail thresholds, regression tolerance, threshold owner, and exception owner. If no baseline exists for groundedness, safety, task success, latency, cost, or quality regression, defer with an acceptance test.
-5. **Review gate execution path.** Record whether the gate is Foundry-only, manual review, pipeline check, diagnostic-only, or paired with load testing. Name the release/hold owner and the process that receives exceptions. The workshop may prepare gate evidence; it does not approve production or change tenant policy.
-6. **Record the outcome and handoff.** Approve only when the receiving owner accepts that the evaluation record is complete enough for the next customer process. Otherwise defer, reject, route, or block with owner, target date, evidence reference, and review trigger.
+5. **Confirm baseline and threshold ownership.** Name the baseline run or score,
+   candidate run, comparison rule, selected metrics, pass/fail thresholds,
+   regression tolerance, threshold owner, exception owner, rollback/remediation
+   owner, and re-evaluation criterion.
+6. **Review gate execution path.** Record whether the gate is manual review,
+   blocking CI/CD, warning CI/CD, diagnostic-only, mixed, or not applicable.
+   Name the process that receives exceptions. The workshop may prepare gate
+   evidence; it does not approve production or change tenant policy.
+7. **Map findings to action.** Turn every result into release blocker, accepted
+   exception, diagnostic-only observation, operating hypothesis, engineering
+   backlog, data/retrieval backlog, tool-contract backlog, safety review,
+   rollback option, or repeat-evaluation criterion.
+8. **Record the outcome and handoff.** Continue only when the receiving owner
+   accepts that the evaluation evidence package is complete enough for the next
+   customer process. Otherwise hold, defer, reject, route, block, or mark
+   diagnostic-only with owner, target date, evidence reference, and review
+   trigger.
 
 ## Decision record
 
-Fill this record in the customer-approved records system. Store only safe references here; completed customer evidence remains in customer systems.
+Fill this record in the customer-approved records system. Store only safe
+references here; completed customer evidence remains in customer systems.
 
 | Field | Record |
 |---|---|
-| Work item | Pilot evaluation-gate decision |
-| Gate scope | Workload, capability, model/prompt/retrieval change, environment assumption, and decision owner |
-| Evaluation route | Foundry evaluator, manual rubric, CI/CD gate, load test, diagnostic-only, or mixed route |
-| Scenario set | Scenario-set reference, source, owner, reviewer, time window, and unsupported slices |
-| Evaluator / rubric | Evaluator names, evaluator version, rubric version, scorer configuration reference, and limitation |
-| Baseline and candidate | Baseline run/score reference, candidate run reference, comparison rule, and regression tolerance |
-| Threshold owner | Owner for pass/fail thresholds, threshold changes, and exception criteria |
-| CI/CD gate | Pipeline/check reference, gate mode, evidence requirement, exception path, and receiving release/hold owner |
-| Load test | Performance, latency, quota, cost, or regression evidence reference and owner, when applicable |
-| Runtime/platform dependency | Runtime, telemetry, gateway, environment, or platform prerequisite that limits release reliance |
-| Defer criteria | Missing scenario set, evaluator version, baseline, threshold owner, load-test evidence, runtime prerequisite, release/hold owner, or evidence location |
-| Accepted when | Scenario set, evaluator/rubric version, baseline, threshold owner, evidence reference, exception status, release/hold owner, target date, and handoff are complete |
+| Candidate change | Workload, capability, model/prompt/retrieval/tool/policy/deployment change, environment assumption, lifecycle state, and release question |
+| Runtime prerequisite | Accepted runtime-path evidence reference or diagnostic-only limit |
+| Scenario set | Scenario-set reference, source, owner, population, sampling method, reviewer, time window, data/tool boundary, and unsupported slices |
+| Evaluator / rubric | Foundry evaluator, agent evaluator, manual rubric, CI/CD route, load route, evaluator version, scorer configuration reference, limitation, and fallback |
+| Baseline and candidate | Baseline reference, candidate run reference, comparison rule, selected metrics, and regression tolerance |
+| Threshold and exception | Threshold owner, pass/fail rule, exception owner, expiry, compensating review, and re-evaluation criterion |
+| Gate behavior | Manual, blocking CI/CD, warning CI/CD, mixed, diagnostic-only, or not applicable; pipeline identity, evidence storage, failure behavior, override owner, and release/hold owner |
+| Performance and cost | Workload model, latency targets, throughput, error/saturation, quota/capacity, token cost, fallback/cache, evidence reference, and operating owner |
+| Finding-to-action | Release blocker, accepted exception, diagnostic-only observation, operating hypothesis, backlog item, rollback/remediation, or repeat evaluation |
+| Defer criteria | Missing scenario set, evaluator version, baseline, threshold owner, performance evidence, runtime prerequisite, release/hold owner, rollback route, or evidence location |
+| Accepted when | Runtime prerequisite or diagnostic-only limit, scenario set, evaluator/rubric version, baseline, threshold owner, exception status, release/hold owner, target date, and handoff are complete |
 
 ## Acceptance checks
 
 | Check | Accepted when... | Handoff |
 |---|---|---|
-| Scenario set | scoped scenarios, owner, source, reviewed time window, environment assumption, and excluded slices are recorded | Evaluation owner |
+| Candidate card | scoped change, release question, owners, environment, approved records location, and material-change triggers are recorded | Evaluation owner |
+| Runtime prerequisite | accepted runtime-path evidence is referenced, or diagnostic-only status is explicit | Runtime/platform owner |
+| Scenario set | scoped scenarios, source, owner, sampling method, reviewed time window, environment assumption, and excluded slices are recorded | Scenario owner |
 | Evaluator version | Foundry evaluator, agent evaluator, scorer, or manual rubric version is named with limitation and reviewer | Evaluation owner |
-| Threshold owner | pass/fail thresholds, regression tolerance, and exception criteria have an accountable owner | Product/evaluation owner |
-| Baseline | baseline and candidate references exist for quality, safety, groundedness, task success, latency, or other selected metrics | Model/agent owner |
-| CI/CD gate | gate mode, release/hold owner, exception owner, and pipeline evidence reference are recorded without claiming automatic release approval | Release owner |
-| Load test | performance evidence owner and acceptance rule are recorded when latency, quota, throughput, or cost matters | Performance owner |
-| Diagnostic-only path | missing runtime/platform prerequisites are named and the record is not used as release reliance | Runtime/platform owner |
+| Baseline | baseline and candidate references exist for selected quality, safety, groundedness, task success, latency, cost, or regression metrics | Model/agent owner |
+| Threshold owner | pass/fail thresholds, regression tolerance, exception criteria, and re-evaluation rule have an accountable owner | Product/evaluation owner |
+| CI/CD gate | gate mode, release/hold owner, exception owner, failure behavior, override route, and evidence reference are recorded without claiming automatic release approval | Release owner |
+| Load test | performance evidence owner and acceptance rule are recorded when latency, quota, throughput, saturation, or cost matters | Performance owner |
+| Diagnostic-only path | missing prerequisites are named and the record is not used as release reliance | Evaluation owner |
 | Workshop safety | no customer evidence is copied here, no tenant/live-policy change is made, and no runtime-proof or production-approval claim is made | Facilitator |
 
 ## Decision tree
 
-- **Approve readiness** when the Microsoft path fits, evidence references and owners are complete, and the receiving owner accepts the handoff for the next customer process.
-- **Defer** when records, scenario coverage, evaluator version, baseline, thresholds, load-test evidence, or owners are missing. Include owner, target date, acceptance test, and review trigger.
-- **Reject** when the scoped evaluation path cannot meet the bounded question safely.
-- **Route** when release engineering, product, security, runtime assurance, platform, legal/compliance, or an exception owner must decide first.
-- **Block** when missing approved records location, owner, access, runtime/platform prerequisite, or scope clarity prevents a decision.
+- **Continue** when the Microsoft path fits, runtime prerequisite is accepted,
+  scenario/evaluator/baseline/threshold records are complete, and the release
+  owner accepts the handoff for the next customer process.
+- **Hold** when the evidence package shows a release blocker, unacceptable
+  regression, missing rollback route, unsafe finding, or threshold failure.
+- **Defer** when records, scenario coverage, evaluator version, baseline,
+  thresholds, performance evidence, or owners are missing but can be completed.
+- **Reject** when the scoped evaluation path cannot meet the bounded question
+  safely.
+- **Route** when release engineering, product, security, runtime/platform,
+  legal/compliance, performance, or an exception owner must decide first.
+- **Block** when missing approved records location, owner, access, runtime
+  prerequisite, evaluator support, or scope clarity prevents a decision.
+- **Diagnostic-only** when the package can inform backlog but cannot support
+  release reliance.
 
-For an exception, record: reason, affected scenario, unsupported evaluator or gate, equivalent customer-owned control if one exists, owner, evidence location reference, acceptance test, target date, receiving owner, and review trigger.
+For an exception, record: reason, affected scenario, unsupported evaluator or
+gate, equivalent customer-owned control if one exists, owner, evidence location
+reference, acceptance test, target date, receiving owner, expiry, and review
+trigger.
 
-**Boundary:** Keep customer data and evidence in customer-approved systems; store references only. This workshop changes no tenant policy, proves no runtime enforcement, and does not approve production.
+**Boundary:** Keep customer data and evidence in customer-approved systems; store
+references only. This workshop changes no tenant policy, configures no
+evaluator, proves no runtime enforcement, and does not approve production.

@@ -1,72 +1,104 @@
 # S7 · Evaluation & Assurance
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-15 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).
+    Last reviewed: 2026-07-24 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).
 
 <span class="rvas-badge rvas-persona">AI developer / maker</span> <span class="rvas-badge rvas-persona">Governance lead</span>
 
 ## 1. Outcome & what the customer keeps
 
-By the end of this session the customer can decide whether the pilot can keep moving, based on accepted runtime-control evidence and a referenced Foundry evaluation plan whose current availability and scope are verified.
+By the end of this session the customer can decide whether one bounded candidate
+change can continue toward the next release process. The decision is based on an
+evaluation evidence package: accepted runtime-path evidence, a versioned
+scenario set, a suitable evaluator or rubric, baseline comparison, customer-owned
+thresholds, gate behavior, performance or cost evidence where relevant, and a
+named release/hold owner.
 
 They leave with:
 
-- The accepted runtime-control evidence reference, including the owner and reviewer decision.
-- A reference to the customer's Microsoft Foundry evaluations or agent evaluator plan, with current availability and scope verified.
-- A technical decision record reference for the selected evaluation approach, release-gate mechanism, and performance-evidence path.
-- A release sign-off record that says `continue` or `hold`, names the decision owner, and records the next action.
+- An **evaluation candidate card** for the workload, capability, change type,
+  release question, owners, environment, lifecycle state, and approved records
+  location.
+- A **runtime-prerequisite statement** that either references accepted
+  runtime-path evidence or marks the work diagnostic-only.
+- A **scenario-set package** with source, owner, population, sampling method,
+  included and excluded slices, data/tool boundary, reviewer role, time window,
+  and material-change triggers.
+- An **evaluator/rubric package** covering Microsoft Foundry evaluations, agent
+  evaluators, manual rubric/scorer review, CI/CD cloud evaluation, load testing,
+  or diagnostic-only status.
+- A **baseline, threshold, and exception model** with comparison rule, selected
+  metrics, regression tolerance, threshold owner, exception owner, and
+  re-evaluation criterion.
+- A **finding-to-action map** that turns results into release blocker, accepted
+  exception, diagnostic-only observation, operating hypothesis, or backlog item.
+- A **release-readiness handoff** that says `continue`, `hold`, `defer`,
+  `reject`, `route`, `block`, or `diagnostic-only`, names the owner, and records
+  the next action.
 
 `labs/s7-evaluation/` holds the single-file work package and required
 decision-record template. Shared helpers, when needed, live under
-`labs/helpers/`. The kit does **not** hold live evaluators, prompt data,
-scores, CI/CD gates, telemetry, or customer records.
+`labs/helpers/`. The kit does **not** hold live evaluators, prompt data, model
+outputs, scores, datasets, CI/CD gates, telemetry, customer records, or release
+approvals.
 
 ### What happens next
 
-**Next customer action:** give the evaluation, threshold, release, or rollback
-work to the named assurance and engineering owners before any release decision
-progresses.
+**Next customer action:** give the completed evaluation evidence package and
+backlog to the named evaluation, engineering, release/change, performance, or
+rollback owner before any release decision progresses.
 
 ### Plain decision and default path
 
-**Decision question:** *Approve, defer, reject, or route this bounded
-evaluation, release-evidence, and performance-evidence plan?* Approval only
-accepts the evidence plan and handoff; it does not approve a customer-system
-change or production release.
+**Decision question:** *Can this specific change continue toward the next
+customer release process, or must it hold because the scenario set, evaluator,
+baseline, threshold, runtime prerequisite, performance evidence, rollback route,
+or release owner is not ready?*
 
 The default is Microsoft Foundry evaluations or agent evaluators where their
-current support, region, and scope fit, with accepted runtime-control evidence
-and a customer-owned human decision. Use manual scoring, policy scenarios, another
-test service, or an explicit gap only when Foundry support, evaluation fit,
-data handling, or coverage does not fit. Record the exception owner, reason,
-compensating review, target date, and re-entry criteria. Verify current service
-status before use.
+current support, region, and scope fit, paired with customer-owned human
+interpretation and accepted runtime-path evidence. Use manual scoring, policy
+scenarios, CI/CD cloud evaluation, load testing, another approved test service,
+or an explicit diagnostic-only gap when Foundry support, evaluator fit, data
+handling, automation maturity, performance needs, or coverage does not fit.
 
-S7 produces an evaluation and release-sign-off backlog. The recommendation says
-whether to approve, defer, reject, or route release-progress work. It names the owner
-for the Foundry evaluation target, evaluator or scorecard, dataset, trace source,
-threshold, CI/CD or release process, rollback route, adversarial-testing work,
-or operating review, after current product and feature status are verified.
+S7 prepares release-readiness evidence. It does not approve production, change a
+pipeline, configure Foundry, set thresholds for the customer, run load tests, or
+claim runtime enforcement.
 
 ## 2. Prerequisites
 
-- A runtime-control evidence manifest conforming to [`gateway-proof.schema.json`](../../contracts/gateway-proof.schema.json) with `result: "pass"`.
-- Customer platform and security reviewers who accepted the runtime-control evidence after telemetry correlation.
-- A named assurance owner and an approved customer records system.
-- A customer-owned evaluation-plan reference, usually for Microsoft Foundry evaluations or agent evaluators after current availability and scope are verified.
+- A bounded candidate change: model, prompt/instruction, retrieval source,
+  tool/API, policy/control, orchestration, deployment alias, or release package.
+- A named evaluation owner, model/agent owner, scenario owner, threshold owner,
+  evidence owner, and release/hold owner.
+- An approved customer records system for safe references.
+- Accepted runtime-path evidence when the evaluation will be used for release
+  reliance. If that condition is missing, scope the work as diagnostic-only.
+- A customer-owned evaluation-plan reference, usually for Microsoft Foundry
+  evaluations or agent evaluators after current availability and scope are
+  verified.
 
 ## 3. Why this session matters
 
-A release sign-off needs two things: proof that the runtime path is controlled, and a clear evaluation plan for the behavior you care about. S7 ties those records together.
+A score is not a decision. A release-readiness package needs to say which
+scenario set was tested, what changed, what baseline it was compared with, who
+owns the threshold, which unsupported slices remain, what happens on failure,
+and who can continue or hold the change.
 
-Foundry evaluations and agent evaluators can help the customer test quality, safety, groundedness, and tool use where current availability and scope are verified. They inform the decision. They do not replace accepted runtime-control evidence.
+Foundry evaluations and agent evaluators can help the customer test quality,
+safety, groundedness, tool use, task adherence, and regression where current
+availability and scope are verified. They inform the decision. They do not
+replace accepted runtime-path evidence or the customer's release process.
 
-Read the [S7 Concepts](concepts.md) for the boundary between evaluation results and the release decision.
+Read the [S7 Concepts](concepts.md) for the boundary between evaluation
+evidence, diagnostic-only evidence, and release reliance.
 
 ## 4. Rollback and handoff
 
-S7 changes no evaluator, agent, or CI/CD gate. The customer can record a
-deferral or replace its decision through its own change and evidence process.
-Handoff names any adversarial-testing or operating-review gaps, evidence
-references, thresholds, owners, and review cadence. The completed handoff
-remains customer owned.
+S7 changes no evaluator, agent, model deployment, data source, CI/CD gate,
+threshold, or release policy. The customer can record a deferral or replace its
+decision through its own change and evidence process. Handoff names the
+scenario, evaluator, threshold, rollback/remediation owner, release/hold owner,
+evidence references, review cadence, and material-change triggers. The completed
+handoff remains customer owned.

@@ -1,72 +1,168 @@
-# S7 · Evaluation
+# S7 · Evaluation & Assurance
 
 **Facilitator deck**
 
-Microsoft default: **Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing where applicable**.
+Microsoft default: **Microsoft Foundry evaluations, agent evaluators, cloud
+evaluation, CI/CD integration, and Azure Load Testing where applicable**.
 
-Concrete decision: **Approve, defer, reject, or route the evaluation gate.**
-
----
-
-## Start with the Microsoft path
-
-- Default control path: Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing where applicable.
-- Customer inspects: Inspect the Foundry evaluation plan, agent evaluator selection, cloud evaluation record, CI/CD gate, and Azure Load Testing need.
-- Decision owner: Evaluation owner.
-
-Note:
-Open with the default platform path and the decision the customer must make.
+Concrete decision: **continue, hold, defer, reject, route, block, or mark
+diagnostic-only for one candidate change.**
 
 ---
 
-## Decide with platform records
+## 1. Evaluation evidence, not release approval
 
-- Approve when the Microsoft path fits and the acceptance test is clear.
-- Defer when a required record or owner is missing.
-- Reject when the use case cannot meet the control path.
-- Route when an exception owner must accept an equivalent control.
+- S7 builds an evaluation evidence package.
+- The package informs the customer's release process.
+- It does not approve production, change a pipeline, configure Foundry, set
+  thresholds, or prove runtime enforcement.
 
 Note:
-Keep the discussion on records, owners, and acceptance tests.
+Open by breaking the old gate framing. The artifact is evidence for a customer
+release decision.
 
 ---
 
-## Acceptance test
+## 2. Start with one candidate change
 
-The decision is ready when the record names:
-
-- Microsoft control path
-- Owner
-- Evidence location
-- Accepted-when condition
-- Target date
-- Handoff: Release engineering
+- Workload and capability.
+- Model, prompt, retrieval, tool/API, policy, deployment alias, or release
+  package change.
+- Release question: what would continue, hold, or roll back?
+- Owners: model/agent, scenario, evaluation, threshold, evidence, release/hold,
+  rollback.
 
 Note:
-The acceptance test should be observable by the team that receives the handoff.
+Keep the room on one concrete change. Do not let the session become a generic
+quality framework discussion.
 
 ---
 
-## Exception, if any
+## 3. Runtime-path acceptance before release reliance
 
-An exception needs:
-
-- Reason and equivalent control
-- Owner and evidence location
-- Acceptance test and target date
-- Review trigger
+- If accepted runtime-path evidence exists, reference it safely.
+- If it is missing, the evaluation can still be useful.
+- Missing runtime prerequisite means **diagnostic-only**, not release reliance.
 
 Note:
-Use an exception for a documented equivalent control with an owner and review trigger.
+This protects the boundary between evaluator results and actual reviewed runtime
+control evidence.
 
 ---
 
-## Close the session
+## 4. Scenario set is the unit of evidence
 
-- Decision: approve, defer, reject, or route.
-- Decision owner: Evaluation owner.
-- Handoff: Release engineering.
-- Boundary: customer data stays in approved systems; production changes use customer change approval.
+- Scenario-set reference and owner.
+- Source, population, sampling method, included slices, excluded slices.
+- Data/tool boundary, environment assumption, reviewer role, time window.
+- Material-change triggers.
 
 Note:
-End with the decision record and the named handoff.
+Ask "what did this scenario set actually represent?" before looking at scores.
+
+---
+
+## 5. Evaluator and rubric route comparison
+
+- Foundry evaluator where supported.
+- Agent evaluator for task, intent, tool-use, or agent behavior.
+- Manual rubric or SME scorer for domain/policy judgment.
+- CI/CD cloud evaluation when release automation is mature.
+- Load/performance route when latency, quota, saturation, or cost matters.
+- Diagnostic-only when prerequisites are missing.
+
+Note:
+Make the route choice explicit. Different routes produce different evidence
+packages and limitations.
+
+---
+
+## 6. Baseline and candidate comparison
+
+- Baseline run, score, or accepted behavior reference.
+- Candidate run/reference tied to the exact change.
+- Comparison rule and selected metrics.
+- Regression tolerance and re-evaluation criterion.
+
+Note:
+Without a baseline, the team is staring at a number with no release meaning.
+
+---
+
+## 7. Thresholds and exceptions are customer decisions
+
+- Foundry and evaluator outputs inform thresholds.
+- They do not set thresholds or accept risk.
+- Record threshold owner, exception owner, expiry, compensating review, and
+  override route.
+
+Note:
+Keep the customer owner visible. An evaluator default is not a risk decision.
+
+---
+
+## 8. CI/CD gate behavior and override route
+
+- Manual review, blocking CI/CD, warning CI/CD, mixed, diagnostic-only, or not
+  applicable.
+- Pipeline identity and secretless route.
+- Evidence storage and raw prompt/output handling boundary.
+- Failure behavior, override owner, rollback/remediation owner.
+
+Note:
+The workshop may prepare a gate record. It does not turn on a gate or approve
+release.
+
+---
+
+## 9. Performance and cost evidence
+
+- Workload model and concurrency.
+- First-token/TTFB, inter-token, end-to-end p50/p95/p99.
+- Throughput, errors, saturation, quota/PTU/capacity.
+- Token cost, cache/fallback behavior, operating reconciliation owner.
+
+Note:
+Performance misses are release-readiness findings, not side notes.
+
+---
+
+## 10. Finding-to-action map
+
+- Low groundedness -> retrieval, source, or prompt backlog.
+- Unsafe result -> safety review, threshold review, or runtime-control backlog.
+- Tool-call error -> tool contract, parameter, or authority backlog.
+- Regression -> change-owner review, rollback option, repeat evaluation.
+- Latency/cost miss -> operating, quota, budget, or capacity hypothesis.
+
+Note:
+Every finding needs an owner and closure evidence. Scores without actions are
+noise.
+
+---
+
+## 11. Diagnostic-only and hard stops
+
+- No accepted runtime-path evidence for release reliance.
+- No scenario owner or baseline.
+- No threshold owner.
+- Unsupported evaluator used as sole production gate.
+- Aggregate score hides failed high-risk slices.
+- No release/hold owner, rollback route, or approved records location.
+
+Note:
+These are not presentation details; they determine whether the package can be
+used.
+
+---
+
+## 12. Close with the artifact
+
+- Decision: continue, hold, defer, reject, route, block, or diagnostic-only.
+- Evidence package: candidate card, scenario set, evaluator/rubric, baseline,
+  thresholds, gate behavior, performance/cost, findings, handoff.
+- Boundary: customer evidence stays in approved systems; production changes use
+  customer change approval.
+
+Note:
+End with a handoff the receiving owner can act on.
