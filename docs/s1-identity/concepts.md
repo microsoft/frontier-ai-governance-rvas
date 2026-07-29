@@ -25,6 +25,13 @@ path, what delegated authority it can use, and how far runtime access reaches.
 An agent identity is more than an app registration: its sponsor and lifecycle
 belong in the governance record.
 
+The implementation path may include a blueprint, blueprint principal, agent
+identity, managed identity, federated credential, app registration, gateway
+record, and target-resource RBAC. S1 keeps those pieces separate. A host
+credential can prove a workload can request a token; it does not prove the agent
+has a sponsor, lifecycle state, delegated authority boundary, or least-privilege
+resource access.
+
 ## Common patterns S1 records
 
 S1 does not assume every agent has the same identity shape. The review records
@@ -41,6 +48,10 @@ the pattern that is actually present and the question that remains open:
 - **Delegated or OBO authority:** an agent may act for a user or workflow. Record
   where consent, OBO, sign-in, or audit telemetry will be reviewed, and treat that
   telemetry as authority evidence, not as the agent inventory.
+- **Autonomous or app-only authority:** an agent may run without a user context.
+  Record the sponsor, non-secret credential or federation path, app-only scopes,
+  denied actions, and the disable route. Do not reuse a delegated-user decision
+  as app-only approval.
 - **Gateway-mediated access:** a gateway or API Management policy may validate a
   token and limit runtime API access. Record the boundary and gateway owner, but
   keep it separate from tenant identity sponsorship.

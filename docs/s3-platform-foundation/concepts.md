@@ -88,6 +88,13 @@ cannot identify whether the intended pattern is public access with restrictions,
 managed network isolation, bring-your-own VNet, or a hybrid path. Record the
 hosting pattern as undecided and route it to architecture or network ownership.
 
+For Azure platform routes, "private" usually has several separate records:
+private endpoint placement, private DNS resolution, VNet or managed network
+integration, subnet segmentation, NSG or firewall policy, route propagation, and
+monitoring. S3 should record which of those records exists, who owns each one,
+and which later session can rely on it. A single architecture diagram, endpoint
+URL, or resource name is not enough to accept the private-route assumption.
+
 ## Hybrid dependencies widen the review boundary
 
 A hybrid dependency spans more than one operational environment or connects to an externally managed service. It can add separate identity, routing, logging, retention, and incident-response obligations.

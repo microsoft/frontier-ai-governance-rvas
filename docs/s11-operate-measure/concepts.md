@@ -88,6 +88,18 @@ Application Insights, Security/SOC records, release scorecards, cost-management
 views, and FinOps Toolkit outputs. S11 records references and limits, not raw
 telemetry or a dashboard.
 
+For an end-to-end agent route, the useful review path often crosses gateway,
+orchestration, execution host, tool or data service, and monitoring records. The
+review should name the common correlation method, such as a trace header,
+Application Insights operation identifier, gateway request identifier, run
+identifier, or documented time-window join. If the join method is missing, the
+result is a coverage gap, not an operating conclusion.
+
+Alerting needs the same discipline. A blocked prompt, quota breach, high token
+count, dependency error, failed identity exchange, or unexpected egress signal is
+actionable only when the record names the population, threshold owner, action
+group or SOC route, suppression rule, and validation method.
+
 ## Operating review becomes a work list
 
 The S11 recommendation should turn the review design into owned operating work.
@@ -113,6 +125,11 @@ a control, or close a finding without validation.
 
 Logs, metrics, traces, and alerts show different parts of AI behavior. They help
 only when population, sampling, retention, and interpretation owner are known.
+
+If the customer exports telemetry to a SIEM or external observability platform,
+record the source workspace, Event Hub or export mechanism, collector/function,
+destination owner, retry/failure behavior, retention, and sensitive-data handling
+boundary. An export design is not evidence that every event arrived.
 
 See the [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md)
 for Azure Monitor, Application Insights, Log Analytics, Purview Audit, and

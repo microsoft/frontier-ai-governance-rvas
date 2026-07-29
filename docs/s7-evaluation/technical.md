@@ -23,11 +23,67 @@ Default to Microsoft Foundry evaluations and agent evaluators where supported, c
 | Release gate | customer release decision using Foundry result references and accepted S6 proof | manual sign-off is required until CI/CD automation is governed |
 | Performance evidence | Azure Load Testing plus Application Insights/Azure Monitor/Foundry traces | production telemetry only when pre-release test is not required |
 
+### Evaluation dimension matrix
+
+Select only the dimensions that match the scenario and the release question.
+Each dimension needs a population, dataset or scenario version, evaluator or
+rubric version, threshold owner, interpretation owner, and unsupported-coverage
+statement.
+
+| Dimension | What it asks | Candidate evidence |
+|---|---|---|
+| Quality and relevance | Does the answer meet the task, audience, and response-quality rubric for the selected scenarios? | Foundry evaluation, manual scorer, rubric review, regression comparison. |
+| Groundedness | Is the answer supported by the provided context or source material? | Groundedness evaluator or manual citation/source review; S2 data-source scope. |
+| Context relevance | Did retrieval or tool output supply relevant context for the task? | RAG/context evaluator, retrieval trace, tool output review. |
+| Safety and harmful content | Does tested behavior meet the selected safety policy and severity threshold? | Foundry safety evaluation, Content Safety result reference, manual review, S6 runtime-control caveat. |
+| Prompt-injection resilience | Does the agent resist direct or indirect manipulation in the authorized test set? | Prompt Shields result reference, S8 authorized test result, PyRIT/manual red-team evidence. |
+| PII and sensitive data handling | Does the flow avoid exposing prohibited or excessive data in prompts, tool outputs, responses, and logs? | PII/sensitive data review, DLP/Purview reference, manual sample review. |
+| Protected material | Does generated text or code avoid protected material concerns for the selected scenarios? | Protected-material detection reference, manual review, legal/compliance route where required. |
+| Tool use and task adherence | Does the agent call approved tools with correct parameters and stop when outside authority? | Agent evaluator, trace review, tool-call accuracy rubric, S5/S10 boundary reference. |
+| Regression | Did a model, prompt, tool, data, or policy change preserve accepted baseline behavior? | Before/after evaluation run, versioned dataset, threshold-change record. |
+| Performance and cost | Does the release meet latency, throughput, error, saturation, and token-cost expectations? | Synthetic load result, trace metrics, quota/capacity record, S11 reconciliation route. |
+
+Do not use a preview-only evaluator as the sole automated production gate. If a
+needed evaluator is preview, unsupported, or unavailable in the tenant, pair it
+with a GA evaluator or a customer-owned manual review and record the limitation.
+
+### CI/CD evaluation backlog pattern
+
+If the release process can consume evaluation results, record the automation
+decision before relying on it:
+
+| Field | Record |
+|---|---|
+| Trigger | Pull request, prompt/model change, tool/API change, scheduled regression, or release candidate. |
+| Identity and secrets | Pipeline identity, federation/managed identity route, secretless design or exception owner. |
+| Inputs | Dataset/scenario version, evaluator/rubric version, model or prompt version, tool/API version. |
+| Thresholds | Metric, threshold owner, change route, failure behavior, override/exception owner. |
+| Evidence | Run reference, storage location, retention owner, raw prompt/output handling boundary. |
+| Release behavior | Continue, hold, require human review, rollback route, remediation owner. |
+
+### Evaluation-to-control handoff
+
+Evaluation results should produce an owned decision or backlog item. Use this
+mapping to avoid leaving scores without an operational owner.
+
+| Finding type | Typical technical cause to investigate | Route |
+|---|---|---|
+| Low groundedness | Retrieval scope, missing context, stale source, prompt assembly, unsupported user request. | S4 agent engineering, S2 data owner, S11 drift review. |
+| Unsafe or blocked content | Threshold too strict/loose, prompt injection, unsafe source material, missing gateway/model control. | S6 runtime safety, S8 authorized testing, SOC route if malicious. |
+| Tool-call inaccuracy | Tool schema ambiguity, missing allow-list, wrong parameter mapping, overbroad tool authority. | S5 publication, S10 in-process policy, S4 engineering. |
+| Task failure | Agent plan, model capability, missing tool, latency timeout, dependency failure. | S4 engineering, S11 operating/performance owner. |
+| Regression after change | Model version, prompt/system instruction, tool/API version, dataset drift, guardrail change. | Release/change owner, S12 LLMOps, S13 portfolio if systemic. |
+| Latency or cost miss | Token budget, model choice, PTU/capacity, cache behavior, tool latency, retry/failover. | S11 operating/FinOps and platform capacity owner. |
+
+For each finding, record whether the result is a release blocker, accepted
+exception, diagnostic-only observation, or operating hypothesis. Include the
+validation reference needed to close remediation.
+
 ## Platform checks
 
 | Check | Microsoft product/control record |
 |---|---|
-| Evaluation | Foundry evaluation run, evaluator/agent evaluator version, dataset/scenario version, rubric record |
+| Evaluation | Foundry evaluation run, evaluator/agent evaluator version, dataset/scenario version, rubric record, unsupported evaluator caveat |
 | Runtime prerequisite | accepted S6 gateway/app correlation record and route coverage |
 | CI/CD | pipeline run, identity/secret design, threshold owner, audit trail, rollback route |
 | Performance | Azure Load Testing run, Foundry traces, Application Insights/Azure Monitor metrics, quota/PTU/capacity record |

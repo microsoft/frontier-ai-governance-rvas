@@ -23,6 +23,13 @@ use, regression, human review, or unsupported scope. Keep completed records in
 the customer evidence system; do not store raw prompts, outputs, telemetry,
 credentials, or evaluator evidence here.[^foundry-eval]
 
+Evaluation dimensions should be chosen because they answer the release question,
+not because a product exposes a score. Groundedness, context relevance, protected
+material, PII handling, harmful content, prompt-injection resilience, tool-call
+accuracy, task adherence, latency, cost, and regression can all require separate
+evidence. A single aggregate score hides too much to support an assurance
+decision.
+
 ## Agent evaluators answer specific questions
 
 Agent evaluators do not produce one universal quality answer. The plan should name the scenario, version, population, evaluator, and limit for each question.
@@ -40,6 +47,11 @@ Agent evaluators do not produce one universal quality answer. The plan should na
 A threshold needs an owner, a baseline, a population limit, a regression response, and a decision route. Foundry evaluators can inform the threshold where available. They do not set it or approve it.
 
 Manual annotation and customer scorers are also valid options. Policy-specific guidance such as ASSERT stays contextual and needs current status verification.
+
+Preview or tenant-limited evaluators need an explicit fallback. Do not use a
+preview-only evaluator as the only automated production gate; pair it with a
+generally available evaluator or customer-owned manual review when the decision
+affects release.
 
 ## Synthetic load testing is pre-release performance assurance
 

@@ -22,12 +22,83 @@ Default to Entra-authenticated Azure API Management AI Gateway or approved custo
 | Threat response | Defender for Cloud, Defender XDR, Microsoft Sentinel, SOC playbooks | customer SIEM/SOC is authoritative and can ingest the signal |
 | Correlation proof | Entra/JWT identity + gateway correlation ID + Application Insights/Azure Monitor record | app correlation is the control of record and gateway claim is not made |
 
+### Runtime guardrail taxonomy
+
+Use this taxonomy to decide where each risk is inspected and which owner accepts
+the action. Product names are not proof of coverage; each row needs a route,
+owner, correlation method, and feature-availability caveat.
+
+| Risk | Typical inspection points | Candidate controls | Action to record |
+|---|---|---|---|
+| Hallucination or unsupported answer | Model output, RAG context, final response, sampled production evaluation | Groundedness checks, evaluators, human review, source citation policy | Annotate, block, route to S7 evaluation, or open operating-review hypothesis. |
+| Direct prompt injection | User input, gateway policy, model input | Prompt Shields, gateway content-safety policy, app-side prompt validation | Block, annotate, log, escalate to SOC or safety reviewer. |
+| Indirect prompt injection | Retrieved documents, tool responses, connector output, model input | Prompt Shields for indirect attacks, tool-response scanning, allow-list/source review | Block tool response, quarantine source, require human review, route to S5/S10. |
+| PII or sensitive data leakage | Prompt, retrieval context, tool response, model output, logs | Data classification, masking, PII detection, DLP, retention controls | Block, redact, annotate, route to S2 records/compliance owner. |
+| Harmful content | User input, model output, final response | Azure AI Content Safety, Foundry content filtering, gateway moderation | Block, annotate, log, escalate according to severity. |
+| Protected material | Model output, code/text generation, release evidence | Protected-material detection, manual review, policy-specific evaluator | Block, hold release, route to S7 or legal/compliance process. |
+| Tool abuse or off-task action | Tool call, tool parameters, tool response, local execution boundary | Tool call inspection, task-adherence checks, allow-list, in-process policy, least-privilege API scopes | Deny call, require approval, log, route to S5/S10. |
+| Cost or availability abuse | Gateway request, model call, token metrics, backend saturation | Token quota, rate limit, circuit breaker, budget alert, model backend failover | Throttle, reject, fail over, alert S11 operating/FinOps owner. |
+| Unauthorized access | Gateway, backend, data service, identity provider | JWT validation, managed identity, RBAC, Conditional Access, private route | Deny closed, log, route to S1/S3/SOC owner. |
+
+### Control placement and diagnostic boundary
+
+The same safety engine can appear in several places. Record where the customer
+expects it to operate and what later proof would show.
+
+| Placement | What it can show | What it cannot show by itself |
+|---|---|---|
+| APIM AI Gateway policy | The approved gateway route can apply caller auth, quota, prompt/response safety, metrics, logging, and backend routing. | That every caller used the route, that downstream tool behavior was safe, or that model-native filters ran. |
+| Azure AI Content Safety direct API | A component can classify a sample for configured categories or Prompt Shields behavior. | Gateway enforcement, approved route use, or production control effectiveness. |
+| Foundry model or agent settings | Native model/agent content filtering, Prompt Shields, tool-call or tool-response controls where supported. | Gateway policy execution, caller authorization, or external app/tool coverage. |
+| Application or in-process control | Local prompt assembly, streaming, tool-call, approval, or policy checks invisible to the gateway. | Shared gateway enforcement unless correlated with gateway telemetry. |
+| SOC or posture tool | Security findings, incident routing, posture gaps, and response ownership where enabled. | Request-level policy proof unless tied to a bounded correlation record. |
+
+### Layered guardrail model
+
+Use this model when deciding whether runtime safety coverage is complete enough
+for the reviewed path. Each layer can fail or be bypassed; the record should say
+which next layer contains the risk and how the event is visible.
+
+| Layer | What it controls | Typical failure action | Evidence to route |
+|---|---|---|---|
+| Identity and network | Who can reach the route and whether traffic can bypass approved private/gateway paths. | Deny closed, block route, or route to S1/S3. | Entra sign-in, gateway auth, private route record, NSG/firewall logs. |
+| Gateway | Shared auth, quotas, prompt/response safety, logging, routing, backend resilience. | 403, 429, block/annotate, fallback, or alert. | APIM policy reference, gateway log, correlation ID, token metrics. |
+| Model | Native content filtering, protected material, Prompt Shields, groundedness where available. | Block, annotate, controlled error, or route to S7. | Foundry model/agent safety setting, trace, evaluation reference. |
+| Agent and tools | Tool selection, tool parameters, tool response handling, task adherence, source trust. | Deny call, require approval, quarantine response, route to S5/S10. | Tool-call trace, allow-list, in-process audit, gateway/tool log. |
+| Governance and operations | Alerting, incident route, retention, evaluation, drift review, threshold tuning. | Escalate, hold release, open remediation, update backlog. | S6 acceptance record, S7 evaluation, S11 operating review, SOC ticket. |
+
+### Foundry content-filter intervention points
+
+When Foundry-native controls are part of the design, record which intervention
+points are enabled and which are unavailable or preview for the workload.
+
+| Point | Review question |
+|---|---|
+| User input | Are user prompts inspected before model or agent processing, and how is a blocked prompt represented to the caller? |
+| Tool call | Are proposed tool invocations inspected for off-task or unauthorized behavior before execution? |
+| Tool response | Are retrieved documents, connector outputs, and API responses inspected for indirect injection or unsafe content before reuse? |
+| Output | Are final responses inspected for harmful content, protected material, PII, or unsupported claims before delivery? |
+
+For harmful-content filtering, record the categories, threshold owner, action
+mode, exception path, and review cadence. For groundedness, protected-material,
+PII, tool-call inspection, or task-adherence features, record product status and
+fallback review if the feature is preview or unavailable.
+
+### Runtime-control rollout checklist
+
+| Phase | Minimum technical backlog item | Handoff |
+|---|---|---|
+| Baseline | Enable or record model content-filtering posture, gateway content-safety intent, token limits, logging, and managed identity use where supported. | Platform/security/identity. |
+| Agent guardrails | Record Prompt Shields, indirect-injection coverage, tool-call/tool-response inspection, PII detection, and task-adherence applicability. | Security, agent owner, S5/S10. |
+| Quality and groundedness | Record groundedness, protected material, risk/safety evaluations, and threshold owners. | S7 assurance owner. |
+| Operations | Record alert rules, SOC route, telemetry correlation, threshold review, and monthly or release-based policy review. | S11 operating/SOC owner. |
+
 ## Platform checks
 
 | Check | Microsoft product/control record |
 |---|---|
 | Gateway route | Azure API Management API/product/policy/backend, Entra/JWT validation, correlation ID behavior |
-| Safety controls | Azure AI Content Safety Prompt Shields/configuration, Foundry safety settings where applicable |
+| Safety controls | Azure AI Content Safety Prompt Shields/configuration, Foundry safety settings, gateway safety policy, app/in-process controls where applicable |
 | Posture and detection | Defender for Cloud AI posture, Defender XDR incidents, Sentinel analytic rules/workbooks |
 | Telemetry | Application Insights trace/request, Azure Monitor diagnostic settings, Log Analytics query, retention policy |
 | Response route | SOC queue, severity/SLA rule, incident playbook, escalation owner |

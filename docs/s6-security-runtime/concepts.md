@@ -33,6 +33,25 @@ boundary.[^contentsafety] Gateway policy, identity, scoped tools, data controls,
 telemetry, and human review may also apply. The adapter supplies evidence; it
 does not configure these controls.
 
+The review should separate the risk, the inspection point, and the action. A
+guardrail can inspect user input, gateway traffic, model input, tool calls, tool
+responses, final output, telemetry, or a sampled production record. The action
+may be block, annotate, log, escalate, hold for review, or route to another
+session. If the record says only "Content Safety is enabled," S6 should ask
+where it runs, what it inspects, what it does, who owns the threshold, and how a
+reviewer would find the correlated event.
+
+Keep these distinctions visible:
+
+- Azure AI Content Safety direct tests are diagnostics unless they are tied to
+  the approved gateway or app route.
+- Foundry content filtering or Prompt Shields can be model/agent controls, but
+  they do not prove APIM policy execution.
+- APIM policy can enforce a shared route, but it may not see local prompt
+  assembly, streaming behavior, tool-response context, or in-process approval
+  decisions.
+- Tool-call and tool-response controls are separate from final-response safety.
+
 For delivery, keep five questions separate:
 
 1. Did the request complete?

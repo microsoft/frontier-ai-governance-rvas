@@ -40,6 +40,81 @@ Use this matrix to make S3 decision-oriented. Product names are not proof: each 
 | Registry/API Center | Which APIs, tools, model endpoints, and lifecycle states are cataloged for S9 control-plane reconciliation | Azure API Center API/tool entry, API owner, version/lifecycle status, backend/gateway mapping | API Center unavailable; route not cataloged; owner/version missing | route to S9 control-plane/catalog; record registry gap and release impact |
 | Platform ownership | Who owns each platform backlog item, exception, review date, and support check | platform backlog/ticket, architecture decision record, support matrix link/reference, named owner and target date | no S6/S7/S9 handoff owner; unsupported dependency with no exception owner | defer or reject release recommendation until owner and decision path exist |
 
+### Azure agent platform reference pattern
+
+Use this as a concrete review aid when the customer is planning an Azure-hosted
+agent platform. It is a pattern to compare against customer records, not a
+required design or proof of deployed controls.
+
+| Layer | Review question | Typical records |
+|---|---|---|
+| Entry and governance | Which gateway route mediates inbound callers, model calls, tool calls, quotas, policy checks, and logs? | API Management API/product/policy/backend, API Center entry, gateway owner, exception route. |
+| Orchestration | Which AI platform owns agent definition, model deployment, tool configuration, and native observability? | Foundry project, model deployment, agent record, tool configuration, project owner. |
+| Execution | Which compute host runs custom or external agent code, and which identity does that host use? | App Service, Application Service Environment, Functions, Container Apps, AKS, managed identity or federation record. |
+| Data | Which data services are reachable, through what path, and under which classification? | Cosmos DB, Azure AI Search, Storage, Document Intelligence, data classification, Private Endpoint, data owner. |
+| Identity | Which human, workload, agent, delegated, gateway, and resource identities cross each boundary? | Entra Agent ID/Agent 365, managed identity, app registration, OBO record, RBAC/API permissions. |
+| Observability | How can a reviewer connect gateway, agent, model, tool, data, safety, and cost events? | Application Insights, Azure Monitor, Log Analytics, diagnostic settings, correlation field, retention/export owner. |
+
+For sensitive workloads, also record whether the platform uses managed network
+isolation, bring-your-own VNet, private endpoints, private DNS, firewall or
+route-table controls, and NSG segmentation. If the answer is "planned" or
+"assumed" rather than recorded, route the item as a readiness gap.
+
+### Private network and DNS checklist
+
+Use this checklist to prevent "private" from becoming an unsupported label.
+
+![Private DNS resolution flow showing component, DNS query, private DNS zone, private IP resolution, internal VNet traffic, and target Azure service.](../assets/diagrams/s3-private-dns-resolution-flow.svg)
+
+| Area | Decision to record | Blocker signal |
+|---|---|---|
+| VNet and subnets | Main platform network, orchestration subnet, execution subnet, data private endpoint subnet, platform private endpoint subnet, owner for each segment. | No owner can say where the route starts, terminates, or crosses subnets. |
+| Private endpoints | Which PaaS services require Private Endpoint and public-network disablement; which exceptions are approved. | Data service is sensitive but only public endpoint status or URL is known. |
+| Private DNS | Which private DNS zones are linked to the platform VNet and which owner validates resolution for Azure service FQDNs. | DNS route owner missing, split-horizon behavior unknown, or fallback to public resolution not reviewed. |
+| NSG and egress control | Whether subnets are deny-by-default with explicit APIM, orchestration, execution, data, monitor, and deployment paths. | Generic allow rules, unmanaged Internet egress, or no flow-log owner. |
+| Peering and hybrid routes | Whether peering, gateway transit, route propagation, firewall, proxy, or on-premises routes are allowed for this workload. | The platform inherits routes or trust from a broader network without a recorded exception owner. |
+| Monitoring | Where NSG flow logs, DNS failures, denied traffic, and unexpected public endpoint use are reviewed. | Network telemetry exists but no population, retention, query owner, or alert route is recorded. |
+
+#### Reference subnet model
+
+Use these rows as a review template. Customers may use different names or
+topology; record the actual approved records and owners.
+
+| Segment | Purpose | Typical sizing question | S3 evidence to record |
+|---|---|---|---|
+| Platform VNet | Main network boundary for the agent platform route. | Is the address space large enough for orchestration, execution, private endpoints, and growth? | VNet/subscription/resource-group owner, peering/route owner, approved exceptions. |
+| Orchestration subnet | Hosts or connects the AI orchestration plane where supported. | Does the platform need managed network, BYO VNet, or hybrid connectivity? | Foundry network mode, subnet or managed-network record, route owner. |
+| Execution subnet | Hosts custom app, Function, container, or ASE workloads. | Is the host private-only, and how does it reach gateway, data, and monitor endpoints? | App host, subnet integration, managed identity, NSG, route table. |
+| Data private endpoint subnet | Holds private endpoints for data services. | Are endpoint count and IP allocation sufficient for data dependencies? | Private Endpoint list, data owner, public-network setting, DNS zone link. |
+| Platform private endpoint subnet | Holds endpoints for ACR, monitoring, and platform dependencies. | Are operations endpoints separated from data endpoints where policy requires it? | Endpoint list, platform owner, diagnostic settings, support exceptions. |
+
+#### Private endpoint and DNS reference
+
+| Service category | Typical service | Public FQDN pattern | Private DNS zone to check |
+|---|---|---|---|
+| Data store | Cosmos DB | `*.documents.azure.com` | `privatelink.documents.azure.com` |
+| Search | Azure AI Search | `*.search.windows.net` | `privatelink.search.windows.net` |
+| Storage | Blob Storage | `*.blob.core.windows.net` | `privatelink.blob.core.windows.net` |
+| Document processing | Document Intelligence or cognitive service | `*.cognitiveservices.azure.com` | `privatelink.cognitiveservices.azure.com` |
+| Model endpoint | Azure OpenAI or Foundry-backed endpoint where applicable | `*.openai.azure.com` | `privatelink.openai.azure.com` |
+| Container platform | Azure Container Registry | `*.azurecr.io` | `privatelink.azurecr.io` |
+| Monitoring | Log Analytics / Azure Monitor / Application Insights | service-specific monitor endpoints | approved Azure Monitor private link scope or service-specific private link record |
+
+#### Deny-by-default NSG review pattern
+
+| Source | Destination | Port | Review question |
+|---|---|---|---|
+| Gateway subnet or peered gateway VNet | Orchestration or execution subnet | 443 | Is this the approved inbound route, and are direct bypass routes blocked or recorded? |
+| Orchestration subnet | Execution subnet | 443 | Is agent-to-execution traffic required, authenticated, and logged? |
+| Execution subnet | Orchestration subnet | 443 | Are callbacks or orchestration calls expected and bounded? |
+| Orchestration/execution subnet | Data private endpoint subnet | 443 | Which data services are approved and tied to S2 classification? |
+| Orchestration/execution subnet | Platform private endpoint subnet | 443 | Which monitor, registry, or platform services are required for operations? |
+| Orchestration/execution subnet | Gateway route | 443 | Are model, tool, API, and agent calls forced through the approved gateway where required? |
+| Any | Any | Any | Is the final rule deny-by-default, and are generic allow rules absent or exception-owned? |
+
+Record NSG flow-log enablement, retention, and the reviewer who can distinguish
+expected denied traffic from anomalous exfiltration or lateral-movement attempts.
+
 ## Platform checks
 
 | Check | Microsoft product/control record |
@@ -50,6 +125,7 @@ Use this matrix to make S3 decision-oriented. Product names are not proof: each 
 | Gateway route | Azure API Management API/product/policy/backend record, gateway logs, Citadel accelerator docs if used, customer gateway authority record |
 | Egress/tool path | APIM/backend route, firewall/proxy rule, tool/API allowlist, connector owner, S5 handoff reference |
 | Private connectivity | Private Endpoint, private DNS zone, VNet integration, network security group, route table, firewall records |
+| Network segmentation | VNet/subnet ownership, NSG deny-by-default rule set, flow-log route, peering or route propagation decision |
 | Observability | Azure Monitor, Application Insights, Log Analytics workspace, diagnostic settings, correlation ID plan, query/reviewer owner |
 | Retention/export | log retention setting, approved export/storage route, records-management owner, evidence handling caveat |
 | Registry | Azure API Center API/tool entry, lifecycle owner, version/status, S9 catalog reconciliation owner |
