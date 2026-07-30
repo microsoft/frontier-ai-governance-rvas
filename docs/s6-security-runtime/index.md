@@ -122,3 +122,20 @@ production release follows the customer's approved change and evidence process.
 Release-assurance handoff includes accepted runtime-path evidence and its
 limits. Catalog/control-plane handoff includes the route, owner, version,
 runtime-control exception, material-change triggers, and open blockers.
+
+## 5. Implementation package
+
+For a non-production starting point, use the S6 prompt-firewall implementation
+package in `reference-implementations/s6-prompt-firewall/`. It includes:
+
+- an APIM prompt-firewall policy skeleton in `policies/apim/`;
+- a customer-supplied parameter guide for Content Safety, Prompt Shields, or an
+  equivalent inspection point;
+- Azure Monitor / Log Analytics KQL in `dashboards/azure-monitor/`;
+- Sentinel/SOC response handoff guidance in `playbooks/sentinel/`; and
+- an implementation work package that keeps evidence in the customer's records
+  system.
+
+The package is not a deployed control. Treat it as a reference until the
+customer adapts it to a scoped non-production route, validates correlation and
+telemetry, and approves any live change through its own process.

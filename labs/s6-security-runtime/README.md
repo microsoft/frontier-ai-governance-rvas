@@ -53,9 +53,21 @@ this repository keeps only blank templates and safe field shapes.
 - `templates/decision-record.template.md`
 - `../templates/decision-record.template.md` for the shared short decision
   wrapper when needed.
+- `../../reference-implementations/s6-prompt-firewall/README.md` for the
+  non-production prompt-firewall implementation package.
+- `../../policies/apim/s6-prompt-firewall.policy.xml` and
+  `../../policies/apim/s6-prompt-firewall.parameters.md` for the APIM policy
+  skeleton and customer-supplied parameter guide.
+- `../../dashboards/azure-monitor/s6-runtime-evidence.kql` and
+  `../../dashboards/azure-monitor/s6-runtime-evidence.workbook.md` for
+  correlation-based telemetry review.
+- `../../playbooks/sentinel/s6-prompt-security-response.md` for SOC/manual
+  response handoff guidance.
 
 ## Output
 
 A customer-owned runtime evidence result for one reviewed path. The lab does
 not deploy, configure, grant access, export data, prove production enforcement,
-or approve release.
+or approve release. The implementation package is a non-production reference
+starting point until a customer adapts, tests, approves, and operates it in its
+own environment.

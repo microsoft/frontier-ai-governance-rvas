@@ -241,6 +241,10 @@ use.
 
 ## Related references
 
+- S6 implementation package: `reference-implementations/s6-prompt-firewall/`.
+- APIM policy skeleton: `policies/apim/s6-prompt-firewall.policy.xml`.
+- Runtime evidence query pack: `dashboards/azure-monitor/s6-runtime-evidence.kql`.
+- SOC response skeleton: `playbooks/sentinel/s6-prompt-security-response.md`.
 - [Evaluation technical decisions](../s7-evaluation/technical.md): downstream
   release-assurance inputs.
 - [Operating and measurement decisions](../s10-operate-measure/technical.md):

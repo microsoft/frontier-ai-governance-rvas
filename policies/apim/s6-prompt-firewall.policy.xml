@@ -1,0 +1,149 @@
+<!--
+  S6 prompt firewall policy skeleton.
+
+  Scope: non-production Azure API Management route.
+  Purpose: correlate a request, call a customer-approved prompt inspection
+  endpoint, and return a safe denial when the inspection endpoint reports a
+  block decision.
+
+  This is a reference skeleton. Verify current Azure AI Content Safety /
+  Prompt Shields endpoint shape, payload shape, API version, latency, error
+  handling, and APIM policy compatibility before use.
+
+  Do not commit customer endpoints, credentials, prompts, outputs, telemetry
+  rows, APIM exports, or evidence payloads to this repository.
+-->
+<policies>
+  <inbound>
+    <base />
+
+    <!-- Ensure every request has a correlation value that downstream telemetry can join. -->
+    <set-variable name="s6-correlation-id" value="@{
+      var headerName = &quot;{{correlation-header-name}}&quot;;
+      if (context.Request.Headers.ContainsKey(headerName))
+      {
+        return context.Request.Headers.GetValueOrDefault(headerName, context.RequestId);
+      }
+      return context.RequestId;
+    }" />
+    <set-header name="{{correlation-header-name}}" exists-action="override">
+      <value>@((string)context.Variables["s6-correlation-id"])</value>
+    </set-header>
+
+    <!--
+      Preserve the request body for the backend after the inspection call.
+      Replace the body extraction expression with the customer-approved schema
+      if the gateway receives envelopes, chat messages, streaming requests, or
+      tool-call payloads.
+    -->
+    <set-variable name="s6-request-body" value="@(context.Request.Body.As&lt;string&gt;(preserveContent: true))" />
+
+    <!--
+      Call the customer's prompt inspection endpoint.
+
+      `{{content-safety-url}}` should include the full customer-approved path
+      and API version, for example a Prompt Shields or equivalent inspection
+      endpoint verified before delivery.
+    -->
+    <send-request mode="new"
+                  response-variable-name="s6-content-safety-response"
+                  timeout="{{content-safety-timeout-seconds}}"
+                  ignore-error="true">
+      <set-url>{{content-safety-url}}</set-url>
+      <set-method>POST</set-method>
+      <set-header name="{{content-safety-key-header-name}}" exists-action="override">
+        <value>{{content-safety-key-named-value}}</value>
+      </set-header>
+      <set-header name="{{correlation-header-name}}" exists-action="override">
+        <value>@((string)context.Variables["s6-correlation-id"])</value>
+      </set-header>
+      <set-header name="Content-Type" exists-action="override">
+        <value>application/json</value>
+      </set-header>
+      <set-body template="liquid">
+{
+  "userPrompt": {{body | Json}},
+  "documents": [],
+  "metadata": {
+    "correlationId": "{{context.Variables["s6-correlation-id"]}}",
+    "policy": "s6-prompt-firewall"
+  }
+}
+      </set-body>
+    </send-request>
+
+    <!--
+      Keep the decision extraction customer-owned. The default checks for a
+      simple `attackDetected` marker in the inspection response and should be
+      replaced with the exact response schema selected by the customer.
+    -->
+    <set-variable name="s6-inspection-status" value="@{
+      var response = context.Variables.ContainsKey(&quot;s6-content-safety-response&quot;)
+        ? (IResponse)context.Variables[&quot;s6-content-safety-response&quot;]
+        : null;
+      return response == null ? 0 : response.StatusCode;
+    }" />
+    <set-variable name="s6-inspection-body" value="@{
+      var response = context.Variables.ContainsKey(&quot;s6-content-safety-response&quot;)
+        ? (IResponse)context.Variables[&quot;s6-content-safety-response&quot;]
+        : null;
+      return response == null ? string.Empty : response.Body.As&lt;string&gt;(preserveContent: true);
+    }" />
+    <set-variable name="s6-prompt-firewall-decision" value="@{
+      var body = ((string)context.Variables[&quot;s6-inspection-body&quot;]).ToLowerInvariant();
+      if (body.Contains(&quot;\&quot;attackdetected\&quot;:true&quot;) || body.Contains(&quot;\&quot;block\&quot;:true&quot;))
+      {
+        return &quot;block&quot;;
+      }
+      if (((int)context.Variables[&quot;s6-inspection-status&quot;]) &gt;= 400)
+      {
+        return &quot;diagnostic-only&quot;;
+      }
+      return &quot;allow&quot;;
+    }" />
+
+    <set-header name="x-s6-prompt-firewall-decision" exists-action="override">
+      <value>@((string)context.Variables["s6-prompt-firewall-decision"])</value>
+    </set-header>
+
+    <choose>
+      <when condition="@(((string)context.Variables[&quot;s6-prompt-firewall-decision&quot;]) == &quot;block&quot;)">
+        <return-response>
+          <set-status code="403" reason="Prompt firewall blocked request" />
+          <set-header name="{{correlation-header-name}}" exists-action="override">
+            <value>@((string)context.Variables["s6-correlation-id"])</value>
+          </set-header>
+          <set-header name="x-s6-prompt-firewall-decision" exists-action="override">
+            <value>block</value>
+          </set-header>
+          <set-body>{
+  "error": "Request blocked by the prompt firewall.",
+  "correlationId": "@((string)context.Variables["s6-correlation-id"])",
+  "decision": "block"
+}</set-body>
+        </return-response>
+      </when>
+    </choose>
+  </inbound>
+  <backend>
+    <base />
+  </backend>
+  <outbound>
+    <base />
+    <set-header name="{{correlation-header-name}}" exists-action="override">
+      <value>@((string)context.Variables["s6-correlation-id"])</value>
+    </set-header>
+    <set-header name="x-s6-prompt-firewall-decision" exists-action="override">
+      <value>@((string)context.Variables["s6-prompt-firewall-decision"])</value>
+    </set-header>
+  </outbound>
+  <on-error>
+    <base />
+    <set-header name="{{correlation-header-name}}" exists-action="override">
+      <value>@((string)context.Variables["s6-correlation-id"])</value>
+    </set-header>
+    <set-header name="x-s6-prompt-firewall-decision" exists-action="override">
+      <value>diagnostic-only</value>
+    </set-header>
+  </on-error>
+</policies>
