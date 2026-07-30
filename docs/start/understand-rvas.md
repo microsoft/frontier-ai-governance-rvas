@@ -1,14 +1,18 @@
 # About AI Governance Platform
 
-AI Governance Platform is a co-delivered set of working sessions for deciding
-agent ownership, applicable Microsoft controls, and retained customer evidence.
+AI Governance Platform is a co-delivered operational governance lab for
+Microsoft AI platforms. It helps customers turn AI governance from policy
+intent into owned decisions, implementation work packages, reusable artifacts,
+and retained evidence references.
+
 The facilitator runs the method; customer administrators perform privileged
 actions, and customer owners make decisions and accept risk.
 
 The programme identifies the next platform, security, engineering, or operating
-action; the customer carries it out through its existing processes. See [What
-customers get](customer-journey.md) for the practical path from a decision to
-customer-owned work.
+action and the artifact that supports it: a control record, runbook, dashboard,
+policy, inventory, evaluation plan, or implementation backlog item. The customer
+carries action out through its existing processes. See [What customers get](customer-journey.md)
+for the practical path from a decision to customer-owned work.
 
 ## Why AI-agent governance needs a complete approach
 
@@ -61,10 +65,11 @@ dependencies, and priorities.
 
 ## Evidence and change boundary
 
-The programme records customer-owned decisions and safe references; it does not
-deploy a platform, run controls, store evidence payloads, or approve production
-changes. Templates, samples, offline results, and reference architectures are
-preparation aids, not proof of a production control.
+The programme is operational, but the evidence boundary remains strict. It
+records customer-owned decisions, implementation work packages, and safe
+references; it does not store evidence payloads or approve production changes.
+Templates, samples, offline results, and reference architectures are preparation
+aids, not proof of a production control.
 
 ## Continue with delivery planning
 

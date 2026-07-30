@@ -12,19 +12,19 @@ Facilitators and customer governance, platform, security, identity, data, and AI
 
 ## Product Purpose
 
-AI Governance Platform is a practical S0-S12 curriculum for governing AI agents in enterprise environments. It helps customers turn bounded AI-agent governance questions into clear decisions, named owners, evidence references, and improvement backlog items. Success means the customer leaves each selected session with a durable, customer-owned decision or reference that can be reviewed, implemented, and improved through existing customer processes.
+AI Governance Platform is an operational S0-S12 curriculum for governing AI agents across Microsoft AI platforms. It helps customers turn bounded AI-agent governance questions into clear decisions, named owners, evidence references, reusable artifacts, and implementation work packages. Success means the customer leaves each selected session with a durable, customer-owned output that can be reviewed, implemented, operated, and improved through existing customer processes.
 
 ## Positioning
 
-The product is a co-delivered curriculum that converts AI-agent governance ambiguity into customer-owned decisions, evidence references, owners, and improvement backlog items without claiming production deployment or storing customer evidence. The facilitator runs the method and protects the boundary; customer administrators operate privileged controls, and customer decision owners approve changes and accept risk.
+The product is a co-delivered operational governance lab that converts AI-agent governance ambiguity into customer-owned decisions, evidence references, owners, reusable artifacts, and implementation backlog items without claiming production deployment or storing customer evidence. The facilitator runs the method and protects the boundary; customer administrators operate privileged controls, and customer decision owners approve changes and accept risk.
 
 ## Operating Context
 
-The curriculum is delivered through a static documentation site, per-session runbooks, offline lab kits, safe templates, and workspace-generation tools. It is used around customer working sessions that cover ownership, identity and authority, data governance, platform boundaries, engineering standards, tool/API governance, runtime assurance, evaluation, adversarial testing, control-plane records, in-process governance, operations, LLMOps, and portfolio improvement. Customer implementation, evidence retention, change approval, security operations, architecture, funding, and release decisions remain in the customer's existing processes and records systems.
+The curriculum is delivered through a static documentation site, per-session runbooks, lab kits, safe templates, reference patterns, and workspace-generation tools. It is used around customer working sessions that cover ownership, identity and authority, data governance, platform boundaries, engineering standards, tool/API governance, runtime assurance, evaluation, adversarial testing, control-plane records, in-process governance, operations, LLMOps, and portfolio improvement. Each session should connect the business governance decision to the Microsoft platform control, artifact, dashboard, policy, runbook, or backlog item that moves adoption forward. Customer implementation, evidence retention, change approval, security operations, architecture, funding, and release decisions remain in the customer's existing processes and records systems.
 
 ## Capabilities and Constraints
 
-The repository publishes session guidance, reference material, delivery planning, readiness assessment content, lab templates, shared schemas, source diagrams, and safe offline tooling. Generated customer workspaces store templates and references only. The product must preserve the report-only and customer-owned boundary: do not store customer identifiers, credentials, tenant configuration, exports, logs, screenshots, or evidence payloads in this repository. Templates, samples, mock results, and offline tool output are preparation aids and never prove that a customer control is deployed or operating. Product claims must be backed by official Microsoft sources, and fast-moving preview/GA details require freshness review.
+The repository publishes session guidance, reference material, delivery planning, readiness assessment content, lab templates, shared schemas, source diagrams, and safe offline tooling. Generated customer workspaces store templates and references only. The product must preserve the customer-owned evidence boundary: do not store customer identifiers, credentials, tenant configuration, exports, logs, screenshots, or evidence payloads in this repository. Templates, samples, mock results, and offline tool output are preparation aids and never prove that a customer control is deployed or operating. Product claims must be backed by official Microsoft sources, and fast-moving preview/GA details require freshness review.
 
 ## Brand Commitments
 
@@ -38,7 +38,7 @@ The repository contains public curriculum content in `docs/`, per-session lab ki
 
 1. Keep decision authority with the customer.
 2. Separate preparation artifacts from operating evidence.
-3. Prefer bounded working sessions that end in owners, evidence references, and next decisions.
+3. Prefer bounded working sessions that end in owners, evidence references, reusable artifacts, and next implementation actions.
 4. Treat official Microsoft documentation and explicit freshness review as the source for capability claims.
 5. Preserve safe defaults: report-only, non-production, or documentation-only work until customer approval and evidence paths are present.
 

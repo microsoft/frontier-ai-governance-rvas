@@ -1,7 +1,9 @@
 # AI Governance Platform
 
-AI Governance Platform is a facilitator-led programme for customer decisions on
-agent ownership, data, platform controls, assurance, and operation.
+AI Governance Platform is a facilitator-led operational governance lab for
+Microsoft AI platforms. It helps customer governance, platform, security, and AI
+engineering leaders move from AI policy intent to owned decisions,
+implementation work packages, evidence references, and operating actions.
 
 Start with [About AI Governance Platform](start/understand-rvas.md), then use
 [Plan the engagement](start/plan-engagement.md) to prepare a bounded customer
@@ -10,7 +12,9 @@ decision before the [governance baseline and operating-model workshop](s0-founda
 The work moves from accountability, through technical-path and assurance
 decisions, to operating and portfolio improvement. Customers select only the
 workshops needed for their question; they do not need to follow a fixed
-sequence.
+sequence. Every session should make the next customer change explicit: what
+owner, artifact, policy, dashboard, backlog item, or operating process changes
+after the session.
 
 Use [Facilitate a co-delivery working session](delivery/facilitation-pattern.md)
 for the 90-minute customer-led method. Use the

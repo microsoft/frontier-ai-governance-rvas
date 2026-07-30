@@ -1,11 +1,18 @@
 # AI Governance Platform
 
-**A practical S0-S12 curriculum for governing AI agents in enterprise environments.**
+**Operational AI Governance for Microsoft AI Platforms.**
 
-This repository publishes a co-delivered curriculum for establishing and
-operating AI-agent governance in a customer's environment. Each session leaves
-a durable, customer-owned decision or evidence reference; the repository
-contains only safe templates, offline tools, and guidance.
+This repository publishes a lab-oriented S0-S12 curriculum for establishing and
+operating AI-agent governance across Microsoft AI platforms. It is built for
+customer adoption, not certification: each session turns a bounded governance
+question into a customer-owned decision, implementation work package, reusable
+artifact, or evidence reference. The repository contains only safe templates,
+offline tools, and guidance.
+
+The practical goal is that customers leave with work they can take into their
+tenant, backlog, dashboard, policy, or operating process the next day. Customer
+administrators still perform privileged actions, and production promotion
+remains a separate customer change decision.
 
 ## Curriculum journey
 
@@ -33,7 +40,9 @@ contains only safe templates, offline tools, and guidance.
 | S12 | Portfolio Governance & Continuous Improvement | Portfolio triage decision and dated governance roadmap |
 
 Sessions are selected by the S0 scope, evidence, dependencies, and customer
-priorities; no session authorizes a production change.
+priorities. Every session should answer: what changes in the customer's tenant,
+repo, backlog, dashboard, policy, or operating process tomorrow? No session
+authorizes a production change.
 
 ## Repository layout
 
@@ -66,8 +75,9 @@ this repository.
 
 The facilitator guides the method; customer administrators perform privileged
 actions and customer decision owners approve changes and accept risk. The
-curriculum is audit-first and report-only by default. A template, mock result,
-or offline tool output never proves a deployed or operating control.
+curriculum is operational and evidence-first, with report-only or
+non-production-safe defaults. A template, mock result, or offline tool output
+never proves a deployed or operating control.
 
 ## Maintenance
 
