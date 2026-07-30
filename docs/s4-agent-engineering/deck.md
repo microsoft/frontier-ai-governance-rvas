@@ -6,7 +6,8 @@ Microsoft default: **Copilot Studio, Microsoft Foundry Agent Service, Microsoft
 365 Copilot extensibility, workflow automation, or a custom Azure app path**.
 
 Concrete decision: **Can this candidate enter the next controlled engineering
-stage on a named Microsoft build path with a complete agent package?**
+stage on a named Microsoft build path with its authority, controls, and next
+gate defined?**
 
 ---
 
@@ -53,14 +54,14 @@ explains itself.
 | Prototype-only | Exploration is isolated and explicitly blocked from promotion. |
 
 Note:
-Record rejected alternatives. A route decision without alternatives is often
+Compare and name rejected alternatives. A route decision without alternatives is often
 just product preference.
 
 ---
 
-## The selected-path package
+## Define the selected path
 
-The package must name:
+Define:
 
 - instruction, workflow, hosted package, or declarative manifest reference;
 - model route, region/residency, quota/capacity owner, fallback;
@@ -76,13 +77,13 @@ curriculum repo.
 
 ---
 
-## Foundry Agent Service package example
+## Foundry Agent Service path example
 
 - Foundry project and resource boundary.
 - Agent type: prompt agent, hosted agent, or existing external agent via
   Responses API.
 - Model deployment and model-operation owner.
-- Instructions or hosted package reference.
+- Instructions or hosted-code reference.
 - Tools, connected data, identity/RBAC, tracing, safety settings, evaluation,
   red-team readiness, catalog/lifecycle, and change process.
 
@@ -91,7 +92,7 @@ The output is a backlog, not a Foundry deployment.
 
 ---
 
-## Other path package differences
+## How the paths differ
 
 - **Copilot Studio:** environment zone, Managed Environment, DLP, connectors,
   solutions/ALM, publication, audit, retirement owner.
@@ -103,13 +104,13 @@ The output is a backlog, not a Foundry deployment.
   history, exception route.
 
 Note:
-Every path has a different control package. Do not reuse one checklist for all.
+Each path needs different controls. Do not reuse one checklist for all.
 
 ---
 
 ## DEV / PRE / PRO gates
 
-- **DEV:** candidate card, authority, selected route, package owner, data
+- **DEV:** candidate, authority, selected route, accountable owner, data
   boundary, non-production label.
 - **PRE:** platform route, tool/API dependencies, identity boundary, runtime
   proof plan, evaluation plan, rollback owner, support owner.
@@ -138,20 +139,21 @@ authority or promotion path is unreviewable.
 
 ---
 
-## Workshop artifact and decision
+## Decide and hand over
 
-The record must capture:
+Confirm:
 
 - agent candidate card;
 - authority/action inventory;
 - build-path comparison and rejected alternatives;
-- selected-path package;
+- selected path and controls;
 - model/latency/cost/fine-tuning decision;
 - DEV/PRE/PRO gates;
 - downstream prerequisites and material-change triggers;
 - decision: approve, defer, reject, route, blocked, or prototype-only.
 
 Note:
-Close with the package, not a meeting summary. S4 creates no code, deploys
+End with the decision, receiving owner, next engineering action, accepted-when
+condition, and customer-owned evidence reference. S4 creates no code, deploys
 nothing, changes no tenant settings, proves no runtime control, and approves no
 production use.

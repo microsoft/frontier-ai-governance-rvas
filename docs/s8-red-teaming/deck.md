@@ -12,7 +12,7 @@ Concrete decision: **Approve, defer, reject, route, block, remediate, retest, or
 
 - S8 is a defensive, customer-authorized, non-production remediation workshop.
 - The unit of work is one target, one version, one category set, and one evidence boundary.
-- The output is a remediation and retest package, not offensive capability or production approval.
+- The outcome is a remediation and retest decision, not offensive capability or production approval.
 
 Note:
 Open by taking the heat out of "red team." This is controlled safety evidence with a receiving owner.
@@ -121,12 +121,13 @@ These are not facilitation preferences; they are blockers or route decisions.
 
 ---
 
-## Workshop artifact and handoff
+## Decide and hand over
 
-- Artifact: authorized red-team remediation package.
+- Complete: authorized test scope, findings, remediation, and retest plan.
 - Decision: approve, defer, reject, route, block, remediate, retest, or accept risk.
 - Handoff: target owner, red-team lead, SOC, legal/risk, remediation owner, retest owner, release/lifecycle owner.
 - Boundary: safe references only; no production testing; no tenant change; no production-approval claim.
 
 Note:
-End with the package, owner, target event, and retest closure path.
+End with the decision, receiving owner, next remediation or retest action,
+accepted-when condition, and customer-owned evidence reference.

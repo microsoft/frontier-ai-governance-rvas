@@ -17,26 +17,26 @@ controls when the gateway cannot see the needed context.
 
 ![Runtime-path acceptance requires correlation across request, route, telemetry, reviewer, and response ownership. Diagnostics stay separate from acceptance proof.](../assets/diagrams/s6-security-runtime-correlation-flow.svg)
 
-## Workshop route: build the runtime-path acceptance package
+## Workshop route: trace and verify the runtime path
 
 1. **Choose one non-production runtime path.** Name scenario, environment,
    route, caller, application owner, gateway/platform owner, security owner, SOC
    owner, telemetry owner, retention owner, evidence owner, reviewer, and
    approved records location.
-2. **Build the runtime-path trace card.** Record caller identity,
+2. **Trace the runtime path.** Identify caller identity,
    application/workload identity, gateway or app-only route, backend model/agent,
    tool/API route, response path, policy decision point, alert path, telemetry
    destination, correlation field, and evidence-retention owner.
-3. **Classify threats and place controls.** For each relevant risk, record
+3. **Classify threats and place controls.** For each relevant risk, define the
    inspection point, control, action, telemetry, owner, limitation, and hard
    stop.
-4. **Separate gateway proof from diagnostics.** Record whether evidence is
+4. **Separate gateway proof from diagnostics.** Classify completed evidence as
    gateway-path proof, app-only control evidence, model/agent control evidence,
    SOC/posture signal, or diagnostic-only.
-5. **Build the correlation/telemetry contract.** Record correlation creation,
+5. **Define the correlation/telemetry contract.** Identify correlation creation,
    propagation, joins, query owner, time window, retention/export owner, known
    blind spots, expected signal, and reviewer.
-6. **Define SOC and response route.** Record Defender/Sentinel route, SOC queue,
+6. **Define SOC and response route.** Name the Defender/Sentinel route, SOC queue,
    severity owner, playbook, monitoring window, escalation path, stop condition,
    and customer response process.
 7. **Close the decision.** Accept only when route, policy decision, telemetry,
@@ -56,7 +56,7 @@ controls when the gateway cannot see the needed context.
 | Evidence status | Gateway-path proof, app-only evidence, model/agent evidence, SOC signal, diagnostic-only, planned, unsupported, or blocked. |
 | Decision | Accept, defer, reject, route, block, or diagnostic-only with owner, target event, recheck condition, and limitation. |
 
-## Gateway-proof acceptance package
+## Verify gateway-path acceptance
 
 The manifest shape is defined by
 [`gateway-proof.schema.json`](../../contracts/gateway-proof.schema.json). Use

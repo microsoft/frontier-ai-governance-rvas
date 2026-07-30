@@ -7,13 +7,16 @@
 
 <span class="rvas-badge rvas-persona">Governance lead</span> <span class="rvas-badge rvas-persona">Portfolio owner</span> <span class="rvas-badge rvas-persona">Risk owner</span>
 
-## 1. Outcome & what the customer keeps
+!!! abstract "What is at stake"
+    Individual reviews can hide repeated gaps, shared dependencies, and cost
+    pressure that should change the next portfolio decision.
 
-The customer answers one practical portfolio question:
-**can this bounded portfolio slice produce a defensible next technical action
-from customer-owned references, with lineage, freshness, coverage limits,
-exception concentration, dependency clusters, cost/capacity basis,
-prioritization rationale, owner readiness, and baseline feedback triggers?**
+## 1. Prioritize one portfolio slice
+
+Use one bounded portfolio slice to choose a defensible next technical action.
+Compare source lineage, freshness, coverage limits, exception concentration,
+dependency clusters, cost/capacity basis, owner readiness, and baseline feedback
+triggers.
 
 **Plain decision question:** Should this portfolio item **continue, pause,
 retire, fund, defer, route, or block** for the next customer process? The
@@ -21,7 +24,7 @@ default is the customer-approved records system, supplemented by verified
 Microsoft records where applicable. Any other source needs documented scope,
 freshness, owner, and limit.
 
-They leave with:
+Work through these checks:
 
 - a **portfolio review card** for one bounded population, review period,
   decision path, included/excluded scope, owners, and approved records
@@ -53,8 +56,8 @@ funding, certify compliance, or approve production.
 
 The receiving portfolio, finance, platform, operations, risk, policy,
 or baseline owner moves accepted actions through the customer's separate
-authority and records process. S12 creates a portfolio decision package and
-backlog; it does not execute investments or policy changes.
+authority and records process. S12 sets portfolio priorities and a backlog; it
+does not execute investments or policy changes.
 
 ## 2. Prerequisites
 
@@ -68,11 +71,11 @@ backlog; it does not execute investments or policy changes.
 - Approved customer records location and source-reference routes for inventory,
   exception, assurance, operating, cost/capacity, technical action, and baseline records.
 
-The session can start with gaps. Missing or stale evidence is recorded as a
-coverage limit, not replaced with a template, estimate, aggregate label, or
+The session can start with gaps. Treat missing or stale evidence as a
+coverage limit; do not replace it with a template, estimate, aggregate label, or
 empty result.
 
-## 3. Why this session matters
+## 3. See the patterns individual reviews miss
 
 Local reviews can produce good action items and still miss portfolio patterns:
 the same owner gap across many agents, one gateway dependency blocking several
@@ -81,8 +84,8 @@ assumption that no longer fits actual usage.
 
 S12 makes those patterns visible without turning the repository into a customer
 data warehouse. Every rollup keeps its source lineage, freshness, exclusions,
-and interpretation owner. The result is a decision package leaders can use to
-choose what continues, pauses, retires, gets funded, gets routed, or returns to
+and interpretation owner. The result lets leaders choose what continues, pauses,
+retires, gets funded, gets routed, or returns to
 the baseline cycle.
 
 The key discipline is that aggregation is not proof. A portfolio decision table

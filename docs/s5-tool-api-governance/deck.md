@@ -16,7 +16,7 @@ through an approved Microsoft control path, and can the customer withdraw it?**
 - Do not approve "API access" in the abstract.
 - Trace one consumer, one route, one identity contract, one operation, one data
   boundary, one audit path, and one withdrawal path.
-- The output is an admission package, not a publication or production approval.
+- The outcome is a bounded admission decision, not publication or production approval.
 
 Note:
 The practical question is not whether an API exists. It is what the consumer can
@@ -71,9 +71,9 @@ Record rejected alternatives. Otherwise the "route" is just a preference.
 
 ---
 
-## The control-path package
+## Define the control path
 
-The package must name:
+Define:
 
 - catalog/API Center entry and lifecycle state;
 - APIM product/API/backend/policy route or exception;
@@ -139,7 +139,7 @@ If it cannot be withdrawn, it should not be admitted.
 
 ---
 
-## Decision artifact and handoff
+## Decide and hand over
 
 Decision options:
 
@@ -152,6 +152,7 @@ Decision options:
 - block until consumer, owner, scope, audit, or revocation becomes clear.
 
 Note:
-Close with the package and backlog, not a meeting summary. S5 changes no tenant
-policy, grants no permission, configures no gateway, proves no runtime control,
-and approves no production use.
+End with the decision, receiving owner, next admission or withdrawal action,
+accepted-when condition, and customer-owned evidence reference. S5 changes no
+tenant policy, grants no permission, configures no gateway, proves no runtime
+control, and approves no production use.

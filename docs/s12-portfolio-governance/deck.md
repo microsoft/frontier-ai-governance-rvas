@@ -8,20 +8,20 @@ coverage limits, exception concentration, dependency clusters, cost/capacity
 basis, prioritization rationale, owner readiness, and baseline feedback
 triggers?**
 
-Boundary: S12 prepares a portfolio decision package. It does not create
+Boundary: S12 prepares a portfolio decision. It does not create
 dashboards, query live systems, approve funding, change policy, certify
 compliance, prove runtime enforcement, approve production, or change a baseline.
 
 ---
 
-## Portfolio decision package, not dashboard tour
+## Choose a portfolio action, not a dashboard tour
 
-![S12 portfolio decision package: review card, source lineage, decision table, exception concentration, dependency clusters, prioritization, technical action, baseline feedback, blocked gaps, and safe references.](../assets/diagrams/s12-portfolio-to-s0-feedback-loop.svg)
+![S12 portfolio review workflow: review scope, source lineage, decision table, exception concentration, dependency clusters, prioritization, technical action, baseline feedback, blocked gaps, and safe references.](../assets/diagrams/s12-portfolio-to-s0-feedback-loop.svg)
 
 - Start with one portfolio slice and review period.
 - Decide: continue, pause, retire, fund, defer, route, or block.
 - Keep source lineage, freshness, coverage limits, and owners visible.
-- The artifact is a customer-owned decision package and backlog.
+- Define the customer-owned action and backlog.
 
 Note:
 If the room starts discussing charts before agreeing the population and decision
@@ -146,17 +146,15 @@ acceptance test, target event, evidence reference, and recheck condition.
 
 ---
 
-## Workshop artifact and handoff
+## Decide and hand over
 
 - Portfolio review card.
-- Source-lineage and coverage package.
-- Decision table package.
-- Exception concentration and dependency package.
-- Prioritization and trade-off record.
-- technical action and owner-readiness package.
-- Baseline feedback record.
-- Decision and backlog.
+- Verify source lineage and coverage.
+- Compare decision fields, exception concentrations, and dependencies.
+- Choose priorities, trade-offs, technical actions, and owner readiness.
+- Define baseline feedback and the backlog.
 
 Note:
-Close with the customer-owned decision package and receiving owner. Keep raw
-evidence in customer-approved systems only.
+End with the decision, receiving owner, next portfolio action, accepted-when
+condition, and customer-owned evidence reference. Keep raw evidence in
+customer-approved systems only.

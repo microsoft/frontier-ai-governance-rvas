@@ -12,15 +12,15 @@ Default to Microsoft Foundry observability for Foundry agents/models, Azure Moni
 ## Workshop decision route
 
 1. **Choose workload and review period.** Select one pilot, agent, model route, application, API/tool path, or portfolio slice.
-2. **Build the operating review card.** Record population, excluded paths, decision use, owners, evidence location, and cadence.
-3. **Map signal coverage.** Record source, population, sampling, time window, retention, exclusions, query owner, interpretation owner, and threshold owner.
-4. **Define correlation method.** Record join keys across gateway, orchestration/model/agent, execution host, tool/data dependency, monitor/log store, cost allocation, and decision artifact.
-5. **Define retention and evidence handling.** Record retention owner, export owner, sensitive-data boundary, deletion/legal-hold route, and safe-reference location.
-6. **Define alert and response ownership.** Record threshold owner, severity, action group or SOC route, suppression review, tuning cadence, escalation, and validation method.
-7. **Define FinOps and capacity allocation.** Record billing source, tags/dimensions, committed capacity or quota allocation, budget/anomaly owner, and review cadence.
-8. **Classify drift hypotheses.** Record changed signal, possible causes, evidence limits, owner, observation/test plan, and action route.
-9. **Define remediation validation and exceptions.** Record validation reference, reviewer, recurrence check, exception owner, expiry, remaining risk, and next recheck condition.
-10. **Decide.** Adopt, defer, reject, route, or block the operating review package.
+2. **Define the operating review.** Identify the population, excluded paths, decision use, owners, evidence location, and cadence.
+3. **Map signal coverage.** Identify the source, population, sampling, time window, retention, exclusions, query owner, interpretation owner, and threshold owner.
+4. **Define correlation method.** Trace join keys across gateway, orchestration/model/agent, execution host, tool/data dependency, monitor/log store, cost allocation, and the decision.
+5. **Define retention and evidence handling.** Set the retention owner, export owner, sensitive-data boundary, deletion/legal-hold route, and safe-reference location.
+6. **Define alert and response ownership.** Set the threshold owner, severity, action group or SOC route, suppression review, tuning cadence, escalation, and validation method.
+7. **Define FinOps and capacity allocation.** Identify billing source, tags/dimensions, committed capacity or quota allocation, budget/anomaly owner, and review cadence.
+8. **Classify drift hypotheses.** Identify the changed signal, possible causes, evidence limits, owner, observation/test plan, and action route.
+9. **Define remediation validation and exceptions.** Set the validation reference, reviewer, recurrence check, exception owner, expiry, remaining risk, and next recheck condition.
+10. **Decide.** Adopt, defer, reject, route, or block the operating action.
 
 ## Operating review card
 
@@ -33,7 +33,7 @@ Default to Microsoft Foundry observability for Foundry agents/models, Azure Moni
 | Owners | Decision owner, service operations owner, telemetry owner, FinOps owner, product owner, escalation owner, evidence owner. |
 | Approved records location | Customer system that retains telemetry references, query notes, cost review, alert records, validation notes, and decisions. |
 
-## Signal coverage package
+## Map signal coverage
 
 | Signal family | Example sources | Required interpretation fields |
 |---|---|---|
@@ -55,7 +55,7 @@ Status values: populated, missing, sampled, planned, unavailable, blocked, or di
 
 For an Azure agent platform, S10 should record which signals let an operating review follow one request across the route. The flow below is illustrative and must be mapped to the customer's actual platform records.
 
-![End-to-end traceability flow across gateway, orchestration, execution host, data/tool dependency, monitor, shared correlation method, and operating decision artifact.](../assets/diagrams/s10-end-to-end-traceability-flow.svg)
+![End-to-end traceability flow across gateway, orchestration, execution host, data/tool dependency, monitor, shared correlation method, and operating decision.](../assets/diagrams/s10-end-to-end-traceability-flow.svg)
 
 | Hop | Signal to identify | Operating question |
 |---|---|---|
@@ -91,7 +91,7 @@ Alerts are useful only when they have an owner, threshold, population, action, s
 | Model and FinOps | High token consumption, capacity saturation, backend failover, inference errors, slow model response. | Model/platform owner, capacity owner, FinOps route. |
 | Data and compliance | Unexpected data dependency, failed private endpoint/DNS path, retention/export gap, sensitive-data alert. | Data/compliance owner, platform and operating handoff. |
 
-## FinOps and capacity package
+## Allocate FinOps and capacity
 
 | Field | Required record |
 |---|---|
@@ -102,7 +102,7 @@ Alerts are useful only when they have an owner, threshold, population, action, s
 | Budget/anomaly route | Budget owner, anomaly owner, action trigger, exception route, and review cadence. |
 | Capacity owner | Quota/PTU/committed-capacity owner, saturation action, fallback owner, and target event. |
 
-## Drift hypothesis record
+## Classify drift hypotheses
 
 | Field | Required record |
 |---|---|
@@ -113,7 +113,7 @@ Alerts are useful only when they have an owner, threshold, population, action, s
 | Owner and test plan | Owner, observation/test plan, validation reference, target event, and next review. |
 | Action route | Product backlog, evaluation review, incident/problem route, capacity action, FinOps action, exception review, or portfolio visibility. |
 
-## Remediation validation and exception package
+## Validate remediation and route exceptions
 
 | Field | Required record |
 |---|---|

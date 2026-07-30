@@ -5,48 +5,48 @@
 
 ## Microsoft default
 
-Default to Microsoft Entra Agent ID where supported, backed by Entra workload identities, Conditional Access, Azure RBAC, and Agent 365 records where available. The identity record must name the human sponsor, workload purpose, authority mode, credential/federation owner, and review date.
+Default to Microsoft Entra Agent ID where supported, backed by Entra workload identities, Conditional Access, Azure RBAC, and Agent 365 records where available. For each identity, name the human sponsor, workload purpose, authority mode, credential/federation owner, and review date.
 
 ![S1 illustrative identity pattern: a human sponsor governs agent identity and lifecycle; host workload identity, agent identity, delegated OBO, gateway access, and resource authorization remain separate decisions.](../assets/diagrams/s1-agent-identity-model.svg)
 
 ## Workshop route: trace the identity path
 
-Use this route during workshop scenarios. Record the selected route, the evidence
-used, and the owner of any gap. Do not create identities, grant permissions,
+Use this route during workshop scenarios. Trace the selected route, compare the
+completed evidence, and name the owner of any gap. Do not create identities, grant permissions,
 approve exceptions, or change tenant policy from this page.
 
 1. **Choose one bounded pilot agent.** Name the business purpose, environment,
    human sponsor, lifecycle owner, and decision owner before discussing
    permissions.
-2. **Identify the agent record.** If the agent is surfaced by supported
+2. **Inspect the agent identity.** If the agent is surfaced by supported
    Microsoft agent tooling, use Entra Agent ID / Agent 365 as the primary
    inventory and lifecycle reference. If tenant, region, license, or workload
-   support is unavailable, record the customer control-register fallback and the
+   support is unavailable, name the customer control-register fallback and the
    product check needed before migration.
 3. **Map the host identity.** Identify which managed identity, federated
-   credential, app registration, service principal, or host record can request or
-   exchange tokens. Record issuer/subject constraints, credential owner, and
+   credential, app registration, service principal, or host identity can request or
+   exchange tokens. Define issuer/subject constraints, credential owner, and
    revocation route.
 4. **Separate runtime authority.** If the agent accesses resources as a service,
    review the app-only path. If it acts for a user, review the OBO path. If both
-   are needed, record two separated authority decisions.
+   are needed, define two separated authority decisions.
 5. **Prefer non-secret credentials.** If the workload can use managed identity or
    workload identity federation, route there. If a stored secret is proposed,
-   defer for a no-secret design or record a time-bound exception with owner and
+   defer for a no-secret design or define a time-bound exception with owner and
    retirement trigger. Reject shared accounts, unmanaged credentials, and
    credentials without a rotation or federation owner.
-6. **Constrain authorization and denied actions.** Record least-privilege RBAC,
+6. **Constrain authorization and denied actions.** Define least-privilege RBAC,
    Graph/API permissions, Conditional Access for workload identities where
    available, and gateway/JWT checks. Defer broad RBAC, tenant-wide permissions,
    or missing resource scope until narrowed. Reject standing privileged access
    without review and break-glass rationale.
-7. **Close disable, audit, and lifecycle.** If source coverage, review cadence,
-   retirement route, disable owner, and audit evidence are recorded, accept the
-   decision artifact. Otherwise defer with a named owner and target event.
+7. **Close disable, audit, and lifecycle.** Accept the identity path only when
+   source coverage, review cadence, retirement route, disable owner, and audit
+   evidence are complete. Otherwise defer with a named owner and target event.
 
 ### Identity architecture card
 
-Use this card as the technical anchor for the decision artifact. Record references
+Use this card to anchor the decision. Keep safe references
 only; do not copy tenant identifiers, token claims, raw logs, secrets, endpoints,
 or access assignments into this repository.
 

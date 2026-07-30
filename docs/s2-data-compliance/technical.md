@@ -7,24 +7,24 @@
 
 Default to Microsoft Purview Data Security Posture Management, sensitivity labels, Data Loss Prevention, audit, and eDiscovery for data governance. Use gateway masking or Azure AI Content Safety only for the runtime slices they officially support.
 
-S2 is a decision-recording gate, not a data movement or policy-authoring activity. It should prove that the reviewed AI scenario has a named data path, data owner, observation owner, and compliance route before the practical workshop asks participants to make release or backlog decisions.
+S2 starts by tracing the customer data path, not by creating a decision record or authoring policy. Before participants choose a release or backlog action, confirm that the reviewed AI scenario has a named data path, data owner, observation owner, and compliance route.
 
 ## Workshop route: trace the data path
 
 1. **Choose one bounded AI scenario.** Name the workload, environment, business
    owner, data owner, compliance decision owner, evidence owner, and approved
    records location.
-2. **Draw the data path.** Record source system, prompt/input, retrieval context,
+2. **Draw the data path.** Trace the source system, prompt/input, retrieval context,
    tool request, tool response, final response, logs/telemetry, evaluation data,
    downstream sharing, and evidence reference.
-3. **Classify each segment.** Record label/classifier/data class, source owner,
+3. **Classify each segment.** Identify the label/classifier/data class, source owner,
    exposure status, and whether the segment is labeled, unlabeled, overexposed,
    unknown, unsupported, not applicable, or outside scope.
-4. **Interpret Purview/DSPM evidence.** Record result, validated no-result,
+4. **Interpret Purview/DSPM evidence.** Classify the result as validated no-result,
    unsupported, blocked, or not applicable. Do not treat empty findings as proof
    without scope, time range, workload support, reviewer, role/license, and
    source details.
-5. **Assess DLP/report-only readiness.** For each entry point, record whether DLP
+5. **Assess DLP/report-only readiness.** For each entry point, determine whether DLP
    is existing, report-only/simulation, enforced, designed, unavailable, not
    applicable, or blocked. S2 does not deploy or enforce policy.
 6. **Trace investigation and retention.** Name audit, eDiscovery, legal hold,
@@ -32,7 +32,7 @@ S2 is a decision-recording gate, not a data movement or policy-authoring activit
    records-management routes where applicable.
 7. **Place minimization and identify bypasses.** Decide whether sensitive fields
    are reduced at source, retrieval, app, gateway, output, telemetry, or not at
-   all. Record streaming, tool-response, direct-service, and logging bypasses.
+   all. Trace streaming, tool-response, direct-service, and logging bypasses.
 8. **Close decision and backlog.** Approve only when every required segment has a
    control statement, owner, limitation, accepted-when condition, and handoff.
 
@@ -68,7 +68,7 @@ runtime evidence into this repository.
 
 ## Data-control matrix
 
-Use this matrix to make the practical workshop scenario-driven. Each row asks for a decision artifact, evidence route, blocker condition, and safe handoff. Do not infer control coverage from product names alone; verify workload, location, role, license, region, and tenant support before recording a control as available.
+Use this matrix to make the practical workshop scenario-driven. Each row asks participants to choose a control action, verify its evidence route, identify blocker conditions, and hand work over safely. Do not infer control coverage from product names alone; verify workload, location, role, license, region, and tenant support before treating a control as available.
 
 | Control area | Decision to record | Evidence / control record | Scenario blocker | Safe route |
 |---|---|---|---|---|
@@ -135,7 +135,7 @@ copy data, prompts, outputs, exports, or tenant configuration.
 
 ## Purview, DLP, audit, and eDiscovery review shapes
 
-Use these shapes when turning technical evidence into a decision artifact.
+Use these review steps to turn completed technical work into a decision.
 
 | Review | Fields to capture | Blocker examples | Fallback route |
 |---|---|---|---|

@@ -5,14 +5,18 @@
 
 <span class="rvas-badge rvas-persona">Identity admin</span> <span class="rvas-badge rvas-persona">Governance lead</span>
 
-## 1. Outcome & what the customer keeps
+!!! abstract "What is at stake"
+    An agent is only accountable when the customer can trace who sponsors it,
+    which identity acts, what access it has, and how that access can be stopped.
+
+## 1. Trace the identity path
 
 For one bounded pilot agent or agent-like workload, the customer can answer:
 **which host can request tokens, which agent identity is accountable, which
 authority mode is allowed, which resource scopes are in bounds, how access can
 be disabled, and where audit evidence will be reviewed?**
 
-They leave with:
+Work through these checks:
 
 - An **identity architecture card** for the pilot: sponsor, agent identity, host
   workload identity, runtime mode, gateway boundary, target resources, denied
@@ -96,7 +100,7 @@ customer's approved system, never in this repo.
 You do **not** need Conditional Access licensing, a break-glass design, Graph
 PowerShell, or any particular Entra Agent ID setup to run this session.
 
-## 3. Why this session matters
+## 3. What the identity trace must prove
 
 You cannot govern an agent by finding a row and writing down an owner. A useful
 identity workshop traces the actual path:

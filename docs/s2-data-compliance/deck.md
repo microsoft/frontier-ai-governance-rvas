@@ -24,9 +24,9 @@ Open by preventing the session from becoming a generic Purview feature tour.
 
 ---
 
-## The path is the artifact
+## Trace the data path
 
-Record references for:
+Trace and compare:
 
 - source data and permissions;
 - prompt/input fields;
@@ -76,7 +76,7 @@ Use this slide when someone says, "Purview covers it" without naming the segment
 
 | Outcome | Meaning |
 |---|---|
-| Result | A supported record shows a finding, label, match, alert, route, or classification. |
+| Result | A supported review shows a finding, label, match, alert, route, or classification. |
 | No result | A supported review found no signal in a recorded scope, time range, workload, and source. |
 | Unsupported | Workload, connector, location, role, license, region, or condition blocks coverage. |
 | Blocked | Missing owner, evidence location, scope, retention, legal, or gateway detail stops the decision. |
@@ -91,7 +91,7 @@ No-result is not a green light unless the review scope is credible.
 
 - Map DLP by entry point: prompt, retrieval, tool request, tool response, final
   response, storage, sharing.
-- Record state: existing, report-only/simulation, enforced, designed,
+- Classify the current state: existing, report-only/simulation, enforced, designed,
   unavailable, not applicable, or blocked.
 - Name reviewer, false-positive owner, exception owner, and change process.
 - Do not claim runtime proof or production approval.
@@ -107,7 +107,7 @@ S2 may prepare a report-only review. It does not deploy enforcement.
   application redaction, gateway masking, output check, telemetry minimization.
 - Gateway masking complements Purview; it does not replace classification, DLP,
   audit, eDiscovery, retention, or legal hold.
-- Record bypasses: direct service calls, streaming, tool response, cached
+- Trace bypasses: direct service calls, streaming, tool response, cached
   retrieval, telemetry payloads, and evaluation reuse.
 
 Note:
@@ -131,9 +131,9 @@ path cannot be safely reviewed.
 
 ---
 
-## Workshop artifact and decision
+## Decide and hand over
 
-The record must capture:
+Confirm:
 
 - data-path trace card;
 - segment control map;
@@ -145,5 +145,6 @@ The record must capture:
   handoff, and recheck condition.
 
 Note:
-Close with the artifact, not a meeting summary. S2 changes no policy, exports no
-evidence, proves no runtime enforcement, and approves no production.
+End with the decision, receiving owner, next control action, accepted-when
+condition, and customer-owned evidence reference. S2 changes no policy, exports
+no evidence, proves no runtime enforcement, and approves no production.

@@ -1,37 +1,33 @@
-# What customers get from the curriculum
+# What customers get
 
-AI Governance Platform helps a customer turn one bounded AI-agent question into
-owned work. Architecture, security, change, and funding processes keep their
-authority; the curriculum gives them clearer decisions, evidence references,
-and owners.
+AI Governance Platform turns one bounded AI-agent question into customer-owned
+work. It helps the right people make a decision, name an owner, point to the
+evidence they will retain, and route the next action through their existing
+architecture, security, engineering, change, and funding processes.
 
-## The journey
+## A practical journey
 
-| Stage | Customer gets | What the customer does next |
+| Step | Customer gets | What happens next |
 |---|---|---|
-| **S0 · Set direction** | A baseline card, named owner, evidence location, and first technical blocker. | Assign the blocker to the relevant existing process. |
-| **S1-S2 · Establish accountability** | Clear ownership and an honest view of identity and data-control coverage. | Close owner, access, classification, investigation, or compliance gaps before depending on the workload. |
-| **S3-S5 · Define the path** | A platform-boundary decision, admission requirements, and a tool/API publication model. | Route the selected platform, engineering, and lifecycle work through architecture, security, and release teams. |
-| **S6-S8 · Build assurance** | Runtime-path, evaluation, and authorized adversarial-test decisions with evidence references. | Resolve gaps, hold progress where needed, and use the customer's separate release process for any change. |
-| **S9-S10 · Operate the service** | Reconciled ownership and lifecycle records plus operating evidence for risk, drift, remediation, and cost. | Validate that open actions are actually resolved. |
-| **S11 · Govern LLM operations** | A model-and-prompt operating-model decision with lifecycle, material-change, and ownership routes. | Implement the approved backlog through the customer's model, platform, engineering, supplier, and change processes. |
-| **S12 · Improve the portfolio** | A portfolio decision with source lineage, priority trade-off, and baseline feedback. | Fund, schedule, defer, or block the selected technical action through the customer process. |
+| **Set direction** | A bounded use case, decision owner, evidence location, safe stop condition, and first technical blocker. | The owner routes the blocker to the right customer process. |
+| **Establish accountability** | A clear view of agent ownership, identity, access, and data responsibilities. | The customer closes gaps before depending on the workload. |
+| **Choose the technical path** | A platform-boundary decision, admission requirements, and a safe tool or API publication approach. | Architecture, security, and engineering teams implement through their approved processes. |
+| **Build assurance** | A decision on runtime evidence, evaluation, and authorized adversarial testing. | The customer resolves gaps, defers work, or uses its separate release process. |
+| **Operate and improve** | Reconciled records, operating evidence, lifecycle actions, and portfolio priorities. | The customer validates closure, funds the next action, or accepts a stated risk. |
 
 ## What stays with the customer
 
-Each session leaves the customer with a decision, the accountable owner, and
+Every workshop leaves the customer with a decision, accountable owner, and
 references to supporting evidence in the customer's approved records system.
-The templates and scripts in this repository are preparation aids. They do not
+Templates and scripts in this repository are preparation aids. They do not
 replace customer records or prove that a control is operating.
 
-## How work moves from a session to the platform
+## Useful outcomes include stopping
 
-The session identifies what must change and who owns the next decision. The
-customer then uses its existing architecture, identity, security, engineering,
-change, release, procurement, and funding processes to implement it. A session
-can also conclude that evidence is missing, the work should wait, or the
-customer accepts a stated risk. Those are useful outcomes, not failures.
+A workshop can conclude that evidence is missing, the work should wait, or the
+customer accepts a stated risk. Those outcomes prevent unsafe or unowned work
+from progressing; they are not failures.
 
-Read [About AI Governance Platform](understand-rvas.md) for the full session
-map, then [Plan the engagement](plan-engagement.md) to select the right first
-session.
+Start with [About AI Governance Platform](understand-rvas.md) for the workshop
+map, then [Plan the engagement](plan-engagement.md) to prepare the first
+decision.

@@ -20,8 +20,8 @@ Use an Azure landing-zone-aligned route where possible:
 - Azure API Center or customer catalog for API/tool/model route ownership and
   lifecycle records.
 
-S3 is a readiness decision. It records route assumptions, owners, and blockers;
-it does not prove runtime enforcement or approve production.
+S3 tests route readiness by tracing assumptions, owners, and blockers; it does
+not prove runtime enforcement or approve production.
 
 ![S3 illustrative Azure platform pattern: callers cross an optional gateway trust boundary to orchestration or hosted execution, private data access, identity, and observability layers. The pattern identifies decisions and evidence expectations without claiming a deployed topology.](../assets/diagrams/s3-gateway-trust-boundary.svg)
 

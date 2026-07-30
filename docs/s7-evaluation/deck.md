@@ -10,16 +10,16 @@ diagnostic-only for one candidate change.**
 
 ---
 
-## 1. Evaluation evidence, not release approval
+## 1. Test the candidate change, not the release process
 
-- S7 builds an evaluation evidence package.
-- The package informs the customer's release process.
+- Test one bounded change against customer-owned scenarios and thresholds.
+- Give the completed comparison to the customer's release process.
 - It does not approve production, change a pipeline, configure Foundry, set
   thresholds, or prove runtime enforcement.
 
 Note:
-Open by breaking the old gate framing. The artifact is evidence for a customer
-release decision.
+Open by breaking the old gate framing. Complete a comparison that informs a
+customer release decision.
 
 ---
 
@@ -72,8 +72,8 @@ Ask "what did this scenario set actually represent?" before looking at scores.
 - Diagnostic-only when prerequisites are missing.
 
 Note:
-Make the route choice explicit. Different routes produce different evidence
-packages and limitations.
+Make the route choice explicit. Different routes produce different completed
+work and limitations.
 
 ---
 
@@ -113,18 +113,19 @@ noise.
 - No release/hold owner, rollback route, or approved records location.
 
 Note:
-These are not presentation details; they determine whether the package can be
-used.
+These are not presentation details; they determine whether the result can
+inform the release decision.
 
 ---
 
-## 12. Close with the artifact
+## 12. Decide and hand over
 
 - Decision: continue, hold, defer, reject, route, block, or diagnostic-only.
-- Evidence package: candidate card, scenario set, evaluator/rubric, baseline,
-  thresholds, gate behavior, performance/cost, findings, handoff.
+- Completed comparison: candidate, scenario set, evaluator/rubric, baseline,
+  thresholds, gate behavior, performance/cost, findings, and handoff.
 - Boundary: customer evidence stays in approved systems; production changes use
   customer change approval.
 
 Note:
-End with a handoff the receiving owner can act on.
+End with the decision, receiving owner, next evaluation or release action,
+accepted-when condition, and customer-owned evidence reference.

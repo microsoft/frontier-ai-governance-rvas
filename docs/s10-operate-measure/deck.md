@@ -4,15 +4,14 @@
 
 Microsoft default: **Microsoft Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, and FinOps Toolkit**.
 
-Concrete decision: **Adopt, defer, reject, route, or block the operating review package for one bounded workload and review period.**
+Concrete decision: **Inspect one bounded workload and review period, then adopt, defer, reject, route, or block the operating action.**
 
 ---
 
 ## Operating review, not dashboard tour
 
 - A dashboard is a view.
-- An operating review is a decision package.
-- The package names population, period, coverage, correlation, retention, owners, action route, validation, and recurrence.
+- Inspect population, period, coverage, correlation, retention, owners, action route, validation, and recurrence.
 
 Note:
 Start by making the workshop practical: the customer is not admiring charts; they are deciding what can be operated from evidence.
@@ -125,12 +124,13 @@ These become defer, route, or block decisions.
 
 ---
 
-## Workshop artifact and handoff
+## Decide and hand over
 
-- Artifact: operating review package.
+- Complete: operating action, validation, and recurrence check.
 - Decision: adopt, defer, reject, route, or block.
 - Handoff: operations, telemetry, FinOps, product, SOC/incident, platform, evaluation baseline, portfolio, release/change.
 - Boundary: no live query, dashboard build, alert setup, budget setting, telemetry export, runtime proof, or production approval.
 
 Note:
-End with owners, target events, evidence references, validation, and recurrence.
+End with the decision, receiving owner, next operating action, accepted-when
+condition, and customer-owned evidence reference.

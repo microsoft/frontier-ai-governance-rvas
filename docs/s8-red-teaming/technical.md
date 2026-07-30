@@ -9,14 +9,14 @@ Default to an authorized, customer-operated, non-production Microsoft AI Red Tea
 
 ## Workshop decision route
 
-1. **Choose one authorized target.** Record target, version, environment, owner, reset/rollback path, monitoring window, dependencies, and production-impact exclusion.
+1. **Choose one authorized target.** Identify the target, version, environment, owner, reset/rollback path, monitoring window, dependencies, and production-impact exclusion.
 2. **Complete rules of engagement.** Confirm authorization, operators, methods/tools, categories, excluded categories, data limits, prohibited activity, stop conditions, SOC/legal contacts, evidence handling, and retest criteria.
-3. **Choose category and method.** Select AI Red Teaming Agent where supported, or an approved PyRIT/manual/third-party route when support or policy requires it. Record unsupported-target or production-test request routes honestly.
-4. **Define threshold and severity before interpretation.** Record ASR or qualitative threshold, sample/context note, severity model, threshold owner, accepted-risk authority, and not-comparable handling.
-5. **Preserve native or run evidence externally.** Store run records, prompts, outputs, datasets, and run records only in the customer-approved records system. The S8 package records safe references.
+3. **Choose category and method.** Select AI Red Teaming Agent where supported, or an approved PyRIT/manual/third-party route when support or policy requires it. Identify unsupported-target or production-test request routes honestly.
+4. **Define threshold and severity before interpretation.** Set the ASR or qualitative threshold, sample/context note, severity model, threshold owner, accepted-risk authority, and not-comparable handling.
+5. **Preserve native or run evidence externally.** Store run records, prompts, outputs, and datasets only in the customer-approved records system; retain only safe references here after the run completes.
 6. **Write finding records.** Capture category, technique, affected route, evidence reference, impact, exploitability, exposure, detectability, severity, and limitation.
 7. **Map findings to remediation controls.** Name the receiving owner, remediation hypothesis, acceptance test, release/backlog impact, and stop condition.
-8. **Define retest closure.** Record retest method, changed target version, comparison rule, closure evidence reference, acceptance owner, remaining risk, and reopen trigger.
+8. **Define retest closure.** Define the retest method, changed target version, comparison rule, closure evidence reference, acceptance owner, remaining risk, and reopen trigger.
 9. **Decide.** Use approve, defer, reject, route, block, remediation-required, retest-required, or accepted-risk for the tested scope only.
 
 ## Authorized target card
@@ -31,7 +31,7 @@ Default to an authorized, customer-operated, non-production Microsoft AI Red Tea
 | Approved records location | Customer system where native run record, run record, prompts, outputs, and findings are retained. |
 | Evidence owner | Owner of retention, access, export, deletion, and legal hold handling for test evidence. |
 
-## Rules-of-engagement package
+## Set rules of engagement
 
 | Field | Required record |
 |---|---|
@@ -94,7 +94,7 @@ Severity combines impact, exploitability, exposure, detectability, response burd
 | Response burden | Human review, incident handling, rollback, communication, or operational effort required. |
 | Release impact | Continue within tested scope, hold, block, route, accepted risk, or emergency containment. |
 
-## Finding record shape
+## Classify and route each finding
 
 Use this shape for the customer-owned decision note that references native run evidence. Do not store prompts, outputs, attack payloads, endpoint details, telemetry exports, or run records here.
 
@@ -134,7 +134,7 @@ Use this shape for the customer-owned decision note that references native run e
 | Cost or availability abuse appears | Missing quota, rate limit, budget guard, saturation alert, or retry/fallback control. | Gateway/platform/FinOps owner accepts operating guard and load/abuse retest. |
 | Not comparable result | Sample, method, target version, category, or threshold cannot support decision. | Red-team lead records diagnostic-only/backlog route and re-entry criterion. |
 
-## Retest and closure package
+## Retest and close findings
 
 | Field | Required record |
 |---|---|

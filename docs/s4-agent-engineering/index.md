@@ -6,13 +6,17 @@
 
 <span class="rvas-badge rvas-persona">Governance lead</span> <span class="rvas-badge rvas-persona">Engineering owner</span> <span class="rvas-badge rvas-persona">Service owner</span>
 
-## 1. Outcome & what the customer keeps
+!!! abstract "What is at stake"
+    Teams need a shared bar for admitting an agent or material change before it
+    reaches customers, data, tools, or production processes.
 
-The customer answers one question:
-**which Microsoft build path fits this bounded agent candidate, and what package
-must engineering own before it moves to the next controlled stage?**
+## 1. Choose the engineering path
 
-They leave with:
+Compare the Microsoft build paths for one bounded agent candidate, then decide
+what engineering must have in place before it moves to the next controlled
+stage.
+
+Work through these checks:
 
 - An **agent candidate card** for one bounded scenario: purpose, users,
   authority, action boundary, human-control point, data/tool dependencies,
@@ -26,7 +30,7 @@ They leave with:
   automation, and prototype-only.
 - A selected Microsoft implementation path, with confidence, assumptions, and
   alternatives the customer rejected or deferred.
-- A concrete **agent package record** for the selected path: instruction or
+- A concrete implementation checklist for the selected path: instruction or
   workflow reference, model route, tool/API/connector list, data sources,
   identity mode, runtime controls, evaluation plan, telemetry route, release and
   rollback owner, lifecycle state, and support boundary.
@@ -43,7 +47,7 @@ They leave with:
   prototype-only.
 - Material-change and retirement triggers.
 
-The customer keeps the implementation decision package in its approved records
+The customer keeps the agreed implementation details in its approved records
 system. `labs/s4-agent-engineering/` provides blank offline templates and the
 runbook. Keep customer code, data, credentials, integration settings,
 deployment steps, or production approval.
@@ -51,7 +55,7 @@ deployment steps, or production approval.
 ### Plain decision
 
 **Question:** **Can this candidate enter the next controlled engineering stage
-on a named Microsoft build path with a complete agent package?** Default to the
+on a named Microsoft build path with the required implementation details?** Default to the
 Microsoft path that best fits the candidate. An exception must document the
 capability, data, authority, support, and operating reason plus owner, evidence
 reference, acceptance criterion, and target event. S4 selects and admits a path;
@@ -65,10 +69,10 @@ implementation path to the customer's engineering, security, architecture, and
 release owners.
 
 In this session, the customer decides whether one bounded agent can move to its
-next non-production stage. The decision artifacts the agent's permitted authority,
-the selected Microsoft implementation path, the package fields engineering must
-own, the evidence still needed, and the owner of each follow-up item. For a
-Foundry path, the output is a Foundry Agent Service package backlog, not a live
+next non-production stage. The decision defines the agent's permitted authority,
+the selected Microsoft implementation path, the implementation details engineering
+must own, the evidence still needed, and the owner of each follow-up item. For a
+Foundry path, the output is a Foundry Agent Service implementation backlog, not a live
 deployment. See [Microsoft Foundry Agent Service](https://learn.microsoft.com/en-us/azure/foundry/agents/overview).
 
 Before the agent is released or changed in a way that affects this decision, the
@@ -88,7 +92,7 @@ You do not need source code, a live integration, endpoint access, tenant changes
 or a production environment. You may use product documentation to decide the path
 and backlog. Deployment steps stay in the customer's delivery process.
 
-## 3. Why this session matters
+## 3. Set the bar before an agent changes
 
 Admission needs a named owner, clear purpose and authority boundary, and a
 reviewable Microsoft path. The practical question is not "which product do we
@@ -98,11 +102,11 @@ like?" It is:
 2. Which actions are allowed, denied, or require human approval?
 3. Which Microsoft path fits the channel, orchestration, data, tool, lifecycle,
    and operating model?
-4. What package does engineering need to own for that path?
+4. What must engineering own and verify for that path?
 5. Which model, latency, cost, quota, evaluation, runtime, catalog, and release
    owners must accept the next step?
 
-S4 records the build route, exclusions, package backlog, gate plan, and
+S4 selects the build route, exclusions, implementation backlog, gate plan, and
 material-change reapproval triggers.
 
 Use [Technical decisions](technical.md) for the authority model, Microsoft path

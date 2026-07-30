@@ -4,7 +4,7 @@
   "source": "rvas",
   "elements": [
     {
-      "id": "t_1280",
+      "id": "t_1007",
       "type": "text",
       "x": 40,
       "y": 24,
@@ -18,7 +18,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1287,
+      "seed": 1014,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -36,7 +36,7 @@
       "containerId": null
     },
     {
-      "id": "t_1294",
+      "id": "t_1021",
       "type": "text",
       "x": 40,
       "y": 60,
@@ -50,7 +50,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1301,
+      "seed": 1028,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -61,14 +61,14 @@
       "fontFamily": 2,
       "textAlign": "left",
       "verticalAlign": "top",
-      "text": "A planning view for S3, S5, S6, and S10. It names reviewable planes and evidence routes; it is not proof of a deployed topology.",
-      "originalText": "A planning view for S3, S5, S6, and S10. It names reviewable planes and evidence routes; it is not proof of a deployed topology.",
+      "text": "A planning view for platform, publication, assurance, and operations decisions. It names reviewable planes and evidence routes; it is not proof of a deployed topology.",
+      "originalText": "A planning view for platform, publication, assurance, and operations decisions. It names reviewable planes and evidence routes; it is not proof of a deployed topology.",
       "lineHeight": 1.25,
       "baseline": 14,
       "containerId": null
     },
     {
-      "id": "rectangle_1308",
+      "id": "rectangle_1035",
       "type": "rectangle",
       "x": 40,
       "y": 108,
@@ -82,7 +82,7 @@
       "strokeStyle": "dashed",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1315,
+      "seed": 1042,
       "roundness": {
         "type": 3
       },
@@ -93,7 +93,7 @@
       "locked": false
     },
     {
-      "id": "t_1322",
+      "id": "t_1049",
       "type": "text",
       "x": 58,
       "y": 122,
@@ -107,7 +107,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1329,
+      "seed": 1056,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -125,7 +125,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_1336",
+      "id": "rectangle_1063",
       "type": "rectangle",
       "x": 60,
       "y": 292,
@@ -139,7 +139,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1343,
+      "seed": 1070,
       "roundness": {
         "type": 3
       },
@@ -150,7 +150,7 @@
       "locked": false
     },
     {
-      "id": "t_1350",
+      "id": "t_1077",
       "type": "text",
       "x": 66,
       "y": 306,
@@ -164,7 +164,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1357,
+      "seed": 1084,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -182,7 +182,7 @@
       "containerId": null
     },
     {
-      "id": "t_1364",
+      "id": "t_1091",
       "type": "text",
       "x": 66,
       "y": 330.75,
@@ -196,7 +196,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1371,
+      "seed": 1098,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -214,7 +214,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_1378",
+      "id": "rectangle_1105",
       "type": "rectangle",
       "x": 300,
       "y": 258,
@@ -228,7 +228,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1385,
+      "seed": 1112,
       "roundness": {
         "type": 3
       },
@@ -239,7 +239,7 @@
       "locked": false
     },
     {
-      "id": "t_1392",
+      "id": "t_1119",
       "type": "text",
       "x": 306,
       "y": 272,
@@ -253,7 +253,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1399,
+      "seed": 1126,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -271,7 +271,7 @@
       "containerId": null
     },
     {
-      "id": "t_1406",
+      "id": "t_1133",
       "type": "text",
       "x": 306,
       "y": 296.75,
@@ -285,7 +285,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1413,
+      "seed": 1140,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -303,7 +303,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_1420",
+      "id": "rectangle_1147",
       "type": "rectangle",
       "x": 590,
       "y": 238,
@@ -317,7 +317,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1427,
+      "seed": 1154,
       "roundness": {
         "type": 3
       },
@@ -328,7 +328,7 @@
       "locked": false
     },
     {
-      "id": "t_1434",
+      "id": "t_1161",
       "type": "text",
       "x": 596,
       "y": 252,
@@ -342,7 +342,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1441,
+      "seed": 1168,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -360,7 +360,7 @@
       "containerId": null
     },
     {
-      "id": "t_1448",
+      "id": "t_1175",
       "type": "text",
       "x": 596,
       "y": 276.75,
@@ -374,7 +374,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1455,
+      "seed": 1182,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -392,7 +392,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_1462",
+      "id": "rectangle_1189",
       "type": "rectangle",
       "x": 590,
       "y": 408,
@@ -406,7 +406,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1469,
+      "seed": 1196,
       "roundness": {
         "type": 3
       },
@@ -417,7 +417,7 @@
       "locked": false
     },
     {
-      "id": "t_1476",
+      "id": "t_1203",
       "type": "text",
       "x": 596,
       "y": 422,
@@ -431,7 +431,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1483,
+      "seed": 1210,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -449,7 +449,7 @@
       "containerId": null
     },
     {
-      "id": "t_1490",
+      "id": "t_1217",
       "type": "text",
       "x": 596,
       "y": 446.75,
@@ -463,7 +463,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1497,
+      "seed": 1224,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -481,7 +481,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_1504",
+      "id": "rectangle_1231",
       "type": "rectangle",
       "x": 900,
       "y": 298,
@@ -495,7 +495,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1511,
+      "seed": 1238,
       "roundness": {
         "type": 3
       },
@@ -506,7 +506,7 @@
       "locked": false
     },
     {
-      "id": "t_1518",
+      "id": "t_1245",
       "type": "text",
       "x": 906,
       "y": 312,
@@ -520,7 +520,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1525,
+      "seed": 1252,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -538,7 +538,7 @@
       "containerId": null
     },
     {
-      "id": "t_1532",
+      "id": "t_1259",
       "type": "text",
       "x": 906,
       "y": 336.75,
@@ -552,7 +552,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1539,
+      "seed": 1266,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -570,7 +570,7 @@
       "containerId": null
     },
     {
-      "id": "rectangle_1546",
+      "id": "rectangle_1273",
       "type": "rectangle",
       "x": 1180,
       "y": 450,
@@ -584,7 +584,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1553,
+      "seed": 1280,
       "roundness": {
         "type": 3
       },
@@ -595,7 +595,7 @@
       "locked": false
     },
     {
-      "id": "t_1560",
+      "id": "t_1287",
       "type": "text",
       "x": 1186,
       "y": 464,
@@ -609,7 +609,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1567,
+      "seed": 1294,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -627,7 +627,7 @@
       "containerId": null
     },
     {
-      "id": "t_1574",
+      "id": "t_1301",
       "type": "text",
       "x": 1186,
       "y": 488.75,
@@ -641,7 +641,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1581,
+      "seed": 1308,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -659,7 +659,7 @@
       "containerId": null
     },
     {
-      "id": "a_1588",
+      "id": "a_1315",
       "type": "arrow",
       "x": 230,
       "y": 338,
@@ -673,7 +673,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1595,
+      "seed": 1322,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -697,7 +697,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "a_1602",
+      "id": "a_1329",
       "type": "arrow",
       "x": 520,
       "y": 338,
@@ -711,7 +711,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1609,
+      "seed": 1336,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -735,7 +735,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "a_1616",
+      "id": "a_1343",
       "type": "arrow",
       "x": 520,
       "y": 338,
@@ -749,7 +749,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1623,
+      "seed": 1350,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -773,7 +773,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "a_1630",
+      "id": "a_1357",
       "type": "arrow",
       "x": 820,
       "y": 293,
@@ -787,7 +787,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1637,
+      "seed": 1364,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -811,7 +811,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "a_1644",
+      "id": "a_1371",
       "type": "arrow",
       "x": 820,
       "y": 463,
@@ -825,7 +825,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1651,
+      "seed": 1378,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -849,7 +849,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "a_1658",
+      "id": "a_1385",
       "type": "arrow",
       "x": 520,
       "y": 338,
@@ -863,7 +863,7 @@
       "strokeStyle": "dashed",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1665,
+      "seed": 1392,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -887,7 +887,7 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "rectangle_1672",
+      "id": "rectangle_1399",
       "type": "rectangle",
       "x": 40,
       "y": 600,
@@ -901,7 +901,7 @@
       "strokeStyle": "dashed",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1679,
+      "seed": 1406,
       "roundness": {
         "type": 3
       },
@@ -912,7 +912,7 @@
       "locked": false
     },
     {
-      "id": "t_1686",
+      "id": "t_1413",
       "type": "text",
       "x": 58,
       "y": 616,
@@ -926,7 +926,7 @@
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1693,
+      "seed": 1420,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -944,7 +944,7 @@
       "containerId": null
     },
     {
-      "id": "a_1700",
+      "id": "a_1427",
       "type": "arrow",
       "x": 410,
       "y": 418,
@@ -958,7 +958,7 @@
       "strokeStyle": "dashed",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1707,
+      "seed": 1434,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -982,7 +982,7 @@
       "endArrowhead": null
     },
     {
-      "id": "a_1714",
+      "id": "a_1441",
       "type": "arrow",
       "x": 705,
       "y": 348,
@@ -996,7 +996,7 @@
       "strokeStyle": "dashed",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1721,
+      "seed": 1448,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -1020,7 +1020,7 @@
       "endArrowhead": null
     },
     {
-      "id": "a_1728",
+      "id": "a_1455",
       "type": "arrow",
       "x": 705,
       "y": 518,
@@ -1034,7 +1034,7 @@
       "strokeStyle": "dashed",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1735,
+      "seed": 1462,
       "roundness": null,
       "groupIds": [],
       "frameId": null,
@@ -1058,7 +1058,7 @@
       "endArrowhead": null
     },
     {
-      "id": "a_1742",
+      "id": "a_1469",
       "type": "arrow",
       "x": 1015,
       "y": 428,
@@ -1072,7 +1072,7 @@
       "strokeStyle": "dashed",
       "roughness": 0,
       "opacity": 100,
-      "seed": 1749,
+      "seed": 1476,
       "roundness": null,
       "groupIds": [],
       "frameId": null,

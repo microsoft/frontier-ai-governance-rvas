@@ -8,24 +8,28 @@
 
 <span class="rvas-badge rvas-persona">Security / SOC</span> <span class="rvas-badge rvas-persona">Governance lead</span>
 
-## 1. Outcome & what the customer keeps
+!!! abstract "What is at stake"
+    A runtime control is only useful when the customer can see the request path,
+    the decision it made, the evidence it produced, and the owner who responds.
 
-The customer leaves with one reviewable runtime artifact: **a runtime-path
-acceptance package for one bounded non-production request.**
+## 1. Test one runtime path
 
-The package answers:
+Trace one bounded non-production request through its runtime path, then decide
+whether the customer can rely on the evidence it produces.
+
+Answer this:
 
 > Can this request be traced through the expected runtime path, policy decision
 > points, telemetry, SOC route, and retention process well enough for named
 > customer reviewers to accept or reject the runtime-control claim?
 
-They keep:
+Check the following:
 
 - A runtime-path trace card naming caller identity, application/workload
   identity, gateway or app-only route, backend model/agent, tool/API route,
   response path, correlation field, telemetry destination, SOC route, retention
   owner, and approved records location.
-- A gateway-proof and telemetry correlation package using safe references and
+- Gateway proof and telemetry correlation using safe references and
   the [`gateway-proof`](../../contracts/gateway-proof.schema.json) manifest
   shape.
 - A control-placement map that separates identity/network, gateway, model/agent,
@@ -53,7 +57,7 @@ evaluation, catalog/control-plane, operations, or records owner.
 
 **Decision question:** *Accept, defer, reject, route, block, or mark
 diagnostic-only for this bounded runtime-control claim?* Acceptance is a
-customer decision artifact for the reviewed path; it is not deployment,
+customer decision for the reviewed path; it is not deployment,
 enforcement proof, live-policy change, production-control approval, or
 production approval.
 
@@ -72,7 +76,7 @@ The default is layered Azure/Microsoft enforcement:
 
 Use application-only enforcement or another customer control only when route
 coverage, context visibility, latency, capability status, and evidence ownership
-make the default unsuitable. Record the exception owner, reason, compensating
+make the default unsuitable. Name the exception owner, reason, compensating
 control, target event, recheck condition, and exact claim that remains unsupported.
 
 ## 2. Prerequisites
@@ -89,7 +93,7 @@ If the route owner, correlation propagation, telemetry destination, SOC queue,
 retention owner, or customer reviewer is missing, the safe result is defer,
 route, block, or diagnostic-only.
 
-## 3. Why this session matters
+## 3. Make the runtime path reviewable
 
 Runtime security is reviewable only when the path is reviewable. "Content Safety
 is enabled" or "APIM is in front" is not enough. The customer needs to know where
@@ -97,7 +101,7 @@ the control runs, what it inspects, what action it takes, what telemetry it
 emits, how the event joins to the request, who reviews the interpretation, and
 what happens when the control fails or is bypassed.
 
-S6 records that runtime-path package. It does not publish a route, configure a
+S6 establishes the runtime-path review. It does not publish a route, configure a
 gateway, grant access, run production traffic, export logs, prove production
 enforcement, or approve production.
 

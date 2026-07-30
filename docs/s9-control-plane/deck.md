@@ -4,11 +4,11 @@
 
 Microsoft default: **Agent 365 where available, Microsoft Entra Agent ID, Azure API Center, API Management/gateway, Microsoft Foundry, Azure Monitor/Application Insights, and customer control-plane register**.
 
-Concrete decision: **Close, close with owned gaps, defer, reject, route, or block the reconciliation package for one bounded population.**
+Concrete decision: **Reconcile one bounded population, then close, close with owned gaps, defer, reject, route, or block.**
 
 ---
 
-## The control plane is accountable records
+## Reconcile accountable control-plane fields
 
 - A dashboard is not the control plane.
 - A source export is not the control plane.
@@ -125,12 +125,13 @@ These become block, defer, or route decisions.
 
 ---
 
-## Workshop artifact and handoff
+## Decide and hand over
 
-- Artifact: control-plane reconciliation package.
+- Complete: reconciled population, owned gaps, and lifecycle actions.
 - Decision: close, close with owned gaps, defer, reject, route, or block.
 - Handoff: steward, identity owner, API/tool owner, platform/Foundry owner, telemetry owner, lifecycle owner, portfolio or release/change owner.
 - Boundary: read-only, safe references only, no catalog/access/lifecycle changes, no runtime-proof or production-approval claim.
 
 Note:
-End with owners, dates, acceptance tests, and recurrence checks.
+End with the decision, receiving owner, next reconciliation action,
+accepted-when condition, and customer-owned evidence reference.

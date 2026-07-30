@@ -11,14 +11,14 @@ monitor → feedback/data collection**. Preserve the Microsoft Learn inner-loop
 and outer-loop model, but make it concrete for one change.
 
 1. Choose one bounded LLMOps change.
-2. Create the LLMOps change card.
-3. Map the seven lifecycle stages.
-4. Build the release manifest and artifact version contracts.
+2. Define the LLMOps change and its owners.
+3. Trace the seven lifecycle stages the change crosses.
+4. Compare the release manifest and version contracts.
 5. Classify model/deployment lifecycle states.
 6. Define rollout, fallback, rollback, and retirement authority.
 7. Define feedback-to-curation governance.
-8. Define automation prerequisites.
-9. Decide ready for next customer process, defer, reject, route, or block.
+8. Test automation prerequisites.
+9. Decide ready for the next customer process, defer, reject, route, or block.
 
 ![S11 illustrative LLMOps change control flow: change card, seven-stage lifecycle package, artifact version contracts, release manifest, rollout/fallback/rollback authority, feedback-to-curation gate, automation readiness, blocked gaps, and safe evidence boundary.](../assets/diagrams/s11-llmops-change-control-flow.svg)
 
@@ -39,7 +39,7 @@ and outer-loop model, but make it concrete for one change.
 | Stop condition | Condition that halts rollout, automation, feedback reuse, alias movement, fallback, or retirement. |
 | Target customer process | Change review, release review, backlog, experiment queue, evaluation queue, operations review, exception review, or portfolio review. |
 
-## Seven-stage lifecycle package
+## Trace the seven-stage lifecycle
 
 | Stage | Microsoft implementation default | Required record | Accepted when... |
 |---|---|---|---|
@@ -94,7 +94,7 @@ deployment records into the curriculum.
 }
 ```
 
-## Artifact version contracts
+## Compare version contracts
 
 | Artifact | Version contract | Reapproval trigger |
 |---|---|---|
@@ -108,7 +108,7 @@ deployment records into the curriculum.
 | Feedback queue | Source, purpose, consent/privacy route, triage owner, sampling/quality rule, curation owner, mutation gate. | New feedback source, purpose, retention, sampling, privacy route, or direct-mutation risk. |
 | Rollout plan | Stage names, population, entry conditions, monitoring signals, stop conditions, fallback trigger, rollback target, review date. | Stage expansion, traffic population, monitoring signal, stop condition, fallback, rollback, or authority change. |
 
-## Model/deployment lifecycle state record
+## Classify model and deployment lifecycle state
 
 | State | Required fields | Not enough |
 |---|---|---|
@@ -119,7 +119,7 @@ deployment records into the curriculum.
 | Retired | Removal owner, dependency review, retained-record location, rollback limitation, closure evidence reference, reopen trigger. | Deleted artifact with no dependency or investigation trail. |
 | Blocked | Missing owner, evidence, lineage, support, legal/privacy route, switch authority, rollback target, or approved record location. | Silent deferral without owner or acceptance test. |
 
-## Rollout, fallback, and rollback package
+## Define rollout, fallback, and rollback
 
 | Field | Record |
 |---|---|
@@ -151,7 +151,7 @@ review. It must not record production approval.
 | Not ready | Required artifact, owner, evidence reference, route, or stop condition is missing. |
 | Accepted risk | Residual risk is owned by the customer's accepted-risk authority, with expiry, evidence reference, and recheck condition. |
 
-## Feedback-to-curation package
+## Govern feedback-to-curation
 
 | Step | Required record |
 |---|---|
@@ -163,7 +163,7 @@ review. It must not record production approval.
 | Evaluation route | Baseline/candidate comparison, threshold owner, unsupported slices, and interpretation owner. |
 | Mutation gate | Customer process that must accept the candidate before production prompt, data, model, retrieval, or tool behavior changes. |
 
-## Automation readiness package
+## Test automation readiness
 
 | Automation area | Evidence required before enablement | Manual override |
 |---|---|---|

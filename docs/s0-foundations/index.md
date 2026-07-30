@@ -5,10 +5,10 @@
 
 <span class="rvas-badge rvas-persona">Governance lead</span>
 
-## 1. Outcome & what the customer keeps
+## 1. Start with the first blocker
 
-S0 chooses the first practical AI-governance action. The customer leaves with a
-short **technical baseline card** that names:
+Start by choosing the first practical AI-governance action. Agree on a short
+technical baseline that names:
 
 - the bounded pilot or capability;
 - the sponsor and decision owner;
@@ -33,7 +33,7 @@ readiness blocker instead of starting downstream work.
 
 ## 2. Baseline card fields
 
-| Field | What to record |
+| Field | Agree and capture |
 |---|---|
 | Pilot / capability | One bounded AI-agent or platform question. |
 | Sponsor | Person or group that can decide whether governance work continues. |
@@ -55,7 +55,7 @@ readiness blocker instead of starting downstream work.
 ## 4. Change boundary
 
 S0 makes no tenant, platform, policy, access, funding, production, or evidence
-movement change. It selects the first technical action and records blockers.
+movement change. It selects the first technical action and assigns any blockers.
 
 Use [Technical decisions](technical.md) for baseline field detail and safe
 handoff boundaries.

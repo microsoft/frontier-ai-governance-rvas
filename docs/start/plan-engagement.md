@@ -1,77 +1,79 @@
 # Plan the engagement
 
-Use this guide to prepare the S0-S12 AI Governance curriculum. The facilitator runs the method; customer administrators use their own tools, and customer decision owners approve changes and accept risk.
+Use this guide to prepare a focused AI-governance engagement. The facilitator
+runs the method; customer administrators use their own tools, and customer
+decision owners approve changes and accept risk.
 
 ## Bring the right people
 
 | Role | Main contribution |
 |---|---|
 | Executive sponsor | Sets direction, clears blockers, and accepts portfolio priorities. |
-| Governance lead | Owns the baseline card, evidence record, and first technical blocker. |
+| Governance lead | Owns the baseline, evidence record, and first technical blocker. |
 | Platform owner | Owns the platform path, trust-boundary decisions, and platform evidence. |
 | Identity, data, and security administrators | Open and operate the relevant customer controls. |
 | AI developer or maker | Explains agent implementation, testing, changes, and tool boundaries. |
 | Evidence owner | Maintains evidence references, retention treatment, and decision traceability. |
 
-## Establish the initial scope
+One person can hold several roles. Do not schedule a decision workshop without a
+customer decision owner.
 
-Before S0, write down the first agent group or use-case question. Name the customer records location, decision owner, known architecture limits, safe stop condition, and whether any third-party model, tool, connector, data source, managed service, or supplier process is involved.
+## Prepare the first decision
 
-Use the pre-S0 conversation as triage, not a scoring exercise. Confirm the use
-case is bounded enough to discuss, that the customer knows where records will
-live, and that any obvious high-risk, regulated, safety-critical,
-production-impacting, or externally supplied dependency has a named owner and
-route before the first workshop. If the customer cannot name a decision owner,
-evidence owner, approval route, or safe review target, keep the item as readiness
-work instead of starting S0.
+Write down:
 
-The customer may already have a platform path, or platform readiness may be a backlog item. Accept control readiness only from the customer record.
+1. one bounded agent group or use-case question;
+2. the decision to make and its possible outcomes: approve, defer, reject, or route;
+3. the customer records location and evidence owner;
+4. the technical owner, known architecture limits, and relevant supplier dependency;
+5. the safe stop condition and any non-production target required for the work.
 
-Before scheduling any session, use [Check whether a session is ready](../delivery/session-readiness.md).
-It identifies the small amount of prework that keeps a 90-minute session focused
-on a decision rather than missing prerequisites.
+Use the initial conversation as triage, not a scoring exercise. If the customer
+cannot name a decision owner, evidence owner, approval route, or safe review
+target, record readiness work with an owner instead of beginning a workshop.
 
-## Start with S0
+Before booking, complete [Check whether a session is ready](../delivery/session-readiness.md).
+It keeps the 90-minute workshop focused on a decision rather than missing
+prerequisites.
 
-S0 creates the baseline card and selects the first technical blocker to close.
-Use it for routing, not as a pass/fail gate.
+## Choose only the work that answers the question
 
-Missing roles, records, licenses, platform evidence, or safe targets become readiness items with owners.
+Start with a [governance baseline and operating-model workshop](../s0-foundations/index.md).
+It identifies the first technical blocker and selects the smallest useful set
+of follow-on workshops.
 
-S0 can route to any S1-S12 session. Keep these dependencies:
+Use these dependencies when selecting that work:
 
-- S3 sets the platform assumptions used by S4-S8.
-- Agent admission standards feed tool/API publication and later change decisions.
-- S5 authority, exposure, tool/API/MCP, and supplier-interface decisions feed S6-S8 assurance.
-- S6-S8 require a customer-approved non-production target when live activity is proposed.
-- S9 reconciles evidence from the earlier sessions you selected.
-- S10 uses customer-held operational evidence and decisions.
-- S11 governs model and prompt operations where the customer can control or materially change those assets.
-- S12 aggregates selected session outcomes into portfolio technical actions.
+- establish the platform route before relying on admission, publication, runtime,
+  evaluation, or adversarial-testing decisions;
+- set admission and tool or API authority before making downstream change or
+  assurance decisions;
+- use an approved non-production target before runtime assurance, evaluation, or
+  adversarial testing;
+- reconcile ownership and lifecycle records before relying on operating or
+  portfolio decisions.
+
+The customer may already have a platform path. Treat readiness gaps as owned
+backlog items; accept control readiness only from customer records.
 
 ## Deliver safely
 
-Start with the least disruptive posture: report-only access controls; simulated, test, or notify-mode data controls; and decisions before platform or engineering deployment. Runtime assurance, evaluation, and adversarial testing need an approved non-production or explicitly authorized target. Production promotion remains a customer change decision.
+Start with the least disruptive posture: report-only access controls; simulated,
+test, or notify-mode data controls; and decisions before platform or engineering
+deployment. Production promotion remains a customer change decision.
 
-Before a privileged change, confirm the human approver, change window, incident contact, rollback owner, rollback trigger, verification step, and evidence-retention route. Notify security operations before adversarial testing. See [How to Deliver](../how-to-deliver.md#non-production-hard-exit-gate) for the live-action exit gate.
+Before a privileged change, confirm the human approver, change window, incident
+contact, rollback owner and trigger, verification step, and evidence-retention
+route. Notify security operations before adversarial testing. See
+[How to Deliver](../how-to-deliver.md#non-production-hard-exit-gate) for the
+live-action exit gate.
 
-Keep customer evidence in customer systems. This curriculum can reference a record, gap, owner, date, decision, or retention treatment, but it must not copy customer prompts, outputs, telemetry, credentials, supplier contracts, audit evidence, or regulated records into the repository. Treat evidence age, refresh cadence, retention, and deletion as customer-owned lifecycle decisions.
+Keep customer evidence in customer systems. This curriculum may reference a
+record, gap, owner, date, decision, or retention treatment. It must not copy
+customer prompts, outputs, telemetry, credentials, supplier contracts, audit
+evidence, or regulated records into the repository.
 
-Third-party and supplier governance is visible during planning, but the curriculum does not create a full supplier-assurance program or legal conclusion. Route supplier dependencies through the existing session path: S4 for admission and material-change review, S5 for tool/API/MCP authority and withdrawal, S11 for model/provider lifecycle and incident routes, and S12 for portfolio gaps, exceptions, and future work.
-
-## Evidence flow
-
-| From | Evidence or decision | Used in |
-|---|---|---|
-| S0 | Baseline, operating model, and roadmap | All selected sessions; S12 roadmap refresh |
-| S1-S2 | Authority and data findings | S3-S8 design and assurance context |
-| S3-S5 | Platform, admission, and publication decisions | S6-S8 runtime and change context |
-| S6-S8 | Runtime, evaluation, and adversarial findings | S9 reconciliation and S10 operating review |
-| S9 | Reconciliation, lifecycle, closure, retirement, and decommissioning backlog | S10-S12 |
-| S10 | Operating evidence, incidents, drift, cost, rollback, and remediation decisions | S11 operating-model decision and S12 portfolio review |
-| S11 | Model/prompt operations decision, lifecycle gaps, incident routes, deprecation, and handoffs | S12 portfolio review |
-| S12 | Portfolio decision and next roadmap | Next S0 cycle |
-
-## Start the curriculum
-
-Begin with [S0 · Governance Baseline & Operating Model](../s0-foundations/index.md). Use [How to Deliver](../how-to-deliver.md) and the individual session guides to plan the selected sequence.
+Supplier and third-party questions remain visible during planning, but the
+curriculum does not create a supplier-assurance program or legal conclusion.
+Route them through the customer's existing procurement, legal, security, or
+vendor-risk process, or record an owned follow-up.

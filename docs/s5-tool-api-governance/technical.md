@@ -9,7 +9,7 @@
 
 ## Microsoft default
 
-Default to Azure API Center or the approved catalog for the admission record,
+Default to Azure API Center or the approved catalog for admission,
 Azure API Management for approved exposed routes, Microsoft Entra/JWT for caller
 identity, and customer connector/MCP publication controls. Use the in-process
 governance path only when the needed decision must happen inside the agent
@@ -17,27 +17,27 @@ process immediately before a tool call.
 
 ![S5 tool/API admission package: trace one consumer through identity, catalog/API Center, gateway or alternative route, operation boundary, audit/correlation, and withdrawal path before admitting the tool.](../assets/diagrams/s5-tool-api-governance-record-model.svg)
 
-## Workshop route: build the tool/API admission package
+## Workshop route: admit or block one tool/API operation
 
 1. **Choose one consumer and one operation.** Name the consuming agent/app,
    operation, data classes, side effects, environment, version, lifecycle state,
    evidence owner, and approved records location.
 2. **Classify operation risk.** Mark read-only, write/update, approval-gated,
    admin/destructive, external side effect, bulk/export, sensitive-data, or
-   dynamic tool-chaining. Record blocked operations and hard stops.
+   dynamic tool-chaining. Identify blocked operations and hard stops.
 3. **Compare admission routes.** Decide whether the route is API Center/APIM,
    allow-list, connector governance, MCP publication, runtime-control referral,
-   reject/block, or withdrawal. Record rejected alternatives and assumptions.
-4. **Build the control-path package.** Record catalog/API Center fields, APIM or
+   reject/block, or withdrawal. Compare rejected alternatives and assumptions.
+4. **Define the control path.** Identify catalog/API Center fields, APIM or
    equivalent route, identity contract, operation boundary, rate/quota,
    audit/correlation, consumer acceptance, and material-change triggers.
-5. **Design withdrawal first.** Record how to disable, revoke, remove,
+5. **Design withdrawal first.** Define how to disable, revoke, remove,
    unpublish, rotate, notify, verify, preserve investigation references, and
    close or roll back.
 6. **Route downstream prerequisites.** Name platform, identity, connector/MCP,
    runtime, evaluation, data/privacy, catalog/control-plane, operations, and
    release owners as needed.
-7. **Close the decision.** Approve only when the package is bounded,
+7. **Close the decision.** Approve only when the operation boundary is
    reviewable, observable, withdrawable, consumer-accepted, and ready for the
    customer's separate change process.
 
@@ -54,7 +54,7 @@ process immediately before a tool call.
 | Consumer acceptance | Accepted operations, failure mode, retry/fallback, review cadence, material-change trigger. |
 | Withdrawal | Disable/revoke/remove/unpublish/rotate/notify path, owner, verification reference, and closure decision. |
 
-## Admission route packages
+## Compare admission routes
 
 | Route | Package fields | Do not use when... |
 |---|---|---|

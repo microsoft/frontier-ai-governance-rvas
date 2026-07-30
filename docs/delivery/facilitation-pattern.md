@@ -3,17 +3,19 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-15 · Confirm current capability availability in the [Governance capability guide](../reference/governance-capability-guide.md) before using a product in a pilot.
 
-Use this 90-minute method for any selected S0-S12 working session. The facilitator runs the method; the customer acts, keeps evidence, and decides.
+Use this 90-minute method for any selected working session. The facilitator
+runs the method; the customer acts, keeps evidence, and decides.
 
 Run the session against one bounded pilot question. Do not turn it into a configuration workshop or a product tour.
 Complete [Check whether a session is ready](session-readiness.md) before booking
 the session.
 
-## How the session tabs work
+At close, the customer should have one decision, a named owner, an evidence
+reference, and a dated next action.
 
-Use the session cards in this order:
+## Use the guide in four parts
 
-| Card | Use it for |
+| Part | Use it for |
 |---|---|
 | Prepare | Confirm the outcome, prerequisites, and records the customer keeps. |
 | Concepts | Explain the terms and product context the room needs. |
@@ -52,7 +54,8 @@ Capture what a later reviewer needs to verify the decision:
 
 - pilot question, scope, safe posture, and date;
 - customer evidence reference, observed result or no-result, and the reviewer who interpreted it;
-- control state: `designed`, `report_only_deployed`, `observed`, `approved_for_enforcement`, `enforced`, `accepted_risk`, or `blocked`;
+- a concise control-state label, such as designed, observing, accepted for the
+  next process, or blocked;
 - decision, owner, next action, and review date.
 
 Keep customer data, credentials, raw exports, and tenant-specific configuration in the customer's approved records system. Samples, offline mocks, product demonstrations, and facilitator notes are preparation aids, not operating-control proof. This method neither applies a change nor promotes a control to enforcement.
@@ -66,16 +69,13 @@ Keep customer data, credentials, raw exports, and tenant-specific configuration 
 | Unsupported | Record the product or capability limit as observed or documented. Do not invent a workaround or product commitment. | Choose another customer control, defer pending product review, or add an owned backlog item. |
 | Blocked | Record the missing dependency, safe stop point, owner, target event, and effect on sequence. | Stop the dependent action; continue only with unblocked work or reschedule. Do not substitute a production action or fabricated evidence. |
 
-## Product guidance as supporting source
+## Product guidance supports the decision
 
 Use official product guidance to confirm terminology, feature availability, and supported patterns before the customer chooses an action. It supports the pilot. It does not replace customer evidence or prescribe portal click paths.
 
-- [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md)
-- [Microsoft Entra Agent ID guidance](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id)
-- [Microsoft Purview for AI guidance](https://learn.microsoft.com/en-us/purview/ai-microsoft-purview)
-- [Defender AI security posture management guidance](https://learn.microsoft.com/en-us/azure/defender-for-cloud/ai-security-posture)
-- [Microsoft Foundry observability and evaluation guidance](https://learn.microsoft.com/en-us/azure/foundry/concepts/observability)
-- [Azure AI Content Safety Prompt Shields guidance](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection)
+Use the [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md)
+to select the relevant official guidance and acceptance checks for the
+workshop.
 
 ## Facilitator close-out check
 

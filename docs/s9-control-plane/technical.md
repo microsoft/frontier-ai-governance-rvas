@@ -10,13 +10,13 @@ Default to Agent 365 where available for supported agent records, Microsoft Entr
 ## Workshop decision route
 
 1. **Choose a bounded population.** Select one pilot, agent group, API/tool dependency set, Foundry project, or portfolio slice.
-2. **Build the registry population card.** Record scope, included/excluded records, steward, evidence owner, approved records location, cadence, and closure owner.
+2. **Define the registry population.** Identify the scope, included/excluded records, steward, evidence owner, approved records location, cadence, and closure owner.
 3. **Define canonical fields.** Capture agent/workload, identity, tool/API/action, model/deployment, data source, telemetry, lifecycle, exception, and closure fields.
 4. **Declare source-of-record and join rules.** Assign field-level authority, explicit join keys, conflict rule, coverage limit, and owner.
 5. **Reconcile records.** Compare explicit identifiers across identity, catalog, tool/API, model, data, telemetry, owner, exception, and lifecycle records.
-6. **Classify findings.** Record missing owner, stale version, orphan identity, uncataloged tool/API, route mismatch, telemetry gap, lifecycle conflict, exception aging, missing cadence, unsupported coverage, or other.
+6. **Classify findings.** Identify missing owners, stale versions, orphan identities, uncataloged tools/APIs, route mismatches, telemetry gaps, lifecycle conflicts, exception aging, missing cadence, unsupported coverage, or other findings.
 7. **Apply lifecycle and material-change rules.** Confirm current state, permitted transition, review reference, material-change triggers, closure route, recurrence check, and reopen trigger.
-8. **Decide closeout.** Close, close with owned gaps, defer, reject, route, or block.
+8. **Decide and hand over.** Close, close with owned gaps, defer, reject, route, or block; name the receiving owner and next reconciliation action.
 
 ## Registry population card
 
@@ -46,7 +46,7 @@ No single Microsoft product owns every field. Use a federated register when the 
 | Lifecycle | Current state, prior state, transition owner, review reference, effective date, material-change trigger, exception expiry, retirement evidence route, next review date. |
 | Closeout | Decision owner, residual-risk disposition, validation reference, recurrence check, retained-record location, receiving owner, reopen trigger. |
 
-## Source-of-record join package
+## Join source records at field level
 
 | Field family | Preferred source | Join key | Conflict rule |
 |---|---|---|---|
@@ -88,7 +88,7 @@ Use these states consistently so portfolio and operations teams can reason about
 | Lifecycle state change | Transition evidence, closure route, and recurrence check must be updated. |
 | Operating scope change | Population, environment, user group, or production-impact boundary may change. |
 
-## Reconciliation finding record
+## Classify reconciliation findings
 
 Use this shape for customer-owned decision notes that reference source systems. Do not store exports, tenant IDs, object IDs, telemetry payloads, or live configuration in this repository.
 

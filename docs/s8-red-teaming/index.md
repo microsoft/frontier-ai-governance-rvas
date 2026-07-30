@@ -5,11 +5,18 @@
 
 <span class="rvas-badge rvas-persona">Security / SOC</span> <span class="rvas-badge rvas-persona">AI developer / maker</span> <span class="rvas-badge rvas-persona">Legal / risk</span>
 
-## 1. Outcome & what the customer keeps
+!!! abstract "What is at stake"
+    Misuse testing can create risk of its own, so the customer needs explicit
+    authorization, boundaries, stop conditions, and an owner for every finding.
 
-By the end of this session the customer has an **authorized red-team remediation package** for one customer-owned **non-production** agent, application, or endpoint. The package names the target, rules of engagement, category and method route, safe evidence references, ASR or qualitative interpretation, severity owner, finding owner, remediation route, stop condition, and retest criterion.
+## 1. Plan and govern a safe test
 
-They leave with:
+Authorize and plan a defensive test for one customer-owned **non-production**
+agent, application, or endpoint. Agree on the target, rules of engagement,
+method, safe evidence handling, severity owner, remediation route, stop
+condition, and retest criterion.
+
+Prepare the following:
 
 - An **authorized target card**: target, version, environment, owner, reset or rollback path, monitoring window, dependencies, production-impact exclusion, and approved records location.
 - A **rules-of-engagement package**: authorization reference, operators, methods/tools, categories, excluded categories, timing, data limits, prohibited activity, stop conditions, SOC/legal contacts, evidence handling, and retention owner.
@@ -22,13 +29,16 @@ native run records, prompts, outputs, datasets, endpoint details, attack payload
 
 ### What happens next
 
-**Next customer action:** route each finding to the remediation, accepted-risk, blocked, rejected, or retest process named in the decision artifact. No finding is closed until the receiving owner accepts the fix evidence and retest criterion in the customer system.
+**Next customer action:** route each finding to the agreed remediation,
+accepted-risk, blocked, rejected, or retest process. No finding is closed until
+the receiving owner accepts the fix evidence and retest criterion in the
+customer system.
 
 ### Plain decision and default path
 
 **Decision question:** *Can this specific non-production target be tested or reviewed under written rules of engagement, with known attack categories, safe evidence handling, owned thresholds, a defensible finding record, a remediation owner, a stop condition, and a retest criterion?*
 
-The default is an authorized, customer-operated, non-production Microsoft Foundry AI Red Teaming Agent path where the target, region, category, and service status are supported. Use PyRIT, manual expert testing, or a third-party engagement only when support, target type, category coverage, authorization, or customer policy makes the default unsuitable. Record the exception owner, reason, support caveat, target event, severity owner, remediation owner, and retest criterion.
+The default is an authorized, customer-operated, non-production Microsoft Foundry AI Red Teaming Agent path where the target, region, category, and service status are supported. Use PyRIT, manual expert testing, or a third-party engagement only when support, target type, category coverage, authorization, or customer policy makes the default unsuitable. Name the exception owner, reason, support caveat, target event, severity owner, remediation owner, and retest criterion.
 
 S8 produces a remediation package, not offensive capability. Each recommendation names whether to remediate, accept risk, defer, reject, route, block, or retest. It also names the red-team lead, target owner, SOC/legal contact, threshold owner, severity owner, remediation owner, retest owner, evidence owner, and release or lifecycle blocker where relevant.
 
@@ -49,7 +59,7 @@ S8 produces a remediation package, not offensive capability. Each recommendation
 - Decision aids: approved ASR thresholds or qualitative tolerances, category notes, sample-size assumptions, severity owner model, remediation route, accepted-risk authority, blocked path, and retest criteria.
 - Reference sources to validate before delivery: AI Red Teaming Agent concept and run guidance, PyRIT documentation, Azure AI Content Safety/Prompt Shields references, Defender/Sentinel handoff expectations, and customer security/evaluation standards.
 
-## 3. Why this session matters
+## 3. Test misuse safely and act on the result
 
 Red teaming is useful only when the customer agrees on target, authorization, category, success criteria, safety limits, response path, and retest evidence before the first probe. Adversarial-test evidence is accepted only for the exact authorized scope, category, target version, sample, method, and threshold.
 

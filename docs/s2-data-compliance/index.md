@@ -5,15 +5,19 @@
 
 <span class="rvas-badge rvas-persona">Compliance / Data admin</span> <span class="rvas-badge rvas-persona">Governance lead</span>
 
-## 1. Outcome & what the customer keeps
+!!! abstract "What is at stake"
+    A data inventory is not enough: the customer needs to know what the agent
+    can reach, where the data goes, and where it can leave the approved path.
 
-The customer leaves with a concrete trace of how data moves through one in-scope
-AI scenario and whether each segment has a known compliance control, owner, and
-investigation route. The review uses Microsoft Purview where the tenant,
+## 1. Trace one data path
+
+Trace how data moves through one in-scope AI scenario and check whether each
+segment has a known compliance control, owner, and investigation route. Use
+Microsoft Purview where the tenant,
 workload, location, role, and license support it; unsupported areas are recorded
 as gaps, not assumed coverage.
 
-They leave with:
+Work through these checks:
 
 - A **data-path trace card** for source data, prompt/input, retrieval context,
   tool request, tool response, final response, logs/telemetry, evaluation data,
@@ -49,7 +53,7 @@ classification/exposure, report-only DLP readiness, investigation route,
 retention/residency/privacy, gateway/runtime dependency, and final decision
 state. Default to supported Microsoft Purview controls and the customer
 change-review process. If a workload, role, licensing, location, retention rule,
-or feature does not support the proposed control, record that exception with its
+or feature does not support the proposed control, name that exception with its
 owner, Purview record location, acceptance criterion, and target event; do not
 claim equivalent coverage. This session does not deploy enforcement or approve
 production.
@@ -69,7 +73,7 @@ work. Each backlog item should preserve the review posture:
 - **Result:** the customer can point to a supported Purview finding, label, DLP
   match, audit route, retention rule, or approved evidence record.
 - **No result:** the customer reviewed the agreed scope and found no matching
-  signal; record the scope and why that absence is meaningful.
+  signal; state the scope and why that absence is meaningful.
 - **Unsupported:** the workload, data location, role, license, or tenant
   capability does not support the expected Purview or investigation coverage.
 - **Blocked:** a missing owner, approval, retention/hold path, data-path detail,
@@ -77,7 +81,7 @@ work. Each backlog item should preserve the review posture:
 
 Do not let a product name stand in for proof. A Purview feature, DLP policy, or
 gateway route is only useful for this workshop when the reviewed path segment,
-workload support, scope, owner, limitations, and next action are recorded.
+workload support, scope, owner, limitations, and next action are explicit.
 
 Blockers can include missing workload coverage, licensing, role assignment, retention, or investigation ownership.
 
@@ -90,7 +94,7 @@ Blockers can include missing workload coverage, licensing, role assignment, rete
 - At least one AI workload in scope, such as Microsoft 365 Copilot, Microsoft Foundry agents, Copilot Studio, Security Copilot, or approved enterprise ChatGPT connectors.
 - A customer-approved place to store Purview findings, Audit/eDiscovery routes, DLP configuration records, and decisions.
 
-## 3. Why this session matters
+## 3. Check the control points
 
 AI data risk is often hidden in the handoff between systems: a user prompt, a
 retrieval source, a tool response, generated text, a saved transcript, or a file

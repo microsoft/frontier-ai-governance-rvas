@@ -7,23 +7,25 @@
 
 <span class="rvas-badge rvas-persona">LLMOps owner</span> <span class="rvas-badge rvas-persona">AI developer</span> <span class="rvas-badge rvas-persona">Service owner</span>
 
-## 1. Outcome & what the customer keeps
+!!! abstract "What is at stake"
+    Models and prompts change continuously; the customer needs ownership,
+    evidence, and rollback routes that keep pace with those changes.
 
-The customer answers one practical operating question:
-**can this bounded LLMOps change move to the next customer process with safe
-artifact references, known lifecycle owners, accepted evidence references,
-switch authority, rollback/fallback criteria, feedback governance, and
-automation prerequisites?**
+## 1. Move one change through its gates
+
+Take one bounded LLMOps change through the checks required for its next customer
+process: known lifecycle owners, safe references, switch authority,
+rollback/fallback criteria, feedback governance, and automation prerequisites.
 
 **Plain decision question:** Is this model, prompt, retrieval, tool, data,
 evaluation, deployment-alias, fallback, or feedback change ready for the next
-customer-controlled lifecycle step? Record **ready for next process, defer,
+customer-controlled lifecycle step? Choose **ready for next process, defer,
 reject, route, or block**. Default to Microsoft Learn's LLMOps inner and outer
 loop, Microsoft Foundry evaluation/observability where supported, customer
 source/change processes, Azure Monitor/Application Insights for operating
 signals, and safe references only.
 
-They leave with:
+Work through these checks:
 
 - an **LLMOps change card** for one bounded change, environment, affected
   artifacts, lifecycle question, owners, target process, and approved records
@@ -80,7 +82,7 @@ evaluation baseline, switch authority, fallback route, rollback target,
 monitoring signal, feedback governance, or approved record location defers or
 blocks the affected decision.
 
-## 3. Why this session matters
+## 3. Keep change control connected to operations
 
 LLMOps fails when model, prompt, retrieval, data, and tool changes move faster
 than the release evidence around them. A model endpoint response is not an
@@ -88,7 +90,7 @@ operating lifecycle. A dashboard is not a feedback loop. A deployment alias is
 not safe simply because it has a friendly name.
 
 S11 makes the lifecycle concrete. The team traces one change through the inner
-loop, records the artifact versions that define the candidate, connects them to
+loop, pins the versions that define the candidate, connects them to
 evaluation and operating references, and decides what must be true before the
 outer loop can promote, hold, roll back, fall back, retire, or automate that
 path. The result is a practical change control package that the customer's
@@ -107,5 +109,5 @@ artifact-control model, Azure implementation mapping, and record shapes.
 
 S11 makes no data, model, prompt, evaluation, deployment, infrastructure,
 telemetry, incident, traffic, fallback, retirement, automation, or production
-change. It records safe references, owners, limits, stop conditions, evidence
+change. It identifies safe references, owners, limits, stop conditions, evidence
 expectations, and the next customer-controlled process.

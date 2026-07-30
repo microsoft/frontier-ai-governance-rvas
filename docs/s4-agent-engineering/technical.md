@@ -5,36 +5,36 @@
 
 ## Microsoft default
 
-Default to the Microsoft implementation path that fits the candidate: Copilot Studio, Microsoft Foundry Agent Service, Microsoft 365 Copilot extensibility, workflow automation, or a custom Azure app on Foundry models. S4 records path selection, model/deployment choice, admission, and promotion gates.
+Default to the Microsoft implementation path that fits the candidate: Copilot Studio, Microsoft Foundry Agent Service, Microsoft 365 Copilot extensibility, workflow automation, or a custom Azure app on Foundry models. S4 compares paths, selects the bounded engineering route, and defines admission and promotion gates.
 
-## Workshop route: build the agent package
+## Workshop route: choose the agent path
 
 1. **Choose one bounded candidate.** Name product owner, engineering owner,
    service owner, model/latency/cost owner, release owner, evidence owner, and
    approved records location.
-2. **Classify authority and action.** Record inform, draft, recommend,
+2. **Classify authority and action.** Classify as inform, draft, recommend,
    act-with-approval, autonomous, coordinating, or blocked. Inventory allowed
    actions, prohibited actions, human-control point, exception path, fallback,
    rollback owner, and stop condition.
 3. **Compare Microsoft build paths.** Check Copilot Studio, Microsoft Foundry
    Agent Service, Microsoft 365 Copilot extensibility, custom Azure app, workflow
-   automation, and prototype-only. Record why one fits and why others are
+   automation, and prototype-only. Compare why one fits and why others are
    rejected or deferred.
-4. **Build the selected-path package.** Record instruction/workflow/package
+4. **Define the selected path.** Identify the instruction, workflow, or hosted-code
    reference, model route, tools/actions/APIs/connectors, data sources, identity
    mode, runtime controls, evaluation, telemetry, release/rollback, support
    boundary, lifecycle state, and material-change triggers.
-5. **Decide model, latency, cost, quota, and fallback.** Record owner, model
+5. **Decide model, latency, cost, quota, and fallback.** Name the owner, model
    route, capacity/quota limit, latency target, cost guardrail, fallback
    behavior, fine-tuning rationale if any, and review cadence.
-6. **Define DEV/PRE/PRO gates.** Record gate owner, gate purpose,
+6. **Define DEV/PRE/PRO gates.** Name the gate owner and purpose,
    accepted-when criteria, blocker rule, evidence reference, receiving process,
    rollback/decommission trigger, and what remains out of scope.
 7. **Route downstream prerequisites.** Name platform, identity, data, tool/API,
    runtime, evaluation, red-team, catalog/control-plane, operations, and
    retirement owners where needed.
 8. **Close the admission decision.** Approve the engineering path only when the
-   package and next-stage gate are complete enough for receiving owners to act.
+   selected controls and next-stage gate are complete enough for receiving owners to act.
    Otherwise defer, reject, route, block, or mark prototype-only.
 
 ### Agent candidate card

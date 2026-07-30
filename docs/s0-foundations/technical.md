@@ -44,7 +44,7 @@ which technical blocker must be closed first for a bounded AI pilot?
 
 ## Evidence system fields
 
-Every downstream artifact should be able to point back to:
+For every downstream decision, point back to:
 
 | Field | Purpose |
 |---|---|

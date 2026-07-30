@@ -5,11 +5,17 @@
 
 <span class="rvas-badge rvas-persona">Governance lead</span> <span class="rvas-badge rvas-persona">Catalog steward</span> <span class="rvas-badge rvas-persona">Service owner</span>
 
-## 1. Outcome & what the customer keeps
+!!! abstract "What is at stake"
+    Governance breaks down when agent, identity, tool, and lifecycle records
+    disagree or no owner is responsible for reconciling them.
 
-By the end of this session the customer has a **control-plane reconciliation package** for one bounded agent/tool population. The package shows which records exist, which source owns each field, which explicit identifiers join records, which lifecycle state applies, which gaps remain, and who closes them.
+## 1. Reconcile the control plane
 
-They leave with:
+Reconcile one bounded agent/tool population. Establish which records exist, which
+source owns each field, which explicit identifiers join them, which lifecycle
+state applies, which gaps remain, and who closes them.
+
+Work through these checks:
 
 - A **registry population card** for the bounded population: scope question, included/excluded agents, tools/APIs, identities, models, data sources, telemetry pointers, lifecycle records, steward, evidence owner, approved records location, and review cadence.
 - A **canonical registry package** covering agent/workload, identity, tool/API/action, model/deployment, data source, telemetry, lifecycle, exception, and closure fields.
@@ -40,7 +46,7 @@ S9 produces a registry reconciliation backlog for customer-owned work. It does n
 - A governance lead, control-plane steward, evidence owner, finding owners, lifecycle owner, and approved records location.
 - Current customer policy for lifecycle states, material changes, exceptions, retirement, recurrence checks, and closeout with gaps.
 
-## 3. Why this session matters
+## 3. Make the records agree
 
 Agent governance breaks when the catalog, identity, tool/API, model, data, telemetry, and lifecycle records disagree. S9 makes those gaps visible without guessing.
 

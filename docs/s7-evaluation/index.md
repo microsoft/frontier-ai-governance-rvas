@@ -5,16 +5,19 @@
 
 <span class="rvas-badge rvas-persona">AI developer / maker</span> <span class="rvas-badge rvas-persona">Governance lead</span>
 
-## 1. Outcome & what the customer keeps
+!!! abstract "What is at stake"
+    Release and change decisions need agreed evidence, thresholds, and owners;
+    confidence in a demo is not enough.
 
-By the end of this session the customer can decide whether one bounded candidate
-change can continue toward the next release process. The decision is based on an
-evaluation evidence package: accepted runtime-path evidence, a versioned
+## 1. Test a candidate change
+
+Test whether one bounded candidate change can continue toward the next release
+process. Base the decision on accepted runtime-path evidence, a versioned
 scenario set, a suitable evaluator or rubric, baseline comparison, customer-owned
 thresholds, gate behavior, performance or cost evidence where relevant, and a
 named release/hold owner.
 
-They leave with:
+Work through these checks:
 
 - An **evaluation candidate card** for the workload, capability, change type,
   release question, owners, environment, lifecycle state, and approved records
@@ -33,7 +36,7 @@ They leave with:
 - A **finding-to-action map** that turns results into release blocker, accepted
   exception, diagnostic-only observation, operating hypothesis, or backlog item.
 - A **release-readiness handoff** that says `continue`, `hold`, `defer`,
-  `reject`, `route`, `block`, or `diagnostic-only`, names the owner, and records
+  `reject`, `route`, `block`, or `diagnostic-only`, names the owner, and sets
   the next action.
 
 `labs/s7-evaluation/` holds the single-file work package and required
@@ -62,7 +65,7 @@ scenarios, CI/CD cloud evaluation, load testing, another approved test service,
 or an explicit diagnostic-only gap when Foundry support, evaluator fit, data
 handling, automation readiness, performance needs, or coverage does not fit.
 
-S7 prepares release-readiness evidence. It does not approve production, change a
+S7 prepares the release-readiness review. It does not approve production, change a
 pipeline, configure Foundry, set thresholds for the customer, run load tests, or
 claim runtime enforcement.
 
@@ -79,7 +82,7 @@ claim runtime enforcement.
   evaluations or agent evaluators after current availability and scope are
   verified.
 
-## 3. Why this session matters
+## 3. Make release decisions on evidence
 
 A score is not a decision. A release-readiness package needs to say which
 scenario set was tested, what changed, what baseline it was compared with, who
@@ -97,7 +100,7 @@ boundaries, threshold ownership, and release-readiness evidence.
 ## 4. Rollback and handoff
 
 S7 changes no evaluator, agent, model deployment, data source, CI/CD gate,
-threshold, or release policy. The customer can record a deferral or replace its
+threshold, or release policy. The customer can defer or replace its
 decision through its own change and evidence process. Handoff names the
 scenario, evaluator, threshold, rollback/remediation owner, release/hold owner,
 evidence references, review cadence, and material-change triggers. The completed

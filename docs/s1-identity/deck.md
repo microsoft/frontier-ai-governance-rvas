@@ -124,9 +124,9 @@ remain.
 
 ---
 
-## Workshop artifact
+## Decide and hand over
 
-The record must capture:
+Confirm:
 
 - Pilot scope and business purpose.
 - Sponsor, lifecycle owner, identity owner, security reviewer, operations owner.
@@ -137,6 +137,7 @@ The record must capture:
   target event, and recheck condition.
 
 Note:
-Close with the artifact, not a generic meeting summary. S1 changes nothing in
-the tenant; customer change processes own provisioning, grants, policy changes,
-and production approval.
+End with the decision, receiving owner, next access action, accepted-when
+condition, and customer-owned evidence reference. S1 changes nothing in the
+tenant; customer change processes own provisioning, grants, policy changes, and
+production approval.

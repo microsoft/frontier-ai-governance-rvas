@@ -3,13 +3,13 @@
 !!! info "Freshness"
     Last reviewed: 2026-07-27 · Verify current capability availability, platform assumptions, and customer-owned evidence before delivery.
 
-## 1. Outcome & what the customer keeps
+## 1. Trace one platform route
 
-S3 traces one platform route end to end: caller, app or orchestrator, gateway or
+Trace one platform route end to end: caller, app or orchestrator, gateway or
 direct path, model/tool/data dependency, identity boundary, private-network
 assumption, telemetry path, registry record, and blocker owner.
 
-The customer keeps a **platform-route trace card** with:
+Map the following:
 
 - caller, workload, environment, and stop condition;
 - hosting pattern: Foundry-hosted, Azure app-hosted, managed SaaS, hybrid,
@@ -46,21 +46,21 @@ criterion.
    platform owner, security owner, telemetry owner, and evidence owner.
 2. **Draw the execution path.** Identify caller -> app/orchestrator -> gateway
    or direct route -> model/tool/API/data dependency -> response/log path.
-3. **Classify the hosting pattern.** Record whether the route is Foundry-hosted,
+3. **Classify the hosting pattern.** Identify whether the route is Foundry-hosted,
    Azure app-hosted, managed SaaS, hybrid, non-Azure, prototype-only, or
    unsupported.
-4. **Check the gateway boundary.** Record APIM/customer gateway API, backend,
+4. **Check the gateway boundary.** Identify the APIM/customer gateway API, backend,
    auth, policy owner, log owner, bypasses, and direct-route exceptions.
 5. **Check private-network claims.** Do not accept "private" without route
    owner, termination point, Private Endpoint/DNS owner, egress path, firewall
    or NSG owner, and later validation reference.
-6. **Separate identities.** Record human caller, workload identity, managed
+6. **Separate identities.** Identify the human caller, workload identity, managed
    identity/app registration, delegated/OBO path, gateway identity, tool/API
    identity, and resource authorization separately.
 7. **Define telemetry and correlation.** State where the trace/correlation key
    starts, where it propagates, where it breaks, who can query it, and how long
    records are retained.
-8. **Record catalog and lifecycle ownership.** Name the API Center/catalog/tool/
+8. **Assign catalog and lifecycle ownership.** Name the API Center/catalog/tool/
    model route record, version, lifecycle owner, and exception owner.
 9. **Decide.** Proceed only for the stated route and assumptions. Otherwise
    defer, route, reject, or block with the technical gap and owner.

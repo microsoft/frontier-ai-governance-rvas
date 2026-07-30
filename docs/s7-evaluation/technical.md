@@ -20,16 +20,16 @@ Testing or approved telemetry for performance evidence.
 2. **Confirm the runtime prerequisite.** If accepted runtime-path evidence is
    missing, scope the evaluation as diagnostic-only and do not use it for
    release reliance.
-3. **Build the scenario-set package.** Record scenario source, owner,
+3. **Define the scenario set.** Select and document the scenario source, owner,
    population, sampling method, included/excluded slices, data/tool boundary,
    environment assumption, reviewer role, and material-change triggers.
 4. **Select the evaluator/rubric route.** Choose Foundry evaluator, agent
    evaluator, manual rubric/scorer, CI/CD cloud evaluation, load/performance
    route, diagnostic-only route, or mixed route.
-5. **Define baseline and candidate comparison.** Record baseline reference,
+5. **Define baseline and candidate comparison.** Compare the baseline reference,
    candidate reference, comparison rule, selected metrics, threshold owner,
    regression tolerance, exception owner, and re-evaluation criterion.
-6. **Define gate behavior.** Record manual review, blocking CI/CD, warning
+6. **Define gate behavior.** Choose manual review, blocking CI/CD, warning
    CI/CD, diagnostic-only, mixed, or not applicable; include identity,
    evidence-storage, raw-evidence handling, failure behavior, and override route.
 7. **Add performance and cost evidence where relevant.** Capture workload model,
@@ -76,7 +76,7 @@ Testing or approved telemetry for performance evidence.
 | Runtime prerequisite | Accepted runtime-path evidence reference or diagnostic-only boundary. |
 | Material-change triggers | Prompt, model, dataset, retrieval, tool schema, policy, deployment alias, route, threshold, evaluator, or scenario-set change. |
 
-## Scenario-set package
+## Define the scenario set
 
 | Field | Record |
 |---|---|
@@ -125,7 +125,7 @@ record the limitation.
 | Load/performance route | workload model, concurrency, latency targets, quota/capacity, cost metric, error/saturation, fallback/cache, run reference | Synthetic results require environment-fidelity limits and operating reconciliation. |
 | Diagnostic-only | missing prerequisite, diagnostic question, owner, accepted limitation, backlog target | Cannot be used as release reliance. |
 
-## Baseline, threshold, and exception package
+## Compare the baseline, set thresholds, and route exceptions
 
 | Field | Record |
 |---|---|
@@ -152,7 +152,7 @@ decision before relying on it:
 | Evidence | Run reference, storage location, retention owner, raw prompt/output handling boundary. |
 | Release behavior | Continue, hold, require human review, rollback route, remediation owner. |
 
-## Performance and cost package
+## Test performance and cost
 
 | Field | Record |
 |---|---|

@@ -7,20 +7,24 @@
 
 <span class="rvas-badge rvas-persona">Governance lead</span> <span class="rvas-badge rvas-persona">Platform owner</span> <span class="rvas-badge rvas-persona">Security reviewer</span> <span class="rvas-badge rvas-persona">AI developer / maker</span>
 
-## 1. Outcome & what the customer keeps
+!!! abstract "What is at stake"
+    Every tool, API, and MCP service needs an accountable route into service and
+    a reliable way to restrict or withdraw it when conditions change.
+
+## 1. Review one tool or API route
 
 For one bounded tool, API, connector, or MCP route, the customer can answer:
 **can this consumer call this operation through an approved Microsoft control
 path, and can we revoke or withdraw it safely?**
 
-They leave with a customer-owned **tool/API admission package**:
+Trace the route and check:
 
 - A tool-call trace card naming the consumer, caller identity, route, operation,
   data classes, side effects, version, owner, and lifecycle state.
 - An admission route comparison across API Center/APIM, allow-list, connector
   governance, MCP publication, runtime-control referral, reject/block, and
   withdrawal.
-- A control-path package with catalog/API Center fields, APIM or equivalent
+- The control path: catalog/API Center fields, APIM or equivalent
   route, identity contract, operation boundary, rate/quota, audit/correlation,
   consumer acceptance, and material-change triggers.
 - A withdrawal-first plan covering disable, permission removal, connector
@@ -28,14 +32,14 @@ They leave with a customer-owned **tool/API admission package**:
   consumer notification, rollback/closure owner, and preserved investigation
   references.
 
-The customer keeps the completed record in its approved records system.
+The customer keeps the completed review in its approved records system.
 `labs/s5-tool-api-governance/` contains offline templates and a report-only
 runbook. Customer evidence stays in the customer system and is referenced, not
 copied into this repository.
 
 ### What happens next
 
-**Next customer action:** hand the admission package or blocker backlog to the
+**Next customer action:** hand the agreed work or blocker backlog to the
 API platform, tool/API, identity, connector/MCP, consuming-agent, runtime,
 evaluation, catalog/control-plane, release, and operations owners who can
 complete the required work.
@@ -43,18 +47,18 @@ complete the required work.
 ### Plain decision and default path
 
 **Decision question:** *Approve, defer, reject, route, withdraw, or block this
-bounded tool/API operation for this bounded consumer?* Approve means the package
+bounded tool/API operation for this bounded consumer?* Approve means the review
 may enter the customer's separate change or release process; it is never a
 publication, enforcement, runtime-proof, or production approval.
 
 The default Microsoft path is:
 
-1. record the candidate in Azure API Center or the approved catalog;
+1. add the candidate to Azure API Center or the approved catalog;
 2. expose the approved route through Azure API Management or an accepted
    equivalent gateway where possible;
 3. use Microsoft Entra workload identity, managed identity, delegated OAuth/OBO,
    or another approved identity path with least privilege;
-4. record connector governance, MCP publication, or allow-list boundaries where
+4. define connector governance, MCP publication, or allow-list boundaries where
    those routes are selected;
 5. capture rate/quota, audit/correlation, consumer acceptance, and withdrawal
    actions before admission.
@@ -78,7 +82,7 @@ before relying on any named service.
 If the customer cannot name the consumer, operation, owner, identity path, audit
 route, or withdrawal owner, the right result is defer, route, reject, or block.
 
-## 3. Why this session matters
+## 3. Give every tool a controlled route
 
 A tool call is a control boundary. The risk is not only that an API exists; it is
 who can call it, through which identity, which route, with which scopes, against
@@ -87,7 +91,7 @@ the customer can revoke or withdraw it.
 
 A catalog helps reviewers find and classify the candidate. It does not prove the
 route is safe, the caller is authorized, APIM policies are running, the consumer
-is within scope, or withdrawal will work. S5 creates the admission package before
+is within scope, or withdrawal will work. S5 defines the admission requirements before
 publication or lifecycle action. It does not publish a service, grant
 permissions, create identities, configure APIM, approve connectors, register MCP
 servers, test live calls, prove runtime enforcement, or approve production.

@@ -17,7 +17,7 @@ retention process?**
 - Do not accept "APIM is enabled" or "Content Safety is enabled" as proof.
 - Trace one caller, one app, one route, one backend, one tool/API path, one
   response path, and one correlation contract.
-- The output is a runtime-path acceptance package, not deployment or production
+- The outcome is a runtime-path acceptance decision, not deployment or production
   approval.
 
 Note:
@@ -89,7 +89,7 @@ Every risk needs an owner, action, telemetry source, limitation, and hard stop.
 
 ---
 
-## Gateway-proof acceptance package
+## Verify gateway-path acceptance
 
 Use safe references for:
 
@@ -143,7 +143,7 @@ cannot be handled safely.
 
 ---
 
-## Decision artifact and handoff
+## Decide and hand over
 
 Decision options:
 
@@ -156,6 +156,7 @@ Decision options:
 - diagnostic-only when useful but not runtime-path proof.
 
 Note:
-Close with the acceptance package and backlog, not a meeting summary. S6 changes
-no tenant policy, deploys no control, proves no production enforcement, and
+End with the decision, receiving owner, next runtime-control action,
+accepted-when condition, and customer-owned evidence reference. S6 changes no
+tenant policy, deploys no control, proves no production enforcement, and
 approves no production use.

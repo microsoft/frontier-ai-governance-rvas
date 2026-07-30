@@ -26,9 +26,9 @@ Open by preventing the workshop from becoming a cloud-governance checklist.
 
 ---
 
-## The route is the artifact
+## Trace the platform route
 
-Record references for:
+Trace and verify:
 
 - landing zone and hosting pattern;
 - Foundry project, app host, or SaaS boundary;
@@ -138,9 +138,9 @@ when the route cannot be reviewed safely.
 
 ---
 
-## Workshop artifact and decision
+## Decide and hand over
 
-The record must capture:
+Confirm:
 
 - platform-route trace card;
 - segment route map;
@@ -153,6 +153,7 @@ The record must capture:
   owner, target event, release impact, and recheck condition.
 
 Note:
-Close with the route artifact, not a meeting summary. S3 deploys nothing, tests
-no network, exports no telemetry, proves no runtime enforcement, and approves no
+End with the decision, receiving owner, next platform action, accepted-when
+condition, and customer-owned evidence reference. S3 deploys nothing, tests no
+network, exports no telemetry, proves no runtime enforcement, and approves no
 production use.

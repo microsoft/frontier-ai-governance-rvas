@@ -15,7 +15,7 @@ Decision: **select the first technical blocker to close, or stop because the pil
 
 ---
 
-## Baseline card
+## Define the baseline
 
 - Pilot / capability.
 - Microsoft service path.
@@ -49,3 +49,7 @@ Decision: **select the first technical blocker to close, or stop because the pil
 ## Output
 
 Proceed, defer, route, reject, or block with the owner, acceptance check, and next technical action.
+
+Note:
+End with the decision, receiving owner, next action, accepted-when condition,
+and customer-owned evidence reference.

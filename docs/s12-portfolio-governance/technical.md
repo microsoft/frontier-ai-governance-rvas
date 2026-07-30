@@ -11,12 +11,12 @@ FinOps records for investment decisions, operating/evaluation/red-team records
 for assurance and drift, and the foundation baseline for re-measurement.
 
 1. Choose the portfolio slice and review period.
-2. Build the portfolio review card.
-3. Assemble the source-lineage and coverage package.
-4. Build the portfolio decision table.
+2. Define the decision question, owners, scope, and stop condition.
+3. Trace source lineage and test coverage limits.
+4. Compare decision fields across the portfolio slice.
 5. Identify exception concentrations and dependency clusters.
 6. Apply prioritization and trade-off mechanics.
-7. Define technical actions and owner readiness.
+7. Choose technical actions and confirm owner readiness.
 8. Define baseline feedback triggers.
 9. Decide continue, pause, retire, fund, defer, route, or block.
 
@@ -37,7 +37,7 @@ for assurance and drift, and the foundation baseline for re-measurement.
 | Evidence limits | Stale, missing, sampled, unsupported, non-comparable, or unavailable sources. |
 | Stop condition | Condition that prevents a recommendation from being used for roadmap, funding, baseline, or policy action. |
 
-## Source lineage and coverage package
+## Trace source lineage and coverage
 
 | Source family | Example references | Coverage fields |
 |---|---|---|
@@ -51,7 +51,7 @@ for assurance and drift, and the foundation baseline for re-measurement.
 | Exceptions and risks | Exception register, accepted-risk items, unresolved blockers, issue/finding records. | Age, expiry, severity, recurrence, owner, escalation, closure criterion. |
 | Roadmap and baseline | Roadmap, funding/sequencing record, owner-readiness register, foundation baseline questions. | target event, owner, funding status, dependency, baseline trigger, recheck owner process. |
 
-## Decision field record
+## Compare decision fields
 
 Each decision field uses the same field shape:
 
@@ -84,7 +84,7 @@ Each decision field uses the same field shape:
 | Owner readiness | Accountable owner, implementation owner, evidence owner, funding owner, receiving owner process, acceptance test. | Blocks unowned work from becoming fake roadmap. |
 | Confidence | Evidence quality, freshness, support status, sampling, source agreement, interpretation owner. | Penalizes thin or stale evidence before prioritization. |
 
-## Exception concentration record
+## Identify exception concentrations
 
 | Field | Record |
 |---|---|
@@ -98,7 +98,7 @@ Each decision field uses the same field shape:
 | Escalation route | owner process or authority if unresolved. |
 | Closure criterion | What must change before the concentration is closed or downgraded. |
 
-## Dependency cluster record
+## Map dependency clusters
 
 | Field | Record |
 |---|---|
@@ -147,7 +147,7 @@ Record the weight owner, rationale, alternatives rejected, uncertainty,
 sensitivity, and decision path. Do not use the formula as automatic ranking,
 funding, or compliance logic.
 
-## technical action record
+## Choose technical actions
 
 | Field | Record |
 |---|---|
@@ -165,7 +165,7 @@ funding, or compliance logic.
 | Blocked-by list | Safe references to blockers. |
 | Next recheck condition | Date, event, evidence update, exception expiry, or baseline review. |
 
-## Baseline feedback record
+## Define baseline feedback
 
 | Trigger | Baseline question |
 |---|---|
@@ -186,7 +186,7 @@ baseline by itself.
 
 | Stop condition | Required outcome |
 |---|---|
-| No approved records location | Block. Do not complete a portfolio decision package. |
+| No approved records location | Block. Do not choose portfolio priorities. |
 | Unknown population or review period | Defer until scope is defined. |
 | Missing source lineage for a key metric | Defer or mark the decision field unusable. |
 | Stale or non-comparable evidence without owner | Defer and create evidence backlog. |
@@ -219,7 +219,7 @@ baseline by itself.
 
 ## Boundary note
 
-S12 creates a portfolio decision package and backlog. It creates no dashboard,
+S12 sets portfolio priorities and a backlog. It creates no dashboard,
 queries no live tenant, consolidates no raw evidence, approves no funding,
 changes no policy, certifies no compliance, proves no runtime enforcement,
 approves no production release, and changes no baseline.

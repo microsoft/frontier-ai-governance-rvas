@@ -3,7 +3,7 @@
 **Facilitator deck**
 
 Workshop decision: **Can this bounded LLMOps change move to the next customer
-process with safe artifact references, owners, stop conditions, fallback,
+process with safe change references, owners, stop conditions, fallback,
 rollback, feedback governance, and automation prerequisites?**
 
 Boundary: S11 prepares a lifecycle handoff. It does not select a model, move
@@ -12,19 +12,19 @@ automation, configure resources, or approve production.
 
 ---
 
-## LLMOps change package, not lifecycle theater
+## Change one LLMOps element, not the whole lifecycle
 
 ![S11 LLMOps change control package: change card, lifecycle stages, artifact versions, release manifest, rollout authority, feedback curation, automation readiness, blocked gaps, and safe references.](../assets/diagrams/s11-llmops-change-control-flow.svg)
 
 - Start with one change, not a lifecycle speech.
 - Possible changes: prompt, retrieval, tool schema, model, dataset, rubric,
   deployment alias, fallback, feedback, retirement, or automation.
-- The artifact is a customer-owned change control package.
+- Define the customer-owned change controls before the next process.
 - Decision: ready for next process, defer, reject, route, or block.
 
 Note:
 Keep the room focused on one candidate change. If people cannot name the
-affected artifact, owner, and target process, they are not ready for an LLMOps
+affected change, owner, and target process, they are not ready for an LLMOps
 decision.
 
 ---
@@ -143,17 +143,18 @@ acceptance test, target event, evidence location, and recheck condition.
 
 ---
 
-## Workshop artifact and handoff
+## Decide and hand over
 
 - LLMOps change card.
-- Seven-stage lifecycle package.
+- Seven-stage lifecycle actions.
 - Release manifest and version contracts.
 - Model/deployment lifecycle state.
 - Rollout, fallback, rollback, and retirement authority.
 - Feedback-to-curation gate.
-- Automation readiness package.
+- Automation readiness checks.
 - Decision and backlog.
 
 Note:
-Close with the customer-owned record and the receiving owner. Keep raw evidence
-in customer-approved systems only.
+End with the decision, receiving owner, next lifecycle action, accepted-when
+condition, and customer-owned evidence reference. Keep raw evidence in
+customer-approved systems only.
