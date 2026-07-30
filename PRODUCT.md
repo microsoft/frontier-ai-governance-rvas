@@ -24,7 +24,7 @@ The curriculum is delivered through a static documentation site, per-session run
 
 ## Capabilities and Constraints
 
-The repository publishes session guidance, reference material, delivery planning, readiness assessment content, lab templates, shared schemas, source diagrams, and safe offline tooling. Generated customer workspaces store templates and references only. The product must preserve the customer-owned evidence boundary: do not store customer identifiers, credentials, tenant configuration, exports, logs, screenshots, or evidence payloads in this repository. Templates, samples, mock results, and offline tool output are preparation aids and never prove that a customer control is deployed or operating. Product claims must be backed by official Microsoft sources, and fast-moving preview/GA details require freshness review.
+The repository publishes session guidance, reference material, delivery planning, readiness assessment content, lab templates, implementation skeletons, shared schemas, source diagrams, and safe offline tooling. Generated customer workspaces store templates and references only. The product must preserve the customer-owned evidence boundary: do not store customer identifiers, credentials, tenant configuration, exports, logs, screenshots, or evidence payloads in this repository. Templates, samples, implementation skeletons, mock results, and offline tool output are preparation aids and never prove that a customer control is deployed or operating. Product claims must be backed by official Microsoft sources, and fast-moving preview/GA details require freshness review.
 
 ## Brand Commitments
 
@@ -32,7 +32,7 @@ The product uses the AI Governance Platform name in repo content and RVAP/RVAS v
 
 ## Evidence on Hand
 
-The repository contains public curriculum content in `docs/`, per-session lab kits in `labs/`, shared schemas in `contracts/`, source diagrams in `diagrams/`, workspace generation tools in `tools/`, and a safe intake example in `examples/engagement-intake.example.json`. It intentionally does not contain customer evidence payloads, tenant-specific data, credentials, production logs, or screenshots.
+The repository contains public curriculum content in `docs/`, per-session lab kits in `labs/`, implementation skeletons in `reference-implementations/`, `infra/`, `policies/`, `agents/`, `evaluations/`, `dashboards/`, `playbooks/`, `checklists/`, and `templates/implementation/`, shared schemas in `contracts/`, source diagrams in `diagrams/`, workspace generation tools in `tools/`, and a safe intake example in `examples/engagement-intake.example.json`. It intentionally does not contain customer evidence payloads, tenant-specific data, credentials, production logs, or screenshots.
 
 ## Product Principles
 

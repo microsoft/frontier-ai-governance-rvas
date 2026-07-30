@@ -23,6 +23,8 @@ for the 90-minute customer-led method. Use the
 [Governance capability guide](reference/governance-capability-guide.md) for
 capability context, the [Platform technical guide](reference/platform-technical-guide.md)
 for platform evidence and ownership boundaries, and
+[Implementation artifact catalog](reference/implementation-artifact-catalog.md)
+to map sessions to reusable implementation skeletons. Use
 [Quality, cost, latency, and rollout governance](reference/quality-cost-latency-guide.md)
 for cross-workshop decision-record guidance.
 

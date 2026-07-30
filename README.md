@@ -53,13 +53,24 @@ tour.
 Sessions are selected by the S0 scope, evidence, dependencies, and customer
 priorities. Every session should answer: what changes in the customer's tenant,
 repo, backlog, dashboard, policy, or operating process tomorrow? No session
-authorizes a production change.
+authorizes a production change. Use the
+[Implementation artifact catalog](docs/reference/implementation-artifact-catalog.md)
+to map each session to a reusable implementation skeleton.
 
 ## Repository layout
 
 ```text
 docs/     Static session site, delivery guidance, and references
 labs/     Per-session README work packages, required templates, and shared offline helpers
+reference-implementations/  Cross-session non-production reference implementation packages
+infra/    Bicep and Terraform skeletons for future implementation labs
+policies/ Azure Policy and API Management policy skeletons
+agents/   Governance-agent skeletons
+evaluations/  Foundry evaluation skeletons
+dashboards/   Azure Monitor and Grafana dashboard skeletons
+playbooks/    Sentinel and operations playbook skeletons
+checklists/   Implementation readiness and acceptance checklists
+templates/implementation/  Reusable implementation work-package templates
 tools/    Safe workspace generation and static validation
 ```
 

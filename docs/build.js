@@ -118,6 +118,7 @@ const PAGES = [
   { slug: 'reference-nist-session-map', src: 'reference/nist-ai-rmf-session-map.md', title: 'NIST AI RMF session map', nav: true, group: 'Reference' },
   { slug: 'reference-ai-governance-map', src: 'reference/ai-governance-reference-map.md', title: 'Microsoft AI governance reference map', nav: true, group: 'Reference' },
   { slug: 'reference-microsoft-platform-governance-playbook', src: 'reference/microsoft-platform-governance-playbook.md', title: 'Microsoft platform governance playbook', nav: true, group: 'Reference' },
+  { slug: 'reference-implementation-artifact-catalog', src: 'reference/implementation-artifact-catalog.md', title: 'Implementation artifact catalog', nav: true, group: 'Reference' },
   { slug: 'reference-quality-cost-latency', src: 'reference/quality-cost-latency-guide.md', title: 'Quality, cost, latency, and rollout governance', nav: true, group: 'Reference' },
   { slug: 'reference-performance-testing', src: 'reference/performance-testing-guide.md', title: 'Agent performance-testing governance', nav: true, group: 'Reference' },
 ];
@@ -144,6 +145,7 @@ const ROUTES = {
   'reference/nist-ai-rmf-session-map.md': 'page.html?p=reference-nist-session-map',
   'reference/ai-governance-reference-map.md': 'page.html?p=reference-ai-governance-map',
   'reference/microsoft-platform-governance-playbook.md': 'page.html?p=reference-microsoft-platform-governance-playbook',
+  'reference/implementation-artifact-catalog.md': 'page.html?p=reference-implementation-artifact-catalog',
   'reference/quality-cost-latency-guide.md': 'page.html?p=reference-quality-cost-latency',
   'reference/performance-testing-guide.md': 'page.html?p=reference-performance-testing',
 };

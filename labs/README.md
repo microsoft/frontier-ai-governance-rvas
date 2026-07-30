@@ -9,6 +9,13 @@ Each session lab under `labs/s*/` is a compact technical work package:
 
 Shared helpers under `labs/helpers/` support offline illustration or reusable checks. They do not deploy services, change a tenant, or make a customer decision.
 
+Implementation skeletons live outside `labs/` in areas such as
+`reference-implementations/`, `infra/`, `policies/`, `agents/`,
+`evaluations/`, `dashboards/`, `playbooks/`, `checklists/`, and
+`templates/implementation/`. Use the
+[implementation artifact catalog](../docs/reference/implementation-artifact-catalog.md)
+to map a decision lab to a future implementation artifact.
+
 ## Before using a helper
 
 1. Read the matching session lab's `README.md`.

@@ -8,7 +8,10 @@ it forward.
 The model is progressive, but not strictly linear. A customer may enter through
 an urgent security, identity, evaluation, or portfolio question. Use S0 to
 confirm the first blocker, then select the smallest session set that advances
-the maturity level with a durable output.
+the maturity level with a durable output. Use the
+[Implementation artifact catalog](../reference/implementation-artifact-catalog.md)
+to map that output to the repository skeleton that future implementation labs
+can fill in.
 
 | Level | Goal | Customer outcome | Primary sessions |
 |---|---|---|---|
