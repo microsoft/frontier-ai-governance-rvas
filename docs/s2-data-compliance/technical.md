@@ -1,207 +1,249 @@
-# S2 · Data-Path Trace & Control Map: Technical decisions
+# S2 · Foundry Purview Compliance: Technical runbook
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-24 · Microsoft Purview DSPM for AI, DLP, sensitivity labels, audit, eDiscovery, gateway masking, and Azure AI safety features vary by tenant, workload, region, and license. Verify official docs and tenant status before delivery.
+    Last reviewed: 2026-07-30 · This runbook uses verified Microsoft Foundry and Microsoft Purview portal behavior. Validate tenant licensing, role assignments, and current workload support before delivery.
 
 ## Microsoft default
 
-Default to Microsoft Purview Data Security Posture Management, sensitivity labels, Data Loss Prevention, audit, and eDiscovery for data governance. Use gateway masking or Azure AI Content Safety only for the runtime slices they officially support.
+Default to Microsoft Foundry plus Microsoft Purview Data Security Posture
+Management, Audit, retention, eDiscovery, and DLP simulation for observation and
+compliance routing. S2 is not a generic data-governance workshop: it verifies what
+Purview can observe for one non-production Foundry path and records the limits.
 
-S2 starts by tracing the customer data path, not by creating a decision record or authoring policy. Before participants choose a release or backlog action, confirm that the reviewed AI scenario has a named data path, data owner, observation owner, and compliance route.
+Use a dedicated non-production Azure subscription because enabling Purview in
+Foundry sends interaction data from **all Foundry applications in that
+subscription** to the tenant's Purview environment.
 
-## Workshop route: trace the data path
+## 1. Preflight
 
-1. **Choose one bounded AI scenario.** Name the workload, environment, business
-   owner, data owner, compliance decision owner, evidence owner, and approved
-   records location.
-2. **Draw the data path.** Trace the source system, prompt/input, retrieval context,
-   tool request, tool response, final response, logs/telemetry, evaluation data,
-   downstream sharing, and evidence reference.
-3. **Classify each segment.** Identify the label/classifier/data class, source owner,
-   exposure status, and whether the segment is labeled, unlabeled, overexposed,
-   unknown, unsupported, not applicable, or outside scope.
-4. **Interpret Purview/DSPM evidence.** Classify the result as validated no-result,
-   unsupported, blocked, or not applicable. Do not treat empty findings as proof
-   without scope, time range, workload support, reviewer, role/license, and
-   source details.
-5. **Assess DLP/report-only readiness.** For each entry point, determine whether DLP
-   is existing, report-only/simulation, enforced, designed, unavailable, not
-   applicable, or blocked. S2 does not deploy or enforce policy.
-6. **Trace investigation and retention.** Name audit, eDiscovery, legal hold,
-   Insider Risk, Communication Compliance, privacy, service log, and
-   records-management routes where applicable.
-7. **Place minimization and identify bypasses.** Decide whether sensitive fields
-   are reduced at source, retrieval, app, gateway, output, telemetry, or not at
-   all. Trace streaming, tool-response, direct-service, and logging bypasses.
-8. **Close decision and backlog.** Approve only when every required segment has a
-   control statement, owner, limitation, accepted-when condition, and handoff.
-
-### Data-path trace card
-
-Record references only. Do not copy prompts, outputs, documents, Purview
-exports, audit records, tenant configuration, source names, policy artifacts, or
-runtime evidence into this repository.
-
-| Field | What to record |
-|---|---|
-| Scenario scope | Workload, environment, user group, business purpose, data owner, compliance owner, and customer record location. |
-| Source data | Source system, data class, region/residency, permission model, label/classifier, retention owner, overexposure status. |
-| Prompt/input | Input producer, sensitive classes allowed or denied, minimization point, DLP/workload support, logging behavior. |
-| Retrieval context | Index/source, connector identity, query/filter scope, cache behavior, stale or overshared content risk. |
-| Tool request | Tool/API, parameter classes, identity mode, gateway route, downstream system, data-processing owner. |
-| Tool response | Response classes, truncation/redaction point, log/correlation route, failure behavior, bypass risk. |
-| Final response | Display channel, copy/share/save route, output check, user notice, downstream recipient. |
-| Logs and telemetry | Fields logged, sampling/masking, retention, access owner, investigation owner, SIEM or workspace route. |
-| Evaluation reuse | Dataset source, de-identification owner, retention, reuse limit, approval route. |
-| Evidence reference | Evidence system, evidence owner, review date, scope, limitations, expiry, hold/deletion owner. |
-| Decision | Approve/defer/reject/route/blocked, accepted-when condition, target event, handoff, release/backlog impact. |
-
-| Decision | Microsoft default | Exception criteria |
+| Check | Required decision / evidence | Blocker if missing |
 |---|---|---|
-| Classification | Purview sensitivity labels, label policy, and scoped DLP readiness | existing enterprise classifier is authoritative and maps to Purview gaps |
-| Exposure review | Purview DSPM for AI / data map findings for supported workloads | manual review is required for unsupported data stores or unknown tenant support |
-| DLP readiness | report-only / simulation evidence before enforcement recommendations | unsupported condition, connector, license, or role means no DLP coverage claim |
-| Audit/eDiscovery | Purview audit and eDiscovery route for supported workloads | regulated customer system is the legal record or workload is not supported |
-| Retention | Purview retention / records-management owner and policy reference | source system retention is authoritative and mapped to the scenario |
-| Residency/privacy | service residency documentation plus privacy/legal processing record | region, tenant, or contractual constraints require privacy/legal decision |
-| PII/runtime handling | source minimization plus gateway masking where supported | app-specific redaction is the only supported point |
+| Subscription | Dedicated non-production subscription selected for the workshop. | Do not enable Purview against an unapproved or mixed production subscription. |
+| Tenant Purview | Microsoft Purview exists in the tenant. | Foundry enablement cannot complete. |
+| Licensing and billing | Purview license and any PAYG data-security processing path are confirmed. | Do not promise DSPM, policy management, content viewing, DLP, retention, or eDiscovery behavior. |
+| Foundry role | Enablement owner has Foundry Account Owner / Azure AI Account Owner. | Cannot enable from Foundry. |
+| Purview roles | Compliance Admin / Compliance Administrator for DSPM create/edit; Security Reader or AI Viewer for read-only; Content Explorer Content Viewer or Purview Data Security AI Content Viewer for content viewing if explicitly approved. | Cannot verify or view required evidence. |
+| DLP roles | Information Protection Admin for DLP simulation. DLP creation can also use Compliance Admin, Compliance Data Admin, Information Protection, or Security Admin. | Cannot create, edit, or simulate DLP policy. |
+| Pilot path | Foundry app/resource, model, API, auth flow, user-context behavior, and agent path are named. | Do not assume coverage. |
+| Evidence handling | Customer-approved record location exists. | Do not run a test that creates evidence without an owner. |
+| Test content | Synthetic non-customer prompt, expected classifier/SIT, user, and time window are approved. | Do not use customer data. |
 
-## Data-control matrix
+## 2. Enable Foundry Purview integration
 
-Use this matrix to make the practical workshop scenario-driven. Each row asks participants to choose a control action, verify its evidence route, identify blocker conditions, and hand work over safely. Do not infer control coverage from product names alone; verify workload, location, role, license, region, and tenant support before treating a control as available.
+Preferred Foundry portal route:
 
-| Control area | Decision to record | Evidence / control record | Scenario blocker | Safe route |
-|---|---|---|---|---|
-| Classification | Which data sources, fields, and prompt/retrieval slices are in scope, and whether each has a sensitivity label or named classification gap | Purview Information Protection label, label policy, scanner/classifier finding, or customer-approved classifier record | no label owner; source classification unknown; classifier cannot inspect the location | backlog classification gap with data owner and target event; do not claim label coverage |
-| Exposure review | Whether the AI path increases access to overshared, stale, or privileged content | Purview DSPM for AI/data map finding, SharePoint/OneDrive permissions review, source ACL export reviewed in customer tenant | workload unsupported; source ACL unavailable; no source owner | route to source-system owner; limit scenario to reviewed sources only |
-| DLP/report-only readiness | Whether a report-only or simulation state can observe the scenario before any enforcement decision | DLP policy in report-only/simulation mode, matched condition list, exception list, alert/report owner | missing license/role; unsupported workload, condition, or connector; policy would require production change | record DLP as not established; request compliance owner review before enforcement discussion |
-| Audit/eDiscovery | How an investigation would find relevant user, prompt, retrieval, and document activity without exporting customer data | Purview audit search route, eDiscovery case/hold owner, workload audit availability record | audit disabled or unavailable; no eDiscovery case owner; route cannot cover the workload | route to compliance/legal; use synthetic workshop facts only |
-| Retention | Which retention policy governs source content, AI interaction logs, evidence notes, and investigation records | retention label/policy reference, records-management owner, source-system retention record | retention owner missing; evidence storage not approved; logs have unclear retention | hold release recommendation; backlog retention mapping |
-| Residency/privacy | Whether the data path, telemetry, model endpoint, gateway, and evidence location meet approved residency and privacy constraints | approved region/service residency documentation, privacy/legal processing record, tenant data-boundary note | region or tenant support unknown; legal basis unresolved; cross-border path unreviewed | route to privacy/legal; record no residency approval |
-| Gateway/runtime minimization | Where sensitive fields are minimized before prompt assembly, retrieval, tool call, response, or logs | source filter, retrieval query, gateway masking rule, APIM route, app redaction owner, telemetry sampling/minimization record | gateway cannot see the field; streaming/tool output bypasses gateway; unsupported masking claim | move minimization to source/app boundary; do not claim gateway coverage |
+1. Open `ai.azure.com`.
+2. Select **Operate** -> **Compliance** -> **Data security and governance**.
+3. Select the test subscription.
+4. Enable **Powered by Microsoft Purview**.
+5. Record only safe references: subscription alias, Foundry app/resource alias,
+   enablement owner, timestamp, and status.
 
-## Outcome interpretation
+Alternative Azure portal route:
 
-Use this table to keep evidence language honest.
+1. Open the Azure portal.
+2. Go to **Microsoft Defender for Cloud** -> **Environment settings**.
+3. Select the subscription.
+4. Go to **AI services** -> **Settings**.
+5. Enable data security for AI interactions.
 
-| Outcome | Use when | Required fields |
+Decision notes:
+
+- This is a paid Purview capability, not a feature included in Defender for AI
+  Services.
+- Enable only after the customer accepts that Foundry interaction data for the
+  subscription flows to the tenant Purview environment.
+- Record any portal wording differences instead of forcing a screenshot into the
+  lab output.
+
+## 3. Configure Purview collection
+
+In Microsoft Purview:
+
+| Area | Portal path / action | Accepted when |
 |---|---|---|
-| Result | A supported Microsoft or customer-owned record shows a finding, label, match, alert, audit route, exposure, or classification. | Record source, reviewer, date, workload, segment, limitation, owner, and next action. |
-| No result | A supported review found no matching signal in the agreed scope. | Query/scope, time range, workload support, role/license, reviewer, source, and why absence is meaningful. |
-| Unsupported | The workload, connector, data location, role, license, region, tenant feature, or condition cannot support the expected control. | Unsupported slice, residual risk, owner, alternative review path, target event, release impact. |
-| Blocked | The team cannot complete the review safely. | Missing dependency, owner, escalation path, accepted-when condition, target event, and what must stop. |
-| Not applicable | The segment genuinely does not contain that data or route in the bounded scenario. | Scope statement, reviewer, date, and trigger for re-review if the path changes. |
+| Audit | **Audit** -> activate Microsoft Purview Audit if not active. | Audit is active for the tenant and the test time window. Audit Standard generally retains 180 days. |
+| DSPM | **Data Security Posture Management**. Some guidance may show **Solutions** -> **DSPM for AI (classic)** -> **Recommendations**. | DSPM collection for AI can be viewed by the assigned reviewer. |
+| Recommendation | Enable or verify **Secure data in Azure AI apps and agents**. | Recommendation state and owner are recorded. |
+| Collection policy | Enable or verify **Secure interactions from enterprise apps** / **DSPM for AI - Capture interactions for enterprise AI apps**. | Policy state is enabled or deliberately deferred with owner and reason. |
+| Custom apps | For custom or Entra-registered apps, follow the custom app integration path and KYD collection policy only with deliberate customer approval for prompt/response storage. | App ID/reference, collection scope, and storage acceptance are recorded without secrets. |
 
-## DLP/report-only readiness checklist
+## 4. Run the synthetic Foundry test
 
-| Check | Question |
+1. Confirm the app uses the named non-production Foundry resource and pilot API
+   path.
+2. Confirm the auth path. Data-security policy enforcement is limited to
+   managed-inference `/chat/completions` calls using an Entra user-context token
+   or explicit user context.
+3. Submit one synthetic, non-customer interaction through the non-production app.
+4. Record the safe test reference: user, time window, app/resource alias, expected
+   SIT/classifier, API path, auth context, and whether prompt/response content
+   viewing was intentionally avoided.
+
+Do not store the prompt, response, screenshots, policy export, tenant ID,
+resource endpoint, secret, or customer content in this repository.
+
+## 5. Inspect DSPM Activity Explorer
+
+Portal route: **Purview** -> **DSPM** -> **Activity explorer**.
+
+Filters:
+
+- **AI app category** = **Enterprise AI apps**
+- **App** = **Azure AI**
+- Test user
+- Test time window
+
+Expected result:
+
+- AI interaction event for the synthetic test.
+- Test user and timestamp.
+- App and access context.
+- Sensitive information type or file-reference metadata if the synthetic test
+  matched.
+
+Interpretation:
+
+| Result | How to record it |
 |---|---|
-| Entry point | Is the policy mapped to prompt/input, retrieval, tool request, tool response, final response, sharing, or storage? |
-| Workload support | Does the relevant workload, connector, condition, role, license, region, and tenant support the intended observation? |
-| Mode | Is the policy existing, report-only/simulation, enforced, designed, unavailable, not applicable, or blocked for this segment? |
-| Match handling | Who reviews matches, false positives, exceptions, and tuning? |
-| Enforcement boundary | What would enforcement affect, and which customer change process owns it? |
-| Evidence safety | Where is the report reference stored without exporting sensitive content into delivery materials? |
-| Failure route | What happens when DLP cannot observe the segment: source restriction, app redaction, gateway control, or blocker? |
+| Event found | Record safe event reference, reviewer, filters, timestamp range, app/resource alias, and observed metadata categories. |
+| Event delayed | DSPM reports and some views can take about 24 hours; record recheck time and owner. |
+| No event | Validate subscription enablement, policy state, user/time filters, app category, role, license, and API/auth path before calling it a no-result. |
+| Unsupported | Record the exact model/API/auth/agent path and route to Foundry/Purview owner. |
 
-## Investigation and retention checklist
+Prompt/response text requires Content Explorer Content Viewer or Purview Data
+Security AI Content Viewer. Avoid content viewing unless the customer explicitly
+approves it.
 
-| Review area | Required question |
+## 6. Search Audit
+
+Portal route: **Purview** -> **Audit** -> search the test user and time window.
+
+Expected evidence:
+
+- `ConnectedAIAppInteraction` / `ConnectedAIApp` activity.
+- Identity such as `ConnectedAIApp.AzureAI.<resource>`.
+- Correlation to the test user and time window.
+
+Record:
+
+| Field | Value to capture |
 |---|---|
-| Audit | Which audit route can find user, app, agent, prompt, retrieval, tool, response, or sharing activity for the workload? |
-| eDiscovery/legal hold | Who can place or review a hold, and which content/log locations are in or out of scope? |
-| Insider Risk / Communication Compliance | Is the path relevant to those processes, and who owns triage if a signal appears? |
-| Service/application logs | Which service logs, app traces, or telemetry workspaces preserve correlation without retaining unnecessary content? |
-| Retention | Which policy governs source content, AI interaction logs, transcripts, evidence notes, and investigation records? |
-| Deletion/export | Who owns deletion, export, hold, and approved evidence storage decisions? |
-| Privacy/residency | Which region, tenant boundary, legal basis, or processing record must be confirmed before continuation? |
+| Search owner | Person or role that ran the search. |
+| Scope | User, time window, app/resource alias, and workload terms. |
+| Result | Event reference or no-result with validated scope. |
+| Retention | Audit Standard generally retains 180 days; record if Premium or different tenant policy applies. |
+| Limitation | Missing role, disabled audit, unsupported path, or delayed indexing. |
 
-## Data-path reference map
+## 7. Review DSPM reports
 
-Record every segment as a reference to customer-held evidence. S2 does not
-copy data, prompts, outputs, exports, or tenant configuration.
+Portal route: **Purview** -> **Reports** -> **Enterprise AI apps**.
 
-| Segment | Minimum fields | Common control question |
-|---|---|---|
-| Source system | Workload, source owner, data class, region/residency, permission model, retention owner, last review date. | Is the source approved for this scenario and least-privilege access path? |
-| Prompt/input | Input producer, allowed sensitive classes, prohibited fields, minimization point, logging behavior. | Can sensitive input enter the model path, and where is it reduced? |
-| Retrieval context | Index/source, query scope, filter, ranking owner, connector identity, cache/storage behavior. | Can retrieval surface overshared or stale content? |
-| Tool request | Tool/API, parameter classes, identity mode, gateway route, policy owner, downstream system. | Does a tool call send regulated data to another boundary? |
-| Tool response | Response classes, truncation/redaction point, log/correlation path, failure behavior. | Can returned data bypass source controls or gateway masking? |
-| Final response | Display channel, sharing target, storage/copy route, output-safety dependency, user notice if any. | Could generated content expose or transform sensitive data? |
-| Logs/telemetry | Fields logged, sampling, masking, retention, access owner, investigation owner. | Are logs minimized and usable for investigation without becoming a new data store risk? |
-| Evaluation data | Dataset source, de-identification owner, retention, rubric owner, reuse limits. | Is evaluation using approved non-production or properly governed records? |
-| Evidence reference | Record system, evidence owner, review date, scope, limitations, expiry. | Can reviewers find the decision evidence without exporting customer data? |
+Expected after processing:
 
-## Purview, DLP, audit, and eDiscovery review shapes
+- Total interactions.
+- Sensitive interactions when the synthetic classifier/SIT matched.
+- App and user/activity trend data appropriate to the tenant view.
 
-Use these review steps to turn completed technical work into a decision.
+Reports can take about 24 hours. A same-day empty report is a recheck item, not a
+safety conclusion.
 
-| Review | Fields to capture | Blocker examples | Fallback route |
+## 8. Classify DLP simulation boundary
+
+Portal route: **Purview** -> **Data Loss Prevention** -> **Policies** -> create
+or edit policy -> **Simulate** or turn on policy -> **Run policy in simulation
+mode**.
+
+Expected for supported simulation surfaces:
+
+- Policy status: **In simulation**.
+- **View simulation** shows matching items or alerts where supported.
+- Activity Explorer policy mode can show `TestWithNotifyUser` or
+  `TestWithoutNotifyUser`.
+
+Boundary statement to include in every S2 decision:
+
+> DLP simulation is used for policy tuning and observation. Documented DLP
+> simulation workload locations do not list Enterprise AI apps / Foundry as
+> end-to-end prompt blocking evidence, so S2 does not claim Foundry runtime
+> blocking from a simulation result.
+
+## 9. Configure or verify retention
+
+Portal route: **Purview** -> **Data Lifecycle Management** -> **Policies** ->
+**Retention policies**.
+
+Steps:
+
+1. Create or verify a retention policy that includes **Enterprise AI apps**.
+2. Record the approved period, owner, and scope.
+3. Confirm whether the pilot is Copilot, Foundry, custom Entra-registered app, or
+   another non-Copilot generative app.
+4. For non-Copilot generative apps, record whether content capture/collection is
+   enabled; prompts and responses require collection before retention can apply
+   to that content.
+
+Do not validate retention by deleting AI interaction data.
+
+## 10. Configure or verify eDiscovery route
+
+Portal route: **Purview** -> **eDiscovery** -> **Cases** -> **Create case**.
+
+Steps:
+
+1. Create or identify the case owner.
+2. Create a search with the relevant mailbox.
+3. For Foundry, use item class
+   `IPM.SkypeTeams.Message.ConnectedAIApp.AzureAI.<AzureResourceName>`.
+4. For Copilot, all AI activity can be searched when that broader scope is
+   approved.
+5. Record only the route, case/search reference, owner, and limitation.
+
+Do not use deletion as validation.
+
+## 11. Support and limit decision table
+
+| Area | Supported claim | Limit / caveat | Decision action |
 |---|---|---|---|
-| Purview classification | Workload, label or sensitive-information type, classifier source, coverage scope, reviewer, unsupported locations. | Label owner missing; source not scanned; classifier does not cover the data type. | Manual data-owner attestation plus classification backlog. |
-| DSPM/exposure | Finding ID/reference, affected source, exposure type, access group, remediation owner, residual risk. | Workload unsupported; ACL export unavailable; oversharing owner unknown. | Source-permission review before broad agent access. |
-| DLP/report-only | Policy/report reference, condition, workload, mode, match count, false-positive owner, exception owner. | Missing license/role; unsupported connector/condition; enforcement would require live change. | Record observation gap and route to compliance/change owner. |
-| Audit/eDiscovery | Query route, workload coverage, time range, retention/hold owner, reviewer, investigation handoff. | Audit disabled; no case owner; route excludes the workload. | Legal/compliance backlog with manual review route. |
-| Retention/legal hold | Source retention, log retention, evidence retention, hold process, deletion owner, expiry/review date. | Evidence store unapproved; hold route missing; residency/legal basis unresolved. | Defer release recommendation pending records/privacy decision. |
+| Subscription enablement | Foundry subscription is connected to tenant Purview. | All Foundry apps in that subscription send interaction data to Purview. | Use non-production subscription; record customer acceptance. |
+| DSPM Activity Explorer | Synthetic Foundry interaction is observable as Azure AI / Enterprise AI app event. | Delays and role/license filters can hide results. | Recheck before declaring no-result. |
+| Audit | ConnectedAIAppInteraction / ConnectedAIApp record can be searched for test user/time. | Audit must be active; Standard generally retains 180 days. | Record audit route and owner. |
+| DSPM reports | Enterprise AI apps reports show total and sensitive interactions. | Reports can take about 24 hours. | Record report recheck if not ready. |
+| DLP simulation | Policy simulation helps tune conditions and observe matches. | Not end-to-end Foundry prompt blocking evidence. | Classify as observation/tuning only. |
+| Policy enforcement | Foundry data-security policies apply to managed-inference `/chat/completions` with Entra user-context token or explicit user context. | Other auth flows may be observable but not policy-enforced. | Verify exact API/auth path. |
+| Network isolation | No supported claim from this Purview integration. | Network isolation is not supported by the integration. | Route to platform/network architecture. |
+| Agents | Foundry control-plane guidance says subscription app/agent interaction data flows to Purview. | Defender onboarding guidance says Foundry-agent data/context is not currently supported. | Verify exact pilot model/API/agent path; do not assume coverage. |
+| Custom apps | Custom app integration and KYD collection can capture prompts/responses. | Use only after customer accepts storage and evidence handling. | Record deliberate approval and scope. |
 
-## Runtime minimization placement
-
-Runtime minimization belongs at the earliest technically reliable point. Record
-coverage limits explicitly, especially when streaming, tool responses, or
-direct service calls bypass a gateway.
-
-| Placement | Example record | Limitation to record |
-|---|---|---|
-| Source filter | Source query scope, ACL group, label filter, row/field projection owner. | Does not protect user-entered prompt text or downstream tool responses. |
-| Retrieval query | Index filter, semantic ranker scope, connector identity, cache behavior. | Ranking can surface sensitive snippets if source access is too broad. |
-| Application redaction | Field allow-list, redaction library/policy version, test owner, fallback behavior. | App must see the field before it can redact it. |
-| Gateway masking | APIM/gateway route, masking policy reference, observed field classes, bypass routes. | Only covers traffic routed through that gateway and supported content forms. |
-| Model/output check | Safety/output check reference, action on match, reviewer route. | Output checks do not prove source permission or legal basis. |
-| Telemetry minimization | Logged fields, sampling/masking rule, retention/access owner. | Logs may still retain correlation metadata requiring privacy review. |
-
-## Platform checks
-
-| Check | Microsoft product/control record |
-|---|---|
-| Classification status | Purview Information Protection labels, label policy, DLP policy, policy simulation/report |
-| Exposure and oversharing | Purview DSPM for AI/data map finding, SharePoint/OneDrive permissions, data-source ACLs |
-| Audit/eDiscovery | Purview audit log, eDiscovery case/hold, retention policy, records-management owner |
-| Runtime data path | gateway masking rule, Azure API Management route, Azure AI Content Safety setting if used |
-| Residency/privacy | approved Azure region, service residency docs, privacy/legal processing record |
-
-## Decision and blocker routes
-
-| Case | Decision route | Record before continuing |
-|---|---|---|
-| Unsupported workload | Treat the control as not established for that source or scenario slice | affected workload, unsupported control, source owner, target review date, release impact |
-| Missing license or role | Do not ask participants to prove product behavior they cannot access | required license/role, tenant admin or compliance owner, alternate manual evidence route |
-| Missing data owner | Block data-path acceptance for that source | source name, unresolved owner, interim custodian if any, escalation owner |
-| Missing investigation owner | Block audit/eDiscovery acceptance | expected incident/eDiscovery route, missing owner, legal/compliance escalation |
-| Unsupported DLP condition | Record DLP as observation gap rather than coverage | unsupported condition/connector, residual risk, report-only alternative if available |
-| No result or empty result | Do not treat an empty search, report, or scan as proof of safety until scope is validated | query/scope, time range, workload coverage, reviewer, next validation step |
-| Runtime minimization unsupported | Keep the control at source or application boundary | field/data type, unsupported gateway/runtime claim, implementing owner |
-| Residency or privacy unresolved | Defer release recommendation | unresolved region/legal basis/processing record, privacy owner, decision due date |
-
-## Acceptance tests
+## 12. Acceptance tests
 
 | Work item | Accepted when... | Handoff |
 |---|---|---|
-| Data path | every source-to-prompt, retrieval, tool, response, log, and evidence path is named with workload, region, tenant boundary, owner, and minimization point | Scenario owner |
-| Classification | each in-scope source has verified label/classifier coverage or a named classification gap with owner, target event, and release impact | Data/compliance owner |
-| Policy state | DLP, label, and retention references state whether they are existing, report-only/simulation, enforced, not available, or not applicable; no policy change is made by S2 | Compliance owner |
-| Observation owner | every DLP report, DSPM finding, audit search, telemetry view, or manual review has a named reviewer and review cadence | Observation owner |
-| Audit/eDiscovery route | a reviewer can explain how an investigation would find relevant records without exporting customer data, or the route is blocked with owner and escalation | Legal/compliance |
-| Retention | source content, AI interaction logs, workshop evidence, and investigation records each have a retention owner or documented blocker | Records-management owner |
-| Investigation route | unsupported workload, missing owner, empty result, or suspected oversharing has a named investigation route and release/backlog impact | Investigation owner |
-| Change safety | the scenario records decisions only, exports no customer data, changes no compliance policy, approves no production, and uses synthetic or pre-approved evidence references | Workshop facilitator |
+| Preflight | Non-production subscription, tenant Purview, licensing/billing, roles, pilot path, and evidence handling are recorded. | Foundry owner / Compliance owner |
+| Foundry enablement | The test subscription shows **Powered by Microsoft Purview** enabled or the blocker is documented. | Foundry Account Owner |
+| Purview configuration | Audit, DSPM collection, recommendation, and enterprise app interaction policy state are verified. | Purview Compliance Admin |
+| Synthetic test | One non-customer interaction is submitted through the named app/model/API/auth path. | App owner |
+| Activity Explorer | Azure AI / Enterprise AI app event is found, delayed with recheck owner, or unsupported with path details. | Security Reader / AI Viewer |
+| Audit | ConnectedAIAppInteraction / ConnectedAIApp search result or validated no-result is recorded. | Audit owner |
+| DSPM reports | Enterprise AI apps report is checked after processing or assigned a 24-hour recheck. | DSPM owner |
+| DLP boundary | Simulation status and matches are recorded only as observation/tuning; no Foundry prompt-blocking claim is made. | Information Protection Admin |
+| Retention | Enterprise AI apps retention policy and approved period are recorded, including content-capture dependency. | Records-management owner |
+| eDiscovery | Case/search route and Foundry item class are recorded; deletion is not used for validation. | eDiscovery owner |
+| Limits | Managed-inference/API/auth, network isolation, custom app storage, and agent caveats are explicitly accepted or routed. | Governance lead |
 
 ## Boundary note
 
-S2 records data decisions and routes remediation; it exports no customer data and changes no compliance policy.
+S2 records portal evidence routes and decisions. It exports no customer data,
+changes no policy outside the customer change process, claims no blanket runtime
+enforcement, and approves no production release.
 
 ## Related references
 
-- [S6 technical decisions](../s6-security-runtime/technical.md): runtime safety placement.
-- [Microsoft AI governance reference map](../reference/ai-governance-reference-map.md): Purview, DLP, audit, eDiscovery, residency, and compliance sources.
-- [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md).
+- [Use Microsoft Purview to manage data security and compliance for Microsoft Foundry](https://learn.microsoft.com/en-us/purview/ai-azure-foundry)
+- [Manage compliance and security in Microsoft Foundry](https://learn.microsoft.com/en-us/azure/foundry/control-plane/how-to-manage-compliance-security)
+- [Configure DSPM for AI for custom AI apps](https://learn.microsoft.com/en-us/purview/developer/configurepurview)
+- [Develop and deploy secure and compliant Microsoft Foundry or custom AI apps](https://learn.microsoft.com/en-us/purview/developer/secure-ai-with-purview)
+- [Learn about DLP simulation mode](https://learn.microsoft.com/en-us/purview/dlp-simulation-mode-learn)
+- [Learn about retention for Copilot and AI apps](https://learn.microsoft.com/en-us/purview/retention-policies-copilot)
+- [Search the audit log](https://learn.microsoft.com/en-us/purview/audit-search)
+- [Search for and delete AI application data in eDiscovery](https://learn.microsoft.com/en-us/purview/edisc-search-copilot-data)

@@ -1,128 +1,167 @@
-# S2 · Data-Path Trace & Control Map
+# S2 · Foundry Purview Compliance Runbook
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-15 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).
+    Last reviewed: 2026-07-30 · This session is a Foundry-first, Microsoft Purview portal runbook. Confirm tenant licensing, roles, and current product coverage before delivery.
 
-<span class="rvas-badge rvas-persona">Compliance / Data admin</span> <span class="rvas-badge rvas-persona">Governance lead</span>
+<span class="rvas-badge rvas-persona">Compliance / Data admin</span> <span class="rvas-badge rvas-persona">Foundry owner</span> <span class="rvas-badge rvas-persona">Governance lead</span>
 
-!!! abstract "What is at stake"
-    A data inventory is not enough: the customer needs to know what the agent
-    can reach, where the data goes, and where it can leave the approved path.
+!!! abstract "What this workshop does"
+    S2 enables and verifies Microsoft Purview observation for a **non-production Microsoft Foundry path**, runs one synthetic non-customer interaction, inspects DSPM Activity explorer and Audit, checks retention and eDiscovery routes, classifies DLP and enforcement limits, and routes unsupported coverage gaps.
 
-## 1. Trace one data path
+## 1. Use a non-production Foundry subscription
 
-Trace how data moves through one in-scope AI scenario and check whether each
-segment has a known compliance control, owner, and investigation route. Use
-Microsoft Purview where the tenant,
-workload, location, role, and license support it; unsupported areas are recorded
-as gaps, not assumed coverage.
+Use a dedicated **non-production Azure subscription** for the pilot. Enabling the
+Purview integration for Foundry sends interaction data from all Foundry
+applications in that subscription to the tenant's Microsoft Purview environment.
+Do not enable the workshop path against a mixed production subscription unless
+the customer has explicitly approved that tenant and subscription impact.
 
-Work through these checks:
+Preflight confirms:
 
-- A **data-path trace card** for source data, prompt/input, retrieval context,
-  tool request, tool response, final response, logs/telemetry, evaluation data,
-  evidence references, and downstream sharing.
-- A **segment control map** that says where classification, exposure review,
-  report-only DLP observation, audit/eDiscovery, retention, residency/privacy,
-  minimization, and gateway/runtime controls apply or do not apply.
-- References to reviewed DSPM for AI or related Purview findings, including
-  result, no-result with validated scope, unsupported, blocked, and not
-  applicable outcomes.
-- A classification and exposure position for each data-path segment: labeled,
-  unlabeled, overexposed, unknown, unsupported, not applicable, or outside the
-  reviewed scope.
-- A DLP/report-only readiness statement by entry point and workload. Existing
-  DLP does not count as scenario coverage until prompt, retrieval, tool,
-  response, connector, workload, role, license, and region limits are mapped.
-- Investigation-readiness references that name the route, owner, retention or
-  hold dependency, legal/compliance decision point, and the records an
-  investigator could reconstruct for Audit, eDiscovery, Insider Risk Management,
-  Communication Compliance, service logs, or another customer-owned process.
-- A minimization and boundary decision: source filter, retrieval filter,
-  application redaction, gateway masking, output check, telemetry minimization,
-  known bypass, and owner.
+- Microsoft Purview exists in the tenant and the required Purview licenses or
+  pay-as-you-go billing path are approved.
+- The subscription selected in Foundry is the intended test subscription.
+- The facilitator has Foundry Account Owner / Azure AI Account Owner for
+  enablement, and the customer has the needed Purview, audit, DLP, retention,
+  and eDiscovery role owners.
+- The pilot model, API, auth flow, app, and agent path are known. Do not assume
+  agent coverage; verify the exact pilot path.
+- The validation interaction uses only synthetic, non-customer content. Do not
+  copy prompts, responses, tenant identifiers, policy exports, screenshots, or
+  secrets into this repository.
 
-`labs/s2-data-compliance/` contains a facilitator review checklist and data-governance handoff. Customer evidence stays in the approved customer records system. The delivery workspace stores references, not copied evidence.
+## 2. Enable Foundry data security and governance
 
-### Plain decision
+Preferred portal route:
 
-**Question:** **Can this one data path continue with known classification,
-exposure, DLP observation, investigation, retention, minimization, and
-gateway/runtime boundaries?** Separate the decisions for data path,
-classification/exposure, report-only DLP readiness, investigation route,
-retention/residency/privacy, gateway/runtime dependency, and final decision
-state. Default to supported Microsoft Purview controls and the customer
-change-review process. If a workload, role, licensing, location, retention rule,
-or feature does not support the proposed control, name that exception with its
-owner, Purview record location, acceptance criterion, and target event; do not
-claim equivalent coverage. This session does not deploy enforcement or approve
-production.
+1. Open `ai.azure.com`.
+2. Go to **Operate** -> **Compliance** -> **Data security and governance**.
+3. Select the test subscription.
+4. Enable **Powered by Microsoft Purview**.
+5. Record the subscription alias/reference, role owner, enablement timestamp,
+   and any tenant prerequisite gaps in the customer record system.
 
-### What happens next
+Alternative Azure route when the customer starts from Defender for Cloud:
 
-**Next customer action:** assign the selected data, classification, investigation,
-or report-only change work to its customer owner before dependent platform work
-continues.
+1. Open the Azure portal.
+2. Go to **Microsoft Defender for Cloud** -> **Environment settings**.
+3. Select the subscription.
+4. Open **AI services** -> **Settings**.
+5. Enable data security for AI interactions.
 
-S2 produces a data-technical backlog: continue without a DLP change, prepare a
-report-only review, fix classification or investigation gaps, remediate
-oversharing, clarify retention/legal hold, move minimization earlier in the path,
-route a gateway/data dependency to platform or runtime owners, or block dependent
-work. Each backlog item should preserve the review posture:
+This alternative is a paid Purview data-security capability. It is not included
+in Defender for AI Services.
 
-- **Result:** the customer can point to a supported Purview finding, label, DLP
-  match, audit route, retention rule, or approved evidence record.
-- **No result:** the customer reviewed the agreed scope and found no matching
-  signal; state the scope and why that absence is meaningful.
-- **Unsupported:** the workload, data location, role, license, or tenant
-  capability does not support the expected Purview or investigation coverage.
-- **Blocked:** a missing owner, approval, retention/hold path, data-path detail,
-  or gateway/runtime dependency prevents a safe decision.
+## 3. Configure and verify Purview collection
 
-Do not let a product name stand in for proof. A Purview feature, DLP policy, or
-gateway route is only useful for this workshop when the reviewed path segment,
-workload support, scope, owner, limitations, and next action are explicit.
+In Microsoft Purview, verify the tenant can collect and inspect Foundry activity:
 
-Blockers can include missing workload coverage, licensing, role assignment, retention, or investigation ownership.
+- Activate Microsoft Purview Audit.
+- Verify Data Security Posture Management collection. Current portal language is
+  **Data Security Posture Management**; some Foundry guidance may still say
+  **Solutions** -> **DSPM for AI (classic)** -> **Recommendations**.
+- Enable or verify the recommendation **Secure data in Azure AI apps and
+  agents**.
+- Enable or verify the policy **Secure interactions from enterprise apps** /
+  **DSPM for AI - Capture interactions for enterprise AI apps**.
+- For custom or Entra-registered apps, use the custom app integration path and a
+  Know Your Data collection policy only when the customer deliberately accepts
+  prompt and response storage.
 
-## 2. Prerequisites
+## 4. Run the safe synthetic validation
 
-- Microsoft Purview capabilities licensed for **DSPM for AI**, sensitivity labels, DLP, Audit, eDiscovery, IRM, and Communication Compliance where needed.
-- Customer admins with the right Purview roles, such as Compliance Administrator, Compliance Data Administrator, or equivalent role groups for DLP and audit export.
-- A named change approver if the review recommends a policy change.
-- An escalation contact for compliance decisions.
-- At least one AI workload in scope, such as Microsoft 365 Copilot, Microsoft Foundry agents, Copilot Studio, Security Copilot, or approved enterprise ChatGPT connectors.
-- A customer-approved place to store Purview findings, Audit/eDiscovery routes, DLP configuration records, and decisions.
+Submit one synthetic non-customer test interaction through the non-production
+Foundry app. The lab records the test user, time window, app/resource reference,
+model/API path, auth context, and expected classifier trigger only as safe
+references.
 
-## 3. Check the control points
+Then inspect:
 
-AI data risk is often hidden in the handoff between systems: a user prompt, a
-retrieval source, a tool response, generated text, a saved transcript, or a file
-shared downstream. S2 traces that path before discussing enforcement:
+- **Purview** -> **DSPM** -> **Activity explorer**. Filter **AI app category** =
+  **Enterprise AI apps** and **App** = **Azure AI**. Expect an AI interaction
+  event with test user, timestamp, app/access context, and sensitive information
+  type or file-reference metadata if the synthetic test matched.
+- **Purview** -> **Audit**. Search the test user and time window. Foundry and
+  custom-app records use `ConnectedAIAppInteraction` / `ConnectedAIApp` identity
+  such as `ConnectedAIApp.AzureAI.<resource>`.
+- **Reports** -> **Enterprise AI apps** after DSPM processing catches up. Reports
+  can take about 24 hours and should show total interactions and sensitive
+  interactions when the classifier matched.
 
-1. Which source data can enter the scenario?
-2. Which prompt/input fields can carry sensitive data?
-3. Which retrieval context can surface overshared or stale content?
-4. Which tool request sends data to another system?
-5. Which tool response can return regulated data?
-6. Which final response can display, store, or share sensitive output?
-7. Which logs, transcripts, telemetry, evaluation datasets, and evidence notes
-   become new data stores?
-8. Which audit, eDiscovery, retention, and legal hold route can reconstruct the
-   event?
+Prompt and response text is not needed for workshop validation. Viewing content
+requires Content Explorer Content Viewer or Purview Data Security AI Content
+Viewer; do not request or store content unless the customer explicitly approves
+that role and evidence handling.
 
-Only after that trace does S2 ask what data is present, who owns it, how it is
-classified, where Purview can see it, where a gateway or runtime control would
-be required, and how an investigator would reconstruct the event without copying
-customer data into this repository.
+## 5. Check retention, eDiscovery, and DLP boundaries
 
-The review identifies sensitive-data exposure, available Purview coverage, and
-the evidence an investigator can use. It checks classification, discovery,
-sensitivity-label, DLP, audit, retention, and legal/compliance ownership before
-any policy leaves simulation or report-only review.
+Retention:
 
-Use [Technical decisions](technical.md) for DSPM, labels, DLP, investigation evidence, and the boundary between Purview and gateway masking.
+- Go to **Purview** -> **Data Lifecycle Management** -> **Policies** ->
+  **Retention policies**.
+- Confirm or create a policy that includes **Enterprise AI apps** and the
+  approved period.
+- For non-Copilot generative apps, prompts and responses require content capture
+  or collection before retention can apply to that content.
 
-## 4. Change boundary
+eDiscovery:
 
-This kit makes no tenant changes. Any customer policy deployment, rollback, and verification stays in the customer's approved change process.
+- Go to **Purview** -> **eDiscovery** -> **Cases** -> **Create case**.
+- Create or plan a search against the relevant mailbox route.
+- For Foundry, use item class
+  `IPM.SkypeTeams.Message.ConnectedAIApp.AzureAI.<AzureResourceName>`. Copilot
+  activity can search all AI activity.
+- Do not use deletion as validation.
+
+DLP simulation:
+
+- Go to **Purview** -> **Data Loss Prevention** -> **Policies**.
+- Create or edit the policy, choose **Simulate** or turn on policy, and run in
+  simulation mode.
+- Expected status is **In simulation**; **View simulation** should show matching
+  items or alerts where supported. Activity Explorer policy mode can show
+  `TestWithNotifyUser` or `TestWithoutNotifyUser`.
+- Documented DLP simulation workload locations do not list Enterprise AI apps /
+  Foundry as end-to-end prompt blocking evidence. Treat this as policy tuning
+  and observation, not evidence that Foundry prompts are blocked at runtime.
+
+## 6. Decide what is supported
+
+S2 does not approve production, change compliance policy outside the customer
+change process, or claim blanket agent coverage. It records one of these states:
+
+| State | Meaning |
+|---|---|
+| Accepted | Foundry enablement, DSPM Activity explorer, Audit, retention/eDiscovery route, and DLP boundary are verified for the named non-production path. |
+| Conditional | Evidence is present, but reports, retention, eDiscovery, or policy tuning needs a named follow-up. |
+| Unsupported | The model, API, auth flow, agent path, workload, role, license, or network constraint is outside the documented Purview coverage. |
+| Blocked | Subscription impact, Purview tenant setup, licensing/billing, roles, safe evidence handling, or customer approval is missing. |
+
+Hard limits to record:
+
+- Foundry data-security policies apply only to managed-inference
+  `/chat/completions` calls that use an Entra user-context token or explicit user
+  context.
+- Other auth flows may appear in Audit or DSPM Activity Explorer but are not
+  policy-enforced.
+- Network isolation is not supported by this Purview integration.
+- Foundry control-plane guidance says subscription app/agent interaction data
+  flows to Purview, while Defender onboarding guidance says Foundry-agent data
+  and context are not currently supported. Verify the exact pilot model, API, and
+  agent path before making any coverage claim.
+
+## 7. Lab output
+
+`labs/s2-data-compliance/` contains the portal runbook lab kit and decision
+record template. Store the completed review in the customer's approved records
+system. This repository keeps only blank templates and safe field shapes.
+
+## Related references
+
+- [Use Microsoft Purview to manage data security and compliance for Microsoft Foundry](https://learn.microsoft.com/en-us/purview/ai-azure-foundry)
+- [Manage compliance and security in Microsoft Foundry](https://learn.microsoft.com/en-us/azure/foundry/control-plane/how-to-manage-compliance-security)
+- [Configure DSPM for AI for custom AI apps](https://learn.microsoft.com/en-us/purview/developer/configurepurview)
+- [Learn about DLP simulation mode](https://learn.microsoft.com/en-us/purview/dlp-simulation-mode-learn)
+- [Retention for Copilot and AI apps](https://learn.microsoft.com/en-us/purview/retention-policies-copilot)
+- [Search the audit log](https://learn.microsoft.com/en-us/purview/audit-search)
+- [Search for and delete AI application data in eDiscovery](https://learn.microsoft.com/en-us/purview/edisc-search-copilot-data)
