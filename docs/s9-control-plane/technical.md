@@ -1,7 +1,7 @@
 # S9 · Control-Plane Reconciliation & Lifecycle: Technical decisions
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-29 · Agent 365, Microsoft Entra Agent ID, Azure API Center, Foundry records, API Management, and platform telemetry vary by tenant, region, license, workload, and feature maturity. Verify official docs and customer coverage before delivery.
+    Last reviewed: 2026-07-30 · Agent 365, Microsoft Entra Agent ID, Azure API Center, Foundry records, API Management, Defender/Sentinel, and platform telemetry vary by tenant, region, license, workload, and feature maturity. Verify official docs and customer coverage before delivery.
 
 ## Microsoft default
 
@@ -17,6 +17,51 @@ Default to Agent 365 where available for supported agent records, Microsoft Entr
 6. **Classify findings.** Identify missing owners, stale versions, orphan identities, uncataloged tools/APIs, route mismatches, telemetry gaps, lifecycle conflicts, exception aging, missing cadence, unsupported coverage, or other findings.
 7. **Apply lifecycle and material-change rules.** Confirm current state, permitted transition, review reference, material-change triggers, closure route, recurrence check, and reopen trigger.
 8. **Decide and hand over.** Close, close with owned gaps, defer, reject, route, or block; name the receiving owner and next reconciliation action.
+
+## Source-by-source execution walkthrough
+
+Use read-only portal inspection. Record safe references and result states only;
+keep object IDs, exports, endpoints, tenant IDs, telemetry payloads, and
+screenshots in customer-approved systems.
+
+| Source | Open / inspect | Check | Expected result or signal |
+|---|---|---|---|
+| Agent 365 / agent registry where available | Open `admin.microsoft.com` -> **Copilot** -> **Agents & connectors** -> **All agents** where available. Filter to the workload, agent name, owner, channel, and lifecycle state. | Agent reference, owner, published channel, lifecycle state, linked identity, workload owner. | Matching owner, stale lifecycle state, duplicate record, or unavailable coverage. |
+| Entra identities | Open Microsoft Entra admin center. Inspect Agent ID, managed identity, service principal, app registration, federated credential, owner/sponsor, enabled state, and resource assignments. | Identity reference joins to registry and agent record; sponsor and disable/retirement state are known. | Orphaned identity, disabled/stale identity, missing sponsor, or matching identity. |
+| API Center | Open Azure portal -> API Center -> APIs / versions / environments. Inspect API owner, version, lifecycle, operation/schema, and environment. | Callable API/tool is cataloged and joined to the workload. | Uncataloged API, stale schema/version, missing owner, or matching API record. |
+| API Management / gateway | Open Azure portal -> API Management -> APIs, products, backends, policies, and diagnostics. Inspect product/backend route, operation, owner, policy boundary, and correlation header. | Gateway route matches API Center and workload record. | Route mismatch, missing backend owner, uncataloged operation, or matching route. |
+| Foundry projects/deployments | Open `ai.azure.com` -> project -> agents/apps/deployments/evaluations/monitoring. Inspect project, agent/app, model deployment alias, evaluation/run reference, and telemetry link. | Foundry project and deployment alias match the registry and model route. | Unmonitored deployment, alias mismatch, stale evaluation reference, or matching project. |
+| Azure Monitor / Application Insights | Open Azure portal -> Application Insights, Log Analytics, or Azure Monitor. Inspect workspace/app reference, `operation_Id` or trace context, query owner, retention, alerts, and workbook. | Telemetry pointer can reconstruct the route at the approved aggregation level. | Missing telemetry, sampled-only path, no alert owner, or valid operating pointer. |
+| Defender / Sentinel | Open Defender for Cloud posture and Microsoft Sentinel incidents/playbooks/watchlists where the customer uses them. Inspect alert route, SOC owner, incident reference, and accepted no-result scope. | Security handoff exists for the workload, identity, API, or deployment route. | Missing security route, unsupported connector, stale incident owner, or valid SOC handoff. |
+| Portfolio / customer records | Open CMDB, portfolio, GRC, backlog, or change record. Inspect owner, lifecycle, exception, roadmap/change link, and duplicate entries. | Customer-owned record matches source-system state and names the receiving owner. | Duplicate record, missing owner, stale lifecycle state, or matching portfolio record. |
+
+## Reconcile IDs for one workload
+
+Pick one workload and compare explicit identifiers. Do not close a match using
+display name, screenshot, or owner memory.
+
+| Join | Record the safe reference | Gap to route |
+|---|---|---|
+| Registry / portfolio record | Customer record reference and lifecycle state. | Duplicate record or stale lifecycle state. |
+| Agent 365 / agent inventory | Agent reference, channel, owner, and identity link where available. | Missing registry coverage or owner mismatch. |
+| Entra identity | Object/application/agent identity reference, sponsor, enabled state. | Orphaned identity or unsupported authority path. |
+| API Center | API/version/operation/environment reference. | Uncataloged API or stale schema. |
+| API Management | Product/backend/route/policy reference. | Route mismatch or uncataloged callable operation. |
+| Foundry | Project, app/agent, deployment alias, evaluation/run, telemetry link. | Unmonitored deployment or alias mismatch. |
+| Monitor / App Insights | Workspace/app reference, correlation key, query/alert owner, retention. | Missing telemetry or sampled-only blind spot. |
+| Defender / Sentinel | Security posture, alert, incident, or accepted no-result reference. | Missing SOC route or unsupported coverage. |
+
+## Expected reconciliation signals
+
+| Signal | Meaning | Route |
+|---|---|---|
+| Matching owner | Registry, identity, API/tool, Foundry, telemetry, and portfolio owner fields agree or have an accepted split. | Close or record accepted owner split. |
+| Orphaned identity | Entra identity exists without a cataloged workload, sponsor, or lifecycle owner. | Identity owner and lifecycle steward. |
+| Uncataloged API | API Center/API Management/gateway shows a callable route missing from the workload record. | API/tool owner and publication route. |
+| Unmonitored deployment | Foundry or runtime route exists without telemetry pointer, query owner, alert owner, or retention owner. | Telemetry/operations owner. |
+| Stale lifecycle state | One source says active while another says hold, suspended, deprecated, retired, or withdrawn. | Lifecycle owner and portfolio/change owner. |
+| Missing telemetry | No approved correlation key, workspace/app reference, query, workbook, alert, or retention path. | Operations owner; do not claim runtime evidence. |
+| Duplicate record | Same workload appears as multiple portfolio, agent, API, or change records without a merge rule. | Portfolio/catalog steward. |
 
 ## Registry population card
 
@@ -163,5 +208,6 @@ S9 records and reconciles control-plane state. Customer stewards implement catal
 ## Related references
 
 - [Identity technical decisions](../s1-identity/technical.md), [tool/API governance technical decisions](../s5-tool-api-governance/technical.md), and [operate/measure technical decisions](../s10-operate-measure/technical.md).
+- [Manage agents in the Microsoft 365 admin center](https://learn.microsoft.com/en-us/microsoft-365/admin/manage/manage-copilot-agents-integrated-apps?view=o365-worldwide).
 - [Governance capability guide](../reference/governance-capability-guide.md).
 - [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md).

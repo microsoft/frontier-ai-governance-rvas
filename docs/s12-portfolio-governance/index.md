@@ -1,7 +1,7 @@
 # S12 · Portfolio Evidence & Roadmap
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-29. Verify current Microsoft service capabilities,
+    Last reviewed: 2026-07-30. Verify current Microsoft service capabilities,
     tenant coverage, licensing, reporting limits, cost allocation, and customer
     technical decision requirements before delivery.
 
@@ -26,26 +26,26 @@ freshness, owner, and limit.
 
 Work through these checks:
 
-- a **portfolio review card** for one bounded population, review period,
-  decision path, included/excluded scope, owners, and approved records
-  location;
-- a source-lineage and coverage package for inventory, control-plane,
-  exception, assurance, operating, cost/capacity, technical action, and baseline
-  references;
-- a compact decision table with coverage, residual risk, assurance, operating
-  health, cost/capacity, exception age, dependency, owner-readiness, and
-  confidence fields;
-- exception concentration and dependency cluster views that identify repeated
-  patterns, shared blockers, owners, escalation routes, and closure criteria;
-- a prioritization and trade-off record covering risk, value, cost, capacity,
-  coverage, dependency leverage, urgency, confidence, and
-  effort/complexity;
-- a technical action package with owner readiness, acceptance test, evidence
-  reference, blocker status, and next action;
-- baseline feedback questions for repeated ownership gaps, evidence gaps, risk
-  appetite issues, cost/capacity pressure, dependency concentration, matured
-  controls, stale assumptions, or policy ambiguity; and
-- a decision and backlog with safe references only.
+- Open the S0 intake record for each candidate workload. Check sponsor, owner,
+  intended use, user population, platform path, target event, and acceptance
+  criteria.
+- Open S2 compliance/Purview references. Check compliance state, unsupported
+  data-path limits, retention/eDiscovery route, and open gaps.
+- Open S5 API/tool admission references. Check API/tool owner, schema/route,
+  gateway state, permission boundary, and unapproved tool gaps.
+- Open S7 evaluation references. Check baseline/candidate result, unsupported
+  slices, threshold owner, and retest state.
+- Open S8 findings. Check severity, exploitability or impact, remediation owner,
+  exception expiry, retest plan, and open blocker.
+- Open S9 inventory/control-plane references. Check owner, identity, API/tool,
+  Foundry, telemetry, lifecycle, duplicate records, and stale state.
+- Open S10 operating/cost references. Check alert/correlation coverage,
+  latency/error/capacity/cost signal, incident route, budget/export, and owner.
+- Open the customer backlog/change system. Check current status, dependency,
+  target event, funding/capacity assumption, and next accepted action.
+- Rank three candidates by technical blocker, risk, value, dependency, and next
+  action while keeping source freshness, exclusions, unsupported paths, and
+  owner gaps visible.
 
 `labs/s12-portfolio-governance/` holds blank offline templates for the
 customer-approved records system. It does **not** consolidate live data, create
@@ -95,7 +95,28 @@ missing owners, and confidence limits remain visible.
 Use [Technical decisions](technical.md) for prioritization, concentration,
 dependency, source-lineage, and baseline-feedback record shapes.
 
-## 4. Change boundary
+## 4. Expected portfolio signals
+
+| Signal | Meaning | Next action |
+|---|---|---|
+| Promotable workload | Intake, compliance, API/tool, evaluation, findings, control-plane, operating/cost, and backlog references are current enough for the next customer process. | Continue, fund, or promote through the customer process. |
+| Blocked workload | Required owner, evidence route, remediation, evaluation, operating signal, rollback, funding/capacity, or records location is missing. | Block or defer with acceptance check. |
+| Unsupported workload | Product, region, connector, data path, API/tool route, monitoring, or compliance coverage is not supported for the intended claim. | Route to platform/product/risk owner. |
+| Duplicate initiative | Same workload or dependency appears in multiple intake, portfolio, backlog, or change records. | Merge or split with portfolio owner. |
+| Missing owner | No accountable owner for workload, risk, API/tool, operations, FinOps, or evidence. | Stop ranking reliance until owner is assigned. |
+| Missing operating signal | S10 signal, cost/capacity view, alert, correlation, or incident route is unavailable. | Route to operations/telemetry/FinOps owner. |
+| Stale exception | Exception is expired or lacks recheck owner/date. | Route to risk owner and block promotion reliance. |
+
+## 5. Support limits
+
+S12 can rank and route work only from customer-approved references. It does not
+turn framework mappings into certification, aggregate scores into funding
+approval, stale evidence into fleet truth, or missing telemetry into a healthy
+state. If a source system is unsupported, sampled, aggregate-only, stale,
+non-comparable, or outside the review period, name the owner and recheck route
+before relying on it.
+
+## 6. Change boundary
 
 S12 is report-only. It makes no dashboard, live-data query, production, access,
 configuration, policy, budget, funding, compliance-certification, baseline evidence

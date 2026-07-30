@@ -1,36 +1,61 @@
 # S6 · Runtime Path Evidence & Response lab kit
 
-Use this lab to produce one compact technical go/no-go artifact. Work in the customer's approved records system; this repository keeps only blank templates and safe field shapes.
+Use this lab to verify whether one bounded non-production request path produces
+reviewable runtime evidence. Work in the customer's approved records system;
+this repository keeps only blank templates and safe field shapes.
 
 ## Inputs
 
-- One bounded scenario, route, workload, change, or portfolio slice.
-- Named customer owner for the decision and evidence location.
-- Safe references to existing Microsoft records where available.
-- Known stop condition for missing owner, unsupported service, or unsafe evidence handling.
+- One non-production synthetic request or approved read-only trace.
+- Named application, gateway/platform, identity, security, SOC, telemetry,
+  retention, evidence, and reviewer owners.
+- Known correlation field or owner for creating one.
+- Customer-approved telemetry and records locations.
+- Known stop condition for unsupported route, unsafe evidence handling, or
+  production-only testing.
 
 ## Steps
 
-1. Select the bounded unit of work.
-2. Fill the technical package fields in the local template.
-3. Mark each field as accepted, blocked, unsupported, not applicable, or needs customer review.
-4. Record only safe references; do not paste customer evidence, prompts, outputs, telemetry, exports, endpoints, secrets, or tenant identifiers.
-5. Decide proceed, defer, route, reject, or block based on the technical gaps.
+1. Name the request path: caller, app/workload identity, gateway or app route,
+   backend model/agent, tool/API route, and response path.
+2. Capture the correlation value and expected propagation points.
+3. Query the agreed telemetry source and time window by correlation value.
+4. Check whether the expected policy decision appears: block, allow, annotate,
+   log, throttle, fallback, or no decision observed.
+5. Check whether the signal reaches Defender, Sentinel, SOC queue, workbook,
+   alert, incident, or manual review owner.
+6. Classify the signal state: signal present, no signal, partial signal,
+   diagnostic-only, alert routed, unsupported route, or blocked evidence
+   handling.
+7. Decide accept, defer, route, reject, block, or diagnostic-only for the
+   reviewed path only.
+8. Record only safe references; do not paste customer prompts, outputs, logs,
+   telemetry rows, policies, endpoints, secrets, tenant identifiers, or live
+   configuration.
 
 ## Required technical fields
 
+- Request/run reference
 - Runtime request path
 - Gateway/app/model/tool control point
-- Threat/control map
-- Telemetry correlation
-- SOC/retention route
-- Acceptance decision
+- Correlation value
+- Telemetry source and time window
+- Query owner
+- Expected signal
+- Actual signal state
+- Policy decision observed
+- SOC/retention result
+- Reviewer decision
+- Gap owner and recheck trigger
 
 ## Files
 
 - `templates/decision-record.template.md`
-- `../templates/decision-record.template.md` for the shared short decision wrapper when needed.
+- `../templates/decision-record.template.md` for the shared short decision
+  wrapper when needed.
 
 ## Output
 
-A customer-owned artifact that names the Microsoft service path, control boundary, evidence reference, blocker, and next technical action. The lab does not deploy, configure, grant access, export data, prove production control operation, or approve release.
+A customer-owned runtime evidence result for one reviewed path. The lab does
+not deploy, configure, grant access, export data, prove production enforcement,
+or approve release.

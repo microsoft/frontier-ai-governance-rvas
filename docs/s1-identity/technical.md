@@ -1,207 +1,235 @@
-# S1 · Agent Identity Path: Technical decisions
+# S1 · Identity Path Trace: Technical runbook
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-24 · Microsoft Entra Agent ID, workload identities, Conditional Access for workload identities, Azure RBAC, and Agent 365 coverage vary by tenant, license, region, workload, and product maturity. Verify official docs and tenant status before delivery.
+    Last reviewed: 2026-07-30 · Microsoft Entra Agent ID, Agent 365, workload identities, Conditional Access for workload identities, managed identity, workload identity federation, and OBO support vary by tenant and workload. Verify current support before delivery.
 
 ## Microsoft default
 
-Default to Microsoft Entra Agent ID where supported, backed by Entra workload identities, Conditional Access, Azure RBAC, and Agent 365 records where available. For each identity, name the human sponsor, workload purpose, authority mode, credential/federation owner, and review date.
+Default to Microsoft Entra Agent ID / Agent 365 where the workload exposes it,
+backed by Entra app registrations, enterprise applications, managed identities,
+workload identity federation, Conditional Access, Azure RBAC, APIM/gateway JWT
+checks, and resource API authorization. When Agent ID is not supported, use a
+custom app/service-principal path with an explicit owner and recheck condition.
 
 ![S1 illustrative identity pattern: a human sponsor governs agent identity and lifecycle; host workload identity, agent identity, delegated OBO, gateway access, and resource authorization remain separate decisions.](../assets/diagrams/s1-agent-identity-model.svg)
 
-## Workshop route: trace the identity path
+S1 is read-only. It proves whether the path can be inspected and routed for a
+fix; it does not change permissions.
 
-Use this route during workshop scenarios. Trace the selected route, compare the
-completed evidence, and name the owner of any gap. Do not create identities, grant permissions,
-approve exceptions, or change tenant policy from this page.
+## 1. Preflight
 
-1. **Choose one bounded pilot agent.** Name the business purpose, environment,
-   human sponsor, lifecycle owner, and decision owner before discussing
-   permissions.
-2. **Inspect the agent identity.** If the agent is surfaced by supported
-   Microsoft agent tooling, use Entra Agent ID / Agent 365 as the primary
-   inventory and lifecycle reference. If tenant, region, license, or workload
-   support is unavailable, name the customer control-register fallback and the
-   product check needed before migration.
-3. **Map the host identity.** Identify which managed identity, federated
-   credential, app registration, service principal, or host identity can request or
-   exchange tokens. Define issuer/subject constraints, credential owner, and
-   revocation route.
-4. **Separate runtime authority.** If the agent accesses resources as a service,
-   review the app-only path. If it acts for a user, review the OBO path. If both
-   are needed, define two separated authority decisions.
-5. **Prefer non-secret credentials.** If the workload can use managed identity or
-   workload identity federation, route there. If a stored secret is proposed,
-   defer for a no-secret design or define a time-bound exception with owner and
-   retirement trigger. Reject shared accounts, unmanaged credentials, and
-   credentials without a rotation or federation owner.
-6. **Constrain authorization and denied actions.** Define least-privilege RBAC,
-   Graph/API permissions, Conditional Access for workload identities where
-   available, and gateway/JWT checks. Defer broad RBAC, tenant-wide permissions,
-   or missing resource scope until narrowed. Reject standing privileged access
-   without review and break-glass rationale.
-7. **Close disable, audit, and lifecycle.** Accept the identity path only when
-   source coverage, review cadence, retirement route, disable owner, and audit
-   evidence are complete. Otherwise defer with a named owner and target event.
-
-### Identity architecture card
-
-Use this card to anchor the decision. Keep safe references
-only; do not copy tenant identifiers, token claims, raw logs, secrets, endpoints,
-or access assignments into this repository.
-
-| Field | What to record |
-|---|---|
-| Pilot scope | Bounded agent/workload, environment, business purpose, and customer record location. |
-| Human accountability | Sponsor, technical owner, lifecycle owner, security reviewer, operations owner, next recheck condition. |
-| Agent identity | Agent ID / Agent 365 / app or service-principal record / customer register reference, source coverage, lifecycle state. |
-| Host workload identity | Managed identity, workload federation, app registration, service principal, or host record that can obtain or exchange tokens. |
-| Runtime mode | App-only/autonomous, OBO/delegated, or mixed with separated authority sections. |
-| Credential/federation control | Credential avoided or exceptioned, issuer/subject/audience constraints, credential/federation owner, revocation route. |
-| Authorization boundary | RBAC role, API/Graph scope, connector permission, gateway product/route, data zone, environment, and denied actions. |
-| Audit route | Sign-in, audit, gateway, application, resource, and SIEM/log workspace references that distinguish user, host, agent, gateway, and backend. |
-| Disable route | Which object or route is disabled first, who owns it, what broader impact exists, and how audit metadata is preserved. |
-| Backlog | Missing record, owner, narrowing work, provisioning automation, audit gap, or unsupported capability with acceptance test and target event. |
-
-### Identity pattern matrix
-
-| Pattern | Use when | Decision evidence to record | Required owner(s) | Route / defer / reject guidance |
-|---|---|---|---|---|
-| Entra Agent ID / Agent 365 | The agent is represented by supported Microsoft agent tooling and tenant availability checks pass | Agent record/source ID, sponsor, purpose, authority mode, lifecycle owner, review date, platform availability check | Identity platform owner + human sponsor | **Route** when supported and source fields are complete. **Defer** when availability is tenant/license/region/workload dependent. **Reject** as the sole control if the scenario needs resource authorization that is not separately recorded. |
-| Managed identity | Azure-hosted workload needs Azure resource access without stored credentials | Managed identity type, hosting resource, target resources, RBAC scopes, Conditional Access applicability, resource owner approval route | Azure platform owner + resource owner + human sponsor | **Route** for Azure-native service access. **Defer** if RBAC scope is broad or resource ownership is unclear. **Reject** when used to hide an unnamed agent sponsor or shared runtime. |
-| Workload identity federation | CI/CD, Kubernetes, GitHub Actions, or external workload should exchange tokens instead of storing secrets | Issuer, subject/audience constraints, federated credential owner, target app/managed identity, token lifetime expectations, revocation path | Identity federation owner + workload owner | **Route** for non-secret authentication with constrained issuer/subject. **Defer** if issuer claims or ownership are not documented. **Reject** wildcard subjects, unmanaged issuers, and designs that keep stored secrets as the primary credential. |
-| App registration / service principal | Custom service or agent host needs OAuth application permissions or a non-Azure identity anchor | App ID, service principal, API permissions, consent owner, credential/federation design, redirect/issuer constraints, review cadence | Application owner + consent owner + identity platform owner | **Route** when least privilege and non-secret credential plan are recorded. **Defer** tenant-wide consent, broad Graph/API scopes, or missing credential owner. **Reject** shared app registrations across unrelated agents. |
-| OBO delegated access | The agent acts in user context and authorization must reflect the user's entitlements | Delegated scopes, triggering user action, audit correlation, prohibited actions, fallback behavior, consent route | App owner + audit owner + data/resource owner | **Route** when user intent, scope, and audit route are explicit. **Defer** if logs cannot distinguish user, app, and agent action. **Reject** OBO for autonomous production changes, privilege elevation, or actions outside the user's approved scope. |
-| Shared account, stored secret, broad RBAC, or missing sponsor | A proposed design lacks individual accountability, non-secret credential ownership, least privilege, or lifecycle accountability | Gap description, risk owner, target remediation path, decision date | Accountable product/service owner + identity governance | **Defer** only with a named owner and dated remediation. **Reject** for production onboarding when the gap enables unaudited access, unmanaged credentials, or unbounded privilege. |
-
-### Entra Agent ID object model
-
-When Microsoft Entra Agent ID is available for the workload, record the object
-model explicitly so identity, credential, and lifecycle decisions do not collapse
-into one generic service principal:
-
-| Object | Governance question | Evidence to record |
+| Check | Required before inspection | Blocker if missing |
 |---|---|---|
-| Agent identity blueprint | Which template or governance container provisions and governs the agent identities? | Blueprint reference, manager role, credential or federation owner, Conditional Access or policy applicability, disable route. |
-| Blueprint principal | Which tenant service principal represents the blueprint? | Principal reference, owner, consent or permission route, review date. |
-| Agent identity | Which runtime actor represents the agent itself? | Agent identity reference, sponsor, purpose, authority mode, lifecycle state, RBAC/API scopes, retirement route. |
-| Host workload identity | Which compute identity can request or exchange tokens for the agent path? | Managed identity, workload identity federation, app registration, or service principal reference, issuer/subject constraints, revocation owner. |
-| Target resource authorization | Which resource grants access after the agent is identified? | Azure RBAC, API permission, gateway product/subscription, data access policy, or explicit denial record. |
+| One request | One synthetic or non-production user request, app/agent alias, target tool/API, and time window are named. | Do not inspect a broad portfolio. |
+| Roles | Reader access to app registration, enterprise app, sign-in logs, audit logs, managed identity/RBAC, gateway or API record, and CA sign-in details where relevant. | Route to identity/platform owner. |
+| Evidence handling | Customer-approved location exists for token claim notes, sign-in references, and portal links. | Do not decode or copy claims into this repo. |
+| Safe content | No customer prompt, response, token, endpoint, tenant ID, secret, or screenshot is stored in repo files. | Stop the lab. |
+| Fix owners | Identity, app, gateway, API/resource, CA, and security owners are known or discoverable. | Result is blocked or routed. |
 
-Treat the blueprint and host workload identity as credential and provisioning
-mechanisms. Treat the agent identity as the accountable runtime actor. Treat
-resource authorization as a separate least-privilege decision.
+## 2. Portal sequence
 
-### Runtime authority modes
+Follow this order so the result mirrors the technical path.
 
-Use this matrix when the same workload can run both interactively and in the
-background. Record both paths if both exist.
+### 2.1 App registration
 
-![User-initiated agent flow separates user identity, gateway validation, agent runtime authority, backend authorization, and telemetry correlation.](../assets/diagrams/s1-user-agent-backend-auth-flow.svg)
+Portal route: **Microsoft Entra admin center** -> **Identity** ->
+**Applications** -> **App registrations** -> selected app.
 
-![Autonomous agent flow separates trigger, host workload identity, token exchange, agent identity, gateway route, target API authorization, and audit/disable route.](../assets/diagrams/s1-autonomous-agent-backend-auth-flow.svg)
+Open:
 
-| Mode | Typical token path | Use when | S1 decision requirement |
+- **Overview**: display name, application/client ID, supported account types,
+  object owner reference.
+- **Owners**: human or group owner for lifecycle and consent routing.
+- **Authentication**: redirect URI, public client setting, implicit/hybrid
+  settings, logout/front-channel assumptions where relevant.
+- **Certificates & secrets**: secret/certificate presence, expiry, owner, and
+  Key Vault or rotation route. Do not reveal values.
+- **Federated credentials**: issuer, subject, audiences, branch/environment
+  constraints, and revocation owner.
+- **API permissions**: delegated scopes and application permissions requested.
+- **Expose an API**: application ID URI, scopes, authorized client apps.
+- **App roles**: role values assigned to applications/users.
+- **Manifest**: only when the UI does not expose required resource access,
+  app roles, optional claims, or known client apps.
+
+### 2.2 Enterprise application / service principal
+
+Portal route: **Microsoft Entra admin center** -> **Identity** ->
+**Applications** -> **Enterprise applications** -> selected service principal.
+
+Open:
+
+- **Overview** and **Owners**: account enabled state and owner.
+- **Permissions**: admin consent, delegated grants, application role grants.
+- **Users and groups**: user assignment requirement and assigned subjects where
+  applicable.
+- **Sign-in logs**: result, token issuer, conditional access status, service
+  principal sign-in, managed identity sign-in, and correlation ID.
+- **Audit logs**: credential, owner, permission, and consent changes.
+- **Conditional Access**: policies applied or not applied to the app/user path.
+
+### 2.3 Managed identity and workload federation
+
+Portal routes:
+
+- **Azure portal** -> hosting resource -> **Identity** for system-assigned
+  managed identity.
+- **Azure portal** -> **Managed identities** -> user-assigned identity ->
+  **Overview** and **Azure role assignments**.
+- **App registrations** -> app -> **Federated credentials** for external
+  workload identity federation.
+
+Check principal ID/client ID, target scopes, issuer/subject/audience constraints,
+public or wildcard subjects, and the owner who can remove the trust.
+
+### 2.4 Delegated/OBO path
+
+Open the client app and downstream API app:
+
+- Client app **API permissions**: delegated scopes requested.
+- Enterprise app **Permissions**: consent actually granted.
+- Downstream API **Expose an API**: scopes and authorized client apps.
+- Sign-in log details: user, client app, resource, scopes, CA result, and
+  correlation ID.
+- App or API telemetry: request ID showing the user token was exchanged and
+  downstream action used delegated authority.
+
+### 2.5 Tool/API and resource permission
+
+Open the permission that actually authorizes the operation:
+
+- **Graph/API permission**: delegated scope or app role grant on the service
+  principal.
+- **Azure RBAC**: Azure portal -> target scope -> **Access control (IAM)** ->
+  **Role assignments**, filtered by principal ID.
+- **APIM/gateway**: API/product/subscription/JWT policy, backend auth, and logs.
+- **Connector**: consent, connector policy, environment, and data boundary.
+- **Resource ACL/data permission**: storage, search, database, or SaaS record.
+
+### 2.6 Agent ID branch
+
+When available, open the agent identity record:
+
+- **Microsoft Entra admin center** -> **Identity** -> **Applications** -> **Agent
+  identities / Agent ID** or the current Agent ID surface.
+- **Agent 365** agent record where the workload is onboarded there.
+
+Check sponsor, purpose, authority mode, host trust, lifecycle state, disable
+route, and linked app/service principal. If unavailable, record
+**custom-app fallback**: app registration/service principal, customer owner
+register, product-support recheck owner, and migration condition.
+
+## 3. Read-only Graph and CLI checks
+
+Use these commands only in the customer's approved environment with the minimum
+read scopes. Store sanitized results in the customer system.
+
+```powershell
+# App registration details
+Get-MgApplication -ApplicationId $ClientId |
+  Select Id, AppId, DisplayName, SignInAudience, RequiredResourceAccess
+
+# Service principal / enterprise app
+Get-MgServicePrincipal -Filter "appId eq '$ClientId'" |
+  Select Id, AppId, DisplayName, AccountEnabled, ServicePrincipalType
+
+# Owners
+Get-MgApplicationOwner -ApplicationId $AppObjectId
+Get-MgServicePrincipalOwner -ServicePrincipalId $SpObjectId
+
+# Credentials and federation
+Get-MgApplicationPasswordCredential -ApplicationId $AppObjectId
+Get-MgApplicationFederatedIdentityCredential -ApplicationId $AppObjectId
+
+# App roles and OAuth delegated grants
+Get-MgApplicationAppRole -ApplicationId $ApiAppObjectId
+Get-MgServicePrincipalAppRoleAssignment -ServicePrincipalId $ClientSpObjectId
+Get-MgOauth2PermissionGrant -Filter "clientId eq '$ClientSpObjectId'"
+
+# Sign-ins and audit
+Get-MgAuditLogSignIn -Filter "appId eq '$ClientId' and createdDateTime ge $Start"
+Get-MgAuditLogDirectoryAudit -Filter "targetResources/any(t:t/id eq '$AppObjectId')"
+```
+
+```bash
+# App and service principal
+az ad app show --id "$APP_ID" --query "{appId:appId, displayName:displayName, signInAudience:signInAudience}"
+az ad sp show --id "$APP_ID" --query "{id:id, appId:appId, displayName:displayName, accountEnabled:accountEnabled}"
+
+# Credentials and federated credentials
+az ad app credential list --id "$APP_ID" --query "[].{displayName:displayName,endDateTime:endDateTime,hint:hint}"
+az ad app federated-credential list --id "$APP_ID" --query "[].{name:name,issuer:issuer,subject:subject,audiences:audiences}"
+
+# Managed identity and RBAC
+az identity show --ids "$IDENTITY_RESOURCE_ID" --query "{name:name,principalId:principalId,clientId:clientId}"
+az role assignment list --assignee "$PRINCIPAL_ID" --all --query "[].{role:roleDefinitionName,scope:scope}"
+```
+
+## 4. Token and claim checks
+
+Decode only in the customer environment. Do not store raw tokens.
+
+| Claim/check | Delegated/OBO expectation | App-only expectation | Problem signal |
 |---|---|---|---|
-| Autonomous or app-only | Host workload identity or federated credential obtains agent or resource tokens without a user context | Scheduled work, background processing, service-to-service integration | Sponsor, app-only purpose, non-secret credential path, least-privilege resource scopes, denied actions, incident disable route. |
-| On-behalf-of user | User token is exchanged for delegated access through an approved OBO flow | The agent performs user-scoped actions such as reading or writing resources the user may access | User intent trigger, delegated scopes, consent owner, audit correlation between user/app/agent, prohibited privileged actions, fallback behavior. |
-| Mixed mode | Separate app-only and delegated flows are both present | The same agent has background duties and user-initiated actions | Two decision artifacts or one record with two clearly separated authority sections; do not let app-only permissions substitute for user-scoped approval. |
+| `aud` | Target API or gateway audience. | Target API or Azure resource audience. | Wrong backend, bypass, or token reuse. |
+| `scp` | Present with delegated scopes. | Absent. | Missing consent or app-only path mistaken for OBO. |
+| `roles` | Usually absent unless app roles are used by resource. | Present for application permissions/app roles. | Broad app role or wrong resource. |
+| `oid` / `sub` | User and app correlation must be explainable in logs. | Service principal or managed identity actor. | Actor cannot be tied to app/agent. |
+| `appid` / `azp` | Client app that initiated OBO. | App/service principal that requested token. | Unexpected client. |
+| `upn` / user claims | Present when policy requires user-context inspection. | Absent. | User context missing from delegated claim. |
+| `xms_mirid` | Usually absent. | Present for managed identity tokens where applicable. | Host identity mismatch. |
+| CA result | User and app policy outcome visible in sign-in logs. | Workload identity CA outcome where configured. | Blocked or uninspected policy path. |
 
-### App-only and OBO inspection checklists
+## 5. Safe inspection activity
 
-| Area | App-only/autonomous check | OBO/delegated check |
+1. Run one synthetic non-customer request through the named app/agent.
+2. Capture safe correlation: request ID, trace ID, APIM request ID, sign-in
+   correlation ID, and time window.
+3. Decode token claims in the customer environment and write down only the claim
+   check result state: matched, missing, overbroad, blocked, unsupported.
+4. Open portal records in the sequence above.
+5. Compare requested permission to granted permission and backend result.
+6. Record the owner, fix route, and recheck condition.
+
+## 6. Expected result states
+
+| State | Meaning | Next action |
 |---|---|---|
-| Trigger | Which scheduler, event, pipeline, or backend invokes the agent without a user? | Which explicit user action starts the flow? |
-| Token source | Which host identity or federated credential obtains the token? | Which app receives and exchanges the user token? |
-| Actor in logs | Which record identifies the agent or app-only actor? | Can logs distinguish user, app, agent, and downstream resource action? |
-| Scope | Which app role, RBAC assignment, API scope, connector permission, or gateway route is minimum? | Which delegated scopes are required, and what remains governed by the user's entitlements? |
-| Denied actions | Which production, privileged, destructive, tenant-wide, or data-export actions are blocked? | Which privileged or autonomous actions are prohibited even if the user has rights? |
-| Failure behavior | Does the path fail closed with denial, hold, or escalation when scope or identity is missing? | Does missing consent, expired user session, or audit gap stop the action safely? |
-| Disable route | Disable agent identity, host credential/federation trust, RBAC/API permission, or gateway route. | Revoke consent/session, disable app or delegated path, suspend connector/tool route. |
+| Verified | Token audience, actor, authority mode, permission, CA outcome, and logs match the intended route. | Continue dependent S3/S5 work with this route reference. |
+| Missing consent | Permission is requested but not granted on the enterprise app or downstream API. | Route to consent owner. |
+| Overbroad | Permission or RBAC scope exceeds the operation. | Route to permission/resource owner for narrowing. |
+| Unmanaged credential | Secret/certificate exists without owner, rotation, or retirement plan. | Route to managed identity/federation or credential owner. |
+| Blocked by CA | Sign-in shows CA failure, interruption, or policy mismatch. | Route to CA owner with sign-in reference. |
+| Unsupported OBO/tool path | User-context assumption cannot be supported by the backend, connector, or tool. | Block OBO claim; route to app/tool owner. |
+| Agent ID unavailable | No supported Agent ID/Agent 365 record for the workload. | Use custom-app fallback and recheck product support. |
+| Unobservable | Logs cannot distinguish user, app, agent, gateway, and backend. | Route to app/platform telemetry owner before production reliance. |
 
-### Provisioning and incident routes
+## 7. Support limits
 
-For Azure-hosted and CI/CD-managed workloads, prefer managed identity or workload
-identity federation over stored credentials. A GitHub Actions OIDC flow can be
-recorded as an implementation backlog item when a customer-owned pipeline needs
-to provision or reconcile identity objects through approved Graph permissions.
-Record the federated credential, issuer and subject constraints, consent owner,
-required role, target identity object, rollback route, and audit reference. Do
-not treat the pipeline description as proof that identity objects exist or that
-access is approved.
-
-Incident and retirement paths should preserve auditability. If an agent must be
-stopped, record whether the customer process disables the specific agent identity,
-blocks a broader blueprint or Conditional Access path, removes resource RBAC, or
-suspends a gateway/API route. Deleting identity objects is usually a separate
-records-retention decision; S1 should route that decision rather than assume it.
-
-### Runtime token-exchange reference
-
-For app-only Azure workloads, use this sequence to review the identity design.
-The exact SDK, API version, and product support must be verified by the customer
-implementation team.
-
-| Stage | Technical event | Evidence question |
+| Area | Supported claim | Limit |
 |---|---|---|
-| 1. Host token | The execution host obtains a managed identity or federated workload token without storing a secret. | Which host identity is used, who owns it, and what issuer/subject or resource binding constrains it? |
-| 2. Blueprint trust | The host token is accepted by the approved blueprint or identity-management path. | Which blueprint or identity object trusts the host, and who can change that trust? |
-| 3. Agent token | The agent identity receives or exchanges for a token that identifies the agent as the runtime actor. | Which agent identity appears in sign-in/audit logs, and how is it tied to sponsor and lifecycle? |
-| 4. Resource token | The agent or gateway obtains a token for the target API or Azure resource. | Which scopes, app roles, RBAC assignments, or gateway product permissions constrain the action? |
-| 5. Authorization | The backend validates the token and applies resource authorization. | What happens outside scope: 401/403, gateway denial, app denial, or escalation? |
-| 6. Audit | Sign-in, gateway, app, and resource telemetry preserve the actor and correlation path. | Can a reviewer distinguish user, host, agent, gateway, and backend records? |
+| App registration | Requested scopes, credentials, federation, owners, and exposed scopes can be inspected. | Requested permission is not the same as granted consent. |
+| Enterprise app | Granted consent, assignments, sign-ins, and CA result can be inspected. | Some logs delay or require roles/licensing. |
+| Managed identity | Principal and Azure RBAC can be inspected. | It may not represent the agent or user by itself. |
+| Federated credential | Issuer/subject/audience can be inspected. | Wildcards or external issuers need owner review; S1 does not fix them. |
+| Agent ID / Agent 365 | Use where tenant/workload supports it. | Fall back to custom app + owner register when unsupported. |
+| OBO | Delegated scopes and sign-in correlation can be checked. | Backend/tool support must be verified; app-only fallback is not OBO. |
+| Conditional Access | Sign-in details can identify applied policies and blocks. | S1 does not change policies or bypass CA. |
 
-### Provisioning permission checklist
-
-When the identity record depends on CI/CD or automation, record the permissions
-as a backlog item. S1 does not request consent or grant roles.
-
-| Permission or role | Why it may be needed | Record before use |
-|---|---|---|
-| Agent identity read/write permission | Create or reconcile agent identity objects where supported. | Consent owner, scope, environment, expiry/review date. |
-| Application read/write permission | Create or update app or service-principal objects used by the identity path. | Object owner, change route, rollback route. |
-| App role assignment permission | Assign or consent application permissions for the blueprint or agent path. | Privileged approval owner, least-privilege justification. |
-| Agent identity developer/admin role | Allows the platform or identity team to create or manage agent identity objects. | Named operator group, separation of duties, emergency route. |
-| Workload identity federation | Lets the pipeline exchange an external workload token without a stored secret. | Issuer, subject, audience, branch/environment constraint, revocation owner. |
-
-### Disable and audit routing
-
-| Scenario | Preferred record | S1 routing note |
-|---|---|---|
-| Disable one agent | Agent identity account-enabled state, gateway route suspension, or resource RBAC removal. | Preserve object metadata where audit retention requires it. |
-| Disable a family of agents | Blueprint, Conditional Access, gateway product, or shared backend route. | Treat as broader impact and route through security/change ownership. |
-| Review creation | Entra audit log or customer identity-change record. | Confirm object type, creator, sponsor, and source system. |
-| Review sign-in | Agent sign-in, workload identity sign-in, gateway auth log, app trace. | Confirm whether the sign-in proves agent action or only host credential use. |
-| Sponsor transfer | Agent identity governance record or customer control register. | Tie owner changes to recheck condition and next access recertification. |
-
-## Platform checks
-
-| Check | Microsoft product/control record |
-|---|---|
-| Agent inventory and sponsor | Entra Agent ID, Agent 365, customer control register |
-| Workload credential | Managed identity, federated credential, app registration/service principal record |
-| Runtime access control | Conditional Access for workload identities, Entra sign-in/audit logs, Azure RBAC assignment record |
-| Gateway access | Azure API Management/API gateway Entra/JWT configuration reference |
-| Access review | Entra access review, privileged role review, or customer identity-change ticket |
-
-## Acceptance tests
+## 8. Acceptance tests
 
 | Work item | Accepted when... | Handoff |
 |---|---|---|
-| Owner/sponsor | every in-scope agent or workload has a named human sponsor, lifecycle owner, business purpose, and review date; missing sponsor cases are routed to a product/service owner or rejected for production onboarding | Identity governance |
-| Source coverage | each decision cites an inventory source: Entra Agent ID / Agent 365 where available, managed identity record, federated credential, app registration/service principal, gateway record, or customer control register with availability caveat | Identity governance + platform owner |
-| Least privilege | RBAC assignments, Graph/API permissions, gateway scopes, and Conditional Access for workload identities where available are scoped to the named resource/action; broad roles or tenant-wide permissions have a deferral owner and narrowing route | Security/platform |
-| Denied outside scope | the record names what the agent must not do, how out-of-scope requests fail closed, and who reviews denied or attempted actions | Application owner + security owner |
-| Credential/federation owner | managed identity, federated credential, app credential, or exception has an owner, rotation/revocation path, retirement trigger, and explicit rejection of shared accounts or unmanaged stored secrets | Identity/platform engineering |
-| OBO audit and prohibited actions | delegated access records user intent, OBO scopes, audit correlation between user/app/agent, prohibited production actions, fallback behavior, and denial of privilege elevation outside the user's approved scope | Application owner + audit owner |
-| Lifecycle/review/retire route | onboarding, periodic review, ownership transfer, incident response, and retirement/removal routes are recorded with evidence owners and target events for gaps | Identity governance + service owner |
+| Identity path | User/trigger, app registration, service principal, host identity, agent branch, authority mode, and target permission are all named. | Identity owner / app owner |
+| Portal inspection | App registration, enterprise app, credential/federation, permissions, sign-in logs, and CA dependency are opened or the blocker is routed. | Identity admin |
+| Token checks | `aud`, `scp`/`roles`, actor, user-context presence/absence, client app, and managed identity indicator are checked. | App/security owner |
+| Permission result | Granted scope/app role/RBAC/gateway/connector permission matches the operation or the overbroad/missing grant is routed. | Resource/API owner |
+| Credential result | No unmanaged secret remains unowned; managed identity or federation route is named. | Platform owner |
+| Agent branch | Agent ID/Agent 365 record is inspected where supported or custom-app fallback and recheck condition are recorded. | Identity platform owner |
+| Fix route | Missing consent, overbroad permission, CA block, unsupported OBO/tool path, and observability gap each have owner and recheck condition. | Governance lead |
 
 ## Boundary note
 
-S1 records identity and access decisions; it grants no access and approves no production use.
-
-## Related references
-
-- [S9 technical decisions](../s9-control-plane/technical.md): catalog reconciliation.
-- [Governance capability guide](../reference/governance-capability-guide.md): Agent ID and Conditional Access availability.
-- [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md).
+S1 performs read-only inspection and routes fixes. It grants no access, changes
+no Conditional Access policy, creates no identity, rotates no credential, and
+approves no production release.

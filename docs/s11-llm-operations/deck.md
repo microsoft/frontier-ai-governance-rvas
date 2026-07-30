@@ -2,9 +2,10 @@
 
 **Facilitator deck**
 
-Workshop decision: **Can this bounded LLMOps change move to the next customer
-process with safe change references, owners, stop conditions, fallback,
-rollback, feedback governance, and automation prerequisites?**
+Workshop decision: **Can this baseline-versus-candidate Foundry and pipeline
+change move to a separate customer change review with safe references, owners,
+stop conditions, fallback, rollback, feedback governance, and automation
+prerequisites?**
 
 Boundary: S11 prepares a lifecycle handoff. It does not select a model, move
 traffic, switch aliases, activate fallback, retire a deployment, enable
@@ -14,7 +15,7 @@ automation, configure resources, or approve production.
 
 ## Change one LLMOps element, not the whole lifecycle
 
-![S11 LLMOps change control package: change card, lifecycle stages, artifact versions, release manifest, rollout authority, feedback curation, automation readiness, blocked gaps, and safe references.](../assets/diagrams/s11-llmops-change-control-flow.svg)
+![S11 LLMOps change control flow: change card, lifecycle stages, version references, release manifest, rollout authority, feedback curation, automation readiness, blocked gaps, and safe references.](../assets/diagrams/s11-llmops-change-control-flow.svg)
 
 - Start with one change, not a lifecycle speech.
 - Possible changes: prompt, retrieval, tool schema, model, dataset, rubric,
@@ -48,14 +49,31 @@ S11 connects them with safe references and ownership.
 - Workload or capability.
 - Change type and lifecycle question.
 - Environment and target customer process.
-- Affected artifact references.
-- Decision owner and artifact owners.
+- Affected version references.
+- Decision owner and version owners.
 - Evidence limits and stop condition.
 - Approved records location.
 
 Note:
 The change card is the unit of control. It prevents a broad LLMOps conversation
 from drifting away from the actual change.
+
+---
+
+## Inspect Foundry and the pipeline
+
+- Foundry project: app/agent, prompt/instruction, retrieval, tool schema, model
+  alias, dataset/scenario, evaluation, monitoring link, owner.
+- Source/pipeline: branch or commit, pipeline run, generated manifest,
+  build/test/eval gates, skipped or failed steps, manual approvals.
+- Release manifest: runtime control, rollout stage, rollback target, fallback
+  route, approver/change reference.
+- Monitoring: signal that can inform stop, fallback, rollback, or promotion.
+
+Note:
+The safe activity is baseline-versus-candidate comparison. Do not move
+production traffic, switch aliases, edit prompts, mutate data, or approve
+release.
 
 ---
 
@@ -79,7 +97,8 @@ condition, blocker, and receiving handoff.
 
 ## Release manifest and version contracts
 
-- The manifest joins safe references; it does not copy artifacts.
+- The manifest joins safe references; it does not copy prompts, datasets,
+  outputs, telemetry, or live configuration.
 - Include prompt/instruction, retrieval config, tool schema, model aliases,
   evaluation, runtime control, telemetry, stop condition, rollback target, and
   change authority.
@@ -89,6 +108,22 @@ condition, blocker, and receiving handoff.
 Note:
 A model version alone is not a release. The manifest explains what actually
 changed and how the team can reconstruct the candidate safely.
+
+---
+
+## Expected inspection signals
+
+- Manifest complete.
+- Evaluation missing or diagnostic-only.
+- Alias mismatch.
+- Rollback target missing.
+- Feedback source not approved.
+- Automation not ready.
+- Ready for separate change review.
+
+Note:
+S11 can say "ready for separate change review." The customer change process
+decides whether anything moves.
 
 ---
 

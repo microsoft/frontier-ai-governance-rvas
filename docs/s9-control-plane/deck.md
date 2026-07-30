@@ -62,6 +62,23 @@ Do not ask "which system is the system of record?" Ask "which system owns this f
 
 ---
 
+## Open each source system
+
+- Agent 365 / agent inventory: `admin.microsoft.com` -> Copilot -> Agents &
+  connectors -> All agents; check owner, channel, lifecycle, identity link.
+- Entra: Agent ID, managed identity, service principal, sponsor, enabled state.
+- API Center and API Management: API/version/schema, product/backend/route.
+- Foundry: project, app/agent, deployment alias, evaluation/run, telemetry link.
+- Monitor/App Insights: correlation key, query owner, alert owner, retention.
+- Defender/Sentinel: posture, alert/incident route, SOC owner.
+- Portfolio/CMDB/change: owner, lifecycle, exception, duplicate record.
+
+Note:
+Record safe references and states only. Raw exports, object IDs, endpoints,
+telemetry payloads, tenant IDs, and screenshots stay in customer systems.
+
+---
+
 ## Join keys: explicit identifiers only
 
 - Registry ID.
@@ -76,6 +93,21 @@ Do not ask "which system is the system of record?" Ask "which system owns this f
 
 Note:
 Names, aliases, screenshots, and owner guesses are hints, not joins.
+
+---
+
+## One-workload reconciliation
+
+- Pick one workload and compare IDs across registry, Agent 365, Entra, API
+  Center, API Management, Foundry, Monitor, Defender/Sentinel, and portfolio.
+- Verify owner, lifecycle state, callable API/tool, model deployment alias,
+  telemetry pointer, security handoff, and duplicate records.
+- Classify the result before assigning work.
+
+Note:
+Expected signals are matching owner, orphaned identity, uncataloged API,
+unmonitored deployment, stale lifecycle state, missing telemetry, duplicate
+record, unsupported source, or validated no-gap.
 
 ---
 

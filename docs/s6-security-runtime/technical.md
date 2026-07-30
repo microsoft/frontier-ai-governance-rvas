@@ -43,6 +43,21 @@ controls when the gateway cannot see the needed context.
    correlation, SOC route, retention, and customer reviewer decision are
    complete enough for the receiving owner to act.
 
+## Operator workflow
+
+Use this sequence for the bounded non-production path. If the customer only has
+an existing trace, start at step 3 and mark the run source as read-only review.
+
+| Step | Product surface | Action | Result to capture |
+|---|---|---|---|
+| 1. Select request | Customer app, Foundry app/agent, test client, or approved run record. | Choose one synthetic request or existing run with no customer secrets or live data. | Request reference, environment, owner, stop condition. |
+| 2. Check route | APIM/gateway, app route, backend model/agent, tool/API route. | Confirm the request is expected to pass through the named gateway or app-only control point. | Gateway route, backend, tool/API path, bypass risk. |
+| 3. Capture correlation | Header, trace ID, request ID, operation ID, session ID, user/app ID, or agent ID. | Verify where correlation is created and where it should propagate. | Correlation field, propagation points, blind spot. |
+| 4. Query telemetry | Application Insights, Log Analytics, APIM logs, app logs, Foundry trace, or customer SIEM. | Query the agreed time window for the correlation value. | Signal present, no signal, partial signal, or diagnostic-only. |
+| 5. Check policy decision | APIM policy result, Content Safety/Prompt Shields result, app policy, tool authorization, model/agent setting. | Look for block/allow/annotate/log/throttle/fallback behavior. | Expected behavior, observed behavior, owner. |
+| 6. Check SOC route | Defender, Defender XDR, Sentinel, SOC queue, workbook, alert rule, or manual review route. | Confirm whether actionable signals route to a queue, alert, incident, or manual review owner. | Alert routed, no route, unsupported, or backlog item. |
+| 7. Classify evidence | Customer records system. | Store only safe references and reviewer interpretation. | Accept, defer, route, block, reject, or diagnostic-only. |
+
 ## Runtime-path trace card
 
 | Field | What to record |
@@ -115,6 +130,69 @@ Planned telemetry, empty logs, or a correlation field name are not enough. Recor
 the expected signal, checked scope, permissions, time range, source, query owner,
 and reviewer decision.
 
+## Query placeholders
+
+Replace placeholder field names with the customer's schema. Do not copy raw log
+rows, prompts, outputs, endpoints, or tenant identifiers into this repository.
+
+### Application Insights / Log Analytics request trace
+
+```kusto
+let correlationId = "<correlation-id-placeholder>";
+let lookback = 2h;
+union isfuzzy=true requests, traces, dependencies, customEvents
+| where timestamp > ago(lookback)
+| where tostring(operation_Id) == correlationId
+    or tostring(customDimensions["correlation_id"]) == correlationId
+    or tostring(customDimensions["request_id"]) == correlationId
+| project timestamp, itemType, name, resultCode, success, operation_Id,
+          cloud_RoleName, target, customDimensions
+| order by timestamp asc
+```
+
+### APIM or gateway policy signal
+
+```kusto
+let correlationId = "<correlation-id-placeholder>";
+AzureDiagnostics
+| where TimeGenerated > ago(2h)
+| where CorrelationId == correlationId
+    or requestId_s == correlationId
+    or tostring(properties_s) has correlationId
+| project TimeGenerated, Resource, OperationName, responseCode_d,
+          backendUrl_s, policyName_s, properties_s
+| order by TimeGenerated asc
+```
+
+### Security or SOC route signal
+
+```kusto
+let correlationId = "<correlation-id-placeholder>";
+SecurityAlert
+| where TimeGenerated > ago(24h)
+| where tostring(ExtendedProperties) has correlationId
+    or tostring(Entities) has correlationId
+| project TimeGenerated, AlertName, Severity, ProviderName, SystemAlertId,
+          ExtendedProperties, Entities
+| order by TimeGenerated asc
+```
+
+If the customer uses Sentinel incidents, Defender XDR advanced hunting, or a
+different SIEM table, keep the same shape: time window, correlation value,
+source table, expected signal, reviewer, and limitation.
+
+## Signal result states
+
+| State | Meaning | Required next action |
+|---|---|---|
+| Signal present | The expected telemetry and policy/SOC signal appears in the scoped time window. | Reviewer decides whether the claim is accepted for this path. |
+| No signal | Query ran but the expected event is absent. | Route to telemetry, gateway, app, or SOC owner with recheck condition. |
+| Partial signal | Some route evidence exists, but policy decision, backend/tool trace, or SOC route is missing. | Accept only the observed claim; route the missing claim. |
+| Diagnostic-only | Evidence comes from a component test, prepared prompt, or direct API check, not the runtime path. | Do not use as gateway/path proof. |
+| Alert routed | Actionable signal reached alert, incident, queue, workbook, or manual review route. | Confirm severity owner, SLA, and response process. |
+| Unsupported route | Selected feature does not cover the workload, region, modality, route, or service. | Route to alternate control or mark unsupported. |
+| Blocked evidence handling | Evidence cannot be retained, reviewed, or referenced safely. | Stop until customer records and retention route exist. |
+
 ## SOC and response route
 
 | Field | What to record |
@@ -124,6 +202,22 @@ and reviewer decision.
 | Queue/playbook | SOC queue, incident type, severity owner, SLA, monitoring window, and escalation contact. |
 | Stop condition | What condition blocks release, pauses operation, or routes to incident/change process. |
 | Feedback loop | Which owner receives remediation, threshold tuning, route change, or evaluation backlog. |
+
+## Lab capture fields
+
+Every S6 lab record should capture the actual check, not just the intended
+control.
+
+| Field | Why it matters |
+|---|---|
+| Request/run reference | Keeps the review bounded to one non-production request or read-only trace. |
+| Correlation value | Lets the reviewer reproduce the telemetry join. |
+| Query source and time window | Prevents "no signal" from being confused with the wrong log source or period. |
+| Expected signal | States what should appear before the query is run. |
+| Actual signal state | Signal present, no signal, partial signal, diagnostic-only, alert routed, unsupported, or blocked. |
+| Policy decision observed | Block, allow, annotate, log, throttle, fallback, or no decision observed. |
+| SOC/retention result | Confirms whether the signal can be operated and retained. |
+| Reviewer decision | Accept, defer, route, block, reject, or diagnostic-only. |
 
 ## Hard stops
 

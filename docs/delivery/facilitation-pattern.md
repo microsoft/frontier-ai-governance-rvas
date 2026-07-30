@@ -20,7 +20,7 @@ reference, and a dated next action.
 | Prepare | Confirm the outcome, prerequisites, and records the customer keeps. |
 | Concepts | Explain the terms and product context the room needs. |
 | Technical decisions | Start with the Azure/Microsoft default, agree on its acceptance evidence, and record any equivalent-control exception. |
-| Practical workshop | Run the customer activity and record the decision, evidence references, ownership, and next review. |
+| Practical workshop | Run the customer activity, capture the observed result, name the owner, and set the next review. |
 
 Observe the customer-led practical workshop, then focus the room on what the
 result means and what to decide.
@@ -33,7 +33,7 @@ result means and what to decide.
 | Orient on the pilot | 10 min | Restate the use case, representative input or scenario, expected signal, and evidence needed to answer the question. | Show the approved pilot context and identify the evidence source. | A testable question and evidence plan. |
 | Customer-led action and review | 30 min | Read the agreed question aloud. Keep the work in the safe posture. Ask for the output and its context. | Perform the action or retrieve the existing result in the customer environment. Review it with the relevant specialist. | A result, a verified no-result, or a recorded blocker. |
 | Interpret together | 15 min | Separate fact, inference, and recommendation. Compare the result with the expected signal and evidence boundary. | Explain operational meaning, constraints, and impact. | A shared interpretation and control state. |
-| Decide | 15 min | Present the available decisions and record the chosen one, exception if any, owner, due date, acceptance evidence, and review point. | Accept, defer, reject, or route the next action through the right customer authority. | A customer-owned decision artifact. |
+| Decide | 15 min | Present the available decisions and capture the chosen outcome, exception if any, owner, due date, acceptance evidence, and review point. | Accept, defer, reject, or route the next action through the right customer authority. | A customer-owned next action. |
 | Hand over | 10 min | Read back the evidence reference, decision, open items, acceptance owner, and next session dependency. | Keep the record and confirm the next owner. | A handoff with a dated next action. |
 
 ## Roles in the room

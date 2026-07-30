@@ -1,40 +1,66 @@
-# S6 · Runtime Path Evidence & Response technical artifact
+# S6 · Runtime Path Evidence & Response worksheet
 
-Complete this in the customer's approved records system. Store only safe references here; never paste customer evidence, prompts, outputs, telemetry, exports, endpoints, secrets, tenant identifiers, or live configuration.
+Complete this in the customer's approved records system. Store only safe
+references here; never paste customer evidence, prompts, outputs, telemetry
+rows, policies, exports, endpoints, secrets, tenant identifiers, or live
+configuration.
 
 ## Scope
 
 | Field | Value |
 |---|---|
-| Scenario / route / change |  |
+| Scenario / request |  |
 | Environment |  |
-| Decision owner |  |
+| Request/run reference |  |
+| Decision owner / reviewer |  |
 | Evidence location |  |
 | Stop condition |  |
 
-## Technical package
+## Runtime path
 
-| Field | Value | Status | Evidence reference / note |
+| Field | Value | Status | Owner / note |
 |---|---|---|---|
-| Runtime request path |  | Accepted / blocked / unsupported / N/A / review |  |
-| Gateway/app/model/tool control point |  | Accepted / blocked / unsupported / N/A / review |  |
-| Threat/control map |  | Accepted / blocked / unsupported / N/A / review |  |
-| Telemetry correlation |  | Accepted / blocked / unsupported / N/A / review |  |
-| SOC/retention route |  | Accepted / blocked / unsupported / N/A / review |  |
-| Acceptance decision |  | Accepted / blocked / unsupported / N/A / review |  |
+| Caller identity |  | Accepted / blocked / unsupported / N/A / review |  |
+| App/workload identity |  | Accepted / blocked / unsupported / N/A / review |  |
+| Gateway or app-only route |  | Accepted / blocked / unsupported / N/A / review |  |
+| Backend model/agent/service |  | Accepted / blocked / unsupported / N/A / review |  |
+| Tool/API route |  | Accepted / blocked / unsupported / N/A / review |  |
+| Response path |  | Accepted / blocked / unsupported / N/A / review |  |
+| Policy decision point |  | Accepted / blocked / unsupported / N/A / review |  |
 
-## Go/no-go decision
+## Telemetry check
 
-| Decision | Select one | Rationale |
-|---|---|---|
-| Proceed |  |  |
-| Defer |  |  |
-| Route |  |  |
-| Reject |  |  |
-| Block |  |  |
+| Field | Value |
+|---|---|
+| Correlation field |  |
+| Correlation value |  |
+| Expected propagation points |  |
+| Telemetry source/table/workbook |  |
+| Query owner |  |
+| Time window checked |  |
+| Expected signal |  |
+| Query/run reference |  |
+| Actual signal state | Signal present / no signal / partial signal / diagnostic-only / alert routed / unsupported route / blocked evidence handling |
+| Policy decision observed | Block / allow / annotate / log / throttle / fallback / no decision observed / N/A |
+| Blind spot or limitation |  |
 
-## Blockers and next technical action
+## SOC, retention, and response
 
-| Blocker | Owner | Acceptance check | Next action |
+| Field | Value | Status | Owner / note |
 |---|---|---|---|
-|  |  |  |  |
+| Defender/Sentinel/SOC route |  | Accepted / blocked / unsupported / N/A / review |  |
+| Alert, incident, queue, workbook, or manual review path |  | Accepted / blocked / unsupported / N/A / review |  |
+| Severity owner |  | Accepted / blocked / unsupported / N/A / review |  |
+| Retention/export/deletion owner |  | Accepted / blocked / unsupported / N/A / review |  |
+| Recheck trigger |  | Accepted / blocked / unsupported / N/A / review |  |
+
+## Decision
+
+| Field | Value |
+|---|---|
+| Reviewer decision | Accept / defer / route / reject / block / diagnostic-only |
+| Accepted claim, if any |  |
+| Unsupported or missing claim |  |
+| Gap owner |  |
+| Next runtime-control action |  |
+| Accepted-when condition |  |

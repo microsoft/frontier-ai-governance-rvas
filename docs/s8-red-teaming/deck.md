@@ -1,133 +1,119 @@
-# S8 · Authorized Red Teaming & Retest
+# S8 · Authorized Red Teaming Runbook
 
 **Facilitator deck**
 
-Microsoft default: **AI Red Teaming Agent where supported; PyRIT or manual approved alternate; Azure AI Content Safety, Prompt Shields, Defender, Sentinel, and SOC remediation routes**.
+Microsoft default: **AI Red Teaming Agent for supported Foundry targets; PyRIT,
+manual expert review, or third-party route when support or customer policy
+requires it**.
 
-Concrete decision: **Approve, defer, reject, route, block, remediate, retest, or accept risk for one authorized non-production target and category.**
+Concrete decision: **test, defer, route, block, remediate, retest, or accept
+risk for one authorized non-production target and category set**.
 
 ---
 
-## Authorized adversarial testing, not "run attacks"
+## Gate before any test
 
-- S8 is a defensive, customer-authorized, non-production remediation workshop.
-- The unit of work is one target, one version, one category set, and one evidence boundary.
-- The outcome is a remediation and retest decision, not offensive capability or production approval.
+- Written authorization and rules of engagement.
+- Non-production target and version.
+- Target support and category support.
+- SOC/legal contacts where required.
+- Evidence location and retention owner.
+- Stop conditions, rate/cost boundary, and reset path.
 
 Note:
-Open by taking the heat out of "red team." This is controlled safety evidence with a receiving owner.
+If any gate is missing, do not test. Record blocked, unsupported, or
+production-test deferred.
 
 ---
 
-## Target card
+## Target support check
 
-- Target: agent, app, endpoint, workflow, or model route.
-- Version: prompt/model/tool/data/policy/build version in scope.
-- Environment: non-production only.
-- Owners: target, evidence, severity, remediation, retest.
-- Safety: reset/rollback path, monitoring window, production-impact exclusion.
+- Foundry project deployment.
+- Connected Azure OpenAI or Foundry Tools deployment.
+- Foundry Agent in the project.
+- Approved PyRIT adapter or customer wrapper.
+- Manual/third-party route with explicit handoff.
 
 Note:
-If the customer cannot name the target version and reset path, the workshop should create a blocker instead of pretending the test is scoped.
+Unsupported is a result. Do not force a mock run to fill a control row.
 
 ---
 
-## Rules of engagement are the first control
+## AI Red Teaming Agent playbook
 
-- Authorization reference and approved time window.
-- Operators, methods/tools, permitted categories, excluded categories.
-- Data limits, prohibited activity, cost/rate limits.
-- Stop conditions and escalation route.
-- SOC contact and legal/risk contact where required.
-- Evidence handling, retention owner, visibility limits.
+1. Open `ai.azure.com` and select the Foundry project.
+2. Copy project endpoint from **Overview**.
+3. Confirm operator has **Foundry User** or approved equivalent.
+4. Select supported target and categories.
+5. Configure target, category list, sample/objective count, strategy scope,
+   taxonomy/source, stop conditions, and monitoring.
+6. Run through Microsoft Foundry SDK or approved automation.
+7. Review status, ASR, category breakdown, limitations, and run ID.
 
 Note:
-ROE is not paperwork. It is the control that makes adversarial activity bounded and defensible.
+Store run records and scorecards in customer systems. Keep only safe references
+in the template.
 
 ---
 
-## Category taxonomy
+## PyRIT playbook
 
-- Direct prompt injection.
-- Indirect prompt injection.
-- Sensitive-data disclosure.
-- Tool abuse or unsafe action.
-- Hallucination or grounding failure.
-- Harmful or policy-violating content.
-- Protected-material concern.
-- Cost or availability abuse.
-- Unauthorized access.
+- Use when native route does not cover target/category or custom repeatability is
+  required.
+- Confirm approved target adapter boundary.
+- Load dataset/prompt source by safe reference.
+- Run the customer-approved notebook or documented wrapper command.
+- Store scorecard and row-level data in customer records.
+- Record method, target/run ID, categories, threshold verdict, support status,
+  finding route, and retest result.
 
 Note:
-Ask "which category are we testing and what counts as success?" before anyone looks at scores.
+Do not invent payloads, paste prompt content, or store raw outputs in this repo.
 
 ---
 
-## Method route
+## Manual or third-party branch
 
-| Route | Use when |
+Minimum handoff:
+
+- Authorization reference and ROE.
+- Target alias, version, owner, reset path, monitoring window.
+- Method and operator.
+- Categories, excluded categories, and success condition.
+- Threshold/severity owner and accepted-risk authority.
+- Evidence location and retention owner.
+- Remediation owner, release impact, stop condition, and retest method.
+
+Note:
+Keep reports and raw notes in customer systems; store only a safe reference.
+
+---
+
+## Expected signals
+
+| Signal | Action |
 |---|---|
-| AI Red Teaming Agent | Target and category are supported and customer can operate the native path. |
-| PyRIT | Approved custom repeatable testing is needed. |
-| Manual expert | Human/domain judgment is required. |
-| Third-party | Customer requires an independent or specialist engagement. |
-| Unsupported route | No approved method safely covers the target/category. |
-| Production request | Defer to customer legal, SOC, business, risk, and change process. |
+| Target supported | Continue within ROE. |
+| Category unsupported | Route or choose approved alternate. |
+| Run blocked by authorization | Do not test. |
+| ASR above threshold | Open finding, hold/route release impact, retest after fix. |
+| Result not comparable | Mark diagnostic-only and define rerun. |
+| Finding retested | Close only with owner acceptance and remaining-risk note. |
 
 Note:
-Unsupported is an honest route. Never force a mock test to fill a governance cell.
-
----
-
-## ASR, threshold, and sample limits
-
-- ASR = attempts that meet the agreed success condition.
-- ASR only makes sense with category, sample size, target version, method, and threshold.
-- Below threshold supports the tested scope only.
-- Above threshold creates remediation or risk decision work.
-- Not-comparable results stay diagnostic until the customer accepts interpretation rules.
-
-Note:
-Make threshold ownership explicit. A tool score does not accept risk.
-
----
-
-## Retest and closure
-
-- Retest same category and success condition unless an alternate is justified.
-- Record changed target version and comparison rule.
-- Preserve retest evidence in customer systems.
-- Closure requires severity/remediation owner acceptance.
-- Reopen on material target, method, category, threshold, route, or control change.
-
-Note:
-A lower ASR closes only the scoped finding. It does not certify product safety.
-
----
-
-## Failure modes and hard stops
-
-- No written authorization or ROE.
-- Production target requested.
-- Missing SOC/legal contact where required.
-- Unsupported target forced into mock coverage.
-- Raw prompts, outputs, run records, or payloads copied into the wrong place.
-- Finding has no remediation owner.
-- Remediation has no retest criterion.
-- Below-threshold ASR generalized beyond tested scope.
-
-Note:
-These are not facilitation preferences; they are blockers or route decisions.
+ASR below threshold supports only the tested target, version, category, method,
+sample, and threshold.
 
 ---
 
 ## Decide and hand over
 
-- Complete: authorized test scope, findings, remediation, and retest plan.
-- Decision: approve, defer, reject, route, block, remediate, retest, or accept risk.
-- Handoff: target owner, red-team lead, SOC, legal/risk, remediation owner, retest owner, release/lifecycle owner.
-- Boundary: safe references only; no production testing; no tenant change; no production-approval claim.
+- Final action: test completed, hold, route, block, remediation required, retest
+  required, accepted risk, or diagnostic-only.
+- Handoff owners: target, red-team lead, SOC/legal, severity, remediation,
+  retest, evidence, release/lifecycle.
+- Retest trigger and reopen trigger are explicit.
 
 Note:
-End with the decision, receiving owner, next remediation or retest action,
-accepted-when condition, and customer-owned evidence reference.
+S8 creates remediation and retest work. It does not approve production or
+authorize production testing.

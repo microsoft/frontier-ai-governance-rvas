@@ -1,131 +1,130 @@
-# S7 · Evaluation Evidence & Release Readiness
+# S7 · Foundry Evaluation Runbook
 
 **Facilitator deck**
 
-Microsoft default: **Microsoft Foundry evaluations, agent evaluators, cloud
-evaluation, CI/CD integration, and Azure Load Testing where applicable**.
+Microsoft default: **Microsoft Foundry cloud evaluation, Azure DevOps
+`AIAgentEvaluation@2` where the pipeline can consume results, and Azure Load
+Testing or approved telemetry where performance matters**.
 
-Concrete decision: **continue, hold, defer, reject, route, block, or mark
-diagnostic-only for one candidate change.**
-
----
-
-## 1. Test the candidate change, not the release process
-
-- Test one bounded change against customer-owned scenarios and thresholds.
-- Give the completed comparison to the customer's release process.
-- It does not approve production, change a pipeline, configure Foundry, set
-  thresholds, or prove runtime enforcement.
-
-Note:
-Open by breaking the old gate framing. Complete a comparison that informs a
-customer release decision.
+Concrete decision: **continue, hold, defer, reject, route, block, retest, or
+diagnostic-only for one candidate change**.
 
 ---
 
-## 2. Start with one candidate change
+## Start with the project and candidate
 
-- Workload and capability.
-- Model, prompt, retrieval, tool/API, policy, deployment alias, or release
-  package change.
-- Release question: what would continue, hold, or roll back?
-- Owners: model/agent, scenario, evaluation, threshold, evidence, release/hold,
-  rollback.
+- Open `ai.azure.com` and select the pre-release Foundry project.
+- Name candidate: model/deployment, agent version, prompt, retrieval, tool/API,
+  policy, or release package.
+- Name baseline: accepted run, previous agent version, gold result, or missing.
+- Name threshold owner and evidence location.
 
 Note:
-Keep the room on one concrete change. Do not let the session become a generic
-quality framework discussion.
+If there is no baseline or threshold owner, the run can still diagnose behavior
+but must not be used as release reliance.
 
 ---
 
-## 3. Runtime-path acceptance before release reliance
+## Upload or select the scenario source
 
-- If accepted runtime-path evidence exists, reference it safely.
-- If it is missing, the evaluation can still be useful.
-- Missing runtime prerequisite means **diagnostic-only**, not release reliance.
+- Foundry **Build** -> **Evaluations** -> **Datasets**.
+- Upload/select versioned JSONL or CSV, or reference supported response/trace
+  IDs.
+- Confirm mappings: query, response, context, ground truth, and evaluator fields.
+- Record dataset/scenario version and excluded slices.
 
 Note:
-This protects the boundary between evaluator results and actual reviewed runtime
-control evidence.
+Do not paste prompts, outputs, trace payloads, endpoints, secrets, or tenant IDs
+into the workshop repository.
 
 ---
 
-## 4. Scenario set is the unit of evidence
+## Select evaluators from the catalog
 
-- Scenario-set reference and owner.
-- Source, population, sampling method, included slices, excluded slices.
-- Data/tool boundary, environment assumption, reviewer role, time window.
-- Material-change triggers.
+- Foundry **Build** -> **Evaluations** -> **Evaluator catalog**.
+- Check evaluator name, version, required inputs, region/project support, and
+  preview status.
+- Choose only dimensions tied to the release question: groundedness, relevance,
+  task adherence, tool use, safety, protected material, custom rubric, or
+  regression.
 
 Note:
-Ask "what did this scenario set actually represent?" before looking at scores.
+An unavailable or preview-only evaluator is not a blocker by itself; using it as
+the only production gate is the blocker.
 
 ---
 
-## 5. Evaluator and rubric route comparison
+## Configure and run
 
-- Foundry evaluator where supported.
-- Agent evaluator for task, intent, tool-use, or agent behavior.
-- Manual rubric or SME scorer for domain/policy judgment.
-- CI/CD cloud evaluation when release automation is mature.
-- Load/performance route when latency, quota, saturation, or cost matters.
-- Diagnostic-only when prerequisites are missing.
+1. Create evaluation.
+2. Select dataset/source and evaluator set.
+3. Configure model or agent target.
+4. Set baseline and candidate references where supported.
+5. Run and wait for **Succeeded**, **Failed**, or **Canceled**.
+6. Copy run ID and safe result link to the customer record.
 
 Note:
-Make the route choice explicit. Different routes produce different completed
-work and limitations.
+The result is useful only for the exact project, dataset/scenario version,
+evaluator, target, and time window.
 
 ---
 
-## 6. Baseline and candidate comparison
+## Review baseline, candidate, and thresholds
 
-- Baseline run, score, or accepted behavior reference.
-- Candidate run/reference tied to the exact change.
-- Comparison rule and selected metrics.
-- Regression tolerance and re-evaluation criterion.
+- Compare candidate against baseline.
+- Inspect failed high-risk slices before looking at aggregate scores.
+- Check metric thresholds and threshold file version.
+- Decide whether failures hold release, require retest, or route to exception.
 
 Note:
-Without a baseline, the team is staring at a number with no release meaning.
+No baseline means no release meaning unless the threshold owner accepts a
+specific alternate comparison rule.
 
 ---
 
-## 10. Finding-to-action map
+## CI/CD branch
 
-- Low groundedness -> retrieval, source, or prompt backlog.
-- Unsafe result -> safety review, threshold review, or runtime-control backlog.
-- Tool-call error -> tool contract, parameter, or authority backlog.
-- Regression -> change-owner review, rollback option, repeat evaluation.
-- Latency/cost miss -> operating, quota, budget, or capacity hypothesis.
+- Azure DevOps extension task: `AIAgentEvaluation@2`.
+- Auth: ARM service connection, workload identity federation, or managed
+  identity.
+- Inputs: project endpoint, deployment name, data path, agent IDs, optional
+  baseline agent ID.
+- Threshold file/post-step controls fail, warn, or require human review.
+- Store pipeline report, run ID, threshold version, and safe result link.
 
 Note:
-Every finding needs an owner and closure evidence. Scores without actions are
-noise.
+Manual override needs owner, expiry, reason, ticket/change reference, and retest
+trigger.
 
 ---
 
-## 11. Diagnostic-only and hard stops
+## Load and performance branch
 
-- No accepted runtime-path evidence for release reliance.
-- No scenario owner or baseline.
-- No threshold owner.
-- Unsupported evaluator used as sole production gate.
-- Aggregate score hides failed high-risk slices.
-- No release/hold owner, rollback route, or approved records location.
+- Use Azure Load Testing or the approved customer tool.
+- Define request mix, concurrency/ramp, duration, retry, timeout, and stop
+  condition.
+- Set quota/cost boundary: TPM/RPM/PTU, dependency quotas, test budget.
+- Correlate run ID with Foundry traces, Application Insights, Azure Monitor,
+  gateway logs, and dependency telemetry.
 
 Note:
-These are not presentation details; they determine whether the result can
-inform the release decision.
+Hold release on failed p95/p99 latency, error, throttling, saturation, quota, or
+budget threshold.
 
 ---
 
-## 12. Decide and hand over
+## Expected signals
 
-- Decision: continue, hold, defer, reject, route, block, or diagnostic-only.
-- Completed comparison: candidate, scenario set, evaluator/rubric, baseline,
-  thresholds, gate behavior, performance/cost, findings, and handoff.
-- Boundary: customer evidence stays in approved systems; production changes use
-  customer change approval.
+| Signal | Action |
+|---|---|
+| Run succeeded | Inspect thresholds and failed slices. |
+| Evaluator unavailable | Use alternate/manual route or hold. |
+| Threshold failed | Hold or route exception to threshold owner. |
+| Result diagnostic-only | Do not use for release reliance. |
+| Baseline missing | Create baseline or obtain time-limited exception. |
+| Override required | Record owner, expiry, compensating check, retest trigger. |
+| Hold release | Stop promotion until fixed, retested, or accepted. |
 
 Note:
-End with the decision, receiving owner, next evaluation or release action,
-accepted-when condition, and customer-owned evidence reference.
+End with the receiving owner, next action, accepted-when check, and safe customer
+record reference.

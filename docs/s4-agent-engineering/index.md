@@ -10,11 +10,13 @@
     Teams need a shared bar for admitting an agent or material change before it
     reaches customers, data, tools, or production processes.
 
-## 1. Choose the engineering path
+## 1. Choose and test the engineering path
 
-Compare the Microsoft build paths for one bounded agent candidate, then decide
-what engineering must have in place before it moves to the next controlled
-stage.
+Compare the Microsoft build paths for one bounded agent candidate, then inspect
+the selected route deeply enough to know whether engineering can actually build
+and govern it. S4 should leave the customer with a selected path, rejected
+alternatives, a safe boundary test, and the backlog needed before the next
+controlled stage.
 
 Work through these checks:
 
@@ -30,10 +32,24 @@ Work through these checks:
   automation, and prototype-only.
 - A selected Microsoft implementation path, with confidence, assumptions, and
   alternatives the customer rejected or deferred.
-- A concrete implementation checklist for the selected path: instruction or
-  workflow reference, model route, tool/API/connector list, data sources,
-  identity mode, runtime controls, evaluation plan, telemetry route, release and
-  rollback owner, lifecycle state, and support boundary.
+- A route-specific inspection for the selected path:
+  - **Foundry Agent Service:** Foundry project, agent, instructions/hosted-code
+    reference, model deployment, tool, connected data, identity/RBAC, trace,
+    evaluation, safety settings, lifecycle owner.
+  - **Copilot Studio:** environment, solution, agent/topic/action, connector,
+    DLP policy, authentication, publication channel, audit/monitoring, maker and
+    admin owner.
+  - **Microsoft 365 extensibility:** app/agent metadata, declarative
+    instructions, knowledge source, action/plugin, Graph permission, admin
+    review, distribution route.
+  - **Custom Azure app:** repository/release reference, model/API backend,
+    gateway route, managed identity/federation, telemetry, IaC/release path,
+    rollback and support owner.
+  - **Workflow automation:** trigger, deterministic steps, connector policy,
+    approval point, run history, exception route, retirement owner.
+- A safe boundary check for the selected route: verify one non-production
+  tool/data call boundary or inspect an existing trace without changing product
+  configuration.
 - A configuration backlog for the selected path, including owners and the
   customer process that will handle each item.
 - A review of governance services that may apply, such as Entra, Purview,
@@ -55,12 +71,13 @@ deployment steps, or production approval.
 ### Plain decision
 
 **Question:** **Can this candidate enter the next controlled engineering stage
-on a named Microsoft build path with the required implementation details?** Default to the
-Microsoft path that best fits the candidate. An exception must document the
-capability, data, authority, support, and operating reason plus owner, evidence
-reference, acceptance criterion, and target event. S4 selects and admits a path;
-it does not create code, configure a product, change a system, test runtime
-behavior, or approve production.
+on a named Microsoft build path with inspectable instructions, model route,
+tool/data boundary, identity path, telemetry hook, evaluation hook, and
+rollback owner?** Default to the Microsoft path that best fits the candidate.
+An exception must document the capability, data, authority, support, and
+operating reason plus owner, evidence reference, acceptance criterion, and
+target event. S4 selects and admits a path; it does not create code, configure a
+product, change a system, run production behavior, or approve production.
 
 ### What happens next
 
@@ -71,9 +88,10 @@ release owners.
 In this session, the customer decides whether one bounded agent can move to its
 next non-production stage. The decision defines the agent's permitted authority,
 the selected Microsoft implementation path, the implementation details engineering
-must own, the evidence still needed, and the owner of each follow-up item. For a
-Foundry path, the output is a Foundry Agent Service implementation backlog, not a live
-deployment. See [Microsoft Foundry Agent Service](https://learn.microsoft.com/en-us/azure/foundry/agents/overview).
+must own, the safe boundary check to run or inspect, the evidence still needed,
+and the owner of each follow-up item. For a Foundry path, the output is a
+Foundry Agent Service implementation backlog, not a live deployment. See
+[Microsoft Foundry Agent Service](https://learn.microsoft.com/en-us/azure/foundry/agents/overview).
 
 Before the agent is released or changed in a way that affects this decision, the
 customer must review the recorded requirements again. Architecture, engineering,
@@ -108,6 +126,17 @@ like?" It is:
 
 S4 selects the build route, exclusions, implementation backlog, gate plan, and
 material-change reapproval triggers.
+
+### Expected result states
+
+| Result | Use when | Next action |
+|---|---|---|
+| Buildable route | Selected product path has owner, environment/project, identity, model, tool/data boundary, telemetry, evaluation, and rollback route. | Move to the next customer engineering stage. |
+| Buildable with backlog | Path fits, but one or more required controls are missing. | Assign the backlog item and recheck before PRE/PRO. |
+| Wrong path | A different Microsoft path better fits the authority, channel, data, or lifecycle need. | Route to the alternate product owner. |
+| Unsupported route | Required tenant, region, SKU, feature, identity, connector, or control is unavailable. | Defer or redesign before engineering starts. |
+| Unsafe authority | Action boundary, approval point, or rollback path cannot be made reviewable. | Block until authority is redesigned. |
+| Prototype-only | Learning can continue only in an isolated sandbox. | Add expiry, excluded data/actions/users, and promotion stop. |
 
 Use [Technical decisions](technical.md) for the authority model, Microsoft path
 choices, selected-path package fields, material changes, and retirement.

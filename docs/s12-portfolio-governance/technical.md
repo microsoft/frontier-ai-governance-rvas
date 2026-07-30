@@ -1,7 +1,7 @@
 # S12 · Portfolio Evidence & Roadmap: Technical decisions
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-29 · Agent 365, Microsoft control-plane records, Azure Cost Management, operating evidence, reporting, analytics, and governance capabilities vary by tenant, license, region, product baseline evidence, and configuration. Verify official docs and customer records before delivery.
+    Last reviewed: 2026-07-30 · Agent 365, Microsoft control-plane records, Azure Cost Management, operating evidence, reporting, analytics, and governance capabilities vary by tenant, license, region, product baseline evidence, and configuration. Verify official docs and customer records before delivery.
 
 ## Workshop route
 
@@ -20,7 +20,61 @@ for assurance and drift, and the foundation baseline for re-measurement.
 8. Define baseline feedback triggers.
 9. Decide continue, pause, retire, fund, defer, route, or block.
 
-![S12 portfolio decision flow: portfolio review card, source-lineage and coverage package, decision table, exception concentration, dependency clusters, prioritization, technical action, baseline feedback trigger, blocked gaps, and safe evidence boundary.](../assets/diagrams/s12-portfolio-to-s0-feedback-loop.svg)
+![S12 portfolio decision flow: portfolio review card, source-lineage and coverage, decision table, exception concentration, dependency clusters, prioritization, technical action, baseline feedback trigger, blocked gaps, and safe evidence boundary.](../assets/diagrams/s12-portfolio-to-s0-feedback-loop.svg)
+
+## Source-system rollup walkthrough
+
+Roll up concrete references from the sessions that already produced them. Do not
+replace missing source records with guesses, framework labels, or score padding.
+
+| Source | Open / inspect | Portfolio field to carry forward |
+|---|---|---|
+| S0 intake | Customer intake/backlog record for the candidate. | Sponsor, accountable owner, intended use, user population, platform path, target event, acceptance criteria. |
+| S2 compliance | Purview/compliance record for the workload path. | Compliance state, unsupported data-path limits, retention/eDiscovery route, DLP boundary, open compliance gap. |
+| S5 API/tool admission | API/tool admission record, API Center/API Management route, or tool catalog reference. | API/tool owner, schema/route, gateway state, permission boundary, unapproved or uncataloged tool gap. |
+| S7 evaluation | Evaluation record and baseline/candidate result. | Scenario, threshold owner, unsupported slices, result state, retest owner. |
+| S8 findings | Red-team/security/safety finding and remediation record. | Severity, exploitability or impact, remediation owner, exception expiry, retest plan, blocker state. |
+| S9 inventory/control plane | Registry, identity, API/tool, Foundry, telemetry, lifecycle, and duplicate-record checks. | Owner match, orphan identity, uncataloged API, unmonitored deployment, stale lifecycle, duplicate record. |
+| S10 operating/cost | Operating review, Log Analytics/App Insights, Azure Monitor, Cost Management, quota/capacity. | Alert/correlation coverage, latency/error/capacity/cost signal, incident route, budget/export, owner. |
+| Customer backlog/change system | Roadmap, funding, dependency, release/change, or work item record. | Current status, blocker, target event, funding/capacity assumption, next accepted action. |
+
+## Three-candidate rollup activity
+
+Use exactly three candidate workloads unless the customer decision owner narrows
+or expands the slice. Keep the ranking explainable instead of hiding blockers in
+a single score.
+
+| Candidate field | What to compare | Ranking use |
+|---|---|---|
+| Technical blocker | Missing owner, unsupported path, stale exception, unmonitored deployment, uncataloged API, evaluation gap, capacity gap, security finding, or duplicate initiative. | Blocks, defers, or sequences the candidate. |
+| Risk | Open severity, compliance/data-path limit, security/safety finding, expired exception, unsupported claim, or operational blind spot. | Raises urgency or blocks promotion. |
+| Value | Sponsor outcome, user/adoption signal, dependency leverage, cost/capacity impact, or roadmap commitment. | Supports continue, fund, or promote. |
+| Dependency | Shared identity, API/tool, model, data source, gateway, telemetry, capacity, funding, owner, or change process. | Determines first unblock action and downstream effects. |
+| Next action | Continue/promote, pause, retire, fund, defer, route, block, monitor, or re-baseline. | Produces owner-actionable portfolio work. |
+| Confidence | Source freshness, source agreement, coverage, sampling, support status, exclusions, and interpretation owner. | Penalizes stale, unsupported, or non-comparable evidence. |
+
+## Expected portfolio signals
+
+| Signal | Meaning | Route |
+|---|---|---|
+| Promotable workload | Source references are current enough and no blocking S2/S5/S7/S8/S9/S10 gap prevents the next customer process. | Continue, fund, promote, or submit to change/release process. |
+| Blocked workload | Required owner, evidence, remediation, evaluation, operating signal, funding/capacity, or records location is missing. | Block or defer with owner and acceptance check. |
+| Unsupported workload | Product, region, connector, data path, API/tool route, monitoring, or compliance coverage is unsupported for the intended claim. | Route to platform/product/risk owner. |
+| Duplicate initiative | Same workload, owner action, or dependency appears in multiple intake, portfolio, backlog, or change records. | Merge/split with portfolio owner. |
+| Missing owner | Accountable, risk, API/tool, operations, FinOps, evidence, or receiving owner is absent. | Stop ranking reliance until assigned. |
+| Missing operating signal | S10 telemetry, alert, incident route, cost/export, quota/capacity, or correlation signal is unavailable. | Route to operations/telemetry/FinOps owner. |
+| Stale exception | Exception is expired or lacks recheck owner/date. | Route to risk owner; block promotion reliance. |
+
+## Support limits
+
+| Limit | Portfolio handling |
+|---|---|
+| Source unavailable or unsupported | Mark the field unusable for ranking until source owner provides route or accepts limitation. |
+| Source stale or outside review period | Defer reliance or assign recheck before decision. |
+| Sampled, aggregate-only, or non-comparable evidence | Preserve the limitation and lower confidence. |
+| Score hides excluded high-risk workload | Split the population or block the aggregate conclusion. |
+| Cost/capacity field lacks allocation owner | Route to FinOps/capacity owner before funding or sequencing reliance. |
+| Framework mapping requested as certification | Route to assurance/legal/compliance owner; S12 does not certify. |
 
 ## Portfolio review card
 
@@ -29,9 +83,9 @@ for assurance and drift, and the foundation baseline for re-measurement.
 | Portfolio slice | Pilot cohort, agent population, capability group, business unit, region, platform path, technical action set, exception set, dependency cluster, or cost/capacity scope. |
 | Review period | Start/end date, refresh cadence, and expected next review. |
 | Decision question | Continue, pause, retire, fund, defer, route, block, or re-baseline? |
-| Included scope | Agents, workloads, controls, regions, business units, cost centers, evidence sources, and artifact types included. |
+| Included scope | Agents, workloads, controls, regions, business units, cost centers, evidence sources, and record types included. |
 | Excluded scope | Items deliberately excluded and why. |
-| decision path | Customer owner process or owner process that can act on the recommendation. |
+| Decision path | Customer owner process that can act on the recommendation. |
 | Owners | Portfolio, roadmap, risk, evidence, control-plane, operating review, evaluation, red-team, data/privacy, platform, FinOps/capacity, and baseline owners as applicable. |
 | Approved records location | Customer-approved system for completed decision and evidence references. |
 | Evidence limits | Stale, missing, sampled, unsupported, non-comparable, or unavailable sources. |
@@ -45,7 +99,7 @@ for assurance and drift, and the foundation baseline for re-measurement.
 | Identity and access | Agent identity, managed identity, app registration, sponsor, authority mode, disabled state, review reference. | Identity owner, review date, orphan/shared identity count, disable-route gap, and accepted-risk status. |
 | Tool/API/action | API/tool/MCP registry, gateway route, schema version, owner, lifecycle state, withdrawal path. | Catalog coverage, uncataloged tools, route mismatch, stale version, missing withdrawal owner. |
 | Model/deployment | Baseline, candidate, fallback, deprecated, retired, deployment alias, capacity/cost owner, support owner. | Version coverage, fallback gap, retirement gap, capacity pressure, support boundary. |
-| Assurance | Runtime-path acceptance, evaluation package, red-team remediation package, release-readiness handoff. | Evidence reference, accepted/diagnostic-only state, limitations, retest status, exception owner. |
+| Assurance | Runtime-path acceptance, evaluation result, red-team remediation record, release-readiness handoff. | Evidence reference, accepted/diagnostic-only state, limitations, retest status, exception owner. |
 | Operating health | Signal coverage, correlation, alert route, drift hypothesis, remediation validation, recurrence checks. | Signal owner, time window, sampled/excluded paths, alert owner, validation state, blind spots. |
 | Cost/capacity | Azure Cost Management, Foundry/project cost, tags/dimensions, PTU/committed capacity, quota, budget/anomaly route. | Allocation owner, cost center, shared-cost assumption, capacity owner, forecast confidence, excluded spend. |
 | Exceptions and risks | Exception register, accepted-risk items, unresolved blockers, issue/finding records. | Age, expiry, severity, recurrence, owner, escalation, closure criterion. |
@@ -68,7 +122,7 @@ Each decision field uses the same field shape:
 | Interpretation owner | Owner who accepted what the field can and cannot mean. |
 | Action implication | Continue, pause, retire, fund, defer, route, block, or monitor. |
 
-## portfolio decision table field families
+## Portfolio decision table field families
 
 | Field family | Example fields | Decision use |
 |---|---|---|
@@ -77,7 +131,7 @@ Each decision field uses the same field shape:
 | Assurance | Evaluation coverage, runtime-path acceptance, red-team status, release-readiness state, retest status. | Shows whether evidence supports reliance or only diagnostic backlog. |
 | Operating health | Alert trend, incident/backlog trend, telemetry gaps, drift hypotheses, latency/cost/capacity signal, support owner. | Shows whether the fleet can be operated, not just built. |
 | Cost/capacity | Cost center/tag, model/deployment spend, PTU/committed capacity, quota pressure, forecast owner, allocation confidence. | Supports funding, capacity, chargeback/showback, or optimization decisions. |
-| baseline evidence | Baseline score, current evidence status, movement rationale, blocked domains, confidence. | Supports movement/no-movement/revisit questions, not certification. |
+| Baseline evidence | Baseline score, current evidence status, movement rationale, blocked domains, confidence. | Supports movement/no-movement/revisit questions, not certification. |
 | Exception age | Exception count, age bucket, owner, expiry, escalation, recurrence. | Finds expired or repeated accepted-risk pressure. |
 | Dependency | Shared identity, tool/API, data source, model, gateway, platform, telemetry, or owner dependency. | Determines sequencing and unblock order. |
 | Roadmap | Initiative, owner, target event, funding/capacity status, decision path, next recheck condition, blocked-by list. | Converts portfolio learning into owner-actionable work. |
@@ -109,7 +163,7 @@ Each decision field uses the same field shape:
 | First unblock action | Concrete next action with acceptance test. |
 | Downstream effects | Which items can move after the unblock action. |
 | Risk if ignored | Decision consequence. |
-| recheck condition | Date or event for rechecking the cluster. |
+| Recheck condition | Date or event for rechecking the cluster. |
 
 ## Prioritization mechanics
 
@@ -123,7 +177,7 @@ not proof of value, risk reduction, funding approval, or baseline movement.
 | Cost/capacity impact | 1-5 | Higher when spend, PTU/committed capacity, quota, or savings opportunity is material and allocated. |
 | Coverage improvement | 1-5 | Higher when item improves many agents, shared controls, or critical dependency visibility. |
 | Dependency leverage | 1-5 | Higher when item unblocks multiple teams, technical actions, or evidence routes. |
-| baseline movement | 1-5 | Higher when movement can be supported by evidence against a stable baseline question. |
+| Baseline movement | 1-5 | Higher when movement can be supported by evidence against a stable baseline question. |
 | Urgency | 1-5 | Higher when expiry, incident pattern, customer commitment, regulatory date, or funding window is near. |
 | Confidence | 1-5 | Penalize stale, unsupported, sampled, non-comparable, or thin evidence. |
 | Effort/complexity | 1-5 | Higher effort reduces priority unless risk/value/dependency leverage justifies it. |
@@ -136,7 +190,7 @@ priority_score =
   (value_weight * business_value) +
   (coverage_weight * coverage_improvement) +
   (dependency_weight * dependency_leverage) +
-  (baseline evidence_weight * baseline evidence_movement) +
+  (baseline_evidence_weight * baseline_evidence_movement) +
   (urgency_weight * urgency) +
   (confidence_weight * confidence) -
   (cost_weight * cost_or_capacity_burden) -
@@ -151,14 +205,14 @@ funding, or compliance logic.
 
 | Field | Record |
 |---|---|
-| technical action | Continue, pause, retire, fund, defer, route, block, monitor, re-baseline, or open policy question. |
+| Technical action | Continue, pause, retire, fund, defer, route, block, monitor, re-baseline, or open policy question. |
 | Action rationale | Risk/value/cost/capacity/coverage/dependency/baseline evidence reason. |
 | Accountable owner | Owner who accepts the action. |
 | Implementation owner | Owner who will execute or coordinate work. |
 | Evidence owner | Owner who will validate closure. |
 | Funding/capacity owner | Required when the item changes spend, quota, PTU/committed capacity, support, or staffing. |
 | Dependency owner | Required when shared blocker exists. |
-| target event | Date or event. |
+| Target event | Date or event. |
 | Acceptance test | Observable condition for completion. |
 | Evidence reference | Customer-approved reference location. |
 | Exception status | None, proposed, accepted, expired, rejected, or needs escalation. |
@@ -202,7 +256,7 @@ baseline by itself.
 | Work item | Accepted when... | Receiving owner |
 |---|---|---|
 | Portfolio review card | population, review period, included/excluded scope, decision path, owners, records location, evidence limits, and stop condition are recorded | Portfolio owner |
-| Source-lineage package | every decision field or claim links to source owner, freshness date, coverage limit, interpretation owner, and safe reference | Evidence owner |
+| Source lineage | every decision field or claim links to source owner, freshness date, coverage limit, interpretation owner, and safe reference | Evidence owner |
 | Decision table | field families include coverage, risk, assurance, operating, cost/capacity, baseline evidence, exceptions, dependencies, roadmap, owner readiness, and confidence where relevant | Portfolio/governance owner |
 | Exception concentration | population, affected items, repeated pattern, shared dependency, owner, escalation, and closure criterion are recorded | Risk owner |
 | Dependency cluster | dependency type, blocked items, sequence owner, first unblock action, downstream effect, and recheck condition are recorded | Roadmap owner |

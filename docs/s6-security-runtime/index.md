@@ -29,6 +29,10 @@ Check the following:
   identity, gateway or app-only route, backend model/agent, tool/API route,
   response path, correlation field, telemetry destination, SOC route, retention
   owner, and approved records location.
+- A short operator workflow: run or identify the non-production request,
+  inspect the gateway or app route, query telemetry by correlation ID, check
+  whether the expected policy decision appears, confirm the SOC or alert route,
+  and classify the result state.
 - Gateway proof and telemetry correlation using safe references and
   the [`gateway-proof`](../../contracts/gateway-proof.schema.json) manifest
   shape.
@@ -39,6 +43,9 @@ Check the following:
   and route bypass.
 - A customer reviewer decision: accept, defer, reject, route, block, or mark
   diagnostic-only.
+
+Expected result states are: signal present, no signal, partial signal,
+diagnostic-only, alert routed, unsupported route, or blocked evidence handling.
 
 The adapter does not deploy a safety platform, configure APIM, change live
 policy, or prove a direct Content Safety call. A completed request is transport

@@ -1,221 +1,214 @@
-# S7 · Evaluation Evidence & Release Readiness: Technical decisions
+# S7 · Evaluation Evidence & Release Readiness: Technical runbook
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-24 · Microsoft Foundry evaluations, agent evaluators, cloud evaluation, CI/CD integration, and Azure Load Testing availability vary by region, quota, pricing, SDK/version, and workload. Verify official docs and customer status before delivery.
+    Last reviewed: 2026-07-30 · Foundry evaluators, cloud evaluations, agent evaluation tasks, Application Insights trace evaluation, and Azure Load Testing vary by region, project type, quota, pricing, SDK version, and preview status. Verify support before delivery.
 
 ## Microsoft default
 
-Default to Microsoft Foundry evaluations and agent evaluators where supported,
-combined with accepted runtime-path evidence, customer-owned thresholds,
-customer-owned release gates, CI/CD integration when mature, and Azure Load
-Testing or approved telemetry for performance evidence.
+Default to Microsoft Foundry cloud evaluation for the named non-production
+candidate, Azure DevOps `AIAgentEvaluation@2` when the release pipeline can use
+the result, and Azure Load Testing or an approved performance tool when
+throughput, quota, latency, saturation, or cost can affect release readiness.
 
 ![S7 illustrative assurance pattern: runtime-path acceptance precedes scenario-set evaluation, evaluator or rubric selection, baseline comparison, threshold interpretation, finding action, and continue or hold handoff. Diagnostic-only evidence stays separate.](../assets/diagrams/s7-evaluation-release-handoff.svg)
 
-## Workshop route
+## 1. Preflight
 
-1. **Choose one candidate change.** Name the workload, capability, model,
-   prompt/instruction, retrieval, tool/API, policy/control, orchestration,
-   deployment alias, or release-package change.
-2. **Confirm the runtime prerequisite.** If accepted runtime-path evidence is
-   missing, scope the evaluation as diagnostic-only and do not use it for
-   release reliance.
-3. **Define the scenario set.** Select and document the scenario source, owner,
-   population, sampling method, included/excluded slices, data/tool boundary,
-   environment assumption, reviewer role, and material-change triggers.
-4. **Select the evaluator/rubric route.** Choose Foundry evaluator, agent
-   evaluator, manual rubric/scorer, CI/CD cloud evaluation, load/performance
-   route, diagnostic-only route, or mixed route.
-5. **Define baseline and candidate comparison.** Compare the baseline reference,
-   candidate reference, comparison rule, selected metrics, threshold owner,
-   regression tolerance, exception owner, and re-evaluation criterion.
-6. **Define gate behavior.** Choose manual review, blocking CI/CD, warning
-   CI/CD, diagnostic-only, mixed, or not applicable; include identity,
-   evidence-storage, raw-evidence handling, failure behavior, and override route.
-7. **Add performance and cost evidence where relevant.** Capture workload model,
-   latency, throughput, error/saturation, quota/capacity, token cost, fallback,
-   and operating reconciliation owner.
-8. **Map findings to release or backlog action.** Decide continue, hold, defer,
-   reject, route, block, diagnostic-only, accepted exception, or remediation
-   backlog.
-
-## Decision tree
-
-1. **If Foundry evaluators cover the scenario**, use them with versioned
-   datasets/scenarios, thresholds, baseline comparison, and human interpretation.
-2. **If tool-use or agent behavior is material**, use agent evaluators or trace
-   review with a versioned rubric.
-3. **If domain, policy, or legal judgment is material**, add manual scorer
-   review and adjudication owner.
-4. **If the release process can consume evidence automatically**, run cloud
-   evaluation in CI/CD with owned thresholds, failure behavior, override route,
-   and audit trail.
-5. **If latency, throughput, quota, saturation, or cost matters**, add Azure Load
-   Testing, k6, JMeter, Foundry traces, Application Insights, Azure Monitor, or
-   another approved performance evidence route.
-6. **If accepted runtime-path evidence is missing**, hold release reliance or
-   mark the evaluation diagnostic-only.
-
-| Decision | Microsoft default | Exception criteria |
+| Check | Required before run | Blocker if missing |
 |---|---|---|
-| Evaluation approach | Foundry evaluations/agent evaluators plus versioned scenario set | Manual or approved external scorer covers unsupported domain/policy needs. |
-| Scenario evidence | Customer-owned scenario set with owner, source, exclusions, and reviewer | Diagnostic-only when data/tool boundary, environment assumption, or owner is missing. |
-| Thresholds | Customer-owned thresholds with baseline, regression tolerance, and exception route | Manual risk review required until threshold owner and re-entry rule exist. |
-| Release gate | Customer release decision using evaluation references and accepted runtime-path evidence | Manual sign-off required until CI/CD automation is governed. |
-| Performance evidence | Azure Load Testing plus Application Insights/Azure Monitor/Foundry traces where relevant | Approved telemetry-only path when pre-release load test is not required. |
+| Foundry project | Project endpoint from `ai.azure.com` -> project **Overview**; non-production or approved pre-release scope. | Do not run against an unapproved project. |
+| Role | **Foundry User** or the customer-approved equivalent for the project; pipeline identity/service connection for CI/CD. | Cannot create/run evaluations or pipeline task. |
+| Candidate | Model/deployment, agent ID/version, prompt, tool/API, retrieval source, policy, or release package is named. | No scoped evaluation. |
+| Dataset/scenario | Dataset name/version, JSONL/CSV file reference, response/trace IDs, scenario simulation source, or approved manual scenario set. | Result cannot be interpreted. |
+| Evaluator fit | Evaluator catalog entry, version, required inputs, mappings, region/project support, and preview status checked. | Use alternate evaluator/manual review or hold. |
+| Baseline | Prior accepted run, baseline agent ID, pre-change run, gold scenario result, or accepted comparison rule. | Mark baseline missing; diagnostic-only unless threshold owner accepts an alternate rule. |
+| Threshold owner | Customer owner for metric thresholds and threshold-file changes. | Do not fail/pass release automatically. |
+| Evidence handling | Customer records system, pipeline artifact storage, retention owner, and raw prompt/output boundary. | Do not run if evidence cannot be handled safely. |
+| Runtime prerequisite | Accepted runtime-path reference if the result will influence release. | Missing prerequisite means diagnostic-only. |
 
-## Evaluation candidate card
+## 2. Foundry portal run
 
-| Field | Record |
+Use this path for an interactive customer run.
+
+1. Open `ai.azure.com`.
+2. Select the account, hub/project, and pre-release environment.
+3. Open **Build** -> **Evaluations**.
+4. Open **Evaluator catalog** and select evaluators that match the release
+   question: quality/relevance, groundedness, retrieval/context, safety,
+   task adherence, tool use, protected material, custom rubric, or regression.
+5. Open **Datasets**. Upload a JSONL/CSV dataset or select an existing dataset
+   version. If using traces or Foundry response IDs, confirm Application
+   Insights/Foundry source support and sampling scope.
+6. Create the evaluation. Configure:
+   - data source type: JSONL, CSV, Foundry responses, traces, target
+     completions, synthetic data, or scenario simulation when supported;
+   - evaluator names and versions;
+   - column mappings such as query, response, context, ground truth, and
+     evaluator-specific fields;
+   - target model deployment or agent ID/version;
+   - baseline and candidate references when comparison is supported.
+7. Run the evaluation.
+8. Wait for status **Succeeded**, **Failed**, or **Canceled**.
+9. Open the run result. Check metric summary, failed slices, evaluator
+   diagnostics, baseline/candidate comparison, and confidence or statistical
+   comparison where available.
+10. Export or copy only safe references: project alias, evaluation ID, run ID,
+    dataset/scenario version, evaluator/rubric version, baseline/candidate IDs,
+    metric summary, threshold verdict, and result link.
+
+Do not copy prompts, responses, full trace payloads, endpoint values, tenant IDs,
+secrets, or raw telemetry into this repository.
+
+## 3. Foundry SDK run
+
+Use this path when the customer operates evaluations through code or a controlled
+automation script.
+
+Setup:
+
+```bash
+pip install "azure-ai-projects>=2.2.0"
+az login
+```
+
+Minimum run shape:
+
+1. Set `AZURE_AI_PROJECT_ENDPOINT` to the project endpoint copied from Foundry
+   project **Overview**.
+2. Use `AIProjectClient(endpoint=..., credential=DefaultAzureCredential())`.
+3. Upload or reference the dataset:
+   `project_client.datasets.upload_file(name=..., version=..., file_path=...)`.
+4. Define evaluator testing criteria with exact evaluator names and
+   `data_mapping` for the dataset columns.
+5. Create the evaluation with `openai_client.evals.create(...)`.
+6. Start the run with `openai_client.evals.runs.create(...)`.
+7. Poll run status, retrieve result summary, and store the run ID plus safe
+   result link in the customer record.
+
+Accepted when:
+
+- run status is **Succeeded**;
+- evaluator diagnostics do not show unsupported or missing mappings;
+- dataset/scenario version matches the release candidate;
+- baseline/candidate comparison is present or the missing baseline is explicitly
+  routed;
+- threshold verdict and owner are recorded.
+
+## 4. Azure DevOps CI/CD branch
+
+Use CI/CD only when the customer release process can consume automated
+evaluation results.
+
+Required pieces:
+
+| Piece | Configuration to verify |
 |---|---|
-| Candidate change | Model, prompt/instruction, retrieval, tool/API, policy/control, orchestration, deployment alias, or release package. |
-| Release question | What decision this evaluation must inform, and what would continue or hold. |
-| Environment and lifecycle | Dev/test/pre-release environment, lifecycle state, version, and scope limit. |
-| Owners | Model/agent owner, scenario owner, evaluation owner, threshold owner, evidence owner, release/hold owner, rollback/remediation owner. |
-| Approved records location | Customer system that stores completed evidence and safe references. |
-| Runtime prerequisite | Accepted runtime-path evidence reference or diagnostic-only boundary. |
-| Material-change triggers | Prompt, model, dataset, retrieval, tool schema, policy, deployment alias, route, threshold, evaluator, or scenario-set change. |
+| Pipeline identity | Azure Resource Manager service connection, workload identity federation, or managed identity. Prefer secretless Entra ID. |
+| Task | `AIAgentEvaluation@2` from the Microsoft Foundry AI Agent Evaluation extension. |
+| Project endpoint | `azure-ai-project-endpoint` copied from Foundry project **Overview**. |
+| Deployment | `deployment-name` copied from **Models + endpoints**. |
+| Data | `data-path` to a versioned JSON file with `name`, `evaluators`, and `data` entries. |
+| Agents | `agent-ids` in `agent-name:version` format; comma-separated for comparison. |
+| Baseline | `baseline-agent-id` when a specific baseline should be used. |
+| Thresholds | Versioned threshold file or evaluator parameters, with owner and change route. |
+| Failure behavior | Fail PR, fail release stage, warn only, require human review, or hold deployment. |
+| Storage | Pipeline summary/report, threshold file version, run ID, baseline/candidate IDs, and safe result link retained in customer systems. |
 
-## Define the scenario set
+Example task shape:
 
-| Field | Record |
+```yaml
+steps:
+  - task: AIAgentEvaluation@2
+    displayName: "Evaluate Foundry agent candidate"
+    inputs:
+      azure-ai-project-endpoint: "$(AzureAIProjectEndpoint)"
+      deployment-name: "$(DeploymentName)"
+      data-path: "$(System.DefaultWorkingDirectory)/evaluation/dataset.json"
+      agent-ids: "$(CandidateAgentId)"
+      baseline-agent-id: "$(BaselineAgentId)"
+```
+
+Add a customer-owned threshold check after the task if the task/report does not
+directly fail on the required thresholds. The check must read the approved
+threshold file, fail the job on required metric regression, and write a short
+summary to the pipeline report. Manual override requires owner, expiry, reason,
+ticket/change reference, and retest trigger.
+
+## 5. Load and performance branch
+
+Use Azure Load Testing or a customer-approved tool when release risk includes
+latency, throughput, quota, saturation, reliability, or cost.
+
+| Field | Required configuration |
 |---|---|
-| Scenario-set reference | Versioned reference in the customer records system. |
-| Source and population | How scenarios were selected and what population they represent. |
-| Sampling method | Risk-based, regression, production-derived reference, synthetic, SME-selected, red-team-derived, or mixed. |
-| Included slices | Quality, relevance, groundedness, retrieval/context, safety, prompt injection, PII, protected material, tool use, task adherence, regression, performance/cost, human-review cases. |
-| Excluded slices | Unsupported behavior, unapproved data, unavailable tool path, unsupported evaluator, missing runtime prerequisite, or out-of-scope environment. |
-| Data/tool boundary | What source data, retrieval context, tool output, and response surfaces are in scope. |
-| Reviewer role and time window | Who reviewed scenario fitness and when. |
-| Re-entry trigger | Change that requires scenario-set review before release reliance. |
+| Tool | Azure Load Testing resource, k6/JMeter/approved runner, or telemetry-only exception. |
+| Target | Non-production endpoint/agent/app route, auth path, deployment alias, and reset/rollback owner. |
+| Request mix | User journeys, prompt class labels, retrieval/tool usage, streaming mode, cache state, error/timeout cases, and excluded routes. |
+| Concurrency | Arrival rate, virtual users, ramp, duration, burst, retry behavior, and abort condition. |
+| Quota/cost | TPM/RPM/PTU or model capacity, dependency quotas, test budget, budget owner, and throttling expectation. |
+| Telemetry | Azure Load Testing run ID, Foundry traces, Application Insights, Azure Monitor metrics, gateway/dependency logs, and correlation keys. |
+| Thresholds | p50/p95/p99 latency, timeout, error rate, throttling, saturation, dependency failure, token/cost budget, and fallback behavior. |
 
-## Evaluation dimension matrix
+Portal route:
 
-Select only the dimensions that match the scenario and the release question.
-Each dimension needs a population, dataset or scenario version, evaluator or
-rubric version, threshold owner, interpretation owner, and unsupported-coverage
-statement.
+1. Azure portal -> **Azure Load Testing** -> selected test resource.
+2. Create or select the test.
+3. Upload the approved script/package or configure the approved URL test.
+4. Set secrets/environment variables inside the test resource.
+5. Run the bounded test.
+6. Correlate the Azure Load Testing run with Foundry, Application Insights,
+   Azure Monitor, gateway, dependency, quota, and cost telemetry.
+7. Hold release when any required threshold fails or quota/cost boundary is
+   exceeded.
 
-| Dimension | What it asks | Candidate evidence |
+## 6. Result interpretation
+
+| Result | Meaning | Required next action |
 |---|---|---|
-| Quality and relevance | Does the answer meet the task, audience, and response-quality rubric for the selected scenarios? | Foundry evaluation, manual scorer, rubric review, regression comparison. |
-| Groundedness | Is the answer supported by the provided context or source material? | Groundedness evaluator or manual citation/source review; data-source scope and owner. |
-| Context relevance | Did retrieval or tool output supply relevant context for the task? | RAG/context evaluator, retrieval trace, tool output review. |
-| Safety and harmful content | Does tested behavior meet the selected safety policy and severity threshold? | Foundry safety evaluation, Content Safety result reference, manual review, runtime-control caveat. |
-| Prompt-injection resilience | Does the agent resist direct or indirect manipulation in the authorized test set? | Prompt Shields result reference, authorized adversarial-test result, PyRIT/manual red-team evidence. |
-| PII and sensitive data handling | Does the flow avoid exposing prohibited or excessive data in prompts, tool outputs, responses, and logs? | PII/sensitive data review, DLP/Purview reference, manual sample review. |
-| Protected material | Does generated text or code avoid protected material concerns for the selected scenarios? | Protected-material detection reference, manual review, legal/compliance route where required. |
-| Tool use and task adherence | Does the agent call approved tools with correct parameters and stop when outside authority? | Agent evaluator, trace review, tool-call accuracy rubric, tool-boundary reference. |
-| Regression | Did a model, prompt, tool, data, or policy change preserve accepted baseline behavior? | Before/after evaluation run, versioned dataset, threshold-change record. |
-| Performance and cost | Does the release meet latency, throughput, error, saturation, and token-cost expectations? | Synthetic load result, trace metrics, quota/capacity record, operating reconciliation route. |
+| Run succeeded | Evaluation completed and result summary is available. | Check thresholds, failed slices, baseline/candidate comparison, and support notes. |
+| Evaluator unavailable | Evaluator missing, unsupported in region/project, preview-only for required gate, or mapped fields unavailable. | Select supported alternate, manual rubric, or hold. |
+| Threshold failed | Required metric, high-risk slice, comparison, load, quota, or cost threshold failed. | Hold release or route exception to threshold owner. |
+| Result diagnostic-only | Missing runtime prerequisite, baseline, threshold owner, scenario owner, support fit, or evidence handling. | Do not use for release reliance; create fix/retest action. |
+| Baseline missing | No accepted prior run or comparison rule exists. | Establish baseline or obtain time-limited exception. |
+| Override required | Release continues despite failed/missing signal. | Record owner, expiry, compensating check, change/ticket reference, and retest trigger. |
+| Hold release | Any blocker remains. | Stop promotion until fixed, retested, or accepted by customer authority. |
 
-Do not use a preview-only evaluator as the sole automated production gate. If a
-needed evaluator is preview, unsupported, or unavailable in the tenant, pair it
-with a generally available evaluator or a customer-owned manual review and
-record the limitation.
+## 7. Finding routes
 
-## Evaluator and rubric route comparison
-
-| Route | Package fields | Hard limit |
-|---|---|---|
-| Foundry evaluator | evaluator name/version, configuration reference, scenario set, metric, limitation, owner, run reference, interpretation rule | Not release reliance without runtime prerequisite and customer threshold owner. |
-| Agent evaluator | agent behavior dimension, tool-use/task rubric, trace reference, evaluator version, tool boundary, unsupported paths | Does not generalize beyond the scenario set and tool versions. |
-| Manual rubric / SME scorer | rubric version, reviewer role, sampling method, adjudication rule, evidence reference, bias/coverage limitation | Slow or subjective review must not be hidden behind a numeric score. |
-| CI/CD cloud evaluation | trigger, pipeline identity, secretless/federated route, inputs, thresholds, evidence storage, failure behavior, override owner | A pipeline check is not production approval. |
-| Load/performance route | workload model, concurrency, latency targets, quota/capacity, cost metric, error/saturation, fallback/cache, run reference | Synthetic results require environment-fidelity limits and operating reconciliation. |
-| Diagnostic-only | missing prerequisite, diagnostic question, owner, accepted limitation, backlog target | Cannot be used as release reliance. |
-
-## Compare the baseline, set thresholds, and route exceptions
-
-| Field | Record |
+| Signal | Open/inspect/fix route |
 |---|---|
-| Baseline reference | Prior accepted run, pre-change run, gold scenario result, manual score, or accepted behavior record. |
-| Candidate reference | Run/reference for the proposed change and exact version. |
-| Comparison rule | Pass/fail, delta threshold, non-regression, risk-weighted slice, manual adjudication, or mixed. |
-| Selected metrics | Groundedness, safety, task success, tool accuracy, latency, cost, regression, or selected custom metric. |
-| Threshold owner | Customer owner for threshold setting and changes. |
-| Regression tolerance | What decline is acceptable, where it is not acceptable, and why. |
-| Exception owner | Owner, expiry, compensating review, re-entry criterion, and release/hold impact. |
-| Re-evaluation criterion | What change or finding requires a repeat evaluation. |
+| Low groundedness | Inspect retrieval scope, source freshness, prompt assembly, context window, citations, and unsupported user request handling. |
+| Task or quality failure | Inspect prompt/instruction change, model version, conversation state, input normalization, and scenario fit. |
+| Tool-call failure | Inspect tool schema, parameter mapping, auth/identity, allow-list, side-effect approval, and trace. |
+| Safety or policy failure | Inspect safety evaluator result, Content Safety/Prompt Shields/runtime-control references, and S8 retest route if adversarial. |
+| Regression | Compare baseline and candidate versions, rollback path, changed dependency, and threshold owner exception. |
+| Performance miss | Inspect load-test run, traces, latency percentiles, token use, dependency timing, throttling, quota, retry, cache, and budget. |
+| Evidence gap | Fix missing owner, records location, runtime prerequisite, dataset version, support check, or threshold file before release reliance. |
 
-## CI/CD evaluation backlog pattern
-
-If the release process can consume evaluation results, record the automation
-decision before relying on it:
-
-| Field | Record |
-|---|---|
-| Trigger | Pull request, prompt/model change, tool/API change, scheduled regression, release candidate, or manual rerun. |
-| Identity and secrets | Pipeline identity, federation/managed identity route, secretless design or exception owner. |
-| Inputs | Dataset/scenario version, evaluator/rubric version, model or prompt version, tool/API version. |
-| Thresholds | Metric, threshold owner, change route, failure behavior, override/exception owner. |
-| Evidence | Run reference, storage location, retention owner, raw prompt/output handling boundary. |
-| Release behavior | Continue, hold, require human review, rollback route, remediation owner. |
-
-## Test performance and cost
-
-| Field | Record |
-|---|---|
-| Workload model | User journey, request mix, concurrency, burst assumption, tool/data dependency, and environment fidelity. |
-| Latency targets | First-token/TTFB, inter-token, end-to-end p50/p95/p99, timeout, retry, and fallback expectation. |
-| Throughput and reliability | Requests per interval, error rate, saturation signal, dependency failures, queueing, and circuit-breaker behavior. |
-| Quota and capacity | PTU/capacity, rate limit, model deployment limit, backend limit, and owner for quota/capacity change. |
-| Cost | Token cost, tool/API cost, cache effect, retry cost, and budget owner. |
-| Evidence and reconciliation | Load-test run or telemetry reference, limitations, and operating owner who reconciles drift. |
-
-## Finding-to-action map
-
-Evaluation results should produce a named decision or backlog item, not a loose
-score. Keep S7 focused on the release-readiness question: what did the result
-show, who owns the next decision, and what evidence would close it?
-
-| Finding type | Typical technical cause to investigate | S7 decision outcome |
-|---|---|---|
-| Low groundedness | Retrieval scope, missing context, stale source, prompt assembly, unsupported user request. | Open a data or engineering backlog item with source owner, scenario owner, and re-evaluation criterion. |
-| Unsafe or blocked content | Threshold too strict/loose, prompt injection, unsafe source material, missing runtime or model control. | Hold release or require safety review with severity owner, threshold owner, and retest condition. |
-| Tool-call inaccuracy | Tool schema ambiguity, missing allow-list, wrong parameter mapping, overbroad tool authority. | Open a tool-contract or agent-engineering backlog item with trace reference and accepted parameter behavior. |
-| Task failure | Agent plan, model capability, missing tool, latency timeout, dependency failure. | Defer release reliance until the product or engineering owner records a fix hypothesis and validation path. |
-| Regression after change | Model version, prompt/system instruction, tool/API version, dataset drift, guardrail change. | Require change-owner review, baseline comparison, rollback option, and repeat evaluation before promotion. |
-| Latency or cost miss | Token budget, model choice, PTU/capacity, cache behavior, tool latency, retry/failover. | Treat as an operating or capacity hypothesis with performance owner, budget/capacity owner, and monitoring reference. |
-| Missing prerequisite | No accepted runtime path, no scenario owner, no release/hold owner, no approved records location. | Block or mark diagnostic-only until the missing owner and evidence route are accepted. |
-
-For each finding, record whether the result is a release blocker, accepted
-exception, diagnostic-only observation, operating hypothesis, or portfolio
-pattern. Capture the validation reference needed to close remediation.
-
-## Platform checks
-
-| Check | Microsoft product/control record |
-|---|---|
-| Evaluation | Foundry evaluation run, evaluator/agent evaluator version, dataset/scenario version, rubric record, unsupported evaluator caveat |
-| Runtime prerequisite | accepted gateway/app correlation record and route coverage |
-| CI/CD | pipeline run, identity/secret design, threshold owner, audit trail, rollback route |
-| Performance | Azure Load Testing run, Foundry traces, Application Insights/Azure Monitor metrics, quota/PTU/capacity record |
-| Release decision | customer change/release record, approver, hold/continue decision, next review date |
-
-## Acceptance tests
+## 8. Acceptance checks
 
 | Work item | Accepted when... | Handoff |
 |---|---|---|
-| Candidate card | change, release question, owners, approved records location, runtime prerequisite, and material-change triggers are recorded | Evaluation owner |
-| Scenario set | scenario source, owner, included/excluded slices, data/tool boundary, reviewer, time window, and re-entry trigger are recorded | Scenario owner |
-| Evaluation package | evaluator/rubric route, version, limitation, fallback, baseline, threshold owner, and interpretation owner are recorded | Assurance owner |
-| Release gate | decision owner has runtime-path reference, evaluation result, threshold interpretation, outcome, and next action | Release/change owner |
-| CI/CD integration | pipeline owner, failure behavior, audit trail, threshold-change route, and rollback owner are recorded | Engineering/release |
-| Performance | workload model, targets, environment limits, run evidence, and production-reconciliation owner are recorded | Operating owner |
-| Diagnostic-only | missing prerequisite and release-reliance prohibition are explicit | Evaluation owner |
+| Candidate | Candidate change, environment, deployment/agent ID, owner, and release question are named. | Evaluation owner |
+| Dataset/scenario | Source, version, mappings, included/excluded slices, and retest trigger are recorded. | Scenario owner |
+| Foundry run | Evaluation ID, run ID, status, evaluator/rubric version, dataset/scenario version, and result link are recorded. | Foundry project owner |
+| Baseline/candidate | Baseline and candidate IDs/results are compared, or baseline missing is routed. | Threshold owner |
+| Thresholds | Metrics, threshold file/version, owner, failure behavior, and override route are recorded. | Release owner |
+| CI/CD | Pipeline identity, task inputs, failure behavior, artifact storage, override, and manual hold path are verified. | Engineering/release |
+| Load/performance | Tool, request mix, concurrency, quota/cost boundary, telemetry correlation, and threshold verdict are recorded. | Operations owner |
+| Release action | Continue, hold, defer, reject, route, block, diagnostic-only, or retest is selected with owner and next check. | Release/change owner |
 
 ## Boundary note
 
-S7 records evaluation evidence packages and release-readiness handoffs; customer
-release authority makes any production decision.
+S7 runs or wires up evaluation evidence for one bounded candidate. It does not
+approve production, set thresholds for the customer, copy customer data into this
+repository, or claim runtime enforcement from an evaluator result.
 
 ## Related references
 
-- [Runtime security decisions](../s6-security-runtime/technical.md): runtime
-  evidence prerequisite.
-- [Operating and measurement decisions](../s10-operate-measure/technical.md):
-  production telemetry reconciliation.
-- [Quality, cost, latency & rollout guide](../reference/quality-cost-latency-guide.md).
-- [Performance-testing guide](../reference/performance-testing-guide.md).
-- [Microsoft platform governance playbook](../reference/microsoft-platform-governance-playbook.md).
+- [Cloud Evaluation with the Microsoft Foundry SDK](https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/cloud-evaluation)
+- [How to run an evaluation in Azure DevOps](https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluation-azure-devops)
+- [Runtime security decisions](../s6-security-runtime/technical.md)
+- [Operating and measurement decisions](../s10-operate-measure/technical.md)
+- [Quality, cost, latency & rollout guide](../reference/quality-cost-latency-guide.md)
+- [Performance-testing guide](../reference/performance-testing-guide.md)

@@ -1,7 +1,7 @@
 # S10 · Operating Evidence & FinOps: Technical decisions
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-29 · Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, FinOps Toolkit, PTU/committed capacity, alerts, exports, and pricing vary by tenant, region, SKU, and configuration. Verify official docs and customer status before delivery.
+    Last reviewed: 2026-07-30 · Foundry observability, Azure Monitor, Application Insights, Log Analytics, Azure Cost Management, FinOps Toolkit, PTU/committed capacity, alerts, exports, and pricing vary by tenant, region, SKU, and configuration. Verify official docs and customer status before delivery.
 
 ## Microsoft default
 
@@ -21,6 +21,23 @@ Default to Microsoft Foundry observability for Foundry agents/models, Azure Moni
 8. **Classify drift hypotheses.** Identify the changed signal, possible causes, evidence limits, owner, observation/test plan, and action route.
 9. **Define remediation validation and exceptions.** Set the validation reference, reviewer, recurrence check, exception owner, expiry, remaining risk, and next recheck condition.
 10. **Decide.** Adopt, defer, reject, route, or block the operating action.
+
+## Stepwise Azure operating workflow
+
+Run this as read-only inspection. Record query references, aggregate states, and
+owners; keep raw telemetry, endpoint values, tenant IDs, and exports in the
+customer environment.
+
+| Step | Open / run | Check | Expected state |
+|---|---|---|---|
+| 1. Application Insights | Azure portal -> Application Insights -> Performance, Failures, Transaction search, Dependencies, Availability. | Requests, dependencies, exceptions, sampling, `operation_Id` / trace context, environment filter, app owner. | Normal, investigate, sampled, missing, or blocked. |
+| 2. Log Analytics | Azure portal -> Log Analytics workspace -> Logs. Run approved KQL for latency, errors, model/tool route, token/cost proxy, dependency failures, and safety/security signals. | Query owner, table names, time window, population filter, correlation key, aggregate result. | Query ready, query gap, unsupported table, or blocked. |
+| 3. Azure Monitor alerts | Azure Monitor -> Alerts -> Alert rules and Action groups. | Enabled state, severity, threshold owner, action group/SOC route, suppression, last-fire/test state. | Ready, needs tuning, missing owner, missing route, or blocked. |
+| 4. Workbooks/dashboards | Azure Monitor -> Workbooks or customer workbook. | Time window, filters, excluded paths, workbook owner, interpretation owner, refresh cadence. | Ready, stale, aggregate-only, missing, or blocked. |
+| 5. Cost Management exports | Azure portal -> Cost Management -> Cost analysis, Exports, Budgets, Anomaly alerts. | Export schedule, tags/dimensions, cost center, shared-cost assumption, budget/anomaly owner, retention. | Allocated, shared-cost review, missing export, anomaly, or blocked. |
+| 6. Quota/capacity | Azure OpenAI/Foundry/service quota and model deployment capacity views. | Quota, PTU/committed capacity, saturation/throttling, fallback rule, capacity owner, target event. | Normal, pressure, throttled, capacity gap, or blocked. |
+| 7. Defender/Sentinel handoff | Defender for Cloud posture plus Microsoft Sentinel incidents/playbooks/watchlists where used. | Security signal route, SOC owner, incident/playbook reference, accepted no-result scope. | Ready, alert active, route missing, unsupported, or blocked. |
+| 8. Operating review | Customer operating forum, ticket, incident/problem, or change record. | Action owner, validation method, next action, recurrence, and recheck condition. | Adopt, adopt with owned gaps, defer, route, or block. |
 
 ## Operating review card
 
@@ -136,9 +153,109 @@ If telemetry must leave the Azure monitoring estate, record the export path befo
 | Destination | Customer SIEM, SOC platform, data lake, or external observability platform, with retention and access owner. |
 | Governance limit | Fields excluded, prompt/output handling boundary, PII/sensitive data treatment, deletion or legal-hold route. |
 
-### Kusto correlation reference
+### Copyable KQL placeholders
 
-This query is a shape for customer-owned Log Analytics/Application Insights records. Replace table names, dimensions, and filters with the customer's approved schema and do not copy raw telemetry into this repository.
+These are query shapes for customer-owned Log Analytics/Application Insights
+records. Replace table names, dimensions, and filters with the customer's
+approved schema. Do not copy raw rows into this repository.
+
+Latency percentile placeholder:
+
+```kusto
+AppRequests
+| where TimeGenerated between (datetime({start_time}) .. datetime({end_time}))
+| where tostring(Properties["workloadRef"]) == "{workload-ref}"
+| summarize
+    Requests = count(),
+    P50Ms = percentile(DurationMs, 50),
+    P95Ms = percentile(DurationMs, 95),
+    P99Ms = percentile(DurationMs, 99)
+  by bin(TimeGenerated, 15m), Name
+| order by TimeGenerated asc
+```
+
+Errors and exception placeholder:
+
+```kusto
+union AppRequests, AppExceptions
+| where TimeGenerated between (datetime({start_time}) .. datetime({end_time}))
+| where tostring(Properties["workloadRef"]) == "{workload-ref}"
+| summarize
+    Total = count(),
+    Failures = countif(Success == false or SeverityLevel >= 3),
+    FailureRate = todouble(countif(Success == false or SeverityLevel >= 3)) / todouble(count())
+  by bin(TimeGenerated, 15m), Type, Name
+| order by FailureRate desc
+```
+
+Model and tool route placeholder:
+
+```kusto
+union AppRequests, AppDependencies, AppTraces
+| where TimeGenerated between (datetime({start_time}) .. datetime({end_time}))
+| where tostring(Properties["workloadRef"]) == "{workload-ref}"
+| project
+    TimeGenerated,
+    OperationId,
+    ModelDeployment = tostring(Properties["modelDeployment"]),
+    ToolName = tostring(Properties["toolName"]),
+    GatewayRoute = tostring(Properties["gatewayRoute"]),
+    PolicyDecision = tostring(Properties["policyDecision"]),
+    Success
+| summarize Count=count() by ModelDeployment, ToolName, GatewayRoute, PolicyDecision, Success
+```
+
+Token and cost-proxy placeholder:
+
+```kusto
+AppTraces
+| where TimeGenerated between (datetime({start_time}) .. datetime({end_time}))
+| where tostring(Properties["workloadRef"]) == "{workload-ref}"
+| extend
+    InputTokens = todouble(Properties["token.input"]),
+    OutputTokens = todouble(Properties["token.output"]),
+    CostCenter = tostring(Properties["costCenter"]),
+    ModelDeployment = tostring(Properties["modelDeployment"])
+| summarize
+    InputTokens = sum(InputTokens),
+    OutputTokens = sum(OutputTokens),
+    TokenTotal = sum(InputTokens + OutputTokens)
+  by bin(TimeGenerated, 1h), CostCenter, ModelDeployment
+| order by TimeGenerated asc
+```
+
+Dependency failure placeholder:
+
+```kusto
+AppDependencies
+| where TimeGenerated between (datetime({start_time}) .. datetime({end_time}))
+| where tostring(Properties["workloadRef"]) == "{workload-ref}"
+| summarize
+    Calls = count(),
+    FailedCalls = countif(Success == false),
+    P95Ms = percentile(DurationMs, 95)
+  by Target, DependencyType, ResultCode
+| order by FailedCalls desc, P95Ms desc
+```
+
+Safety and security signal placeholder:
+
+```kusto
+union AppTraces, SecurityAlert, SecurityIncident
+| where TimeGenerated between (datetime({start_time}) .. datetime({end_time}))
+| where tostring(Properties["workloadRef"]) == "{workload-ref}"
+   or tostring(Entities) has "{workload-ref}"
+| project
+    TimeGenerated,
+    Type,
+    OperationId,
+    Signal = coalesce(tostring(Properties["guardrail.decision"]), tostring(AlertName), tostring(Title)),
+    Severity = coalesce(tostring(Properties["severity"]), tostring(AlertSeverity), tostring(Severity)),
+    Owner = tostring(Properties["owner"])
+| summarize Count=count() by Type, Signal, Severity, Owner
+```
+
+Correlation inspection placeholder:
 
 ```kusto
 union AppRequests, AppDependencies, AppTraces

@@ -61,7 +61,24 @@ coverage limit, interpretation owner, and safe reference.
 
 ---
 
-## portfolio decision table field families
+## Open the source systems
+
+- S0 intake: sponsor, owner, intended use, target event, acceptance criteria.
+- S2 compliance: Purview/compliance state, unsupported limits, open gaps.
+- S5 API/tool admission: owner, schema/route, gateway state, permission boundary.
+- S7 evaluation: baseline/candidate result, unsupported slices, retest state.
+- S8 findings: severity, remediation owner, exception expiry, retest plan.
+- S9 inventory/control-plane: owner, identity, API/tool, telemetry, lifecycle.
+- S10 operating/cost: alert coverage, latency/errors, cost, quota/capacity.
+- Backlog/change system: status, dependency, funding/capacity, next action.
+
+Note:
+If a source is stale, unsupported, aggregate-only, or outside the review period,
+name the owner and support limit before using it in the portfolio rollup.
+
+---
+
+## Portfolio decision table field families
 
 - Coverage.
 - Residual risk.
@@ -109,6 +126,19 @@ owner, escalation route, and closure criterion.
 Note:
 A dependency cluster tells the portfolio what must be sequenced together. It is
 not a blame map.
+
+---
+
+## Rank three candidate workloads
+
+- Compare technical blocker, risk, value, dependency, next action, and confidence.
+- Keep source freshness, exclusions, support limits, and owner gaps visible.
+- Expected signals: promotable workload, blocked workload, unsupported workload,
+  duplicate initiative, missing owner, missing operating signal, stale exception.
+
+Note:
+The ranking produces owner-actionable work. It is not funding approval,
+compliance certification, or a production decision.
 
 ---
 

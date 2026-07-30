@@ -40,6 +40,39 @@ Every acceptance decision should be able to point to this trace.
 
 ---
 
+## Run the operator workflow
+
+1. Select one synthetic request or existing read-only trace.
+2. Check the gateway, app, backend model/agent, and tool/API route.
+3. Capture the correlation field.
+4. Query Application Insights, Log Analytics, APIM logs, Foundry trace, or the
+   customer SIEM for the agreed time window.
+5. Check the expected policy decision: block, allow, annotate, log, throttle,
+   or fallback.
+6. Confirm the Defender, Sentinel, SOC queue, workbook, alert, or manual review
+   route.
+7. Classify the result.
+
+Note:
+The workflow is the value. If the team cannot query the path, there is no
+runtime evidence to accept.
+
+---
+
+## Classify the signal
+
+| State | Meaning |
+|---|---|
+| Signal present | Expected telemetry and policy/SOC signal appeared. |
+| No signal | Query ran but expected event is absent. |
+| Partial signal | Some route evidence exists; a required join or decision is missing. |
+| Diagnostic-only | Component test, prepared prompt, or direct API check only. |
+| Alert routed | Actionable signal reached an alert, queue, incident, workbook, or reviewer. |
+| Unsupported route | Feature does not cover this workload, route, region, modality, or service. |
+| Blocked evidence handling | Evidence cannot be retained, reviewed, or safely referenced. |
+
+---
+
 ## Gateway proof vs diagnostic
 
 - Gateway-proof package: safe manifest references plus customer telemetry
@@ -106,6 +139,21 @@ Use safe references for:
 Note:
 The manifest is evidence input. Acceptance is a separate customer reviewer
 decision.
+
+---
+
+## Query placeholders to adapt
+
+- Application Insights / Log Analytics: search `requests`, `traces`,
+  `dependencies`, and `customEvents` by operation ID or correlation field.
+- APIM/gateway logs: search diagnostics by correlation ID, request ID, policy
+  name, backend, and response code.
+- Defender/Sentinel/SIEM: search alert or incident tables for the same
+  correlation value.
+
+Note:
+The customer owns the actual query and source schema. Keep only safe references
+and result states in the workshop output.
 
 ---
 

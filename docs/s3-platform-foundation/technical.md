@@ -1,130 +1,254 @@
-# S3 · Platform Route & Trust Boundaries: Technical decisions
+# S3 · Platform Plumbing Verification: Technical runbook
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-27 · Azure landing zones, Microsoft Foundry, Azure API Management AI Gateway, Azure API Center, Private Link, private DNS, and Azure Monitor capabilities vary by tenant, region, license, SKU, and service support. Verify current docs and customer platform status before delivery.
+    Last reviewed: 2026-07-30 · Azure AI Foundry, Azure AI services, Azure OpenAI, API Management AI Gateway, API Center, Private Link, Azure Monitor, Defender, Sentinel, and quota surfaces vary by tenant, region, SKU, and feature state.
 
 ## Microsoft default
 
-Use an Azure landing-zone-aligned route where possible:
-
-- Microsoft Foundry for AI project, model, agent, tool, tracing, and evaluation
-  records where supported.
-- Azure API Management AI Gateway or a customer-approved gateway for AI API,
-  model, and tool/API boundaries.
-- Private Link, VNet integration, private DNS, firewall/NSG, and route-table
-  controls where sensitivity or customer policy requires private routing.
-- Entra ID, managed identity, workload identity federation, app registration,
-  OBO/delegated authority, and RBAC/API scopes as separate authority layers.
-- Azure Monitor, Application Insights, Log Analytics, diagnostic settings, and
-  approved export paths for telemetry and retention.
-- Azure API Center or customer catalog for API/tool/model route ownership and
-  lifecycle records.
-
-S3 tests route readiness by tracing assumptions, owners, and blockers; it does
-not prove runtime enforcement or approve production.
+Default to a route the customer can open and query: Microsoft Foundry project and
+model deployment, Azure API Management or approved gateway, Private Link/private
+DNS where required, Azure API Center, Application Insights and Log Analytics,
+Defender/Sentinel handoff, and named cost/quota ownership.
 
 ![S3 illustrative Azure platform pattern: callers cross an optional gateway trust boundary to orchestration or hosted execution, private data access, identity, and observability layers. The pattern identifies decisions and evidence expectations without claiming a deployed topology.](../assets/diagrams/s3-gateway-trust-boundary.svg)
 
-## Platform-route trace fields
+S3 verifies platform plumbing for one route. It does not configure or prove all
+runtime controls.
 
-| Field | Required technical detail |
-|---|---|
-| Pilot route | Caller, workload, environment, business purpose, owner, evidence location, stop condition. |
-| Landing zone | Tenant/subscription/resource group reference, Azure Policy or exception posture, platform owner, support caveat. |
-| Hosting pattern | Foundry-hosted, Azure app-hosted, managed SaaS, hybrid, non-Azure, prototype-only, unsupported, or exception route. |
-| Gateway ingress | APIM/customer gateway API, product, policy family, backend/model route, auth owner, log owner, bypass owner. |
-| Model/tool/data egress | Model endpoint, tool/API route, connector, retrieval/data dependency, allowed destination, direct-route exception. |
-| Private route | Public/private/managed VNet/BYO VNet/hybrid/deferred path, Private Endpoint, DNS, VNet/subnet, firewall/NSG, route table, flow-log owner. |
-| Identity boundary | Human caller, workload identity, managed identity/app registration, OBO/delegated authority, gateway identity, tool/API identity, resource authorization. |
-| Telemetry/correlation | Trace origin, propagation points, gateway/app/model/tool/data destinations, time-window method, reviewer, blind spots. |
-| Retention/export | Log retention, approved export route, evidence access owner, deletion/hold expectation, records owner. |
-| Registry/catalog | API Center/catalog/tool/model entry, route/backend mapping, version, lifecycle status, owner, exception/backlog reference. |
-| Decision | Proceed with assumptions, defer, route, reject, or block with owner, acceptance criterion, and release impact. |
+## 1. Preflight
 
-## Control checks
-
-| Control area | Accept only when | Block or defer when |
+| Check | Required detail | Blocker if missing |
 |---|---|---|
-| Hosting pattern | Tenant/region/SKU support, platform owner, environment boundary, and support caveat are known. | Product exists but route owner, support status, or hosting boundary is unknown. |
-| Gateway route | Caller path, backend/model route, auth, policy owner, logging, and bypasses are recorded. | Direct route bypasses gateway and no exception owner exists. |
-| Egress/tool route | Tool/API, connector, retrieval, outbound destination, owner, and mediation path are known. | Unmanaged endpoint, broad egress, or missing destination owner. |
-| Private network | Private Endpoint, VNet/subnet, private DNS, firewall/NSG, route table, public-endpoint exception, and validation owner are recorded. | "Private" is claimed from a diagram or service name without DNS/route evidence. |
-| Identity boundary | Each human/workload/delegated/gateway/tool/resource identity is separate and owned. | Shared identity, broad tenant permission, or missing sponsor/lifecycle owner. |
-| Telemetry/correlation | Correlation key, propagation path, log destination, query owner, time window, and retention owner are recorded. | Empty logs, planned telemetry, or sampled data are treated as proof. |
-| Registry/catalog | API/tool/model/gateway/backend route has version, lifecycle state, and owner. | API Center/catalog record is missing, stale, or disconnected from the actual route. |
+| Route | Caller, app/orchestrator, gateway/direct route, backend model/tool/API, and environment. | Do not run a generic platform review. |
+| Owners | Platform, app, gateway, network, telemetry, catalog, security operations, and cost/quota owners. | Route or block missing owner. |
+| Access | Reader access to Foundry/Azure resource, APIM/gateway, network, API Center, Application Insights/Log Analytics, Defender/Sentinel where used, and cost/quota views. | Do not infer state from diagrams. |
+| Safe test | One synthetic non-customer request or approved read-only trace review. | Do not use customer data. |
+| Evidence handling | Customer-approved location for portal links, trace IDs, and query text. | Do not paste logs or endpoints into repo files. |
 
-## APIM/gateway checklist
+## 2. Foundry project and model deployment
 
-Record policy intent and ownership only. Do not paste customer policy exports or
-claim enforcement without runtime evidence.
+Portal route:
 
-| Check | What to capture |
-|---|---|
-| Caller route | Users, apps, agents, jobs, tools, or admins expected to enter through the gateway. |
-| API/product/backend | APIM API, product, subscription, backend/model route, and route owner. |
-| Authentication | JWT/audience, managed identity to backend, app registration, OBO path, or customer-approved alternative. |
-| Policy families | Rate/quota, token limit, content safety/prompt shield, semantic cache, diagnostics, retry, circuit breaker, fallback. |
-| Bypass | Direct routes, admin routes, background jobs, connectors, private endpoints, or hybrid paths outside gateway view. |
-| Diagnostics | Gateway logs, correlation fields, destination workspace, retention, and query owner. |
+1. Open `ai.azure.com`.
+2. Select the customer project.
+3. Open **Management center**.
+4. Inspect project, hub/resource, region, deployments, connections/tools,
+   network settings, identity, monitoring/tracing settings, and owner.
 
-## Private network and DNS checks
+Azure portal route:
+
+1. Open **Azure portal** -> resource group.
+2. Open the **Azure AI Foundry / Azure AI services / Azure OpenAI** resource.
+3. Inspect **Overview**, **Networking**, **Identity**, **Model deployments** or
+   deployment blade, **Metrics**, **Diagnostic settings**, and **Access control
+   (IAM)**.
+
+Read-only CLI anchors:
+
+```bash
+az resource show --ids "$FOUNDRY_OR_AI_RESOURCE_ID" \
+  --query "{name:name,type:type,location:location,identity:identity.type}"
+az monitor diagnostic-settings list --resource "$FOUNDRY_OR_AI_RESOURCE_ID" \
+  --query "[].{name:name,workspaceId:workspaceId,logs:logs[].category,metrics:metrics[].category}"
+az role assignment list --scope "$FOUNDRY_OR_AI_RESOURCE_ID" \
+  --query "[].{principalName:principalName,role:roleDefinitionName,scope:scope}"
+```
+
+Capture: project/resource alias, model deployment alias, model/version, endpoint
+type, network setting, diagnostic setting, capacity/quota owner, and support
+limit. Do not store endpoints or resource IDs in this repo.
+
+## 3. APIM or gateway route
+
+Portal route:
+
+1. **Azure portal** -> **API Management services** -> APIM instance.
+2. Open **APIs** -> selected API -> selected operation.
+3. Inspect **Settings**, **Design**, **Inbound processing**, **Backend**,
+   **Products**, **Subscriptions**, **Diagnostics**, **Logs**, **Policy
+   fragments**, and **Named values** references.
+
+Read-only CLI anchors:
+
+```bash
+az apim api show --resource-group "$RG" --service-name "$APIM" --api-id "$API_ID" \
+  --query "{name:name,path:path,protocols:protocols,serviceUrl:serviceUrl,apiRevision:apiRevision}"
+az apim api operation show --resource-group "$RG" --service-name "$APIM" \
+  --api-id "$API_ID" --operation-id "$OPERATION_ID" \
+  --query "{name:name,method:method,urlTemplate:urlTemplate}"
+az monitor diagnostic-settings list --resource "$APIM_RESOURCE_ID" \
+  --query "[].{name:name,workspaceId:workspaceId,logs:logs[].category}"
+```
+
+Capture: route ID, API ID, operation ID, product/subscription, backend ID,
+policy family expected, auth mode, diagnostics destination, correlation field,
+and bypass owner.
+
+Policy evidence to look for without pasting live policy:
+
+- caller auth / `validate-jwt` or equivalent;
+- backend route / `set-backend-service`;
+- rate/quota/token policy;
+- diagnostics/correlation headers;
+- retry/circuit breaker/fallback where relevant;
+- direct endpoint exceptions and admin/background routes.
+
+## 4. Private endpoint and private DNS
 
 ![Private DNS resolution flow showing component, DNS query, private DNS zone, private IP resolution, internal VNet traffic, and target Azure service.](../assets/diagrams/s3-private-dns-resolution-flow.svg)
 
-| Area | Required record |
-|---|---|
-| VNet/subnet | Platform VNet, orchestration subnet, execution subnet, data private endpoint subnet, route owner. |
-| Private Endpoint | Services requiring Private Endpoint, public-network setting, exception owner. |
-| Private DNS | Zone name, VNet link, resolver/split-horizon behavior, validation owner. |
-| Firewall/NSG | Deny-by-default posture, allowed paths, route table, flow-log owner. |
-| Hybrid/peering | Peering, gateway transit, proxy/firewall route, on-premises or partner boundary owner. |
-| Monitoring | NSG flow logs, DNS failures, denied traffic, unexpected public endpoint use, query owner. |
+Portal route:
 
-Typical private DNS zones to verify by service category:
+1. Target Azure resource -> **Networking** -> public-network access and private
+   endpoint connections.
+2. **Azure portal** -> **Private endpoints** -> endpoint -> **DNS
+   configuration** and **Network interface**.
+3. **Private DNS zones** -> zone -> record set and **Virtual network links**.
+4. VNet/subnet -> **Network security group**, **Route table**, peering, DNS
+   resolver, firewall route, and flow logs/traffic analytics.
+
+Read-only CLI anchors:
+
+```bash
+az network private-endpoint show --ids "$PRIVATE_ENDPOINT_ID" \
+  --query "{name:name,subnet:subnet.id,customDnsConfigs:customDnsConfigs}"
+az network private-dns link vnet list --resource-group "$DNS_RG" --zone-name "$ZONE" \
+  --query "[].{name:name,virtualNetwork:virtualNetwork.id,registrationEnabled:registrationEnabled}"
+az network private-dns record-set a list --resource-group "$DNS_RG" --zone-name "$ZONE" \
+  --query "[].{name:name,records:aRecords[].ipv4Address}"
+```
+
+Typical private DNS zones:
 
 | Service | Public FQDN pattern | Private DNS zone |
 |---|---|---|
-| Cosmos DB | `*.documents.azure.com` | `privatelink.documents.azure.com` |
 | Azure AI Search | `*.search.windows.net` | `privatelink.search.windows.net` |
 | Blob Storage | `*.blob.core.windows.net` | `privatelink.blob.core.windows.net` |
+| Cosmos DB | `*.documents.azure.com` | `privatelink.documents.azure.com` |
 | Cognitive services | `*.cognitiveservices.azure.com` | `privatelink.cognitiveservices.azure.com` |
 | Azure OpenAI where applicable | `*.openai.azure.com` | `privatelink.openai.azure.com` |
 | Azure Container Registry | `*.azurecr.io` | `privatelink.azurecr.io` |
 
-## Identity boundary checklist
+Accepted only when DNS, endpoint, route, public fallback, and owner are clear.
 
-| Boundary | Technical question |
-|---|---|
-| Human caller | Is the user authenticated directly, delegated through OBO, or abstracted by a host service? |
-| Host workload | Which managed identity, app registration, federated credential, or service principal runs the host? |
-| Agent identity | Is Entra Agent ID/Agent 365 available and in scope, or is the agent represented by another owned identity record? |
-| Gateway identity | Which identity authenticates to backend/model/tool routes? |
-| Tool/API identity | Which scopes, roles, consent, secrets, certificates, managed identities, or federated credentials authorize the operation? |
-| Resource authorization | Which RBAC/API permission actually allows the data or action? |
+## 5. API Center and catalog
 
-## Telemetry and correlation contract
+Portal route:
 
-| Area | Required question |
-|---|---|
-| Origin | Which request ID, W3C `traceparent`, APIM request ID, run ID, session ID, or time-window method starts the trace? |
-| Propagation | Does it reach gateway, app, Foundry/model, tool/API, data dependency, and log store? |
-| Destination | Which Application Insights, Azure Monitor, Log Analytics, gateway, app, data, or SIEM record receives it? |
-| Blind spot | Which segments are sampled, unsupported, SaaS-owned, unlogged, or outside export scope? |
-| Empty result | Which query, route scope, diagnostic state, time range, and reviewer make absence meaningful? |
-| Retention | Who owns retention, export, deletion/hold, and evidence access? |
+1. **Azure portal** -> **API Center**.
+2. Open API -> version -> definition, environments, deployments, contacts,
+   custom properties, lifecycle, and related APIM deployment.
 
-## Decision outcomes
+CLI anchors:
 
-| Outcome | Use when |
-|---|---|
-| Proceed with assumptions | Route, owners, support caveats, telemetry plan, and blockers are explicit enough for later runtime/evaluation/control-plane work. |
-| Defer | A required route component exists conceptually but lacks owner, evidence reference, or acceptance criterion. |
-| Route | Architecture, network, identity, security, catalog, or telemetry owner must resolve a specific technical blocker. |
-| Reject | The route cannot meet the minimum trust-boundary, support, observability, or ownership requirement for the pilot. |
-| Block | Missing owner, unknown hosting boundary, unmanaged egress, unsafe identity, unreviewable SaaS/hybrid boundary, or no retention route prevents reliance. |
+```bash
+az apic api show --service-name "$APIC" --resource-group "$RG" --api-id "$CATALOG_API_ID"
+az apic api version list --service-name "$APIC" --resource-group "$RG" --api-id "$CATALOG_API_ID"
+```
+
+Capture: API/tool/model route alias, version, environment, deployment target,
+owner/contact, lifecycle state, data classification/custom property, exception,
+and withdrawal/deprecation owner. If API Center is not used, inspect the
+customer-approved catalog with the same fields.
+
+## 6. Telemetry and security operations
+
+Portal routes:
+
+- Resource/APIM/app -> **Diagnostic settings**.
+- **Application Insights** -> **Transaction search**, **Failures**,
+  **Performance**, **Logs**.
+- **Log Analytics workspace** -> **Logs**.
+- **Defender for Cloud** -> resource recommendations and alerts.
+- **Microsoft Sentinel** -> workspace -> **Logs**, **Analytics**, **Incidents**.
+
+Query examples to adapt in the customer workspace:
+
+```kusto
+AppRequests
+| where TimeGenerated between (datetime({start}) .. datetime({end}))
+| where OperationId == "{trace-id}" or Id == "{request-id}"
+| project TimeGenerated, Name, ResultCode, OperationId, AppRoleName
+```
+
+```kusto
+AzureDiagnostics
+| where TimeGenerated between (datetime({start}) .. datetime({end}))
+| where ResourceProvider has "MICROSOFT.APIMANAGEMENT"
+| where CorrelationId_g == "{correlation-id}" or requestId_s == "{request-id}"
+| project TimeGenerated, apiId_s, operationId_s, backendUrl_s, responseCode_d
+```
+
+```kusto
+AppDependencies
+| where TimeGenerated between (datetime({start}) .. datetime({end}))
+| where OperationId == "{trace-id}"
+| project TimeGenerated, Target, Name, ResultCode, DependencyType
+```
+
+Capture: workspace alias, query owner, query text reference, trace ID, result
+state, sampling/ingestion delay, retention owner, Defender/Sentinel handoff owner.
+
+## 7. Cost and quota
+
+Portal routes:
+
+- **Azure portal** -> Foundry/Azure OpenAI/Azure AI resource -> **Quotas** or
+  model deployment capacity view where available.
+- **Azure portal** -> **API Management** -> product/API/subscription quotas and
+  policy owner.
+- **Cost Management + Billing** -> **Cost analysis**, **Budgets**, **Tags**.
+- **Azure portal** -> subscription -> **Usage + quotas** for service quota where
+  applicable.
+
+Capture owner for PTU/quota/token budget, APIM product allocation, cost tags,
+budget alert recipient, and escalation route.
+
+## 8. Safe synthetic request or read-only trace review
+
+Preferred safe test:
+
+1. Send one synthetic non-customer request through the non-production app.
+2. Include an approved correlation header such as `x-correlation-id`.
+3. Record only the route alias, timestamp, and correlation handle.
+4. Query APIM, Application Insights, dependencies, and backend/model telemetry.
+5. Check private route evidence only through customer-approved network/DNS logs.
+
+Read-only fallback:
+
+1. Use one existing non-production trace ID and time window.
+2. Open the same portal records and queries.
+3. Record whether the trace is complete, partial, delayed, unsupported, or
+   blocked.
+
+## 9. Expected result states
+
+| State | Meaning | Next action |
+|---|---|---|
+| Verified | Gateway, backend, identity, private route if required, telemetry, catalog, security handoff, and quota owner all match. | Continue S5/runtime work using this route ID. |
+| Partial | One segment is visible but another is delayed, sampled, or unqueried. | Assign recheck owner and time. |
+| Bypass | Direct endpoint, background job, connector, admin route, or SaaS path avoids gateway/logging. | Route to platform/security owner; block reliance if unowned. |
+| Public path | Private route was expected but DNS/flow/resource logs show public access or public fallback. | Route to network owner. |
+| No telemetry | Diagnostics disabled, workspace missing, sampled away, or ingestion delayed. | Route to telemetry owner before relying on observability. |
+| Catalog gap | API Center/catalog record missing, stale, or not linked to route/version. | Route to catalog owner. |
+| Unsupported | Product/SKU/region/service route cannot provide the assumed feature. | Route to architecture owner for alternate path. |
+
+## 10. Acceptance tests
+
+| Work item | Accepted when... | Handoff |
+|---|---|---|
+| Foundry/resource | Project/resource, deployment, region, network mode, identity, diagnostics, and owner are inspected. | Foundry/platform owner |
+| Gateway route | API/operation/product/backend/policy intent/diagnostics/correlation/bypass owner are recorded. | Gateway owner |
+| Private route | Private Endpoint, DNS zone/link, public fallback, route, firewall/NSG, and validation owner are recorded where required. | Network owner |
+| API Center | API/tool/model route, version, deployment, lifecycle, and owner are present or gap is routed. | Catalog owner |
+| Telemetry | Trace/query finds APIM/app/dependency/backend event or validated no-result with diagnostics scope. | Telemetry owner |
+| Defender/Sentinel | Monitoring handoff is covered, unsupported, or routed with owner. | Security operations |
+| Cost/quota | Quota, token/capacity, APIM product, cost tag/budget owner are named. | FinOps/platform owner |
+| Limits | Bypass, public route, unsupported service, sampled telemetry, and stale catalog gaps are routed with recheck. | Governance lead |
 
 ## Boundary note
 
-S3 never deploys, configures, tests, grants access, exports logs, proves runtime
-control effectiveness, or approves production. Record safe references and
-technical blockers only.
+S3 performs read-only verification and one safe synthetic or trace review. It
+does not deploy, configure, enable diagnostics, change network routing, change
+gateway policy, register catalog entries, alter quota, export logs, or approve
+production.

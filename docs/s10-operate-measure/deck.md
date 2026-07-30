@@ -50,6 +50,22 @@ Select only signals that answer the review question. More metrics are not automa
 
 ---
 
+## Open the operating sources
+
+- Application Insights: requests, dependencies, failures, sampling, operation ID.
+- Log Analytics: run approved KQL placeholders for latency, errors, model/tool
+  route, token/cost proxy, dependency failures, and safety/security signals.
+- Azure Monitor: alert rules, action groups, workbooks, suppression, owners.
+- Cost Management: exports, budgets, cost analysis, tags/dimensions, anomalies.
+- Quota/capacity: quota, PTU/commitment, throttling, fallback, owner.
+- Defender/Sentinel: security signal, incident/playbook route, SOC owner.
+
+Note:
+Record query references and aggregate states. Do not paste raw telemetry,
+endpoints, tenant IDs, exports, or customer content into the lab record.
+
+---
+
 ## Coverage limits are not passes
 
 - Missing signal.
@@ -62,6 +78,22 @@ Select only signals that answer the review question. More metrics are not automa
 
 Note:
 An empty chart is not zero incidents. It may be an uninstrumented route.
+
+---
+
+## Expected operating states
+
+- Normal.
+- Investigate.
+- Missing telemetry.
+- Sampled or aggregate-only.
+- Delayed export or ingestion.
+- Unsupported route, connector, region, SKU, or security handoff.
+- Blocked by owner, access, records location, or evidence handling.
+
+Note:
+Every non-normal state needs owner, next action, acceptance check, and recheck
+condition.
 
 ---
 

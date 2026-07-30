@@ -1,107 +1,142 @@
-# S7 · Evaluation Evidence & Release Readiness
+# S7 · Foundry Evaluation Runbook
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-24 · Capability and availability context is in the [Governance capability guide](../reference/governance-capability-guide.md).
+    Last reviewed: 2026-07-30 · This runbook uses Microsoft Foundry evaluations, Azure DevOps `AIAgentEvaluation@2`, and Azure Load Testing patterns. Confirm region, evaluator, role, quota, pricing, and SDK/task versions before delivery.
 
-<span class="rvas-badge rvas-persona">AI developer / maker</span> <span class="rvas-badge rvas-persona">Governance lead</span>
+<span class="rvas-badge rvas-persona">AI developer / maker</span> <span class="rvas-badge rvas-persona">Release owner</span> <span class="rvas-badge rvas-persona">Evaluation owner</span>
 
-!!! abstract "What is at stake"
-    Release and change decisions need agreed evidence, thresholds, and owners;
-    confidence in a demo is not enough.
+!!! abstract "What this workshop does"
+    S7 runs or wires up one concrete evaluation path for a bounded Foundry change: select the project, attach the dataset or scenario set, choose evaluators, run the baseline and candidate, check thresholds, export safe result references, and decide whether the release must continue, hold, retest, or stay diagnostic-only.
 
-## 1. Test a candidate change
+## 1. Start with one candidate and one Foundry project
 
-Test whether one bounded candidate change can continue toward the next release
-process. Base the decision on accepted runtime-path evidence, a versioned
-scenario set, a suitable evaluator or rubric, baseline comparison, customer-owned
-thresholds, gate behavior, performance or cost evidence where relevant, and a
-named release/hold owner.
+Use a non-production Foundry project or a customer-approved pre-release project.
+Before opening the evaluator, name:
 
-Work through these checks:
+- Candidate change: model/deployment, prompt or instruction, agent version,
+  retrieval source, tool/API schema, policy/control, or release package.
+- Baseline reference: previous accepted run, previous agent version, gold
+  scenario result, or manual score. If no baseline exists, record **baseline
+  missing** and use the result only as diagnostic evidence until the customer
+  accepts another comparison rule.
+- Dataset or scenario version: Foundry dataset name/version, JSONL/CSV source
+  reference, trace/response IDs, scenario-simulation reference, or approved
+  customer record.
+- Threshold owner: the person or role allowed to set or change pass/fail
+  thresholds.
+- Evidence location: customer-owned records system. Do not paste prompts,
+  outputs, telemetry exports, endpoints, secrets, tenant identifiers, or live
+  configuration into this repository.
 
-- An **evaluation candidate card** for the workload, capability, change type,
-  release question, owners, environment, lifecycle state, and approved records
-  location.
-- A **runtime-prerequisite statement** that either references accepted
-  runtime-path evidence or marks the work diagnostic-only.
-- A **scenario-set package** with source, owner, population, sampling method,
-  included and excluded slices, data/tool boundary, reviewer role, time window,
-  and material-change triggers.
-- An **evaluator/rubric package** covering Microsoft Foundry evaluations, agent
-  evaluators, manual rubric/scorer review, CI/CD cloud evaluation, load testing,
-  or diagnostic-only status.
-- A **baseline, threshold, and exception model** with comparison rule, selected
-  metrics, regression tolerance, threshold owner, exception owner, and
-  re-evaluation criterion.
-- A **finding-to-action map** that turns results into release blocker, accepted
-  exception, diagnostic-only observation, operating hypothesis, or backlog item.
-- A **release-readiness handoff** that says `continue`, `hold`, `defer`,
-  `reject`, `route`, `block`, or `diagnostic-only`, names the owner, and sets
-  the next action.
+## 2. Run the Foundry evaluation flow
 
-`labs/s7-evaluation/` holds the single-file work package and required
-decision-record template. Shared helpers, when needed, live under
-`labs/helpers/`. The kit does **not** hold live evaluators, prompt data, model
-outputs, scores, datasets, CI/CD gates, telemetry, customer records, or release
-approvals.
+Portal route:
 
-### What happens next
+1. Open `ai.azure.com`.
+2. Select the account, hub/project, and environment used for pre-release work.
+3. Open **Build** -> **Evaluations**.
+4. Check **Evaluator catalog** for the selected evaluator names, versions,
+   required inputs, and support notes.
+5. Open **Datasets** and upload or select the versioned JSONL/CSV dataset, or
+   choose a supported Foundry response/trace/scenario source.
+6. Create an evaluation run. Select the dataset/scenario source, model or agent
+   target, evaluator set, column mappings, and baseline/candidate agent IDs or
+   versions where comparison is supported.
+7. Run the evaluation and wait for status **Succeeded**, **Failed**, or
+   **Canceled**.
+8. Open the run result, compare baseline and candidate metrics, inspect failed
+   slices, and copy only safe run IDs and result references into the customer
+   record.
 
-**Next customer action:** give the completed evaluation evidence package and
-backlog to the named evaluation, engineering, release/change, performance, or
-rollback owner before any release decision progresses.
+SDK route when the portal is not the operating path:
 
-### Plain decision and default path
+- Use `azure-ai-projects>=2.2.0` with `DefaultAzureCredential`.
+- Upload the dataset with `project_client.datasets.upload_file(...)` or
+  reference existing response/trace IDs.
+- Create the evaluation with `openai_client.evals.create(...)`.
+- Start the run with `openai_client.evals.runs.create(...)`.
+- Poll until completion, then store the run ID, status, metric summary, and
+  result URL/reference in the approved customer location.
 
-**Decision question:** *Can this specific change continue toward the next
-customer release process, or must it hold because the scenario set, evaluator,
-baseline, threshold, runtime prerequisite, performance evidence, rollback route,
-or release owner is not ready?*
+## 3. Add the CI/CD branch only when the release process can consume it
 
-The default is Microsoft Foundry evaluations or agent evaluators where their
-current support, region, and scope fit, paired with customer-owned human
-interpretation and accepted runtime-path evidence. Use manual scoring, policy
-scenarios, CI/CD cloud evaluation, load testing, another approved test service,
-or an explicit diagnostic-only gap when Foundry support, evaluator fit, data
-handling, automation readiness, performance needs, or coverage does not fit.
+For Azure DevOps, use the Microsoft Foundry AI Agent Evaluation extension:
 
-S7 prepares the release-readiness review. It does not approve production, change a
-pipeline, configure Foundry, set thresholds for the customer, run load tests, or
-claim runtime enforcement.
+- Authentication: Azure Resource Manager service connection or federated
+  pipeline identity. Prefer secretless Entra ID; if a secret is unavoidable,
+  record the exception owner and expiry outside this repository.
+- Task: `AIAgentEvaluation@2`.
+- Required inputs: `azure-ai-project-endpoint`, `deployment-name`, `data-path`,
+  and `agent-ids`.
+- Baseline: `baseline-agent-id` when comparing candidate to an accepted agent
+  version.
+- Threshold file: versioned JSON/checked policy file owned by the customer, such
+  as `evaluation-thresholds.json`, referenced by the pipeline check or post-step
+  that fails the run when required metrics regress.
+- Failure behavior: fail pull request, fail release stage, warn only, require
+  human review, or hold deployment. Warning-only and manual override must name
+  the override owner, expiry, retest trigger, and ticket/change reference.
+- Pipeline artifact storage: store report, run summary, threshold file version,
+  baseline/candidate IDs, and safe result link in the pipeline system and the
+  customer records system. Do not store raw prompts or outputs here.
 
-## 2. Prerequisites
+Expected Azure DevOps signal: the pipeline summary shows evaluator scores,
+confidence intervals where available, and comparison results for the listed
+agents. If the task cannot authenticate, the project endpoint is wrong, an
+evaluator is unavailable, or thresholds fail, route to the owner before the
+release continues.
 
-- A bounded candidate change: model, prompt/instruction, retrieval source,
-  tool/API, policy/control, orchestration, deployment alias, or release package.
-- A named evaluation owner, model/agent owner, scenario owner, threshold owner,
-  evidence owner, and release/hold owner.
-- An approved customer records system for safe references.
-- Accepted runtime-path evidence when the evaluation will be used for release
-  reliance. If that condition is missing, scope the work as diagnostic-only.
-- A customer-owned evaluation-plan reference, usually for Microsoft Foundry
-  evaluations or agent evaluators after current availability and scope are
-  verified.
+## 4. Add load and performance when latency, quota, saturation, or cost matters
 
-## 3. Make release decisions on evidence
+Use Azure Load Testing or another customer-approved tool against a
+non-production endpoint.
 
-A score is not a decision. A release-readiness package needs to say which
-scenario set was tested, what changed, what baseline it was compared with, who
-owns the threshold, which unsupported slices remain, what happens on failure,
-and who can continue or hold the change.
+Preflight:
 
-Foundry evaluations and agent evaluators can help the customer test quality,
-safety, groundedness, tool use, task adherence, and regression where current
-availability and scope are verified. They inform the decision. They do not
-replace accepted runtime-path evidence or the customer's release process.
+- Test endpoint and auth path are approved for synthetic traffic.
+- Request mix is explicit: user journeys, model/agent routes, retrieval/tool
+  calls, cache state, streaming/non-streaming behavior, and invalid/timeout
+  cases.
+- Concurrency and ramp plan are bounded: users, arrival rate, duration, burst,
+  retry policy, timeout, and stop conditions.
+- Quota and cost boundary is approved: model TPM/RPM or PTU capacity,
+  dependency quotas, budget cap, rate-limit owner, and test abort threshold.
+- Telemetry correlation is ready: Foundry traces, Application Insights, Azure
+  Monitor, gateway logs, dependency telemetry, and load-test run ID.
 
-Use [Technical decisions](technical.md) for evaluator routes, diagnostic-only
-boundaries, threshold ownership, and release-readiness evidence.
+Run and check:
 
-## 4. Rollback and handoff
+1. Open Azure portal -> **Azure Load Testing** -> selected test resource.
+2. Create or select the test, upload the approved JMeter/k6/script package or
+   configure the approved URL-based test.
+3. Set environment variables/secrets in the tool, not in this repository.
+4. Run against the pre-release deployment.
+5. Correlate load-test run ID with Foundry traces, Application Insights, Azure
+   Monitor, dependency failures, throttling, retries, and token/cost records.
+6. Hold release when p95/p99 latency, error rate, saturation, quota, budget, or
+   dependency failure crosses the customer threshold.
 
-S7 changes no evaluator, agent, model deployment, data source, CI/CD gate,
-threshold, or release policy. The customer can defer or replace its
-decision through its own change and evidence process. Handoff names the
-scenario, evaluator, threshold, rollback/remediation owner, release/hold owner,
-evidence references, review cadence, and material-change triggers. The completed
-handoff remains customer owned.
+## 5. Expected signals
+
+| Signal | What to check | Release action |
+|---|---|---|
+| Run succeeded | Foundry evaluation run status is **Succeeded** and result summary is available. | Review thresholds and failed slices before continue. |
+| Evaluator unavailable | Evaluator missing from catalog, unsupported in region/project, preview-only for the needed gate, or required mapping unavailable. | Use approved alternate evaluator/manual review or hold. |
+| Threshold failed | Required metric, slice, confidence interval, ASR-derived safety result, latency, error, or cost threshold fails. | Hold release or route exception to threshold owner. |
+| Result diagnostic-only | Runtime prerequisite, baseline, scenario owner, threshold owner, or support fit is missing. | Do not use as release reliance. Open fix/retest action. |
+| Baseline missing | No prior accepted run or accepted comparison rule exists. | Create baseline or obtain threshold-owner exception before release reliance. |
+| Override required | Pipeline or manual gate needs exception despite failed/missing signal. | Name override owner, expiry, compensating check, and retest trigger. |
+| Hold release | Any blocker remains: failed threshold, unsupported evaluator, quota/cost breach, missing owner, or unsafe evidence handling. | Stop promotion until fixed or accepted through customer process. |
+
+## 6. Lab output
+
+`labs/s7-evaluation/` contains the runbook lab kit and template. Store the
+completed run details in the customer's approved records system. This repository
+keeps only blank templates and safe field shapes.
+
+## Related references
+
+- [Cloud Evaluation with the Microsoft Foundry SDK](https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/cloud-evaluation)
+- [How to run an evaluation in Azure DevOps](https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluation-azure-devops)
+- [Quality, cost, latency & rollout guide](../reference/quality-cost-latency-guide.md)
+- [Performance-testing guide](../reference/performance-testing-guide.md)

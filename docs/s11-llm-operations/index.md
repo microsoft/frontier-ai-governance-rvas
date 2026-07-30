@@ -1,9 +1,7 @@
 # S11 · LLMOps Change Control
 
 !!! info "Freshness"
-    Last reviewed: 2026-07-24. Verify current Azure service capabilities,
-    regional availability, quota, pricing, and customer requirements before
-    delivery.
+    Last reviewed: 2026-07-30. Verify current Microsoft Foundry, Azure DevOps/GitHub pipeline, Azure Monitor, Application Insights, regional availability, quota, pricing, and customer requirements before delivery.
 
 <span class="rvas-badge rvas-persona">LLMOps owner</span> <span class="rvas-badge rvas-persona">AI developer</span> <span class="rvas-badge rvas-persona">Service owner</span>
 
@@ -11,45 +9,42 @@
     Models and prompts change continuously; the customer needs ownership,
     evidence, and rollback routes that keep pace with those changes.
 
-## 1. Move one change through its gates
+## 1. Inspect one Foundry and pipeline change
 
-Take one bounded LLMOps change through the checks required for its next customer
-process: known lifecycle owners, safe references, switch authority,
-rollback/fallback criteria, feedback governance, and automation prerequisites.
+Inspect one actual candidate change against the current baseline before it moves
+to the customer's next process. Use safe references only and do not move
+production traffic.
 
-**Plain decision question:** Is this model, prompt, retrieval, tool, data,
-evaluation, deployment-alias, fallback, or feedback change ready for the next
-customer-controlled lifecycle step? Choose **ready for next process, defer,
-reject, route, or block**. Default to Microsoft Learn's LLMOps inner and outer
-loop, Microsoft Foundry evaluation/observability where supported, customer
-source/change processes, Azure Monitor/Application Insights for operating
-signals, and safe references only.
+**Plain decision question:** Is this prompt/instruction, retrieval, tool, data,
+evaluation, deployment-alias, fallback, feedback, or automation change ready for
+a **separate customer change review**, or must it be deferred, rejected, routed,
+or blocked?
 
-Work through these checks:
+Work through these concrete checks:
 
-- an **LLMOps change card** for one bounded change, environment, affected
-  artifacts, lifecycle question, owners, target process, and approved records
-  location;
-- a seven-stage lifecycle package covering data curation, experimentation,
-  evaluation, validate/deploy, inference, monitoring, and feedback/data
-  collection, with owners, inputs, outputs, blockers, accepted-when conditions,
-  and receiving handoffs;
-- a release manifest that joins prompt/instruction, retrieval, tool schema,
-  model/deployment alias, evaluation, runtime-control, telemetry, rollback,
-  and approver references without copying raw artifacts;
-- artifact version contracts for prompts, models, datasets, rubrics, retrieval
-  configuration, tool schemas, deployment aliases, feedback queues, and rollout
-  plans;
-- a model/deployment lifecycle decision for approved baseline, candidate,
-  fallback, deprecated, and retired states, including testing, canary, traffic
-  switch, fallback, rollback, retirement, and automation authority;
-- a rollout/fallback/rollback package with stage entry conditions, stop
-  conditions, monitoring signals, rollback target, switch authority, and
-  recheck condition;
-- a feedback-to-curation gate that turns operating signals into candidate
-  learning inputs, not direct production mutations; and
-- a backlog for missing ownership, evidence reference, stage gate, fallback,
-  rollback, feedback, retirement, or automation prerequisites.
+- Open the Microsoft Foundry project. Inspect the workload assets: app/agent,
+  prompt or instruction version, retrieval reference, tool schema reference,
+  model deployment alias, dataset/scenario, evaluation run, traces/monitoring
+  link, and owner.
+- Open the customer source and pipeline system. Inspect the branch/commit or
+  release reference, pipeline run, generated release manifest, build/test/eval
+  gates, skipped or failed steps, manual approvals, and target environment.
+- Compare the baseline release reference and candidate release reference. Verify
+  prompt/instruction version, model deployment/alias, dataset/scenario,
+  evaluation run, rollout stage, rollback target, fallback route, monitoring
+  signal, and approver/change reference.
+- Open the rollout stage. Check entry conditions, stop condition, switch
+  authority, excluded population, fallback trigger, rollback target, and recheck
+  condition.
+- Open the feedback source. Check approval, privacy/retention route, curation
+  owner, sampling/quality rule, and mutation gate before feedback can shape a
+  new candidate.
+- Check automation readiness for regression, canary, alias switching, fallback
+  routing, feedback curation, and retirement. If prerequisites are missing,
+  leave the step manual and assign the fix.
+- Classify expected signals: manifest complete, evaluation missing, alias
+  mismatch, rollback target missing, feedback source not approved, automation
+  not ready, or ready for separate change review.
 
 `labs/s11-llm-operations/` contains offline templates for the customer-approved
 records system. They retain approved references only, not raw prompts, model
@@ -77,7 +72,7 @@ deployment, configure resources, enable automation, or authorize production.
   evaluation baseline, runtime controls, operating signals, and change review,
   even when evidence is incomplete.
 
-The session can start with gaps. Unknown artifact ownership, stage owner,
+The session can start with gaps. Unknown version owner, stage owner,
 evaluation baseline, switch authority, fallback route, rollback target,
 monitoring signal, feedback governance, or approved record location defers or
 blocks the affected decision.
@@ -93,8 +88,8 @@ S11 makes the lifecycle concrete. The team traces one change through the inner
 loop, pins the versions that define the candidate, connects them to
 evaluation and operating references, and decides what must be true before the
 outer loop can promote, hold, roll back, fall back, retire, or automate that
-path. The result is a practical change control package that the customer's
-release, platform, service, and governance owners can act on.
+path. The result is a practical inspection record that the customer's release,
+platform, service, and governance owners can act on.
 
 The most important rule is that feedback is a candidate input. Production
 signals, user feedback, incident notes, or cost observations may create a
@@ -102,8 +97,9 @@ hypothesis, a curated dataset candidate, or a new evaluation scenario. They do
 not directly mutate production prompts, retrieval sources, model aliases, or
 tool behavior without gate review.
 
-Use [Technical decisions](technical.md) for the inner/outer loop,
-artifact-control model, Azure implementation mapping, and record shapes.
+Use [Technical decisions](technical.md) for the Foundry and pipeline inspection
+workflow, baseline/candidate comparison, rollout checks, feedback gate, and
+record shapes.
 
 ## 4. Change boundary
 

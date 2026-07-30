@@ -7,7 +7,7 @@
 
 Default to the Microsoft implementation path that fits the candidate: Copilot Studio, Microsoft Foundry Agent Service, Microsoft 365 Copilot extensibility, workflow automation, or a custom Azure app on Foundry models. S4 compares paths, selects the bounded engineering route, and defines admission and promotion gates.
 
-## Workshop route: choose the agent path
+## Workshop route: choose and inspect the agent path
 
 1. **Choose one bounded candidate.** Name product owner, engineering owner,
    service owner, model/latency/cost owner, release owner, evidence owner, and
@@ -20,20 +20,28 @@ Default to the Microsoft implementation path that fits the candidate: Copilot St
    Agent Service, Microsoft 365 Copilot extensibility, custom Azure app, workflow
    automation, and prototype-only. Compare why one fits and why others are
    rejected or deferred.
-4. **Define the selected path.** Identify the instruction, workflow, or hosted-code
+4. **Open or identify the selected route.** Inspect the relevant product
+   surface: Foundry project, Copilot Studio environment, M365 extension record,
+   custom Azure app/release, or workflow automation record. Confirm the route is
+   visible enough to inspect instructions/workflow, model, tool/API, data,
+   identity, telemetry, evaluation, and rollback hooks.
+5. **Run or plan the safe boundary check.** In non-production, verify one
+   tool/data call boundary, connector/action boundary, or read-only trace. If no
+   safe check is possible, mark the route diagnostic-only or blocked.
+6. **Define the selected path.** Identify the instruction, workflow, or hosted-code
    reference, model route, tools/actions/APIs/connectors, data sources, identity
    mode, runtime controls, evaluation, telemetry, release/rollback, support
    boundary, lifecycle state, and material-change triggers.
-5. **Decide model, latency, cost, quota, and fallback.** Name the owner, model
+7. **Decide model, latency, cost, quota, and fallback.** Name the owner, model
    route, capacity/quota limit, latency target, cost guardrail, fallback
    behavior, fine-tuning rationale if any, and review cadence.
-6. **Define DEV/PRE/PRO gates.** Name the gate owner and purpose,
+8. **Define DEV/PRE/PRO gates.** Name the gate owner and purpose,
    accepted-when criteria, blocker rule, evidence reference, receiving process,
    rollback/decommission trigger, and what remains out of scope.
-7. **Route downstream prerequisites.** Name platform, identity, data, tool/API,
+9. **Route downstream prerequisites.** Name platform, identity, data, tool/API,
    runtime, evaluation, red-team, catalog/control-plane, operations, and
    retirement owners where needed.
-8. **Close the admission decision.** Approve the engineering path only when the
+10. **Close the admission decision.** Approve the engineering path only when the
    selected controls and next-stage gate are complete enough for receiving owners to act.
    Otherwise defer, reject, route, block, or mark prototype-only.
 
@@ -65,6 +73,21 @@ into this repository.
 | M365 Copilot extensibility | M365 Copilot admin/extension records, Agent 365 where available, Graph connector/data controls | M365 data and extension governance |
 | Workflow automation | Power Automate/Logic Apps/run history/connector records | deterministic change control |
 | Prototype isolation | sandbox owner, data boundary, expiration date | explicit non-production constraint |
+
+### Route-specific inspection recipes
+
+Use the recipe for the selected path. Do not create, publish, connect, or grant
+anything from S4; inspect existing product records or write a backlog item for
+the engineering owner.
+
+| Path | Open or identify | Safe boundary check | Expected signals |
+|---|---|---|---|
+| Foundry Agent Service | Foundry portal project; agent; instructions or hosted-code reference; model deployment; tool/connected-data list; identity/RBAC; trace/evaluation area; safety settings; lifecycle owner. | Run a non-production synthetic prompt that attempts one approved tool/data call, or inspect an existing trace for that call. | Agent route visible, model deployment owned, tool/data boundary known, trace/evaluation hook present, or blocked by unsupported feature/owner/access. |
+| Copilot Studio | Power Platform environment; solution; agent/topics/actions; connector list; DLP policy; authentication; publication channel; analytics/audit route; maker/admin owner. | Inspect one action/connector and confirm whether the environment DLP policy and authentication mode allow the intended use. | Environment governed, connector allowed, action owner known, audit route visible, or blocked by unmanaged connector/personal environment/no admin owner. |
+| Microsoft 365 Copilot extensibility | App/agent metadata; declarative instructions; knowledge sources; action/plugin; Graph permissions; admin review; distribution route; user experience owner. | Inspect one action or knowledge source and verify its permission/admin-review route. | Permission path known, admin owner named, distribution state visible, or blocked by unreviewed Graph scope/unsupported extension path. |
+| Custom Azure app | Repository/release reference; Azure app/resource group; Foundry/OpenAI backend; APIM/gateway route; managed identity/federation; telemetry; IaC/release path; rollback/support owner. | Inspect one non-production request or trace from app to model/tool through the expected gateway or backend. | SDLC owner, identity route, telemetry hook, rollback target, and support owner exist, or the custom path is too unowned for admission. |
+| Workflow automation | Power Automate or Logic Apps workflow; trigger; deterministic steps; connectors; approval point; run history; exception route; owner; retirement route. | Inspect one run history record or dry-run plan for the deterministic step and approval/exception path. | Deterministic route fits, connector policy is known, run history exists, or the task should be an agent/custom app instead. |
+| Prototype-only | Sandbox owner; excluded users/data/actions; expiry; learning objective; promotion trigger. | Verify the prototype cannot use real users, production data, external actions, or promotion without reopening S4. | Isolation and expiry are explicit, or prototype work is blocked. |
 
 ### Implementation path anatomy
 
@@ -109,6 +132,19 @@ configuration.
 | Evaluation | Scenario/dataset/rubric reference, threshold owner, unsupported dimensions, evaluation owner. |
 | Telemetry | Trace/correlation method, token/cost metric route, alert/support owner, operating owner. |
 | Release and rollback | DEV/PRE/PRO gate, approver, release manifest, rollback target, decommissioning trigger. |
+| Safe boundary check | Synthetic prompt/action, trace, connector/action inspection, run-history check, or explicit reason no safe check is possible. |
+
+### Expected result states
+
+| Result state | What it means | Receiving owner |
+|---|---|---|
+| Buildable route | Route, owner, environment/project, identity, model, tool/data boundary, telemetry, evaluation, and rollback hook exist. | Engineering/release owner |
+| Buildable with backlog | Path fits but a missing control must be closed before PRE or PRO. | Specific backlog owner |
+| Wrong path | The selected product does not fit authority, channel, data, lifecycle, or support needs. | Architecture/product owner |
+| Unsupported route | Required feature, tenant, region, SKU, connector, identity path, or control is unavailable. | Platform/product owner |
+| Unsafe authority | Allowed action, approval point, denial behavior, or rollback cannot be made reviewable. | Governance/security owner |
+| Prototype-only | Work may continue only with sandbox, expiry, and no real users/data/actions. | Prototype owner |
+| Blocked | Owner, records location, route visibility, or safe evidence handling is missing. | Sponsor or blocker owner |
 
 ### Model, latency, cost, and fine-tuning checklist
 
@@ -175,6 +211,7 @@ configuration.
 | Admission | authority archetype, human-control point, runtime-proof need, evaluation plan, red-team trigger |
 | Promotion | DEV/PRE/PRO labels, release manifest, rollback owner, customer change approval record |
 | Catalog/handoff | Azure API Center or control-plane register entry, operations owner |
+| Boundary check | non-production prompt/action check, connector inspection, trace reference, or run-history reference |
 
 ## Decision matrix
 
@@ -189,6 +226,8 @@ configuration.
 | Work item | Accepted when... | Handoff |
 |---|---|---|
 | Path selection | selected path, rejected alternatives, assumptions, and owner are recorded | Engineering owner |
+| Route inspection | selected product surface, environment/project, identity, model/tool/data boundary, telemetry, evaluation, and rollback hooks are visible or explicitly blocked | Engineering owner |
+| Safe boundary check | one non-production tool/data/action boundary or read-only trace is inspected, or the absence of a safe check is routed as a blocker | Route owner |
 | Model selection | deployment alias, model/version owner, residency/quota/cost limits, and fine-tuning rationale if any are recorded | Platform/model owner |
 | Admission | authority archetype maps to required safety, evaluation, red-team, and human-control gates | Release owner |
 | Promotion | DEV/PRE/PRO gate, rollback owner, and material-change trigger are recorded | Change authority |

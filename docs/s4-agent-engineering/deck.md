@@ -6,8 +6,8 @@ Microsoft default: **Copilot Studio, Microsoft Foundry Agent Service, Microsoft
 365 Copilot extensibility, workflow automation, or a custom Azure app path**.
 
 Concrete decision: **Can this candidate enter the next controlled engineering
-stage on a named Microsoft build path with its authority, controls, and next
-gate defined?**
+stage on a named Microsoft build path with an inspectable product surface,
+authority boundary, safe boundary check, controls, and next gate defined?**
 
 ---
 
@@ -56,6 +56,40 @@ explains itself.
 Note:
 Compare and name rejected alternatives. A route decision without alternatives is often
 just product preference.
+
+---
+
+## Open the selected route
+
+| Route | Inspect |
+|---|---|
+| Foundry Agent Service | project, agent, instructions/hosted code, model deployment, tools, data, identity/RBAC, trace, evaluation, safety settings |
+| Copilot Studio | environment, solution, topics/actions, connectors, DLP, authentication, publication, audit/analytics |
+| M365 extensibility | app/agent metadata, instructions, knowledge, action/plugin, Graph permissions, admin review, distribution |
+| Custom Azure app | repo/release, model backend, gateway/APIM route, managed identity/federation, telemetry, IaC, rollback |
+| Workflow automation | trigger, deterministic steps, connectors, approval, run history, exception route |
+
+Note:
+If nobody can open the selected surface, the candidate is not ready for the next
+engineering stage.
+
+---
+
+## Run or inspect one safe boundary check
+
+- Foundry: synthetic non-production prompt or existing trace for one approved
+  tool/data call.
+- Copilot Studio: one action/connector checked against DLP and authentication.
+- M365: one action or knowledge source checked against permission/admin review.
+- Custom app: one trace from app to model/tool through expected gateway/backend.
+- Workflow: one run-history record or dry-run plan for deterministic step and
+  approval.
+- Prototype: isolation prevents real users, production data, external actions,
+  or silent promotion.
+
+Note:
+No safe check means diagnostic-only or blocked. Do not turn route preference
+into engineering admission.
 
 ---
 
@@ -125,6 +159,8 @@ S4 can define gate readiness. It cannot approve production.
 ## Failure modes and hard stops
 
 - Product selected before authority/action inventory.
+- Product surface cannot be opened by the customer owner.
+- No safe non-production boundary check or existing trace.
 - Deterministic workflow treated as an agent.
 - Foundry selected without tool, data, identity, telemetry, or evaluation owners.
 - Copilot Studio selected without environment, DLP, connector, ALM, or
@@ -146,6 +182,8 @@ Confirm:
 - agent candidate card;
 - authority/action inventory;
 - build-path comparison and rejected alternatives;
+- selected product surface inspected;
+- safe boundary check result or explicit blocker;
 - selected path and controls;
 - model/latency/cost/fine-tuning decision;
 - DEV/PRE/PRO gates;
