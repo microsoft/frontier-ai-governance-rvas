@@ -40,7 +40,9 @@ prerequisites.
 
 Start with a [governance baseline and operating-model workshop](../s0-foundations/index.md).
 It identifies the first technical blocker and selects the smallest useful set
-of follow-on workshops.
+of follow-on workshops. Use the [operational maturity model](maturity-model.md)
+to decide whether the blocker is discovery, security, delivery standardization,
+operation, or scale.
 
 Use these dependencies when selecting that work:
 

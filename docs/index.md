@@ -6,8 +6,10 @@ engineering leaders move from AI policy intent to owned decisions,
 implementation work packages, evidence references, and operating actions.
 
 Start with [About AI Governance Platform](start/understand-rvas.md), then use
-[Plan the engagement](start/plan-engagement.md) to prepare a bounded customer
-decision before the [governance baseline and operating-model workshop](s0-foundations/index.md).
+[Operational maturity model](start/maturity-model.md) to locate the customer's
+adoption blocker. Use [Plan the engagement](start/plan-engagement.md) to
+prepare a bounded customer decision before the [governance baseline and
+operating-model workshop](s0-foundations/index.md).
 
 The work moves from accountability, through technical-path and assurance
 decisions, to operating and portfolio improvement. Customers select only the

@@ -7,13 +7,13 @@ architecture, security, engineering, change, and funding processes.
 
 ## A practical journey
 
-| Step | Customer gets | What happens next |
+| Maturity level | Customer gets | What happens next |
 |---|---|---|
-| **Set direction** | A bounded use case, decision owner, evidence location, safe stop condition, and first technical blocker. | The owner routes the blocker to the right customer process. |
-| **Establish accountability** | A clear view of agent ownership, identity, access, and data responsibilities. | The customer closes gaps before depending on the workload. |
-| **Choose the technical path** | A platform-boundary decision, admission requirements, and a safe tool or API publication approach. | Architecture, security, and engineering teams implement through their approved processes. |
-| **Build assurance** | A decision on runtime evidence, evaluation, and authorized adversarial testing. | The customer resolves gaps, defers work, or uses its separate release process. |
-| **Operate and improve** | Reconciled records, operating evidence, lifecycle actions, and portfolio priorities. | The customer validates closure, funds the next action, or accepts a stated risk. |
+| **Discover** | A bounded use case, decision owner, evidence location, safe stop condition, inventory path, and first technical blocker. | The owner routes the blocker to the right customer process. |
+| **Secure** | A clear view of agent ownership, identity, access, data, platform, and runtime-control responsibilities. | The customer closes gaps before depending on the workload. |
+| **Govern** | A platform-boundary decision, admission requirements, tool/API publication approach, and prompt or model change-control path. | Architecture, security, and engineering teams implement through their approved processes. |
+| **Operate** | A decision on runtime evidence, evaluation, authorized adversarial testing, telemetry, cost, and remediation cadence. | The customer resolves gaps, defers work, or uses its separate release process. |
+| **Scale** | Reconciled records, lifecycle actions, governance automation backlog, and portfolio priorities. | The customer validates closure, funds the next action, or accepts a stated risk. |
 
 ## What stays with the customer
 
@@ -29,5 +29,6 @@ customer accepts a stated risk. Those outcomes prevent unsafe or unowned work
 from progressing; they are not failures.
 
 Start with [About AI Governance Platform](understand-rvas.md) for the workshop
-map, then [Plan the engagement](plan-engagement.md) to prepare the first
-decision.
+map, use the [Operational maturity model](maturity-model.md) to locate the
+adoption blocker, then [Plan the engagement](plan-engagement.md) to prepare the
+first decision.

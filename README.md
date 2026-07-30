@@ -16,6 +16,17 @@ remains a separate customer change decision.
 
 ## Curriculum journey
 
+The curriculum follows a practical maturity progression rather than a product
+tour.
+
+| Level | Goal | Customer outcome |
+|---|---|---|
+| **1. Discover** | Know what AI exists. | Inventory, ownership, lifecycle state, and portfolio visibility. |
+| **2. Secure** | Prevent obvious mistakes. | Identity, data, platform, and runtime-control decisions. |
+| **3. Govern** | Standardize delivery. | Admission standards, tool/API rules, and prompt/model change control. |
+| **4. Operate** | Observe production-like behavior. | Evaluation, red-team, telemetry, cost, and incident-action signals. |
+| **5. Scale** | Automate governance. | Reconciled records, governance automation, and continuous improvement. |
+
 | Phase | Sessions | Purpose |
 |---|---|---|
 | Govern | S0-S2 | Establish ownership, identity/authority, and data responsibilities. |

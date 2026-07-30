@@ -36,14 +36,17 @@ The programme asks questions people can answer in the room:
 ## Delivery shape
 
 The customer selects only the workshops that fit its evidence, architecture,
-dependencies, and priorities.
+dependencies, and priorities. Use the [operational maturity model](maturity-model.md)
+to decide whether the immediate blocker is discovery, security, delivery
+standardization, operation, or scale.
 
-| Phase | Goal | Typical decisions |
+| Maturity level | Goal | Typical decisions |
 |---|---|---|
-| **Establish accountability** | Set an accountable foundation. | Ownership, identity, data responsibilities, and evidence location. |
-| **Choose the technical path** | Define platform and engineering controls. | Platform boundary, admission standards, and tool or API publication. |
-| **Build assurance** | Review safety, quality, and release readiness. | Runtime evidence, evaluation, and authorized adversarial testing. |
-| **Operate and improve** | Turn evidence into sustained action. | Reconciliation, operating review, model change control, and portfolio priorities. |
+| **Discover** | Know what AI exists and who owns it. | Scope, inventory, lifecycle, and evidence location. |
+| **Secure** | Prevent obvious mistakes before scale. | Identity, data, platform route, and runtime control path. |
+| **Govern** | Standardize delivery. | Admission standards, tool/API publication, and model or prompt change control. |
+| **Operate** | Observe production-like behavior. | Evaluation, red-team, telemetry, cost, and remediation decisions. |
+| **Scale** | Automate governance and improvement. | Reconciliation, governance agents, portfolio cadence, and roadmap. |
 
 ## Workshop map
 
