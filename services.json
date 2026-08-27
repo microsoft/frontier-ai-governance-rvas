@@ -1,0 +1,208 @@
+{
+  "services": [
+    {
+      "id": "agent-365",
+      "label": "Microsoft Agent 365",
+      "category": "Agent governance",
+      "icon": "agent-365.svg"
+    },
+    {
+      "id": "application-insights",
+      "label": "Application Insights",
+      "category": "Operations",
+      "icon": "application-insights.svg"
+    },
+    {
+      "id": "azure-ai-content-safety",
+      "label": "Azure AI Content Safety",
+      "category": "AI safety",
+      "icon": "azure-ai-content-safety.svg"
+    },
+    {
+      "id": "azure-ai-foundry",
+      "label": "Microsoft Foundry",
+      "category": "AI platform",
+      "icon": "azure-ai-foundry.svg"
+    },
+    {
+      "id": "azure-ai-search",
+      "label": "Azure AI Search",
+      "category": "Data and retrieval",
+      "icon": "azure-ai-search.svg"
+    },
+    {
+      "id": "azure-api-center",
+      "label": "Azure API Center",
+      "category": "API governance",
+      "icon": "azure-api-center.svg"
+    },
+    {
+      "id": "azure-api-management",
+      "label": "Azure API Management",
+      "category": "API governance",
+      "icon": "azure-api-management.svg"
+    },
+    {
+      "id": "azure-container-apps",
+      "label": "Azure Container Apps",
+      "category": "Application platform",
+      "icon": "azure-container-apps.svg"
+    },
+    {
+      "id": "azure-cost-management",
+      "label": "Azure Cost Management",
+      "category": "Operations",
+      "icon": "azure-cost-management.svg"
+    },
+    {
+      "id": "azure-key-vault",
+      "label": "Azure Key Vault",
+      "category": "Security",
+      "icon": "azure-key-vault.svg"
+    },
+    {
+      "id": "azure-kubernetes-service",
+      "label": "Azure Kubernetes Service",
+      "category": "Application platform",
+      "icon": "azure-kubernetes-service.svg"
+    },
+    {
+      "id": "azure-load-testing",
+      "label": "Azure Load Testing",
+      "category": "Operations",
+      "icon": "azure-load-testing.svg"
+    },
+    {
+      "id": "azure-logic-apps",
+      "label": "Azure Logic Apps",
+      "category": "Integration",
+      "icon": "azure-logic-apps.svg"
+    },
+    {
+      "id": "azure-monitor",
+      "label": "Azure Monitor",
+      "category": "Operations",
+      "icon": "azure-monitor.svg"
+    },
+    {
+      "id": "azure-openai",
+      "label": "Azure OpenAI",
+      "category": "AI platform",
+      "icon": "azure-openai.svg"
+    },
+    {
+      "id": "azure-policy",
+      "label": "Azure Policy",
+      "category": "Cloud governance",
+      "icon": "azure-policy.svg"
+    },
+    {
+      "id": "azure-private-dns",
+      "label": "Azure Private DNS",
+      "category": "Networking",
+      "icon": "azure-private-dns.svg"
+    },
+    {
+      "id": "azure-private-link",
+      "label": "Azure Private Link",
+      "category": "Networking",
+      "icon": "azure-private-link.svg"
+    },
+    {
+      "id": "foundry-agent-service",
+      "label": "Foundry Agent Service",
+      "category": "AI platform",
+      "icon": "foundry-agent-service.svg"
+    },
+    {
+      "id": "github-actions",
+      "label": "GitHub Actions",
+      "category": "Developer platform",
+      "icon": "github-actions.svg"
+    },
+    {
+      "id": "log-analytics",
+      "label": "Log Analytics",
+      "category": "Operations",
+      "icon": "log-analytics.svg"
+    },
+    {
+      "id": "microsoft-365-copilot",
+      "label": "Microsoft 365 Copilot",
+      "category": "Microsoft 365",
+      "icon": "microsoft-365-copilot.svg"
+    },
+    {
+      "id": "microsoft-copilot-studio",
+      "label": "Microsoft Copilot Studio",
+      "category": "Agent platform",
+      "icon": "microsoft-copilot-studio.svg"
+    },
+    {
+      "id": "microsoft-defender-for-cloud",
+      "label": "Microsoft Defender for Cloud",
+      "category": "Security",
+      "icon": "microsoft-defender-for-cloud.svg"
+    },
+    {
+      "id": "microsoft-defender-xdr",
+      "label": "Microsoft Defender XDR",
+      "category": "Security",
+      "icon": "microsoft-defender-xdr.svg"
+    },
+    {
+      "id": "microsoft-entra-agent-id",
+      "label": "Microsoft Entra Agent ID",
+      "category": "Identity",
+      "icon": "microsoft-entra-agent-id.svg"
+    },
+    {
+      "id": "microsoft-entra-id",
+      "label": "Microsoft Entra ID",
+      "category": "Identity",
+      "icon": "microsoft-entra-id.svg"
+    },
+    {
+      "id": "microsoft-entra-workload-id",
+      "label": "Microsoft Entra Workload ID",
+      "category": "Identity",
+      "icon": "microsoft-entra-workload-id.svg"
+    },
+    {
+      "id": "microsoft-purview",
+      "label": "Microsoft Purview",
+      "category": "Data governance",
+      "icon": "microsoft-purview.svg"
+    },
+    {
+      "id": "microsoft-sentinel",
+      "label": "Microsoft Sentinel",
+      "category": "Security",
+      "icon": "microsoft-sentinel.svg"
+    },
+    {
+      "id": "microsoft-teams",
+      "label": "Microsoft Teams",
+      "category": "Microsoft 365",
+      "icon": "microsoft-teams.svg"
+    },
+    {
+      "id": "power-automate",
+      "label": "Power Automate",
+      "category": "Integration",
+      "icon": "power-automate.svg"
+    },
+    {
+      "id": "power-platform",
+      "label": "Microsoft Power Platform",
+      "category": "Application platform",
+      "icon": "power-platform.svg"
+    },
+    {
+      "id": "sharepoint",
+      "label": "SharePoint",
+      "category": "Microsoft 365",
+      "icon": "sharepoint.svg"
+    }
+  ]
+}

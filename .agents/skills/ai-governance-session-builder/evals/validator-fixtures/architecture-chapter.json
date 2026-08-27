@@ -1,0 +1,42 @@
+{
+  "cases": [
+    {
+      "name": "valid architecture chapter",
+      "text": "## Architecture\n\n### Architecture at a glance\n\nRequests pass through the gateway to the service. The live service is authoritative, and the platform team owns the gateway handoff.\n\n### Design choices and tradeoffs\n\n| Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |\n|---|---|---|---|---|\n| Request control | Route through the gateway | One policy point | Direct service paths remain out of scope | Direct access is removed |\n\n### Architecture guidance\n\n- [Azure API Management documentation](https://learn.microsoft.com/azure/api-management/api-management-key-concepts) supports the gateway boundary.\n\n## Before you start\n",
+      "sourceUrls": [
+        "https://learn.microsoft.com/azure/api-management/api-management-key-concepts"
+      ],
+      "expectedFailures": []
+    },
+    {
+      "name": "missing table and source mismatch",
+      "text": "## Architecture\n\n### Architecture at a glance\n\nThe service owns live state.\n\n### Design choices and tradeoffs\n\nUse a gateway.\n\n### Architecture guidance\n\n- [Azure guidance](https://learn.microsoft.com/azure/architecture/guide/) supports the choice.\n\n## Before you start\n",
+      "sourceUrls": [
+        "https://learn.microsoft.com/azure/api-management/api-management-key-concepts"
+      ],
+      "expectedFailures": [
+        "Design choices and tradeoffs must contain a Markdown table with a data row",
+        "Architecture guidance link is not recorded in the manifest sources: https://learn.microsoft.com/azure/architecture/guide/"
+      ]
+    },
+    {
+      "name": "extra subsection and no Microsoft link",
+      "text": "## Architecture\n\n### Architecture at a glance\n\nThe service owns live state.\n\n### Design choices and tradeoffs\n\n| Decision | Choice |\n|---|---|\n| Boundary | Gateway |\n\n### Alternatives\n\nA direct path is out of scope.\n\n### Architecture guidance\n\nUse the manifest sources.\n\n## Before you start\n",
+      "sourceUrls": [],
+      "expectedFailures": [
+        "architecture subsections must be exactly: ### Architecture at a glance > ### Design choices and tradeoffs > ### Architecture guidance"
+      ]
+    },
+    {
+      "name": "diagram needs alt text and editable pair",
+      "text": "## Architecture\n\n### Architecture at a glance\n\n![Diagram](../assets/diagrams/example.svg)\n\n### Design choices and tradeoffs\n\n| Decision | Choice |\n|---|---|\n| Boundary | Gateway |\n\n### Architecture guidance\n\n- [Azure guidance](https://learn.microsoft.com/azure/architecture/guide/) supports the choice.\n\n## Before you start\n",
+      "sourceUrls": [
+        "https://learn.microsoft.com/azure/architecture/guide"
+      ],
+      "expectedFailures": [
+        "diagram needs useful alt text: ../assets/diagrams/example.svg",
+        "referenced diagram needs paired .svg and .excalidraw files: ../assets/diagrams/example.svg"
+      ]
+    }
+  ]
+}

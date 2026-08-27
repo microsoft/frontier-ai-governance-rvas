@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "10-purview-data-governance",
+  "recordType": "agent365-dlp-policy-template",
+  "policy": {
+    "name": "__REQUIRED_DLP_POLICY_NAME__",
+    "description": "implementationSession=10-purview-data-governance",
+    "mode": {
+      "initial": "TestWithNotifications",
+      "final": "Enable",
+      "propagationAllowanceHours": "__REQUIRED_DLP_PROPAGATION_HOURS__"
+    },
+    "scope": {
+      "environment": "Nonproduction",
+      "workload": "Microsoft Agent 365",
+      "agentInstanceId": "__REQUIRED_AGENT_INSTANCE_ID__",
+      "agentInstanceAlias": "__REQUIRED_AGENT_INSTANCE_ALIAS__",
+      "testGroupAlias": "__REQUIRED_TEST_GROUP_ALIAS__",
+      "interactionDirections": [
+        "Human-to-agent",
+        "agent-to-human"
+      ],
+      "locations": [
+        "Microsoft Teams",
+        "OneDrive or SharePoint",
+        "Exchange email"
+      ]
+    },
+    "rule": {
+      "condition": "Sensitivity label",
+      "sensitivityLabelId": "__REQUIRED_SENSITIVITY_LABEL_ID__",
+      "action": "__REQUIRED_DLP_ACTION__",
+      "userNotification": "__REQUIRED_DLP_NOTIFICATION_DECISION__",
+      "incidentReportOwnerRole": "__REQUIRED_DLP_INCIDENT_OWNER_ROLE__"
+    }
+  },
+  "manualValidation": {
+    "policyNameAvailability": "__REQUIRED_DLP_NAME_AVAILABILITY_STATUS__",
+    "policyNameVerifiedOn": "__REQUIRED_DLP_NAME_VERIFIED_DATE__",
+    "labelIdentityStatus": "__REQUIRED_LABEL_IDENTITY_STATUS__",
+    "labelIdentityVerifiedOn": "__REQUIRED_LABEL_IDENTITY_VERIFIED_DATE__"
+  },
+  "contentRetention": {
+    "retainPrompts": false,
+    "retainResponses": false,
+    "retainAuditExports": false,
+    "retainScreenshots": false
+  },
+  "implementationMarker": "implementationSession=10-purview-data-governance"
+}

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "06-governed-agent-baseline",
+  "policyOwner": "__REQUIRED_POLICY_OWNER__",
+  "humanChangeRoute": "__REQUIRED_HUMAN_CHANGE_ROUTE__",
+  "actions": [
+    {
+      "action": "__REQUIRED_PROHIBITED_WRITE_ACTION__",
+      "effect": "deny",
+      "enforcement": [
+        "operation-is-not-registered-in-the-tool-manifest",
+        "agent-instructions-require-refusal"
+      ]
+    }
+  ]
+}

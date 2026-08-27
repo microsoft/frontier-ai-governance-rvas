@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "05-model-governance-lifecycle",
+  "deployments": [
+    {
+      "approvalId": "__REQUIRED_APPROVAL_ID__",
+      "deploymentName": "__REQUIRED_DEPLOYMENT_NAME__",
+      "model": {
+        "name": "__REQUIRED_APPROVED_MODEL_NAME__",
+        "version": "__REQUIRED_APPROVED_MODEL_VERSION__",
+        "format": "__REQUIRED_APPROVED_MODEL_FORMAT__"
+      },
+      "sku": {
+        "name": "__REQUIRED_DEPLOYMENT_SKU__",
+        "capacity": "__REQUIRED_DEPLOYMENT_CAPACITY_REPLACE_WITH_JSON_INTEGER__"
+      },
+      "raiPolicyName": "__REQUIRED_RAI_POLICY_NAME__",
+      "versionUpgradeOption": "NoAutoUpgrade"
+    }
+  ]
+}

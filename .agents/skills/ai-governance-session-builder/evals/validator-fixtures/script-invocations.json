@@ -1,0 +1,288 @@
+{
+  "cases": [
+    {
+      "name": "paired fenced invocations",
+      "readme": "```powershell\nPS C:\\repo> & \".\\scripts\\preflight.ps1\" `\n>>   -ApprovedScope $scope\n```\n\n```bash\n$ ./scripts/preflight.sh \\\n>   --approved-scope \"$approved_scope\"\n```\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": []
+    },
+    {
+      "name": "output-capture invocations",
+      "readme": "~~~pwsh\n$result = .\\scripts\\verify.ps1 -Check Intended\n~~~\n\n~~~sh\nresult=$(./scripts/verify.sh --check intended)\n~~~\n",
+      "pairs": [
+        [
+          "verify.ps1",
+          "verify.sh"
+        ]
+      ],
+      "expectedFailures": []
+    },
+    {
+      "name": "explicit shell launchers",
+      "readme": "```powershell\npwsh -NoProfile -File \".\\scripts\\deploy.ps1\" `\n  -ApprovedScope $scope\n```\n\n```bash\nbash \"./scripts/deploy.sh\" \\\n  --approved-scope \"$approved_scope\"\n```\n",
+      "pairs": [
+        [
+          "deploy.ps1",
+          "deploy.sh"
+        ]
+      ],
+      "expectedFailures": []
+    },
+    {
+      "name": "prose-only mentions",
+      "readme": "Run scripts/preflight.ps1 or scripts/preflight.sh before deployment.\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": [
+        "implementation/README.md must present a PowerShell command for scripts/preflight.ps1",
+        "implementation/README.md must present a Bash command for scripts/preflight.sh"
+      ]
+    },
+    {
+      "name": "markdown links",
+      "readme": "[PowerShell preflight](scripts/preflight.ps1) and [Bash preflight](scripts/preflight.sh)\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": [
+        "implementation/README.md must present a PowerShell command for scripts/preflight.ps1",
+        "implementation/README.md must present a Bash command for scripts/preflight.sh"
+      ]
+    },
+    {
+      "name": "echo and Write-Host output",
+      "readme": "```powershell\nWrite-Host \"See scripts/preflight.ps1\"\n```\n\n```bash\necho \"See scripts/preflight.sh\"\n```\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": [
+        "implementation/README.md must present a PowerShell command for scripts/preflight.ps1",
+        "implementation/README.md must present a Bash command for scripts/preflight.sh"
+      ]
+    },
+    {
+      "name": "comment-only mentions",
+      "readme": "```powershell\n# .\\scripts\\preflight.ps1\n<#\n& \".\\scripts\\preflight.ps1\"\n#>\n```\n\n```bash\n# ./scripts/preflight.sh\n```\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": [
+        "implementation/README.md must present a PowerShell command for scripts/preflight.ps1",
+        "implementation/README.md must present a Bash command for scripts/preflight.sh"
+      ]
+    },
+    {
+      "name": "quoted string mentions",
+      "readme": "```powershell\n$message = \"Run .\\scripts\\preflight.ps1\"\n'.\\scripts\\preflight.ps1'\n```\n\n```bash\nmessage=\"Run ./scripts/preflight.sh\"\n```\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": [
+        "implementation/README.md must present a PowerShell command for scripts/preflight.ps1",
+        "implementation/README.md must present a Bash command for scripts/preflight.sh"
+      ]
+    },
+    {
+      "name": "links inside command fences",
+      "readme": "```powershell\n[preflight](.\\scripts\\preflight.ps1)\n```\n\n```bash\n[preflight](./scripts/preflight.sh)\n```\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": [
+        "implementation/README.md must present a PowerShell command for scripts/preflight.ps1",
+        "implementation/README.md must present a Bash command for scripts/preflight.sh"
+      ]
+    },
+    {
+      "name": "path string assignments",
+      "readme": "```powershell\n$preflight = \".\\scripts\\preflight.ps1\"\n```\n\n```bash\npreflight=\"./scripts/preflight.sh\"\n```\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": [
+        "implementation/README.md must present a PowerShell command for scripts/preflight.ps1",
+        "implementation/README.md must present a Bash command for scripts/preflight.sh"
+      ]
+    },
+    {
+      "name": "here-document and here-string content",
+      "readme": "```powershell\n$example = @'\n.\\scripts\\preflight.ps1\n'@\n```\n\n```bash\ncat <<'EXAMPLE'\n./scripts/preflight.sh\nEXAMPLE\n```\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": [
+        "implementation/README.md must present a PowerShell command for scripts/preflight.ps1",
+        "implementation/README.md must present a Bash command for scripts/preflight.sh"
+      ]
+    },
+    {
+      "name": "invocations hidden by raw HTML",
+      "readme": "<template>\n```powershell\n.\\scripts\\preflight.ps1\n```\n\n```bash\n./scripts/preflight.sh\n```\n</template>\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": [
+        "implementation/README.md must present a PowerShell command for scripts/preflight.ps1",
+        "implementation/README.md must present a Bash command for scripts/preflight.sh"
+      ]
+    },
+    {
+      "name": "invocations hidden by span",
+      "readme": "<span hidden>\n```powershell\n.\\scripts\\preflight.ps1\n```\n\n```bash\n./scripts/preflight.sh\n```\n</span>\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": [
+        "implementation/README.md must present a PowerShell command for scripts/preflight.ps1",
+        "implementation/README.md must present a Bash command for scripts/preflight.sh"
+      ]
+    },
+    {
+      "name": "invocations hidden by multiline html tag",
+      "readme": "<div\n hidden>\n```powershell\n.\\scripts\\preflight.ps1\n```\n\n```bash\n./scripts/preflight.sh\n```\n</div>\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": [
+        "implementation/README.md must present a PowerShell command for scripts/preflight.ps1",
+        "implementation/README.md must present a Bash command for scripts/preflight.sh"
+      ]
+    },
+    {
+      "name": "multiline quoted string mentions",
+      "readme": "```powershell\n$message = \"Run this later:\n.\\scripts\\preflight.ps1\n\"\n```\n\n```bash\nmessage='Run this later:\n./scripts/preflight.sh\n'\n```\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": [
+        "implementation/README.md must present a PowerShell command for scripts/preflight.ps1",
+        "implementation/README.md must present a Bash command for scripts/preflight.sh"
+      ]
+    },
+    {
+      "name": "commands after multiline quoted strings",
+      "readme": "```powershell\n$message = 'Do not run:\n.\\scripts\\preflight.ps1\n'\n.\\scripts\\preflight.ps1\n```\n\n```bash\nmessage=\"Do not run:\n./scripts/preflight.sh\n\"\n./scripts/preflight.sh\n```\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": []
+    },
+    {
+      "name": "escaped heredoc delimiter content",
+      "readme": "```powershell\n.\\scripts\\preflight.ps1\n```\n\n```bash\ncat <<\\EOF\n./scripts/preflight.sh\nEOF\n```\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": [
+        "implementation/README.md must present a Bash command for scripts/preflight.sh"
+      ]
+    },
+    {
+      "name": "space-indented heredoc terminator",
+      "readme": "```powershell\n.\\scripts\\preflight.ps1\n```\n\n```bash\ncat <<EOF\n  EOF\n./scripts/preflight.sh\nEOF\n```\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": [
+        "implementation/README.md must present a Bash command for scripts/preflight.sh"
+      ]
+    },
+    {
+      "name": "space before tab-stripped heredoc terminator",
+      "readme": "```powershell\n.\\scripts\\preflight.ps1\n```\n\n```bash\ncat <<-EOF\n \tEOF\n./scripts/preflight.sh\nEOF\n```\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": [
+        "implementation/README.md must present a Bash command for scripts/preflight.sh"
+      ]
+    },
+    {
+      "name": "commands after closed here constructs",
+      "readme": "```powershell\n$message = @'\n.\\scripts\\preflight.ps1\n'@\n.\\scripts\\preflight.ps1\n```\n\n```bash\ncat <<-\"EOF\"\n./scripts/preflight.sh\n\tEOF\n./scripts/preflight.sh\n```\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": []
+    },
+    {
+      "name": "command after escaped heredoc delimiter",
+      "readme": "```powershell\n.\\scripts\\preflight.ps1\n```\n\n```bash\ncat <<\\EOF\n./scripts/preflight.sh\nEOF\n./scripts/preflight.sh\n```\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": []
+    },
+    {
+      "name": "command after multiple heredocs",
+      "readme": "```powershell\n.\\scripts\\preflight.ps1\n```\n\n```bash\ncat <<'FIRST' <<-\\SECOND\n./scripts/preflight.sh\nFIRST\n./scripts/preflight.sh\n\tSECOND\n./scripts/preflight.sh\n```\n",
+      "pairs": [
+        [
+          "preflight.ps1",
+          "preflight.sh"
+        ]
+      ],
+      "expectedFailures": []
+    }
+  ]
+}

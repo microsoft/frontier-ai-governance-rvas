@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "11-foundry-evaluations-quality-gates",
+  "recordType": "payload-free-release-evaluation-record",
+  "releaseOwner": "__REQUIRED_RELEASE_OWNER_ROLE__",
+  "agentName": "__REQUIRED_AGENT_NAME__",
+  "agentVersion": "__REQUIRED_CANDIDATE_AGENT_VERSION__",
+  "datasetSha256": "__REQUIRED_GOLDEN_DATASET_SHA256__",
+  "foundryRunId": null,
+  "foundryReportUrl": null,
+  "gateDecision": "pending",
+  "decisionDate": null,
+  "metricSummary": [],
+  "privacy": {
+    "containsPrompts": false,
+    "containsResponses": false,
+    "containsToolPayloads": false,
+    "containsEvaluatorReasons": false,
+    "containsPersonalData": false
+  },
+  "implementationMarker": "implementationSession=11-foundry-evaluations-quality-gates"
+}

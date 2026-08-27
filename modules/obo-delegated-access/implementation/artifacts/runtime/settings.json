@@ -1,0 +1,15 @@
+{
+  "tenantId": "__REQUIRED_TENANT_ID__",
+  "middleTierClientId": "__REQUIRED_MIDDLE_TIER_APPLICATION_ID__",
+  "middleTierAudience": "__REQUIRED_MIDDLE_TIER_AUDIENCE__",
+  "inboundScope": "access_as_user",
+  "allowedCallerClientIds": [
+    "__REQUIRED_CLIENT_APPLICATION_ID__"
+  ],
+  "downstreamScope": "__REQUIRED_DOWNSTREAM_SCOPE__",
+  "downstreamEndpoint": "__REQUIRED_DOWNSTREAM_ENDPOINT__",
+  "certificatePath": "__REQUIRED_CERTIFICATE_MOUNT_PATH__",
+  "requestTimeoutSeconds": 10,
+  "implementationSession": "optional-module-obo-delegated-access"
+}
+

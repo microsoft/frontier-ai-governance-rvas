@@ -1,0 +1,36 @@
+schema_version: 2
+session:
+  id: "{{SESSION_ID}}"
+  slug: "{{SESSION_SLUG}}"
+  title: "{{SESSION_TITLE}}"
+  duration_minutes: {{DURATION_MINUTES}}
+  status: "draft"
+  last_verified: "{{CURRENT_DATE}}"
+  audience:
+    - "{{AUDIENCE}}"
+  prerequisites:
+    - "The approved subscription and exact implementation scope are recorded in deployment-inputs.json."
+  dependencies:
+    - "{{DEPENDENCY}}"
+  # Name deployment, configuration, or validation. Use "enforce" only when the platform blocks every in-scope change path.
+  control_objective: "{{CONTROL_OBJECTIVE}}"
+implementation:
+  mode: "standard"
+implementation_outcomes:
+  - "{{OUTCOME_1}}"
+  - "{{OUTCOME_2}}"
+  - "{{OUTCOME_3}}"
+deliverables:
+  implementation: "implementation/README.md"
+  deck: "deck.md"
+  leave_behind:
+    - "implementation/artifacts/deployment-inputs.json"
+retained_files:
+  - path: "implementation/artifacts/deployment-inputs.json"
+    consumer: "The preflight scripts and approved deployment process"
+    operational_purpose: "Bind the deployment to the recorded scope, owner, name, and preview capability."
+sources:
+  - title: "{{SOURCE_TITLE}}"
+    url: "https://learn.microsoft.com/TODO"
+    accessed: "{{CURRENT_DATE}}"
+    supports: "{{SOURCE_SUPPORTS}}"

@@ -1,0 +1,56 @@
+{
+  "skill_name": "ai-governance-session-builder",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create Session 01, \"Microsoft Foundry platform baseline and inventory,\" as a 180-minute standard guided co-implementation kit. Include schema version 2, one production-shaped Bicep artifacts tree, decision-gated preflight, one concise observable check of the operational baseline, a documented restore or removal path, and an RVAP Marp implementation briefing. Do not create an evidence package, test resources, or fixture cleanup.",
+      "expected_output": "A self-contained schema-version 2 sessions/01-platform-baseline kit that validates and renders.",
+      "files": [],
+      "expectations": [
+        "The kit contains session.yaml, deck.md, assets, implementation/README.md, implementation files, and preflight.",
+        "The manifest declares standard mode and has three to five plain-language outcomes.",
+        "One syntactically valid artifacts tree uses explicit decision sentinels only where customer choices remain.",
+        "Preflight rejects unresolved decision sentinels and validates tools and files.",
+        "The implementation document contains one concise check and a clear operating-state and restore or removal section.",
+        "The scope chapter uses What we will do, Why it matters, and Boundaries in that order.",
+        "The kit contains no implementation guide, evidence tree, verification script, or fixture-cleanup script.",
+        "The implementation briefing covers the implementation without proof or evidence sections.",
+        "The validator and temporary Marp render pass."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Create Session 09, \"MCP and tool security,\" as a complete 210-minute extended guided co-implementation kit. Govern a read-only REST API exposed as an MCP server through Azure API Management. The customer release process explicitly requires observation of an approved read, a blocked unlisted tool or write, and a delivery-owner checkpoint. Record that reason in the manifest. Do not create test fixtures or an evidence package.",
+      "expected_output": "A complete schema-version 2 sessions/09-mcp-tool-security kit with current sources and a justified extended implementation path.",
+      "files": [],
+      "expectations": [
+        "The session declares extended mode with a specific delivery reason.",
+        "The implementation document covers the intended path, blocked path, and delivery-owner checkpoint.",
+        "The scope chapter separates the owned work, its operational reason, and its enforcement boundary.",
+        "The session uses one implementation files tree and creates no disposable test resources.",
+        "Any optional verification script stops on errors and writes no evidence package.",
+        "The deck is an RVAP implementation briefing and renders successfully."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Audit and repair the attached inconsistent Session 11 draft. Preserve its four-hour control scope while migrating it to the implementation-first schema-version 2 contract. Justify extended mode because the release owner must observe both passing and blocked promotion behavior. Replace stale terminology and sources, add production-shaped evaluation and release-gate artifacts, repair preflight, restore the RVAP deck, and keep restore guidance proportional to the implemented control. Do not add an evidence tree or lab test fixtures.",
+      "expected_output": "A repaired schema-version 2 sessions/11-evaluation-quality-gates kit that validates and renders.",
+      "files": [
+        "evals/files/inconsistent-session/session.yaml",
+        "evals/files/inconsistent-session/deck.md",
+        "evals/files/inconsistent-session/implementation/README.md",
+        "evals/files/inconsistent-session/implementation/artifacts/README.md"
+      ],
+      "expectations": [
+        "The repaired kit uses only the required version 2 paths.",
+        "The manifest uses plain outcomes and justified extended mode.",
+        "The implementation document covers passing and degraded release behavior plus the delivery-owner checkpoint.",
+        "The scope chapter distinguishes the callable eligibility gate from the later promotion path.",
+        "The approved evaluation configuration and release gate are runnable without disposable lab resources.",
+        "Preflight gates unresolved inputs and any removal automation is scope-safe.",
+        "Validation and temporary rendering pass."
+      ]
+    }
+  ]
+}

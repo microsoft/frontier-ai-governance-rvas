@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "06-governed-agent-baseline",
+  "tools": [
+    {
+      "type": "openapi",
+      "openapi": {
+        "name": "policy_lookup",
+        "description": "Read one approved policy record by identifier. This tool cannot create, update, approve, publish, or delete a record.",
+        "spec": {
+          "openapi": "3.0.1",
+          "info": {
+            "title": "Approved policy lookup",
+            "version": "1.0.0"
+          },
+          "servers": [
+            {
+              "url": "__RUNTIME_READ_API_BASE_URL__"
+            }
+          ],
+          "paths": {
+            "__REQUIRED_READ_PATH__": {
+              "get": {
+                "operationId": "get_policy",
+                "summary": "Read one policy record",
+                "parameters": [
+                  {
+                    "name": "policyId",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                      "type": "string",
+                      "maxLength": 128
+                    }
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Policy record returned"
+                  },
+                  "404": {
+                    "description": "Policy record not found"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "auth": {
+          "type": "managed_identity",
+          "identityUsedForDirectCall": "Foundry project managed identity",
+          "agentIdentityPurpose": "The separate Entra Agent Identity identifies the agent and secures its endpoint; this direct application-only OpenAPI call does not use it.",
+          "authorizationMode": "application_only",
+          "humanTokenBoundary": "No signed-in human token is propagated to the downstream API in this direct OpenAPI path.",
+          "perUserAuthorizationBoundary": "Require a separately approved delegated-access implementation when the downstream API must authorize each signed-in user.",
+          "authorizationOwner": "__REQUIRED_DOWNSTREAM_API_AUTHORIZATION_OWNER__",
+          "requiredRoleDefinitionId": "__REQUIRED_DOWNSTREAM_API_READ_ROLE_ID__",
+          "assignmentScope": "__REQUIRED_DOWNSTREAM_API_READ_SCOPE__",
+          "security_scheme": {
+            "audience": "__REQUIRED_TARGET_AUDIENCE__"
+          }
+        }
+      }
+    }
+  ]
+}

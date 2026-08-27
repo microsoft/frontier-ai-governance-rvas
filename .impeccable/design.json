@@ -1,111 +1,246 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-27T08:55:52.317+02:00",
-  "title": "Design System: AI Governance Platform",
+  "generatedAt": "2026-08-24T11:44:52.6020874+02:00",
+  "title": "Design System: Practical Microsoft AI Governance",
   "extensions": {
     "colorMeta": {
       "rvap-blue": {
         "role": "primary",
         "displayName": "RVAP Blue",
-        "canonical": "#1A77E3",
-        "tonalRamp": ["#032254", "#063A75", "#0B579F", "#1A77E3", "#4B96EA", "#8ABCF3", "#BFDBFE", "#E6F0FF"]
+        "canonical": "#1a77e3",
+        "tonalRamp": [
+          "#061a33",
+          "#0b3261",
+          "#104a90",
+          "#1562be",
+          "#1a77e3",
+          "#5a9deb",
+          "#98c3f4",
+          "#dbeafe"
+        ]
       },
-      "deep-navy": {
-        "role": "primary",
-        "displayName": "Deep Navy",
-        "canonical": "#032254",
-        "tonalRamp": ["#020A1A", "#031434", "#032254", "#0F3A7A", "#245B9F", "#6E9BD0", "#BFDBFE", "#EEF6FF"]
+      "microsoft-blue": {
+        "role": "secondary",
+        "displayName": "Microsoft Blue",
+        "canonical": "#0078d4",
+        "tonalRamp": [
+          "#00192d",
+          "#003158",
+          "#004b84",
+          "#0064b0",
+          "#0078d4",
+          "#4ca0df",
+          "#91c6eb",
+          "#dceffc"
+        ]
       },
-      "surface-blue-wash": {
+      "navy": {
         "role": "neutral",
-        "displayName": "Blue-Wash Canvas",
-        "canonical": "#F5F8FE",
-        "tonalRamp": ["#1F2937", "#475569", "#94A3B8", "#DDE6F7", "#EEF1FA", "#F5F8FE", "#FAFBFD", "#FFFFFF"]
+        "displayName": "RVAS Navy",
+        "canonical": "#032254",
+        "tonalRamp": [
+          "#020b1a",
+          "#03142f",
+          "#032254",
+          "#0f3a7a",
+          "#315b94",
+          "#6684ad",
+          "#a8bad1",
+          "#edf3fa"
+        ]
+      },
+      "mid-navy": {
+        "role": "neutral",
+        "displayName": "Mid Navy",
+        "canonical": "#0f3a7a",
+        "tonalRamp": [
+          "#061022",
+          "#0a2349",
+          "#0f3a7a",
+          "#24548f",
+          "#4b73a6",
+          "#7895bd",
+          "#b3c4d7",
+          "#edf2f8"
+        ]
+      },
+      "hero-accent": {
+        "role": "secondary",
+        "displayName": "Hero Accent",
+        "canonical": "#bfdbfe",
+        "tonalRamp": [
+          "#142335",
+          "#29486d",
+          "#426fa4",
+          "#6498d6",
+          "#8fbcf0",
+          "#bfdbfe",
+          "#d8e9ff",
+          "#f1f7ff"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Blue White Surface",
+        "canonical": "#f5f8fe",
+        "tonalRamp": [
+          "#18202e",
+          "#354153",
+          "#59677a",
+          "#8290a3",
+          "#abb8ca",
+          "#d1dae8",
+          "#e7edf6",
+          "#f5f8fe"
+        ]
+      },
+      "muted-surface": {
+        "role": "neutral",
+        "displayName": "Muted Blue Surface",
+        "canonical": "#eef1fa",
+        "tonalRamp": [
+          "#1b1e28",
+          "#3a3f50",
+          "#60677c",
+          "#8991a6",
+          "#b2b9cd",
+          "#d3d8e7",
+          "#e5e8f2",
+          "#f5f6fb"
+        ]
       },
       "ink": {
         "role": "neutral",
-        "displayName": "Ink",
+        "displayName": "Primary Ink",
         "canonical": "#111827",
-        "tonalRamp": ["#030712", "#111827", "#374151", "#6B7280", "#9CA3AF", "#D1D5DB", "#E5E7EB", "#F9FAFB"]
+        "tonalRamp": [
+          "#070a10",
+          "#111827",
+          "#293244",
+          "#465167",
+          "#68748a",
+          "#949dac",
+          "#c4c9d1",
+          "#f2f3f5"
+        ]
       },
-      "assurance-red": {
-        "role": "tertiary",
-        "displayName": "Assurance Red",
-        "canonical": "#DC2626",
-        "tonalRamp": ["#450A0A", "#7F1D1D", "#991B1B", "#DC2626", "#F87171", "#FCA5A5", "#FECACA", "#FEF2F2"]
-      },
-      "govern-teal": {
+      "phase-assurance": {
         "role": "secondary",
-        "displayName": "Govern Teal",
-        "canonical": "#14868A",
-        "tonalRamp": ["#042F2E", "#134E4A", "#0F766E", "#14868A", "#2DD4BF", "#99F6E4", "#CCFBF1", "#F0FDFA"]
+        "displayName": "Assurance Teal",
+        "canonical": "#14868a",
+        "tonalRamp": [
+          "#051c1d",
+          "#0a383a",
+          "#0f585b",
+          "#14777b",
+          "#27999d",
+          "#64b8bb",
+          "#a6d7d9",
+          "#e8f5f5"
+        ]
+      },
+      "phase-operations": {
+        "role": "secondary",
+        "displayName": "Operations Purple",
+        "canonical": "#504092",
+        "tonalRamp": [
+          "#120e22",
+          "#251c43",
+          "#382d66",
+          "#504092",
+          "#6d5aab",
+          "#9587c5",
+          "#c2b9df",
+          "#f0edf8"
+        ]
       }
     },
     "typographyMeta": {
       "display": {
-        "displayName": "Executive Display",
-        "purpose": "Hero headlines and major page statements."
+        "displayName": "Display",
+        "purpose": "The first-viewport promise and major section propositions."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section handoffs and large operational statements."
+      },
+      "title": {
+        "displayName": "Record Title",
+        "purpose": "Session, route, and compact card names."
       },
       "body": {
-        "displayName": "Facilitator Body",
-        "purpose": "Long-form governance guidance and workshop copy."
+        "displayName": "Body",
+        "purpose": "Explanatory prose and evidence descriptions."
       },
       "label": {
-        "displayName": "Evidence Coordinate Label",
-        "purpose": "Eyebrows, badges, session codes, statistics, and metadata."
+        "displayName": "Technical Label",
+        "purpose": "Dates, phase ranges, durations, service names, and code coordinates."
       }
     },
     "shadows": [
       {
-        "name": "ambient-low",
-        "value": "0 4px 20px -8px rgba(3, 34, 84, 0.12), 0 1px 3px rgba(3, 34, 84, 0.06)",
-        "purpose": "Soft resting elevation for low-emphasis surfaces."
-      },
-      {
-        "name": "card-lift",
+        "name": "card",
         "value": "0 1px 3px rgba(3, 34, 84, 0.08), 0 4px 12px rgba(3, 34, 84, 0.06)",
-        "purpose": "Default cards, diagrams, dropdowns, and structured containers."
+        "purpose": "Low blue-tinted depth for compact records."
       },
       {
-        "name": "hero-glass-lift",
+        "name": "lift",
+        "value": "0 10px 28px -12px rgba(3, 34, 84, 0.28), 0 2px 6px rgba(3, 34, 84, 0.08)",
+        "purpose": "Open sessions, focused overlays, and mobile navigation."
+      },
+      {
+        "name": "hero",
         "value": "0 24px 60px rgba(3, 34, 84, 0.28)",
-        "purpose": "Dark-hero statistics and glass panels only."
-      },
-      {
-        "name": "modal-lift",
-        "value": "0 18px 48px -12px rgba(3, 34, 84, 0.35), 0 1px 3px rgba(3, 34, 84, 0.08), 0 4px 12px rgba(3, 34, 84, 0.06)",
-        "purpose": "Search and temporary overlays."
+        "purpose": "The first viewport's outcome panel and stat tray."
       }
     ],
     "motion": [
       {
-        "name": "ease-standard",
+        "name": "ease-out",
         "value": "cubic-bezier(0.22, 1, 0.36, 1)",
-        "purpose": "Default easing for hover lifts, reveals, and compact state changes."
+        "purpose": "Short lifts, disclosure turns, and menu changes."
       },
       {
-        "name": "state-fast",
-        "value": "0.18s",
-        "purpose": "Buttons and link state transitions."
+        "name": "state-transition",
+        "value": "180ms ease",
+        "purpose": "Color, border, opacity, and background state changes."
       },
       {
-        "name": "reveal",
-        "value": "0.6s cubic-bezier(0.22, 1, 0.36, 1)",
-        "purpose": "Section reveal transitions, disabled under reduced motion."
+        "name": "record-transition",
+        "value": "220ms cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Session-card and phase-card interaction."
+      },
+      {
+        "name": "document-scroll",
+        "value": "smooth",
+        "purpose": "Internal navigation until reduced motion changes the behavior to auto."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "scroll-behavior: auto; transition: none; animation: none",
+        "purpose": "Removes authored motion when the user requests reduced motion."
       }
     ],
     "breakpoints": [
       {
-        "name": "tablet",
-        "value": "768px"
+        "name": "two-column-register",
+        "value": "1100px",
+        "purpose": "Moves session, evidence, and control-plane records to two columns."
       },
       {
-        "name": "hero-two-column",
-        "value": "900px"
+        "name": "stacked-navigation",
+        "value": "900px",
+        "purpose": "Stacks the hero and architecture, opens mobile navigation, and turns responsibility rows into cards."
       },
       {
-        "name": "wide-nav",
-        "value": "1280px"
+        "name": "single-column-reading",
+        "value": "760px",
+        "purpose": "Uses 24px page gutters and moves primary content grids to one column."
+      },
+      {
+        "name": "compact-phone",
+        "value": "560px",
+        "purpose": "Compacts header, hero, cards, and session metadata."
       }
     ]
   },
@@ -114,116 +249,93 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "The decisive action control, blue on light surfaces and white on dark heroes.",
-      "html": "<button class=\"ds-btn-primary\">See the customer journey</button>",
-      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 7px; padding: 11px 22px; border: none; border-radius: 7px; background: var(--c-accent, #1A77E3); color: #fff; font-family: var(--font-body, Inter, system-ui, sans-serif); font-size: 0.9rem; font-weight: 600; line-height: 1; box-shadow: 0 4px 20px -6px rgba(26, 119, 227, 0.10); transition: opacity 0.18s, transform 0.18s cubic-bezier(0.22, 1, 0.36, 1); } .ds-btn-primary:hover { opacity: 0.9; } .ds-btn-primary:active { transform: scale(0.97); } .ds-btn-primary:focus-visible { outline: 2px solid var(--c-accent, #1A77E3); outline-offset: 3px; }"
+      "description": "Compact RVAP Blue action with a soft blue lift.",
+      "html": "<a class=\"ds-button\" href=\"#sessions\">Browse the 15 sessions<svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M4 10h11M11 6l4 4-4 4\"></path></svg></a>",
+      "css": ".ds-button { min-height: 42px; padding: 11px 22px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 1px solid transparent; border-radius: 7px; background: #1a77e3; color: #fff; box-shadow: 0 4px 20px -6px rgba(26,119,227,.62); font-family: Aptos, Inter, \"Segoe UI\", sans-serif; font-size: .9rem; font-weight: 600; line-height: 1; text-decoration: none; transition: transform .18s cubic-bezier(.22,1,.36,1), opacity .18s; } .ds-button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; } .ds-button:hover { opacity: .92; transform: translateY(-1px); } .ds-button:focus-visible { outline: 2px solid #1a77e3; outline-offset: 3px; }"
     },
     {
-      "name": "Ghost Button",
-      "kind": "button",
-      "refersTo": "button-ghost",
-      "description": "Secondary action that keeps the page quiet until the user hovers or focuses.",
-      "html": "<button class=\"ds-btn-ghost\">View the sessions</button>",
-      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; gap: 7px; padding: 11px 22px; border: 1px solid var(--c-line, #E3E6ED); border-radius: 7px; background: transparent; color: var(--c-fg, #111827); font-family: var(--font-body, Inter, system-ui, sans-serif); font-size: 0.9rem; font-weight: 600; line-height: 1; transition: background 0.18s, border-color 0.18s, transform 0.18s cubic-bezier(0.22, 1, 0.36, 1); } .ds-btn-ghost:hover { background: var(--c-600, #EEF1FA); border-color: var(--c-dim, #47494E); } .ds-btn-ghost:active { transform: scale(0.97); } .ds-btn-ghost:focus-visible { outline: 2px solid var(--c-accent, #1A77E3); outline-offset: 3px; }"
+      "name": "Phase Filters",
+      "kind": "chip",
+      "refersTo": "phase-filter",
+      "description": "White filter controls with an explicit Mid Navy selected state.",
+      "html": "<div class=\"ds-filters\" role=\"group\" aria-label=\"Filter sessions\"><button aria-pressed=\"true\">All / 15</button><button aria-pressed=\"false\">Foundation / 1-6</button><button aria-pressed=\"false\">Assurance / 7-12</button></div>",
+      "css": ".ds-filters { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px; border: 1px solid #e3e6ed; border-radius: 12px; background: #f5f8fe; } .ds-filters button { min-height: 38px; padding: 8px 12px; border: 1px solid #e3e6ed; border-radius: 7px; background: #fff; color: #47494e; font-family: Aptos, Inter, \"Segoe UI\", sans-serif; font-size: .78rem; font-weight: 600; } .ds-filters button[aria-pressed=\"true\"] { border-color: #0f3a7a; background: #0f3a7a; color: #fff; } .ds-filters button:focus-visible { outline: 2px solid #1a77e3; outline-offset: 3px; }"
     },
     {
-      "name": "Navigation",
-      "kind": "nav",
-      "refersTo": "nav-link",
-      "description": "Sticky white brand shell with compact decision-oriented labels.",
-      "html": "<nav class=\"ds-nav\"><span class=\"ds-nav-brand\">RVAP</span><a class=\"ds-nav-link ds-nav-link-active\" href=\"#\">Home</a><a class=\"ds-nav-link\" href=\"#\">Sessions</a><button class=\"ds-nav-icon\" aria-label=\"Search\">⌕</button></nav>",
-      "css": ".ds-nav { display: flex; align-items: center; gap: 8px; min-height: 58px; padding: 0 24px; border: 1px solid var(--c-line, #E3E6ED); border-radius: 12px; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(16px) saturate(160%); font-family: var(--font-body, Inter, system-ui, sans-serif); } .ds-nav-brand { margin-right: auto; color: var(--c-heading, #032254); font-family: var(--font-display, Outfit, system-ui, sans-serif); font-weight: 700; } .ds-nav-link { padding: 6px 11px; border-radius: 7px; color: var(--c-dim, #47494E); font-size: 0.875rem; font-weight: 500; text-decoration: none; transition: color 0.2s, background 0.2s; } .ds-nav-link:hover, .ds-nav-link-active { color: var(--c-fg, #111827); background: var(--c-600, #EEF1FA); } .ds-nav-icon { width: 36px; height: 36px; border: 0; border-radius: 7px; background: transparent; color: var(--c-dim, #47494E); } .ds-nav-icon:hover { background: var(--c-600, #EEF1FA); color: var(--c-fg, #111827); } .ds-nav-link:focus-visible, .ds-nav-icon:focus-visible { outline: 2px solid var(--c-accent, #1A77E3); outline-offset: 2px; }"
+      "name": "Register Search",
+      "kind": "input",
+      "refersTo": "search-field",
+      "description": "Compact white search field on a pale-blue control surface.",
+      "html": "<label class=\"ds-search\"><span>Search register</span><span class=\"ds-search-field\"><svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"8.5\" cy=\"8.5\" r=\"5.5\"></circle><path d=\"m13 13 4 4\"></path></svg><input type=\"search\" placeholder=\"Try APIM, identity, evidence...\"></span></label>",
+      "css": ".ds-search { display: grid; gap: 6px; color: #6b7280; font: 600 .62rem/1.35 \"Cascadia Code\", \"JetBrains Mono\", monospace; letter-spacing: .08em; text-transform: uppercase; } .ds-search-field { min-height: 42px; padding: 0 11px; display: flex; align-items: center; border: 1px solid #e3e6ed; border-radius: 7px; background: #fff; } .ds-search-field:focus-within { border-color: #1a77e3; box-shadow: 0 0 0 3px rgba(26,119,227,.12); } .ds-search svg { width: 18px; fill: none; stroke: #6b7280; stroke-width: 1.5; } .ds-search input { width: 100%; height: 40px; padding-left: 9px; border: 0; outline: 0; color: #111827; font: 400 .88rem/1.4 Aptos, Inter, \"Segoe UI\", sans-serif; }"
+    },
+    {
+      "name": "Program Outcome",
+      "kind": "card",
+      "refersTo": "program-outcome",
+      "description": "The first viewport's customer-owned deployment and governance-kit summary.",
+      "html": "<aside class=\"ds-outcome\"><div class=\"ds-outcome-head\"><span>Customer-owned outcome</span><span>15 sessions</span></div><h3>A working deployment and a version-controlled governance kit.</h3><div class=\"ds-outcome-line\"><b>Deployment</b><span><strong>Build the working path.</strong><small>Deploy the governed agent and private dependencies.</small></span></div><div class=\"ds-outcome-line\"><b>Outputs</b><span><strong>Retain useful controls.</strong><small>Keep production-shaped configuration and normal operational records.</small></span></div></aside>",
+      "css": ".ds-outcome { padding: 30px; display: grid; gap: 18px; border: 1px solid rgba(255,255,255,.24); border-radius: 18px; background: linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.06)),#032254; color: #fff; box-shadow: 0 24px 60px rgba(3,34,84,.28); } .ds-outcome-head { display: flex; justify-content: space-between; color: rgba(255,255,255,.72); font: 600 .66rem/1.35 \"Cascadia Code\", \"JetBrains Mono\", monospace; letter-spacing: .1em; text-transform: uppercase; } .ds-outcome h3 { max-width: 19ch; margin: 0; color: #fff; font: 700 2rem/1.12 \"Aptos Display\", Outfit, \"Segoe UI\", sans-serif; letter-spacing: -.015em; } .ds-outcome-line { padding: 15px 16px 15px 20px; display: grid; grid-template-columns: 86px 1fr; gap: 14px; border: 1px solid rgba(255,255,255,.2); border-radius: 12px; background: rgba(255,255,255,.1); } .ds-outcome-line b { color: rgba(255,255,255,.7); font: 600 .64rem/1.35 \"Cascadia Code\", \"JetBrains Mono\", monospace; letter-spacing: .1em; text-transform: uppercase; } .ds-outcome-line span { display: grid; gap: 4px; } .ds-outcome-line strong { font: 700 .96rem/1.35 Aptos, Inter, \"Segoe UI\", sans-serif; } .ds-outcome-line small { color: rgba(255,255,255,.74); font: 400 .87rem/1.5 Aptos, Inter, \"Segoe UI\", sans-serif; }"
     },
     {
       "name": "Session Card",
-      "kind": "card",
-      "refersTo": "card",
-      "description": "A structured session handoff card with phase color, code chip, and evidence outcome.",
-      "html": "<article class=\"ds-session-card\"><div class=\"ds-session-chip\">S7</div><h3>Quality, Safety Evaluation & Release Assurance</h3><p><strong>Durable outcome</strong><br>Evaluation and release-gate decision with evidence package.</p></article>",
-      "css": ".ds-session-card { position: relative; overflow: hidden; display: grid; gap: 14px; padding: 24px 22px 20px; border: 1px solid var(--c-line, #E3E6ED); border-radius: 12px; background: var(--c-800, #FFFFFF); box-shadow: 0 1px 3px rgba(3, 34, 84, 0.08), 0 4px 12px rgba(3, 34, 84, 0.06); color: var(--c-fg, #111827); transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s; } .ds-session-card::before { content: \"\"; position: absolute; inset: 0 0 auto 0; height: 3px; background: #504092; } .ds-session-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px -12px rgba(3, 34, 84, 0.28), 0 2px 6px rgba(3, 34, 84, 0.08); } .ds-session-chip { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 7px; background: #504092; color: #fff; font-family: var(--font-mono, monospace); font-weight: 600; } .ds-session-card h3 { margin: 0; color: var(--c-heading, #032254); font-family: var(--font-display, Outfit, system-ui, sans-serif); font-size: 1.1rem; line-height: 1.2; } .ds-session-card p { margin: 0; color: var(--c-dim, #47494E); font-size: 0.9rem; line-height: 1.6; } .ds-session-card strong { color: var(--c-faint, #6B7280); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; }"
-    },
-    {
-      "name": "Status Badge",
-      "kind": "chip",
-      "refersTo": "badge",
-      "description": "Compact semantic metadata for status, phase, persona, and framework alignment.",
-      "html": "<span class=\"ds-badge\">Preview</span>",
-      "css": ".ds-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 7px; border: 1px solid rgba(250, 204, 21, 0.2); border-radius: 4px; background: rgba(250, 204, 21, 0.12); color: #CA8A04; font-family: var(--font-mono, monospace); font-size: 0.63rem; font-weight: 600; letter-spacing: 0.04em; line-height: 1.4; text-transform: uppercase; }"
-    },
-    {
-      "name": "Search Modal",
-      "kind": "input",
-      "refersTo": "search-input",
-      "description": "Command-palette search for cross-session navigation and evidence lookup.",
-      "html": "<div class=\"ds-search-modal\"><label class=\"ds-search-box\"><span>⌕</span><input placeholder=\"Search all content\" /></label><div class=\"ds-search-result\"><strong>Plan the engagement</strong><span>Start here</span><p>Confirm roles, readiness, safe targets, S0 baseline work, and session order.</p></div></div>",
-      "css": ".ds-search-modal { width: min(640px, 100%); overflow: hidden; border: 1px solid var(--c-line, #E3E6ED); border-radius: 18px; background: var(--c-800, #FFFFFF); box-shadow: 0 18px 48px -12px rgba(3, 34, 84, 0.35), 0 1px 3px rgba(3, 34, 84, 0.08), 0 4px 12px rgba(3, 34, 84, 0.06); font-family: var(--font-body, Inter, system-ui, sans-serif); } .ds-search-box { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--c-line, #E3E6ED); color: var(--c-faint, #6B7280); } .ds-search-box input { flex: 1; min-width: 0; border: 0; outline: none; background: transparent; color: var(--c-fg, #111827); font: inherit; font-size: 1rem; } .ds-search-result { padding: 9px 12px; margin: 6px; border-radius: 7px; } .ds-search-result:hover { background: rgba(26, 119, 227, 0.10); } .ds-search-result strong { display: block; color: var(--c-fg, #111827); font-size: 0.95rem; } .ds-search-result span { display: inline-block; margin-top: 1px; color: var(--c-accent-dim, #0078D4); font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; } .ds-search-result p { margin: 3px 0 0; color: var(--c-dim, #47494E); font-size: 0.83rem; line-height: 1.5; }"
+      "kind": "custom",
+      "refersTo": "session-card",
+      "description": "A phase-marked native disclosure record with product identity and customer proof.",
+      "html": "<details class=\"ds-session\"><summary><span class=\"ds-number\">7</span><span class=\"ds-icon\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 7h14v10H5zM8 4v3M16 4v3M8 17v3M16 17v3\"></path></svg></span><span class=\"ds-core\"><small>Azure API Management</small><strong>APIM AI gateway</strong><span>Governed AI traffic passes through a measurable enforcement point.</span></span><span class=\"ds-chevron\">+</span><em>4h</em></summary><div class=\"ds-proof\"><strong>Proof</strong><span>Invalid identity fails. Prompt content stays out of logs.</span></div></details>",
+      "css": ".ds-session { position: relative; overflow: hidden; border: 1px solid #e3e6ed; border-radius: 12px; background: #fff; color: #111827; box-shadow: 0 1px 3px rgba(3,34,84,.08),0 4px 12px rgba(3,34,84,.06); } .ds-session::before { position: absolute; inset: 0 0 auto; height: 3px; content: \"\"; background: #14868a; } .ds-session summary { padding: 22px 20px 18px; display: grid; grid-template-columns: 40px 40px minmax(0,1fr) 22px; gap: 12px; cursor: pointer; list-style: none; } .ds-number, .ds-icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 7px; } .ds-number { background: #14868a; color: #fff; font: 700 1.18rem/1 \"Cascadia Code\", \"JetBrains Mono\", monospace; } .ds-icon { background: #f5f8fe; } .ds-icon svg { width: 24px; fill: none; stroke: #0f3a7a; stroke-width: 1.5; } .ds-core { display: grid; gap: 4px; } .ds-core small { color: #0f3a7a; font: 600 .61rem/1.3 \"Cascadia Code\", \"JetBrains Mono\", monospace; letter-spacing: .05em; text-transform: uppercase; } .ds-core strong { color: #032254; font: 700 1.08rem/1.22 \"Aptos Display\", Outfit, \"Segoe UI\", sans-serif; } .ds-core span { color: #47494e; font: 400 .83rem/1.52 Aptos, Inter, \"Segoe UI\", sans-serif; } .ds-chevron { color: #6b7280; } .ds-session em { grid-column: 1 / 3; justify-self: start; padding: 5px 7px; border: 1px solid #e3e6ed; border-radius: 4px; background: #f5f8fe; color: #6b7280; font: 600 .61rem/1 \"Cascadia Code\", \"JetBrains Mono\", monospace; font-style: normal; text-transform: uppercase; } .ds-proof { padding: 20px; display: grid; gap: 6px; border-top: 1px solid #dde6f7; background: #f5f8fe; color: #47494e; font: 400 .85rem/1.55 Aptos, Inter, \"Segoe UI\", sans-serif; } .ds-proof strong { color: #032254; }"
     }
   ],
   "narrative": {
-    "northStar": "The Evidence Briefing Room",
-    "overview": "The AI Governance Platform visual system should feel like a calm executive briefing room for decisions that need evidence, owners, and safe handoff. It is calm, executive, evidence-first, facilitator-friendly, and Microsoft-aligned: a structured workspace where cross-functional leaders can scan, trust, and act without mistaking templates for proof.\n\nThe system uses RVAP light surfaces, Deep Navy authority, RVAP Blue action, and compact mono labels to create the rhythm of a professional governance packet. It avoids playful consumer SaaS, dark cyber dashboards, decorative gradients that dilute the evidence hierarchy, and fabricated proof signals.",
+    "northStar": "RVAS Governance Field Guide",
+    "overview": "A navy-to-RVAP-blue opening field introduces the program, while white and pale-blue reading surfaces carry the technical detail. Official Microsoft icons, compact cards, and restrained blue-tinted depth make the 15-session path easy to scan without turning it into a dashboard. The full source ledger lives on its own page so it does not interrupt the program path.",
     "keyCharacteristics": [
-      "Light, breathable documentation canvas with restrained institutional color.",
-      "Strong navy-to-blue hero moments reserved for orientation and confidence.",
-      "Cards, chips, and session rails that clarify ownership, phase, evidence, and sequence.",
-      "Mono labels used as coordinates, not as decoration.",
-      "Motion and depth kept subtle so content remains the product."
+      "RVAS navy and blue visual identity",
+      "White and pale-blue reading surfaces",
+      "Compact, rounded technical records",
+      "Official Microsoft product icons",
+      "Responsive, accessible reference behavior"
     ],
     "rules": [
       {
-        "name": "The Evidence First Rule",
-        "body": "Color must clarify status, phase, ownership, or action; it must not imply proof that the customer has not provided.",
+        "name": "The Navy Field Rule",
+        "body": "Navy carries the program promise and operational caveats. Ordinary reading sections stay light.",
         "section": "colors"
       },
       {
-        "name": "The Blue Scarcity Rule",
-        "body": "RVAP Blue is strongest when it is rare. Use it for decisive affordances and evidence links, not for washing every module.",
+        "name": "The Semantic Phase Rule",
+        "body": "Blue means foundation, teal means assurance, and purple means operations.",
         "section": "colors"
       },
       {
-        "name": "The Semantic Exception Rule",
-        "body": "Green, caution gold, red, purple, teal, and slate are allowed when they encode real status, phase, or assurance meaning.",
-        "section": "colors"
-      },
-      {
-        "name": "The Briefing Hierarchy Rule",
-        "body": "Every screen should make the next decision obvious through one strong headline, short explanatory prose, and compact metadata.",
+        "name": "The Three-Voice Rule",
+        "body": "Display type makes the argument, body type explains it, and mono type carries coordinates.",
         "section": "typography"
       },
       {
-        "name": "The Mono Coordinates Rule",
-        "body": "Mono type labels navigation, state, and evidence coordinates; do not use it for body paragraphs or decorative texture.",
-        "section": "typography"
-      },
-      {
-        "name": "The Scannable Handoff Rule",
-        "body": "Dense governance material must be chunked into cards, steps, chips, and facts before it becomes a wall of prose.",
-        "section": "layout"
-      },
-      {
-        "name": "The Tonal Before Shadow Rule",
-        "body": "Prefer surface color, border, and accent bars first; add shadow only when interaction or modal priority needs it.",
+        "name": "The Quiet Depth Rule",
+        "body": "Routine records use low blue-tinted depth. Strong lift is reserved for focal or open surfaces.",
         "section": "elevation"
       },
       {
-        "name": "The No Novel Silhouette Rule",
-        "body": "New components should use the existing 7/12/18px radius scale and thin border language unless a user explicitly asks for a new visual world.",
-        "section": "shapes"
+        "name": "The Program Owns Content Rule",
+        "body": "The RVAS repository supplies appearance only. PRODUCT.md and the session manifests own public claims and curriculum structure.",
+        "section": "components"
       }
     ],
     "dos": [
-      "Do preserve the RVAP light canvas, Deep Navy authority, and RVAP Blue action hierarchy.",
-      "Do use cards, chips, and fact rows to make owners, evidence, session phase, and next decisions scannable.",
-      "Do keep focus rings visible and use the existing 2px RVAP Blue outline treatment.",
-      "Do use semantic accent colors when they encode real phase, status, risk, or assurance meaning.",
-      "Do keep long-form documentation readable with narrow measures, plain language, and generous section rhythm."
+      "Use the exact RVAP logo assets and official Microsoft product icons in site/assets.",
+      "Keep public content aligned with PRODUCT.md and trace session claims to their manifests and dated sources.",
+      "Use navy for the strongest fields and pale blue to separate long reading sections.",
+      "Preserve the blue, teal, and purple phase mapping.",
+      "Keep dense records compact, responsive, and keyboard accessible."
     ],
     "donts": [
-      "Don't use dark cyber dashboard styling, neon security tropes, or decorative gradients that compete with evidence hierarchy.",
-      "Don't use color, badges, charts, or testimonials to imply customer proof that the product does not have.",
-      "Don't turn mono labels into body copy or decorative noise.",
-      "Don't introduce new corner-radius scales, heavy shadows, or ornamental component silhouettes without an explicit redesign request.",
-      "Don't collapse status and phase colors into RVAP Blue when the distinction carries meaning."
+      "Do not copy the S0-S12 curriculum or claims from the visual-reference repository.",
+      "Do not restore the former warm-paper, vermilion, and square-ledger design.",
+      "Do not substitute generic cloud illustrations for official product icons.",
+      "Do not use mono type for ordinary prose.",
+      "Do not add customer proof or product promises that are absent from the research."
     ]
   }
 }

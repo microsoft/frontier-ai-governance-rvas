@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "deploymentName": "__REQUIRED_DEPLOYMENT_NAME__",
+  "targetScope": "__REQUIRED_TARGET_SCOPE__",
+  "owner": "__REQUIRED_OWNER__",
+  "previewSupported": "__REQUIRED_PREVIEW_CAPABILITY__"
+}

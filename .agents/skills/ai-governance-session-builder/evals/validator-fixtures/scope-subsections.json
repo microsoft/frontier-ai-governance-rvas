@@ -1,0 +1,54 @@
+{
+  "cases": [
+    {
+      "name": "valid session scope",
+      "scopeHeading": "## Session scope",
+      "text": "## Session scope\n\n### What we will do\n\nDeploy the approved control and inspect its live result.\n\n### Why it matters\n\nOperators need one owned control path.\n\n### Boundaries\n\nThe change is limited to the named nonproduction scope.\n\n## Before you start\n",
+      "expectedFailures": []
+    },
+    {
+      "name": "valid module scope",
+      "scopeHeading": "## Module scope",
+      "text": "## Module scope\n\n### What we will do\n\nConfigure the selected architecture path.\n\n### Why it matters\n\nThe downstream decision must remain user-specific.\n\n### Boundaries\n\nThe module remains outside the numbered sequence.\n\n## Before you start\n",
+      "expectedFailures": []
+    },
+    {
+      "name": "fenced example heading is not structural",
+      "scopeHeading": "## Session scope",
+      "text": "## Session scope\n\n### What we will do\n\nDeploy the approved control.\n\n```markdown\n### Example output heading\n```\n\n### Why it matters\n\nOperators need one owned path.\n\n### Boundaries\n\nOne sandbox.\n\n## Before you start\n",
+      "expectedFailures": []
+    },
+    {
+      "name": "missing and reordered subsections",
+      "scopeHeading": "## Session scope",
+      "text": "## Session scope\n\n### Boundaries\n\nOne sandbox.\n\n### What we will do\n\nDeploy the control.\n\n## Before you start\n",
+      "expectedFailures": [
+        "scope subsections must be exactly: ### What we will do > ### Why it matters > ### Boundaries"
+      ]
+    },
+    {
+      "name": "empty reason",
+      "scopeHeading": "## Session scope",
+      "text": "## Session scope\n\n### What we will do\n\nDeploy the control.\n\n### Why it matters\n\n### Boundaries\n\nOne sandbox.\n\n## Before you start\n",
+      "expectedFailures": [
+        "scope subsection must not be empty: ### Why it matters"
+      ]
+    },
+    {
+      "name": "empty reason with closing hashes",
+      "scopeHeading": "## Session scope",
+      "text": "## Session scope\n\n### What we will do ###\n\nDeploy the control.\n\n### Why it matters ###\n\n### Boundaries ###\n\nOne sandbox.\n\n## Before you start\n",
+      "expectedFailures": [
+        "scope subsection must not be empty: ### Why it matters"
+      ]
+    },
+    {
+      "name": "extra scope subsection",
+      "scopeHeading": "## Session scope",
+      "text": "## Session scope\n\n### What we will do\n\nDeploy the control.\n\n### Why it matters\n\nOperators need it.\n\n### Boundaries\n\nOne sandbox.\n\n### Handoff\n\nAnother team operates it.\n\n## Before you start\n",
+      "expectedFailures": [
+        "scope subsections must be exactly: ### What we will do > ### Why it matters > ### Boundaries"
+      ]
+    }
+  ]
+}

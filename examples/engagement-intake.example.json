@@ -1,8 +1,0 @@
-{
-  "customer_slug": "contoso",
-  "engagement_id": "fy27-agent-governance",
-  "pilot_agent_slug": "permit-agent",
-  "governance_lead": "Governance Lead",
-  "platform_lead": "Platform Lead",
-  "target_environment_label": "nonprod"
-}

@@ -1,0 +1,31 @@
+schema_version: 2
+session:
+  id: "11"
+  slug: "evaluation-quality-gates"
+  title: "Foundry evaluations and release quality gates"
+  duration_minutes: 240
+  status: "draft"
+  last_verified: "2025-01-10"
+  audience:
+    - "AI engineers"
+  prerequisites:
+    - "A stale Azure AI Studio project"
+  dependencies:
+    - "A deployed chatbot"
+  control_objective: "Model and agent promotion depends on repeatable evaluation results."
+implementation:
+  mode: "extended"
+implementation_outcomes:
+  - "Build a versioned golden data set with normal and edge cases."
+  - "Compare two versions with repeatable evaluation."
+  - "Enforce a release threshold that blocks a degraded version."
+deliverables:
+  implementation: "implementation/README.md"
+  deck: "deck.md"
+  leave_behind:
+    - "implementation/artifacts/README.md"
+sources:
+  - title: "Stale evaluation guidance"
+    url: "https://learn.microsoft.com/en-us/azure/ai-studio/how-to/evaluate-generative-ai-app"
+    accessed: "2025-01-10"
+    supports: "Evaluation workflow."

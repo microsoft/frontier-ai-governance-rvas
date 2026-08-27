@@ -1,0 +1,95 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Governed policy assistant Responses API",
+    "version": "1.0.0",
+    "description": "APIM contract for the Session 06 policy-assistant Responses endpoint."
+  },
+  "servers": [
+    {
+      "url": "https://example.invalid"
+    }
+  ],
+  "paths": {
+    "/responses": {
+      "post": {
+        "operationId": "invokePolicyAssistant",
+        "summary": "Invoke the governed policy assistant",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResponseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Agent response"
+          },
+          "401": {
+            "description": "Missing or invalid Microsoft Entra identity"
+          },
+          "403": {
+            "description": "Missing app role, exhausted quota, or blocked unsafe content"
+          },
+          "429": {
+            "description": "Token rate limit exceeded"
+          }
+        },
+        "security": [
+          {
+            "entraBearer": []
+          },
+          {
+            "apimSubscription": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ResponseRequest": {
+        "type": "object",
+        "required": [
+          "input"
+        ],
+        "properties": {
+          "input": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            ]
+          },
+          "stream": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "securitySchemes": {
+      "entraBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "apimSubscription": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Ocp-Apim-Subscription-Key"
+      }
+    }
+  }
+}

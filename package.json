@@ -1,15 +1,10 @@
 {
-  "name": "frontier-ai-governance-rvas",
-  "version": "1.0.0",
-  "description": "AI Governance Platform — session site builder",
+  "name": "practical-microsoft-ai-governance",
+  "private": true,
   "scripts": {
-    "build": "node docs/build.js",
-    "generate-workspace": "node tools/generate-workspace.js",
-    "test:workspace": "node tools/test-generate-workspace.js",
-    "test:session-kits": "node tools/validate-session-kits.js"
+    "build:site": "node scripts/build-session-pages.mjs"
   },
-  "engines": {
-    "node": ">=18"
-  },
-  "license": "MIT"
+  "devDependencies": {
+    "@marp-team/marp-cli": "4.2.3"
+  }
 }

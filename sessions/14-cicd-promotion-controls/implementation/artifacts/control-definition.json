@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "14-cicd-promotion-controls",
+  "controlObjective": "One GitHub Actions workflow validates an exact release, deploys it to nonproduction, runs the required checks, waits for production approval, deploys the same release to production, verifies routing, and records the approved manifest.",
+  "repository": {
+    "host": "github.com",
+    "owner": "__REQUIRED_GITHUB_OWNER__",
+    "name": "__REQUIRED_GITHUB_REPOSITORY__",
+    "defaultBranch": "__REQUIRED_PROTECTED_DEFAULT_BRANCH__",
+    "workflowPath": ".github/workflows/controlled-promotion.yml",
+    "restoreWorkflowPath": ".github/workflows/restore-previous-release.yml"
+  },
+  "githubEnvironments": {
+    "nonproductionPreview": {
+      "name": "nonproduction-preview",
+      "oidcSubject": "__REQUIRED_NONPRODUCTION_PREVIEW_EXACT_OIDC_SUBJECT__"
+    },
+    "nonproduction": {
+      "name": "nonproduction",
+      "oidcSubject": "__REQUIRED_NONPRODUCTION_EXACT_OIDC_SUBJECT__",
+      "requiredReviewerTeamSlug": "__REQUIRED_NONPRODUCTION_REVIEWER_TEAM_SLUG__",
+      "preventSelfReview": "__REQUIRED_NONPRODUCTION_PREVENT_SELF_REVIEW_TRUE__"
+    },
+    "productionPreview": {
+      "name": "production-preview",
+      "oidcSubject": "__REQUIRED_PRODUCTION_PREVIEW_EXACT_OIDC_SUBJECT__"
+    },
+    "production": {
+      "name": "production",
+      "oidcSubject": "__REQUIRED_PRODUCTION_EXACT_OIDC_SUBJECT__",
+      "planSupportsRequiredProtection": "__REQUIRED_PRODUCTION_ENVIRONMENT_PLAN_SUPPORT_CONFIRMED_TRUE__",
+      "requiredReviewerRole": "__REQUIRED_PRODUCTION_REVIEWER_ROLE__",
+      "requiredReviewerTeamSlug": "__REQUIRED_PRODUCTION_REVIEWER_TEAM_SLUG__",
+      "preventSelfReview": "__REQUIRED_PREVENT_SELF_REVIEW_TRUE__",
+      "branchOrTagRestriction": "__REQUIRED_PRODUCTION_BRANCH_OR_TAG_RESTRICTION__",
+      "adminBypassDisabled": "__REQUIRED_ADMIN_BYPASS_DISABLED_TRUE__"
+    }
+  },
+  "azure": {
+    "authentication": "GitHub OIDC to Microsoft Entra workload identity federation",
+    "clientSecretAllowed": false,
+    "tenantId": "__REQUIRED_AZURE_TENANT_ID__",
+    "nonproductionClientId": "__REQUIRED_NONPRODUCTION_AZURE_CLIENT_ID__",
+    "productionClientId": "__REQUIRED_PRODUCTION_AZURE_CLIENT_ID__",
+    "nonproductionPreviewFederatedCredentialName": "__REQUIRED_NONPRODUCTION_PREVIEW_FEDERATED_CREDENTIAL_NAME__",
+    "nonproductionFederatedCredentialName": "__REQUIRED_NONPRODUCTION_FEDERATED_CREDENTIAL_NAME__",
+    "productionPreviewFederatedCredentialName": "__REQUIRED_PRODUCTION_PREVIEW_FEDERATED_CREDENTIAL_NAME__",
+    "productionFederatedCredentialName": "__REQUIRED_PRODUCTION_FEDERATED_CREDENTIAL_NAME__",
+    "nonproductionRoleAssignment": "Contributor",
+    "productionRoleAssignment": "Contributor"
+  },
+  "targetScopes": {
+    "nonproduction": "/subscriptions/__REQUIRED_NONPRODUCTION_SUBSCRIPTION_ID__/resourceGroups/__REQUIRED_NONPRODUCTION_RESOURCE_GROUP__",
+    "production": "/subscriptions/__REQUIRED_PRODUCTION_SUBSCRIPTION_ID__/resourceGroups/__REQUIRED_PRODUCTION_RESOURCE_GROUP__"
+  },
+  "sourcePaths": {
+    "bicepEntrypoint": "__REQUIRED_BICEP_ENTRYPOINT_PATH__",
+    "apimPolicy": "__REQUIRED_APIM_POLICY_PATH__",
+    "unitTestScript": "__REQUIRED_UNIT_TEST_SCRIPT_PATH__",
+    "session11ReleaseGate": "sessions/11-foundry-evaluations-quality-gates/implementation/scripts/release-gate.py",
+    "session11ReleasePolicy": "sessions/11-foundry-evaluations-quality-gates/implementation/artifacts/release/release-policy.json",
+    "session11GateSelfTest": "sessions/11-foundry-evaluations-quality-gates/implementation/scripts/test_release_gate.py",
+    "session11ThresholdPolicy": "sessions/11-foundry-evaluations-quality-gates/implementation/artifacts/eval/thresholds.yaml",
+    "session11EvaluationSpec": "sessions/11-foundry-evaluations-quality-gates/implementation/artifacts/eval/evaluation-spec.json",
+    "session11Dataset": "sessions/11-foundry-evaluations-quality-gates/implementation/artifacts/eval/data/golden-v1.jsonl",
+    "session11BaselineRecord": "__REQUIRED_SESSION11_APPROVED_BASELINE_RECORD_PATH__",
+    "session11CandidateRecord": "__REQUIRED_SESSION11_CANDIDATE_RECORD_PATH__",
+    "session12AdversarialReport": "sessions/12-red-teaming-threat-defense/implementation/artifacts/reports/before-after-report.json",
+    "session12RiskChangeHandoff": "sessions/12-red-teaming-threat-defense/implementation/artifacts/governance/risk-change-handoff.json",
+    "session13SmokePowerShell": "sessions/13-observability-cost-operations/implementation/scripts/smoke.ps1",
+    "session13SmokeBash": "sessions/13-observability-cost-operations/implementation/scripts/smoke.sh",
+    "routingControlScript": "__REQUIRED_ROUTING_CONTROL_SCRIPT_PATH__",
+    "releaseStoreScript": "__REQUIRED_RELEASE_STORE_SCRIPT_PATH__"
+  },
+  "releaseCommit": {
+    "source": "workflow_dispatch.release_sha",
+    "format": "full-40-character-git-sha",
+    "approvedBranchSource": "repository.defaultBranch",
+    "workflowRefMustMatchApprovedBranch": true,
+    "mustBeReachableFromApprovedBranch": true,
+    "checkoutMustMatch": true,
+    "manifestMustMatch": true
+  },
+  "immutableRelease": {
+    "promptVersion": "__REQUIRED_PROMPT_VERSION__",
+    "agentName": "__REQUIRED_AGENT_NAME_OR_ID__",
+    "agentVersion": "__REQUIRED_AGENT_VERSION__",
+    "modelDeploymentAlias": "__REQUIRED_MODEL_DEPLOYMENT_VERSION_ALIAS__",
+    "apimPolicyVersion": "__REQUIRED_APIM_POLICY_VERSION__",
+    "evaluationRunId": "__REQUIRED_EVALUATION_RUN_ID__",
+    "evaluationThresholdPolicyVersion": "__REQUIRED_EVALUATION_THRESHOLD_POLICY_VERSION__",
+    "evaluationThresholdPolicySha256": "__REQUIRED_EVALUATION_THRESHOLD_POLICY_SHA256__",
+    "previousApprovedReleaseId": "__REQUIRED_PREVIOUS_APPROVED_RELEASE_ID__"
+  },
+  "routing": {
+    "strategy": "__REQUIRED_ROUTING_STRATEGY_CANARY_OR_BLUE_GREEN__",
+    "existingSession06Or07SupportConfirmed": "__REQUIRED_EXISTING_ROUTING_SUPPORT_CONFIRMED_TRUE_OR_FALSE__",
+    "candidateSelector": "__REQUIRED_CANDIDATE_ROUTING_SELECTOR__",
+    "stableSelector": "__REQUIRED_STABLE_ROUTING_SELECTOR__",
+    "unsupportedBehavior": "stop-and-retain-100-percent-on-previous-approved-release"
+  },
+  "records": {
+    "buildAndEvaluationSystems": [
+      "GitHub Actions",
+      "Microsoft Foundry"
+    ],
+    "approvedReleaseStore": "__REQUIRED_APPROVED_RELEASE_STORE__",
+    "repositoryRuntimeOutputAllowed": false,
+    "manifestFinalizationFailureBehavior": "stop-and-require-manual-restore"
+  }
+}

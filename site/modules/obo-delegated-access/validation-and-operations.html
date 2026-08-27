@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="A trusted middle tier preserves signed-in user authority through an OBO exchange while downstream authorization remains user-specific.">
+    <title>Validation and operations | Optional module: Delegated API access with OAuth on-behalf-of | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page module-page">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program">Sessions</a>
+          <a href="../../index.html#optional-modules" aria-current="page">Optional modules</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="validation-and-operations">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#optional-modules">Optional modules</a>
+            <span aria-hidden="true">/</span>
+            <a href="index.html">Optional module</a>
+          </nav>
+          <p class="chapter-header__label">Chapter 6 of 6 · Validation and operations</p>
+          <h1 id="validation-and-operations">Delegated API access with OAuth on-behalf-of</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Optional module · Draft</span>
+            <span>3.5 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Module chapters">
+        <ol class="session-content-width"><li><a href="index.html"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html"><span>2</span>Architecture</a></li><li><a href="before-you-start.html"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html" aria-current="page"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/microsoft-entra-id.svg" alt="">
+                <strong>Microsoft Entra ID</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-key-vault.svg" alt="">
+                <strong>Azure Key Vault</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Validation and operations">
+          <p class="implementation-guide__label">Chapter 6 of 6</p>
+          <h2 id="confirm-the-result">Confirm the result<a class="heading-anchor" href="#confirm-the-result" aria-label="Link to Confirm the result">#</a></h2>
+<p>Run both checks:</p>
+<section class="code-tabs" data-code-tabs>
+  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
+    <button type="button" role="tab" id="command-shell-1-powershell-tab" aria-controls="command-shell-1-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
+    <button type="button" role="tab" id="command-shell-1-bash-tab" aria-controls="command-shell-1-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-1-powershell-panel" role="tabpanel" aria-labelledby="command-shell-1-powershell-tab" tabindex="0" data-shell-panel="powershell">
+    <p class="code-tabs__fallback-label">PowerShell</p>
+    <pre><code class="language-powershell">.\scripts\verify.ps1 `
+  -MiddleTierEndpoint &quot;https://__APPROVED_HOST__/delegated-resource&quot; `
+  -PermittedTokenFile $permittedTokenFile `
+  -DeniedTokenFile $deniedTokenFile</code></pre>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-1-bash-panel" role="tabpanel" aria-labelledby="command-shell-1-bash-tab" tabindex="0" data-shell-panel="bash">
+    <p class="code-tabs__fallback-label">Bash</p>
+    <pre><code class="language-bash">./scripts/verify.sh \
+  --middle-tier-endpoint &quot;https://__APPROVED_HOST__/delegated-resource&quot; \
+  --permitted-token-file &quot;$permitted_token_file&quot; \
+  --denied-token-file &quot;$denied_token_file&quot;</code></pre>
+  </div>
+</section>
+<p>For the <strong>intended-path check</strong>, the permitted user's call returns 2xx, a correlation ID, and the <code>downstream-authorized</code> decision header. The downstream API authorizes the preserved user and the middle tier logs metadata only.</p>
+<p>For the <strong>failure-path check</strong>, the denied user's call returns 401 or 403 with the <code>downstream-denied</code> decision header. This prevents an inbound-token or exchange failure from passing as a downstream authorization test. No protected resource is returned, no application-only retry occurs, and the failure remains correlated without recording either token or payload.</p>
+<p>At the <strong>delivery-owner checkpoint</strong>, the owner observes both status codes and confirms that the downstream API, rather than the client prompt or middle-tier instructions, made the user-specific decision.</p>
+<h2 id="after-implementation">After implementation<a class="heading-anchor" href="#after-implementation" aria-label="Link to After implementation">#</a></h2>
+<p>Keep:</p>
+<ul><li>the approved app-registration and consent definitions;</li><li>the authorization and token-claim contracts;</li><li>the certificate reference and thumbprint;</li><li>the Python middle-tier component and pinned dependencies;</li><li>the threat model; and</li><li>the paired operational scripts.</li></ul>
+<p>The identity owner owns delegated permissions and consent. The application owner owns inbound validation and certificate use. The downstream API owner owns resource authorization. Operations owns payload-free diagnostics and certificate-expiry alerting.</p>
+<p>To remove the module-owned permission and consent entries, the identity owner checks the <code>optional-module-obo-delegated-access</code> marker and approved scope IDs, then removes only the module-owned delegated grants through the approved Entra change path. Do not delete application registrations, service principals, the Key Vault certificate, the downstream API, or unrelated permissions. Retire the certificate through the normal identity lifecycle only after no other approved workload uses it.</p>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Optional module</dd></div><div><dt>Status</dt><dd>Optional module · Draft</dd></div><div><dt>Duration</dt><dd>3.5 hours</dd></div><div><dt>Implementation mode</dt><dd>Extended</dd></div><div><dt>Last verified</dt><dd>2026-08-25</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="implementation.html"><span>Previous chapter</span><strong>Implementation</strong></a>
+        <a href="../../index.html#optional-modules"><span>Optional modules</span><strong>Return to optional modules</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Optional module · Validation and operations</p>
+    </footer>
+
+    <button
+      class="deck-launcher"
+      type="button"
+      aria-haspopup="dialog"
+      aria-controls="session-deck-dialog"
+      data-deck-open
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+        <path d="M8 20h8M12 16.5V20"></path>
+      </svg>
+      <span>View slide deck</span>
+    </button>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Optional module</p>
+            <h2 id="session-deck-title">Delegated API access with OAuth on-behalf-of slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Optional module: Delegated API access with OAuth on-behalf-of slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>

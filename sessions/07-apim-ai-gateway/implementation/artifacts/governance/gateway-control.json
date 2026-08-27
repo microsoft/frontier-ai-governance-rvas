@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "07-apim-ai-gateway",
+  "controlObjective": "API Management checks each client token and product subscription, applies limits and Content Safety policies, then uses managed identity to call the pinned Foundry agent.",
+  "api": {
+    "id": "policy-assistant-responses",
+    "displayName": "Governed policy assistant Responses API",
+    "path": "ai/policy-assistant",
+    "operationPath": "/responses"
+  },
+  "product": {
+    "id": "governed-ai-clients",
+    "displayName": "Governed AI clients",
+    "owner": "__REQUIRED_PRODUCT_OWNER__",
+    "subscriptionRequired": true,
+    "published": true
+  },
+  "ingressIdentity": {
+    "tenantId": "__REQUIRED_ENTRA_TENANT_ID__",
+    "clientApplicationId": "__REQUIRED_CLIENT_APPLICATION_ID__",
+    "audience": "__REQUIRED_API_AUDIENCE__",
+    "requiredAppRole": "__REQUIRED_APP_ROLE__",
+    "owner": "__REQUIRED_IDENTITY_OWNER__"
+  },
+  "limits": {
+    "tokensPerMinute": 20000,
+    "tokenQuota": 500000,
+    "tokenQuotaPeriod": "Daily",
+    "requestMaxBytes": 65536,
+    "backendTimeoutSeconds": 120,
+    "retryCount": 1
+  },
+  "safety": {
+    "owner": "__REQUIRED_SAFETY_OWNER__",
+    "shieldPrompt": true,
+    "enforceOnCompletions": true,
+    "outputType": "EightSeverityLevels",
+    "harmThreshold": 4
+  },
+  "routing": {
+    "owner": "__REQUIRED_PLATFORM_OWNER__",
+    "primaryPriority": 1,
+    "secondaryPriority": 2,
+    "circuitBreakerErrorCount": 5,
+    "circuitBreakerInterval": "PT1M",
+    "circuitBreakerTripDuration": "PT1M"
+  },
+  "telemetry": {
+    "owner": "__REQUIRED_OPERATIONS_OWNER__",
+    "samplingPercentage": 100,
+    "requestBodyBytesLogged": 0,
+    "responseBodyBytesLogged": 0,
+    "clientIpLogged": false,
+    "correlationHeader": "X-Correlation-ID",
+    "tokenMetricNamespace": "RVAS.AIGateway"
+  },
+  "semanticCaching": {
+    "enabled": false,
+    "decision": "Deferred until privacy, staleness, cache-key isolation, and invalidation are approved."
+  }
+}

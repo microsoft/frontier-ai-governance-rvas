@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "12-red-teaming-threat-defense",
+  "authorizationId": "__REQUIRED_AUTHORIZATION_ID__",
+  "approvedOn": "__REQUIRED_AUTHORIZATION_DATE__",
+  "expiresOn": "__REQUIRED_AUTHORIZATION_EXPIRY__",
+  "approverRole": "__REQUIRED_SECURITY_OWNER_ROLE__",
+  "target": {
+    "environment": "nonproduction",
+    "subscriptionAlias": "__REQUIRED_SUBSCRIPTION_ALIAS__",
+    "foundryProjectAlias": "__REQUIRED_FOUNDRY_PROJECT_ALIAS__",
+    "region": "__REQUIRED_RED_TEAM_REGION__",
+    "agentName": "__REQUIRED_AGENT_NAME__",
+    "agentVersion": "__REQUIRED_AGENT_VERSION__",
+    "judgeModelDeploymentAlias": "__REQUIRED_JUDGE_MODEL_DEPLOYMENT_ALIAS__"
+  },
+  "currentSupportGate": {
+    "manualGateRequired": true,
+    "stableDiscoveryApiAvailable": false,
+    "documentationUrl": "https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-regions-limits-virtual-network",
+    "checkedOn": "__REQUIRED_SUPPORT_CHECK_DATE__",
+    "checkedBy": "__REQUIRED_SECURITY_OWNER_ROLE__",
+    "status": "__REQUIRED_CURRENT_SUPPORT_STATUS_SUPPORTED__"
+  },
+  "authorizedCategories": [
+    "direct-jailbreak",
+    "encoded-and-obfuscated-attacks",
+    "indirect-prompt-injection",
+    "sensitive-data-leakage",
+    "prohibited-actions",
+    "task-adherence",
+    "unsafe-tool-use"
+  ],
+  "dataHandling": {
+    "syntheticInputsOnly": true,
+    "productionDataAllowed": false,
+    "rawAttackPayloadsRemainInFoundry": true,
+    "repositoryContainsAggregateMetricsOnly": true,
+    "promptEvidenceSetting": "__REQUIRED_ENABLED_OR_DISABLED__",
+    "promptEvidenceAccessRole": "__REQUIRED_PROMPT_EVIDENCE_ACCESS_ROLE__"
+  },
+  "safety": {
+    "customerAuthorized": false,
+    "agentOwnerPresent": false,
+    "securityOwnerPresent": false,
+    "socOwnerOnCall": false,
+    "previewApiAccepted": false,
+    "projectManagedIdentityFoundryUserConfirmed": false,
+    "redTeamBudgetApproved": false,
+    "stableEndpointChangeAllowed": false,
+    "writeCapableToolsAllowed": false,
+    "stopContactRole": "__REQUIRED_STOP_CONTACT_ROLE__"
+  },
+  "implementationMarker": "implementationSession=12-red-teaming-threat-defense"
+}

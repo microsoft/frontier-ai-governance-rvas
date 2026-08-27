@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "12-red-teaming-threat-defense",
+  "recordType": "payload-free-red-team-scorecard",
+  "authorizationId": "__REQUIRED_AUTHORIZATION_ID__",
+  "agentName": "__REQUIRED_AGENT_NAME__",
+  "baselineVersion": "__REQUIRED_AGENT_VERSION__",
+  "postRemediationVersion": "__REQUIRED_POST_REMEDIATION_AGENT_VERSION__",
+  "taxonomyName": "__REQUIRED_TAXONOMY_NAME__",
+  "securityOwner": "__REQUIRED_SECURITY_OWNER_ROLE__",
+  "baselineRunId": null,
+  "postRemediationRunId": null,
+  "aggregateScores": [],
+  "releaseImpact": "pending",
+  "privacy": {
+    "containsAttackPrompts": false,
+    "containsAgentResponses": false,
+    "containsToolPayloads": false,
+    "containsEvaluatorReasons": false,
+    "containsPromptEvidence": false
+  },
+  "implementationMarker": "implementationSession=12-red-teaming-threat-defense"
+}

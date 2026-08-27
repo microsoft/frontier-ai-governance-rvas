@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "12-red-teaming-threat-defense",
+  "changeReference": "__REQUIRED_CHANGE_REFERENCE__",
+  "target": {
+    "subscriptionAlias": "__REQUIRED_SUBSCRIPTION_ALIAS__",
+    "foundryProjectAlias": "__REQUIRED_FOUNDRY_PROJECT_ALIAS__",
+    "agentName": "__REQUIRED_AGENT_NAME__",
+    "baselineVersion": "__REQUIRED_AGENT_VERSION__",
+    "postRemediationVersion": "__REQUIRED_POST_REMEDIATION_AGENT_VERSION__"
+  },
+  "owners": {
+    "agent": "__REQUIRED_AGENT_OWNER_ROLE__",
+    "tool": "__REQUIRED_TOOL_OWNER_ROLE__",
+    "security": "__REQUIRED_SECURITY_OWNER_ROLE__",
+    "defender": "__REQUIRED_DEFENDER_OWNER_ROLE__",
+    "soc": "__REQUIRED_SOC_OWNER_ROLE__",
+    "residualRiskAuthority": "__REQUIRED_RESIDUAL_RISK_AUTHORITY_ROLE__",
+    "cost": "__REQUIRED_COST_OWNER_ROLE__"
+  },
+  "remediation": {
+    "status": "planned-before-baseline",
+    "sourceCommit": "__REQUIRED_REMEDIATION_COMMIT__",
+    "changes": [
+      {
+        "controlArea": "system-instructions",
+        "owner": "__REQUIRED_AGENT_OWNER_ROLE__",
+        "requiredState": "Retrieved content and tool output are treated as untrusted data.",
+        "status": "planned"
+      },
+      {
+        "controlArea": "tool-permissions",
+        "owner": "__REQUIRED_TOOL_OWNER_ROLE__",
+        "requiredState": "The policy tool remains read-only and prohibited writes remain absent or independently denied.",
+        "status": "planned"
+      },
+      {
+        "controlArea": "gateway-and-content-controls",
+        "owner": "__REQUIRED_SECURITY_OWNER_ROLE__",
+        "requiredState": "The approved prompt-shield, content-filter, request-size, identity, and correlation controls remain active.",
+        "status": "planned"
+      },
+      {
+        "controlArea": "data-access",
+        "owner": "__REQUIRED_SECURITY_OWNER_ROLE__",
+        "requiredState": "Grounding and tool data remain synthetic, reads use approved source aliases, and write actions remain unavailable.",
+        "status": "planned"
+      }
+    ]
+  },
+  "residualRisk": {
+    "status": "pending-post-remediation-run",
+    "decisionDate": null,
+    "decision": "pending",
+    "allowedDecisions": [
+      "accept-for-nonproduction",
+      "remediate-and-rerun",
+      "disable-agent"
+    ],
+    "openRisks": [],
+    "productionApprovalGranted": false,
+    "previewCapabilityIsSoleControl": false,
+    "automatedScanIsCompleteSecurityAssessment": false
+  },
+  "defender": {
+    "aiServicesThreatProtection": {
+      "planState": "__REQUIRED_ENABLED__",
+      "confirmedOn": "__REQUIRED_DEFENDER_CONFIRMATION_DATE__",
+      "suspiciousPromptEvidence": "__REQUIRED_ENABLED_OR_DISABLED__",
+      "promptEvidenceDataHandlingApproved": false
+    },
+    "agent365": {
+      "applicable": "__REQUIRED_YES_OR_NO__",
+      "onboarded": false,
+      "microsoft365Connector": "__REQUIRED_CONNECTED_OR_NOT_APPLICABLE__",
+      "detectionStatus": "public-preview",
+      "usedAsSoleOperationalControl": false
+    },
+    "selectedSignalPath": "__REQUIRED_DEFENDER_FOR_CLOUD_OR_AGENT365__",
+    "expectedSignalFamilies": [
+      "jailbreak-or-prompt-injection",
+      "ascii-smuggling",
+      "credential-or-secret-leakage",
+      "anomalous-tool-invocation",
+      "suspicious-access"
+    ]
+  },
+  "socDelivery": {
+    "source": "__REQUIRED_DEFENDER_FOR_CLOUD_OR_AGENT365__",
+    "routeType": "__REQUIRED_DEFENDER_INCIDENT_SENTINEL_INCIDENT_OR_ITSM__",
+    "destinationAlias": "__REQUIRED_SOC_DESTINATION_ALIAS__",
+    "readinessMethod": "authorized-defender-event-or-route-health-test",
+    "status": "pending",
+    "defenderAlertOrIncidentId": null,
+    "socRecordId": null,
+    "routeHealthTestId": null,
+    "observedAt": null,
+    "agentOrModelContextConfirmed": false,
+    "payloadCopiedToRepository": false
+  },
+  "releaseAttestation": {
+    "reportPath": "../reports/before-after-report.json",
+    "requiredRedTeamStatus": "confirmed",
+    "requiresPerRiskNonRegression": true,
+    "requiresProhibitedActionsBlocked": true,
+    "requiresPayloadFreeRecord": true
+  },
+  "implementationMarker": "implementationSession=12-red-teaming-threat-defense"
+}

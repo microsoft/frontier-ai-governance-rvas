@@ -70,14 +70,22 @@ If no recent report exists, continue.
 Review only source documentation:
 
 - `README.md`
-- `CONTRIBUTING.md`
-- `docs/**/*.md`, excluding generated files under `docs/assets/data/**` and `docs/resources/**`
-- `activities/**/README.md`
-- `activities/**/solution.md`
-- `scenarios/**/*.md`
-- `scripts/action-backend/README.md`
+- `AGENTS.md`
+- `PRODUCT.md`
+- `DESIGN.md`
+- `sessions/*/implementation/README.md`
+- `sessions/*/deck.md`
+- `sessions/*/delivery-guide.md` when present
+- `modules/*/module.yaml`
+- `modules/*/implementation/README.md`
+- `modules/*/deck.md`
+- `.agents/skills/ai-governance-session-builder/**/*.md`
+- `site/index.html`
+- `site/sources.html`
 
-Use generated docs only as consistency evidence when a source-doc change would require `npm run build`.
+Use generated pages under `site/sessions/**` only as consistency evidence when a source change
+would require `npm run build:site`.
+Use generated pages under `site/modules/**` the same way for optional-module source changes.
 
 Do not treat sample data files as documentation unless they contain instructions or technical claims.
 
@@ -110,7 +118,7 @@ Extract and check claims that can become obsolete:
 - Architecture guidance for Microsoft Foundry, Azure AI Search, Foundry IQ/knowledge, MCP tools, tracing, monitoring, evaluations, hosted agents, model selection, and deployment
 - Security, identity, RBAC, managed identity, agent identity, data privacy, content safety, and logging guidance
 - GitHub Actions, gh-aw, GitHub Pages, Codespaces, Discussions, and issue-management automation guidance
-- Script names, validation commands, generated-doc assumptions, and repository contribution rules
+- Script names, validation commands, generated-page assumptions, and repository contribution rules
 
 ## Severity model
 
@@ -153,7 +161,7 @@ Use this structure:
 <details>
 <summary>Official references checked</summary>
 
-- [Official doc title](url) — why it matters
+- [Official doc title](url): why it matters
 
 </details>
 

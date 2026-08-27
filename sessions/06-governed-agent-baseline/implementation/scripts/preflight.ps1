@@ -1,0 +1,318 @@
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [string]$ApprovedSubscriptionId,
+
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [string]$ResourceGroupName,
+
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [string]$FoundryAccountName,
+
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [string]$ProjectName,
+
+    [Parameter(Mandatory)]
+    [ValidatePattern("^https://")]
+    [string]$ReadApiBaseUrl,
+
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [string]$ApplicationInsightsResourceId
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
+
+$artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
+$agentRoot = Join-Path $artifactRoot "agents\policy-assistant"
+$configPath = Join-Path $agentRoot "agent.json"
+$instructionsPath = Join-Path $agentRoot "instructions.md"
+$toolPath = Join-Path $agentRoot "tool-manifest.json"
+$policyPath = Join-Path $agentRoot "prohibited-actions.json"
+$releaseOperationsPath = Join-Path $artifactRoot "operations\release-operations.json"
+$requiredFiles = @(
+    $configPath
+    $instructionsPath
+    $toolPath
+    $policyPath
+    $releaseOperationsPath
+)
+$requiredSentinels = @(
+    "__REQUIRED_AGENT_NAME__"
+    "__REQUIRED_AGENT_OWNER__"
+    "__REQUIRED_APP_INSIGHTS_NAME__"
+    "__REQUIRED_DOWNSTREAM_API_AUTHORIZATION_OWNER__"
+    "__REQUIRED_DOWNSTREAM_API_READ_ROLE_ID__"
+    "__REQUIRED_DOWNSTREAM_API_READ_SCOPE__"
+    "__REQUIRED_HUMAN_CHANGE_ROUTE__"
+    "__REQUIRED_HATE_INPUT_MINIMUM_SEVERITY__"
+    "__REQUIRED_HATE_OUTPUT_MINIMUM_SEVERITY__"
+    "__REQUIRED_HATE_POLICY_INPUT_SEVERITY__"
+    "__REQUIRED_HATE_POLICY_OUTPUT_SEVERITY__"
+    "__REQUIRED_MODEL_DEPLOYMENT_NAME__"
+    "__REQUIRED_POLICY_OWNER__"
+    "__REQUIRED_PROHIBITED_WRITE_ACTION__"
+    "__REQUIRED_RAI_POLICY_NAME__"
+    "__REQUIRED_RAI_POLICY_REVIEW_DATE__"
+    "__REQUIRED_READ_PATH__"
+    "__REQUIRED_SAFETY_OWNER_ROLE__"
+    "__REQUIRED_SELF_HARM_INPUT_MINIMUM_SEVERITY__"
+    "__REQUIRED_SELF_HARM_OUTPUT_MINIMUM_SEVERITY__"
+    "__REQUIRED_SELF_HARM_POLICY_INPUT_SEVERITY__"
+    "__REQUIRED_SELF_HARM_POLICY_OUTPUT_SEVERITY__"
+    "__REQUIRED_SEXUAL_INPUT_MINIMUM_SEVERITY__"
+    "__REQUIRED_SEXUAL_OUTPUT_MINIMUM_SEVERITY__"
+    "__REQUIRED_SEXUAL_POLICY_INPUT_SEVERITY__"
+    "__REQUIRED_SEXUAL_POLICY_OUTPUT_SEVERITY__"
+    "__REQUIRED_TARGET_AUDIENCE__"
+    "__REQUIRED_TELEMETRY_OWNER__"
+    "__REQUIRED_TRACE_READER_GROUP__"
+    "__REQUIRED_VIOLENCE_INPUT_MINIMUM_SEVERITY__"
+    "__REQUIRED_VIOLENCE_OUTPUT_MINIMUM_SEVERITY__"
+    "__REQUIRED_VIOLENCE_POLICY_INPUT_SEVERITY__"
+    "__REQUIRED_VIOLENCE_POLICY_OUTPUT_SEVERITY__"
+)
+
+if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
+    throw "Azure CLI is required."
+}
+foreach ($path in $requiredFiles) {
+    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+        throw "Required implementation file is missing: $path"
+    }
+}
+
+$sentinels = Get-ChildItem -LiteralPath $artifactRoot -File -Recurse |
+    Select-String -Pattern "__REQUIRED_[A-Z0-9_]+__"
+if ($sentinels) {
+    $unresolved = @($sentinels.Matches.Value | Sort-Object -Unique)
+    $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
+    if ($unknown.Count -gt 0) {
+        throw "Add explicit Session 06 preflight checks for new sentinels: $($unknown -join ', ')."
+    }
+    throw "Resolve every Session 06 customer decision before deployment: $($unresolved -join ', ')."
+}
+
+$config = Get-Content -LiteralPath $configPath -Raw | ConvertFrom-Json -ErrorAction Stop
+$toolManifest = Get-Content -LiteralPath $toolPath -Raw | ConvertFrom-Json -ErrorAction Stop
+$prohibited = Get-Content -LiteralPath $policyPath -Raw | ConvertFrom-Json -ErrorAction Stop
+$releaseOperations = Get-Content -LiteralPath $releaseOperationsPath -Raw | ConvertFrom-Json -ErrorAction Stop
+$tracing = $releaseOperations.tracing
+$instructions = Get-Content -LiteralPath $instructionsPath -Raw
+
+if ([string]$config.implementationSession -ne "06-governed-agent-baseline") {
+    throw "agent.json has the wrong implementation marker."
+}
+if ([string]$config.agentType -ne "prompt" -or [string]$config.runtimePattern -ne "persistent-prompt-agent") {
+    throw "Session 06 implements one persistent prompt agent."
+}
+if ([string]$config.endpoint.versionSelection -ne "pinned") {
+    throw "The stable endpoint must pin one explicit agent version."
+}
+if (@($config.endpoint.protocols).Count -ne 1 -or [string]$config.endpoint.protocols[0] -ne "responses") {
+    throw "The governed baseline exposes only the Responses protocol."
+}
+if (@($config.endpoint.authorizationSchemes).Count -ne 1 -or [string]$config.endpoint.authorizationSchemes[0] -ne "Entra") {
+    throw "The governed endpoint must use Microsoft Entra authorization only."
+}
+if ([double]$config.temperature -lt 0 -or [double]$config.temperature -gt 2) {
+    throw "Agent temperature must be between 0 and 2."
+}
+if ([string]::IsNullOrWhiteSpace([string]$config.raiPolicyName)) {
+    throw "A named RAI policy is required."
+}
+$expectedCategories = @("hate", "sexual", "violence", "self_harm")
+$minimumFilters = @($config.raiPolicyReview.minimumFilters)
+$namedPolicyFilters = @($config.raiPolicyReview.namedPolicyFilters)
+if ($minimumFilters.Count -ne 4 -or $namedPolicyFilters.Count -ne 4 -or
+    (@($minimumFilters.category | Sort-Object) -join ",") -ne (@($expectedCategories | Sort-Object) -join ",") -or
+    (@($namedPolicyFilters.category | Sort-Object) -join ",") -ne (@($expectedCategories | Sort-Object) -join ",")) {
+    throw "The RAI policy review must contain the hate, sexual, violence, and self_harm categories once in both filter sets."
+}
+$severityRank = @{ low = 0; medium = 1; high = 2 }
+foreach ($minimum in $minimumFilters) {
+    $named = @($namedPolicyFilters | Where-Object { $_.category -eq $minimum.category })[0]
+    foreach ($direction in @("inputBlockedAtOrAbove", "outputBlockedAtOrAbove")) {
+        $minimumSeverity = ([string]$minimum.$direction).ToLowerInvariant()
+        $namedSeverity = ([string]$named.$direction).ToLowerInvariant()
+        if (-not $severityRank.ContainsKey($minimumSeverity) -or
+            -not $severityRank.ContainsKey($namedSeverity) -or
+            $severityRank[$namedSeverity] -gt $severityRank[$minimumSeverity]) {
+            throw "The named RAI policy relaxes or omits the approved $($minimum.category) $direction minimum."
+        }
+    }
+}
+[void][datetime]::ParseExact(
+    [string]$config.raiPolicyReview.reviewedOn,
+    "yyyy-MM-dd",
+    [Globalization.CultureInfo]::InvariantCulture
+)
+if ($instructions -notmatch "Refuse requests to create, update, approve, publish, delete") {
+    throw "The approved instructions do not contain the prohibited-write refusal boundary."
+}
+
+$tools = @($toolManifest.tools)
+if ($tools.Count -ne 1 -or [string]$tools[0].type -ne "openapi") {
+    throw "The baseline must expose exactly one OpenAPI tool."
+}
+$paths = @($tools[0].openapi.spec.paths.PSObject.Properties)
+if ($paths.Count -ne 1) {
+    throw "The OpenAPI manifest must contain exactly one path."
+}
+$operations = @($paths[0].Value.PSObject.Properties)
+if ($operations.Count -ne 1 -or $operations[0].Name -ne "get") {
+    throw "The OpenAPI manifest must expose exactly one GET operation and no write operation."
+}
+if ([string]$operations[0].Value.operationId -notmatch "^[A-Za-z_-]+$") {
+    throw "The OpenAPI operationId must contain only letters, hyphens, and underscores."
+}
+if ([string]$tools[0].openapi.spec.servers[0].url -ne "__RUNTIME_READ_API_BASE_URL__") {
+    throw "The authoritative tool manifest must not contain a live API endpoint."
+}
+if ([string]$tools[0].openapi.auth.type -ne "managed_identity") {
+    throw "The read tool must use managed identity authentication."
+}
+if (@($prohibited.actions).Count -ne 1 -or [string]$prohibited.actions[0].effect -ne "deny") {
+    throw "Define exactly one prohibited write action with a deny effect."
+}
+if (@($prohibited.actions[0].enforcement) -notcontains "operation-is-not-registered-in-the-tool-manifest") {
+    throw "The prohibited action must be absent from the registered tool surface."
+}
+if ([string]$releaseOperations.implementationSession -ne "06-governed-agent-baseline" -or
+    [string]$tracing.mode -ne "server-side" -or
+    -not [bool]$tracing.connectionManagedOutsideSession) {
+    throw "Tracing must use the existing project connection to Application Insights."
+}
+
+$account = & az account show --only-show-errors --output json | ConvertFrom-Json
+if ($LASTEXITCODE -ne 0 -or [string]$account.id -ne $ApprovedSubscriptionId) {
+    throw "Azure CLI is not using the approved subscription."
+}
+$foundry = & az cognitiveservices account show `
+    --name $FoundryAccountName `
+    --resource-group $ResourceGroupName `
+    --only-show-errors `
+    --output json | ConvertFrom-Json
+if ($LASTEXITCODE -ne 0 -or [string]$foundry.kind -ne "AIServices") {
+    throw "The existing Microsoft Foundry resource must have the Azure resource property kind set to AIServices."
+}
+$expectedFoundryId = "/subscriptions/$ApprovedSubscriptionId/resourceGroups/$ResourceGroupName/providers/Microsoft.CognitiveServices/accounts/$FoundryAccountName"
+if ([string]$foundry.id -ne $expectedFoundryId) {
+    throw "The Foundry resource is outside the approved subscription or resource group."
+}
+$projectResourceId = "$expectedFoundryId/projects/$ProjectName"
+$project = & az resource show --ids $projectResourceId --only-show-errors --output json |
+    ConvertFrom-Json
+if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace([string]$project.identity.principalId)) {
+    throw "The Foundry project managed identity could not be resolved."
+}
+$readScope = [string]$tools[0].openapi.auth.assignmentScope
+$readRoleId = [string]$tools[0].openapi.auth.requiredRoleDefinitionId
+$readAssignments = @(& az role assignment list `
+    --assignee-object-id ([string]$project.identity.principalId) `
+    --scope $readScope `
+    --include-inherited false `
+    --only-show-errors `
+    --output json | ConvertFrom-Json)
+if ($LASTEXITCODE -ne 0 -or
+    @($readAssignments | Where-Object {
+        [string]$_.scope -eq $readScope -and
+        [string]$_.roleDefinitionId -match "/$([regex]::Escape($readRoleId))$"
+    }).Count -ne 1) {
+    throw "The exact downstream managed-identity read assignment is not ready."
+}
+
+$model = & az cognitiveservices account deployment show `
+    --name $FoundryAccountName `
+    --resource-group $ResourceGroupName `
+    --deployment-name ([string]$config.modelDeploymentName) `
+    --only-show-errors `
+    --output json | ConvertFrom-Json
+if ($LASTEXITCODE -ne 0 -or [string]$model.properties.provisioningState -ne "Succeeded") {
+    throw "The approved Session 05 model deployment is not ready."
+}
+
+$aiResource = & az resource show `
+    --ids $ApplicationInsightsResourceId `
+    --only-show-errors `
+    --output json | ConvertFrom-Json
+if ($LASTEXITCODE -ne 0 -or [string]$aiResource.type -ne "microsoft.insights/components") {
+    throw "The supplied Application Insights resource ID does not identify a Microsoft.Insights/components resource."
+}
+if ([string]$aiResource.id -notlike "/subscriptions/$ApprovedSubscriptionId/*") {
+    throw "Application Insights is outside the approved subscription."
+}
+if ([string]$aiResource.name -ne [string]$tracing.applicationInsightsResourceName) {
+    throw "The live Application Insights resource does not match release-operations.json."
+}
+
+$apiUri = [uri]$ReadApiBaseUrl
+if ($apiUri.Scheme -ne "https" -or -not [string]::IsNullOrWhiteSpace($apiUri.Query) -or -not [string]::IsNullOrWhiteSpace($apiUri.Fragment)) {
+    throw "ReadApiBaseUrl must be an HTTPS base URL without a query string or fragment."
+}
+
+$projectEndpoint = "https://$FoundryAccountName.services.ai.azure.com/api/projects/$ProjectName"
+$token = & az account get-access-token `
+    --scope "https://ai.azure.com/.default" `
+    --query accessToken `
+    --output tsv `
+    --only-show-errors
+if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($token)) {
+    throw "Unable to acquire a Microsoft Foundry data-plane token."
+}
+$headers = @{ Authorization = "Bearer $token" }
+try {
+    $agents = Invoke-RestMethod `
+        -Method GET `
+        -Uri "$projectEndpoint/agents?api-version=v1" `
+        -Headers $headers
+}
+catch {
+    throw "The approved Foundry project endpoint could not be read. $($_.Exception.Message)"
+}
+
+$agentItems = if ($null -ne $agents.data) { @($agents.data) } else { @($agents.value) }
+$existing = @($agentItems | Where-Object { $_.name -eq [string]$config.agentName })
+if ($existing.Count -gt 1) {
+    throw "The project returned more than one agent with the configured name."
+}
+if ($existing.Count -eq 1) {
+    $description = [string]$existing[0].agent_card.description
+    if ($description -notlike "*$($config.implementationSession)*") {
+        throw "An existing agent uses the configured name but does not carry the Session 06 marker."
+    }
+    if ([string]::IsNullOrWhiteSpace([string]$existing[0].instance_identity.principal_id)) {
+        throw "The existing agent is a legacy agent without a unique Entra Agent Identity. Create a new named agent instead."
+    }
+    if ([string]$releaseOperations.release.status -eq "deployed") {
+        $escapedAgentName = [uri]::EscapeDataString([string]$config.agentName)
+        $liveAgent = Invoke-RestMethod `
+            -Method GET `
+            -Uri "$projectEndpoint/agents/$escapedAgentName`?api-version=v1" `
+            -Headers $headers
+        $liveVersion = [string]$liveAgent.agent_endpoint.version_selector.version_selection_rules[0].agent_version
+        if ([string]$releaseOperations.release.agentName -ne [string]$config.agentName -or
+            [string]$releaseOperations.release.activeVersion -ne $liveVersion) {
+            throw "The current release selector differs from the live Foundry stable endpoint. Reconcile drift before creating another version."
+        }
+    }
+}
+
+Write-Host "Read-only preview:"
+Write-Host "  Project: $projectEndpoint"
+Write-Host "  Agent: $($config.agentName)"
+Write-Host "  Model deployment: $($config.modelDeploymentName)"
+Write-Host "  Tool surface: GET $($paths[0].Name) only"
+Write-Host "  Endpoint: Responses, Entra authorization, pinned to the new version"
+Write-Host "  Existing marked agent: $($existing.Count -eq 1)"
+if ($existing.Count -eq 1 -and [string]$releaseOperations.release.status -eq "deployed") {
+    Write-Host "  Current/live active version: $($releaseOperations.release.activeVersion)"
+}
+Write-Host "Foundry doesn't expose a what-if operation for data-plane agent version creation. This read-only lookup and exact mutation summary are the preview gate."
+
+Write-Host "PASS: Session 06 files, decisions, live release selector, approved Azure scope, model, Application Insights resource, Foundry project access, read-only tool boundary, unique-identity path, and preview gate are ready."

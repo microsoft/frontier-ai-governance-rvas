@@ -1,0 +1,6 @@
+let lookback = 24h;
+AlertInfo
+| where Timestamp > ago(lookback)
+| where Title has_any ("AI", "Jailbreak", "prompt injection", "ASCII Smuggling", "credential", "tool invocation")
+| project Timestamp, AlertId, Title, Severity, ServiceSource, DetectionSource, Category, AttackTechniques
+| order by Timestamp desc

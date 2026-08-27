@@ -1,0 +1,4 @@
+# Local Marp render output
+deck.html
+deck.pdf
+.render/

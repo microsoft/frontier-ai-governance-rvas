@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+<title id="title">One review packet joins six live control planes</title>
+<desc id="desc">Owners inspect live Microsoft Agent 365, Microsoft 365 Admin Center, Microsoft Entra, Copilot Studio and Power Platform, SharePoint, and Defender XDR state. Their decisions converge in a repository review packet. The module does not change tenant state.</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="context-stroke"/></marker></defs>
+<rect width="1400" height="900" fill="#ffffff"/>
+<text x="50" y="60" fill="#1e40af" font-family="Cascadia Mono, Consolas, monospace" font-size="30" text-anchor="start">
+<tspan x="50" dy="0">One review packet joins six live control planes</tspan>
+</text>
+<text x="50" y="95" fill="#64748b" font-family="Cascadia Mono, Consolas, monospace" font-size="17" text-anchor="start">
+<tspan x="50" dy="0">Owners read live service state. The repository keeps aliases, decisions, next actions, and payload-free queries.</tspan>
+</text>
+<text x="50" y="153" fill="#3b82f6" font-family="Cascadia Mono, Consolas, monospace" font-size="18" text-anchor="start">
+<tspan x="50" dy="0">AUTHORITATIVE LIVE STATE</tspan>
+</text>
+<rect x="50" y="180" width="340" height="92" rx="12" fill="#dbeafe" stroke="#1e3a5f" stroke-width="2"/>
+<text x="220.0" y="214" fill="#374151" font-family="Cascadia Mono, Consolas, monospace" font-size="16" text-anchor="middle">
+<tspan x="220.0" dy="0">Microsoft Agent 365</tspan>
+<tspan x="220.0" dy="20.0">Registry · Map · lifecycle</tspan>
+</text>
+<rect x="50" y="296" width="340" height="92" rx="12" fill="#dbeafe" stroke="#1e3a5f" stroke-width="2"/>
+<text x="220.0" y="330" fill="#374151" font-family="Cascadia Mono, Consolas, monospace" font-size="16" text-anchor="middle">
+<tspan x="220.0" dy="0">Microsoft 365 Admin Center</tspan>
+<tspan x="220.0" dy="20.0">Publishing · availability</tspan>
+</text>
+<rect x="50" y="412" width="340" height="92" rx="12" fill="#dbeafe" stroke="#1e3a5f" stroke-width="2"/>
+<text x="220.0" y="446" fill="#374151" font-family="Cascadia Mono, Consolas, monospace" font-size="16" text-anchor="middle">
+<tspan x="220.0" dy="0">Microsoft Entra</tspan>
+<tspan x="220.0" dy="20.0">Agent ID · Conditional Access</tspan>
+</text>
+<rect x="50" y="528" width="340" height="92" rx="12" fill="#dbeafe" stroke="#1e3a5f" stroke-width="2"/>
+<text x="220.0" y="562" fill="#374151" font-family="Cascadia Mono, Consolas, monospace" font-size="16" text-anchor="middle">
+<tspan x="220.0" dy="0">Copilot Studio · Power Platform</tspan>
+<tspan x="220.0" dy="20.0">Environment · connector policy</tspan>
+</text>
+<rect x="50" y="644" width="340" height="92" rx="12" fill="#dbeafe" stroke="#1e3a5f" stroke-width="2"/>
+<text x="220.0" y="678" fill="#374151" font-family="Cascadia Mono, Consolas, monospace" font-size="16" text-anchor="middle">
+<tspan x="220.0" dy="0">SharePoint</tspan>
+<tspan x="220.0" dy="20.0">Grounding access · oversharing</tspan>
+</text>
+<rect x="50" y="760" width="340" height="92" rx="12" fill="#dbeafe" stroke="#1e3a5f" stroke-width="2"/>
+<text x="220.0" y="794" fill="#374151" font-family="Cascadia Mono, Consolas, monospace" font-size="16" text-anchor="middle">
+<tspan x="220.0" dy="0">Microsoft Defender XDR</tspan>
+<tspan x="220.0" dy="20.0">Posture · hunting results</tspan>
+</text>
+<rect x="520" y="340" width="310" height="230" rx="12" fill="#fef3c7" stroke="#b45309" stroke-width="3"/>
+<text x="675.0" y="402" fill="#374151" font-family="Cascadia Mono, Consolas, monospace" font-size="20" text-anchor="middle">
+<tspan x="675.0" dy="0">OWNER REVIEW</tspan>
+<tspan x="675.0" dy="25.0"></tspan>
+<tspan x="675.0" dy="25.0">One pilot scope</tspan>
+<tspan x="675.0" dy="25.0">Named decision owner</tspan>
+<tspan x="675.0" dy="25.0">Next approved action</tspan>
+</text>
+<rect x="990" y="320" width="350" height="270" rx="12" fill="#a7f3d0" stroke="#047857" stroke-width="3"/>
+<text x="1165.0" y="380" fill="#374151" font-family="Cascadia Mono, Consolas, monospace" font-size="20" text-anchor="middle">
+<tspan x="1165.0" dy="0">PILOT REVIEW PACKET</tspan>
+<tspan x="1165.0" dy="25.0"></tspan>
+<tspan x="1165.0" dy="25.0">Aliases, not tenant data</tspan>
+<tspan x="1165.0" dy="25.0">Owner decisions</tspan>
+<tspan x="1165.0" dy="25.0">Payload-free queries</tspan>
+<tspan x="1165.0" dy="25.0">Publishing handoff</tspan>
+</text>
+<polyline points="1360,155 1360,825" fill="none" stroke="#dc2626" stroke-width="2" stroke-linejoin="round" stroke-dasharray="10 8"/>
+<text x="950" y="713" fill="#dc2626" font-family="Cascadia Mono, Consolas, monospace" font-size="18" text-anchor="start">
+<tspan x="950" dy="0">MODULE BOUNDARY</tspan>
+<tspan x="950" dy="22.5">No publishing, enforcement,</tspan>
+<tspan x="950" dy="22.5">permission change, or connector block</tspan>
+</text>
+<polyline points="390,226 440,226 520,416" fill="none" stroke="#1e3a5f" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="390,342 440,342 520,432" fill="none" stroke="#1e3a5f" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="390,458 520,458" fill="none" stroke="#1e3a5f" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="390,574 440,574 520,494" fill="none" stroke="#1e3a5f" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="390,690 440,690 520,520" fill="none" stroke="#1e3a5f" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="390,806 440,806 520,546" fill="none" stroke="#1e3a5f" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="830,455 990,455" fill="none" stroke="#b45309" stroke-width="3" stroke-linejoin="round" marker-end="url(#arrow)"/>
+</svg>

@@ -19,8 +19,10 @@ tools:
     toolsets: [issues, labels]
 safe-outputs:
   add-labels:
-    allowed: [bug, feature, enhancement, documentation, question, help-wanted, good-first-issue]
-  add-comment: {}
+    allowed: [bug, feature, enhancement, documentation, question, help-wanted, good-first-issue, community]
+    max: 20
+  add-comment:
+    max: 20
 imports:
   - shared/github-guard-policy.md
   - shared/reporting.md
@@ -58,7 +60,7 @@ Hi @{author}! I've categorized this issue as **{label_name}** based on the follo
 
 </details>
 
-**References**: [Triage run §{run_id}](https://github.com/github/gh-aw/actions/runs/{run_id})
+**References**: [Triage run §${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
 ```
 
 **Key formatting requirements**:

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "03-identity-privileged-access",
+  "roles": {
+    "foundryUser": {
+      "id": "53ca6127-db72-4b80-b1b0-d745d6d5456d"
+    },
+    "foundryProjectManager": {
+      "id": "eadc314b-1a2d-4efa-be10-5d325db5065e"
+    },
+    "foundryAccountOwner": {
+      "id": "e47c6f54-e4a2-4754-9501-8e0985b135e1"
+    },
+    "reader": {
+      "id": "acdd72a7-3385-48ef-bd42-f606fba81ae7"
+    },
+    "cognitiveServicesUser": {
+      "id": "a97b65f3-24c7-4388-baec-2e87135dc908"
+    },
+    "storageBlobDataReader": {
+      "id": "2a2b9908-6ea1-4ae2-8e65-a410df84e7d1"
+    }
+  }
+}

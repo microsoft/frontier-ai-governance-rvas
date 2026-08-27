@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="Create the owner review packet for one Agent 365 or Microsoft 365 pilot agent without changing production access.">
+    <title>Architecture | Optional module: Microsoft Agent 365 and Microsoft 365 agent governance | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page module-page">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program">Sessions</a>
+          <a href="../../index.html#optional-modules" aria-current="page">Optional modules</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="architecture">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#optional-modules">Optional modules</a>
+            <span aria-hidden="true">/</span>
+            <a href="index.html">Optional module</a>
+          </nav>
+          <p class="chapter-header__label">Chapter 2 of 6 · Architecture</p>
+          <h1 id="architecture">Microsoft Agent 365 and Microsoft 365 agent governance</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Optional module · Draft</span>
+            <span>4.5 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Module chapters">
+        <ol class="session-content-width"><li><a href="index.html"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html" aria-current="page"><span>2</span>Architecture</a></li><li><a href="before-you-start.html"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/agent-365.svg" alt="">
+                <strong>Microsoft Agent 365</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-365-copilot.svg" alt="">
+                <strong>Microsoft 365 Copilot</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-copilot-studio.svg" alt="">
+                <strong>Microsoft Copilot Studio</strong>
+              </li><li>
+                <img src="../../assets/icons/power-platform.svg" alt="">
+                <strong>Microsoft Power Platform</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-entra-id.svg" alt="">
+                <strong>Microsoft Entra ID</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-entra-agent-id.svg" alt="">
+                <strong>Microsoft Entra Agent ID</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-purview.svg" alt="">
+                <strong>Microsoft Purview</strong>
+              </li><li>
+                <img src="../../assets/icons/sharepoint.svg" alt="">
+                <strong>SharePoint</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-defender-xdr.svg" alt="">
+                <strong>Microsoft Defender XDR</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Architecture">
+          <p class="implementation-guide__label">Chapter 2 of 6</p>
+          <h3 id="architecture-at-a-glance">Architecture at a glance<a class="heading-anchor" href="#architecture-at-a-glance" aria-label="Link to Architecture at a glance">#</a></h3>
+<figure class="session-diagram"><img src="assets/diagrams/agent-365-control-plane-review.svg" alt="Live Microsoft 365 control planes feed owner decisions into one pilot review packet without changing tenant state" loading="lazy" decoding="async"></figure>
+<p>No single Microsoft 365 admin surface can answer every governance question about an agent. This module gives the existing service owners one review path for a single nonproduction agent or agent family. It adds no new control plane. Each owner still inspects the part of the pilot that their service governs.</p>
+<p>The review follows the agent across the service boundaries. Agent 365 shows its registry entry and Agent Map. Microsoft 365 Admin Center shows publishing and availability, while Microsoft Entra holds the Agent ID and Conditional Access state. Copilot Studio and Power Platform report the environment route and connector policy. SharePoint controls access to grounding sources. Defender XDR supplies the security posture and hunting results.</p>
+<p>The live services remain the source for current state. The repository packet connects their aliases and owner decisions, including who acts next, and stores payload-free hunting queries. Preflight can check whether that packet is complete. It cannot read the tenant or prove that an owner's portal review is still current.</p>
+<p>The publishing approver uses the packet to decide whether work should move to a separate, approved change path. This module stops before that change. It cannot publish the agent, enforce Conditional Access, alter SharePoint permissions, or block a connector.</p>
+<h3 id="design-choices-and-tradeoffs">Design choices and tradeoffs<a class="heading-anchor" href="#design-choices-and-tradeoffs" aria-label="Link to Design choices and tradeoffs">#</a></h3>
+<div class="table-scroll"><table><thead><tr><th scope="col">Choice engineers need to make</th><th scope="col">Route used here</th><th scope="col">Why this route fits</th><th scope="col">What the team accepts</th><th scope="col">Change course when</th></tr></thead><tbody><tr><td>How should owners inspect the pilot?</td><td>Review the live admin surfaces they own</td><td>Each decision comes from the service that holds the state, without brittle portal automation</td><td>Owners need access and must review current state; preflight cannot detect tenant drift</td><td>Supported APIs expose the required state with stable semantics</td></tr><tr><td>What belongs in the repository?</td><td>An alias-based review packet with no tenant or user data</td><td>The packet assigns decisions and next actions without copying live records</td><td>It cannot reconstruct tenant state or replace service records</td><td>An approved private system can retain governed identifiers</td></tr><tr><td>When should Conditional Access block access?</td><td>Record the Agent ID policy decision in report-only mode</td><td>The identity owner can inspect the expected effect first</td><td>This module does not block access</td><td>The identity owner approves a separate enforcement change</td></tr><tr><td>How narrowly should connector access be set?</td><td>Default-deny at action level where Advanced Connector Policies support it</td><td>The owner can restrict specific actions instead of classifying only the whole connector</td><td>Coverage depends on the tenant and connector</td><td>The platform provides a stronger approved policy route</td></tr></tbody></table></div>
+<h3 id="architecture-guidance">Architecture guidance<a class="heading-anchor" href="#architecture-guidance" aria-label="Link to Architecture guidance">#</a></h3>
+<p>Use the <a href="https://learn.microsoft.com/en-us/microsoft-agent-365/overview">Microsoft Agent 365 overview</a> to establish what Agent Registry and Agent Map can tell the Agent 365 administrator about this pilot. The inventory record then captures the alias, owner, sponsor, and lifecycle decision. It points back to Agent 365 rather than copying the live registry.</p>
+<p>The publishing checklist connects that inventory to the availability decision. The approver checks current state and the restore path in <a href="https://learn.microsoft.com/en-us/microsoft-365/admin/manage/manage-copilot-agents-integrated-apps">Microsoft 365 Admin Center agent management</a>. Connector and MCP action decisions go into the connector matrix. Apply <a href="https://learn.microsoft.com/en-us/power-platform/admin/advanced-connector-policies">Advanced Connector Policies</a> only when the tenant supports the action-level rule the owner needs. These policies allow the owner to control individual connector or MCP actions rather than treating the whole connector as one unit.</p>
+<p>Preflight comes last. It finds missing files and unresolved owner decisions in the packet. It does not query any of the live control planes.</p>
+<p>The numbered sessions still own their parts of the wider system. Session 03 supplies the identity ownership model. Sessions 08 and 09 set the inventory and tool boundaries. Sessions 10 and 12 remain the data and Defender handoffs. Session 15 brings the reviewed pilot record into fleet operations.</p>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Optional module</dd></div><div><dt>Status</dt><dd>Optional module · Draft</dd></div><div><dt>Duration</dt><dd>4.5 hours</dd></div><div><dt>Implementation mode</dt><dd>Standard</dd></div><div><dt>Last verified</dt><dd>2026-08-27</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="index.html"><span>Previous chapter</span><strong>Scope and outcomes</strong></a>
+        <a href="before-you-start.html"><span>Next chapter</span><strong>Before you start</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Optional module · Architecture</p>
+    </footer>
+
+    <button
+      class="deck-launcher"
+      type="button"
+      aria-haspopup="dialog"
+      aria-controls="session-deck-dialog"
+      data-deck-open
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+        <path d="M8 20h8M12 16.5V20"></path>
+      </svg>
+      <span>View slide deck</span>
+    </button>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Optional module</p>
+            <h2 id="session-deck-title">Microsoft Agent 365 and Microsoft 365 agent governance slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Optional module: Microsoft Agent 365 and Microsoft 365 agent governance slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>

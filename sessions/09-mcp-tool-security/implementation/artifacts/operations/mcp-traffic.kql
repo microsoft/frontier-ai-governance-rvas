@@ -1,0 +1,20 @@
+requests
+| where timestamp > ago(30m)
+| where customDimensions["api.type"] == "Mcp"
+| where customDimensions["service.name"] == "policy-catalog-mcp"
+| project
+    timestamp,
+    operation = tostring(customDimensions["gen_ai.operation.name"]),
+    tool = tostring(customDimensions["gen_ai.tool.name"]),
+    conversation = tostring(customDimensions["gen_ai.conversation.id"]),
+    client = strcat(
+        tostring(customDimensions["user_agent.name"]),
+        "/",
+        tostring(customDimensions["user_agent.version"])
+    ),
+    authType = tostring(customDimensions["auth.type"]),
+    correlationId = tostring(customDimensions["session09.correlation_id"]),
+    duration,
+    success,
+    resultCode
+| order by timestamp desc

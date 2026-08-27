@@ -1,0 +1,12 @@
+using '../infra/foundry/main.bicep'
+
+param namePrefix = 'rvas01'
+param projectName = 'platform-baseline'
+param location = '__REQUIRED_AZURE_REGION__'
+param publicNetworkAccess = '__REQUIRED_PUBLIC_NETWORK_ACCESS__'
+param businessOwner = '__REQUIRED_BUSINESS_OWNER__'
+param technicalOwner = '__REQUIRED_TECHNICAL_OWNER__'
+param dataClassification = '__REQUIRED_DATA_CLASSIFICATION__'
+param criticality = '__REQUIRED_CRITICALITY__'
+param costCenter = '__REQUIRED_COST_CENTER__'
+param expiryDate = '__REQUIRED_EXPIRY_DATE__'

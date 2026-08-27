@@ -1,0 +1,290 @@
+/* @theme ai-governance */
+@import "default";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap");
+
+:root {
+  --rvap-blue: #1A77E3;
+  --ms-blue: #0078D4;
+  --deep-navy: #032254;
+  --navy-mid: #0F3A7A;
+  --charcoal: #47494E;
+  --ink: #111827;
+  --muted: #6B7280;
+  --teal: #14868A;
+  --purple: #504092;
+  --risk-red: #DC2626;
+  --caution-gold: #CA8A04;
+  --success-green: #16A34A;
+  --surface: #FFFFFF;
+  --surface-soft: #F5F8FE;
+  --surface-paper: #FAFBFD;
+  --line: #E3E6ED;
+  --line-soft: #DDE6F7;
+  --font-display: "Aptos Display", "Outfit", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Aptos", "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Cascadia Code", "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+}
+
+section {
+  background:
+    radial-gradient(900px 440px at 100% -10%, rgba(26, 119, 227, 0.07), transparent 62%),
+    var(--surface);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 28px;
+  line-height: 1.35;
+  padding: 56px 72px 48px;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--deep-navy);
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: 1.9em;
+  line-height: 1.08;
+}
+
+h2 {
+  display: block;
+  font-size: 1.35em;
+  line-height: 1.12;
+  margin-bottom: 0.55em;
+  padding: 0;
+  text-wrap: balance;
+}
+
+h3 {
+  color: var(--rvap-blue);
+  font-size: 0.95em;
+  margin-bottom: 0.25em;
+}
+
+p,
+li {
+  color: var(--charcoal);
+  text-wrap: pretty;
+}
+
+li {
+  margin: 0.22em 0;
+}
+
+li::marker,
+a {
+  color: var(--rvap-blue);
+}
+
+strong {
+  color: var(--deep-navy);
+}
+
+code {
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  color: var(--deep-navy);
+  font-family: var(--font-mono);
+  padding: 0.05em 0.3em;
+}
+
+pre {
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: none;
+  padding: 0.5em;
+}
+
+blockquote {
+  background: var(--surface-soft);
+  border: 1px solid var(--line-soft);
+  border-radius: 12px;
+  box-shadow: none;
+  color: var(--charcoal);
+  font-style: normal;
+  margin: 0.6em 0;
+  padding: 0.55em 0.85em;
+  width: 100%;
+}
+
+blockquote p:first-child {
+  margin-top: 0;
+}
+
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+table {
+  font-size: 0.76em;
+  width: 100%;
+}
+
+th {
+  border-bottom: 2px solid var(--rvap-blue);
+  color: var(--deep-navy);
+}
+
+td {
+  border-bottom: 1px solid var(--line);
+}
+
+img {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px -16px rgba(3, 34, 84, 0.5);
+  box-sizing: border-box;
+  max-height: 470px;
+  object-fit: contain;
+  padding: 10px;
+}
+
+section > p:has(> img[src*="assets/icons/microsoft/"]:only-child) {
+  margin: 0;
+  position: absolute;
+  right: 72px;
+  top: 52px;
+}
+
+section > p > img[src*="assets/icons/microsoft/"]:only-child {
+  height: 56px;
+  max-height: none;
+  padding: 8px;
+  width: 56px;
+}
+
+section:has(> p > img[src*="assets/icons/microsoft/"]:only-child) h2 {
+  box-sizing: border-box;
+  padding-right: 88px;
+  width: 100%;
+}
+
+section::after {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 14px;
+}
+
+.eyebrow {
+  color: var(--rvap-blue);
+  font-family: var(--font-mono);
+  font-size: 0.62em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+section.cover,
+section.section-divider,
+section.closing {
+  align-items: center;
+  background: linear-gradient(135deg, var(--deep-navy) 0%, var(--navy-mid) 60%, var(--rvap-blue) 100%);
+  color: var(--surface);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+section.cover h1,
+section.cover h2,
+section.cover h3,
+section.cover p,
+section.cover strong,
+section.section-divider h1,
+section.section-divider h2,
+section.section-divider p,
+section.section-divider strong,
+section.closing h1,
+section.closing h2,
+section.closing p,
+section.closing strong {
+  border: 0;
+  color: var(--surface);
+}
+
+section.cover img,
+section.closing img {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  filter: brightness(0) invert(1);
+  margin-bottom: 20px;
+  max-height: 90px;
+  padding: 0;
+}
+
+section.cover .eyebrow {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+section.two-column .columns {
+  align-items: center;
+  display: grid;
+  gap: 36px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.cards {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.cards:has(> .card:nth-child(2):last-child) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cards:has(> .card:only-child) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.card {
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-paper) 100%);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(3, 34, 84, 0.08), 0 4px 12px rgba(3, 34, 84, 0.06);
+  padding: 18px;
+}
+
+.card img[src*="assets/icons/microsoft/"] {
+  height: 52px;
+  margin-bottom: 10px;
+  max-height: none;
+  padding: 7px;
+  width: 52px;
+}
+
+.columns img[src*="assets/icons/microsoft/"] {
+  height: 52px;
+  margin-bottom: 10px;
+  max-height: none;
+  padding: 7px;
+  width: 52px;
+}
+
+section.compact {
+  font-size: 25px;
+  line-height: 1.28;
+}
+
+section.compact li {
+  margin: 0.14em 0;
+}
+
+section.exercise,
+section.implementation {
+  background: linear-gradient(135deg, #F5F8FE 0%, #FFFFFF 75%);
+  border: 1px solid var(--line-soft);
+}
+
+section.decision {
+  background: linear-gradient(135deg, #FAFBFD 0%, #FFFFFF 75%);
+  border: 1px solid var(--line-soft);
+}

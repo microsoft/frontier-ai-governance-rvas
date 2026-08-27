@@ -1,0 +1,301 @@
+{
+  "manifestCases": [
+    {
+      "name": "valid exact mapping",
+      "leaveBehind": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedFiles": [
+        {
+          "path": "implementation/artifacts/deployment-inputs.json",
+          "consumer": "The preflight scripts and approved deployment process",
+          "operational_purpose": "Bind the deployment to its approved scope."
+        }
+      ],
+      "expectedFailures": []
+    },
+    {
+      "name": "missing top-level implementation files",
+      "leaveBehind": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "expectedFailures": [
+        "retained_files must be a non-empty top-level list of mappings"
+      ]
+    },
+    {
+      "name": "duplicate and extra approved paths",
+      "leaveBehind": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedFiles": [
+        {
+          "path": "implementation/artifacts/deployment-inputs.json",
+          "consumer": "The preflight scripts",
+          "operational_purpose": "Read deployment scope before a state change."
+        },
+        {
+          "path": "implementation/artifacts/deployment-inputs.json",
+          "consumer": "The deployment pipeline",
+          "operational_purpose": "Deploy the approved resource."
+        },
+        {
+          "path": "implementation/artifacts/extra.json",
+          "consumer": "The operations reconciliation job",
+          "operational_purpose": "Restore the approved configuration."
+        }
+      ],
+      "expectedFailures": [
+        "retained_files contains duplicate path: implementation/artifacts/deployment-inputs.json",
+        "retained_files contains path not in deliverables.leave_behind: implementation/artifacts/extra.json"
+      ]
+    },
+    {
+      "name": "missing approved path",
+      "leaveBehind": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedFiles": [
+        {
+          "path": "implementation/artifacts/other.json",
+          "consumer": "The operations reconciliation job",
+          "operational_purpose": "Restore the approved configuration."
+        }
+      ],
+      "expectedFailures": [
+        "retained_files is missing leave-behind path: implementation/artifacts/deployment-inputs.json",
+        "retained_files contains path not in deliverables.leave_behind: implementation/artifacts/other.json"
+      ]
+    },
+    {
+      "name": "duplicate leave-behind path",
+      "leaveBehind": [
+        "implementation/artifacts/deployment-inputs.json",
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedFiles": [
+        {
+          "path": "implementation/artifacts/deployment-inputs.json",
+          "consumer": "The preflight scripts",
+          "operational_purpose": "Read deployment scope before a state change."
+        }
+      ],
+      "expectedFailures": [
+        "deliverables.leave_behind contains duplicate path: implementation/artifacts/deployment-inputs.json"
+      ]
+    },
+    {
+      "name": "generic metadata",
+      "leaveBehind": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedFiles": [
+        {
+          "path": "implementation/artifacts/deployment-inputs.json",
+          "consumer": "repository",
+          "operational_purpose": "session output"
+        }
+      ],
+      "expectedFailures": [
+        "retained_files entry 1 consumer must name a concrete value",
+        "retained_files entry 1 operational_purpose must name a concrete value"
+      ]
+    },
+    {
+      "name": "fixture leave-behind",
+      "leaveBehind": [
+        "implementation/artifacts/fixtures/gate-data.json"
+      ],
+      "retainedFiles": [
+        {
+          "path": "implementation/artifacts/fixtures/gate-data.json",
+          "consumer": "The release gate",
+          "operational_purpose": "Evaluate the candidate release."
+        }
+      ],
+      "expectedFailures": [
+        "fixture path cannot be a leave-behind: implementation/artifacts/fixtures/gate-data.json",
+        "fixture path cannot be an implementation file: implementation/artifacts/fixtures/gate-data.json"
+      ]
+    },
+    {
+      "name": "empty and placeholder metadata",
+      "leaveBehind": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedFiles": [
+        {
+          "path": "implementation/artifacts/deployment-inputs.json",
+          "consumer": "",
+          "operational_purpose": "{{OPERATIONAL_PURPOSE}}"
+        }
+      ],
+      "expectedFailures": [
+        "retained_files entry 1 consumer must be a non-empty concrete value",
+        "retained_files entry 1 operational_purpose must name a concrete value"
+      ]
+    }
+  ],
+  "tableCases": [
+    {
+      "name": "valid table and manifest agreement",
+      "implementationFiles": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedMetadata": {
+        "implementation/artifacts/deployment-inputs.json": {
+          "consumer": "The preflight scripts and approved deployment process",
+          "operational_purpose": "Bind the deployment to its approved scope."
+        }
+      },
+      "table": "### Implementation files\n\n| Type | File | Consumer |\n|---|---|---|\n| Deployment | [`artifacts/deployment-inputs.json`](artifacts/deployment-inputs.json) | The preflight scripts and approved deployment process |\n",
+      "expectedFailures": []
+    },
+    {
+      "name": "wrong header",
+      "implementationFiles": [],
+      "retainedMetadata": {},
+      "table": "### Implementation files\n\n| Path | Purpose |\n|---|---|\n",
+      "expectedFailures": [
+        "implementation-file table header must be: Type | File | Consumer"
+      ]
+    },
+    {
+      "name": "missing file and metadata mismatch",
+      "implementationFiles": [
+        "implementation/artifacts/deployment-inputs.json",
+        "implementation/artifacts/runtime-contract.json"
+      ],
+      "retainedMetadata": {
+        "implementation/artifacts/deployment-inputs.json": {
+          "consumer": "The preflight scripts",
+          "operational_purpose": "Bind the deployment to its approved scope."
+        }
+      },
+      "table": "### Implementation files\n\n| Type | File | Consumer |\n|---|---|---|\n| Deployment | [`artifacts/deployment-inputs.json`](artifacts/deployment-inputs.json) | The deployment pipeline |\n",
+      "expectedFailures": [
+        "implementation-file table is missing implementation artifact: implementation/artifacts/runtime-contract.json",
+        "implementation-file table consumer does not match retained_files for: implementation/artifacts/deployment-inputs.json"
+      ]
+    },
+    {
+      "name": "duplicate and missing table paths",
+      "implementationFiles": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedMetadata": {},
+      "table": "### Implementation files\n\n| Type | File | Consumer |\n|---|---|---|\n| Deployment | [`artifacts/deployment-inputs.json`](artifacts/deployment-inputs.json) | The preflight scripts |\n| Record | [`artifacts/deployment-inputs.json`](artifacts/deployment-inputs.json) | The deployment pipeline |\n",
+      "expectedFailures": [
+        "implementation-file table contains duplicate path: implementation/artifacts/deployment-inputs.json"
+      ]
+    },
+    {
+      "name": "generic table metadata",
+      "implementationFiles": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedMetadata": {},
+      "table": "### Implementation files\n\n| Type | File | Consumer |\n|---|---|---|\n| Deployment | [`artifacts/deployment-inputs.json`](artifacts/deployment-inputs.json) | The repository |\n",
+      "expectedFailures": [
+        "implementation-file table row 1 consumer must name a concrete value"
+      ]
+    },
+    {
+      "name": "invalid artifact type",
+      "implementationFiles": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedMetadata": {},
+      "table": "### Implementation files\n\n| Type | File | Consumer |\n|---|---|---|\n| Configuration | [`artifacts/deployment-inputs.json`](artifacts/deployment-inputs.json) | The deployment pipeline |\n",
+      "expectedFailures": [
+        "implementation-file table row 1 type must be one of: Deployment, Runtime, Record"
+      ]
+    },
+    {
+      "name": "table hidden in HTML comment",
+      "implementationFiles": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedMetadata": {},
+      "table": "<!--\n### Implementation files\n\n| Type | File | Consumer |\n|---|---|---|\n| Deployment | [`artifacts/deployment-inputs.json`](artifacts/deployment-inputs.json) | The deployment pipeline |\n-->\n",
+      "expectedFailures": [
+        "implementation/README.md must contain the Implementation files table"
+      ]
+    },
+    {
+      "name": "table hidden in fenced code",
+      "implementationFiles": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedMetadata": {},
+      "table": "```markdown\n### Implementation files\n\n| Type | File | Consumer |\n|---|---|---|\n| Deployment | [`artifacts/deployment-inputs.json`](artifacts/deployment-inputs.json) | The deployment pipeline |\n```\n",
+      "expectedFailures": [
+        "implementation/README.md must contain the Implementation files table"
+      ]
+    },
+    {
+      "name": "table hidden in template",
+      "implementationFiles": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedMetadata": {},
+      "table": "<TeMpLaTe >\n### Implementation files\n\n| Type | File | Consumer |\n|---|---|---|\n| Deployment | [`artifacts/deployment-inputs.json`](artifacts/deployment-inputs.json) | The deployment pipeline |\n</TeMpLaTe >\n",
+      "expectedFailures": [
+        "implementation/README.md must contain the Implementation files table"
+      ]
+    },
+    {
+      "name": "table hidden in div",
+      "implementationFiles": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedMetadata": {},
+      "table": "<DiV   hidden >\n### Implementation files\n\n| Type | File | Consumer |\n|---|---|---|\n| Deployment | [`artifacts/deployment-inputs.json`](artifacts/deployment-inputs.json) | The deployment pipeline |\n</DiV>\n",
+      "expectedFailures": [
+        "implementation/README.md must contain the Implementation files table"
+      ]
+    },
+    {
+      "name": "table hidden in details",
+      "implementationFiles": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedMetadata": {},
+      "table": "<DETAILS open>\n<summary>Files</summary>\n\n### Implementation files\n\n| Type | File | Consumer |\n|---|---|---|\n| Deployment | [`artifacts/deployment-inputs.json`](artifacts/deployment-inputs.json) | The deployment pipeline |\n</DETAILS>\n",
+      "expectedFailures": [
+        "implementation/README.md must contain the Implementation files table"
+      ]
+    },
+    {
+      "name": "table hidden in span",
+      "implementationFiles": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedMetadata": {},
+      "table": "<span hidden>\n### Implementation files\n\n| Type | File | Consumer |\n|---|---|---|\n| Deployment | [`artifacts/deployment-inputs.json`](artifacts/deployment-inputs.json) | The deployment pipeline |\n</span>\n",
+      "expectedFailures": [
+        "implementation/README.md must contain the Implementation files table"
+      ]
+    },
+    {
+      "name": "table hidden by multiline html tag",
+      "implementationFiles": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedMetadata": {},
+      "table": "<div\n hidden>\n### Implementation files\n\n| Type | File | Consumer |\n|---|---|---|\n| Deployment | [`artifacts/deployment-inputs.json`](artifacts/deployment-inputs.json) | The deployment pipeline |\n</div>\n",
+      "expectedFailures": [
+        "implementation/README.md must contain the Implementation files table"
+      ]
+    },
+    {
+      "name": "ordinary inline HTML before visible table",
+      "implementationFiles": [
+        "implementation/artifacts/deployment-inputs.json"
+      ],
+      "retainedMetadata": {},
+      "table": "<p class=\"eyebrow\">Implementation files</p>\n\nPress <kbd>Ctrl</kbd> before continuing.\n\n### Implementation files\n\n| Type | File | Consumer |\n|---|---|---|\n| Deployment | [`artifacts/deployment-inputs.json`](artifacts/deployment-inputs.json) | The deployment pipeline |\n",
+      "expectedFailures": []
+    }
+  ]
+}

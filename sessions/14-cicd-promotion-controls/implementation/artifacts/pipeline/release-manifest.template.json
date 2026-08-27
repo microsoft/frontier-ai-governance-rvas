@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "14-cicd-promotion-controls",
+  "releaseId": "__RUNTIME_RELEASE_ID__",
+  "commitSha": "__RUNTIME_COMMIT_SHA__",
+  "bicep": {
+    "entrypoint": "__RUNTIME_BICEP_ENTRYPOINT__",
+    "templateSha256": "__RUNTIME_BICEP_TEMPLATE_SHA256__"
+  },
+  "promptVersion": "__RUNTIME_PROMPT_VERSION__",
+  "agentName": "__RUNTIME_AGENT_NAME__",
+  "agentVersion": "__RUNTIME_AGENT_VERSION__",
+  "modelDeploymentAlias": "__RUNTIME_MODEL_DEPLOYMENT_ALIAS__",
+  "gatewayPolicy": {
+    "sha256": "__RUNTIME_APIM_POLICY_SHA256__",
+    "version": "__RUNTIME_APIM_POLICY_VERSION__"
+  },
+  "evaluation": {
+    "runId": "__RUNTIME_EVALUATION_RUN_ID__",
+    "thresholdPolicyVersion": "__RUNTIME_EVALUATION_THRESHOLD_POLICY_VERSION__",
+    "thresholdPolicySha256": "__RUNTIME_EVALUATION_THRESHOLD_POLICY_SHA256__",
+    "systemOfRecord": "Microsoft Foundry and GitHub Actions"
+  },
+  "adversarialRegression": {
+    "reportSha256": "__RUNTIME_ADVERSARIAL_REPORT_SHA256__",
+    "systemOfRecord": "Microsoft Foundry and GitHub Actions"
+  },
+  "nonproduction": {
+    "deploymentId": "__RUNTIME_NONPRODUCTION_DEPLOYMENT_ID__"
+  },
+  "productionApproval": {
+    "environment": "production",
+    "recordUrl": "__RUNTIME_PRODUCTION_APPROVAL_RECORD_URL__",
+    "approverRole": "__RUNTIME_PRODUCTION_APPROVER_ROLE__",
+    "identitySource": "GitHub environment deployment record"
+  },
+  "routing": {
+    "strategy": "__RUNTIME_ROUTING_STRATEGY__",
+    "candidateSelector": "__RUNTIME_CANDIDATE_SELECTOR__",
+    "stableSelector": "__RUNTIME_STABLE_SELECTOR__"
+  },
+  "previousApprovedReleaseId": "__RUNTIME_PREVIOUS_APPROVED_RELEASE_ID__",
+  "records": {
+    "githubActionsRunUrl": "__RUNTIME_GITHUB_ACTIONS_RUN_URL__",
+    "approvedReleaseStore": "__RUNTIME_APPROVED_RELEASE_STORE__"
+  }
+}

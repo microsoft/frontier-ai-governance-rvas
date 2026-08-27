@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "optional-module-obo-delegated-access",
+  "controlObjective": "Preserve signed-in user authority across a trusted middle tier without forwarding the inbound token.",
+  "tenantId": "__REQUIRED_TENANT_ID__",
+  "owners": {
+    "identityOwner": "__REQUIRED_IDENTITY_OWNER__",
+    "applicationOwner": "__REQUIRED_APPLICATION_OWNER__",
+    "downstreamApiOwner": "__REQUIRED_DOWNSTREAM_API_OWNER__",
+    "deliveryOwner": "__REQUIRED_DELIVERY_OWNER__"
+  },
+  "scope": {
+    "clientApplicationObjectId": "__REQUIRED_CLIENT_APP_OBJECT_ID__",
+    "middleTierApplicationObjectId": "__REQUIRED_MIDDLE_TIER_APP_OBJECT_ID__",
+    "downstreamApplicationObjectId": "__REQUIRED_DOWNSTREAM_APP_OBJECT_ID__"
+  },
+  "prohibitedPatterns": [
+    "Forward the inbound bearer token to the downstream API",
+    "Exchange an application-only token through OBO",
+    "Log user assertions, access tokens, or response payloads",
+    "Grant tenant-wide delegated consent without the named consent owner"
+  ]
+}
+

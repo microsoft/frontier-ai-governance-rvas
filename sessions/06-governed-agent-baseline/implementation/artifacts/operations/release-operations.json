@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "06-governed-agent-baseline",
+  "release": {
+    "agentName": "pending-deployment",
+    "activeVersion": "pending-deployment",
+    "modelDeploymentName": "pending-deployment",
+    "versionSelection": "pinned",
+    "instructionsSha256": "pending-deployment",
+    "toolManifestSha256": "pending-deployment",
+    "prohibitedActionsSha256": "pending-deployment",
+    "deployedAtUtc": "pending-deployment",
+    "status": "pending-deployment"
+  },
+  "tracing": {
+    "mode": "server-side",
+    "applicationInsightsResourceName": "__REQUIRED_APP_INSIGHTS_NAME__",
+    "readerGroup": "__REQUIRED_TRACE_READER_GROUP__",
+    "retentionOwner": "__REQUIRED_TELEMETRY_OWNER__",
+    "contentRule": "Use synthetic or approved non-sensitive input for this session. Never place secrets, credentials, personal data, or restricted customer content in prompts, tool arguments, or trace attributes.",
+    "connectionManagedOutsideSession": true
+  }
+}

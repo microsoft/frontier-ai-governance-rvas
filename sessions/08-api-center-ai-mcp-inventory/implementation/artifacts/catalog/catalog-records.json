@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "08-api-center-ai-mcp-inventory",
+  "commonMetadata": {
+    "businessOwner": "__REQUIRED_BUSINESS_OWNER__",
+    "technicalOwner": "__REQUIRED_TECHNICAL_OWNER__",
+    "dataClassification": "__REQUIRED_DATA_CLASSIFICATION__",
+    "permittedConsumers": [
+      "__REQUIRED_PERMITTED_CONSUMER__"
+    ],
+    "modelProvider": "__REQUIRED_MODEL_PROVIDER__",
+    "residencyProfile": "__REQUIRED_RESIDENCY_PROFILE__",
+    "riskTier": "__REQUIRED_RISK_TIER__",
+    "evaluationResultsUrl": "__REQUIRED_EVALUATION_RESULTS_URL__",
+    "lastReviewDate": "__REQUIRED_LAST_REVIEW_DATE__",
+    "expiryDate": "__REQUIRED_EXPIRY_DATE__",
+    "implementationSession": "08-api-center-ai-mcp-inventory"
+  },
+  "records": {
+    "agent": {
+      "apiId": "policy-assistant-agent-api",
+      "title": "Policy assistant agent API",
+      "summary": "Direct Session 06 Microsoft Foundry agent endpoint.",
+      "description": "Design-time record for the pinned, Entra-authorized Session 06 agent Responses endpoint.",
+      "kind": "rest",
+      "versionId": "v1-0-0",
+      "versionTitle": "1.0.0",
+      "lifecycleStage": "testing",
+      "definitionId": "openapi",
+      "deploymentId": "foundry-nonproduction",
+      "customProperties": {
+        "assetKind": "agent-api"
+      }
+    },
+    "apim": {
+      "sourceTitle": "Governed policy assistant Responses API",
+      "customProperties": {
+        "assetKind": "ai-api"
+      }
+    },
+    "mcp": {
+      "title": "__REQUIRED_MCP_SERVER_TITLE__",
+      "summary": "__REQUIRED_MCP_SERVER_SUMMARY__",
+      "description": "__REQUIRED_MCP_SERVER_DESCRIPTION__",
+      "versionId": "__REQUIRED_MCP_SERVER_VERSION_ID__",
+      "versionTitle": "__REQUIRED_MCP_SERVER_VERSION_TITLE__",
+      "lifecycleStage": "testing",
+      "environmentTitle": "Approved nonproduction MCP runtime",
+      "transport": "streamable-http",
+      "runtimeUrlEnvironmentVariable": "SESSION08_MCP_SERVER_URL",
+      "customProperties": {
+        "assetKind": "mcp-server",
+        "dataClassification": "__REQUIRED_MCP_DATA_CLASSIFICATION__",
+        "permittedConsumers": [
+          "__REQUIRED_MCP_PERMITTED_CONSUMER__"
+        ],
+        "modelProvider": "not-applicable",
+        "residencyProfile": "__REQUIRED_MCP_RESIDENCY_PROFILE__",
+        "riskTier": "__REQUIRED_MCP_RISK_TIER__",
+        "evaluationResultsUrl": "__REQUIRED_MCP_EVALUATION_RESULTS_URL__",
+        "lastReviewDate": "__REQUIRED_MCP_LAST_REVIEW_DATE__",
+        "expiryDate": "__REQUIRED_MCP_EXPIRY_DATE__"
+      }
+    }
+  }
+}
