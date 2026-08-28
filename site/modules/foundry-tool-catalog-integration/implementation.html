@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="Connect an approved remote MCP server in Azure API Center to a dedicated versioned Toolbox in Microsoft Foundry, then reconcile the catalog record, project connection, allowed tool, and live Toolbox tool list.">
+    <meta name="description" content="Connect an approved remote MCP server in Azure API Center to a dedicated versioned Toolbox in Microsoft Foundry, then compare the catalog record, project connection, allowed tool, and live Toolbox tool list.">
     <title>Implementation | Optional module: API Center private tool catalog to Foundry Toolbox | Practical Microsoft AI Governance</title>
     <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
     <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
@@ -160,7 +160,7 @@ approved_target_scope=&quot;&lt;approved-nonproduction-scope&gt;&quot;
   </div>
 </section>
 <p>Preflight checks the exact scope, preview approval, portal discovery decision, endpoint digest, project connection, one-tool allow list, approval setting, implementation marker, and Toolbox name collision.</p>
-<p>Microsoft Foundry does not provide a read-only deployment preview for Toolbox version creation. Preflight records <code>previewSupported</code> as false through this explicit message, inspects the existing project connection, and requires the dedicated Toolbox name to be absent before the POST.</p>
+<p>Microsoft Foundry does not provide a read-only deployment preview for Toolbox version creation. Preflight records <code>previewSupported</code> as false in an explicit message, inspects the existing project connection, and requires the dedicated Toolbox name to be absent before the POST.</p>
 <h3 id="4-create-the-first-toolbox-version">4. Create the first Toolbox version<a class="heading-anchor" href="#4-create-the-first-toolbox-version" aria-label="Link to 4. Create the first Toolbox version">#</a></h3>
 <p>Use the Microsoft Foundry <code>v1</code> data-plane route. The first version of a new Toolbox becomes the default version.</p>
 <section class="code-tabs" data-code-tabs>
@@ -209,7 +209,7 @@ unset token</code></pre>
 <h3 id="5-hand-the-consumer-endpoint-to-agent-owners">5. Hand the consumer endpoint to agent owners<a class="heading-anchor" href="#5-hand-the-consumer-endpoint-to-agent-owners" aria-label="Link to 5. Hand the consumer endpoint to agent owners">#</a></h3>
 <p>The reusable consumer endpoint omits <code>/versions/{version}</code> and always serves the Toolbox <code>default_version</code>:</p>
 <pre><code class="language-text">{project_endpoint}/toolboxes/{toolbox_name}/mcp?api-version=v1</code></pre>
-<p>Pass it through the approved runtime configuration path to agent teams. Do not add it directly to the Session 05 agent as part of this module. That owner decides when the agent release is ready to consume the Toolbox and how the runtime presents approval requests.</p>
+<p>Pass it to agent teams through the approved runtime configuration path. Do not add it directly to a Session 05 agent in this module. The release owner decides when an agent can use the Toolbox and how the runtime presents approval requests.</p>
 
         </article>
         <aside class="facts-panel" aria-labelledby="facts-panel-title">

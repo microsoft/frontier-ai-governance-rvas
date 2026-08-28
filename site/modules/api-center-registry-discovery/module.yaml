@@ -10,26 +10,26 @@ module:
     - "MCP server owners and application security owners"
     - "Developers who configure MCP-capable clients"
   prerequisites:
-    - "Session 07 has registered the approved remote or local MCP server in an existing Azure API Center default workspace."
-    - "Session 08 has completed the runtime authorization, tool-boundary, and telemetry decisions for every MCP server that will be discoverable."
+    - "Session 08 has registered the approved remote or local MCP server in an Azure API Center default workspace."
+    - "Session 09 has completed the runtime authorization, tool-boundary, and telemetry decisions for every discoverable MCP server."
     - "The API Center portal uses Microsoft Entra ID authentication; anonymous access is disabled."
     - "The developer access group has the Azure API Center Data Reader role at the exact API Center resource scope."
     - "An API Center configuration owner can update API visibility and MCP Registry settings through the approved Azure portal change path."
-    - "The client owner has a supported MCP registry integration or an approved adapter that reads `registry-client-settings.json`."
+    - "The client owner has a supported MCP registry integration or approved adapter that reads `registry-client-settings.json`."
   related_content:
-    - "Session 07 - Azure API Center and the AI/MCP inventory"
-    - "Session 08 - MCP and tool security"
+    - "Session 08 - Azure API Center and the AI/MCP inventory"
+    - "Session 09 - MCP and tool security"
   services_in_scope:
     - "azure-api-center"
     - "microsoft-entra-id"
-  control_objective: "Configure Microsoft Entra-protected Azure API Center MCP registry discovery for MCP servers at the approved `Production` lifecycle stage and check that the registry returns no other server names."
+  control_objective: "Configure Microsoft Entra-protected Azure API Center MCP registry discovery for MCP servers at the approved `Production` lifecycle stage and check that the registry returns only approved server names."
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Record the default-workspace MCP registry endpoint, Microsoft Entra access requirements, and the client or adapter that uses the settings."
+  - "Record the default-workspace MCP registry endpoint, Microsoft Entra access requirements, and the client or adapter that uses these settings."
   - "Configure Data API visibility so related consumption features expose MCP records in the approved lifecycle stage."
   - "Keep the approved server names, owners, review date, and restore reference in an operational record."
-  - "Confirm that the complete registry response contains every approved server name and no unexpected server name."
+  - "Confirm that the full registry response contains every approved server name and no unexpected server name."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"

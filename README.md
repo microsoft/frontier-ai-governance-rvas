@@ -1,6 +1,6 @@
 # Practical Microsoft AI Governance
 
-This repository publishes a 14-session Microsoft AI governance implementation
+This repository publishes a 15-session Microsoft AI governance implementation
 series. Teams deploy controls, check them in a nonproduction environment, and
 keep the reusable configuration in source control.
 
@@ -25,7 +25,7 @@ credentials, tenant and subscription IDs, and runtime values out of the reposito
 ## Preview locally
 
 The files in `sessions/` are the source for the numbered session guides and slide decks.
-Need-based implementation kits live under `modules/` and remain separate from the 14-session
+Need-based implementation kits live under `modules/` and remain separate from the 15-session
 sequence. Root `services.json` supplies the service labels and categories plus the icon filenames
 used across the generated site.
 Install the pinned build dependency:

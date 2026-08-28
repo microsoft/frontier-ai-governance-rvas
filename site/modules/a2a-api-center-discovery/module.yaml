@@ -9,18 +9,18 @@ module:
     - "API platform and developer-experience engineers"
     - "A2A runtime owners and Agent 365 administrators"
   prerequisites:
-    - "The A2A agent has a live Microsoft Agent 365 record through a supported onboarding route."
+    - "The A2A agent has a live Microsoft Agent 365 record from a supported onboarding route."
     - "Developers have a documented need to discover the agent's A2A interface through Azure API Center."
     - "The runtime owner controls an approved Git or API Management source integration that can publish the A2A asset without a manual duplicate record."
-    - "The API Center owner can inspect the source integration and the resulting Agent asset in the approved nonproduction API Center."
+    - "The API Center owner can review the source integration and resulting Agent asset in the approved nonproduction API Center."
   related_content:
-    - "Session 07 - Azure API Center and the AI/MCP inventory"
+    - "Session 08 - Azure API Center and the AI/MCP inventory"
     - "A2A agent inventory in Microsoft Agent 365"
   services_in_scope:
     - "azure-api-center"
     - "agent-365"
     - "azure-api-management"
-  control_objective: "Expose an already-governed A2A agent for developer discovery in Azure API Center through a supported Git or API Management integration maintained by the runtime owner, then observe the live catalog asset."
+  control_objective: "Expose an already-governed A2A agent for developer discovery in Azure API Center through a supported Git or API Management integration maintained by the runtime owner, then review the live catalog asset."
 implementation:
   mode: "standard"
   live_only: true
@@ -28,7 +28,7 @@ implementation_outcomes:
   - "Confirm that developers need A2A discovery for the approved agent."
   - "Select a supported Git or API Management source that the runtime owner maintains."
   - "Create or refresh the live API Center asset through that source without a manual duplicate registration."
-  - "Observe the resulting catalog asset and confirm it still points to the current A2A interface."
+  - "Review the catalog asset and confirm that it still points to the current A2A interface."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"

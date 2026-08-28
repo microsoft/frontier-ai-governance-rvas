@@ -202,7 +202,7 @@ Complete the parameter file in the customer working copy. In the approved change
 customer firewall repository or policy system that maintains outbound rules. If the customer uses
 central private DNS, change the same Bicep file to reference existing zone IDs and remove local
 zone and link declarations. Keep one **authoritative zone per service**. The Microsoft Foundry
-[end-to-end network-isolation sample](https://github.com/microsoft-foundry/foundry-samples/tree/main/infrastructure/infrastructure-setup-bicep/15-private-network-standard-agent-setup)
+[end-to-end network-isolation sample](https://github.com/microsoft-foundry/foundry-samples/tree/main/infrastructure/infrastructure-setup-bicep/16-private-network-standard-agent-setup)
 shows the supported resource relationships. Keep this session's approved names, scopes, and
 customer-owned firewall design.
 

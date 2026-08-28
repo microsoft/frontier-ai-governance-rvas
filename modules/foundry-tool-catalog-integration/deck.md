@@ -19,7 +19,7 @@ description: Optional implementation module for connecting an approved remote MC
 Connect an approved remote MCP server in Azure API Center to a dedicated Toolbox, then run a
 read-only check.
 
-<!-- Notes: This module extends Session 07 without changing the numbered sequence. -->
+<!-- Notes: This module extends Session 08 without changing the numbered sequence. -->
 
 ---
 
@@ -42,7 +42,7 @@ Compare the catalog record, project connection, allowed tool, and live Toolbox t
 
 ## Why it matters
 
-Session 07 records the MCP server record in API Center. Session 08 defines its security boundary.
+Session 08 records the MCP server record in API Center. Session 09 defines its security boundary.
 
 Agent teams still need a reusable connection path. They should not copy the endpoint, credentials,
 and tool settings into every agent.
@@ -149,7 +149,7 @@ No credential, token, tenant ID, endpoint, or tool result belongs in the reposit
 - `require_approval` must be `always`
 - No fallback to an unreviewed custom MCP entry
 
-<!-- Notes: A failed gate sends the issue to the API catalog, identity, or Session 08 owner. -->
+<!-- Notes: A failed gate sends the issue to the API catalog, identity, or Session 09 owner. -->
 
 ---
 
@@ -180,7 +180,7 @@ The check lists tools. It does not call the remote operation.
 | API catalog owner | MCP server record in API Center, version, deployment, and access |
 | Foundry tool owner | Project connection, Toolbox versions, and default |
 | Agent release owner | Consumer endpoint and approval experience |
-| MCP owner | Runtime tool definition and Session 08 controls |
+| MCP owner | Runtime tool definition and Session 09 controls |
 
 <!-- Notes: Reconcile after endpoint, authentication, tool-name, connection, or default-version changes. -->
 
@@ -203,8 +203,8 @@ Keep the MCP server record in API Center unless its owner separately retires the
 ## Related sessions and modules
 
 - **Session 05** covers agent release and endpoint consumption.
-- **Session 07** covers the API Center inventory record.
-- **Session 08** covers MCP authentication, tool safety, and runtime controls.
+- **Session 08** covers the API Center inventory record.
+- **Session 09** covers MCP authentication, tool safety, and runtime controls.
 
 This module configures only the connection from the catalog to Toolbox.
 

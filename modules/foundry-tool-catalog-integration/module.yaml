@@ -11,14 +11,14 @@ module:
     - "Security and release owners responsible for reusable agent tools"
   prerequisites:
     - "Session 05 has an approved Microsoft Foundry project, and an agent owner is ready to use a Toolbox endpoint."
-    - "Session 07 has an approved remote MCP server in Azure API Center with a version, deployment, runtime URL, owner, lifecycle state, and authentication decision."
-    - "Session 08 has approved the MCP server's tool surface, authentication boundary, and runtime safety controls."
+    - "Session 08 has an approved remote MCP server in Azure API Center with a version, deployment, runtime URL, owner, lifecycle state, and authentication decision."
+    - "Session 09 has approved the MCP server's tool surface, authentication boundary, and runtime safety controls."
     - "The module operator has Azure API Center Data Reader on the exact API Center resource, Foundry User on the exact Foundry project, and Foundry Project Manager when a project connection must be created."
     - "The approved execution host has Azure CLI, Azure Developer CLI 1.25 or later, the microsoft.foundry extension, Python 3, and network access to the Foundry project and MCP server."
   related_content:
     - "Session 05 - Governed Microsoft Foundry agent baseline"
-    - "Session 07 - Azure API Center and the AI/MCP inventory"
-    - "Session 08 - MCP and tool security"
+    - "Session 08 - Azure API Center and the AI/MCP inventory"
+    - "Session 09 - MCP and tool security"
   services_in_scope:
     - "azure-api-center"
     - "azure-ai-foundry"

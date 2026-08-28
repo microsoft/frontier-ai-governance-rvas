@@ -34,7 +34,7 @@ supported Git or API Management integration maintained by the runtime owner.
 Agent 365 covers enterprise inventory. Developers sometimes also need a current A2A interface in
 their API catalog.
 
-The source integration keeps that technical entry current without copying the agent card or
+The source integration keeps that technical entry current. It does not copy the agent card or
 definition into this repository.
 
 ---
@@ -53,10 +53,10 @@ This repository stores no copy of these records.
 
 ## Use API Center only when developers need it
 
-Developer discovery is the reason to add this asset.
+Add this asset only when developers need discovery.
 
-If that need does not exist, stay with the Agent 365 enterprise inventory record and do not create
-another catalog entry.
+If they do not need it, keep the Agent 365 enterprise inventory record and do not create another
+catalog entry.
 
 ---
 
@@ -82,7 +82,7 @@ Runtime-owned Git or API Management source
        Live A2A discovery asset
 ```
 
-Do not manually register the same agent beside its source integration.
+Do not manually register the agent beside its source integration.
 
 ---
 
@@ -92,7 +92,7 @@ Do not manually register the same agent beside its source integration.
 - Developers need the A2A interface in API Center.
 - Git or API Management is the approved source.
 - The runtime owner maintains the source.
-- The API Center owner can inspect the live asset.
+- The API Center owner can review the live asset.
 
 ---
 
@@ -104,14 +104,14 @@ Do not manually register the same agent beside its source integration.
 2. Run preflight with the runtime-owned source reference.
 3. Configure or refresh the approved source integration.
 4. Open the live Agent asset in API Center.
-5. Confirm the A2A interface and source relationship.
+5. Confirm the A2A interface and its source relationship.
 
 ---
 
 ## Confirm the result
 
-The module passes when API Center exposes the current A2A asset from the approved source and the
-Agent 365 record remains the enterprise inventory.
+The module passes when API Center exposes the current A2A asset from the approved source, while
+Agent 365 remains the enterprise inventory.
 
 No local card, definition, export, or comparison record is created.
 

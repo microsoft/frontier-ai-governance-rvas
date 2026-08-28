@@ -43,7 +43,7 @@ html: true
 4. Apply the RAI policy in `agent.json` and enable server-side tracing.
 5. Pin the stable Responses endpoint to the implemented version.
 
-<!-- Notes: Session 06 fronts this endpoint with APIM; Session 08 introduces MCP controls. -->
+<!-- Notes: Session 07 fronts this endpoint with APIM; Session 09 introduces MCP controls. -->
 
 ---
 
@@ -124,7 +124,7 @@ identity makes the downstream tool call.
 |---|---|
 | Prompt agent | Selected. It provides the managed runtime, immutable versions, and stable endpoint this baseline needs. |
 | Direct OpenAPI attachment | Selected. The agent version includes the OpenAPI definition, and the deployment files record the downstream role and assignment scope. |
-| Foundry Toolbox | Use a future optional module when several agents need a curated reusable tool endpoint. Session 08 is the handoff when APIM and MCP controls are also required. |
+| Foundry Toolbox | Use a future optional module when several agents need a curated reusable tool endpoint. Session 09 is the handoff when APIM and MCP controls are also required. |
 | Hosted agent | It adds code and container control that this read-only scenario does not need. |
 | Responses API only | The application would send the definition with each request. Foundry would not store a persistent agent resource. |
 
@@ -259,7 +259,7 @@ routes the request to the pinned version, and uses the project managed identity 
 OpenAPI GET call.
 
 Foundry holds the live identity, versions, routing, and RAI policy. Git holds the intended
-configuration. This implementation covers calls through the direct read API. Session 06 uses the
+configuration. This implementation covers calls through the direct read API. Session 07 uses the
 pinned endpoint.
 
 ---
@@ -372,7 +372,7 @@ Removal deletes only the marked Session 05 agent and its versions.
 - Register the GET-only tool and keep the write action absent.
 - Apply the RAI policy in `agent.json`. The operations owner manages trace access, retention, and cost.
 
-Next, place the governed endpoint behind the [Session 06 APIM AI gateway](../06-apim-ai-gateway/).
+Next, place the governed endpoint behind the [Session 07 APIM AI gateway](../07-apim-ai-gateway/).
 
 <!-- Notes: The customer now owns the baseline that later sessions extend. -->
 

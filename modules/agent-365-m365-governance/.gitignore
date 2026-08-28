@@ -1,4 +1,0 @@
-*.token
-*.csv.export
-.env
-.tmp/

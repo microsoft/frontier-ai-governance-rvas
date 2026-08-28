@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="A trusted middle tier preserves signed-in user authority through an OBO exchange while downstream authorization remains user-specific.">
+    <meta name="description" content="A trusted middle tier preserves signed-in user authority through an OBO exchange, while the downstream API still authorizes each user.">
     <title>Decisions and boundaries | Optional module: Delegated API access with OAuth on-behalf-of | Practical Microsoft AI Governance</title>
     <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
     <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
@@ -102,8 +102,8 @@
           <p class="implementation-guide__label">Chapter 4 of 6</p>
           <h2 id="decisions-and-stop-conditions">Decisions and stop conditions<a class="heading-anchor" href="#decisions-and-stop-conditions" aria-label="Link to Decisions and stop conditions">#</a></h2>
 <h3 id="choose-obo-for-the-right-reason">Choose OBO for the right reason<a class="heading-anchor" href="#choose-obo-for-the-right-reason" aria-label="Link to Choose OBO for the right reason">#</a></h3>
-<p>Use OBO only when the downstream API must evaluate the signed-in user. Typical signals are user-owned records, per-user entitlements, or a downstream policy that names the user as the subject.</p>
-<p>Stay with application-only authorization when the workload reads shared data, runs in the background, or should have the same authority for every caller. OBO is not a stronger form of managed identity. It carries a different authority.</p>
+<p>Use OBO only when the downstream API must evaluate the signed-in user. Typical signals include user-owned records, per-user entitlements, or a downstream policy that names the user.</p>
+<p>Use application-only authorization when the workload reads shared data, runs in the background, or needs the same authority for every caller. OBO carries a different authority from managed identity.</p>
 <h3 id="keep-token-audiences-separate">Keep token audiences separate<a class="heading-anchor" href="#keep-token-audiences-separate" aria-label="Link to Keep token audiences separate">#</a></h3>
 <p>The inbound token audience is the middle tier. The exchanged token audience is the downstream API. They must differ.</p>
 <p>The claim examples and Conditional Access claims-challenge boundary contain no token values.</p>
@@ -117,7 +117,7 @@
 <p>Stop if the certificate is committed, passed as a command argument, printed, copied into a build artifact, or mounted where another workload can read it. Stop if the registered thumbprint differs from the certificate exposed to the middle tier. This path requires an exportable Key Vault certificate. An HSM-backed, nonexportable key cannot be mounted as a PFX and needs a different client-authentication design.</p>
 <h3 id="validate-before-exchange">Validate before exchange<a class="heading-anchor" href="#validate-before-exchange" aria-label="Link to Validate before exchange">#</a></h3>
 <p>The middle tier validates the issuer, middle-tier audience, tenant, calling client, delegated scope, token lifetime, and signed-in user claims before using the token as a user assertion. The authoritative configuration file is <a href="implementation/artifacts/governance/token-claim-contract.json"><code>governance/token-claim-contract.json</code></a>.</p>
-<p>An OBO exchange does not remove Conditional Access. Surface a supported claims challenge or authorization failure to the approved client flow. Never turn it into an anonymous retry or an application-only call.</p>
+<p>An OBO exchange does not remove Conditional Access. Return a supported claims challenge or authorization failure to the approved client flow. Never turn it into an anonymous retry or an application-only call.</p>
 <h3 id="keep-telemetry-payload-free">Keep telemetry payload-free<a class="heading-anchor" href="#keep-telemetry-payload-free" aria-label="Link to Keep telemetry payload-free">#</a></h3>
 <p>Use the allowlist in the token-claim contract. Do not log the inbound authorization header, user assertion, exchanged token, request body, downstream body, or certificate material. The threat model in <a href="implementation/artifacts/governance/threat-model.md"><code>governance/threat-model.md</code></a> treats any such capture as a stop condition.</p>
 

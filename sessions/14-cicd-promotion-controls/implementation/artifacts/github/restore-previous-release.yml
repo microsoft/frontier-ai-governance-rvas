@@ -1,0 +1,139 @@
+name: Restore previous AI release
+
+on:
+  workflow_dispatch:
+    inputs:
+      approved_release_id:
+        description: Exact previous releaseId in the approved customer release store
+        required: true
+        type: string
+      expected_manifest_sha256:
+        description: SHA-256 recorded in the approved release store
+        required: true
+        type: string
+      dry_run:
+        description: Preview only; do not move the stable selector
+        required: true
+        type: boolean
+        default: true
+
+concurrency:
+  group: controlled-ai-promotion-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  restore:
+    name: Approve previous-release routing restore
+    runs-on: windows-latest
+    timeout-minutes: 30
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Check out approved restore definitions
+        uses: actions/checkout@__REQUIRED_ACTIONS_CHECKOUT_FULL_SHA__
+        with:
+          persist-credentials: false
+
+      - name: Assert production environment coordinates
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $actualScope = "/subscriptions/${{ vars.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ vars.AZURE_RESOURCE_GROUP }}"
+          if ([string]$control.targetScopes.production -ine $actualScope -or
+              [string]$control.azure.productionClientId -ine "${{ vars.AZURE_CLIENT_ID }}" -or
+              [string]$control.azure.tenantId -ine "${{ vars.AZURE_TENANT_ID }}") {
+            throw "Restore environment variables do not match the approved production identity and scope."
+          }
+
+      - name: Sign in with production environment OIDC
+        uses: azure/login@__REQUIRED_AZURE_LOGIN_FULL_SHA__
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Retrieve the exact approved manifest
+        id: retrieve
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $manifestPath = Join-Path "${{ runner.temp }}" "approved-release/release-manifest.json"
+          New-Item -ItemType Directory -Path (Split-Path -Parent $manifestPath) -Force | Out-Null
+          & $control.sourcePaths.releaseStoreScript `
+            -Mode Retrieve `
+            -ReleaseId "${{ inputs.approved_release_id }}" `
+            -ExpectedSha256 "${{ inputs.expected_manifest_sha256 }}" `
+            -OutputPath $manifestPath
+          if (-not $?) { throw "The exact approved manifest could not be retrieved." }
+          "path=$manifestPath" >> $env:GITHUB_OUTPUT
+
+      - name: Validate exact version, digest, and marker
+        id: manifest
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $manifestPath = "${{ steps.retrieve.outputs.path }}"
+          if (-not (Test-Path -LiteralPath $manifestPath -PathType Leaf)) {
+            throw "The approved release manifest was not retrieved."
+          }
+          $actualHash = (Get-FileHash -LiteralPath $manifestPath -Algorithm SHA256).Hash.ToLowerInvariant()
+          $expectedHash = "${{ inputs.expected_manifest_sha256 }}".ToLowerInvariant()
+          if ($expectedHash -notmatch "^[0-9a-f]{64}$" -or $actualHash -ne $expectedHash) {
+            throw "Manifest digest does not match the approved release store."
+          }
+          $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+          if ([string]$manifest.implementationSession -ne "13-cicd-promotion-controls") {
+            throw "Manifest has the wrong implementationSession marker."
+          }
+          if ([string]$manifest.releaseId -cne "${{ inputs.approved_release_id }}") {
+            throw "Manifest releaseId is not the exact approved restore target."
+          }
+          if ([string]$manifest.commitSha -notmatch "^[0-9a-fA-F]{40}$") {
+            throw "Restore target does not carry an immutable commit SHA."
+          }
+          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          if ([int]$manifest.schemaVersion -ne 1 -or
+              [string]$manifest.routing.strategy -notin @("canary", "blue-green") -or
+              [string]$manifest.routing.stableSelector -cne [string]$control.routing.stableSelector -or
+              [string]::IsNullOrWhiteSpace([string]$manifest.nonproduction.deploymentId) -or
+              [string]::IsNullOrWhiteSpace([string]$manifest.production.workflowRunUrl)) {
+            throw "Restore record does not match the source-of-truth schema, stable selector, or native deployment references."
+          }
+          "path=$manifestPath" >> $env:GITHUB_OUTPUT
+
+      - name: Preview the exact selector restore
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          & $control.sourcePaths.routingControlScript `
+            -Mode Restore `
+            -ApprovedManifestPath "${{ steps.manifest.outputs.path }}" `
+            -ReleaseId "${{ inputs.approved_release_id }}" `
+            -WhatIf
+          if (-not $?) { throw "Restore preview failed." }
+
+      - name: Move only the stable selector to the approved release
+        if: ${{ !inputs.dry_run }}
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          & $control.sourcePaths.routingControlScript `
+            -Mode Restore `
+            -ApprovedManifestPath "${{ steps.manifest.outputs.path }}" `
+            -ReleaseId "${{ inputs.approved_release_id }}"
+          if (-not $?) { throw "Exact selector restore failed." }
+
+      - name: State the operational boundary
+        shell: pwsh
+        run: |
+          Write-Host "Restore changes only the documented stable routing selector."
+          Write-Host "Current and previous code, agent, model, prompt, APIM policy, evaluation, and deployment versions remain available."

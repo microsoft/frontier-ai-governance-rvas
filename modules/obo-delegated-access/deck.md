@@ -222,7 +222,7 @@ No application-only retry. No token or payload logging.
 
 - **Session 02** selects human, workload, agent, or delegated authority.
 - **Session 05** keeps the direct OpenAPI baseline application-only.
-- **Session 08** uses APIM managed identity for inbound authority.
+- **Session 09** uses APIM managed identity for inbound authority.
 
 This module is used when those application-only paths do not satisfy a real per-user requirement.
 

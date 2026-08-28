@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "06-agent-365-access-boundary",
+  "tenantAlias": "__REQUIRED_TENANT_ALIAS__",
+  "targetScope": "nonproduction-agent365-group-pilot",
+  "agent": {
+    "registryId": "__REQUIRED_AGENT_REGISTRY_ID__",
+    "alias": "__REQUIRED_AGENT_ALIAS__",
+    "platform": "__REQUIRED_AGENT_PLATFORM__",
+    "requiredStatus": "Available"
+  },
+  "deployment": {
+    "targetGroupAlias": "__REQUIRED_TEST_GROUP_ALIAS__",
+    "targetGroupObjectId": "__REQUIRED_TEST_GROUP_OBJECT_ID__",
+    "hostProducts": [
+      "__REQUIRED_HOST_PRODUCT__"
+    ],
+    "adminConsent": "Approved",
+    "restoreAction": "Uninstall"
+  },
+  "validation": {
+    "memberAlias": "__REQUIRED_TEST_GROUP_MEMBER_ALIAS__",
+    "excludedUserAlias": "__REQUIRED_EXCLUDED_USER_ALIAS__",
+    "approvedUseCase": "__REQUIRED_APPROVED_USE_CASE__"
+  }
+}

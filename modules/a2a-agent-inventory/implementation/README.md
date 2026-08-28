@@ -19,9 +19,9 @@ runtime changes.
 
 ### Boundaries
 
-This optional module sits outside the 14-session sequence. It follows the agent baseline in
+This optional module sits outside the 15-session sequence. It follows the agent baseline in
 [Session 05](../../../sessions/05-governed-agent-baseline/implementation/README.md) and hands
-data controls to [Session 09](../../../sessions/09-purview-data-governance/implementation/README.md).
+data controls to [Session 10](../../../sessions/10-purview-data-governance/implementation/README.md).
 Use the separate A2A API Center discovery module when developers need a catalog entry for the
 agent's technical interface.
 

@@ -16,9 +16,9 @@ description: Optional implementation module for Microsoft Entra-protected MCP re
 
 ## Optional implementation module
 
-Show developer clients the approved MCP servers.
+Show approved MCP servers to developer clients.
 
-<!-- Notes: This module stays outside the 14 sessions and follows Sessions 07 and 08. -->
+<!-- Notes: This module stays outside the 15 sessions and follows Sessions 08 and 09. -->
 
 ---
 
@@ -37,7 +37,7 @@ The check must return every approved name and zero unexpected names.
 
 ## Why it matters
 
-Session 07 records MCP servers. Session 08 secures their runtime path.
+Session 08 records MCP servers. Session 09 secures their runtime path.
 
 Developer clients still need a discovery view that excludes draft, retired, and unreviewed server
 records.
@@ -50,8 +50,8 @@ records.
 
 | Work | Owner |
 |---|---|
-| Session 07 | Register the MCP server and its inventory metadata |
-| Session 08 | Set runtime authorization, tool boundaries, and telemetry |
+| Session 08 | Register the MCP server and its inventory metadata |
+| Session 09 | Set runtime authorization, tool boundaries, and telemetry |
 | Optional module | Publish the approved discovery view to developer clients |
 
 <!-- Notes: The module adds no session number and changes no session dependency. -->
@@ -72,7 +72,7 @@ separate API Center MCP server at `/mcp`.
 
 ## Architecture overview
 
-1. The MCP server passes the Session 08 decision.
+1. The MCP server passes the Session 09 decision.
 2. Its API Center lifecycle moves to **Production**.
 3. Data API visibility selects **MCP + Production**.
 4. A Microsoft Entra-authenticated client reads the registry.
@@ -88,7 +88,7 @@ separate API Center MCP server at `/mcp`.
 https://<api-center-name>.data.<region>.azure-apicenter.ms/workspaces/default/v0.1/servers
 ```
 
-Use the data-plane hostname, default workspace, and `v0.1`.
+Use the data-plane hostname, default workspace, and `v0.1` API version.
 
 Do not substitute the portal URL or the separate `/mcp` catalog endpoint.
 
@@ -162,7 +162,7 @@ Do not substitute the portal URL or the separate `/mcp` catalog endpoint.
 - Stop on the portal hostname, `/mcp`, or an undocumented registry path.
 - Stop if anonymous access is enabled.
 - Stop if the visibility preview contains an unapproved MCP server.
-- Stop if a client merges another registry without an owner decision.
+- Stop if a client adds another registry without an owner decision.
 - Stop if any token or server credential would enter source control.
 
 <!-- Notes: A client fallback to a public registry changes the control boundary. -->
@@ -176,8 +176,8 @@ PASS: Registry discovery returned <count> approved server name(s),
 zero unapproved server names, across <pages> page(s).
 ```
 
-The developer client can discover the approved record. Runtime authorization still decides
-whether the client can connect to the MCP server and call a tool.
+The developer client can discover the approved record. Runtime authorization still decides whether
+the client can connect to the MCP server and call a tool.
 
 <!-- Notes: The script never prints unexpected server names. -->
 
@@ -190,7 +190,7 @@ whether the client can connect to the MCP server and call a tool.
 | API Center configuration owner | Visibility and registry metadata |
 | MCP server owner | Lifecycle and review date |
 | Client configuration owner | Current client adapter |
-| Runtime and security owners | Session 08 access and tool controls |
+| Runtime and security owners | Session 09 access and tool controls |
 
 Restore the prior portal visibility setting and remove the registry from managed clients. Keep the
 inventory and runtime controls.

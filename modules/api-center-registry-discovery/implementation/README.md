@@ -14,15 +14,15 @@ prints counts, not unapproved names or server credentials.
 
 ### Why it matters
 
-Session 07 creates the inventory record. Session 08 sets runtime authorization and tool security.
+Session 08 creates the inventory record. Session 09 sets runtime authorization and tool security.
 Developers still need a controlled way to find servers that passed those decisions. Without that
 boundary, a client can place draft or retired entries beside approved servers. The registry then
 looks like an approval system even though it is only an inventory.
 
 ### Boundaries
 
-This optional module sits outside the 14-session sequence. It uses the Session 07 API Center
-default workspace and waits for the Session 08 runtime decision before a server moves to the
+This optional module sits outside the 15-session sequence. It uses the Session 08 API Center
+default workspace and waits for the Session 09 runtime decision before a server moves to the
 discoverable lifecycle stage.
 
 Azure API Center holds the registry contents, lifecycle state, Data API visibility, and portal
@@ -34,7 +34,7 @@ Center data plane API. They are not a per-user allowlist. Custom metadata in `_m
 interpret a record, but it is not authorization.
 
 Discovery does not grant access to an MCP server or its tools. Runtime authentication,
-authorization, approval, and telemetry stay with Session 08 and the server platform. This module
+authorization, approval, and telemetry stay with Session 09 and the server platform. This module
 does not use anonymous portal access. It also does not enable the separate API Center MCP server at
 `/mcp`; that endpoint has its own Standard-tier requirement and searches the wider API and AI asset
 catalog.
@@ -48,8 +48,8 @@ client-neutral settings file and a portal-led visibility change.
 
 ### Architecture at a glance
 
-The flow starts with the MCP server record in the Session 07 inventory. The server owner and
-security owner complete the Session 08 runtime checks. The API Center configuration owner then
+The flow starts with the MCP server record in the Session 08 inventory. The server owner and
+security owner complete the Session 09 runtime checks. The API Center configuration owner then
 sets the record's lifecycle stage to `Production` and configures Data API visibility with two
 built-in conditions: `API type = MCP` and `Lifecycle stage = Production`.
 
@@ -106,9 +106,9 @@ Confirm these prerequisites:
 
 - The API Center name, region, resource-scope alias, and default workspace belong to the approved
   nonproduction or production discovery boundary.
-- The approved MCP server record exists in Session 07 and has an owner, environment, deployment or
+- The approved MCP server record exists in Session 08 and has an owner, environment, deployment or
   package, transport, and lifecycle decision.
-- Session 08 has completed runtime authentication, authorization, tool, and telemetry decisions.
+- Session 09 has completed runtime authentication, authorization, tool, and telemetry decisions.
 - The API Center portal uses Microsoft Entra ID. Anonymous access is off.
 - The developer group has Azure API Center Data Reader at the exact API Center resource scope.
 - The client owner knows which supported client or adapter reads `registry-client-settings.json`.
@@ -135,7 +135,7 @@ is unsupported for Data API visibility, so the Azure portal preview is the requi
 
 ### Discovery scope
 
-Choose the API Center that already owns the Session 07 inventory. Record its name and region in the
+Choose the API Center that already owns the Session 08 inventory. Record its name and region in the
 private copy of `registry-client-settings.json`. The generated endpoint must end with
 `/workspaces/default/v0.1/servers`.
 
@@ -188,7 +188,7 @@ owner decision, or stores an access token in source control.
 ### 1. Complete the client and ownership records
 
 Resolve every `__REQUIRED_*__` value in the approved private configuration path. Add one
-`approvedServers` entry for every server that passed the Session 08 runtime decision. Keep the
+`approvedServers` entry for every server that passed the Session 09 runtime decision. Keep the
 approved names identical in both JSON files.
 
 Run preflight:
@@ -279,7 +279,7 @@ client configuration until the API Center owner restores the allowlist.
 Restore uses the approved portal change path. First remove or disable the registry entry in the
 client-management system. Then restore the prior Data API visibility configuration referenced in
 `registry-ownership.json`. Return affected MCP records to their previous lifecycle stage only when
-the inventory owner approves that change. Leave the Session 07 inventory and Session 08 runtime
+the inventory owner approves that change. Leave the Session 08 inventory and Session 09 runtime
 controls in place.
 
 No removal script is included. Microsoft Learn does not document a stable management API for Data

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="Configure Microsoft Entra-protected Azure API Center MCP registry discovery for MCP servers at the approved `Production` lifecycle stage and check that the registry returns no other server names.">
+    <meta name="description" content="Configure Microsoft Entra-protected Azure API Center MCP registry discovery for MCP servers at the approved `Production` lifecycle stage and check that the registry returns only approved server names.">
     <title>Decisions and boundaries | Optional module: Azure API Center registry discovery for approved MCP servers | Practical Microsoft AI Governance</title>
     <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
     <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
@@ -102,7 +102,7 @@
           <p class="implementation-guide__label">Chapter 4 of 6</p>
           <h2 id="decisions-and-stop-conditions">Decisions and stop conditions<a class="heading-anchor" href="#decisions-and-stop-conditions" aria-label="Link to Decisions and stop conditions">#</a></h2>
 <h3 id="discovery-scope">Discovery scope<a class="heading-anchor" href="#discovery-scope" aria-label="Link to Discovery scope">#</a></h3>
-<p>Choose the API Center that already owns the Session 07 inventory. Record its name and region in the private copy of <code>registry-client-settings.json</code>. The generated endpoint must end with <code>/workspaces/default/v0.1/servers</code>.</p>
+<p>Choose the API Center that already owns the Session 08 inventory. Record its name and region in the private copy of <code>registry-client-settings.json</code>. The generated endpoint must end with <code>/workspaces/default/v0.1/servers</code>.</p>
 <p>Stop if the proposed path uses the portal hostname, the <code>/mcp</code> catalog endpoint, a shortened <code>/default/v0.1/servers</code> path, a nondefault workspace, or an undocumented API version.</p>
 <h3 id="approval-and-lifecycle">Approval and lifecycle<a class="heading-anchor" href="#approval-and-lifecycle" aria-label="Link to Approval and lifecycle">#</a></h3>
 <p>The server owner, runtime owner, and security owner decide when an MCP record may use the <code>Production</code> lifecycle stage. The ownership record names those roles and the next review date. Design, Preview, Deprecated, and ownerless records stay outside the discoverable condition.</p>
@@ -113,10 +113,10 @@
 <h3 id="visibility-boundary">Visibility boundary<a class="heading-anchor" href="#visibility-boundary" aria-label="Link to Visibility boundary">#</a></h3>
 <p>Configure two built-in Data API visibility conditions:</p>
 <ol><li><code>API type</code> equals <code>MCP</code>.</li><li><code>Lifecycle stage</code> equals <code>Production</code>.</li></ol>
-<p>Review the portal preview before saving. Microsoft documents that visibility applies to all users and related data-plane consumption features. Do not claim that it varies by developer group.</p>
+<p>Review the portal preview before saving. Microsoft documents that visibility applies to all users and related data-plane consumption features. It does not vary by developer group.</p>
 <p>Stop if the current portal cannot express both conditions, if the conditions are combined in a way that exposes either all MCP records or all Production APIs, or if custom metadata is being treated as an authorization rule.</p>
 <h3 id="client-integration">Client integration<a class="heading-anchor" href="#client-integration" aria-label="Link to Client integration">#</a></h3>
-<p><code>registry-client-settings.json</code> is an input to the approved client adapter, not a file to paste blindly into every client. The client owner maps <code>registry.endpoint</code> and the Microsoft Entra references to the client's current supported settings.</p>
+<p><code>registry-client-settings.json</code> is input to the approved client adapter. The client owner maps <code>registry.endpoint</code> and the Microsoft Entra references to the client's current supported settings.</p>
 <p>Stop if the client silently falls back to a public registry, merges another registry without an owner decision, or stores an access token in source control.</p>
 
         </article>

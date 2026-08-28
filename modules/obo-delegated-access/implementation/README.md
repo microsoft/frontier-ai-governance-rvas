@@ -41,10 +41,10 @@ The certificate remains in Azure Key Vault and reaches the approved runtime only
 protected certificate integration. This repository stores references, never private keys, bearer
 tokens, tenant values, endpoints, or user data.
 
-This optional module sits outside the 14-session sequence. It complements the identity decision in
+This optional module sits outside the 15-session sequence. It complements the identity decision in
 [Session 02](../../../sessions/02-identity-privileged-access/), the application-only agent baseline
 in [Session 05](../../../sessions/05-governed-agent-baseline/), and the application-only MCP path
-in [Session 08](../../../sessions/08-mcp-tool-security/).
+in [Session 09](../../../sessions/09-mcp-tool-security/).
 
 ## Architecture
 

@@ -86,7 +86,7 @@ sources:
     accessed: "2026-08-24"
     supports: "Hub-and-spoke links, Azure DNS, custom DNS forwarding, and Azure Private Resolver patterns."
   - title: "Foundry Standard Agent Setup with end-to-end network isolation"
-    url: "https://github.com/microsoft-foundry/foundry-samples/tree/main/infrastructure/infrastructure-setup-bicep/15-private-network-standard-agent-setup"
+    url: "https://github.com/microsoft-foundry/foundry-samples/tree/main/infrastructure/infrastructure-setup-bicep/16-private-network-standard-agent-setup"
     accessed: "2026-08-24"
     supports: "Microsoft-maintained Bicep reference for the isolated Standard Agent topology and current DNS zone set."
   - title: "Configure managed virtual network for Microsoft Foundry projects"

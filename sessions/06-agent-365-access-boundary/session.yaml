@@ -1,0 +1,56 @@
+schema_version: 2
+session:
+  id: "06"
+  slug: "agent-365-access-boundary"
+  title: "Microsoft Agent 365 onboarding and access boundaries"
+  duration_minutes: 270
+  status: "draft"
+  last_verified: "2026-08-28"
+  audience:
+    - "Microsoft 365 and Microsoft Agent 365 administrators"
+    - "Microsoft Entra identity and application owners"
+    - "Agent product owners and test-group sponsors"
+  prerequisites:
+    - "Session 05 has created the governed nonproduction agent, and the Agent 365 administrator has confirmed that the selected agent appears in Agent Registry with Available status."
+    - "The selected agent supports installation through Microsoft 365 admin center and has an approved nonproduction test group."
+    - "The Microsoft 365 administrator can deploy the agent to the selected group and grant its approved admin consent. The Entra owner has approved the permission list."
+    - "One test-group member and one user outside that group are available for the intended and excluded access checks."
+    - "The delivery owner has approved the agent, group, requested permissions, host products, and uninstall route in the customer change process."
+  dependencies:
+    - "Session 05 - Governed Microsoft Foundry agent baseline"
+  services_in_scope:
+    - "agent-365"
+    - "microsoft-365-copilot"
+    - "microsoft-entra-id"
+  control_objective: "Install one approved nonproduction agent from Microsoft Agent 365 Agent Registry for a named test group, grant its approved permissions, and confirm that the group can use it while an excluded user cannot."
+implementation:
+  mode: "extended"
+  extended_reason: "The group deployment changes Microsoft 365 availability and grants approved permissions, so the delivery owner confirms both member access and excluded-user denial before the pilot remains installed."
+implementation_outcomes:
+  - "Install the approved Agent Registry agent for one nonproduction Microsoft Entra security group."
+  - "Grant only the permission set approved for that agent deployment."
+  - "Confirm that a named test-group member can find and use the agent in its approved host product."
+  - "Confirm that a user outside the test group cannot find or use the installed agent."
+  - "Keep the group deployment configuration and manual uninstall route for the Microsoft 365 administrator."
+deliverables:
+  implementation: "implementation/README.md"
+  deck: "deck.md"
+  leave_behind:
+    - "implementation/artifacts/agent-deployment.json"
+retained_files:
+  - path: "implementation/artifacts/agent-deployment.json"
+    consumer: "The Microsoft 365 administrator and Session 06 preflight scripts"
+    operational_purpose: "Define the approved Agent Registry entry, test group, permission consent, host products, validation users, and uninstall route for the scoped agent deployment."
+sources:
+  - title: "Governance and Lifecycle actions for agents available in Microsoft 365 admin center"
+    url: "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-actions"
+    accessed: "2026-08-28"
+    supports: "Agent Registry installation for selected users or groups, permission-consent flow, uninstall restore path, and the scope effects of agent availability actions."
+  - title: "Agent Registry convergence with Microsoft Agent 365"
+    url: "https://learn.microsoft.com/en-us/entra/agent-id/agent-registry-convergence"
+    accessed: "2026-08-28"
+    supports: "Agent 365 as the unified agent registry and control plane, with Microsoft Entra retaining agent identity and access management."
+  - title: "Connect existing agents to Microsoft Agent 365"
+    url: "https://learn.microsoft.com/en-us/microsoft-agent-365/connect-existing-agents"
+    accessed: "2026-08-28"
+    supports: "Automatic Agent 365 integration for Microsoft Foundry, Copilot Studio, and Agent Builder agents, plus supported paths for external agents."

@@ -2,7 +2,7 @@
 
 These files describe one organization-owned delegated trust chain:
 
-- `control-definition.json` identifies the implementation boundary and implementationSession marker.
+- `control-definition.json` identifies the implementation boundary and `implementationSession` marker.
 - `identity/app-registrations.json` defines the application roles and delegated permissions.
 - `identity/key-vault-certificate-binding.json` records the certificate reference and runtime mount.
 - `governance/authorization-matrix.md` assigns each authority to the correct actor.

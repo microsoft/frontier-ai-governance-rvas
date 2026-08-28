@@ -15,15 +15,16 @@
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="2" data-paginate="true" data-theme="ai-governance" lang="en-US" data-marpit-pagination="2" style="--paginate:true;--theme:ai-governance;" data-marpit-pagination-total="18" data-size="16:9">
 <h2 id="control-objective">Control objective</h2>
-<p>A trusted Python middle tier exchanges the signed-in user's assertion for a new delegated token addressed to the protected downstream API.</p>
-<p>The visible result is one allowed call and one denial caused by missing downstream user authority.</p>
+<p>A trusted Python middle tier exchanges the signed-in user's assertion for a delegated token for the<br />
+protected downstream API.</p>
+<p>The check shows one allowed call and one denial caused by missing downstream user authority.</p>
 <p><img src="assets/icons/microsoft/microsoft-entra-id.svg" alt="Microsoft Entra ID" /></p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="3" data-paginate="true" data-theme="ai-governance" lang="en-US" data-marpit-pagination="3" style="--paginate:true;--theme:ai-governance;" data-marpit-pagination-total="18" data-size="16:9">
 <h2 id="why-it-matters">Why it matters</h2>
-<p>A workload identity carries the same application authority for every request.</p>
-<p>That breaks down when the downstream API must make a decision for the signed-in user.</p>
-<p>OBO carries that user context across the middle tier without forwarding the original bearer token.</p>
+<p>A workload identity gives every request the same application authority.</p>
+<p>That does not work when the downstream API must decide for the signed-in user.</p>
+<p>OBO carries user context across the middle tier without forwarding the original bearer token.</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="4" data-paginate="true" data-theme="ai-governance" lang="en-US" data-marpit-pagination="4" style="--paginate:true;--theme:ai-governance;" data-marpit-pagination-total="18" data-size="16:9">
 <h2 id="control-boundary">Control boundary</h2>
@@ -38,8 +39,8 @@
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6" data-paginate="true" data-theme="ai-governance" lang="en-US" data-marpit-pagination="6" style="--paginate:true;--theme:ai-governance;" data-marpit-pagination-total="18" data-size="16:9">
 <h2 id="what-this-means">What this means</h2>
 <p>In the OAuth on-behalf-of (OBO) flow, the inbound token stops at the middle tier. Microsoft Entra<br />
-ID issues a new delegated token for the downstream API, preserving the user's identity so the API<br />
-can allow one user and deny another.</p>
+ID issues a delegated token for the downstream API. The API can then allow one user and deny<br />
+another.</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7" data-paginate="true" data-class="decision" data-theme="ai-governance" lang="en-US" class="decision" data-marpit-pagination="7" style="--paginate:true;--class:decision;--theme:ai-governance;" data-marpit-pagination-total="18" data-size="16:9">
 <h2 id="tradeoffs-behind-this-design">Tradeoffs behind this design</h2>
@@ -121,9 +122,9 @@ can allow one user and deny another.</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12" data-paginate="true" data-theme="ai-governance" lang="en-US" data-marpit-pagination="12" style="--paginate:true;--theme:ai-governance;" data-marpit-pagination-total="18" data-size="16:9">
 <h2 id="downstream-authorization-still-decides">Downstream authorization still decides</h2>
-<p>A successful exchange proves that Microsoft Entra ID accepted the trust chain.</p>
+<p>A successful exchange shows that Microsoft Entra ID accepted the trust chain.</p>
 <p>It does not prove that the user may read the protected resource.</p>
-<p>The downstream API checks both the delegated scope and that user's resource assignment.</p>
+<p>The downstream API checks the delegated scope and that user's resource assignment.</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="13" data-paginate="true" data-theme="ai-governance" lang="en-US" data-marpit-pagination="13" style="--paginate:true;--theme:ai-governance;" data-marpit-pagination-total="18" data-size="16:9">
 <h2 id="intended-path-and-failure-path">Intended path and failure path</h2>
@@ -202,7 +203,7 @@ can allow one user and deny another.</p>
 <ul>
 <li><strong>Session 02</strong> selects human, workload, agent, or delegated authority.</li>
 <li><strong>Session 05</strong> keeps the direct OpenAPI baseline application-only.</li>
-<li><strong>Session 08</strong> replaces inbound authority with APIM managed identity.</li>
+<li><strong>Session 09</strong> uses APIM managed identity for inbound authority.</li>
 </ul>
 <p>This module is used when those application-only paths do not satisfy a real per-user requirement.</p>
 </section>

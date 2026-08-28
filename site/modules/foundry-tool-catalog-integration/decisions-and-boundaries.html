@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="Connect an approved remote MCP server in Azure API Center to a dedicated versioned Toolbox in Microsoft Foundry, then reconcile the catalog record, project connection, allowed tool, and live Toolbox tool list.">
+    <meta name="description" content="Connect an approved remote MCP server in Azure API Center to a dedicated versioned Toolbox in Microsoft Foundry, then compare the catalog record, project connection, allowed tool, and live Toolbox tool list.">
     <title>Decisions and boundaries | Optional module: API Center private tool catalog to Foundry Toolbox | Practical Microsoft AI Governance</title>
     <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
     <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
@@ -106,20 +106,20 @@
           <h2 id="decisions-and-stop-conditions">Decisions and stop conditions<a class="heading-anchor" href="#decisions-and-stop-conditions" aria-label="Link to Decisions and stop conditions">#</a></h2>
 <h3 id="accept-the-preview-and-portal-boundary">Accept the preview and portal boundary<a class="heading-anchor" href="#accept-the-preview-and-portal-boundary" aria-label="Link to Accept the preview and portal boundary">#</a></h3>
 <p>Set <code>previewDecision.privateToolCatalog</code> to <code>accepted-for-approved-nonproduction-scope</code> only after the named decision owner accepts the Azure preview terms and operating limits.</p>
-<p>Set <code>previewDecision.catalogDiscovery</code> to <code>confirmed-in-foundry-tools</code> only after the operator opens the intended Microsoft Foundry project, goes to <strong>Build &gt; Tools</strong>, filters by the API Center name, and sees the MCP server record in API Center.</p>
+<p>Set <code>previewDecision.catalogDiscovery</code> to <code>confirmed-in-foundry-tools</code> only after the operator opens the intended Microsoft Foundry project, goes to <strong>Build &gt; Tools</strong>, filters by the API Center name, and sees the API Center MCP server record.</p>
 <p>Stop if the record is absent. Check the API Center Data Reader assignment, the selected Foundry project, the API Center asset version and deployment, and the possible RBAC propagation delay. Do not bypass the catalog with an unreviewed custom MCP entry.</p>
 <h3 id="reconcile-the-source-record">Reconcile the source record<a class="heading-anchor" href="#reconcile-the-source-record" aria-label="Link to Reconcile the source record">#</a></h3>
 <p>Copy the selected API Center asset, version, and deployment names into <code>catalog-toolbox-binding.json</code>. Put the runtime endpoint only in <code>toolbox-version.json</code>, then record its SHA-256 digest in <code>sourceRecord.mcpEndpointSha256</code>.</p>
-<p>The API catalog owner compares the endpoint entered in Foundry with the current API Center deployment. A matching digest proves that the two module files refer to the same endpoint without duplicating the endpoint in the governance record.</p>
+<p>The API catalog owner compares the endpoint entered in Foundry with the current API Center deployment. A matching digest shows that both module files refer to the same endpoint without duplicating the endpoint in the governance record.</p>
 <p>Stop if:</p>
-<ul><li>the API Center lifecycle state is not approved;</li><li>the deployment has no runtime URL;</li><li>the endpoint differs between API Center, the project connection, and the Toolbox payload;</li><li>the authentication method differs from the Session 08 decision;</li><li>the project connection is missing or belongs to another project; or</li><li>the selected MCP server exposes no exact tool name approved by Session 08.</li></ul>
+<ul><li>the API Center lifecycle state is not approved;</li><li>the deployment has no runtime URL;</li><li>the endpoint differs between API Center, the project connection, and the Toolbox payload;</li><li>the authentication method differs from the Session 09 decision;</li><li>the project connection is missing or belongs to another project; or</li><li>the selected MCP server exposes no exact tool name approved by Session 09.</li></ul>
 <h3 id="keep-the-toolbox-narrow">Keep the Toolbox narrow<a class="heading-anchor" href="#keep-the-toolbox-narrow" aria-label="Link to Keep the Toolbox narrow">#</a></h3>
-<p>This module creates a new dedicated Toolbox. Set <code>initialToolboxState</code> to <code>absent</code>, and stop if a Toolbox with the chosen name already exists. This avoids adding a version to a Toolbox with unknown consumers or tools.</p>
+<p>This module creates a new dedicated Toolbox. Set <code>initialToolboxState</code> to <code>absent</code>. Stop if a Toolbox with the chosen name already exists. That avoids adding a version to a Toolbox with unknown consumers or tools.</p>
 <p><code>toolbox-version.json</code> must contain one MCP object, one <code>allowed_tools</code> value, and <code>require_approval: &quot;always&quot;</code>. Set <code>expectedNamespacedTool</code> to <code>&lt;server_label&gt;.&lt;allowed_tool_name&gt;</code>.</p>
 <p>The approval value is metadata returned to the agent runtime. The runtime must still show the pending action and wait for a user decision. Do not treat the Toolbox endpoint itself as the approval enforcement point.</p>
 <h3 id="keep-credentials-out-of-the-files">Keep credentials out of the files<a class="heading-anchor" href="#keep-credentials-out-of-the-files" aria-label="Link to Keep credentials out of the files">#</a></h3>
 <p>Configure authentication during the private-catalog flow or in the resulting Foundry project connection. Do not add API keys, bearer tokens, OAuth client secrets, or authorization headers to either JSON artifact.</p>
-<p>Stop if the catalog flow cannot represent the approved authentication mode. Return the decision to the Session 08 identity and security owners instead of storing a credential in the Toolbox payload.</p>
+<p>Stop if the catalog flow cannot represent the approved authentication mode. Return the decision to the Session 09 identity and security owners instead of storing a credential in the Toolbox payload.</p>
 
         </article>
         <aside class="facts-panel" aria-labelledby="facts-panel-title">

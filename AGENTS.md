@@ -78,6 +78,9 @@ Do not add:
 
 Do not make a sentence more formal simply because it is documentation.
 
+Optimize for sufficient completeness, not maximal completeness. Stop adding detail when the next addition would not materially change the reader's understanding,
+decision, or ability to act, and stop when additional work has low marginal value.
+
 ### Final prose pass
 
 After drafting, read every sentence as if you had to say it aloud to a colleague.

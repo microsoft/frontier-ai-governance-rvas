@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="A trusted middle tier preserves signed-in user authority through an OBO exchange while downstream authorization remains user-specific.">
+    <meta name="description" content="A trusted middle tier preserves signed-in user authority through an OBO exchange, while the downstream API still authorizes each user.">
     <title>Scope and outcomes | Optional module: Delegated API access with OAuth on-behalf-of | Practical Microsoft AI Governance</title>
     <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
     <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
@@ -102,17 +102,17 @@
           <p class="implementation-guide__label">Chapter 1 of 6</p>
           <h2 id="module-scope">Module scope<a class="heading-anchor" href="#module-scope" aria-label="Link to Module scope">#</a></h2>
 <h3 id="what-we-will-do">What we will do<a class="heading-anchor" href="#what-we-will-do" aria-label="Link to What we will do">#</a></h3>
-<p>Configure an existing trusted Python middle tier to exchange a signed-in user's token for a new delegated token addressed to an existing protected API. Record the approved client, middle-tier, downstream audience, delegated scope, and consent boundary. Add only the approved delegated permissions, validate the inbound assertion, and use a protected Azure Key Vault certificate for the OAuth 2.0 on-behalf-of (OBO) exchange.</p>
+<p>Configure an existing trusted Python middle tier to exchange a signed-in user's token for a delegated token for an existing protected API. Record the approved client, middle tier, downstream audience, delegated scope, and consent boundary. Add only the approved delegated permissions, validate the inbound assertion, and use a protected Azure Key Vault certificate for the OAuth 2.0 on-behalf-of (OBO) exchange.</p>
 <p>Then confirm that a permitted user succeeds and that a user without downstream resource authority is denied.</p>
-<p>The result is a working delegated flow in which the <strong>middle tier preserves signed-in user authority</strong> and the <strong>downstream API still makes the resource-authorization decision for that user</strong>.</p>
+<p>The working delegated flow preserves signed-in user authority in the <strong>middle tier</strong>. The <strong>downstream API</strong> still makes the resource-authorization decision for that user.</p>
 <h3 id="why-it-matters">Why it matters<a class="heading-anchor" href="#why-it-matters" aria-label="Link to Why it matters">#</a></h3>
-<p>A workload identity gives the middle tier the same application authority for every request. That is the wrong model when access to the downstream resource must change with the signed-in user. OBO keeps that user context across the middle tier without forwarding the original bearer token.</p>
+<p>A workload identity gives the middle tier the same application authority for every request. It does not fit a downstream resource whose access must change with the signed-in user. OBO carries that user context across the middle tier without forwarding the original bearer token.</p>
 <p>The permitted-user check confirms that Microsoft Entra ID accepts the delegated trust chain. The denied-user check confirms that the downstream API still enforces its user-specific resource rules.</p>
 <h3 id="boundaries">Boundaries<a class="heading-anchor" href="#boundaries" aria-label="Link to Boundaries">#</a></h3>
 <p>Use this module only when an existing client, confidential middle tier, and protected downstream API already require per-user authorization. If the operation should run with one workload identity regardless of who started it, use managed identity instead.</p>
 <p>The module changes <strong>exact delegated permissions and consent</strong>, the middle-tier OBO implementation, and its payload-free diagnostics. It does not create replacement applications, redesign the downstream authorization model, or grant missing resource authority to the denied user. The original bearer token stops at the middle tier. No application-only retry may bypass a downstream denial.</p>
 <p>The certificate remains in Azure Key Vault and reaches the approved runtime only through its protected certificate integration. This repository stores references, never private keys, bearer tokens, tenant values, endpoints, or user data.</p>
-<p>This optional module sits outside the 14-session sequence. It complements the identity decision in <a href="../../sessions/02-identity-privileged-access/">Session 02</a>, the application-only agent baseline in <a href="../../sessions/05-governed-agent-baseline/">Session 05</a>, and the application-only MCP path in <a href="../../sessions/08-mcp-tool-security/">Session 08</a>.</p>
+<p>This optional module sits outside the 15-session sequence. It complements the identity decision in <a href="../../sessions/02-identity-privileged-access/">Session 02</a>, the application-only agent baseline in <a href="../../sessions/05-governed-agent-baseline/">Session 05</a>, and the application-only MCP path in <a href="../../sessions/09-mcp-tool-security/">Session 09</a>.</p>
           <section class="session-brief" aria-labelledby="session-brief-title">
             <h2 id="session-brief-title">Module preparation</h2>
             <div class="session-brief__grid"><div class="session-brief__audience session-brief__list" data-list-layout="stack">
@@ -120,10 +120,10 @@
               <ul><li>Application and API engineers</li><li>Microsoft Entra identity and application security engineers</li><li>Owners of APIs that authorize each signed-in user</li></ul>
             </div><div class="session-brief__requirements session-brief__list" data-list-layout="stack">
               <h3>What you need</h3>
-              <ul><li>An approved nonproduction tenant contains an existing client, confidential Python middle tier, and protected downstream API.</li><li>The downstream API exposes one narrow delegated read scope and enforces resource authorization for each user.</li><li>An exportable Azure Key Vault certificate is approved for middle-tier client authentication and can be exposed as a protected PFX through the approved runtime integration.</li><li>The identity owner can approve exact delegated permissions and consent.</li><li>One permitted user and one user without downstream resource authority are available for the delivery checks.</li></ul>
+              <ul><li>An approved nonproduction tenant has an existing client, confidential Python middle tier, and protected downstream API.</li><li>The downstream API exposes one narrow delegated read scope and enforces resource authorization for each user.</li><li>An exportable Azure Key Vault certificate is approved for middle-tier client authentication and can be exposed as a protected PFX through the approved runtime integration.</li><li>The identity owner can approve exact delegated permissions and consent.</li><li>One permitted user and one user without downstream resource authority can run the delivery checks.</li></ul>
             </div><div class="session-brief__references session-brief__list" data-list-layout="stack">
               <h3>Related sessions and modules</h3>
-              <ul><li><a href="../../sessions/02-identity-privileged-access/">Session 02 - Entra identity, RBAC, PIM, and workload identities</a></li><li><a href="../../sessions/05-governed-agent-baseline/">Session 05 - Governed Microsoft Foundry agent baseline</a></li><li><a href="../../sessions/08-mcp-tool-security/">Session 08 - MCP and tool security</a></li></ul>
+              <ul><li><a href="../../sessions/02-identity-privileged-access/">Session 02 - Entra identity, RBAC, PIM, and workload identities</a></li><li><a href="../../sessions/05-governed-agent-baseline/">Session 05 - Governed Microsoft Foundry agent baseline</a></li><li><a href="../../sessions/09-mcp-tool-security/">Session 09 - MCP and tool security</a></li></ul>
             </div></div>
           </section>
 

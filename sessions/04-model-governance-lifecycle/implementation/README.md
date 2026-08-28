@@ -29,7 +29,7 @@ deployment through another template, the portal, the CLI, or an API. A separate 
 detect or block those changes. Instant-access models and managed-compute deployments sit outside
 scope. This session does not change the Foundry account, projects, connections, private networking,
 content filter definitions, or model evaluation.
-[Session 10](../../10-foundry-evaluations-quality-gates/implementation/README.md) adds repeatable
+[Session 11](../../11-foundry-evaluations-quality-gates/implementation/README.md) adds repeatable
 release evaluation.
 
 Azure Policy can deny disallowed deployment SKUs across other change paths. The documented

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="A trusted middle tier preserves signed-in user authority through an OBO exchange while downstream authorization remains user-specific.">
+    <meta name="description" content="A trusted middle tier preserves signed-in user authority through an OBO exchange, while the downstream API still authorizes each user.">
     <title>Implementation | Optional module: Delegated API access with OAuth on-behalf-of | Practical Microsoft AI Governance</title>
     <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
     <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
@@ -104,7 +104,7 @@
 <h3 id="1-record-the-approved-applications-permissions-and-claim-checks">1. Record the approved applications, permissions, and claim checks<a class="heading-anchor" href="#1-record-the-approved-applications-permissions-and-claim-checks" aria-label="Link to 1. Record the approved applications, permissions, and claim checks">#</a></h3>
 <p>Review these files with the identity, application, downstream API, and delivery owners:</p>
 <ul><li><a href="implementation/artifacts/control-definition.json"><code>artifacts/control-definition.json</code></a></li><li><a href="implementation/artifacts/identity/app-registrations.json"><code>artifacts/identity/app-registrations.json</code></a></li><li><a href="implementation/artifacts/governance/authorization-matrix.md"><code>artifacts/governance/authorization-matrix.md</code></a></li><li><a href="implementation/artifacts/governance/token-claim-contract.json"><code>artifacts/governance/token-claim-contract.json</code></a></li><li><a href="implementation/artifacts/governance/threat-model.md"><code>artifacts/governance/threat-model.md</code></a></li></ul>
-<p>The client receives only the middle-tier delegated scope. The middle tier receives only the downstream delegated read scope. The downstream API remains responsible for deciding whether the preserved user can read the requested resource.</p>
+<p>The client receives only the middle-tier delegated scope. The middle tier receives only the downstream delegated read scope. The downstream API decides whether the preserved user can read the requested resource.</p>
 <h3 id="2-bind-the-key-vault-certificate">2. Bind the Key Vault certificate<a class="heading-anchor" href="#2-bind-the-key-vault-certificate" aria-label="Link to 2. Bind the Key Vault certificate">#</a></h3>
 <p>Register the public certificate on the middle-tier application through the approved identity lifecycle. Configure the hosting platform's Key Vault integration to expose the exportable private certificate as a protected PFX at the approved runtime path.</p>
 <p>Do not use the configure scripts to upload private key material. Preflight checks the approved thumbprint against the middle-tier registration and confirms that the configured path exists on the execution host.</p>

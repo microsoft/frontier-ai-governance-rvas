@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="A trusted middle tier preserves signed-in user authority through an OBO exchange while downstream authorization remains user-specific.">
+    <meta name="description" content="A trusted middle tier preserves signed-in user authority through an OBO exchange, while the downstream API still authorizes each user.">
     <title>Validation and operations | Optional module: Delegated API access with OAuth on-behalf-of | Practical Microsoft AI Governance</title>
     <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
     <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
@@ -124,7 +124,7 @@
 </section>
 <p>For the <strong>intended-path check</strong>, the permitted user's call returns 2xx, a correlation ID, and the <code>downstream-authorized</code> decision header. The downstream API authorizes the preserved user and the middle tier logs metadata only.</p>
 <p>For the <strong>failure-path check</strong>, the denied user's call returns 401 or 403 with the <code>downstream-denied</code> decision header. This prevents an inbound-token or exchange failure from passing as a downstream authorization test. No protected resource is returned, no application-only retry occurs, and the failure remains correlated without recording either token or payload.</p>
-<p>At the <strong>delivery-owner checkpoint</strong>, the owner observes both status codes and confirms that the downstream API, rather than the client prompt or middle-tier instructions, made the user-specific decision.</p>
+<p>At the <strong>delivery-owner checkpoint</strong>, the owner observes both status codes and confirms that the downstream API made the user-specific decision. The client prompt and middle-tier instructions do not make that decision.</p>
 <h2 id="after-implementation">After implementation<a class="heading-anchor" href="#after-implementation" aria-label="Link to After implementation">#</a></h2>
 <p>Keep:</p>
 <ul><li>the approved app-registration and consent definitions;</li><li>the authorization matrix and token claim rules;</li><li>the certificate reference and thumbprint;</li><li>the Python middle-tier component and pinned dependencies;</li><li>the threat model; and</li><li>the paired operational scripts.</li></ul>

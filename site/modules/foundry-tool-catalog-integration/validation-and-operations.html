@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="Connect an approved remote MCP server in Azure API Center to a dedicated versioned Toolbox in Microsoft Foundry, then reconcile the catalog record, project connection, allowed tool, and live Toolbox tool list.">
+    <meta name="description" content="Connect an approved remote MCP server in Azure API Center to a dedicated versioned Toolbox in Microsoft Foundry, then compare the catalog record, project connection, allowed tool, and live Toolbox tool list.">
     <title>Validation and operations | Optional module: API Center private tool catalog to Foundry Toolbox | Practical Microsoft AI Governance</title>
     <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
     <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
@@ -125,7 +125,7 @@ python3 ./artifacts/operations/check_toolbox.py \
   --expected-tool &quot;$expected_tool&quot;</code></pre>
   </div>
 </section>
-<p>The check passes when the immutable Toolbox version returns exactly one tool named <code>&lt;server_label&gt;.&lt;allowed_tool_name&gt;</code> and its metadata says <code>require_approval</code> is <code>always</code>. It does not invoke the remote tool or retain the response.</p>
+<p>The check passes when the immutable Toolbox version returns one tool named <code>&lt;server_label&gt;.&lt;allowed_tool_name&gt;</code> and its metadata says <code>require_approval</code> is <code>always</code>. It does not invoke the remote tool or retain the response.</p>
 <p>Set <code>observedState.checkedAtUtc</code> after the check. Keep the version number and check time in the private operational copy of the catalog record.</p>
 <h2 id="after-implementation">After implementation<a class="heading-anchor" href="#after-implementation" aria-label="Link to After implementation">#</a></h2>
 <p>Keep the catalog record, Toolbox version payload, check utility, and paired preflight scripts. The API catalog owner maintains the MCP server record in API Center. The Foundry tool owner maintains the project connection and dedicated Toolbox. The agent release owner decides which agents consume the stable Toolbox endpoint and confirms that their runtime enforces approval.</p>
