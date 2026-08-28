@@ -30,9 +30,7 @@ generated alert.
 
 ### Architecture at a glance
 
-![An authorized plan cycles through baseline measurement, owned remediation, an immutable version,
-same-plan rerun, per-key decision, and remaining risk; a separate Defender route sends current
-security context to the SOC](../assets/diagrams/red-team-defense-loop.svg)
+![An authorized plan cycles through baseline measurement, owned remediation, an immutable version, same-plan rerun, per-key decision, and remaining risk; a separate Defender route sends current security context to the SOC](../assets/diagrams/red-team-defense-loop.svg)
 
 The same attack plan runs against two immutable versions. Foundry keeps detailed material. The
 runner writes a payload-free aggregate to the approved external security record store. The comparison

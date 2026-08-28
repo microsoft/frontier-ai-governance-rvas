@@ -27,9 +27,7 @@ authorization boundary for prohibited writes.
 
 ### Architecture at a glance
 
-![One versioned golden data set fans into approved and candidate immutable agent versions; evaluator
-layers converge into current Foundry aggregates, then thresholds and release policy return PASS or
-BLOCK](../assets/diagrams/evaluation-release-gate-flow.svg)
+![One versioned golden data set fans into approved and candidate immutable agent versions; evaluator layers converge into current Foundry aggregates, then thresholds and release policy return PASS or BLOCK](../assets/diagrams/evaluation-release-gate-flow.svg)
 
 The same synthetic data set evaluates two fixed versions. Foundry stores the detailed result. The
 runner writes a payload-free aggregate to the approved external release store, and the gate applies

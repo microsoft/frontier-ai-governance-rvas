@@ -370,7 +370,7 @@ const inlineMarkdown = (value, resolveLink) => {
   output = output.replace(/`([^`]+)`/g, (_, code) =>
     hold(`<code>${code}</code>`),
   );
-  output = output.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g, (_, text, href) =>
+  output = output.replace(/(?<!!)\[([^\]]+)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g, (_, text, href) =>
     hold(`<a href="${escapeHtml(resolveLink(href))}">${text}</a>`),
   );
   output = output
