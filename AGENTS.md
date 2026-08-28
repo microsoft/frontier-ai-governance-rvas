@@ -12,5 +12,4 @@
 ## Visual identity
 
 - Treat `PRODUCT.md` and each session's `session.yaml` as the content authority. Never inherit curriculum copy, claims, or session numbering from a visual reference.
-- Treat `C:\Users\marcoolivo\repos\frontier-ai-governance-rvas` as a visual reference only while it is available.
 - Reuse the supplied RVAP logos and official Microsoft product icons. Do not redraw, recolor, crop, rotate, or distort them.
