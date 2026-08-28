@@ -14,7 +14,7 @@ registration, copy the A2A definition, or keep a second inventory record in this
 ### Why it matters
 
 Agent 365 answers the enterprise question of which agents exist. API Center answers a different
-developer question: where can I find the A2A interface and its current contract? Keeping both
+developer question: where can I find the current A2A interface and definition? Keeping both
 records connected through source integrations avoids asking people to update the same facts twice.
 
 ### Boundaries
@@ -46,8 +46,8 @@ Runtime-owned Git or API Management source
 Azure API Center A2A discovery asset
 ```
 
-The source integration owns updates. Direct portal registration beside that integration would
-create a competing record.
+The runtime owner updates the Git or API Management source, and synchronization updates API Center.
+A direct portal registration beside that integration would create a competing record.
 
 ### Design choices and tradeoffs
 
@@ -83,8 +83,8 @@ Confirm these prerequisites:
 Run preflight with the selected source reference in **Implement › 1. Run preflight**. It validates
 the module boundary before a portal-led integration change without creating an API Center asset or
 retaining supplied values.
-A read-only deployment preview is unsupported because the selected source integration owns the
-change.
+A read-only deployment preview is unsupported because the change is made through the selected
+source integration.
 
 ## Decisions and stop conditions
 
@@ -98,8 +98,8 @@ Stop if the developer use case is unclear or the existing Agent 365 record is mi
 ### Select the source integration
 
 Choose **git** when the runtime product repository is the approved source. Choose **api-management**
-when an API Management instance owns the technical A2A asset and the documented synchronization
-path supports it.
+when API Management publishes the technical A2A asset and the documented synchronization path
+supports it.
 
 Stop if the plan relies on a manual Agent registration beside an existing source integration, an
 unsupported source, a local agent-card upload, or copied metadata in this repository.
@@ -156,7 +156,7 @@ the Agent 365 and API Center owners cannot resolve a mismatch.
 ## After implementation
 
 The runtime owner maintains the A2A source. The API Center owner maintains the discovery
-integration. Agent 365 remains the enterprise inventory and lifecycle surface.
+integration. Agent 365 remains the live record for enterprise inventory and lifecycle.
 
 Restore through the selected integration's approved portal or source-management path. Remove the
 API Center discovery asset only after confirming that developers no longer need it. That removal

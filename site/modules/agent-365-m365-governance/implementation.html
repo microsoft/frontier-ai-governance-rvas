@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="Create the owner review packet for an Agent 365 or Microsoft 365 pilot agent without changing production access.">
+    <meta name="description" content="Create the files that each owner uses to review an Agent 365 or Microsoft 365 pilot agent without changing production access.">
     <title>Implementation | Optional module: Microsoft Agent 365 and Microsoft 365 agent governance | Practical Microsoft AI Governance</title>
     <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
     <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
@@ -125,7 +125,7 @@
 <h3 id="1-complete-the-module-artifacts">1. Complete the module artifacts<a class="heading-anchor" href="#1-complete-the-module-artifacts" aria-label="Link to 1. Complete the module artifacts">#</a></h3>
 <p>Fill in the inventory, publishing checklist, Entra Agent ID policy template, connector matrix, SharePoint assessment, and Defender query aliases. Keep customer-specific copies in the approved private repository or configuration store if they contain tenant details.</p>
 <h3 id="2-review-live-control-planes">2. Review live control planes<a class="heading-anchor" href="#2-review-live-control-planes" aria-label="Link to 2. Review live control planes">#</a></h3>
-<p>Review live state with the owners of these admin surfaces:</p>
+<p>Review current settings with the owners of these admin portals:</p>
 <div class="table-scroll"><table><thead><tr><th scope="col">Surface</th><th scope="col">Owner</th><th scope="col">Review</th></tr></thead><tbody><tr><td>Agent 365</td><td>Agent 365 administrator</td><td>Agent Registry, Agent Map, owner, sponsor, lifecycle</td></tr><tr><td>Microsoft 365 Admin Center</td><td>Publishing approver</td><td>Integrated Apps, app availability, Agent Store readiness</td></tr><tr><td>Microsoft Entra</td><td>Identity owner</td><td>Agent ID, sponsor, expiry, Conditional Access report-only policy</td></tr><tr><td>Copilot Studio</td><td>Environment owner</td><td>Environment routing, ALM state, security scan</td></tr><tr><td>Power Platform</td><td>DLP owner</td><td>Connector grouping and Advanced Connector Policies</td></tr><tr><td>SharePoint</td><td>SharePoint owner</td><td>Oversharing and Data Access Governance findings</td></tr><tr><td>Defender XDR</td><td>Defender owner</td><td>Security for AI posture, runtime protection, and hunting results</td></tr></tbody></table></div>
 <p>Do not change production tenant state during this module. Record the owner decision and the next approved change path.</p>
 <h3 id="3-run-preflight">3. Run preflight<a class="heading-anchor" href="#3-run-preflight" aria-label="Link to 3. Run preflight">#</a></h3>

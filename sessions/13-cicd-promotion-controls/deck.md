@@ -57,19 +57,19 @@ The protected workflow keeps that relationship easy to inspect. It also stops Se
 
 ---
 
-## Focused-route baseline
+## Required state when joining here
 
-Each substitute needs live state, an owner, and the result shown here.
+Teams joining here confirm this state before they install the workflow.
 
-| Control | Live state | Required result |
+| Existing control | What must already work | How the owner confirms it |
 |---|---|---|
 | Fixed agent | Commit-bound prompt, agent, model alias, Bicep parameters | Platform owner deploys the approved release to nonproduction |
-| Gateway | Versioned APIM policy, stable and candidate selectors, restore path | Gateway owner previews only the selectors in the routing contract and restores the previous one |
+| Gateway | Versioned APIM policy, stable and candidate selectors, restore path | Gateway owner previews only the selectors in the routing configuration and restores the previous one |
 | Evaluation | Definition, active thresholds, enabled release policy, temporary external baseline and candidate records, generated self-test | Quality owner sees the matching candidate pass and the tool-process self-test return BLOCK |
 | Red-team | Confirmed temporary external security-release attestation for the same agent and fixed version | Security owner sees authorized external status and report location, matching versions, lower attack success, no risk category getting worse, blocked actions, and all five privacy flags set to false |
-| Observability | Logging contract and fixed smoke result | Observability owner sees complete trace, separated failures, no sensitive input |
+| Observability | Telemetry rules and fixed smoke result | Observability owner sees complete trace, separated failures, no sensitive input |
 
-<!-- Notes: A focused route cannot replace these rows with a general equivalence statement. -->
+<!-- Notes: Each row names the existing control, the state needed for this session, and the owner who checks it. -->
 
 ---
 
@@ -77,7 +77,7 @@ Each substitute needs live state, an owner, and the result shown here.
 
 # Promote one linked release
 
-The protected workflow input binds code and AI configuration to one commit and set of digests.
+The protected workflow input and component digests identify one release.
 
 <!-- Notes: Drift between stages invalidates the promotion. -->
 
@@ -85,8 +85,7 @@ The protected workflow input binds code and AI configuration to one commit and s
 
 ## Architecture overview
 
-The full commit SHA, the exact identifier for one Git commit, is the release identity. Every step
-carries it forward. A mismatch starts a new release.
+The full commit SHA, the exact identifier for one Git commit, is the release identity. Every step uses it. A mismatch starts a new release.
 
 | Stage | Decision or action | System of record |
 |---|---|---|
@@ -95,7 +94,7 @@ carries it forward. A mismatch starts a new release.
 | Apply | Release credentials after approval and deploy the same SHA | Protected GitHub apply environments and Azure Resource Manager |
 | Route and record | Move the approved selector, then finalize the release record | Azure API Management and the approved release store |
 
-<!-- Notes: A mismatch means the team creates a new release. GitHub owns workflow execution and approvals. Microsoft Entra owns workload trust. Azure owns deployed state, API Management owns routing, and the release store owns the release record. -->
+<!-- Notes: A mismatch means the team creates a new release. GitHub records workflow execution and approvals. Microsoft Entra validates workload trust. Azure reports deployed state, API Management reports routing, and the release store keeps the release record. -->
 
 ---
 
@@ -197,7 +196,7 @@ No fallback third-party scanner is added for this session.
 
 ![Azure Policy](assets/icons/microsoft/azure-policy.svg)
 
-For the same entrypoint and parameter contract:
+For the same entrypoint and parameter files:
 
 1. lint;
 2. build;
@@ -235,7 +234,7 @@ Any blocking failure prevents the production job.
 
 Use the callable `release-gate.py` with its threshold policy, evaluation definition, baseline, candidate, and required tool-process block case.
 
-Session 13 enforces it in promotion.
+The Session 13 workflow calls the gate and stops before deployment when it returns BLOCK.
 
 ### [Session 11](../11-red-teaming-threat-defense/)
 
@@ -272,6 +271,23 @@ Otherwise: **stop and keep 100% on the previous approved selector.**
 
 ---
 
+## Routing-control script interface
+
+The approved workflows call one script in the implementation repository.
+
+| Mode | Inputs | Effect |
+|---|---|---|
+| `Promote` | Strategy, candidate selector, stable selector, release ID | Moves only the approved selector pair after gates pass |
+| `Restore -WhatIf` | Approved manifest path, release ID | Shows the exact restore and changes nothing |
+| `Restore` | Approved manifest path, release ID | Returns the stable selector to the selected approved release |
+
+A nonzero exit stops the workflow. The script rejects unrelated selectors, release IDs, and
+free-form commands.
+
+<!-- Notes: Promotion calls Promote after staging the manifest. The restore workflow calls Restore with WhatIf before approval and without it after approval. -->
+
+---
+
 <!-- _class: implementation -->
 
 ## Configure and test controlled promotion
@@ -281,7 +297,7 @@ routing script, and the release owner accepts the release/security-store script.
 Session 10 result records and the Session 11 security-release attestation only into the approved
 temporary workspace.
 
-The platform owner accepts both parameter contracts. GitHub and Entra administrators accept protections, OIDC trust, and roles. The delivery owner records these decisions in the customer's normal delivery or change record.
+The platform owner accepts both parameter files. GitHub and Entra administrators accept protections, OIDC trust, and roles. The delivery owner records these decisions in the customer's normal delivery or change record.
 
 Live delivery runs the allowed and blocked paths, then pauses for the delivery owner.
 
@@ -389,31 +405,31 @@ If any sequence differs, keep 100% on the previous release and correct the workf
 
 ---
 
-## Operational promotion control
+## What the promotion files require
 
-The customer-owned delivery control:
+The customer repository keeps the workflows and definitions that require:
 
 - no client secrets;
 - one release through preview and apply environments;
-- workflow and metadata enforced before deployment;
+- release SHA and metadata checks before deployment;
 - independent quality, safety, and smoke gates;
 - protected production approval;
 - conditional existing routing;
 - approved release-store record; and
 - manual restore to a selected approved release.
 
-<!-- Notes: Keep this workflow as the customer-owned path for later releases. -->
+<!-- Notes: Keep this workflow as the required promotion path for later releases. -->
 
 ---
 
-## Live state and ownership
+## Responsibilities after promotion
 
 | Owner | Operational responsibility |
 |---|---|
 | Release owner | Workflows, action pins, and release-record continuity |
 | GitHub and Entra admins | Environment protection and OIDC trust |
 | Platform owner | Bicep entrypoint, parameters, approved Azure scopes, both what-if approvals |
-| Quality and security owners | Session 09 and 11 gate health |
+| Quality and security owners | Session 10 and 11 gate health |
 | Observability owner | Session 12 smoke interface |
 | Gateway owner | Existing routing selectors |
 | Delivery owner | Intended and blocked checkpoint |
@@ -455,4 +471,4 @@ After production environment approval, validate the marker and digest, preview, 
 
 # Thank you!
 
-<!-- Notes: Close on ownership: release integrity is a continuous delivery property. -->
+<!-- Notes: Close by reminding participants that every later release must use the same checks. -->

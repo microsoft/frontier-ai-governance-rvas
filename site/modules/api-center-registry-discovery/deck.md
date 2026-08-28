@@ -116,7 +116,7 @@ Do not substitute the portal URL or the separate `/mcp` catalog endpoint.
 |---|---|---|
 | Approval signal | `Lifecycle stage = Production` | Lifecycle must be governed as a release gate |
 | Asset filter | `API type = MCP` | Conditions are global, not per user |
-| Client settings | Adapter-neutral contract | Each client needs a current adapter |
+| Client settings | Client-neutral settings file | Each client needs a current adapter |
 | Restore | Portal-led prior-state restore | No documented management API is assumed |
 
 <!-- Notes: Custom metadata can enrich _meta, but it is not the authorization boundary. -->
@@ -125,7 +125,7 @@ Do not substitute the portal URL or the separate `/mcp` catalog endpoint.
 
 ## Retained artifacts
 
-**Client contract**
+**Client settings**
 
 - registry endpoint;
 - Microsoft Entra references;

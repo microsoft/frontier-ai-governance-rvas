@@ -65,7 +65,7 @@ retained_files:
     operational_purpose: "Deploy the direct Session 05 agent API and its required API Center metadata."
   - path: "implementation/artifacts/catalog/specs/policy-assistant-agent.openapi.json"
     consumer: "The API Center definition import"
-    operational_purpose: "Publish the design-time contract for the direct Session 05 agent endpoint."
+    operational_purpose: "Publish the design-time OpenAPI definition for the direct Session 05 agent endpoint."
   - path: "implementation/artifacts/environments/sandbox.json"
     consumer: "The Session 07 preflight, deployment, and inventory-check scripts"
     operational_purpose: "Bind API Center operations to the approved service, workspace, APIM source, region, and tags."

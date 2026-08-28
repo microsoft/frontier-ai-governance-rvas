@@ -294,7 +294,7 @@ Keep it off until:
 
 ---
 
-## Operational control tree
+## Files used to deploy and operate the route
 
 ```text
 gateway/

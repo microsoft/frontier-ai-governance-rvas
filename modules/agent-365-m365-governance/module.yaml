@@ -31,14 +31,14 @@ module:
     - "microsoft-purview"
     - "sharepoint"
     - "microsoft-defender-xdr"
-  control_objective: "Create the owner review packet for an Agent 365 or Microsoft 365 pilot agent without changing production access."
+  control_objective: "Create the files that each owner uses to review an Agent 365 or Microsoft 365 pilot agent without changing production access."
 implementation:
   mode: "standard"
 implementation_outcomes:
   - "Record the Agent Registry and Agent Map entries, owner, sponsor, and lifecycle decisions for the approved nonproduction scope."
   - "Define the publishing, Copilot Studio, connector, Entra Agent ID, SharePoint oversharing, and Defender XDR checks that must be completed before wider rollout."
   - "Use templates and validation queries for portal controls instead of fragile tenant-wide automation."
-  - "Confirm that each module artifact gives its owner enough detail to act outside the repository."
+  - "Confirm that each module artifact records the owner's decision, next action, and approved change path."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"

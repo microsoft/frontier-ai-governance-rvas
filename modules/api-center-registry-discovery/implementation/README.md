@@ -27,7 +27,7 @@ discoverable lifecycle stage.
 
 Azure API Center remains authoritative for registry contents, lifecycle state, Data API
 visibility, and portal access. Microsoft Entra ID remains authoritative for sign-in and the Azure
-API Center Data Reader assignment. The repository owns the client contract and ownership record.
+API Center Data Reader assignment. The repository stores the client settings and ownership record.
 
 The visibility conditions apply to all users and related consumption features that use the API
 Center data plane API. They are not a per-user allowlist. Custom metadata in `_meta` helps clients
@@ -42,7 +42,7 @@ catalog.
 Microsoft Learn documents one MCP registry endpoint format and names Visual Studio Code, GitHub
 Copilot, and other tools as consumers. It does not publish one stable configuration-file schema for
 every client or a Resource Manager API for Data API visibility. The module therefore uses a
-client-neutral contract and a portal-led visibility change.
+client-neutral settings file and a portal-led visibility change.
 
 ## Architecture
 
@@ -63,9 +63,9 @@ Use that path exactly. The same Microsoft Learn page currently shows a shortened
 omits `/workspaces`; the documented endpoint format includes it.
 
 Developer clients authenticate through Microsoft Entra ID. The developer access group has Azure
-API Center Data Reader at the API Center resource scope. The client contract records the delegated
-data-plane scope and references the portal application and tenant values held in the approved
-configuration system.
+API Center Data Reader at the API Center resource scope. `registry-client-settings.json` records
+the delegated data-plane scope and references the portal application and tenant values held in the
+approved configuration system.
 
 The client or approved adapter reads the registry and receives standard MCP server metadata,
 including names, remotes or packages, transports, and optional `_meta` values. The operational
@@ -79,7 +79,7 @@ approved name is missing or any other name appears.
 | Discovery endpoint | Default-workspace MCP registry endpoint ending in `/v0.1/servers` | Uses the current Microsoft-documented registry path | The page's shortened example is inconsistent; nondefault workspace paths are not documented | Microsoft publishes a new registry version or workspace model |
 | Developer authentication | Microsoft Entra ID with Azure API Center Data Reader at the API Center scope | Avoids anonymous catalog access and uses the documented data-plane role | The role reads every record that matches the global visibility filter | API Center adds per-user registry visibility |
 | Approval signal | Built-in `Production` lifecycle stage plus MCP API type | Works with documented built-in visibility conditions | Lifecycle becomes a release gate and must be governed carefully | A documented immutable approval property becomes available |
-| Client configuration | Adapter-neutral JSON contract | A single contract can feed different supported clients | A client-specific adapter must map it to the current client setting | Microsoft publishes a common managed-client schema |
+| Client configuration | Client-neutral JSON settings | The same settings can support different approved clients | A client-specific adapter must map them to the current client setting | Microsoft publishes a common managed-client schema |
 | Restore | Portal-led restore using the recorded prior configuration reference | Avoids guessing an unsupported management API | Restore is an owner action rather than one command | A stable API exposes Data API visibility with safe concurrency controls |
 
 ### Architecture guidance
@@ -111,7 +111,7 @@ Confirm these prerequisites:
 - Session 08 has completed runtime authentication, authorization, tool, and telemetry decisions.
 - The API Center portal uses Microsoft Entra ID. Anonymous access is off.
 - The developer group has Azure API Center Data Reader at the exact API Center resource scope.
-- The client owner knows which supported client or adapter consumes the client contract.
+- The client owner knows which supported client or adapter reads `registry-client-settings.json`.
 - The API Center configuration owner has recorded the prior Data API visibility configuration in
   the approved change system.
 - The approved OAuth client can supply a short-lived token for
@@ -177,9 +177,9 @@ as an authorization rule.
 
 ### Client integration
 
-`registry-client-settings.json` is a contract, not a file to paste blindly into every client. The
-client owner maps `registry.endpoint` and the Microsoft Entra references to the current supported
-configuration surface.
+`registry-client-settings.json` is an input to the approved client adapter, not a file to paste
+blindly into every client. The client owner maps `registry.endpoint` and the Microsoft Entra
+references to the client's current supported settings.
 
 Stop if the client silently falls back to a public registry, merges another registry without an
 owner decision, or stores an access token in source control.
@@ -271,8 +271,8 @@ the MCP server itself.
 
 Keep both JSON files with the API Center operating configuration. The API Center configuration
 owner owns Data API visibility and the registry metadata mapping. Server owners own lifecycle and
-review dates. The client configuration owner owns the adapter that turns the client contract into
-the current Visual Studio Code, GitHub Copilot, or other supported client setting.
+review dates. The client configuration owner maintains the adapter that maps `registry-client-settings.json`
+to the current Visual Studio Code, GitHub Copilot, or other supported client setting.
 
 Run `check-discovery` after a lifecycle change, visibility change, registry-client update, or MCP
 record synchronization. An unexpected count is a stop condition: remove the registry from managed

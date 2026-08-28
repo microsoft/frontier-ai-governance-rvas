@@ -42,7 +42,7 @@ implementation_outcomes:
   - "Validate the candidate agent's Entra identity and approved MCP audience and app role at APIM."
   - "Replace inbound authority with APIM's read-only managed identity for the exact backend scope."
   - "Record tool and correlation telemetry without arguments, results, prompts, responses, or bodies."
-  - "Keep the agent-to-MCP binding and threat model, then hold the release checkpoint until an approved read succeeds and indirect prompt injection cannot trigger the prohibited write."
+  - "Store the agent-to-MCP binding and threat model in source control, then hold the release checkpoint until an approved read succeeds and indirect prompt injection cannot trigger the prohibited write."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"

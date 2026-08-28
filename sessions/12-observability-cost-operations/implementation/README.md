@@ -5,7 +5,7 @@
 ### What we will do
 
 Deploy **privacy-safe operating controls for one governed service**. The team adds a shared workbook
-and three owned alert rules, deploys a monthly budget notification, records cost-allocation and
+and three alert rules routed to named owners, deploys a monthly budget notification, records cost-allocation and
 privacy decisions, and keeps an incident runbook. The named Session 13 GitHub promotion workflow
 runs the paired smoke check against live telemetry. Its result stays in the runner's temporary
 workspace and is not retained in the customer clone.
@@ -20,9 +20,9 @@ cost owner a delayed billing view, while the incident runbook names who contains
 
 The application, API Management, agent, model, and tool propagate W3C trace context where their
 instrumentation supports it. They do not imply that evaluation, Cost Management, Defender, and SOC
-records all carry the same correlation ID. Application Insights is authoritative for the deployed
-runtime telemetry. Cost Management remains authoritative for billed cost, and Defender and the SOC
-system keep the security and incident records.
+records all carry the same correlation ID. Application Insights stores the deployed runtime
+telemetry. Cost Management stores the billed-cost records, and Defender and the SOC system keep the
+security and incident records.
 
 Standard telemetry excludes prompts, responses, tool payloads, credentials, query strings, user
 identifiers, and personal data. Token metrics estimate usage rather than billed cost. API Management
@@ -38,7 +38,7 @@ records.
 
 ### Architecture at a glance
 
-![An approved synthetic request carries trace context through API Management, agent, model, and tool spans. Application Insights feeds workbooks and alerts. Evaluation records keep their own owner path, as do security and cost records.](../assets/diagrams/operational-correlation-flow.svg)
+![An approved synthetic request carries trace context through API Management, agent, model, and tool spans. Application Insights feeds workbooks and alerts. Evaluation, security, and cost records stay in their source systems.](../assets/diagrams/operational-correlation-flow.svg)
 
 Think of the request as the spine of the operating view. API Management attaches W3C trace context
 to the approved synthetic request. This standard trace identifier follows the work across services.
@@ -52,7 +52,7 @@ Management also emits bounded token metrics for a faster usage estimate. Cost Ma
 the authoritative billed cost later, normally after an 8-24 hour delay. The design keeps these two
 clocks separate because an estimate cannot settle the bill.
 
-The records stay in the systems that produce them. Application Insights holds runtime telemetry,
+The records stay in the systems that produce them. Application Insights stores runtime telemetry,
 while the source-controlled API Management policy defines the gateway configuration. Cost
 Management reports billed cost. Defender and the SOC system keep security and incident records.
 The shared trace context connects operating signals without copying all of those records into one
@@ -93,8 +93,8 @@ failure path. The budget Bicep files deploy the separate billing notification.
 
 Confirm:
 
-- Sessions 01-10 are complete. A focused route may use the substitute baseline below. A label such
-  as “same controls” is not enough.
+- Complete Sessions 01-11. If the earlier controls were implemented outside this series, confirm
+  the required state in the table below.
 - The [Session 05](../../05-governed-agent-baseline/implementation/README.md) policy assistant and
   [Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM route can process an approved synthetic,
   read-only request without changing production.
@@ -118,7 +118,7 @@ Confirm:
   the customer-owned APIM policy source, and baseline telemetry has been reviewed before alert
   thresholds are set.
 
-### Focused-route substitute baseline
+### Required state when joining here
 
 Every row is required when the numbered prerequisite sessions are not complete.
 
@@ -161,9 +161,9 @@ approved policy adds `x-correlation-id` only when the caller did not provide one
 copies the correlation ID into a low-cardinality span attribute and propagates both contexts to
 agent and tool calls.
 
-The authoritative configuration file requires separate gateway, agent, model, tool, evaluation, and security
-signals. A tool dependency with `ai.operation.type=tool` must remain a tool result; do not convert it
-to a model failure or generic exception.
+`telemetry-contract.json` requires separate gateway, agent, model, tool, evaluation, and security
+signals. A tool dependency with `ai.operation.type=tool` must remain a tool result; do not convert
+it to a model failure or generic exception.
 
 Stop if any hop breaks trace continuity, a correlation ID contains user or business data, service
 names are inconsistent, or a proposed field has unbounded cardinality.
@@ -206,7 +206,7 @@ Stop if dimensions contain users, emails, content, request IDs, or free text. Al
 metric would exceed the documented APIM policy limits or when anyone presents the budget as
 real-time enforcement.
 
-### Scope and ownership
+### Scope and responsibilities
 
 Run this kit only against the approved nonproduction service, Application Insights component,
 deployment resource group, action group, and subscription budget. The APIM policy remains in the
@@ -219,9 +219,9 @@ API-scope policy that contains authentication, safety, routing, or quota control
 
 Fill in the telemetry, deployment-parameter, and budget-parameter files. Complete the retention,
 content-logging, and cost-allocation Markdown records. Keep the **service name identical across the
-machine contracts**. Confirm that every
+machine-readable files**. Confirm that every
 target resource carries the approved application, environment, cost-center, owner, and
-data-classification tags through its owning infrastructure definition. Use Microsoft’s [log search alert
+data-classification tags through the infrastructure definition that deploys it. Use Microsoft’s [log search alert
 guidance](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-create-log-alert-rule)
 when checking the query, evaluation frequency, and action-group configuration.
 
@@ -330,7 +330,7 @@ Open the shared workbook. Run the request-error and tool-failure queries over th
 15-minute windows, then run the quality query over its configured 30-minute window. Each query must
 parse and return its expected result column, even when the count is zero. Query preview is not
 permission to force an alert with unsafe traffic. The action-group owner uses its existing
-authorized test path and confirms delivery to the receiver listed in the operational control.
+authorized test path and confirms delivery to the receiver configured for that alert rule.
 
 ## Confirm the result
 
@@ -433,18 +433,19 @@ probe marker, or timeout as failure. Do not weaken redaction to make the trace l
 
 ## After implementation
 
-Keep the **telemetry contract, alerts, and incident runbook**, together with the workbook
+Keep the **telemetry definition, alerts, and incident runbook**, together with the workbook
 definition, Bicep-consumed alert queries, budget, cost-allocation record, privacy decisions, and
 paired smoke scripts. The gateway owner's APIM repository keeps the policy.
 Application Insights retains operational telemetry under the approved workspace policy. Foundry,
 Defender, APIM, Cost Management, and the SOC system remain the systems of record for their detailed
 data.
 
-The service owner owns the operating SLO. The observability owner owns instrumentation, sampling,
-retention, workbook, and alerts. The gateway owner owns APIM correlation and token metrics. The tool
-owner owns tool span accuracy and independent authorization. The AI quality owner owns evaluation
-signals and thresholds. Security operations owns security-event routing and incidents. The cost
-owner owns tags, budget thresholds, and reconciliation with billed cost.
+The service owner sets the operating SLO. The observability owner maintains instrumentation,
+sampling, retention, the workbook, and alerts. The gateway owner maintains APIM correlation and
+token metrics. The tool owner checks tool span accuracy and independent authorization. The AI
+quality owner sets evaluation signals and thresholds. Security operations routes security events
+and handles incidents. The cost owner maintains tags and budget thresholds, then reconciles
+estimates with billed cost.
 
 During an incident, the incident commander orders containment. The service owner changes the
 affected agent or model route, the tool owner disables an affected binding, and the credential

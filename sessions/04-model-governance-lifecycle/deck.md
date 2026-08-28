@@ -14,7 +14,7 @@ html: true
 
 # Model governance, data residency, quota, and lifecycle
 
-**180 minutes · Approve a model version, then deploy it through a controlled path**
+**180 minutes · Approve a model version, then deploy it with version-controlled files**
 
 <!-- Notes: Frame the session as a deployment control under an existing Foundry resource. -->
 
@@ -22,7 +22,7 @@ html: true
 
 ## Control objective
 
-> Deploy exact approved serverless API model versions through a versioned path that meets the workload's processing-location requirement.
+> Deploy exact approved serverless API model versions by using version-controlled deployment profiles, preflight checks, and Bicep while meeting the workload's processing-location requirement.
 
 ### Session result
 
@@ -32,7 +32,8 @@ html: true
 
 <!-- Notes: The external decision system remains the source for supporting review detail. -->
 
-Use this control for one deployment path. A principal with access can still use another path.
+These checks apply only to deployments made with these preflight scripts and Bicep files. A
+principal with access can still deploy through another template, the portal, the CLI, or an API.
 
 ---
 
@@ -40,7 +41,8 @@ Use this control for one deployment path. A principal with access can still use 
 
 Model version and deployment type decide where processing happens and how quota is used.
 
-The controlled path checks those facts before changing the existing Foundry resource.
+Before Bicep changes the existing Foundry resource, preflight checks the model version, deployment
+type, processing-location requirement, and quota.
 
 ![Approval funnel and model lifecycle loop](assets/diagrams/model-governance-flow.svg)
 
@@ -71,9 +73,9 @@ Supported serverless API model deployments created by `main.bicep` under the exi
 
 ## Architecture overview
 
-Each business approval leads to a model deployment. The decision system keeps the full review; Git
-carries the choices needed for deployment. Preflight checks those choices against current Azure
-state before Bicep changes the child deployment.
+Each business approval leads to a model deployment. The decision system keeps the full review;
+`deployment-profiles.json` contains the settings needed for deployment. Preflight compares those
+settings with current Azure state before Bicep changes the child deployment.
 
 <div class="cards">
 <div class="card">
@@ -89,8 +91,9 @@ Bicep will apply.
 </div>
 </div>
 
-Azure owns live state. Session 05 receives the approved deployment name and model coordinates.
-Portal, CLI, API, and template changes made elsewhere stay outside this boundary.
+Azure records the live deployment state. Session 05 uses the approved deployment name and model
+coordinates. These checks do not cover changes made through another template, the portal, the CLI,
+or an API.
 
 <!-- Notes: Live service facts stay in Azure and are read again during preflight. -->
 
@@ -105,7 +108,7 @@ Portal, CLI, API, and template changes made elsewhere stay outside this boundary
 | Where approval lives | Full review in the decision system; deployment configuration in Git | The deployment path stays readable without copying the review | The external approval reference must match the change |
 | Where service facts come from | Read lifecycle and quota from Azure during preflight | The gate uses current platform state | A missing field stops the run for a named manual check |
 | How versions move | Pin the exact version with `NoAutoUpgrade` | Each version change returns to approval | The owner must start retirement work before support ends |
-| What this path controls | Use this versioned path to deploy approved model versions | Operators get a defined preview and restore boundary | Other authorized paths can still create deployments |
+| What these files check | Use the version-controlled deployment profiles, preflight scripts, and Bicep to deploy approved model versions | Operators can preview each change and restore an earlier version of the deployment files | Other authorized methods can still create deployments |
 
 <!-- Notes: Revisit these choices when stable service fields or preventive controls become available. -->
 
@@ -184,8 +187,9 @@ The switch confirms a human check for that run. It does not claim that the CLI s
 
 ## Complementary policy control
 
-This session deploys models through the versioned path. Azure Policy can separately deny selected
-deployment SKU names across other authorized paths.
+This session deploys models with the version-controlled deployment profiles, preflight scripts, and
+Bicep files. Azure Policy can separately deny selected deployment SKU names across other authorized
+methods.
 
 [Microsoft guidance](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types#restrict-deployment-types-with-azure-policy)
 shows the `Microsoft.CognitiveServices/accounts/deployments/sku.name` restriction pattern.
@@ -303,11 +307,11 @@ Remove a deployment only when it carries the Session 04 marker.
 
 ## Recap
 
-- The desired-state file feeds Bicep.
+- Bicep uses `deployment-profiles.json` as its deployment input.
 - Live lifecycle, availability, and quota stay in Azure.
 - Manual checks are explicit when stable CLI data is missing.
-- This control applies to the deployment path in this kit. It does not cover every path into the platform.
-- [Session 05](../05-governed-agent-baseline/) consumes the approved live deployment.
+- These checks apply only to deployments made with these preflight scripts and Bicep files. Other deployment methods remain outside scope.
+- [Session 05](../05-governed-agent-baseline/) uses the approved live deployment.
 
 <!-- Notes: Close on the review record that Session 05 consumes. -->
 

@@ -25,12 +25,12 @@ session:
   services_in_scope:
     - "azure-ai-foundry"
     - "azure-openai"
-  control_objective: "Deploy exact approved serverless API model versions through a versioned path that meets the workload's processing-location requirement."
+  control_objective: "Deploy exact approved serverless API model versions by using version-controlled deployment profiles, preflight checks, and Bicep while meeting the workload's processing-location requirement."
 implementation:
   mode: "standard"
 implementation_outcomes:
   - "Record the external approval reference and required model deployment controls in the Bicep input file."
-  - "Use preflight to check the deployment plan against current Azure availability and lifecycle data, the named Responsible AI policy, operator access, safely matched quota, and the Bicep preview."
+  - "Use preflight to check the deployment plan against current Azure availability and lifecycle data, the named Responsible AI policy, operator access, quota matched to the SKU's live `usageName`, and the Bicep preview."
   - "Deploy an approved serverless API model version in the existing Foundry resource, then confirm that the live child deployment matches the approved plan."
 deliverables:
   implementation: "implementation/README.md"
@@ -50,7 +50,7 @@ retained_files:
     operational_purpose: "Set the Bicep deployment's nonproduction AIServices resource from the environment parameters."
   - path: "implementation/artifacts/models/deployment-profiles.json"
     consumer: "The Session 04 Bicep entrypoint and preflight scripts"
-    operational_purpose: "Supply the repository-owned approval reference, model, SKU, capacity, filter, processing-location requirement, review date, quota headroom, and fixed no-auto-upgrade state for each child deployment."
+    operational_purpose: "Supply the approval reference, model, SKU, capacity, filter, processing-location requirement, review date, quota headroom, and fixed no-auto-upgrade setting that preflight and Bicep use for each child deployment."
   - path: "implementation/scripts/preflight.ps1"
     consumer: "The PowerShell-based Foundry deployment operator"
     operational_purpose: "Stop a model change when approval, scope, access, live lifecycle, location, quota, Bicep, or what-if checks fail."

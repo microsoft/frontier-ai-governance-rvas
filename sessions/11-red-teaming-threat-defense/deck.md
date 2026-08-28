@@ -52,7 +52,7 @@ The separate route check tells the security owner whether an expected Defender s
 
 1. Validate the approved scope, fixed versions, and agent-specific attack plan.
 2. Run the same limited probes against the baseline and pre-session remediated version.
-3. Keep a payload-free before/after comparison in the release store.
+3. Keep a payload-free before/after comparison in the approved security record store.
 4. Confirm an authorized Defender event or route-health result at the SOC destination.
 5. Record red-team and SOC delivery as separate results in the risk and change review record.
 
@@ -74,7 +74,7 @@ Remediation is already complete. Timed work compares the two versions and checks
 
 <!-- _class: diagram -->
 
-![An authorized plan cycles through baseline measurement, owned remediation, a fixed version, same-plan rerun, per-key decision, and remaining risk; a separate Defender-to-SOC route joins the operations review record without proving red-team improvement](assets/diagrams/red-team-defense-loop.svg)
+![An authorized plan cycles through baseline measurement, agent-owner remediation, a fixed version, same-plan rerun, per-key decision, and remaining risk; a separate Defender-to-SOC route joins the operations review record without proving red-team improvement](assets/diagrams/red-team-defense-loop.svg)
 
 <!-- Notes: Remediation is pre-work. Keep same-plan comparison and SOC delivery as separate checks. -->
 
@@ -86,10 +86,10 @@ The design asks whether one remediation changed the result of an approved attack
 plan runs against the baseline and the remediated immutable version. Existing tool and backend
 controls deny prohibited side effects during both runs.
 
-Foundry owns run detail and the comparison answers whether risks held or improved. A separate
-Defender or Microsoft Sentinel route checks delivery to the SOC.
+Foundry stores the run detail. The comparison shows whether every tracked risk stayed the same or
+improved. A separate Defender or Microsoft Sentinel route checks delivery to the SOC.
 
-The approved security record store carries payload-free aggregates without treating SOC delivery as
+The approved security record store keeps payload-free aggregates without treating SOC delivery as
 proof of red-team improvement.
 
 ---
@@ -100,7 +100,7 @@ proof of red-team improvement.
 |---|---|
 | Microsoft Foundry | Target the approved agent and run cloud red teaming |
 | AI Red Teaming Agent | Generate probes and score attack success |
-| Existing agent/tool controls | Prevent unsafe side effects |
+| Existing agent/tool controls | Deny prohibited writes independently of model behavior |
 | Defender for Cloud AI services | Detect Azure AI workload threats |
 | Agent 365 + Defender | Optional public-preview agent detection path |
 | SOC workflow | Triage, correlate, contain, and own the event |
@@ -195,7 +195,7 @@ Do not:
 - current Defender alert hunt
 - SOC triage playbook
 
-### Authoritative platforms keep
+### Where generated records stay
 
 - generated attack prompts
 - agent responses
@@ -229,8 +229,8 @@ Do not:
 - AI model posture and malware scanning cover model and supply-chain risk, not this agent comparison.
 - Real-time blocking is a separate control surface. Coverage depends on the agent type and integration.
 - Foundry agent blocking is preview; Session 11 does not configure a blocking rule.
-- Native Foundry Purview integration does not supply data-leak or insider-risk context. That needs
-  Agent Framework or Purview API integration owned outside this session.
+- Native Foundry Purview integration does not supply data-leak or insider-risk context. That
+  requires a separate Agent Framework or Purview API implementation.
 
 <!-- Notes: Keep detection, blocking, model security, and Purview data controls distinct. -->
 
@@ -284,7 +284,7 @@ The saved hunt matches the current alert titles exactly. It does not use a broad
 
 **Timebox: 100 minutes**
 
-1. Validate authorization, Foundry project, both policy-assistant versions, preview, Defender, and owner decisions.
+1. Validate authorization, Foundry project, both policy-assistant versions, current region support, Defender coverage, and each required owner decision.
 2. Prepare and human-review the blocked-action taxonomy.
 3. Run the baseline against the approved version.
 4. Confirm that the pre-session remediation and new fixed version match the approved records.
@@ -297,8 +297,8 @@ The saved hunt matches the current alert titles exactly. It does not use a broad
 ## Safe preview
 
 Preflight stops the run unless authorization, approved scope and identities, the attack plan,
-regional support, Defender coverage, and the SOC route match the approved records. It also enforces
-the synthetic, read-only, and payload-free boundaries.
+regional support, Defender coverage, and the SOC route match the approved records. It also rejects
+inputs outside the synthetic, read-only, and payload-free limits.
 
 No taxonomy or run is created by preflight.
 
@@ -397,7 +397,7 @@ Stop immediately for:
 
 ---
 
-## Live state and ownership
+## Responsibilities after the run
 
 | Owner | Operational responsibility |
 |---|---|

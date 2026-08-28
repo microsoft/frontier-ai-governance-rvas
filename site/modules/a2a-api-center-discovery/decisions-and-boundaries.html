@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="Expose an already-governed A2A agent for developer discovery in Azure API Center through a runtime-owned supported source integration, then observe the live catalog asset.">
+    <meta name="description" content="Expose an already-governed A2A agent for developer discovery in Azure API Center through a supported Git or API Management integration maintained by the runtime owner, then observe the live catalog asset.">
     <title>Decisions and boundaries | Optional module: A2A agent discovery in Azure API Center | Practical Microsoft AI Governance</title>
     <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
     <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
@@ -108,7 +108,7 @@
 <p>Use this add-on when developers need the A2A interface in API Center. Do not add the asset merely because an Agent 365 enterprise record exists.</p>
 <p>Stop if the developer use case is unclear or the existing Agent 365 record is missing.</p>
 <h3 id="select-the-source-integration">Select the source integration<a class="heading-anchor" href="#select-the-source-integration" aria-label="Link to Select the source integration">#</a></h3>
-<p>Choose <strong>git</strong> when the runtime product repository is the approved source. Choose <strong>api-management</strong> when an API Management instance owns the technical A2A asset and the documented synchronization path supports it.</p>
+<p>Choose <strong>git</strong> when the runtime product repository is the approved source. Choose <strong>api-management</strong> when API Management publishes the technical A2A asset and the documented synchronization path supports it.</p>
 <p>Stop if the plan relies on a manual Agent registration beside an existing source integration, an unsupported source, a local agent-card upload, or copied metadata in this repository.</p>
 <h3 id="review-source-ownership">Review source ownership<a class="heading-anchor" href="#review-source-ownership" aria-label="Link to Review source ownership">#</a></h3>
 <p>The runtime owner maintains the source. The API Center owner maintains the integration and discovery configuration. Changes to source-owned fields follow the runtime release path.</p>

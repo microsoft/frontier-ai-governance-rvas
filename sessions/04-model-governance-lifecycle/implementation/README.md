@@ -4,26 +4,27 @@
 
 ### What we will do
 
-Deploy **exact approved serverless API model versions through a versioned path** that
-meets the workload's processing-location requirement. Under the existing `AIServices` Microsoft
-Foundry resource in the approved nonproduction resource group, define desired deployment state,
-check it against current Azure availability, lifecycle, quota, and scope, then create or update
-the listed child deployments. This session owns the versioned deployment profiles and live child
-deployments that match the approved model coordinates, SKU, capacity, content filter reference,
-fixed no-auto-upgrade setting, and approval ID.
+Deploy **exact approved serverless API model versions by using version-controlled deployment
+profiles, preflight checks, and Bicep** while meeting the workload's processing-location
+requirement. Under the existing `AIServices` Microsoft Foundry resource in the approved
+nonproduction resource group, define desired deployment state, check it against current Azure
+availability, lifecycle, quota, and scope, then create or update the listed child deployments. The
+deployment profiles record the approved model coordinates, SKU, capacity, content filter reference,
+fixed no-auto-upgrade setting, and approval ID. Bicep creates or updates the matching live child
+deployments.
 
 ### Why it matters
 
 The selected model version and deployment type determine processing location, quota use, and
-lifecycle exposure. Preflight joins customer approval to current Azure state before deployment,
-giving the lifecycle owner a repeatable change path without copying volatile service facts into the
-repository.
+lifecycle exposure. Before deployment, preflight compares the approved deployment settings with
+current Azure state. The lifecycle owner can repeat these steps without copying live Azure service
+data into the repository.
 
 ### Boundaries
 
-Azure is authoritative for live availability, quota, lifecycle data, and deployed resource state.
-The customer decision system owns supporting approval detail. The repository owns the deployment
-profiles and Bicep desired state.
+Read live availability, quota, lifecycle data, and deployed resource state from Azure. Keep
+supporting approval detail in the customer decision system. Store the deployment profiles and
+Bicep configuration in the repository.
 
 Use this implementation for one deployment path. A principal with access can still create a deployment
 through another template, the portal, the CLI, or an API. Detecting or blocking those changes needs
@@ -43,35 +44,37 @@ is a separate platform control; this session does not assign it.
 ### Architecture at a glance
 
 This design connects one business approval to one model deployment in Azure. The customer decision
-system keeps the full review. The repository carries the smaller set of deployment choices needed
-to apply that decision. Before anything changes, preflight compares those choices with current
-Azure facts and a scoped Azure Resource Manager preview. It stops the run if they do not agree.
-Bicep can then create or update the child deployment under the existing Foundry resource.
+system keeps the full review. `deployment-profiles.json` contains the deployment settings needed to
+apply that decision. Before anything changes, preflight compares those settings with current Azure
+facts and a scoped Azure Resource Manager preview. It stops the run if they do not agree. Bicep can
+then create or update the child deployment under the existing Foundry resource.
 
-The responsibilities follow the change. The decision system authorizes the model, the repository
-describes the intended deployment, and preflight guards the approved path. Azure holds the live
-state. Model traffic stays in Azure because this path moves configuration, not prompts or
-responses. Session 05 receives the approved deployment name and exact model coordinates.
+The decision system records authorization for the model. The deployment profile describes what
+Bicep will deploy, and preflight blocks the deployment when that profile does not match the approval
+or current Azure state. Azure stores the live resource state. These deployment steps change
+configuration only; they do not transmit prompts or responses. Session 05 uses the approved
+deployment name and exact model coordinates.
 
 ![The approved deployment profile passes through live Azure checks before Bicep changes model child deployments; lifecycle review can keep, replace, or retire them](../assets/diagrams/model-governance-flow.svg)
 
-The boundary follows this repository path from recorded intent through preflight and Bicep. Portal,
-CLI, API, or template changes made elsewhere bypass it. Each change through this path is easy to preview and
-restore, but the path is not a platform-enforced allowlist.
+These checks apply only when an operator uses these deployment profiles, preflight scripts, and
+Bicep files. Changes made through another template, the portal, the CLI, or an API bypass them.
+Operators can preview changes and restore an earlier version of the deployment files, but Azure
+does not enforce these files as an allowlist.
 
 `deployment-profiles.json` records the external approval reference, model version, SKU, capacity,
 content filter, processing-location requirement, review date, quota headroom, and
-`NoAutoUpgrade` setting. The customer change system remains authoritative for the full approval,
-named lifecycle owner, and review history.
+`NoAutoUpgrade` setting. Keep the full approval, named lifecycle owner, and review history in the
+customer change system.
 
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Why this shape works | Tradeoff | Revisit when |
 |---|---|---|---|---|
-| Where approval lives | Keep the full review in the customer decision system and a compact deployment record in Git | The deployment inputs remain readable without copying the review into a second system | The approval ID and deployment names must match in both places | The decision system can provide a stable machine contract directly |
+| Where approval lives | Keep the full review in the customer decision system and a compact deployment record in Git | The deployment inputs remain readable without copying the review into a second system | The approval ID and deployment names must match in both places | The decision system can provide the deployment inputs through a stable machine-readable interface |
 | Where service facts come from | Read availability, lifecycle, quota, and the named Responsible AI policy from Azure during preflight | The gate uses the platform state that exists when the operator runs it | If the CLI omits lifecycle or quota data, the named manual check must finish before work continues | Microsoft exposes stable lifecycle and quota fields for every selected model |
 | How versions move | Pin exact model coordinates with `NoAutoUpgrade` | Every version change returns to the approval path | The owner must start manual retirement work before support ends | The owner approves a tested automatic-upgrade policy |
-| What the path enforces | Use this versioned path to deploy approved model versions | Operators get a defined preview, owner, and restore boundary | Other authorized paths can still create deployments | The platform owner adds preventive policy or removes alternate change rights |
+| What these files check | Use the version-controlled deployment profiles, preflight scripts, and Bicep to deploy approved model versions | Operators can preview each change, identify the lifecycle owner, and restore an earlier version of the deployment files | Other authorized methods can still create deployments | The platform owner adds preventive policy or removes alternate change rights |
 
 ### Architecture guidance
 
@@ -94,8 +97,8 @@ Confirm these prerequisites:
 Use the repository Execution environment section in README.md for client setup.
 
 The customer can compare models and keep detailed terms, privacy, security, evaluation, and
-procurement records in its normal systems. Session 04 keeps the deployment inputs needed to
-control one change path.
+procurement records in its normal systems. `deployment-profiles.json` stores the inputs that
+preflight and Bicep use for deployments made with this implementation.
 
 ### Implementation files
 
@@ -117,20 +120,21 @@ values.
 
 ### Deployment desired state
 
-`deployment-profiles.json` is the machine contract sent to ARM and checked by preflight. Each
-deployment carries its external approval reference, exact model coordinates, SKU and capacity,
-content filter policy name, processing-location requirement, review date, quota headroom, and
-`versionUpgradeOption: NoAutoUpgrade`.
+`deployment-profiles.json` is the machine-readable input checked by preflight and supplied to ARM
+through Bicep. Each entry contains its external approval reference, exact model coordinates, SKU
+and capacity, content filter policy name, processing-location requirement, review date, quota
+headroom, and `versionUpgradeOption: NoAutoUpgrade`.
 Replace the entire quoted `capacity` and `minimumUnusedQuotaPercent` placeholders, including their
 quotation marks, with positive JSON integers. Quoted numbers fail both preflight scripts.
 
 Do not add live quota, current availability, lifecycle status, published retirement dates, or
-deployed capacity to this file. Azure already owns those values. Keep the full approval, lifecycle
-owner, and review history in the customer change system.
+deployed capacity to this file. Read those current values from Azure during preflight. Keep the
+full approval, lifecycle owner, and review history in the customer change system.
 
-This control approves exact model coordinates. Automatic deployment moves to a different version
-are outside this path. A lifecycle-driven replacement or version change starts with a new external
-decision, then updates the deployment profile through the same preflight and what-if path.
+The external approval covers exact model coordinates. This implementation does not allow automatic
+deployment upgrades to another version. For a lifecycle-driven replacement or version change,
+record a new external decision, update the deployment profile, rerun preflight, and inspect the
+Bicep what-if output.
 
 Choose a serverless API deployment SKU that meets the recorded processing-location requirement:
 
@@ -340,9 +344,9 @@ capacity, and `modelApprovalId` match `deployment-profiles.json`.
 ## After implementation
 
 Keep the **versioned deployment definitions**: the Bicep and parameter file, deployment profiles,
-artifact index, and paired scripts. The platform owner owns live capacity and deployment changes.
-The customer change process owns the named lifecycle owner, review history, replacement work, and
-supporting approval detail.
+artifact index, and paired scripts. The platform owner manages live capacity and deployment
+changes. Record the named lifecycle owner, review history, replacement work, and supporting
+approval detail in the customer change system.
 
 Use this path to deploy versioned models. Deployments created elsewhere need
 a separate Azure Policy, deployment permission, inventory, or change-control design. The

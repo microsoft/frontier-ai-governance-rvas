@@ -22,7 +22,7 @@ html: true
 
 ## Control objective
 
-> Keep a customer-owned record of the Agent 365 and Foundry boundary. Configure an Agent 365 DLP policy for the approved scope from current Purview state, and query payload-free audit activity.
+> Keep a source-controlled file that names who maintains the Agent 365 and Foundry DLP paths. Configure an Agent 365 DLP policy for the approved scope from current Purview state, and query payload-free audit activity.
 
 ### Result check
 
@@ -38,7 +38,7 @@ html: true
 
 ## Implementation outcomes
 
-1. Keep an ownership record with a quarterly review cadence.
+1. Keep a source-controlled file that names the owners of both DLP paths and is reviewed quarterly.
 2. Reuse the approved sensitivity label and confirm explicit encryption rights.
 3. Apply the Agent 365 DLP policy to the approved scope.
 4. Keep a payload-free Agent 365 unified audit log query definition.
@@ -50,9 +50,10 @@ html: true
 
 ## Why it matters
 
-The customer-owned record keeps Agent 365 policy coverage separate from Foundry coverage.
+`coverage-handoff.md` records where Agent 365 policy coverage ends and Foundry coverage begins.
 
-It names the people who maintain those paths and gets reviewed quarterly or when a boundary changes.
+It names the roles that maintain those paths. The data owner updates it when a boundary changes and
+coordinates a quarterly review.
 
 <!-- Notes: Purview owns live service state. The review record owns the cross-product decision record. -->
 
@@ -62,7 +63,7 @@ It names the people who maintain those paths and gets reviewed quarterly or when
 
 - The approved nonproduction Agent 365 instance, test group, and label ID
 - Microsoft Purview is the live source for label, DLP, Audit, and DSPM state
-- The customer-owned review record records the Agent 365 and Foundry split
+- `coverage-handoff.md` names who maintains the Agent 365 and Foundry DLP paths
 - The Agent 365 DLP policy does not govern Foundry
 - Production, additional agents, broad populations, and payload collection are excluded
 
@@ -74,9 +75,10 @@ It names the people who maintain those paths and gets reviewed quarterly or when
 
 # Two products, two control paths
 
-Agent 365 policy targeting and Foundry data-security enablement are related. They are not the same control surface.
+Agent 365 policy targeting and Foundry data-security enablement are related. They use different
+policy paths and implementation steps.
 
-The customer-owned record names the ownership split. Purview remains the live source for service state.
+`coverage-handoff.md` names the responsible roles. Purview remains the live source for service state.
 
 <!-- Notes: This distinction prevents a false sense of coverage. -->
 
@@ -130,8 +132,8 @@ auditing it without interruption.
 That DLP boundary does not extend to Foundry. Foundry has a separate enablement path and narrower
 current DLP coverage.
 
-Purview owns live label, policy, Audit, and DSPM state. The coverage handoff records who owns each
-product path because no single service view does.
+Purview stores live label, policy, Audit, and DSPM state. The coverage handoff names who maintains
+each product path because no single service view shows those responsibilities together.
 
 ---
 
@@ -313,7 +315,7 @@ The agent owner must monitor:
 
 | Choice | Benefit | Cost or limit | Use when |
 |---|---|---|---|
-| `Block` | Stops the matched interaction | Can leave an agent workflow incomplete | The workflow has an owned failure route |
+| `Block` | Stops the matched interaction | Can leave an agent workflow incomplete | The workflow has a named owner and failure route |
 | `Audit` | Lets the team observe the scoped match | Does not stop the interaction | Monitoring is the approved nonproduction control |
 
 The data owner records one choice before simulation. The expected runtime result follows that
@@ -404,7 +406,7 @@ Review Purview data risk, classify one synthetic source, configure one Agent 365
 ## Safety gates
 
 - The approved Purview change record names the exact scope and restore route.
-- A focused route confirms the platform references, assignment scopes, `get_policy` allowlist, backend role ID and scope, successful read result, and denied-write result.
+- When earlier controls were implemented outside this series, confirm the platform references, assignment scopes, `get_policy` allowlist, backend role ID and scope, successful read result, and denied-write result.
 - A Compliance Data Administrator recorded the label resolution and DLP policy-name check.
 - The Audit Search Graph token identifies the approved tenant and carries `AuditLogsQuery.Read.All`.
 - Agent 365 and Foundry coverage are not conflated.
@@ -463,10 +465,10 @@ Do not retain the interaction content to explain a failure.
 
 ## Live state
 
-- An ownership record for product boundaries and owners
+- `coverage-handoff.md`, which names the owner of each product path
 - Payload-free audit query definition and preflight
 
-The data owner updates the ownership record after a boundary change and coordinates a quarterly review.
+The data owner updates `coverage-handoff.md` after a boundary change and coordinates a quarterly review.
 
 <!-- Notes: Saved summaries exclude customer content and raw activity. -->
 
@@ -488,8 +490,8 @@ The data owner updates the ownership record after a boundary change and coordina
 ## Recap
 
 - Agent 365 and Foundry use distinct Purview control paths.
-- The customer-owned review record names that split; the Agent 365 DLP policy does not govern Foundry.
-- Foundry DLP needs both a Purview operator's app-scoped rule and a developer-owned `processContent` integration.
+- `coverage-handoff.md` names the owners on both sides of that split; the Agent 365 DLP policy does not govern Foundry.
+- Foundry DLP needs a Purview operator to configure the app-scoped rule and an application developer to implement `processContent`.
 - A label protects source access only when rights and publication are explicit.
 - One narrow DLP policy governs the approved interaction.
 - Audit visibility stays payload-free.

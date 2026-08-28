@@ -116,7 +116,7 @@
 <p>Review the portal preview before saving. Microsoft documents that visibility applies to all users and related data-plane consumption features. Do not claim that it varies by developer group.</p>
 <p>Stop if the current portal cannot express both conditions, if the conditions are combined in a way that exposes either all MCP records or all Production APIs, or if custom metadata is being treated as an authorization rule.</p>
 <h3 id="client-integration">Client integration<a class="heading-anchor" href="#client-integration" aria-label="Link to Client integration">#</a></h3>
-<p><code>registry-client-settings.json</code> is a contract, not a file to paste blindly into every client. The client owner maps <code>registry.endpoint</code> and the Microsoft Entra references to the current supported configuration surface.</p>
+<p><code>registry-client-settings.json</code> is an input to the approved client adapter, not a file to paste blindly into every client. The client owner maps <code>registry.endpoint</code> and the Microsoft Entra references to the client's current supported settings.</p>
 <p>Stop if the client silently falls back to a public registry, merges another registry without an owner decision, or stores an access token in source control.</p>
 
         </article>

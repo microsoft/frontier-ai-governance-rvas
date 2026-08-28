@@ -18,11 +18,11 @@ preview or approval.
 
 ### Boundaries
 
-GitHub Actions and the four protected GitHub environments own the promotion sequence. Microsoft
-Entra owns the environment-scoped workload identities, Azure Resource Manager owns deployment
-state, and API Management owns the selected route. Foundry, Application Insights, Defender, and the
-approved release store remain authoritative for their linked gate, telemetry, security, and
-release records.
+GitHub Actions runs the promotion sequence, and the four protected GitHub environments hold the
+required approvals and environment-scoped credentials. Microsoft Entra validates the federated
+workload identities. Azure Resource Manager reports deployment state, and API Management reports
+the selected route. Foundry, Application Insights, Defender, and the approved release store keep
+their evaluation, telemetry, security, and release records.
 
 The workflow uses the existing [Session 05](../../05-governed-agent-baseline/implementation/README.md)
 agent and [Session 06](../../06-apim-ai-gateway/implementation/README.md) routing path. It does not
@@ -36,9 +36,9 @@ secondary deployment.
 ### Architecture at a glance
 
 The full commit SHA, the exact identifier for one Git commit, is the release's identity. The
-protected workflow carries it through every check, preview, approval, deployment, route change, and
+protected workflow uses it for every check, preview, approval, deployment, route change, and
 release record. Fixed component digests, which are cryptographic fingerprints of the other release
-parts, bind those parts to the same release. If anything changes between stages, the team creates a
+parts, associate those parts with the same release. If anything changes between stages, the team creates a
 new release instead of quietly promoting a different unit.
 
 The workflow makes decisions before it changes Azure. It first proves that the SHA is reachable
@@ -52,9 +52,9 @@ Entra workload identity. It then runs Bicep what-if. The apply environments with
 credentials until a reviewer approves the preview. Azure Resource Manager deploys the same
 release, and API Management moves the approved selector only after both deployments pass.
 
-Each decision stays with the system that made it. GitHub records workflow execution and environment
-approvals. Microsoft Entra holds workload trust. Azure Resource Manager reports deployed state,
-and API Management reports routing. The approved release store holds one small release record,
+Each system keeps the records or state it produces. GitHub records workflow execution and environment
+approvals. Microsoft Entra stores the federated credentials and validates workload trust. Azure Resource Manager reports deployed state,
+and API Management reports routing. The approved release store keeps one small release record,
 written after each successful production promotion and read before manual restore. It links native
 records instead of copying them.
 
@@ -92,15 +92,15 @@ to identify the release.
    branch, and select the approved 40-character release SHA through the customer’s GitHub release
    and deployment process. The SHA must be reachable from that branch. The release commit itself
    must not store the SHA.
-2. Complete Sessions 05, 06, 10, 11, and 12. A focused route may use the substitute baseline
-   below, but every row must pass before the workflow is installed.
+2. Complete Sessions 05, 06, 10, 11, and 12. If the earlier controls were implemented outside
+   this series, confirm the required state in the table below before installing the workflow.
 3. Confirm the approved [Session 10](../../10-foundry-evaluations-quality-gates/implementation/README.md) threshold policy and release policy are usable by the callable
    `sessions/10-foundry-evaluations-quality-gates/implementation/scripts/release-gate.py`.
    The schema-version 2 release policy must have `gate.state=enabled`,
-   `gate.decision=approved`, a valid `gate.decisionDate`, the exact activation contract, and
+   `gate.decision=approved`, a valid `gate.decisionDate`, the exact activation fields, and
    `requiredEnforcementOption=--require-enabled`. Its baseline and candidate run IDs must match the
    threshold policy and temporary external result records. Session 10 supplies the gate and its
-   PASS/BLOCK contract. Its stable blocked self-test must return BLOCK. This workflow enforces both
+   documented PASS/BLOCK behavior. Its stable blocked self-test must return BLOCK. This workflow runs both
    checks.
 4. Confirm the approved release/security-store interface retrieves a Session 11 version 1
    `security-release-attestation` into the approved temporary workspace. The attestation has
@@ -126,16 +126,14 @@ to identify the release.
    `SESSION12_SMOKE_FAILURE_URL`, `SESSION12_AI_RESOURCE_ID`,
    `SESSION12_LOG_ANALYTICS_WORKSPACE_ID`. Store `SESSION12_SMOKE_BEARER_TOKEN` as an environment
    secret. Optional `SESSION12_SMOKE_TIMEOUT_SECONDS` and `SESSION12_SMOKE_RETRY_SECONDS` variables
-   override the 180-second and 15-second defaults. Session 12 owns the polling loop; Session 13
+   override the 180-second and 15-second defaults. The Session 12 smoke scripts perform the polling; Session 13
    invokes it and requires `checks.telemetryPollTimedOut=false`,
    `checks.releaseCommitShaVerified=true`, and `checks.workspaceBindingVerified=true` in the
    payload-free result. It also requires `checks.correlationIdsDistinct=true` and
    `checks.telemetryIngestionStable=true`.
 6. The unit-check owner accepts the customer-owned unit script. It receives only `-Mode Ci` and
    `-CommitSha`, returns success or failure for that commit, and never reads a stored shell command.
-7. The routing owner accepts the customer-owned routing script. It implements only the fixed
-   `Promote` and `Restore` parameters used by the approved workflows and changes only the
-   candidate and stable selectors listed in the routing contract.
+7. The routing owner accepts the routing-control script described below.
 8. The release owner accepts the customer-owned release/security-store script. It implements
    `Stage`, `Approve`, and `Retrieve` for the exact manifest, release ID, and SHA-256. It also
    implements `RetrieveEvaluationResult -RunId -OutputPath` and
@@ -144,7 +142,7 @@ to identify the release.
    temporary workspace. They never write to the repository, and `Retrieve` never returns a staged
    entry as an approved restore target.
 9. The platform owner accepts the selected Bicep entrypoint and confirms it accepts both approved
-   parameter contracts.
+   parameter files.
 10. The GitHub administrator accepts the environment protections and native secret controls. The
    Entra administrator accepts all four federated credentials and the two exact resource-group-scoped
    **Contributor** assignments. The release owner
@@ -160,15 +158,30 @@ to identify the release.
 12. The release authority, quality and security authorities, production approver, routing authority,
     and delivery owner must be available for their live decisions.
 
-### Focused-route substitute baseline
+### Required state when joining here
 
 | Dependency | Required control state and exact configuration or record | Owner and observable result |
 |---|---|---|
-| Immutable agent | One release record binds the commit SHA to the agent name, prompt version, immutable agent version, model deployment alias, and both Bicep parameter contracts. | The platform owner retrieves those exact values and deploys them unchanged to nonproduction. |
+| Immutable agent | One release record associates the commit SHA with the agent name, prompt version, immutable agent version, model deployment alias, and both Bicep parameter files. | The platform owner retrieves those exact values and deploys them unchanged to nonproduction. |
 | Gateway | A versioned APIM policy names stable and candidate selectors, and the approved routing control supports preview and restore. | The gateway owner confirms preview changes only those selectors, the candidate health check passes, and restore returns traffic to the exact previous selector. |
 | Evaluation | The evaluation definition, active threshold policy, enabled release policy, and temporary external baseline and candidate records are available. | The AI quality owner sees the callable gate pass the matching candidate and the generated tool-process self-test return BLOCK. |
 | Adversarial | A confirmed payload-free external security-release attestation identifies the immutable agent, approved baseline, remediated version, external authorization, and external report location. | The security owner confirms lower attack success, per-risk non-regression, blocked prohibited actions, matching versions, and no payload without treating SOC delivery as red-team proof. |
 | Observability | The Session 12 smoke executables return the release commit, correlation ID, trace status, failure-boundary status, and payload-retention status. | The observability owner runs the executable for the same commit and gets a passing trace, separated failures, `sensitiveInputPresent: false`, and `payloadsRetained: false`. |
+
+### Routing-control script interface
+
+The approved workflows call the implementation repository's routing-control script. It uses the
+existing traffic layer and may change only the selectors listed in `control-definition.json`.
+
+| Mode | Workflow and inputs | What it does | Result |
+|---|---|---|---|
+| `Promote` | Promotion workflow: `Strategy`, `CandidateSelector`, `StableSelector`, and `ReleaseId` | Moves the approved traffic from the stable selector to the candidate selector for the named release. | Returns exit code zero only after the approved selector move completes. A failure stops release-record approval. |
+| `Restore` with `WhatIf` | Restore workflow preview: `ApprovedManifestPath`, `ReleaseId`, and `WhatIf` | Checks the selected approved release and shows the exact stable-selector restore. | Makes no routing change. |
+| `Restore` | Restore workflow: `ApprovedManifestPath` and `ReleaseId` | Returns the stable selector to the selected approved release. | Returns exit code zero only after that selector change completes. |
+
+The script must reject any other selector, release ID, or free-form command. A nonzero exit stops
+the workflow and leaves the staged release record unapproved until the approved restore process
+runs.
 
 ### Implementation files
 
@@ -204,7 +217,7 @@ to identify the release.
   smoke executable, routing, and the approved release/security-store interface;
 - the approved 40-character commit supplied through `release_sha`, plus the agent name, prompt,
   agent version, model alias, APIM policy, evaluation run, and threshold policy;
-- `canary` or `blue-green`, selectors, and whether the existing Session 05 or 07 path supports it;
+- `canary` or `blue-green`, selectors, and whether the existing Session 05 or 06 path supports it;
   and
 - the customer-approved release/security-store interface and its temporary external artifact
   workspace.
@@ -229,7 +242,7 @@ Stop before any administrative or deployment change if:
 - the Session 12 check is missing, failed, for another commit, exposes sensitive input, retains
   payloads, lacks its correlation ID, or does not report successful bounded ingestion polling;
 - a what-if contains unrelated or destructive change; or
-- existing Session 05 or 07 routing cannot safely perform the selected canary or blue-green move.
+- existing Session 05 or 06 routing cannot safely perform the selected canary or blue-green move.
   In that case, keep 100% on the previous approved release.
 
 No AI-quality signal restores a previous release automatically.
@@ -458,11 +471,11 @@ Azure retains deployment history. The promotion workflow writes the approved rel
 after each successful production promotion, and the restore workflow reads it before a manual
 restore. Do not copy those runtime records into this repository.
 
-The release owner owns workflow operation and release-record continuity. GitHub and Entra administrators
-own environment protections and federation. The platform owner owns Bicep scopes and approves both
-what-if results. AI quality and
-security owners own Session 10 and 11 gates. The observability owner owns the Session 12 smoke
-interface. The gateway owner owns routing. The delivery owner owns the final checkpoint.
+The release owner operates the workflows and maintains release-record continuity. GitHub and Entra
+administrators maintain environment protections and federation. The platform owner maintains the
+Bicep scopes and approves both what-if results. AI quality and security owners maintain the Session
+10 and 11 gates. The observability owner maintains the Session 12 smoke interface. The gateway
+owner controls routing. The delivery owner accepts the final checkpoint.
 
 Restore is manual. Dispatch **Restore previous AI release** with the exact approved release ID and
 recorded SHA-256 selected from the approved release store. Leave `dry_run=true` first. The production

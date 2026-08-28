@@ -11,8 +11,8 @@ session:
     - "Cloud security and Microsoft Defender administrators"
     - "Security operations and AI application owners"
   prerequisites:
-    - "Sessions 01-09 are complete in the full engagement path. For a focused route, confirm the platform inventory lists the exact nonproduction Foundry resource, project, policy-assistant agent, immutable baseline version, remediated version, and stable-endpoint selector."
-    - "For a focused route, confirm the access, network, gateway, tool, data, and evaluation records list the project access assignments, network-injection record when isolated, APIM policy reference, get_policy allowlist, backend role definition ID and assignment scope, prohibited-write decision, synthetic-data classification, and Session 10 gate configuration. The stable endpoint selects the approved version, get_policy reads successfully, the prohibited write is absent or denied, and the Session 10 gate returns PASS for its approved record."
+    - "Complete Sessions 01-10. If the earlier controls were implemented outside this series, confirm that the platform inventory lists the exact nonproduction Foundry resource, project, policy-assistant agent, immutable baseline version, remediated version, and stable-endpoint selector."
+    - "When the earlier controls were implemented outside this series, confirm that the access, network, gateway, tool, data, and evaluation records list the project access assignments, network-injection record when isolated, APIM policy reference, get_policy allowlist, backend role definition ID and assignment scope, prohibited-write decision, synthetic-data classification, and Session 10 gate configuration. The stable endpoint selects the approved version, get_policy reads successfully, the prohibited write is absent or denied, and the Session 10 gate returns PASS for its approved record."
     - "The Session 05 policy assistant has an approved immutable version in the nonproduction project for authorized adversarial testing."
     - "The Session 08 prohibited write remains absent from the MCP allowlist and backend role, or the exact backend denies it."
     - "The Session 10 golden evaluation gate and approved aggregate release record remain runnable against the remediated version."
@@ -23,7 +23,7 @@ session:
     - "Defender for Cloud AI services threat protection is enabled on the approved subscription, and the chosen Defender-to-SOC route is operating."
     - "The security owner has authorized the exact nonproduction Foundry project alias, policy-assistant agent name, immutable baseline version, attack categories, synthetic-data boundary, run window, and stop contact."
     - "The SOC owner has accepted an authorized Defender event or route-health result that shows the source, route type, destination alias, Defender reference, SOC reference, observed time, and agent or model context."
-    - "Owned remediations and the new immutable agent version are complete before the timed session."
+    - "The agent owner has completed the approved remediations and created the new immutable agent version before the timed session."
   dependencies:
     - "Session 05 - Governed Microsoft Foundry agent baseline"
     - "Session 06 - Azure API Management as the AI gateway"
@@ -41,7 +41,7 @@ implementation_outcomes:
   - "Validate the pre-session authorization for the bounded cloud red-team exercise against the baseline and remediated fixed nonproduction Foundry agent versions."
   - "Use the approved agent-specific attack plan covering direct, encoded, indirect, leakage, prohibited-action, adherence, and unsafe-tool behavior."
   - "Run the bounded plan against the baseline and the remediated immutable version prepared before the session."
-  - "Require every tracked category and attack strategy for each evaluator to hold or improve after remediation, with prohibited actions still blocked independently of model behavior."
+  - "Require the remediated run to match or improve every tracked category and attack-strategy result for each evaluator, with prohibited actions still blocked independently of model behavior."
   - "Keep the approved attack-plan configuration, an exact-title AI alert hunt, and a SOC triage playbook. Foundry, Defender, and the SOC system retain the run, alert, and delivery records."
 deliverables:
   implementation: "implementation/README.md"
@@ -64,7 +64,7 @@ retained_files:
     operational_purpose: "Query current Defender hunting surfaces for agent and model security records without copying payloads; the SOC owner reviews exact alert titles quarterly and after Defender alert changes."
   - path: "implementation/artifacts/operations/soc-triage-playbook.md"
     consumer: "The SOC analyst and incident commander"
-    operational_purpose: "Route triage, containment, escalation, and ownership for observed AI security signals; the SOC owner updates it after an incident or route change and reviews it quarterly."
+    operational_purpose: "Guide the SOC analyst and incident commander through triage, containment, escalation, and handoff for observed AI security signals; the SOC owner updates it after an incident or route change and reviews it quarterly."
   - path: "implementation/scripts/preflight.ps1"
     consumer: "The PowerShell-based red-team operator"
     operational_purpose: "Stop an unauthorized, unsupported, mismatched, unbounded, or payload-retaining run."

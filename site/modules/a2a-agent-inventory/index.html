@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="Onboard or confirm an approved A2A agent in Microsoft Agent 365 through a supported integration route, then observe its live inventory and ownership state.">
+    <meta name="description" content="Onboard or confirm an approved A2A agent in Microsoft Agent 365 through a supported integration route, then confirm its live inventory record, owner, and lifecycle state.">
     <title>Scope and outcomes | Optional module: A2A agent inventory in Microsoft Agent 365 | Practical Microsoft AI Governance</title>
     <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
     <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
@@ -105,10 +105,10 @@
 <p>Bring an approved A2A agent into Microsoft Agent 365 through the supported path for its runtime: built-in integration, Registry sync, or a runtime-owned Agent 365 SDK integration. The delivery team then observes the live Agent Registry entry with the agent owner.</p>
 <p>The result is a live Agent 365 inventory record. This module does not create an agent card, technical definition, or copied inventory record in this repository.</p>
 <h3 id="why-it-matters">Why it matters<a class="heading-anchor" href="#why-it-matters" aria-label="Link to Why it matters">#</a></h3>
-<p>Agent 365 gives the organization a live inventory for the agent, its lifecycle, and its owners. The runtime continues to own the A2A protocol, endpoint, and agent card. Keeping those boundaries clear prevents a second record from drifting.</p>
+<p>Agent 365 gives the organization a live inventory for the agent, its lifecycle, and its owners. The runtime continues to own the A2A protocol, endpoint, and agent card. Keeping those boundaries clear avoids a repository copy that becomes stale when the runtime changes.</p>
 <h3 id="boundaries">Boundaries<a class="heading-anchor" href="#boundaries" aria-label="Link to Boundaries">#</a></h3>
 <p>This optional module sits outside the 14-session sequence. It follows the agent baseline in <a href="../../sessions/05-governed-agent-baseline/">Session 05</a> and hands data controls to <a href="../../sessions/09-purview-data-governance/">Session 09</a>. Use the separate A2A API Center discovery module when developers need a catalog entry for the agent's technical interface.</p>
-<p>Microsoft Agent 365 is authoritative for the enterprise inventory. The agent runtime and its product repository are authoritative for the A2A definition, agent card, endpoint, and behavior. This repository retains neither customer-specific records nor completion evidence.</p>
+<p>Microsoft Agent 365 is authoritative for the enterprise inventory. The runtime uses the A2A definition, agent card, endpoint, and behavior stored in its product repository. This repository retains neither customer-specific records nor completion evidence.</p>
           <section class="session-brief" aria-labelledby="session-brief-title">
             <h2 id="session-brief-title">Module preparation</h2>
             <div class="session-brief__grid"><div class="session-brief__audience session-brief__list" data-list-layout="stack">

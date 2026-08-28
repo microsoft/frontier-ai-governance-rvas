@@ -23,7 +23,7 @@ description: Optional implementation add-on for publishing a runtime-owned A2A a
 ## Control objective
 
 Expose one already-governed A2A agent for developer discovery in Azure API Center through a
-runtime-owned supported source integration.
+supported Git or API Management integration maintained by the runtime owner.
 
 ![Azure API Center](assets/icons/microsoft/azure-api-center.svg)
 
@@ -41,13 +41,13 @@ definition into this repository.
 
 ## Architecture at a glance
 
-| Platform | Owns |
+| Platform | Stores or maintains |
 |---|---|
 | Microsoft Agent 365 | Enterprise inventory, owner, and lifecycle |
 | Azure API Center | Developer discovery asset |
 | Runtime source | A2A definition, agent card, endpoint, and behavior |
 
-The repository owns none of these records.
+This repository stores no copy of these records.
 
 ---
 
@@ -70,7 +70,7 @@ another catalog entry.
 
 ---
 
-## Source integration is the safety boundary
+## Use one source integration
 
 ```text
 Runtime-owned Git or API Management source

@@ -22,14 +22,14 @@ html: true
 
 ## Control objective
 
-> Deploy privacy-safe operating controls for one governed service: connect supported runtime spans, route alerts, notify on budget thresholds, and use owned incident paths.
+> Deploy privacy-safe operating controls for one governed service: connect supported runtime spans, route alerts, notify on budget thresholds, and follow incident paths with named owners.
 
 ### Result check
 
 - an approved synthetic request is traceable across supported gateway, agent, model, and tool spans;
 - tool failure remains distinct from model failure;
 - standard logs leave out sensitive input;
-- operational and AI-quality alerts have owned routes; and
+- operational and AI-quality alerts route to named owners; and
 - usage, tags, and budget notifications support cost accountability without stopping spend.
 
 <!-- Notes: The objective is decision-ready operations, not maximum logs. -->
@@ -40,7 +40,7 @@ html: true
 
 Operators need enough joined runtime context to decide whether the service, a tool, or the model is failing.
 
-The workbook and owned alert routes support that decision without pooling records from every system.
+The workbook and alert routes support that decision without pooling records from every system.
 
 Cost tags and budget notifications give the cost owner a delayed billing view. The incident runbook names who contains each failure.
 
@@ -50,8 +50,8 @@ Cost tags and budget notifications give the cost owner a delayed billing view. T
 
 ## Implementation outcomes
 
-1. Keep a privacy-safe OpenTelemetry contract for supported runtime spans.
-2. Deploy a shared workbook and three alert rules with owned routes.
+1. Keep privacy-safe OpenTelemetry settings for supported runtime spans.
+2. Deploy a shared workbook and three alert rules routed to named owners.
 3. Keep limited token metrics and low-cardinality allocation tags.
 4. Deploy budget notifications that do not stop resources.
 5. Operate four incident paths listed in the runbook and run the release smoke check from the Session 13 GitHub promotion workflow.
@@ -60,18 +60,18 @@ Cost tags and budget notifications give the cost owner a delayed billing view. T
 
 ---
 
-## Focused-route baseline
+## Required state when joining here
 
-A focused route starts only when each substitute has state the owner can inspect.
+Teams joining here confirm this state before they begin the session.
 
-| Dependency | Live state | Owner check |
+| Existing control | What must already work | How the owner confirms it |
 |---|---|---|
-| Runtime | Project, fixed agent, identity, network, APIM policy, tool scopes, data policy | Owners send one read-only request only to the backend and tool listed in the baseline |
+| Runtime | Project, fixed agent, identity, network, APIM policy, tool scopes, data policy | Owners confirm that one read-only request reaches only the backend and tool listed in the baseline |
 | Tracing | OpenTelemetry and APIM propagation configuration | Observability owner joins gateway, agent, model, and tool spans with separate results |
 | Evaluation | Definition, threshold policy, approved aggregate result | AI quality owner gets the recorded pass or block for the deployed version |
 | Security | Payload-free red-team summary, Defender onboarding, event route | Security owner finds blocked actions and one expected runtime signal |
 
-<!-- Notes: A generic substitute is not a prerequisite. Every row has live state, ownership, and a visible result. -->
+<!-- Notes: Each row names the existing control, the state needed for this session, and the owner who checks it. -->
 
 ---
 
@@ -89,9 +89,9 @@ Runtime spans share approved context. Cost, evaluation, and security records sta
 
 <!-- _class: diagram -->
 
-![An approved synthetic request carries trace context through API Management, agent, model, and tool spans. Application Insights feeds workbooks and alerts. Evaluation records keep their own owner path, as do security and cost records.](assets/diagrams/operational-correlation-flow.svg)
+![An approved synthetic request carries trace context through API Management, agent, model, and tool spans. Application Insights feeds workbooks and alerts. Evaluation, security, and cost records stay in their source systems.](assets/diagrams/operational-correlation-flow.svg)
 
-<!-- Notes: Treat the request as the spine of the operating view. W3C trace context links the gateway, agent, model, and tool spans, and each span keeps its own result. This lets an operator locate the failing hop. Application Insights owns runtime telemetry. Cost, evaluation, and security records remain in their source systems. The Session 13 GitHub workflow uses its temporary smoke output. -->
+<!-- Notes: Treat the request as the spine of the operating view. W3C trace context links the gateway, agent, model, and tool spans, and each span keeps its own result. This lets an operator locate the failing hop. Application Insights stores runtime telemetry. Cost, evaluation, and security records remain in their source systems. The Session 13 GitHub workflow uses its temporary smoke output. -->
 
 ---
 
@@ -103,9 +103,9 @@ stay with their own systems, and the Session 13 GitHub workflow consumes its tem
 
 ---
 
-## Records and control boundary
+## Where records stay and how operators use them
 
-| System | Record it owns | How operators use it |
+| System | Record stored there | How operators use it |
 |---|---|---|
 | Application Insights | Runtime telemetry | Follow one request, keep tool failure separate from model failure, and query the workbook |
 | Azure Monitor | Alert state and notification route | Send the selected failure path to its owner |
@@ -113,7 +113,7 @@ stay with their own systems, and the Session 13 GitHub workflow consumes its tem
 | Source-controlled gateway configuration | API Management policy | Govern trace propagation and low-cardinality token estimates |
 | Defender and SOC | Security and incident records | Investigate and contain security failures |
 
-<!-- Notes: The boundary covers correlation, monitoring, notification, and owned incident paths. Token metrics estimate usage; Cost Management remains authoritative for billing. The design links records without pooling them. -->
+<!-- Notes: The boundary covers correlation, monitoring, notification, and incident paths with named owners. Token metrics estimate usage; Cost Management stores the billing records. The design links records without pooling them. -->
 
 ---
 
@@ -131,7 +131,7 @@ stay with their own systems, and the Session 13 GitHub workflow consumes its tem
 
 ---
 
-## The logging contract
+## Logging rules
 
 ![Application Insights](assets/icons/microsoft/application-insights.svg)
 
@@ -164,7 +164,7 @@ service · environment · operation type · model deployment · agent version ·
 - duration, error, token, and evaluation metrics
 - non-sensitive correlation and trace identifiers
 
-### Standard logs leaves out
+### Standard logs leave out
 
 - prompts, responses, and tool payloads
 - authorization, cookies, and URL queries
@@ -311,7 +311,7 @@ Keep logs, Defender, and SOC routing active unless they are the confirmed fault.
 
 **Timebox: 95 minutes**
 
-1. Resolve logs, retention, alert, cost, and ownership decisions.
+1. Resolve log, retention, alert, and cost settings, then name the owner for each.
 2. Confirm the approved OpenTelemetry instrumentation was deployed during pre-work.
 3. Confirm the reviewed APIM correlation and token-metric fragment was merged during pre-work.
 4. Inspect both Bicep what-if previews.
@@ -329,7 +329,7 @@ Preflight validates:
 - approved nonproduction scope and Application Insights target;
 - W3C propagation and required span kinds;
 - logs content that is not allowed and dimensions;
-- the sampling contract;
+- the approved sampling settings;
 - action group and budget amount;
 - both Bicep templates; and
 - resource-group and subscription what-if previews.
@@ -346,7 +346,7 @@ Human access expires after the confirmation check.
 
 Instrumentation and the customer-owned APIM policy merge are completed before the session.
 
-The gateway repository remains the source of truth and preserves the Session 06 authentication, token-limit, rate-limit, routing, content-safety, and backend controls.
+The gateway repository contains the deployed APIM policy and preserves the Session 06 authentication, token-limit, rate-limit, routing, content-safety, and backend controls.
 
 ```powershell
 .\scripts\preflight.ps1 `
@@ -392,7 +392,9 @@ Resolve the live component workspace before querying.
 
 Both request records must carry the CLI commit SHA in `release.commit.sha`. The result copies that SHA only after both values match.
 
-Keep the normal and failure IDs distinct. After readiness, require three matching watermark summaries. The final query must not contain any blocked logging-contract property.
+Keep the normal and failure IDs distinct. After readiness, require three consecutive query results
+with the same counts and latest `TimeGenerated` value. The final query must not contain any
+prohibited telemetry property.
 
 <!-- Notes: Do not weaken redaction to make a trace complete. -->
 
@@ -415,7 +417,7 @@ Stop immediately for:
 
 ---
 
-## Live state and ownership
+## Responsibilities after deployment
 
 | Owner | Operational responsibility |
 |---|---|
@@ -453,7 +455,7 @@ Do not disable monitoring or defense to silence a real signal.
 - Baseline-derived operational and AI-quality alerts
 - Low-cardinality token allocation
 - Budget notification, not automatic shutdown
-- Four owned incident paths
+- Four incident paths with named owners
 - One paired release smoke check with no retained Session 12 output
 
 <!-- Notes: The implementation definitions cover logs, alert routing, cost allocation, and incident response. -->

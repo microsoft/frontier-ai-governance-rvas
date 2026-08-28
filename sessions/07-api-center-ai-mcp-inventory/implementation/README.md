@@ -21,10 +21,10 @@ someone treats an asset as approved for use.
 The three required Session 07 entries define this session's scope, including the approved
 remote MCP server. API Center imports every API from the linked APIM instance, so its owner metadata
 must be complete before the link is created; those additional APIs are outside this session's
-required result. API Center is authoritative for design-time inventory metadata. Foundry, APIM,
-and the MCP runtime remain authoritative for live service state. The APIM source integration is
-read-only and one-way; native MCP registration uses the supported portal path because the stable ARM
-surface does not expose those fields.
+required result. API Center stores the design-time inventory metadata. Foundry, APIM, and the MCP
+runtime report their own live service state. The APIM source integration is read-only and one-way;
+native MCP registration uses the supported portal path because the stable ARM surface does not
+expose those fields.
 
 API Center inventories and supports discovery. It does not inspect, authorize, or block runtime
 calls. APIM owns runtime controls for the synchronized route, and
@@ -70,8 +70,8 @@ runtime location for tool-security work.
 |---|---|---|---|---|
 | Inventory scope | Add the direct agent API, the synchronized APIM API, and the approved remote MCP server | The inventory covers the three required Session 07 assets | Other APIs synchronized from the linked APIM instance need complete metadata but are outside this session's required result | The API program owner approves a broader source boundary and names its metadata owners |
 | APIM ingestion | Use one-way synchronization with API Management Service Reader Role | API definitions stay aligned without giving API Center write access to APIM | The first sync can take up to 24 hours and imports every API in the APIM instance | Selective synchronization or a narrower APIM source becomes available |
-| MCP registration | Use the native portal flow and keep the resulting metadata in API Center | The registration follows the supported native MCP model | A person must complete it because the stable Azure Resource Manager API does not expose those fields | Microsoft publishes a stable MCP resource contract |
-| State ownership | Store design metadata in API Center while each service owns its runtime state | The catalog does not pretend to report live health | Owners update API Center metadata when a service changes | A supported integration can safely update the same fields from runtime state |
+| MCP registration | Use the native portal flow and keep the resulting metadata in API Center | The registration follows the supported native MCP model | A person must complete it because the stable Azure Resource Manager API does not expose those fields | Microsoft publishes a stable MCP resource type |
+| Where state is maintained | Store design metadata in API Center while Foundry, APIM, and the MCP server report their own runtime state | The catalog does not pretend to report live health | Owners update API Center metadata when a service changes | A supported integration can safely update the same fields from runtime state |
 | Plan | Record Free or Standard, then confirm the plan in the portal | The support and cost choice remains explicit | Stable Bicep does not set the plan | The service API exposes supported plan deployment |
 
 ### Architecture guidance
@@ -126,13 +126,14 @@ data where the customer's data-handling rules permit it.
 
 ### Which assets to add to API Center
 
-**API Center is the design-time source of truth** for the three required assets: the direct agent
-endpoint, the APIM runtime API, and the approved remote MCP server. The APIM integration is one-way
+**API Center stores the approved design-time inventory metadata** for the three required assets:
+the direct agent endpoint, the APIM runtime API, and the approved remote MCP server. The APIM integration is one-way
 from APIM to API Center. It does not deploy or change APIs in APIM.
 
 Stop if the APIM integration would import unrelated assets with no owner for their metadata, if a
-different API Center is already the customer source of truth, or if another inventory must remain
-authoritative. Do not create a second catalog to avoid resolving conflicting ownership.
+different API Center is already the approved inventory, or if another inventory must remain the
+approved record. Do not create a second catalog to avoid resolving which inventory participants
+must use.
 
 ### Plan and region
 
@@ -201,13 +202,13 @@ and prompt-injection controls. Registration here does not approve the MCP server
 The split is deliberate. Stable `Microsoft.ApiCenter@2024-03-01` ARM resources deploy the API
 Center service, metadata schemas, workspace, API versions, definitions, environments, and
 deployments. The current portal form registers the newer native MCP server entry because those MCP
-fields are not exposed by that stable ARM API. The API program owner owns this manual registration
-until Microsoft publishes a supported stable resource contract.
+fields are not exposed by that stable ARM API. The API program owner completes and updates this
+registration until Microsoft publishes a supported stable resource type.
 
 ### Discovery and linting
 
-API Center's managed analysis and ruleset are authoritative for the OpenAPI and AsyncAPI
-definitions in this session.
+API Center runs its managed analysis and ruleset against the OpenAPI and AsyncAPI definitions in
+this session.
 
 The Azure portal inventory is the discovery experience for this session. This session does not configure the API Center portal or private discovery. A later change must name
 the user or group principals that can discover APIs, the API Center read role and assignment scope,
@@ -223,8 +224,9 @@ The published 210 minutes covers active work in both windows, not the synchroniz
 
 ### 1. Window one: confirm readiness
 
-Confirm `agent-api-definition.json` and `sandbox.json`. The definition supplies the direct agent
-API's desired state. API Center stores the synchronized APIM and native MCP metadata.
+Confirm `agent-api-definition.json` and `sandbox.json`. The deployment scripts use
+`agent-api-definition.json` to create the direct agent API and its metadata. Asset owners update
+the synchronized APIM and native MCP metadata in API Center.
 Keep subscription IDs, runtime URLs, credentials, tokens, prompts, responses, and telemetry outside
 source control.
 
@@ -262,7 +264,7 @@ https://<account>.services.ai.azure.com/api/projects/<project>/agents/<agent>/en
 ```
 
 Preflight parses the direct-agent definition and deployment inputs, checks all 12 metadata
-definitions, validates the current OpenAPI contract, rejects unknown decision sentinels, and verifies
+definitions, validates the current OpenAPI definition, rejects unknown decision sentinels, and verifies
 the runtime URL shapes. It verifies that Azure CLI and `apic-extension` can run the GA APIM
 integration command, then checks the approved subscription and resource group, live API Center
 provider locations, APIM tier and source marker, the stable reader role, and name collisions. It
@@ -319,7 +321,7 @@ Open the two OpenAPI definitions and review the managed API analysis. The implem
 have operation descriptions, an operation ID, and success and authorization responses. In the
 portal, inspect the native MCP deployment and confirm its Streamable HTTP location matches the
 approved runtime URL. This manual check remains necessary because the stable ARM and CLI surfaces
-used here do not expose the native MCP deployment-health contract.
+used here do not expose the fields needed to check native MCP deployment health.
 
 ## Confirm the result
 
@@ -340,9 +342,10 @@ provisioning state when the response exposes it and writes no inventory export. 
 source health manually when that field is absent, and always checks the native MCP deployment
 location and runtime health in the portal.
 
-The script treats an entry with missing ownership or required metadata as orphaned and checks the
-APIM source integration live. Native MCP deployment location and runtime health are manual checks
-on the current supported surface. Do not describe this check as end-to-end runtime validation.
+The script reports a failure when an entry has no owner or is missing required metadata, and it
+checks the APIM source integration live. Native MCP deployment location and runtime health are
+manual checks on the current supported surface. Do not describe this check as end-to-end runtime
+validation.
 
 ## After implementation
 

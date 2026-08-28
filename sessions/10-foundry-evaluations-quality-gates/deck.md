@@ -22,7 +22,7 @@ html: true
 
 ## Control objective
 
-> Create and run a callable release gate for fixed agent versions using repeatable evaluation results.
+> Create and run `release-gate.py` for fixed agent versions using repeatable evaluation results.
 
 ### Result check
 
@@ -30,7 +30,7 @@ html: true
 - Thresholds point back to the approved baseline.
 - Final-answer, tool-process, and safety failures remain separate.
 - The approved record passes and the blocking regression run record blocks.
-- The release owner activates a callable gate ready for Session 13 enforcement.
+- The release owner marks the gate enabled in the approved release platform and hands the command to Session 13.
 
 <!-- Notes: The gate decides eligibility. It never changes the live version selector. -->
 
@@ -42,7 +42,7 @@ Release owners need a clear answer to a narrow question: can this fixed agent ve
 
 Separate final-answer, tool-process, and safety checks stop a strong average from hiding a failed tool path or safety issue.
 
-Session 10 makes that decision callable. Session 13 puts it in the promotion path.
+Session 10 turns that decision into a command. Session 13 runs it in the promotion path.
 
 <!-- Notes: Eligibility is this session's owned result. Promotion enforcement comes later. -->
 
@@ -53,7 +53,7 @@ Session 10 makes that decision callable. Session 13 puts it in the promotion pat
 1. Keep the versioned golden set and evaluation definition for the approved and candidate agent versions.
 2. Establish release thresholds from the approved baseline.
 3. Keep detailed results in Foundry and payload-free aggregate results in the approved release store.
-4. Activate the callable release-eligibility gate.
+4. Enable the release gate in the approved release platform.
 5. Confirm the approved record passes and the generated tool-process regression blocks.
 
 <!-- Notes: Extended mode is required because release protection depends on both behaviors. -->
@@ -100,8 +100,9 @@ Preview task-adherence, prohibited-action, and sensitive-data-leakage evaluators
 The same fixed set of test cases runs against the approved version and the candidate.
 Foundry evaluates answer quality, tool process, and safety separately.
 
-Foundry keeps row detail. The approved release platform holds payload-free aggregates, activation,
-and promotion decisions. The repository keeps the version-controlled threshold and policy definitions.
+Foundry stores row detail. The approved release platform stores payload-free aggregates and records
+whether the gate is enabled and whether a version is promoted. The repository stores the
+version-controlled threshold and policy definitions.
 
 The gate returns `PASS` or `BLOCK`. It cannot promote. Session 13 controls the stable selector.
 
@@ -138,7 +139,7 @@ Conflicting bounds stop the gate.
 | Baseline-derived thresholds | Ties the gate to observed approved behavior | A weak baseline must be fixed, not fitted |
 | Separate metric floors | Stops averages from hiding a failed layer | Owners maintain several explicit decisions |
 
-Record approval, baseline run IDs, and activation in the approved release platform. Safety stays at
+Record approval, baseline run IDs, and the gate's enabled state in the approved release platform. Safety stays at
 `1.00`, every maximum error count stays at `0`, and previews remain nonblocking.
 
 <!-- Notes: If the approved version is poor, remediate it. Do not lower the gate to fit. -->
@@ -182,7 +183,7 @@ Every row uses synthetic content and remains versioned for reuse.
 
 ---
 
-## Data contract
+## Evaluation row format
 
 ```json
 {
@@ -272,22 +273,22 @@ The evaluation operator has **Foundry User** on the approved Foundry project. Th
 
 ---
 
-## What the repository keeps
+## Files kept in source control
 
 ### Keep
 
 - versioned synthetic data
 - evaluation definition
 - threshold policy
-- release-policy contract
+- release policy
 
-### Keep in authoritative platforms
+### Keep in Foundry and the release platform
 
 - queries and responses
 - tool arguments and results
 - evaluator reasons
 - row-level details
-- run aggregates, activation, and promotion decisions
+- run aggregates, the gate's enabled state, and promotion decisions
 
 <!-- Notes: Aggregate records support release automation without copying customer interaction data. -->
 
@@ -321,7 +322,7 @@ The stable endpoint does not move.
 
 ## Preflight boundary
 
-Preflight stops the run unless the approved scope, identities, data contract, tool compatibility,
+Preflight stops the run unless the approved scope, identities, evaluation row format, tool compatibility,
 regional support, and budget checks pass.
 
 The Evals API has no dry run. Before billing starts, preflight prints the project alias, region,
@@ -446,10 +447,11 @@ The answer cannot hide the failed tool path.
 
 | Decision | Required action |
 |---|---|
-| Enable gate | Confirm every blocking candidate metric is complete, target IDs match the approved specification and release policy, and each failure has its quality, tool, or safety owner; then hand the callable `release-gate.py` interface to [Session 13](../13-cicd-promotion-controls/) |
+| Enable gate | Confirm every blocking candidate metric is complete, target IDs match the approved specification and release policy, and each failure has its quality, tool, or safety owner; then hand the `release-gate.py` command to [Session 13](../13-cicd-promotion-controls/) |
 | Disable gate | Keep stable endpoint on the approved version and route gate defects to the quality owner |
 
-Session 10 produces the callable gate. Session 13 enforces it. The gate never promotes by itself.
+Session 10 produces the gate command and policy files. Session 13 runs the command before promotion.
+The gate never promotes by itself.
 
 ---
 

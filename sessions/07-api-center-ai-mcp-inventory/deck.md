@@ -63,8 +63,8 @@ Missing ownership and lifecycle decisions become visible before an asset is trea
 
 - Scope covers the Session 05 agent API, Session 06 APIM API, and the approved remote MCP server.
 - API Center imports every API from the linked APIM instance. Owners must complete required metadata for any additional synchronized APIs before the link is created; they are outside this session's required result.
-- API Center is the source of truth for their design-time inventory metadata.
-- Foundry, APIM, and the MCP server remain the live source for runtime state.
+- API Center stores their approved design-time inventory metadata.
+- Foundry, APIM, and the MCP server report their own runtime state.
 - API Center inventories and supports discovery; it does not authorize or block runtime calls.
 - Session 08 governs MCP tool use.
 - Separate optional modules cover Foundry Toolbox reuse, API Center registry discovery, and A2A inventory. None is enabled here.
@@ -161,9 +161,10 @@ Resolve before deployment:
 1. Is this API Center the approved inventory for these assets?
 2. Is the APIM source boundary approved?
 3. Who owns every synchronized API?
-4. Does another catalog remain authoritative for any of these assets?
+4. Must another catalog remain the approved inventory for any of these assets?
 
-Stop if linking APIM would create unowned entries or a competing source of truth.
+Stop if linking APIM would create entries with no metadata owner or leave two catalogs claiming to
+be the approved inventory.
 
 <!-- Notes: A broad integration is not harmless if nobody owns the imported entries. -->
 
@@ -305,7 +306,7 @@ Test custom rules locally before applying them to a managed analysis profile.
 
 ---
 
-## Operational control tree
+## Files used to deploy and check the inventory
 
 ```text
 api-center/

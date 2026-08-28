@@ -57,7 +57,7 @@ retained_files:
     operational_purpose: "Deploy and update the API, product, APIM named values, backends, diagnostics, and policy attachment."
   - path: "implementation/artifacts/gateway/apis/policy-assistant-responses.openapi.json"
     consumer: "The API Management API import"
-    operational_purpose: "Define the client-facing POST responses operation and request contract."
+    operational_purpose: "Define the client-facing POST responses operation and request format."
   - path: "implementation/artifacts/gateway/policies/policy.xml"
     consumer: "The API Management gateway runtime"
     operational_purpose: "Validate callers and apply size, token, safety, routing, managed-identity, and telemetry controls."

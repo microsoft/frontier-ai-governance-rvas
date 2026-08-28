@@ -25,14 +25,14 @@ session:
     - "microsoft-entra-agent-id"
     - "azure-ai-foundry"
     - "github-actions"
-  control_objective: "Configure four group-based human access boundaries, a PIM-eligible Foundry administration path, and a secretless GitHub workload identity at the identified nonproduction resource scopes."
+  control_objective: "Configure four group-based human role assignments, PIM eligibility for Foundry administration, and a secretless GitHub workload identity at the identified nonproduction resource scopes."
 implementation:
   mode: "standard"
 implementation_outcomes:
   - "Assign platform administrators PIM-eligible Foundry Account Owner at the Foundry resource. Assign project managers Foundry Project Manager at that resource, developers Foundry User at one project, and auditors Reader at the Foundry resource."
   - "Assign normal human access through groups and configure the platform-administrator group object ID as the PIM-eligible principal."
-  - "Deploy a dedicated user-assigned managed identity with no client secret. Its federated credential trusts one protected GitHub environment, and its roles stop at one Foundry resource and one storage account."
-  - "Reserve Foundry Agent Consumer at project or individual-agent scope for endpoint-only callers. Assign it in the session that creates the agent."
+  - "Deploy a dedicated user-assigned managed identity with no client secret. Its federated credential trusts one protected GitHub environment, and its roles are scoped to one Foundry resource and one storage account."
+  - "Do not assign Foundry Agent Consumer until the session that creates the agent identifies its endpoint-only callers and approved project or individual-agent scope."
   - "Confirm that live Azure RBAC assignments, Entra PIM eligibility and role settings, the workload identity, and its role scopes match the approved design."
 deliverables:
   implementation: "implementation/README.md"
@@ -45,16 +45,16 @@ deliverables:
 retained_files:
   - path: "implementation/artifacts/identity/workload-identity.bicep"
     consumer: "The workload identity deployment pipeline"
-    operational_purpose: "Deploy and maintain the managed identity, exact GitHub federation, and two scoped Azure RBAC assignments."
+    operational_purpose: "Deploy and maintain the managed identity, its federated credential for the specified GitHub environment subject, and two scoped Azure RBAC assignments."
   - path: "implementation/artifacts/identity/human-role-assignments.bicep"
     consumer: "The human-access deployment pipeline"
     operational_purpose: "Deploy the three standing group assignments at the approved Foundry resource and project scopes."
   - path: "implementation/artifacts/identity/role-definitions.json"
     consumer: "The identity Bicep builds and preflight scripts"
-    operational_purpose: "Supply a single stable-ID source for every Azure role resolved or deployed by this implementation."
+    operational_purpose: "Provide the stable ID for every Azure role that the Bicep files or preflight scripts resolve or deploy."
   - path: "implementation/scripts/preflight.ps1"
     consumer: "The identity deployment operator"
-    operational_purpose: "Reject unresolved decisions or semantically wrong built-in roles, resolve every approved role ID live, and compile both identity deployments."
+    operational_purpose: "Reject unresolved decisions and built-in roles whose ID, accepted display name, or `BuiltInRole` type does not match the expected role, resolve every approved role ID live, and compile both identity deployments."
 sources:
   - title: "Role-based access control for Microsoft Foundry"
     url: "https://learn.microsoft.com/en-us/azure/foundry/concepts/rbac-foundry"

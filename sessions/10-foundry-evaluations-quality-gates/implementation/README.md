@@ -4,20 +4,21 @@
 
 ### What we will do
 
-Create and run a callable release gate for fixed agent versions. Run the versioned
+Create and run `release-gate.py` for fixed agent versions. Run the versioned
 golden data set against the approved and candidate versions. The approved aggregate must return
 `PASS`, and the in-memory tool-process regression must return `BLOCK`.
 
 ### Why it matters
 
 The gate answers one narrow release question without averaging away a failed tool path or safety
-metric. Session 13 can consume the same contract in its protected promotion path.
+metric. Session 13 can run the same gate before promotion.
 
 ### Boundaries
 
-Microsoft Foundry holds queries, responses, tool calls, evaluator reasons, and row-level results.
-The approved release platform holds run aggregates, activation, and promotion decisions. The
-repository keeps version-controlled evaluation definitions, thresholds, and release policy.
+Microsoft Foundry stores queries, responses, tool calls, evaluator reasons, and row-level results.
+The approved release platform stores run aggregates and records whether the gate is enabled and
+whether a version is promoted. The repository stores the evaluation definitions, thresholds, and
+release policy used by the gate.
 
 The gate does not change the stable endpoint or promote an agent. Preview task-adherence,
 prohibited-action, and sensitive-data-leakage evaluators stay advisory. Session 08 remains the
@@ -31,7 +32,7 @@ authorization boundary for prohibited writes.
 
 The same synthetic data set evaluates two fixed versions. Foundry stores the detailed result. The
 runner writes a payload-free aggregate to the approved external release store, and the gate applies
-the repository-owned threshold and release-policy contract to those live inputs.
+the thresholds and release policy stored in the repository to those live inputs.
 
 ### Design choices and tradeoffs
 
@@ -40,7 +41,7 @@ the repository-owned threshold and release-policy contract to those live inputs.
 | Test data | Versioned synthetic golden set. | Comparable runs. | Content changes need a new baseline. | Use cases or risks change. |
 | Gate layers | Final-answer quality, tool process, and safety remain separate. | A strong average cannot hide a failure. | More than one owner maintains thresholds. | Evaluator behavior changes. |
 | Protected material | Keep it blocking in East US 2. | Retains the approved safety check. | The run stops if the supported path is unavailable. | Regional support expands. |
-| Operational state | Foundry and the release platform retain live runs and activation. | Avoids repository snapshots. | The gate reads external results. | The approved release platform changes. |
+| Operational state | Foundry retains live runs, and the release platform records whether the gate is enabled. | Avoids repository snapshots. | The gate reads external results. | The approved release platform changes. |
 
 ### Architecture guidance
 
@@ -85,7 +86,8 @@ tool-process failure is treated as overridable, or a current result would be wri
 repository.
 
 The release owner updates the version-controlled policy when evaluators, tools, or thresholds
-change. Foundry and the release platform record support checks, run IDs, activation, and decisions.
+change. Foundry and the release platform record support checks, run IDs, whether the gate is
+enabled, and release decisions.
 
 ## Implement
 
@@ -220,9 +222,9 @@ candidate eligible for Session 13, but it does not promote the version by itself
 
 Keep the golden data, evaluation specification, threshold policy, release policy, scripts, and
 disable-and-restore runbook in operation. Foundry and the release platform retain run and decision
-records. The quality owner owns the data and thresholds; the safety owner owns the safety boundary;
-the tool owner owns tool-process compatibility; and the release owner owns the stable selector and
-delivery integration.
+records. The quality owner maintains the data and thresholds. The safety owner defines the safety
+boundary, the tool owner maintains tool-process compatibility, and the release owner controls the
+stable selector and delivery integration.
 
 Use [`artifacts/operations/disable-and-restore.md`](artifacts/operations/disable-and-restore.md) to
 keep or restore the approved version, remove delivery integration after dependency review, and

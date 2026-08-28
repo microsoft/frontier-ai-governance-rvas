@@ -54,7 +54,7 @@ Toolbox supplies that stable MCP-compatible endpoint.
 
 ## Current product path
 
-1. **Azure API Center** holds the MCP server record in API Center.
+1. **Azure API Center** stores the approved MCP server record.
 2. **Foundry Tools** discovers the private catalog under **Build > Tools**.
 3. The operator configures the selected record as a project connection.
 4. **Toolbox** exposes a versioned, MCP-compatible endpoint for agent reuse.
@@ -90,7 +90,7 @@ Stop when the record is missing, access has not propagated, or authentication ca
 **Authoritative state:** API Center for inventory, the project connection for authentication, the
 Toolbox version for tool exposure.
 
-<!-- Notes: The repository carries desired state and the reconciliation join, not live credentials. -->
+<!-- Notes: The repository files record the intended Toolbox configuration and the endpoint digest used to compare it with API Center. They do not store live credentials. -->
 
 ---
 
@@ -147,7 +147,7 @@ No credential, token, tenant ID, endpoint, or tool result belongs in the reposit
 - `require_approval` must be `always`
 - No fallback to an unreviewed custom MCP entry
 
-<!-- Notes: A failed gate returns ownership to the API catalog, identity, or Session 08 owner. -->
+<!-- Notes: A failed gate sends the issue to the API catalog, identity, or Session 08 owner. -->
 
 ---
 
@@ -178,7 +178,7 @@ The check lists tools. It does not call the remote operation.
 | API catalog owner | MCP server record in API Center, version, deployment, and access |
 | Foundry tool owner | Project connection, Toolbox versions, and default |
 | Agent release owner | Consumer endpoint and approval experience |
-| MCP owner | Runtime contract and Session 08 controls |
+| MCP owner | Runtime tool definition and Session 08 controls |
 
 <!-- Notes: Reconcile after endpoint, authentication, tool-name, connection, or default-version changes. -->
 
@@ -200,11 +200,11 @@ Keep the MCP server record in API Center unless its owner separately retires the
 
 ## Related sessions and modules
 
-- **Session 05** owns agent release and endpoint consumption.
-- **Session 07** owns the API Center inventory record.
-- **Session 08** owns MCP authentication, tool safety, and runtime controls.
+- **Session 05** covers agent release and endpoint consumption.
+- **Session 07** covers the API Center inventory record.
+- **Session 08** covers MCP authentication, tool safety, and runtime controls.
 
-This module owns the narrow connection from the catalog to Toolbox.
+This module configures only the connection from the catalog to Toolbox.
 
 <!-- Notes: The optional module adds no session number and changes no sequence dependency. -->
 

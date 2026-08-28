@@ -43,7 +43,7 @@ deliverables:
 retained_files:
   - path: "implementation/artifacts/governance/catalog-toolbox-binding.json"
     consumer: "The API catalog owner and Foundry tool owner"
-    operational_purpose: "Keep the MCP server record in API Center, private-catalog decision, project connection, Toolbox name, expected tool, and restore ownership aligned."
+    operational_purpose: "Record the MCP server, preview decision, project connection, Toolbox name, expected tool, and restore owner so the API catalog and Foundry owners can compare them."
   - path: "implementation/artifacts/toolbox/toolbox-version.json"
     consumer: "The Foundry Toolbox deployment process"
     operational_purpose: "Create the dedicated immutable Toolbox version that connects the MCP server, exposes the approved tool, and requires approval for every call."

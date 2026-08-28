@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="Expose an already-governed A2A agent for developer discovery in Azure API Center through a runtime-owned supported source integration, then observe the live catalog asset.">
+    <meta name="description" content="Expose an already-governed A2A agent for developer discovery in Azure API Center through a supported Git or API Management integration maintained by the runtime owner, then observe the live catalog asset.">
     <title>Architecture | Optional module: A2A agent discovery in Azure API Center | Practical Microsoft AI Governance</title>
     <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
     <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
@@ -114,7 +114,7 @@ Runtime-owned Git or API Management source
         |
         v
 Azure API Center A2A discovery asset</code></pre>
-<p>The source integration owns updates. Direct portal registration beside that integration would create a competing record.</p>
+<p>The runtime owner updates the Git or API Management source, and synchronization updates API Center. A direct portal registration beside that integration would create a competing record.</p>
 <h3 id="design-choices-and-tradeoffs">Design choices and tradeoffs<a class="heading-anchor" href="#design-choices-and-tradeoffs" aria-label="Link to Design choices and tradeoffs">#</a></h3>
 <div class="table-scroll"><table><thead><tr><th scope="col">Decision</th><th scope="col">Chosen approach</th><th scope="col">Benefit</th><th scope="col">Limit</th><th scope="col">Revisit when</th></tr></thead><tbody><tr><td>Need for API Center</td><td>Add it only for developer discovery</td><td>Teams without that need avoid a second catalog entry</td><td>Developers need another way to find the interface</td><td>Discovery becomes a platform requirement</td></tr><tr><td>Source</td><td>Runtime-owned Git or API Management integration</td><td>The A2A definition has one technical source</td><td>Source integration has setup and synchronization behavior</td><td>A supported direct runtime integration replaces it</td></tr><tr><td>Registration</td><td>Source synchronization</td><td>Updates flow from the technical owner</td><td>Portal fields can be source-owned</td><td>The source cannot represent the required A2A metadata</td></tr><tr><td>Completion</td><td>Live asset review</td><td>No repository copy can drift</td><td>The API Center owner needs access</td><td>A supported stable inspection API covers the needed fields</td></tr></tbody></table></div>
 <h3 id="architecture-guidance">Architecture guidance<a class="heading-anchor" href="#architecture-guidance" aria-label="Link to Architecture guidance">#</a></h3>

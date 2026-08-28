@@ -20,10 +20,10 @@ operations correlation and token metrics without prompt or response logging.
 ### Boundaries
 
 This session changes child resources in the established nonproduction APIM instance. APIM is
-authoritative for the deployed gateway policy; Foundry remains authoritative for the agent and its
-direct endpoint. The control applies to requests sent through this APIM route. It does not disable
-the direct Foundry endpoint or prove that every possible client path uses APIM. Owners must govern
-direct endpoint access separately.
+the service that stores and applies the deployed gateway policy. Foundry stores the agent
+configuration and reports the direct endpoint state. The control applies to requests sent through
+this APIM route. It does not disable the direct Foundry endpoint or prove that every possible client
+path uses APIM. Owners must govern direct endpoint access separately.
 
 Production ingress, semantic caching, secondary-region routing, and write-capable agents are
 excluded. [Session 07](../../07-api-center-ai-mcp-inventory/implementation/README.md) records the
@@ -172,8 +172,8 @@ allocation or pay-as-you-go fallback before the route is enabled. Multi-region d
 [Session 14](../../14-agent-fleet-multiregion-rehearsal/implementation/README.md) work.
 
 Microsoft Foundry can also surface a Foundry-native AI Gateway setup path through the Foundry
-portal, backed by Azure API Management. This session keeps the repository-owned IaC path as the
-stable implementation route. Treat the unified model API as preview awareness only unless a
+portal, backed by Azure API Management. This session uses the Bicep files in this repository as the
+stable deployment route. Treat the unified model API as preview awareness only unless a
 separate architecture decision approves it for a nonproduction experiment.
 
 Stop if retrying a request could repeat a consequential side effect. The Session 05 agent has only a
@@ -208,8 +208,8 @@ logging during this session.
 For streaming Responses calls, clients set `stream_options.include_usage` to `true`. The metric
 policy uses reported usage when the response includes it, although an interrupted stream can leave
 the captured count incomplete. The token-limit policy estimates prompt and completion tokens for
-streaming calls. Treat both as operational signals for limits and monitoring. Azure Cost Management
-and the issued invoice remain authoritative for billing.
+streaming calls. Treat both as operational signals for limits and monitoring. Use Azure Cost
+Management data and the issued invoice as the billing records.
 
 The metric policy stays before backend selection. Its API, product, and subscription dimensions do
 not depend on the selected backend, and moving it would not identify the concrete member chosen
@@ -282,7 +282,7 @@ result is one subscription-protected API and product, four non-secret APIM named
 backend pool, managed-identity backend authentication, safety and token policies, and body-free
 Application Insights diagnostics.
 
-The OpenAPI contract documents `stream_options.include_usage` for streaming clients. Keep it set to
+The OpenAPI definition documents `stream_options.include_usage` for streaming clients. Keep it set to
 `true` when `stream` is `true`.
 
 Use the already issued test-workload subscription. Do not create or issue a subscription during

@@ -15,16 +15,16 @@ approved-read and prohibited-write checks.
 
 Tool registration, inbound authorization, and backend authorization answer different questions.
 Keeping them separate limits what the candidate can ask for, which agent may call APIM, and what
-APIM can do at the backing API. The release checkpoint keeps those controls off the stable endpoint
-until both runtime paths are observed.
+APIM can do at the backing API. The release checkpoint keeps the candidate version off the stable
+endpoint until both runtime paths are observed.
 
 ### Boundaries
 
 This session changes the MCP API in the existing
 [Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM service and creates an
-unpinned candidate in the existing Foundry project. APIM is authoritative for the MCP policy and backend
-identity. Foundry is authoritative for the candidate and stable version selector. Application
-Insights holds payload-free runtime telemetry; API Center holds design-time inventory metadata.
+unpinned candidate in the existing Foundry project. APIM applies the MCP policy and uses the backend
+identity. Foundry records the candidate and the version selected by the stable endpoint. Application
+Insights stores payload-free runtime telemetry, and API Center stores design-time inventory metadata.
 
 The backend hop is application-only, not OBO. The inbound MCP token never reaches the backend. A
 system refusal alone does not enforce the write boundary; the absent tool and backend read role do.
@@ -453,7 +453,7 @@ requires payload logging to explain the result.
 The release owner observes both results during delivery:
 
 - **Enable:** pin 100% of the stable agent endpoint to the candidate version only when both checks
-  behave exactly as expected and API Center ownership is complete.
+  behave exactly as expected and the API Center entry has all required owner metadata.
 - **Disable:** leave or restore the Session 05 version at 100%, keep the MCP candidate unpinned, and
   route failures to the security and tool owners.
 
@@ -461,7 +461,8 @@ The release owner observes both results during delivery:
 
 Keep the **APIM MCP API and its only tool in operation**, with the policy, nonsecret APIM named values,
 diagnostic, Foundry project connection, approved candidate version when enabled, and API Center
-metadata. APIM, Foundry, and API Center remain authoritative for that live state.
+metadata. APIM stores the deployed MCP policy, Foundry records the active agent version, and API
+Center stores the inventory metadata.
 
 Retain the source-controlled binding, the recurring security-evaluation runbook, threat model, KQL
 query, and scripts. The security owner updates the two Markdown records before candidate enablement

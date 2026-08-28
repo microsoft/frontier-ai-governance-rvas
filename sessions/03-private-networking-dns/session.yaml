@@ -13,12 +13,12 @@ session:
   prerequisites:
     - "Sessions 01-02 are complete, and the exact Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault resource IDs are recorded for the nonproduction resource group."
     - "The customer has approved nonoverlapping RFC 1918 address ranges for a dedicated spoke, Agent subnet, and private-endpoint subnet."
-    - "The approved network and change process names the customer-managed firewall private IP, DNS integration pattern, and execution host inside the approved private network."
+    - "The approved network design and change record identify the customer-managed firewall private IP, DNS integration pattern, and execution host inside the approved private network."
     - "The network deployment operator has the time-bound Network Contributor role on the exact nonproduction resource group where this session deploys the VNet, subnets, route table, and private endpoints."
     - "The DNS operator has the time-bound Private DNS Zone Contributor role on the resource group that contains the seven private DNS zones, or on each reused private DNS zone."
     - "The Entra object IDs for the network deployment operator and DNS operator, plus the exact DNS role-assignment scope, are available for preflight."
     - "The service owners recorded for Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault have each accepted responsibility for approving the private endpoint connection on their service through the existing service change process; this session assigns no service-approval role to the network deployment operator."
-    - "The approved change process names where prior public-access states are stored and who can retrieve them during restore."
+    - "The approved change record identifies where prior public-access states are stored and who can retrieve them during restore."
     - "The AI platform owner has approved any required Foundry account replacement and configuration replay before endpoint or public-access cutover."
   dependencies:
     - "Session 01 - Microsoft Foundry platform baseline, inventory, and landing-zone guardrails"
@@ -36,8 +36,8 @@ implementation:
 implementation_outcomes:
   - "Prepare a landing-zone-aligned spoke with separate private-endpoint and dedicated Agent Service subnets."
   - "Deploy the approved network, DNS links, and initial private endpoints. If Foundry account replacement is required, pause for the separately approved replacement and replay, then update the Foundry endpoint and all five resource IDs."
-  - "Route the delegated Agent Service subnet through the customer-approved firewall; the firewall policy source remains authoritative for its rules and review history."
-  - "From the approved execution host, confirm the in-use Foundry endpoint families and four dependency FQDNs resolve to private addresses and reach TCP 443. Record the prior public-access states in the approved change system, then disable public network access."
+  - "Route the delegated Agent Service subnet through the customer-approved firewall; maintain its rules and review history in the customer firewall policy source."
+  - "From the approved execution host, confirm that the in-use Foundry endpoint families and four dependency FQDNs resolve to private addresses and that the host can connect to each endpoint on TCP 443. Record the prior public-access states in the approved change system, then disable public network access."
   - "Confirm that the three Foundry endpoint families and four dependency endpoints resolve to private addresses and accept TCP 443 from an approved client. Session 05 checks agent-runtime traffic."
 deliverables:
   implementation: "implementation/README.md"

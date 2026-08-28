@@ -21,7 +21,7 @@ module:
   services_in_scope:
     - "agent-365"
     - "microsoft-entra-agent-id"
-  control_objective: "Onboard or confirm an approved A2A agent in Microsoft Agent 365 through a supported integration route, then observe its live inventory and ownership state."
+  control_objective: "Onboard or confirm an approved A2A agent in Microsoft Agent 365 through a supported integration route, then confirm its live inventory record, owner, and lifecycle state."
 implementation:
   mode: "standard"
   live_only: true

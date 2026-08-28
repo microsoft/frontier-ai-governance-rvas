@@ -15,7 +15,7 @@ module:
     - "The API Center portal uses Microsoft Entra ID authentication; anonymous access is disabled."
     - "The developer access group has the Azure API Center Data Reader role at the exact API Center resource scope."
     - "An API Center configuration owner can update API visibility and MCP Registry settings through the approved Azure portal change path."
-    - "The client owner has a supported MCP registry integration or an approved adapter that consumes the module client contract."
+    - "The client owner has a supported MCP registry integration or an approved adapter that reads `registry-client-settings.json`."
   related_content:
     - "Session 07 - Azure API Center and the AI/MCP inventory"
     - "Session 08 - MCP and tool security"
@@ -26,7 +26,7 @@ module:
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Record the default-workspace MCP registry endpoint, Microsoft Entra access boundary, and supported developer-client handoffs."
+  - "Record the default-workspace MCP registry endpoint, Microsoft Entra access requirements, and the client or adapter that uses the settings."
   - "Configure Data API visibility so related consumption features expose MCP records in the approved lifecycle stage."
   - "Keep the approved server names, owners, review date, and restore reference in an operational record."
   - "Confirm that the complete registry response contains every approved server name and no unexpected server name."
@@ -43,7 +43,7 @@ deliverables:
 retained_files:
   - path: "implementation/artifacts/registry-client-settings.json"
     consumer: "The developer-client configuration pipeline or approved client adapter"
-    operational_purpose: "Supply the documented API Center MCP registry endpoint, authentication contract, and client handoff without storing tokens or directory identifiers."
+    operational_purpose: "Supply the documented API Center MCP registry endpoint and authentication settings to the approved client adapter without storing tokens or directory identifiers."
   - path: "implementation/artifacts/registry-ownership.json"
     consumer: "The API Center configuration owner and MCP server owners"
     operational_purpose: "Record the approved discoverable server names, global visibility decision, owner roles, review date, and restore reference."

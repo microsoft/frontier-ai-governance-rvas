@@ -54,7 +54,7 @@ The tool list, inbound authorization, and backend authorization answer different
 
 Together they limit what the candidate can request, which agent may call APIM, and what APIM may do at the backing API.
 
-The release checkpoint keeps this path off the stable endpoint until both checks are observed.
+The release checkpoint keeps the candidate version off the stable endpoint until both checks are observed.
 
 <!-- Notes: Keep the four control layers separate throughout the briefing. -->
 
@@ -99,8 +99,8 @@ checks that identity and exposes only `get_policy`.
 
 Caller authority ends at APIM. APIM calls the backend with its own identity at the approved read-only scope.
 
-Foundry owns the candidate binding and stable selector. APIM owns runtime policy and backend
-identity. API Center receives design-time inventory metadata.
+Foundry records the candidate binding and stable selector. APIM applies runtime policy and uses the
+backend identity. API Center receives design-time inventory metadata.
 
 ---
 
@@ -429,7 +429,7 @@ Approve only the read that retrieves that record.
 
 ### Enable
 
-Both checks pass, API Center ownership is complete, and the stable endpoint is pinned 100% to the candidate.
+Both checks pass, the API Center entry has all required owner metadata, and the stable endpoint is pinned 100% to the candidate.
 
 </div>
 <div class="card">

@@ -69,7 +69,7 @@ retained_files:
     operational_purpose: "Define the inbound and downstream token audiences, delegated scope, and required claim checks."
   - path: "implementation/artifacts/governance/threat-model.md"
     consumer: "The application security owner and delivery owner"
-    operational_purpose: "Keep the approved token-handling threats in the threat model, mitigations, and stop conditions for the OBO path."
+    operational_purpose: "Document the approved token-handling threats, mitigations, and stop conditions for the OBO path."
   - path: "implementation/artifacts/runtime/settings.json"
     consumer: "The Python middle tier"
     operational_purpose: "Supply non-secret runtime aliases for the tenant, applications, scope, certificate binding, and diagnostics."

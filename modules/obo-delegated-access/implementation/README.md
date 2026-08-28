@@ -13,8 +13,9 @@ the OAuth 2.0 on-behalf-of (OBO) exchange.
 Then confirm that a permitted user succeeds and that a user without downstream resource authority
 is denied.
 
-The result is a working trust chain in which the **middle tier preserves signed-in user authority**
-and the **downstream API still makes the resource-authorization decision for that user**.
+The result is a working delegated flow in which the **middle tier preserves signed-in user
+authority** and the **downstream API still makes the resource-authorization decision for that
+user**.
 
 ### Why it matters
 
@@ -90,13 +91,13 @@ Session 02 supplies the identity decision: choose this module only if an applica
 would erase a real per-user authorization decision. Sessions 05 and 08 retain their
 application-only routes.
 
-Once that boundary is agreed, the repository records the applications and exact delegated
-permissions in `app-registrations.json`. The token claim contract tells the middle tier which
-issuer, audience, client, scope, and user claims to accept. Preflight compares those definitions
-with live Microsoft Entra state and prints the proposed change because Microsoft Graph has no
-what-if operation for application-registration updates. Follow the [Microsoft Graph application
-update semantics](https://learn.microsoft.com/en-us/graph/api/application-update) so the update
-preserves collection values owned by other work.
+Once that boundary is agreed, `app-registrations.json` records the applications and exact delegated
+permissions. `token-claim-contract.json` lists the issuer, audience, client, scope, and user claims
+that the middle tier accepts. Preflight compares those definitions with live Microsoft Entra state
+and prints the proposed change because Microsoft Graph has no what-if operation for
+application-registration updates. Follow the [Microsoft Graph application update
+semantics](https://learn.microsoft.com/en-us/graph/api/application-update) so the update preserves
+collection values owned by other work.
 
 The runtime authenticates with the protected PFX described by the certificate binding. This route
 works only with an exportable certificate. Check the [Key Vault certificate export
@@ -226,7 +227,7 @@ as a stop condition.
 
 ## Implement
 
-### 1. Keep the approved trust chain in the implementation files
+### 1. Record the approved applications, permissions, and claim checks
 
 Review these files with the identity, application, downstream API, and delivery owners:
 
@@ -281,7 +282,8 @@ protected copy.
 
 Deploy through the organization's normal application pipeline. The component:
 
-- validates the inbound delegated token against the middle-tier contract;
+- validates the inbound delegated token against the issuer, audience, client, scope, and claim
+  rules in `token-claim-contract.json`;
 - creates an MSAL confidential client from the mounted PFX;
 - requests only the approved downstream scope;
 - calls one fixed HTTPS endpoint; and
@@ -350,7 +352,7 @@ decision.
 Keep:
 
 - the approved app-registration and consent definitions;
-- the authorization and token-claim contracts;
+- the authorization matrix and token claim rules;
 - the certificate reference and thumbprint;
 - the Python middle-tier component and pinned dependencies;
 - the threat model; and

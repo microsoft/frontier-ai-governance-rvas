@@ -15,12 +15,11 @@ contains exactly the approved namespaced tool.
 ### Why it matters
 
 Session 07 establishes the inventory record. Session 08 establishes the MCP security boundary. This
-module connects those decisions to the reusable runtime surface that agent teams can consume
-without rebuilding the same tool configuration for every agent.
+module uses those approved records to create a reusable Toolbox endpoint, so agent teams do not
+have to rebuild the same tool configuration for every agent.
 
-The connection also exposes drift. If the API Center deployment endpoint, Foundry project
-connection, allow list, or Toolbox result no longer matches the approved record, preflight or the
-live check stops.
+Preflight and the live check stop if the API Center deployment endpoint, Foundry project
+connection, allow list, or Toolbox result no longer matches the approved record.
 
 ### Boundaries
 
@@ -33,8 +32,9 @@ and discovery steps are portal-led. The module does not invent an API for that h
 decision and successful discovery under **Build > Tools** must be recorded before Toolbox creation.
 
 Azure API Center remains authoritative for the inventory record and deployment metadata. The MCP
-server remains authoritative for the live tool contract. The Foundry project connection owns
-runtime authentication, while the Toolbox version owns the allowed tool and approval setting.
+server defines the tools available at runtime. The Foundry project connection stores the runtime
+authentication configuration, while the Toolbox version records the allowed tool and approval
+setting.
 
 This module does not create an MCP server, change its authorization model, add a tool to an agent,
 or call the tool. It does not claim that API Center access settings alone enforce every runtime
@@ -59,7 +59,7 @@ The flow moves from API Center through the Foundry project connection to the run
 4. Agent teams consume the unversioned Toolbox endpoint. The implementation check uses the
    version-specific endpoint so it can inspect the exact created version.
 
-The repository owns the catalog record and Toolbox version payload. Live API Center, project
+The repository stores the catalog record and Toolbox version payload. Live API Center, project
 connection, and Toolbox state remain authoritative. The endpoint hash in the catalog record links
 the API Center deployment to the Toolbox payload without retaining the endpoint in the governance
 record.
@@ -69,8 +69,8 @@ record.
 | Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
 |---|---|---|---|---|
 | Catalog source | The MCP server record in API Center | Reuses the Session 07 inventory and owner metadata | The Foundry Tools private catalog is public preview and portal-led | Microsoft publishes a stable automated catalog-to-project connection API |
-| Reuse boundary | A new dedicated Toolbox | Gives agents a stable consumer endpoint and keeps this change isolated | A separate Toolbox adds a managed object and owner | The tool becomes part of an already governed multi-tool Toolbox |
-| Tool exposure | The `allowed_tools` list contains one entry | Keeps the runtime surface narrow and makes drift visible | A tool rename requires a new Toolbox version | The MCP owner intentionally changes the public tool contract |
+| Toolbox scope | A new dedicated Toolbox | Gives agents a stable consumer endpoint and keeps this change isolated | A separate Toolbox adds a managed object and owner | The tool becomes part of an already governed multi-tool Toolbox |
+| Tool exposure | The `allowed_tools` list contains one entry | Limits the Toolbox to the approved tool and makes mismatches visible | A tool rename requires a new Toolbox version | The MCP owner intentionally changes the public tool definition |
 | Approval | `require_approval` set to `always` | Agent runtimes receive the requirement with the tool metadata | The runtime must still present and enforce the approval interaction | Session 08 approves a different action-specific policy and the runtime supports it |
 | Validation | `tools/list` against the version-specific endpoint | Checks the immutable version before agent reuse | It confirms discovery and approval metadata, not business behavior | A safe, non-mutating operation is approved for an additional runtime check |
 
@@ -229,9 +229,9 @@ Then open the intended project in the Microsoft Foundry portal:
 4. Review its setup requirements and configure it for the project.
 5. Record the resulting project connection name in both artifacts.
 
-This is the current documented portal handoff. If the portal does not expose the record or cannot
-create a connection that matches the approved authentication mode, stop. There is no module-owned
-fallback API.
+This is the current documented portal step that connects the catalog record to the project. If the
+portal does not expose the record or cannot create a connection that matches the approved
+authentication mode, stop. The module provides no fallback API.
 
 ### 3. Run preflight
 
@@ -345,9 +345,9 @@ private operational copy of the catalog record.
 ## After implementation
 
 Keep the catalog record, Toolbox version payload, check utility, and paired preflight scripts. The
-API catalog owner maintains the MCP server record in API Center. The Foundry tool owner owns the
-project connection and dedicated Toolbox. The agent release owner decides which agents consume the
-stable Toolbox endpoint and confirms that their runtime enforces approval.
+API catalog owner maintains the MCP server record in API Center. The Foundry tool owner maintains
+the project connection and dedicated Toolbox. The agent release owner decides which agents consume
+the stable Toolbox endpoint and confirms that their runtime enforces approval.
 
 Reconcile the connection after an API Center deployment URL, authentication setting, exposed tool
 name, project connection, or Toolbox default version changes. Update the endpoint digest and create

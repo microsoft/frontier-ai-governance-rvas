@@ -15,7 +15,7 @@ technical definition, or copied inventory record in this repository.
 
 Agent 365 gives the organization a live inventory for the agent, its lifecycle, and its owners.
 The runtime continues to own the A2A protocol, endpoint, and agent card. Keeping those boundaries
-clear prevents a second record from drifting.
+clear avoids a repository copy that becomes stale when the runtime changes.
 
 ### Boundaries
 
@@ -25,9 +25,9 @@ data controls to [Session 09](../../../sessions/09-purview-data-governance/imple
 Use the separate A2A API Center discovery module when developers need a catalog entry for the
 agent's technical interface.
 
-Microsoft Agent 365 is authoritative for the enterprise inventory. The agent runtime and its
-product repository are authoritative for the A2A definition, agent card, endpoint, and behavior.
-This repository retains neither customer-specific records nor completion evidence.
+Microsoft Agent 365 is authoritative for the enterprise inventory. The runtime uses the A2A
+definition, agent card, endpoint, and behavior stored in its product repository. This repository
+retains neither customer-specific records nor completion evidence.
 
 ## Architecture
 
@@ -55,10 +55,10 @@ capabilities. This module does not add runtime code.
 
 | Decision | Chosen approach | Benefit | Limit | Revisit when |
 |---|---|---|---|---|
-| Enterprise inventory | Agent 365 Agent Registry | A live inventory and lifecycle surface | The record has to arrive through a supported integration | The platform adds an approved A2A-specific onboarding route |
+| Enterprise inventory | Agent 365 Agent Registry | One live record for inventory and lifecycle | The record has to arrive through a supported integration | The platform adds an approved A2A-specific onboarding route |
 | Custom runtime integration | Built-in integration, Registry sync, or runtime-owned SDK | Uses the path Microsoft supports for the actual runtime | The workshop does not author SDK changes | The runtime changes platform or integration model |
 | A2A technical discovery | Separate API Center add-on when needed | Keeps developer discovery separate from enterprise inventory | It adds a second live platform record | Developers no longer need catalog discovery |
-| Session record | Live-only | Avoids a stale repository copy | The facilitator must review the live service | A platform-supported export becomes an approved operational need |
+| Repository record | None; the module is live-only | Avoids a stale repository copy | The facilitator must review the live service | A platform-supported export becomes an approved operational need |
 
 ### Architecture guidance
 
@@ -78,8 +78,8 @@ Confirm these prerequisites:
 
 - An A2A agent already runs in the approved nonproduction scope.
 - The Agent 365 administrator has checked tenant licensing and can open the Agent Registry.
-- The runtime owner has identified the product repository or supported source integration that
-  owns the agent definition and card.
+- The runtime owner has identified the product repository or supported source integration where
+  the agent definition and card are maintained.
 - The agent owner and retirement owner can inspect the live record and its removal path.
 - The delivery team has selected a supported integration route before it changes any state.
 
@@ -116,7 +116,7 @@ present through the selected integration. The agent owner confirms the displayed
 lifecycle state. The runtime owner confirms the integration can be updated and retired through its
 approved path.
 
-Stop the session if the record is absent, its ownership is unresolved, the selected integration is
+Stop the module if the record is absent, its ownership is unresolved, the selected integration is
 not current, or the retirement path is unclear.
 
 ## Implement
@@ -170,8 +170,8 @@ is unsupported, or any owner cannot explain the retirement path.
 ## After implementation
 
 Agent 365 remains the enterprise inventory. The runtime owner maintains the A2A definition, card,
-and integration source. The Agent 365 administrator owns inventory visibility and the agent owner
-owns lifecycle decisions.
+and integration source. The Agent 365 administrator maintains inventory visibility. The agent
+owner makes lifecycle decisions.
 
 Restore or retire the agent through the selected platform path. Remove a connected-platform
 configuration only through the Microsoft 365 admin center after the agent owner confirms that

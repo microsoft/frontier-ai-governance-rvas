@@ -16,9 +16,9 @@ signal does not prove the remediation improved agent behavior.
 
 ### Boundaries
 
-The approved change system holds authorization, remediation, residual-risk, and release decisions.
-Microsoft Foundry holds taxonomy, attack prompts, responses, evaluator detail, and run records.
-Microsoft Defender and the SOC system hold alerts, incidents, and routing state.
+The approved change system records authorization, remediation, residual-risk, and release decisions.
+Microsoft Foundry stores the taxonomy, attack prompts, responses, evaluator detail, and run records.
+Microsoft Defender and the SOC system store alerts, incidents, and routing status.
 
 The repository keeps a bounded attack-plan definition, a Defender hunting query, and a triage
 playbook. The exercise stays in the authorized nonproduction project with synthetic inputs and the
@@ -29,11 +29,12 @@ generated alert.
 
 ### Architecture at a glance
 
-![An authorized plan cycles through baseline measurement, owned remediation, an immutable version, same-plan rerun, per-key decision, and remaining risk; a separate Defender route sends current security context to the SOC](../assets/diagrams/red-team-defense-loop.svg)
+![An authorized plan cycles through baseline measurement, agent-owner remediation, an immutable version, same-plan rerun, per-key decision, and remaining risk; a separate Defender route sends current security context to the SOC](../assets/diagrams/red-team-defense-loop.svg)
 
-The same attack plan runs against two immutable versions. Foundry keeps detailed material. The
-runner writes a payload-free aggregate to the approved external security record store. The comparison
-accepts live aggregate and SOC inputs, checks the red-team result, and keeps SOC delivery separate.
+The same attack plan runs against two immutable versions. Foundry stores the attack prompts,
+responses, evaluator detail, and run records. The runner writes a payload-free aggregate to the
+approved external security record store. The comparison script reads the live aggregate and SOC
+inputs, checks the red-team result, and reports SOC delivery separately.
 
 Existing tool and backend controls deny prohibited side effects during both runs. Defender follows
 its own detection and routing path.
@@ -264,8 +265,8 @@ the route, observation, and confirmed agent or model context.
 
 ## After implementation
 
-Foundry retains red-team details and aggregate results. Defender and the SOC system retain
-alerts, routes, and investigation state. The approved change system retains authorization,
+Foundry stores red-team details and aggregate results. Defender and the SOC system store
+alerts, routes, and investigation status. The approved change system records authorization,
 remediation, and residual-risk decisions. The repository retains the bounded attack plan, current
 alert hunt, and triage playbook.
 

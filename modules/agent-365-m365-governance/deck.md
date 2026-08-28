@@ -22,9 +22,9 @@ Govern the Microsoft 365 control plane around an approved pilot agent.
 
 ## Control objective
 
-Create the owner review packet for Agent 365 and Microsoft 365 agent surfaces without changing production access.
+Create the files that each owner uses to review Agent 365 and Microsoft 365 controls without changing production access.
 
-The result is an owner-reviewed packet for the approved nonproduction agent or agent family.
+The result is a completed set of owner reviews for the approved nonproduction agent or agent family.
 
 ![Microsoft Agent 365](assets/icons/microsoft/agent-365.svg)
 
@@ -40,7 +40,7 @@ Microsoft 365 adds publishing, app availability, user access, connector policy, 
 
 Both sides have to line up before wider rollout.
 
-<!-- Notes: The gap is not Foundry versus M365. It is the review record between the two. -->
+<!-- Notes: The missing piece is a review that connects the Foundry implementation to Microsoft 365 controls. -->
 
 ---
 
@@ -50,7 +50,7 @@ Both sides have to line up before wider rollout.
 
 **Outside this module:** production publishing, tenant-wide connector blocking, enforced Conditional Access, eDiscovery, Insider Risk, Communication Compliance, and capacity planning.
 
-<!-- Notes: The module creates a decision packet. It does not change production tenant state. -->
+<!-- Notes: The module records owner decisions. It does not change production tenant state. -->
 
 ---
 
@@ -58,17 +58,17 @@ Both sides have to line up before wider rollout.
 
 <!-- _class: diagram -->
 
-![Live Microsoft 365 control planes feed owner decisions into one pilot review packet without changing tenant state](assets/diagrams/agent-365-control-plane-review.svg)
+![Service owners review one pilot agent in live Microsoft 365 control planes and record their decisions without changing tenant state](assets/diagrams/agent-365-control-plane-review.svg)
 
-<!-- Notes: Agent 365, Microsoft 365 Admin Center, Microsoft Entra, Copilot Studio, Power Platform, SharePoint, and Defender XDR remain authoritative. The packet records aliases, decisions, and next owners. Preflight checks packet completeness only. -->
+<!-- Notes: Agent 365, Microsoft 365 Admin Center, Microsoft Entra, Copilot Studio, Power Platform, SharePoint, and Defender XDR remain authoritative. The files record aliases, decisions, and next owners. Preflight checks only that those files are complete. -->
 
 ---
 
 ## What this means
 
-No single admin surface answers every governance question about an agent. Owners inspect one pilot
-in the services they govern. The repository connects their decisions without copying or changing
-tenant state.
+No single admin portal answers every governance question about an agent. Owners inspect one pilot
+in the services they govern. The repository files collect their decisions without copying or
+changing tenant state.
 
 ---
 
@@ -78,8 +78,8 @@ tenant state.
 
 | Engineering choice | Route used here | What the team accepts |
 | --- | --- | --- |
-| Source of control state | Owners inspect live admin surfaces | Preflight cannot detect tenant drift |
-| Repository content | Aliases and owner decisions | The packet cannot reconstruct live state |
+| Where owners check current settings | Owners inspect the live admin portals they manage | Preflight cannot detect tenant drift |
+| Repository content | Aliases and owner decisions | The files cannot recreate live tenant settings |
 | Conditional Access | Report-only in this module | Access is not blocked here |
 | Connector actions | Default-deny where Advanced Connector Policies support it | Coverage varies by tenant and connector |
 
@@ -192,7 +192,7 @@ The repository keeps query templates and references, not payload exports.
 5. Run Defender hunting templates.
 6. Run preflight after owner decisions are filled.
 
-<!-- Notes: Preflight checks completeness. It does not inspect live tenant state. -->
+<!-- Notes: Preflight checks that required files and owner decisions are complete. It does not inspect live tenant state. -->
 
 ---
 
@@ -217,7 +217,7 @@ The pilot agent remains nonproduction until the publishing approver makes a sepa
 | SharePoint and data | Grounding access and oversharing |
 | Defender | Security status and hunting |
 
-<!-- Notes: Each owner keeps their live platform as the source of truth. -->
+<!-- Notes: Each owner checks and changes settings in the live service they manage. -->
 
 ---
 

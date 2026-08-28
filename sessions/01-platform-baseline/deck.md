@@ -14,16 +14,16 @@ html: true
 
 # Microsoft Foundry platform baseline, inventory, and landing-zone guardrails
 
-**300 minutes · Deploy an owned baseline, then stage deny-mode guardrails**
+**300 minutes · Deploy a tagged baseline with identified owners, then stage deny-mode guardrails**
 
 ---
 
 ## Control and session outcomes
 
-> Deploy an owned, tagged Microsoft Foundry baseline with workspace-based Application Insights. Stage an Azure Policy assignment that denies evaluated ARM changes with disallowed locations or missing required tags.
+> Deploy a tagged Microsoft Foundry baseline with workspace-based Application Insights; the tags identify the business and technical owners. Stage an Azure Policy assignment that denies evaluated ARM changes with disallowed locations or missing required tags.
 
 - Deploy the current Foundry parent-and-project model from Bicep.
-- Give both boundaries managed identities and explicit ownership metadata.
+- Give the Foundry resource and child project system-assigned managed identities and ownership tags.
 - Connect the project to workspace-based Application Insights.
 - Update the customer inventory and, when needed, the migration backlog through normal systems.
 - Resolve current built-ins and deploy a reusable initiative staged on the same resource group.
@@ -40,7 +40,7 @@ The policy assignment does not fix existing resources or cover controls outside 
 
 ## Why it matters
 
-Later controls need a stable Foundry boundary the team can rebuild and identify by owner. Operations needs a single place to find live resource details. Staging the policy shows its likely impact before deny mode is turned on, so the owner can handle exemptions before the change authority promotes enforcement.
+Later controls need a stable Foundry resource and child project that the team can redeploy from Bicep and identify by their ownership tags. Operations needs a single place to find live resource details. Staging the policy shows its likely impact before deny mode is turned on, so the owner can handle exemptions before the change authority promotes enforcement.
 
 ---
 
@@ -48,7 +48,7 @@ Later controls need a stable Foundry boundary the team can rebuild and identify 
 
 ## Architecture overview
 
-One deployment creates the Foundry boundary. A policy layer then controls evaluated ARM changes within it. Azure shows what is running and what policy applies; the repository defines the intended shape; the customer inventory and change systems own their records.
+One deployment creates the Foundry resource and child project. Azure Policy then controls evaluated ARM changes in their resource group. Azure shows the deployed resources and applicable policies; the repository's Bicep files define the expected configuration; the inventory and change systems store their respective records.
 
 <div class="columns">
 <div>
@@ -94,7 +94,7 @@ inventory system.
 
 `accounts/projects`
 
-Identity and ownership boundary
+System-assigned identity and ownership tags
 
 </div>
 <div class="card">
@@ -151,10 +151,10 @@ The platform owner assigns confirmed migrations in the backlog.
 | `costCenter` | `expiryDate` |
 | `environment` | Plain text only; no sensitive values |
 
-The same tag object is applied to the resource group and every taggable resource. The initiative requires `businessOwner`, `technicalOwner`, `dataClassification`, `criticality`, `costCenter`, and `expiryDate`. The `implementationSession` and fixed sandbox `environment` tags remain deployment-owned markers.
+Apply the same tags to the resource group and every taggable resource. The initiative requires `businessOwner`, `technicalOwner`, `dataClassification`, `criticality`, `costCenter`, and `expiryDate`. The deployment sets `implementationSession` and the fixed sandbox `environment` tag to identify these resources.
 
-Foundry model approval and eligibility policies are separate AI-specific built-ins. Session 04 owns
-that model-governance decision; they are not added to this initiative.
+Foundry model approval and eligibility policies are separate AI-specific built-ins. Session 04
+covers that model-governance decision; they are not added to this initiative.
 
 <!-- Notes: Use team aliases and synthetic classifications. Tags are visible to anyone with tag read access. -->
 
@@ -179,7 +179,7 @@ that model-governance decision; they are not added to this initiative.
 
 **Timebox:** 250 minutes
 
-Deploy a production-shaped Foundry baseline, then stage Azure Policy guardrails on the same resource group.
+Deploy the Foundry baseline in the approved sandbox resource group, then stage Azure Policy guardrails on that resource group.
 
 - **State change:** current Foundry parent, child project, observability connection, subscription initiative, and resource-group assignment
 - **Operator access:** Contributor on the approved sandbox scope, plus a time-bound Resource Policy Contributor assignment for the guardrails
@@ -243,10 +243,10 @@ The `expiryDate` tells the owner when to keep or remove the sandbox baseline. If
 
 ## Recap and next dependency
 
-- Session 01 leaves a rebuildable current-model Foundry boundary with staged, reviewed policy guardrails.
+- Session 01 deploys a current-model Foundry resource and child project that can be rebuilt from Bicep, with staged and reviewed policy guardrails.
 - Identity, tags, the observability connection, and the required-tag policy are defined in source.
-- Operations receives the baseline and inventory; the change authority owns the enforcement decision.
-- [Session 02](../02-identity-privileged-access/) gives people and workloads narrow, time-bound identities inside this same boundary.
+- Operations records the deployed baseline in inventory; the change authority decides whether to enable enforcement.
+- [Session 02](../02-identity-privileged-access/) assigns people and workloads narrow, time-bound access to these resources.
 
 ---
 
