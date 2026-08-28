@@ -22,13 +22,13 @@ module:
   services_in_scope:
     - "azure-api-center"
     - "microsoft-entra-id"
-  control_objective: "Configure Microsoft Entra-protected Azure API Center MCP registry discovery for the approved production-lifecycle MCP server set and check that the registry returns no other server names."
+  control_objective: "Configure Microsoft Entra-protected Azure API Center MCP registry discovery for MCP servers at the approved `Production` lifecycle stage and check that the registry returns no other server names."
 implementation:
   mode: "standard"
 implementation_outcomes:
   - "Record the default-workspace MCP registry endpoint, Microsoft Entra access boundary, and supported developer-client handoffs."
   - "Configure Data API visibility so related consumption features expose MCP records in the approved lifecycle stage."
-  - "Keep the approved server names, owners, review date, and restore reference in one operational record."
+  - "Keep the approved server names, owners, review date, and restore reference in an operational record."
   - "Confirm that the complete registry response contains every approved server name and no unexpected server name."
 deliverables:
   implementation: "implementation/README.md"

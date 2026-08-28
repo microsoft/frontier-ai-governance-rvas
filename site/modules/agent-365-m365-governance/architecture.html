@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="Create the owner review packet for one Agent 365 or Microsoft 365 pilot agent without changing production access.">
+    <meta name="description" content="Create the owner review packet for an Agent 365 or Microsoft 365 pilot agent without changing production access.">
     <title>Architecture | Optional module: Microsoft Agent 365 and Microsoft 365 agent governance | Practical Microsoft AI Governance</title>
     <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
     <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
@@ -123,7 +123,7 @@
           <p class="implementation-guide__label">Chapter 2 of 6</p>
           <h3 id="architecture-at-a-glance">Architecture at a glance<a class="heading-anchor" href="#architecture-at-a-glance" aria-label="Link to Architecture at a glance">#</a></h3>
 <figure class="session-diagram"><img src="assets/diagrams/agent-365-control-plane-review.svg" alt="Live Microsoft 365 control planes feed owner decisions into one pilot review packet without changing tenant state" loading="lazy" decoding="async"></figure>
-<p>No single Microsoft 365 admin surface can answer every governance question about an agent. This module gives the existing service owners one review path for a single nonproduction agent or agent family. It adds no new control plane. Each owner still inspects the part of the pilot that their service governs.</p>
+<p>No single Microsoft 365 admin surface can answer every governance question about an agent. This module gives the existing service owners a review path for an approved nonproduction agent or agent family. It adds no new control plane. Each owner still inspects the part of the pilot that their service governs.</p>
 <p>The review follows the agent across the service boundaries. Agent 365 shows its registry entry and Agent Map. Microsoft 365 Admin Center shows publishing and availability, while Microsoft Entra holds the Agent ID and Conditional Access state. Copilot Studio and Power Platform report the environment route and connector policy. SharePoint controls access to grounding sources. Defender XDR supplies the security posture and hunting results.</p>
 <p>The live services remain the source for current state. The repository packet connects their aliases and owner decisions, including who acts next, and stores payload-free hunting queries. Preflight can check whether that packet is complete. It cannot read the tenant or prove that an owner's portal review is still current.</p>
 <p>The publishing approver uses the packet to decide whether work should move to a separate, approved change path. This module stops before that change. It cannot publish the agent, enforce Conditional Access, alter SharePoint permissions, or block a connector.</p>
@@ -133,7 +133,7 @@
 <p>Use the <a href="https://learn.microsoft.com/en-us/microsoft-agent-365/overview">Microsoft Agent 365 overview</a> to establish what Agent Registry and Agent Map can tell the Agent 365 administrator about this pilot. The inventory record then captures the alias, owner, sponsor, and lifecycle decision. It points back to Agent 365 rather than copying the live registry.</p>
 <p>The publishing checklist connects that inventory to the availability decision. The approver checks current state and the restore path in <a href="https://learn.microsoft.com/en-us/microsoft-365/admin/manage/manage-copilot-agents-integrated-apps">Microsoft 365 Admin Center agent management</a>. Connector and MCP action decisions go into the connector matrix. Apply <a href="https://learn.microsoft.com/en-us/power-platform/admin/advanced-connector-policies">Advanced Connector Policies</a> only when the tenant supports the action-level rule the owner needs. These policies allow the owner to control individual connector or MCP actions rather than treating the whole connector as one unit.</p>
 <p>Preflight comes last. It finds missing files and unresolved owner decisions in the packet. It does not query any of the live control planes.</p>
-<p>The numbered sessions still own their parts of the wider system. Session 02 supplies the identity ownership model. Sessions 07 and 08 set the inventory and tool boundaries. Sessions 10 and 12 remain the data and Defender handoffs. Session 14 brings the reviewed pilot record into fleet operations.</p>
+<p>The numbered sessions still own their parts of the wider system. Session 02 supplies the identity ownership model. Sessions 07 and 08 set the inventory and tool boundaries. Session 09 covers data controls, and Session 11 covers Defender. Session 14 brings the reviewed pilot record into fleet operations.</p>
 
         </article>
         <aside class="facts-panel" aria-labelledby="facts-panel-title">

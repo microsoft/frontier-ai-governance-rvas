@@ -37,7 +37,7 @@ session:
     - "azure-ai-foundry"
     - "azure-api-management"
     - "application-insights"
-  control_objective: "Promote one immutable, gate-passing release through protected nonproduction and production environments, with approval, deployment, routing, and restore bound to the same commit SHA."
+  control_objective: "Promote one immutable, gate-passing release through protected nonproduction and production environments, tying approval, deployment, routing, and restore to the same commit SHA."
 implementation:
   mode: "extended"
   extended_reason: "The delivery must prove both the permitted promotion path and the blocked evaluation path before a delivery-owner checkpoint."
@@ -45,7 +45,7 @@ implementation_outcomes:
   - "Keep one GitHub Actions workflow that proves the approved release SHA is reachable from the protected default branch before checkout, uses environment-scoped Azure OIDC, and deploys that same commit in both stages."
   - "Enforce the enabled Session 10 callable gate and generated blocked self-test before any Azure deployment, binding temporary external evaluation records and the Session 11 security-release attestation to the immutable agent name and version."
   - "Run each Bicep what-if in a preview environment and require approval in the matching apply environment before deployment."
-  - "Bind protected approvals, both deployments, routing, the approved release record, and manual restore to the selected release SHA."
+  - "Tie protected approvals, both deployments, routing, the approved release record, and manual restore to the selected release SHA."
   - "Run the generated blocked-tool-process self-test before deployment, complete the permitted promotion through the protected environments, then pause for the delivery owner."
 deliverables:
   implementation: "implementation/README.md"

@@ -4,7 +4,7 @@
 
 ### What we will do
 
-Create the owner review packet for one approved nonproduction Agent 365 or Microsoft 365 agent
+Create the owner review packet for an approved nonproduction Agent 365 or Microsoft 365 agent
 path. The module records the Agent Registry and Agent Map entries, Entra Agent ID decisions,
 publishing approval checks, Copilot Studio environment controls, connector policy, SharePoint
 oversharing review, and Defender XDR Security for AI hunting templates.
@@ -25,7 +25,7 @@ This optional module sits outside the 14-session sequence. It complements Sessio
 data controls, Session 11 for Defender, and Session 14 for fleet visibility. It does not replace
 those sessions.
 
-Use it for one nonproduction pilot agent or agent family. Microsoft 365 Admin Center, Microsoft
+Use it for an approved nonproduction pilot agent or agent family. Microsoft 365 Admin Center, Microsoft
 Entra, Power Platform, SharePoint, Microsoft Purview, and Defender XDR remain authoritative for
 live state. The repository keeps templates, owner decisions, aliases, and payload-free query text.
 
@@ -40,7 +40,7 @@ governance, and preview-only implementation paths are excluded from this wave.
 ![Live Microsoft 365 control planes feed owner decisions into one pilot review packet without changing tenant state](../assets/diagrams/agent-365-control-plane-review.svg)
 
 No single Microsoft 365 admin surface can answer every governance question about an agent. This
-module gives the existing service owners one review path for a single nonproduction agent or agent
+module gives the existing service owners a review path for an approved nonproduction agent or agent
 family. It adds no new control plane. Each owner still inspects the part of the pilot that their
 service governs.
 
@@ -88,15 +88,15 @@ Preflight comes last. It finds missing files and unresolved owner decisions in t
 not query any of the live control planes.
 
 The numbered sessions still own their parts of the wider system. Session 02 supplies the identity
-ownership model. Sessions 07 and 08 set the inventory and tool boundaries. Sessions 10 and 12
-remain the data and Defender handoffs. Session 14 brings the reviewed pilot record into fleet
+ownership model. Sessions 07 and 08 set the inventory and tool boundaries. Session 09 covers data
+controls, and Session 11 covers Defender. Session 14 brings the reviewed pilot record into fleet
 operations.
 
 ## Before you start
 
 Confirm these prerequisites:
 
-- The tenant owner has approved one nonproduction agent or agent family for review.
+- The tenant owner has approved a nonproduction agent or agent family for review.
 - The Agent 365 administrator can view Agent Registry and Agent Map for the approved scope.
 - The Entra identity owner can review Agent ID, sponsor, expiry, and Conditional Access decisions.
 - The publishing approver can review Microsoft 365 Admin Center Integrated Apps and Agent Store state.
@@ -232,7 +232,7 @@ Preflight should pass only after every module artifact has a resolved owner deci
 
 ## Confirm the result
 
-The delivery owner reviews the six module artifacts with the owners listed above.
+The delivery owner reviews the module artifacts with the owners listed above.
 
 Expected result: each artifact has no unresolved `__REQUIRED_*__` value, uses aliases instead of
 tenant or user data, and names the owner responsible for the next action. The publishing checklist

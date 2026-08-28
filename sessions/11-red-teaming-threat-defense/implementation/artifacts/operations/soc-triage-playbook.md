@@ -1,7 +1,7 @@
 # SOC triage playbook for Session 11 AI signals
 
-Use this playbook only for the nonproduction Foundry project and policy-assistant version authorized
-in the approved change system. Do not copy prompts, responses, tool payloads, prompt evidence, user
+Use this playbook for the nonproduction Foundry project and policy-assistant version authorized in
+the approved change system. Do not copy prompts, responses, tool payloads, prompt evidence, user
 identities, or customer data into this repository.
 
 | Field | Value |
@@ -22,7 +22,7 @@ identities, or customer data into this repository.
 4. Correlate the alert with the Foundry red-team run ID and report URL. Keep detailed attack and
    response content in the governed portals.
 
-The hunt uses exact current alert titles for jailbreak, credential leakage, suspicious access,
+The hunt uses current alert titles exactly for jailbreak, credential leakage, suspicious access,
 tool misuse, LLM reconnaissance, wallet or cost abuse, phishing or malicious URLs, and malicious
 uploaded AI models. Do not replace the title list with a broad `Title has "AI"` filter.
 

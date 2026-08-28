@@ -7,7 +7,7 @@
 Promote **one immutable, gate-passing release** through protected nonproduction and production
 environments. An authorized operator supplies `workflow_dispatch.release_sha`; the workflow proves
 that SHA is reachable from the protected default branch before release content runs. The same SHA
-then binds approval, both deployments, routing, the approved release record, and manual restore.
+ties approval, both deployments, routing, the approved release record, and manual restore together.
 
 ### Why it matters
 
@@ -73,7 +73,7 @@ to identify the release.
 
 | Decision | Chosen approach | Why this shape helps | What it requires | Revisit when |
 |---|---|---|---|---|
-| Release identity | Bind checkout and every later gate to one full commit SHA and fixed component digests. Deployment, routing, and the release record use the same identity. | A mismatch exposes stage drift, and restore can name one exact release. | A corrected component requires a new release. Mutable aliases cannot be promoted. | The repository boundary changes or the team defines a different release unit. |
+| Release identity | Check out the selected full commit SHA, then use it for every later gate. Deployment, routing, and the release record use the same identity. | A mismatch exposes stage drift, and restore can name the exact release. | A corrected component requires a new release. Mutable aliases cannot be promoted. | The repository boundary changes or the team defines a different release unit. |
 | Preview and apply access | Use separate protected preview and apply environments, each with an exact OIDC subject. | What-if runs before approval. Apply credentials remain unavailable until the protection rules pass. | Four environment subjects and their protections must stay aligned with Microsoft Entra. | GitHub changes its subject format, plan features, or environment model. |
 | Recovery | Restore a selected approved release through a manual, production-approved workflow. | An owner checks the release record and route before production traffic moves. | Restore authority must be available. Recovery is slower than automatic rollback. | A tested automatic policy can perform the same identity and release-record checks, then verify health and routing. |
 
@@ -153,7 +153,7 @@ to identify the release.
    `Promote` and `Restore` parameters used by the approved workflows and changes only the
    candidate and stable selectors listed in the routing contract.
 8. The release owner accepts the customer-owned release/security-store script. It implements
-   `Stage`, `Approve`, and `Retrieve` for one exact manifest, release ID, and SHA-256. It also
+   `Stage`, `Approve`, and `Retrieve` for the exact manifest, release ID, and SHA-256. It also
    implements `RetrieveEvaluationResult -RunId -OutputPath` and
    `RetrieveSecurityReleaseAttestation -AgentName -BaselineVersion -RemediatedVersion -OutputPath`.
    The two retrieval operations write a payload-free JSON artifact only under the approved
@@ -217,8 +217,8 @@ to identify the release.
 - nonproduction and production apply reviewer teams and prevent-self-review settings;
 - production reviewer role, deployment branch or tag restriction, disabled administrator bypass,
   and whether the GitHub plan supports those protections;
-- Bicep, APIM policy, unit, Session 10 desired state, Session 12, routing, and approved
-  release/security-store source paths;
+- source paths for Bicep, the APIM policy, unit checks, Session 10 desired state, the Session 12
+  smoke executable, routing, and the approved release/security-store interface;
 - the approved 40-character commit supplied through `release_sha`, plus the agent name, prompt,
   agent version, model alias, APIM policy, evaluation run, and threshold policy;
 - `canary` or `blue-green`, selectors, and whether the existing Session 05 or 07 path supports it;
@@ -365,7 +365,7 @@ The workflow:
 5. pauses at protected `nonproduction`; after approval, deploys and runs the Session 12 smoke check;
 6. signs in through `production-preview`, rechecks digests, and runs production what-if;
 7. pauses at protected `production`; after approval, deploys the identical release;
-8. creates the small release record in the approved release store, where it remains unavailable to
+8. creates the release record in the approved release store, where it remains unavailable to
    restore;
 9. moves only the approved canary or blue-green selector and checks the routing script result;
 10. finalizes that exact staged release record as approved. If finalization fails, the workflow stops and
@@ -451,20 +451,19 @@ another run.
 
 ## After implementation
 
-Keep the **workflow definitions and immutable release link**, together with the environment
-parameter files, control definition, release-record template, validator, and approved workflow
-revision. GitHub Actions retains build, deployment, and environment approval metadata. Microsoft
-Foundry retains evaluation and adversarial records. The approved external release platform retains
-Session 10 result records, and the approved security and change systems retain Session 11
-authorization and report records. Azure retains deployment history. The promotion
-workflow writes the approved release-store record after each successful production promotion, and
-the restore workflow reads it before a manual restore. Do not copy those runtime records into this
-repository.
+Keep the **workflow definitions and immutable release link**, environment parameter files, control
+definition, release-record template, validator, and approved workflow revision. GitHub Actions
+retains build, deployment, and environment approval metadata. Microsoft Foundry retains evaluation
+and adversarial records. The approved external release platform retains Session 10 result records,
+and the approved security and change systems retain Session 11 authorization and report records.
+Azure retains deployment history. The promotion workflow writes the approved release-store record
+after each successful production promotion, and the restore workflow reads it before a manual
+restore. Do not copy those runtime records into this repository.
 
 The release owner owns workflow operation and release-record continuity. GitHub and Entra administrators
 own environment protections and federation. The platform owner owns Bicep scopes and approves both
 what-if results. AI quality and
-security owners own Session 09 and 11 gates. The observability owner owns the Session 12 smoke
+security owners own Session 10 and 11 gates. The observability owner owns the Session 12 smoke
 interface. The gateway owner owns routing. The delivery owner owns the final checkpoint.
 
 Restore is manual. Dispatch **Restore previous AI release** with the exact approved release ID and

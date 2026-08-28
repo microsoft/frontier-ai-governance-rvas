@@ -4,19 +4,20 @@
 
 ### What we will do
 
-Teams use a **controlled, versioned path to deploy exact approved serverless API model versions** that
-meet the workload's processing-location requirement. Under the existing `AIServices` Microsoft
-Foundry resource in the approved nonproduction resource group, we define desired deployment state,
+Deploy **exact approved serverless API model versions through a versioned path** that
+meets the workload's processing-location requirement. Under the existing `AIServices` Microsoft
+Foundry resource in the approved nonproduction resource group, define desired deployment state,
 check it against current Azure availability, lifecycle, quota, and scope, then create or update
 the listed child deployments. This session owns the versioned deployment profiles and live child
-deployments whose model coordinates, SKU, capacity, content filter reference, fixed no-auto-upgrade
-setting, and approval ID match.
+deployments that match the approved model coordinates, SKU, capacity, content filter reference,
+fixed no-auto-upgrade setting, and approval ID.
 
 ### Why it matters
 
-An exact model version and deployment type determine processing location, quota use, and lifecycle
-exposure. Joining customer approval to current Azure state before deployment gives the lifecycle
-owner a repeatable change path without copying volatile service facts into the repository.
+The selected model version and deployment type determine processing location, quota use, and
+lifecycle exposure. Preflight joins customer approval to current Azure state before deployment,
+giving the lifecycle owner a repeatable change path without copying volatile service facts into the
+repository.
 
 ### Boundaries
 
@@ -24,11 +25,11 @@ Azure is authoritative for live availability, quota, lifecycle data, and deploye
 The customer decision system owns supporting approval detail. The repository owns the deployment
 profiles and Bicep desired state.
 
-This is a controlled process, not technical prevention across every deployment path. A principal
-with access can still create a deployment through another template, the portal, the CLI, or an API.
-Detecting or blocking those changes needs a separate control. Instant-access models and
-managed-compute deployments are outside scope. The Foundry account, projects, connections, private
-networking, content filter definitions, and model evaluation stay unchanged.
+Use this implementation for one deployment path. A principal with access can still create a deployment
+through another template, the portal, the CLI, or an API. Detecting or blocking those changes needs
+a separate control. Instant-access models and managed-compute deployments are outside scope. The
+Foundry account, projects, connections, private networking, content filter definitions, and model
+evaluation stay unchanged.
 [Session 10](../../10-foundry-evaluations-quality-gates/implementation/README.md) adds repeatable
 release evaluation.
 
@@ -55,10 +56,10 @@ responses. Session 05 receives the approved deployment name and exact model coor
 ![The approved deployment profile passes through live Azure checks before Bicep changes model child deployments; lifecycle review can keep, replace, or retire them](../assets/diagrams/model-governance-flow.svg)
 
 The boundary follows this repository path from recorded intent through preflight and Bicep. Portal,
-CLI, API, or template changes made elsewhere bypass it. This design makes each governed change easy
-to preview and restore. But it is not a platform-enforced allowlist.
+CLI, API, or template changes made elsewhere bypass it. Each change through this path is easy to preview and
+restore, but the path is not a platform-enforced allowlist.
 
-`deployment-profiles.json` fixes the external approval reference, model version, SKU, capacity,
+`deployment-profiles.json` records the external approval reference, model version, SKU, capacity,
 content filter, processing-location requirement, review date, quota headroom, and
 `NoAutoUpgrade` setting. The customer change system remains authoritative for the full approval,
 named lifecycle owner, and review history.
@@ -70,7 +71,7 @@ named lifecycle owner, and review history.
 | Where approval lives | Keep the full review in the customer decision system and a compact deployment record in Git | The deployment inputs remain readable without copying the review into a second system | The approval ID and deployment names must match in both places | The decision system can provide a stable machine contract directly |
 | Where service facts come from | Read availability, lifecycle, quota, and the named Responsible AI policy from Azure during preflight | The gate uses the platform state that exists when the operator runs it | If the CLI omits lifecycle or quota data, the named manual check must finish before work continues | Microsoft exposes stable lifecycle and quota fields for every selected model |
 | How versions move | Pin exact model coordinates with `NoAutoUpgrade` | Every version change returns to the approval path | The owner must start manual retirement work before support ends | The owner approves a tested automatic-upgrade policy |
-| What the path enforces | Govern one versioned deployment path | Operators get a defined preview, owner, and restore boundary | Other authorized paths can still create deployments | The platform owner adds preventive policy or removes alternate change rights |
+| What the path enforces | Use this versioned path to deploy approved model versions | Operators get a defined preview, owner, and restore boundary | Other authorized paths can still create deployments | The platform owner adds preventive policy or removes alternate change rights |
 
 ### Architecture guidance
 
@@ -165,10 +166,9 @@ Do not add live quota, current availability, lifecycle status, published retirem
 deployed capacity to this file. Azure already owns those values. Keep the full approval, lifecycle
 owner, and review history in the customer change system.
 
-This control approves exact model coordinates. It does not permit Azure to move a deployment to a
-different version automatically. A lifecycle-driven replacement or version change starts with a
-new external decision, then updates the deployment profile through the same preflight and what-if
-path.
+This control approves exact model coordinates. Automatic deployment moves to a different version
+are outside this path. A lifecycle-driven replacement or version change starts with a new external
+decision, then updates the deployment profile through the same preflight and what-if path.
 
 Choose a serverless API deployment SKU that meets the recorded processing-location requirement:
 
@@ -300,7 +300,7 @@ resource.
 
 ## Confirm the result
 
-Read every approved profile and inspect the **matching live child deployment**:
+For each approved profile, inspect the **matching live child deployment**:
 
 ```powershell
 $profiles = Get-Content .\artifacts\models\deployment-profiles.json -Raw | ConvertFrom-Json
@@ -341,14 +341,13 @@ capacity, and `modelApprovalId` match `deployment-profiles.json`.
 
 ## After implementation
 
-Keep the **versioned deployment definitions**, including the Bicep and parameter file, deployment
-profiles, artifact index, and paired scripts. The platform owner owns live capacity and deployment
-changes. The customer change process owns the named lifecycle owner, review history, replacement
-work, and supporting approval detail.
+Keep the **versioned deployment definitions**: the Bicep and parameter file, deployment profiles,
+artifact index, and paired scripts. The platform owner owns live capacity and deployment changes.
+The customer change process owns the named lifecycle owner, review history, replacement work, and
+supporting approval detail.
 
-This control covers deployments made through this versioned path. Detecting or blocking
-deployments created elsewhere needs a separate Azure Policy, deployment permission, inventory, or
-change-control design. The
+Use this path to deploy versioned models. Deployments created elsewhere need
+a separate Azure Policy, deployment permission, inventory, or change-control design. The
 [Azure Policy deployment-type pattern](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types#restrict-deployment-types-with-azure-policy)
 can deny selected SKU names across those paths. Instant-access and managed-compute models still
 need their own controls.

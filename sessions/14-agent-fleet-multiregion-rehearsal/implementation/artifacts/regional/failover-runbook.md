@@ -9,8 +9,8 @@
 ## Purpose
 
 Move the governed agent from the primary selector to the secondary selector listed in the regional
-parameter contract during an approved maintenance window. The same identity, API Management policy
-version, agent version, and trace path must survive the move.
+parameter contract during an approved maintenance window. After the move, the active path must
+report the expected identity, API Management policy version, agent version, and trace path.
 
 ## Authority and scope
 

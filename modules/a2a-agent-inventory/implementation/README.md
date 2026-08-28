@@ -4,18 +4,18 @@
 
 ### What we will do
 
-Bring one approved A2A agent into Microsoft Agent 365 through the supported path for its runtime:
+Bring an approved A2A agent into Microsoft Agent 365 through the supported path for its runtime:
 built-in integration, Registry sync, or a runtime-owned Agent 365 SDK integration. The delivery
 team then observes the live Agent Registry entry with the agent owner.
 
-The result is one live Agent 365 inventory record. This module does not create an agent card,
+The result is a live Agent 365 inventory record. This module does not create an agent card,
 technical definition, or copied inventory record in this repository.
 
 ### Why it matters
 
-Agent 365 gives the organization one place to see the agent, its lifecycle, and its owners. The
-runtime continues to own the A2A protocol, endpoint, and agent card. Keeping those boundaries
-clear avoids a second record that immediately starts to drift.
+Agent 365 gives the organization a live inventory for the agent, its lifecycle, and its owners.
+The runtime continues to own the A2A protocol, endpoint, and agent card. Keeping those boundaries
+clear prevents a second record from drifting.
 
 ### Boundaries
 
@@ -55,7 +55,7 @@ capabilities. This module does not add runtime code.
 
 | Decision | Chosen approach | Benefit | Limit | Revisit when |
 |---|---|---|---|---|
-| Enterprise inventory | Agent 365 Agent Registry | One live inventory and lifecycle surface | The record has to arrive through a supported integration | The platform adds an approved A2A-specific onboarding route |
+| Enterprise inventory | Agent 365 Agent Registry | A live inventory and lifecycle surface | The record has to arrive through a supported integration | The platform adds an approved A2A-specific onboarding route |
 | Custom runtime integration | Built-in integration, Registry sync, or runtime-owned SDK | Uses the path Microsoft supports for the actual runtime | The workshop does not author SDK changes | The runtime changes platform or integration model |
 | A2A technical discovery | Separate API Center add-on when needed | Keeps developer discovery separate from enterprise inventory | It adds a second live platform record | Developers no longer need catalog discovery |
 | Session record | Live-only | Avoids a stale repository copy | The facilitator must review the live service | A platform-supported export becomes an approved operational need |
@@ -76,12 +76,12 @@ when Registry sync is the selected route.
 
 Confirm these prerequisites:
 
-- One A2A agent already runs in the approved nonproduction scope.
+- An A2A agent already runs in the approved nonproduction scope.
 - The Agent 365 administrator has checked tenant licensing and can open the Agent Registry.
 - The runtime owner has identified the product repository or supported source integration that
   owns the agent definition and card.
 - The agent owner and retirement owner can inspect the live record and its removal path.
-- The delivery team has selected one supported integration route before it changes any state.
+- The delivery team has selected a supported integration route before it changes any state.
 
 Run the readiness check. It validates the selected route and the runtime-owned source reference.
 It does not create an Agent 365 record or store the supplied values.

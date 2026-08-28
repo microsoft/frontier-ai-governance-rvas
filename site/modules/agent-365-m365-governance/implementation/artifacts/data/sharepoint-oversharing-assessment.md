@@ -1,7 +1,7 @@
 # SharePoint oversharing assessment
 
 Use SharePoint Advanced Management and Data Access Governance reports to review grounding sources
-before widening agent access. Keep SharePoint and Purview as the authoritative source for live
+before expanding agent access. Keep SharePoint and Purview as the authoritative sources for live
 sharing state.
 
 | Field | Decision |

@@ -14,7 +14,7 @@ html: true
 
 # Red teaming, prompt injection, and Defender
 
-**270 minutes - Compare an authorized baseline and remediation, then route a Defender signal**
+**270 minutes - Compare authorized baseline and remediation results, then route a Defender signal**
 
 <!-- Notes: Session 10 measured release quality. Today we compare two authorized versions and check the security route. -->
 
@@ -22,17 +22,17 @@ html: true
 
 ## Control objective
 
-> Compare authorized red-team results for the baseline and the fixed version prepared before the session, then confirm the approved Defender-to-SOC route.
+> Compare authorized red-team results for the baseline and the fixed version prepared before the session, then confirm the Defender-to-SOC route.
 
 ### Result check
 
-- Two approved nonproduction agent versions and one unchanged attack plan match the pre-session authorization.
+- Two approved nonproduction agent versions and the unchanged attack plan match the pre-session authorization.
 - The same reviewed attack plan runs before and after remediation.
 - Overall attack success rate falls, and no tracked category, strategy, and evaluator key regresses.
 - Blocked actions remain independently blocked.
 - Separately, an authorized Defender event or route-health result reaches the approved SOC route, and its record confirms the policy-assistant agent or judge model.
 
-<!-- Notes: A scan is one control input, not a complete security assessment. -->
+<!-- Notes: A scan is a control input, not a complete security assessment. -->
 
 ---
 
@@ -138,7 +138,7 @@ Keep blocked writes independently denied. Stop on any unexpected side effect.
 
 Required:
 
-- one nonproduction project, agent, and fixed version;
+- the authorized nonproduction project, agent, and fixed version;
 - valid run window and stop contact;
 - approved categories and synthetic-data boundary;
 - agent, security, and SOC owners present; and
@@ -261,7 +261,7 @@ Not every authorized red-team run deterministically creates one of these alerts.
 
 ## One SOC route
 
-Entrance readiness requires the SOC owner to accept an authorized Defender event or route-health result. Do not depend on a newly generated alert.
+The SOC route is ready when its owner accepts an authorized Defender event or route-health result. Do not depend on a newly generated alert.
 
 ![Microsoft Sentinel](assets/icons/microsoft/microsoft-sentinel.svg)
 
@@ -269,11 +269,12 @@ Choose one:
 
 1. Defender incident
 2. Microsoft Sentinel incident
-3. approved ITSM connector
+3. the approved ITSM connector
 
-The visible record must show the source, route type, destination alias, Defender reference, SOC reference, observed time, and confirmed agent or model.
+The live record must show the source, route type, destination alias, Defender reference, SOC
+reference, observed time, and confirmed agent or model.
 
-The saved hunt uses exact current alert titles. It does not use a broad `Title has "AI"` match.
+The saved hunt matches the current alert titles exactly. It does not use a broad `Title has "AI"` match.
 
 <!-- Notes: Evidence and investigation detail remain in the security system. -->
 
@@ -438,7 +439,7 @@ Stop immediately for:
 ## Recap
 
 - Authorized scope before red-team traffic
-- Exact version and reviewed taxonomy
+- Fixed version and reviewed taxonomy
 - Same plan before and after remediation
 - Independent prohibition of risky tool actions
 - No risk category gets worse while the average improves

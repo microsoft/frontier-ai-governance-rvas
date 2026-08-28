@@ -1,6 +1,6 @@
 # Session 11 implementation artifacts
 
-The repository keeps the definitions that operators reuse:
+The repository keeps the definitions operators reuse:
 
 | Path | Purpose | Authoritative state |
 |---|---|---|

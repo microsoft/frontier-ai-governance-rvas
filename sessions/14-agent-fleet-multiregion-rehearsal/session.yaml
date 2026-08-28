@@ -49,7 +49,7 @@ implementation:
   mode: "standard"
 implementation_outcomes:
   - "Locate one governed agent and one MCP server in their native services and query the Azure resources used by the rehearsal."
-  - "Use one regional Bicep parameter contract with matching project, telemetry, expected agent identity reference, and distinct primary and secondary selectors."
+  - "Use the regional Bicep parameter contract with matching project, telemetry, expected agent identity reference, and distinct primary and secondary selectors."
   - "Confirm the primary-region management-plane limit and regional rate-limit behavior before routing changes."
   - "After the service owner confirms readiness, route the governed service to the approved secondary deployment and check its version, expected identity reference, policy, endpoint, and tracing. Keep the exact restore path in the runbook."
 deliverables:
@@ -68,7 +68,7 @@ retained_files:
     consumer: "The Session 14 preflight scripts and regional rehearsal operators"
     updater: "The platform owner"
     review_cadence: "Before a rehearsal and after the Bicep entrypoint or customer script interface changes"
-    operational_purpose: "Bind the approved Azure scope and customer script paths consumed by the Session 14 wrappers."
+    operational_purpose: "Define the approved Azure scope and customer script paths used by the Session 14 wrappers."
   - path: "implementation/artifacts/regional/region.parameters.json"
     consumer: "The customer Bicep deployment, Session 14 preflight scripts, and routing wrappers"
     updater: "The platform owner"

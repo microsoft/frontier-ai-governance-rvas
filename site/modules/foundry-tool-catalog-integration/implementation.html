@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="Bind one approved Azure API Center remote MCP server record to one dedicated versioned Toolbox in Microsoft Foundry, then reconcile the catalog record, project connection, allow-listed tool, and live Toolbox tool list.">
+    <meta name="description" content="Connect an approved remote MCP server in Azure API Center to a dedicated versioned Toolbox in Microsoft Foundry, then reconcile the catalog record, project connection, allowed tool, and live Toolbox tool list.">
     <title>Implementation | Optional module: API Center private tool catalog to Foundry Toolbox | Practical Microsoft AI Governance</title>
     <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
     <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
@@ -104,8 +104,8 @@
         <article class="implementation-guide" id="implementation-guide" aria-label="Implementation">
           <p class="implementation-guide__label">Chapter 5 of 6</p>
           <h2 id="implement">Implement<a class="heading-anchor" href="#implement" aria-label="Link to Implement">#</a></h2>
-<h3 id="1-complete-the-binding-record">1. Complete the binding record<a class="heading-anchor" href="#1-complete-the-binding-record" aria-label="Link to 1. Complete the binding record">#</a></h3>
-<p>Fill <code>catalog-toolbox-binding.json</code> with the approved scope, source record, owner roles, Foundry names, and restore owner. Use a new Toolbox name reserved for this one MCP binding.</p>
+<h3 id="1-complete-the-catalog-record">1. Complete the catalog record<a class="heading-anchor" href="#1-complete-the-catalog-record" aria-label="Link to 1. Complete the catalog record">#</a></h3>
+<p>Fill <code>catalog-toolbox-binding.json</code> with the approved scope, source record, owner roles, Foundry names, and restore owner. Use a new Toolbox name reserved for this MCP connection.</p>
 <p>Calculate the normalized endpoint digest. Trim a final <code>/</code> before hashing.</p>
 <section class="code-tabs" data-code-tabs>
   <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
@@ -130,11 +130,11 @@ normalized_endpoint=${mcp_endpoint%/}
 printf '%s' &quot;$normalized_endpoint&quot; | sha256sum | cut -d' ' -f1</code></pre>
   </div>
 </section>
-<p>Store the endpoint in <code>toolbox-version.json</code> and its digest in the binding record. Keep the filled files in the approved private configuration store.</p>
+<p>Store the endpoint in <code>toolbox-version.json</code> and its digest in the catalog record. Keep the filled files in the approved private configuration store.</p>
 <h3 id="2-configure-the-catalog-item-in-foundry-tools">2. Configure the catalog item in Foundry Tools<a class="heading-anchor" href="#2-configure-the-catalog-item-in-foundry-tools" aria-label="Link to 2. Configure the catalog item in Foundry Tools">#</a></h3>
 <p>In the Azure portal, open the exact API Center resource. Confirm the MCP server's authorization configuration and its <strong>Details &gt; Versions &gt; Manage access (preview)</strong> settings.</p>
 <p>Then open the intended project in the Microsoft Foundry portal:</p>
-<ol><li>Go to <strong>Build &gt; Tools</strong>.</li><li>Find the private tool catalog by the API Center name.</li><li>Select the approved MCP server record.</li><li>Review its setup requirements and configure it for the project.</li><li>Record the resulting project connection name in both artifacts.</li></ol>
+<ol><li>Go to <strong>Build &gt; Tools</strong>.</li><li>Find the private tool catalog by the API Center name.</li><li>Select the MCP server record in API Center.</li><li>Review its setup requirements and configure it for the project.</li><li>Record the resulting project connection name in both artifacts.</li></ol>
 <p>This is the current documented portal handoff. If the portal does not expose the record or cannot create a connection that matches the approved authentication mode, stop. There is no module-owned fallback API.</p>
 <h3 id="3-run-preflight">3. Run preflight<a class="heading-anchor" href="#3-run-preflight" aria-label="Link to 3. Run preflight">#</a></h3>
 <section class="code-tabs" data-code-tabs>

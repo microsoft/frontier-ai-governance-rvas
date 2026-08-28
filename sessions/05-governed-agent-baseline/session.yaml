@@ -30,15 +30,15 @@ session:
     - "microsoft-entra-workload-id"
     - "azure-monitor"
     - "application-insights"
-  control_objective: "Create and pin one versioned prompt agent whose unique Entra Agent Identity identifies the agent, while the Foundry project managed identity authorizes its single read-only OpenAPI tool; keep write tools absent and apply the RAI policy listed in the agent definition and server-side tracing."
+  control_objective: "Create a versioned prompt agent and pin it to a stable endpoint. Its unique Entra Agent Identity identifies the agent, while the Foundry project managed identity authorizes the approved read-only OpenAPI tool. Keep write tools absent, apply the RAI policy listed in the agent definition, and enable server-side tracing."
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Create one versioned prompt agent from approved instructions and a machine-readable definition."
-  - "Expose only one approved read-only OpenAPI operation and keep the prohibited write action absent from the tool surface."
+  - "Create a versioned prompt agent from approved instructions and a machine-readable definition."
+  - "Expose the approved read-only OpenAPI operation and keep the prohibited write action out of the agent's available tools."
   - "Apply the RAI policy listed in the agent definition, Microsoft Entra endpoint authorization, and server-side tracing through the connected Application Insights resource."
   - "Use the unique Entra Agent Identity for the agent and endpoint boundary, use the Foundry project managed identity for the direct OpenAPI read, and pin the stable endpoint to the implemented version."
-  - "One synthetic get_policy read returns only the approved fields through the Foundry project managed identity, with no other tool call."
+  - "A synthetic get_policy read returns only the approved fields through the Foundry project managed identity, with no other tool call."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"

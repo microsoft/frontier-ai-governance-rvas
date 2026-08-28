@@ -17,7 +17,7 @@ approved path. This rehearsal gives the service and delivery owners one observab
 ### Boundaries
 
 Foundry Control Plane, Agent 365, Microsoft Entra, Purview, Defender, Azure Monitor, and API
-Management remain authoritative for the state each service owns. The customer clone holds the
+Management remain authoritative for the state each service owns. The customer repository holds the
 rehearsal contract, desired regional parameters, script wrappers, and a maintained restore runbook.
 It does not hold portal exports, runtime output, approval records, or one-time rehearsal results.
 
@@ -46,7 +46,7 @@ A mismatch returns the operator to the restore runbook.
 |---|---|---|---|---|
 | Service state | Inspect live state in native services and Azure Resource Manager. | The operator sees current platform state. | Access is needed in each service. | A service adds or retires an inventory surface. |
 | Gateway topology | Use one Premium (classic) multi-region instance or separate regional gateways. | The design can match the approved network boundary. | One instance retains a primary-region management plane and regional counters. Separate gateways add release work. | Capacity, blast radius, tier support, or network design changes. |
-| Restore scope | Move one approved selector and keep the secondary deployment. | The restore is narrow and the standby path stays available. | The secondary capacity remains in service. | The continuity plan changes. |
+| Restore scope | Move the approved selector and keep the secondary deployment. | The restore is narrow and the standby path stays available. | The secondary capacity remains in service. | The continuity plan changes. |
 
 ### Architecture guidance
 
@@ -216,7 +216,7 @@ receive the same policy revision through Session 13.
 Ready preflight checks the live Azure resources and API Management topology, then runs Bicep
 what-if. It does not deploy or move traffic.
 
-### 4. Run one regional rehearsal
+### 4. Run the regional rehearsal
 
 Freeze infrastructure and gateway policy changes. The service owner checks secondary readiness, and
 the routing script previews the approved selectors.

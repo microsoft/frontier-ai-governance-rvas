@@ -1,8 +1,8 @@
 # Implementation artifacts
 
-These files define the deployment inputs for the direct agent API. API Center retains the resulting
-inventory metadata, synchronized APIM records, and native MCP record. API Management still validates
-and controls runtime calls.
+These files define the deployment inputs for the direct agent API. API Center stores the resulting
+inventory metadata, synchronized APIM entries, and native MCP server entry. API Management still
+validates and controls runtime calls.
 
 | Path | Operational purpose |
 |---|---|
@@ -17,6 +17,6 @@ Runtime URLs, credentials, tokens, prompts, responses, and telemetry stay outsid
 Preflight rejects every `__REQUIRED_*__` value before deployment.
 
 The stable `Microsoft.ApiCenter@2024-03-01` resources deploy the service and direct agent API. The
-API program owner uses the supported portal flow to maintain the native MCP record and the
-synchronized APIM record's metadata. The live script checks required metadata and APIM integration
+API program owner uses the supported portal flow to maintain the native MCP server entry and the
+synchronized APIM entry's metadata. The live script checks required metadata and APIM integration
 health. The native MCP deployment location and runtime health remain manual portal checks.

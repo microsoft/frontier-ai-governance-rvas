@@ -11,7 +11,7 @@ module:
     - "Security, data, and AI platform owners"
   prerequisites:
     - "An approved nonproduction Microsoft 365 tenant has Microsoft Agent 365, Microsoft 365 Copilot extensibility, Copilot Studio, Power Platform, Microsoft Entra, Microsoft Purview, SharePoint, and Microsoft Defender XDR access available for review."
-    - "One nonproduction agent or pilot agent family is approved for inventory, publishing, connector, identity, oversharing, and Defender posture review."
+    - "A nonproduction agent or pilot agent family is approved for inventory, publishing, connector, identity, oversharing, and Defender posture review."
     - "The tenant owner has recorded the Agent 365 administrator, Entra identity owner, Copilot Studio environment owner, Power Platform DLP owner, SharePoint owner, Defender owner, and publishing approver roles."
     - "No production-wide agent publishing, connector blocking, Conditional Access enforcement, or SharePoint sharing change is made during this module."
   related_sessions:
@@ -31,14 +31,14 @@ module:
     - "microsoft-purview"
     - "sharepoint"
     - "microsoft-defender-xdr"
-  control_objective: "Create the owner review packet for one Agent 365 or Microsoft 365 pilot agent without changing production access."
+  control_objective: "Create the owner review packet for an Agent 365 or Microsoft 365 pilot agent without changing production access."
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Record the Agent 365 inventory, map, owner, sponsor, and lifecycle decisions for the approved nonproduction scope."
+  - "Record the Agent Registry and Agent Map entries, owner, sponsor, and lifecycle decisions for the approved nonproduction scope."
   - "Define the publishing, Copilot Studio, connector, Entra Agent ID, SharePoint oversharing, and Defender XDR checks that must be completed before wider rollout."
   - "Use templates and validation queries for portal controls instead of fragile tenant-wide automation."
-  - "Confirm that each module artifact gives the responsible owner enough detail to act outside the repository."
+  - "Confirm that each module artifact gives its owner enough detail to act outside the repository."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"

@@ -4,13 +4,12 @@
 
 ### What we will do
 
-Configure **one bounded MCP tool path** for the existing
-[Session 05](../../05-governed-agent-baseline/implementation/README.md) policy assistant. Its tool
-surface exposes only `get_policy`. APIM validates the candidate agent's Entra identity, MCP audience,
-app role, and input, then uses its own read-only managed identity at the exact backend scope.
-Telemetry keeps the tool name and correlation without payloads. The owned result is a candidate
-agent version that remains unpinned until the release owner observes the approved read and blocked
-prohibited-write checks.
+Configure **an MCP path that exposes only `get_policy`** for the existing
+[Session 05](../../05-governed-agent-baseline/implementation/README.md) policy assistant. APIM
+validates the candidate agent's Entra identity, MCP audience, app role, and input, then uses its own
+read-only managed identity at the exact backend scope. Telemetry keeps the tool name and correlation
+without payloads. The candidate agent version remains unpinned until the release owner observes the
+approved-read and prohibited-write checks.
 
 ### Why it matters
 
@@ -21,17 +20,18 @@ until both runtime paths are observed.
 
 ### Boundaries
 
-This session changes one MCP API in the existing
-[Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM service and one unpinned
-candidate in the existing Foundry project. APIM is authoritative for the MCP policy and backend
+This session changes the MCP API in the existing
+[Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM service and creates an
+unpinned candidate in the existing Foundry project. APIM is authoritative for the MCP policy and backend
 identity. Foundry is authoritative for the candidate and stable version selector. Application
 Insights holds payload-free runtime telemetry; API Center holds design-time inventory metadata.
 
 The backend hop is application-only, not OBO. The inbound MCP token never reaches the backend. A
 system refusal alone does not enforce the write boundary; the absent tool and backend read role do.
 Delegated user authorization, write-capable tools, and changes to the backing API are excluded.
-Failed checks hand the candidate back to the security and tool owners while the stable endpoint
-stays on the prior version.
+When a check fails, the security and tool owners remediate the issue while the stable endpoint stays
+on the prior version. The Session 08 `policy-catalog-mcp` inventory entry is separate from the remote
+MCP server entry registered in Session 07.
 
 ## Architecture
 
@@ -39,13 +39,13 @@ stays on the prior version.
 
 ![The candidate Foundry agent uses an agent-identity token for the APIM MCP audience; APIM validates that token, ends caller authority, and uses its read-only managed identity for the backend while approved reads and blocked writes diverge](../assets/diagrams/mcp-tool-security-flow.svg)
 
-The important boundary is the change of identity at API Management. A request starts at the
-candidate Foundry agent and reaches one Streamable HTTP MCP endpoint in APIM. There, APIM checks
-the agent identity, tenant, MCP audience, app role, and input before allowing the single
-`get_policy` tool.
+API Management changes identity between the candidate Foundry agent and the backend. A request
+starts at the candidate Foundry agent and reaches the Streamable HTTP MCP endpoint in APIM. There,
+APIM checks the agent identity, tenant, MCP audience, app role, and input before allowing the
+only `get_policy`.
 
 The caller's authority stops there. APIM gets a different token for its system-assigned managed
-identity, and the backend accepts that identity at one read-only scope. A caller that passes the
+identity, and the backend accepts that identity at the approved read-only scope. A caller that passes the
 first check still gains no direct authority over the backend. And because no write tool or backend
 write role exists, an agent refusal is supporting behavior rather than the write control.
 
@@ -62,7 +62,7 @@ replace the prior stable version.
 
 | Decision | Why this design | What it costs | Change it when |
 |---|---|---|---|
-| Expose the existing GET operation as the single `get_policy` tool | The executable surface matches the approved read. A write cannot appear through tool discovery. | Every new operation or argument needs review and deployment. | The agent receives another approved business action. |
+| Expose the existing GET operation as `get_policy` | The executable surface matches the approved read. A write cannot appear through tool discovery. | Every new operation or argument needs review and deployment. | The agent receives another approved business action. |
 | Check the agent at APIM, then call the backend as APIM | The backend sees APIM's read-only identity instead of the caller's token. | The team must maintain two audiences and their role assignments. | The backend must authorize individual users. |
 | Test an unpinned candidate before changing the stable selector | A failed check leaves the prior version serving traffic. | Enablement waits for the approved-read and prohibited-write checks. | Session 13 places this checkpoint in a protected promotion workflow. |
 | Log correlation and tool metadata with body logging set to zero | Operators can follow a call without retaining tool content. | Content investigations must use the governed source systems. | The security owner approves another data-handling design. |
@@ -90,11 +90,11 @@ Confirm these prerequisites:
   workspaces.
 - The deployment operator has a time-bound **Contributor** role assignment on the exact resource
   group that contains the APIM instance.
-- One existing REST API and one `GET` operation are already managed in APIM. The operation accepts a
+- An existing REST API has the approved `GET` operation. The operation accepts a
   `policyId`, validates it at the backend, returns only approved fields, and cannot mutate state.
-- The backing API contains one ordinary synthetic record and one synthetic adversarial record. Do
+- The backing API contains an ordinary synthetic record and an adversarial synthetic record. Do
   not create production data or a disposable service for these checks.
-- The APIM managed identity has exactly one approved backend role definition ID at the exact backend
+- The APIM managed identity has the approved backend role definition ID at the exact backend
   resource scope. The role contains only the read Actions or DataActions needed by `get_policy`.
   Preflight rejects wildcard, write, delete, and action permissions. Its token audience differs from
   the inbound MCP audience, and the inbound MCP token is never forwarded to the backend.
@@ -136,10 +136,10 @@ tokens, prompts, responses, tool arguments, tool results, and telemetry outside 
 
 ### Actions the tool can perform
 
-The MCP server exposes **only `get_policy`**, backed by one existing APIM operation. The operation must:
+The MCP server exposes **only `get_policy`**, backed by the existing APIM operation. The operation must:
 
 - use `GET`;
-- accept one required `policyId` of at most 128 characters matching
+- require `policyId`, with at most 128 characters matching
   `^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$`;
 - return only fields approved by the data owner;
 - perform no create, update, approve, publish, or delete action; and
@@ -207,7 +207,7 @@ only with an approved response-mapping design.
 ### Release decision
 
 The candidate agent version requires approval for every MCP call and allows only `get_policy`. The
-stable endpoint remains on the Session 05 version while checks run. Stop and keep or restore the
+stable endpoint remains on the Session 05 version while checks run. Stop and leave or restore the
 prior version when:
 
 - the approval request names another server, tool, or argument;
@@ -215,7 +215,7 @@ prior version when:
 - the adversarial output changes agent instructions;
 - any write or unknown tool call is attempted;
 - the release owner cannot observe both checks; or
-- API Center has not reconciled the new MCP runtime owner and metadata.
+- the API program owner has not confirmed the `policy-catalog-mcp` entry's owner and metadata in API Center.
 
 The saved candidate version ID must be visible in the Foundry test surface before either check.
 Before each request, the release owner confirms that the test targets that candidate ID and the
@@ -273,7 +273,7 @@ binding_path="$artifact_root/governance/agent-mcp-binding.json"
 Preflight runs three groups of checks:
 
 1. **Implementation definitions:** parses the machine JSON and XML, rejects unresolved decisions
-   across every artifact, and checks the one-tool binding, GET behavior, argument schema, candidate
+   across every artifact, and checks that only the approved tool is bound, along with GET behavior, argument schema, candidate
    allowlist, mandatory approval, and prohibited action.
 2. **Live Azure resources:** verifies the approved subscription and APIM scope, supported tier,
    system identity, backing operation, exact read assignment, payload-free diagnostics, Foundry
@@ -281,8 +281,8 @@ Preflight runs three groups of checks:
 3. **Deployment preview:** compiles Bicep and runs ARM `what-if`.
 
 Stop if `what-if` replaces or removes an unrelated API, policy, diagnostic, logger, or APIM named value.
-The preview should add or update only the five Session 08 APIM named values, one MCP API, one tool, one
-policy, and one API diagnostic.
+The preview should add or update only the five Session 08 APIM named values, the MCP API, its only
+tool, its policy, and its API diagnostic.
 
 ### 3. Deploy the APIM MCP control
 
@@ -297,10 +297,10 @@ policy, and one API diagnostic.
 The deployment is idempotent. It creates:
 
 - `policy-catalog-mcp` at `https://<apim>.azure-api.net/policy-catalog-mcp/mcp`;
-- one `get_policy` tool referencing the exact existing API operation;
+- the `get_policy` tool referencing the exact existing API operation;
 - five nonsecret APIM named values for inbound and outbound identity policy;
 - tenant, client, audience, app-role, throttle, correlation, trace, and managed-identity policy; and
-- one Application Insights diagnostic with request and response body bytes set to zero.
+- an Application Insights diagnostic with request and response body bytes set to zero.
 
 Do not enable payload logging to troubleshoot a failed call. Use status, error type, correlation,
 APIM trace access, and backend diagnostics that follow the customer's data-handling policy.
@@ -308,15 +308,15 @@ APIM trace access, and backend diagnostics that follow the customer's data-handl
 ### 4. Have the API program owner maintain API Center
 
 Do not wait for APIM synchronization during active delivery. After exactly one
-`policy-catalog-mcp` record appears, the API program owner uses the
+`policy-catalog-mcp` entry appears, the API program owner uses the
 [Session 07](../../07-api-center-ai-mcp-inventory/implementation/README.md) operating process and
 sets the required owner, classification, consumer, residency, risk, evaluation, review, and expiry
 metadata in API Center.
 
-Stop on a duplicate record, missing runtime owner, or metadata that grants broader use than the
-threat model's authorization boundary. The release owner cannot pin the candidate until the API
-program owner confirms reconciliation. API Center registration is inventory; it does not replace
-APIM checks.
+Stop on a duplicate entry, missing runtime owner, or metadata that grants broader use than the
+threat model's authorization scope. The release owner cannot pin the candidate until the API
+program owner confirms the API Center metadata is complete. API Center registration is inventory;
+it does not replace APIM checks.
 
 ### 5. Create the Foundry project connection
 
@@ -449,7 +449,7 @@ Expected result:
 Stop if the candidate follows the tool output, requests an unknown tool, attempts a mutation, or
 requires payload logging to explain the result.
 
-### Delivery-owner checkpoint
+### Release-owner decision at the delivery-owner checkpoint
 
 The release owner observes both results during delivery:
 
@@ -460,7 +460,7 @@ The release owner observes both results during delivery:
 
 ## After implementation
 
-Keep the **APIM MCP API and single tool in operation**, with the policy, nonsecret APIM named values,
+Keep the **APIM MCP API and its only tool in operation**, with the policy, nonsecret APIM named values,
 diagnostic, Foundry project connection, approved candidate version when enabled, and API Center
 metadata. APIM, Foundry, and API Center remain authoritative for that live state.
 

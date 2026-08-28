@@ -204,7 +204,7 @@ No application-only retry. No token or payload logging.
 
 ---
 
-## What remains
+## Operating ownership
 
 | Owner | Operational responsibility |
 | --- | --- |

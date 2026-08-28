@@ -54,7 +54,7 @@ deliverables:
 retained_files:
   - path: "implementation/artifacts/gateway/main.bicep"
     consumer: "The Session 06 APIM deployment scripts"
-    operational_purpose: "Deploy and reconcile the governed API, product, APIM named values, backends, diagnostics, and policy attachment."
+    operational_purpose: "Deploy and update the API, product, APIM named values, backends, diagnostics, and policy attachment."
   - path: "implementation/artifacts/gateway/apis/policy-assistant-responses.openapi.json"
     consumer: "The API Management API import"
     operational_purpose: "Define the client-facing POST responses operation and request contract."

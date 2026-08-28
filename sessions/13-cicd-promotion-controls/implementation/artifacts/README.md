@@ -14,10 +14,10 @@ definitions and machine contracts that the validators and GitHub Actions workflo
 | `environments/nonproduction.parameters.json` | Platform owner before a nonproduction desired-state change | Nonproduction preview and apply jobs |
 | `environments/production.parameters.json` | Platform owner before a production desired-state change | Production preview and apply jobs |
 
-The control keeps Session 10's evaluation definition, threshold policy, release policy, and
-generated `blocked-tool-process` self-test in the repository as desired state. The approved
-release/security-store interface retrieves the baseline and candidate results into the temporary
-workspace for each gate check.
+The repository keeps Session 10's evaluation definition, threshold policy, release policy, and
+generated `blocked-tool-process` self-test as desired state. The approved release/security-store
+interface retrieves the baseline and candidate results into the temporary workspace for each gate
+check.
 
 The same interface retrieves a version 1 `security-release-attestation` for Session 11. The
 temporary artifact must show external authorization status `authorized`, a report location, a

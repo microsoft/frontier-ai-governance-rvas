@@ -30,16 +30,16 @@ session:
     - "microsoft-purview"
     - "agent-365"
     - "azure-ai-foundry"
-  control_objective: "Maintain an owned cross-product boundary handoff, configure one scoped Agent 365 DLP policy from current Purview state, and query payload-free Agent 365 audit activity."
+  control_objective: "Maintain a cross-product ownership record, configure an Agent 365 DLP policy for the approved scope from current Purview state, and query payload-free Agent 365 audit activity."
 implementation:
   mode: "extended"
   extended_reason: "DLP propagation separates configuration and simulation from live confirmation, so the delivery owner waits the deployment.propagationAllowanceHours value, then observes the intended policy result and a one-coordinate out-of-scope non-match before keeping the policy enabled."
 implementation_outcomes:
-  - "Maintain one owned cross-product boundary handoff that assigns the Foundry DLP rule and application integration to separate owners and names its review cadence."
+  - "Maintain a cross-product ownership record that assigns the Foundry DLP rule and application integration to separate owners and sets its review cadence."
   - "Reuse an approved sensitivity label and confirm the Agent 365 instance has explicit VIEW and EXTRACT rights when encryption applies."
-  - "Configure and simulate one nonproduction DLP policy, then confirm it after the approved propagation window."
+  - "Configure and simulate the DLP policy for the approved nonproduction scope, then confirm it after the approved propagation window."
   - "Keep a payload-free Agent 365 audit query definition in the operations repository using the current unified audit log operation names."
-  - "One labelled synthetic interaction is blocked or audited. Repeat it with exactly one approved coordinate changed to prove a non-match, and record the result in Purview and the approved change system."
+  - "Run the labelled synthetic interaction, then rerun it with the approved out-of-scope test-group alias. Keep every other policy coordinate unchanged, and record both results in Purview and the approved change system."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"
@@ -53,7 +53,7 @@ deliverables:
 retained_files:
   - path: "implementation/artifacts/governance/coverage-handoff.md"
     consumer: "The data, information protection, Agent 365, Foundry, and audit owners"
-    operational_purpose: "Maintain the cross-product ownership boundary that Purview does not represent in one view; the data owner updates it after a boundary change and reviews it quarterly."
+    operational_purpose: "Record ownership across the product boundary that Purview does not show in one view; the data owner updates it after a boundary change and reviews it quarterly."
   - path: "implementation/artifacts/operations/agent-activity-audit-query.json"
     consumer: "The Agent 365 audit-query scripts"
     operational_purpose: "Define the approved Agent 365 operations and payload-free output fields; the audit owner reviews it quarterly and when Purview changes an operation name."

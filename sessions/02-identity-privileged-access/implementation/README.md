@@ -9,11 +9,11 @@ resource group. Platform administrators become PIM-eligible for Foundry Account 
 Foundry resource. Project managers receive Foundry Project Manager on that resource, developers
 receive Foundry User on one project, and auditors receive Reader on the Foundry resource.
 
-We also deploy one user-assigned managed identity with no client secret. Its federated credential
-trusts the exact subject for one protected GitHub environment. Cognitive Services User stops at the
+Deploy one user-assigned managed identity with no client secret. Its federated credential trusts
+the exact subject for one protected GitHub environment. Cognitive Services User stops at the
 Foundry resource recorded for this session, and Storage Blob Data Reader stops at the storage
-account recorded for this session. This session owns the matching live group assignments, PIM eligibility and settings, federated
-credential, and workload role scopes.
+account recorded for this session. The session ends with matching live group assignments, PIM
+eligibility and settings, the federated credential, and workload role scopes.
 
 ### Why it matters
 
@@ -41,13 +41,13 @@ instead of widening this workload identity. Allow 270 minutes for this implement
 
 ### Architecture at a glance
 
-There are two access paths, and they never borrow authority from each other.
+There are two access paths. Each has its own authority.
 
 A person signs in through Microsoft Entra ID and gets access through one of four customer-owned
 groups. Project managers, developers, and auditors receive standing Azure RBAC roles at the
-resource or project they need. Platform administrators are only eligible for Foundry Account
-Owner through PIM. They must activate that role with approval and MFA, and the activation expires
-after two hours.
+resource or project they need. Platform administrators are eligible for Foundry Account Owner
+through PIM. They activate that role with approval and MFA, and the activation expires after two
+hours.
 
 GitHub uses a workload path with no stored Azure client secret. For one protected environment,
 GitHub issues an OpenID Connect (OIDC) token. Microsoft Entra ID accepts it only when the issuer,
@@ -58,8 +58,8 @@ account.
 
 Azure RBAC and PIM show who can act now and who may activate elevated access. The managed identity
 and federated credential define the GitHub trust. The repository keeps the intended assignments.
-Session 03 adds private connectivity. Session 05 owns the Foundry Agent ID and its runtime
-authorization path.
+Session 03 adds private connectivity. Session 05 owns the Foundry Agent ID and runtime
+authorization.
 
 ### Design choices and tradeoffs
 
@@ -68,7 +68,7 @@ authorization path.
 | Normal human access | Assign roles to customer-owned groups at the Foundry resource or project | Team membership controls access, with no direct user assignments | The customer still owns group membership and its review | A task needs a different role or resource boundary |
 | Elevated administration | Make Foundry Account Owner PIM-eligible, with approval, MFA, and a two-hour activation | Platform administration is active only when someone needs it | This needs Entra licensing, named approvers, and an activation step | The emergency-access or approval model changes |
 | GitHub authentication | Trust the exact OIDC claims for one protected environment on a user-assigned managed identity | GitHub needs no Azure client secret, and only the named environment can request this authority | The trust is application-only; a repository or environment change requires an update | A downstream API must authorize the signed-in user, or an agent needs its own identity |
-| Agent endpoint access | Reference Foundry Agent Consumer at project or individual-agent scope | Later sessions can grant endpoint-only access without project development rights | No assignment exists until a governed agent and caller are known | Session 05 creates the agent and approves its callers |
+| Agent endpoint access | Reference Foundry Agent Consumer at project or individual-agent scope | Later sessions can grant endpoint-only access without project development rights | No assignment exists until the agent and its caller are known | Session 05 creates the agent and approves its callers |
 
 ### Architecture guidance
 
@@ -256,9 +256,10 @@ Run preflight:
 ```
 
 Preflight confirms that Azure CLI is using the approved nonproduction subscription and resource
-group, reads the six stable IDs from `role-definitions.json`, and checks each semantic key against
-its immutable built-in role ID, accepted current or rollout display name, and `BuiltInRole` type.
-It rejects unresolved decisions and then compiles both Bicep files. Stop on any failure.
+group. It reads the six stable IDs from `role-definitions.json` and checks each semantic key
+against its immutable built-in role ID, accepted current or rollout display name, and
+`BuiltInRole` type. It rejects unresolved decisions, then compiles both Bicep files. Stop on any
+failure.
 
 Stop here if the customer now needs a downstream API to authorize each signed-in user differently.
 That is a delegated OBO design. Hand it to the
@@ -422,12 +423,12 @@ an Azure client secret.
 
 ## Confirm the result
 
-Use this one confirmation section to inspect the human assignments, live Entra PIM configuration,
-and workload identity. First confirm the three standing Azure RBAC group assignments. In Entra PIM,
-confirm that Foundry Account Owner eligibility names the approved platform-administrator group and
-that the live role settings match the approved two-hour activation, MFA, justification, approval,
-approver, and expiry decisions. Compare the approved change in the customer identity system, not a
-repository mirror.
+Use one confirmation to inspect the human assignments, live Entra PIM configuration, and workload
+identity. First confirm the three standing Azure RBAC group assignments. In Entra PIM, confirm that
+Foundry Account Owner eligibility names the approved platform-administrator group. Confirm that the
+live role settings match the approved two-hour activation, MFA, justification, approval, approver,
+and expiry decisions. Compare the approved change in the customer identity system, not a repository
+mirror.
 
 Observe the **workload identity configuration**. Compare the exact issuer, subject, and audience with
 Microsoft’s [workload identity federation

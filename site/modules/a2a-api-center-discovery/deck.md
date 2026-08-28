@@ -16,7 +16,7 @@ description: Optional implementation add-on for publishing a runtime-owned A2A a
 
 # A2A agent discovery in Azure API Center
 
-**60 minutes - One live developer-discovery asset**
+**60 minutes - A live developer-discovery asset**
 
 ---
 

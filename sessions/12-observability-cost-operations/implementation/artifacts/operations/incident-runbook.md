@@ -10,9 +10,9 @@
 
 ## Scope and first actions
 
-This runbook covers the Session 12 service, gateway, model, agent, tool, evaluation, and telemetry
-route. Use the correlation ID and approved configuration references; do not paste prompt, response,
-tool payload, credentials, or personal data into tickets or this repository.
+This runbook covers the Session 12 service path: the gateway, model, agent, tool, evaluation
+signals, and telemetry. Use the correlation ID and approved configuration references; do not paste
+prompt, response, tool payload, credentials, or personal data into tickets or this repository.
 
 1. Assign an incident commander and record the affected service, environment, model deployment,
    agent version, tool name, time window, and correlation IDs.

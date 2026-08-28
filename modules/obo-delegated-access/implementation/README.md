@@ -5,16 +5,13 @@
 ### What we will do
 
 Configure an existing trusted Python middle tier to exchange a signed-in user's token for a new
-delegated token addressed to an existing protected API. We will:
+delegated token addressed to an existing protected API. Record the approved client, middle-tier,
+downstream audience, delegated scope, and consent boundary. Add only the approved delegated
+permissions, validate the inbound assertion, and use a protected Azure Key Vault certificate for
+the OAuth 2.0 on-behalf-of (OBO) exchange.
 
-- record the approved client, middle-tier, downstream audience, delegated scope, and consent
-  boundary;
-- add the exact delegated permissions without replacing unrelated application registration
-  settings;
-- validate the inbound assertion and use a protected Azure Key Vault certificate for the OAuth 2.0
-  on-behalf-of (OBO) exchange; and
-- confirm that one permitted user succeeds while a user without downstream resource authority is
-  denied.
+Then confirm that a permitted user succeeds and that a user without downstream resource authority
+is denied.
 
 The result is a working trust chain in which the **middle tier preserves signed-in user authority**
 and the **downstream API still makes the resource-authorization decision for that user**.
@@ -25,9 +22,8 @@ A workload identity gives the middle tier the same application authority for eve
 the wrong model when access to the downstream resource must change with the signed-in user. OBO
 keeps that user context across the middle tier without forwarding the original bearer token.
 
-The permitted-user and denied-user checks prove two separate things: Microsoft Entra ID accepts the
-delegated trust chain, and the downstream API continues to enforce its own user-specific resource
-rules.
+The permitted-user check confirms that Microsoft Entra ID accepts the delegated trust chain. The
+denied-user check confirms that the downstream API still enforces its user-specific resource rules.
 
 ### Boundaries
 
@@ -91,8 +87,8 @@ Start with Microsoft’s [OBO flow
 guidance](https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-on-behalf-of-flow).
 It explains why the inbound audience, user assertion, and downstream scope have different jobs.
 Session 02 supplies the identity decision: choose this module only if an application-only path
-would erase a real per-user authorization decision. Sessions 06 and 09 keep their application-only
-routes.
+would erase a real per-user authorization decision. Sessions 05 and 08 retain their
+application-only routes.
 
 Once that boundary is agreed, the repository records the applications and exact delegated
 permissions in `app-registrations.json`. The token claim contract tells the middle tier which
@@ -112,8 +108,7 @@ design.
 
 Confirm these prerequisites:
 
-- Sessions 03, 06, and 09 have established the workload and agent identity boundaries relevant to
-  this application.
+- Sessions 02, 05, and 08 have established the identity boundaries relevant to this application.
 - The client, middle tier, and downstream API already exist in an approved nonproduction tenant.
 - The client can sign in users and request a token for the middle-tier audience.
 - The downstream API exposes one narrow delegated read scope and enforces resource authorization
@@ -173,7 +168,7 @@ Stay with application-only authorization when the workload reads shared data, ru
 background, or should have the same authority for every caller. OBO is not a stronger form of
 managed identity. It carries a different authority.
 
-### Fix the three audiences
+### Keep token audiences separate
 
 The inbound token audience is the middle tier. The exchanged token audience is the downstream API.
 They must differ.

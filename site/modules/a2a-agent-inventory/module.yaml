@@ -10,9 +10,9 @@ module:
     - "A2A runtime owners and Microsoft Entra identity owners"
     - "Agent owners responsible for lifecycle and retirement"
   prerequisites:
-    - "One A2A agent exists in an approved nonproduction runtime and its runtime owner controls the source repository or supported platform integration."
+    - "An A2A agent exists in an approved nonproduction runtime, and its runtime owner controls the source repository or supported platform integration."
     - "The Agent 365 administrator has confirmed the tenant licensing, administrator access, and current Agent Registry availability."
-    - "The delivery team has identified one supported onboarding route: built-in integration, Registry sync from a supported platform, or runtime-owned Agent 365 SDK integration."
+    - "The delivery team has identified a supported onboarding route: built-in integration, Registry sync from a supported platform, or runtime-owned Agent 365 SDK integration."
     - "The agent owner, runtime owner, and retirement owner are available to observe the live Agent 365 record."
   related_sessions:
     - "Session 05 - Governed Microsoft Foundry agent baseline"
@@ -21,12 +21,12 @@ module:
   services_in_scope:
     - "agent-365"
     - "microsoft-entra-agent-id"
-  control_objective: "Onboard or confirm one approved A2A agent in Microsoft Agent 365 through a supported integration route, then observe its live inventory and ownership state."
+  control_objective: "Onboard or confirm an approved A2A agent in Microsoft Agent 365 through a supported integration route, then observe its live inventory and ownership state."
 implementation:
   mode: "standard"
   live_only: true
 implementation_outcomes:
-  - "Choose the supported Agent 365 onboarding route for one existing A2A agent."
+  - "Choose the supported Agent 365 onboarding route for the existing A2A agent."
   - "Complete the approved built-in, Registry sync, or runtime-owned SDK path without copying the agent definition or card into this repository."
   - "Observe the live Agent 365 record with its owner and lifecycle state."
   - "Confirm the runtime owner can maintain the selected integration and remove or retire the agent through the approved platform path."

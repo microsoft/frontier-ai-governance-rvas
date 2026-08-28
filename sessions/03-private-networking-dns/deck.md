@@ -26,10 +26,12 @@ html: true
 
 ### Session result
 
-- Approved clients resolve the current service endpoints to private addresses.
-- Those endpoints accept TCP 443 from the approved private execution host.
+- Resolve the current service endpoints to private addresses from approved clients.
+- Confirm that those endpoints accept TCP 443 from the approved private execution host.
 - The Agent Service subnet routes to the customer firewall; the customer firewall source owns its rules.
-- Public access changes only after all three Foundry endpoint families and four dependency FQDNs resolve privately, accept TCP 443, and the five prior service states are recorded in the approved change system.
+- Record the five prior service states in the approved change system. Then disable public access
+  after all three Foundry endpoint families and four dependency FQDNs resolve privately and accept
+  TCP 443.
 
 <!-- Notes: Identity decides who can call a service. Networking decides where the call can come from. -->
 
@@ -49,7 +51,7 @@ html: true
 
 ## Why it matters
 
-Private DNS and endpoint checks reduce lockout risk before public access is disabled.
+Check private DNS and endpoints before disabling public access to reduce lockout risk.
 
 The separate Agent subnet prepares a later runtime path. It does not claim that an agent has used it yet.
 
@@ -69,9 +71,9 @@ The separate Agent subnet prepares a later runtime path. It does not claim that 
 
 ## What this means
 
-The approved client asks for each service by its normal name. Private DNS returns the private
-endpoint address, and the client connects on TCP 443. The separate Agent subnet sends its default
-route to the customer firewall.
+Clients use each service's normal name. Private DNS returns the private endpoint address, and the
+client connects on TCP 443. The separate Agent subnet sends its default route to the customer
+firewall.
 
 Azure holds live network and service state. The firewall source owns egress rules, while the
 operational system keeps the five-service cutover record.
@@ -101,9 +103,9 @@ Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault must already exist.
 
 If the Foundry account was not created with the configured subnet, pause here.
 
-The AI platform owner and change authority must complete the approved replacement first. Session 03 then reconciles the Foundry endpoint.
+The AI platform owner and change authority must complete the approved replacement first. Session 03 then updates the Foundry endpoint.
 
-Current BYO VNet injection is configured when the Foundry account is created.
+Configure BYO VNet injection when the Foundry account is created.
 
 | [Session 01](../01-platform-baseline/) account state | Required action before [Session 05](../05-governed-agent-baseline/) |
 |---|---|
@@ -276,7 +278,7 @@ Preflight stops on:
 - a Bicep build failure; or
 - a failed resource-group `what-if`.
 
-The planned change should contain one approved VNet pattern, two subnets, one route table, seven zones and links, and five private endpoints.
+The planned change should contain the approved VNet, two subnets, a route table, seven zones and links, and five private endpoints.
 
 <!-- Notes: Stop on any delete, replacement, hub change, Foundry deployment, or public-access change. -->
 
@@ -288,7 +290,7 @@ The planned change should contain one approved VNet pattern, two subnets, one ro
 - The deployment would duplicate a central private DNS zone.
 - A private endpoint connection remains pending.
 - A configured endpoint fails private DNS or TCP 443.
-- the network architecture is still undecided between this BYO VNet path and Microsoft-managed networking.
+- The network architecture is still undecided between this BYO VNet path and Microsoft-managed networking.
 - The firewall needs a blanket internet rule.
 - The complete cutover record cannot be written outside the repository.
 - A service update fails during cutover.
@@ -339,9 +341,9 @@ Private client connectivity, dependency endpoints, DNS links, and the Agent subn
 </div>
 <div class="card">
 
-### Still pending
+### Pending runtime check
 
-An agent has not run through the delegated subnet or called a governed tool.
+Session 05 must run an agent through the delegated subnet and call a tool it configures.
 
 </div>
 <div class="card">
@@ -392,11 +394,11 @@ When a service was already private-only, its owner must confirm another approved
 
 ## Recap and next dependency
 
-- **Connectivity:** all three Foundry endpoint families and four dependency FQDNs resolve through approved private endpoints.
-- **Egress preparation:** dedicated Agent subnet, customer firewall route, and external policy source.
-- **Safety:** private connectivity and stored prior settings before cutover.
+- **Connectivity:** three Foundry endpoint families and four dependency FQDNs resolve through approved private endpoints.
+- **Egress preparation:** a dedicated Agent subnet routes through the customer firewall.
+- **Safety:** private connectivity and prior settings are checked before cutover.
 - **Result:** configured endpoints resolve privately and accept TCP 443.
-- **Pending work:** [Session 05](../05-governed-agent-baseline/) runs an agent through the delegated subnet.
+- **Next:** [Session 05](../05-governed-agent-baseline/) runs an agent through the delegated subnet.
 
 Next: **[Session 04 · Models, residency, quota, and lifecycle](../04-model-governance-lifecycle/)**
 

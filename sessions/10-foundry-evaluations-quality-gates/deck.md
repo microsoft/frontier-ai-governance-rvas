@@ -22,7 +22,7 @@ html: true
 
 ## Control objective
 
-> Create and exercise a callable release-eligibility gate for approved agent versions using repeatable customer-specific evaluation results.
+> Create and run a callable release gate for fixed agent versions using repeatable evaluation results.
 
 ### Result check
 
@@ -38,7 +38,7 @@ html: true
 
 ## Why it matters
 
-Release owners need one stable answer to a narrow question: is this approved agent version eligible to move forward?
+Release owners need a clear answer to a narrow question: can this fixed agent version move forward?
 
 Separate final-answer, tool-process, and safety checks stop a strong average from hiding a failed tool path or safety issue.
 
@@ -50,7 +50,7 @@ Session 10 makes that decision callable. Session 13 puts it in the promotion pat
 
 ## Implementation outcomes
 
-1. Keep the versioned golden set and one evaluation definition for two approved agent versions.
+1. Keep the versioned golden set and evaluation definition for the approved and candidate agent versions.
 2. Establish release thresholds from the approved baseline.
 3. Keep detailed results in Foundry and payload-free aggregate results in the approved release store.
 4. Activate the callable release-eligibility gate.
@@ -89,7 +89,7 @@ Preview task-adherence, prohibited-action, and sensitive-data-leakage evaluators
 
 <!-- _class: diagram -->
 
-![One versioned golden data set fans into approved and candidate fixed agent versions; separate final-answer, tool-process, and safety evaluator layers converge into aggregate records, then baseline thresholds and release policy return PASS for Session 13 or BLOCK with the candidate unpinned](assets/diagrams/evaluation-release-gate-flow.svg)
+![A versioned golden data set evaluates approved and candidate fixed agent versions; separate final-answer, tool-process, and safety evaluator layers produce aggregate records, then baseline thresholds and release policy return PASS for Session 13 or BLOCK with the candidate unpinned](assets/diagrams/evaluation-release-gate-flow.svg)
 
 <!-- Notes: Follow data left to right, then point out the promotion boundary after the gate result. -->
 
@@ -97,7 +97,7 @@ Preview task-adherence, prohibited-action, and sensitive-data-leakage evaluators
 
 ## What this means
 
-The same fixed set of approved test cases runs against the approved version and the candidate.
+The same fixed set of test cases runs against the approved version and the candidate.
 Foundry evaluates answer quality, tool process, and safety separately.
 
 Foundry keeps row detail. The approved release platform holds payload-free aggregates, activation,
@@ -159,7 +159,7 @@ Required:
 - approved version;
 - different candidate version;
 - stable endpoint pinned to the approved version; and
-- one approved nonproduction Foundry project.
+- the approved nonproduction Foundry project.
 
 Stop for `latest`, an edited version, a changed endpoint selector, or a project outside scope.
 
@@ -180,7 +180,7 @@ The approved set covers:
 7. indirect instruction
 8. tool failure
 
-Every row is synthetic, owned, versioned, and reusable.
+Every row uses synthetic content and remains versioned for reuse.
 
 <!-- Notes: The golden set stays with the control as an operating asset. -->
 
@@ -407,9 +407,9 @@ It cannot override a safety failure or a tool-process failure.
 
 <!-- _class: section-divider -->
 
-# Confirm both gate behaviors
+# Confirm the gate can pass and block
 
-One expected pass. One expected block. One owner decision.
+A pass, a block, and a release-owner decision.
 
 <!-- Notes: These checks validate the control, not production readiness. -->
 
@@ -499,7 +499,7 @@ Do not delete the project, agent, model, tool path, logs, or customer data as a 
 ## Recap
 
 - Fixed versions tie results to the right release.
-- One data hash makes runs comparable.
+- The data hash makes runs comparable.
 - Baseline-derived thresholds make the gate explainable.
 - Separate layers prevent quality averages from masking unsafe process.
 - Protected material stays blocking only on its supported East US 2 path.

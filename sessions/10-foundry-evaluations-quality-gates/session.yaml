@@ -29,16 +29,16 @@ session:
   services_in_scope:
     - "azure-ai-foundry"
     - "foundry-agent-service"
-  control_objective: "Create and exercise a callable release-eligibility gate for exact agent versions using repeatable customer-specific evaluation results."
+  control_objective: "Create and run a callable release gate for fixed agent versions using repeatable evaluation results."
 implementation:
   mode: "extended"
   extended_reason: "The release owner must observe both an approved version passing and a generated below-threshold result being blocked before the gate can protect a delivery path."
 implementation_outcomes:
-  - "Keep a versioned golden data set in the approved evaluation store covering normal, edge, refusal, multilingual, sensitive-data, tool-use, indirect-attack, and failure behavior."
+  - "Keep a synthetic golden data set, versioned in the approved evaluation store, that covers normal, edge, refusal, multilingual, sensitive-data, tool-use, indirect-attack, and failure behavior."
   - "Run the same Foundry evaluation definition against an approved agent version and a candidate version."
   - "Save the quality-owner-approved relevance floor, tool-owner-approved tool accuracy and success floors, and safety-owner-approved safety floors in thresholds.yaml before calculating release thresholds from the approved baseline."
-  - "Keep one release-policy configuration for protected-material regional support, tool-evaluator compatibility, preview advisory evaluators, exclusions, ownership, and exceptions."
-  - "Exercise the callable release-eligibility gate with current Foundry aggregate inputs, confirm that the approved version returns PASS, and confirm that the stable blocked self-test returns BLOCK. Session 13 can then place this contract in the promotion path."
+  - "Keep a release-policy configuration for protected-material regional support, tool-evaluator compatibility, preview advisory evaluators, exclusions, ownership, and exceptions."
+  - "Run the callable release gate with live Foundry aggregates. Confirm that the approved version returns PASS and the stable blocked self-test returns BLOCK. Session 13 can then place this contract in the promotion path."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"

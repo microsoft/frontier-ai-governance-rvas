@@ -1,6 +1,6 @@
 # Implementation artifacts
 
-These files define one APIM boundary around the
+These files define one APIM route for the
 [Session 05](../../../05-governed-agent-baseline/implementation/README.md) agent.
 
 | Path | Operational purpose |

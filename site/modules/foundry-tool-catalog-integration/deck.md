@@ -5,7 +5,7 @@ size: 16:9
 paginate: true
 html: true
 title: API Center private tool catalog to Foundry Toolbox
-description: Optional implementation module for binding one approved API Center MCP record to a reusable Microsoft Foundry Toolbox.
+description: Optional implementation module for connecting an approved remote MCP server in Azure API Center to a reusable Microsoft Foundry Toolbox.
 ---
 
 <!-- _class: cover -->
@@ -16,7 +16,7 @@ description: Optional implementation module for binding one approved API Center 
 
 ## Optional implementation module · 180 minutes
 
-One approved MCP record. One dedicated Toolbox. One read-only check.
+An approved remote MCP server in Azure API Center, a dedicated Toolbox, and a read-only check.
 
 <!-- Notes: This module extends Session 07 without changing the numbered sequence. -->
 
@@ -24,7 +24,7 @@ One approved MCP record. One dedicated Toolbox. One read-only check.
 
 ## Control objective
 
-Bind one approved Azure API Center remote MCP server record to one dedicated versioned Toolbox in
+Connect an approved remote MCP server in Azure API Center to a dedicated versioned Toolbox in
 Microsoft Foundry.
 
 Reconcile the catalog record, project connection, allowed tool, and live Toolbox tool list.
@@ -41,7 +41,7 @@ Reconcile the catalog record, project connection, allowed tool, and live Toolbox
 
 ## Why it matters
 
-Session 07 records the approved MCP server. Session 08 defines its security boundary.
+Session 07 records the MCP server record in API Center. Session 08 defines its security boundary.
 
 Agent teams still need a reusable connection path that does not copy the same endpoint, credentials,
 and tool settings into every agent.
@@ -54,10 +54,10 @@ Toolbox supplies that stable MCP-compatible endpoint.
 
 ## Current product path
 
-1. **Azure API Center** holds the approved MCP server record.
+1. **Azure API Center** holds the MCP server record in API Center.
 2. **Foundry Tools** discovers the private catalog under **Build > Tools**.
 3. The operator configures the selected record as a project connection.
-4. **Toolbox** exposes one versioned, MCP-compatible endpoint for agent reuse.
+4. **Toolbox** exposes a versioned, MCP-compatible endpoint for agent reuse.
 
 The private tool catalog is **public preview** and the catalog handoff is **portal-led**.
 
@@ -69,13 +69,9 @@ The private tool catalog is **public preview** and the catalog handoff is **port
 
 ## Preflight decision
 
-Proceed only when the named owner records:
-
-- `accepted-for-approved-nonproduction-scope`
-- `confirmed-in-foundry-tools`
-- one exact API Center asset, version, and deployment
-- one exact Foundry project connection
-- one approved MCP tool name
+Proceed only when the named owner records the accepted preview and discovery decisions, the
+selected API Center asset, version, and deployment, the Foundry project connection, and the
+approved MCP tool name.
 
 Stop when the record is missing, access has not propagated, or authentication cannot be represented.
 
@@ -88,7 +84,7 @@ Stop when the record is missing, access has not propagated, or authentication ca
 <div class="cards">
   <div class="card"><img src="assets/icons/microsoft/azure-api-center.svg" alt="Azure API Center icon"><strong>1. Catalog</strong><br>Approved MCP record and deployment</div>
   <div class="card"><img src="assets/icons/microsoft/azure-ai-foundry.svg" alt="Microsoft Foundry icon"><strong>2. Foundry Tools</strong><br>Portal discovery and project connection</div>
-  <div class="card"><img src="assets/icons/microsoft/foundry-agent-service.svg" alt="Foundry Agent Service icon"><strong>3. Toolbox</strong><br>One immutable version and stable consumer endpoint</div>
+  <div class="card"><img src="assets/icons/microsoft/foundry-agent-service.svg" alt="Foundry Agent Service icon"><strong>3. Toolbox</strong><br>Immutable version and stable consumer endpoint</div>
 </div>
 
 **Authoritative state:** API Center for inventory, the project connection for authentication, the
@@ -105,7 +101,7 @@ Toolbox version for tool exposure.
 | Decision | Route | Limit |
 |---|---|---|
 | Catalog | API Center private tool catalog | Public preview; portal-led |
-| Reuse | New dedicated Toolbox | One additional managed object |
+| Reuse | New dedicated Toolbox | Adds a managed object |
 | Tool surface | One `allowed_tools` entry | Tool rename needs a new version |
 | Approval | `always` | Agent runtime must enforce the prompt |
 | Check | Version-specific `tools/list` | No remote tool call |
@@ -116,8 +112,8 @@ Toolbox version for tool exposure.
 
 ## Retained implementation
 
-- `catalog-toolbox-binding.json` joins the approved catalog record to Foundry names and owners.
-- `toolbox-version.json` defines one MCP server, one allowed tool, and approval on every call.
+- `catalog-toolbox-binding.json` links the approved catalog record to Foundry names and owners.
+- `toolbox-version.json` defines the MCP server, allowed tool, and approval on every call.
 - `check_toolbox.py` checks the immutable version without invoking the remote tool.
 - Paired preflight scripts stop on unresolved decisions, scope drift, or a name collision.
 
@@ -131,12 +127,12 @@ No credential, token, tenant ID, endpoint, or tool result belongs in the reposit
 
 ## Implementation path
 
-1. Complete the binding and Toolbox payload.
-2. Confirm the API Center record in **Build > Tools**.
+1. Complete the catalog record and Toolbox payload.
+2. Confirm the MCP server record in API Center under **Build > Tools**.
 3. Configure the project connection through the catalog flow.
 4. Run preflight.
 5. Create the first Toolbox version through the Foundry `v1` data-plane API.
-6. Run one version-specific `tools/list` check.
+6. Run the version-specific `tools/list` check.
 
 <!-- Notes: The first version of the new Toolbox becomes its default version. -->
 
@@ -171,7 +167,7 @@ require_approval = always
 
 The check lists tools. It does not call the remote operation.
 
-<!-- Notes: This proves the intended binding without causing a business-side effect. -->
+<!-- Notes: This confirms the intended connection without causing a business-side effect. -->
 
 ---
 
@@ -179,7 +175,7 @@ The check lists tools. It does not call the remote operation.
 
 | Owner | Responsibility |
 |---|---|
-| API catalog owner | API Center record, version, deployment, and access |
+| API catalog owner | MCP server record in API Center, version, deployment, and access |
 | Foundry tool owner | Project connection, Toolbox versions, and default |
 | Agent release owner | Consumer endpoint and approval experience |
 | MCP owner | Runtime contract and Session 08 controls |
@@ -192,11 +188,11 @@ The check lists tools. It does not call the remote operation.
 
 1. Move consuming agents away from the Toolbox endpoint.
 2. Check the `implementationSession` marker.
-3. Confirm the Toolbox still contains only this module's binding.
+3. Confirm the Toolbox still contains only this module's MCP connection.
 4. Delete the exact dedicated Toolbox through the approved Foundry change path.
 5. Remove the project connection only when no other consumer uses it.
 
-Keep the API Center record unless its owner separately retires the MCP server.
+Keep the MCP server record in API Center unless its owner separately retires the MCP server.
 
 <!-- Notes: No automatic removal script is shipped because consumers must be coordinated first. -->
 
@@ -208,7 +204,7 @@ Keep the API Center record unless its owner separately retires the MCP server.
 - **Session 07** owns the API Center inventory record.
 - **Session 08** owns MCP authentication, tool safety, and runtime controls.
 
-This module owns the narrow catalog-to-Toolbox binding between them.
+This module owns the narrow connection from the catalog to Toolbox.
 
 <!-- Notes: The optional module adds no session number and changes no sequence dependency. -->
 

@@ -1,7 +1,7 @@
 # Observability and operations control
 
-These artifacts are the Session 12 desired-state configuration and the small set of retained
-Markdown records used to operate it.
+These artifacts are the Session 12 desired-state configuration and retained Markdown records used
+to operate it.
 
 | Path | Type | Updater and cadence | Consumer and operational purpose |
 |---|---|

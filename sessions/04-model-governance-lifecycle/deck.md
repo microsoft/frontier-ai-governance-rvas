@@ -14,7 +14,7 @@ html: true
 
 # Model governance, data residency, quota, and lifecycle
 
-**180 minutes · Approve a model version and deploy it through one controlled path**
+**180 minutes · Approve a model version, then deploy it through a controlled path**
 
 <!-- Notes: Frame the session as a deployment control under an existing Foundry resource. -->
 
@@ -22,17 +22,17 @@ html: true
 
 ## Control objective
 
-> Teams use a controlled, versioned path to deploy approved serverless API model versions that meet the workload's processing-location requirement.
+> Deploy exact approved serverless API model versions through a versioned path that meets the workload's processing-location requirement.
 
 ### Session result
 
-- One JSON file defines deployment desired state.
-- Preflight joins deployment desired state with current Azure state.
-- Bicep creates only the listed child deployments.
+- The JSON file defines the desired deployment state.
+- Preflight compares the desired deployment state with current Azure state.
+- Bicep creates the listed child deployments.
 
 <!-- Notes: The external decision system remains the source for supporting review detail. -->
 
-This is a controlled process for one deployment path. It does not technically prevent a principal with access from using another path.
+Use this control for one deployment path. A principal with access can still use another path.
 
 ---
 
@@ -71,9 +71,9 @@ Supported serverless API model deployments created by `main.bicep` under the exi
 
 ## Architecture overview
 
-One business approval leads to one model deployment. The decision system keeps the full review;
-Git carries the choices needed for deployment. Preflight checks those choices against current
-Azure state before Bicep changes the child deployment.
+Each business approval leads to a model deployment. The decision system keeps the full review; Git
+carries the choices needed for deployment. Preflight checks those choices against current Azure
+state before Bicep changes the child deployment.
 
 <div class="cards">
 <div class="card">
@@ -82,7 +82,7 @@ Azure state before Bicep changes the child deployment.
 
 `models/deployment-profiles.json`
 
-Fixes the external approval reference, model version, SKU, capacity, content filter,
+Records the external approval reference, model version, SKU, capacity, content filter,
 processing-location requirement, review date, quota headroom, and `NoAutoUpgrade` setting that
 Bicep will apply.
 
@@ -105,7 +105,7 @@ Portal, CLI, API, and template changes made elsewhere stay outside this boundary
 | Where approval lives | Full review in the decision system; deployment configuration in Git | The deployment path stays readable without copying the review | The external approval reference must match the change |
 | Where service facts come from | Read lifecycle and quota from Azure during preflight | The gate uses current platform state | A missing field stops the run for a named manual check |
 | How versions move | Pin the exact version with `NoAutoUpgrade` | Each version change returns to approval | The owner must start retirement work before support ends |
-| What this path controls | Govern one versioned deployment path | Operators get a defined preview and restore boundary | Other authorized paths can still create deployments |
+| What this path controls | Use this versioned path to deploy approved model versions | Operators get a defined preview and restore boundary | Other authorized paths can still create deployments |
 
 <!-- Notes: Revisit these choices when stable service fields or preventive controls become available. -->
 
@@ -115,7 +115,7 @@ Portal, CLI, API, and template changes made elsewhere stay outside this boundary
 
 ## Approval checkpoint
 
-Stop until the customer has recorded:
+Pause until the customer has recorded:
 
 1. approved model name, version, and provider format;
 2. approved workload purpose and a `global`, `data-zone:us`, `data-zone:eu`, `data-zone:apac`, or `region:<azure-region>` processing requirement;
@@ -123,7 +123,7 @@ Stop until the customer has recorded:
 4. lifecycle owner, review date, and change route; and
 5. minimum unused quota percentage.
 
-Any model version change needs a new external decision and profile change.
+Start a new external decision and profile change for every model version change.
 
 <!-- Notes: Supporting terms and review detail stay in the referenced customer system. -->
 
@@ -147,7 +147,7 @@ The approved model and SKU must be available to the existing Foundry resource.
 
 ---
 
-## Preflight checks what it can prove
+## Preflight checks live control inputs
 
 - Deployment profile matches the approved change
 - Review date has not passed
@@ -184,7 +184,7 @@ The switch confirms a human check for that run. It does not claim that the CLI s
 
 ## Complementary policy control
 
-This session governs the versioned deployment path. Azure Policy can separately deny selected
+This session deploys models through the versioned path. Azure Policy can separately deny selected
 deployment SKU names across other authorized paths.
 
 [Microsoft guidance](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types#restrict-deployment-types-with-azure-policy)
@@ -295,7 +295,7 @@ Supporting detail stays in the approved customer change system.
 </div>
 </div>
 
-Removal covers one deployment only when it carries the Session 04 marker.
+Remove a deployment only when it carries the Session 04 marker.
 
 <!-- Notes: Other deployments and the parent Foundry resource remain in place. -->
 
@@ -303,10 +303,10 @@ Removal covers one deployment only when it carries the Session 04 marker.
 
 ## Recap
 
-- One desired-state file feeds Bicep.
+- The desired-state file feeds Bicep.
 - Live lifecycle, availability, and quota stay in Azure.
 - Manual checks are explicit when stable CLI data is missing.
-- The control covers this deployment path, not every path into the platform.
+- This control applies to the deployment path in this kit. It does not cover every path into the platform.
 - [Session 05](../05-governed-agent-baseline/) consumes the approved live deployment.
 
 <!-- Notes: Close on the review record that Session 05 consumes. -->

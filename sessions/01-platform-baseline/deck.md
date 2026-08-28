@@ -20,14 +20,14 @@ html: true
 
 ## Control and session outcomes
 
-> Establish one owned, tagged Microsoft Foundry baseline connected to workspace-based Application Insights, then put that baseline behind an Azure Policy assignment that denies evaluated ARM changes using disallowed locations or missing required tags.
+> Deploy an owned, tagged Microsoft Foundry baseline with workspace-based Application Insights. Stage an Azure Policy assignment that denies evaluated ARM changes with disallowed locations or missing required tags.
 
-- create the current Foundry parent-and-project model from Bicep;
-- give both boundaries managed identities and explicit ownership metadata;
-- connect the project to workspace-based Application Insights;
-- update the customer inventory and, when needed, the migration backlog through their normal systems;
-- resolve current built-ins and deploy a reusable initiative staged on the same resource group; and
-- promote the assignment to `Default` only after owner review and change approval.
+- Deploy the current Foundry parent-and-project model from Bicep.
+- Give both boundaries managed identities and explicit ownership metadata.
+- Connect the project to workspace-based Application Insights.
+- Update the customer inventory and, when needed, the migration backlog through normal systems.
+- Resolve current built-ins and deploy a reusable initiative staged on the same resource group.
+- Promote the assignment to `Default` after owner review and change approval.
 
 The connection configures a monitoring path; it does not prove that application logs are arriving.
 The policy assignment does not fix existing resources or cover controls outside these two rules.
@@ -40,7 +40,7 @@ The policy assignment does not fix existing resources or cover controls outside 
 
 ## Why it matters
 
-Later controls need a stable Foundry boundary that the team can rebuild and identify by owner. Operations needs one place to find the live resource details. Staging the policy on that same boundary shows the likely impact before deny mode is turned on, so the owner can handle exemptions before the change authority promotes enforcement.
+Later controls need a stable Foundry boundary the team can rebuild and identify by owner. Operations needs a single place to find live resource details. Staging the policy shows its likely impact before deny mode is turned on, so the owner can handle exemptions before the change authority promotes enforcement.
 
 ---
 
@@ -48,18 +48,18 @@ Later controls need a stable Foundry boundary that the team can rebuild and iden
 
 ## Architecture overview
 
-One deployment creates the Foundry boundary; a second layer narrows the change path into it. Azure shows what is running and what policy applies; the repository defines the intended shape; the customer inventory and change systems own their own records.
+One deployment creates the Foundry boundary. A policy layer then controls evaluated ARM changes within it. Azure shows what is running and what policy applies; the repository defines the intended shape; the customer inventory and change systems own their records.
 
 <div class="columns">
 <div>
 
 ### What happens
 
-1. Read the subscription and existing tags without changing them.
+1. Inspect the subscription and existing tags without changing them.
 2. Preview and deploy the Foundry resource, child project, and Application Insights connection.
 3. Resolve current built-ins and preview the initiative and assignment.
 4. Stage the assignment in `DoNotEnforce`, then promote to `Default` after review.
-5. Record the live baseline in the customer system.
+5. Record the live baseline in the customer inventory system.
 
 Classic assets are not pulled into this boundary. Their migration backlog stays in the customer
 inventory system.
@@ -131,7 +131,7 @@ The platform owner assigns confirmed migrations in the backlog.
 | Decision | Chosen approach | Tradeoff |
 |---|---|---|
 | Resource model | Current Foundry resource and child project | Classic assets need separate migration work |
-| Desired state | Bicep and `.bicepparam` | Portal changes must be reconciled |
+| Desired state | Bicep and `.bicepparam` | Update the Bicep after portal changes create drift |
 | Tracing authentication | Stable `ApiKey` Application Insights connection; preview `ProjectManagedIdentity` is a later upgrade decision | The baseline stays deployable, but the connection remains key-based |
 | Outbound network posture | `restrictOutboundNetworkAccess: false` until Session 03 | Session 01 does not claim outbound isolation |
 | Policy packaging | One initiative referencing current Microsoft built-ins | Built-in IDs and effects must be checked before each deployment |
@@ -185,7 +185,7 @@ Deploy a production-shaped Foundry baseline, then stage Azure Policy guardrails 
 - **Operator access:** Contributor on the approved sandbox scope, plus a time-bound Resource Policy Contributor assignment for the guardrails
 - **Safety boundary:** resolved decisions, approved sandbox subscription and resource group, and marked removal scope
 - **Data rule:** no secrets or customer content in parameters, tags, outputs, or source control
-- **Live state:** deployed baseline, staged-then-promoted policy assignment, reusable definitions, and decision plus customer-system pointers
+- **Live state:** deployed baseline, staged-then-promoted policy assignment, reusable definitions, and customer-system records
 
 ---
 
@@ -205,7 +205,7 @@ The stable Application Insights connection uses `ApiKey`; Bicep resolves its con
 
 ---
 
-## Two result checks
+## Confirm the result
 
 Rerun the preflight and inspect its final deployment previews, then inspect the live policy assignment:
 

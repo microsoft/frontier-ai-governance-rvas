@@ -1,6 +1,6 @@
 # Implementation artifacts
 
-This module keeps two files after delivery.
+This module keeps these files after delivery.
 
 - `registry-client-settings.json` is the machine contract for a client-management pipeline or
   client-specific adapter. Microsoft Learn documents the registry endpoint and supported client

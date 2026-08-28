@@ -30,15 +30,15 @@ session:
     - "azure-monitor"
     - "azure-private-link"
     - "azure-private-dns"
-  control_objective: "Establish private connectivity to Foundry and four dependencies, then disable their public access after private DNS and TCP 443 checks succeed from the approved nonproduction execution host."
+  control_objective: "Connect Foundry and four dependencies privately, then disable public access after private DNS and TCP 443 checks succeed from the approved nonproduction execution host."
 implementation:
   mode: "standard"
 implementation_outcomes:
   - "Prepare a landing-zone-aligned spoke with separate private-endpoint and dedicated Agent Service subnets."
-  - "Deploy the approved network, DNS links, and initial private endpoints; if Foundry account replacement is required, pause for the separately approved replacement and replay before reconciling the Foundry endpoint and all five resource IDs."
+  - "Deploy the approved network, DNS links, and initial private endpoints. If Foundry account replacement is required, pause for the separately approved replacement and replay, then update the Foundry endpoint and all five resource IDs."
   - "Route the delegated Agent Service subnet through the customer-approved firewall; the firewall policy source remains authoritative for its rules and review history."
-  - "Disable public network access only after the approved execution host resolves every in-use Foundry endpoint family and the four dependency FQDNs to private addresses, reaches TCP 443, and the prior public-access states are recorded in the approved change system."
-  - "The three Foundry endpoint families and four dependency endpoints resolve to private addresses and accept TCP 443 from an approved client. Session 05 checks agent-runtime traffic."
+  - "From the approved execution host, confirm the in-use Foundry endpoint families and four dependency FQDNs resolve to private addresses and reach TCP 443. Record the prior public-access states in the approved change system, then disable public network access."
+  - "Confirm that the three Foundry endpoint families and four dependency endpoints resolve to private addresses and accept TCP 443 from an approved client. Session 05 checks agent-runtime traffic."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"
@@ -51,7 +51,7 @@ deliverables:
 retained_files:
   - path: "implementation/artifacts/infra/network/main.bicep"
     consumer: "The network deployment pipeline"
-    operational_purpose: "Deploy and reconcile the spoke, delegated and private-endpoint subnets, firewall route, private DNS, and private endpoints."
+    operational_purpose: "Deploy and maintain the spoke, delegated and private-endpoint subnets, firewall route, private DNS, and private endpoints."
   - path: "implementation/artifacts/environments/sandbox.bicepparam"
     consumer: "The network deployment pipeline"
     operational_purpose: "Supply the approved address ranges, firewall next hop, service resource IDs, and sandbox expiry."

@@ -1,6 +1,6 @@
 # Agent 365 and Microsoft 365 governance artifacts
 
-These files make up the owner review packet for the optional module. They do not change tenant state.
+These files support the owner review packet for this optional module. They do not change tenant state.
 
 | Path | Operational purpose |
 |---|---|

@@ -6,12 +6,12 @@
 |---|---|
 | Update owner | `__REQUIRED_SECURITY_OWNER__` |
 | Review cadence | Every 90 days and before a tool, identity, backend, authorization, model, instruction, or approval change |
-| Consumer | `__REQUIRED_RELEASE_OWNER__` uses this model when deciding whether a checked candidate can replace the stable version |
+| Consumer | `__REQUIRED_RELEASE_OWNER__` uses this model when deciding whether the tested candidate can replace the stable version |
 
 ## Scope
 
-The [Session 05](../../../../05-governed-agent-baseline/implementation/README.md) policy assistant calls one Session 08 MCP endpoint in the
-[Session 06](../../../../06-apim-ai-gateway/implementation/README.md) API Management instance. APIM maps `get_policy` to one existing GET operation. The
+The [Session 05](../../../../05-governed-agent-baseline/implementation/README.md) policy assistant calls the Session 08 MCP endpoint in the
+[Session 06](../../../../06-apim-ai-gateway/implementation/README.md) API Management instance. APIM maps `get_policy` to the existing GET operation. The
 source API, Foundry project, model, network, and API Center service remain existing dependencies.
 
 ## Trust boundaries
@@ -37,7 +37,7 @@ source API, Foundry project, model, network, and API Center service remain exist
 | Gateway forwards or reuses caller authority | APIM discards inbound backend authority and obtains a new managed-identity token | Inbound bearer token or any caller-derived authorization claim reaches the backend |
 | Read tool mutates state | GET-only operation, backend validation, read-only role | Operation or role permits write |
 | Argument injection or traversal | Backend validates `policyId` against the authoritative schema | Backend accepts values outside the pattern or length |
-| Indirect prompt injection | Untrusted-output instruction, one-tool allowlist, approval, no write authority | Tool output changes instructions or requests an unknown tool |
+| Indirect prompt injection | Untrusted-output instruction, tool allowlist, approval, no write authority | Tool output changes instructions or requests an unknown tool |
 | Payload leaks through diagnostics | Request and response body logging remain zero | Any global or MCP diagnostic captures payload bytes |
 | Runaway calls | Per-client and per-tool short-window throttle | Limit is absent or keyed only by shared IP |
 | Stream breaks | Policy never reads `context.Response.Body` | A policy or diagnostic buffers MCP response content |
@@ -57,8 +57,8 @@ source API, Foundry project, model, network, and API Center service remain exist
 
 The security owner reruns both synthetic checks whenever the server operator, tool description,
 input schema, returned fields, backing operation, identity mapping, agent instructions, model, or
-approval policy changes. The release owner keeps the stable endpoint on the prior version until
-that review passes.
+approval policy changes. The release owner keeps the stable endpoint on the prior version until both
+checks pass.
 
 ## Authorization
 

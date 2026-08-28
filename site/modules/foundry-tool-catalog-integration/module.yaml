@@ -11,7 +11,7 @@ module:
     - "Security and release owners responsible for reusable agent tools"
   prerequisites:
     - "Session 05 has an approved Microsoft Foundry project and an agent owner ready to consume a Toolbox endpoint."
-    - "Session 07 has one approved remote MCP server record in Azure API Center with a version, deployment, runtime URL, owner, lifecycle state, and authentication decision."
+    - "Session 07 has an approved remote MCP server in Azure API Center with a version, deployment, runtime URL, owner, lifecycle state, and authentication decision."
     - "Session 08 has approved the MCP server's exposed tool surface, authentication boundary, and runtime safety controls."
     - "The module operator has Azure API Center Data Reader on the exact API Center resource, Foundry User on the exact Foundry project, and Foundry Project Manager if a project connection must be created."
     - "The approved execution host has Azure CLI, Azure Developer CLI 1.25 or later, the microsoft.foundry extension, Python 3, and network access to the Foundry project and MCP server."
@@ -23,13 +23,13 @@ module:
     - "azure-api-center"
     - "azure-ai-foundry"
     - "foundry-agent-service"
-  control_objective: "Bind one approved Azure API Center remote MCP server record to one dedicated versioned Toolbox in Microsoft Foundry, then reconcile the catalog record, project connection, allow-listed tool, and live Toolbox tool list."
+  control_objective: "Connect an approved remote MCP server in Azure API Center to a dedicated versioned Toolbox in Microsoft Foundry, then reconcile the catalog record, project connection, allowed tool, and live Toolbox tool list."
 implementation:
   mode: "standard"
 implementation_outcomes:
   - "Approve the public-preview private tool catalog path for the exact nonproduction Foundry project."
-  - "Discover and configure one API Center-registered MCP server through Foundry Tools without storing credentials in the repository."
-  - "Create one dedicated Toolbox version with one allow-listed MCP tool and approval required for every call."
+  - "Discover and configure the MCP server record in API Center through Foundry Tools without storing credentials in the repository."
+  - "Create a dedicated Toolbox version that exposes the allow-listed MCP tool and requires approval for every call."
   - "Confirm that the version-specific Toolbox endpoint lists exactly the approved namespaced tool."
 deliverables:
   implementation: "implementation/README.md"
@@ -43,10 +43,10 @@ deliverables:
 retained_files:
   - path: "implementation/artifacts/governance/catalog-toolbox-binding.json"
     consumer: "The API catalog owner and Foundry tool owner"
-    operational_purpose: "Keep the approved API Center record, private-catalog decision, project connection, Toolbox name, expected tool, and restore ownership aligned."
+    operational_purpose: "Keep the MCP server record in API Center, private-catalog decision, project connection, Toolbox name, expected tool, and restore ownership aligned."
   - path: "implementation/artifacts/toolbox/toolbox-version.json"
     consumer: "The Foundry Toolbox deployment process"
-    operational_purpose: "Create the dedicated immutable Toolbox version with one MCP server, one allowed tool, and approval required for every call."
+    operational_purpose: "Create the dedicated immutable Toolbox version that connects the MCP server, exposes the approved tool, and requires approval for every call."
   - path: "implementation/artifacts/operations/check_toolbox.py"
     consumer: "The Foundry tool owner"
     operational_purpose: "Query a version-specific Toolbox MCP endpoint and fail unless it exposes exactly the approved namespaced tool with approval required."
@@ -69,4 +69,3 @@ sources:
     url: "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/model-context-protocol"
     accessed: "2026-08-28"
     supports: "MCP project connections, allowed_tools, approval settings, Toolbox reuse, Foundry role requirements, and the requirement to treat remote tool metadata and results as untrusted input."
-

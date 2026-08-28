@@ -27,7 +27,7 @@ implementation:
   mode: "extended"
   extended_reason: "The delivery owner must observe one permitted delegated call and one denial caused by missing downstream user authority before the OBO path is used."
 implementation_outcomes:
-  - "Record the client, middle-tier, downstream audience, delegated-scope, and consent boundaries."
+  - "Record the client, middle-tier, downstream audience, delegated scope, and consent boundaries."
   - "Configure exact delegated permissions without replacing unrelated application registration settings."
   - "Run a Python middle tier that validates the user assertion and uses a Key Vault-held certificate for OBO."
   - "Confirm a permitted user succeeds and a user without downstream resource authority is denied."

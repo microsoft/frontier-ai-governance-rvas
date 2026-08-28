@@ -25,13 +25,13 @@ session:
   services_in_scope:
     - "azure-ai-foundry"
     - "azure-openai"
-  control_objective: "Teams use a controlled, versioned path to deploy exact approved serverless API model versions that meet the workload's processing-location requirement."
+  control_objective: "Deploy exact approved serverless API model versions through a versioned path that meets the workload's processing-location requirement."
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Keep each deployment's external approval reference, exact model, SKU, capacity, content filter, processing-location requirement, review date, quota headroom, and fixed no-auto-upgrade setting in the Bicep input file."
-  - "Check the deployment plan against current Azure model availability and lifecycle data, named Responsible AI policy, operator access, quota where the CLI can match it safely, and the Bicep preview."
-  - "Deploy at least one approved serverless API model version in the existing Foundry resource. The live child deployment must match the approved plan."
+  - "Record the external approval reference and required model deployment controls in the Bicep input file."
+  - "Use preflight to check the deployment plan against current Azure availability and lifecycle data, the named Responsible AI policy, operator access, safely matched quota, and the Bicep preview."
+  - "Deploy an approved serverless API model version in the existing Foundry resource, then confirm that the live child deployment matches the approved plan."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"
@@ -44,10 +44,10 @@ deliverables:
 retained_files:
   - path: "implementation/artifacts/infra/models/main.bicep"
     consumer: "The Azure deployment pipeline operated by the Foundry platform team"
-    operational_purpose: "Create or reconcile the approved model child deployments under the existing AIServices resource."
+    operational_purpose: "Create or update the approved model child deployments under the existing AIServices resource."
   - path: "implementation/artifacts/environments/sandbox.bicepparam"
     consumer: "The Azure deployment pipeline operated by the Foundry platform team"
-    operational_purpose: "Bind the Bicep deployment to the nonproduction AIServices resource recorded in the environment parameters."
+    operational_purpose: "Set the Bicep deployment's nonproduction AIServices resource from the environment parameters."
   - path: "implementation/artifacts/models/deployment-profiles.json"
     consumer: "The Session 04 Bicep entrypoint and preflight scripts"
     operational_purpose: "Supply the repository-owned approval reference, model, SKU, capacity, filter, processing-location requirement, review date, quota headroom, and fixed no-auto-upgrade state for each child deployment."

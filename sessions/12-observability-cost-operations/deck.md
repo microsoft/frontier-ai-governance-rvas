@@ -14,7 +14,7 @@ html: true
 
 # Observability, cost, and operational controls
 
-**240 minutes - Trace one request, route alerts, and assign cost**
+**240 minutes - Trace an approved request, route alerts, and assign cost**
 
 <!-- Notes: Session 11 connected red-team behavior to detection. This session adds the operating views, routes, and cost controls for one service. -->
 
@@ -26,9 +26,9 @@ html: true
 
 ### Result check
 
-- one synthetic request is traceable across supported gateway, agent, model, and tool spans;
+- an approved synthetic request is traceable across supported gateway, agent, model, and tool spans;
 - tool failure remains distinct from model failure;
-- standard logs leaves out sensitive input;
+- standard logs leave out sensitive input;
 - operational and AI-quality alerts have owned routes; and
 - usage, tags, and budget notifications support cost accountability without stopping spend.
 
@@ -89,7 +89,7 @@ Runtime spans share approved context. Cost, evaluation, and security records sta
 
 <!-- _class: diagram -->
 
-![One approved synthetic request carries trace context through API Management, agent, model, and tool spans. Application Insights feeds workbooks and alerts. Evaluation records keep their own owner path, as do security and cost records.](assets/diagrams/operational-correlation-flow.svg)
+![An approved synthetic request carries trace context through API Management, agent, model, and tool spans. Application Insights feeds workbooks and alerts. Evaluation records keep their own owner path, as do security and cost records.](assets/diagrams/operational-correlation-flow.svg)
 
 <!-- Notes: Treat the request as the spine of the operating view. W3C trace context links the gateway, agent, model, and tool spans, and each span keeps its own result. This lets an operator locate the failing hop. Application Insights owns runtime telemetry. Cost, evaluation, and security records remain in their source systems. The Session 13 GitHub workflow uses its temporary smoke output. -->
 
@@ -217,7 +217,7 @@ Keep exception content in the approved logging store and remove access at expiry
 
 ---
 
-## Workbook: one operating view
+## Workbook: operating view
 
 The deployed workbook answers:
 
@@ -233,7 +233,7 @@ It does **not** become a prompt browser or billing ledger.
 
 ---
 
-## Three alert families
+## Alert families
 
 Review baseline logs before setting any alert threshold.
 
@@ -272,7 +272,7 @@ Interrupted streams and model behavior can also make token counts incomplete.
 
 ---
 
-## Cost has two clocks
+## Cost timing
 
 ### Operational clock
 
@@ -290,7 +290,7 @@ Actual and forecast thresholds notify owners. They do not stop resources.
 
 ---
 
-## Four incident paths
+## Incident paths
 
 | Trigger | First containment |
 |---|---|
@@ -448,7 +448,7 @@ Do not disable monitoring or defense to silence a real signal.
 
 ## Recap
 
-- One distributed trace, separate control-plane signals
+- A distributed trace with separate service records
 - Privacy-safe logs by default
 - Baseline-derived operational and AI-quality alerts
 - Low-cardinality token allocation

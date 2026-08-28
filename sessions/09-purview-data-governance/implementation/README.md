@@ -4,22 +4,22 @@
 
 ### What we will do
 
-Maintain the cross-product ownership boundary, configure one scoped nonproduction Agent 365 DLP
-policy from current Microsoft Purview state, and run a payload-free Agent 365 audit query. The
-observable result is one configured match, one out-of-scope non-match, and current audit activity
-observed in Purview.
+Maintain a cross-product ownership record, configure an Agent 365 DLP policy for the approved
+nonproduction scope from current Microsoft Purview state, and run a payload-free audit query. The
+check confirms a configured match, an out-of-scope non-match, and current audit activity in
+Purview.
 
 ### Why it matters
 
-Agent 365 and Foundry do not share one DLP control path. The handoff keeps the owners and operating
-boundary clear while Purview remains the source for policy, label, DSPM, and audit state.
+Agent 365 and Foundry use separate DLP control paths. The ownership record names the owners and
+operating boundary while Purview remains the source for policy, label, DSPM, and audit state.
 
 ### Boundaries
 
-The DLP change covers one nonproduction Agent 365 instance, one approved test group, one sensitivity
-label, and the approved interaction directions and locations. The Purview change record holds policy
-scope, simulation, enablement, propagation, and observed results. Microsoft Purview holds labels,
-policy state, findings, and audit activity.
+The DLP change covers the approved nonproduction Agent 365 instance, test group, sensitivity label,
+and interaction directions and locations. The Purview change record holds policy scope, simulation,
+enablement, propagation, and observed results. Microsoft Purview holds labels, policy state,
+findings, and audit activity.
 
 The Agent 365 policy does not govern Foundry calls. Foundry DLP requires an Entra-app-scoped rule and
 an application integration that calls Microsoft Graph `processContent` with signed-in user context.
@@ -37,8 +37,8 @@ label. It applies the approved `Block` or `Audit` action. The audit script asks 
 activity and prints five payload-free fields.
 
 Foundry Data Security follows a separate path. Purview and the approved change system hold the
-state for both product paths. The repository keeps the cross-product handoff and the repeatable
-audit-query definition.
+state for both product paths. The repository keeps the ownership record and the repeatable audit
+query definition.
 
 ### Design choices and tradeoffs
 
@@ -47,7 +47,7 @@ audit-query definition.
 | Product boundary | Agent 365 DLP and Foundry DLP stay separate. | Avoids a false coverage claim. | Owners manage two paths. | Microsoft adds a shared supported enforcement path. |
 | DLP scope | One nonproduction agent and test group. | Limits impact while validating the control. | Does not approve broader deployment. | The approved scope changes. |
 | Audit output | Query only metadata fields at runtime. | Supports operations without exporting content. | Investigation detail stays in Purview. | Purview changes Agent 365 audit operations. |
-| Ownership handoff | Keep the boundary record in Markdown. | Captures ownership that no platform view can reconstruct. | The data owner reviews it quarterly. | A product boundary or owner changes. |
+| Ownership record | Keep the boundary record in Markdown. | Captures ownership that no platform view can reconstruct. | The data owner reviews it quarterly. | A product boundary or owner changes. |
 
 ### Architecture guidance
 
@@ -95,8 +95,8 @@ Stop before the change when:
   context; or
 - the scope includes production data or payload retention.
 
-The coverage handoff changes after a product boundary or owner change and receives a quarterly
-review. The current policy and its approval stay in Purview and the approved change system.
+Update the ownership record after a product boundary or owner change, and review it quarterly. The
+current policy and its approval stay in Purview and the approved change system.
 
 ## Implement
 
@@ -134,7 +134,7 @@ It does not export or copy Purview state.
 A read-only deployment preview is unsupported for this portal-led DLP change. The safe preview is
 the current portal summary followed by `TestWithNotifications` simulation.
 
-### 3. Configure the scoped Agent 365 DLP policy
+### 3. Configure the Agent 365 DLP policy for the approved scope
 
 Create a custom Purview DLP policy from the approved change record. Use the exact agent instance,
 test group, directions, locations, label, action, notification, incident route, and restore path.
@@ -166,7 +166,7 @@ the scoped audit activity in Purview.
 
 ### Blocked or failure path
 
-Repeat the interaction with the approved out-of-scope test group while keeping the agent, source,
+Run the interaction again with the approved out-of-scope test-group alias. Keep the agent, source,
 label, direction, location, and action unchanged. The policy must not report a match. Stop if the
 scope is wider than approved, the observed action differs, or audit activity remains absent after
 the stated ingestion allowance.
@@ -180,7 +180,7 @@ Purview and the approved change system.
 ## After implementation
 
 Microsoft Purview retains the DLP policy, label state, findings, audit activity, and change history.
-The repository retains the ownership handoff and audit query. The data owner maintains the handoff;
+The repository retains the ownership record and audit query. The data owner maintains the record;
 the information protection owner maintains labels; the Agent 365 owner monitors workflow impact;
 and the audit owner maintains the query.
 

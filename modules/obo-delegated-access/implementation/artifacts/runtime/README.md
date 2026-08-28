@@ -1,7 +1,7 @@
 # Python OBO middle tier
 
 `obo_proxy.py` is a deployable reference component for an existing protected application host. It
-validates a user-delegated token, uses MSAL with the mounted PFX to perform OBO, and calls one
+validates a user-delegated token, uses MSAL with the mounted PFX to perform OBO, then calls the
 configured HTTPS endpoint.
 
 Deploy it through the approved application pipeline. Resolve `settings.json` outside the public

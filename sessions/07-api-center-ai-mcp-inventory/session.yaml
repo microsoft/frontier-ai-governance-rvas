@@ -19,7 +19,7 @@ session:
     - "Azure CLI 2.57.0 or later and the current apic-extension are installed on the approved execution host."
     - "The deployment operator has a time-bound Contributor role assignment on the exact resource group where this session deploys API Center."
     - "The role-assignment operator has a time-bound User Access Administrator role assignment on the exact Session 06 API Management instance."
-    - "The agent, APIM API, and MCP metadata records are complete before the first delivery window."
+    - "The metadata for the agent, APIM API, and MCP server is complete before the first delivery window."
   dependencies:
     - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
     - "Session 05 - Governed Microsoft Foundry agent baseline"
@@ -29,15 +29,15 @@ session:
     - "azure-api-management"
     - "azure-ai-foundry"
     - "foundry-agent-service"
-  control_objective: "Record three selected assets in API Center: the Session 05 agent API, the synchronized Session 06 APIM API, and one approved remote MCP server, each with owned lifecycle, classification, and runtime-location metadata."
+  control_objective: "Add three selected assets to API Center: deploy the Session 05 agent API, synchronize the Session 06 APIM API, and register an approved remote MCP server. Give each asset lifecycle, classification, and runtime-location metadata with named owners."
 implementation:
   mode: "standard"
 implementation_outcomes:
   - "Deploy and link a tagged API Center in the first delivery window."
   - "Link the Session 06 API Management instance so its APIs, definitions, and deployments synchronize into the inventory."
-  - "Register the Session 05 agent endpoint and one approved remote MCP server with owned lifecycle, risk, residency, and review metadata."
-  - "Have the API program owner maintain the direct agent definition in source control while asset owners maintain their metadata in API Center."
-  - "After synchronization, check the three selected records, their required metadata, deployment locations, and source integration health."
+  - "Add the Session 05 agent API definition and register an approved remote MCP server with lifecycle, risk, residency, and review metadata."
+  - "Keep the direct agent definition in source control while asset owners maintain metadata in API Center."
+  - "After synchronization, check the three required Session 07 entries, their metadata, deployment locations, and source integration health. Owners must complete required metadata for any other APIs synchronized from the linked APIM instance."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"
@@ -54,7 +54,7 @@ deliverables:
 retained_files:
   - path: "implementation/artifacts/api-center/main.bicep"
     consumer: "The Session 07 API Center deployment scripts"
-    operational_purpose: "Deploy and reconcile API Center, its metadata schema, the direct agent record, and the APIM reader module."
+    operational_purpose: "Deploy and update API Center, its metadata schema, the direct agent entry, and the APIM reader module."
   - path: "implementation/artifacts/api-center/apim-reader.bicep"
     consumer: "The Session 07 API Center deployment scripts"
     operational_purpose: "Assign API Management Service Reader to the API Center identity at the exact APIM service scope."

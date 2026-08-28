@@ -5,7 +5,7 @@ size: 16:9
 paginate: true
 html: true
 title: A2A agent inventory in Microsoft Agent 365
-description: Optional implementation module for onboarding one existing A2A agent into Microsoft Agent 365.
+description: Optional implementation module for onboarding an existing A2A agent into Microsoft Agent 365.
 ---
 
 <!-- _class: cover -->
@@ -16,13 +16,13 @@ description: Optional implementation module for onboarding one existing A2A agen
 
 # A2A agent inventory in Microsoft Agent 365
 
-**150 minutes - One live enterprise inventory record**
+**150 minutes - A live enterprise inventory record**
 
 ---
 
 ## Control objective
 
-Onboard or confirm one approved A2A agent in Microsoft Agent 365 through a supported integration
+Onboard or confirm an approved A2A agent in Microsoft Agent 365 through a supported integration
 route, then observe its live inventory and ownership state.
 
 ![Microsoft Agent 365](assets/icons/microsoft/agent-365.svg)
@@ -31,7 +31,7 @@ route, then observe its live inventory and ownership state.
 
 ## Why it matters
 
-The enterprise needs one live place to see the agent and its lifecycle.
+The enterprise needs a live inventory for the agent and its lifecycle.
 
 The runtime still owns the A2A definition, card, endpoint, and behavior. A second repository
 record would become stale as soon as the runtime changes.
@@ -88,7 +88,7 @@ does not create an agent card, upload a Markdown definition, or duplicate owners
 
 ## Preflight safety gates
 
-- One approved nonproduction A2A agent already exists.
+- An approved A2A agent already runs in the nonproduction scope.
 - The selected integration route is supported today.
 - The runtime source reference is owned and has no embedded credentials.
 - Agent owner and retirement owner are available.

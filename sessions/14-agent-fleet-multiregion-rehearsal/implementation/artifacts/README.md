@@ -1,6 +1,6 @@
 # Implementation artifacts
 
-Session 14 keeps the source-controlled files that repeat the regional rehearsal. Native platforms
+Session 14 keeps the source-controlled files used for regional rehearsals. Native platforms
 and the customer change system retain live state, decisions, and runtime results.
 
 | Path | Type | Consumer | Updater | Review cadence | Operational purpose |

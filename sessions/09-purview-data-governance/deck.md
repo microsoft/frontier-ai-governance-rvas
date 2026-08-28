@@ -14,7 +14,7 @@ html: true
 
 # Purview data governance and Agent 365 data controls
 
-**240 minutes - One labelled path, one scoped data control**
+**240 minutes - A labelled path with a defined data control**
 
 <!-- Notes: Session 08 constrained tool authority. Today we govern the data that agents can reach and share. -->
 
@@ -22,7 +22,7 @@ html: true
 
 ## Control objective
 
-> Keep one customer-owned boundary handoff for the Agent 365 and Foundry split. Configure one scoped Agent 365 DLP policy from current Purview state, and query payload-free Agent 365 audit activity.
+> Keep a customer-owned record of the Agent 365 and Foundry boundary. Configure an Agent 365 DLP policy for the approved scope from current Purview state, and query payload-free audit activity.
 
 ### Result check
 
@@ -38,9 +38,9 @@ html: true
 
 ## Implementation outcomes
 
-1. Keep one owned boundary handoff with a quarterly review cadence.
-2. Reuse one sensitivity label and confirm explicit encryption rights.
-3. Apply one scoped Agent 365 DLP policy.
+1. Keep an ownership record with a quarterly review cadence.
+2. Reuse the approved sensitivity label and confirm explicit encryption rights.
+3. Apply the Agent 365 DLP policy to the approved scope.
 4. Keep a payload-free Agent 365 unified audit log query definition.
 5. Observe one labelled interaction and record generated-content label behavior in Purview.
 
@@ -50,7 +50,7 @@ html: true
 
 ## Why it matters
 
-The customer-owned boundary handoff keeps Agent 365 policy coverage separate from Foundry coverage.
+The customer-owned record keeps Agent 365 policy coverage separate from Foundry coverage.
 
 It names the people who maintain those paths and gets reviewed quarterly or when a boundary changes.
 
@@ -60,7 +60,7 @@ It names the people who maintain those paths and gets reviewed quarterly or when
 
 ## Control boundaries
 
-- One nonproduction Agent 365 instance, one test group, and one approved label ID
+- The approved nonproduction Agent 365 instance, test group, and label ID
 - Microsoft Purview is the live source for label, DLP, Audit, and DSPM state
 - The customer-owned review record records the Agent 365 and Foundry split
 - The Agent 365 DLP policy does not govern Foundry
@@ -76,7 +76,7 @@ It names the people who maintain those paths and gets reviewed quarterly or when
 
 Agent 365 policy targeting and Foundry data-security enablement are related. They are not the same control surface.
 
-The customer-owned handoff records the ownership split. Purview remains the live source for service state.
+The customer-owned record names the ownership split. Purview remains the live source for service state.
 
 <!-- Notes: This distinction prevents a false sense of coverage. -->
 
@@ -280,7 +280,7 @@ The policy names the agent, people, directions, locations, label, and action.
 |---|---|
 | Environment | Nonproduction |
 | Agent | One Agent 365 instance |
-| People | One approved test group |
+| People | The approved test group |
 | Directions | Human-to-agent and agent-to-human |
 | Locations | Teams, OneDrive or SharePoint, email |
 | Condition | One sensitivity label ID |
@@ -391,7 +391,7 @@ Review Purview data risk, classify one synthetic source, configure one Agent 365
 3. Run preflight against the approved tenant.
 4. Enable and review native Foundry Purview Data Security, then update the separate operator and developer DLP handoff.
 5. Confirm the approved label and explicit rights on the synthetic source.
-6. Build the scoped Agent 365 DLP policy in simulation.
+6. Build the Agent 365 DLP policy for the approved scope in simulation.
 7. Review the matched scope, then enable.
 8. Run one labelled synthetic interaction.
 
@@ -434,9 +434,10 @@ Send the labelled synthetic item down the defined blocked interaction path.
 
 For that interaction, confirm Agent 365 audit activity and record the output's label behavior in Purview or the approved change system.
 
-Then replace only the test group with the configured out-of-scope test group alias.
+Run the interaction again with the configured out-of-scope test-group alias.
 
-Keep the agent, labelled item, direction, location, and action fixed. The policy must not report a match.
+Keep the agent, labelled item, direction, location, and action unchanged. The policy must not report
+a match.
 
 The delivery owner checks the configured propagation wait, both results, and the scoped audit event.
 
@@ -462,10 +463,10 @@ Do not retain the interaction content to explain a failure.
 
 ## Live state
 
-- One owned boundary handoff for product boundaries and owners
+- An ownership record for product boundaries and owners
 - Payload-free audit query definition and preflight
 
-The data owner updates the handoff after a boundary change and coordinates a quarterly review.
+The data owner updates the ownership record after a boundary change and coordinates a quarterly review.
 
 <!-- Notes: Saved summaries exclude customer content and raw activity. -->
 
@@ -487,7 +488,7 @@ The data owner updates the handoff after a boundary change and coordinates a qua
 ## Recap
 
 - Agent 365 and Foundry use distinct Purview control paths.
-- The customer-owned review record records that split; the Agent 365 DLP policy does not govern Foundry.
+- The customer-owned review record names that split; the Agent 365 DLP policy does not govern Foundry.
 - Foundry DLP needs both a Purview operator's app-scoped rule and a developer-owned `processContent` integration.
 - A label protects source access only when rights and publication are explicit.
 - One narrow DLP policy governs the approved interaction.

@@ -104,7 +104,7 @@
 <h3 id="choose-obo-for-the-right-reason">Choose OBO for the right reason<a class="heading-anchor" href="#choose-obo-for-the-right-reason" aria-label="Link to Choose OBO for the right reason">#</a></h3>
 <p>Use OBO only when the downstream API must evaluate the signed-in user. Typical signals are user-owned records, per-user entitlements, or a downstream policy that names the user as the subject.</p>
 <p>Stay with application-only authorization when the workload reads shared data, runs in the background, or should have the same authority for every caller. OBO is not a stronger form of managed identity. It carries a different authority.</p>
-<h3 id="fix-the-three-audiences">Fix the three audiences<a class="heading-anchor" href="#fix-the-three-audiences" aria-label="Link to Fix the three audiences">#</a></h3>
+<h3 id="keep-token-audiences-separate">Keep token audiences separate<a class="heading-anchor" href="#keep-token-audiences-separate" aria-label="Link to Keep token audiences separate">#</a></h3>
 <p>The inbound token audience is the middle tier. The exchanged token audience is the downstream API. They must differ.</p>
 <p>The claim examples and Conditional Access claims-challenge boundary contain no token values.</p>
 <p>Stop if any design forwards the inbound bearer token to the downstream API. Also stop when:</p>

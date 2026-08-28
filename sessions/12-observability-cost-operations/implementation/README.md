@@ -38,10 +38,10 @@ records.
 
 ### Architecture at a glance
 
-![One approved synthetic request carries trace context through API Management, agent, model, and tool spans. Application Insights feeds workbooks and alerts. Evaluation records keep their own owner path, as do security and cost records.](../assets/diagrams/operational-correlation-flow.svg)
+![An approved synthetic request carries trace context through API Management, agent, model, and tool spans. Application Insights feeds workbooks and alerts. Evaluation records keep their own owner path, as do security and cost records.](../assets/diagrams/operational-correlation-flow.svg)
 
 Think of the request as the spine of the operating view. API Management attaches W3C trace context
-to one approved request. This is a standard trace identifier that follows the work across services.
+to the approved synthetic request. This standard trace identifier follows the work across services.
 The agent carries it into its model and tool calls, and each span records its own result. Operators
 can then follow one request and see which hop failed without turning a tool error into a model
 error.
@@ -58,14 +58,13 @@ Management reports billed cost. Defender and the SOC system keep security and in
 The shared trace context connects operating signals without copying all of those records into one
 store.
 
-The main decision points are the alert rules and the incident runbook. An alert identifies the
-failure path, then the runbook assigns containment to the service, tool, AI quality, or security
-owner. If trace context breaks, a field carries sensitive data, or a signal cannot keep tool and
-model outcomes separate, the operator stops rather than accepting an incomplete operating view.
+Alerts identify the failure path. The incident runbook assigns containment to the service, tool,
+AI quality, or security owner. If trace context breaks, a field carries sensitive data, or a
+signal cannot keep tool and model outcomes separate, the operator stops.
 
-The boundary covers correlation, monitoring, notification, and the owned incident paths. The
-Session 13 GitHub promotion workflow receives a payload-free result from its temporary runner
-workspace. It receives no copies of the service records.
+This implementation covers correlation, monitoring, notification, and incident paths. The Session
+13 GitHub promotion workflow receives a payload-free result from its temporary runner workspace.
+It receives no copies of the service records.
 
 [`artifacts/telemetry/telemetry-contract.json`](artifacts/telemetry/telemetry-contract.json) defines
 the payload-free signals and context. The workbook and three Kusto Query Language (KQL) alert
@@ -75,7 +74,7 @@ failure path. The budget Bicep files deploy the separate billing notification.
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Why this shape helps | What it does not solve | Revisit when |
+| Decision | Chosen approach | Why | What it does not solve | Revisit when |
 |---|---|---|---|---|
 | Runtime content | Standard telemetry excludes prompts, responses, and tool payloads. | Operators can trace service behavior without making the monitoring store a content archive. | A failure that requires content inspection needs a separate, time-limited approval for content logging. | A documented diagnostic need cannot be met with payload-free attributes. |
 | Trace volume | Apply fixed-rate or rate-limited sampling where traces begin. Preserve each selected trace from end to end, and do not sample metrics. | Operators still get joined traces while the team keeps ingestion bounded. | Sampling can miss a rare failure. Approved error and security signals may need to bypass the normal rate. | Baseline volume or failure frequency changes, or the selected language changes its OpenTelemetry behavior. |
@@ -97,7 +96,7 @@ Confirm:
 - Sessions 01-10 are complete. A focused route may use the substitute baseline below. A label such
   as “same controls” is not enough.
 - The [Session 05](../../05-governed-agent-baseline/implementation/README.md) policy assistant and
-  [Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM route can process one approved synthetic,
+  [Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM route can process an approved synthetic,
   read-only request without changing production.
 - A workspace-based Application Insights component, its Log Analytics workspace, and an approved
   action group already exist.
@@ -125,7 +124,7 @@ Every row is required when the numbered prerequisite sessions are not complete.
 
 | Dependency | Required control state and exact record | Owner and observable result |
 |---|---|---|
-| Runtime | The current deployment record names the Foundry project, immutable agent version, Microsoft Entra agent identity, approved network path, versioned APIM policy, registered tool identities and scopes, and data-policy assignment. | The platform, gateway, tool, and data owners confirm that one approved read-only request reaches only the backend and tool listed in that deployment record. |
+| Runtime | The current deployment record names the Foundry project, immutable agent version, Microsoft Entra agent identity, approved network path, versioned APIM policy, registered tool identities and scopes, and data-policy assignment. | The platform, gateway, tool, and data owners confirm that an approved read-only request reaches only the backend and tool listed in that deployment record. |
 | Tracing | The deployed OpenTelemetry and APIM configuration propagates W3C `traceparent` plus one non-sensitive correlation ID across gateway, agent, model, and tool spans. | The observability owner finds one joined operation in the approved workspace, with a separate result on every span. |
 | Evaluation | The approved evaluation definition, threshold policy, and latest approved aggregate result name the deployed agent version. | The AI quality owner runs the approved release gate and gets the recorded pass or block result for that version. |
 | Security | The confirmed payload-free adversarial summary, Defender onboarding state, and security-event route name the protected agent version. | The security operations owner confirms that prohibited actions are recorded as blocked and one expected runtime signal reaches the Defender or SOC record listed in the route. |
@@ -296,7 +295,7 @@ Stop if either preview replaces an existing workbook or alert unexpectedly, targ
 scope, removes an action route, changes unrelated resources, or shows a budget outside the approved
 subscription.
 
-### 5. Deploy the deployed workbook, alerts, and budget
+### 5. Deploy the workbook, alerts, and budget
 
 After the owners approve both previews:
 
@@ -374,7 +373,7 @@ result_path="${RUNNER_TEMP}/session12-smoke.json"
 
 Before either request, the scripts resolve `SESSION12_AI_RESOURCE_ID` with Azure CLI. Its live
 `WorkspaceResourceId`, compared without case sensitivity, must equal
-`SESSION12_LOG_ANALYTICS_WORKSPACE_ID`. The query is sent only to that bound workspace.
+`SESSION12_LOG_ANALYTICS_WORKSPACE_ID`. The query is sent only to that workspace.
 
 The normal endpoint accepts an approved read-only body. The separate failure
 endpoint handles a lookup for a nonexistent synthetic policy: its tool dependency must fail while

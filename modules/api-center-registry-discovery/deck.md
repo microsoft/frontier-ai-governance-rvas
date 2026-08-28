@@ -16,7 +16,7 @@ description: Optional implementation module for Microsoft Entra-protected MCP re
 
 ## Optional implementation module
 
-Show developer clients the approved MCP server set.
+Show developer clients the approved MCP servers.
 
 <!-- Notes: This module stays outside the 14 sessions and follows Sessions 07 and 08. -->
 
@@ -123,7 +123,7 @@ Do not substitute the portal URL or the separate `/mcp` catalog endpoint.
 
 ---
 
-## Two retained artifacts
+## Retained artifacts
 
 **Client contract**
 

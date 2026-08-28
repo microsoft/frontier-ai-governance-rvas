@@ -46,9 +46,9 @@ This rehearsal gives the service and delivery owners one visible regional result
 
 ## Implementation outcomes
 
-1. Locate the governed agent across Foundry Control Plane and Agent 365 without treating either view as the other's replacement.
-2. Query Azure resources live and inspect the other service views where they are authoritative.
-3. Use one minimal regional Bicep parameter contract, keeping regional gateways with regional backends.
+1. Locate the governed agent and MCP server in their respective native services.
+2. Query Azure resources live and inspect service views where they are authoritative.
+3. Use the regional Bicep parameter contract, keeping regional gateways with regional backends.
 4. Record the primary-region management-plane and regional rate-limit constraints.
 5. Route one governed service to its approved secondary deployment, check the expected identity reference, gateway policy, and tracing, then keep a restore path.
 
@@ -56,27 +56,27 @@ This rehearsal gives the service and delivery owners one visible regional result
 
 ---
 
-## Focused-route baseline: Sessions 05-09
+## Focused-route prerequisites: Sessions 05-09
 
 | Substitute | Live state | Owner result |
 |---|---|---|
-| 06 Agent | Project, fixed version, model alias, Entra identity | Platform owner gets the expected safe response |
-| 07 Gateway | Versioned APIM policy, selectors in the topology | Gateway owner previews one selector and reaches only the backend listed in the topology |
-| 08 Inventory | Approved API, agent, and MCP IDs, versions, owners | Inventory owner resolves each ID with no duplicate production record |
-| 09 Tool | Workload identity, tool scope, operations, egress, version | Tool owner sees allowed read pass and unauthorized operation block |
-| 10 Data | Classification, residency, Purview policy IDs, covered agent | Data owner finds the agent in the policy listed in the inventory |
+| 05 Agent baseline | Project, fixed version, model alias, Entra identity | Platform owner gets the expected safe response |
+| 06 Gateway | Versioned APIM policy, selectors in the topology | Gateway owner previews the selected selector and reaches only the backend listed in the topology |
+| 07 Inventory | Approved API, agent, and MCP IDs, versions, owners | Inventory owner resolves each ID with no duplicate production record |
+| 08 Tool security | Workload identity, tool scope, operations, egress, version | Tool owner sees allowed read pass and unauthorized operation block |
+| 09 Data governance | Classification, residency, Purview policy IDs, covered agent | Data owner finds the agent in the policy listed in the inventory |
 
 <!-- Notes: The implementation guide carries the full nine-row focused-route baseline. -->
 
 ---
 
-## Focused-route baseline: Sessions 10-13
+## Focused-route prerequisites: Sessions 10-13
 
 | Substitute | Live state | Owner result |
 |---|---|---|
-| 11 Evaluation | Definition, thresholds, baseline, candidate, regression | Quality owner sees candidate pass and regression block |
-| 12 Threat defense | Confirmed payload-free report, Defender route | Security owner sees blocked actions and one Defender signal |
-| 13 Observability | Logging contract, workbook, alerts, smoke result | Observability owner traces one safe request with separate failures |
+| 10 Evaluation | Definition, thresholds, baseline, candidate, regression | Quality owner sees candidate pass and regression block |
+| 11 Threat defense | Confirmed payload-free report, Defender route | Security owner sees blocked actions and one Defender signal |
+| 12 Observability | Logging contract, workbook, alerts, smoke result | Observability owner traces one safe request with separate failures |
 | 13 Promotion | Protected environments, deployment metadata, and previous-release restore | Release owner sees approval after what-if |
 
 <!-- Notes: Every substitute has specific state, a decision record, an owner, and the result needed here. -->
@@ -193,7 +193,7 @@ protection record alongside its existing user, app, and device records.
 
 ## Decision gate 1 - Fleet identity
 
-Resolve one record:
+Resolve the service identifiers:
 
 - Foundry project and agent name;
 - fixed agent version;
@@ -216,7 +216,7 @@ Stop on a duplicate, ownerless, or version-ambiguous production record.
 |---|---|---|---|
 | Service state | Native service views plus live Azure queries | Uses the systems that own current state | Operators need access to each service |
 | Gateway topology | One Premium (classic) multi-region instance or separate regional gateways | Keeps the approved network and isolation design | Accept the primary management plane or the added release work |
-| Restore | Move one selector and keep the secondary deployment | Narrows the restore and leaves standby ready | Session 13 controls drift; capacity cost continues |
+| Restore | Move the approved selector and keep the secondary deployment | Narrows the restore and leaves standby ready | Session 13 controls drift; capacity cost continues |
 
 <!-- Notes: Session 13 owns regional configuration promotion. Session 14 moves traffic and checks the active path. -->
 
@@ -224,7 +224,7 @@ Stop on a duplicate, ownerless, or version-ambiguous production record.
 
 <!-- _class: decision -->
 
-## Decision gate 2 - Regional gateway pattern
+## Decision gate 2 - Regional gateway patterns
 
 | One multi-region instance | Separate regional gateways |
 |---|---|
@@ -284,10 +284,10 @@ The service and delivery owners must accept:
 
 ## Deploy through the existing Bicep entrypoint
 
-The Session 14 control definition points to:
+The Session 14 control definition identifies:
 
 - the customer Bicep entrypoint that owns the full regional stack;
-- one minimal `region.parameters.json` contract;
+- the `region.parameters.json` contract;
 - a fixed customer health script; and
 - a fixed customer routing script.
 
@@ -449,9 +449,9 @@ Fleet-wide lifecycle enforcement is outside this session. The rehearsal does not
 
 ## Recap
 
-- One governed agent and one MCP server
+- Governed agent and MCP server records
 - Native service views plus live Azure queries
-- One minimal regional parameter contract
+- Regional parameter contract
 - Co-located gateway and backend paths
 - Primary management-plane limits recorded
 - Regional counters treated correctly

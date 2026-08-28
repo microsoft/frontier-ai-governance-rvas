@@ -4,19 +4,18 @@
 
 ### What we will do
 
-Establish one **owned, tagged Microsoft Foundry baseline** connected to workspace-based Application
-Insights, then put that baseline behind an **Azure Policy assignment that denies evaluated Azure
-Resource Manager changes** using disallowed locations or missing required resource tags. In one
-approved sandbox or nonproduction resource group, we deploy a current `AIServices` Foundry resource
-and child project, give both system-assigned identities, and connect the project to
-workspace-based Application Insights. The same seven governance tags cover the resource group and
-every taggable resource. We then create a policy initiative at the subscription scope, assign it to
-that resource group in `DoNotEnforce`, review Policy Insights, and move the same assignment to
-`Default` after owner review and change approval.
+Deploy an **owned, tagged Microsoft Foundry baseline** with workspace-based Application Insights.
+Then stage an **Azure Policy assignment that denies evaluated Azure Resource Manager changes** with
+disallowed locations or missing required resource tags. In the approved sandbox or nonproduction
+resource group, deploy a current `AIServices` Foundry resource and child project, give both
+system-assigned identities, and connect the project to workspace-based Application Insights. Apply
+the same seven governance tags to the resource group and every taggable resource. Create a policy
+initiative at subscription scope, assign it to that resource group in `DoNotEnforce`, review Policy
+Insights, and move the assignment to `Default` after owner review and change approval.
 
-This session owns the deployed baseline, a repeat deployment preview with no unintended change,
-and the live initiative and assignment whose scope, parameters, references, marker, and enforcement
-mode match the approved design.
+The session ends with a deployed baseline, a repeat deployment preview with no unintended changes,
+and a live initiative and assignment that match the approved scope, parameters, references, marker,
+and enforcement mode.
 
 ### Why it matters
 
@@ -42,7 +41,7 @@ Policy evaluates an in-scope ARM request at the live resource-group assignment. 
 that existing resources are compliant, remediate them, or cover change paths and controls outside
 these two policy rules.
 
-The work stays in one approved sandbox or nonproduction resource group. It does not deploy a model,
+Deploy this session only to the approved sandbox or nonproduction resource group. It does not deploy a model,
 assign roles, create a private network path, deploy a management-group policy definition, prepare
 production parameters, or move subscriptions.
 [Session 02](../../02-identity-privileged-access/implementation/README.md) and
@@ -56,10 +55,10 @@ outbound network posture.
 
 ### Architecture at a glance
 
-This session creates the Foundry boundary that later controls build on, then narrows the change
-path into that boundary. One deployment places a Foundry resource of the `AIServices` kind and its
-child project in the approved resource group, alongside a Log Analytics workspace and
-workspace-based Application Insights. Azure Resource Manager applies the customer-owned Bicep, then
+This session deploys the Foundry boundary that later controls build on. Azure Policy then evaluates
+the change path within that boundary. One deployment places a Foundry resource of the `AIServices`
+kind and its child project in the approved resource group, alongside a Log Analytics workspace and
+workspace-based Application Insights. Azure Resource Manager applies the customer-owned Bicep and
 connects the project to Application Insights. Bicep resolves the connection string during
 deployment; operators never pass it in or receive it as output.
 
@@ -101,7 +100,7 @@ both inheriting the checks assigned here.
 | Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
 |---|---|---|---|---|
 | Foundry resource model | Use the current `AIServices` resource with one child project | New work starts within the supported management boundary | Confirmed classic assets remain outside this deployment and need separate migration work | A classic workload is approved for migration |
-| Desired state | Keep Bicep and `.bicepparam` in the customer repository | The team can review and repeat the deployment | A portal change creates drift and must be reconciled | The deployment pipeline or ownership model changes |
+| Desired state | Keep Bicep and `.bicepparam` in the customer repository | The team can review and repeat the deployment | A portal change creates drift; update the Bicep to match | The deployment pipeline or ownership model changes |
 | Tracing authentication | Use the stable `ApiKey` Application Insights project connection without exposing the connection string in parameters or outputs | The baseline uses the stable resource API and remains deployable through Bicep | The connection remains key-based; preview `ProjectManagedIdentity` also needs Application Insights authentication and role changes | The preview path is approved for the environment |
 | Outbound network posture | Keep `restrictOutboundNetworkAccess: false` during the baseline | Session 01 does not claim outbound isolation before its network design exists | This is temporary and allows outbound access subject to other platform controls | Session 03 implements the approved private networking and outbound-control design |
 | Policy packaging | Group the current Microsoft built-ins in one custom initiative | References and parameters stay together; Microsoft still owns the underlying rules | Built-in IDs or behavior can change, so check both before deployment | Microsoft deprecates a built-in or its rule no longer fits |
@@ -220,7 +219,7 @@ Make these decisions before deployment:
 1. **Approved Azure scope.** Name the approved sandbox subscription and exact sandbox resource
    group. Manual removal requires the group tag `implementationSession=01-platform-baseline`. Stop
    if the group is shared and its owner has not approved that marker.
-2. **Customer values.** Replace every `__REQUIRED_*__` value in
+2. **Set customer values.** Replace every `__REQUIRED_*__` value in
    `artifacts/environments/sandbox.bicepparam` and
    `artifacts/environments/policy-assignment.bicepparam`. Use an ISO `yyyy-MM-dd` expiry date.
    Stop if any sentinel remains.
@@ -241,7 +240,7 @@ Make these decisions before deployment:
    [`ProjectManagedIdentity` trace-ingestion path](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/trace-ingestion-entra-authentication)
    only after the platform and monitoring owners accept preview use, plan Application Insights
    local-authentication changes, and approve the required Monitoring Metrics Publisher assignments.
-7. **Planned baseline scope.** The first Foundry preview should contain only the documented baseline
+7. **Confirm the planned baseline scope.** The first Foundry preview should contain only the documented baseline
    resources. Stop if it targets another group, changes an existing resource unexpectedly, or needs
    a provider registration that the customer has not approved.
 
@@ -262,7 +261,7 @@ connection string during deployment and does not emit it.
 Edit the parameter and decision files in place. Keep the single artifact tree listed in
 **Implementation files**.
 
-The Bicep uses the stable APIs verified on 2026-08-26:
+The Bicep uses these stable APIs:
 
 - `Microsoft.CognitiveServices/accounts@2026-05-01`
 - `Microsoft.CognitiveServices/accounts/projects@2026-05-01`
@@ -272,10 +271,10 @@ The Bicep uses the stable APIs verified on 2026-08-26:
 - `Microsoft.Authorization/policySetDefinitions@2025-03-01`
 - `Microsoft.Authorization/policyAssignments@2025-03-01`
 
-Keep `disableLocalAuth: true`. If the project-managed identity tracing path, the resolved built-in
-policy IDs, or the approved region have changed since the verification date, stop and recheck the
-Microsoft sources recorded in `session.yaml`. The shipped connection remains `ApiKey`; the
-project-managed identity path is still preview.
+Keep `disableLocalAuth: true`. If the project-managed identity tracing path, resolved built-in
+policy IDs, or approved region have changed, stop and recheck the Microsoft sources recorded in
+`session.yaml`. The shipped connection remains `ApiKey`; the project-managed identity path is
+still preview.
 
 ### 2. Prepare the marked resource group
 

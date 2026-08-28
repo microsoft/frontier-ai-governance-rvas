@@ -20,12 +20,12 @@ module:
     - "azure-api-center"
     - "agent-365"
     - "azure-api-management"
-  control_objective: "Expose one already-governed A2A agent for developer discovery in Azure API Center through a runtime-owned supported source integration, then observe the live catalog asset."
+  control_objective: "Expose an already-governed A2A agent for developer discovery in Azure API Center through a runtime-owned supported source integration, then observe the live catalog asset."
 implementation:
   mode: "standard"
   live_only: true
 implementation_outcomes:
-  - "Confirm that developer-facing A2A discovery is needed for the approved agent."
+  - "Confirm that developers need A2A discovery for the approved agent."
   - "Select Git or API Management as the supported runtime-owned source integration."
   - "Create or refresh the live API Center asset through that source without a manual duplicate registration."
   - "Observe the resulting catalog asset and confirm it still points to the current A2A interface."

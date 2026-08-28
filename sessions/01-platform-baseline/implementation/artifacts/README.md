@@ -1,6 +1,6 @@
 # Implementation artifacts
 
-These files deploy one small sandbox baseline and stage the Azure Policy guardrails on top of it:
+These artifacts deploy a small sandbox baseline and stage Azure Policy guardrails:
 
 - a current Foundry `AIServices` account with local authentication disabled;
 - one child project, with a system-assigned identity on each boundary;
@@ -19,7 +19,7 @@ deployments, additional role assignments, or a management-group policy definitio
 | Choice | Reason |
 |---|---|
 | Stable `2026-05-01` Foundry APIs | Current non-preview account, project, and connection schemas |
-| System-assigned identities | Establish durable principals without adding a credential |
+| System-assigned identities | Create durable principals without adding a credential |
 | `disableLocalAuth: true` | Keep Foundry data-plane access on Microsoft Entra authentication |
 | Workspace-based Application Insights | Provide the trace destination used by later sessions |
 | Connection string resolved inside Bicep | Keep it out of parameter files, outputs, and source control |
@@ -40,8 +40,8 @@ az bicep build --file .\policy\assignment.bicep
 
 Azure holds the deployed resource, policy assignment, compliance, and exemption state. Platform
 operations keeps live inventory and classic-migration work in the customer systems that own those
-records. The cloud platform owner uses the normal change and risk process to approve enforcement
-or exemptions. Those one-time decisions do not belong in this repository.
+records. The cloud platform owner approves enforcement or exemptions through the normal change and
+risk process. Those decisions stay out of this repository.
 
 `scripts/resolve-builtins.ps1` resolves current built-ins outside Bicep and returns their IDs,
 versions, and effects to the current shell. Re-resolve them before each implementation. The script

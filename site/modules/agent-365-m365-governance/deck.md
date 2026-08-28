@@ -14,7 +14,7 @@ description: Optional implementation module for governing Microsoft 365 agent in
 
 ## Optional implementation module
 
-Govern the Microsoft 365 control plane around one pilot agent.
+Govern the Microsoft 365 control plane around an approved pilot agent.
 
 <!-- Notes: This is a full optional module. It is not Session 16 and does not change the numbered sequence. -->
 
@@ -24,7 +24,7 @@ Govern the Microsoft 365 control plane around one pilot agent.
 
 Create the owner review packet for Agent 365 and Microsoft 365 agent surfaces without changing production access.
 
-The result is an owner-reviewed packet for one nonproduction agent or agent family.
+The result is an owner-reviewed packet for the approved nonproduction agent or agent family.
 
 ![Microsoft Agent 365](assets/icons/microsoft/agent-365.svg)
 
@@ -206,7 +206,7 @@ The pilot agent remains nonproduction until the publishing approver makes a sepa
 
 ---
 
-## What remains
+## Operating ownership
 
 | Owner | Responsibility |
 | --- | --- |

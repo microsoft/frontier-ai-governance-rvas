@@ -1,6 +1,6 @@
 # Implementation artifacts
 
-These files define one governed prompt agent.
+These files define a governed prompt agent.
 
 ```text
 agents/policy-assistant/
@@ -13,7 +13,7 @@ agents/policy-assistant/
 prompt-agent version. Foundry retains the live agent version, endpoint selector, RAI policy, and
 tracing connection; the scripts query that state instead of writing a release record.
 
-The OpenAPI specification intentionally contains one `GET` operation and a runtime-only server URL.
+The OpenAPI specification intentionally contains the approved `GET` operation and a runtime-only server URL.
 The API endpoint is supplied to preflight and deployment in the current shell; it is never written
 to the repository. Do not add write methods, credentials, customer prompts, responses, trace
 exports, or live Azure identifiers to this tree.

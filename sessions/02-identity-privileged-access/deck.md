@@ -20,25 +20,25 @@ html: true
 
 ## Control objective
 
-> Set up four group-based human access paths, PIM-eligible Foundry administration, and one secretless GitHub workload identity for approved nonproduction scopes.
+> Configure four group-based human access paths, PIM-eligible Foundry administration, and one secretless GitHub workload identity for the approved nonproduction scopes.
 
 ### Session result
 
 - Normal human access is group based.
 - Elevated Foundry administration is PIM eligible.
 - One managed identity accepts OIDC tokens only from one protected GitHub environment.
-- The approved roles stop at the Foundry resource, project, and storage account recorded for this session.
+- The roles stop at the Foundry resource, project, and storage account recorded for this session.
 
-<!-- Notes: Set the boundary first. This session changes identity state in one approved nonproduction scope. -->
+<!-- Notes: Set the boundary first. Change identity state only in the approved nonproduction scope. -->
 
 ---
 
 ## Implementation outcomes
 
-1. Map four functional groups to current Foundry roles at the smallest practical scopes.
+1. Assign four functional groups to current Foundry roles at the smallest practical scopes.
 2. Assign normal human access through groups and move platform elevation into PIM.
 3. Deploy a dedicated managed identity whose credential trusts tokens from one protected GitHub environment.
-4. Observe the operational identity, credential, and role scopes without saving command output.
+4. Confirm the live identity, credential, and role scopes without saving command output.
 
 ---
 
@@ -75,7 +75,7 @@ Human administration needs a time boundary. Workloads need narrow authority with
 
 ## What this means
 
-People receive access through customer-owned groups; platform administrators activate the
+People receive access through customer-owned groups. Platform administrators activate the
 time-limited role through PIM. GitHub uses a separate, application-only OIDC trust with no stored
 Azure client secret.
 
@@ -209,7 +209,7 @@ Sources: [Microsoft Entra workload identity federation](https://learn.microsoft.
 3. **Preview and deploy** the three standing group assignments.
 4. **Configure** Foundry Account Owner eligibility through PIM.
 5. **Preview and deploy** the managed identity, credential, and two roles.
-6. **Observe** the approved configuration once.
+6. **Confirm** the live configuration once.
 
 ---
 
@@ -224,7 +224,7 @@ Configure human access and one workload identity in the approved nonproduction s
 - Human access uses groups and PIM.
 - GitHub OIDC trust uses one specific environment subject.
 - The workload identity has two narrow assignments.
-- Deployment previews protect the Foundry resource, Foundry project, and storage account recorded for this session scopes.
+- Deployment previews protect the Foundry resource, Foundry project, and storage account recorded for this session.
 - The result check reads configuration and saves nothing.
 
 <!-- Notes: Pause after each preview. The change owner decides whether deployment proceeds. -->
@@ -285,7 +285,7 @@ The workload script removes the two role assignments before it removes the manag
 - **Workload:** one identity, one specific trust, two scoped roles.
 - **Next step:** use the [delegated OBO module](../../modules/obo-delegated-access/) when a downstream API must authorize the signed-in user.
 - **Safety:** no production scope, subscription assignments, broad OIDC subject, or customer-data access.
-- **Result:** inspect the approved configuration once and save nothing.
+- **Result:** inspect the live configuration once and save nothing.
 - **Next:** [Session 03](../03-private-networking-dns/) gives these identities private service connectivity and firewall-controlled Agent Service traffic.
 
 ---

@@ -13,7 +13,7 @@ retains the candidate version and the observed results; this file defines the re
 
 ## Execution surface
 
-Microsoft Foundry candidate-version test surface.
+Run these checks in the Microsoft Foundry candidate-version test surface.
 
 ## Rerun triggers
 

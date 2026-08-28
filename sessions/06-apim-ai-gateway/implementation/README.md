@@ -7,8 +7,9 @@
 Configure **one Azure API Management route** for the governed
 [Session 05](../../05-governed-agent-baseline/implementation/README.md) policy assistant. On that
 route, APIM checks the client token and product subscription, applies the approved limits and
-Content Safety policies, then uses its managed identity to call the pinned Foundry agent. The owned
-result is a marked, version-controlled APIM API and product with body-free operational telemetry.
+Content Safety policies, then uses its managed identity to call the pinned Foundry agent. This
+session produces a marked, version-controlled APIM API and product with body-free operational
+telemetry.
 
 ### Why it matters
 
@@ -53,10 +54,9 @@ bodies stay out of the logs.
 APIM shows the live route, product, backends, and runtime policy. Foundry remains the record for the
 agent itself. The repository defines the gateway configuration that the deployment path applies.
 
-The enforcement boundary starts when a request enters this APIM route and ends with the Foundry
-backend call. Direct access to the Foundry endpoint sits outside that boundary and needs a separate
-access decision. Session 07 consumes the API definition and runtime location for inventory.
-Session 08 adds MCP tool controls.
+This control covers requests from their entry to this APIM route through the Foundry backend call.
+Direct access to the Foundry endpoint needs a separate access decision. Session 07 uses the API
+definition and runtime location for inventory. Session 08 adds MCP tool controls.
 
 ### Design choices and tradeoffs
 

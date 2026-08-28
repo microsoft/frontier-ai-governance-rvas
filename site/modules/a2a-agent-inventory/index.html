@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="Onboard or confirm one approved A2A agent in Microsoft Agent 365 through a supported integration route, then observe its live inventory and ownership state.">
+    <meta name="description" content="Onboard or confirm an approved A2A agent in Microsoft Agent 365 through a supported integration route, then observe its live inventory and ownership state.">
     <title>Scope and outcomes | Optional module: A2A agent inventory in Microsoft Agent 365 | Practical Microsoft AI Governance</title>
     <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
     <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
@@ -102,10 +102,10 @@
           <p class="implementation-guide__label">Chapter 1 of 6</p>
           <h2 id="module-scope">Module scope<a class="heading-anchor" href="#module-scope" aria-label="Link to Module scope">#</a></h2>
 <h3 id="what-we-will-do">What we will do<a class="heading-anchor" href="#what-we-will-do" aria-label="Link to What we will do">#</a></h3>
-<p>Bring one approved A2A agent into Microsoft Agent 365 through the supported path for its runtime: built-in integration, Registry sync, or a runtime-owned Agent 365 SDK integration. The delivery team then observes the live Agent Registry entry with the agent owner.</p>
-<p>The result is one live Agent 365 inventory record. This module does not create an agent card, technical definition, or copied inventory record in this repository.</p>
+<p>Bring an approved A2A agent into Microsoft Agent 365 through the supported path for its runtime: built-in integration, Registry sync, or a runtime-owned Agent 365 SDK integration. The delivery team then observes the live Agent Registry entry with the agent owner.</p>
+<p>The result is a live Agent 365 inventory record. This module does not create an agent card, technical definition, or copied inventory record in this repository.</p>
 <h3 id="why-it-matters">Why it matters<a class="heading-anchor" href="#why-it-matters" aria-label="Link to Why it matters">#</a></h3>
-<p>Agent 365 gives the organization one place to see the agent, its lifecycle, and its owners. The runtime continues to own the A2A protocol, endpoint, and agent card. Keeping those boundaries clear avoids a second record that immediately starts to drift.</p>
+<p>Agent 365 gives the organization a live inventory for the agent, its lifecycle, and its owners. The runtime continues to own the A2A protocol, endpoint, and agent card. Keeping those boundaries clear prevents a second record from drifting.</p>
 <h3 id="boundaries">Boundaries<a class="heading-anchor" href="#boundaries" aria-label="Link to Boundaries">#</a></h3>
 <p>This optional module sits outside the 14-session sequence. It follows the agent baseline in <a href="../../sessions/05-governed-agent-baseline/">Session 05</a> and hands data controls to <a href="../../sessions/09-purview-data-governance/">Session 09</a>. Use the separate A2A API Center discovery module when developers need a catalog entry for the agent's technical interface.</p>
 <p>Microsoft Agent 365 is authoritative for the enterprise inventory. The agent runtime and its product repository are authoritative for the A2A definition, agent card, endpoint, and behavior. This repository retains neither customer-specific records nor completion evidence.</p>
@@ -116,7 +116,7 @@
               <ul><li>Microsoft Agent 365 administrators and AI platform engineers</li><li>A2A runtime owners and Microsoft Entra identity owners</li><li>Agent owners responsible for lifecycle and retirement</li></ul>
             </div><div class="session-brief__requirements session-brief__list" data-list-layout="stack">
               <h3>What you need</h3>
-              <ul><li>One A2A agent exists in an approved nonproduction runtime and its runtime owner controls the source repository or supported platform integration.</li><li>The Agent 365 administrator has confirmed the tenant licensing, administrator access, and current Agent Registry availability.</li><li>The delivery team has identified one supported onboarding route: built-in integration, Registry sync from a supported platform, or runtime-owned Agent 365 SDK integration.</li><li>The agent owner, runtime owner, and retirement owner are available to observe the live Agent 365 record.</li></ul>
+              <ul><li>An A2A agent exists in an approved nonproduction runtime, and its runtime owner controls the source repository or supported platform integration.</li><li>The Agent 365 administrator has confirmed the tenant licensing, administrator access, and current Agent Registry availability.</li><li>The delivery team has identified a supported onboarding route: built-in integration, Registry sync from a supported platform, or runtime-owned Agent 365 SDK integration.</li><li>The agent owner, runtime owner, and retirement owner are available to observe the live Agent 365 record.</li></ul>
             </div><div class="session-brief__references session-brief__list" data-list-layout="stack">
               <h3>Related numbered sessions</h3>
               <ul><li><a href="../../sessions/05-governed-agent-baseline/">Session 05 - Governed Microsoft Foundry agent baseline</a></li><li><a href="../../sessions/09-purview-data-governance/">Session 09 - Purview data governance and Agent 365 data controls</a></li><li><a href="../../sessions/14-agent-fleet-multiregion-rehearsal/">Session 14 - Agent fleet governance, multi-region design, and production rehearsal</a></li></ul>

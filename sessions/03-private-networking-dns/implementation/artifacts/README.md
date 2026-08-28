@@ -1,18 +1,18 @@
 # Implementation artifacts
 
-These artifacts define the Session 03 network deployment and connectivity checks.
+Use these artifacts to deploy the Session 03 network control and check connectivity.
 
 | Path | Operational purpose |
 |---|---|
 | `infra/network/main.bicep` | Dedicated spoke, Agent subnet, private-endpoint subnet, firewall route, private DNS zones, links, and five private endpoints |
 | `environments/sandbox.bicepparam` | Explicit customer decisions and existing resource IDs |
 
-Every `__REQUIRED_*__` value is intentional. Resolve it in the customer-owned working copy before
-deployment. `scripts/preflight.ps1` rejects every unresolved sentinel. The connectivity and cutover
-scripts derive the seven service FQDNs from the declared resource IDs, so live endpoint names are
-not copied into a second file.
+Resolve each `__REQUIRED_*__` value in the customer-owned working copy before deployment.
+`scripts/preflight.ps1` rejects unresolved sentinels. The connectivity and cutover scripts derive
+the seven service FQDNs from the declared resource IDs, so live endpoint names do not need a
+second file.
 
-Do not store subscription IDs, resource IDs, FQDNs, private IP addresses, firewall addresses, DNS
-server addresses, or cutover state in this repository. The customer firewall source owns egress
-rules. The generalized kit keeps placeholders in the implementation files; approved customer
-systems hold live values, approval, and restore records.
+Keep subscription IDs, resource IDs, FQDNs, private IP addresses, firewall addresses, DNS server
+addresses, and cutover state out of this repository. The customer firewall source owns egress
+rules. The implementation files use placeholders; approved customer systems hold the live values,
+approval, and restore records.

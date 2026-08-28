@@ -14,21 +14,21 @@ html: true
 
 # MCP and tool security
 
-**270 minutes - One governed read path, one blocked write**
+**270 minutes - An MCP read path with a blocked write**
 
-<!-- Notes: Session 07 inventoried the MCP server. This session limits the agent to one read tool and one backend scope. -->
+<!-- Notes: Session 07 set up inventory. This session adds the separate policy-catalog-mcp entry after APIM synchronization and limits the agent to the read tool at the approved backend scope. -->
 
 ---
 
 ## Control objective
 
-> Configure one MCP path with only the `get_policy` tool, candidate-agent authorization at APIM, separate read-only backend access, and payload-free logs. Keep the stable endpoint on the prior version until the release owner sees both checks.
+> Configure an MCP path that exposes only `get_policy`, validates the candidate agent at APIM, uses separate read-only backend access, and emits payload-free logs. Keep the stable endpoint on the prior version until the release owner sees both checks.
 
 ### Result check
 
-- APIM exposes only `get_policy`.
+- The APIM MCP server exposes only `get_policy`.
 - Agent-to-APIM and APIM-to-backend identities are distinct.
-- One approved read succeeds with correlation.
+- The approved read succeeds with correlation.
 - Indirect prompt injection cannot trigger the blocked write.
 - The release owner makes the enable-or-disable decision.
 
@@ -38,7 +38,7 @@ html: true
 
 ## Implementation outcomes
 
-1. Deploy one Streamable HTTP MCP server over an existing GET operation.
+1. Deploy a Streamable HTTP MCP server over the existing GET operation.
 2. Validate the candidate agent identity at APIM.
 3. Use APIM's read-only managed identity for the approved backend scope.
 4. Emit correlation and tool logs without payloads.
@@ -56,13 +56,13 @@ Together they limit what the candidate can request, which agent may call APIM, a
 
 The release checkpoint keeps this path off the stable endpoint until both checks are observed.
 
-<!-- Notes: Keep the four control surfaces separate throughout the briefing. -->
+<!-- Notes: Keep the four control layers separate throughout the briefing. -->
 
 ---
 
 ## Control boundaries
 
-- APIM exposes one read-only MCP tool and uses a separate backend identity.
+- APIM exposes the approved read-only MCP tool and uses a separate backend identity.
 - The inbound MCP token never reaches the backing API.
 - Application Insights keeps correlation and tool metadata without payloads.
 - Foundry remains the live source for the candidate and stable version selector.
@@ -95,9 +95,9 @@ Discovery tells us what exists. Runtime authorization decides what can happen.
 ## What this means
 
 The candidate calls APIM with its agent identity. APIM is the point where authority changes: it
-checks that identity and exposes one tool, `get_policy`.
+checks that identity and exposes only `get_policy`.
 
-Caller authority ends at APIM. APIM calls the backend with its own identity at one read-only scope.
+Caller authority ends at APIM. APIM calls the backend with its own identity at the approved read-only scope.
 
 Foundry owns the candidate binding and stable selector. APIM owns runtime policy and backend
 identity. API Center receives design-time inventory metadata.
@@ -108,8 +108,8 @@ identity. API Center receives design-time inventory metadata.
 
 | Decision | Chosen approach | Cost or limit |
 |---|---|---|
-| Tool surface | One `get_policy` tool in APIM and Foundry | Another action needs review and deployment |
-| Backend identity | APIM managed identity at one read scope | Two token audiences and role assignments to maintain |
+| Exposed tools | One `get_policy` tool in APIM and Foundry | Another action needs review and deployment |
+| Backend identity | APIM managed identity at the approved read scope | Two token audiences and role assignments to maintain |
 | Release path | Check an unpinned candidate | Enablement waits for both runtime checks |
 | Telemetry | Correlation and tool metadata, zero body bytes | Content investigation stays in governed source systems |
 
@@ -232,8 +232,8 @@ Stop if the inbound token reaches the backend or APIM receives a contributor-sty
 | Caller | Can do | Cannot do |
 |---|---|---|
 | User | Use existing agent endpoint | Administer project |
-| Candidate agent | Invoke one MCP audience and role | Call other APIM APIs |
-| APIM identity | Read one backend scope | Create, update, publish, delete |
+| Candidate agent | Invoke the MCP audience and app role | Call other APIM APIs |
+| APIM identity | Read the approved backend scope | Create, update, publish, delete |
 | Operator | Deploy Session 08 resources | Change unrelated APIs |
 | Release owner | Pin or disable candidate | Redesign control during checkpoint |
 
@@ -314,7 +314,7 @@ Backend 4xx and 5xx responses stay on the normal outbound path. Policy and trans
 
 **Timebox: 270 minutes**
 
-Deploy one MCP control, create one unpinned candidate agent version, and check both runtime paths. Leave the active endpoint unchanged until the release owner decides.
+Deploy the MCP control, create an unpinned candidate agent version, and check both runtime paths. Leave the active endpoint unchanged until the release owner decides.
 
 <!-- Notes: Pause before deployment, candidate creation, and stable-version pinning. -->
 
@@ -328,7 +328,7 @@ The API program owner maintains the MCP metadata in API Center before the releas
 
 1. Resolve owners, identities, scopes, tool, and synthetic records.
 2. Run preflight and inspect APIM `what-if`.
-3. Deploy the MCP API, one tool, policy, and diagnostic.
+3. Deploy the MCP API, its only tool, policy, and diagnostic.
 4. Maintain the API Center metadata.
 5. Create the agentic-identity project connection.
 6. Create an unpinned candidate version.
@@ -422,7 +422,7 @@ Approve only the read that retrieves that record.
 
 <!-- _class: decision -->
 
-## Release-owner checkpoint
+## Release-owner decision at the delivery-owner checkpoint
 
 <div class="cards">
 <div class="card">
@@ -445,7 +445,7 @@ Either check fails. Keep or restore the [Session 05](../05-governed-agent-baseli
 
 ## In operation
 
-- APIM MCP API, one tool, policy, APIM named values, and diagnostic
+- APIM MCP API, its only tool, policy, APIM named values, and diagnostic
 - Foundry project connection and enabled candidate version
 - API Center owner and risk metadata
 - Source-controlled agent-to-MCP binding

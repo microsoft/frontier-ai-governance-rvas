@@ -25,5 +25,5 @@
 | Pricing source owner | `__REQUIRED_COST_OWNER__` |
 | Usage interpretation | Token telemetry is usage, not an invoice. API Management tracks at most 100 unique values per dimension and 1,000 active time series per metric namespace, then silently discards data for new values or series beyond those limits. Model and provider pricing, cached or reasoning tokens, streaming behavior, and reporting delay can change the estimate. Cost Management billed cost is authoritative. |
 
-The machine-enforced telemetry dimensions and prohibited attributes are defined once in
-`../telemetry/telemetry-contract.json`.
+`../telemetry/telemetry-contract.json` defines the telemetry dimensions and prohibited
+attributes enforced by the machine contract.

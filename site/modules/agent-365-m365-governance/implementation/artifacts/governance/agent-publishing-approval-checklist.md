@@ -1,7 +1,7 @@
 # Agent publishing approval checklist
 
-Use this checklist before making the approved pilot agent available through Microsoft 365 Copilot
-or the Agent Store. The Microsoft 365 Admin Center remains authoritative for live publishing state.
+Use this checklist before making the approved pilot agent available in Microsoft 365 Copilot or the
+Agent Store. Microsoft 365 Admin Center remains authoritative for live publishing state.
 
 | Field | Decision |
 |---|---|

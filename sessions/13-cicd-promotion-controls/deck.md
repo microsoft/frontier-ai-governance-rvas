@@ -14,7 +14,7 @@ html: true
 
 # CI/CD, policy as code, and controlled promotion
 
-**300 minutes - One fixed release, two controlled stages**
+**300 minutes - A fixed release through protected stages**
 
 <!-- Notes: Session 12 made the service operable. This session keeps promotion repeatable and limited. -->
 
@@ -47,10 +47,10 @@ The protected workflow keeps that relationship easy to inspect. It also stops Se
 
 ## Implementation outcomes
 
-1. Bind one fixed release to the protected `release_sha`.
+1. Tie one fixed release to the protected `release_sha`.
 2. Make Azure deployment depend on the Session 10 gate and the other approved release checks.
 3. Require protected nonproduction and production approvals after their what-if previews.
-4. Bind both deployments, routing, and the approved release record to the same SHA.
+4. Tie both deployments, routing, and the approved release record to the same SHA.
 5. Confirm the allowed path, blocked path, and manual restore reference.
 
 <!-- Notes: Extended mode is deliberate because both paths protect the production checkpoint. -->
@@ -297,7 +297,7 @@ Live delivery runs the allowed and blocked paths, then pauses for the delivery o
 
 ---
 
-## Preflight has two read-only phases
+## Preflight runs two read-only phases
 
 ### Decisions
 
@@ -391,7 +391,7 @@ If any sequence differs, keep 100% on the previous release and correct the workf
 
 ## Operational promotion control
 
-One customer-owned delivery control:
+The customer-owned delivery control:
 
 - no client secrets;
 - one release through preview and apply environments;
@@ -438,7 +438,7 @@ After production environment approval, validate the marker and digest, preview, 
 
 ## Recap
 
-- One linked fixed release
+- A linked fixed release
 - GitHub OIDC without client secrets
 - Bicep lint, build, and two what-if gates
 - Native secret, unit, smoke, evaluation, and external security-attestation controls

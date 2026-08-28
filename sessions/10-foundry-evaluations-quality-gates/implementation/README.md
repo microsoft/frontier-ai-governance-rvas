@@ -4,9 +4,9 @@
 
 ### What we will do
 
-Create and exercise a callable release-eligibility gate for exact agent versions. Run the versioned
-golden data set against the approved and candidate versions, then confirm that the approved current
-result returns `PASS` and the in-memory tool-process regression returns `BLOCK`.
+Create and run a callable release gate for fixed agent versions. Run the versioned
+golden data set against the approved and candidate versions. The approved aggregate must return
+`PASS`, and the in-memory tool-process regression must return `BLOCK`.
 
 ### Why it matters
 
@@ -27,20 +27,20 @@ authorization boundary for prohibited writes.
 
 ### Architecture at a glance
 
-![One versioned golden data set fans into approved and candidate immutable agent versions; evaluator layers converge into current Foundry aggregates, then thresholds and release policy return PASS or BLOCK](../assets/diagrams/evaluation-release-gate-flow.svg)
+![A versioned golden data set evaluates approved and candidate immutable agent versions; evaluator layers produce live Foundry aggregates, and thresholds plus release policy return PASS or BLOCK](../assets/diagrams/evaluation-release-gate-flow.svg)
 
 The same synthetic data set evaluates two fixed versions. Foundry stores the detailed result. The
 runner writes a payload-free aggregate to the approved external release store, and the gate applies
-the repository-owned threshold and release-policy contract to those current inputs.
+the repository-owned threshold and release-policy contract to those live inputs.
 
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
 |---|---|---|---|---|
-| Test data | One versioned synthetic golden set. | Comparable runs. | Content changes need a new baseline. | Use cases or risks change. |
+| Test data | Versioned synthetic golden set. | Comparable runs. | Content changes need a new baseline. | Use cases or risks change. |
 | Gate layers | Final-answer quality, tool process, and safety remain separate. | A strong average cannot hide a failure. | More than one owner maintains thresholds. | Evaluator behavior changes. |
 | Protected material | Keep it blocking in East US 2. | Retains the approved safety check. | The run stops if the supported path is unavailable. | Regional support expands. |
-| Operational state | Store current runs and activation in Foundry and the release platform. | Avoids repository snapshots. | The gate receives external current inputs. | The approved release platform changes. |
+| Operational state | Foundry and the release platform retain live runs and activation. | Avoids repository snapshots. | The gate reads external results. | The approved release platform changes. |
 
 ### Architecture guidance
 
@@ -84,9 +84,8 @@ evaluator becomes blocking, a limited-support tool enters the evaluated path, a 
 tool-process failure is treated as overridable, or a current result would be written under this
 repository.
 
-The release owner updates the version-controlled policy for evaluator, tool, or threshold changes
-through the delivery change path. Foundry and the release platform record current support checks,
-run IDs, activation, and decisions.
+The release owner updates the version-controlled policy when evaluators, tools, or thresholds
+change. Foundry and the release platform record support checks, run IDs, activation, and decisions.
 
 ## Implement
 
@@ -193,7 +192,7 @@ python ./scripts/release-gate.py \
 
 ### Intended path
 
-Run the gate against the approved current aggregate as both inputs. It returns `PASS` when every
+Run the gate against the approved aggregate as both inputs. It returns `PASS` when every
 blocking metric is present, has zero errors, and meets its active threshold.
 
 ### Blocked or failure path
@@ -218,10 +217,10 @@ candidate eligible for Session 13, but it does not promote the version by itself
 ## After implementation
 
 Keep the golden data, evaluation specification, threshold policy, release policy, scripts, and
-disable-and-restore runbook in operation. Foundry and the release platform retain current run and
-decision records. The quality owner owns the data and thresholds; the safety owner owns the safety
-boundary; the tool owner owns tool-process compatibility; and the release owner owns the stable
-selector and delivery integration.
+disable-and-restore runbook in operation. Foundry and the release platform retain run and decision
+records. The quality owner owns the data and thresholds; the safety owner owns the safety boundary;
+the tool owner owns tool-process compatibility; and the release owner owns the stable selector and
+delivery integration.
 
 Use [`artifacts/operations/disable-and-restore.md`](artifacts/operations/disable-and-restore.md) to
 keep or restore the approved version, remove delivery integration after dependency review, and

@@ -1,6 +1,6 @@
 # Evaluation control artifacts
 
-The repository keeps the definitions that run and govern the release gate:
+The repository keeps the definitions used to run and govern the release gate:
 
 | Path | Purpose | Consumer |
 |---|---|---|
@@ -11,5 +11,5 @@ The repository keeps the definitions that run and govern the release gate:
 | `operations/disable-and-restore.md` | Operating disable and restore procedure. | Release owner and incident operator |
 
 Microsoft Foundry retains detailed evaluations and row-level results. The approved release platform
-retains aggregate runs, gate activation, and promotion decisions. The runner accepts an explicit
-external output path and refuses to write run results inside this repository.
+retains aggregate runs, gate activation, and promotion decisions. The runner accepts an approved
+external output path and refuses to write run results in this repository.

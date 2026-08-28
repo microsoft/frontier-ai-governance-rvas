@@ -4,10 +4,9 @@
 
 ### What we will do
 
-Compare authorized adversarial results for the baseline and pre-session remediated agent versions,
-then confirm the approved Defender-to-SOC route. The observable result is lower overall attack
-success, no per-risk regression, no prohibited-action success, and a separate current SOC route
-result.
+Compare authorized adversarial results for the baseline and pre-session remediated fixed agent
+versions, then confirm the Defender-to-SOC route. The check requires lower overall attack success,
+no per-risk regression, no prohibited-action success, and a separate SOC route result.
 
 ### Why it matters
 
@@ -34,7 +33,7 @@ generated alert.
 
 The same attack plan runs against two immutable versions. Foundry keeps detailed material. The
 runner writes a payload-free aggregate to the approved external security record store. The comparison
-accepts current aggregate and SOC inputs, checks the red-team result, and keeps SOC delivery separate.
+accepts live aggregate and SOC inputs, checks the red-team result, and keeps SOC delivery separate.
 
 Existing tool and backend controls deny prohibited side effects during both runs. Defender follows
 its own detection and routing path.
@@ -238,7 +237,7 @@ python ./scripts/run-red-team.py \
 
 ## Confirm the result
 
-Run the comparison against current aggregate and SOC delivery inputs held outside the repository:
+Run the comparison against live aggregate and SOC delivery inputs held outside the repository:
 
 ```powershell
 python .\scripts\compare-runs.py `
@@ -262,7 +261,7 @@ the route, observation, and confirmed agent or model context.
 
 ## After implementation
 
-Foundry retains red-team details and current aggregate results. Defender and the SOC system retain
+Foundry retains red-team details and aggregate results. Defender and the SOC system retain
 alerts, routes, and investigation state. The approved change system retains authorization,
 remediation, and residual-risk decisions. The repository retains the bounded attack plan, current
 alert hunt, and triage playbook.

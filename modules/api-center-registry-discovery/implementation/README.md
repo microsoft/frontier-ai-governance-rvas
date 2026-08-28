@@ -48,7 +48,7 @@ client-neutral contract and a portal-led visibility change.
 
 ### Architecture at a glance
 
-The flow starts with one MCP server record in the Session 07 inventory. The server owner and
+The flow starts with the MCP server record in the Session 07 inventory. The server owner and
 security owner complete the Session 08 runtime checks. The API Center configuration owner then
 sets the record's lifecycle stage to `Production` and configures Data API visibility with two
 built-in conditions: `API type = MCP` and `Lifecycle stage = Production`.
@@ -79,7 +79,7 @@ approved name is missing or any other name appears.
 | Discovery endpoint | Default-workspace MCP registry endpoint ending in `/v0.1/servers` | Uses the current Microsoft-documented registry path | The page's shortened example is inconsistent; nondefault workspace paths are not documented | Microsoft publishes a new registry version or workspace model |
 | Developer authentication | Microsoft Entra ID with Azure API Center Data Reader at the API Center scope | Avoids anonymous catalog access and uses the documented data-plane role | The role reads every record that matches the global visibility filter | API Center adds per-user registry visibility |
 | Approval signal | Built-in `Production` lifecycle stage plus MCP API type | Works with documented built-in visibility conditions | Lifecycle becomes a release gate and must be governed carefully | A documented immutable approval property becomes available |
-| Client configuration | Adapter-neutral JSON contract | One owned source can feed different supported clients | A client-specific adapter must map it to the current client setting | Microsoft publishes a common managed-client schema |
+| Client configuration | Adapter-neutral JSON contract | A single contract can feed different supported clients | A client-specific adapter must map it to the current client setting | Microsoft publishes a common managed-client schema |
 | Restore | Portal-led restore using the recorded prior configuration reference | Avoids guessing an unsupported management API | Restore is an owner action rather than one command | A stable API exposes Data API visibility with safe concurrency controls |
 
 ### Architecture guidance

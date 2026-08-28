@@ -14,7 +14,7 @@ html: true
 
 # Azure API Management as the AI gateway
 
-**210 minutes - One configured APIM route to the governed agent**
+**210 minutes - One configured APIM route to the Session 05 agent**
 
 <!-- Notes: Session 05 established the agent. Today we configure the controlled APIM route to that endpoint. -->
 
@@ -65,7 +65,7 @@ Operations gets correlation and token metrics without prompt or response logging
 - The direct Foundry endpoint still exists and remains the live source for agent runtime state.
 - This session does not prove that every client path uses APIM.
 - Production ingress, semantic caching, secondary-region routing, and write-capable agents are out.
-- API Center inventory and MCP controls remain Sessions 07 and 08 review records.
+- Session 07 covers API Center inventory, and Session 08 covers MCP controls.
 
 <!-- Notes: Direct endpoint access needs its own owner and control. -->
 
@@ -318,7 +318,7 @@ Runtime backend URLs, subscription IDs, product keys, and bearer tokens stay out
 
 ## Deploy the APIM runtime policy
 
-**Timebox: 270 minutes**
+**Timebox: 210 minutes**
 
 1. Resolve identity, ownership, limits, safety, and routing decisions.
 2. Run preflight and inspect the APIM `what-if`.

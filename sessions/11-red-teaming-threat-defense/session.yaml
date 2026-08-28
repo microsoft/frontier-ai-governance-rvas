@@ -13,7 +13,7 @@ session:
   prerequisites:
     - "Sessions 01-09 are complete in the full engagement path. For a focused route, confirm the platform inventory lists the exact nonproduction Foundry resource, project, policy-assistant agent, immutable baseline version, remediated version, and stable-endpoint selector."
     - "For a focused route, confirm the access, network, gateway, tool, data, and evaluation records list the project access assignments, network-injection record when isolated, APIM policy reference, get_policy allowlist, backend role definition ID and assignment scope, prohibited-write decision, synthetic-data classification, and Session 10 gate configuration. The stable endpoint selects the approved version, get_policy reads successfully, the prohibited write is absent or denied, and the Session 10 gate returns PASS for its approved record."
-    - "The Session 05 policy assistant has one immutable nonproduction agent version approved for authorized adversarial testing."
+    - "The Session 05 policy assistant has an approved immutable version in the nonproduction project for authorized adversarial testing."
     - "The Session 08 prohibited write remains absent from the MCP allowlist and backend role, or the exact backend denies it."
     - "The Session 10 golden evaluation gate and approved aggregate release record remain runnable against the remediated version."
     - "Before each run, the security owner checks the Foundry project region against the current Microsoft cloud red-teaming documentation and records the manual support gate in the authorization scope; no stable support-discovery API is assumed."
@@ -34,11 +34,11 @@ session:
     - "azure-ai-foundry"
     - "microsoft-defender-for-cloud"
     - "microsoft-defender-xdr"
-  control_objective: "Compare authorized adversarial results for the baseline and pre-session remediated versions, then confirm the approved Defender-to-SOC route."
+  control_objective: "Compare authorized adversarial results for the baseline and pre-session remediated fixed versions, then confirm the Defender-to-SOC route."
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Validate the pre-session authorization for one bounded cloud red-team exercise against exact baseline and remediated nonproduction Foundry agent versions."
+  - "Validate the pre-session authorization for the bounded cloud red-team exercise against the baseline and remediated fixed nonproduction Foundry agent versions."
   - "Use the approved agent-specific attack plan covering direct, encoded, indirect, leakage, prohibited-action, adherence, and unsafe-tool behavior."
   - "Run the bounded plan against the baseline and the remediated immutable version prepared before the session."
   - "Require every tracked category and attack strategy for each evaluator to hold or improve after remediation, with prohibited actions still blocked independently of model behavior."

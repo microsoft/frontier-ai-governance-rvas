@@ -9,8 +9,8 @@
 
 ## Immediate disable switch
 
-Keep or restore the stable endpoint at 100% of the [Session 05](../../../../05-governed-agent-baseline/implementation/README.md) approved agent version. Do not pin the
-candidate version when either evaluation path fails or the release owner cannot observe the result.
+Keep or restore the stable endpoint at 100% of the [Session 05](../../../../05-governed-agent-baseline/implementation/README.md) approved fixed agent version. Do not pin the
+candidate version when either evaluation path fails or the release owner cannot inspect the result.
 The Session 10 scripts never change the endpoint selector.
 
 ## Ordered restore

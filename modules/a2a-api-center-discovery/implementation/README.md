@@ -20,7 +20,7 @@ records connected through source integrations avoids asking people to update the
 ### Boundaries
 
 This optional 60-minute add-on follows the [A2A agent inventory in Microsoft Agent 365](../../a2a-agent-inventory/implementation/README.md)
-core module and [Session 07](../../../sessions/07-api-center-ai-mcp-inventory/implementation/README.md).
+module and [Session 07](../../../sessions/07-api-center-ai-mcp-inventory/implementation/README.md).
 
 Microsoft Agent 365 remains authoritative for enterprise inventory and lifecycle. Azure API Center
 is authoritative for its live discovery asset. The runtime-owned source system remains
