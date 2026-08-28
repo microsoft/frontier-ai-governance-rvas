@@ -24,13 +24,13 @@ html: true
 
 > Add three selected assets to API Center: deploy the Session 05 agent API, synchronize the Session 06 APIM API, and register an approved remote MCP server.
 
-Each entry has an owner, lifecycle state, classification, and runtime location.
+Give each entry an owner, lifecycle state, classification, and runtime location.
 
 ### Result check
 
-- The [Session 05](../05-governed-agent-baseline/) agent API is added and the [Session 06](../06-apim-ai-gateway/) APIM API is synchronized.
-- The approved remote MCP server is registered through the native asset flow.
-- Twelve governance properties are required and populated.
+- API Center adds the [Session 05](../05-governed-agent-baseline/) agent API and synchronizes the [Session 06](../06-apim-ai-gateway/) APIM API.
+- The API program owner registers the approved remote MCP server through the native asset flow.
+- Each entry contains twelve required governance properties.
 - The read-only check finds no missing metadata in the governed inventory.
 
 <!-- Notes: This is a design-time control. It does not replace runtime authorization. -->
@@ -42,8 +42,8 @@ Each entry has an owner, lifecycle state, classification, and runtime location.
 1. Deploy a tagged API Center with required metadata.
 2. Synchronize the [Session 06](../06-apim-ai-gateway/) APIM source through managed identity.
 3. Add the [Session 05](../05-governed-agent-baseline/) agent API and register the approved remote MCP server.
-4. Keep the direct agent definition in source control and maintain API Center metadata for synchronized and portal-added assets.
-5. Check the three required entries and APIM integration state, then review native MCP health manually.
+4. Keep the direct agent definition in source control. Maintain API Center metadata for synchronized and portal-added assets.
+5. Check the three required entries and APIM integration state. Review native MCP health manually.
 
 <!-- Notes: Keep the discussion anchored to the current inventory, not every API Center feature. -->
 
@@ -51,7 +51,7 @@ Each entry has an owner, lifecycle state, classification, and runtime location.
 
 ## Why it matters
 
-The three required entries give developers and owners a shared answer to what is available, where it runs, and who must review or retire it.
+The three required entries show developers and owners what is available, where it runs, and who must review or retire it.
 
 Missing ownership and lifecycle decisions become visible before an asset is treated as approved.
 
@@ -77,7 +77,7 @@ Missing ownership and lifecycle decisions become visible before an asset is trea
 
 # Design-time inventory, runtime enforcement
 
-Definitions and ownership flow into API Center. Live requests flow through APIM.
+Definitions and ownership flow into API Center. Live requests go through APIM.
 
 API Center answers **what exists and who owns it**. APIM controls **what happens on each call**.
 
@@ -104,7 +104,7 @@ runtime traffic.
 
 ### Azure API Management
 
-Receives live requests, checks callers and policy, then replaces authorization before it sends the
+Receives live requests, checks callers and policy, then replaces authorization before sending the
 request to a backend.
 
 </div>
@@ -131,7 +131,7 @@ definition. A read-only managed identity imports every API from the APIM instanc
 program owner registers the approved remote MCP server in the portal.
 
 API Center stores the resulting metadata. Foundry, APIM, and the MCP server keep their runtime
-state. This session ends at inventory and source health. Live requests stay on the APIM path.
+state. This session covers inventory and source health. Live requests stay on the APIM path.
 Session 08 uses the MCP entry and runtime location.
 
 ---
@@ -334,7 +334,7 @@ scripts/
 
 Use two delivery windows. Window one deploys and links the source. Window two resumes after APIM synchronization to update metadata and confirm the result.
 
-The 210 minutes covers active work across both windows, not the wait of up to 24 hours.
+The 210 minutes covers active work in both windows. It does not include the wait of up to 24 hours.
 
 **Timebox: 210 minutes**
 
@@ -378,7 +378,7 @@ The 210 minutes covers active work across both windows, not the wait of up to 24
 
 Then maintain the synchronized APIM metadata and register the MCP server in API Center.
 
-Expected state: one marked inventory with the three required entries and no committed runtime URL.
+Expected state: one marked inventory with the three required entries. Do not commit a runtime URL.
 
 <!-- Notes: The MCP runtime itself is not changed. -->
 
@@ -427,7 +427,7 @@ Removal deletes only the marked API Center and APIM reader assignment.
 - Assign **API Management Service Reader Role** to the API Center managed identity on the Session 06 APIM instance.
 - Run managed definition analysis and the missing-metadata check.
 
-Next: constrain MCP identities, tools, arguments, outputs, and side effects in [Session 08](../08-mcp-tool-security/).
+Next, constrain MCP identities, tools, arguments, outputs, and side effects in [Session 08](../08-mcp-tool-security/).
 
 <!-- Notes: The registry now knows what exists; the next session governs what tools can do. -->
 

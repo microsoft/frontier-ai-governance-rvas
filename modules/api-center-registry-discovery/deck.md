@@ -16,7 +16,7 @@ description: Optional implementation module for Microsoft Entra-protected MCP re
 
 ## Optional implementation module
 
-Show developer clients the approved MCP servers.
+Show approved MCP servers to developer clients.
 
 <!-- Notes: This module stays outside the 14 sessions and follows Sessions 07 and 08. -->
 
@@ -88,7 +88,7 @@ separate API Center MCP server at `/mcp`.
 https://<api-center-name>.data.<region>.azure-apicenter.ms/workspaces/default/v0.1/servers
 ```
 
-Use the data-plane hostname, default workspace, and `v0.1`.
+Use the data-plane hostname, default workspace, and `v0.1` API version.
 
 Do not substitute the portal URL or the separate `/mcp` catalog endpoint.
 
@@ -162,7 +162,7 @@ Do not substitute the portal URL or the separate `/mcp` catalog endpoint.
 - Stop on the portal hostname, `/mcp`, or an undocumented registry path.
 - Stop if anonymous access is enabled.
 - Stop if the visibility preview contains an unapproved MCP server.
-- Stop if a client merges another registry without an owner decision.
+- Stop if a client adds another registry without an owner decision.
 - Stop if any token or server credential would enter source control.
 
 <!-- Notes: A client fallback to a public registry changes the control boundary. -->
@@ -176,8 +176,8 @@ PASS: Registry discovery returned <count> approved server name(s),
 zero unapproved server names, across <pages> page(s).
 ```
 
-The developer client can discover the approved record. Runtime authorization still decides
-whether the client can connect to the MCP server and call a tool.
+The developer client can discover the approved record. Runtime authorization still decides whether
+the client can connect to the MCP server and call a tool.
 
 <!-- Notes: The script never prints unexpected server names. -->
 

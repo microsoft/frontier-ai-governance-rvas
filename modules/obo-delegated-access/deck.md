@@ -22,9 +22,10 @@ Preserve signed-in user authority across a trusted middle tier.
 
 ## Control objective
 
-A trusted Python middle tier exchanges the signed-in user's assertion for a new delegated token addressed to the protected downstream API.
+A trusted Python middle tier exchanges the signed-in user's assertion for a delegated token for the
+protected downstream API.
 
-The visible result is one allowed call and one denial caused by missing downstream user authority.
+The check shows one allowed call and one denial caused by missing downstream user authority.
 
 ![Microsoft Entra ID](assets/icons/microsoft/microsoft-entra-id.svg)
 
@@ -34,11 +35,11 @@ The visible result is one allowed call and one denial caused by missing downstre
 
 ## Why it matters
 
-A workload identity carries the same application authority for every request.
+A workload identity gives every request the same application authority.
 
-That breaks down when the downstream API must make a decision for the signed-in user.
+That does not work when the downstream API must decide for the signed-in user.
 
-OBO carries that user context across the middle tier without forwarding the original bearer token.
+OBO carries user context across the middle tier without forwarding the original bearer token.
 
 <!-- Notes: Use this module only for a real per-user authorization requirement. -->
 
@@ -67,8 +68,8 @@ OBO carries that user context across the middle tier without forwarding the orig
 ## What this means
 
 In the OAuth on-behalf-of (OBO) flow, the inbound token stops at the middle tier. Microsoft Entra
-ID issues a new delegated token for the downstream API, preserving the user's identity so the API
-can allow one user and deny another.
+ID issues a delegated token for the downstream API. The API can then allow one user and deny
+another.
 
 ---
 
@@ -154,11 +155,11 @@ Stop if an existing grant is ambiguous or the requested scope is broader than th
 
 ## Downstream authorization still decides
 
-A successful exchange proves that Microsoft Entra ID accepted the trust chain.
+A successful exchange shows that Microsoft Entra ID accepted the trust chain.
 
 It does not prove that the user may read the protected resource.
 
-The downstream API checks both the delegated scope and that user's resource assignment.
+The downstream API checks the delegated scope and that user's resource assignment.
 
 <!-- Notes: This is why the module needs a denied-user check. -->
 
@@ -221,7 +222,7 @@ No application-only retry. No token or payload logging.
 
 - **Session 02** selects human, workload, agent, or delegated authority.
 - **Session 05** keeps the direct OpenAPI baseline application-only.
-- **Session 08** replaces inbound authority with APIM managed identity.
+- **Session 08** uses APIM managed identity for inbound authority.
 
 This module is used when those application-only paths do not satisfy a real per-user requirement.
 

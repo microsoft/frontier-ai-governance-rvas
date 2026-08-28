@@ -12,7 +12,7 @@ source-controlled regional parameters.
 ### Why it matters
 
 A secondary deployment needs an operator who can identify the service and move traffic through an
-approved path. This rehearsal gives the service and delivery owners one observable regional result.
+approved path. This rehearsal gives the service and delivery owners one visible regional result.
 
 ### Boundaries
 
@@ -33,24 +33,24 @@ primary selector when required. It does not move identity or registry objects be
 
 ### Architecture at a glance
 
-This rehearsal switches traffic between existing regional deployments. The agent, MCP server,
-identity, and inventory records stay in their native services. Azure Resource Manager checks the
-regional resources and API Management topology. The repository supplies the regional parameters
-and the customer health and routing interfaces. The customer change system approves the switch
-and records its outcome.
+This rehearsal switches traffic between existing regional deployments. Agent, MCP server, identity,
+and inventory records stay in their native services. Azure Resource Manager checks regional
+resources and API Management topology. The repository supplies regional parameters and the customer
+health and routing interfaces. The customer change system approves the switch and records its
+outcome.
 
-First, check the primary and secondary deployments without moving traffic. Then preview the
-selector change from the primary path to the secondary path. After the delivery owner approves
-the move, change the selector and test the live path. The test must return the expected agent
-identity reference, policy version, endpoint, and trace fields. If it does not, restore the
-primary selector through the runbook.
+First, check the primary and secondary deployments without moving traffic. Then preview the selector
+change from the primary path to the secondary path. After the delivery owner approves the move,
+change the selector and test the live path. The test must return the expected agent identity
+reference, policy version, endpoint, and trace fields. If it does not, restore the primary selector
+through the runbook.
 
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
 |---|---|---|---|---|
 | Service state | Inspect live state in native services and Azure Resource Manager. | The operator sees current platform state. | Access is needed in each service. | A service adds or retires an inventory surface. |
-| Gateway topology | Use one Premium (classic) multi-region instance or separate regional gateways. | The design can match the approved network boundary. | One instance retains a primary-region management plane and regional counters. Separate gateways add release work. | Capacity, blast radius, tier support, or network design changes. |
+| Gateway topology | Use one Premium (classic) multi-region instance or separate regional gateways. | The design can match the approved network boundary. | One instance keeps a primary-region management plane and regional counters. Separate gateways add release work. | Capacity, blast radius, tier support, or network design changes. |
 | Restore scope | Move the approved selector and keep the secondary deployment. | The restore is narrow and the standby path stays available. | The secondary capacity remains in service. | The continuity plan changes. |
 
 ### Architecture guidance
@@ -64,7 +64,7 @@ primary selector through the runbook.
 
 ## Before you start
 
-1. Complete Sessions 05-13. If the controls were implemented outside this series, confirm the
+1. Complete Sessions 05-13. If your team built the controls outside this series, confirm the
    required state in the table below before starting the rehearsal.
 2. Approve the primary and secondary regions for model availability, quota, residency, network
    dependencies, API Management capacity, and the agent's tool path.
@@ -82,8 +82,8 @@ primary selector through the runbook.
 
 ### If you are starting with Session 14
 
-This table is for teams whose earlier controls were implemented outside this series. It lists the
-state that must be in place before the rehearsal. Complete every row before moving traffic.
+This table is for teams that built earlier controls outside this series. It lists the state required
+before the rehearsal. Complete every row before moving traffic.
 
 | Existing control | What must already work | How the owner confirms it |
 |---|---|---|
@@ -107,7 +107,7 @@ state that must be in place before the rehearsal. Complete every row before movi
 
 ### Rehearsal scripts
 
-The implementation repository supplies two small adapters for the team's own health and routing
+The implementation repository supplies two small adapters for the team's health and routing
 systems. The Session 14 wrappers call them in a fixed order: confirm secondary readiness, preview
 the selector move, switch traffic after approval, then check the active path. The health-check
 script never changes traffic. The routing-control script is the only script that can do so.
@@ -122,9 +122,9 @@ The wrapper calls this script twice for the secondary region.
 | `Active` | After failover | Sends the same safe check through the active secondary selector. | Writes a temporary JSON result with `status: active`. |
 
 Both modes receive the secondary Azure region and a temporary result path outside the repository.
-They return exit code zero only when the check completes. The wrapper then verifies the returned
-agent version, identity, gateway policy, endpoint, and trace status against
-`region.parameters.json`. A failed check stops the rehearsal.
+They return exit code zero only when the check completes. The wrapper then compares the returned
+agent version, identity, gateway policy, endpoint, and trace status with `region.parameters.json`.
+A failed check stops the rehearsal.
 
 ```powershell
 .\customer-regional-health.ps1 `
@@ -145,8 +145,8 @@ The JSON result contains `implementationSession`, `status`, `region`, `agentVers
 
 ### Routing-control script interface
 
-The routing-control script works with the team's existing traffic layer. It receives only the
-approved selectors, Azure scope, and change-record ID. It accepts no secret or free-form command.
+The routing-control script works with the team's existing traffic layer. It receives the approved
+selectors, Azure scope, and change-record ID. It accepts no secret or free-form command.
 
 | Mode | When it runs | What it may do | Result |
 |---|---|---|---|
@@ -154,9 +154,9 @@ approved selectors, Azure scope, and change-record ID. It accepts no secret or f
 | `Failover` | After the preview and delivery-owner approval | Moves traffic from the named primary selector to the named secondary selector. | Changes only those approved selectors. |
 | `Restore` | When an active-path check fails or the delivery owner stops the rehearsal | Returns traffic to the named primary selector. | Changes only the approved selector pair. |
 
-Each mode returns exit code zero only when the preview or routing action completes. Any nonzero
-exit stops the wrapper. The wrapper does not call `Restore` automatically; use the approved
-restore procedure when traffic has moved.
+Each mode returns exit code zero only when the preview or routing action completes. Any nonzero exit
+stops the wrapper. The wrapper does not call `Restore` automatically. Use the approved restore
+procedure when traffic has moved.
 
 ```powershell
 .\customer-routing-control.ps1 `
@@ -181,7 +181,7 @@ approved change process when the active-path check does not match the expected v
 
 ## Decisions and stop conditions
 
-Resolve every `__REQUIRED_*__` value. Decide:
+Resolve every `__REQUIRED_*__` value. Decide the following:
 
 - the exact resource-group scope and the service, platform, security, and delivery owners;
 - the primary and secondary regions, gateway topology, routing mode, and distinct selectors;
@@ -192,8 +192,8 @@ Resolve every `__REQUIRED_*__` value. Decide:
 - the customer change process that records the production decision and result.
 
 Inspect the governed agent in Foundry Control Plane and Agent 365, and inspect its MCP server in the
-applicable API inventory. Check Purview and Defender in their native portals. Those services retain their
-live state; the repository does not mirror it.
+applicable API inventory. Check Purview and Defender in their native portals. Those services retain
+their live state. The repository does not mirror it.
 
 Stop before routing when:
 
@@ -253,13 +253,13 @@ receive the same policy revision through Session 13.
   --approved-scope "/subscriptions/<id>/resourceGroups/<name>"
 ```
 
-Ready preflight checks the live Azure resources and API Management topology, then runs Bicep
-what-if. It does not deploy or move traffic.
+Ready preflight checks live Azure resources and API Management topology, then runs Bicep what-if.
+It does not deploy resources or move traffic.
 
 ### 4. Run the regional rehearsal
 
-Freeze infrastructure and gateway policy changes. The service owner checks secondary readiness, and
-the routing script previews the approved selectors.
+Freeze infrastructure and gateway policy changes. The service owner checks secondary readiness. The
+routing script previews the approved selectors.
 
 ![Regional failover sequence from primary health through readiness, preview, selector change, secondary checks, and exact restore](../assets/diagrams/regional-failover-sequence.svg)
 
@@ -282,20 +282,20 @@ temporary health result outside the repository. The customer change system recor
 
 ## Confirm the result
 
-Inspect the wrapper output and active service telemetry.
+Inspect wrapper output and active service telemetry.
 
 **Expected result:** the immutable agent version is active through the secondary selector and
 regional backend. The Entra agent identity, API Management policy version, endpoint, and trace
 checks match `region.parameters.json`.
 
-Restore the primary selector before another change when a field differs.
+Restore the primary selector before another change if a field differs.
 
 ## After implementation
 
 Keep `control-definition.json`, `regional/region.parameters.json`, the paired wrappers, and the
 Markdown restore runbook. The platform owner updates the control definition and regional parameters
-when the deployment or script paths change. The service continuity owner updates the runbook before
-each scheduled rehearsal and after routing, topology, or restore-process changes.
+when deployment or script paths change. The service continuity owner updates the runbook before each
+scheduled rehearsal and after routing, topology, or restore-process changes.
 
 Azure, Foundry, Agent 365, Entra, Purview, Defender, Azure Monitor, API Management, and the
 customer change system remain the systems of record. GitHub protected environments, deployment

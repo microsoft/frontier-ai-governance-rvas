@@ -22,9 +22,9 @@ html: true
 
 ## Control objective
 
-> Promote one fixed, gate-passing release through protected nonproduction and production environments, with approval, deployment, routing, and restore tied to the same commit SHA.
+> Promote one fixed, gate-passing release through protected nonproduction and production environments. Tie approval, deployment, routing, and restore to the same commit SHA.
 
-### Release questions
+### Confirm before release
 
 - Which release is moving?
 - Which gates can stop it?
@@ -37,9 +37,9 @@ html: true
 
 ## Why it matters
 
-A release is safe to promote only while its code, AI configuration, gate results, approvals, and traffic change describe the same release unit.
+A release is safe to promote only when its code, AI configuration, gate results, approvals, and traffic change describe the same release unit.
 
-The protected workflow keeps that relationship easy to inspect. It also stops Session 10's known tool-process regression before any Azure preview or approval.
+The protected workflow makes that relationship easy to inspect. It also stops Session 10's known tool-process regression before Azure preview or approval.
 
 <!-- Notes: The SHA is the release spine from input through restore. -->
 
@@ -48,10 +48,10 @@ The protected workflow keeps that relationship easy to inspect. It also stops Se
 ## Implementation outcomes
 
 1. Tie one fixed release to the protected `release_sha`.
-2. Make Azure deployment depend on the Session 10 gate and the other approved release checks.
+2. Make Azure deployment wait for the Session 10 gate and the other approved release checks.
 3. Require protected nonproduction and production approvals after their what-if previews.
 4. Tie both deployments, routing, and the approved release record to the same SHA.
-5. Confirm the allowed path, blocked path, and manual restore reference.
+5. Confirm the permitted path, blocked path, and manual restore reference.
 
 <!-- Notes: Extended mode is deliberate because both paths protect the production checkpoint. -->
 
@@ -85,7 +85,7 @@ The protected workflow input and component digests identify one release.
 
 ## Architecture overview
 
-The full commit SHA, the exact identifier for one Git commit, is the release identity. Every step uses it. A mismatch starts a new release.
+The full commit SHA, the exact identifier for one Git commit, identifies the release. Every step uses it. A mismatch starts a new release.
 
 | Stage | Decision or action | System of record |
 |---|---|---|
@@ -100,8 +100,8 @@ The full commit SHA, the exact identifier for one Git commit, is the release ide
 
 ## What this means
 
-Failed gates leave Azure unchanged. Manual restore uses a selected approved release record and its own
-production approval.
+Failed gates leave Azure unchanged. Manual restore uses a selected approved release record and a
+separate production approval.
 
 ---
 
@@ -116,7 +116,7 @@ production approval.
 | Recovery | Manual, production-approved restore of a selected release | An owner checks the release record and selector before traffic moves | Restore is slower and requires an available authority |
 
 The approved release record links its ID, commit SHA, nonproduction deployment, production workflow,
-and routing selectors. GitHub and Azure retain the full live history.
+and routing selectors. GitHub and Azure retain the live history.
 
 <!-- Notes: Detailed runtime records stay in their source systems. The release record links them rather than copying them. -->
 
@@ -148,9 +148,9 @@ Floating tags, `latest`, mutable aliases, a release SHA outside the protected de
 
 ![Microsoft Entra workload identity](assets/icons/microsoft/microsoft-entra-workload-id.svg)
 
-**Four environments · Four specific subjects · Two stage identities**
+**Four environments. Four exact subjects. Two stage identities.**
 
-Record the subject issued for this repository:
+Record the subject that this repository issues:
 
 - name-based: `repo:owner/repository:environment:<environment>`
 - immutable default after **2026-07-15** for created, renamed, or transferred repositories:
@@ -172,7 +172,7 @@ The `nonproduction` and `production` apply environments require reviewers and pr
 2. disabled administrator bypass; and
 3. variables withheld until protection rules pass.
 
-**Plan and repository visibility are preflight facts, not assumptions.**
+**Treat plan and repository visibility as preflight facts.**
 
 <!-- Notes: If the plan does not expose a required setting, stop and choose an approved boundary. -->
 
@@ -180,7 +180,7 @@ The `nonproduction` and `production` apply environments require reviewers and pr
 
 ## Native secret boundary
 
-Promotion stops unless GitHub reports:
+Stop promotion unless GitHub reports:
 
 - native secret scanning is enabled;
 - push protection is enabled; and
@@ -220,7 +220,7 @@ Stop on unrelated deletion, replacement, scope drift, or unexplained expansion.
 | [Session 10](../10-foundry-evaluations-quality-gates/) evaluation | Aggregate quality, tool-process, and safety thresholds pass from temporary external result records |
 | [Session 11](../11-red-teaming-threat-defense/) red-team | Confirmed external security-release attestation, authorized status and report location, fixed version binding, lower ASR, no risk category getting worse, blocked actions at zero ASR |
 
-Any blocking failure prevents the production job.
+Any blocking failure stops the production job.
 
 <!-- Notes: Service health does not substitute for behavioral quality or red-team resilience. -->
 
@@ -258,14 +258,14 @@ Session 13 requires at least three attempts and a timeout that allows two retry 
 
 ![Azure API Management](assets/icons/microsoft/azure-api-management.svg)
 
-Use `canary` or `blue-green` only when the existing [Session 05](../05-governed-agent-baseline/) or [Session 06](../06-apim-ai-gateway/) path already supports:
+Use `canary` or `blue-green` when the existing [Session 05](../05-governed-agent-baseline/) or [Session 06](../06-apim-ai-gateway/) path supports:
 
 - fixed candidate and stable selectors;
 - a limited traffic move;
 - the previous approved release; and
 - a preview or dry run.
 
-Otherwise: **stop and keep 100% on the previous approved selector.**
+Otherwise, **stop and keep 100% on the previous approved selector.**
 
 <!-- Notes: Do not introduce a routing platform merely to complete this session. -->
 
@@ -293,13 +293,13 @@ free-form commands.
 ## Configure and test controlled promotion
 
 Before the session, the unit-check owner accepts the unit script, the routing owner accepts the
-routing script, and the release owner accepts the release/security-store script. It retrieves
-Session 10 result records and the Session 11 security-release attestation only into the approved
-temporary workspace.
+routing script, and the release owner accepts the release/security-store script. That script
+retrieves Session 10 result records and the Session 11 security-release attestation only into the
+approved temporary workspace.
 
 The platform owner accepts both parameter files. GitHub and Entra administrators accept protections, OIDC trust, and roles. The delivery owner records these decisions in the customer's normal delivery or change record.
 
-Live delivery runs the allowed and blocked paths, then pauses for the delivery owner.
+Live delivery runs the permitted and blocked paths, then pauses for the delivery owner.
 
 **Timebox: 115 minutes**
 
@@ -323,7 +323,7 @@ Files, decision sentinels, approved scopes, repository metadata, workflow enforc
 
 GitHub plan and environments, native secret controls, Session 12 environment variable and optional secret names, four specific OIDC subjects, both resource-group Contributor assignments, and both deployment what-if operations.
 
-Neither phase deploys or changes a resource.
+Neither phase deploys or changes resources.
 
 <!-- Notes: Ready repeats local checks before it reads external configuration. -->
 
@@ -338,7 +338,7 @@ Neither phase deploys or changes a resource.
 5. **Production apply** - reviewer approval, deploy
 6. **Stage, route, finalize** - keep the release record unapproved until routing succeeds
 
-GitHub `needs` puts each approval after its preview.
+GitHub `needs` places each approval after its preview.
 
 <!-- Notes: A failed nonproduction job leaves the production job skipped. -->
 
@@ -346,7 +346,7 @@ GitHub `needs` puts each approval after its preview.
 
 ## Intended-path check
 
-Dispatch with the approved `release_sha` and `evaluation_record=candidate`.
+Dispatch the workflow with the approved `release_sha` and `evaluation_record=candidate`.
 
 Expected:
 
@@ -399,7 +399,7 @@ The delivery owner confirms:
 - the blocked run stopped before any Azure preview or approval; and
 - the previous approved selector remained available throughout.
 
-If any sequence differs, keep 100% on the previous release and correct the workflow.
+If the sequence differs, keep 100% on the previous release and correct the workflow.
 
 <!-- Notes: The owner decides whether the control sequence is safe to keep in operation. -->
 
@@ -407,7 +407,7 @@ If any sequence differs, keep 100% on the previous release and correct the workf
 
 ## What the promotion files require
 
-The customer repository keeps the workflows and definitions that require:
+The customer repository keeps workflows and definitions that require:
 
 - no client secrets;
 - one release through preview and apply environments;
@@ -446,7 +446,7 @@ Dispatch the restore workflow against the approved release store with:
 - recorded release-record SHA-256; and
 - `dry_run=true` first.
 
-After production environment approval, validate the marker and digest, preview, then move only the stable selector. Preserve current and older versions. Delete nothing broad.
+After production environment approval, validate the marker and digest, preview the change, then move only the stable selector. Preserve current and older versions. Do not broadly delete resources.
 
 <!-- Notes: AI-quality signals can alert owners but cannot trigger this workflow automatically. -->
 

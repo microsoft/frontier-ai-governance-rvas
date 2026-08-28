@@ -5,63 +5,62 @@
 ### What we will do
 
 Promote **one immutable, gate-passing release** through protected nonproduction and production
-environments. An authorized operator supplies `workflow_dispatch.release_sha`; the workflow proves
+environments. An authorized operator supplies `workflow_dispatch.release_sha`. The workflow proves
 that SHA is reachable from the protected default branch before release content runs. The same SHA
 ties approval, both deployments, routing, the approved release record, and manual restore together.
 
 ### Why it matters
 
-A release is safe to promote only when its code, AI configuration, gate results, deployment
-approvals, and traffic change still describe the same immutable unit. The workflow makes that
-relationship inspectable and stops Session 10's known tool-process regression before any Azure
-preview or approval.
+A release is safe to promote when its code, AI configuration, gate results, deployment approvals,
+and traffic change still describe the same immutable unit. The workflow makes that relationship
+easy to inspect and stops Session 10's known tool-process regression before Azure preview or
+approval.
 
 ### Boundaries
 
-GitHub Actions runs the promotion sequence, and the four protected GitHub environments hold the
-required approvals and environment-scoped credentials. Microsoft Entra validates the federated
-workload identities. Azure Resource Manager reports deployment state, and API Management reports
-the selected route. Foundry, Application Insights, Defender, and the approved release store keep
-their evaluation, telemetry, security, and release records.
+GitHub Actions runs the promotion sequence. The four protected GitHub environments hold the required
+approvals and environment-scoped credentials. Microsoft Entra validates federated workload
+identities. Azure Resource Manager reports deployment state, and API Management reports the
+selected route. Foundry, Application Insights, Defender, and the approved release store keep their
+evaluation, telemetry, security, and release records.
 
 The workflow uses the existing [Session 05](../../05-governed-agent-baseline/implementation/README.md)
 agent and [Session 06](../../06-apim-ai-gateway/implementation/README.md) routing path. It does not
-create another delivery platform or make routing available where the current platform lacks a safe
-preview and restore path. Session 10 creates the callable eligibility gate; this session makes
-promotion depend on it. Session 14 may consume the protected release path for its approved
-secondary deployment.
+create another delivery platform or add routing where the current platform lacks a safe preview and
+restore path. Session 10 creates the callable eligibility gate. This session makes promotion
+depend on it. Session 14 may use the protected release path for its approved secondary deployment.
 
 ## Architecture
 
 ### Architecture at a glance
 
-The full commit SHA, the exact identifier for one Git commit, is the release's identity. The
-protected workflow uses it for every check, preview, approval, deployment, route change, and
-release record. Fixed component digests, which are cryptographic fingerprints of the other release
-parts, associate those parts with the same release. If anything changes between stages, the team creates a
-new release instead of quietly promoting a different unit.
+The full commit SHA, the exact identifier for one Git commit, identifies the release. The protected
+workflow uses it for every check, preview, approval, deployment, route change, and release record.
+Fixed component digests, cryptographic fingerprints of the other release parts, associate those
+parts with the same release. If anything changes between stages, create a new release instead of
+quietly promoting a different unit.
 
 The workflow makes decisions before it changes Azure. It first proves that the SHA is reachable
-from the protected default branch. Unit checks then run alongside the evaluation, adversarial, and
-observability gates supplied by Sessions 10-12. Any failed gate ends the run before the Azure change
+from the protected default branch. Unit checks then run with the evaluation, adversarial, and
+observability gates from Sessions 10-12. Any failed gate ends the run before the Azure change
 boundary.
 
 Preview and apply use different GitHub environments. A preview job presents its exact OIDC subject,
 the identity string for that repository and environment, to obtain an environment-scoped Microsoft
-Entra workload identity. It then runs Bicep what-if. The apply environments withhold their own
-credentials until a reviewer approves the preview. Azure Resource Manager deploys the same
-release, and API Management moves the approved selector only after both deployments pass.
+Entra workload identity. It then runs Bicep what-if. The apply environments withhold credentials
+until a reviewer approves the preview. Azure Resource Manager deploys the same release, and API
+Management moves the approved selector after both deployments pass.
 
-Each system keeps the records or state it produces. GitHub records workflow execution and environment
-approvals. Microsoft Entra stores the federated credentials and validates workload trust. Azure Resource Manager reports deployed state,
-and API Management reports routing. The approved release store keeps one small release record,
-written after each successful production promotion and read before manual restore. It links native
-records instead of copying them.
+Each system keeps the records or state it produces. GitHub records workflow execution and
+environment approvals. Microsoft Entra stores federated credentials and validates workload trust.
+Azure Resource Manager reports deployed state, and API Management reports routing. The approved
+release store keeps one small release record, written after each successful production promotion
+and read before manual restore. It links native records without copying them.
 
-The workflow controls only changes made through this promotion path. Manual restore follows a
-separate, production-approved workflow. It reads the selected approved release record, checks the
-target, and returns the stable selector to that release. Session 14 uses this protected path to
-deploy an approved secondary region.
+The workflow controls changes made through this promotion path. Manual restore follows a separate,
+production-approved workflow. It reads the selected approved release record, checks the target, and
+returns the stable selector to that release. Session 14 uses this protected path to deploy an
+approved secondary region.
 
 [`artifacts/github/promotion.yml`](artifacts/github/promotion.yml) implements the promotion path.
 [`artifacts/github/restore-previous-release.yml`](artifacts/github/restore-previous-release.yml)
@@ -73,9 +72,9 @@ to identify the release.
 
 | Decision | Chosen approach | Why this shape helps | What it requires | Revisit when |
 |---|---|---|---|---|
-| Release identity | Check out the selected full commit SHA, then use it for every later gate. Deployment, routing, and the release record use the same identity. | A mismatch exposes stage drift, and restore can name the exact release. | A corrected component requires a new release. Mutable aliases cannot be promoted. | The repository boundary changes or the team defines a different release unit. |
+| Release identity | Check out the selected full commit SHA, then use it for every later gate. Deployment, routing, and the release record use the same identity. | A mismatch exposes stage drift, and restore can name the exact release. | A corrected component requires a new release. Do not promote mutable aliases. | The repository boundary changes or the team defines a different release unit. |
 | Preview and apply access | Use separate protected preview and apply environments, each with an exact OIDC subject. | What-if runs before approval. Apply credentials remain unavailable until the protection rules pass. | Four environment subjects and their protections must stay aligned with Microsoft Entra. | GitHub changes its subject format, plan features, or environment model. |
-| Recovery | Restore a selected approved release through a manual, production-approved workflow. | An owner checks the release record and route before production traffic moves. | Restore authority must be available. Recovery is slower than automatic rollback. | A tested automatic policy can perform the same identity and release-record checks, then verify health and routing. |
+| Recovery | Restore a selected approved release through a manual, production-approved workflow. | An owner checks the release record and route before production traffic moves. | Restore authority must be available. Recovery is slower than automatic rollback. | A tested automatic policy can make the same identity and release-record checks, then verify health and routing. |
 
 ### Architecture guidance
 
@@ -88,7 +87,7 @@ to identify the release.
 
 ## Before you start
 
-1. Work from the exact customer repository. Keep the reviewed workflow on the protected default
+1. Use the exact customer repository. Keep the reviewed workflow on the protected default
    branch, and select the approved 40-character release SHA through the customer’s GitHub release
    and deployment process. The SHA must be reachable from that branch. The release commit itself
    must not store the SHA.
@@ -96,7 +95,7 @@ to identify the release.
    this series, confirm the required state in the table below before installing the workflow.
 3. Confirm the approved [Session 10](../../10-foundry-evaluations-quality-gates/implementation/README.md) threshold policy and release policy are usable by the callable
    `sessions/10-foundry-evaluations-quality-gates/implementation/scripts/release-gate.py`.
-   The schema-version 2 release policy must have `gate.state=enabled`,
+   The schema-version 2 release policy must set `gate.state=enabled`,
    `gate.decision=approved`, a valid `gate.decisionDate`, the exact activation fields, and
    `requiredEnforcementOption=--require-enabled`. Its baseline and candidate run IDs must match the
    threshold policy and temporary external result records. Session 10 supplies the gate and its
@@ -143,7 +142,7 @@ to identify the release.
    entry as an approved restore target.
 9. The platform owner accepts the selected Bicep entrypoint and confirms it accepts both approved
    parameter files.
-10. The GitHub administrator accepts the environment protections and native secret controls. The
+10. The GitHub administrator approves the environment protections and native secret controls. The
    Entra administrator accepts all four federated credentials and the two exact resource-group-scoped
    **Contributor** assignments. The release owner
    accepts the release-store operations. The delivery owner records each decision before live
@@ -198,7 +197,7 @@ runs.
 
 ## Decisions and stop conditions
 
-**Resolve every `__REQUIRED_*__` value** in the
+Resolve every `__REQUIRED_*__` value in the
 [`artifacts` tree](artifacts/README.md). In particular, decide:
 
 - repository owner, name, protected default branch, and full-SHA action revisions;
@@ -207,7 +206,7 @@ runs.
   repositories created, renamed, or transferred after 2026-07-15, plus repositories that opted in,
   use a default subject with immutable owner and repository IDs. Older repositories can keep the
   name-based form. Record
-  the exact subject returned for this repository; do not reconstruct it from an example;
+  the exact subject that this repository returns. Do not reconstruct it from an example;
 - the built-in **Contributor** role, ID `b24988ac-6180-42a0-ab88-20f7382dd24c`, as the only Azure
   role on each workload service principal, assigned at its exact environment resource-group scope;
 - nonproduction and production apply reviewer teams and prevent-self-review settings;
@@ -251,12 +250,11 @@ No AI-quality signal restores a previous release automatically.
 
 ### 1. Resolve and check decisions before state changes
 
-Edit the implementation JSON, parameter, and workflow definitions. Boolean decisions become unquoted JSON
-booleans. Keep action pins as full 40-character commit SHAs. Preflight verifies the origin, fetches
-the complete protected default-branch history from the approved `github.com` owner and repository,
-and rejects an approved SHA outside that history. Only the standard GitHub HTTPS and SSH origin
-forms are accepted; the fetch never trusts an origin host supplied by local Git configuration.
-Use Microsoft’s [Azure OIDC
+Edit the implementation JSON, parameter, and workflow definitions. Use unquoted JSON booleans for
+Boolean decisions. Keep action pins as full 40-character commit SHAs. Preflight verifies the
+origin, fetches the complete protected default-branch history from the approved `github.com` owner
+and repository, and rejects an approved SHA outside that history. It accepts only standard GitHub
+HTTPS and SSH origin forms. It never trusts an origin host from local Git configuration. Use Microsoft’s [Azure OIDC
 guide](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure-openid-connect)
 when checking the Entra federated credentials and environment-scoped workflow identity.
 Then run the decision phase:
@@ -276,13 +274,13 @@ Then run the decision phase:
   --approved-release-sha "<40-character-release-sha>"
 ```
 
-This phase names every unresolved decision, parses all JSON, validates repository and environment
-metadata, source paths, policy, immutable versions and action pins, and runs Bicep lint and build.
-It changes no state.
+This phase names every unresolved decision, parses all JSON, checks repository and environment
+metadata, source paths, policy, immutable versions, and action pins, then runs Bicep lint and
+build. It changes no state.
 
 ### 2. Confirm accepted GitHub and Microsoft Entra controls
 
-These controls are pre-session gates. Confirm the accepted state through the customer's
+These controls are pre-session gates. Confirm their approved state through the customer's
 administrative path:
 
 1. verify accepted Entra workload identity federation credentials for all four GitHub environment
@@ -326,19 +324,19 @@ Run:
 
 This phase reads GitHub plan and environment configuration, native secret controls, all four exact
 federated-credential subjects, the two Contributor assignments, and repository metadata. It repeats
-Bicep lint/build and runs nonproduction and production what-if. Before the Ready phase, use the
-approved release/security-store interface to stage the Session 10 baseline and candidate results
+Bicep lint and build, then runs nonproduction and production what-if. Before the Ready phase, use
+the approved release/security-store interface to stage the Session 10 baseline and candidate results
 and Session 11 security-release attestation under the approved temporary workspace. Then pass those
 three absolute paths to preflight. It rejects a repository path or a path outside that workspace.
-It does not deploy or alter a resource.
+It does not deploy or alter resources.
 
 The platform owner inspects and approves the nonproduction and production previews. Stop on an
 unrelated deletion, replacement, scope drift, inaccessible setting, or unexplained what-if result.
 
 ### 4. Confirm the accepted approved workflows
 
-The reviewed workflow definitions must already be installed at the decided repository paths.
-Compare them with the implementation definitions; do not install or reconfigure them during live delivery.
+Install the reviewed workflow definitions at the agreed repository paths before the session.
+Compare them with the implementation definitions. Do not install or reconfigure them during live delivery.
 
 The accepted promotion workflow grants only `contents: read` and `security-events: read` by
 default, adding `id-token: write` only to environment jobs. The restore workflow grants
@@ -366,9 +364,9 @@ The workflow:
 7. pauses at protected `production`; after approval, deploys the identical release;
 8. creates the release record in the approved release store, where it remains unavailable to
    restore;
-9. moves only the approved canary or blue-green selector and checks the routing script result;
-10. finalizes that exact staged release record as approved. If finalization fails, the workflow stops and
-   an operator must dispatch the approved manual restore workflow; and
+9. moves the approved canary or blue-green selector and checks the routing script result;
+10. finalizes that exact staged release record as approved. If finalization fails, the workflow
+   stops and an operator must dispatch the approved manual restore workflow.
 
 Detailed build records remain in GitHub Actions. Evaluation records remain in Microsoft Foundry and
 the approved external release platform. Security authorization and report records remain in the
@@ -376,7 +374,7 @@ approved security and change systems.
 
 ## Confirm the result
 
-This is an extended session. **Run both paths, then stop for the release owner listed in the policy.**
+This is an extended session. **Run both paths, then stop for the release owner named in the policy.**
 
 ### Intended path
 
@@ -438,8 +436,8 @@ After that run completes:
 Expected result: the Session 10 self-test returns BLOCK in the validation job. Both previews, both
 approvals, and both deployments are skipped.
 
-If you want the local implementation check before you inspect the remote run, use the same validator pair
-that `verify.sh` calls for the blocked path:
+For a local implementation check before inspecting the remote run, use the validator pair that
+`verify.sh` calls for the blocked path:
 
 ```powershell
 .\artifacts\pipeline\validate-release.ps1 `
@@ -455,10 +453,9 @@ that `verify.sh` calls for the blocked path:
 ### Delivery-owner checkpoint
 
 Pause with the delivery owner after both results are visible in their native systems. The owner
-confirms the intended run reached each protected apply checkpoint only after its what-if, and the
-generated blocked run never reached an Azure preview or approval. If either
-sequence differs, keep the previous approved release at 100% and correct the control before
-another run.
+confirms the intended run reached each protected apply checkpoint after its what-if, and the
+generated blocked run never reached Azure preview or approval. If either sequence differs, keep the
+previous approved release at 100% and correct the control before another run.
 
 ## After implementation
 
@@ -478,13 +475,13 @@ Bicep scopes and approves both what-if results. AI quality and security owners m
 owner controls routing. The delivery owner accepts the final checkpoint.
 
 Restore is manual. Dispatch **Restore previous AI release** with the exact approved release ID and
-recorded SHA-256 selected from the approved release store. Leave `dry_run=true` first. The production
+recorded SHA-256 selected from the approved release store. Start with `dry_run=true`. The production
 environment approval is required before the workflow reads production OIDC values. The workflow
 retrieves the release record from the approved release store, validates its digest and
-`implementationSession` marker, previews the customer routing
-script. Only an explicit rerun with `dry_run=false` moves the stable selector to that
-immutable release. The workflow preserves the current and older code, prompt, agent, model, APIM, evaluation,
-and deployment versions and deletes no broad state.
+`implementationSession` marker, then previews the customer routing script. Only an explicit rerun
+with `dry_run=false` moves the stable selector to that immutable release. The workflow preserves
+current and older code, prompt, agent, model, APIM, evaluation, and deployment versions. It does
+not broadly delete state.
 
 Run this implementation only against the repository, two GitHub environments, two Azure
 resource-group scopes, and routing selectors listed in the release policy. It does not authorize automatic

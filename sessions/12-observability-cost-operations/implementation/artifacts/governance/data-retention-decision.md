@@ -18,5 +18,5 @@
 | Daily cap decision | `__REQUIRED_DAILY_CAP_DECISION__` |
 | Owner | `__REQUIRED_DATA_RETENTION_OWNER__` |
 
-A daily cap is a last-resort ingestion control and can create an observability gap. Sampling is the
-primary volume control.
+A daily cap is a last-resort ingestion control. It can create an observability gap. Use sampling
+as the primary volume control.

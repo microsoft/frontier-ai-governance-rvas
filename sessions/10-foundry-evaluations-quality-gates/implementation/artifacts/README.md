@@ -1,6 +1,6 @@
 # Evaluation control artifacts
 
-The repository keeps the definitions used to run and govern the release gate:
+The repository keeps the definitions that run and govern the release gate:
 
 | Path | Purpose | Consumer |
 |---|---|---|
@@ -12,4 +12,4 @@ The repository keeps the definitions used to run and govern the release gate:
 
 Microsoft Foundry retains detailed evaluations and row-level results. The approved release platform
 retains aggregate runs, gate activation, and promotion decisions. The runner accepts an approved
-external output path and refuses to write run results in this repository.
+external output path and refuses to write run results in the repository.

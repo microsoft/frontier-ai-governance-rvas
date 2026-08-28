@@ -22,15 +22,15 @@ html: true
 
 ## Control objective
 
-> Compare authorized red-team results for the baseline and the fixed version prepared before the session, then confirm the Defender-to-SOC route.
+> Compare authorized red-team results for the baseline and the fixed version prepared before the session. Then confirm the Defender-to-SOC route.
 
 ### Result check
 
-- Two approved nonproduction agent versions and the unchanged attack plan match the pre-session authorization.
-- The same reviewed attack plan runs before and after remediation.
-- Overall attack success rate falls, and no tracked category, strategy, and evaluator key regresses.
-- Blocked actions remain independently blocked.
-- Separately, an authorized Defender event or route-health result reaches the approved SOC route, and its record confirms the policy-assistant agent or judge model.
+- Confirm that two approved nonproduction agent versions and the unchanged attack plan match the pre-session authorization.
+- Run the same reviewed attack plan before and after remediation.
+- Lower overall attack success rate without regression in a tracked category, strategy, or evaluator key.
+- Keep blocked actions independently blocked.
+- Confirm that an authorized Defender event or route-health result reaches the approved SOC route and identifies the policy-assistant agent or judge model.
 
 <!-- Notes: A scan is a control input, not a complete security assessment. -->
 
@@ -42,7 +42,8 @@ A lower average attack success rate can hide a worse result in one category.
 
 The before/after comparison keeps those misses visible and checks that blocked actions still fail.
 
-The separate route check tells the security owner whether an expected Defender signal can reach the SOC team that must investigate it.
+The separate route check tells the security owner whether an expected Defender signal reaches the
+SOC team that must investigate it.
 
 <!-- Notes: Red-team results and SOC delivery remain separate operating facts. -->
 
@@ -51,7 +52,7 @@ The separate route check tells the security owner whether an expected Defender s
 ## Implementation outcomes
 
 1. Validate the approved scope, fixed versions, and agent-specific attack plan.
-2. Run the same limited probes against the baseline and pre-session remediated version.
+2. Run the same limited probes against the baseline and version remediated before the session.
 3. Keep a payload-free before/after comparison in the approved security record store.
 4. Confirm an authorized Defender event or route-health result at the SOC destination.
 5. Record red-team and SOC delivery as separate results in the risk and change review record.
@@ -64,7 +65,8 @@ The separate route check tells the security owner whether an expected Defender s
 
 # Compare the same red-team plan and confirm the SOC route
 
-Remediation is already complete. Timed work compares the two versions and checks the approved route.
+Remediation is already complete. Use the timed work to compare the versions and check the approved
+route.
 
 <!-- Notes: Do not optimize only for a prettier scorecard. -->
 
@@ -82,8 +84,8 @@ Remediation is already complete. Timed work compares the two versions and checks
 
 ## What this means
 
-The design asks whether one remediation changed the result of an approved attack plan. That exact
-plan runs against the baseline and the remediated immutable version. Existing tool and backend
+This design checks whether one remediation changed the result of an approved attack plan. Run that
+exact plan against the baseline and the remediated immutable version. Existing tool and backend
 controls deny prohibited side effects during both runs.
 
 Foundry stores the run detail. The comparison shows whether every tracked risk stayed the same or
@@ -120,9 +122,10 @@ proof of red-team improvement.
 
 The security owner checks the current Microsoft region matrix on the day of the run.
 
-Record the same-day support decision in the approved change system. Use that live check as the support decision.
+Record the same-day support decision in the approved change system. That live check is the support
+decision.
 
-Use only the authorized nonproduction policy-assistant version, synthetic data, and read-only tool.
+Use the authorized nonproduction policy-assistant version, synthetic data, and read-only tool.
 
 Keep blocked writes independently denied. Stop on any unexpected side effect.
 
@@ -259,7 +262,8 @@ Not every authorized red-team run deterministically creates one of these alerts.
 
 ## One SOC route
 
-The SOC route is ready when its owner accepts an authorized Defender event or route-health result. Do not depend on a newly generated alert.
+The SOC route is ready when its owner accepts an authorized Defender event or route-health result.
+Do not depend on a newly generated alert.
 
 ![Microsoft Sentinel](assets/icons/microsoft/microsoft-sentinel.svg)
 
@@ -284,7 +288,7 @@ The saved hunt matches the current alert titles exactly. It does not use a broad
 
 **Timebox: 100 minutes**
 
-1. Validate authorization, Foundry project, both policy-assistant versions, current region support, Defender coverage, and each required owner decision.
+1. Validate authorization, the Foundry project, both policy-assistant versions, current region support, Defender coverage, and each required owner decision.
 2. Prepare and human-review the blocked-action taxonomy.
 3. Run the baseline against the approved version.
 4. Confirm that the pre-session remediation and new fixed version match the approved records.
@@ -354,7 +358,7 @@ python .\scripts\run-red-team.py `
   --output $env:APPROVED_SECURITY_RECORD_STORE\post-remediation-aggregate.json
 ```
 
-Human-review remaining risk before any decision.
+Review remaining risk before you make a decision.
 
 For disputed nondeterministic rows, the security owner and affected control owner may accept the reviewed result, rerun the unchanged plan, or require a fix and a new version.
 
@@ -374,7 +378,8 @@ The single comparison must report:
 - zero evaluator errors; and
 - a separate SOC-delivery status for the authorized Defender event or route-health result, with the policy-assistant agent or judge model confirmed in its source record.
 
-The payload-free report confirms the red-team outcome. SOC delivery stays separate and must also be confirmed before the session closes.
+The payload-free report confirms the red-team outcome. Confirm SOC delivery separately before the
+session closes.
 
 <!-- Notes: If the event record lacks the policy-assistant agent or judge-model identifier, the route is not confirmed. -->
 

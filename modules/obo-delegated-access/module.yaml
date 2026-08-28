@@ -10,11 +10,11 @@ module:
     - "Microsoft Entra identity and application security engineers"
     - "Owners of APIs that authorize each signed-in user"
   prerequisites:
-    - "An approved nonproduction tenant contains an existing client, confidential Python middle tier, and protected downstream API."
+    - "An approved nonproduction tenant has an existing client, confidential Python middle tier, and protected downstream API."
     - "The downstream API exposes one narrow delegated read scope and enforces resource authorization for each user."
     - "An exportable Azure Key Vault certificate is approved for middle-tier client authentication and can be exposed as a protected PFX through the approved runtime integration."
     - "The identity owner can approve exact delegated permissions and consent."
-    - "One permitted user and one user without downstream resource authority are available for the delivery checks."
+    - "One permitted user and one user without downstream resource authority can run the delivery checks."
   related_content:
     - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
     - "Session 05 - Governed Microsoft Foundry agent baseline"
@@ -22,12 +22,12 @@ module:
   services_in_scope:
     - "microsoft-entra-id"
     - "azure-key-vault"
-  control_objective: "A trusted middle tier preserves signed-in user authority through an OBO exchange while downstream authorization remains user-specific."
+  control_objective: "A trusted middle tier preserves signed-in user authority through an OBO exchange, while the downstream API still authorizes each user."
 implementation:
   mode: "extended"
   extended_reason: "The delivery owner must observe one permitted delegated call and one denial caused by missing downstream user authority before the OBO path is used."
 implementation_outcomes:
-  - "Record the client, middle-tier, downstream audience, delegated scope, and consent boundaries."
+  - "Record the client, middle tier, downstream audience, delegated scope, and consent boundaries."
   - "Configure exact delegated permissions without replacing unrelated application registration settings."
   - "Run a Python middle tier that validates the user assertion and uses a Key Vault-held certificate for OBO."
   - "Confirm a permitted user succeeds and a user without downstream resource authority is denied."

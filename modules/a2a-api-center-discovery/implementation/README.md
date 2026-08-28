@@ -4,18 +4,18 @@
 
 ### What we will do
 
-Add or refresh one already-governed A2A agent in Azure API Center when developers need to find its
+Add or refresh an already-governed A2A agent in Azure API Center when developers need its
 technical interface. The API Center asset comes from a runtime-owned Git or API Management source
-integration. The delivery team then observes the live catalog asset.
+integration. The delivery team then reviews the live catalog asset.
 
-The result is a live API Center discovery entry. This module does not create a manual agent
+Azure API Center holds the live discovery entry. This module does not create a manual agent
 registration, copy the A2A definition, or keep a second inventory record in this repository.
 
 ### Why it matters
 
-Agent 365 answers the enterprise question of which agents exist. API Center answers a different
-developer question: where can I find the current A2A interface and definition? Keeping both
-records connected through source integrations avoids asking people to update the same facts twice.
+Agent 365 records which agents exist for the enterprise. API Center gives developers a current A2A
+interface and definition. Source integrations keep those records aligned without asking people to
+update the same facts twice.
 
 ### Boundaries
 
@@ -32,7 +32,7 @@ authentication, authorization, or traffic policy.
 ### Architecture at a glance
 
 The runtime owner publishes the technical asset through an approved source integration. API Center
-then makes the resulting A2A asset available for developer discovery.
+then makes the A2A asset available for developers.
 
 ```text
 Microsoft Agent 365
@@ -47,7 +47,7 @@ Azure API Center A2A discovery asset
 ```
 
 The runtime owner updates the Git or API Management source, and synchronization updates API Center.
-A direct portal registration beside that integration would create a competing record.
+A portal registration beside that integration creates a competing record.
 
 ### Design choices and tradeoffs
 
@@ -78,10 +78,10 @@ Confirm these prerequisites:
 - The runtime owner has selected Git or API Management as the technical source.
 - The selected source has the current agent definition and card without credentials embedded in
   source-controlled discovery content.
-- The API Center owner can inspect the source integration and the resulting live asset.
+- The API Center owner can review the source integration and resulting live asset.
 
-Run preflight with the selected source reference in **Implement › 1. Run preflight**. It validates
-the module boundary before a portal-led integration change without creating an API Center asset or
+Run preflight with the selected source reference in **Implement › 1. Run preflight**. It checks the
+module boundary before a portal-led integration change without creating an API Center asset or
 retaining supplied values.
 A read-only deployment preview is unsupported because the change is made through the selected
 source integration.
@@ -134,21 +134,21 @@ Run preflight with the chosen source integration and source reference.
 
 ### 2. Configure or refresh the source integration
 
-The API Center owner follows the selected current Microsoft-supported Git or API Management
-integration path. The runtime owner confirms that the source reflects the current A2A definition
-and card before synchronization.
+The API Center owner follows the current Microsoft-supported Git or API Management integration
+path. The runtime owner confirms that the source has the current A2A definition and card before
+synchronization.
 
 ### 3. Observe the catalog asset
 
-Open the resulting Agent asset in API Center. Confirm that it is associated with the selected
-source, represents the approved A2A interface, and remains traceable to the live Agent 365 record.
+Open the Agent asset in API Center. Confirm that it uses the selected source, represents the
+approved A2A interface, and links to the live Agent 365 record.
 Do not export the record or save a local comparison file.
 
 ## Confirm the result
 
-The module is complete when the Agent 365 record is present, the API Center asset is supplied by
-the selected source integration, and the API Center owner can show the current A2A interface in
-the live catalog.
+The module is complete when the Agent 365 record exists, the API Center asset comes from the
+selected source integration, and the API Center owner can show the current A2A interface in the
+live catalog.
 
 Stop the session if the source is stale, the asset is manually maintained beside an integration, or
 the Agent 365 and API Center owners cannot resolve a mismatch.

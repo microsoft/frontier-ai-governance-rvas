@@ -16,7 +16,8 @@ description: Optional implementation module for connecting an approved remote MC
 
 ## Optional implementation module · 180 minutes
 
-An approved remote MCP server in Azure API Center, a dedicated Toolbox, and a read-only check.
+Connect an approved remote MCP server in Azure API Center to a dedicated Toolbox, then run a
+read-only check.
 
 <!-- Notes: This module extends Session 07 without changing the numbered sequence. -->
 
@@ -27,7 +28,7 @@ An approved remote MCP server in Azure API Center, a dedicated Toolbox, and a re
 Connect an approved remote MCP server in Azure API Center to a dedicated versioned Toolbox in
 Microsoft Foundry.
 
-Reconcile the catalog record, project connection, allowed tool, and live Toolbox tool list.
+Compare the catalog record, project connection, allowed tool, and live Toolbox tool list.
 
 <div class="cards">
   <div class="card"><img src="assets/icons/microsoft/azure-api-center.svg" alt="Azure API Center icon"><strong>Azure API Center</strong></div>
@@ -43,10 +44,10 @@ Reconcile the catalog record, project connection, allowed tool, and live Toolbox
 
 Session 07 records the MCP server record in API Center. Session 08 defines its security boundary.
 
-Agent teams still need a reusable connection path that does not copy the same endpoint, credentials,
+Agent teams still need a reusable connection path. They should not copy the endpoint, credentials,
 and tool settings into every agent.
 
-Toolbox supplies that stable MCP-compatible endpoint.
+Toolbox provides a stable MCP-compatible endpoint.
 
 <!-- Notes: Keep this focused on the handoff from governed inventory to reusable consumption. -->
 
@@ -73,7 +74,8 @@ Proceed only when the named owner records the accepted preview and discovery dec
 selected API Center asset, version, and deployment, the Foundry project connection, and the
 approved MCP tool name.
 
-Stop when the record is missing, access has not propagated, or authentication cannot be represented.
+Stop if the record is missing, access has not propagated, or the catalog cannot represent the
+approved authentication method.
 
 <!-- Notes: This is a real preview decision, not a footnote. -->
 
@@ -87,8 +89,8 @@ Stop when the record is missing, access has not propagated, or authentication ca
   <div class="card"><img src="assets/icons/microsoft/foundry-agent-service.svg" alt="Foundry Agent Service icon"><strong>3. Toolbox</strong><br>Immutable version and stable consumer endpoint</div>
 </div>
 
-**Authoritative state:** API Center for inventory, the project connection for authentication, the
-Toolbox version for tool exposure.
+**Live state:** API Center holds inventory, the project connection holds authentication, and the
+Toolbox version holds tool exposure.
 
 <!-- Notes: The repository files record the intended Toolbox configuration and the endpoint digest used to compare it with API Center. They do not store live credentials. -->
 
@@ -113,9 +115,9 @@ Toolbox version for tool exposure.
 ## Retained implementation
 
 - `catalog-toolbox-binding.json` links the approved catalog record to Foundry names and owners.
-- `toolbox-version.json` defines the MCP server, allowed tool, and approval on every call.
+- `toolbox-version.json` defines the MCP server, allowed tool, and approval requirement.
 - `check_toolbox.py` checks the immutable version without invoking the remote tool.
-- Paired preflight scripts stop on unresolved decisions, scope drift, or a name collision.
+- Paired preflight scripts stop when decisions remain unresolved, scope drifts, or a name collides.
 
 No credential, token, tenant ID, endpoint, or tool result belongs in the repository.
 
@@ -132,7 +134,7 @@ No credential, token, tenant ID, endpoint, or tool result belongs in the reposit
 3. Configure the project connection through the catalog flow.
 4. Run preflight.
 5. Create the first Toolbox version through the Foundry `v1` data-plane API.
-6. Run the version-specific `tools/list` check.
+6. Run `tools/list` against the version-specific endpoint.
 
 <!-- Notes: The first version of the new Toolbox becomes its default version. -->
 

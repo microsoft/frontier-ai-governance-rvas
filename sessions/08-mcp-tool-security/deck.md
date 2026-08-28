@@ -27,10 +27,10 @@ html: true
 ### Result check
 
 - The APIM MCP server exposes only `get_policy`.
-- Agent-to-APIM and APIM-to-backend identities are distinct.
+- The agent-to-APIM and APIM-to-backend identities differ.
 - The approved read succeeds with correlation.
 - Indirect prompt injection cannot trigger the blocked write.
-- The release owner makes the enable-or-disable decision.
+- The release owner decides whether to enable or disable the candidate.
 
 <!-- Notes: Model behavior helps, but tool absence and backend authorization enforce the boundary. -->
 
@@ -40,9 +40,9 @@ html: true
 
 1. Deploy a Streamable HTTP MCP server over the existing GET operation.
 2. Validate the candidate agent identity at APIM.
-3. Use APIM's read-only managed identity for the approved backend scope.
-4. Emit correlation and tool logs without payloads.
-5. Pin the candidate only after the release owner observes the approved read and blocked write.
+3. Use APIM's read-only managed identity at the approved backend scope.
+4. Send correlation and tool logs without payloads.
+5. Pin the candidate only after the release owner sees the approved read and blocked write.
 
 <!-- Notes: This is extended mode because activation depends on two observed behaviors. -->
 
@@ -50,11 +50,11 @@ html: true
 
 ## Why it matters
 
-The tool list, inbound authorization, and backend authorization answer different questions.
+The tool list, inbound authorization, and backend authorization control different parts of the path.
 
-Together they limit what the candidate can request, which agent may call APIM, and what APIM may do at the backing API.
+Together they limit what the candidate can request, which agent may call APIM, and what APIM can do at the backing API.
 
-The release checkpoint keeps the candidate version off the stable endpoint until both checks are observed.
+The release checkpoint keeps the candidate version off the stable endpoint until the release owner sees both checks.
 
 <!-- Notes: Keep the four control layers separate throughout the briefing. -->
 
@@ -100,7 +100,7 @@ checks that identity and exposes only `get_policy`.
 Caller authority ends at APIM. APIM calls the backend with its own identity at the approved read-only scope.
 
 Foundry records the candidate binding and stable selector. APIM applies runtime policy and uses the
-backend identity. API Center receives design-time inventory metadata.
+backend identity. API Center stores design-time inventory metadata.
 
 ---
 
@@ -454,7 +454,7 @@ Either check fails. Keep or restore the [Session 05](../05-governed-agent-baseli
 - Preflight, deploy, disable, and removal paths
 
 The security owner updates the security-evaluation runbook before candidate enablement or a material
-security change, and reviews the threat model every 90 days.
+security change. The security owner reviews the threat model every 90 days.
 
 Other owners keep their assigned control current.
 

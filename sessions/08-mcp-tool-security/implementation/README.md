@@ -6,17 +6,17 @@
 
 Configure **an MCP path that exposes only `get_policy`** for the existing
 [Session 05](../../05-governed-agent-baseline/implementation/README.md) policy assistant. APIM
-validates the candidate agent's Entra identity, MCP audience, app role, and input, then uses its own
-read-only managed identity at the exact backend scope. Telemetry keeps the tool name and correlation
-without payloads. The candidate agent version remains unpinned until the release owner observes the
-approved-read and prohibited-write checks.
+validates the candidate agent's Entra identity, MCP audience, app role, and input. It then uses its
+own read-only managed identity at the exact backend scope. Telemetry keeps the tool name and
+correlation without payloads. Keep the candidate agent version unpinned until the release owner
+sees the approved-read and prohibited-write checks.
 
 ### Why it matters
 
-Tool registration, inbound authorization, and backend authorization answer different questions.
-Keeping them separate limits what the candidate can ask for, which agent may call APIM, and what
-APIM can do at the backing API. The release checkpoint keeps the candidate version off the stable
-endpoint until both runtime paths are observed.
+Tool registration, inbound authorization, and backend authorization control different parts of the
+path. Keeping them separate limits what the candidate can request, which agent may call APIM, and
+what APIM can do at the backing API. The release checkpoint keeps the candidate version off the
+stable endpoint until the release owner sees both runtime paths.
 
 ### Boundaries
 
@@ -24,7 +24,7 @@ This session changes the MCP API in the existing
 [Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM service and creates an
 unpinned candidate in the existing Foundry project. APIM applies the MCP policy and uses the backend
 identity. Foundry records the candidate and the version selected by the stable endpoint. Application
-Insights stores payload-free runtime telemetry, and API Center stores design-time inventory metadata.
+Insights stores payload-free runtime telemetry. API Center stores design-time inventory metadata.
 
 The backend hop is application-only, not OBO. The inbound MCP token never reaches the backend. A
 system refusal alone does not enforce the write boundary; the absent tool and backend read role do.
@@ -40,14 +40,14 @@ MCP server entry registered in Session 07.
 ![The candidate Foundry agent uses an agent-identity token for the APIM MCP audience; APIM validates that token, ends caller authority, and uses its read-only managed identity for the backend while approved reads and blocked writes diverge](../assets/diagrams/mcp-tool-security-flow.svg)
 
 API Management changes identity between the candidate Foundry agent and the backend. A request
-starts at the candidate Foundry agent and reaches the Streamable HTTP MCP endpoint in APIM. There,
-APIM checks the agent identity, tenant, MCP audience, app role, and input before allowing the
-only `get_policy`.
+starts at the candidate Foundry agent and reaches the Streamable HTTP MCP endpoint in APIM. APIM
+checks the agent identity, tenant, MCP audience, app role, and input before allowing the one
+`get_policy` tool.
 
-The caller's authority stops there. APIM gets a different token for its system-assigned managed
-identity, and the backend accepts that identity at the approved read-only scope. A caller that passes the
-first check still gains no direct authority over the backend. And because no write tool or backend
-write role exists, an agent refusal is supporting behavior rather than the write control.
+The caller's authority stops at APIM. APIM gets a different token for its system-assigned managed
+identity, and the backend accepts that identity at the approved read-only scope. Passing the first
+check gives the caller no direct authority over the backend. No write tool or backend write role
+exists. An agent refusal supports the control but does not enforce the write boundary.
 
 Application Insights receives the tool name, status, latency, and correlation fields. The W3C
 `operation_Id` is the primary trace key. The client `X-Correlation-ID` remains a secondary
@@ -60,7 +60,7 @@ replace the prior stable version.
 
 ### Design choices and tradeoffs
 
-| Decision | Why this design | What it costs | Change it when |
+| Decision | Why it works | What it costs | Change it when |
 |---|---|---|---|
 | Expose the existing GET operation as `get_policy` | The executable surface matches the approved read. A write cannot appear through tool discovery. | Every new operation or argument needs review and deployment. | The agent receives another approved business action. |
 | Check the agent at APIM, then call the backend as APIM | The backend sees APIM's read-only identity instead of the caller's token. | The team must maintain two audiences and their role assignments. | The backend must authorize individual users. |
@@ -132,7 +132,7 @@ when separating inbound caller validation from outbound backend authentication.
 
 Resolve every `__REQUIRED_*__` value before deployment. Use role or group names instead of personal
 data where the customer's data-handling rules permit. Keep subscription IDs, endpoints, access
-tokens, prompts, responses, tool arguments, tool results, and telemetry outside source control.
+tokens, prompts, responses, tool arguments, tool results, and telemetry out of source control.
 
 ### Actions the tool can perform
 
@@ -148,7 +148,7 @@ The MCP server exposes **only `get_policy`**, backed by the existing APIM operat
 The prohibited write is deliberately absent from the APIM tool resource, Foundry `allowed_tools`,
 and the backend role. Stop if the source operation has a hidden side effect, an additional MCP tool
 appears, the backing role can mutate data, or the team proposes adding a write during this session.
-A system prompt is not an authorization boundary.
+A system prompt does not create an authorization boundary.
 
 ### How each service authenticates
 
@@ -182,8 +182,8 @@ owner may use the documented portal flow. The owner must create exactly one `pol
 server with one `get_policy` tool, apply the same policy file, and inspect the live APIM resource to
 confirm that no other tool exists. Otherwise stop. Do not use an undocumented resource shape.
 
-APIM currently governs MCP tools, not MCP resources or prompts. Do not represent those capabilities
-as implemented.
+APIM currently governs MCP tools, not MCP resources or prompts. Do not claim those capabilities are
+implemented.
 
 ### How the agent handles tool output and telemetry
 
@@ -207,7 +207,7 @@ only with an approved response-mapping design.
 ### Release decision
 
 The candidate agent version requires approval for every MCP call and allows only `get_policy`. The
-stable endpoint remains on the Session 05 version while checks run. Stop and leave or restore the
+stable endpoint stays on the Session 05 version while checks run. Stop and leave or restore the
 prior version when:
 
 - the approval request names another server, tool, or argument;
@@ -402,8 +402,8 @@ Compare the saved candidate against the approved binding. Stop if Foundry discov
 the project connection uses a different identity, approval is not mandatory, or saving the version
 changes live traffic.
 
-Copy the visible candidate version ID into the delivery workspace, not the repository. Show that ID
-in the test surface and show that the stable endpoint still selects the prior Session 05 version.
+Copy the visible candidate version ID to the delivery workspace, not the repository. Show that ID
+in the test surface. Also show that the stable endpoint still selects the prior Session 05 version.
 
 ## Confirm the result
 
@@ -411,9 +411,10 @@ Use Foundry's candidate-version test surface or an approved client that can targ
 candidate. Keep the release owner present. Do not save prompts, responses, approvals, or traces to the
 repository.
 
-Before **each** check, the release owner reads the **visible candidate version ID** aloud and confirms
-it matches the saved candidate. The release owner also confirms the stable endpoint still routes
-100% to the prior Session 05 version. Stop if either version selector is hidden or differs.
+Before **each** check, the release owner reads the **visible candidate version ID** aloud and
+confirms that it matches the saved candidate. The release owner also confirms that the stable
+endpoint still routes 100% to the prior Session 05 version. Stop if either version selector is
+hidden or differs.
 
 ### Intended path: approved read
 
@@ -459,10 +460,10 @@ The release owner observes both results during delivery:
 
 ## After implementation
 
-Keep the **APIM MCP API and its only tool in operation**, with the policy, nonsecret APIM named values,
-diagnostic, Foundry project connection, approved candidate version when enabled, and API Center
-metadata. APIM stores the deployed MCP policy, Foundry records the active agent version, and API
-Center stores the inventory metadata.
+Keep the **APIM MCP API and its one tool in operation**, with the policy, nonsecret APIM named
+values, diagnostic, Foundry project connection, approved candidate version when enabled, and API
+Center metadata. APIM stores the deployed MCP policy, Foundry records the active agent version, and
+API Center stores the inventory metadata.
 
 Retain the source-controlled binding, the recurring security-evaluation runbook, threat model, KQL
 query, and scripts. The security owner updates the two Markdown records before candidate enablement

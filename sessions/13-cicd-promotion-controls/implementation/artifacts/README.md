@@ -1,7 +1,7 @@
 # Controlled-promotion artifact index
 
 The [implementation guide](../README.md) is the operator runbook. This file maps the desired-state
-definitions and machine contracts that the validators and GitHub Actions workflows consume.
+definitions and machine contracts used by the validators and GitHub Actions workflows.
 
 | Path | Updater and cadence | Consumer |
 |---|---|
@@ -16,8 +16,7 @@ definitions and machine contracts that the validators and GitHub Actions workflo
 
 The repository keeps Session 10's evaluation definition, threshold policy, release policy, and
 generated `blocked-tool-process` self-test as desired state. The approved release/security-store
-interface retrieves the baseline and candidate results into the temporary workspace for each gate
-check.
+interface retrieves baseline and candidate results into the temporary workspace for each gate check.
 
 The same interface retrieves a version 1 `security-release-attestation` for Session 11. The
 temporary artifact must show external authorization status `authorized`, a report location, a
@@ -25,8 +24,8 @@ confirmed comparison for the release agent's approved baseline and remediated ve
 aggregate attack success, per-risk non-regression, blocked prohibited actions, and all five privacy
 flags set to `false`. The security and change systems retain authorization and report records.
 
-The approved commit SHA stays outside the release commit. An authorized operator supplies the full
-SHA as `workflow_dispatch.release_sha`; every promotion checkout uses that ref, and deployment
+Keep the approved commit SHA outside the release commit. An authorized operator supplies the full
+SHA as `workflow_dispatch.release_sha`. Every promotion checkout uses that ref, and deployment
 commands pass it as the runtime `releaseCommitSha`.
 
 The `nonproduction` GitHub environment provides Session 12's normal and failure URLs, Application
@@ -37,4 +36,4 @@ attempt fields without querying telemetry a second time.
 GitHub owns workflow, environment, and deployment metadata. Azure Resource Manager owns deployment
 state, and API Management owns live routing. The promotion workflow writes one small release record
 to the approved release store after production routing. Manual restore reads that record. The
-repository does not keep a runtime copy.
+repository keeps no runtime copy.

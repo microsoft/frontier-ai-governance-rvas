@@ -2,7 +2,7 @@
 
 Use this playbook for the nonproduction Foundry project and policy-assistant version authorized in
 the approved change system. Do not copy prompts, responses, tool payloads, prompt evidence, user
-identities, or customer data into this repository.
+identities, or customer data into the repository.
 
 | Field | Value |
 |---|---|
@@ -15,8 +15,8 @@ identities, or customer data into this repository.
 
 1. Confirm the Defender alert or incident belongs to the approved subscription, Foundry project,
    agent or model, and authorized red-team window.
-2. Determine whether the signal is a planned test, an unrelated benign event, or an unplanned
-   security event. Never close an alert only because a red-team run was active.
+2.    Decide whether the signal is a planned test, an unrelated benign event, or an unplanned security
+   event. Never close an alert only because a red-team run was active.
 3. Review Defender evidence under the customer's security-data handling rules. Use the operational KQL
    only for payload-free alert metadata.
 4. Correlate the alert with the Foundry red-team run ID and report URL. Keep detailed attack and
@@ -39,9 +39,8 @@ uploaded AI models. Do not replace the title list with a broad `Title has "AI"` 
 ## Escalate and recover
 
 The SOC owner coordinates the security decision. The agent owner handles instruction and version
-changes. The tool owner controls permissions and backend authorization, while the Defender owner
-controls sensor coverage. The residual-risk authority decides whether another remediation run is
-required.
+changes. The tool owner controls permissions and backend authorization. The Defender owner controls
+sensor coverage. The residual-risk authority decides whether another remediation run is required.
 
 Recovery returns only the previously approved agent version and tool boundary. A Session 11 result
 does not authorize production promotion.

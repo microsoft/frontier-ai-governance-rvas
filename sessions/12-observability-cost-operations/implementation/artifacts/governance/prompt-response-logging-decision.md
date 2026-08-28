@@ -30,8 +30,8 @@
 | Retention days | `N/A` |
 | Expiry date | `N/A` |
 
-When the status is `Approved`, replace every `N/A` value with the bounded exception decision.
-When the status is `Disabled`, leave those values as `N/A`.
+When the status is `Approved`, replace every `N/A` value with the approved, bounded exception.
+When the status is `Disabled`, leave each value as `N/A`.
 
 | Governance field | Decision |
 |---|---|

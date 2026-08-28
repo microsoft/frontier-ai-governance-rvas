@@ -1,7 +1,7 @@
 # Implementation artifacts
 
-Session 14 keeps the source-controlled files used for regional rehearsals. Native platforms
-and the customer change system retain live state, decisions, and runtime results.
+Session 14 keeps the source-controlled files used for regional rehearsals. Native platforms and
+the customer change system retain live state, decisions, and runtime results.
 
 | Path | Type | Consumer | Updater | Review cadence | Operational purpose |
 |---|---|---|---|---|---|
@@ -10,9 +10,9 @@ and the customer change system retain live state, decisions, and runtime results
 | `regional/failover-runbook.md` | Record | Service continuity and routing operators | Service continuity owner | Before every scheduled rehearsal and after a routing, topology, or restore-process change | Directs the approved selector move and restore sequence. |
 
 `control-definition.json` is a machine contract. `region.parameters.json` is desired-state
-configuration consumed by the customer Bicep entrypoint. The runbook is the sole human-owned
-operational record in this tree, and its ownership and review cadence appear in the file itself.
+configuration for the customer Bicep entrypoint. The runbook is the human-owned operating record
+in this tree. It names its owner and review cadence.
 
-Preflight queries Azure Resource Manager and API Management live. The rehearsal wrappers send
-transient health output to a customer-managed directory outside the repository, delete it after
-the check, and direct the outcome to the customer change system.
+Preflight reads Azure Resource Manager and API Management live. The rehearsal wrappers write
+temporary health output to a customer-managed directory outside the repository, delete it after
+the check, and send the outcome to the customer change system.

@@ -1,8 +1,7 @@
 # APIM model-routing decision
 
-This record keeps the routing decision for the Session 06 APIM gateway. APIM remains authoritative
-for the live backend pool and policy. This file records the owner-approved routing boundary that the
-deployment must preserve.
+This record defines the routing decision for the Session 06 APIM gateway. APIM remains the source
+of truth for the live backend pool and policy. The deployment must preserve this owner-approved boundary.
 
 ## Lifecycle
 
@@ -10,7 +9,7 @@ deployment must preserve.
 |---|---|
 | Update owner | `__REQUIRED_PLATFORM_OWNER__` |
 | Review cadence | Every 90 days and before enabling, disabling, or replacing a secondary backend |
-| Consumer | The API product owner uses it to approve routing changes; the platform owner applies those changes through `gateway-control.json` and the Session 06 deployment path |
+| Consumer | The API product owner uses it to approve routing changes. The platform owner applies them through `gateway-control.json` and the Session 06 deployment path. |
 
 | Field | Decision |
 |---|---|
@@ -28,7 +27,7 @@ deployment must preserve.
 
 ## Secondary backend activation criteria
 
-Do not enable the secondary backend until the service owner approves all of these checks:
+Keep the secondary backend disabled until the service owner approves every check:
 
 | Check | Required state |
 |---|---|
@@ -43,20 +42,18 @@ Do not enable the secondary backend until the service owner approves all of thes
 
 ## Related gateway paths
 
-Microsoft Foundry can surface a Foundry-native AI Gateway setup path through the Foundry portal,
-backed by Azure API Management. This session keeps the repository-owned APIM deployment as the
-operational route.
+Microsoft Foundry can expose a Foundry-native AI Gateway setup path in the Foundry portal, backed
+by Azure API Management. This session uses the repository-owned APIM deployment as its operating route.
 
 ## Preview boundary
 
-The unified model API can route by model name across multiple providers, but it remains outside this
-session's implementation path. Record it as a monitor-only option unless the organization approves a
-separate preview adoption decision.
+The unified model API can route by model name across providers. It remains outside this session's
+implementation path. Treat it as monitor-only unless the organization approves a separate preview decision.
 
 ## Token counter boundary
 
-APIM token counters are gateway-local. For multi-region routing, the API product owner splits the
-approved workload allowance by region in Session 14 rather than assuming one shared global counter.
+APIM token counters are local to each gateway. For multi-region routing, the API product owner splits
+the approved workload allowance by region in Session 14. Do not assume one shared global counter.
 
 ## Streaming token accounting
 
@@ -64,8 +61,8 @@ Streaming clients set `stream_options.include_usage` to `true`. The token metric
 reported usage when the response includes it, but an interrupted stream can leave that metric
 incomplete. The token-limit policy estimates prompt and completion tokens for streaming calls.
 
-These values are operational estimates for limits and monitoring. Azure Cost Management and the
-issued invoice remain the billing records.
+Use these values for limits and monitoring. Azure Cost Management and the issued invoice remain the
+billing records.
 
 Keep `llm-emit-token-metric` before `set-backend-service` in this policy. The emitted dimensions are
 API, product, and subscription, so moving the policy would add no useful attribution to a specific

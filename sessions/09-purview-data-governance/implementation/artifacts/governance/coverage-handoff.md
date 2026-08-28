@@ -1,7 +1,7 @@
 # Purview product-boundary ownership record
 
-This record names the ownership split that Microsoft Purview does not show in one product view. It
-does not copy service state, simulation results, findings, or approval records.
+This record names the ownership split that Microsoft Purview does not show in one product view. Do
+not copy service state, simulation results, findings, or approval records here.
 
 | Field | Value |
 |---|---|
@@ -23,11 +23,11 @@ does not copy service state, simulation results, findings, or approval records.
 
 ## Operating boundary
 
-The Agent 365 DLP policy does not govern Microsoft Foundry calls. Foundry DLP is active only
-when the Purview operator has scoped the rule to the Entra-registered application and the application
+The Agent 365 DLP policy does not govern Microsoft Foundry calls. Foundry DLP is active only when
+the Purview operator scopes the rule to the Entra-registered application and the application
 developer enforces the Microsoft Graph `processContent` result with signed-in user context.
 
-Use the approved Purview change path for the DLP policy in the approved nonproduction scope. The change record
-holds the agent instance, group, label, directions, locations, action, simulation outcome,
-propagation time, intended match, out-of-scope non-match, and restore decision. Do not duplicate
-those values here.
+Use the approved Purview change path for the DLP policy in the approved nonproduction scope. The
+change record holds the agent instance, group, label, directions, locations, action, simulation
+outcome, propagation time, intended match, out-of-scope non-match, and restore decision. Do not
+duplicate those values here.

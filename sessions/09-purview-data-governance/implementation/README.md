@@ -4,23 +4,23 @@
 
 ### What we will do
 
-Keep a source-controlled file that names who maintains the Agent 365 and Foundry DLP paths,
-configure an Agent 365 DLP policy for the approved nonproduction scope from current Microsoft
-Purview state, and run a payload-free audit query. The check confirms a configured match, an
-out-of-scope non-match, and current audit activity in Purview.
+Keep a source-controlled file that assigns owners for the Agent 365 and Foundry DLP paths.
+Configure an Agent 365 DLP policy for the approved nonproduction scope from current Microsoft
+Purview state. Then run a payload-free audit query. Confirm a configured match, an out-of-scope
+non-match, and current audit activity in Purview.
 
 ### Why it matters
 
-Agent 365 and Foundry use separate DLP control paths. `coverage-handoff.md` names who maintains each
-path and where one product's DLP coverage ends. Purview remains the source for policy, label, DSPM,
-and audit state.
+Agent 365 and Foundry use separate DLP control paths. `coverage-handoff.md` names the owner for
+each path and where the product boundary falls. Purview is the source for policy, label, DSPM, and
+audit state.
 
 ### Boundaries
 
 The DLP change covers the approved nonproduction Agent 365 instance, test group, sensitivity label,
-and interaction directions and locations. Operators record the policy scope, simulation, enablement,
-propagation, and observed results in Purview and the approved change system. Microsoft Purview stores
-the labels, policy state, findings, and audit activity.
+and interaction directions and locations. Operators record policy scope, simulation, enablement,
+propagation, and results in Purview and the approved change system. Microsoft Purview stores labels,
+policy state, findings, and audit activity.
 
 The Agent 365 policy does not govern Foundry calls. Foundry DLP requires an Entra-app-scoped rule and
 an application integration that calls Microsoft Graph `processContent` with signed-in user context.
@@ -38,8 +38,8 @@ label. It applies the approved `Block` or `Audit` action. The audit script asks 
 activity and prints five payload-free fields.
 
 Foundry Data Security follows a separate path. Operators use Purview and the approved change system
-to review the current state of both product paths. `coverage-handoff.md` names the responsible
-owners, and `agent-activity-audit-query.json` defines the repeatable audit query.
+to review both paths. `coverage-handoff.md` names the owners, and
+`agent-activity-audit-query.json` defines the repeatable audit query.
 
 ### Design choices and tradeoffs
 
@@ -85,7 +85,7 @@ Confirm these prerequisites:
 
 Use aliases and role names in the repository. Keep tenant IDs, source URLs, prompts, responses,
 user identities, file names, audit exports, findings, and screenshots in Purview and the approved
-change systems that manage them.
+change systems.
 
 Stop before the change when:
 
@@ -130,7 +130,7 @@ agent_instance_id="${AGENT365_INSTANCE_ID:?Set AGENT365_INSTANCE_ID.}"
   --agent-instance-id "$agent_instance_id"
 ```
 
-Preflight validates the supplied tenant and agent scope, the Graph permission, and the query shape.
+Preflight checks the supplied tenant and agent scope, the Graph permission, and the query shape.
 It does not export or copy Purview state.
 
 A read-only deployment preview is unsupported for this portal-led DLP change. The safe preview is
@@ -140,8 +140,8 @@ the current portal summary followed by `TestWithNotifications` simulation.
 
 Create a custom Purview DLP policy from the approved change record. Use the exact agent instance,
 test group, directions, locations, label, action, notification, incident route, and restore path.
-Start in `TestWithNotifications`, review the portal summary and simulation, then enable through the
-approved change. Wait for the propagation period recorded in that change before live confirmation.
+Start in `TestWithNotifications`. Review the portal summary and simulation, then enable the policy
+through the approved change. Wait for the propagation period in that change before live confirmation.
 
 ### 4. Query current Agent 365 activity
 
@@ -166,8 +166,8 @@ audit export.
 ### Intended path
 
 After propagation, run the labelled synthetic interaction through the approved path. `Block` stops
-the matched interaction. `Audit` permits it and records the match. Inspect the policy result and
-the scoped audit activity in Purview.
+the matched interaction. `Audit` allows it and records the match. Inspect the policy result and
+scoped audit activity in Purview.
 
 ### Blocked or failure path
 
@@ -179,15 +179,15 @@ the stated ingestion allowance.
 ### Delivery-owner checkpoint
 
 The delivery owner observes the propagation wait, intended result, non-match, and scoped audit
-activity. Keep the policy in simulation or disable it when any check fails. Record the outcome in
+activity. Keep the policy in simulation or disable it if a check fails. Record the outcome in
 Purview and the approved change system.
 
 ## After implementation
 
 Microsoft Purview retains the DLP policy, label state, findings, audit activity, and change history.
-`coverage-handoff.md` records who maintains each product path, and
-`agent-activity-audit-query.json` defines the audit query. The data owner updates the handoff file;
-the information protection owner maintains labels; the Agent 365 owner monitors workflow impact;
+`coverage-handoff.md` records who owns each product path, and
+`agent-activity-audit-query.json` defines the audit query. The data owner updates the handoff file.
+The information protection owner maintains labels. The Agent 365 owner monitors workflow impact,
 and the audit owner updates the query.
 
 Restore through the approved Purview change path: return the policy to `TestWithNotifications`,

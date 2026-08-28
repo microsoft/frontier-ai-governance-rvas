@@ -22,14 +22,14 @@ html: true
 
 ## Control objective
 
-> Configure one API Management route. It checks the client token and product subscription, applies limits and Content Safety policies, and uses managed identity to call the pinned Foundry agent.
+> Configure one API Management route. APIM checks the client token and product subscription, applies limits and Content Safety policies, and uses managed identity to call the pinned Foundry agent.
 
 ### Result check
 
 - The operational APIM API path reaches the pinned [Session 05](../05-governed-agent-baseline/) Responses endpoint.
-- Client identity and product subscription are checked before the backend hop.
-- Runtime limits, safety, routing, and logs are applied as one policy.
-- An invalid identity receives `401 Unauthorized`.
+- APIM checks client identity and product subscription before the backend hop.
+- One policy applies runtime limits, safety, routing, and logging.
+- APIM returns `401 Unauthorized` for an invalid identity.
 
 <!-- Notes: The check is deliberately narrow. It proves the authentication boundary without sending a valid request to the agent. -->
 
@@ -38,10 +38,10 @@ html: true
 ## Implementation outcomes
 
 1. Expose one governed agent operation through APIM.
-2. Separate client authorization from backend identity.
+2. Use separate identities for the client and backend.
 3. Apply token, request-size, timeout, safety, and resiliency controls.
-4. Emit correlation and token metrics without prompt or response bodies.
-5. Keep a rerunnable APIM definition in the gateway repository and scoped removal guidance.
+4. Send correlation and token metrics without prompt or response bodies.
+5. Keep a rerunnable APIM definition and scoped removal guidance in the gateway repository.
 
 <!-- Notes: Keep the focus on the deployed control, not a catalog of APIM features. -->
 
@@ -49,9 +49,9 @@ html: true
 
 ## Why it matters
 
-The configured APIM route gives the API product owner one place to manage workload access and limits.
+The APIM route gives the API product owner one place to manage workload access and limits.
 
-Client authorization stays separate from the managed identity used for the Foundry call.
+The client authorization stays separate from the managed identity that calls Foundry.
 
 Operations gets correlation and token metrics without prompt or response logging.
 
@@ -77,8 +77,8 @@ Operations gets correlation and token metrics without prompt or response logging
 
 API Center records the API in [Session 07](../07-api-center-ai-mcp-inventory/).
 
-The workload sends its Microsoft Entra token and APIM subscription key to one route. APIM validates
-both, applies limits and safety checks, then replaces caller authorization before the Foundry call.
+The workload sends its Microsoft Entra token and APIM subscription key to one route. APIM checks
+both, applies limits and safety checks, then replaces the caller's authorization before calling Foundry.
 
 The direct Foundry endpoint still exists. This boundary covers only traffic sent through APIM.
 
@@ -131,7 +131,7 @@ definition and runtime location.
 
 ## Implementation tradeoffs
 
-| Decision | Chosen approach | Why it works | Tradeoff |
+| Decision | Chosen approach | Why | Tradeoff |
 |---|---|---|---|
 | Client access | Entra app token plus one APIM subscription per workload | Identity and usage allocation can be revoked separately | Each client manages two credentials |
 | Backend access | Scope the APIM managed identity to one agent | APIM stores no backend key | Direct Foundry access needs a separate control |
@@ -190,9 +190,9 @@ Identity fails before safety processing or a Foundry call.
 | Backend timeout | 120 seconds |
 | Retry | One retry for 429 and 5xx |
 
-Limits are starting values. Each APIM gateway keeps its own counters.
+Use these limits as starting values. Each APIM gateway keeps its own counters.
 
-The API product owner divides the workload allowance into per-region budgets. The platform owner configures them in Session 14.
+The API product owner divides the workload allowance into per-region budgets. The platform owner configures those budgets in Session 14.
 
 <!-- Notes: Token counters are gateway-local. Session 14 must budget them per region. -->
 
@@ -202,7 +202,7 @@ The API product owner divides the workload allowance into per-region budgets. Th
 
 ## Decision 2 - Retry and routing
 
-The primary backend is the pinned Session 05 agent.
+The pinned Session 05 agent is the primary backend.
 
 - Circuit opens after five 429/5xx responses in one minute.
 - The circuit remains open for one minute.
@@ -269,7 +269,7 @@ Application Insights receives:
 - APIM request, dependency, latency, and error logs
 - LLM token metrics by API, product, and subscription
 
-Request body bytes, response body bytes, and client IP logging are set to zero or disabled.
+Set request body bytes, response body bytes, and client IP logging to zero or disabled.
 
 Streaming clients set `stream_options.include_usage=true`. Interrupted streams can leave token
 counts incomplete, and token-limit counts are estimated. Cost Management and invoices remain the
@@ -389,7 +389,7 @@ The request stops at APIM. Content Safety and the Foundry agent are not called.
 | Content Safety backend and threshold | Safety owner |
 | Correlation, metrics, retention, and alerts | Operations owner |
 
-Removal deletes only the marked Session 06 APIM child resources.
+Removal deletes the marked Session 06 APIM child resources.
 
 <!-- Notes: Foundry, Content Safety, Application Insights, and role assignments remain. -->
 
@@ -402,7 +402,7 @@ Removal deletes only the marked Session 06 APIM child resources.
 - Apply per-workload token limits, Prompt Shields, and harm checks.
 - Emit correlation and token metrics without body logging.
 
-Next: register the AI API and its required metadata in [Session 07](../07-api-center-ai-mcp-inventory/).
+Next, register the AI API and its required metadata in [Session 07](../07-api-center-ai-mcp-inventory/).
 
 <!-- Notes: APIM now checks requests on the configured route. The design-time inventory comes next. -->
 

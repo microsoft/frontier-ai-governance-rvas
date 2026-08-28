@@ -1,7 +1,6 @@
 # Observability and operations control
 
-These artifacts are the Session 12 desired-state configuration and retained Markdown records used
-to operate it.
+These artifacts hold the Session 12 desired-state configuration and retained Markdown records.
 
 | Path | Type | Updater and cadence | Consumer and operational purpose |
 |---|---|
@@ -20,16 +19,14 @@ For a `Disabled` prompt/response logging exception, keep every exception detail 
 `Approved` exception requires explicit values.
 
 The observability owner configures error spans, exception records, and approved security events to
-bypass normal trace sampling, then tests the rule with existing safe records. If the approved
-synthetic route emits no evaluation or security reference, treat that correlation check as
-not applicable in the live operational view.
+bypass normal trace sampling. They test the rule with existing safe records. If the approved
+synthetic route emits no evaluation or security reference, mark that correlation check as not
+applicable in the live operating view.
 
-The Application Insights connection string remains a runtime secretless configuration value. The
-approved synthetic request uses the customer's existing client and agent; this tree creates no test
-resource or fixture.
+Treat the Application Insights connection string as runtime configuration. The approved synthetic
+request uses the customer's existing client and agent. This tree creates no test resource or fixture.
 
-The gateway owner keeps the APIM policy in the customer policy repository. Operator and correlation
-queries are embedded in the workbook. The paired smoke scripts are consumed by the named Session 13
-GitHub promotion workflow. They read live telemetry and can write a payload-free check result only
-to the runner's temporary workspace for immediate workflow use. No Session 12 runtime record is
-kept in this tree.
+The gateway owner keeps the APIM policy in the customer policy repository. The workbook embeds the
+operator and correlation queries. The named Session 13 GitHub promotion workflow runs the paired
+smoke scripts. They read live telemetry and write a payload-free check result only to the runner's
+temporary workspace for immediate workflow use. This tree keeps no Session 12 runtime record.

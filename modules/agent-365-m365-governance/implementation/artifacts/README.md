@@ -12,4 +12,4 @@ Use these files to review an agent before publishing it. They do not change tena
 | `defender/agent-security-hunting-queries.kql` | Payload-free Defender XDR hunting templates for agent posture and runtime protection |
 
 Resolve every `__REQUIRED_*__` value before owner review. Keep tenant IDs, user names, source URLs,
-prompts, responses, connector secrets, and exported audit records outside this tree.
+prompts, responses, connector secrets, and audit exports outside this tree.

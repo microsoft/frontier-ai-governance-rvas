@@ -4,18 +4,18 @@
 
 ### What we will do
 
-Bring an approved A2A agent into Microsoft Agent 365 through the supported path for its runtime:
+Connect an approved A2A agent to Microsoft Agent 365 through the supported route for its runtime:
 built-in integration, Registry sync, or a runtime-owned Agent 365 SDK integration. The delivery
-team then observes the live Agent Registry entry with the agent owner.
+team then reviews the live Agent Registry entry with the agent owner.
 
-The result is a live Agent 365 inventory record. This module does not create an agent card,
+Microsoft Agent 365 holds the live inventory record. This module does not create an agent card,
 technical definition, or copied inventory record in this repository.
 
 ### Why it matters
 
-Agent 365 gives the organization a live inventory for the agent, its lifecycle, and its owners.
-The runtime continues to own the A2A protocol, endpoint, and agent card. Keeping those boundaries
-clear avoids a repository copy that becomes stale when the runtime changes.
+Agent 365 records the agent, its lifecycle, and its owners. The runtime continues to own the A2A
+protocol, endpoint, and agent card. This split avoids a repository copy that goes stale when the
+runtime changes.
 
 ### Boundaries
 
@@ -33,8 +33,8 @@ retains neither customer-specific records nor completion evidence.
 
 ### Architecture at a glance
 
-The agent exists before this module begins. The team chooses the supported Agent 365 integration
-that fits its runtime, then confirms the resulting live record in the Agent Registry.
+The agent already exists when this module begins. The team selects the Agent 365 integration that
+fits its runtime, then reviews the live record in the Agent Registry.
 
 ```text
 Runtime-owned A2A agent and definition
@@ -47,9 +47,9 @@ Runtime-owned A2A agent and definition
        live owner and lifecycle review
 ```
 
-Built-in integrations and Registry sync bring existing inventory into Agent 365. The SDK path is
-implemented in the runtime-owned product repository when the agent needs code-level Agent 365
-capabilities. This module does not add runtime code.
+Built-in integrations and Registry sync bring the existing agent into Agent 365. When an agent
+needs code-level Agent 365 features, the runtime team implements the SDK path in its product
+repository. This module does not add runtime code.
 
 ### Design choices and tradeoffs
 
@@ -63,7 +63,7 @@ capabilities. This module does not add runtime code.
 ### Architecture guidance
 
 Use [Connect existing agents to Microsoft Agent 365](https://learn.microsoft.com/microsoft-agent-365/connect-existing-agents)
-to choose the built-in, Registry sync, or SDK path.
+to select the built-in, Registry sync, or SDK path.
 
 Use [Choose an Agent 365 integration option](https://learn.microsoft.com/microsoft-agent-365/developer/choose-integration-option)
 to confirm whether the runtime already has a built-in path, can use Registry sync, or needs the
@@ -77,15 +77,15 @@ when Registry sync is the selected route.
 Confirm these prerequisites:
 
 - An A2A agent already runs in the approved nonproduction scope.
-- The Agent 365 administrator has checked tenant licensing and can open the Agent Registry.
+- The Agent 365 administrator has confirmed licensing and can open the Agent Registry.
 - The runtime owner has identified the product repository or supported source integration where
   the agent definition and card are maintained.
-- The agent owner and retirement owner can inspect the live record and its removal path.
-- The delivery team has selected a supported integration route before it changes any state.
+- The agent owner and retirement owner can review the live record and its removal path.
+- The delivery team has selected a supported integration route before changing any state.
 
-Run the readiness check in **Implement › 1. Run preflight** before the platform change. It
-validates the selected route and the runtime-owned source reference without creating an Agent 365
-record or storing supplied values.
+Run the readiness check in **Implement › 1. Run preflight** before the platform change. It checks
+the selected route and runtime-owned source reference without creating an Agent 365 record or
+storing supplied values.
 A read-only deployment preview is unsupported because Agent 365 onboarding follows the selected
 platform or runtime-owned change path.
 
@@ -154,14 +154,14 @@ deploys it through that product's release path.
 
 ### 3. Observe the result
 
-With the Agent 365 administrator, open the Agent Registry and inspect the newly available or
-updated record. Confirm the integration route, owner, and lifecycle state against the live service.
+With the Agent 365 administrator, open the Agent Registry and review the new or updated record.
+Confirm the integration route, owner, and lifecycle state in the live service.
 No screenshot, export, or local record is created.
 
 ## Confirm the result
 
-The module is complete when the Agent 365 administrator and agent owner observe the live record,
-the runtime owner can identify its supported update path, and the selected integration is still
+The module is complete when the Agent 365 administrator and agent owner review the live record,
+the runtime owner can identify its supported update path, and the selected integration remains
 supported for the runtime.
 
 The facilitator stops rather than marks the module complete if the record is missing, a provider

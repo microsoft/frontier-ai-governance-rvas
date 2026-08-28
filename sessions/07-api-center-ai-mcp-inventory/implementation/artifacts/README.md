@@ -1,22 +1,21 @@
 # Implementation artifacts
 
-These files define the deployment inputs for the direct agent API. API Center stores the resulting
-inventory metadata, synchronized APIM entries, and native MCP server entry. API Management still
-validates and controls runtime calls.
+These files define the direct agent API deployment. API Center stores its inventory metadata, the
+synchronized APIM entries, and the native MCP server entry. API Management still controls runtime calls.
 
 | Path | Operational purpose |
 |---|---|
-| `api-center/main.bicep` | API Center, system identity, metadata schemas, workspace, Foundry environment, direct agent API, and scoped APIM reader module |
-| `api-center/apim-reader.bicep` | Exact API Management Service Reader Role assignment in the existing APIM resource group |
-| `api-center/metadata-schemas.json` | Required API metadata definitions and allowed governance values |
-| `api-center/agent-api-definition.json` | Desired-state definition and required metadata for the direct Session 05 agent API |
-| `catalog/specs/policy-assistant-agent.openapi.json` | OpenAPI definition imported for the direct agent endpoint |
-| `environments/sandbox.json` | Approved API Center, APIM, Foundry, and integration coordinates |
+| `api-center/main.bicep` | Defines API Center, its system identity, metadata schemas, workspace, Foundry environment, direct agent API, and scoped APIM reader module |
+| `api-center/apim-reader.bicep` | Assigns API Management Service Reader Role in the existing APIM resource group |
+| `api-center/metadata-schemas.json` | Defines required API metadata and allowed governance values |
+| `api-center/agent-api-definition.json` | Defines the direct Session 05 agent API and its required metadata |
+| `catalog/specs/policy-assistant-agent.openapi.json` | Supplies the OpenAPI definition for the direct agent endpoint |
+| `environments/sandbox.json` | Names the approved API Center, APIM, Foundry, and integration resources |
 
-Runtime URLs, credentials, tokens, prompts, responses, and telemetry stay outside the repository.
+Keep runtime URLs, credentials, tokens, prompts, responses, and telemetry outside the repository.
 Preflight rejects every `__REQUIRED_*__` value before deployment.
 
 The stable `Microsoft.ApiCenter@2024-03-01` resources deploy the service and direct agent API. The
-API program owner uses the supported portal flow to maintain the native MCP server entry and the
-synchronized APIM entry's metadata. The live script checks required metadata and APIM integration
-health. The native MCP deployment location and runtime health remain manual portal checks.
+API program owner uses the supported portal flow to maintain the native MCP server entry and
+synchronized APIM metadata. The live script checks required metadata and APIM integration health.
+The owner checks the native MCP deployment location and runtime health in the portal.

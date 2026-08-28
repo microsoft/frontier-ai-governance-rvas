@@ -10,7 +10,7 @@
 ## Immediate disable switch
 
 Keep or restore the stable endpoint at 100% of the [Session 05](../../../../05-governed-agent-baseline/implementation/README.md) approved fixed agent version. Do not pin the
-candidate version when either evaluation path fails or the release owner cannot inspect the result.
+candidate version if either evaluation path fails or the release owner cannot inspect the result.
 The Session 10 scripts never change the endpoint selector.
 
 ## Ordered restore
@@ -22,9 +22,9 @@ The Session 10 scripts never change the endpoint selector.
 4. Cancel any running Session 10 evaluation from Foundry if it is consuming unnecessary budget.
 5. Keep the golden data set in the approved evaluation store. Keep the threshold history,
    aggregate release records, and blocked self-test command.
-6. Remove a Foundry evaluation definition or dataset version only when the quality owner confirms
-   that no release record or comparison depends on it.
+6.    Remove a Foundry evaluation definition or dataset version only when the quality owner confirms that
+   no release record or comparison uses it.
 
 Do not delete the Foundry project, agent versions, judge-model deployment, Application Insights,
-[Session 08](../../../../08-mcp-tool-security/implementation/README.md) tool path, or customer data as a restore shortcut. A failed candidate remains unpinned
+[Session 08](../../../../08-mcp-tool-security/implementation/README.md) tool path, or customer data as a restore shortcut. A failed candidate stays unpinned
 and is remediated in a new version rather than mutated in place.

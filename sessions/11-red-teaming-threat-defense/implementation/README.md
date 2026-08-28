@@ -4,15 +4,15 @@
 
 ### What we will do
 
-Compare authorized adversarial results for the baseline and pre-session remediated fixed agent
-versions, then confirm the Defender-to-SOC route. The check requires lower overall attack success,
-no per-risk regression, no prohibited-action success, and a separate SOC route result.
+Compare authorized adversarial results for the baseline and fixed agent versions remediated before
+the session. Then confirm the Defender-to-SOC route. The check requires lower overall attack
+success, no per-risk regression, no prohibited-action success, and a separate SOC route result.
 
 ### Why it matters
 
 An average can improve while one threat category gets worse. The comparison keeps each evaluator,
-risk category, and strategy visible. The SOC route remains separate because delivery of a security
-signal does not prove the remediation improved agent behavior.
+risk category, and strategy visible. The SOC route stays separate because a delivered security
+signal does not prove that remediation improved agent behavior.
 
 ### Boundaries
 
@@ -21,7 +21,7 @@ Microsoft Foundry stores the taxonomy, attack prompts, responses, evaluator deta
 Microsoft Defender and the SOC system store alerts, incidents, and routing status.
 
 The repository keeps a bounded attack-plan definition, a Defender hunting query, and a triage
-playbook. The exercise stays in the authorized nonproduction project with synthetic inputs and the
+playbook. Run the exercise in the authorized nonproduction project with synthetic inputs and the
 read-only tool path. It does not authorize production promotion, write-capable testing, or a newly
 generated alert.
 
@@ -31,10 +31,10 @@ generated alert.
 
 ![An authorized plan cycles through baseline measurement, agent-owner remediation, an immutable version, same-plan rerun, per-key decision, and remaining risk; a separate Defender route sends current security context to the SOC](../assets/diagrams/red-team-defense-loop.svg)
 
-The same attack plan runs against two immutable versions. Foundry stores the attack prompts,
-responses, evaluator detail, and run records. The runner writes a payload-free aggregate to the
-approved external security record store. The comparison script reads the live aggregate and SOC
-inputs, checks the red-team result, and reports SOC delivery separately.
+The same attack plan runs against two immutable versions. Foundry stores attack prompts, responses,
+evaluator detail, and run records. The runner writes a payload-free aggregate to the approved
+external security record store. The comparison script reads the live aggregate and SOC inputs,
+checks the red-team result, and reports SOC delivery separately.
 
 Existing tool and backend controls deny prohibited side effects during both runs. Defender follows
 its own detection and routing path.
@@ -157,8 +157,8 @@ python ./scripts/run-red-team.py \
   --prepare-taxonomy
 ```
 
-Review and approve the generated taxonomy in Foundry. Supply its current ID through `--taxonomy-id`;
-do not copy it into the attack-plan file.
+Review and approve the generated taxonomy in Foundry. Supply its current ID through
+`--taxonomy-id`. Do not copy it into the attack-plan file.
 
 The red-team API has no read-only deployment preview. Preflight resolves the current target without
 creating a taxonomy or run.
@@ -260,15 +260,15 @@ python ./scripts/compare-runs.py \
 ```
 
 The comparison requires lower overall ASR, identical per-risk keys, no per-risk regression, zero
-prohibited-action success, and payload-free inputs. The SOC result remains separate. It must identify
+prohibited-action success, and payload-free inputs. The SOC result stays separate. It must identify
 the route, observation, and confirmed agent or model context.
 
 ## After implementation
 
-Foundry stores red-team details and aggregate results. Defender and the SOC system store
-alerts, routes, and investigation status. The approved change system records authorization,
-remediation, and residual-risk decisions. The repository retains the bounded attack plan, current
-alert hunt, and triage playbook.
+Foundry stores red-team details and aggregate results. Defender and the SOC system store alerts,
+routes, and investigation status. The approved change system records authorization, remediation,
+and residual-risk decisions. The repository retains the bounded attack plan, current alert hunt,
+and triage playbook.
 
 Stop active runs and keep the stable endpoint on the previously approved version when behavior is
 unsafe. Restore instructions, gateway, content controls, permissions, and data access through their

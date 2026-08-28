@@ -14,19 +14,19 @@ html: true
 
 # Entra identity, RBAC, PIM, and workload identities
 
-**240 minutes · Group access, PIM elevation, and workload OIDC trust**
+**240 minutes · Group access, PIM elevation, and GitHub OIDC trust**
 
 ---
 
 ## Control objective
 
-> Configure four group-based role assignments, PIM eligibility for Foundry administration, and one secretless GitHub workload identity for the approved nonproduction scopes.
+> Configure four group-based role assignments, PIM eligibility for Foundry administration, and one GitHub workload identity without a client secret for the approved nonproduction scopes.
 
 ### Session result
 
 - Normal human access is group based.
 - Elevated Foundry administration is PIM eligible.
-- One managed identity accepts OIDC tokens only from one protected GitHub environment.
+- One managed identity accepts OIDC tokens from one protected GitHub environment.
 - The roles are scoped to the Foundry resource, project, and storage account recorded for this session.
 
 <!-- Notes: Set the boundary first. Change identity state only in the approved nonproduction scope. -->
@@ -46,7 +46,7 @@ html: true
 
 ## Why it matters
 
-PIM makes elevated human administration time-limited. Workloads need narrowly scoped role assignments without a stored Azure client secret.
+PIM limits the time for elevated human administration. Workloads need narrow role assignments without a stored Azure client secret.
 
 ---
 
@@ -75,7 +75,7 @@ PIM makes elevated human administration time-limited. Workloads need narrowly sc
 
 ## What this means
 
-People receive access through customer-owned groups. Platform administrators activate the
+People receive access through customer-owned groups. Platform administrators activate a
 time-limited role through PIM. GitHub uses a separate, application-only OIDC trust with no stored
 Azure client secret.
 
@@ -105,9 +105,9 @@ publishing, and endpoint use.
 
 ## Resolve stable IDs in preflight
 
-Preflight reads every stable role ID from `role-definitions.json`. For each named role, it checks
-the expected stable ID, an accepted current or transitional display name, and the built-in type
-against live Azure role definitions, then compiles both Bicep files.
+Preflight reads stable role IDs from `role-definitions.json`. For each named role, it checks the
+expected ID, an accepted current or transitional display name, and the built-in type against live
+Azure role definitions. It then compiles both Bicep files.
 
 Display names can lag across tools. Do not copy role IDs into slides or decision records.
 
@@ -115,13 +115,13 @@ Display names can lag across tools. Do not copy role IDs into slides or decision
 
 ## Configure time-bound PIM elevation
 
-The PIM-eligible principal is the approved platform-administrator group.
+Use the approved platform-administrator group as the PIM-eligible principal.
 
 1. The operator is **eligible**, not active.
 2. Activation requires MFA and justification.
 3. A member of the approved approver group approves or denies each activation.
 4. Each activation lasts no more than two hours.
-5. Group eligibility ends on the date approved through the customer identity change process.
+5. End group eligibility on the date approved through the customer identity change process.
 
 > PIM settings belong to one role on one resource. They do not inherit from a higher scope.
 
@@ -150,7 +150,7 @@ privileged assignments.
 
 ### Costs and limits
 
-- Assign responsibility for group membership and PIM approvals
+- Assign an owner for group membership and PIM approvals
 - Activation adds a deliberate step
 - Workload authority cannot vary by signed-in user
 - Azure DevOps workload identity federation needs a separate service connection and trust
@@ -177,10 +177,10 @@ api://AzureADTokenExchange
 
 The federated credential is stored on the managed identity.
 
-It accepts a token only when GitHub issues the matching issuer, subject, and audience above. The workflow needs `id-token: write`; the subject does not support wildcards.
+It accepts a token when GitHub issues the matching issuer, subject, and audience. The workflow needs `id-token: write`. The subject does not support wildcards.
 
 This is not an OBO path. Microsoft Entra ID exchanges the GitHub OIDC token for an application-only
-token that represents the managed identity; Azure then applies that identity's role assignments.
+token that represents the managed identity. Azure then applies that identity's role assignments.
 
 Sources: [Microsoft Entra workload identity federation](https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation-create-trust-user-assigned-managed-identity) and [GitHub OIDC for Azure](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure-openid-connect).
 
@@ -190,7 +190,7 @@ Sources: [Microsoft Entra workload identity federation](https://learn.microsoft.
 
 - **Production:** stop if the subscription, resource group, Foundry resource, Foundry project, or storage account is production or shared with production.
 - **Role scope:** stop if a preview shows a subscription-level assignment.
-- **PIM:** stop without recorded owners, customer approvers, licensing, and a safe emergency path.
+- **PIM:** stop without recorded owners, customer approvers, licensing, and an approved emergency path.
 - **OIDC:** stop if the managed identity would accept tokens from more than one protected environment.
 - **Customer data:** inspect configuration only; do not read model, blob, or secret content.
 
@@ -204,7 +204,7 @@ Sources: [Microsoft Entra workload identity federation](https://learn.microsoft.
 2. **Run preflight** to check the approved nonproduction subscription and resource group, read role IDs from `role-definitions.json`, reject unresolved placeholder values, and compile Bicep.
 3. **Preview and deploy** the three standing group assignments.
 4. **Configure** Foundry Account Owner eligibility through PIM.
-5. **Preview and deploy** the managed identity, credential, and two roles.
+5. **Preview and deploy** the managed identity, credential, and two role assignments.
 6. **Confirm** the live configuration once.
 
 ---
@@ -213,14 +213,14 @@ Sources: [Microsoft Entra workload identity federation](https://learn.microsoft.
 
 ## Apply the identity assignments
 
-**Timebox:** 270 minutes
+**Timebox:** 240 minutes
 
 Configure human access and one workload identity in the approved nonproduction scope.
 
 - Human access uses groups and PIM.
 - GitHub OIDC trust uses one specific environment subject.
 - The workload identity has two narrow assignments.
-- Use deployment previews to verify that no assignment exceeds the Foundry resource, Foundry project, or storage-account scopes recorded for this session.
+- Use deployment previews to confirm that every assignment stays within the Foundry resource, Foundry project, or storage-account scopes recorded for this session.
 - The confirmation commands read configuration and save no output.
 
 <!-- Notes: Pause after each preview. The change owner decides whether deployment proceeds. -->
@@ -240,7 +240,7 @@ Inspect one marked workload identity:
 5. No direct assignment appears at subscription scope.
 6. No unexpected portal-created direct-user assignment remains on the Foundry resource or project.
 
-**Read the console. Do not redirect, export, or save the command output.**
+**Read the console. Do not redirect, export, or save command output.**
 
 ---
 
@@ -254,7 +254,7 @@ Inspect one marked workload identity:
 | Managed identity, GitHub credential, and two direct roles | Workload and platform owners |
 | Bicep files, `role-definitions.json`, and support scripts | Customer repository owner |
 
-Moving the identity, roles, groups, or GitHub environment trust into production requires a separate customer change.
+Move the identity, roles, groups, or GitHub environment trust into production through a separate customer change.
 
 ---
 
@@ -278,11 +278,11 @@ The workload script removes the two role assignments before it removes the manag
 ## Recap and next dependency
 
 - **Humans:** groups for normal work; PIM for elevated work.
-- **Workload:** one identity, one specific trust, two scoped roles.
-- **Next step:** use the [delegated OBO module](../../modules/obo-delegated-access/) when a downstream API must authorize the signed-in user.
+- **Workload:** one identity, one exact trust, and two scoped roles.
+- **Next:** use the [delegated OBO module](../../modules/obo-delegated-access/) when a downstream API must authorize the signed-in user.
 - **Safety:** no production scope, subscription assignments, broad OIDC subject, or customer-data access.
-- **Result:** inspect the live configuration once and save nothing.
-- **Next:** [Session 03](../03-private-networking-dns/) configures private service connectivity and firewall-controlled Agent Service traffic for these identities.
+- **Result:** inspect the live configuration once. Save nothing.
+- [Session 03](../03-private-networking-dns/) configures private service connectivity and firewall-controlled Agent Service traffic for these identities.
 
 ---
 

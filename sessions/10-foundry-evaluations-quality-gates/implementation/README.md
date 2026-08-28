@@ -4,21 +4,21 @@
 
 ### What we will do
 
-Create and run `release-gate.py` for fixed agent versions. Run the versioned
-golden data set against the approved and candidate versions. The approved aggregate must return
-`PASS`, and the in-memory tool-process regression must return `BLOCK`.
+Create and run `release-gate.py` for fixed agent versions. Run the versioned golden data set
+against the approved and candidate versions. The approved aggregate must return `PASS`. The
+in-memory tool-process regression must return `BLOCK`.
 
 ### Why it matters
 
-The gate answers one narrow release question without averaging away a failed tool path or safety
-metric. Session 13 can run the same gate before promotion.
+The gate answers one release question. It does not average away a failed tool path or safety metric.
+Session 13 can run the same gate before promotion.
 
 ### Boundaries
 
 Microsoft Foundry stores queries, responses, tool calls, evaluator reasons, and row-level results.
-The approved release platform stores run aggregates and records whether the gate is enabled and
-whether a version is promoted. The repository stores the evaluation definitions, thresholds, and
-release policy used by the gate.
+The approved release platform stores run aggregates and whether the gate is enabled or a version is
+promoted. The repository stores the evaluation definitions, thresholds, and release policy used by
+the gate.
 
 The gate does not change the stable endpoint or promote an agent. Preview task-adherence,
 prohibited-action, and sensitive-data-leakage evaluators stay advisory. Session 08 remains the
@@ -31,8 +31,8 @@ authorization boundary for prohibited writes.
 ![A versioned golden data set evaluates approved and candidate immutable agent versions; evaluator layers produce live Foundry aggregates, and thresholds plus release policy return PASS or BLOCK](../assets/diagrams/evaluation-release-gate-flow.svg)
 
 The same synthetic data set evaluates two fixed versions. Foundry stores the detailed result. The
-runner writes a payload-free aggregate to the approved external release store, and the gate applies
-the thresholds and release policy stored in the repository to those live inputs.
+runner writes a payload-free aggregate to the approved external release store. The gate applies the
+repository thresholds and release policy to those live inputs.
 
 ### Design choices and tradeoffs
 
@@ -76,9 +76,9 @@ Confirm these prerequisites:
 
 ## Decisions and stop conditions
 
-Resolve required configuration values through the approved delivery change path. Keep project
-endpoints, resource IDs, subscriptions, tokens, prompts, responses, tool payloads, and personal data
-out of the repository.
+Resolve required configuration values through the approved delivery change path. Do not put project
+endpoints, resource IDs, subscriptions, tokens, prompts, responses, tool payloads, or personal data
+in the repository.
 
 Stop when an agent version is implicit or mutable, the project or region is outside scope, a preview
 evaluator becomes blocking, a limited-support tool enters the evaluated path, a safety or
@@ -86,8 +86,8 @@ tool-process failure is treated as overridable, or a current result would be wri
 repository.
 
 The release owner updates the version-controlled policy when evaluators, tools, or thresholds
-change. Foundry and the release platform record support checks, run IDs, whether the gate is
-enabled, and release decisions.
+change. Foundry and the release platform record support checks, run IDs, gate state, and release
+decisions.
 
 ## Implement
 
@@ -127,8 +127,8 @@ release_store="${APPROVED_RELEASE_STORE:?Set APPROVED_RELEASE_STORE outside this
   --phase baseline
 ```
 
-Preflight resolves the exact Foundry targets and validates configuration before the billable run.
-The Evals API has no dry run.
+Preflight resolves the exact Foundry targets and checks configuration before the billable run. The
+Evals API has no dry run.
 
 ### 3. Run the approved version and set thresholds
 
@@ -146,9 +146,9 @@ python ./scripts/run-evaluation.py \
   --output "$release_store/approved-baseline.json"
 ```
 
-Inspect row-level detail in Foundry. The release owner and control owners establish active thresholds
-from the approved result through the delivery change path. The current baseline run ID and approval
-remain in Foundry and the release platform.
+Inspect row-level detail in Foundry. The release owner and control owners set active thresholds from
+the approved result through the delivery change path. Foundry and the release platform retain the
+current baseline run ID and approval.
 
 ### 4. Run and gate the candidate version
 
@@ -214,16 +214,16 @@ quality and safety remain passing. It creates no dataset, cloud resource, or rep
 
 ### Delivery-owner checkpoint
 
-The release owner observes both gate outcomes and the candidate result in the approved release
-platform. A blocked candidate remains unpinned. An enabled delivery integration may make a passing
-candidate eligible for Session 13, but it does not promote the version by itself.
+The release owner sees both gate outcomes and the candidate result in the approved release
+platform. A blocked candidate stays unpinned. An enabled delivery integration may make a passing
+candidate eligible for Session 13, but it does not promote the version.
 
 ## After implementation
 
 Keep the golden data, evaluation specification, threshold policy, release policy, scripts, and
 disable-and-restore runbook in operation. Foundry and the release platform retain run and decision
 records. The quality owner maintains the data and thresholds. The safety owner defines the safety
-boundary, the tool owner maintains tool-process compatibility, and the release owner controls the
+boundary. The tool owner maintains tool-process compatibility, and the release owner controls the
 stable selector and delivery integration.
 
 Use [`artifacts/operations/disable-and-restore.md`](artifacts/operations/disable-and-restore.md) to

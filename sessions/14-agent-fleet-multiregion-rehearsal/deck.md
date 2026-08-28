@@ -22,9 +22,9 @@ html: true
 
 ## Control objective
 
-> Locate one governed service's agent and MCP records in their native services. Then rehearse routing to its approved secondary deployment and check the expected identity reference, policy version, and trace fields.
+> Locate one governed service's agent and MCP records in their native services. Then rehearse routing to its approved secondary deployment. Check the expected identity reference, policy version, and trace fields.
 
-Operators must:
+Operators:
 
 - locate the approved agent and MCP server in their native services;
 - inspect live Azure resources and native service state; and
@@ -36,9 +36,9 @@ Operators must:
 
 ## Why it matters
 
-A secondary deployment helps only when operators can identify the service, move traffic through an approved path, and tell whether its controls still work.
+A secondary deployment helps when operators can identify the service, move traffic through an approved path, and tell whether its controls still work.
 
-This rehearsal gives the service and delivery owners one visible regional result. It does not turn one service check into fleet-wide lifecycle enforcement.
+This rehearsal gives the service and delivery owners one visible regional result. It does not make one service check fleet-wide lifecycle enforcement.
 
 <!-- Notes: The rehearsal moves traffic, not an identity or registry object. -->
 
@@ -46,11 +46,11 @@ This rehearsal gives the service and delivery owners one visible regional result
 
 ## Implementation outcomes
 
-1. Locate the governed agent and MCP server in their respective native services.
-2. Query Azure resources live and inspect the current records in each native service.
-3. Use the regional Bicep parameter file, keeping regional gateways with regional backends.
-4. Record the primary-region management-plane and regional rate-limit constraints.
-5. Route one governed service to its approved secondary deployment, check the expected identity reference, gateway policy, and tracing, then keep a restore path.
+1. Locate the governed agent and MCP server in their native services.
+2. Query Azure resources live and inspect current records in each native service.
+3. Use the regional Bicep parameter file. Keep regional gateways with regional backends.
+4. Record the primary-region management-plane and regional rate-limit limits.
+5. Route one governed service to its approved secondary deployment. Check the expected identity reference, gateway policy, and tracing, then keep a restore path.
 
 <!-- Notes: Standard mode fits because the plan calls for one visible failover result, not a manufactured blocked test. -->
 
@@ -90,7 +90,7 @@ Sessions 05-13 remain the guided path for building these controls.
 
 # Reconcile the agent, then test secondary-region routing
 
-Foundry Control Plane shows supported agents across accessible Azure projects. Agent 365 provides the wider enterprise registry.
+Foundry Control Plane shows supported agents across Azure projects you can access. Agent 365 provides the enterprise registry.
 
 <!-- Notes: Do not collapse the product boundary. -->
 
@@ -100,12 +100,12 @@ Foundry Control Plane shows supported agents across accessible Azure projects. A
 
 This rehearsal separates service records from the traffic setting that changes. Native services
 retain agent, MCP, identity, and inventory state. The repository keeps regional parameters and
-wrapper interfaces. The routing control changes only the active selector.
+wrapper interfaces. The routing control changes the active selector.
 
 | Part | What happens | Where the state lives |
 |---|---|---|
 | Identify | Native service views and Azure Resource Manager identify the governed service and its regional resources. | Native platforms |
-| Check | Customer health checks confirm that both deployments are ready before traffic changes. | Customer health system |
+| Check | Customer health checks confirm both deployments are ready before traffic changes. | Customer health system |
 | Switch | The approved routing control moves the active selector from the primary path to the secondary path. | Customer change system |
 | Verify and restore | The active-path check confirms the expected identity, policy, endpoint, and traces. A mismatch restores the primary selector. | Customer change system and runbook |
 
@@ -117,8 +117,8 @@ wrapper interfaces. The routing control changes only the active selector.
 
 The service owner identifies the governed agent in Foundry Control Plane and Agent 365, then finds
 its MCP server in the API inventory. Azure Resource Manager checks the project, telemetry resource,
-and API Management topology. The active-path health result is transient, then the customer change
-system records the outcome.
+and API Management topology. The active-path health result is temporary. The customer change system
+records the outcome.
 
 <!-- Notes: Traffic moves. The active path must report the expected identity reference, policy version, and trace fields. No identity object is moved by this session. -->
 
@@ -133,8 +133,8 @@ system records the outcome.
 Foundry Control Plane discovers supported agents across the projects a user can access in a
 subscription. It shows the version, published state, status, and Entra ID.
 
-Application Insights supplies the run, error, token, cost, and trace views. Missing inventory can
-mean that the operator lacks access; it does not prove that the agent is absent.
+Application Insights supplies run, error, token, cost, and trace views. Missing inventory can mean
+the operator lacks access. It does not prove the agent is absent.
 
 <!-- Notes: Record the exact agent ID and immutable version. A name alone cannot reconcile this view with Agent 365 or Microsoft Entra. -->
 
@@ -168,10 +168,9 @@ registers the existing agent during pre-work. Identity changes require **Agent I
 
 ### Purview
 
-Start the check from the agent instance. Confirm audit and data classification there.
+Start at the agent instance. Confirm audit and data classification there.
 
-Other controls require policy inclusion. The owner also checks whether DLP affects later agent
-steps.
+Other controls need policy inclusion. The owner also checks whether DLP affects later agent steps.
 
 </div>
 <div>
@@ -184,8 +183,8 @@ Record whether Unified RBAC is not activated, partially activated, or active for
 workloads. Then record whether visibility uses Entra Security Reader, Defender Unified RBAC, or a
 mixed model.
 
-Confirm the expected agent runtime and risk signals. Defender keeps the threat investigation and
-protection record alongside its existing user, app, and device records.
+Confirm the expected agent runtime and risk signals. Defender keeps threat investigation and
+protection records alongside its existing user, app, and device records.
 
 </div>
 </div>
@@ -219,7 +218,7 @@ Stop on a duplicate, ownerless, or version-ambiguous production record.
 
 | Decision | Chosen approach | Why | Requirement |
 |---|---|---|---|
-| Service state | Native service views plus live Azure queries | Reads current state from the services that store it | Operators need access to each service |
+| Service state | Native service views plus live Azure queries | Read current state from the services that store it | Operators need access to each service |
 | Gateway topology | One Premium (classic) multi-region instance or separate regional gateways | Keeps the approved network and isolation design | Accept the primary management plane or the added release work |
 | Restore | Move the approved selector and keep the secondary deployment | Narrows the restore and leaves standby ready | Session 13 controls drift; capacity cost continues |
 
@@ -251,7 +250,7 @@ Primary gateway -> primary backend
 
 Secondary gateway -> secondary backend
 
-API Management does not make a single-region backend regional. Cross-region backend calls keep the latency and dependency the secondary gateway was meant to remove.
+API Management does not make a single-region backend regional. Cross-region backend calls keep the latency and dependency that the secondary gateway was meant to remove.
 
 <!-- Notes: The deployment preview must show the complete regional stack, including its backend. -->
 
@@ -275,7 +274,7 @@ For one Premium (classic) multi-region instance:
 
 ## Decision gate 3 - Operational limits
 
-The service and delivery owners must accept:
+The service and delivery owners must approve:
 
 1. no policy change while the primary management plane is unavailable;
 2. regional rate and token counters are not a global limit;
@@ -289,14 +288,14 @@ The service and delivery owners must accept:
 
 ## Deploy through the existing Bicep entrypoint
 
-The Session 14 control definition identifies:
+The Session 14 control definition names:
 
 - the customer Bicep entrypoint that deploys and updates the full regional stack;
 - the `region.parameters.json` deployment inputs;
 - a health-check script for the secondary deployment; and
 - a routing-control script for the approved selector move.
 
-Do not deploy a partial `Microsoft.ApiManagement/service` definition beside the existing one.
+Do not deploy a partial `Microsoft.ApiManagement/service` definition beside the existing definition.
 
 <!-- Notes: Two deployment definitions for the same API Management resource can overwrite configuration. -->
 
@@ -332,7 +331,7 @@ Named values, approved scope, HTTPS endpoints, repository paths, script syntax, 
 
 Active Azure subscription, API Management IDs, tiers and regions, additional location when used, then Azure deployment what-if.
 
-Neither phase deploys or moves traffic.
+Neither phase deploys resources or moves traffic.
 
 The inventory operator uses Azure **Reader** at subscription scope and a time-bound PIM activation
 for privileged tenant **AI Reader**.
@@ -348,7 +347,7 @@ regional resource group.
 ## Rehearsal script interfaces
 
 The wrappers call the team's paired PowerShell or Bash scripts. Health checks do not change
-traffic. Routing control is the only traffic-changing interface.
+traffic. Routing control is the sole traffic-changing interface.
 
 ### Health
 
@@ -371,7 +370,7 @@ accepts no secret or free-form command string.
 
 ---
 
-## Stop conditions
+## Stop if any of these apply
 
 - unresolved owner, scope, or version;
 - missing live Azure resources or a native service record for the governed agent or MCP server;
@@ -427,7 +426,7 @@ Expected on the active secondary path:
 
 ## Restore path
 
-The approved routing restore path:
+Use this approved routing restore path:
 
 1. checks primary readiness;
 2. previews secondary-to-primary routing;
@@ -445,7 +444,7 @@ The secondary region remains deployed.
 
 The exercise checks one governed service through its agent and MCP records.
 
-Fleet-wide lifecycle enforcement is outside this session. The rehearsal does not move an identity or registry object between regions.
+Fleet-wide lifecycle enforcement is outside this session. The rehearsal does not move identity or registry objects between regions.
 
 | Owner | Operational responsibility |
 |---|---|

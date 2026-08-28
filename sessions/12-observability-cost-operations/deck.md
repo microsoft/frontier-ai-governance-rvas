@@ -22,15 +22,15 @@ html: true
 
 ## Control objective
 
-> Deploy privacy-safe operating controls for one governed service: connect supported runtime spans, route alerts, notify on budget thresholds, and follow incident paths with named owners.
+> Deploy privacy-safe operating controls for one governed service. Connect supported runtime spans, route alerts, notify owners at budget thresholds, and follow incident paths with named owners.
 
 ### Result check
 
-- an approved synthetic request is traceable across supported gateway, agent, model, and tool spans;
-- tool failure remains distinct from model failure;
-- standard logs leave out sensitive input;
-- operational and AI-quality alerts route to named owners; and
-- usage, tags, and budget notifications support cost accountability without stopping spend.
+- An approved synthetic request is traceable across supported gateway, agent, model, and tool spans.
+- Tool failure stays separate from model failure.
+- Standard logs leave out sensitive input.
+- Operational and AI-quality alerts route to named owners.
+- Usage, tags, and budget notifications support cost accountability without stopping spend.
 
 <!-- Notes: The objective is decision-ready operations, not maximum logs. -->
 
@@ -38,11 +38,11 @@ html: true
 
 ## Why it matters
 
-Operators need enough joined runtime context to decide whether the service, a tool, or the model is failing.
+Operators need enough joined runtime context to tell whether the service, a tool, or the model is failing.
 
 The workbook and alert routes support that decision without pooling records from every system.
 
-Cost tags and budget notifications give the cost owner a delayed billing view. The incident runbook names who contains each failure.
+Cost tags and budget notifications give the cost owner a delayed billing view. The incident runbook names the owner who contains each failure.
 
 <!-- Notes: A budget notifies. It does not stop spend. -->
 
@@ -51,10 +51,10 @@ Cost tags and budget notifications give the cost owner a delayed billing view. T
 ## Implementation outcomes
 
 1. Keep privacy-safe OpenTelemetry settings for supported runtime spans.
-2. Deploy a shared workbook and three alert rules routed to named owners.
-3. Keep limited token metrics and low-cardinality allocation tags.
+2. Deploy a shared workbook and three alert rules that route to named owners.
+3. Keep bounded token metrics and low-cardinality allocation tags.
 4. Deploy budget notifications that do not stop resources.
-5. Operate four incident paths listed in the runbook and run the release smoke check from the Session 13 GitHub promotion workflow.
+5. Use the four incident paths in the runbook and run the release smoke check from the Session 13 GitHub promotion workflow.
 
 <!-- Notes: Standard mode ends with one composite visible check. -->
 
@@ -79,7 +79,7 @@ Teams joining here confirm this state before they begin the session.
 
 # Operate one service without pooling its records
 
-Runtime spans share approved context. Cost, evaluation, and security records stay in their own systems.
+Runtime spans share approved context. Cost, evaluation, and security records stay in their source systems.
 
 <!-- Notes: Correlation is the join key; governed systems remain the sources of truth. -->
 
@@ -99,7 +99,7 @@ Runtime spans share approved context. Cost, evaluation, and security records sta
 
 One request keeps the same W3C trace identifier through API Management, the agent, the model, and
 the tool. Application Insights joins those runtime spans. Cost, evaluation, and security records
-stay with their own systems, and the Session 13 GitHub workflow consumes its temporary smoke result.
+stay in their source systems. The Session 13 GitHub workflow consumes its temporary smoke result.
 
 ---
 
@@ -107,9 +107,9 @@ stay with their own systems, and the Session 13 GitHub workflow consumes its tem
 
 | System | Record stored there | How operators use it |
 |---|---|---|
-| Application Insights | Runtime telemetry | Follow one request, keep tool failure separate from model failure, and query the workbook |
+| Application Insights | Runtime telemetry | Follow one request, keep tool failure separate from model failure, and use the workbook |
 | Azure Monitor | Alert state and notification route | Send the selected failure path to its owner |
-| Cost Management | Billed cost | Confirm cost after the normal 8-24 hour reporting delay |
+| Cost Management | Billed cost | Confirm cost after the usual 8-24 hour reporting delay |
 | Source-controlled gateway configuration | API Management policy | Govern trace propagation and low-cardinality token estimates |
 | Defender and SOC | Security and incident records | Investigate and contain security failures |
 
@@ -123,9 +123,9 @@ stay with their own systems, and the Session 13 GitHub workflow consumes its tem
 
 | Decision | Chosen approach | Why | Limit |
 |---|---|---|---|
-| Runtime content | Exclude prompts, responses, and tool payloads | Trace service behavior without creating a content archive | Content diagnosis needs a separate, time-limited approval |
-| Trace volume | Sample where traces begin; keep selected traces complete and metrics unsampled | Preserve joined traces while bounding ingestion | Rare failures may need approved sampling exceptions |
-| Cost signal | Use APIM token metrics for estimates and Cost Management for billing | Give operators a fast estimate while preserving the authoritative bill | Counts can be incomplete; billing normally lags 8-24 hours |
+| Runtime content | Exclude prompts, responses, and tool payloads | Trace service behavior without creating a content archive | Content diagnosis needs separate, time-limited approval |
+| Trace volume | Sample where traces begin; keep selected traces complete and metrics unsampled | Keep joined traces while bounding ingestion | Rare failures may need approved sampling exceptions |
+| Cost signal | Use APIM token metrics for estimates and Cost Management for billing | Give operators a fast estimate while keeping the authoritative bill | Counts can be incomplete; billing normally lags 8-24 hours |
 
 <!-- Notes: These choices protect privacy and cost without pretending that one signal can answer every operating question. -->
 
@@ -198,7 +198,7 @@ Preserve complete traces. Validate the selected language and distro behavior.
 
 ## Decision gate 2 - Is content logging justified?
 
-When the exception is `Disabled`, its detail fields use `N/A`.
+When the exception is `Disabled`, set its detail fields to `N/A`.
 
 Default: **Disabled**
 
@@ -211,7 +211,7 @@ An exception needs:
 5. an expiry date; and
 6. data-protection approval.
 
-Keep exception content in the approved logging store and remove access at expiry.
+Keep exception content in the approved logging store. Remove access at expiry.
 
 <!-- Notes: A content exception is a separate data-processing decision, not a tracing toggle. -->
 
@@ -219,7 +219,7 @@ Keep exception content in the approved logging store and remove access at expiry
 
 ## Workbook: operating view
 
-The deployed workbook answers:
+The deployed workbook shows:
 
 - Are requests succeeding within latency SLOs?
 - Which model, agent version, or tool is failing?
@@ -227,7 +227,7 @@ The deployed workbook answers:
 - How many tokens pass through the gateway?
 - Can one correlation ID reconstruct the operation?
 
-It does **not** become a prompt browser or billing ledger.
+It is not a prompt browser or billing ledger.
 
 <!-- Notes: Keep the workbook useful under the privacy boundary. -->
 
@@ -235,7 +235,7 @@ It does **not** become a prompt browser or billing ledger.
 
 ## Alert families
 
-Review baseline logs before setting any alert threshold.
+Review baseline logs before setting alert thresholds.
 
 | Alert | Signal | Owner question |
 |---|---|---|
@@ -276,7 +276,7 @@ Interrupted streams and model behavior can also make token counts incomplete.
 
 ### Operational clock
 
-APIM token metrics provide near-real-time usage signals for routing, anomaly detection, and estimated allocation.
+APIM token metrics provide near-real-time usage signals for routing, anomaly detection, and cost estimates.
 
 ### Billing clock
 
@@ -311,7 +311,7 @@ Keep logs, Defender, and SOC routing active unless they are the confirmed fault.
 
 **Timebox: 95 minutes**
 
-1. Resolve log, retention, alert, and cost settings, then name the owner for each.
+1. Resolve log, retention, alert, and cost settings. Name the owner for each.
 2. Confirm the approved OpenTelemetry instrumentation was deployed during pre-work.
 3. Confirm the reviewed APIM correlation and token-metric fragment was merged during pre-work.
 4. Inspect both Bicep what-if previews.
@@ -323,7 +323,7 @@ Keep logs, Defender, and SOC routing active unless they are the confirmed fault.
 
 ## Safe preflight
 
-Preflight validates:
+Preflight checks:
 
 - every decision sentinel and machine-artifact syntax;
 - approved nonproduction scope and Application Insights target;
@@ -344,7 +344,7 @@ Human access expires after the confirmation check.
 
 ## Deployment path
 
-Instrumentation and the customer-owned APIM policy merge are completed before the session.
+Complete instrumentation and the customer-owned APIM policy merge before the session.
 
 The gateway repository contains the deployed APIM policy and preserves the Session 06 authentication, token-limit, rate-limit, routing, content-safety, and backend controls.
 
@@ -356,7 +356,7 @@ The gateway repository contains the deployed APIM policy and preserves the Sessi
   -DeploymentLocation $deploymentLocation
 ```
 
-Then deploy:
+Then deploy the following:
 
 1. workbook and three alerts at resource-group scope;
 2. budget at subscription scope; and
@@ -372,7 +372,7 @@ Run the paired `smoke.ps1` or `smoke.sh` interface against the normal and handle
 
 Use `pipeline`, `nonproduction`, the release commit SHA, and a runner-temporary result path.
 
-The check must show:
+Confirm that the check shows:
 
 - successful model and tool dependencies for the normal operation;
 - a failed tool dependency and independent successful model result for the failure operation;
@@ -384,7 +384,7 @@ unchanged by Session 13.
 
 Stop on a missing hop, collapsed failure boundary, commit mismatch, or sensitive content.
 
-Application Insights can receive each linked record at a different time.
+Application Insights can receive linked records at different times.
 
 Poll both correlation IDs for the 180-second default wait window before treating a missing record as a failed check.
 
@@ -402,7 +402,7 @@ prohibited telemetry property.
 
 ## Stop conditions
 
-Stop immediately for:
+Stop immediately if you find:
 
 - production or the wrong Application Insights scope;
 - missing or inconsistent trace context;

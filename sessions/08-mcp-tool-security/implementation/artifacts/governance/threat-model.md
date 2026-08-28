@@ -6,13 +6,13 @@
 |---|---|
 | Update owner | `__REQUIRED_SECURITY_OWNER__` |
 | Review cadence | Every 90 days and before a tool, identity, backend, authorization, model, instruction, or approval change |
-| Consumer | `__REQUIRED_RELEASE_OWNER__` uses this model when deciding whether the tested candidate can replace the stable version |
+| Consumer | `__REQUIRED_RELEASE_OWNER__` uses this model to decide whether the tested candidate can replace the stable version |
 
 ## Scope
 
 The [Session 05](../../../../05-governed-agent-baseline/implementation/README.md) policy assistant calls the Session 08 MCP endpoint in the
 [Session 06](../../../../06-apim-ai-gateway/implementation/README.md) API Management instance. APIM maps `get_policy` to the existing GET operation. The
-source API, Foundry project, model, network, and API Center service remain existing dependencies.
+source API, Foundry project, model, network, and API Center service are existing dependencies.
 
 ## Trust boundaries
 
@@ -20,9 +20,9 @@ source API, Foundry project, model, network, and API Center service remain exist
    boundary.
 2. **Foundry agent to APIM MCP:** the candidate agent identity receives a token for the exact MCP
    audience. APIM validates tenant, client application, audience, and app role.
-3. **APIM to backing API:** APIM discards the inbound MCP token for backend access and obtains its
-   own managed-identity token for the exact backend audience. This hop is application-only, not
-   OBO. The backing scope grants only the approved read role.
+3. **APIM to backing API:** APIM discards the inbound MCP token and gets its own managed-identity
+   token for the exact backend audience. This hop is application-only, not OBO. The backing scope
+   grants only the approved read role.
 4. **Tool output to model:** every returned field is untrusted data. Content cannot expand the tool
    allowlist, change approval policy, or grant backend authority.
 5. **Telemetry:** APIM records operation, tool, client, duration, status, and correlation metadata.
@@ -45,7 +45,7 @@ source API, Foundry project, model, network, and API Center service remain exist
 ## Residual risks
 
 - A read API can still disclose data if its own row-level authorization is too broad.
-- A changed tool description, input schema, or output field can alter model behavior without
+- A changed tool description, input schema, or output field can change model behavior without
   changing the tool name.
 - APIM throttling is distributed and is not an exact accounting mechanism.
 - The preview MCP management API can change before a stable version is available.
@@ -78,8 +78,8 @@ Keep the Session 05 version pinned while testing. If either check fails, leave t
 unchanged. If the candidate is already active, restore the previous Session 05 version at 100%
 before changing infrastructure.
 
-Then remove the Foundry project connection only when no other governed tool uses it. Preview and
-use the approved APIM change path to delete the marked Session 08 MCP resources. Revoke the APIM
-backend role only when the identity owner confirms that no other path depends on it. Never delete
-the backing API, APIM service, Foundry agent, API Center, Application Insights resource, or source
-data during this restore.
+Then remove the Foundry project connection only when no other governed tool uses it. Preview the
+approved APIM change path and delete the marked Session 08 MCP resources. Revoke the APIM backend
+role only when the identity owner confirms that no other path needs it. Never delete the backing
+API, APIM service, Foundry agent, API Center, Application Insights resource, or source data during
+this restore.

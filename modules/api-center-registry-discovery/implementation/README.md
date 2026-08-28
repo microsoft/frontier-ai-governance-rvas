@@ -6,18 +6,18 @@
 
 Configure Microsoft Entra-protected registry discovery for MCP servers already governed through
 Sessions 07 and 08. The API Center configuration owner limits Data API visibility to MCP records
-at the approved `Production` lifecycle stage. The client owner then points supported developer
-clients at the default-workspace MCP registry endpoint.
+at the approved `Production` lifecycle stage. The client owner then configures supported developer
+clients to use the default-workspace MCP registry endpoint.
 
-The observable result is a complete registry read that contains every approved server name and no
-other server name. The check prints counts, not unapproved names or server credentials.
+The check reads the full registry and finds every approved server name with no unexpected name. It
+prints counts, not unapproved names or server credentials.
 
 ### Why it matters
 
-Session 07 creates the inventory record. Session 08 deals with runtime authorization and tool
-security. Developers still need a controlled way to find the servers that passed those decisions.
-Without a discovery boundary, a client can present draft or retired entries beside the approved
-ones and make the registry look like an approval system when it is only an inventory.
+Session 07 creates the inventory record. Session 08 sets runtime authorization and tool security.
+Developers still need a controlled way to find servers that passed those decisions. Without that
+boundary, a client can place draft or retired entries beside approved servers. The registry then
+looks like an approval system even though it is only an inventory.
 
 ### Boundaries
 
@@ -25,9 +25,9 @@ This optional module sits outside the 14-session sequence. It uses the Session 0
 default workspace and waits for the Session 08 runtime decision before a server moves to the
 discoverable lifecycle stage.
 
-Azure API Center remains authoritative for registry contents, lifecycle state, Data API
-visibility, and portal access. Microsoft Entra ID remains authoritative for sign-in and the Azure
-API Center Data Reader assignment. The repository stores the client settings and ownership record.
+Azure API Center holds the registry contents, lifecycle state, Data API visibility, and portal
+access. Microsoft Entra ID holds sign-in state and the Azure API Center Data Reader assignment. The
+repository stores the client settings and ownership record.
 
 The visibility conditions apply to all users and related consumption features that use the API
 Center data plane API. They are not a per-user allowlist. Custom metadata in `_meta` helps clients
@@ -62,15 +62,15 @@ https://<api-center-name>.data.<region>.azure-apicenter.ms/workspaces/default/v0
 Use that path exactly. The same Microsoft Learn page currently shows a shortened example that
 omits `/workspaces`; the documented endpoint format includes it.
 
-Developer clients authenticate through Microsoft Entra ID. The developer access group has Azure
-API Center Data Reader at the API Center resource scope. `registry-client-settings.json` records
-the delegated data-plane scope and references the portal application and tenant values held in the
-approved configuration system.
+Developer clients authenticate through Microsoft Entra ID. The developer access group has Azure API
+Center Data Reader at the API Center resource scope. `registry-client-settings.json` records the
+delegated data-plane scope and references the portal application and tenant values in the approved
+configuration system.
 
-The client or approved adapter reads the registry and receives standard MCP server metadata,
-including names, remotes or packages, transports, and optional `_meta` values. The operational
-check reads every response page, compares `server.name` with the ownership record, and stops if an
-approved name is missing or any other name appears.
+The client or approved adapter reads the registry and receives MCP server metadata, including
+names, remotes or packages, transports, and optional `_meta` values. The operational check reads
+each response page, compares `server.name` with the ownership record, and stops if an approved name
+is missing or another name appears.
 
 ### Design choices and tradeoffs
 
@@ -169,7 +169,7 @@ Configure two built-in Data API visibility conditions:
 2. `Lifecycle stage` equals `Production`.
 
 Review the portal preview before saving. Microsoft documents that visibility applies to all users
-and related data-plane consumption features. Do not claim that it varies by developer group.
+and related data-plane consumption features. It does not vary by developer group.
 
 Stop if the current portal cannot express both conditions, if the conditions are combined in a way
 that exposes either all MCP records or all Production APIs, or if custom metadata is being treated
@@ -177,9 +177,8 @@ as an authorization rule.
 
 ### Client integration
 
-`registry-client-settings.json` is an input to the approved client adapter, not a file to paste
-blindly into every client. The client owner maps `registry.endpoint` and the Microsoft Entra
-references to the client's current supported settings.
+`registry-client-settings.json` is input to the approved client adapter. The client owner maps
+`registry.endpoint` and the Microsoft Entra references to the client's current supported settings.
 
 Stop if the client silently falls back to a public registry, merges another registry without an
 owner decision, or stores an access token in source control.
@@ -254,7 +253,7 @@ the token from the environment and do not print or retain it.
 ./scripts/check-discovery.sh
 ```
 
-The scripts follow cursor pagination, compare the returned `server.name` values with the ownership
+The scripts follow cursor pagination, compare returned `server.name` values with the ownership
 record, and avoid printing unexpected names.
 
 ## Confirm the result
@@ -262,10 +261,9 @@ record, and avoid printing unexpected names.
 Run the live discovery check from a developer network path with the same Microsoft Entra access
 boundary used by the supported client.
 
-Expected result: the script reports that every returned server name is approved, every approved
-server name is present, zero unapproved server names were returned, and all registry pages were
-read. The client can then display the approved server record without receiving a credential for
-the MCP server itself.
+The script reports every returned server name as approved, confirms every approved server name is
+present, reports zero unapproved server names, and reads every registry page. The client can then
+display the approved server record without receiving an MCP server credential.
 
 ## After implementation
 
@@ -275,7 +273,7 @@ review dates. The client configuration owner maintains the adapter that maps `re
 to the current Visual Studio Code, GitHub Copilot, or other supported client setting.
 
 Run `check-discovery` after a lifecycle change, visibility change, registry-client update, or MCP
-record synchronization. An unexpected count is a stop condition: remove the registry from managed
+record synchronization. An unexpected count stops the rollout. Remove the registry from managed
 client configuration until the API Center owner restores the allowlist.
 
 Restore uses the approved portal change path. First remove or disable the registry entry in the

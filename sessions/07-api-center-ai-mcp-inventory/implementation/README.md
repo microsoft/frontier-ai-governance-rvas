@@ -7,24 +7,23 @@
 Add **three selected assets to API Center**: deploy the
 [Session 05](../../05-governed-agent-baseline/implementation/README.md) agent API, synchronize the
 [Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM API, and register an approved
-remote MCP server. This session creates a searchable design-time inventory where the three required
+remote MCP server. This session creates a searchable design-time inventory. The three required
 entries carry owner, lifecycle, classification, risk, review, and runtime-location metadata.
 
 ### Why it matters
 
-These three entries give developers and owners a shared answer to what is available, where it runs,
-and who must review or retire it. Missing ownership and lifecycle decisions become visible before
-someone treats an asset as approved for use.
+These three entries show developers and owners what is available, where it runs, and who must
+review or retire it. Missing ownership and lifecycle decisions become visible before someone treats
+an asset as approved for use.
 
 ### Boundaries
 
-The three required Session 07 entries define this session's scope, including the approved
-remote MCP server. API Center imports every API from the linked APIM instance, so its owner metadata
-must be complete before the link is created; those additional APIs are outside this session's
-required result. API Center stores the design-time inventory metadata. Foundry, APIM, and the MCP
-runtime report their own live service state. The APIM source integration is read-only and one-way;
-native MCP registration uses the supported portal path because the stable ARM surface does not
-expose those fields.
+The three required Session 07 entries define this session's scope, including the approved remote
+MCP server. API Center imports every API from the linked APIM instance. Complete owner metadata
+before creating the link. Those additional APIs are outside this session's required result. API
+Center stores the design-time inventory metadata. Foundry, APIM, and the MCP runtime report their
+own live service state. The APIM source integration is read-only and one-way. Native MCP
+registration uses the supported portal path because the stable ARM surface does not expose those fields.
 
 API Center inventories and supports discovery. It does not inspect, authorize, or block runtime
 calls. APIM owns runtime controls for the synchronized route, and
@@ -48,25 +47,25 @@ Each module has its own access and lifecycle decisions. None is enabled here.
 
 ### Architecture at a glance
 
-API Center stores a design-time catalog for these three required assets. Bicep adds the Session 05
+API Center stores a design-time catalog for the three required assets. Bicep adds the Session 05
 agent API and its OpenAPI definition directly. A one-way integration reads every API from the
-Session 06 APIM instance, using a managed identity with API Management Service Reader Role. The
-API program owner adds the approved remote MCP server through the supported portal form. After
-APIM synchronization creates an entry, its asset owner maintains the metadata in API Center.
+Session 06 APIM instance with a managed identity that has API Management Service Reader Role. The
+API program owner adds the approved remote MCP server through the supported portal form. After APIM
+synchronization creates an entry, its asset owner maintains the metadata in API Center.
 
 ![The direct agent definition, one-way APIM synchronization, and portal-based MCP registration feed API Center; APIM remains on the separate runtime request path](../assets/diagrams/api-center-inventory-flow.svg)
 
-These paths carry definitions, runtime locations, and ownership metadata. Live API traffic never
-passes through the catalog; it continues to follow the APIM request path and its policies.
+These paths carry definitions, runtime locations, and ownership metadata. Live API traffic does not
+pass through the catalog. It follows the APIM request path and its policies.
 
 API Center stores design-time metadata and discovery information. Foundry, APIM, and the MCP
-server still report their own runtime state. This session ends with the inventory and the health of
-its sources. API Center neither inspects nor blocks a call. Session 08 uses the MCP entry and
-runtime location for tool-security work.
+server report their own runtime state. This session covers the inventory and source health. API
+Center does not inspect or block calls. Session 08 uses the MCP entry and runtime location for
+tool-security work.
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Why this shape works | Tradeoff | Revisit when |
+| Decision | Chosen approach | Why it works | Tradeoff | Revisit when |
 |---|---|---|---|---|
 | Inventory scope | Add the direct agent API, the synchronized APIM API, and the approved remote MCP server | The inventory covers the three required Session 07 assets | Other APIs synchronized from the linked APIM instance need complete metadata but are outside this session's required result | The API program owner approves a broader source boundary and names its metadata owners |
 | APIM ingestion | Use one-way synchronization with API Management Service Reader Role | API definitions stay aligned without giving API Center write access to APIM | The first sync can take up to 24 hours and imports every API in the APIM instance | Selective synchronization or a narrower APIM source becomes available |
@@ -137,11 +136,11 @@ must use.
 
 ### Plan and region
 
-Record `Free` or `Standard` in `sandbox.json`. Free is suitable only when its current limits and lack
-of Microsoft support are accepted for this nonproduction scope. If Standard is selected, confirm
-that the linked APIM tier qualifies for the documented benefit or that separate cost is approved.
-The stable `2024-03-01` Bicep service resource does not expose plan selection, so the API program
-owner confirms or upgrades the approved plan in the portal after the APIM link is created.
+Record `Free` or `Standard` in `sandbox.json`. Use Free only when its current limits and lack of
+Microsoft support are accepted for this nonproduction scope. If you select Standard, confirm that
+the linked APIM tier qualifies for the documented benefit or approve separate cost. The stable
+`2024-03-01` Bicep service resource does not expose plan selection. The API program owner confirms
+or upgrades the approved plan in the portal after creating the APIM link.
 
 Stop if the selected region is not advertised by the live `Microsoft.ApiCenter` provider, the plan
 decision is unresolved, or the customer assumes an APIM link grants a benefit on an ineligible tier.
@@ -179,10 +178,9 @@ entry is investigated. An expired entry must not remain listed as an approved as
 
 ### APIM synchronization
 
-The API Center system identity receives only API Management Service Reader Role on the exact APIM
+Assign only API Management Service Reader Role to the API Center system identity on the exact APIM
 service. The integration imports specifications and assigns the `testing` lifecycle to synchronized
-assets. Microsoft states that synchronization normally completes within minutes but can take up to
-24 hours.
+assets. Synchronization normally completes within minutes but can take up to 24 hours.
 
 Stop if the API Center identity would receive contributor access, if the APIM source is in a
 different directory, if the Session 06 API marker is absent, or if initial synchronization has not
@@ -199,11 +197,11 @@ Stop if the server is write-capable, uses local `stdio`, lacks an approved HTTPS
 credential in its URL, or has no runtime owner. [Session 08](../../08-mcp-tool-security/implementation/README.md) adds tool authorization, blocked-write,
 and prompt-injection controls. Registration here does not approve the MCP server for production use.
 
-The split is deliberate. Stable `Microsoft.ApiCenter@2024-03-01` ARM resources deploy the API
-Center service, metadata schemas, workspace, API versions, definitions, environments, and
-deployments. The current portal form registers the newer native MCP server entry because those MCP
-fields are not exposed by that stable ARM API. The API program owner completes and updates this
-registration until Microsoft publishes a supported stable resource type.
+Stable `Microsoft.ApiCenter@2024-03-01` ARM resources deploy the API Center service, metadata
+schemas, workspace, API versions, definitions, environments, and deployments. The current portal
+form registers the newer native MCP server entry because that stable ARM API does not expose its MCP
+fields. The API program owner completes and updates this registration until Microsoft publishes a
+supported stable resource type.
 
 ### Discovery and linting
 
@@ -219,8 +217,8 @@ separate from APIM runtime enforcement.
 
 Use **two delivery windows** because APIM synchronization can take up to 24 hours. When registering
 the remote server, follow Microsoft’s [MCP inventory and discovery
-guidance](https://learn.microsoft.com/en-us/azure/api-center/register-discover-mcp-server).
-The published 210 minutes covers active work in both windows, not the synchronization wait.
+guidance](https://learn.microsoft.com/en-us/azure/api-center/register-discover-mcp-server). The
+published 210 minutes covers active work in both windows. It does not include the synchronization wait.
 
 ### 1. Window one: confirm readiness
 
@@ -287,7 +285,7 @@ changes a broader role assignment, or introduces a runtime URL into source contr
 
 The script reruns preflight, deploys the marked API Center, imports the approved agent OpenAPI
 definition, and creates the GA APIM integration with specification import enabled. The integration
-creates its own APIM environment and deployment records.
+creates its APIM environment and deployment records.
 
 In the API Center portal, confirm the plan matches `sandbox.json`. If the required decision is
 Standard, complete the approved upgrade after the eligible APIM integration exists.
@@ -336,11 +334,11 @@ Run the **read-only inventory check**:
 ./scripts/check-inventory.sh --approved-subscription-id "$approved_subscription_id" --remote-mcp-server-title "$remote_mcp_server_title"
 ```
 
-Expected result: the three required Session 07 entries each appear once with the required metadata, and the
-APIM integration resolves to the implementation source. The script checks
-provisioning state when the response exposes it and writes no inventory export. The owner confirms
-source health manually when that field is absent, and always checks the native MCP deployment
-location and runtime health in the portal.
+Expected result: the three required Session 07 entries each appear once with the required metadata,
+and the APIM integration resolves to the implementation source. The script checks provisioning
+state when the response exposes it and writes no inventory export. The owner checks source health
+manually when that field is absent. The owner always checks the native MCP deployment location and
+runtime health in the portal.
 
 The script reports a failure when an entry has no owner or is missing required metadata, and it
 checks the APIM source integration live. Native MCP deployment location and runtime health are
@@ -350,9 +348,9 @@ validation.
 ## After implementation
 
 Keep the **API Center inventory in operation**, including the service, system identity, required
-metadata schema, APIM integration, direct agent API, native MCP server entry, definitions, deployments,
-and scripts. The API program owner owns the API Center service and metadata
-schema. Business and technical owners maintain their records. The data and risk owners maintain
+metadata schema, APIM integration, direct agent API, native MCP server entry, definitions,
+deployments, and scripts. The API program owner owns the API Center service and metadata schema.
+Business and technical owners maintain their records. The data and risk owners maintain
 classification, residency, risk tier, review, and expiry. The APIM owner maintains the source
 integration. Developers own definition quality.
 

@@ -10,15 +10,15 @@
 
 ## Scope and first actions
 
-This runbook covers the Session 12 service path: the gateway, model, agent, tool, evaluation
-signals, and telemetry. Use the correlation ID and approved configuration references; do not paste
-prompt, response, tool payload, credentials, or personal data into tickets or this repository.
+This runbook covers the Session 12 service path: gateway, model, agent, tool, evaluation signals,
+and telemetry. Use the correlation ID and approved configuration references. Do not paste prompts,
+responses, tool payloads, credentials, or personal data into tickets or this repository.
 
 1. Assign an incident commander and record the affected service, environment, model deployment,
    agent version, tool name, time window, and correlation IDs.
 2. Preserve Application Insights, Defender, Foundry, APIM, and SOC records under their existing
    retention and access controls.
-3. The incident commander orders containment when there is active harm or uncontrolled spend. The
+   3. The incident commander orders containment when harm is active or spending is uncontrolled. The
    service owner disables or routes away from the affected agent or model version. The tool owner
    disables an affected tool binding. The credential owner revokes or rotates exposed credentials.
 4. Keep telemetry and security routing active unless they are the confirmed source of the incident.
@@ -39,7 +39,7 @@ prompt, response, tool payload, credentials, or personal data into tickets or th
 - Identify service, model deployment, agent version, tool loop, and caller boundary using approved
   low-cardinality telemetry.
 - Check streaming completion, retry, recursion, and tool-loop behavior.
-- Compare APIM token telemetry with delayed Cost Management data before declaring billing impact.
+- Compare APIM token telemetry with delayed Cost Management data before declaring a billing impact.
 - Notify the service and cost owners; change the budget only through the normal cost approval path.
 
 ## Tool compromise
@@ -66,6 +66,6 @@ prompt, response, tool payload, credentials, or personal data into tickets or th
 
 ## Closure
 
-The incident commander confirms containment and the current service state. Record the residual
-risk, owner actions, and next review date. Detailed prompt, response, tool, security, and
+The incident commander confirms containment and the current service state. Record residual risk,
+owner actions, and the next review date. Detailed prompt, response, tool, security, and
 customer-data records stay in their governed source systems.

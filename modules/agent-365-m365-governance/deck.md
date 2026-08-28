@@ -22,9 +22,10 @@ Govern the Microsoft 365 control plane around an approved pilot agent.
 
 ## Control objective
 
-Create the files that each owner uses to review Agent 365 and Microsoft 365 controls without changing production access.
+Create the review files each owner needs for Agent 365 and Microsoft 365 controls without changing
+production access.
 
-The result is a completed set of owner reviews for the approved nonproduction agent or agent family.
+Each owner records a review for the approved nonproduction agent or agent family.
 
 ![Microsoft Agent 365](assets/icons/microsoft/agent-365.svg)
 
@@ -34,11 +35,10 @@ The result is a completed set of owner reviews for the approved nonproduction ag
 
 ## Why it matters
 
-Foundry controls the Azure implementation path.
+Foundry controls the Azure implementation path. Microsoft 365 controls publishing, app availability,
+user access, connector policy, SharePoint grounding, and Defender XDR status.
 
-Microsoft 365 adds publishing, app availability, user access, connector policy, SharePoint grounding, and Defender XDR status.
-
-Both sides have to line up before wider rollout.
+Owners must review both before wider rollout.
 
 <!-- Notes: The missing piece is a review that connects the Foundry implementation to Microsoft 365 controls. -->
 
@@ -66,9 +66,9 @@ Both sides have to line up before wider rollout.
 
 ## What this means
 
-No single admin portal answers every governance question about an agent. Owners inspect one pilot
-in the services they govern. The repository files collect their decisions without copying or
-changing tenant state.
+No admin portal answers every governance question about an agent. Owners review one pilot in the
+services they manage. The repository files record their decisions without copying or changing
+tenant state.
 
 ---
 
@@ -78,7 +78,7 @@ changing tenant state.
 
 | Engineering choice | Route used here | What the team accepts |
 | --- | --- | --- |
-| Where owners check current settings | Owners inspect the live admin portals they manage | Preflight cannot detect tenant drift |
+| Where owners check current settings | Owners review the live admin portals they manage | Preflight cannot detect tenant drift |
 | Repository content | Aliases and owner decisions | The files cannot recreate live tenant settings |
 | Conditional Access | Report-only in this module | Access is not blocked here |
 | Connector actions | Default-deny where Advanced Connector Policies support it | Coverage varies by tenant and connector |
@@ -89,7 +89,7 @@ changing tenant state.
 
 ## Agent inventory first
 
-The Agent 365 administrator records:
+The Agent 365 administrator records the:
 
 - agent alias and registry ID;
 - Agent Map node;
@@ -145,7 +145,7 @@ Stop on any open high-severity finding.
 
 ![Power Platform](assets/icons/microsoft/power-platform.svg)
 
-Every connector and MCP action needs a classification:
+Classify every connector and MCP action by:
 
 - authentication mode;
 - allowed actions;
@@ -198,7 +198,7 @@ The repository keeps query templates and references, not payload exports.
 
 ## Confirm the result
 
-The module passes when every artifact has an owner decision and no unresolved placeholder.
+The module passes when every artifact records an owner decision and has no unresolved placeholder.
 
 The pilot agent remains nonproduction until the publishing approver makes a separate rollout decision.
 

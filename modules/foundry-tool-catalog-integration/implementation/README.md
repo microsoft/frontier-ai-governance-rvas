@@ -5,21 +5,21 @@
 ### What we will do
 
 Connect an approved remote MCP server in Azure API Center to a dedicated versioned Toolbox in
-Microsoft Foundry. The work uses the API Center private tool catalog in Foundry Tools to discover
+Microsoft Foundry. The team uses the API Center private tool catalog in Foundry Tools to discover
 and configure the server, then creates a Toolbox version that exposes the approved tool and
 requires approval for every call.
 
-The observable result is a version-specific Toolbox MCP endpoint whose `tools/list` response
-contains exactly the approved namespaced tool.
+The check calls `tools/list` on a version-specific Toolbox MCP endpoint. The response contains
+exactly the approved namespaced tool.
 
 ### Why it matters
 
-Session 07 establishes the inventory record. Session 08 establishes the MCP security boundary. This
-module uses those approved records to create a reusable Toolbox endpoint, so agent teams do not
-have to rebuild the same tool configuration for every agent.
+Session 07 establishes the inventory record. Session 08 sets the MCP security boundary. This module
+uses those approved records to create a reusable Toolbox endpoint. Agent teams do not have to build
+the same tool configuration for every agent.
 
 Preflight and the live check stop if the API Center deployment endpoint, Foundry project
-connection, allow list, or Toolbox result no longer matches the approved record.
+connection, allow list, or Toolbox result differs from the approved record.
 
 ### Boundaries
 
@@ -27,14 +27,13 @@ This optional module sits outside the 14-session sequence. It handles the MCP se
 Center, the related Foundry project connection, a new dedicated Toolbox, and the approved MCP tool
 in an approved nonproduction scope.
 
-The private tool catalog experience is in public preview and its API Center authentication, access,
-and discovery steps are portal-led. The module does not invent an API for that handoff. The preview
-decision and successful discovery under **Build > Tools** must be recorded before Toolbox creation.
+The private tool catalog is in public preview. Its API Center authentication, access, and discovery
+steps run through the portal. The module provides no replacement API for that handoff. Record the
+preview decision and successful discovery under **Build > Tools** before creating a Toolbox.
 
-Azure API Center remains authoritative for the inventory record and deployment metadata. The MCP
-server defines the tools available at runtime. The Foundry project connection stores the runtime
-authentication configuration, while the Toolbox version records the allowed tool and approval
-setting.
+Azure API Center holds the inventory record and deployment metadata. The MCP server defines tools
+available at runtime. The Foundry project connection stores runtime authentication settings. The
+Toolbox version records the allowed tool and approval setting.
 
 This module does not create an MCP server, change its authorization model, add a tool to an agent,
 or call the tool. It does not claim that API Center access settings alone enforce every runtime
@@ -59,10 +58,9 @@ The flow moves from API Center through the Foundry project connection to the run
 4. Agent teams consume the unversioned Toolbox endpoint. The implementation check uses the
    version-specific endpoint so it can inspect the exact created version.
 
-The repository stores the catalog record and Toolbox version payload. Live API Center, project
-connection, and Toolbox state remain authoritative. The endpoint hash in the catalog record links
-the API Center deployment to the Toolbox payload without retaining the endpoint in the governance
-record.
+The repository stores the catalog record and Toolbox version payload. API Center, the project
+connection, and Toolbox hold live state. The endpoint hash links the API Center deployment to the
+Toolbox payload without storing the endpoint in the governance record.
 
 ### Design choices and tradeoffs
 
@@ -79,7 +77,7 @@ record.
 Use Microsoft’s [private tool catalog
 guidance](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/private-tool-catalog)
 for the current Azure API Center registration, authorization, access, and **Build > Tools**
-discovery path. The page marks this feature as public preview and notes that Azure RBAC changes can
+discovery path. The page marks the feature as public preview and notes that Azure RBAC changes can
 take up to 24 hours to appear.
 
 Use [Create and manage a toolbox in
@@ -91,8 +89,8 @@ default version.
 The [MCP tool
 guidance](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/model-context-protocol)
 defines project connections, `allowed_tools`, approval settings, and the Toolbox reuse pattern.
-Treat the remote server's tool metadata and results as untrusted input even when its catalog record
-is approved.
+Treat remote server tool metadata and results as untrusted input, even when the catalog record is
+approved.
 
 ## Before you start
 
@@ -121,9 +119,8 @@ copy because it contains tenant-specific resource coordinates and the MCP endpoi
 | Deployment | [`artifacts/toolbox/toolbox-version.json`](artifacts/toolbox/toolbox-version.json) | The Foundry Toolbox deployment process |
 | Runtime | [`artifacts/operations/check_toolbox.py`](artifacts/operations/check_toolbox.py) | The Foundry tool owner |
 
-The module uses **standard mode** because it makes a bounded configuration change and performs a
-read-only observable check. It does not need a failure-path exercise or a delivery-owner
-checkpoint.
+The module uses **standard mode** because it makes a bounded configuration change and runs a
+read-only check. It does not need a failure-path exercise or delivery-owner checkpoint.
 
 The private catalog's Azure RBAC assignment can take up to 24 hours to propagate, so assign access
 before the delivery window.
@@ -136,9 +133,9 @@ Set `previewDecision.privateToolCatalog` to
 `accepted-for-approved-nonproduction-scope` only after the named decision owner accepts the Azure
 preview terms and operating limits.
 
-Set `previewDecision.catalogDiscovery` to `confirmed-in-foundry-tools` only after the operator opens
-the intended Microsoft Foundry project, goes to **Build > Tools**, filters by the API Center name,
-and sees the MCP server record in API Center.
+Set `previewDecision.catalogDiscovery` to `confirmed-in-foundry-tools` only after the operator
+opens the intended Microsoft Foundry project, goes to **Build > Tools**, filters by the API Center
+name, and sees the API Center MCP server record.
 
 Stop if the record is absent. Check the API Center Data Reader assignment, the selected Foundry
 project, the API Center asset version and deployment, and the possible RBAC propagation delay. Do
@@ -151,8 +148,8 @@ Copy the selected API Center asset, version, and deployment names into
 record its SHA-256 digest in `sourceRecord.mcpEndpointSha256`.
 
 The API catalog owner compares the endpoint entered in Foundry with the current API Center
-deployment. A matching digest proves that the two module files refer to the same endpoint without
-duplicating the endpoint in the governance record.
+deployment. A matching digest shows that both module files refer to the same endpoint without duplicating the
+endpoint in the governance record.
 
 Stop if:
 
@@ -165,8 +162,8 @@ Stop if:
 
 ### Keep the Toolbox narrow
 
-This module creates a new dedicated Toolbox. Set `initialToolboxState` to `absent`, and stop if a
-Toolbox with the chosen name already exists. This avoids adding a version to a Toolbox with unknown
+This module creates a new dedicated Toolbox. Set `initialToolboxState` to `absent`. Stop if a
+Toolbox with the chosen name already exists. That avoids adding a version to a Toolbox with unknown
 consumers or tools.
 
 `toolbox-version.json` must contain one MCP object, one `allowed_tools` value, and
@@ -256,8 +253,8 @@ project connection, one-tool allow list, approval setting, implementation marker
 collision.
 
 Microsoft Foundry does not provide a read-only deployment preview for Toolbox version creation.
-Preflight records `previewSupported` as false through this explicit message, inspects the existing
-project connection, and requires the dedicated Toolbox name to be absent before the POST.
+Preflight records `previewSupported` as false in an explicit message, inspects the existing project
+connection, and requires the dedicated Toolbox name to be absent before the POST.
 
 ### 4. Create the first Toolbox version
 
@@ -312,9 +309,9 @@ The reusable consumer endpoint omits `/versions/{version}` and always serves the
 {project_endpoint}/toolboxes/{toolbox_name}/mcp?api-version=v1
 ```
 
-Pass it through the approved runtime configuration path to agent teams. Do not add it directly to
-the Session 05 agent as part of this module. That owner decides when the agent release is ready to
-consume the Toolbox and how the runtime presents approval requests.
+Pass it to agent teams through the approved runtime configuration path. Do not add it directly to a
+Session 05 agent in this module. The release owner decides when an agent can use the Toolbox and
+how the runtime presents approval requests.
 
 ## Confirm the result
 
@@ -335,7 +332,7 @@ python3 ./artifacts/operations/check_toolbox.py \
   --expected-tool "$expected_tool"
 ```
 
-The check passes when the immutable Toolbox version returns exactly one tool named
+The check passes when the immutable Toolbox version returns one tool named
 `<server_label>.<allowed_tool_name>` and its metadata says `require_approval` is `always`. It does
 not invoke the remote tool or retain the response.
 

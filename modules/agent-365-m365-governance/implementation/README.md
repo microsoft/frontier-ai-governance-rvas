@@ -4,20 +4,20 @@
 
 ### What we will do
 
-Create the files that each owner uses to review an approved nonproduction Agent 365 or Microsoft
-365 pilot agent. The files record the Agent Registry and Agent Map entries, Entra Agent ID decisions,
-publishing approval checks, Copilot Studio environment controls, connector policy, SharePoint
-oversharing review, and Defender XDR Security for AI hunting templates.
+Create the review files each owner needs for an approved nonproduction Agent 365 or Microsoft 365
+pilot agent. The files record Agent Registry and Agent Map entries, Entra Agent ID decisions,
+publishing checks, Copilot Studio environment controls, connector policy, SharePoint oversharing
+reviews, and Defender XDR Security for AI hunting templates.
 
-The publishing approver uses the completed reviews to decide whether the pilot agent is ready for
-a controlled publishing decision. No production-wide access change is made by this module.
+The publishing approver uses the completed reviews to decide whether the pilot can move to the
+approved publishing path. This module makes no production-wide access change.
 
 ### Why it matters
 
-Foundry sessions govern the Azure implementation path. Microsoft 365 agents add another control
-plane: publishing, app availability, user access, connector policy, SharePoint grounding, and
-Defender XDR posture. If those controls are not reviewed together, an agent can look clean in
-Foundry and still be risky once it reaches Microsoft 365 users.
+Foundry sessions govern the Azure implementation path. Microsoft 365 adds publishing, app
+availability, user access, connector policy, SharePoint grounding, and Defender XDR posture. An
+agent can pass Foundry review yet still create risk for Microsoft 365 users when owners review
+these controls separately.
 
 ### Boundaries
 
@@ -39,25 +39,23 @@ governance, and preview-only implementation paths are excluded from this wave.
 
 ![Service owners review one pilot agent in live Microsoft 365 control planes and record their decisions without changing tenant state](../assets/diagrams/agent-365-control-plane-review.svg)
 
-No single Microsoft 365 admin portal answers every governance question about an agent. This module
-shows each service owner what to review for an approved nonproduction agent or agent family. It
-adds no new control plane. Each owner still inspects the part of the pilot that their service
-governs.
+No Microsoft 365 admin portal answers every governance question about an agent. This module lists
+what each service owner reviews for an approved nonproduction agent or agent family. It adds no
+control plane. Each owner reviews the part of the pilot that their service manages.
 
-The review follows the agent across the service boundaries. Agent 365 shows its registry entry and
-Agent Map. Microsoft 365 Admin Center shows publishing and availability, while Microsoft Entra
-holds the Agent ID and Conditional Access state. Copilot Studio and Power Platform report the
-environment route and connector policy. SharePoint controls access to grounding sources. Defender
-XDR supplies the security posture and hunting results.
+The review follows the agent across service boundaries. Agent 365 shows the registry entry and
+Agent Map. Microsoft 365 Admin Center shows publishing and availability. Microsoft Entra holds the
+Agent ID and Conditional Access state. Copilot Studio and Power Platform show the environment route
+and connector policy. SharePoint controls grounding-source access. Defender XDR provides security
+posture and hunting results.
 
-The live services remain the source for current state. The repository files record aliases, each
-owner's decision, who acts next, and payload-free hunting queries. Preflight checks whether the
-required files and decisions are complete. It cannot read the tenant or prove that an owner's
-portal review is still current.
+The live services hold current state. The repository files record aliases, each owner's decision,
+the next owner, and payload-free hunting queries. Preflight checks whether the files and decisions
+are complete. It cannot read the tenant or prove that a portal review is still current.
 
-The publishing approver uses the completed review files to decide whether work should move to a
-separate, approved change path. This module stops before that change. It cannot publish the agent,
-enforce Conditional Access, alter SharePoint permissions, or block a connector.
+The publishing approver decides whether the work can move to a separate approved change path. This
+module stops before that change. It cannot publish the agent, enforce Conditional Access, alter
+SharePoint permissions, or block a connector.
 
 ### Design choices and tradeoffs
 
@@ -71,21 +69,21 @@ enforce Conditional Access, alter SharePoint permissions, or block a connector.
 ### Architecture guidance
 
 Use the [Microsoft Agent 365
-overview](https://learn.microsoft.com/en-us/microsoft-agent-365/overview) to establish what Agent
-Registry and Agent Map can tell the Agent 365 administrator about this pilot. The inventory record
-then captures the alias, owner, sponsor, and lifecycle decision. It points back to Agent 365 rather
-than copying the live registry.
+overview](https://learn.microsoft.com/en-us/microsoft-agent-365/overview) to see what Agent Registry
+and Agent Map show the Agent 365 administrator about this pilot. The inventory record captures the
+alias, owner, sponsor, and lifecycle decision. It points to Agent 365 rather than copying the live
+registry.
 
-The publishing checklist connects that inventory to the availability decision. The approver checks
-current state and the restore path in [Microsoft 365 Admin Center agent
+The publishing checklist ties that inventory to the availability decision. The approver checks the
+current state and restore path in [Microsoft 365 Admin Center agent
 management](https://learn.microsoft.com/en-us/microsoft-365/admin/manage/manage-copilot-agents-integrated-apps).
 Connector and MCP action decisions go into the connector matrix. Apply [Advanced Connector
 Policies](https://learn.microsoft.com/en-us/power-platform/admin/advanced-connector-policies) only
 when the tenant supports the action-level rule the owner needs. These policies allow the owner to
 control individual connector or MCP actions rather than treating the whole connector as one unit.
 
-Preflight comes last. It finds missing files and unresolved owner decisions. It does not query any
-of the live control planes.
+Run preflight last. It finds missing files and unresolved owner decisions. It does not query the
+live control planes.
 
 The core sessions still cover the wider system. Session 02 defines the identity roles and
 responsibilities. Sessions 07 and 08 set the inventory and tool boundaries. Session 09 covers data
@@ -116,8 +114,8 @@ Confirm these prerequisites:
 | Record | [`artifacts/data/sharepoint-oversharing-assessment.md`](artifacts/data/sharepoint-oversharing-assessment.md) | The SharePoint owner and data owner |
 | Runtime | [`artifacts/defender/agent-security-hunting-queries.kql`](artifacts/defender/agent-security-hunting-queries.kql) | The Defender owner and SOC analyst |
 
-Complete the module artifacts, then run preflight in **Implement › 3. Run preflight**. Preflight
-checks that the artifacts exist and that no required owner decision remains.
+Complete the module artifacts, then run preflight in **Implement › 3. Run preflight**. It checks
+that the artifacts exist and that every required owner decision is present.
 A read-only deployment preview is unsupported because this module records portal-led owner
 decisions and makes no tenant state change.
 
@@ -206,7 +204,7 @@ Review current settings with the owners of these admin portals:
 | SharePoint | SharePoint owner | Oversharing and Data Access Governance findings |
 | Defender XDR | Defender owner | Security for AI posture, runtime protection, and hunting results |
 
-Do not change production tenant state during this module. Record the owner decision and the next
+Do not change production tenant state during this module. Record the owner's decision and the next
 approved change path.
 
 ### 3. Run preflight
@@ -225,10 +223,10 @@ Preflight should pass only after every module artifact has a resolved owner deci
 
 The delivery owner reviews the module artifacts with the owners listed above.
 
-Expected result: each artifact has no unresolved `__REQUIRED_*__` value, uses aliases instead of
-tenant or user data, and names the owner responsible for the next action. The publishing checklist
-must show that the agent is not production-published, connector actions are classified, SharePoint
-oversharing has an owner decision, and Defender XDR review has a payload-free query path.
+Each artifact has no unresolved `__REQUIRED_*__` value, uses aliases instead of tenant or user
+data, and names the owner for the next action. The publishing checklist shows that the agent is not
+production-published, connector actions are classified, SharePoint oversharing has an owner
+decision, and Defender XDR has a payload-free query path.
 
 ## After implementation
 

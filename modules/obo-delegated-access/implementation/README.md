@@ -4,24 +4,23 @@
 
 ### What we will do
 
-Configure an existing trusted Python middle tier to exchange a signed-in user's token for a new
-delegated token addressed to an existing protected API. Record the approved client, middle-tier,
-downstream audience, delegated scope, and consent boundary. Add only the approved delegated
-permissions, validate the inbound assertion, and use a protected Azure Key Vault certificate for
-the OAuth 2.0 on-behalf-of (OBO) exchange.
+Configure an existing trusted Python middle tier to exchange a signed-in user's token for a
+delegated token for an existing protected API. Record the approved client, middle tier, downstream
+audience, delegated scope, and consent boundary. Add only the approved delegated permissions,
+validate the inbound assertion, and use a protected Azure Key Vault certificate for the OAuth 2.0
+on-behalf-of (OBO) exchange.
 
 Then confirm that a permitted user succeeds and that a user without downstream resource authority
 is denied.
 
-The result is a working delegated flow in which the **middle tier preserves signed-in user
-authority** and the **downstream API still makes the resource-authorization decision for that
-user**.
+The working delegated flow preserves signed-in user authority in the **middle tier**. The
+**downstream API** still makes the resource-authorization decision for that user.
 
 ### Why it matters
 
-A workload identity gives the middle tier the same application authority for every request. That is
-the wrong model when access to the downstream resource must change with the signed-in user. OBO
-keeps that user context across the middle tier without forwarding the original bearer token.
+A workload identity gives the middle tier the same application authority for every request. It
+does not fit a downstream resource whose access must change with the signed-in user. OBO carries
+that user context across the middle tier without forwarding the original bearer token.
 
 The permitted-user check confirms that Microsoft Entra ID accepts the delegated trust chain. The
 denied-user check confirms that the downstream API still enforces its user-specific resource rules.
@@ -54,23 +53,22 @@ in [Session 08](../../../sessions/08-mcp-tool-security/).
 ![The OBO sequence validates a middle-tier token, exchanges the user assertion with certificate authentication, and produces permitted or denied downstream authorization](../assets/diagrams/obo-trust-chain.svg)
 
 This design preserves the signed-in user's authority across a trusted middle tier. The downstream
-API can therefore make its decision for that user instead of treating every request as the same
-application.
+API can make its decision for that user instead of treating every request as the same application.
 
-The client first gets a token intended for the Python middle tier. The middle tier validates it,
-then presents the user's assertion and its own certificate to Microsoft Entra ID. Entra issues a
-second token intended for the protected downstream API. That token carries the user's delegated
-identity. The API checks both the delegated scope and the user's access to the requested resource,
-so one user can succeed while another receives a denial through the same middle tier. A workload
-identity would erase that distinction by giving every request the same application authority.
+The client first gets a token for the Python middle tier. The middle tier validates it, then sends
+the user's assertion and its certificate to Microsoft Entra ID. Entra issues a second token for the
+protected downstream API. That token carries the user's delegated identity. The API checks the
+delegated scope and the user's access to the requested resource. One user can succeed while
+another receives a denial through the same middle tier. A workload identity would give every
+request the same application authority.
 
 Microsoft Entra ID holds the application registrations, permission grants, and token issuance.
 Azure Key Vault and the approved host control the certificate and how the runtime receives it. The
-downstream API decides which resources each user may access. The repository defines the intended
-configuration and claim checks, along with the threat model, runtime code, and operational scripts.
+downstream API decides which resources each user may access. The repository defines the configuration and claim checks, along with the threat model, runtime
+code, and operational scripts.
 
-The trust chain stops at the downstream authorization response. The inbound bearer token never
-crosses the middle-tier boundary. And a denial stays a denial: the middle tier cannot retry with
+The trust chain ends at the downstream authorization response. The inbound bearer token never
+crosses the middle-tier boundary. A denial stays a denial. The middle tier cannot retry with
 application-only authority or change the resource's access model.
 
 ### Design choices and tradeoffs
@@ -86,7 +84,7 @@ application-only authority or change the resource's access model.
 
 Start with Microsoft’s [OBO flow
 guidance](https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-on-behalf-of-flow).
-It explains why the inbound audience, user assertion, and downstream scope have different jobs.
+It explains the different roles of the inbound audience, user assertion, and downstream scope.
 Session 02 supplies the identity decision: choose this module only if an application-only path
 would erase a real per-user authorization decision. Sessions 05 and 08 retain their
 application-only routes.
@@ -113,8 +111,8 @@ Confirm these prerequisites:
 - The client can sign in users and request a token for the middle-tier audience.
 - The downstream API exposes one narrow delegated read scope and enforces resource authorization
   for each user.
-- The middle-tier host can expose the exportable Key Vault certificate recorded in the certificate binding as a protected PFX
-  path through its approved certificate integration.
+- The middle-tier host can expose the exportable Key Vault certificate in the certificate binding
+  as a protected PFX path through its approved certificate integration.
 - The identity owner can approve the exact delegated permission and consent boundary.
 - One permitted user and one user without downstream resource authority are available for the
   delivery checks.
@@ -158,13 +156,11 @@ preview.
 
 ### Choose OBO for the right reason
 
-Use OBO only when the downstream API must evaluate the signed-in user. Typical signals are
-user-owned records, per-user entitlements, or a downstream policy that names the user as the
-subject.
+Use OBO only when the downstream API must evaluate the signed-in user. Typical signals include
+user-owned records, per-user entitlements, or a downstream policy that names the user.
 
-Stay with application-only authorization when the workload reads shared data, runs in the
-background, or should have the same authority for every caller. OBO is not a stronger form of
-managed identity. It carries a different authority.
+Use application-only authorization when the workload reads shared data, runs in the background, or
+needs the same authority for every caller. OBO carries a different authority from managed identity.
 
 ### Keep token audiences separate
 
@@ -214,7 +210,7 @@ scope, token lifetime, and signed-in user claims before using the token as a use
 authoritative configuration file is
 [`governance/token-claim-contract.json`](artifacts/governance/token-claim-contract.json).
 
-An OBO exchange does not remove Conditional Access. Surface a supported claims challenge or
+An OBO exchange does not remove Conditional Access. Return a supported claims challenge or
 authorization failure to the approved client flow. Never turn it into an anonymous retry or an
 application-only call.
 
@@ -238,8 +234,8 @@ Review these files with the identity, application, downstream API, and delivery 
 - [`artifacts/governance/threat-model.md`](artifacts/governance/threat-model.md)
 
 The client receives only the middle-tier delegated scope. The middle tier receives only the
-downstream delegated read scope. The downstream API remains responsible for deciding whether the
-preserved user can read the requested resource.
+downstream delegated read scope. The downstream API decides whether the preserved user can read the
+requested resource.
 
 ### 2. Bind the Key Vault certificate
 
@@ -344,8 +340,8 @@ passing as a downstream authorization test. No protected resource is returned, n
 retry occurs, and the failure remains correlated without recording either token or payload.
 
 At the **delivery-owner checkpoint**, the owner observes both status codes and confirms that the
-downstream API, rather than the client prompt or middle-tier instructions, made the user-specific
-decision.
+downstream API made the user-specific decision. The client prompt and middle-tier instructions do
+not make that decision.
 
 ## After implementation
 

@@ -6,36 +6,35 @@
 
 Configure **four customer-owned groups and one workload identity** in the approved nonproduction
 resource group. Platform administrators become PIM-eligible for Foundry Account Owner on the
-Foundry resource. Project managers receive Foundry Project Manager on that resource, developers
+Foundry resource. Project managers receive Foundry Project Manager on that resource. Developers
 receive Foundry User on one project, and auditors receive Reader on the Foundry resource.
 
-Deploy one user-assigned managed identity with no client secret. Its federated credential trusts
-the exact subject for one protected GitHub environment. Cognitive Services User is scoped to the
-Foundry resource recorded for this session, and Storage Blob Data Reader is scoped to the storage
-account recorded for this session. The session ends with matching live group assignments, PIM
-eligibility and settings, the federated credential, and workload role scopes.
+Deploy one user-assigned managed identity without a client secret. Its federated credential trusts
+the exact subject for one protected GitHub environment. Scope Cognitive Services User to the
+Foundry resource recorded for this session and Storage Blob Data Reader to the recorded storage
+account. Finish with matching live group assignments, PIM eligibility and settings, the federated
+credential, and workload role scopes.
 
 ### Why it matters
 
-People receive standing access for normal tasks, while elevated account administration requires
-PIM activation, approval, and an expiry. The GitHub workload can authenticate without a stored
-Azure client secret, and its role assignments are limited to those two resources.
+People receive standing access for normal tasks. Elevated account administration requires PIM
+activation, approval, and an expiry. The GitHub workload can authenticate without a stored Azure
+client secret. Its role assignments are limited to those two resources.
 
 ### Boundaries
 
-Use Azure RBAC and Microsoft Entra PIM to inspect live human access. The managed identity and its
-federated credential define the live GitHub trust. This repository contains the role definitions
-and Bicep files but does not copy live assignments, eligibility, or approval records.
+Use Azure RBAC and Microsoft Entra PIM to inspect live human access. The managed identity and
+federated credential define the live GitHub trust. This repository contains role definitions and
+Bicep files. It does not copy live assignments, eligibility, or approval records.
 
-No subscription-level role is assigned. The workload path is application-only and does not carry
-a signed-in user's delegated authority. It is not the Agent ID used by Microsoft Foundry Agent
-Service; [Session 05](../../05-governed-agent-baseline/implementation/README.md) configures that
-runtime identity and any Foundry Agent Consumer assignment at project or individual-agent scope.
-Azure DevOps workload identity federation uses a separate supported service connection; the files
-in this session continue to implement GitHub federation only. When a downstream API must authorize each signed-in
-user, use the
-[Delegated API access with OAuth on-behalf-of module](../../../modules/obo-delegated-access/)
-instead of widening this workload identity. Allow 270 minutes for this implementation.
+This session assigns no subscription-level role. The workload path is application-only and does
+not carry a signed-in user's delegated authority. It is not the Agent ID used by Microsoft Foundry
+Agent Service. [Session 05](../../05-governed-agent-baseline/implementation/README.md) configures
+that runtime identity and any Foundry Agent Consumer assignment at project or individual-agent
+scope. Azure DevOps workload identity federation uses a separate supported service connection.
+This session implements GitHub federation only. When a downstream API must authorize each
+signed-in user, use the [Delegated API access with OAuth on-behalf-of module](../../../modules/obo-delegated-access/)
+rather than widening this workload identity. Allow 240 minutes for this implementation.
 
 ## Architecture
 
@@ -47,18 +46,17 @@ access through a managed identity.
 A person signs in through Microsoft Entra ID and gets access through one of four customer-owned
 groups. Project managers, developers, and auditors receive standing Azure RBAC roles at the
 resource or project they need. Platform administrators are eligible for Foundry Account Owner
-through PIM. They activate that role with approval and MFA, and the activation expires after two
-hours.
+through PIM. They activate the role with approval and MFA. The activation expires after two hours.
 
 GitHub uses a workload path with no stored Azure client secret. For one protected environment,
-GitHub issues an OpenID Connect (OIDC) token. Microsoft Entra ID accepts it only when the issuer,
+GitHub issues an OpenID Connect (OIDC) token. Microsoft Entra ID accepts it when the issuer,
 subject, and audience exactly match the federated credential on the user-assigned managed
-identity. The token represents the managed identity, so Azure applies that identity's role
-assignments rather than permissions delegated by a signed-in person. Cognitive Services User is scoped to one Foundry resource, and
-Storage Blob Data Reader is scoped to one storage account.
+identity. The token represents the managed identity. Azure applies that identity's role
+assignments, not permissions delegated by a signed-in person. Cognitive Services User is scoped
+to one Foundry resource, and Storage Blob Data Reader is scoped to one storage account.
 
 Azure RBAC and PIM show who can act now and who may activate elevated access. The managed identity
-and federated credential define the GitHub trust. The repository files define the intended
+and federated credential define the GitHub trust. Repository files define the intended
 assignments. Session 03 adds private connectivity. Session 05 configures the Foundry Agent ID and
 runtime authorization.
 
@@ -66,9 +64,9 @@ runtime authorization.
 
 | Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
 |---|---|---|---|---|
-| Normal human access | Assign roles to customer-owned groups at the Foundry resource or project | Team membership controls access, with no direct user assignments | The customer identity owner manages group membership and its review | A task needs a different role or resource boundary |
-| Elevated administration | Make Foundry Account Owner PIM-eligible, with approval, MFA, and a two-hour activation | Platform administration is active only when someone needs it | This needs Entra licensing, named approvers, and an activation step | The emergency-access or approval model changes |
-| GitHub authentication | Trust the exact OIDC claims for one protected environment on a user-assigned managed identity | GitHub needs no Azure client secret, and only the named environment can request this authority | The trust is application-only; a repository or environment change requires an update | A downstream API must authorize the signed-in user, or an agent needs its own identity |
+| Normal human access | Assign roles to customer-owned groups at the Foundry resource or project | Team membership controls access without direct user assignments | The customer identity owner manages group membership and reviews it | A task needs a different role or resource boundary |
+| Elevated administration | Make Foundry Account Owner PIM-eligible, with approval, MFA, and a two-hour activation | Platform administration is active when someone needs it | This needs Entra licensing, named approvers, and an activation step | The emergency-access or approval model changes |
+| GitHub authentication | Trust exact OIDC claims for one protected environment on a user-assigned managed identity | GitHub needs no Azure client secret, and only the named environment can request this authority | The trust is application-only; a repository or environment change requires an update | A downstream API must authorize the signed-in user, or an agent needs its own identity |
 | Agent endpoint access | Reference Foundry Agent Consumer at project or individual-agent scope | Later sessions can grant endpoint-only access without project development rights | No assignment exists until the agent and its caller are known | Session 05 creates the agent and approves its callers |
 
 ### Architecture guidance
@@ -81,8 +79,8 @@ runtime authorization.
 
 [Session 01](../../01-platform-baseline/implementation/README.md) must be complete. Use the
 approved nonproduction subscription and resource group, the Foundry resource and project recorded
-for this session, the storage account recorded for this session, the four customer-owned groups, and
-the protected GitHub environment.
+for this session, the recorded storage account, the four customer-owned groups, and the protected
+GitHub environment.
 
 Use the repository Execution environment section in README.md for client setup.
 
@@ -110,17 +108,17 @@ You also need:
 
 Confirm the nonproduction Azure subscription and resource group with the customer change owner.
 Record the exact Foundry resource, Foundry project, storage account, four customer-owned groups,
-and protected GitHub environment that this change may use.
+and protected GitHub environment that may use this change.
 
 **Stop before any role or identity change** if the subscription, resource group, Foundry resource,
-Foundry project, or storage account recorded for this session is production or shared with production. Continue
-only after the production owner approves the change through the customer's process and the team
-rechecks each assignment scope in the
-deployment preview.
+Foundry project, or storage account recorded for this session is production or shared with
+production. Continue after the production owner approves the change through the customer's process
+and the team rechecks each assignment scope in the deployment preview.
 
 Role definitions are resolved at subscription scope because Azure publishes built-in roles there.
 That does not justify a subscription-level role assignment. Stop if either deployment preview
-creates an assignment above the Foundry resource, project, or storage account recorded for this session.
+creates an assignment above the Foundry resource, project, or storage account recorded for this
+session.
 
 ### Choose the identity flow
 
@@ -133,8 +131,8 @@ Identify the caller before you change any role assignment or trust:
 | A Foundry agent must call tools as its own actor | Agent identity | Use the Agent ID path in [Session 05](../../05-governed-agent-baseline/implementation/README.md) |
 | A middle tier must call a downstream API and that API must authorize each signed-in user differently | Delegated OBO | Use the [Delegated API access with OAuth on-behalf-of module](../../../modules/obo-delegated-access/) |
 
-Choose OBO only when downstream authorization must vary by the signed-in user. If the same
-workload authority should apply to every request, stay with application-only access.
+Choose OBO when downstream authorization must vary by signed-in user. If the same workload
+authority applies to every request, use application-only access.
 
 ### Human access and PIM
 
@@ -148,16 +146,16 @@ Use the current tenant-visible names with these stable role IDs:
 | Configuration inspection | Reader | Foundry resource |
 | Invoke agent endpoints only | Foundry Agent Consumer | Foundry project or individual agent; assignment deferred to Session 05 |
 
-Microsoft's Foundry RBAC documentation says these roles were renamed and that old display names can
-still appear while the rename reaches each tool. The role IDs and core permissions are unchanged.
-Stop if a role does not resolve or its permissions no longer match the task above.
+Microsoft's Foundry RBAC documentation says these roles were renamed. Old display names can still
+appear while the rename reaches each tool. The role IDs and core permissions are unchanged. Stop
+if a role does not resolve or its permissions no longer match the task above.
 
-`Foundry Owner` is intentionally omitted. It combines account and model administration with project
-development, publishing, and endpoint use. The narrower roles above keep those duties separate.
+`Foundry Owner` is intentionally omitted. It combines account and model administration with
+project development, publishing, and endpoint use. The narrower roles keep those duties separate.
 
-Portal-created projects can add direct-user or project-managed-identity assignments during the
-creation flow. Treat an unexpected direct-user assignment as drift. Route it through the identity
-owner instead of accepting it as part of this group-based design.
+Portal-created projects can add direct-user or project-managed-identity assignments during
+creation. Treat an unexpected direct-user assignment as drift. Send it to the identity owner.
+Do not accept it as part of this group-based design.
 
 PIM settings belong to one role on one resource. They do not inherit from a subscription to the
 same role on a Foundry resource. Stop if:
@@ -168,14 +166,14 @@ same role on a Foundry resource. Stop if:
 - the requested change would alter a shared PIM policy or emergency-access path; or
 - anyone proposes a permanent active platform-administrator assignment.
 
-The activation duration and eligibility expiry are separate settings. Each approved activation can
+Activation duration and eligibility expiry are separate settings. Each approved activation can
 last no more than two hours and requires MFA, justification, and approval. The customer identity
 change process names the eligible group, owner, approvers, expiry, and restore decision.
 
 ### Workload identity and OIDC
 
 Use one user-assigned managed identity for this workload. A federated identity credential on that
-managed identity trusts an OIDC token only when GitHub issues it with these exact claims:
+managed identity trusts an OIDC token when GitHub issues these exact claims:
 
 | Claim | Required value |
 |---|---|
@@ -190,11 +188,11 @@ wildcards. Stop if the requested trust covers every repository, every branch, or
 environment. Do not create a client secret as a fallback.
 
 System-assigned managed identities do not support this federated-credential configuration. A
-user-assigned managed identity supports up to 20 federated identity credentials, but this
+user-assigned managed identity supports up to 20 federated identity credentials. This
 implementation creates one. This path is application-only. It does not carry a signed-in user's
 delegated authority to a downstream API.
 
-Azure DevOps can also use Microsoft Entra workload identity federation through an Azure Resource
+Azure DevOps can use Microsoft Entra workload identity federation through an Azure Resource
 Manager service connection. That path has its own issuer, subject, service-connection ownership,
 and migration guidance. Use the
 [Azure DevOps workload identity guidance](https://learn.microsoft.com/en-us/azure/devops/pipelines/library/add-devops-entra-service-connection?view=azure-devops)
@@ -203,8 +201,8 @@ credential in this implementation.
 
 ### Customer data
 
-This session inspects identity configuration only. It does not read model responses, blobs, secrets,
-or other customer content. Stop if any step would require customer data to confirm the control.
+This session inspects identity configuration only. It does not read model responses, blobs,
+secrets, or other customer content. Stop if a step needs customer data to confirm the control.
 
 ## Implement
 
@@ -213,10 +211,10 @@ or other customer content. Stop if any step would require customer data to confi
 Confirm the task boundaries, scopes, eligible group, approvers, expiry, and GitHub environment in
 the customer's normal identity change process. Replace the GitHub environment sentinel in
 `workload-identity.bicep`. This session uses direct human access or workload/application-only
-access; it does not add a delegated authorization path.
+access. It does not add a delegated authorization path.
 
-Keep object IDs and tenant coordinates in the shell or the customer's configuration system. Set the
-preflight inputs in the current shell:
+Keep object IDs and tenant coordinates in the shell or the customer's configuration system. Set
+the preflight inputs in the current shell:
 
 ```powershell
 $resourceGroup = Read-Host "Approved resource group"
@@ -254,11 +252,10 @@ Run preflight:
 ./scripts/preflight.sh --resource-group-name "$resource_group"
 ```
 
-Preflight confirms that Azure CLI is using the approved nonproduction subscription and resource
-group. For each named role in `role-definitions.json`, it verifies the stable built-in role ID, an
+Preflight confirms that Azure CLI uses the approved nonproduction subscription and resource group.
+For each named role in `role-definitions.json`, it verifies the stable built-in role ID, an
 accepted current or transitional display name, and the `BuiltInRole` type. It rejects unresolved
-decisions, then compiles both Bicep files. Stop on any
-failure.
+decisions, then compiles both Bicep files. Stop on any failure.
 
 Stop here if the customer now needs a downstream API to authorize each signed-in user differently.
 That is a delegated OBO design. Hand it to the
@@ -296,11 +293,11 @@ az deployment group what-if \
   --only-show-errors
 ```
 
-The preview should show Foundry Project Manager on the Foundry resource, Foundry User on one
+The preview must show Foundry Project Manager on the Foundry resource, Foundry User on one
 project, and Reader on the Foundry resource. It must not add Foundry Account Owner as a standing
 assignment.
 
-After the change owner approves that preview, deploy the same parameters:
+After the change owner approves the preview, deploy the same parameters:
 
 ```powershell
 az deployment group create `
@@ -342,7 +339,7 @@ In Microsoft Entra admin center:
    normal identity change process.
 5. Add the platform-administrator group as eligible through the approved expiry.
 
-Do not use these files to automate changes to a shared PIM policy. If the role settings affect other eligible
+Do not use these files to change a shared PIM policy. If role settings affect other eligible
 principals, the customer identity owner must handle the change through the existing identity
 process.
 
@@ -383,7 +380,7 @@ az deployment group what-if \
   --only-show-errors
 ```
 
-Stop if the preview shows a different identity, GitHub subject, role, or scope. Once approved,
+Stop if the preview shows a different identity, GitHub subject, role, or scope. After approval,
 deploy it:
 
 ```powershell
@@ -417,19 +414,19 @@ az deployment group create \
 
 Set `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, and `AZURE_SUBSCRIPTION_ID` in the protected GitHub
 environment. Keep these identifiers in environment configuration even though they are not
-passwords. A customer-owned workflow that uses this trust needs `id-token: write`. It does not need
-an Azure client secret.
+passwords. A customer-owned workflow that uses this trust needs `id-token: write`. It does not
+need an Azure client secret.
 
 ## Confirm the result
 
 Use one confirmation to inspect the human assignments, live Entra PIM configuration, and workload
-identity. First confirm the three standing Azure RBAC group assignments. In Entra PIM, confirm that
-Foundry Account Owner eligibility names the approved platform-administrator group. Confirm that the
-live role settings match the approved two-hour activation, MFA, justification, approval, approver,
-and expiry decisions. Compare the approved change in the customer identity system, not a repository
-mirror.
+identity. First confirm the three standing Azure RBAC group assignments. In Entra PIM, confirm
+that Foundry Account Owner eligibility names the approved platform-administrator group. Confirm
+that live role settings match the approved two-hour activation, MFA, justification, approval,
+approver, and expiry decisions. Compare the approved change in the customer identity system, not a
+repository mirror.
 
-Observe the **workload identity configuration**. Compare the exact issuer, subject, and audience with
+Inspect the **workload identity configuration**. Compare the exact issuer, subject, and audience with
 Microsoft’s [workload identity federation
 guidance](https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation-create-trust-user-assigned-managed-identity):
 
@@ -493,20 +490,20 @@ az role assignment list \
   --output table
 ```
 
-The human assignments must match the three documented group scopes; no standing Foundry
-Account Owner assignment may exist. No unexpected direct-user assignment may remain at the Foundry
-resource or project. The PIM eligible principal and activation settings must match the live Entra configuration and
-customer change decision. The workload identity shows `implementationSession` as
-`02-identity-privileged-access`. One federated
-credential shows the exact GitHub issuer, repository environment subject, and Azure token-exchange
-audience. The direct assignments are Cognitive Services User on the Foundry resource recorded for
-this session and Storage Blob Data Reader on the storage account recorded for this session. There is no subscription-level assignment.
+The human assignments must match the three documented group scopes. No standing Foundry Account
+Owner assignment may exist. No unexpected direct-user assignment may remain at the Foundry resource
+or project. The PIM eligible principal and activation settings must match the live Entra
+configuration and customer change decision. The workload identity shows `implementationSession` as
+`02-identity-privileged-access`. One federated credential shows the exact GitHub issuer,
+repository environment subject, and Azure token-exchange audience. The direct assignments are
+Cognitive Services User on the Foundry resource recorded for this session and Storage Blob Data
+Reader on the storage account recorded for this session. No subscription-level assignment exists.
 
-Read the console and stop there. Do not redirect, export, or save this command output.
+Read the console and stop there. Do not redirect, export, or save command output.
 
 ## After implementation
 
-Maintain the following **resources, settings, and files**:
+Maintain these **resources, settings, and files**:
 
 | Resource or setting | Operating owner |
 |---|---|
@@ -517,12 +514,12 @@ Maintain the following **resources, settings, and files**:
 | Bicep files, `role-definitions.json`, and support scripts | Customer repository owner |
 
 The workload identity and its federated credential stay in the nonproduction subscription and
-resource group recorded for this session. Its roles are scoped to the recorded Foundry resource and storage
-account. The credential accepts tokens only from the protected GitHub environment recorded for this
-session. Moving any part into production is a separate change.
+resource group recorded for this session. Its roles are scoped to the recorded Foundry resource and
+storage account. The credential accepts tokens from the protected GitHub environment recorded for
+this session. Move any part into production through a separate change.
 
 If a later design needs user-specific downstream authorization, keep this managed identity for the
-application-only path and use the
+application-only path. Use the
 [Delegated API access with OAuth on-behalf-of module](../../../modules/obo-delegated-access/)
 instead of granting broader permissions to this managed identity.
 
@@ -533,11 +530,10 @@ needs either role assignment. Use the approved identity change path to check the
 assignments, and remove the managed identity last. Removing the identity also removes its child
 federated credential.
 
-Human group assignments and PIM changes are separate. The identity owner first removes PIM
-eligibility, then restores prior role settings if they were changed during Session 02. Remove an
-exact group assignment only after its Foundry owner confirms that it was created during Session 02
-and no operating task depends on it. Do not use these instructions to disable an emergency-access
-path.
+Human group assignments and PIM changes are separate. The identity owner removes PIM eligibility
+first, then restores prior role settings if Session 02 changed them. Remove an exact group
+assignment after its Foundry owner confirms that Session 02 created it and no operating task needs
+it. Do not use these instructions to disable an emergency-access path.
 
 After the session, the identity owner creates or updates a recurring
 [PIM access review](https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-create-roles-and-resource-roles-review)

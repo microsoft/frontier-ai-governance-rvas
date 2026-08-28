@@ -26,11 +26,11 @@ html: true
 
 ### Result check
 
-- The same golden set evaluates the approved and candidate versions.
-- Thresholds point back to the approved baseline.
-- Final-answer, tool-process, and safety failures remain separate.
-- The approved record passes and the blocking regression run record blocks.
-- The release owner marks the gate enabled in the approved release platform and hands the command to Session 13.
+- Run the same golden set against the approved and candidate versions.
+- Base thresholds on the approved baseline.
+- Keep final-answer, tool-process, and safety failures separate.
+- Confirm that the approved record passes and the blocking regression record blocks.
+- The release owner enables the gate in the approved release platform and hands the command to Session 13.
 
 <!-- Notes: The gate decides eligibility. It never changes the live version selector. -->
 
@@ -38,11 +38,11 @@ html: true
 
 ## Why it matters
 
-Release owners need a clear answer to a narrow question: can this fixed agent version move forward?
+Release owners need a clear answer: can this fixed agent version move forward?
 
 Separate final-answer, tool-process, and safety checks stop a strong average from hiding a failed tool path or safety issue.
 
-Session 10 turns that decision into a command. Session 13 runs it in the promotion path.
+Session 10 makes that decision executable. Session 13 runs the command in the promotion path.
 
 <!-- Notes: Eligibility is this session's owned result. Promotion enforcement comes later. -->
 
@@ -50,11 +50,11 @@ Session 10 turns that decision into a command. Session 13 runs it in the promoti
 
 ## Implementation outcomes
 
-1. Keep the versioned golden set and evaluation definition for the approved and candidate agent versions.
-2. Establish release thresholds from the approved baseline.
-3. Keep detailed results in Foundry and payload-free aggregate results in the approved release store.
+1. Keep the versioned golden set and evaluation definition for approved and candidate agent versions.
+2. Set release thresholds from the approved baseline.
+3. Keep detailed results in Foundry and payload-free aggregates in the approved release store.
 4. Enable the release gate in the approved release platform.
-5. Confirm the approved record passes and the generated tool-process regression blocks.
+5. Confirm that the approved record passes and the generated tool-process regression blocks.
 
 <!-- Notes: Extended mode is required because release protection depends on both behaviors. -->
 
@@ -97,12 +97,12 @@ Preview task-adherence, prohibited-action, and sensitive-data-leakage evaluators
 
 ## What this means
 
-The same fixed set of test cases runs against the approved version and the candidate.
-Foundry evaluates answer quality, tool process, and safety separately.
+Run the same fixed test cases against the approved version and the candidate. Foundry evaluates
+answer quality, tool process, and safety separately.
 
 Foundry stores row detail. The approved release platform stores payload-free aggregates and records
-whether the gate is enabled and whether a version is promoted. The repository stores the
-version-controlled threshold and policy definitions.
+gate state and promotions. The repository stores the version-controlled threshold and policy
+definitions.
 
 The gate returns `PASS` or `BLOCK`. It cannot promote. Session 13 controls the stable selector.
 
@@ -139,8 +139,8 @@ Conflicting bounds stop the gate.
 | Baseline-derived thresholds | Ties the gate to observed approved behavior | A weak baseline must be fixed, not fitted |
 | Separate metric floors | Stops averages from hiding a failed layer | Owners maintain several explicit decisions |
 
-Record approval, baseline run IDs, and the gate's enabled state in the approved release platform. Safety stays at
-`1.00`, every maximum error count stays at `0`, and previews remain nonblocking.
+Record approval, baseline run IDs, and gate state in the approved release platform. Safety stays at
+`1.00`, every maximum error count stays at `0`, and preview evaluators stay nonblocking.
 
 <!-- Notes: If the approved version is poor, remediate it. Do not lower the gate to fit. -->
 
@@ -267,7 +267,8 @@ FOUNDRY_MODEL_NAME
 
 No key, token, endpoint, tenant ID, or subscription ID is committed.
 
-The evaluation operator has **Foundry User** on the approved Foundry project. The cost owner approves judge-model and evaluation consumption before the run.
+The evaluation operator has **Foundry User** on the approved Foundry project. The cost owner
+approves judge-model and evaluation consumption before the run.
 
 <!-- Notes: DefaultAzureCredential uses the customer's approved secretless path. -->
 
@@ -298,7 +299,7 @@ The evaluation operator has **Foundry User** on the approved Foundry project. Th
 
 # Set thresholds from the approved version
 
-Run the approved version before setting quality and tool thresholds.
+Run the approved version before you set quality and tool thresholds.
 
 <!-- Notes: Safety remains zero-tolerance for this supplied set. -->
 
@@ -322,13 +323,13 @@ The stable endpoint does not move.
 
 ## Preflight boundary
 
-Preflight stops the run unless the approved scope, identities, evaluation row format, tool compatibility,
-regional support, and budget checks pass.
+Preflight stops the run unless the approved scope, identities, evaluation row format, tool
+compatibility, regional support, and budget checks pass.
 
 The Evals API has no dry run. Before billing starts, preflight prints the project alias, region,
 approved agent version, dataset SHA-256, case count, evaluator names, and the aggregate-only output
-rule. The runner targets that version without calling the stable selector, so the approved endpoint
-does not change.
+rule. The runner targets that version without calling the stable selector. The approved endpoint does not
+change.
 
 <!-- Notes: The release owner checks every printed value before authorizing consumption. -->
 
@@ -370,7 +371,8 @@ independent metric rules
 PASS or BLOCK
 ```
 
-Send final-answer failures to the quality owner. Send tool selection or execution failures to the tool owner. Send safety failures to the safety owner.
+Send final-answer failures to the quality owner. Send tool-selection or execution failures to the
+tool owner. Send safety failures to the safety owner.
 
 The release owner keeps the approved version live.
 
@@ -450,8 +452,8 @@ The answer cannot hide the failed tool path.
 | Enable gate | Confirm every blocking candidate metric is complete, target IDs match the approved specification and release policy, and each failure has its quality, tool, or safety owner; then hand the `release-gate.py` command to [Session 13](../13-cicd-promotion-controls/) |
 | Disable gate | Keep stable endpoint on the approved version and route gate defects to the quality owner |
 
-Session 10 produces the gate command and policy files. Session 13 runs the command before promotion.
-The gate never promotes by itself.
+Session 10 produces the gate command and policy files. Session 13 runs the command before
+promotion. The gate never promotes by itself.
 
 ---
 
