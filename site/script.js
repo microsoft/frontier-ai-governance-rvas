@@ -10,10 +10,9 @@
   ];
   const phaseMarkers = [...document.querySelectorAll("[data-phase-marker]")];
   const routeFilterLinks = [...document.querySelectorAll("[data-route-filter]")];
-  const routeStatus = document.querySelector("[data-route-status]");
-  const routeStatusName = document.querySelector("[data-route-status-name]");
-  const routeStatusRange = document.querySelector("[data-route-status-range]");
-  const routeClear = document.querySelector("[data-route-clear]");
+  const routeClearButtons = [
+    ...document.querySelectorAll("[data-route-clear]"),
+  ];
   const searchInput = document.querySelector("[data-session-search]");
   const resultsCount = document.querySelector("[data-results-count]");
   const emptyState = document.querySelector("[data-empty-state]");
@@ -41,14 +40,14 @@
   let searchTerm = "";
   let activeShell = "powershell";
 
-  const routeSessions = {
-    "governed-pilot": 5,
-    "secure-private-platform": 6,
-    "api-mcp-governance": 8,
-    "data-compliance": 9,
-    "security-operations": 12,
-    "llmops-release-operations": 13,
-  };
+  const routeSessions = Object.fromEntries(
+    routeFilterLinks
+      .map((link) => [
+        link.dataset.routeFilter,
+        Number(link.dataset.routeEnd),
+      ])
+      .filter(([route, endSession]) => route && Number.isInteger(endSession)),
+  );
 
   const normalize = (value) =>
     value.toLocaleLowerCase().replace(/\s+/g, " ").trim();
@@ -93,7 +92,7 @@
 
   const updateResults = () => {
     let visibleCount = 0;
-    const visiblePhases = new Set();
+    const visiblePhaseCounts = new Map();
 
     records.forEach((record) => {
       const matchesPhase =
@@ -114,12 +113,18 @@
       record.hidden = !isVisible;
       if (isVisible) {
         visibleCount += 1;
-        visiblePhases.add(record.dataset.phase);
+        const phase = record.dataset.phase;
+        visiblePhaseCounts.set(phase, (visiblePhaseCounts.get(phase) ?? 0) + 1);
       }
     });
 
     phaseMarkers.forEach((marker) => {
-      marker.hidden = !visiblePhases.has(marker.dataset.phaseMarker);
+      const count = visiblePhaseCounts.get(marker.dataset.phaseMarker) ?? 0;
+      marker.hidden = count === 0;
+      const countTarget = marker.querySelector("[data-phase-count]");
+      if (countTarget) {
+        countTarget.textContent = `${count} ${count === 1 ? "session" : "sessions"}`;
+      }
     });
 
     if (resultsCount) {
@@ -183,29 +188,14 @@
     }
 
     activeRoute = route;
-    let activeLabel = "";
     routeFilterLinks.forEach((link) => {
       const selected = link.dataset.routeFilter === activeRoute;
-      link.setAttribute("aria-current", selected ? "page" : "false");
-      if (selected) {
-        activeLabel =
-          link.closest("div")?.querySelector("strong")?.textContent?.trim() ??
-          "";
+      if (link.matches("button")) {
+        link.setAttribute("aria-pressed", String(selected));
+      } else {
+        link.setAttribute("aria-current", selected ? "page" : "false");
       }
     });
-
-    if (routeStatus) {
-      const lastSession = routeSessions[activeRoute];
-      routeStatus.hidden = activeRoute === "all";
-      if (routeStatusName) {
-        routeStatusName.textContent = activeLabel;
-      }
-      if (routeStatusRange) {
-        routeStatusRange.textContent = lastSession
-          ? `Sessions 1–${lastSession}`
-          : "";
-      }
-    }
 
     updateResults();
     if (persist) {
@@ -299,8 +289,17 @@
     });
   });
 
-  routeClear?.addEventListener("click", () => {
-    selectRoute("all");
+  routeClearButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      if (button instanceof HTMLAnchorElement) {
+        event.preventDefault();
+      }
+      selectTool("all", { persist: false });
+      selectRoute("all");
+      document.querySelector("#program")?.scrollIntoView({
+        behavior: reducedMotion.matches ? "auto" : "smooth",
+      });
+    });
   });
 
   searchInput?.addEventListener("input", (event) => {

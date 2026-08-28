@@ -53,7 +53,7 @@ The homepage follows this order:
 6. Pre-work
 7. Optional modules
 
-The program facts remain quiet inside the hero: 15 sessions, 65 working hours, and three phases.
+The program facts remain quiet inside the hero: 14 sessions, 64 working hours, and three phases.
 The outcome panel covers the governed deployment, source-controlled implementation, observable
 check, and named restore or removal ownership.
 
@@ -88,19 +88,26 @@ Control Plane, and Microsoft Agent 365. It also keeps the LLMOps and AIOps disti
 The catalog is grouped by phase. Each session record includes its number, title, control objective,
 observable result, duration, and a build-generated strip of every service in scope.
 
-Discovery combines three controls with AND logic:
+Discovery combines phase, focused-route, service, and free-text controls. Phase filters can be
+combined with either a route or a service. Routes and services are mutually exclusive, so choosing
+one clears the other instead of creating an unexplained empty result.
 
-- one phase;
-- one service;
-- free-text search.
-
-The service row scrolls horizontally instead of wrapping into a wall of controls. Every service
-button uses its official icon and shows the number of matching numbered sessions. Only the service
-selection is written to `?tool=<id>#program`. The nearby **View service map** link opens the
-service-first index. Optional modules never enter the session filter.
+The route controls sit directly above the service row. Every service button uses its official icon
+and keeps its all-program session count, while phase markers update to show counts for the current
+visible set. Route and service choices use `?route=<id>#program` and `?tool=<id>#program`, so a
+filtered view can be shared. The nearby **View service map** link opens the service-first index.
+Optional modules never enter the session filter.
 
 JavaScript hides nonmatching records and announces the result count. Without JavaScript, all phase
 groups and session records remain visible.
+
+### Focused routes
+
+The complete route anchors the section. Six focused routes sit below it as selectable paths rather
+than a comparison table. Each path states the control state it reaches, its ending session, session
+count, and calculated working time. A 14-step track shows how far the route travels and uses the
+existing foundation, live-traffic, and operations colors. Route definitions and durations come
+from the homepage builder so the cards, URLs, and filter logic stay aligned.
 
 ### Optional modules
 

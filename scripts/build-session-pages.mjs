@@ -1361,10 +1361,85 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
       sessions: sessions.filter(({ phase }) => phase.key === "operations"),
     },
   ];
+  const focusedRoutes = [
+    {
+      id: "governed-pilot",
+      name: "Governed pilot",
+      endSession: 5,
+      outcome:
+        "A versioned Foundry agent with its platform, identity, networking, and model controls in place.",
+    },
+    {
+      id: "secure-private-platform",
+      name: "Secure private platform",
+      endSession: 6,
+      outcome:
+        "The governed agent runs through API Management with identity, limits, and content safety applied at the gateway.",
+    },
+    {
+      id: "api-mcp-governance",
+      name: "API and MCP governance",
+      endSession: 8,
+      outcome:
+        "API and MCP inventory, authorization, tool scope, and runtime telemetry are connected around the governed agent.",
+    },
+    {
+      id: "data-compliance",
+      name: "Data and compliance",
+      endSession: 9,
+      outcome:
+        "The governed runtime adds Purview data controls and an owned handoff for Agent 365 and Foundry coverage.",
+    },
+    {
+      id: "security-operations",
+      name: "Security operations",
+      endSession: 12,
+      outcome:
+        "Evaluation, red-team, telemetry, cost, alerting, and incident controls are operating around the service.",
+    },
+    {
+      id: "llmops-release-operations",
+      name: "LLMOps and release operations",
+      endSession: 13,
+      outcome:
+        "The governed service moves through evaluation, operations, and protected promotion as one managed release path.",
+    },
+  ].map((route) => {
+    const routeSessions = sessions.filter(
+      ({ number }) => number <= route.endSession,
+    );
+    return {
+      ...route,
+      sessionCount: routeSessions.length,
+      duration: formatDuration(
+        routeSessions.reduce(
+          (sum, session) => sum + session.durationMinutes,
+          0,
+        ),
+      ),
+    };
+  });
+  const routeCards = focusedRoutes
+    .map((route) => {
+      const steps = sessions
+        .map(
+          (session) =>
+            `<span class="route-path__step route-path__step--${session.phase.key}${session.number <= route.endSession ? " is-included" : ""}${session.number === route.endSession ? " is-end" : ""}"></span>`,
+        )
+        .join("");
+      return `<a class="route-path" role="listitem" data-route-filter="${escapeHtml(route.id)}" data-route-name="${escapeHtml(route.name)}" data-route-end="${route.endSession}" href="?route=${escapeHtml(route.id)}#program" aria-label="Show ${escapeHtml(route.name)}: Sessions 1 through ${route.endSession}">
+                  <span class="route-path__header"><strong>${escapeHtml(route.name)}</strong><span>Ends at Session ${String(route.endSession).padStart(2, "0")}</span></span>
+                  <span class="route-path__outcome">${escapeHtml(route.outcome)}</span>
+                  <span class="route-path__track" aria-hidden="true">${steps}</span>
+                  <span class="route-path__track-labels"><span>Session 01</span><span>Session ${String(route.endSession).padStart(2, "0")}</span></span>
+                  <span class="route-path__footer"><span><b>${route.sessionCount}</b> sessions</span><span><b>${escapeHtml(route.duration)}</b></span><span class="route-path__action">Show this route ${arrowIcon}</span></span>
+                </a>`;
+    })
+    .join("\n");
   const sessionCards = phases
     .map(
       (phase) => `<div class="phase-marker" id="phase-${phase.key}" data-phase-marker="${phase.key}">
-            <span>${phase.range}</span><strong>${phase.label}</strong><small>${phase.sessions.length} sessions</small>
+            <span>${phase.range}</span><strong>${phase.label}</strong><small data-phase-count>${phase.sessions.length} sessions</small>
           </div>
           ${phase.sessions.map(renderSessionCard).join("\n")}`,
     )
@@ -1464,6 +1539,17 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
           </div>
           <label class="registry-search"><span>Search sessions</span><span class="registry-search__field"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"></circle><path d="m13 13 4 4"></path></svg><input type="search" autocomplete="off" placeholder="Title, control, outcome…" data-session-search></span></label>
         </div>
+        <div class="route-filter-row">
+          <div class="route-filter-row__head"><div><h3>Filter by focused route</h3><p>Choose the part of the program you want to see. Routes always start at Session 01.</p></div><a href="#routes">Compare routes</a></div>
+          <div class="route-filters" role="group" aria-label="Filter by focused route">
+            <button type="button" class="route-filter" data-route-filter="all" data-route-name="All sessions" data-route-end="14" aria-pressed="true">All sessions</button>
+            ${focusedRoutes
+              .map(
+                (route) => `<button type="button" class="route-filter" data-route-filter="${escapeHtml(route.id)}" data-route-name="${escapeHtml(route.name)}" data-route-end="${route.endSession}" aria-pressed="false">${escapeHtml(route.name)} <span>1–${route.endSession}</span></button>`,
+              )
+              .join("")}
+          </div>
+        </div>
         <div class="tool-discovery">
           <div class="tool-discovery__head"><div><h3>Filter by tool</h3><p>Choose one tool. Counts show matching numbered sessions.</p></div><a href="service-map.html">View service map</a></div>
           <div class="tool-filters" role="group" aria-label="Filter by tool">
@@ -1473,7 +1559,6 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
         </div>
         <div class="registry-status">
           <output data-results-count aria-live="polite">${sessions.length} sessions shown</output>
-          <p class="route-status" data-route-status hidden>Focused route: <strong data-route-status-name></strong> <span data-route-status-range></span><button type="button" data-route-clear>Show all ${sessions.length} sessions</button></p>
         </div>
         <div class="session-register">${sessionCards}</div>
         <p class="empty-result" data-empty-state hidden>No session matches the selected phase, service, and search text.</p>
@@ -1481,19 +1566,12 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
 
       <section class="routes-section" id="routes" aria-labelledby="routes-title">
         <div class="section">
-          <div class="section-heading"><div><p class="section-kicker">Route guidance</p><h2 id="routes-title">Keep the dependencies. Stop where your scope ends.</h2><p>The complete route produces the connected deployment across all ${sessions.length} sessions. A focused route includes its prerequisite sessions and leaves later, unrelated controls unimplemented.</p></div></div>
+          <div class="section-heading"><div><h2 id="routes-title">Choose how far the implementation needs to go.</h2><p>Every route starts at Session 01 and keeps the dependencies in order. Pick the point where your current scope is complete.</p></div></div>
           <div class="route-choice">
-            <div class="route-choice__primary"><div><h3>Complete build · ${totalHours} working hours</h3><p>Move from platform baseline to governed agent, live traffic controls, controlled release, and regional rehearsal.</p></div><ol class="route-choice__sequence"><li><span>1–5</span> Governed foundation</li><li><span>6–11</span> Live AI traffic controls</li><li><span>12–14</span> Operate at scale</li></ol><a class="button button--primary" href="#program">Browse all sessions</a></div>
-            <details class="route-choice__alternatives" open><summary><span><strong>Focused routes</strong><small>Each route runs its prerequisite sessions in order</small></span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 8 5 5 5-5"></path></svg></summary>
-              <div class="route-register"><div class="route-register__head"><span>Customer need</span><span>Session route</span></div>
-                <div><strong>Governed pilot</strong><span><a data-route-filter="governed-pilot" href="?route=governed-pilot#program">1–5 · Foundation to agent</a></span></div>
-                <div><strong>Secure private platform</strong><span><a data-route-filter="secure-private-platform" href="?route=secure-private-platform#program">1–6 · Foundation to gateway</a></span></div>
-                <div><strong>API and MCP governance</strong><span><a data-route-filter="api-mcp-governance" href="?route=api-mcp-governance#program">1–8 · Foundation to MCP</a></span></div>
-                <div><strong>Data and compliance</strong><span><a data-route-filter="data-compliance" href="?route=data-compliance#program">1–9 · Foundation to Purview</a></span></div>
-                <div><strong>Security operations</strong><span><a data-route-filter="security-operations" href="?route=security-operations#program">1–12 · Foundation to operations</a></span></div>
-                <div><strong>LLMOps and release operations</strong><span><a data-route-filter="llmops-release-operations" href="?route=llmops-release-operations#program">1–13 · Foundation to controlled promotion</a></span></div>
-              </div>
-            </details>
+            <div class="route-choice__primary"><div><h3>Complete build · ${totalHours} working hours</h3><p>Run all ${sessions.length} sessions, from the platform baseline through controlled release and regional rehearsal.</p></div><ol class="route-choice__sequence"><li><span>1–5</span> Governed foundation</li><li><span>6–11</span> Live AI traffic controls</li><li><span>12–14</span> Operate at scale</li></ol><a class="button button--primary" data-route-clear href="#program">Browse all sessions</a></div>
+            <div class="route-choice__heading"><div><h3>Focused routes</h3><p>Each option shows the control state you reach, the work it includes, and where to stop.</p></div><div class="route-choice__legend" aria-label="Route phase colors"><span><i class="is-foundation"></i>Foundation</span><span><i class="is-runtime"></i>Live traffic</span><span><i class="is-operations"></i>Operations</span></div></div>
+            <div class="route-paths" role="list">${routeCards}</div>
+            <p class="route-choice__note">Sessions 12–14 also define documented substitute baselines for teams that reach them without every earlier session.</p>
           </div>
         </div>
       </section>
