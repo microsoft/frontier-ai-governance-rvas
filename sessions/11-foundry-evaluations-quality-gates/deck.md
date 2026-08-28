@@ -14,7 +14,7 @@ html: true
 
 # Foundry evaluations and release quality gates
 
-**270 minutes - Compare two versions with one data set and separate gate layers**
+**330 minutes - Compare two versions with one data set and separate gate layers**
 
 <!-- Notes: Sessions 05 and 08 created the governed agent and tool boundary. Today release eligibility becomes measurable. -->
 

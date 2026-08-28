@@ -116,7 +116,7 @@ proof of red-team improvement.
 ![Microsoft Foundry](assets/icons/microsoft/azure-ai-foundry.svg)
 
 - Foundry User on the approved Foundry project for the operator and project managed identity
-- approved prompt or container agent version
+- approved Azure AI agent version
 - transient agentic run with only partial isolation
 - human review required
 
@@ -300,9 +300,10 @@ The saved hunt matches the current alert titles exactly. It does not use a broad
 
 ## Safe preview
 
-Preflight stops the run unless authorization, approved scope and identities, the attack plan,
-regional support, Defender coverage, and the SOC route match the approved records. It also rejects
-inputs outside the synthetic, read-only, and payload-free limits.
+Preflight stops the run unless the supplied authorization and SOC-route references, approved scope
+identifiers, attack plan, regional support confirmation, and Foundry target pass its checks. Defender
+coverage and SOC-route ownership are owner-confirmed gates; preflight requires the SOC-route
+reference. It also rejects inputs outside the synthetic, read-only, and payload-free limits.
 
 No taxonomy or run is created by preflight.
 

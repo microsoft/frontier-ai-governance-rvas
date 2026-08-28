@@ -12,7 +12,7 @@ description: Install one approved Agent Registry agent for a nonproduction group
 
 # Microsoft Agent 365 onboarding and access boundaries
 
-## Session 06 · 270 minutes
+## Session 06 · 180 minutes
 
 Install one nonproduction agent for one test group.
 

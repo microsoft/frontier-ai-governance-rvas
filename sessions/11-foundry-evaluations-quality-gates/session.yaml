@@ -3,7 +3,7 @@ session:
   id: "11"
   slug: "foundry-evaluations-quality-gates"
   title: "Foundry evaluations and release quality gates"
-  duration_minutes: 270
+  duration_minutes: 330
   status: "draft"
   last_verified: "2026-08-28"
   audience:

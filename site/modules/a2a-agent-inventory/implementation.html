@@ -102,7 +102,8 @@
           <p class="implementation-guide__label">Chapter 5 of 6</p>
           <h2 id="implement">Implement<a class="heading-anchor" href="#implement" aria-label="Link to Implement">#</a></h2>
 <h3 id="1-run-preflight">1. Run preflight<a class="heading-anchor" href="#1-run-preflight" aria-label="Link to 1. Run preflight">#</a></h3>
-<p>Run the paired preflight command with the selected path and the runtime-owned source reference. For Registry sync, also supply the supported provider name.</p>
+<p>Run the paired command for the selected route. Replace the example source reference with the approved runtime-owned URL. It must not contain credentials.</p>
+<p>For <strong>built-in</strong>:</p>
 <section class="code-tabs" data-code-tabs>
   <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
     <button type="button" role="tab" id="command-shell-1-powershell-tab" aria-controls="command-shell-1-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
@@ -112,11 +113,32 @@
     <p class="code-tabs__fallback-label">PowerShell</p>
     <pre><code class="language-powershell">.\scripts\preflight.ps1 `
   -TargetScope &quot;one-approved-a2a-agent&quot; `
+  -IntegrationPath &quot;built-in&quot; `
+  -RuntimeSourceReference &quot;https://example.invalid/agent-source&quot;</code></pre>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-1-bash-panel" role="tabpanel" aria-labelledby="command-shell-1-bash-tab" tabindex="0" data-shell-panel="bash">
+    <p class="code-tabs__fallback-label">Bash</p>
+    <pre><code class="language-bash">./scripts/preflight.sh \
+  --target-scope &quot;one-approved-a2a-agent&quot; \
+  --integration-path &quot;built-in&quot; \
+  --runtime-source-reference &quot;https://example.invalid/agent-source&quot;</code></pre>
+  </div>
+</section>
+<p>For <strong>Registry sync</strong>:</p>
+<section class="code-tabs" data-code-tabs>
+  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
+    <button type="button" role="tab" id="command-shell-2-powershell-tab" aria-controls="command-shell-2-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
+    <button type="button" role="tab" id="command-shell-2-bash-tab" aria-controls="command-shell-2-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-2-powershell-panel" role="tabpanel" aria-labelledby="command-shell-2-powershell-tab" tabindex="0" data-shell-panel="powershell">
+    <p class="code-tabs__fallback-label">PowerShell</p>
+    <pre><code class="language-powershell">.\scripts\preflight.ps1 `
+  -TargetScope &quot;one-approved-a2a-agent&quot; `
   -IntegrationPath &quot;registry-sync&quot; `
   -RegistrySyncPlatform &quot;Amazon Bedrock&quot; `
   -RuntimeSourceReference &quot;https://example.invalid/agent-source&quot;</code></pre>
   </div>
-  <div class="code-tabs__panel" id="command-shell-1-bash-panel" role="tabpanel" aria-labelledby="command-shell-1-bash-tab" tabindex="0" data-shell-panel="bash">
+  <div class="code-tabs__panel" id="command-shell-2-bash-panel" role="tabpanel" aria-labelledby="command-shell-2-bash-tab" tabindex="0" data-shell-panel="bash">
     <p class="code-tabs__fallback-label">Bash</p>
     <pre><code class="language-bash">./scripts/preflight.sh \
   --target-scope &quot;one-approved-a2a-agent&quot; \
@@ -125,12 +147,32 @@
   --runtime-source-reference &quot;https://example.invalid/agent-source&quot;</code></pre>
   </div>
 </section>
-<h3 id="2-complete-the-selected-platform-path">2. Complete the selected platform path<a class="heading-anchor" href="#2-complete-the-selected-platform-path" aria-label="Link to 2. Complete the selected platform path">#</a></h3>
-<p>For <strong>built-in</strong>, use the current platform guidance to enable or publish the existing agent.</p>
-<p>For <strong>Registry sync</strong>, the Agent 365 administrator creates or reviews the supported connected platform, validates its credentials in the Microsoft 365 admin center, and runs the sync.</p>
-<p>For <strong>SDK</strong>, the runtime owner makes the approved change in the runtime product repository and deploys it through that product's release path.</p>
+<p>For <strong>SDK</strong>:</p>
+<section class="code-tabs" data-code-tabs>
+  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
+    <button type="button" role="tab" id="command-shell-3-powershell-tab" aria-controls="command-shell-3-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
+    <button type="button" role="tab" id="command-shell-3-bash-tab" aria-controls="command-shell-3-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-3-powershell-panel" role="tabpanel" aria-labelledby="command-shell-3-powershell-tab" tabindex="0" data-shell-panel="powershell">
+    <p class="code-tabs__fallback-label">PowerShell</p>
+    <pre><code class="language-powershell">.\scripts\preflight.ps1 `
+  -TargetScope &quot;one-approved-a2a-agent&quot; `
+  -IntegrationPath &quot;sdk&quot; `
+  -RuntimeSourceReference &quot;https://example.invalid/agent-source&quot;</code></pre>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-3-bash-panel" role="tabpanel" aria-labelledby="command-shell-3-bash-tab" tabindex="0" data-shell-panel="bash">
+    <p class="code-tabs__fallback-label">Bash</p>
+    <pre><code class="language-bash">./scripts/preflight.sh \
+  --target-scope &quot;one-approved-a2a-agent&quot; \
+  --integration-path &quot;sdk&quot; \
+  --runtime-source-reference &quot;https://example.invalid/agent-source&quot;</code></pre>
+  </div>
+</section>
+<h3 id="2-complete-the-selected-route">2. Complete the selected route<a class="heading-anchor" href="#2-complete-the-selected-route" aria-label="Link to 2. Complete the selected route">#</a></h3>
+<div class="table-scroll"><table><thead><tr><th scope="col">Route</th><th scope="col">Operator action</th><th scope="col">Observe before moving on</th></tr></thead><tbody><tr><td><strong>built-in</strong></td><td>The platform operator follows the current documented enablement or publication path for the existing agent.</td><td>The platform shows that the in-scope agent is enabled or published through its Agent 365 integration.</td></tr><tr><td><strong>registry-sync</strong></td><td>The Agent 365 administrator opens <strong>Agents &gt; All Agents</strong>, selects <strong>Manage</strong> in Connected platforms, creates or reviews the connection, validates its credentials, and runs the sync.</td><td>The connection identifies the selected provider and shows a current result. Review sync errors before expecting the agent in Agent Registry.</td></tr><tr><td><strong>sdk</strong></td><td>The runtime owner changes the integration in the runtime product repository and deploys it through the approved release path.</td><td>The released version is the one intended to register or update the in-scope agent.</td></tr></tbody></table></div>
 <h3 id="3-observe-the-result">3. Observe the result<a class="heading-anchor" href="#3-observe-the-result" aria-label="Link to 3. Observe the result">#</a></h3>
-<p>With the Agent 365 administrator, open the Agent Registry and review the new or updated record. Confirm the integration route, owner, and lifecycle state in the live service. No screenshot, export, or local record is created.</p>
+<p>With the Agent 365 administrator, open the Agent Registry and review the new or updated record. Confirm that it is the intended agent, arrives through the selected route, and has a known owner and lifecycle state. The runtime owner identifies the source and release or synchronization path that will update it. The retirement owner identifies the approved removal decision.</p>
+<p>Resolve a mismatch before proceeding. A missing record, wrong agent, duplicate, stale sync result, or unresolved owner is a stop condition. No screenshot, export, copied inventory record, or agent card is created.</p>
 
         </article>
         <aside class="facts-panel" aria-labelledby="facts-panel-title">

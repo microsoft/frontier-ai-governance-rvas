@@ -60,7 +60,8 @@ Confirm these prerequisites:
 - The stable endpoint remains pinned to the approved version.
 - The quality owner has confirmed current regional support, selected evaluators, and budget.
 - Protected-material evaluation runs in East US 2 while it remains a blocking metric.
-- The tool owner approves the supported Function Tool path.
+- The tool owner has approved tool-call evaluators for the supported Function Tool path, with no
+  limited-support tool in the evaluated path.
 - The operator and project managed identity have **Foundry User** on the exact project.
 - The golden data set contains synthetic content only.
 
@@ -79,6 +80,66 @@ Confirm these prerequisites:
 Resolve required configuration values through the approved delivery change path. Do not put project
 endpoints, resource IDs, subscriptions, tokens, prompts, responses, tool payloads, or personal data
 in the repository.
+
+### Form the active thresholds
+
+Before the baseline run, the quality owner approves the relevance floor, the tool owner approves
+the tool-call accuracy and tool-call success floors, and the safety owner approves the safety
+floors. Record those metric-specific floors in `thresholds.yaml`.
+
+After the approved version completes, the control owners set each active blocking threshold from that
+baseline. A
+quality or tool threshold cannot be lower than its owner-approved floor or higher than the approved
+baseline result. Safety floors and thresholds remain `1.00`. If an owner floor is higher than the
+approved baseline result, the bounds conflict. Stop the gate; fix the approved version or change the
+owner-approved floor through the delivery change path. Do not lower a floor to fit a weak baseline.
+
+Record the approved baseline run ID and establishment date in the active threshold policy. The
+release policy, threshold policy, and baseline aggregate must identify the same run.
+
+### Fix the evaluated target and tool boundary
+
+Evaluate two different immutable versions of the same agent in the approved nonproduction Foundry
+project. The stable endpoint stays pinned to the approved version throughout both runs. The runner
+targets the named version directly and does not call the stable selector.
+
+This gate supports tool-process metrics for the approved Function Tool path. Keep the gate disabled
+when a limited-support tool enters that path, including Azure AI Search, Bing Grounding, Bing Custom
+Search, SharePoint Grounding, Code Interpreter, Fabric Data Agent, or Web Search. The tool owner
+must approve compatibility again before tool-process metrics can block a release.
+
+### Check the current regional and evaluator boundary
+
+Before every run, the quality owner checks the current Microsoft support matrix for batch
+evaluation, the selected risk and safety evaluators, and protected-material evaluation. Record this
+same-day manual support check through the release policy; no stable support-discovery API is assumed.
+
+Protected material remains a blocking safety metric in East US 2. If the selected region cannot run
+it, stop. Move the complete gate to East US 2, or have the safety and release owners revise the
+policy through the approved delivery path before another run. For an isolated project, also confirm
+evaluation subnet delegation and the project managed identity's **Foundry User** assignment.
+
+Preview task-adherence, prohibited-action, and sensitive-data-leakage evaluators remain advisory.
+They cannot become the sole blocking control.
+
+### Apply zero-error and exception rules
+
+The gate returns `PASS` for the candidate only when every blocking metric is present, meets its
+active threshold, and has zero evaluator errors. Final-answer quality, tool process, and safety are
+separate blocking layers; a passing result in one layer cannot offset a failure in another.
+
+An exception can address an eligible non-safety quality failure. It must name the failed metric and
+business reason, define a compensating control, name its owner and exception authority, and include
+an expiry. It cannot override a safety or tool-process failure and cannot enable automatic
+promotion.
+
+### Assign the release decision
+
+The quality owner maintains the golden data, evaluator selection, and threshold history. The safety
+owner owns safety coverage, the protected-material region, and preview-evaluator boundaries. The
+tool owner owns Function Tool compatibility and tool-process remediation. The cost owner approves
+evaluation consumption. The release owner records gate state and controls the stable version
+selector.
 
 Stop when an agent version is implicit or mutable, the project or region is outside scope, a preview
 evaluator becomes blocking, a limited-support tool enters the evaluated path, a safety or
@@ -147,8 +208,8 @@ python ./scripts/run-evaluation.py \
 ```
 
 Inspect row-level detail in Foundry. The release owner and control owners set active thresholds from
-the approved result through the delivery change path. Foundry and the release platform retain the
-current baseline run ID and approval.
+the approved result through the delivery change path, following the floor and baseline bounds above.
+Foundry and the release platform retain the current baseline run ID and approval.
 
 ### 4. Run and gate the candidate version
 
@@ -192,12 +253,18 @@ python ./scripts/release-gate.py \
   --expect pass
 ```
 
+`PASS` makes the fixed candidate eligible for the approved delivery path. It does not move the
+stable selector or promote the candidate. `BLOCK` leaves the stable selector on the approved
+version; remediate the failed layer and evaluate a new fixed candidate version.
+
 ## Confirm the result
 
 ### Intended path
 
 Run the gate against the approved aggregate as both inputs. It returns `PASS` when every
-blocking metric is present, has zero errors, and meets its active threshold.
+blocking metric is present, has zero errors, and meets its active threshold. Confirm that the
+result reports separate final-answer quality, tool-process, and safety summaries rather than one
+blended score.
 
 ### Blocked or failure path
 

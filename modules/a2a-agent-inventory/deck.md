@@ -58,13 +58,14 @@ This repository does not hold a second inventory record.
 
 ## Choose a path the runtime supports
 
-| Path | Use it when |
+| Path | Operator action | Expected live state |
 |---|---|
-| Built-in integration | The current agent platform already integrates with Agent 365 |
-| Registry sync | The runtime is on a supported connected platform |
-| Agent 365 SDK | The runtime owner needs code-level Agent 365 capabilities |
+| Built-in integration | The platform operator enables or publishes the existing agent | The in-scope agent appears in Agent Registry through the platform integration |
+| Registry sync | The administrator validates a supported connection and runs sync | The connection has a current result and the in-scope agent appears in Agent Registry |
+| Agent 365 SDK | The runtime owner releases the SDK integration from the product repository | The released integration produces a live record for the in-scope agent |
 
-Stop if none of these paths is available.
+Stop if no path fits the runtime. Choose a built-in or Registry sync route when either meets the
+need.
 
 ---
 
@@ -89,9 +90,10 @@ not create an agent card, upload a Markdown definition, or duplicate ownership a
 ## Preflight safety gates
 
 - An approved A2A agent already runs in the nonproduction scope.
-- The selected integration route is currently supported.
-- The runtime owner controls the source identified by the reference, and it has no embedded credentials.
-- Agent owner and retirement owner are available.
+- `one-approved-a2a-agent` is the approved target scope.
+- The route is `built-in`, `registry-sync`, or `sdk`; Registry sync also names a supported provider.
+- The runtime owner controls the HTTP(S) source reference, and it has no embedded credentials.
+- Agent owner, runtime owner, and retirement owner are available.
 - Agent 365 licensing and administrator access are confirmed.
 
 ---
@@ -104,16 +106,17 @@ not create an agent card, upload a Markdown definition, or duplicate ownership a
 2. Run preflight with the runtime-owned source reference.
 3. Complete the platform or runtime-owned product change.
 4. Open Agent Registry with the administrator.
-5. Confirm the live record, owner, lifecycle state, and retirement path.
+5. Confirm the intended live record, owner, lifecycle state, and retirement path.
 
 ---
 
 ## Confirm the result
 
-The module passes when the live Agent 365 record exists and the owners can maintain and retire it
-through the supported path.
+The module passes when the intended live Agent 365 record matches the selected path and the owners
+can maintain and retire it through that path.
 
-No screenshot, export, or repository record is created.
+Stop for a missing, duplicate, stale, or wrongly owned record. Resolve it through the source
+platform, then repeat the live review. No screenshot, export, or repository record is created.
 
 ---
 
@@ -124,6 +127,9 @@ No screenshot, export, or repository record is created.
 | Runtime owner | A2A definition, agent card, endpoint, and integration source |
 | Agent 365 administrator | Inventory visibility and connected-platform configuration |
 | Agent owner | Lifecycle and retirement decision |
+
+Remove a Registry sync connection only after checking every agent it can affect. SDK changes follow
+the runtime release path; they do not retire the runtime service from this module.
 
 Use the separate API Center discovery add-on when developers need the A2A interface in a catalog.
 

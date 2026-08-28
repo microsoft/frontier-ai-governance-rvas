@@ -395,7 +395,7 @@ confirm the expected result. Do not retain interaction content.
 1. Resolve the coverage, owner, label, source, action, and audit decisions.
 2. Use **Compliance Data Administrator** for label and DLP work, **View-Only Audit Logs** in Purview and Exchange, and **AuditLogsQuery.Read.All** for Microsoft Graph Audit Search.
 3. Run preflight against the approved tenant.
-4. Enable and review native Foundry Purview Data Security. Then update the separate operator and developer DLP handoff.
+4. Confirm the Foundry DLP handoff among the Purview operator, Foundry platform owner, and application developer. Do not configure Foundry DLP in this session.
 5. Confirm the approved label and explicit rights on the synthetic source.
 6. Build the Agent 365 DLP policy for the approved scope in simulation.
 7. Review the matched scope, then enable.

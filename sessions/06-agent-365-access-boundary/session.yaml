@@ -3,7 +3,7 @@ session:
   id: "06"
   slug: "agent-365-access-boundary"
   title: "Microsoft Agent 365 onboarding and access boundaries"
-  duration_minutes: 270
+  duration_minutes: 180
   status: "draft"
   last_verified: "2026-08-28"
   audience:
