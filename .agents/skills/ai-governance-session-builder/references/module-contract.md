@@ -27,6 +27,21 @@ modules/kebab-case-slug/
 
 Modules use the same artifact, script, restore, sourcing, deck, and safety rules as sessions.
 `module.yaml` is the content authority for the kit.
+Use the shared facilitated-duration convention: 30-minute increments covering the briefing,
+customer decisions, guided implementation, observable check, and operating or restore handoff.
+
+### Live-only modules
+
+Use `implementation.live_only: true` only when Microsoft service state is the complete durable
+record and the module must not keep customer-specific definitions, records, or evidence. A
+live-only module still has the participant guide, paired preflight scripts, sources, deck, and a
+live observable check. It uses an empty `deliverables.leave_behind` list and `retained_files: []`.
+Its `implementation/artifacts/README.md` can explain that boundary, but the directory has no
+other files and the participant guide omits the **Implementation files** table.
+
+Every other module keeps the normal artifact and retained-file requirements. Do not label a
+module live-only merely to avoid documenting production configuration or an operational record
+that has a real consumer.
 
 ## Manifest schema
 
@@ -72,6 +87,10 @@ Use three to five outcomes. `related_sessions` provides context and cross-links;
 the module part of the numbered sequence. Follow the session contract's implementation-file value
 test, `retained_files` schema, authoritative-state rule, and limits on platform-enforcement claims.
 
+For a live-only module, add `live_only: true` under `implementation`, set
+`deliverables.leave_behind: []`, and set `retained_files: []`. Do not list a fabricated
+implementation artifact merely to satisfy the normal structure.
+
 ## Participant document
 
 Use the shared chapter order, replacing only the first heading:
@@ -103,10 +122,11 @@ table and one to three official Microsoft links recorded in `module.yaml`. A dia
 optional; when referenced, its editable source, rendered SVG, alt text, and Microsoft icon use
 follow the session contract.
 
-The `### Implementation files` table uses `Type | File | Consumer` and lists every non-README file
-under `implementation/artifacts/` exactly once. It excludes `implementation/scripts/`; show paired
-PowerShell and Bash commands together beside the workflow step that uses them. Type must be
-`Deployment`, `Runtime`, or `Record`, using the definitions in the session contract.
+Unless the module declares `implementation.live_only: true`, the `### Implementation files` table
+uses `Type | File | Consumer` and lists every non-README file under `implementation/artifacts/`
+exactly once. It excludes `implementation/scripts/`; show paired PowerShell and Bash commands
+together beside the workflow step that uses them. Type must be `Deployment`, `Runtime`, or
+`Record`, using the definitions in the session contract.
 
 ## Site boundary
 

@@ -4,7 +4,7 @@ set -euo pipefail
 usage() {
   cat <<'USAGE'
 Usage:
-  query-agent-activity.sh [--start-utc ISO_8601] [--end-utc ISO_8601] [--result-size COUNT]
+  query-agent-activity.sh --agent-instance-id AGENT_ID [--start-utc ISO_8601] [--end-utc ISO_8601] [--result-size COUNT]
 USAGE
 }
 
@@ -52,8 +52,14 @@ query_path="$script_dir/../artifacts/operations/agent-activity-audit-query.json"
 start_utc=""
 end_utc=""
 result_size=1000
+agent_instance_id=""
 while (($# > 0)); do
   case "$1" in
+    --agent-instance-id)
+      [[ $# -ge 2 ]] || fail '--agent-instance-id requires a value.'
+      agent_instance_id=$2
+      shift 2
+      ;;
     --start-utc)
       [[ $# -ge 2 ]] || fail '--start-utc requires a value.'
       start_utc=$2
@@ -79,6 +85,7 @@ while (($# > 0)); do
       ;;
   esac
 done
+[[ -n "$agent_instance_id" ]] || fail '--agent-instance-id is required.'
 [[ "$result_size" =~ ^[0-9]+$ ]] || fail '--result-size must be an integer.'
 (( result_size >= 1 && result_size <= 5000 )) || fail '--result-size must be between 1 and 5000.'
 
@@ -148,13 +155,12 @@ done
 
 graph_request GET "https://graph.microsoft.com/v1.0/security/auditLog/queries/$query_id/records?\$top=$result_size" "$graph_token"
 [[ "$GRAPH_STATUS" == '200' ]] || fail 'Retrieving unified audit log records failed.'
-python3 - "$GRAPH_BODY" "$query_path" <<'PY'
+python3 - "$GRAPH_BODY" "$agent_instance_id" <<'PY'
 import json
 import sys
 from datetime import datetime
 records = json.loads(sys.argv[1]).get('value', [])
-query = json.load(open(sys.argv[2], encoding='utf-8'))
-agent_instance_id = str(query['agentInstanceId'])
+agent_instance_id = sys.argv[2]
 rows = []
 for record in records:
     audit_data = record.get('auditData') or {}

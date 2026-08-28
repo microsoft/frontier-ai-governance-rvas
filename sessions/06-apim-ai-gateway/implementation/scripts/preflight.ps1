@@ -102,6 +102,10 @@ if ([string]$control.api.operationPath -ne "/responses" -or
     $null -eq $openApi.paths."/responses".post) {
     throw "Session 06 must expose one POST /responses operation."
 }
+$includeUsage = $openApi.components.schemas.ResponseRequest.properties.stream_options.properties.include_usage
+if ($null -eq $includeUsage -or [string]$includeUsage.type -ne "boolean") {
+    throw "The Responses contract must document stream_options.include_usage for streaming token metrics."
+}
 if (-not [bool]$control.product.subscriptionRequired) {
     throw "The governed product must require an APIM subscription."
 }

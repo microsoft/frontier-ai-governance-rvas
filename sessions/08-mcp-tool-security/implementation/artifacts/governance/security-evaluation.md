@@ -1,11 +1,19 @@
-# Security evaluation
+# Security evaluation runbook
 
-Use this record for the Session 08 Microsoft Foundry candidate-version security checks.
+Use this runbook for the Session 08 Microsoft Foundry candidate-version security checks. Foundry
+retains the candidate version and the observed results; this file defines the recurring checks.
 
-| Field | Decision |
+## Lifecycle
+
+| Field | Operating value |
 |---|---|
-| Security owner | `__REQUIRED_SECURITY_OWNER__` |
-| Execution surface | Microsoft Foundry candidate-version test surface |
+| Update owner | `__REQUIRED_SECURITY_OWNER__` |
+| Review cadence | Before every candidate enablement and within five business days of a tool, identity, model, instruction, backend, or approval change |
+| Consumer | `__REQUIRED_RELEASE_OWNER__` uses the observed checks to decide whether to pin the candidate version |
+
+## Execution surface
+
+Microsoft Foundry candidate-version test surface.
 
 ## Rerun triggers
 

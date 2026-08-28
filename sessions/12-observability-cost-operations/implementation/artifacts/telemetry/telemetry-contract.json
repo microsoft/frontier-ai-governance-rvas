@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "13",
+  "implementationSession": "12",
   "serviceName": "__REQUIRED_SERVICE_NAME__",
   "environment": "nonproduction",
   "propagation": {

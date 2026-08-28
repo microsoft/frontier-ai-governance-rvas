@@ -4,6 +4,14 @@ This record keeps the routing decision for the Session 06 APIM gateway. APIM rem
 for the live backend pool and policy. This file records the owner-approved routing boundary that the
 deployment must preserve.
 
+## Lifecycle
+
+| Field | Operating value |
+|---|---|
+| Update owner | `__REQUIRED_PLATFORM_OWNER__` |
+| Review cadence | Every 90 days and before enabling, disabling, or replacing a secondary backend |
+| Consumer | The API product owner uses it to approve routing changes; the platform owner applies those changes through `gateway-control.json` and the Session 06 deployment path |
+
 | Field | Decision |
 |---|---|
 | Routing owner | `__REQUIRED_PLATFORM_OWNER__` |
@@ -49,3 +57,16 @@ separate preview adoption decision.
 
 APIM token counters are gateway-local. For multi-region routing, the API product owner splits the
 approved workload allowance by region in Session 14 rather than assuming one shared global counter.
+
+## Streaming token accounting
+
+Streaming clients set `stream_options.include_usage` to `true`. The token metric policy uses
+reported usage when the response includes it, but an interrupted stream can leave that metric
+incomplete. The token-limit policy estimates prompt and completion tokens for streaming calls.
+
+These values are operational estimates for limits and monitoring. Azure Cost Management and the
+issued invoice remain the billing records.
+
+Keep `llm-emit-token-metric` before `set-backend-service` in this policy. The emitted dimensions are
+API, product, and subscription, so moving the policy would add no useful attribution to a specific
+member of the backend pool.

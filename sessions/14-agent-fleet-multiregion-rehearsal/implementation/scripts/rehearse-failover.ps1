@@ -6,16 +6,15 @@ param(
 
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string]$ChangeRecordId
+    [string]$ChangeRecordId,
+
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [string]$RuntimeDirectory
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
-
-$sessionRoot = Resolve-Path (Join-Path $PSScriptRoot "..\..")
-$repoRoot = Resolve-Path (Join-Path $sessionRoot "..\..")
-$controlPath = Join-Path $sessionRoot "implementation\artifacts\control-definition.json"
-$preflightPath = Join-Path $PSScriptRoot "preflight.ps1"
 
 function Resolve-RepoFile {
     param([Parameter(Mandatory)][string]$RelativePath)
@@ -59,6 +58,23 @@ function Read-HealthResult {
     }
 }
 
+$sessionRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
+$repoRoot = (Resolve-Path (Join-Path $sessionRoot "..\..")).Path
+$controlPath = Join-Path $sessionRoot "implementation\artifacts\control-definition.json"
+$preflightPath = Join-Path $PSScriptRoot "preflight.ps1"
+
+if ($ApprovedScope -notmatch '^/subscriptions/[0-9a-fA-F-]{36}/resourceGroups/[^/]+$') {
+    throw "Approved scope must be an exact Azure resource-group resource ID."
+}
+if (-not (Test-Path -LiteralPath $RuntimeDirectory -PathType Container)) {
+    throw "Runtime directory must already exist."
+}
+$runtimePath = (Resolve-Path -LiteralPath $RuntimeDirectory).Path
+$repoPrefix = "$([System.IO.Path]::GetFullPath($repoRoot))$([System.IO.Path]::DirectorySeparatorChar)"
+if ($runtimePath -eq $repoRoot -or $runtimePath.StartsWith($repoPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+    throw "Runtime directory must be outside the repository."
+}
+
 & $preflightPath -Phase Ready -ApprovedScope $ApprovedScope
 if (-not $?) {
     throw "Ready preflight failed."
@@ -87,63 +103,37 @@ if ([string]::IsNullOrWhiteSpace([string]$regional.primarySelector) -or
 
 $healthScript = Resolve-RepoFile ([string]$control.sourcePaths.healthCheckPowerShell)
 $routingScript = Resolve-RepoFile ([string]$control.sourcePaths.routingControlPowerShell)
-$secondaryReadinessPath = Join-Path ([System.IO.Path]::GetTempPath()) "s14-secondary-ready-$PID.json"
-$secondaryActivePath = Join-Path ([System.IO.Path]::GetTempPath()) "s14-secondary-active-$PID.json"
+$secondaryReadinessPath = Join-Path $runtimePath "s14-secondary-ready-$PID.json"
+$secondaryActivePath = Join-Path $runtimePath "s14-secondary-active-$PID.json"
 
 try {
-    & $healthScript `
-        -Mode Readiness `
-        -Region ([string]$regional.secondaryRegion) `
-        -ResultPath $secondaryReadinessPath
-    if (-not $?) {
-        throw "Secondary readiness check failed."
-    }
-    Read-HealthResult `
-        -Path $secondaryReadinessPath `
-        -ExpectedStatus "ready" `
-        -ExpectedRegion ([string]$regional.secondaryRegion) `
-        -Regional $regional
+    & $healthScript -Mode Readiness -Region ([string]$regional.secondaryRegion) -ResultPath $secondaryReadinessPath
+    if (-not $?) { throw "Secondary readiness check failed." }
+    Read-HealthResult -Path $secondaryReadinessPath -ExpectedStatus "ready" `
+        -ExpectedRegion ([string]$regional.secondaryRegion) -Regional $regional
 
-    & $routingScript `
-        -Mode Preview `
-        -FromSelector ([string]$regional.primarySelector) `
-        -ToSelector ([string]$regional.secondarySelector) `
-        -ApprovedScope $ApprovedScope `
+    & $routingScript -Mode Preview -FromSelector ([string]$regional.primarySelector) `
+        -ToSelector ([string]$regional.secondarySelector) -ApprovedScope $ApprovedScope `
         -ChangeRecordId $ChangeRecordId
-    if (-not $?) {
-        throw "Customer routing preview failed."
-    }
+    if (-not $?) { throw "Customer routing preview failed." }
 
     $target = "$([string]$regional.secondarySelector) in $([string]$regional.secondaryRegion)"
     if (-not $PSCmdlet.ShouldProcess($target, "Move the governed agent traffic selector")) {
         return
     }
 
-    & $routingScript `
-        -Mode Failover `
-        -FromSelector ([string]$regional.primarySelector) `
-        -ToSelector ([string]$regional.secondarySelector) `
-        -ApprovedScope $ApprovedScope `
+    & $routingScript -Mode Failover -FromSelector ([string]$regional.primarySelector) `
+        -ToSelector ([string]$regional.secondarySelector) -ApprovedScope $ApprovedScope `
         -ChangeRecordId $ChangeRecordId
-    if (-not $?) {
-        throw "Customer routing failover failed. Use the approved routing restore path if traffic moved partially."
-    }
+    if (-not $?) { throw "Customer routing failover failed. Use the approved routing restore path if traffic moved partially." }
 
-    & $healthScript `
-        -Mode Active `
-        -Region ([string]$regional.secondaryRegion) `
-        -ResultPath $secondaryActivePath
-    if (-not $?) {
-        throw "Secondary active-path check failed. Use the approved routing restore path."
-    }
-    Read-HealthResult `
-        -Path $secondaryActivePath `
-        -ExpectedStatus "active" `
-        -ExpectedRegion ([string]$regional.secondaryRegion) `
-        -Regional $regional
+    & $healthScript -Mode Active -Region ([string]$regional.secondaryRegion) -ResultPath $secondaryActivePath
+    if (-not $?) { throw "Secondary active-path check failed. Use the approved routing restore path." }
+    Read-HealthResult -Path $secondaryActivePath -ExpectedStatus "active" `
+        -ExpectedRegion ([string]$regional.secondaryRegion) -Regional $regional
 
     Write-Host "PASS: the governed agent is active through the secondary selector with the expected identity, policy, version, and trace."
-    Write-Host "Save the runtime result only in: $([string]$control.records.approvedOperationalStore)"
+    Write-Host "Record the result in customer change record $ChangeRecordId."
 }
 finally {
     Remove-Item -LiteralPath $secondaryReadinessPath -Force -ErrorAction SilentlyContinue

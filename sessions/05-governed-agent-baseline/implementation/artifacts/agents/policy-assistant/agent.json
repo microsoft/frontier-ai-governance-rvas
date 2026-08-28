@@ -6,57 +6,8 @@
   "agentName": "__REQUIRED_AGENT_NAME__",
   "modelDeploymentName": "__REQUIRED_MODEL_DEPLOYMENT_NAME__",
   "raiPolicyName": "__REQUIRED_RAI_POLICY_NAME__",
-  "raiPolicyReview": {
-    "safetyOwner": "__REQUIRED_SAFETY_OWNER_ROLE__",
-    "reviewedOn": "__REQUIRED_RAI_POLICY_REVIEW_DATE__",
-    "minimumFilters": [
-      {
-        "category": "hate",
-        "inputBlockedAtOrAbove": "__REQUIRED_HATE_INPUT_MINIMUM_SEVERITY__",
-        "outputBlockedAtOrAbove": "__REQUIRED_HATE_OUTPUT_MINIMUM_SEVERITY__"
-      },
-      {
-        "category": "sexual",
-        "inputBlockedAtOrAbove": "__REQUIRED_SEXUAL_INPUT_MINIMUM_SEVERITY__",
-        "outputBlockedAtOrAbove": "__REQUIRED_SEXUAL_OUTPUT_MINIMUM_SEVERITY__"
-      },
-      {
-        "category": "violence",
-        "inputBlockedAtOrAbove": "__REQUIRED_VIOLENCE_INPUT_MINIMUM_SEVERITY__",
-        "outputBlockedAtOrAbove": "__REQUIRED_VIOLENCE_OUTPUT_MINIMUM_SEVERITY__"
-      },
-      {
-        "category": "self_harm",
-        "inputBlockedAtOrAbove": "__REQUIRED_SELF_HARM_INPUT_MINIMUM_SEVERITY__",
-        "outputBlockedAtOrAbove": "__REQUIRED_SELF_HARM_OUTPUT_MINIMUM_SEVERITY__"
-      }
-    ],
-    "namedPolicyFilters": [
-      {
-        "category": "hate",
-        "inputBlockedAtOrAbove": "__REQUIRED_HATE_POLICY_INPUT_SEVERITY__",
-        "outputBlockedAtOrAbove": "__REQUIRED_HATE_POLICY_OUTPUT_SEVERITY__"
-      },
-      {
-        "category": "sexual",
-        "inputBlockedAtOrAbove": "__REQUIRED_SEXUAL_POLICY_INPUT_SEVERITY__",
-        "outputBlockedAtOrAbove": "__REQUIRED_SEXUAL_POLICY_OUTPUT_SEVERITY__"
-      },
-      {
-        "category": "violence",
-        "inputBlockedAtOrAbove": "__REQUIRED_VIOLENCE_POLICY_INPUT_SEVERITY__",
-        "outputBlockedAtOrAbove": "__REQUIRED_VIOLENCE_POLICY_OUTPUT_SEVERITY__"
-      },
-      {
-        "category": "self_harm",
-        "inputBlockedAtOrAbove": "__REQUIRED_SELF_HARM_POLICY_INPUT_SEVERITY__",
-        "outputBlockedAtOrAbove": "__REQUIRED_SELF_HARM_POLICY_OUTPUT_SEVERITY__"
-      }
-    ]
-  },
   "instructionsFile": "instructions.md",
   "toolManifestFile": "tool-manifest.json",
-  "prohibitedActionsFile": "prohibited-actions.json",
   "temperature": 0.2,
   "endpoint": {
     "versionSelection": "pinned",
@@ -66,6 +17,5 @@
     "authorizationSchemes": [
       "Entra"
     ]
-  },
-  "owner": "__REQUIRED_AGENT_OWNER__"
+  }
 }

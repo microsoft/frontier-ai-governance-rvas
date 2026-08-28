@@ -64,18 +64,12 @@ api_request() {
   fi
 }
 
-sha256_lower() {
-  sha256sum "$1" | awk '{print tolower($1)}'
-}
-
 script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 artifact_root=$(cd -- "$script_dir/../artifacts" && pwd)
 agent_root="$artifact_root/agents/policy-assistant"
 config_path="$agent_root/agent.json"
 instructions_path="$agent_root/instructions.md"
 tool_path="$agent_root/tool-manifest.json"
-policy_path="$agent_root/prohibited-actions.json"
-release_operations_path="$artifact_root/operations/release-operations.json"
 approved_subscription_id=""
 resource_group_name=""
 foundry_account_name=""
@@ -130,7 +124,7 @@ require_command curl
 require_command jq
 require_command python3
 
-for path in "$artifact_root" "$config_path" "$instructions_path" "$tool_path" "$policy_path"; do
+for path in "$artifact_root" "$config_path" "$instructions_path" "$tool_path"; do
   [[ -e "$path" ]] || fail "Required implementation file is missing: $path"
 done
 
@@ -158,15 +152,6 @@ model_deployment_name=$(jq -r '.modelDeploymentName' "$config_path")
 rai_policy_name=$(jq -r '.raiPolicyName' "$config_path")
 temperature=$(jq -r '.temperature' "$config_path")
 instructions=$(cat "$instructions_path")
-prohibited_action=$(jq -r '.actions[0].action' "$policy_path")
-human_route=$(jq -r '.actions[0].humanChangeRoute' "$policy_path")
-runtime_instructions="$instructions
-
-## Customer decision for this implementation
-
-The explicitly prohibited write action is: $prohibited_action.
-Route legitimate change requests to: $human_route.
-"
 
 tool_runtime_path="$temp_dir/tool-runtime.json"
 jq --arg url "${read_api_base_url%/}" '.tools[0] | .openapi.spec.servers[0].url = $url' "$tool_path" > "$tool_runtime_path"
@@ -174,7 +159,7 @@ create_body="$temp_dir/create-body.json"
 jq -n \
   --arg name "$agent_name" \
   --arg model "$model_deployment_name" \
-  --arg instructions "$runtime_instructions" \
+  --arg instructions "$instructions" \
   --arg rai "$rai_policy_name" \
   --argjson temperature "$temperature" \
   --slurpfile tool "$tool_runtime_path" \
@@ -211,17 +196,5 @@ api_request PATCH "$agent_uri" "$token" "$patch_body"
 [[ "$API_STATUS" == '200' ]] || fail "Foundry agent endpoint configuration failed."
 principal_id=$(jq -r '.instance_identity.principal_id // empty' "$API_BODY_FILE")
 [[ -n "$principal_id" ]] || fail "The created agent does not expose a unique Entra Agent Identity."
-
-jq \
-  --arg session "05-governed-agent-baseline" \
-  --arg agent_name "$agent_name" \
-  --arg active_version "$created_version" \
-  --arg model_deployment_name "$model_deployment_name" \
-  --arg instructions_hash "$(sha256_lower "$instructions_path")" \
-  --arg tool_hash "$(sha256_lower "$tool_path")" \
-  --arg prohibited_hash "$(sha256_lower "$policy_path")" \
-  --arg deployed_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-  '.release = {agentName:$agent_name, activeVersion:$active_version, modelDeploymentName:$model_deployment_name, versionSelection:"pinned", instructionsSha256:$instructions_hash, toolManifestSha256:$tool_hash, prohibitedActionsSha256:$prohibited_hash, deployedAtUtc:$deployed_at, status:"deployed"}' "$release_operations_path" > "$temp_dir/release-operations.json"
-mv "$temp_dir/release-operations.json" "$release_operations_path"
 
 echo "PASS: Created agent version $created_version, pinned the stable Responses endpoint, enforced Entra authorization, and confirmed a unique agent identity."

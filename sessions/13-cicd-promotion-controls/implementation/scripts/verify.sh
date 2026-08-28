@@ -75,7 +75,6 @@ validator_path="$artifact_root/pipeline/validate-release.sh"
 temp_dir="$(mktemp -d)"
 run_json="$temp_dir/run.json"
 jobs_json="$temp_dir/jobs.json"
-artifacts_json="$temp_dir/artifacts.json"
 trap 'rm -rf "$temp_dir"' EXIT
 
 check=''
@@ -132,11 +131,7 @@ fi
 
 gh api "repos/$repository/actions/runs/$promotion_run_id" >"$run_json"
 gh api "repos/$repository/actions/runs/$promotion_run_id/jobs?per_page=100" >"$jobs_json"
-if [[ "$check" == 'intended' ]]; then
-  gh api "repos/$repository/actions/runs/$promotion_run_id/artifacts?per_page=100" >"$artifacts_json"
-fi
-
-python - "$check" "$run_json" "$jobs_json" "$artifacts_json" "$workflow_path" "$release_sha" <<'PY'
+python - "$check" "$run_json" "$jobs_json" "$workflow_path" "$release_sha" <<'PY'
 import json
 import sys
 from pathlib import Path
@@ -144,9 +139,8 @@ from pathlib import Path
 check = sys.argv[1]
 run = json.loads(Path(sys.argv[2]).read_text())
 jobs = json.loads(Path(sys.argv[3]).read_text()).get('jobs', [])
-artifacts_path = Path(sys.argv[4])
-workflow_path = sys.argv[5]
-release_sha = sys.argv[6]
+workflow_path = sys.argv[4]
+release_sha = sys.argv[5]
 
 validation_name = (
     'Validate release and gate evaluation (candidate)'
@@ -168,13 +162,12 @@ if run.get('path') != workflow_path or run.get('display_title') != expected_run_
 if check == 'intended':
     if run.get('status') != 'completed' or run.get('conclusion') != 'success':
         raise SystemExit('The intended workflow run did not complete successfully.')
+    gate_step = next((step for step in validation_job.get('steps', []) if step.get('name') == 'Apply evaluation and adversarial gates before deployment'), None)
+    if gate_step is None or gate_step.get('conclusion') != 'success':
+        raise SystemExit('The intended workflow did not complete the external evaluation and security gate step.')
     if any(job is None or job.get('conclusion') != 'success' for job in (validation_job, nonproduction_preview_job, nonproduction_job, production_preview_job, production_job)):
         raise SystemExit('The intended workflow run did not complete the nonproduction gate successfully.')
-    artifacts = json.loads(artifacts_path.read_text()).get('artifacts', [])
-    manifest = next((artifact for artifact in artifacts if artifact.get('name') == 'release-manifest' and artifact.get('expired') is not True), None)
-    if manifest is None:
-        raise SystemExit('The intended workflow run has no release-manifest artifact.')
-    print('PASS: the immutable release passed nonproduction and protected production, and the linked manifest remains in operation.')
+    print('PASS: the immutable release passed temporary external evaluation and security gates, nonproduction, and protected production. GitHub retains workflow and deployment metadata; the approved release store retains the restore record.')
 else:
     if validation_job is None:
         raise SystemExit('The blocked workflow run does not identify the generated Session 10 self-test input.')

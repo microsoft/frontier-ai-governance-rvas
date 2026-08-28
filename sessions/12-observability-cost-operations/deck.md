@@ -14,7 +14,7 @@ html: true
 
 # Observability, cost, and operational controls
 
-**270 minutes - Trace one request, route alerts, and assign cost**
+**240 minutes - Trace one request, route alerts, and assign cost**
 
 <!-- Notes: Session 11 connected red-team behavior to detection. This session adds the operating views, routes, and cost controls for one service. -->
 
@@ -54,7 +54,7 @@ Cost tags and budget notifications give the cost owner a delayed billing view. T
 2. Deploy a shared workbook and three alert rules with owned routes.
 3. Keep limited token metrics and low-cardinality allocation tags.
 4. Deploy budget notifications that do not stop resources.
-5. Operate four incident paths listed in the runbook and a payload-free smoke review record for Session 12.
+5. Operate four incident paths listed in the runbook and run the release smoke check from the Session 13 GitHub promotion workflow.
 
 <!-- Notes: Standard mode ends with one composite visible check. -->
 
@@ -91,7 +91,7 @@ Runtime spans share approved context. Cost, evaluation, and security records sta
 
 ![One approved synthetic request carries trace context through API Management, agent, model, and tool spans. Application Insights feeds workbooks and alerts. Evaluation records keep their own owner path, as do security and cost records.](assets/diagrams/operational-correlation-flow.svg)
 
-<!-- Notes: Treat the request as the spine of the operating view. W3C trace context links the gateway, agent, model, and tool spans, and each span keeps its own result. This lets an operator locate the failing hop. Application Insights owns runtime telemetry. Cost, evaluation, and security records remain in their source systems. Session 13 receives only the payload-free smoke result. -->
+<!-- Notes: Treat the request as the spine of the operating view. W3C trace context links the gateway, agent, model, and tool spans, and each span keeps its own result. This lets an operator locate the failing hop. Application Insights owns runtime telemetry. Cost, evaluation, and security records remain in their source systems. The Session 13 GitHub workflow uses its temporary smoke output. -->
 
 ---
 
@@ -99,7 +99,7 @@ Runtime spans share approved context. Cost, evaluation, and security records sta
 
 One request keeps the same W3C trace identifier through API Management, the agent, the model, and
 the tool. Application Insights joins those runtime spans. Cost, evaluation, and security records
-stay with their own systems, and Session 13 receives only the payload-free smoke result.
+stay with their own systems, and the Session 13 GitHub workflow consumes its temporary smoke result.
 
 ---
 
@@ -255,6 +255,9 @@ Use baseline-derived thresholds, evaluation windows, and an approved action grou
 
 `llm-emit-token-metric` supports at most five custom dimensions.
 
+API Management tracks at most **100 unique values per dimension** and **1,000 active time series
+per metric namespace**. New values or series beyond either limit are silently discarded.
+
 ### Approved
 
 environment · service · model deployment · agent version · tool name
@@ -263,7 +266,7 @@ environment · service · model deployment · agent version · tool name
 
 user · email · request ID · correlation ID · prompt · response · free text
 
-Interrupted streams and model behavior can make token counts incomplete.
+Interrupted streams and model behavior can also make token counts incomplete.
 
 <!-- Notes: High-cardinality labels silently destroy both reliability and cost control. -->
 
@@ -277,7 +280,7 @@ APIM token metrics provide near-real-time usage signals for routing, anomaly det
 
 ### Billing clock
 
-Cost Management data typically arrives **8-24 hours later** and remains the source for billed cost.
+Cost Management data typically arrives **8-24 hours later**. Its billed cost is authoritative.
 
 ### Budget behavior
 
@@ -374,9 +377,10 @@ The check must show:
 - successful model and tool dependencies for the normal operation;
 - a failed tool dependency and independent successful model result for the failure operation;
 - expected operational, token, and quality fields; and
-- no fixed marker in request, dependency, event, trace, exception, or custom-property data.
+- no run-specific probe marker in request, dependency, event, trace, exception, or custom-property data.
 
-The JSON result is payload-free and can be consumed unchanged by Session 13.
+The JSON result is payload-free, stays in the GitHub runner's temporary workspace, and is consumed
+unchanged by Session 13.
 
 Stop on a missing hop, collapsed failure boundary, commit mismatch, or sensitive content.
 
@@ -432,7 +436,7 @@ Stop immediately for:
 1. Route to the last approved application version.
 2. Restore the previous APIM policy through the [Session 06](../06-apim-ai-gateway/) path.
 3. Disable only noisy Session 12 alerts while correcting them.
-4. Remove only approved resources tagged `implementationSession=13`.
+4. Remove only approved resources tagged `implementationSession=12`.
 5. Delete the Session 12 budget only with cost-owner approval.
 6. Preserve records required by an active incident or retention decision.
 
@@ -450,7 +454,7 @@ Do not disable monitoring or defense to silence a real signal.
 - Low-cardinality token allocation
 - Budget notification, not automatic shutdown
 - Four owned incident paths
-- One paired payload-free smoke contract for Session 12
+- One paired release smoke check with no retained Session 12 output
 
 <!-- Notes: The implementation definitions cover logs, alert routing, cost allocation, and incident response. -->
 

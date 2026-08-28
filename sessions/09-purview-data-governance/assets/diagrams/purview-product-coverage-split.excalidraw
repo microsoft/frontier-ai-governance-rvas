@@ -479,13 +479,13 @@
       "boundElements": null,
       "link": null,
       "locked": false,
-      "text": "Current DLP path\nSupported sensitive-information-type prompts\nApp supplies user context",
+      "text": "Foundry DLP path\nApp-scoped DLP rule\nGraph processContent + user context",
       "fontSize": 16,
       "fontFamily": 3,
       "textAlign": "center",
       "verticalAlign": "middle",
       "containerId": null,
-      "originalText": "Current DLP path\nSupported sensitive-information-type prompts\nApp supplies user context",
+      "originalText": "Foundry DLP path\nApp-scoped DLP rule\nGraph processContent + user context",
       "lineHeight": 1.25
     },
     {
@@ -549,13 +549,13 @@
       "boundElements": null,
       "link": null,
       "locked": false,
-      "text": "Manual checks: enablement route and pay-as-you-go\npolicy billing\nAudit coverage and application user context\nPolicy support for the chosen Foundry call path",
+      "text": "Separate owners: Purview operator + app developer\nNative Audit/DSPM enablement and pay-as-you-go\nClassic collection-policy coverage check",
       "fontSize": 15,
       "fontFamily": 3,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "Manual checks: enablement route and pay-as-you-go\npolicy billing\nAudit coverage and application user context\nPolicy support for the chosen Foundry call path",
+      "originalText": "Separate owners: Purview operator + app developer\nNative Audit/DSPM enablement and pay-as-you-go\nClassic collection-policy coverage check",
       "lineHeight": 1.25
     },
     {
@@ -671,13 +671,13 @@
       "boundElements": null,
       "link": null,
       "locked": false,
-      "text": "DSPM / AI observability\nreviewed per product scope",
+      "text": "Current DSPM: Agent 365\nClassic: Foundry collection check",
       "fontSize": 17,
       "fontFamily": 3,
       "textAlign": "center",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "DSPM / AI observability\nreviewed per product scope",
+      "originalText": "Current DSPM: Agent 365\nClassic: Foundry collection check",
       "lineHeight": 1.25
     },
     {

@@ -17,11 +17,11 @@ script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 environment_path="$script_dir/../artifacts/environments/sandbox.json"
 bicep_path="$script_dir/../artifacts/api-center/main.bicep"
 openapi_path="$script_dir/../artifacts/catalog/specs/policy-assistant-agent.openapi.json"
-agent_record_path="$script_dir/../artifacts/catalog/catalog-records.json"
+agent_definition_path="$script_dir/../artifacts/api-center/agent-api-definition.json"
 [[ -f "$environment_path" ]] || fail "Required implementation file is missing: $environment_path"
 [[ -f "$bicep_path" ]] || fail "Required implementation file is missing: $bicep_path"
 [[ -f "$openapi_path" ]] || fail "Required implementation file is missing: $openapi_path"
-[[ -f "$agent_record_path" ]] || fail "Required implementation file is missing: $agent_record_path"
+[[ -f "$agent_definition_path" ]] || fail "Required implementation file is missing: $agent_definition_path"
 
 approved_subscription_id=""
 session05_agent_base_url=""
@@ -78,9 +78,9 @@ specification='{"name":"openapi","version":"3.0.3"}'
 import_output=$(az apic api definition import-specification \
   --resource-group "$(jq -r '.resourceGroupName' <<<"$environment_json")" \
   --service-name "$(jq -r '.apiCenterName' <<<"$environment_json")" \
-  --api-id "$(jq -r '.records.agent.apiId' "$agent_record_path")" \
-  --version-id "$(jq -r '.records.agent.versionId' "$agent_record_path")" \
-  --definition-id "$(jq -r '.records.agent.definitionId' "$agent_record_path")" \
+  --api-id "$(jq -r '.api.apiId' "$agent_definition_path")" \
+  --version-id "$(jq -r '.api.versionId' "$agent_definition_path")" \
+  --definition-id "$(jq -r '.api.definitionId' "$agent_definition_path")" \
   --format inline \
   --value @"$openapi_path" \
   --specification "$specification" \
@@ -109,4 +109,4 @@ echo "API Center: $(jq -r '.properties.outputs.apiCenterId.value // empty' <<<"$
 echo 'APIM synchronization can take up to 24 hours.'
 echo "Confirm the current '$(jq -r '.apiCenterPlan' <<<"$environment_json")' plan in the API Center portal; the stable 2024-03-01 Bicep service resource does not expose plan selection."
 echo 'Register the registered remote MCP server through the current native API Center portal flow, using only the supplied runtime URL.'
-echo 'After synchronization and MCP registration, run reconcile-inventory.sh and check-inventory.sh.'
+echo 'After synchronization and MCP registration, run check-inventory.sh with the portal MCP title.'

@@ -15,7 +15,10 @@
         "capacity": "__REQUIRED_DEPLOYMENT_CAPACITY_REPLACE_WITH_JSON_INTEGER__"
       },
       "raiPolicyName": "__REQUIRED_RAI_POLICY_NAME__",
-      "versionUpgradeOption": "NoAutoUpgrade"
+      "versionUpgradeOption": "NoAutoUpgrade",
+      "processingLocationRequirement": "__REQUIRED_PROCESSING_LOCATION_REQUIREMENT__",
+      "reviewBy": "__REQUIRED_REVIEW_DATE__",
+      "minimumUnusedQuotaPercent": "__REQUIRED_MINIMUM_UNUSED_QUOTA_PERCENT_REPLACE_WITH_JSON_INTEGER__"
     }
   ]
 }

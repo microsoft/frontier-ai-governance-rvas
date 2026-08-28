@@ -12,6 +12,8 @@ param(
     [ValidateNotNullOrEmpty()]
     [string]$DeploymentLocation,
 
+    [switch]$ConfirmInheritedPolicyReview,
+
     [Parameter()]
     [string]$ArtifactsPath
 )
@@ -34,13 +36,11 @@ if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
 $requiredFiles = @(
     "infra\foundry\main.bicep"
     "environments\sandbox.bicepparam"
-    "decisions\resource-model.md"
     "policy\initiative.bicep"
     "policy\assignment.bicep"
     "policy\guardrail-settings.json"
     "environments\initiative.bicepparam"
     "environments\policy-assignment.bicepparam"
-    "governance\change-reference.md"
 )
 $requiredSentinels = @(
     "__REQUIRED_AZURE_REGION__"
@@ -51,13 +51,8 @@ $requiredSentinels = @(
     "__REQUIRED_CRITICALITY__"
     "__REQUIRED_COST_CENTER__"
     "__REQUIRED_EXPIRY_DATE__"
-    "__REQUIRED_RESOURCE_MODEL_DECISION__"
-    "__REQUIRED_CUSTOMER_SYSTEM_REFERENCE__"
     "__REQUIRED_PRIMARY_REGION__"
     "__REQUIRED_SECONDARY_REGION__"
-    "__REQUIRED_CHANGE_REFERENCE__"
-    "__REQUIRED_POLICY_OWNER__"
-    "__REQUIRED_RISK_REFERENCE_OR_NONE__"
 )
 
 foreach ($relative in $requiredFiles) {
@@ -155,6 +150,38 @@ if ([string]$targetGroup.marker -ne $implementationSession) {
     throw "Resource group '$ResourceGroupName' must have implementationSession=$implementationSession."
 }
 
+$policyAssignmentsRaw = & az policy assignment list `
+    --scope $targetGroup.id `
+    --disable-scope-strict-match true `
+    --query "[].{name:name,displayName:displayName,scope:scope,enforcementMode:enforcementMode,policyDefinitionId:policyDefinitionId}" `
+    --only-show-errors `
+    --output json 2>&1
+if ($LASTEXITCODE -ne 0) {
+    throw "Applicable policy-assignment lookup failed.`n$($policyAssignmentsRaw | Out-String)"
+}
+$policyAssignments = @(($policyAssignmentsRaw | Out-String) | ConvertFrom-Json -ErrorAction Stop)
+$inheritedAssignments = @(
+    $policyAssignments | Where-Object {
+        $assignmentScope = ([string]$_.scope).TrimEnd("/")
+        -not [string]::IsNullOrWhiteSpace($assignmentScope) -and
+        -not $assignmentScope.Equals([string]$targetGroup.id, [System.StringComparison]::OrdinalIgnoreCase) -and
+        -not ($assignmentScope.StartsWith(
+            "$([string]$targetGroup.id)/",
+            [System.StringComparison]::OrdinalIgnoreCase
+        ))
+    }
+)
+if ($inheritedAssignments.Count -gt 0) {
+    Write-Host "Inherited policy assignments:"
+    $inheritedAssignments |
+        Select-Object displayName, name, scope, enforcementMode, policyDefinitionId |
+        Format-Table -AutoSize |
+        Out-Host
+    if (-not $ConfirmInheritedPolicyReview) {
+        throw "Inherited policy assignments apply to the sandbox resource group. Review their effects and exemptions with the cloud platform owner, then rerun with -ConfirmInheritedPolicyReview."
+    }
+}
+
 $providers = @(
     "Microsoft.CognitiveServices"
     "Microsoft.Insights"
@@ -243,4 +270,4 @@ else {
 }
 
 Write-Host ""
-Write-Host "READY: tools, files, decisions, approved sandbox subscription and resource group, provider registrations, and every available deployment preview are ready."
+Write-Host "READY: tools, files, decisions, approved sandbox subscription and resource group, inherited-policy review, provider registrations, and every available deployment preview are ready."

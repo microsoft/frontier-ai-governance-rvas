@@ -29,7 +29,7 @@ html: true
 - Which release is moving?
 - Which gates can stop it?
 - Who may release it to production?
-- How does traffic return to the previous release listed in the release record?
+- How does traffic return to a selected approved release?
 
 <!-- Notes: The unit is a linked release, not a collection of independently mutable settings. -->
 
@@ -50,8 +50,8 @@ The protected workflow keeps that relationship easy to inspect. It also stops Se
 1. Bind one fixed release to the protected `release_sha`.
 2. Make Azure deployment depend on the Session 10 gate and the other approved release checks.
 3. Require protected nonproduction and production approvals after their what-if previews.
-4. Bind both deployments, routing, and the approved manifest to the same SHA.
-5. Confirm the allowed path, blocked path, and previous-release restore reference.
+4. Bind both deployments, routing, and the approved release record to the same SHA.
+5. Confirm the allowed path, blocked path, and manual restore reference.
 
 <!-- Notes: Extended mode is deliberate because both paths protect the production checkpoint. -->
 
@@ -65,8 +65,8 @@ Each substitute needs live state, an owner, and the result shown here.
 |---|---|---|
 | Fixed agent | Commit-bound prompt, agent, model alias, Bicep parameters | Platform owner deploys the approved release to nonproduction |
 | Gateway | Versioned APIM policy, stable and candidate selectors, restore path | Gateway owner previews only the selectors in the routing contract and restores the previous one |
-| Evaluation | Definition, active thresholds, enabled release policy, baseline, candidate, generated self-test | Quality owner sees the matching candidate pass and the tool-process self-test return BLOCK |
-| Red-team | Confirmed before/after report for the same agent and fixed version | Security owner sees lower attack success, no risk category getting worse, blocked actions, and all five privacy flags set to false |
+| Evaluation | Definition, active thresholds, enabled release policy, temporary external baseline and candidate records, generated self-test | Quality owner sees the matching candidate pass and the tool-process self-test return BLOCK |
+| Red-team | Confirmed temporary external security-release attestation for the same agent and fixed version | Security owner sees authorized external status and report location, matching versions, lower attack success, no risk category getting worse, blocked actions, and all five privacy flags set to false |
 | Observability | Logging contract and fixed smoke result | Observability owner sees complete trace, separated failures, no sensitive input |
 
 <!-- Notes: A focused route cannot replace these rows with a general equivalence statement. -->
@@ -93,25 +93,15 @@ carries it forward. A mismatch starts a new release.
 | Before Azure | Prove default-branch lineage and require all release gates to pass | GitHub Actions and the linked gate systems |
 | Preview | Exchange the exact environment OIDC subject, then run Bicep what-if | Microsoft Entra and Azure Resource Manager |
 | Apply | Release credentials after approval and deploy the same SHA | Protected GitHub apply environments and Azure Resource Manager |
-| Route and record | Move the approved selector, then finalize the linked manifest | Azure API Management and the approved release store |
+| Route and record | Move the approved selector, then finalize the release record | Azure API Management and the approved release store |
 
-<!-- Notes: A mismatch means the team creates a new release. GitHub owns workflow execution and approvals. Microsoft Entra owns workload trust. Azure owns deployed state, API Management owns routing, and the release store owns the final manifest. -->
-
----
-
-## Controlled promotion flow
-
-<!-- _class: diagram -->
-
-![One commit moves through repository checks and release gates before deployment. Failed checks stop the release, and restore returns to the previous approved version.](assets/diagrams/controlled-promotion-flow.svg)
-
-<!-- Notes: The release SHA stays the same through every preview, approval, deployment, route change, and manifest record. The two red exits stop before the Azure change boundary. -->
+<!-- Notes: A mismatch means the team creates a new release. GitHub owns workflow execution and approvals. Microsoft Entra owns workload trust. Azure owns deployed state, API Management owns routing, and the release store owns the release record. -->
 
 ---
 
 ## What this means
 
-Failed gates leave Azure unchanged. Manual restore uses the previous approved manifest and its own
+Failed gates leave Azure unchanged. Manual restore uses a selected approved release record and its own
 production approval.
 
 ---
@@ -124,11 +114,12 @@ production approval.
 |---|---|---|---|
 | Release identity | Full commit SHA with fixed component digests | Every stage and restore name one release | A corrected component starts a new release |
 | Access boundary | Separate preview and protected apply environments with exact OIDC subjects | What-if runs before approval; apply credentials stay withheld | Four environment trusts must remain aligned with Microsoft Entra |
-| Recovery | Manual, production-approved restore of the previous release | An owner checks the manifest and selector before traffic moves | Restore is slower and requires an available authority |
+| Recovery | Manual, production-approved restore of a selected release | An owner checks the release record and selector before traffic moves | Restore is slower and requires an available authority |
 
-The approved manifest links the selected release to its deployments, routing result, and previous release.
+The approved release record links its ID, commit SHA, nonproduction deployment, production workflow,
+and routing selectors. GitHub and Azure retain the full live history.
 
-<!-- Notes: Detailed runtime records stay in their source systems. The release manifest links them rather than copying them. -->
+<!-- Notes: Detailed runtime records stay in their source systems. The release record links them rather than copying them. -->
 
 ---
 
@@ -141,7 +132,7 @@ The approved manifest links the selected release to its deployments, routing res
 - approved repository and protected release ref
 - full 40-character release SHA held outside the release commit
 - full-SHA revisions for every action
-- `contents: read` by default; `id-token: write` only on environment jobs
+- `contents: read` by default; `id-token: write` only on jobs with the protected environment
 - fixed component versions
 
 ### Stop
@@ -163,7 +154,8 @@ Floating tags, `latest`, mutable aliases, a release SHA outside the protected de
 Record the subject issued for this repository:
 
 - name-based: `repo:owner/repository:environment:<environment>`
-- immutable default after **2026-07-15**: `repo:owner@ID/repository@ID:environment:<environment>`
+- immutable default after **2026-07-15** for created, renamed, or transferred repositories:
+  `repo:owner@ID/repository@ID:environment:<environment>`
 
 Each stage service principal has built-in **Contributor** (`b24988ac-6180-42a0-ab88-20f7382dd24c`) only at its environment resource group.
 
@@ -226,8 +218,8 @@ Stop on unrelated deletion, replacement, scope drift, or unexplained expansion.
 |---|---|
 | Unit | Customer script succeeds for the matching commit |
 | [Session 12](../12-observability-cost-operations/) smoke | Operational executable, logging-bound commit, live workspace binding, distinct trace IDs, fixed-time polling, no sensitive input or stored payload |
-| [Session 10](../10-foundry-evaluations-quality-gates/) evaluation | Aggregate quality, tool-process, and safety thresholds pass |
-| [Session 11](../11-red-teaming-threat-defense/) red-team | Confirmed report and matching review record, fixed version binding, lower ASR, no risk category getting worse, blocked actions at zero ASR |
+| [Session 10](../10-foundry-evaluations-quality-gates/) evaluation | Aggregate quality, tool-process, and safety thresholds pass from temporary external result records |
+| [Session 11](../11-red-teaming-threat-defense/) red-team | Confirmed external security-release attestation, authorized status and report location, fixed version binding, lower ASR, no risk category getting worse, blocked actions at zero ASR |
 
 Any blocking failure prevents the production job.
 
@@ -247,7 +239,9 @@ Session 13 enforces it in promotion.
 
 ### [Session 11](../11-red-teaming-threat-defense/)
 
-Consume the confirmed payload-free before/after report and its version-matched risk/change review record. SOC delivery stays a separate result.
+Retrieve and validate the confirmed payload-free security-release attestation through the approved
+release/security-store interface. It stays in the temporary workspace while the security and change
+systems retain authorization and report records. SOC delivery stays a separate result.
 
 ### [Session 12](../12-observability-cost-operations/)
 
@@ -282,7 +276,10 @@ Otherwise: **stop and keep 100% on the previous approved selector.**
 
 ## Configure and test controlled promotion
 
-Before the session, the unit-check owner accepts the unit script, the routing owner accepts the routing script, and the release owner accepts the release-store script.
+Before the session, the unit-check owner accepts the unit script, the routing owner accepts the
+routing script, and the release owner accepts the release/security-store script. It retrieves
+Session 10 result records and the Session 11 security-release attestation only into the approved
+temporary workspace.
 
 The platform owner accepts both parameter contracts. GitHub and Entra administrators accept protections, OIDC trust, and roles. The delivery owner records these decisions in the customer's normal delivery or change record.
 
@@ -318,12 +315,12 @@ Neither phase deploys or changes a resource.
 
 ## Promotion job order
 
-1. **Validate** - repository, pins, secrets, unit, evaluation, red-team
+1. **Validate** - repository, pins, secrets, unit, external evaluation records, security attestation
 2. **Nonproduction preview** - OIDC, lint/build, what-if
 3. **Nonproduction apply** - reviewer approval, deploy, smoke
 4. **Production preview** - OIDC, digest recheck, what-if
 5. **Production apply** - reviewer approval, deploy
-6. **Stage, route, finalize** - keep the manifest unapproved until routing succeeds
+6. **Stage, route, finalize** - keep the release record unapproved until routing succeeds
 
 GitHub `needs` puts each approval after its preview.
 
@@ -341,13 +338,13 @@ Expected:
 - the commit is reachable from the protected default branch before release content runs;
 - the behavior gates pass before Azure deployment;
 - each apply OIDC token waits behind its environment approval;
-- the reviewer releases only the fixed version listed in the manifest;
-- the manifest remains staged until routing reports success;
-- the release store approves it only after routing succeeds;
+- the reviewer releases only the fixed version selected by `release_sha`;
+- the release record remains staged until routing reports success;
+- the release store approves the record only after routing succeeds;
 - existing routing moves only the approved selector; and
-- the manifest links the previous approved release.
+- manual restore can retrieve an approved release record by exact ID and SHA-256.
 
-<!-- Notes: If finalization fails, run approved restore for the previous selector and leave the staged manifest unapproved. -->
+<!-- Notes: If finalization fails, run approved restore for the previous selector and leave the staged release record unapproved. -->
 
 ---
 
@@ -402,8 +399,8 @@ One customer-owned delivery control:
 - independent quality, safety, and smoke gates;
 - protected production approval;
 - conditional existing routing;
-- linked release manifest; and
-- manual restore to the previous release.
+- approved release-store record; and
+- manual restore to a selected approved release.
 
 <!-- Notes: Keep this workflow as the customer-owned path for later releases. -->
 
@@ -413,7 +410,7 @@ One customer-owned delivery control:
 
 | Owner | Operational responsibility |
 |---|---|
-| Release owner | Workflows, action pins, manifest continuity |
+| Release owner | Workflows, action pins, and release-record continuity |
 | GitHub and Entra admins | Environment protection and OIDC trust |
 | Platform owner | Bicep entrypoint, parameters, approved Azure scopes, both what-if approvals |
 | Quality and security owners | Session 09 and 11 gate health |
@@ -430,7 +427,7 @@ One customer-owned delivery control:
 Dispatch the restore workflow against the approved release store with:
 
 - approved release ID;
-- recorded manifest SHA-256; and
+- recorded release-record SHA-256; and
 - `dry_run=true` first.
 
 After production environment approval, validate the marker and digest, preview, then move only the stable selector. Preserve current and older versions. Delete nothing broad.
@@ -444,11 +441,11 @@ After production environment approval, validate the marker and digest, preview, 
 - One linked fixed release
 - GitHub OIDC without client secrets
 - Bicep lint, build, and two what-if gates
-- Native secret, unit, smoke, evaluation, and red-team controls
+- Native secret, unit, smoke, evaluation, and external security-attestation controls
 - Protected production approval
 - Conditional canary or blue-green routing
 - Permitted and blocked paths before owner checkpoint
-- Manual restore to the previous release with existing versions
+- Manual restore to a selected approved release with existing versions
 
 <!-- Notes: The previous approved release remains the safe default whenever a gate is uncertain. -->
 

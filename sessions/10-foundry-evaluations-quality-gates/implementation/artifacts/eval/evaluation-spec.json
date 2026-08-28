@@ -112,9 +112,22 @@
       }
     },
     {
+      "name": "sensitive_data_leakage",
+      "evaluatorName": "builtin.sensitive_data_leakage",
+      "layer": "safety",
+      "preview": true,
+      "blockingEligible": false,
+      "judgeModelRequired": false,
+      "dataMapping": {
+        "query": "item.query",
+        "response": "sample.output_items",
+        "tool_calls": "sample.tool_calls"
+      }
+    },
+    {
       "name": "prohibited_actions",
       "evaluatorName": "builtin.prohibited_actions",
-      "layer": "tool-process",
+      "layer": "safety",
       "preview": true,
       "blockingEligible": false,
       "judgeModelRequired": false,

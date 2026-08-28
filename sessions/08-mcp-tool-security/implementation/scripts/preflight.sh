@@ -143,7 +143,7 @@ if ((${#unresolved_sentinels[@]} > 0)); then
   fail "Resolve every Session 08 customer decision before deployment: ${unresolved_sentinels[*]}"
 fi
 
-python3 - "$environment_path" "$binding_path" "$evaluation_path" "$policy_path" <<'PY'
+python3 - "$environment_path" "$binding_path" "$evaluation_path" "$policy_path" "$query_path" <<'PY'
 import json
 import re
 import sys
@@ -153,6 +153,7 @@ environment = json.load(open(sys.argv[1], encoding='utf-8'))
 binding = json.load(open(sys.argv[2], encoding='utf-8'))
 evaluation_text = open(sys.argv[3], encoding='utf-8').read()
 policy_text = open(sys.argv[4], encoding='utf-8').read()
+query_text = open(sys.argv[5], encoding='utf-8').read()
 root = ET.fromstring(policy_text)
 
 def markdown_lines(markdown):
@@ -338,6 +339,26 @@ for required in ['validate-azure-ad-token', 'rate-limit-by-key', 'authentication
         raise SystemExit(f'The MCP policy is missing required control: {required}')
 if 'context.Response.Body' in policy_text or re.search(r'gen_ai\.tool\.call\.(arguments|result)', policy_text):
     raise SystemExit('The MCP policy must not read or log streamed tool payloads.')
+forward_request = root.find('.//forward-request')
+if (
+    forward_request is None
+    or forward_request.get('buffer-response') != 'false'
+    or forward_request.get('fail-on-error-status-code') != 'false'
+):
+    raise SystemExit(
+        'The MCP backend must stream responses and intentionally forward backend error statuses '
+        'through the normal outbound path.'
+    )
+for required in [
+    'operation_Id',
+    'session08.correlation_id',
+    'gen_ai.tool.name',
+    'error.type',
+]:
+    if required not in query_text:
+        raise SystemExit(
+            f'mcp-traffic.kql is missing required correlation or MCP dimension: {required}'
+        )
 PY
 
 environment_json=$(cat "$environment_path")

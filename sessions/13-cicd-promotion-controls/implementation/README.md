@@ -7,8 +7,7 @@
 Promote **one immutable, gate-passing release** through protected nonproduction and production
 environments. An authorized operator supplies `workflow_dispatch.release_sha`; the workflow proves
 that SHA is reachable from the protected default branch before release content runs. The same SHA
-then binds approval, both deployments, routing, the approved manifest, and the manual restore
-reference.
+then binds approval, both deployments, routing, the approved release record, and manual restore.
 
 ### Why it matters
 
@@ -23,7 +22,7 @@ GitHub Actions and the four protected GitHub environments own the promotion sequ
 Entra owns the environment-scoped workload identities, Azure Resource Manager owns deployment
 state, and API Management owns the selected route. Foundry, Application Insights, Defender, and the
 approved release store remain authoritative for their linked gate, telemetry, security, and
-manifest records.
+release records.
 
 The workflow uses the existing [Session 05](../../05-governed-agent-baseline/implementation/README.md)
 agent and [Session 06](../../06-apim-ai-gateway/implementation/README.md) routing path. It does not
@@ -36,11 +35,9 @@ secondary deployment.
 
 ### Architecture at a glance
 
-![One commit moves through repository checks, preview environments, approval, deployment, and routing. Restore follows a separate path.](../assets/diagrams/controlled-promotion-flow.svg)
-
 The full commit SHA, the exact identifier for one Git commit, is the release's identity. The
 protected workflow carries it through every check, preview, approval, deployment, route change, and
-manifest entry. Fixed component digests, which are cryptographic fingerprints of the other release
+release record. Fixed component digests, which are cryptographic fingerprints of the other release
 parts, bind those parts to the same release. If anything changes between stages, the team creates a
 new release instead of quietly promoting a different unit.
 
@@ -57,12 +54,13 @@ release, and API Management moves the approved selector only after both deployme
 
 Each decision stays with the system that made it. GitHub records workflow execution and environment
 approvals. Microsoft Entra holds workload trust. Azure Resource Manager reports deployed state,
-and API Management reports routing. The finalized manifest belongs in the approved release store;
-it links these records instead of copying them.
+and API Management reports routing. The approved release store holds one small release record,
+written after each successful production promotion and read before manual restore. It links native
+records instead of copying them.
 
 The workflow controls only changes made through this promotion path. Manual restore follows a
-separate, production-approved workflow. It reads the previous approved manifest, checks the target
-release, and returns the stable selector to that release. Session 14 uses this protected path to
+separate, production-approved workflow. It reads the selected approved release record, checks the
+target, and returns the stable selector to that release. Session 14 uses this protected path to
 deploy an approved secondary region.
 
 [`artifacts/github/promotion.yml`](artifacts/github/promotion.yml) implements the promotion path.
@@ -75,9 +73,9 @@ to identify the release.
 
 | Decision | Chosen approach | Why this shape helps | What it requires | Revisit when |
 |---|---|---|---|---|
-| Release identity | Bind checkout and every later gate to one full commit SHA and fixed component digests. Deployment, routing, and the manifest use the same identity. | A mismatch exposes stage drift, and restore can name one exact release. | A corrected component requires a new release. Mutable aliases cannot be promoted. | The repository boundary changes or the team defines a different release unit. |
+| Release identity | Bind checkout and every later gate to one full commit SHA and fixed component digests. Deployment, routing, and the release record use the same identity. | A mismatch exposes stage drift, and restore can name one exact release. | A corrected component requires a new release. Mutable aliases cannot be promoted. | The repository boundary changes or the team defines a different release unit. |
 | Preview and apply access | Use separate protected preview and apply environments, each with an exact OIDC subject. | What-if runs before approval. Apply credentials remain unavailable until the protection rules pass. | Four environment subjects and their protections must stay aligned with Microsoft Entra. | GitHub changes its subject format, plan features, or environment model. |
-| Recovery | Restore the previous release through a manual, production-approved workflow. | An owner checks the target manifest and route before production traffic moves. | Restore authority must be available. Recovery is slower than automatic rollback. | A tested automatic policy can perform the same identity and manifest checks, then verify health and routing. |
+| Recovery | Restore a selected approved release through a manual, production-approved workflow. | An owner checks the release record and route before production traffic moves. | Restore authority must be available. Recovery is slower than automatic rollback. | A tested automatic policy can perform the same identity and release-record checks, then verify health and routing. |
 
 ### Architecture guidance
 
@@ -91,29 +89,29 @@ to identify the release.
 ## Before you start
 
 1. Work from the exact customer repository. Keep the reviewed workflow on the protected default
-   branch, and record the approved 40-character release SHA in the customer's change system. The
-   SHA must be reachable from that branch. The release commit itself must not store the SHA.
-2. Complete Sessions 05, 06, 10, 11, and and 13. A focused route may use the substitute baseline
+   branch, and select the approved 40-character release SHA through the customer’s GitHub release
+   and deployment process. The SHA must be reachable from that branch. The release commit itself
+   must not store the SHA.
+2. Complete Sessions 05, 06, 10, 11, and 12. A focused route may use the substitute baseline
    below, but every row must pass before the workflow is installed.
-3. Confirm the approved [Session 10](../../10-foundry-evaluations-quality-gates/implementation/README.md) threshold policy, release policy, baseline record, and passing candidate record are usable by the callable
+3. Confirm the approved [Session 10](../../10-foundry-evaluations-quality-gates/implementation/README.md) threshold policy and release policy are usable by the callable
    `sessions/10-foundry-evaluations-quality-gates/implementation/scripts/release-gate.py`.
    The schema-version 2 release policy must have `gate.state=enabled`,
    `gate.decision=approved`, a valid `gate.decisionDate`, the exact activation contract, and
    `requiredEnforcementOption=--require-enabled`. Its baseline and candidate run IDs must match the
-   threshold policy and records. Session 10 supplies the gate and its PASS/BLOCK contract. Its stable blocked check is
+   threshold policy and temporary external result records. Session 10 supplies the gate and its PASS/BLOCK contract. Its stable blocked check is
    `python sessions/10-foundry-evaluations-quality-gates/implementation/scripts/test_release_gate.py
    --mode blocked-tool-process`. This workflow enforces both calls.
-4. Confirm
-   `sessions/11-red-teaming-threat-defense/implementation/artifacts/reports/before-after-report.json`
-   has status `confirmed`, names distinct baseline and post-remediation versions, and binds the
-   post-remediation version to the immutable release. The matching
-   `artifacts/governance/risk-change-handoff.json` must name the same agent and versions. The report
-   uses one configuration hash, records lower overall attack success, passes each complete per-risk
-   row, records prohibited actions at zero attack success, and sets every payload flag, including
-   `containsEvaluatorReasons`, to `false`.
-   `socDelivery.status` is a
-   separate operational result and does not prove the red-team comparison. `pending-runs` or any
-   failed comparison stops promotion.
+4. Confirm the approved release/security-store interface retrieves a Session 11 version 1
+   `security-release-attestation` into the approved temporary workspace. The attestation has
+   `status=confirmed`, `authorization.status=authorized`, an external authorization record URL,
+   and an external report location. Its `releaseBinding` names the release agent, approved
+   baseline version, remediated version, and `versionsMatch=true`. It uses one configuration hash,
+   records lower overall attack success, passes each complete per-risk row, records prohibited
+   actions at zero attack success, and sets every payload flag, including
+   `containsEvaluatorReasons`, to `false`. The security and change systems retain the
+   authorization and report records. A pending, failed, incomplete, mismatched, or payload-bearing
+   attestation stops promotion.
 5. Use the operational [Session 12](../../12-observability-cost-operations/implementation/README.md)
    smoke executables with their fixed interfaces:
 
@@ -154,9 +152,13 @@ to identify the release.
 7. The routing owner accepts the customer-owned routing script. It implements only the fixed
    `Promote` and `Restore` parameters used by the approved workflows and changes only the
    candidate and stable selectors listed in the routing contract.
-8. The release owner accepts the customer-owned release-store script. It implements only `Stage`,
-   `Approve`, and `Retrieve` for one exact manifest, release ID, and SHA-256. It never returns a
-   staged entry as an approved restore target.
+8. The release owner accepts the customer-owned release/security-store script. It implements
+   `Stage`, `Approve`, and `Retrieve` for one exact manifest, release ID, and SHA-256. It also
+   implements `RetrieveEvaluationResult -RunId -OutputPath` and
+   `RetrieveSecurityReleaseAttestation -AgentName -BaselineVersion -RemediatedVersion -OutputPath`.
+   The two retrieval operations write a payload-free JSON artifact only under the approved
+   temporary workspace. They never write to the repository, and `Retrieve` never returns a staged
+   entry as an approved restore target.
 9. The platform owner accepts the selected Bicep entrypoint and confirms it accepts both approved
    parameter contracts.
 10. The GitHub administrator accepts the environment protections and native secret controls. The
@@ -181,8 +183,8 @@ to identify the release.
 |---|---|---|
 | Immutable agent | One release record binds the commit SHA to the agent name, prompt version, immutable agent version, model deployment alias, and both Bicep parameter contracts. | The platform owner retrieves those exact values and deploys them unchanged to nonproduction. |
 | Gateway | A versioned APIM policy names stable and candidate selectors, and the approved routing control supports preview and restore. | The gateway owner confirms preview changes only those selectors, the candidate health check passes, and restore returns traffic to the exact previous selector. |
-| Evaluation | The evaluation definition, active threshold policy, enabled release policy, approved baseline, passing candidate, and generated gate self-test are present. | The AI quality owner sees the callable gate pass the matching candidate and the generated tool-process self-test return BLOCK. |
-| Adversarial | A confirmed payload-free before/after report names the immutable agent version and records lower attack success, per-risk non-regression, and blocked prohibited actions. | The security owner reads all three comparison fields from the report without treating SOC delivery as red-team proof. |
+| Evaluation | The evaluation definition, active threshold policy, enabled release policy, and temporary external baseline and candidate records are available. | The AI quality owner sees the callable gate pass the matching candidate and the generated tool-process self-test return BLOCK. |
+| Adversarial | A confirmed payload-free external security-release attestation identifies the immutable agent, approved baseline, remediated version, external authorization, and external report location. | The security owner confirms lower attack success, per-risk non-regression, blocked prohibited actions, matching versions, and no payload without treating SOC delivery as red-team proof. |
 | Observability | The Session 12 smoke executables return the release commit, correlation ID, trace status, failure-boundary status, and payload-retention status. | The observability owner runs the executable for the same commit and gets a passing trace, separated failures, `sensitiveInputPresent: false`, and `payloadsRetained: false`. |
 
 ### Implementation files
@@ -205,22 +207,24 @@ to identify the release.
 
 - repository owner, name, protected default branch, and full-SHA action revisions;
 - exact tenant ID, nonproduction and production workload client IDs, and Azure resource-group scopes;
-- four Entra federated credential names and their exact environment subjects. For repositories
-  created or renamed after 2026-07-15, or repositories that opted in, the default subject contains
-  immutable owner and repository IDs. Older repositories can keep the name-based form. Record
+- four Entra federated credential names and their exact environment subjects. On GitHub.com,
+  repositories created, renamed, or transferred after 2026-07-15, plus repositories that opted in,
+  use a default subject with immutable owner and repository IDs. Older repositories can keep the
+  name-based form. Record
   the exact subject returned for this repository; do not reconstruct it from an example;
 - the built-in **Contributor** role, ID `b24988ac-6180-42a0-ab88-20f7382dd24c`, as the only Azure
   role on each workload service principal, assigned at its exact environment resource-group scope;
 - nonproduction and production apply reviewer teams and prevent-self-review settings;
 - production reviewer role, deployment branch or tag restriction, disabled administrator bypass,
   and whether the GitHub plan supports those protections;
-- Bicep, APIM policy, unit, Session 10, Session 11 report and risk/change handoff, Session 12,
-  routing, and approved release-store source paths;
+- Bicep, APIM policy, unit, Session 10 desired state, Session 12, routing, and approved
+  release/security-store source paths;
 - the approved 40-character commit supplied through `release_sha`, plus the agent name, prompt,
-  agent version, model alias, APIM policy, evaluation run, threshold policy, and previous release;
+  agent version, model alias, APIM policy, evaluation run, and threshold policy;
 - `canary` or `blue-green`, selectors, and whether the existing Session 05 or 07 path supports it;
   and
-- the customer-approved release store.
+- the customer-approved release/security-store interface and its temporary external artifact
+  workspace.
 
 Stop before any administrative or deployment change if:
 
@@ -235,8 +239,10 @@ Stop before any administrative or deployment change if:
 - the customer plan does not expose the required production protections;
 - production can be self-approved, reached from an unrestricted ref, or bypassed by an
   administrator;
-- the Session 11 report is pending, failed, lacks per-risk non-regression, is not comparable, or
-  contains payloads;
+- the external Session 11 security-release attestation is pending, failed, unauthorized, lacks a
+  report location, does not bind the approved baseline and remediated release-agent versions,
+  lacks per-risk non-regression, does not block prohibited actions, does not lower aggregate attack
+  success, or contains payloads;
 - the Session 12 check is missing, failed, for another commit, exposes sensitive input, retains
   payloads, lacks its correlation ID, or does not report successful bounded ingestion polling;
 - a what-if contains unrelated or destructive change; or
@@ -306,20 +312,29 @@ Run:
   -Phase Ready `
   -ApprovedNonproductionScope "/subscriptions/<id>/resourceGroups/<name>" `
   -ApprovedProductionScope "/subscriptions/<id>/resourceGroups/<name>" `
-  -ApprovedReleaseSha "<40-character-release-sha>"
+  -ApprovedReleaseSha "<40-character-release-sha>" `
+  -BaselineRecordPath "<temporary-session10-baseline-result.json>" `
+  -CandidateRecordPath "<temporary-session10-candidate-result.json>" `
+  -SecurityReleaseAttestationPath "<temporary-session11-attestation.json>"
 ```
 ```bash
 ./scripts/preflight.sh \
   --phase ready \
   --approved-nonproduction-scope "/subscriptions/<id>/resourceGroups/<name>" \
   --approved-production-scope "/subscriptions/<id>/resourceGroups/<name>" \
-  --approved-release-sha "<40-character-release-sha>"
+  --approved-release-sha "<40-character-release-sha>" \
+  --baseline-record-path "<temporary-session10-baseline-result.json>" \
+  --candidate-record-path "<temporary-session10-candidate-result.json>" \
+  --security-release-attestation-path "<temporary-session11-attestation.json>"
 ```
 
 This phase reads GitHub plan and environment configuration, native secret controls, all four exact
 federated-credential subjects, the two Contributor assignments, and repository metadata. It repeats
-Bicep lint/build and runs nonproduction and production what-if. It does not deploy or alter a
-resource.
+Bicep lint/build and runs nonproduction and production what-if. Before the Ready phase, use the
+approved release/security-store interface to stage the Session 10 baseline and candidate results
+and Session 11 security-release attestation under the approved temporary workspace. Then pass those
+three absolute paths to preflight. It rejects a repository path or a path outside that workspace.
+It does not deploy or alter a resource.
 
 The platform owner inspects and approves the nonproduction and production previews. Stop on an
 unrelated deletion, replacement, scope drift, inaccessible setting, or unexplained what-if result.
@@ -329,9 +344,9 @@ unrelated deletion, replacement, scope drift, inaccessible setting, or unexplain
 The reviewed workflow definitions must already be installed at the decided repository paths.
 Compare them with the implementation definitions; do not install or reconfigure them during live delivery.
 
-The accepted promotion workflow grants only
-`contents: read` and `security-events: read` by default, adding `id-token: write` only to
-environment jobs and artifact permission only where required.
+The accepted promotion workflow grants only `contents: read` and `security-events: read` by
+default, adding `id-token: write` only to environment jobs. The restore workflow grants
+`contents: read` by default and adds `id-token: write` only to its protected production job.
 
 ### 5. Run the intended promotion
 
@@ -344,20 +359,21 @@ The workflow:
    `release_sha` is an ancestor of that branch before checking out or running release content;
 2. checks out `release_sha`, confirms `git rev-parse HEAD` matches it, then checks workflow
    structure, full action pins, native secret controls, unit
-   checks, Session 10 evaluation gate, and Session 11 report;
+   checks, Session 10 evaluation gate, and the external Session 11 security-release attestation;
 3. runs the generated blocked-tool-process self-test before any Azure preview or deployment;
 4. signs in through `nonproduction-preview`, then lints, builds, and runs what-if;
 5. pauses at protected `nonproduction`; after approval, deploys and runs the Session 12 smoke check;
 6. signs in through `production-preview`, rechecks digests, and runs production what-if;
 7. pauses at protected `production`; after approval, deploys the identical release;
-8. stages the linked manifest in the approved release store, where it remains unavailable to
+8. creates the small release record in the approved release store, where it remains unavailable to
    restore;
 9. moves only the approved canary or blue-green selector and checks the routing script result;
-10. finalizes that exact staged manifest as approved. If finalization fails, the workflow stops and
+10. finalizes that exact staged release record as approved. If finalization fails, the workflow stops and
    an operator must dispatch the approved manual restore workflow; and
-11. keeps the same manifest in the GitHub Actions run.
 
-Detailed build and evaluation records remain in GitHub Actions and Microsoft Foundry.
+Detailed build records remain in GitHub Actions. Evaluation records remain in Microsoft Foundry and
+the approved external release platform. Security authorization and report records remain in the
+approved security and change systems.
 
 ## Confirm the result
 
@@ -384,8 +400,8 @@ Expected result: the exact commit belongs to the protected default branch and it
 unit, smoke, evaluation, and adversarial checks.
 Each apply environment withholds OIDC values until its reviewer approves the preceding preview.
 Nonproduction and production receive the same immutable release, and routing succeeds.
-Only then does the release store mark the staged manifest approved. That manifest links the
-production environment record, previous approved release, and selected routing strategy.
+Only then does the release store mark the staged release record approved. The record links the
+production workflow reference, nonproduction deployment, and selected routing strategy.
 
 ### Blocked/failure path
 
@@ -436,22 +452,25 @@ another run.
 ## After implementation
 
 Keep the **workflow definitions and immutable release link**, together with the environment
-parameter files, control definition, release manifest template, validator, and approved workflow
-revision. GitHub Actions retains build, deployment, environment approval, and manifest records;
-Microsoft Foundry retains evaluation and adversarial records; Azure retains deployment history;
-the approved release store retains the immutable release link. Do not copy those runtime records
-into this repository.
+parameter files, control definition, release-record template, validator, and approved workflow
+revision. GitHub Actions retains build, deployment, and environment approval metadata. Microsoft
+Foundry retains evaluation and adversarial records. The approved external release platform retains
+Session 10 result records, and the approved security and change systems retain Session 11
+authorization and report records. Azure retains deployment history. The promotion
+workflow writes the approved release-store record after each successful production promotion, and
+the restore workflow reads it before a manual restore. Do not copy those runtime records into this
+repository.
 
-The release owner owns workflow operation and manifest continuity. GitHub and Entra administrators
+The release owner owns workflow operation and release-record continuity. GitHub and Entra administrators
 own environment protections and federation. The platform owner owns Bicep scopes and approves both
 what-if results. AI quality and
 security owners own Session 09 and 11 gates. The observability owner owns the Session 12 smoke
 interface. The gateway owner owns routing. The delivery owner owns the final checkpoint.
 
-Restore is manual. Dispatch **Restore previous AI release** with the exact previous approved
-release ID and recorded manifest SHA-256. Leave `dry_run=true` first. The production
+Restore is manual. Dispatch **Restore previous AI release** with the exact approved release ID and
+recorded SHA-256 selected from the approved release store. Leave `dry_run=true` first. The production
 environment approval is required before the workflow reads production OIDC values. The workflow
-retrieves the manifest from the approved release store, validates its digest and
+retrieves the release record from the approved release store, validates its digest and
 `implementationSession` marker, previews the customer routing
 script. Only an explicit rerun with `dry_run=false` moves the stable selector to that
 immutable release. The workflow preserves the current and older code, prompt, agent, model, APIM, evaluation,

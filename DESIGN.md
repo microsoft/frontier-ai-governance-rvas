@@ -53,7 +53,7 @@ The homepage follows this order:
 6. Pre-work
 7. Optional modules
 
-The program facts remain quiet inside the hero: 14 sessions, 64 working hours, and three phases.
+The program facts remain quiet inside the hero: 14 sessions, 57.5 facilitated working hours, and three phases.
 The outcome panel covers the governed deployment, source-controlled implementation, observable
 check, and named restore or removal ownership.
 
@@ -88,9 +88,9 @@ Control Plane, and Microsoft Agent 365. It also keeps the LLMOps and AIOps disti
 The catalog is grouped by phase. Each session record includes its number, title, control objective,
 observable result, duration, and a build-generated strip of every service in scope.
 
-Discovery combines phase, focused-route, service, and free-text controls. Phase filters can be
-combined with either a route or a service. Routes and services are mutually exclusive, so choosing
-one clears the other instead of creating an unexplained empty result.
+Discovery combines focused-route, service, and free-text controls. The catalog remains grouped by
+phase without adding a separate phase filter. Routes and services are mutually exclusive, so
+choosing one clears the other instead of creating an unexplained empty result.
 
 The route controls sit directly above the service row. Every service button uses its official icon
 and keeps its all-program session count, while phase markers update to show counts for the current
@@ -112,7 +112,7 @@ from the homepage builder so the cards, URLs, and filter logic stay aligned.
 ### Optional modules
 
 Optional-module records keep their own status and duration. Their service strips are generated from
-the module manifest. Modules remain outside the numbered catalog, phase filters, and session count.
+the module manifest. Modules remain outside the numbered catalog, session discovery controls, and session count.
 
 ## Service map
 

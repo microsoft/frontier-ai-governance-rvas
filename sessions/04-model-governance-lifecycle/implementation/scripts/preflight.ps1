@@ -117,27 +117,21 @@ $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
 $templatePath = Join-Path $artifactRoot "infra\models\main.bicep"
 $parameterPath = Join-Path $artifactRoot "environments\sandbox.bicepparam"
 $profilePath = Join-Path $artifactRoot "models\deployment-profiles.json"
-$approvalPath = Join-Path $artifactRoot "governance\model-approval-record.json"
 $requiredSentinels = @(
     "__REQUIRED_APPROVAL_ID__"
     "__REQUIRED_APPROVED_MODEL_FORMAT__"
     "__REQUIRED_APPROVED_MODEL_NAME__"
     "__REQUIRED_APPROVED_MODEL_VERSION__"
-    "__REQUIRED_CHANGE_NOTIFICATION_ROUTE__"
-    "__REQUIRED_DECISION_AUTHORITY__"
     "__REQUIRED_DEPLOYMENT_CAPACITY_REPLACE_WITH_JSON_INTEGER__"
     "__REQUIRED_DEPLOYMENT_NAME__"
     "__REQUIRED_DEPLOYMENT_SKU__"
-    "__REQUIRED_EXTERNAL_DECISION_REFERENCE__"
     "__REQUIRED_FOUNDRY_ACCOUNT_NAME__"
-    "__REQUIRED_LIFECYCLE_OWNER__"
     "__REQUIRED_MINIMUM_UNUSED_QUOTA_PERCENT_REPLACE_WITH_JSON_INTEGER__"
     "__REQUIRED_PROCESSING_LOCATION_REQUIREMENT__"
     "__REQUIRED_RAI_POLICY_NAME__"
     "__REQUIRED_REVIEW_DATE__"
-    "__REQUIRED_WORKLOAD_PURPOSE__"
 )
-foreach ($path in @($templatePath, $parameterPath, $profilePath, $approvalPath)) {
+foreach ($path in @($templatePath, $parameterPath, $profilePath)) {
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
         throw "Required implementation file is missing: $path"
     }
@@ -155,21 +149,13 @@ if ($sentinelMatches.Count -gt 0) {
 }
 
 $profileSet = Get-Content -LiteralPath $profilePath -Raw | ConvertFrom-Json -ErrorAction Stop
-$approvalRecord = Get-Content -LiteralPath $approvalPath -Raw | ConvertFrom-Json -ErrorAction Stop
 if ([string]$profileSet.implementationSession -ne "04-model-governance-lifecycle") {
     throw "The deployment profiles have the wrong implementation marker."
 }
-if ([string]$approvalRecord.implementationSession -ne "04-model-governance-lifecycle") {
-    throw "The approval record has the wrong implementation marker."
-}
 
 $deployments = @($profileSet.deployments)
-$approvals = @($approvalRecord.approvals)
 if ($deployments.Count -lt 1) {
     throw "deployment-profiles.json must contain at least one deployment."
-}
-if ($approvals.Count -lt 1) {
-    throw "model-approval-record.json must contain at least one approval."
 }
 
 $allowedSkus = @(
@@ -185,7 +171,14 @@ $allowedSkus = @(
 $deploymentByName = @{}
 foreach ($deployment in $deployments) {
     Assert-TextFields -InputObject $deployment `
-        -Fields @("approvalId", "deploymentName", "raiPolicyName", "versionUpgradeOption") `
+        -Fields @(
+            "approvalId"
+            "deploymentName"
+            "raiPolicyName"
+            "versionUpgradeOption"
+            "processingLocationRequirement"
+            "reviewBy"
+        ) `
         -Description "A deployment"
     Assert-TextFields -InputObject $deployment.model -Fields @("name", "version", "format") `
         -Description "Model for $($deployment.deploymentName)"
@@ -195,97 +188,51 @@ foreach ($deployment in $deployments) {
         throw "Duplicate deploymentName: $($deployment.deploymentName)"
     }
     if ([string]$deployment.sku.name -notin $allowedSkus) {
+        if ([string]$deployment.sku.name -eq "DeveloperTier") {
+            throw "DeveloperTier is limited to fine-tuned model evaluation, expires after 24 hours, and has no SLA or data-residency guarantee. It is outside this governed deployment path."
+        }
         throw "Unsupported serverless API deployment SKU: $($deployment.sku.name)"
     }
     if ([string]$deployment.versionUpgradeOption -ne "NoAutoUpgrade") {
-        throw "versionUpgradeOption must be NoAutoUpgrade for $($deployment.deploymentName); a model version change requires a new approved record and profile change."
+        throw "versionUpgradeOption must be NoAutoUpgrade for $($deployment.deploymentName); a model version change requires a new approved decision and profile change."
     }
     $capacity = Get-JsonInteger -Value $deployment.sku.capacity `
         -Description "Capacity for $($deployment.deploymentName)"
     if ($capacity -lt 1) {
         throw "Capacity for $($deployment.deploymentName) must be a positive integer."
     }
-    $deploymentByName[[string]$deployment.deploymentName] = $deployment
-}
-
-$approvalById = @{}
-$linkedNames = @{}
-foreach ($approval in $approvals) {
-    Assert-TextFields -InputObject $approval `
-        -Fields @(
-            "approvalId"
-            "workloadPurpose"
-            "decisionAuthority"
-            "externalDecisionReference"
-            "processingLocationRequirement"
-            "lifecycleOwner"
-            "reviewBy"
-            "changeNotificationRoute"
-        ) `
-        -Description "An approval"
-    Assert-TextFields -InputObject $approval.model -Fields @("name", "version", "format") `
-        -Description "Model for $($approval.approvalId)"
-    if ($approvalById.ContainsKey([string]$approval.approvalId)) {
-        throw "Duplicate approvalId: $($approval.approvalId)"
-    }
     $reviewBy = [datetime]::MinValue
     if (-not [datetime]::TryParseExact(
-        [string]$approval.reviewBy,
+        [string]$deployment.reviewBy,
         "yyyy-MM-dd",
         [Globalization.CultureInfo]::InvariantCulture,
         [Globalization.DateTimeStyles]::None,
         [ref]$reviewBy
     )) {
-        throw "reviewBy must use YYYY-MM-DD for $($approval.approvalId)."
+        throw "reviewBy must use YYYY-MM-DD for $($deployment.deploymentName)."
     }
     if ($reviewBy.Date -lt (Get-Date).Date) {
-        throw "The approval review date has passed for $($approval.approvalId)."
+        throw "The deployment review date has passed for $($deployment.deploymentName)."
     }
-    $requirement = [string]$approval.processingLocationRequirement
-    if ($requirement -notmatch "^(global|data-zone:[a-z0-9-]+|region:[a-z0-9-]+)$") {
-        throw "processingLocationRequirement must be global, data-zone:<zone>, or region:<azure-region> for $($approval.approvalId)."
+    $requirement = [string]$deployment.processingLocationRequirement
+    if ($requirement -notmatch "^(global|data-zone:(us|eu|apac)|region:[a-z0-9-]+)$") {
+        throw "processingLocationRequirement must be global, data-zone:us, data-zone:eu, data-zone:apac, or region:<azure-region> for $($deployment.deploymentName)."
     }
-    $headroom = Get-JsonInteger -Value $approval.minimumUnusedQuotaPercent `
-        -Description "minimumUnusedQuotaPercent for $($approval.approvalId)"
+    $headroom = Get-JsonInteger -Value $deployment.minimumUnusedQuotaPercent `
+        -Description "minimumUnusedQuotaPercent for $($deployment.deploymentName)"
     if ($headroom -lt 0 -or $headroom -ge 100) {
-        throw "minimumUnusedQuotaPercent must be an integer from 0 to 99 for $($approval.approvalId)."
+        throw "minimumUnusedQuotaPercent must be an integer from 0 to 99 for $($deployment.deploymentName)."
     }
-    $names = @($approval.deploymentNames)
-    if ($names.Count -lt 1) {
-        throw "deploymentNames must contain at least one name for $($approval.approvalId)."
+    if ($requirement -eq "global" -and -not ([string]$deployment.sku.name).StartsWith("Global")) {
+        throw "Deployment $($deployment.deploymentName) does not implement global processing."
     }
-    foreach ($name in $names) {
-        if (-not $deploymentByName.ContainsKey([string]$name)) {
-            throw "Approval $($approval.approvalId) links unknown deployment $name."
-        }
-        if ($linkedNames.ContainsKey([string]$name)) {
-            throw "Deployment $name is linked by more than one approval."
-        }
-        $linkedNames[[string]$name] = $true
-        $deployment = $deploymentByName[[string]$name]
-        if (
-            [string]$deployment.approvalId -ne [string]$approval.approvalId -or
-            [string]$deployment.model.name -ne [string]$approval.model.name -or
-            [string]$deployment.model.version -ne [string]$approval.model.version -or
-            [string]$deployment.model.format -ne [string]$approval.model.format
-        ) {
-            throw "Deployment $name does not match approval $($approval.approvalId)."
-        }
-        $skuName = [string]$deployment.sku.name
-        if ($requirement -eq "global" -and -not $skuName.StartsWith("Global")) {
-            throw "Deployment $name does not implement global processing."
-        }
-        if ($requirement.StartsWith("data-zone:") -and -not $skuName.StartsWith("DataZone")) {
-            throw "Deployment $name does not implement data-zone processing."
-        }
-        if ($requirement.StartsWith("region:") -and $skuName -notin @("Standard", "ProvisionedManaged")) {
-            throw "Deployment $name does not implement regional processing."
-        }
+    if ($requirement.StartsWith("data-zone:") -and -not ([string]$deployment.sku.name).StartsWith("DataZone")) {
+        throw "Deployment $($deployment.deploymentName) does not implement data-zone processing."
     }
-    $approvalById[[string]$approval.approvalId] = $approval
-}
-if ($linkedNames.Count -ne $deploymentByName.Count) {
-    throw "Every deployment must be linked from exactly one approval."
+    if ($requirement.StartsWith("region:") -and [string]$deployment.sku.name -notin @("Standard", "ProvisionedManaged")) {
+        throw "Deployment $($deployment.deploymentName) does not implement regional processing."
+    }
+    $deploymentByName[[string]$deployment.deploymentName] = $deployment
 }
 
 $parameterText = Get-Content -LiteralPath $parameterPath -Raw
@@ -317,6 +264,31 @@ if ([string]$foundry.kind -ne "AIServices") {
 }
 if ([string]::IsNullOrWhiteSpace([string]$foundry.location)) {
     throw "The Foundry resource lookup did not return an account location."
+}
+
+$raiPolicyNames = @(
+    $deployments |
+        ForEach-Object { [string]$_.raiPolicyName } |
+        Sort-Object -Unique
+)
+foreach ($raiPolicyName in $raiPolicyNames) {
+    $raiPolicyId = "$expectedFoundryId/raiPolicies/$raiPolicyName"
+    $raiPolicy = Invoke-AzJson `
+        -Arguments @(
+            "resource", "show",
+            "--ids", $raiPolicyId,
+            "--api-version", "2026-05-01"
+        ) `
+        -Description "Responsible AI policy lookup for '$raiPolicyName'"
+    if (
+        -not ([string]$raiPolicy.id).Equals(
+            $raiPolicyId,
+            [System.StringComparison]::OrdinalIgnoreCase
+        )
+    ) {
+        throw "Responsible AI policy '$raiPolicyName' resolved outside the selected Foundry resource."
+    }
+    Write-Host "Responsible AI policy: $raiPolicyName -> $($raiPolicy.id)"
 }
 
 $roleAssignments = @(
@@ -399,8 +371,7 @@ foreach ($deployment in $deployments) {
         throw "Model for $($deployment.deploymentName) has lifecycle state $($model.lifecycleStatus)."
     }
 
-    $approval = $approvalById[[string]$deployment.approvalId]
-    $requirement = [string]$approval.processingLocationRequirement
+    $requirement = [string]$deployment.processingLocationRequirement
     $foundryLocation = ([string]$foundry.location).ToLowerInvariant()
     if ($requirement.StartsWith("region:")) {
         $requiredRegion = $requirement.Substring("region:".Length).ToLowerInvariant()
@@ -415,7 +386,7 @@ foreach ($deployment in $deployments) {
         )
     }
     $reviewBy = [datetime]::ParseExact(
-        [string]$approval.reviewBy,
+        [string]$deployment.reviewBy,
         "yyyy-MM-dd",
         [Globalization.CultureInfo]::InvariantCulture
     )
@@ -427,7 +398,7 @@ foreach ($deployment in $deployments) {
             throw "Model for $($deployment.deploymentName) has reached its inference deprecation date."
         }
         if ($reviewBy.Date -ge $modelEnd.Date) {
-            throw "Review $($approval.approvalId) before the live inference deprecation date $($modelEnd.ToString('yyyy-MM-dd'))."
+            throw "Review $($deployment.approvalId) before the live inference deprecation date $($modelEnd.ToString('yyyy-MM-dd'))."
         }
     }
 
@@ -443,7 +414,7 @@ foreach ($deployment in $deployments) {
             throw "SKU for $($deployment.deploymentName) has reached its deprecation date."
         }
         if ($reviewBy.Date -ge $skuEnd.Date) {
-            throw "Review $($approval.approvalId) before the live SKU deprecation date $($skuEnd.ToString('yyyy-MM-dd'))."
+            throw "Review $($deployment.approvalId) before the live SKU deprecation date $($skuEnd.ToString('yyyy-MM-dd'))."
         }
     }
     $requested = [int]$deployment.sku.capacity
@@ -519,7 +490,7 @@ foreach ($deployment in $deployments) {
     }
     $headroomByUsage[$usageName] = [math]::Max(
         $currentHeadroom,
-        [int]$approval.minimumUnusedQuotaPercent
+        [int]$deployment.minimumUnusedQuotaPercent
     )
 }
 
@@ -600,4 +571,4 @@ foreach ($change in @($whatIf.changes)) {
 }
 
 $whatIf | ConvertTo-Json -Depth 20
-Write-Host "PASS: Session 04 approval, deployment plan, operator role, live availability and lifecycle, quota gate, Bicep, and scoped what-if are ready."
+Write-Host "PASS: Session 04 deployment plan, Responsible AI policies, operator role, live availability and lifecycle, quota gate, Bicep, and scoped what-if are ready."

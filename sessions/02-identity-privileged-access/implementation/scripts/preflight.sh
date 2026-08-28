@@ -117,8 +117,6 @@ required_files=(
   'identity/human-role-assignments.bicep'
   'identity/workload-identity.bicep'
   'identity/role-definitions.json'
-  'identity/role-to-task-matrix.md'
-  'pim/pim-change-reference.md'
 )
 for relative in "${required_files[@]}"; do
   [[ -f "$artifacts_path/$relative" ]] || die "Required implementation file is missing: $relative"
@@ -126,9 +124,6 @@ done
 
 scan_unresolved_sentinels "$artifacts_path" \
   '__REQUIRED_GITHUB_ENVIRONMENT__' \
-  '__REQUIRED_PIM_CHANGE_REFERENCE__' \
-  '__REQUIRED_PIM_OWNER__' \
-  '__REQUIRED_PLATFORM_ADMINISTRATOR_GROUP_REFERENCE__'
 
 account_json="$(run_capture az account show --query '{subscriptionId:id,subscriptionName:name,tenantId:tenantId}' --only-show-errors --output json)" || die 'Azure account lookup failed.'
 group_json="$(run_capture az group show --name "$resource_group_name" --query '{id:id,location:location}' --only-show-errors --output json)" || die "The approved nonproduction resource group lookup failed for '$resource_group_name'."
@@ -177,6 +172,7 @@ required = [
     'foundryUser',
     'foundryProjectManager',
     'foundryAccountOwner',
+    'foundryAgentConsumer',
     'reader',
     'cognitiveServicesUser',
     'storageBlobDataReader',
@@ -193,6 +189,10 @@ expected = {
     'foundryAccountOwner': (
         'e47c6f54-e4a2-4754-9501-8e0985b135e1',
         ('Foundry Account Owner', 'Azure AI Account Owner'),
+    ),
+    'foundryAgentConsumer': (
+        'eed3b665-ab3a-47b6-8f48-c9382fb1dad6',
+        ('Foundry Agent Consumer',),
     ),
     'reader': (
         'acdd72a7-3385-48ef-bd42-f606fba81ae7',
@@ -211,7 +211,7 @@ if document.get('implementationSession') != '02-identity-privileged-access':
     raise SystemExit('role-definitions.json has the wrong implementation marker.')
 roles = document.get('roles') or {}
 if set(roles) != set(required):
-    raise SystemExit('role-definitions.json must contain the six documented role keys.')
+    raise SystemExit('role-definitions.json must contain the seven documented role keys.')
 for key in required:
     role_id = str((roles.get(key) or {}).get('id') or '')
     try:

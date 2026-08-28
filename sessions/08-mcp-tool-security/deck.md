@@ -169,7 +169,7 @@ That version currently exposes:
 
 Runtime identity and backend access remain the main controls. Stop if preview management automation is prohibited.
 
-The portal route is allowed only when the APIM owner records the server and tool IDs, applies the same policy, and confirms that `get_policy` is the only tool.
+The portal route is allowed only when the APIM owner applies the same policy and confirms from live APIM state that `get_policy` is the only tool.
 
 <!-- Notes: Preview control-plane automation is not allowed to become the only security control. -->
 
@@ -271,7 +271,8 @@ Keep:
 - MCP operation and tool name
 - conversation and client identity dimensions
 - auth type, duration, status, and errors
-- `X-Correlation-ID`
+- W3C `operation_Id` as the trace key
+- `X-Correlation-ID` as the support reference
 
 Do not retain:
 
@@ -300,6 +301,9 @@ obtain APIM managed-identity token
 forward without response buffering
 ```
 
+Backend 4xx and 5xx responses stay on the normal outbound path. Policy and transport failures use
+`on-error`.
+
 <!-- Notes: Never read context.Response.Body on an MCP policy. -->
 
 ---
@@ -320,12 +324,12 @@ Deploy one MCP control, create one unpinned candidate agent version, and check b
 
 Pre-work completes implementation-definition checks. Live work verifies Azure resources, reviews `what-if`, deploys the MCP control, and creates the candidate.
 
-The API program owner reconciles API Center before the release owner can enable it.
+The API program owner maintains the MCP metadata in API Center before the release owner can enable it.
 
 1. Resolve owners, identities, scopes, tool, and synthetic records.
 2. Run preflight and inspect APIM `what-if`.
 3. Deploy the MCP API, one tool, policy, and diagnostic.
-4. Reconcile the synchronized API Center record.
+4. Maintain the API Center metadata.
 5. Create the agentic-identity project connection.
 6. Create an unpinned candidate version.
 7. Run the intended and blocked checks.
@@ -390,7 +394,7 @@ Show the candidate version ID and prior stable selector.
 2. Inspect server, tool, and arguments.
 3. Approve only `policy-catalog / get_policy`.
 4. Confirm expected policy content.
-5. Match the APIM correlation event.
+5. Match the APIM event by W3C `operation_Id` and retain the client correlation reference.
 
 **Expected:** one successful read, one known tool, one correlation chain, zero payload logging.
 
@@ -439,18 +443,18 @@ Either check fails. Keep or restore the [Session 05](../05-governed-agent-baseli
 
 ---
 
-## Live state
+## In operation
 
 - APIM MCP API, one tool, policy, APIM named values, and diagnostic
 - Foundry project connection and enabled candidate version
 - API Center owner and risk metadata
-- Agent-to-MCP binding and threat model
-- Active security evaluation record
-- Threat model and red-team regression data
+- Source-controlled agent-to-MCP binding
+- Security-evaluation runbook and threat model
 - Payload-free KQL query
 - Preflight, deploy, disable, and removal paths
 
-The security owner reruns both checks after any change to the tool description, schema, output, identity, model, instruction, backend operation, or approval.
+The security owner updates the security-evaluation runbook before candidate enablement or a material
+security change, and reviews the threat model every 90 days.
 
 Other owners keep their assigned control current.
 

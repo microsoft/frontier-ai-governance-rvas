@@ -1,16 +1,12 @@
 # Implementation artifacts
 
-These files define the Session 09 Purview control. They contain no prompts,
-responses, tenant IDs, user names, source URLs, audit exports, or customer content.
+Session 09 keeps two operational assets in source control:
 
-| Path | Operational purpose |
-|---|---|
-| `governance/coverage-handoff.md` | Product boundary, manual decisions, label, source access, DSPM review, DLP decisions, and live/manual check boundary |
-| `operations/agent-activity-audit-query.json` | Agent scope, current operation names, lookback, and safe output fields |
-| `purview/agent365-dlp-policy-template.json` | Portal checklist for the scoped Agent 365 DLP policy; not unattended policy automation |
-| `purview/dspm-findings-summary.md` | Owned DSPM for AI summary without raw prompts, responses, identities, source names, or URLs |
-| `purview/retained-evidence-checklist.md` | Retention boundary for repository records, Purview state, audit results, and blocked content |
+| Path | Purpose | Authoritative state |
+|---|---|---|
+| `governance/coverage-handoff.md` | Maintains the cross-product ownership boundary that has no single platform view. | Microsoft Purview and the approved change system hold policy, label, DSPM, and DLP state. |
+| `operations/agent-activity-audit-query.json` | Defines the payload-free Agent 365 audit query used by both scripts. | Microsoft Purview Audit holds the returned activity. |
 
-Resolve every `__REQUIRED_*__` decision before changing tenant state. The preflight scripts reject
-each sentinel, validate the audit query, and check the approved tenant and Graph permission. The
-owners review the Markdown handoff and Purview files before manual Purview or DLP work.
+The repository does not keep DLP portal values, DSPM summaries, simulation results, audit exports,
+label observations, or screenshots. Read and update those records in Microsoft Purview or the
+approved change system.

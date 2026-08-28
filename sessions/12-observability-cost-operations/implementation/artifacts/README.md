@@ -1,19 +1,18 @@
 # Observability and operations control
 
-These artifacts define the Session 12 observability and operations control.
+These artifacts are the Session 12 desired-state configuration and the small set of retained
+Markdown records used to operate it.
 
-| Path | Operational purpose |
+| Path | Type | Updater and cadence | Consumer and operational purpose |
 |---|---|
-| `control-definition.json` | Approved scope, owners, and observable result |
-| `telemetry/telemetry-contract.json` | Span, correlation, content, sampling, and cardinality contract |
-| `infra/main.bicep` and `main.bicepparam` | Workbook and three scheduled-query alerts |
-| `monitoring/workbook.json` | Shared operational workbook definition |
-| `queries/*.kql` | Alert queries consumed by the Bicep deployment |
-| `cost/budget.bicep` and `budget.bicepparam` | Subscription budget with actual and forecast notifications |
-| `cost/cost-allocation.md` | Required tags, pricing-source ownership, and cost interpretation |
-| `governance/data-retention-decision.md` | Data-retention and access-boundary decision |
-| `governance/prompt-response-logging-decision.md` | Prompt and response logging decision and exception expiry |
-| `operations/incident-runbook.md` | Unsafe output, runaway usage, tool compromise, and model degradation response |
+| `telemetry/telemetry-contract.json` | Runtime | Observability owner with the gateway and application owners; before instrumentation or APIM policy changes and quarterly | Application developers and preflight scripts use the correlation, sampling, and privacy contract |
+| `infra/main.bicep` and `main.bicepparam` | Deployment | Observability owner; before deployment and quarterly | Azure deployment pipeline deploys the workbook and alert rules |
+| `monitoring/workbook.json` and `queries/*.kql` | Deployment and runtime | Observability owner; quarterly and after the relevant SLO, tool, or evaluation-policy change | Workbook deployment and scheduled-query alerts use the definitions |
+| `cost/budget.bicep` and `budget.bicepparam` | Deployment | Cost owner; before deployment and monthly | Subscription deployment pipeline deploys budget notifications |
+| `cost/cost-allocation.md` | Record | Cost owner; monthly after billing data settles and before a tag or billing-scope change | Cost owner maintains allocation tags and interprets estimates against billed cost |
+| `governance/data-retention-decision.md` | Record | Observability owner with data-protection owner; annually and before a retention, legal-hold, or data-residency change | Observability owner applies the approved retention boundary |
+| `governance/prompt-response-logging-decision.md` | Record | Data-protection owner with observability owner; quarterly, before an exception, and at expiry | Privacy and observability owners keep standard content logging disabled or operate an approved exception |
+| `operations/incident-runbook.md` | Record | Incident commander with service owner; quarterly and after an incident changes recovery steps | Incident commander and service operators use it for containment and recovery |
 
 Replace every `__REQUIRED_*__` value with a customer decision. Do not put credentials, connection
 strings, prompts, responses, tool payloads, user identifiers, or customer data in this tree.
@@ -22,22 +21,15 @@ For a `Disabled` prompt/response logging exception, keep every exception detail 
 
 The observability owner configures error spans, exception records, and approved security events to
 bypass normal trace sampling, then tests the rule with existing safe records. If the approved
-synthetic route emits no evaluation or security reference, record that correlation check as
-`not-applicable`.
+synthetic route emits no evaluation or security reference, treat that correlation check as
+not applicable in the live operational view.
 
 The Application Insights connection string remains a runtime secretless configuration value. The
 approved synthetic request uses the customer's existing client and agent; this tree creates no test
 resource or fixture.
 
-The gateway owner keeps the APIM policy in the customer policy repository, and the operational control
-points to that source. Operator and correlation queries are embedded in the workbook. The paired
-smoke scripts call the normal route and a dedicated handled-failure route. They require a failed
-tool dependency, an independent successful model result, and no fixed marker across the five
-documented Application Insights tables before writing a payload-free result for Session 12. They
-poll both correlation IDs for no more than 180 seconds by default and report a failed check when ingestion misses the bounded
-window. Before querying, they resolve the live component-to-workspace binding. Both correlated
-request records must carry the exact CLI commit SHA in `release.commit.sha`. PowerShell holds the
-bearer header in memory; Bash passes it to curl through standard input without writing the token to
-disk. Normal and failure correlation IDs must remain valid and distinct after response overrides.
-After readiness, three identical watermark summaries are required; the last query must still show
-no marker, prohibited telemetry-contract property, or commit mismatch.
+The gateway owner keeps the APIM policy in the customer policy repository. Operator and correlation
+queries are embedded in the workbook. The paired smoke scripts are consumed by the named Session 13
+GitHub promotion workflow. They read live telemetry and can write a payload-free check result only
+to the runner's temporary workspace for immediate workflow use. No Session 12 runtime record is
+kept in this tree.

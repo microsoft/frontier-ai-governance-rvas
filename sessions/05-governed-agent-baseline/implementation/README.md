@@ -31,6 +31,10 @@ tool with an MCP path, and
 [Session 10](../../10-foundry-evaluations-quality-gates/implementation/README.md) adds repeatable
 evaluations.
 
+This baseline attaches the OpenAPI contract directly to one agent. It does not use Foundry Toolbox.
+If several agents need the same governed tool, move that reuse decision into a future optional
+Toolbox module. Use Session 08 when the path also needs APIM and MCP controls.
+
 ## Architecture
 
 ### Architecture at a glance
@@ -50,7 +54,7 @@ than the user or the individual agent.
 
 Foundry shows which agent version and identity are live, and where the endpoint sends traffic. The
 repository defines the configuration operators intend to release. Deployment scripts combine that
-definition with the instructions, tool manifest, prohibited action, and release record. They
+definition with the instructions and tool manifest. They
 create an immutable prompt-agent version in the existing Foundry project and send all endpoint
 traffic to it.
 
@@ -64,6 +68,7 @@ direct tool path with MCP.
 |---|---|---|---|---|
 | Agent runtime | Use a persistent prompt agent with an immutable version and pinned stable endpoint | Operators can identify and recreate the released configuration | Each configuration change creates another version | The workload needs hosted code or an application-owned ephemeral definition |
 | Identities at each boundary | Use Agent Identity at the endpoint and the project managed identity for the direct OpenAPI call | Each identity follows the current Foundry boundary and its scope remains visible | The downstream API sees the project identity, not the user or agent | The tool path supports agent identity or requires delegated user authority |
+| Tool attachment | Attach the one approved OpenAPI contract directly to this agent | The baseline keeps one tool definition and one downstream authorization path visible | Reuse, toolbox versioning, and centralized tool lifecycle are outside this agent | Several agents need the same curated tool, or Session 08 replaces the path with MCP |
 | Tool authority | Expose one GET operation; omit writes and deny them through downstream authorization | The enforceable surface stays small | A read-only design limits what the agent can do | A separately approved workflow adds consequential actions and Session 08 controls |
 | Release routing | Send 100% of traffic to one pinned version | Operators always know which configuration handles a request | Promotion requires an explicit deployment step | A tested rollout design needs weighted traffic |
 
@@ -71,17 +76,16 @@ direct tool path with MCP.
 
 - [Configure and share your Microsoft Foundry agent](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/configure-agent) covers fixed-version routing, endpoint authorization, and agent identity.
 - [Connect OpenAPI tools to Microsoft Foundry agents](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/openapi) defines the project-managed-identity tool path and OpenAPI contract.
-- [Set up tracing for AI agents in Microsoft Foundry](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/trace-agent-setup) explains the Application Insights connection, reader roles, and data-handling boundary.
+- [What is Toolbox in Foundry?](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/toolbox-overview) explains the managed reuse option that this baseline deliberately leaves for a later module.
 
 ## Before you start
 
 Confirm the implementation definitions:
 
 - Sessions 01-03 are complete for the approved nonproduction environment.
-- `agent.json`, `instructions.md`, `prohibited-actions.json`, and `release-operations.json` list
-  their owners and have no unresolved decisions.
+- `agent.json`, `instructions.md`, and `tool-manifest.json` have no unresolved decisions.
 - `tool-manifest.json` contains one `get_policy` GET operation and no write operation.
-- `release-operations.json` identifies the selected stable-endpoint version and the tracing owner.
+- The live Foundry agent, RAI policy, and Application Insights connection are ready for inspection.
 
 Confirm the live Foundry resources:
 
@@ -101,7 +105,7 @@ Confirm the live Foundry resources:
   managed identity at the downstream API resource scope. If that service uses a custom role, its
   official authorization documentation must name the action required by `get_policy`, and
   `tool-manifest.json` must record the custom role definition ID and exact assignment scope.
-- The RAI policy and Application Insights connection listed in `agent.json` already exist. The operations group has
+- The named RAI policy and existing Application Insights connection already exist. The operations group has
   **Log Analytics Reader** on that exact Application Insights resource. If its Log Analytics tables
   are protected, the group also has **Privileged Monitoring Data Reader**. The operations owner has
   approved the retention boundary.
@@ -116,8 +120,6 @@ Confirm the live Foundry resources:
 | Deployment | [`artifacts/agents/policy-assistant/agent.json`](artifacts/agents/policy-assistant/agent.json) | The Session 05 agent deployment scripts |
 | Deployment | [`artifacts/agents/policy-assistant/instructions.md`](artifacts/agents/policy-assistant/instructions.md) | The Microsoft Foundry prompt-agent version |
 | Deployment | [`artifacts/agents/policy-assistant/tool-manifest.json`](artifacts/agents/policy-assistant/tool-manifest.json) | The Session 05 agent deployment scripts |
-| Deployment | [`artifacts/agents/policy-assistant/prohibited-actions.json`](artifacts/agents/policy-assistant/prohibited-actions.json) | The Session 05 agent deployment scripts |
-| Record | [`artifacts/operations/release-operations.json`](artifacts/operations/release-operations.json) | The Session 05 preflight and deployment scripts |
 
 ### Official documentation
 
@@ -138,6 +140,17 @@ Stop if the selected model deployment does not match the [Session 04](../../04-m
 not support the OpenAPI tool, the proposed name collides with an unmarked agent, or an existing
 agent has no unique `instance_identity`. A legacy shared-identity agent is not upgraded in place;
 choose a new name and create a current-model agent.
+
+The shared project identity for development agents and the distinct identity created at publication
+describe the older Agent Application publishing model. This session uses the current agent object
+model: the agent receives its own `instance_identity` when it is created, and its stable endpoint is
+live without a separate publish resource. The direct OpenAPI `managed_identity` option still uses
+the Foundry project managed identity for the downstream call.
+
+The Foundry portal can show the endpoint and pin its active version. It cannot currently configure
+protocols, authorization schemes, or the agent card. `agent.json` and the deployment scripts remain
+the intended configuration, and the Foundry REST API is authoritative for the live endpoint state.
+Stop and reconcile if the API response differs from those settings.
 
 ### Which identity makes the OpenAPI call
 
@@ -174,13 +187,10 @@ authorization, approval tokens, and MCP controls belong in [Session 08](../../08
 
 ### Content controls and tracing
 
-Apply the RAI policy listed in `rai_config.rai_policy_name`. In `agent.json`, keep the minimum
-input and output block severity for `hate`, `sexual`, `violence`, and `self_harm`, plus the
-corresponding category and severity settings read from that policy. Before deployment, the
-safety owner compares each policy setting with its approved minimum and records the review
-date. Stop if a category is missing or the policy blocks at a less restrictive severity.
-The agent instructions add a business-behavior boundary; they do not replace platform content
-controls.
+Apply the RAI policy listed in `rai_config.rai_policy_name`. The safety owner checks the live
+policy in Foundry before deployment and updates it through the approved Azure change path. Stop if
+the policy is missing or no longer meets the approved safety boundary. The agent instructions add
+a business-behavior boundary; they do not replace platform content controls.
 
 Server-side tracing starts automatically when the project is connected to Application Insights.
 Traces can include prompts, outputs, tool arguments, results, tokens, latency, and cost. Use only the
@@ -191,9 +201,8 @@ regional handling, sampling, or sensitive-content restrictions are unresolved.
 
 ### 1. Complete the implementation definitions
 
-Populate `agent.json`, the read path and audience in `tool-manifest.json`, the prohibited action and
-human route, and `release-operations.json`. Keep **`__RUNTIME_READ_API_BASE_URL__` unchanged**;
-deployment replaces it in memory. Use Microsoft’s [OpenAPI tool
+Populate `agent.json`, `instructions.md`, and the read path and audience in `tool-manifest.json`.
+Keep **`__RUNTIME_READ_API_BASE_URL__` unchanged**; deployment replaces it in memory. Use Microsoft’s [OpenAPI tool
 guidance](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/openapi) to check the
 supported authentication and operation contract.
 
@@ -235,8 +244,8 @@ Do not place these values, access tokens, prompts, responses, or customer data i
 
 Preflight rejects unresolved decisions, validates the single-GET tool surface and refusal policy,
 checks the approved subscription, Foundry resource, model deployment, Application Insights target,
-project access, identity path, and name collision. When a release is recorded, it also compares the
-current version selector with the live stable endpoint before printing the planned mutation.
+project access, identity path, name collision, and the live stable endpoint selector before printing
+the planned mutation.
 
 Foundry does not expose a data-plane `what-if` operation for agent version creation. The supported
 preview is therefore a read-only project/agent lookup plus the exact version, tool, protocol,
@@ -263,9 +272,9 @@ from `agent.json`, and one OpenAPI tool, then configures the stable endpoint for
 authorization and pins 100% of traffic to the returned version. It refuses to update an existing
 agent unless its agent card carries `implementationSession=05-governed-agent-baseline`.
 
-The script confirms that Foundry returned a unique `instance_identity` and updates only the current
-release operations record with the active version and source hashes. It does not store the endpoint,
-principal ID, subscription ID, prompt, response, or trace data.
+The script confirms that Foundry returned a unique `instance_identity`. Foundry retains the active
+version and endpoint selector. The script does not store the endpoint, principal ID, subscription
+ID, prompt, response, or trace data.
 
 ## Confirm the result
 
@@ -334,13 +343,12 @@ trace.
 ## After implementation
 
 Keep the **pinned agent and stable endpoint configuration**, together with its unique identity,
-instructions, GET-only tool manifest, prohibited-action policy, release operations record,
-deployment scripts, and Application Insights connection. The AI product owner owns behavior and
+instructions, GET-only tool manifest, deployment scripts, and Application Insights connection. The AI product owner owns behavior and
 release selection. The platform/identity owner owns endpoint access and downstream authorization.
 The safety owner owns the RAI policy. The operations owner owns trace access, retention, and cost.
 
 Run this implementation only against the nonproduction project, model, API, and identity settings
-listed in `agent.json`, `tool-manifest.json`, and `release-operations.json`. It does not approve
+listed in `agent.json` and `tool-manifest.json`. It does not approve
 production release, write-capable tools, Microsoft 365/Teams distribution, APIM ingress, MCP, or
 evaluation quality.
 

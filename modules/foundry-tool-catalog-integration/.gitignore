@@ -1,0 +1,6 @@
+*.token
+*.response.json
+.env
+.tmp/
+__pycache__/
+

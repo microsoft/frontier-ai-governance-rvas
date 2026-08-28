@@ -64,6 +64,7 @@ $requiredSentinels = @(
     "__REQUIRED_RELEASE_OWNER_ROLE__"
     "__REQUIRED_SAFETY_OWNER_ROLE__"
     "__REQUIRED_SUPPORT_CHECK_DATE__"
+    "__REQUIRED_TOOL_EVALUATOR_COMPATIBILITY_STATUS__"
     "__REQUIRED_TOOL_OWNER_ROLE__"
 )
 
@@ -150,6 +151,12 @@ if (-not [bool]$releasePolicy.currentSupportGate.manualGateRequired -or
     [string]$releasePolicy.currentSupportGate.status -ne "supported") {
     throw "The manual current-support gate must record supported; no stable discovery API is assumed."
 }
+$protectedMaterialDecision = $releasePolicy.currentSupportGate.protectedMaterialDecision
+if (-not [bool]$protectedMaterialDecision.blocking -or
+    [string]$protectedMaterialDecision.requiredRegion -ne "East US 2" -or
+    [string]$protectedMaterialDecision.ifUnavailable -ne "stop-and-relocate-or-revise-policy") {
+    throw "The protected-material decision must keep the blocking metric in East US 2 or stop for an explicit policy revision."
+}
 $supportCheckedOn = [datetime]::ParseExact(
     [string]$releasePolicy.currentSupportGate.checkedOn,
     "yyyy-MM-dd",
@@ -172,8 +179,17 @@ if ([string]$releasePolicy.target.networkMode -eq "isolated" -and
 if ([bool]$releasePolicy.capability.previewEvaluators.allowedAsSoleBlockingControl) {
     throw "Preview evaluators cannot be the sole blocking control."
 }
+$toolCompatibility = $releasePolicy.capability.toolEvaluatorCompatibility
+if ([string]$toolCompatibility.status -ne "approved" -or
+    [bool]$toolCompatibility.limitedSupportToolPresent -or
+    (@($toolCompatibility.evaluatedToolTypes) -join ",") -ne "Function Tool") {
+    throw "The tool owner must approve tool-call evaluators for the supported Function Tool path."
+}
 
 $region = ([string]$releasePolicy.target.evaluationRegion).ToLowerInvariant().Replace(" ", "")
+if ($region -ne "eastus2") {
+    throw "The blocking protected_material evaluator requires East US 2. Relocate or revise the policy before running."
+}
 
 $rows = @(Get-Content -LiteralPath $datasetPath | Where-Object { $_.Trim().Length -gt 0 })
 if ($rows.Count -lt [int]$spec.dataset.minimumCases -or
@@ -210,6 +226,19 @@ if (($evaluatorNames | Sort-Object -Unique).Count -ne $evaluatorNames.Count) {
 foreach ($evaluator in @($spec.evaluators)) {
     if ([bool]$evaluator.preview -and [bool]$evaluator.blockingEligible) {
         throw "Preview evaluator $($evaluator.name) cannot be blocking-eligible."
+    }
+    $evaluatorsByName = @{}
+    foreach ($evaluator in @($spec.evaluators)) {
+        $evaluatorsByName[[string]$evaluator.name] = $evaluator
+    }
+    foreach ($previewSafetyName in @("prohibited_actions", "sensitive_data_leakage")) {
+        $previewSafety = $evaluatorsByName[$previewSafetyName]
+        if ($null -eq $previewSafety -or
+            [string]$previewSafety.layer -ne "safety" -or
+            -not [bool]$previewSafety.preview -or
+            [bool]$previewSafety.blockingEligible) {
+            throw "$previewSafetyName must remain a nonblocking preview safety evaluator."
+        }
     }
     if ([string]$evaluator.layer -notin @("final-answer-quality", "tool-process", "safety")) {
         throw "Evaluator $($evaluator.name) has an unknown metric layer."

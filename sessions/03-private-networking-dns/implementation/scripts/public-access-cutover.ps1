@@ -2,39 +2,22 @@
 param(
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string]$FoundryResourceId,
-
-    [Parameter(Mandatory)]
-    [ValidateNotNullOrEmpty()]
-    [string]$StorageResourceId,
-
-    [Parameter(Mandatory)]
-    [ValidateNotNullOrEmpty()]
-    [string]$SearchResourceId,
-
-    [Parameter(Mandatory)]
-    [ValidateNotNullOrEmpty()]
-    [string]$CosmosResourceId,
-
-    [Parameter(Mandatory)]
-    [ValidateNotNullOrEmpty()]
-    [string]$KeyVaultResourceId,
-
-    [Parameter(Mandatory)]
-    [ValidateNotNullOrEmpty()]
     [string]$ApprovedSubscriptionId,
 
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
     [string]$ResourceGroupName,
 
-    [Parameter()]
-    [ValidateScript({ Test-Path -LiteralPath $_ -PathType Leaf })]
-    [string]$EndpointMatrixPath = (Join-Path $PSScriptRoot "..\artifacts\network\endpoint-matrix.json"),
-
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string]$CutoverRecordPath,
+    [string]$CutoverChangeReference,
+
+    [Parameter()]
+    [ValidateScript({ Test-Path -LiteralPath $_ -PathType Leaf })]
+    [string]$ParameterPath = (Join-Path $PSScriptRoot "..\artifacts\environments\sandbox.bicepparam"),
+
+    [Parameter(Mandatory)]
+    [switch]$ConfirmPriorStateRecorded,
 
     [Parameter()]
     [ValidateRange(2, 30)]
@@ -58,40 +41,43 @@ function Invoke-AzJson {
     return (($raw | Out-String) | ConvertFrom-Json -ErrorAction Stop)
 }
 
+function Get-ParameterValue {
+    param(
+        [Parameter(Mandatory)][string]$Text,
+        [Parameter(Mandatory)][string]$Name
+    )
+
+    $matches = [regex]::Matches(
+        $Text,
+        "(?m)^\s*param\s+$([regex]::Escape($Name))\s*=\s*'([^']+)'\s*$"
+    )
+    if ($matches.Count -ne 1) {
+        throw "Parameter '$Name' must contain exactly one quoted resource ID."
+    }
+    return $matches[0].Groups[1].Value.Trim().TrimEnd("/")
+}
+
 function Set-PublicNetworkAccess {
     param(
         [Parameter(Mandatory)][string]$Alias,
-        [Parameter(Mandatory)][object]$Resource,
-        [Parameter(Mandatory)][ValidateSet("Enabled", "Disabled")][string]$State
+        [Parameter(Mandatory)][object]$Resource
     )
 
     $arguments = switch ($Alias) {
-        "foundry" {
-            @("resource", "update", "--ids", [string]$Resource.id, "--set", "properties.publicNetworkAccess=$State")
-        }
-        "storage" {
-            @("storage", "account", "update", "--ids", [string]$Resource.id, "--public-network-access", $State)
-        }
-        "ai-search" {
-            @("search", "service", "update", "--ids", [string]$Resource.id, "--public-network-access", $State.ToLowerInvariant())
-        }
-        "cosmos" {
-            @("cosmosdb", "update", "--ids", [string]$Resource.id, "--public-network-access", $State)
-        }
+        "foundry" { @("resource", "update", "--ids", [string]$Resource.id, "--set", "properties.publicNetworkAccess=Disabled") }
+        "storage" { @("storage", "account", "update", "--ids", [string]$Resource.id, "--public-network-access", "Disabled") }
+        "ai-search" { @("search", "service", "update", "--ids", [string]$Resource.id, "--public-network-access", "disabled") }
+        "cosmos" { @("cosmosdb", "update", "--ids", [string]$Resource.id, "--public-network-access", "Disabled") }
         "key-vault" {
-            $segments = ([string]$Resource.id).Split("/")
-            $resourceGroup = $segments[[array]::IndexOf($segments, "resourceGroups") + 1]
             @(
                 "keyvault", "update",
                 "--name", [string]$Resource.name,
-                "--resource-group", $resourceGroup,
+                "--resource-group", $ResourceGroupName,
                 "--subscription", $ApprovedSubscriptionId,
-                "--public-network-access", $State
+                "--public-network-access", "Disabled"
             )
         }
-        default {
-            throw "Unsupported cutover alias: $Alias"
-        }
+        default { throw "Unsupported cutover alias: $Alias" }
     }
 
     $raw = & az @arguments --only-show-errors --output none 2>&1
@@ -100,252 +86,72 @@ function Set-PublicNetworkAccess {
     }
 }
 
-function Resolve-ExternalRecordPath {
-    param([Parameter(Mandatory)][string]$Path)
-
-    $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..\..\..")).Path
-    $resolvedPath = [System.IO.Path]::GetFullPath($Path)
-    $repoBoundary = $repoRoot.TrimEnd("\") + "\"
-    if (
-        $resolvedPath.Equals($repoRoot, [System.StringComparison]::OrdinalIgnoreCase) -or
-        $resolvedPath.StartsWith($repoBoundary, [System.StringComparison]::OrdinalIgnoreCase)
-    ) {
-        throw "CutoverRecordPath must resolve outside the source repository."
-    }
-    if (Test-Path -LiteralPath $resolvedPath) {
-        throw "CutoverRecordPath already exists. Preserve it and use a new path for a new cutover."
-    }
-    if (Test-Path -LiteralPath "$resolvedPath.previous") {
-        throw "CutoverRecordPath has an existing recovery copy. Preserve it and use a new path for a new cutover."
-    }
-
-    $parent = [System.IO.Path]::GetDirectoryName($resolvedPath)
-    if ([string]::IsNullOrWhiteSpace($parent)) {
-        throw "CutoverRecordPath must include an approved parent directory."
-    }
-    if (-not (Test-Path -LiteralPath $parent -PathType Container)) {
-        throw "The approved CutoverRecordPath parent directory does not exist."
-    }
-    return $resolvedPath
-}
-
-function Write-CutoverRecord {
-    param(
-        [Parameter(Mandatory)][object]$Record,
-        [Parameter(Mandatory)][string]$Path
-    )
-
-    $parent = [System.IO.Path]::GetDirectoryName($Path)
-    $fileName = [System.IO.Path]::GetFileName($Path)
-    $temporaryPath = Join-Path $parent ".$fileName.$([guid]::NewGuid().ToString('N')).tmp"
-    $backupPath = "$Path.previous"
-    $encoding = [System.Text.UTF8Encoding]::new($false)
-    $bytes = $encoding.GetBytes(
-        (($Record | ConvertTo-Json -Depth 10) + [Environment]::NewLine)
-    )
-
-    try {
-        $stream = [System.IO.FileStream]::new(
-            $temporaryPath,
-            [System.IO.FileMode]::CreateNew,
-            [System.IO.FileAccess]::Write,
-            [System.IO.FileShare]::None,
-            4096,
-            [System.IO.FileOptions]::WriteThrough
-        )
-        try {
-            $stream.Write($bytes, 0, $bytes.Length)
-            $stream.Flush($true)
-        }
-        finally {
-            $stream.Dispose()
-        }
-
-        if (Test-Path -LiteralPath $Path -PathType Leaf) {
-            if (Test-Path -LiteralPath $backupPath) {
-                Remove-Item -LiteralPath $backupPath -Force
-            }
-            [System.IO.File]::Replace($temporaryPath, $Path, $backupPath, $true)
-        }
-        else {
-            [System.IO.File]::Move($temporaryPath, $Path)
-        }
-    }
-    finally {
-        if (Test-Path -LiteralPath $temporaryPath) {
-            Remove-Item -LiteralPath $temporaryPath -Force
-        }
-    }
-}
-
 if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
     throw "Azure CLI is required and was not found on PATH."
 }
 
-$endpointMatrix = Get-Content -LiteralPath $EndpointMatrixPath -Raw |
-    ConvertFrom-Json -ErrorAction Stop
-if (
-    $endpointMatrix.implementationSession -ne $marker -or
-    @($endpointMatrix.endpoints).Count -ne 5
-) {
-    throw "EndpointMatrixPath must contain the complete Session 03 endpoint set."
-}
-
+$parameterText = Get-Content -LiteralPath $ParameterPath -Raw
 $targets = @(
-    [ordered]@{
-        alias = "foundry"
-        endpointAlias = "foundry"
-        id = $FoundryResourceId
-        type = "Microsoft.CognitiveServices/accounts"
-        dnsSuffixes = @(
-            ".services.ai.azure.com"
-            ".cognitiveservices.azure.com"
-            ".openai.azure.com"
-        )
-    }
-    [ordered]@{
-        alias = "storage"
-        endpointAlias = "storage-blob"
-        id = $StorageResourceId
-        type = "Microsoft.Storage/storageAccounts"
-        dnsSuffixes = @(".blob.core.windows.net")
-    }
-    [ordered]@{
-        alias = "ai-search"
-        endpointAlias = "ai-search"
-        id = $SearchResourceId
-        type = "Microsoft.Search/searchServices"
-        dnsSuffixes = @(".search.windows.net")
-    }
-    [ordered]@{
-        alias = "cosmos"
-        endpointAlias = "cosmos-sql"
-        id = $CosmosResourceId
-        type = "Microsoft.DocumentDB/databaseAccounts"
-        dnsSuffixes = @(".documents.azure.com")
-    }
-    [ordered]@{
-        alias = "key-vault"
-        endpointAlias = "key-vault"
-        id = $KeyVaultResourceId
-        type = "Microsoft.KeyVault/vaults"
-        dnsSuffixes = @(".vault.azure.net")
-    }
+    [ordered]@{ Alias = "foundry"; Parameter = "foundryResourceId"; Type = "Microsoft.CognitiveServices/accounts" }
+    [ordered]@{ Alias = "storage"; Parameter = "storageResourceId"; Type = "Microsoft.Storage/storageAccounts" }
+    [ordered]@{ Alias = "ai-search"; Parameter = "searchResourceId"; Type = "Microsoft.Search/searchServices" }
+    [ordered]@{ Alias = "cosmos"; Parameter = "cosmosResourceId"; Type = "Microsoft.DocumentDB/databaseAccounts" }
+    [ordered]@{ Alias = "key-vault"; Parameter = "keyVaultResourceId"; Type = "Microsoft.KeyVault/vaults" }
 )
-
-$resources = @{}
-$recordResources = @()
-$seenResourceIds = [System.Collections.Generic.HashSet[string]]::new(
-    [System.StringComparer]::OrdinalIgnoreCase
-)
+$resources = @()
+$seenIds = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
 foreach ($target in $targets) {
-    $resource = Invoke-AzJson `
-        -Arguments @("resource", "show", "--ids", $target.id) `
-        -Description "$($target.alias) lookup"
-    if (-not ([string]$resource.id).Equals(
-        [string]$target.id,
-        [System.StringComparison]::OrdinalIgnoreCase
-    )) {
-        throw "$($target.alias) lookup returned a different resource ID."
-    }
-    if (-not $seenResourceIds.Add([string]$resource.id)) {
-        throw "Each cutover alias must identify a unique resource."
-    }
-    $resourceIdMatch = [regex]::Match(
-        [string]$resource.id,
-        "^/subscriptions/([^/]+)/resourceGroups/([^/]+)/providers/(.+)/[^/]+$",
-        [System.Text.RegularExpressions.RegexOptions]::IgnoreCase
-    )
-    if (-not $resourceIdMatch.Success) {
-        throw "$($target.alias) does not use a supported resource-group-scoped Azure resource ID."
-    }
+    $resourceId = Get-ParameterValue -Text $parameterText -Name $target.Parameter
+    $resource = Invoke-AzJson -Arguments @("resource", "show", "--ids", $resourceId) -Description "$($target.Alias) lookup"
+    $expectedPrefix = "/subscriptions/$ApprovedSubscriptionId/resourceGroups/$ResourceGroupName/providers/"
     if (
-        $resourceIdMatch.Groups[1].Value -ine $ApprovedSubscriptionId -or
-        $resourceIdMatch.Groups[2].Value -ine $ResourceGroupName
+        -not ([string]$resource.id).StartsWith($expectedPrefix, [System.StringComparison]::OrdinalIgnoreCase) -or
+        [string]$resource.type -ine [string]$target.Type -or
+        -not $seenIds.Add([string]$resource.id)
     ) {
-        throw "$($target.alias) is outside the approved subscription or resource group."
+        throw "$($target.Alias) is outside the approved scope, has the wrong type, or duplicates another target."
     }
-    if ([string]$resource.type -ine [string]$target.type) {
-        throw "$($target.alias) must identify a $($target.type) resource."
-    }
-
-    $matchingEndpoints = @(
-        $endpointMatrix.endpoints |
-            Where-Object { [string]$_.alias -ieq [string]$target.endpointAlias }
-    )
-    if ($matchingEndpoints.Count -ne 1) {
-        throw "Endpoint matrix must contain exactly one $($target.endpointAlias) entry."
-    }
-    $fqdn = ([string]$matchingEndpoints[0].fqdn).Trim().TrimEnd(".")
-    $expectedFqdns = @(
-        $target.dnsSuffixes |
-            ForEach-Object { "$([string]$resource.name)$([string]$_)" }
-    )
-    if (-not @($expectedFqdns | Where-Object {
-        $fqdn.Equals($_, [System.StringComparison]::OrdinalIgnoreCase)
-    })) {
-        throw "$($target.endpointAlias) FQDN must match the selected resource name and service DNS suffix."
-    }
-
     $priorState = [string]$resource.properties.publicNetworkAccess
     if ([string]::IsNullOrWhiteSpace($priorState)) {
-        throw "$($target.alias) does not expose properties.publicNetworkAccess through the current API."
+        throw "$($target.Alias) does not expose properties.publicNetworkAccess through the current API."
     }
-    $resources[$target.alias] = $resource
-    $recordResources += [ordered]@{
-        alias = $target.alias
-        resourceId = [string]$resource.id
-        priorState = $priorState
-        requestedState = "Disabled"
-        result = "NotStarted"
+    $resources += [pscustomobject]@{
+        Alias = $target.Alias
+        Resource = $resource
+        PriorState = $priorState
     }
 }
 
-$connectivityCheck = Join-Path $PSScriptRoot "connectivity-check.ps1"
-& $connectivityCheck -EndpointMatrixPath $EndpointMatrixPath -TimeoutSeconds $TimeoutSeconds
+& (Join-Path $PSScriptRoot "connectivity-check.ps1") `
+    -ParameterPath $ParameterPath `
+    -TimeoutSeconds $TimeoutSeconds
 
-$recordPath = Resolve-ExternalRecordPath -Path $CutoverRecordPath
 Write-Host "Cutover scope: five approved nonproduction services."
-Write-Host "  Subscription:   $ApprovedSubscriptionId"
-Write-Host "  Resource group: $ResourceGroupName"
-Write-Host "Restore state: $recordPath"
+Write-Host "Change record: $CutoverChangeReference"
+$resources | Select-Object Alias, PriorState, @{ Name = "RequestedState"; Expression = { "Disabled" } } |
+    Format-Table -AutoSize | Out-Host
+
+if (-not $ConfirmPriorStateRecorded) {
+    throw "Copy the displayed prior states into change record '$CutoverChangeReference' through the approved change process, then rerun with -ConfirmPriorStateRecorded."
+}
 if (-not $PSCmdlet.ShouldProcess(
     "five approved nonproduction services",
-    "Write the complete restore record, add the Session 03 marker, and disable public network access"
+    "Add networkControlSession=$marker and disable public network access"
 )) {
     Write-Host "No public-access changes were applied."
     return
 }
 
-$record = [ordered]@{
-    schemaVersion = 1
-    session = $marker
-    capturedAtUtc = [datetimeoffset]::UtcNow.ToString("o")
-    status = "Cutover ready"
-    resources = $recordResources
-}
-Write-CutoverRecord -Record $record -Path $recordPath
-
-for ($index = 0; $index -lt $targets.Count; $index++) {
-    $target = $targets[$index]
-    $record.resources[$index].result = "UpdatePending"
-    $record.status = "Cutover in progress"
-    Write-CutoverRecord -Record $record -Path $recordPath
-
+foreach ($item in $resources) {
     $tagOutput = & az tag update `
-        --resource-id $target.id `
+        --resource-id $item.Resource.id `
         --operation Merge `
         --tags "networkControlSession=$marker" `
         --only-show-errors 2>&1
     if ($LASTEXITCODE -ne 0) {
-        throw "Tag update failed for $($target.alias).`n$($tagOutput | Out-String)"
+        throw "Tag update failed for $($item.Alias).`n$($tagOutput | Out-String)"
     }
-    Set-PublicNetworkAccess -Alias $target.alias -Resource $resources[$target.alias] -State "Disabled"
-
-    $record.resources[$index].result = "Applied"
-    Write-CutoverRecord -Record $record -Path $recordPath
+    Set-PublicNetworkAccess -Alias $item.Alias -Resource $item.Resource
 }
 
-$record.status = "Cutover applied"
-Write-CutoverRecord -Record $record -Path $recordPath
-Write-Host "Cutover complete. Run connectivity-check.ps1 from this approved private host."
+Write-Host "Cutover complete. The change record holds the prior states for the approved restore path."

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "07-api-center-ai-mcp-inventory",
+  "api": {
+    "apiId": "policy-assistant-agent-api",
+    "title": "Policy assistant agent API",
+    "summary": "Direct Session 05 Microsoft Foundry agent endpoint.",
+    "description": "Design-time record for the pinned, Entra-authorized Session 05 agent Responses endpoint.",
+    "kind": "rest",
+    "versionId": "v1-0-0",
+    "versionTitle": "1.0.0",
+    "lifecycleStage": "testing",
+    "definitionId": "openapi",
+    "deploymentId": "foundry-nonproduction",
+    "customProperties": {
+      "businessOwner": "__REQUIRED_BUSINESS_OWNER__",
+      "technicalOwner": "__REQUIRED_TECHNICAL_OWNER__",
+      "assetKind": "agent-api",
+      "dataClassification": "__REQUIRED_DATA_CLASSIFICATION__",
+      "permittedConsumers": [
+        "__REQUIRED_PERMITTED_CONSUMER__"
+      ],
+      "modelProvider": "__REQUIRED_MODEL_PROVIDER__",
+      "residencyProfile": "__REQUIRED_RESIDENCY_PROFILE__",
+      "riskTier": "__REQUIRED_RISK_TIER__",
+      "evaluationResultsUrl": "__REQUIRED_EVALUATION_RESULTS_URL__",
+      "lastReviewDate": "__REQUIRED_LAST_REVIEW_DATE__",
+      "expiryDate": "__REQUIRED_EXPIRY_DATE__",
+      "implementationSession": "07-api-center-ai-mcp-inventory"
+    }
+  }
+}

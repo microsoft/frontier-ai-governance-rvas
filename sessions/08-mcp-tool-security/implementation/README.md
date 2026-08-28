@@ -49,8 +49,9 @@ identity, and the backend accepts that identity at one read-only scope. A caller
 first check still gains no direct authority over the backend. And because no write tool or backend
 write role exists, an agent refusal is supporting behavior rather than the write control.
 
-Application Insights receives the tool name, status, latency, and correlation fields. Request and
-response content stays out of telemetry.
+Application Insights receives the tool name, status, latency, and correlation fields. The W3C
+`operation_Id` is the primary trace key. The client `X-Correlation-ID` remains a secondary
+dimension for support workflows. Request and response content stays out of telemetry.
 
 APIM shows the live MCP resource, runtime policy, and outbound identity. Foundry shows the
 candidate tool binding and which version the stable selector points to. API Center receives
@@ -102,9 +103,10 @@ Confirm these prerequisites:
   testing of the candidate agent version.
 - Global and MCP diagnostics log zero request and response body bytes. Arguments, results, prompts,
   responses, tokens, and customer data are not captured.
-- The release owner, data owner, security owner, tool owner, and human change route are recorded.
+- The release owner, data owner, security owner, tool owner, and human change route are named in
+  the applicable implementation definition or live Microsoft platform state.
 - All implementation files are complete, the exact backend role assignment is active, and API Center
-  reconciliation handling is agreed before the session.
+  metadata maintenance is agreed before the session.
 - The customer permits the current `2025-09-01-preview` APIM management API for this nonproduction
   deployment. Runtime identity, backend authorization, and tool absence remain the primary controls;
   preview automation is not the only security boundary.
@@ -177,9 +179,8 @@ management resource uses the current documented preview API because MCP `apis/to
 requires it. Stop if preview deployment is prohibited, the APIM tier lacks MCP support, or the
 existing Session 06 APIM instance is a workspace. If preview automation is prohibited but the APIM tier supports MCP, the APIM
 owner may use the documented portal flow. The owner must create exactly one `policy-catalog-mcp`
-server with one `get_policy` tool, save the APIM resource and tool IDs in the binding record plus the portal
-configuration reference, apply the same policy file, and confirm through an APIM read that no other
-tool exists. Otherwise stop. Do not use an undocumented resource shape.
+server with one `get_policy` tool, apply the same policy file, and inspect the live APIM resource to
+confirm that no other tool exists. Otherwise stop. Do not use an undocumented resource shape.
 
 APIM currently governs MCP tools, not MCP resources or prompts. Do not represent those capabilities
 as implemented.
@@ -194,6 +195,14 @@ The MCP policy never reads `context.Response.Body`, because buffering can break 
 Diagnostics record the operation, tool name, client, auth type, duration, result, and correlation ID.
 They record zero payload bytes. Stop if any global or MCP diagnostic captures request or response
 bodies, if sensitive headers are added, or if an observer cannot trace the check without payloads.
+
+`mcp-traffic.kql` joins the APIM request row to the policy trace by W3C `operation_Id`. It keeps the
+client correlation header, tool, conversation, client, auth, status, latency, and error dimensions.
+
+The backend policy intentionally sets `fail-on-error-status-code="false"`. Backend 4xx and 5xx
+responses continue through the normal outbound path, which preserves response status, correlation,
+and MCP telemetry. Policy failures and transport failures still use `on-error`. Change this setting
+only with an approved response-mapping design.
 
 ### Release decision
 
@@ -296,13 +305,13 @@ The deployment is idempotent. It creates:
 Do not enable payload logging to troubleshoot a failed call. Use status, error type, correlation,
 APIM trace access, and backend diagnostics that follow the customer's data-handling policy.
 
-### 4. Have the API program owner reconcile API Center
+### 4. Have the API program owner maintain API Center
 
 Do not wait for APIM synchronization during active delivery. After exactly one
 `policy-catalog-mcp` record appears, the API program owner uses the
-[Session 07](../../07-api-center-ai-mcp-inventory/implementation/README.md) reconciliation process
-and applies the required owner, classification, consumer, residency, risk, evaluation, review, and
-expiry metadata.
+[Session 07](../../07-api-center-ai-mcp-inventory/implementation/README.md) operating process and
+sets the required owner, classification, consumer, residency, risk, evaluation, review, and expiry
+metadata in API Center.
 
 Stop on a duplicate record, missing runtime owner, or metadata that grants broader use than the
 threat model's authorization boundary. The release owner cannot pin the candidate until the API
@@ -418,7 +427,8 @@ Approve that call. Expected result:
 - only `get_policy` appears in the tool flow;
 - the APIM call succeeds through its managed identity, with no forwarded inbound token; and
 - `mcp-traffic.kql` shows one matching tool event and correlation ID without arguments or result
-  payloads.
+  payloads. Use its W3C `traceId` to follow the operation and the client correlation value for the
+  support reference.
 
 Stop if the result is wrong, another tool is requested, the backend receives caller authority, or the
 correlation event is absent.
@@ -451,8 +461,12 @@ The release owner observes both results during delivery:
 ## After implementation
 
 Keep the **APIM MCP API and single tool in operation**, with the policy, nonsecret APIM named values,
-diagnostic, Foundry project connection, approved candidate version when enabled, API Center record,
-threat model, binding, security evaluation, KQL query, and scripts.
+diagnostic, Foundry project connection, approved candidate version when enabled, and API Center
+metadata. APIM, Foundry, and API Center remain authoritative for that live state.
+
+Retain the source-controlled binding, the recurring security-evaluation runbook, threat model, KQL
+query, and scripts. The security owner updates the two Markdown records before candidate enablement
+or a material security change, and reviews the threat model every 90 days.
 
 The tool owner owns the server and schema. The identity owner owns both token audiences and role
 assignments. The data owner owns fields and record access. The security owner owns the adversarial
@@ -461,8 +475,8 @@ schema, output-field, backing-operation, identity, instruction, model, or approv
 owner owns policy and diagnostics. The release owner owns the
 active agent-version selector.
 
-Run this implementation only for the nonproduction read tool listed in `control-definition.json`
-and `tool-manifest.json`. It does not approve write
+Run this implementation only for the nonproduction read tool listed in `sandbox.json` and
+`agent-mcp-binding.json`. It does not approve write
 tools, production release, MCP resources or prompts, APIM workspaces, cross-tenant identity,
 payload logging, a broader tool catalog, or per-user downstream authorization. Require a separately
 approved delegated-access implementation when the backend must authorize each signed-in user.
@@ -470,7 +484,7 @@ approved delegated-access implementation when the backend must authorize each si
 The immediate disable switch is the stable agent version selector. Restore the previous [Session 05](../../05-governed-agent-baseline/implementation/README.md)
 version at 100% before removing infrastructure. If the MCP endpoint must be removed, confirm that no
 active agent or consumer references it. Use the approved APIM change path to check the live Session
-09 marker and remove only the MCP API and five Session 08 APIM named values. The backing API, backend
+08 marker and remove only the MCP API and five Session 08 APIM named values. The backing API, backend
 role assignment, APIM service, Foundry agent, API Center, Application Insights, and implementation
 files remain. Revoke the backend role separately only when the identity owner confirms Session 08
 introduced it and no operational MCP server or API operation

@@ -30,7 +30,7 @@ param toolFailureThreshold string
 @description('Failed AI quality or safety evaluation count that opens the quality alert.')
 param qualityFailureThreshold string
 
-var implementationSession = '13'
+var implementationSession = '12'
 var commonTags = {
   implementationSession: implementationSession
   service: serviceName
@@ -38,7 +38,7 @@ var commonTags = {
 }
 
 resource workbook 'Microsoft.Insights/workbooks@2023-06-01' = {
-  name: guid(resourceGroup().id, 'rvas-13-operations-workbook')
+  name: guid(resourceGroup().id, 'rvas-12-operations-workbook')
   location: location
   kind: 'shared'
   tags: commonTags
@@ -146,7 +146,7 @@ resource qualitySafetyAlert 'Microsoft.Insights/scheduledQueryRules@2023-12-01' 
   tags: commonTags
   properties: {
     displayName: '${serviceName} AI quality or safety failures'
-    description: 'Production evaluation events exceeded the approved quality or safety threshold.'
+    description: 'AI evaluation events exceeded the approved quality or safety threshold.'
     severity: 1
     enabled: true
     evaluationFrequency: 'PT15M'

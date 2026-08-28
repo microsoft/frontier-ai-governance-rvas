@@ -17,10 +17,10 @@ trap cleanup EXIT
 
 usage() {
   cat <<'USAGE'
-Usage: ./scripts/preflight.sh --approved-subscription-id <id> --resource-group-name <name>
+Usage: ./scripts/preflight.sh --approved-subscription-id <id> --resource-group-name <name> --network-operator-object-id <id> --dns-operator-object-id <id> --dns-scope-resource-id <id> [--dns-scope-resource-id <id> ...]
 
 Validate Session 03 files, __REQUIRED_*__ decisions, approved Azure scope, service resource
-identities, resource providers, Bicep compilation, and the read-only group what-if preview.
+identities, operator roles, resource providers, Bicep compilation, and the read-only group what-if preview.
 USAGE
 }
 
@@ -81,6 +81,9 @@ PY
 
 approved_subscription_id=""
 resource_group_name=""
+network_operator_object_id=""
+dns_operator_object_id=""
+dns_scope_resource_ids=()
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -92,6 +95,21 @@ while [[ $# -gt 0 ]]; do
     --resource-group-name)
       [[ $# -ge 2 ]] || die "Missing value for $1"
       resource_group_name="$2"
+      shift 2
+      ;;
+    --network-operator-object-id)
+      [[ $# -ge 2 ]] || die "Missing value for $1"
+      network_operator_object_id="$2"
+      shift 2
+      ;;
+    --dns-operator-object-id)
+      [[ $# -ge 2 ]] || die "Missing value for $1"
+      dns_operator_object_id="$2"
+      shift 2
+      ;;
+    --dns-scope-resource-id)
+      [[ $# -ge 2 ]] || die "Missing value for $1"
+      dns_scope_resource_ids+=("${2%/}")
       shift 2
       ;;
     --help)
@@ -107,57 +125,31 @@ done
 
 [[ -n "$approved_subscription_id" ]] || { usage >&2; die '--approved-subscription-id is required.'; }
 [[ -n "$resource_group_name" ]] || { usage >&2; die '--resource-group-name is required.'; }
+[[ -n "$network_operator_object_id" ]] || { usage >&2; die '--network-operator-object-id is required.'; }
+[[ -n "$dns_operator_object_id" ]] || { usage >&2; die '--dns-operator-object-id is required.'; }
+[[ ${#dns_scope_resource_ids[@]} -gt 0 ]] || { usage >&2; die 'At least one --dns-scope-resource-id is required.'; }
 command -v az >/dev/null 2>&1 || die 'Azure CLI is required and was not found on PATH.'
 command -v python3 >/dev/null 2>&1 || die 'Python 3 is required and was not found on PATH.'
 
 required_files=(
   'infra/network/main.bicep'
   'environments/sandbox.bicepparam'
-  'network/endpoint-matrix.json'
-  'decisions/network-design-record.md'
 )
 for relative in "${required_files[@]}"; do
   [[ -f "$artifact_root/$relative" ]] || die "Required implementation file is missing: $relative"
 done
 
-python3 - "$artifact_root/network/endpoint-matrix.json" <<'PY'
-import json, sys
-endpoint_path = sys.argv[1]
-with open(endpoint_path, encoding='utf-8') as handle:
-    endpoint_matrix = json.load(handle)
-if endpoint_matrix.get('implementationSession') != '03-private-networking-dns':
-    raise SystemExit('The endpoint matrix has the wrong implementation marker.')
-expected = {'foundry', 'storage-blob', 'ai-search', 'cosmos-sql', 'key-vault'}
-aliases = [str(item.get('alias', '')).strip().lower() for item in endpoint_matrix.get('endpoints', [])]
-if len(aliases) != len(expected) or set(aliases) != expected:
-    raise SystemExit('The endpoint matrix must contain the five unique approved service aliases.')
-PY
-
 scan_unresolved_sentinels "$artifact_root" \
-  '__REQUIRED_ADDRESS_DECISION__' \
   '__REQUIRED_AGENT_SUBNET_CIDR__' \
-  '__REQUIRED_AI_SEARCH_FQDN__' \
-  '__REQUIRED_COSMOS_FQDN__' \
   '__REQUIRED_COSMOS_RESOURCE_ID__' \
-  '__REQUIRED_CUTOVER_DECISION__' \
-  '__REQUIRED_DNS_DECISION__' \
   '__REQUIRED_EXPIRY_DATE__' \
-  '__REQUIRED_FIREWALL_DECISION__' \
-  '__REQUIRED_FIREWALL_SOURCE_REFERENCE__' \
   '__REQUIRED_FIREWALL_PRIVATE_IP__' \
-  '__REQUIRED_FORWARDING_DECISION__' \
-  '__REQUIRED_FOUNDRY_FQDN__' \
-  '__REQUIRED_FOUNDRY_INJECTION_DECISION__' \
   '__REQUIRED_FOUNDRY_RESOURCE_ID__' \
-  '__REQUIRED_KEY_VAULT_FQDN__' \
   '__REQUIRED_KEY_VAULT_RESOURCE_ID__' \
   '__REQUIRED_LOCATION__' \
   '__REQUIRED_PRIVATE_ENDPOINT_SUBNET_CIDR__' \
-  '__REQUIRED_SCOPE_DECISION__' \
   '__REQUIRED_SEARCH_RESOURCE_ID__' \
-  '__REQUIRED_STORAGE_BLOB_FQDN__' \
   '__REQUIRED_STORAGE_RESOURCE_ID__' \
-  '__REQUIRED_TOPOLOGY_DECISION__' \
   '__REQUIRED_VNET_CIDR__' \
   '__REQUIRED_VNET_NAME__'
 
@@ -178,6 +170,57 @@ print(json.loads(os.environ['PYTHON_JSON_INPUT']).get('location', ''))
 PY
 )"
 [[ -n "$resource_group_location" ]] || die 'The approved implementation resource group has no location.'
+
+resource_group_id="$(PYTHON_JSON_INPUT="$resource_group_json" python3 - <<'PY'
+import json
+import os
+print(json.loads(os.environ['PYTHON_JSON_INPUT']).get('id', ''))
+PY
+)"
+
+check_exact_role() {
+  local principal_id="$1"
+  local role_id="$2"
+  local scope="$3"
+  local role_name="$4"
+  local assignments_json
+  assignments_json="$(run_capture az role assignment list \
+    --assignee-object-id "$principal_id" \
+    --fill-principal-name false \
+    --scope "$scope" \
+    --only-show-errors \
+    --output json)" || die "$role_name assignment lookup failed."
+  PYTHON_JSON_INPUT="$assignments_json" python3 - "$role_id" "$scope" "$principal_id" "$role_name" <<'PY'
+import json
+import os
+import sys
+
+role_id, scope, principal_id, role_name = sys.argv[1:]
+assignments = json.loads(os.environ['PYTHON_JSON_INPUT'])
+for assignment in assignments:
+    definition_id = str(assignment.get('roleDefinitionId') or '')
+    assignment_scope = str(assignment.get('scope') or '').rstrip('/')
+    if definition_id.lower().endswith('/' + role_id.lower()) and assignment_scope.lower() == scope.rstrip('/').lower():
+        raise SystemExit(0)
+raise SystemExit(f"Principal '{principal_id}' lacks {role_name} on exact scope '{scope}'.")
+PY
+}
+
+check_exact_role \
+  "$network_operator_object_id" \
+  '4d97b98b-1d4f-4787-a291-c67834d212e7' \
+  "$resource_group_id" \
+  'Network Contributor'
+
+for dns_scope in "${dns_scope_resource_ids[@]}"; do
+  [[ "$dns_scope" =~ ^/subscriptions/[^/]+/resourceGroups/[^/]+(/providers/Microsoft\\.Network/privateDnsZones/[^/]+)?$ ]] || \
+    die 'Each --dns-scope-resource-id must be a resource-group ID or a private DNS zone ID.'
+  check_exact_role \
+    "$dns_operator_object_id" \
+    'b12aa53e-6015-4669-85d0-8515ebb3ae7f' \
+    "$dns_scope" \
+    'Private DNS Zone Contributor'
+done
 
 printf 'Service resource resolution:\n'
 resource_lines="$(python3 - "$artifact_root/environments/sandbox.bicepparam" "$approved_subscription_id" "$resource_group_name" <<'PY'
@@ -314,4 +357,4 @@ printf '  Approved scope: nonproduction subscription and network resource group\
 printf 'Bicep deployment preview:\n'
 preview_output="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name rvas-s03-preflight --template-file "$artifact_root/infra/network/main.bicep" --parameters "$artifact_root/environments/sandbox.bicepparam" --no-pretty-print --only-show-errors)" || die 'Bicep what-if failed.'
 printf '%s\n' "$preview_output"
-printf 'PASS: Session 03 files, decisions, Azure scope, service resources, providers, Bicep syntax, and what-if are ready.\n'
+printf 'PASS: Session 03 files, decisions, Azure scope, operator roles, service resources, providers, Bicep syntax, and what-if are ready.\n'

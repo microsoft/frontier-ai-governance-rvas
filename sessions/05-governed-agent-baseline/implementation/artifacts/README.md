@@ -7,13 +7,11 @@ agents/policy-assistant/
   agent.json
   instructions.md
   tool-manifest.json
-  prohibited-actions.json
-operations/
-  release-operations.json
 ```
 
-`agent.json`, `prohibited-actions.json`, and `release-operations.json` are parsed as JSON by the
-cross-platform scripts.
+`agent.json` and `tool-manifest.json` are deployment inputs. `instructions.md` is part of the
+prompt-agent version. Foundry retains the live agent version, endpoint selector, RAI policy, and
+tracing connection; the scripts query that state instead of writing a release record.
 
 The OpenAPI specification intentionally contains one `GET` operation and a runtime-only server URL.
 The API endpoint is supplied to preflight and deployment in the current shell; it is never written

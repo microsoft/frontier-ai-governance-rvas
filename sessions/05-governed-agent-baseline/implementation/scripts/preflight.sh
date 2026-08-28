@@ -70,42 +70,17 @@ agent_root="$artifact_root/agents/policy-assistant"
 config_path="$agent_root/agent.json"
 instructions_path="$agent_root/instructions.md"
 tool_path="$agent_root/tool-manifest.json"
-policy_path="$agent_root/prohibited-actions.json"
-release_operations_path="$artifact_root/operations/release-operations.json"
 required_sentinels=(
   "__REQUIRED_AGENT_NAME__"
-  "__REQUIRED_AGENT_OWNER__"
-  "__REQUIRED_APP_INSIGHTS_NAME__"
   "__REQUIRED_DOWNSTREAM_API_AUTHORIZATION_OWNER__"
   "__REQUIRED_DOWNSTREAM_API_READ_ROLE_ID__"
   "__REQUIRED_DOWNSTREAM_API_READ_SCOPE__"
   "__REQUIRED_HUMAN_CHANGE_ROUTE__"
-  "__REQUIRED_HATE_INPUT_MINIMUM_SEVERITY__"
-  "__REQUIRED_HATE_OUTPUT_MINIMUM_SEVERITY__"
-  "__REQUIRED_HATE_POLICY_INPUT_SEVERITY__"
-  "__REQUIRED_HATE_POLICY_OUTPUT_SEVERITY__"
   "__REQUIRED_MODEL_DEPLOYMENT_NAME__"
-  "__REQUIRED_POLICY_OWNER__"
   "__REQUIRED_PROHIBITED_WRITE_ACTION__"
   "__REQUIRED_RAI_POLICY_NAME__"
-  "__REQUIRED_RAI_POLICY_REVIEW_DATE__"
   "__REQUIRED_READ_PATH__"
-  "__REQUIRED_SAFETY_OWNER_ROLE__"
-  "__REQUIRED_SELF_HARM_INPUT_MINIMUM_SEVERITY__"
-  "__REQUIRED_SELF_HARM_OUTPUT_MINIMUM_SEVERITY__"
-  "__REQUIRED_SELF_HARM_POLICY_INPUT_SEVERITY__"
-  "__REQUIRED_SELF_HARM_POLICY_OUTPUT_SEVERITY__"
-  "__REQUIRED_SEXUAL_INPUT_MINIMUM_SEVERITY__"
-  "__REQUIRED_SEXUAL_OUTPUT_MINIMUM_SEVERITY__"
-  "__REQUIRED_SEXUAL_POLICY_INPUT_SEVERITY__"
-  "__REQUIRED_SEXUAL_POLICY_OUTPUT_SEVERITY__"
   "__REQUIRED_TARGET_AUDIENCE__"
-  "__REQUIRED_TELEMETRY_OWNER__"
-  "__REQUIRED_TRACE_READER_GROUP__"
-  "__REQUIRED_VIOLENCE_INPUT_MINIMUM_SEVERITY__"
-  "__REQUIRED_VIOLENCE_OUTPUT_MINIMUM_SEVERITY__"
-  "__REQUIRED_VIOLENCE_POLICY_INPUT_SEVERITY__"
-  "__REQUIRED_VIOLENCE_POLICY_OUTPUT_SEVERITY__"
 )
 
 approved_subscription_id=""
@@ -171,7 +146,7 @@ require_command jq
 require_command python3
 
 [[ -d "$artifact_root" ]] || fail "Required implementation artifacts folder is missing: $artifact_root"
-for path in "$config_path" "$instructions_path" "$tool_path" "$policy_path" "$release_operations_path"; do
+for path in "$config_path" "$instructions_path" "$tool_path"; do
   [[ -f "$path" ]] || fail "Required implementation file is missing: $path"
 done
 
@@ -208,25 +183,10 @@ jq -e '.endpoint.protocols == ["responses"]' "$config_path" >/dev/null || fail "
 jq -e '.endpoint.authorizationSchemes == ["Entra"]' "$config_path" >/dev/null || fail "The governed endpoint must use Microsoft Entra authorization only."
 jq -e '(.temperature | tonumber) >= 0 and (.temperature | tonumber) <= 2' "$config_path" >/dev/null || fail "Agent temperature must be between 0 and 2."
 jq -e '.raiPolicyName | strings | length > 0' "$config_path" >/dev/null || fail "A named RAI policy is required."
-jq -e '
-  def rank: ascii_downcase as $s | {"low": 0, "medium": 1, "high": 2}[$s];
-  . as $root |
-  ["hate", "sexual", "violence", "self_harm"] as $expected |
-  ($root.raiPolicyReview.minimumFilters | map(.category) | sort) == ($expected | sort) and
-  ($root.raiPolicyReview.namedPolicyFilters | map(.category) | sort) == ($expected | sort) and
-  all($root.raiPolicyReview.minimumFilters[];
-    . as $minimum |
-    ($root.raiPolicyReview.namedPolicyFilters | map(select(.category == $minimum.category))[0]) as $named |
-    ($minimum.inputBlockedAtOrAbove | rank) != null and
-    ($minimum.outputBlockedAtOrAbove | rank) != null and
-    ($named.inputBlockedAtOrAbove | rank) != null and
-    ($named.outputBlockedAtOrAbove | rank) != null and
-    ($named.inputBlockedAtOrAbove | rank) <= ($minimum.inputBlockedAtOrAbove | rank) and
-    ($named.outputBlockedAtOrAbove | rank) <= ($minimum.outputBlockedAtOrAbove | rank)
-  )
-' "$config_path" >/dev/null || fail "The named RAI policy must meet the approved hate, sexual, violence, and self_harm input/output minimums."
-jq -e '.raiPolicyReview.reviewedOn | test("^[0-9]{4}-[0-9]{2}-[0-9]{2}$")' "$config_path" >/dev/null || fail "The RAI policy review date must use YYYY-MM-DD."
-grep -q 'Refuse requests to create, update, approve, publish, delete' "$instructions_path" || fail "The approved instructions do not contain the prohibited-write refusal boundary."
+grep -q 'Refuse requests to create, update, approve, publish, delete' "$instructions_path" &&
+  grep -q '__REQUIRED_PROHIBITED_WRITE_ACTION__' "$instructions_path" &&
+  grep -q '__REQUIRED_HUMAN_CHANGE_ROUTE__' "$instructions_path" ||
+  fail "The approved instructions do not contain the prohibited-write refusal boundary."
 
 jq -e '.tools | length == 1 and .tools[0].type == "openapi"' "$tool_path" >/dev/null || fail "The baseline must expose exactly one OpenAPI tool."
 jq -e '(.tools[0].openapi.spec.paths | keys | length) == 1' "$tool_path" >/dev/null || fail "The OpenAPI manifest must contain exactly one path."
@@ -234,11 +194,6 @@ jq -e '(.tools[0].openapi.spec.paths | to_entries[0].value | keys) == ["get"]' "
 jq -e '.tools[0].openapi.spec.paths | to_entries[0].value.get.operationId | test("^[A-Za-z_-]+$")' "$tool_path" >/dev/null || fail "The OpenAPI operationId must contain only letters, hyphens, and underscores."
 jq -e '.tools[0].openapi.spec.servers[0].url == "__RUNTIME_READ_API_BASE_URL__"' "$tool_path" >/dev/null || fail "The authoritative tool manifest must not contain a live API endpoint."
 jq -e '.tools[0].openapi.auth.type == "managed_identity"' "$tool_path" >/dev/null || fail "The read tool must use managed identity authentication."
-
-jq -e '.actions | length == 1 and .actions[0].effect == "deny"' "$policy_path" >/dev/null || fail "Define exactly one prohibited write action with a deny effect."
-jq -e '.actions[0].enforcement | index("operation-is-not-registered-in-the-tool-manifest") != null' "$policy_path" >/dev/null || fail "The prohibited action must be absent from the registered tool surface."
-
-jq -e '.implementationSession == "05-governed-agent-baseline" and .tracing.mode == "server-side" and .tracing.connectionManagedOutsideSession == true' "$release_operations_path" >/dev/null || fail "Tracing must use the existing project connection to Application Insights."
 
 account_json=$(az_json 'Azure account lookup' account show)
 [[ $(jq -r '.id' <<<"$account_json") == "$approved_subscription_id" ]] || fail "Azure CLI is not using the approved subscription."
@@ -263,8 +218,6 @@ model_json=$(az_json 'Model deployment lookup' cognitiveservices account deploym
 ai_resource_json=$(az_json 'Application Insights lookup' resource show --ids "$application_insights_resource_id")
 [[ $(jq -r '.type | ascii_downcase' <<<"$ai_resource_json") == 'microsoft.insights/components' ]] || fail "The supplied Application Insights resource ID does not identify a Microsoft.Insights/components resource."
 [[ $(jq -r '.id' <<<"$ai_resource_json") == /subscriptions/$approved_subscription_id/* ]] || fail "Application Insights is outside the approved subscription."
-[[ $(jq -r '.name' <<<"$ai_resource_json") == $(jq -r '.tracing.applicationInsightsResourceName' "$release_operations_path") ]] || fail "The live Application Insights resource does not match release-operations.json."
-
 project_endpoint="https://$foundry_account_name.services.ai.azure.com/api/projects/$project_name"
 token=$(get_ai_token)
 api_request GET "$project_endpoint/agents?api-version=v1" "$token"
@@ -279,18 +232,16 @@ if (( existing_count == 1 )); then
   [[ "$description" == *'05-governed-agent-baseline'* ]] || fail "An existing agent uses the configured name but does not carry the Session 05 marker."
   principal_id=$(jq -r --arg name "$agent_name" '[.data[]?, .value[]?] | map(select(.name == $name))[0].instance_identity.principal_id // ""' "$API_BODY_FILE")
   [[ -n "$principal_id" ]] || fail "The existing agent is a legacy agent without a unique Entra Agent Identity. Create a new named agent instead."
-  if [[ $(jq -r '.release.status' "$release_operations_path") == 'deployed' ]]; then
-    escaped_agent_name=$(python3 - "$agent_name" <<'PY'
+  escaped_agent_name=$(python3 - "$agent_name" <<'PY'
 from urllib.parse import quote
 import sys
 print(quote(sys.argv[1], safe=''))
 PY
 )
-    api_request GET "$project_endpoint/agents/$escaped_agent_name?api-version=v1" "$token"
-    [[ "$API_STATUS" == '200' ]] || fail "The approved agent could not be read for release-selector drift."
-    live_version=$(jq -r '.agent_endpoint.version_selector.version_selection_rules[0].agent_version // ""' "$API_BODY_FILE")
-    [[ $(jq -r '.release.agentName' "$release_operations_path") == "$agent_name" && $(jq -r '.release.activeVersion' "$release_operations_path") == "$live_version" ]] || fail "The current release selector differs from the live Foundry stable endpoint. Reconcile drift before creating another version."
-  fi
+  api_request GET "$project_endpoint/agents/$escaped_agent_name?api-version=v1" "$token"
+  [[ "$API_STATUS" == '200' ]] || fail "The approved agent could not be read for stable-endpoint validation."
+  live_version=$(jq -r '.agent_endpoint.version_selector.version_selection_rules[0].agent_version // ""' "$API_BODY_FILE")
+  [[ -n "$live_version" ]] || fail "The existing marked agent does not expose a pinned stable endpoint version."
 fi
 
 api_path=$(jq -r '.tools[0].openapi.spec.paths | keys[0]' "$tool_path")
@@ -305,8 +256,8 @@ if (( existing_count == 1 )); then
 else
   echo '  Existing marked agent: False'
 fi
-if (( existing_count == 1 )) && [[ $(jq -r '.release.status' "$release_operations_path") == 'deployed' ]]; then
-  echo "  Current/live active version: $(jq -r '.release.activeVersion' "$release_operations_path")"
+if (( existing_count == 1 )); then
+  echo "  Current/live active version: $live_version"
 fi
 echo "Foundry doesn't expose a what-if operation for data-plane agent version creation. This read-only lookup and exact mutation summary are the preview gate."
 echo 'PASS: Session 05 files, decisions, live release selector, approved Azure scope, model, Application Insights resource, Foundry project access, read-only tool boundary, unique-identity path, and preview gate are ready.'

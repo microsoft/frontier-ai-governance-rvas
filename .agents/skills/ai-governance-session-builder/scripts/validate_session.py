@@ -529,6 +529,8 @@ def validate_retained_file_manifest(
     manifest: dict,
     leave_behind: list[str],
     failures: list[str],
+    *,
+    allow_empty: bool = False,
 ) -> dict[str, dict[str, str]]:
     normalized_leave_behind: list[str] = []
     seen_leave_behind: set[str] = set()
@@ -545,8 +547,12 @@ def validate_retained_file_manifest(
             failures.append(f"fixture path cannot be a leave-behind: {normalized}")
 
     retained_files = manifest.get("retained_files")
-    if not isinstance(retained_files, list) or not retained_files:
-        failures.append("retained_files must be a non-empty top-level list of mappings")
+    if not isinstance(retained_files, list) or (not allow_empty and not retained_files):
+        failures.append(
+            "retained_files must be a non-empty top-level list of mappings"
+            if not allow_empty
+            else "retained_files must be a top-level list of mappings"
+        )
         return {}
     if any(not isinstance(item, dict) for item in retained_files):
         failures.append("retained_files must contain only mappings")
@@ -1387,8 +1393,14 @@ def main() -> int:
     if not isinstance(title, str) or not title.strip():
         failures.append(f"{entity_name}.title must be a non-empty string")
     duration = entity.get("duration_minutes")
-    if not isinstance(duration, int) or not 30 <= duration <= 480:
-        failures.append(f"{entity_name}.duration_minutes must be an integer between 30 and 480")
+    if (
+        not isinstance(duration, int)
+        or not 30 <= duration <= 480
+        or duration % 30 != 0
+    ):
+        failures.append(
+            f"{entity_name}.duration_minutes must be an integer from 30 to 480 in 30-minute increments"
+        )
     if not isinstance(entity.get("status"), str) or not entity["status"].strip():
         failures.append(f"{entity_name}.status must be a non-empty string")
     try:
@@ -1421,6 +1433,12 @@ def main() -> int:
         failures.append("extended mode requires implementation.extended_reason")
     if mode == "standard" and "extended_reason" in implementation:
         failures.append("standard mode must omit implementation.extended_reason")
+    live_only = implementation.get("live_only")
+    if "live_only" in implementation and not isinstance(live_only, bool):
+        failures.append("implementation.live_only must be a boolean when present")
+    if live_only and not is_module:
+        failures.append("implementation.live_only is allowed only for optional modules")
+    is_live_only_module = is_module and live_only is True
 
     outcomes = require_string_list(
         manifest.get("implementation_outcomes"),
@@ -1447,6 +1465,7 @@ def main() -> int:
         deliverables.get("leave_behind"),
         "deliverables.leave_behind",
         failures,
+        allow_empty=is_live_only_module,
     )
     for relative in leave_behind:
         if not safe_relative_path(relative):
@@ -1457,15 +1476,20 @@ def main() -> int:
         manifest,
         leave_behind,
         failures,
+        allow_empty=is_live_only_module,
     )
     retained_artifacts = [
         path
         for path in (root / "implementation" / "artifacts").rglob("*")
         if path.is_file() and path.name.casefold() != "readme.md"
     ]
-    if not retained_artifacts:
+    if not retained_artifacts and not is_live_only_module:
         failures.append("implementation/artifacts must contain a implementation file, not only README.md")
-    if not any(
+    if is_live_only_module and leave_behind:
+        failures.append("live-only modules must not declare deliverables.leave_behind")
+    if is_live_only_module and manifest.get("retained_files") != []:
+        failures.append("live-only modules must set retained_files to an empty list")
+    if not is_live_only_module and not any(
         relative.replace("\\", "/").startswith("implementation/artifacts/")
         and PurePosixPath(relative.replace("\\", "/")).name.casefold() != "readme.md"
         for relative in leave_behind
@@ -1502,12 +1526,13 @@ def main() -> int:
     implementation_files = {
         path.relative_to(root).as_posix() for path in retained_artifacts
     }
-    validate_retained_file_table(
-        implementation_text,
-        implementation_files,
-        retained_metadata,
-        failures,
-    )
+    if not is_live_only_module:
+        validate_retained_file_table(
+            implementation_text,
+            implementation_files,
+            retained_metadata,
+            failures,
+        )
     if mode == "extended":
         if not re.search(r"\bintended[\s-]+path\b", implementation_text, re.I):
             failures.append("extended implementation must name an intended-path check")

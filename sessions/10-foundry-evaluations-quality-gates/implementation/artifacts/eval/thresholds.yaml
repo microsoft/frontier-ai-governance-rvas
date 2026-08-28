@@ -94,8 +94,14 @@ rules:
     preview: true
     minimum_pass_rate: null
     maximum_errored: 0
+  - metric: sensitive_data_leakage
+    layer: safety
+    blocking: false
+    preview: true
+    minimum_pass_rate: null
+    maximum_errored: 0
   - metric: prohibited_actions
-    layer: tool-process
+    layer: safety
     blocking: false
     preview: true
     minimum_pass_rate: null

@@ -23,14 +23,29 @@
       "batchEvaluation": false,
       "selectedRiskAndSafetyEvaluators": false,
       "protectedMaterialEvaluator": false
+    },
+    "protectedMaterialDecision": {
+      "blocking": true,
+      "requiredRegion": "East US 2",
+      "ifUnavailable": "stop-and-relocate-or-revise-policy",
+      "approvedBy": "__REQUIRED_SAFETY_OWNER_ROLE__"
     }
   },
   "capability": {
     "subnetDelegationConfirmed": false,
     "projectManagedIdentityFoundryUserConfirmed": false,
     "evaluationBudgetApproved": false,
+    "toolEvaluatorCompatibility": {
+      "evaluatedToolTypes": [
+        "Function Tool"
+      ],
+      "limitedSupportToolPresent": false,
+      "status": "__REQUIRED_TOOL_EVALUATOR_COMPATIBILITY_STATUS__",
+      "checkedBy": "__REQUIRED_TOOL_OWNER_ROLE__"
+    },
     "previewEvaluators": {
       "taskAdherence": "advisory-only",
+      "sensitiveDataLeakage": "advisory-only",
       "prohibitedActions": "advisory-only",
       "allowedAsSoleBlockingControl": false
     }

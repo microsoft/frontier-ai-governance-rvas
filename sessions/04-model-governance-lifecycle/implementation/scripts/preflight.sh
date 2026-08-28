@@ -8,7 +8,7 @@ usage() {
   cat <<'USAGE'
 Usage: ./scripts/preflight.sh --approved-subscription-id <id> --resource-group-name <name> --foundry-account-name <name> --operator-object-id <id> [--confirm-manual-data-zone] [--confirm-manual-lifecycle] [--confirm-manual-quota]
 
-Validate the Session 04 approval record, deployment plan, Azure scope, operator role, live model
+Validate the Session 04 deployment plan, Azure scope, operator role, live model
 availability and lifecycle, quota when Azure exposes an exact usage metric, Bicep, and what-if.
 USAGE
 }
@@ -93,26 +93,20 @@ required_sentinels=(
   '__REQUIRED_APPROVED_MODEL_FORMAT__'
   '__REQUIRED_APPROVED_MODEL_NAME__'
   '__REQUIRED_APPROVED_MODEL_VERSION__'
-  '__REQUIRED_CHANGE_NOTIFICATION_ROUTE__'
-  '__REQUIRED_DECISION_AUTHORITY__'
   '__REQUIRED_DEPLOYMENT_CAPACITY_REPLACE_WITH_JSON_INTEGER__'
   '__REQUIRED_DEPLOYMENT_NAME__'
   '__REQUIRED_DEPLOYMENT_SKU__'
-  '__REQUIRED_EXTERNAL_DECISION_REFERENCE__'
   '__REQUIRED_FOUNDRY_ACCOUNT_NAME__'
-  '__REQUIRED_LIFECYCLE_OWNER__'
   '__REQUIRED_MINIMUM_UNUSED_QUOTA_PERCENT_REPLACE_WITH_JSON_INTEGER__'
   '__REQUIRED_PROCESSING_LOCATION_REQUIREMENT__'
   '__REQUIRED_RAI_POLICY_NAME__'
   '__REQUIRED_REVIEW_DATE__'
-  '__REQUIRED_WORKLOAD_PURPOSE__'
 )
 
 template_path="$artifact_root/infra/models/main.bicep"
 parameter_path="$artifact_root/environments/sandbox.bicepparam"
 profile_path="$artifact_root/models/deployment-profiles.json"
-approval_path="$artifact_root/governance/model-approval-record.json"
-for path in "$template_path" "$parameter_path" "$profile_path" "$approval_path"; do
+for path in "$template_path" "$parameter_path" "$profile_path"; do
   [[ -f "$path" ]] || die "Required implementation file is missing: ${path#"$artifact_root/"}"
 done
 
@@ -141,17 +135,12 @@ if unresolved:
     raise SystemExit("Resolve all Session 04 decisions before deployment: " + ", ".join(unresolved))
 
 profiles = json.loads((root / "models/deployment-profiles.json").read_text(encoding="utf-8"))
-record = json.loads((root / "governance/model-approval-record.json").read_text(encoding="utf-8"))
-for item, label in ((profiles, "deployment profiles"), (record, "approval record")):
-    if item.get("implementationSession") != "04-model-governance-lifecycle":
-        raise SystemExit(f"The {label} has the wrong implementation marker.")
+if profiles.get("implementationSession") != "04-model-governance-lifecycle":
+    raise SystemExit("The deployment profiles have the wrong implementation marker.")
 
 deployments = profiles.get("deployments")
-approvals = record.get("approvals")
 if not isinstance(deployments, list) or not deployments:
     raise SystemExit("deployment-profiles.json must contain at least one deployment.")
-if not isinstance(approvals, list) or not approvals:
-    raise SystemExit("model-approval-record.json must contain at least one approval.")
 
 allowed_skus = {
     "GlobalStandard", "GlobalProvisionedManaged", "GlobalBatch",
@@ -165,75 +154,58 @@ def require_text(obj, fields, label):
 
 deployment_by_name = {}
 for deployment in deployments:
-    require_text(deployment, ["approvalId", "deploymentName", "raiPolicyName", "versionUpgradeOption"], "A deployment")
+    require_text(
+        deployment,
+        [
+            "approvalId", "deploymentName", "raiPolicyName", "versionUpgradeOption",
+            "processingLocationRequirement", "reviewBy",
+        ],
+        "A deployment",
+    )
     require_text(deployment.get("model", {}), ["name", "version", "format"], f"Model for {deployment['deploymentName']}")
     sku = deployment.get("sku", {})
     require_text(sku, ["name"], f"SKU for {deployment['deploymentName']}")
     if deployment["deploymentName"] in deployment_by_name:
         raise SystemExit(f"Duplicate deploymentName: {deployment['deploymentName']}")
+    if sku["name"] == "DeveloperTier":
+        raise SystemExit(
+            "DeveloperTier is limited to fine-tuned model evaluation, expires after 24 hours, "
+            "and has no SLA or data-residency guarantee. It is outside this governed deployment path."
+        )
     if sku["name"] not in allowed_skus:
         raise SystemExit(f"Unsupported serverless API deployment SKU: {sku['name']}")
     if deployment["versionUpgradeOption"] != "NoAutoUpgrade":
         raise SystemExit(
             f"versionUpgradeOption must be NoAutoUpgrade for {deployment['deploymentName']}; "
-            "a model version change requires a new approved record and profile change."
+            "a model version change requires a new approved decision and profile change."
         )
     if isinstance(sku.get("capacity"), bool) or not isinstance(sku.get("capacity"), int) or sku["capacity"] < 1:
         raise SystemExit(f"Capacity for {deployment['deploymentName']} must be a positive integer.")
-    deployment_by_name[deployment["deploymentName"]] = deployment
-
-approval_ids = set()
-linked_names = set()
-for approval in approvals:
-    require_text(
-        approval,
-        [
-            "approvalId", "workloadPurpose", "decisionAuthority", "externalDecisionReference",
-            "processingLocationRequirement", "lifecycleOwner", "reviewBy", "changeNotificationRoute",
-        ],
-        "An approval",
-    )
-    require_text(approval.get("model", {}), ["name", "version", "format"], f"Model for {approval['approvalId']}")
-    if approval["approvalId"] in approval_ids:
-        raise SystemExit(f"Duplicate approvalId: {approval['approvalId']}")
-    approval_ids.add(approval["approvalId"])
     try:
-        review_by = date.fromisoformat(approval["reviewBy"])
+        review_by = date.fromisoformat(deployment["reviewBy"])
     except ValueError as exc:
-        raise SystemExit(f"reviewBy must use YYYY-MM-DD for {approval['approvalId']}.") from exc
+        raise SystemExit(f"reviewBy must use YYYY-MM-DD for {deployment['deploymentName']}.") from exc
     if review_by < date.today():
-        raise SystemExit(f"The approval review date has passed for {approval['approvalId']}.")
-    requirement = approval["processingLocationRequirement"]
-    if not re.fullmatch(r"(global|data-zone:[a-z0-9-]+|region:[a-z0-9-]+)", requirement):
+        raise SystemExit(f"The deployment review date has passed for {deployment['deploymentName']}.")
+    requirement = deployment["processingLocationRequirement"]
+    if not re.fullmatch(r"(global|data-zone:(us|eu|apac)|region:[a-z0-9-]+)", requirement):
         raise SystemExit(
-            f"processingLocationRequirement must be global, data-zone:<zone>, or "
-            f"region:<azure-region> for {approval['approvalId']}."
+            f"processingLocationRequirement must be global, data-zone:us, data-zone:eu, "
+            f"data-zone:apac, or region:<azure-region> for {deployment['deploymentName']}."
         )
-    headroom = approval.get("minimumUnusedQuotaPercent")
+    headroom = deployment.get("minimumUnusedQuotaPercent")
     if isinstance(headroom, bool) or not isinstance(headroom, int) or not 0 <= headroom < 100:
-        raise SystemExit(f"minimumUnusedQuotaPercent must be an integer from 0 to 99 for {approval['approvalId']}.")
-    names = approval.get("deploymentNames")
-    if not isinstance(names, list) or not names or any(not isinstance(name, str) or not name for name in names):
-        raise SystemExit(f"deploymentNames must contain at least one name for {approval['approvalId']}.")
-    for name in names:
-        deployment = deployment_by_name.get(name)
-        if not deployment:
-            raise SystemExit(f"Approval {approval['approvalId']} links unknown deployment {name}.")
-        if name in linked_names:
-            raise SystemExit(f"Deployment {name} is linked by more than one approval.")
-        linked_names.add(name)
-        if deployment["approvalId"] != approval["approvalId"] or deployment["model"] != approval["model"]:
-            raise SystemExit(f"Deployment {name} does not match approval {approval['approvalId']}.")
-        sku_name = deployment["sku"]["name"]
-        if requirement == "global" and not sku_name.startswith("Global"):
-            raise SystemExit(f"Deployment {name} does not implement global processing.")
-        if requirement.startswith("data-zone:") and not sku_name.startswith("DataZone"):
-            raise SystemExit(f"Deployment {name} does not implement data-zone processing.")
-        if requirement.startswith("region:") and sku_name not in {"Standard", "ProvisionedManaged"}:
-            raise SystemExit(f"Deployment {name} does not implement regional processing.")
-
-if linked_names != set(deployment_by_name):
-    raise SystemExit("Every deployment must be linked from exactly one approval.")
+        raise SystemExit(
+            f"minimumUnusedQuotaPercent must be an integer from 0 to 99 for "
+            f"{deployment['deploymentName']}."
+        )
+    if requirement == "global" and not sku["name"].startswith("Global"):
+        raise SystemExit(f"Deployment {deployment['deploymentName']} does not implement global processing.")
+    if requirement.startswith("data-zone:") and not sku["name"].startswith("DataZone"):
+        raise SystemExit(f"Deployment {deployment['deploymentName']} does not implement data-zone processing.")
+    if requirement.startswith("region:") and sku["name"] not in {"Standard", "ProvisionedManaged"}:
+        raise SystemExit(f"Deployment {deployment['deploymentName']} does not implement regional processing.")
+    deployment_by_name[deployment["deploymentName"]] = deployment
 
 parameter_text = (root / "environments/sandbox.bicepparam").read_text(encoding="utf-8")
 match = re.search(r"(?m)^\s*param\s+foundryAccountName\s*=\s*'([^']+)'\s*$", parameter_text)
@@ -253,6 +225,40 @@ expected_foundry_id="/subscriptions/$approved_subscription_id/resourceGroups/$re
 foundry_location="${foundry_values[2]}"
 [[ -n "$foundry_location" ]] || die 'The Foundry resource lookup did not return an account location.'
 
+rai_policy_names="$(
+  python3 - "$profile_path" <<'PY'
+import json
+import sys
+
+with open(sys.argv[1], encoding='utf-8') as handle:
+    profiles = json.load(handle)['deployments']
+for name in sorted({item['raiPolicyName'] for item in profiles}):
+    print(name)
+PY
+)"
+while IFS= read -r rai_policy_name; do
+  [[ -n "$rai_policy_name" ]] || continue
+  rai_policy_id="$expected_foundry_id/raiPolicies/$rai_policy_name"
+  rai_policy_json="$(run_capture az resource show \
+    --ids "$rai_policy_id" \
+    --api-version 2026-05-01 \
+    --only-show-errors \
+    --output json)" || die "Responsible AI policy lookup failed for '$rai_policy_name'."
+  PYTHON_JSON_INPUT="$rai_policy_json" python3 - "$rai_policy_id" "$rai_policy_name" <<'PY'
+import json
+import os
+import sys
+
+expected_id, policy_name = sys.argv[1:]
+policy = json.loads(os.environ['PYTHON_JSON_INPUT'])
+if str(policy.get('id', '')).lower() != expected_id.lower():
+    raise SystemExit(
+        f"Responsible AI policy '{policy_name}' resolved outside the selected Foundry resource."
+    )
+print(f"Responsible AI policy: {policy_name} -> {policy.get('id', '')}")
+PY
+done <<<"$rai_policy_names"
+
 roles_json="$(run_capture az role assignment list --assignee-object-id "$operator_object_id" --fill-principal-name false --scope "$expected_foundry_id" --only-show-errors --output json)" || die 'Operator role lookup failed.'
 printf '%s' "$roles_json" | python3 -c 'import json,sys; roles=json.load(sys.stdin); raise SystemExit(0 if any(x.get("roleDefinitionName") == "Cognitive Services Contributor" and x.get("scope","").lower() == sys.argv[1].lower() for x in roles) else "The operator lacks Cognitive Services Contributor on the exact Foundry resource.")' "$expected_foundry_id"
 
@@ -264,7 +270,7 @@ else
   quota_json='null'
 fi
 
-python3 - "$profile_path" "$approval_path" "$foundry_location" "$confirm_manual_data_zone" "$confirm_manual_lifecycle" "$confirm_manual_quota" \
+python3 - "$profile_path" "$foundry_location" "$confirm_manual_data_zone" "$confirm_manual_lifecycle" "$confirm_manual_quota" \
   3< <(printf '%s\0%s\0%s' "$models_json" "$existing_json" "$quota_json") <<'PY'
 import json
 from datetime import date, datetime
@@ -272,15 +278,13 @@ import os
 import sys
 
 profiles = json.load(open(sys.argv[1], encoding="utf-8"))["deployments"]
-approvals = json.load(open(sys.argv[2], encoding="utf-8"))["approvals"]
-foundry_location = sys.argv[3].lower()
-confirm_manual_data_zone = sys.argv[4] == "true"
-confirm_manual_lifecycle = sys.argv[5] == "true"
-confirm_manual_quota = sys.argv[6] == "true"
+foundry_location = sys.argv[2].lower()
+confirm_manual_data_zone = sys.argv[3] == "true"
+confirm_manual_lifecycle = sys.argv[4] == "true"
+confirm_manual_quota = sys.argv[5] == "true"
 with os.fdopen(3, "rb") as stream:
     parts = stream.read().split(b"\0")
 models, existing, usages = (json.loads(part) for part in parts)
-approval_by_id = {item["approvalId"]: item for item in approvals}
 existing_by_name = {item.get("name"): item for item in existing}
 quota_increments = {}
 headroom_by_usage = {}
@@ -309,8 +313,8 @@ for deployment in profiles:
     if lifecycle in {"deprecating", "deprecated", "retired"}:
         raise SystemExit(f"Model for {deployment['deploymentName']} has lifecycle state {model.get('lifecycleStatus')}.")
     model_end = parse_day((model.get("deprecation") or {}).get("inference"))
-    review_by = date.fromisoformat(approval_by_id[deployment["approvalId"]]["reviewBy"])
-    requirement = approval_by_id[deployment["approvalId"]]["processingLocationRequirement"]
+    review_by = date.fromisoformat(deployment["reviewBy"])
+    requirement = deployment["processingLocationRequirement"]
     if requirement.startswith("region:") and requirement.split(":", 1)[1].lower() != foundry_location:
         raise SystemExit(
             f"Regional processing for {deployment['deploymentName']} requires "
@@ -369,7 +373,7 @@ for deployment in profiles:
     quota_increments[usage_name] = quota_increments.get(usage_name, 0) + max(requested - current_capacity, 0)
     headroom_by_usage[usage_name] = max(
         headroom_by_usage.get(usage_name, 0),
-        approval_by_id[deployment["approvalId"]]["minimumUnusedQuotaPercent"],
+        deployment["minimumUnusedQuotaPercent"],
     )
 
 usage_by_name = {
@@ -442,4 +446,4 @@ for change in result.get("changes", []):
 PY
 
 printf '%s\n' "$what_if_json"
-printf 'PASS: Session 04 approval, deployment plan, operator role, live availability and lifecycle, quota gate, Bicep, and scoped what-if are ready.\n'
+printf 'PASS: Session 04 deployment plan, Responsible AI policies, operator role, live availability and lifecycle, quota gate, Bicep, and scoped what-if are ready.\n'

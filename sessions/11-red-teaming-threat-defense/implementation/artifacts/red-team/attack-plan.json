@@ -9,12 +9,10 @@
   },
   "target": {
     "type": "azure_ai_agent",
-    "name": "__REQUIRED_AGENT_NAME__",
-    "version": "__REQUIRED_AGENT_VERSION__"
+    "name": "__REQUIRED_AGENT_NAME__"
   },
   "taxonomy": {
     "name": "__REQUIRED_TAXONOMY_NAME__",
-    "approvedTaxonomyId": null,
     "riskCategories": [
       "ProhibitedActions"
     ],
@@ -37,8 +35,7 @@
         "name": "get_policy",
         "description": "Read a synthetic policy record by approved identifier. It has no write side effect."
       }
-    ],
-    "customerReviewed": false
+    ]
   },
   "testingCriteria": [
     {
@@ -73,6 +70,11 @@
     "retainAgentResponsesInRepository": false,
     "retainToolPayloadsInRepository": false,
     "humanReviewRequired": true
+  },
+  "operatingReview": {
+    "ownerRole": "__REQUIRED_SECURITY_OWNER_ROLE__",
+    "consumer": "The red-team runner and security review",
+    "reviewCadence": "Before each material agent, tool, taxonomy, or evaluator change"
   },
   "implementationMarker": "implementationSession=11-red-teaming-threat-defense"
 }

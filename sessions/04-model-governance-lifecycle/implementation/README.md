@@ -6,11 +6,11 @@
 
 Teams use a **controlled, versioned path to deploy exact approved serverless API model versions** that
 meet the workload's processing-location requirement. Under the existing `AIServices` Microsoft
-Foundry resource in the approved nonproduction resource group, we record approval data that Azure
-does not hold, define desired deployment state, check it against current Azure availability,
-lifecycle, quota, and scope, then create or update the listed child deployments. This session owns
-the versioned records and live child deployments whose model coordinates, SKU, capacity, content
-filter reference, fixed no-auto-upgrade setting, and approval ID match.
+Foundry resource in the approved nonproduction resource group, we define desired deployment state,
+check it against current Azure availability, lifecycle, quota, and scope, then create or update
+the listed child deployments. This session owns the versioned deployment profiles and live child
+deployments whose model coordinates, SKU, capacity, content filter reference, fixed no-auto-upgrade
+setting, and approval ID match.
 
 ### Why it matters
 
@@ -22,7 +22,7 @@ owner a repeatable change path without copying volatile service facts into the r
 
 Azure is authoritative for live availability, quota, lifecycle data, and deployed resource state.
 The customer decision system owns supporting approval detail. The repository owns the deployment
-profiles, compact approval record, and Bicep desired state.
+profiles and Bicep desired state.
 
 This is a controlled process, not technical prevention across every deployment path. A principal
 with access can still create a deployment through another template, the portal, the CLI, or an API.
@@ -31,6 +31,11 @@ managed-compute deployments are outside scope. The Foundry account, projects, co
 networking, content filter definitions, and model evaluation stay unchanged.
 [Session 10](../../10-foundry-evaluations-quality-gates/implementation/README.md) adds repeatable
 release evaluation.
+
+Azure Policy can complement this path by denying disallowed deployment SKUs across other change
+paths. The documented
+[deployment-type restriction pattern](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types#restrict-deployment-types-with-azure-policy)
+is a separate platform control; this session does not assign it.
 
 ## Architecture
 
@@ -47,24 +52,23 @@ describes the intended deployment, and preflight guards the approved path. Azure
 state. Model traffic stays in Azure because this path moves configuration, not prompts or
 responses. Session 05 receives the approved deployment name and exact model coordinates.
 
-![The approval record and deployment profile pass through live Azure checks before Bicep changes model child deployments; lifecycle review can keep, replace, or retire them](../assets/diagrams/model-governance-flow.svg)
+![The approved deployment profile passes through live Azure checks before Bicep changes model child deployments; lifecycle review can keep, replace, or retire them](../assets/diagrams/model-governance-flow.svg)
 
 The boundary follows this repository path from recorded intent through preflight and Bicep. Portal,
 CLI, API, or template changes made elsewhere bypass it. This design makes each governed change easy
 to preview and restore. But it is not a platform-enforced allowlist.
 
-Two files divide the deployment intent by role. `model-approval-record.json` ties the purpose,
-processing requirement, owner, review date, and deployment names to the approval ID.
-`deployment-profiles.json` fixes the model version, SKU, capacity, content filter, and
-`NoAutoUpgrade` setting, which keeps Azure from moving the deployment to a newer model version
-automatically.
+`deployment-profiles.json` fixes the external approval reference, model version, SKU, capacity,
+content filter, processing-location requirement, review date, quota headroom, and
+`NoAutoUpgrade` setting. The customer change system remains authoritative for the full approval,
+named lifecycle owner, and review history.
 
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Why this shape works | Tradeoff | Revisit when |
 |---|---|---|---|---|
 | Where approval lives | Keep the full review in the customer decision system and a compact deployment record in Git | The deployment inputs remain readable without copying the review into a second system | The approval ID and deployment names must match in both places | The decision system can provide a stable machine contract directly |
-| Where service facts come from | Read availability, lifecycle, and quota from Azure during preflight | The gate uses the platform state that exists when the operator runs it | If the CLI omits a field, the named manual check must finish before work continues | Microsoft exposes stable lifecycle and quota fields for every selected model |
+| Where service facts come from | Read availability, lifecycle, quota, and the named Responsible AI policy from Azure during preflight | The gate uses the platform state that exists when the operator runs it | If the CLI omits lifecycle or quota data, the named manual check must finish before work continues | Microsoft exposes stable lifecycle and quota fields for every selected model |
 | How versions move | Pin exact model coordinates with `NoAutoUpgrade` | Every version change returns to the approval path | The owner must start manual retirement work before support ends | The owner approves a tested automatic-upgrade policy |
 | What the path enforces | Govern one versioned deployment path | Operators get a defined preview, owner, and restore boundary | Other authorized paths can still create deployments | The platform owner adds preventive policy or removes alternate change rights |
 
@@ -87,9 +91,9 @@ Confirm these prerequisites:
   purpose, processing-location requirement, and external decision reference.
 - The platform owner can read model availability and subscription quota.
 
-The customer can compare models and keep detailed terms, privacy, security, evaluation, or
-procurement records in its normal systems. Session 04 keeps only the reference in the approval record and operating
-fields needed to control deployment.
+The customer can compare models and keep detailed terms, privacy, security, evaluation, and
+procurement records in its normal systems. Session 04 keeps the deployment inputs needed to
+control one change path.
 
 ### Implementation files
 
@@ -98,7 +102,6 @@ fields needed to control deployment.
 | Deployment | [`artifacts/infra/models/main.bicep`](artifacts/infra/models/main.bicep) | The Azure deployment pipeline operated by the Foundry platform team |
 | Deployment | [`artifacts/environments/sandbox.bicepparam`](artifacts/environments/sandbox.bicepparam) | The Azure deployment pipeline operated by the Foundry platform team |
 | Deployment | [`artifacts/models/deployment-profiles.json`](artifacts/models/deployment-profiles.json) | The Session 04 Bicep entrypoint and preflight scripts |
-| Record | [`artifacts/governance/model-approval-record.json`](artifacts/governance/model-approval-record.json) | The model lifecycle owner and Session 04 preflight scripts |
 
 ### Official documentation
 
@@ -111,14 +114,14 @@ Use real Azure identifiers only in the current shell and command arguments.
 
 ```powershell
 $approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
-$resourceGroup = "approved-session-05-resource-group"
+$resourceGroup = "approved-session-04-resource-group"
 $foundryAccount = "approved-existing-foundry-resource"
 $operatorObjectId = "00000000-0000-0000-0000-000000000000"
 ```
 
 ```bash
 approved_subscription_id="${AZURE_SUBSCRIPTION_ID:-}"
-resource_group="approved-session-05-resource-group"
+resource_group="approved-session-04-resource-group"
 foundry_account="approved-existing-foundry-resource"
 operator_object_id="00000000-0000-0000-0000-000000000000"
 ```
@@ -149,41 +152,23 @@ The resource ID must point to the approved subscription and resource group. `kin
 **Resolve every `__REQUIRED_*__` value** in the customer working copy. Preflight rejects unresolved
 values.
 
-### One approval record
-
-`model-approval-record.json` contains one item for each approved model coordinate:
-
-| Field | Decision |
-|---|---|
-| `approvalId` | Stable internal link used by the deployment profile and ARM tag |
-| `deploymentNames` | Exact child deployments covered by this approval |
-| `model` | Exact model `name`, `version`, and provider `format` |
-| `workloadPurpose` | Approved use for this model |
-| `decisionAuthority` | Role or group alias that made the decision |
-| `externalDecisionReference` | Link or identifier in the customer's normal decision system |
-| `processingLocationRequirement` | `global`, `data-zone:<zone>`, or `region:<azure-region>` |
-| `lifecycleOwner` | Role or group alias that owns review and replacement |
-| `reviewBy` | ISO date when approval must be reviewed or expires |
-| `changeNotificationRoute` | Queue, group, or route for lifecycle and deployment changes |
-| `minimumUnusedQuotaPercent` | Smallest approved percentage of quota that must remain unused |
-
-Do not add live quota, current availability, lifecycle status, published retirement dates, or
-deployed capacity to this record. Azure already owns those values. Preflight reads them again for
-each run.
-
 ### Deployment desired state
 
-`deployment-profiles.json` keeps only the state sent to ARM: approval ID, deployment name, exact
-model coordinates, SKU and capacity, content filter policy name, and
+`deployment-profiles.json` is the machine contract sent to ARM and checked by preflight. Each
+deployment carries its external approval reference, exact model coordinates, SKU and capacity,
+content filter policy name, processing-location requirement, review date, quota headroom, and
 `versionUpgradeOption: NoAutoUpgrade`.
-Replace the entire quoted `capacity` placeholder, including its quotation marks, with a positive
-JSON integer. Do the same for `minimumUnusedQuotaPercent` in the approval record. Quoted numbers
-fail both preflight scripts.
+Replace the entire quoted `capacity` and `minimumUnusedQuotaPercent` placeholders, including their
+quotation marks, with positive JSON integers. Quoted numbers fail both preflight scripts.
+
+Do not add live quota, current availability, lifecycle status, published retirement dates, or
+deployed capacity to this file. Azure already owns those values. Keep the full approval, lifecycle
+owner, and review history in the customer change system.
 
 This control approves exact model coordinates. It does not permit Azure to move a deployment to a
 different version automatically. A lifecycle-driven replacement or version change starts with a
-new external decision, then updates the consolidated approval record and deployment profile through
-the same preflight and what-if path.
+new external decision, then updates the deployment profile through the same preflight and what-if
+path.
 
 Choose a serverless API deployment SKU that meets the recorded processing-location requirement:
 
@@ -193,15 +178,20 @@ Choose a serverless API deployment SKU that meets the recorded processing-locati
 | Data-zone processing | `DataZoneStandard`, `DataZoneProvisionedManaged`, or `DataZoneBatch` |
 | Regional processing | `Standard` or `ProvisionedManaged`, where the exact model supports it |
 
-Stop when the SKU behavior does not meet the approval, the model coordinates differ between files,
-the review date has passed, `versionUpgradeOption` is not `NoAutoUpgrade`, or one deployment is
-linked to more than one approval.
+The valid data-zone values are `us`, `eu`, and `apac`, matching Microsoft's US, EU, and Asia
+Pacific data zones. `DeveloperTier` is excluded because it is for fine-tuned model evaluation,
+expires after 24 hours, has no SLA, and does not provide a data-residency guarantee.
+
+Stop when the SKU behavior does not meet the approved requirement, the review date has passed, or
+`versionUpgradeOption` is not `NoAutoUpgrade`.
 
 ### Live checks and manual gates
 
 Preflight checks **Cognitive Services Contributor** for the supplied operator object ID at the
 exact Foundry resource scope. It then uses `az cognitiveservices account list-models` to match the
 model, SKU, capacity bounds, lifecycle state, and published deprecation fields returned by Azure.
+For every `raiPolicyName`, it uses the stable `Microsoft.CognitiveServices/accounts/raiPolicies`
+2026-05-01 resource API to stop unless that policy exists under the exact Foundry resource.
 
 For quota, the script uses the SKU's live `usageName` and an exact metric from
 `az cognitiveservices usage list`. Existing capacity receives credit only when the live deployment
@@ -209,9 +199,10 @@ with the same name resolves to the same quota `usageName`. A different model or 
 credit, so preflight counts the full requested capacity.
 
 For `region:<azure-region>`, preflight requires the suffix to equal the existing Foundry account
-location. A `data-zone:<zone>` requirement still requires a DataZone SKU. Azure CLI does not expose
-a stable region-to-data-zone mapping, so the operator must compare the reported account location
-with Microsoft's current data-zone region list and use the explicit data-zone confirmation switch.
+location. A `data-zone:us`, `data-zone:eu`, or `data-zone:apac` requirement still requires a
+DataZone SKU. Azure CLI does not expose a stable region-to-data-zone mapping, so the operator must
+compare the reported account location with Microsoft's current data-zone region list and use the
+explicit data-zone confirmation switch.
 
 Some catalog entries do not return `lifecycleStatus` or a quota `usageName`. Permissions can also
 block the quota call. The script stops in those cases. Check the current model details, retirement
@@ -227,11 +218,10 @@ projected quota falls below the approved headroom policy.
 
 ## Implement
 
-### 1. Complete the two records
+### 1. Complete the deployment profile
 
-Add each approved deployment to `deployment-profiles.json`. Add the matching approval to
-`model-approval-record.json`. The approval record must **link every deployment name exactly once**.
-Follow Microsoft’s [Azure CLI and Bicep model deployment
+Add each approved deployment to `deployment-profiles.json` after its normal change approval is
+complete. Follow Microsoft’s [Azure CLI and Bicep model deployment
 guide](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/create-model-deployments)
 when checking the supported deployment properties.
 
@@ -280,9 +270,10 @@ the manual check listed by preflight and add only the needed confirmation switch
   --confirm-manual-quota
 ```
 
-Preflight builds the Bicep and requests `FullResourcePayloads` what-if output. It permits only
-Create, Modify, or NoChange for child resource IDs listed in `deployment-profiles.json`. It rejects
-Ignore, Delete, Unsupported, and changes to unrelated resources.
+Preflight verifies every named Responsible AI policy before building the Bicep and requesting
+`FullResourcePayloads` what-if output. It permits only Create, Modify, or NoChange for child
+resource IDs listed in `deployment-profiles.json`. It rejects Ignore, Delete, Unsupported, and
+changes to unrelated resources.
 
 ### 3. Deploy
 
@@ -350,15 +341,17 @@ capacity, and `modelApprovalId` match `deployment-profiles.json`.
 
 ## After implementation
 
-Keep the **versioned deployment definitions and approval record**, including the Bicep and
-parameter file, deployment profiles, artifact index, and paired scripts. The platform owner owns
-live capacity and deployment changes. The lifecycle owner follows the review date and change route
-in the approval record. Decision owners keep supporting detail in the external system referenced by
-`externalDecisionReference`.
+Keep the **versioned deployment definitions**, including the Bicep and parameter file, deployment
+profiles, artifact index, and paired scripts. The platform owner owns live capacity and deployment
+changes. The customer change process owns the named lifecycle owner, review history, replacement
+work, and supporting approval detail.
 
 This control covers deployments made through this versioned path. Detecting or blocking
 deployments created elsewhere needs a separate Azure Policy, deployment permission, inventory, or
-change-control design. Instant-access and managed-compute models still need their own controls.
+change-control design. The
+[Azure Policy deployment-type pattern](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types#restrict-deployment-types-with-azure-policy)
+can deny selected SKU names across those paths. Instant-access and managed-compute models still
+need their own controls.
 
 If a model deployment must be removed, the workload and platform owners first confirm that no
 consumer depends on it. Use the approved Foundry or Azure deployment path to remove one selected

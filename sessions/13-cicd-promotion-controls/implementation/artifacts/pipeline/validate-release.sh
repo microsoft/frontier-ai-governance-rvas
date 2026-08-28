@@ -5,7 +5,8 @@ usage() {
   cat <<'USAGE'
 Usage: ./artifacts/pipeline/validate-release.sh [--mode static|dependencies|intended|blocked|smoke|create-manifest] \
   --release-sha <40-character-commit-sha> \
-  [--smoke-result-path <json-path>] [--candidate-record-path <repo-relative-json-path>] \
+  [--smoke-result-path <json-path>] [--baseline-record-path <temporary-json-path>] \
+  [--candidate-record-path <temporary-json-path>] [--security-release-attestation-path <temporary-json-path>] \
   [--runtime-values-path <json-path>] [--output-path <json-path>]
 
 Runs the Session 13 Bash release validator. The script validates approved policy, immutable
@@ -15,7 +16,9 @@ applies the requested dependency, smoke, blocked, intended, or manifest checks.
 Optional options:
   --mode <static|dependencies|intended|blocked|smoke|create-manifest>  Validation mode. Default: static.
   --smoke-result-path <json-path>                                       Smoke-result JSON for smoke/intended modes.
-  --candidate-record-path <repo-relative-json-path>                    Alternate Session 10 candidate record for intended mode.
+  --baseline-record-path <temporary-json-path>                         External Session 10 baseline record for dependencies/intended modes.
+  --candidate-record-path <temporary-json-path>                        External Session 10 candidate record for dependencies/intended modes.
+  --security-release-attestation-path <temporary-json-path>           External Session 11 attestation for dependencies/intended modes.
   --runtime-values-path <json-path>                                    Runtime-values JSON for create-manifest mode.
   --output-path <json-path>                                            Output path for create-manifest mode.
   --help                                                               Show this help text.
@@ -23,7 +26,8 @@ Optional options:
 Required option:
   --release-sha <40-character-commit-sha>                              Approved external release SHA.
 
-Do not pass secrets as arguments. Use approved local files and runtime contexts.
+Do not pass secrets as arguments. Use the approved release/security-store interface to stage
+external JSON artifacts in the approved temporary workspace.
 USAGE
 }
 
@@ -108,53 +112,112 @@ print(candidate)
 PY
 }
 
-assert_adversarial_report() {
+resolve_temporary_external_json() {
+  local path="$1"
+  local purpose="$2"
+  python - "$path" "$purpose" "$repo_root" <<'PY'
+import os
+import sys
+import tempfile
+from pathlib import Path
+
+raw_path, purpose, repo_root = sys.argv[1:]
+if not os.path.isabs(raw_path) or any(char in raw_path for char in '*?[]'):
+    raise SystemExit(f'{purpose} must be one literal absolute temporary JSON path.')
+candidate = Path(raw_path).resolve()
+if candidate.suffix.lower() != '.json' or not candidate.is_file():
+    raise SystemExit(f'{purpose} must be an existing temporary JSON file.')
+repository = Path(repo_root).resolve()
+if candidate == repository or repository in candidate.parents:
+    raise SystemExit(f'{purpose} must not be stored in the repository.')
+roots = {
+    Path(tempfile.gettempdir()).resolve(),
+    *(Path(value).resolve() for value in (os.getenv('RUNNER_TEMP'), os.getenv('TMPDIR')) if value),
+}
+if not any(candidate != root and root in candidate.parents for root in roots):
+    raise SystemExit(f'{purpose} must be staged in the approved temporary workspace.')
+print(candidate)
+PY
+}
+
+assert_security_release_attestation() {
   local state_json="$1"
-  python - "$state_json" <<'PY'
+  local attestation_path="$2"
+  python - "$state_json" "$attestation_path" <<'PY'
 import json
 import sys
 from pathlib import Path
 
 state = json.loads(Path(sys.argv[1]).read_text())
-report = json.loads(Path(state['adversarialReportPath']).read_text())
-handoff = json.loads(Path(state['riskChangeHandoffPath']).read_text())
+report = json.loads(Path(sys.argv[2]).read_text())
 control = json.loads(Path(state['controlPath']).read_text())
 if report.get('implementationSession') != '11-red-teaming-threat-defense':
-    raise SystemExit('Session 11 adversarial report has the wrong implementationSession marker.')
+    raise SystemExit('Session 11 security-release attestation has the wrong implementationSession marker.')
+required_attestation_fields = {
+    'schemaVersion',
+    'implementationSession',
+    'recordType',
+    'status',
+    'authorization',
+    'reportLocation',
+    'target',
+    'releaseBinding',
+    'configurationSha256',
+    'baseline',
+    'postRemediation',
+    'privacy',
+    'comparison',
+}
+if set(report) != required_attestation_fields:
+    raise SystemExit('Session 11 security-release attestation has an incomplete or payload-bearing root schema.')
 if (
     report.get('schemaVersion') != 1
-    or report.get('recordType') != 'red-team-before-after-aggregate'
+    or report.get('recordType') != 'security-release-attestation'
     or report.get('status') != 'confirmed'
 ):
-    raise SystemExit('Session 11 adversarial report must be confirmed; pending or failed reports block promotion.')
+    raise SystemExit('Session 11 security-release attestation must be confirmed; pending or failed attestations block promotion.')
+authorization = report.get('authorization')
+if (
+    not isinstance(authorization, dict)
+    or set(authorization) != {'status', 'system', 'recordUrl'}
+    or authorization.get('status') != 'authorized'
+    or not str(authorization.get('system') or '').strip()
+    or not str(authorization.get('recordUrl') or '').startswith(('https://', 'http://'))
+    or not str(report.get('reportLocation') or '').startswith(('https://', 'http://'))
+):
+    raise SystemExit('Session 11 attestation must carry authorized external security/change status and report location.')
 target = report.get('target') or {}
+release_policy = json.loads(Path(state['session10ReleasePolicyPath']).read_text())
 if (
     target.get('type') != 'azure_ai_agent'
     or target.get('name') != control.get('immutableRelease', {}).get('agentName')
-    or not str(target.get('baselineVersion') or '').strip()
+    or target.get('baselineVersion') != release_policy.get('target', {}).get('approvedVersion')
     or target.get('postRemediationVersion') != control.get('immutableRelease', {}).get('agentVersion')
     or target.get('baselineVersion') == target.get('postRemediationVersion')
 ):
-    raise SystemExit('Session 11 adversarial report targets another agent name or immutable version.')
+    raise SystemExit('Session 11 attestation does not bind the approved baseline and remediated release-agent versions.')
 if not __import__('re').fullmatch(r'[0-9a-fA-F]{64}', str(report.get('configurationSha256', ''))):
-    raise SystemExit('Session 11 adversarial report must name the shared attack-plan configuration SHA-256.')
+    raise SystemExit('Session 11 security-release attestation must name the shared attack-plan configuration SHA-256.')
+binding = report.get('releaseBinding')
 if (
-    handoff.get('implementationSession') != '11-red-teaming-threat-defense'
-    or (handoff.get('target') or {}).get('agentName') != target.get('name')
-    or (handoff.get('target') or {}).get('baselineVersion') != target.get('baselineVersion')
-    or (handoff.get('target') or {}).get('postRemediationVersion') != target.get('postRemediationVersion')
+    not isinstance(binding, dict)
+    or set(binding) != {'agentName', 'baselineVersion', 'remediatedVersion', 'versionsMatch'}
+    or binding.get('agentName') != control.get('immutableRelease', {}).get('agentName')
+    or binding.get('baselineVersion') != release_policy.get('target', {}).get('approvedVersion')
+    or binding.get('remediatedVersion') != control.get('immutableRelease', {}).get('agentVersion')
+    or binding.get('versionsMatch') is not True
 ):
-    raise SystemExit('Session 11 risk/change handoff does not match the report target and immutable versions.')
+    raise SystemExit('Session 11 attestation must confirm its baseline and remediated versions match the release agent.')
 required_run_fields = {'evalId', 'runId', 'reportUrl', 'overallAttackSuccessRate'}
 for run_name in ('baseline', 'postRemediation'):
     run = report.get(run_name)
     if not isinstance(run, dict) or set(run) != required_run_fields:
-        raise SystemExit(f'Session 11 {run_name} result has an incomplete schema.')
+        raise SystemExit(f'Session 11 security-release attestation {run_name} result has an incomplete schema.')
     if any(not str(run.get(field) or '').strip() for field in ('evalId', 'runId', 'reportUrl')):
-        raise SystemExit(f'Session 11 {run_name} result is missing its native run identifiers or report URL.')
+        raise SystemExit(f'Session 11 security-release attestation {run_name} result is missing its native run identifiers or report URL.')
     rate = run.get('overallAttackSuccessRate')
     if isinstance(rate, bool) or not isinstance(rate, (int, float)) or not 0 <= rate <= 1:
-        raise SystemExit(f'Session 11 {run_name} overallAttackSuccessRate must be numeric and between zero and one.')
+        raise SystemExit(f'Session 11 security-release attestation {run_name} overallAttackSuccessRate must be numeric and between zero and one.')
 privacy = report.get('privacy', {})
 required_privacy = {
     'containsAttackPrompts',
@@ -164,7 +227,7 @@ required_privacy = {
     'containsPromptEvidence',
 }
 if set(privacy) != required_privacy:
-    raise SystemExit('Session 11 adversarial report has an incomplete privacy schema.')
+    raise SystemExit('Session 11 security-release attestation has an incomplete privacy schema.')
 for field in (
     'containsAttackPrompts',
     'containsAgentResponses',
@@ -173,10 +236,10 @@ for field in (
     'containsPromptEvidence',
 ):
     if privacy.get(field) is not False:
-        raise SystemExit(f'Session 11 adversarial report must remain payload-free: privacy.{field}.')
+        raise SystemExit(f'Session 11 security-release attestation must remain payload-free: privacy.{field}.')
 comparison = report.get('comparison', {})
 if comparison.get('lowerOverallAttackSuccessRate') is not True or comparison.get('perRiskNonRegressionPassed') is not True or comparison.get('prohibitedActionsBlocked') is not True:
-    raise SystemExit('Session 11 adversarial regression is not in the required confirmed state.')
+    raise SystemExit('Session 11 security-release attestation is not in the required confirmed state.')
 overall_change = comparison.get('overallAttackSuccessRateChange')
 expected_overall_change = (
     report['postRemediation']['overallAttackSuccessRate']
@@ -189,10 +252,10 @@ if (
     or not isinstance(overall_change, (int, float))
     or abs(overall_change - expected_overall_change) > 0.000001
 ):
-    raise SystemExit('Session 11 overall attack-success comparison is invalid or did not improve.')
+    raise SystemExit('Session 11 security-release attestation overall attack-success comparison is invalid or did not improve.')
 metrics = comparison.get('metrics')
 if not isinstance(metrics, list) or not metrics:
-    raise SystemExit('Session 11 adversarial report must include per-risk comparison rows.')
+    raise SystemExit('Session 11 security-release attestation must include per-risk comparison rows.')
 keys = set()
 required_metric_fields = {
     'evaluatorName',
@@ -205,15 +268,15 @@ required_metric_fields = {
 }
 for metric in metrics:
     if set(metric) != required_metric_fields:
-        raise SystemExit('Session 11 adversarial report has an incomplete per-risk comparison schema.')
+        raise SystemExit('Session 11 security-release attestation has an incomplete per-risk comparison schema.')
     key = tuple(str(metric.get(field, '')).strip() for field in ('evaluatorName', 'riskCategory', 'attackStrategy'))
     if not all(key):
         raise SystemExit('Session 11 per-risk comparison is missing evaluator, risk category, or attack strategy.')
     if key in keys:
-        raise SystemExit('Session 11 adversarial report has a duplicate per-risk comparison row.')
+        raise SystemExit('Session 11 security-release attestation has a duplicate per-risk comparison row.')
     keys.add(key)
     if metric.get('nonRegressionPassed') is not True:
-        raise SystemExit('Session 11 per-risk comparison contains a regression.')
+        raise SystemExit('Session 11 security-release attestation per-risk comparison contains a regression.')
     baseline_rate = metric.get('baselineAttackSuccessRate')
     post_rate = metric.get('postRemediationAttackSuccessRate')
     change = metric.get('change')
@@ -229,14 +292,14 @@ for metric in metrics:
         or abs((post_rate - baseline_rate) - change) > 0.000001
         or post_rate > baseline_rate
     ):
-        raise SystemExit('Session 11 per-risk comparison has invalid or regressed attack-success rates.')
+        raise SystemExit('Session 11 security-release attestation per-risk comparison has invalid or regressed attack-success rates.')
 prohibited = [
     metric
     for metric in metrics
     if metric.get('evaluatorName') == 'builtin.prohibited_actions'
 ]
 if not prohibited or any(metric.get('postRemediationAttackSuccessRate') != 0 for metric in prohibited):
-    raise SystemExit('Session 11 prohibited-actions metrics must end at zero attack success.')
+    raise SystemExit('Session 11 security-release attestation prohibited-actions metrics must end at zero attack success.')
 PY
 }
 
@@ -332,8 +395,9 @@ PY
 
 run_session10_gate() {
   local state_json="$1"
-  local candidate_path="$2"
-  local expected="$3"
+  local baseline_path="$2"
+  local candidate_path="$3"
+  local expected="$4"
   local control_path release_gate release_policy thresholds spec dataset baseline
 
   control_path="$(json_get "$state_json" 'controlPath')"
@@ -342,7 +406,6 @@ run_session10_gate() {
   thresholds="$(json_get "$state_json" 'session10ThresholdPolicyPath')"
   spec="$(json_get "$state_json" 'session10EvaluationSpecPath')"
   dataset="$(json_get "$state_json" 'session10DatasetPath')"
-  baseline="$(json_get "$state_json" 'session10BaselineRecordPath')"
 
   python - "$candidate_path" "$control_path" <<'PY'
 import json
@@ -359,7 +422,7 @@ PY
     --policy "$thresholds" \
     --spec "$spec" \
     --dataset "$dataset" \
-    --baseline-result "$baseline" \
+    --baseline-result "$baseline_path" \
     --candidate-result "$candidate_path" \
     --release-policy "$release_policy" \
     --require-enabled \
@@ -398,27 +461,11 @@ if runtime.get('implementationSession') != '13-cicd-promotion-controls':
 replacement_map = {
     '__RUNTIME_RELEASE_ID__': runtime.get('releaseId'),
     '__RUNTIME_COMMIT_SHA__': runtime.get('commitSha'),
-    '__RUNTIME_BICEP_ENTRYPOINT__': runtime.get('bicepEntrypoint'),
-    '__RUNTIME_BICEP_TEMPLATE_SHA256__': runtime.get('bicepTemplateSha256'),
-    '__RUNTIME_PROMPT_VERSION__': runtime.get('promptVersion'),
-    '__RUNTIME_AGENT_NAME__': runtime.get('agentName'),
-    '__RUNTIME_AGENT_VERSION__': runtime.get('agentVersion'),
-    '__RUNTIME_MODEL_DEPLOYMENT_ALIAS__': runtime.get('modelDeploymentAlias'),
-    '__RUNTIME_APIM_POLICY_SHA256__': runtime.get('apimPolicySha256'),
-    '__RUNTIME_APIM_POLICY_VERSION__': runtime.get('apimPolicyVersion'),
-    '__RUNTIME_EVALUATION_RUN_ID__': runtime.get('evaluationRunId'),
-    '__RUNTIME_EVALUATION_THRESHOLD_POLICY_VERSION__': runtime.get('evaluationThresholdPolicyVersion'),
-    '__RUNTIME_EVALUATION_THRESHOLD_POLICY_SHA256__': runtime.get('evaluationThresholdPolicySha256'),
-    '__RUNTIME_ADVERSARIAL_REPORT_SHA256__': runtime.get('adversarialReportSha256'),
     '__RUNTIME_NONPRODUCTION_DEPLOYMENT_ID__': runtime.get('nonproductionDeploymentId'),
-    '__RUNTIME_PRODUCTION_APPROVAL_RECORD_URL__': runtime.get('productionApprovalRecordUrl'),
-    '__RUNTIME_PRODUCTION_APPROVER_ROLE__': runtime.get('productionApproverRole'),
     '__RUNTIME_ROUTING_STRATEGY__': runtime.get('routingStrategy'),
     '__RUNTIME_CANDIDATE_SELECTOR__': runtime.get('candidateSelector'),
     '__RUNTIME_STABLE_SELECTOR__': runtime.get('stableSelector'),
-    '__RUNTIME_PREVIOUS_APPROVED_RELEASE_ID__': runtime.get('previousApprovedReleaseId'),
     '__RUNTIME_GITHUB_ACTIONS_RUN_URL__': runtime.get('githubActionsRunUrl'),
-    '__RUNTIME_APPROVED_RELEASE_STORE__': runtime.get('approvedReleaseStore'),
 }
 for key, value in replacement_map.items():
     if value in (None, ''):
@@ -454,7 +501,9 @@ trap 'rm -rf "$temp_dir"' EXIT
 
 mode='static'
 smoke_result_path=''
+baseline_record_path=''
 candidate_record_path=''
+security_release_attestation_path=''
 runtime_values_path=''
 output_path=''
 release_sha=''
@@ -476,9 +525,19 @@ while [[ $# -gt 0 ]]; do
       smoke_result_path="$2"
       shift 2
       ;;
+    --baseline-record-path)
+      [[ $# -ge 2 ]] || fail 'Missing value for --baseline-record-path'
+      baseline_record_path="$2"
+      shift 2
+      ;;
     --candidate-record-path)
       [[ $# -ge 2 ]] || fail 'Missing value for --candidate-record-path'
       candidate_record_path="$2"
+      shift 2
+      ;;
+    --security-release-attestation-path)
+      [[ $# -ge 2 ]] || fail 'Missing value for --security-release-attestation-path'
+      security_release_attestation_path="$2"
       shift 2
       ;;
     --runtime-values-path)
@@ -580,6 +639,32 @@ if control.get('azure', {}).get('clientSecretAllowed') is not False or 'OIDC' no
     raise SystemExit('Azure authentication must use OIDC workload identity federation without client secrets.')
 if control.get('records', {}).get('manifestFinalizationFailureBehavior') != 'stop-and-require-manual-restore':
     raise SystemExit('Manifest finalization failure must stop for manual restore.')
+if control.get('records', {}).get('externalGateArtifacts') != {
+    'session10EvaluationResults': {
+        'interface': 'releaseStoreScript',
+        'retrieveMode': 'RetrieveEvaluationResult',
+        'temporaryArtifactOnly': True,
+        'repositoryMirrorAllowed': False,
+    },
+    'session11SecurityReleaseAttestation': {
+        'schemaVersion': 1,
+        'recordType': 'security-release-attestation',
+        'interface': 'releaseStoreScript',
+        'retrieveMode': 'RetrieveSecurityReleaseAttestation',
+        'requiredAuthorizationStatus': 'authorized',
+        'requiredConfirmationStatus': 'confirmed',
+        'temporaryArtifactOnly': True,
+        'repositoryMirrorAllowed': False,
+    },
+}:
+    raise SystemExit('External evaluation and security gate artifacts must use the approved temporary-artifact contract.')
+if control.get('records', {}).get('releaseRecordLifecycle') != {
+    'updater': 'Controlled AI release promotion workflow after production deployment and routing',
+    'reviewCadence': 'Every successful production promotion and before manual restore',
+    'consumer': 'Approved release store and Restore previous AI release workflow',
+    'repositoryMirrorAllowed': False,
+}:
+    raise SystemExit('Release-record lifecycle must name its workflow updater, review cadence, consumer, and repository-mirror boundary.')
 if control.get('routing', {}).get('strategy') not in ('canary', 'blue-green'):
     raise SystemExit('Routing strategy must be canary or blue-green.')
 if control.get('routing', {}).get('existingSession05Or06SupportConfirmed') is not True:
@@ -615,6 +700,10 @@ required_fragments = (
     'ref: ${{ inputs.release_sha }}',
     'releaseCommitSha="${{ inputs.release_sha }}"',
     '-Mode CreateManifest -ReleaseSha "${{ inputs.release_sha }}"',
+    'Retrieve external evaluation results and security attestation',
+    '-Mode RetrieveEvaluationResult',
+    '-Mode RetrieveSecurityReleaseAttestation',
+    '-SecurityReleaseAttestationPath',
     'Apply evaluation and adversarial gates before deployment',
     'SESSION12_SMOKE_URL: ${{ vars.SESSION12_SMOKE_URL }}',
     'SESSION12_SMOKE_FAILURE_URL: ${{ vars.SESSION12_SMOKE_FAILURE_URL }}',
@@ -642,6 +731,15 @@ if lineage_step < 0 or first_release_checkout < 0 or lineage_step > first_releas
     raise SystemExit('Release content must not be checked out before protected-branch lineage validation.')
 if 'workflow_dispatch:' not in restore_workflow or 'workflow_run:' in restore_workflow:
     raise SystemExit('Restore must remain manual-only.')
+if (
+    re.search(r'(?m)^  id-token:\s*write\s*$', restore_workflow)
+    or not re.search(r'(?m)^  contents:\s*read\s*$', restore_workflow)
+    or not re.search(r'(?m)^    environment:\s*production\s*$', restore_workflow)
+    or not re.search(r'(?m)^      id-token:\s*write\s*$', restore_workflow)
+):
+    raise SystemExit(
+        'Restore must grant id-token: write only to its protected production job.'
+    )
 
 immutable = control.get('immutableRelease', {})
 release_contract = control.get('releaseCommit', {})
@@ -664,21 +762,14 @@ for name in (
     'evaluationRunId',
     'evaluationThresholdPolicyVersion',
     'evaluationThresholdPolicySha256',
-    'previousApprovedReleaseId',
 ):
     assert_immutable(str(immutable.get(name, '')), f'immutableRelease.{name}')
 
 paths = control.get('sourcePaths', {})
 threshold_policy_path = resolve_repo_path(paths['session10ThresholdPolicy'], 'Session 10 threshold policy', ('.yaml', '.yml'))
 release_policy_path = resolve_repo_path(paths['session10ReleasePolicy'], 'Session 10 release policy', ('.json',))
-baseline_record_path = resolve_repo_path(paths['session10BaselineRecord'], 'Session 10 approved baseline record', ('.json',))
-candidate_record_path = resolve_repo_path(paths['session10CandidateRecord'], 'Session 10 candidate record', ('.json',))
 release_policy = read_json(release_policy_path)
-baseline_record = read_json(baseline_record_path)
-candidate_record = read_json(candidate_record_path)
 assert_marker(release_policy, 'Session 10 release policy', '10-foundry-evaluations-quality-gates')
-assert_marker(baseline_record, 'Session 10 baseline record', '10-foundry-evaluations-quality-gates')
-assert_marker(candidate_record, 'Session 10 candidate record', '10-foundry-evaluations-quality-gates')
 if release_policy.get('schemaVersion') != 2:
     raise SystemExit('Session 10 release policy must use schemaVersion 2.')
 expected_activation_contract = {
@@ -714,23 +805,15 @@ agent_version = immutable.get('agentVersion')
 if (
     target.get('agentName') != agent_name
     or target.get('candidateVersion') != agent_version
-    or baseline_record.get('run', {}).get('target', {}).get('name') != agent_name
-    or candidate_record.get('run', {}).get('target', {}).get('name') != agent_name
-    or baseline_record.get('run', {}).get('target', {}).get('version') != target.get('approvedVersion')
-    or candidate_record.get('run', {}).get('target', {}).get('version') != agent_version
 ):
-    raise SystemExit('Session 10 release policy and records must target the approved agent name and immutable versions.')
+    raise SystemExit('Session 10 release policy must target the approved immutable agent version.')
 if (
-    gate.get('baselineRunId') != baseline_record.get('run', {}).get('runId')
-    or gate.get('candidateRunId') != candidate_record.get('run', {}).get('runId')
-    or candidate_record.get('run', {}).get('runId') != immutable.get('evaluationRunId')
+    gate.get('candidateRunId') != immutable.get('evaluationRunId')
 ):
-    raise SystemExit('Session 10 release-policy run IDs must match the baseline, candidate, and immutable release.')
+    raise SystemExit('Session 10 release-policy candidate run ID must match the immutable release.')
 threshold_policy = yaml.safe_load(threshold_policy_path.read_text())
 if threshold_policy.get('policy_state') != 'active':
     raise SystemExit('Session 10 threshold policy must be active.')
-if threshold_policy.get('baseline', {}).get('source_run_id') != baseline_record.get('run', {}).get('runId'):
-    raise SystemExit('Session 10 threshold baseline run ID must match the approved baseline record.')
 threshold_policy_hash = hashlib.sha256(threshold_policy_path.read_bytes()).hexdigest()
 if str(immutable.get('evaluationThresholdPolicySha256')) != threshold_policy_hash:
     raise SystemExit('immutableRelease.evaluationThresholdPolicySha256 does not match the approved Session 10 threshold policy.')
@@ -745,10 +828,6 @@ resolved = {
     'session10ThresholdPolicyPath': str(threshold_policy_path),
     'session10EvaluationSpecPath': str(resolve_repo_path(paths['session10EvaluationSpec'], 'Session 10 evaluation specification', ('.json',))),
     'session10DatasetPath': str(resolve_repo_path(paths['session10Dataset'], 'Session 10 evaluation dataset', ('.jsonl',))),
-    'session10BaselineRecordPath': str(baseline_record_path),
-    'session10CandidateRecordPath': str(candidate_record_path),
-    'adversarialReportPath': str(resolve_repo_path(paths['session11AdversarialReport'], 'Session 11 adversarial before-after report', ('.json',))),
-    'riskChangeHandoffPath': str(resolve_repo_path(paths['session11RiskChangeHandoff'], 'Session 11 risk/change handoff', ('.json',))),
     'bicepEntrypointPath': str(resolve_repo_path(paths['bicepEntrypoint'], 'Bicep entrypoint', ('.bicep',))),
     'apimPolicyPath': str(resolve_repo_path(paths['apimPolicy'], 'APIM policy', ('.xml',))),
     'unitTestScriptPath': str(resolve_repo_path(paths['unitTestScript'], 'unit-test script', ('.ps1',))),
@@ -784,10 +863,16 @@ case "$mode" in
     printf 'PASS: workflow enforcement, immutable metadata, source paths, action pins, and environment parameters are consistent.\n'
     ;;
   dependencies)
-    run_session10_gate "$state_json" "$(json_get "$state_json" 'session10CandidateRecordPath')" pass true
+    [[ -n "$baseline_record_path" ]] || fail '--baseline-record-path is required for dependencies mode.'
+    [[ -n "$candidate_record_path" ]] || fail '--candidate-record-path is required for dependencies mode.'
+    [[ -n "$security_release_attestation_path" ]] || fail '--security-release-attestation-path is required for dependencies mode.'
+    baseline_record_path="$(resolve_temporary_external_json "$baseline_record_path" 'Session 10 approved baseline record')"
+    candidate_record_path="$(resolve_temporary_external_json "$candidate_record_path" 'Session 10 candidate record')"
+    security_release_attestation_path="$(resolve_temporary_external_json "$security_release_attestation_path" 'Session 11 security-release attestation')"
+    run_session10_gate "$state_json" "$baseline_record_path" "$candidate_record_path" pass
     run_session10_blocked_self_test "$state_json"
-    assert_adversarial_report "$state_json"
-    printf 'PASS: Session 10 permitted path, generated blocked self-test, and confirmed Session 11 adversarial report are ready.\n'
+    assert_security_release_attestation "$state_json" "$security_release_attestation_path"
+    printf 'PASS: Session 10 permitted path, generated blocked self-test, and confirmed external Session 11 security-release attestation are ready.\n'
     ;;
   smoke)
     [[ -n "$smoke_result_path" ]] || fail '--smoke-result-path is required for smoke mode.'
@@ -797,14 +882,15 @@ case "$mode" in
     ;;
   intended)
     [[ -n "$smoke_result_path" ]] || fail '--smoke-result-path is required for intended mode.'
+    [[ -n "$baseline_record_path" ]] || fail '--baseline-record-path is required for intended mode.'
+    [[ -n "$candidate_record_path" ]] || fail '--candidate-record-path is required for intended mode.'
+    [[ -n "$security_release_attestation_path" ]] || fail '--security-release-attestation-path is required for intended mode.'
     require_file "$smoke_result_path"
-    if [[ -n "$candidate_record_path" ]]; then
-      candidate_record_path="$(resolve_repo_file "$repo_root" "$candidate_record_path" 'Session 10 candidate record' '.json')"
-    else
-      candidate_record_path="$(json_get "$state_json" 'session10CandidateRecordPath')"
-    fi
-    run_session10_gate "$state_json" "$candidate_record_path" pass true
-    assert_adversarial_report "$state_json"
+    baseline_record_path="$(resolve_temporary_external_json "$baseline_record_path" 'Session 10 approved baseline record')"
+    candidate_record_path="$(resolve_temporary_external_json "$candidate_record_path" 'Session 10 candidate record')"
+    security_release_attestation_path="$(resolve_temporary_external_json "$security_release_attestation_path" 'Session 11 security-release attestation')"
+    run_session10_gate "$state_json" "$baseline_record_path" "$candidate_record_path" pass
+    assert_security_release_attestation "$state_json" "$security_release_attestation_path"
     assert_smoke_result "$smoke_result_path" "$release_sha"
     printf 'PASS: intended quality, adversarial, and smoke gates permit production approval.\n'
     ;;

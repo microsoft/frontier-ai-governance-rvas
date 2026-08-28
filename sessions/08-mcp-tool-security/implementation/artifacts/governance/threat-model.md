@@ -1,5 +1,13 @@
 # MCP threat model
 
+## Lifecycle
+
+| Field | Operating value |
+|---|---|
+| Update owner | `__REQUIRED_SECURITY_OWNER__` |
+| Review cadence | Every 90 days and before a tool, identity, backend, authorization, model, instruction, or approval change |
+| Consumer | `__REQUIRED_RELEASE_OWNER__` uses this model when deciding whether a checked candidate can replace the stable version |
+
 ## Scope
 
 The [Session 05](../../../../05-governed-agent-baseline/implementation/README.md) policy assistant calls one Session 08 MCP endpoint in the

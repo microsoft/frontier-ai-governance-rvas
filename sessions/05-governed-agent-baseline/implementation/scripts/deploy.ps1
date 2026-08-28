@@ -29,8 +29,6 @@ $agentRoot = Join-Path $artifactRoot "agents\policy-assistant"
 $configPath = Join-Path $agentRoot "agent.json"
 $instructionsPath = Join-Path $agentRoot "instructions.md"
 $toolPath = Join-Path $agentRoot "tool-manifest.json"
-$policyPath = Join-Path $agentRoot "prohibited-actions.json"
-$releaseOperationsPath = Join-Path $artifactRoot "operations\release-operations.json"
 
 function Get-AiToken {
     $token = & az account get-access-token `
@@ -119,19 +117,7 @@ if ([string]$foundry.id -ne $expectedFoundryId) {
 
 $config = Get-Content -LiteralPath $configPath -Raw | ConvertFrom-Json
 $toolManifest = Get-Content -LiteralPath $toolPath -Raw | ConvertFrom-Json
-$prohibited = Get-Content -LiteralPath $policyPath -Raw | ConvertFrom-Json
 $instructions = Get-Content -LiteralPath $instructionsPath -Raw
-
-$prohibitedAction = [string]$prohibited.actions[0].action
-$humanRoute = [string]$prohibited.humanChangeRoute
-$runtimeInstructions = @"
-$instructions
-
-## Customer decision for this implementation
-
-The explicitly prohibited write action is: $prohibitedAction.
-Route legitimate change requests to: $humanRoute.
-"@
 
 $tool = $toolManifest.tools[0]
 $tool.openapi.spec.servers[0].url = $ReadApiBaseUrl.TrimEnd("/")
@@ -151,7 +137,7 @@ $createBody = @{
     definition = @{
         kind = "prompt"
         model = [string]$config.modelDeploymentName
-        instructions = $runtimeInstructions
+        instructions = $instructions
         temperature = [double]$config.temperature
         rai_config = @{
             rai_policy_name = [string]$config.raiPolicyName
@@ -209,22 +195,5 @@ $patched = Invoke-AiRequest `
 if ([string]::IsNullOrWhiteSpace([string]$patched.instance_identity.principal_id)) {
     throw "The created agent does not expose a unique Entra Agent Identity."
 }
-
-$releaseOperations = Get-Content -LiteralPath $releaseOperationsPath -Raw |
-    ConvertFrom-Json -ErrorAction Stop
-$releaseOperations.release = [ordered]@{
-    agentName = [string]$config.agentName
-    activeVersion = $createdVersion
-    modelDeploymentName = [string]$config.modelDeploymentName
-    versionSelection = "pinned"
-    instructionsSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $instructionsPath).Hash.ToLowerInvariant()
-    toolManifestSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $toolPath).Hash.ToLowerInvariant()
-    prohibitedActionsSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $policyPath).Hash.ToLowerInvariant()
-    deployedAtUtc = [DateTime]::UtcNow.ToString("o")
-    status = "deployed"
-}
-$releaseOperations |
-    ConvertTo-Json -Depth 10 |
-    Set-Content -LiteralPath $releaseOperationsPath -Encoding utf8
 
 Write-Host "PASS: Created agent version $createdVersion, pinned the stable Responses endpoint, enforced Entra authorization, and confirmed a unique agent identity."

@@ -1,5 +1,9 @@
 [CmdletBinding()]
 param(
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [string]$AgentInstanceId,
+
     [Parameter()]
     [datetime]$StartUtc,
 
@@ -48,7 +52,7 @@ $safeRows = foreach ($record in $records) {
     else {
         ""
     }
-    if ($agentId -ne [string]$query.agentInstanceId) {
+    if ($agentId -ne $AgentInstanceId) {
         continue
     }
 

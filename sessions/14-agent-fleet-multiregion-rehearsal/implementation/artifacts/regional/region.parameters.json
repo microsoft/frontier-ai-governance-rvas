@@ -61,12 +61,6 @@
     },
     "applicationInsightsResourceId": {
       "value": "/subscriptions/__REQUIRED_SUBSCRIPTION_ID__/resourceGroups/__REQUIRED_RESOURCE_GROUP__/providers/Microsoft.Insights/components/__REQUIRED_APPLICATION_INSIGHTS_NAME__"
-    },
-    "managementPlanePrimaryRegionAccepted": {
-      "value": "__REQUIRED_MANAGEMENT_PLANE_LIMIT_ACCEPTED_TRUE__"
-    },
-    "regionalRateCountersAccepted": {
-      "value": "__REQUIRED_REGIONAL_RATE_COUNTER_LIMIT_ACCEPTED_TRUE__"
     }
   }
 }

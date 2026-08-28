@@ -33,49 +33,22 @@ $agentRoot = Join-Path $artifactRoot "agents\policy-assistant"
 $configPath = Join-Path $agentRoot "agent.json"
 $instructionsPath = Join-Path $agentRoot "instructions.md"
 $toolPath = Join-Path $agentRoot "tool-manifest.json"
-$policyPath = Join-Path $agentRoot "prohibited-actions.json"
-$releaseOperationsPath = Join-Path $artifactRoot "operations\release-operations.json"
 $requiredFiles = @(
     $configPath
     $instructionsPath
     $toolPath
-    $policyPath
-    $releaseOperationsPath
 )
 $requiredSentinels = @(
     "__REQUIRED_AGENT_NAME__"
-    "__REQUIRED_AGENT_OWNER__"
-    "__REQUIRED_APP_INSIGHTS_NAME__"
     "__REQUIRED_DOWNSTREAM_API_AUTHORIZATION_OWNER__"
     "__REQUIRED_DOWNSTREAM_API_READ_ROLE_ID__"
     "__REQUIRED_DOWNSTREAM_API_READ_SCOPE__"
     "__REQUIRED_HUMAN_CHANGE_ROUTE__"
-    "__REQUIRED_HATE_INPUT_MINIMUM_SEVERITY__"
-    "__REQUIRED_HATE_OUTPUT_MINIMUM_SEVERITY__"
-    "__REQUIRED_HATE_POLICY_INPUT_SEVERITY__"
-    "__REQUIRED_HATE_POLICY_OUTPUT_SEVERITY__"
     "__REQUIRED_MODEL_DEPLOYMENT_NAME__"
-    "__REQUIRED_POLICY_OWNER__"
     "__REQUIRED_PROHIBITED_WRITE_ACTION__"
     "__REQUIRED_RAI_POLICY_NAME__"
-    "__REQUIRED_RAI_POLICY_REVIEW_DATE__"
     "__REQUIRED_READ_PATH__"
-    "__REQUIRED_SAFETY_OWNER_ROLE__"
-    "__REQUIRED_SELF_HARM_INPUT_MINIMUM_SEVERITY__"
-    "__REQUIRED_SELF_HARM_OUTPUT_MINIMUM_SEVERITY__"
-    "__REQUIRED_SELF_HARM_POLICY_INPUT_SEVERITY__"
-    "__REQUIRED_SELF_HARM_POLICY_OUTPUT_SEVERITY__"
-    "__REQUIRED_SEXUAL_INPUT_MINIMUM_SEVERITY__"
-    "__REQUIRED_SEXUAL_OUTPUT_MINIMUM_SEVERITY__"
-    "__REQUIRED_SEXUAL_POLICY_INPUT_SEVERITY__"
-    "__REQUIRED_SEXUAL_POLICY_OUTPUT_SEVERITY__"
     "__REQUIRED_TARGET_AUDIENCE__"
-    "__REQUIRED_TELEMETRY_OWNER__"
-    "__REQUIRED_TRACE_READER_GROUP__"
-    "__REQUIRED_VIOLENCE_INPUT_MINIMUM_SEVERITY__"
-    "__REQUIRED_VIOLENCE_OUTPUT_MINIMUM_SEVERITY__"
-    "__REQUIRED_VIOLENCE_POLICY_INPUT_SEVERITY__"
-    "__REQUIRED_VIOLENCE_POLICY_OUTPUT_SEVERITY__"
 )
 
 if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
@@ -100,9 +73,6 @@ if ($sentinels) {
 
 $config = Get-Content -LiteralPath $configPath -Raw | ConvertFrom-Json -ErrorAction Stop
 $toolManifest = Get-Content -LiteralPath $toolPath -Raw | ConvertFrom-Json -ErrorAction Stop
-$prohibited = Get-Content -LiteralPath $policyPath -Raw | ConvertFrom-Json -ErrorAction Stop
-$releaseOperations = Get-Content -LiteralPath $releaseOperationsPath -Raw | ConvertFrom-Json -ErrorAction Stop
-$tracing = $releaseOperations.tracing
 $instructions = Get-Content -LiteralPath $instructionsPath -Raw
 
 if ([string]$config.implementationSession -ne "05-governed-agent-baseline") {
@@ -126,33 +96,9 @@ if ([double]$config.temperature -lt 0 -or [double]$config.temperature -gt 2) {
 if ([string]::IsNullOrWhiteSpace([string]$config.raiPolicyName)) {
     throw "A named RAI policy is required."
 }
-$expectedCategories = @("hate", "sexual", "violence", "self_harm")
-$minimumFilters = @($config.raiPolicyReview.minimumFilters)
-$namedPolicyFilters = @($config.raiPolicyReview.namedPolicyFilters)
-if ($minimumFilters.Count -ne 4 -or $namedPolicyFilters.Count -ne 4 -or
-    (@($minimumFilters.category | Sort-Object) -join ",") -ne (@($expectedCategories | Sort-Object) -join ",") -or
-    (@($namedPolicyFilters.category | Sort-Object) -join ",") -ne (@($expectedCategories | Sort-Object) -join ",")) {
-    throw "The RAI policy review must contain the hate, sexual, violence, and self_harm categories once in both filter sets."
-}
-$severityRank = @{ low = 0; medium = 1; high = 2 }
-foreach ($minimum in $minimumFilters) {
-    $named = @($namedPolicyFilters | Where-Object { $_.category -eq $minimum.category })[0]
-    foreach ($direction in @("inputBlockedAtOrAbove", "outputBlockedAtOrAbove")) {
-        $minimumSeverity = ([string]$minimum.$direction).ToLowerInvariant()
-        $namedSeverity = ([string]$named.$direction).ToLowerInvariant()
-        if (-not $severityRank.ContainsKey($minimumSeverity) -or
-            -not $severityRank.ContainsKey($namedSeverity) -or
-            $severityRank[$namedSeverity] -gt $severityRank[$minimumSeverity]) {
-            throw "The named RAI policy relaxes or omits the approved $($minimum.category) $direction minimum."
-        }
-    }
-}
-[void][datetime]::ParseExact(
-    [string]$config.raiPolicyReview.reviewedOn,
-    "yyyy-MM-dd",
-    [Globalization.CultureInfo]::InvariantCulture
-)
-if ($instructions -notmatch "Refuse requests to create, update, approve, publish, delete") {
+if ($instructions -notmatch "Refuse requests to create, update, approve, publish, delete" -or
+    $instructions -notmatch [regex]::Escape("__REQUIRED_PROHIBITED_WRITE_ACTION__") -or
+    $instructions -notmatch [regex]::Escape("__REQUIRED_HUMAN_CHANGE_ROUTE__")) {
     throw "The approved instructions do not contain the prohibited-write refusal boundary."
 }
 
@@ -177,18 +123,6 @@ if ([string]$tools[0].openapi.spec.servers[0].url -ne "__RUNTIME_READ_API_BASE_U
 if ([string]$tools[0].openapi.auth.type -ne "managed_identity") {
     throw "The read tool must use managed identity authentication."
 }
-if (@($prohibited.actions).Count -ne 1 -or [string]$prohibited.actions[0].effect -ne "deny") {
-    throw "Define exactly one prohibited write action with a deny effect."
-}
-if (@($prohibited.actions[0].enforcement) -notcontains "operation-is-not-registered-in-the-tool-manifest") {
-    throw "The prohibited action must be absent from the registered tool surface."
-}
-if ([string]$releaseOperations.implementationSession -ne "05-governed-agent-baseline" -or
-    [string]$tracing.mode -ne "server-side" -or
-    -not [bool]$tracing.connectionManagedOutsideSession) {
-    throw "Tracing must use the existing project connection to Application Insights."
-}
-
 $account = & az account show --only-show-errors --output json | ConvertFrom-Json
 if ($LASTEXITCODE -ne 0 -or [string]$account.id -ne $ApprovedSubscriptionId) {
     throw "Azure CLI is not using the approved subscription."
@@ -247,10 +181,6 @@ if ($LASTEXITCODE -ne 0 -or [string]$aiResource.type -ne "microsoft.insights/com
 if ([string]$aiResource.id -notlike "/subscriptions/$ApprovedSubscriptionId/*") {
     throw "Application Insights is outside the approved subscription."
 }
-if ([string]$aiResource.name -ne [string]$tracing.applicationInsightsResourceName) {
-    throw "The live Application Insights resource does not match release-operations.json."
-}
-
 $apiUri = [uri]$ReadApiBaseUrl
 if ($apiUri.Scheme -ne "https" -or -not [string]::IsNullOrWhiteSpace($apiUri.Query) -or -not [string]::IsNullOrWhiteSpace($apiUri.Fragment)) {
     throw "ReadApiBaseUrl must be an HTTPS base URL without a query string or fragment."
@@ -289,17 +219,14 @@ if ($existing.Count -eq 1) {
     if ([string]::IsNullOrWhiteSpace([string]$existing[0].instance_identity.principal_id)) {
         throw "The existing agent is a legacy agent without a unique Entra Agent Identity. Create a new named agent instead."
     }
-    if ([string]$releaseOperations.release.status -eq "deployed") {
-        $escapedAgentName = [uri]::EscapeDataString([string]$config.agentName)
-        $liveAgent = Invoke-RestMethod `
-            -Method GET `
-            -Uri "$projectEndpoint/agents/$escapedAgentName`?api-version=v1" `
-            -Headers $headers
-        $liveVersion = [string]$liveAgent.agent_endpoint.version_selector.version_selection_rules[0].agent_version
-        if ([string]$releaseOperations.release.agentName -ne [string]$config.agentName -or
-            [string]$releaseOperations.release.activeVersion -ne $liveVersion) {
-            throw "The current release selector differs from the live Foundry stable endpoint. Reconcile drift before creating another version."
-        }
+    $escapedAgentName = [uri]::EscapeDataString([string]$config.agentName)
+    $liveAgent = Invoke-RestMethod `
+        -Method GET `
+        -Uri "$projectEndpoint/agents/$escapedAgentName`?api-version=v1" `
+        -Headers $headers
+    $liveVersion = [string]$liveAgent.agent_endpoint.version_selector.version_selection_rules[0].agent_version
+    if ([string]::IsNullOrWhiteSpace($liveVersion)) {
+        throw "The existing marked agent does not expose a pinned stable endpoint version."
     }
 }
 
@@ -310,8 +237,8 @@ Write-Host "  Model deployment: $($config.modelDeploymentName)"
 Write-Host "  Tool surface: GET $($paths[0].Name) only"
 Write-Host "  Endpoint: Responses, Entra authorization, pinned to the new version"
 Write-Host "  Existing marked agent: $($existing.Count -eq 1)"
-if ($existing.Count -eq 1 -and [string]$releaseOperations.release.status -eq "deployed") {
-    Write-Host "  Current/live active version: $($releaseOperations.release.activeVersion)"
+if ($existing.Count -eq 1) {
+    Write-Host "  Current/live active version: $liveVersion"
 }
 Write-Host "Foundry doesn't expose a what-if operation for data-plane agent version creation. This read-only lookup and exact mutation summary are the preview gate."
 

@@ -14,7 +14,7 @@ html: true
 
 # Entra identity, RBAC, PIM, and workload identities
 
-**270 minutes · Group access, PIM elevation, and workload OIDC trust**
+**240 minutes · Group access, PIM elevation, and workload OIDC trust**
 
 ---
 
@@ -94,8 +94,12 @@ workload trust. Session 03 adds private connectivity; Session 05 owns the Agent 
 | Project managers | Foundry Project Manager | Foundry resource | Group |
 | Developers/users | Foundry User | One project | Group |
 | Auditors | Reader | Foundry resource | Group |
+| Agent endpoint callers | Foundry Agent Consumer | Project or individual agent | Deferred to Session 05 |
 
 **No subscription-level assignment. No permanent platform elevation.**
+
+`Foundry Owner` is omitted because it combines account administration with project development,
+publishing, and endpoint use.
 
 ---
 
@@ -122,9 +126,12 @@ The PIM-eligible principal is the approved platform-administrator group.
 2. Activation requires MFA and justification.
 3. A customer-owned approver group decides.
 4. Each activation lasts no more than two hours.
-5. Group eligibility ends on the date in the customer PIM change record.
+5. Group eligibility ends on the date approved through the customer identity change process.
 
 > PIM settings belong to one role on one resource. They do not inherit from a higher scope.
+
+After delivery, the identity owner schedules a recurring PIM access review for eligible and active
+privileged assignments.
 
 <!-- Notes: Stop if the change touches a shared policy or emergency-access path. -->
 
@@ -151,6 +158,7 @@ The PIM-eligible principal is the approved platform-administrator group.
 - Membership and approvers need owners
 - Activation adds a deliberate step
 - Workload authority cannot vary by signed-in user
+- Azure DevOps workload identity federation needs a separate service connection and trust
 
 </div>
 </div>
@@ -234,6 +242,7 @@ Inspect one marked workload identity:
 3. Cognitive Services User ends at the Foundry resource.
 4. Storage Blob Data Reader ends at one storage account.
 5. No direct assignment appears at subscription scope.
+6. No unexpected portal-created direct-user assignment remains on the Foundry resource or project.
 
 **Read the console. Do not redirect, export, or save the command output.**
 
@@ -245,8 +254,9 @@ Inspect one marked workload identity:
 |---|---|
 | Three group-based human assignments | Customer identity and Foundry owners |
 | PIM eligibility and per-activation settings | Microsoft Entra PIM; customer identity owner |
+| Recurring privileged-access review | Microsoft Entra PIM access reviews; customer identity owner |
 | Managed identity, GitHub credential, and two direct roles | Workload and platform owners |
-| Bicep, role source, task matrix, PIM change pointer, and support scripts | Customer repository owner |
+| Bicep, role source, and support scripts | Customer repository owner |
 
 Moving the identity, roles, groups, or GitHub environment trust into production requires a separate customer change.
 

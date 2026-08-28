@@ -122,6 +122,7 @@ covered_decision_sentinels=(
   "__REQUIRED_RELEASE_OWNER_ROLE__"
   "__REQUIRED_SAFETY_OWNER_ROLE__"
   "__REQUIRED_SUPPORT_CHECK_DATE__"
+  "__REQUIRED_TOOL_EVALUATOR_COMPATIBILITY_STATUS__"
   "__REQUIRED_TOOL_OWNER_ROLE__"
 )
 declare -A covered=()
@@ -214,6 +215,13 @@ if release_policy['target']['networkMode'] not in {'public', 'isolated'}:
 support = release_policy['currentSupportGate']
 if not support['manualGateRequired'] or support['stableDiscoveryApiAvailable'] or support['status'] != 'supported':
     raise SystemExit('The manual current-support gate must record supported; no stable discovery API is assumed.')
+protected_material_decision = support.get('protectedMaterialDecision', {})
+if (
+    protected_material_decision.get('blocking') is not True
+    or protected_material_decision.get('requiredRegion') != 'East US 2'
+    or protected_material_decision.get('ifUnavailable') != 'stop-and-relocate-or-revise-policy'
+):
+    raise SystemExit('The protected-material decision must keep the blocking metric in East US 2 or stop for an explicit policy revision.')
 if datetime.strptime(support['checkedOn'], '%Y-%m-%d').date() != date.today():
     raise SystemExit('Check current Microsoft evaluation support documentation on the day of the run.')
 if not all(support['confirmedCapabilities'].values()):
@@ -225,7 +233,16 @@ if release_policy['target']['networkMode'] == 'isolated' and not capability['sub
     raise SystemExit('The release policy must confirm subnet delegation for isolated evaluation.')
 if capability['previewEvaluators']['allowedAsSoleBlockingControl']:
     raise SystemExit('Preview evaluators cannot be the sole blocking control.')
+tool_compatibility = capability.get('toolEvaluatorCompatibility', {})
+if (
+    tool_compatibility.get('status') != 'approved'
+    or tool_compatibility.get('limitedSupportToolPresent')
+    or tool_compatibility.get('evaluatedToolTypes') != ['Function Tool']
+):
+    raise SystemExit('The tool owner must approve tool-call evaluators for the supported Function Tool path.')
 region = release_policy['target']['evaluationRegion'].lower().replace(' ', '')
+if region != 'eastus2':
+    raise SystemExit('The blocking protected_material evaluator requires East US 2. Relocate or revise the policy before running.')
 rows = [line for line in dataset_path.read_text().splitlines() if line.strip()]
 if len(rows) < int(spec['dataset']['minimumCases']) or len(rows) > int(spec['dataset']['maximumCases']):
     raise SystemExit('The golden dataset row count is outside the approved bounds.')
@@ -257,6 +274,16 @@ for evaluator in spec['evaluators']:
         raise SystemExit(f'Preview evaluator {name} cannot be blocking-eligible.')
     if evaluator.get('layer') not in {'final-answer-quality', 'tool-process', 'safety'}:
         raise SystemExit(f'Evaluator {name} has an unknown metric layer.')
+evaluators_by_name = {evaluator['name']: evaluator for evaluator in spec['evaluators']}
+for preview_safety_name in ('prohibited_actions', 'sensitive_data_leakage'):
+    preview_safety = evaluators_by_name.get(preview_safety_name)
+    if (
+        not preview_safety
+        or preview_safety.get('layer') != 'safety'
+        or not preview_safety.get('preview')
+        or preview_safety.get('blockingEligible')
+    ):
+        raise SystemExit(f'{preview_safety_name} must remain a nonblocking preview safety evaluator.')
 result_handling = spec['resultHandling']
 if not result_handling.get('retainAggregateOnly') or result_handling.get('retainOutputItemsInRepository') or result_handling.get('retainEvaluatorReasonsInRepository'):
     raise SystemExit('Release records must remain aggregate and payload-free.')

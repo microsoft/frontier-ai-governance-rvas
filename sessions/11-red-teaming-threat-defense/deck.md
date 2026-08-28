@@ -89,8 +89,8 @@ controls deny prohibited side effects during both runs.
 Foundry owns run detail and the comparison answers whether risks held or improved. A separate
 Defender or Microsoft Sentinel route checks delivery to the SOC.
 
-The payload-free risk handoff carries both results without treating SOC delivery as proof of
-red-team improvement.
+The approved security record store carries payload-free aggregates without treating SOC delivery as
+proof of red-team improvement.
 
 ---
 
@@ -122,7 +122,7 @@ red-team improvement.
 
 The security owner checks the current Microsoft region matrix on the day of the run.
 
-Record `supported` in `authorization-scope.json`. Use that live check as the support decision.
+Record the same-day support decision in the approved change system. Use that live check as the support decision.
 
 Use only the authorized nonproduction policy-assistant version, synthetic data, and read-only tool.
 
@@ -193,20 +193,18 @@ Do not:
 
 ### Repository keeps
 
-- agent and version aliases
-- configuration hash
-- aggregate counts and ASR
-- run IDs and Foundry report URLs
-- remediation commit
-- Defender and SOC record references
+- bounded attack-plan configuration
+- current Defender alert hunt
+- SOC triage playbook
 
-### Repository excludes
+### Authoritative platforms keep
 
 - generated attack prompts
 - agent responses
 - tool inputs or outputs
 - prompt evidence
 - customer or personal data
+- Foundry runs, Defender alerts, SOC delivery, authorization, remediation, and residual-risk decisions
 
 <!-- Notes: Detailed review happens in Foundry and Defender. -->
 
@@ -228,6 +226,18 @@ Do not:
 
 ---
 
+## Defender boundaries
+
+- AI model posture and malware scanning cover model and supply-chain risk, not this agent comparison.
+- Real-time blocking is a separate control surface. Coverage depends on the agent type and integration.
+- Foundry agent blocking is preview; Session 11 does not configure a blocking rule.
+- Native Foundry Purview integration does not supply data-leak or insider-risk context. That needs
+  Agent Framework or Purview API integration owned outside this session.
+
+<!-- Notes: Keep detection, blocking, model security, and Purview data controls distinct. -->
+
+---
+
 ## Signals operators can see
 
 Defender alert families include:
@@ -236,9 +246,12 @@ Defender alert families include:
 - ASCII smuggling;
 - credential or secret leakage;
 - anomalous tool invocation;
-- malicious URL behavior;
+- LLM reconnaissance;
+- wallet or cost-abuse anomalies;
+- phishing or malicious URL behavior;
+- malicious uploaded AI models;
 - suspicious or anonymized access; and
-- cost-abuse anomalies.
+- access anomalies.
 
 Not every authorized red-team run deterministically creates one of these alerts.
 
@@ -259,6 +272,8 @@ Choose one:
 3. approved ITSM connector
 
 The visible record must show the source, route type, destination alias, Defender reference, SOC reference, observed time, and confirmed agent or model.
+
+The saved hunt uses exact current alert titles. It does not use a broad `Title has "AI"` match.
 
 <!-- Notes: Evidence and investigation detail remain in the security system. -->
 
@@ -310,7 +325,7 @@ No taxonomy or run is created by preflight.
 python .\scripts\run-red-team.py `
   --config .\artifacts\red-team\attack-plan.json `
   --phase baseline `
-  --output .\artifacts\reports\baseline-aggregate.json
+  --output $env:APPROVED_SECURITY_RECORD_STORE\baseline-aggregate.json
 ```
 
 Detailed output remains in Foundry.
@@ -345,7 +360,7 @@ Pre-work creates a **new fixed agent version**.
 python .\scripts\run-red-team.py `
   --config .\artifacts\red-team\attack-plan.json `
   --phase post-remediation `
-  --output .\artifacts\reports\post-remediation-aggregate.json
+  --output $env:APPROVED_SECURITY_RECORD_STORE\post-remediation-aggregate.json
 ```
 
 Human-review remaining risk before any decision.
@@ -428,7 +443,7 @@ Stop immediately for:
 - Independent prohibition of risky tool actions
 - No risk category gets worse while the average improves
 - Defender-to-SOC delivery recorded separately
-- Aggregate record without payloads
+- Payload-free aggregate result in the approved security record store
 
 <!-- Notes: The confirmed comparison report and SOC route make the result repeatable. -->
 

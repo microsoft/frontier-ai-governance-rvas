@@ -5,7 +5,9 @@ usage() {
   cat <<'USAGE'
 Usage: ./scripts/preflight.sh --approved-nonproduction-scope <resource-group-id> \
   --approved-production-scope <resource-group-id> --approved-release-sha <40-character-sha> \
-  [--phase decisions|ready]
+  [--phase decisions|ready] [--baseline-record-path <temporary-json-path>] \
+  [--candidate-record-path <temporary-json-path>] \
+  [--security-release-attestation-path <temporary-json-path>]
 
 Runs the Session 13 Bash preflight. The script validates required files, tools, sentinels, the two
 approved scopes, immutable release metadata, fixed file interfaces, static dependencies,
@@ -15,6 +17,12 @@ Required options:
   --approved-nonproduction-scope <resource-group-id>  Exact approved nonproduction scope.
   --approved-production-scope <resource-group-id>     Exact approved production scope.
   --approved-release-sha <40-character-sha>           Approved release commit held outside that commit.
+
+Ready-phase options:
+  --baseline-record-path <temporary-json-path>         External Session 10 baseline result for Ready preflight.
+  --candidate-record-path <temporary-json-path>        External Session 10 candidate result for Ready preflight.
+  --security-release-attestation-path <temporary-json-path>
+                                                       External Session 11 attestation for Ready preflight.
 
 Optional options:
   --phase <decisions|ready>                           Preflight phase. Default: ready.
@@ -76,6 +84,9 @@ phase='ready'
 approved_nonproduction_scope=''
 approved_production_scope=''
 approved_release_sha=''
+baseline_record_path=''
+candidate_record_path=''
+security_release_attestation_path=''
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -97,6 +108,21 @@ while [[ $# -gt 0 ]]; do
     --approved-release-sha)
       [[ $# -ge 2 ]] || fail 'Missing value for --approved-release-sha'
       approved_release_sha="$2"
+      shift 2
+      ;;
+    --baseline-record-path)
+      [[ $# -ge 2 ]] || fail 'Missing value for --baseline-record-path'
+      baseline_record_path="$2"
+      shift 2
+      ;;
+    --candidate-record-path)
+      [[ $# -ge 2 ]] || fail 'Missing value for --candidate-record-path'
+      candidate_record_path="$2"
+      shift 2
+      ;;
+    --security-release-attestation-path)
+      [[ $# -ge 2 ]] || fail 'Missing value for --security-release-attestation-path'
+      security_release_attestation_path="$2"
       shift 2
       ;;
     --help)
@@ -135,7 +161,6 @@ done
 covered_decision_sentinels=(
   "__REQUIRED_ACTIONS_CHECKOUT_FULL_SHA__"
   "__REQUIRED_ACTIONS_SETUP_PYTHON_FULL_SHA__"
-  "__REQUIRED_ACTIONS_UPLOAD_ARTIFACT_FULL_SHA__"
   "__REQUIRED_ADMIN_BYPASS_DISABLED_TRUE__"
   "__REQUIRED_AGENT_NAME_OR_ID__"
   "__REQUIRED_AGENT_VERSION__"
@@ -163,7 +188,6 @@ covered_decision_sentinels=(
   "__REQUIRED_NONPRODUCTION_RESOURCE_GROUP__"
   "__REQUIRED_NONPRODUCTION_SUBSCRIPTION_ID__"
   "__REQUIRED_PREVENT_SELF_REVIEW_TRUE__"
-  "__REQUIRED_PREVIOUS_APPROVED_RELEASE_ID__"
   "__REQUIRED_PRODUCTION_AZURE_CLIENT_ID__"
   "__REQUIRED_PRODUCTION_BRANCH_OR_TAG_RESTRICTION__"
   "__REQUIRED_PRODUCTION_ENVIRONMENT_PLAN_SUPPORT_CONFIRMED_TRUE__"
@@ -180,8 +204,6 @@ covered_decision_sentinels=(
   "__REQUIRED_RELEASE_STORE_SCRIPT_PATH__"
   "__REQUIRED_ROUTING_CONTROL_SCRIPT_PATH__"
   "__REQUIRED_ROUTING_STRATEGY_CANARY_OR_BLUE_GREEN__"
-  "__REQUIRED_SESSION10_APPROVED_BASELINE_RECORD_PATH__"
-  "__REQUIRED_SESSION10_CANDIDATE_RECORD_PATH__"
   "__REQUIRED_STABLE_ROUTING_SELECTOR__"
   "__REQUIRED_UNIT_TEST_SCRIPT_PATH__"
 )
@@ -362,7 +384,7 @@ if control.get('releaseCommit') != {
     'manifestMustMatch': True,
 }:
     raise SystemExit('Control must bind workflow ref, protected-branch lineage, checkout, and manifest to the approved release SHA.')
-for field in ('promptVersion', 'agentName', 'agentVersion', 'modelDeploymentAlias', 'apimPolicyVersion', 'evaluationRunId', 'evaluationThresholdPolicyVersion', 'evaluationThresholdPolicySha256', 'previousApprovedReleaseId'):
+for field in ('promptVersion', 'agentName', 'agentVersion', 'modelDeploymentAlias', 'apimPolicyVersion', 'evaluationRunId', 'evaluationThresholdPolicyVersion', 'evaluationThresholdPolicySha256'):
     value = str(control['immutableRelease'][field])
     if not value or re.search(r'(?i)(^|[/@:._-])(latest|current)([/@:._-]|$)', value):
         raise SystemExit(f'immutableRelease.{field} must be immutable.')
@@ -383,12 +405,23 @@ lineage_step = promotion_workflow.find('Prove the release commit belongs to the 
 first_release_checkout = promotion_workflow.find('Check out the exact release commit after lineage validation')
 if lineage_step < 0 or first_release_checkout < 0 or lineage_step > first_release_checkout:
     raise SystemExit('Release content must not be checked out before protected-branch lineage validation.')
+if 'workflow_dispatch:' not in restore_workflow or 'workflow_run:' in restore_workflow:
+    raise SystemExit('Restore must remain manual-only.')
+if (
+    re.search(r'(?m)^  id-token:\s*write\s*$', restore_workflow)
+    or not re.search(r'(?m)^  contents:\s*read\s*$', restore_workflow)
+    or not re.search(r'(?m)^    environment:\s*production\s*$', restore_workflow)
+    or not re.search(r'(?m)^      id-token:\s*write\s*$', restore_workflow)
+):
+    raise SystemExit(
+        'Restore must grant id-token: write only to its protected production job.'
+    )
 for fragment in (
     'release_sha:',
     'run-name: Controlled AI release ${{ inputs.release_sha }} (${{ inputs.evaluation_record }})',
     'ref: ${{ github.event.repository.default_branch }}',
     'fetch-depth: 0',
-    'git merge-base --is-ancestor $releaseSha "refs/remotes/origin/$approvedBranch"',
+    'git merge-base --is-ancestor $releaseSha "refs/remotes/trusted-release/$approvedBranch"',
     'releaseCommitSha="${{ inputs.release_sha }}"',
     '-Mode CreateManifest -ReleaseSha "${{ inputs.release_sha }}"',
 ):
@@ -423,41 +456,6 @@ for parameters, environment_name in ((nonprod_params['parameters'], 'nonproducti
         if parameters[parameter_name]['value'] != control['immutableRelease'][control_name]:
             raise SystemExit(f'{environment_name} parameters disagree on {parameter_name}.')
 
-release_gate = repo_root / control['sourcePaths']['session10ReleaseGate']
-release_policy = repo_root / control['sourcePaths']['session10ReleasePolicy']
-self_test = repo_root / control['sourcePaths']['session10GateSelfTest']
-thresholds = repo_root / control['sourcePaths']['session10ThresholdPolicy']
-spec = repo_root / control['sourcePaths']['session10EvaluationSpec']
-dataset = repo_root / control['sourcePaths']['session10Dataset']
-baseline = repo_root / control['sourcePaths']['session10BaselineRecord']
-candidate = repo_root / control['sourcePaths']['session10CandidateRecord']
-subprocess.check_call([sys.executable, str(release_gate), '--policy', str(thresholds), '--spec', str(spec), '--dataset', str(dataset), '--baseline-result', str(baseline), '--candidate-result', str(candidate), '--release-policy', str(release_policy), '--require-enabled', '--evaluated-target', 'candidate', '--expect', 'pass', '--phase', 'candidate'])
-subprocess.check_call([sys.executable, str(self_test), '--mode', 'blocked-tool-process'])
-report = json.loads((repo_root / control['sourcePaths']['session11AdversarialReport']).read_text())
-if report.get('status') != 'confirmed' or not report['comparison']['lowerOverallAttackSuccessRate'] or not report['comparison']['perRiskNonRegressionPassed'] or not report['comparison']['prohibitedActionsBlocked']:
-    raise SystemExit('The confirmed Session 11 adversarial report is not confirmed in the required state.')
-if report.get('target', {}).get('name') != control['immutableRelease']['agentName'] or report.get('target', {}).get('postRemediationVersion') != control['immutableRelease']['agentVersion']:
-    raise SystemExit('The confirmed Session 11 adversarial report targets another agent name or immutable version.')
-if set(report.get('privacy', {})) != {'containsAttackPrompts', 'containsAgentResponses', 'containsToolPayloads', 'containsEvaluatorReasons', 'containsPromptEvidence'}:
-    raise SystemExit('The confirmed Session 11 adversarial report has an incomplete privacy schema.')
-for field in ('containsAttackPrompts', 'containsAgentResponses', 'containsToolPayloads', 'containsEvaluatorReasons', 'containsPromptEvidence'):
-    if report['privacy'][field] is not False:
-        raise SystemExit('The confirmed Session 11 adversarial report must remain payload-free.')
-metrics = report.get('comparison', {}).get('metrics')
-if not isinstance(metrics, list) or not metrics:
-    raise SystemExit('The confirmed Session 11 adversarial report has no per-risk comparison rows.')
-keys = set()
-required_metric_fields = {'evaluatorName', 'riskCategory', 'attackStrategy', 'baselineAttackSuccessRate', 'postRemediationAttackSuccessRate', 'change', 'nonRegressionPassed'}
-for metric in metrics:
-    if set(metric) != required_metric_fields:
-        raise SystemExit('The confirmed Session 11 per-risk comparison schema is incomplete.')
-    key = tuple(str(metric.get(field, '')).strip() for field in ('evaluatorName', 'riskCategory', 'attackStrategy'))
-    baseline_rate = metric.get('baselineAttackSuccessRate')
-    post_rate = metric.get('postRemediationAttackSuccessRate')
-    change = metric.get('change')
-    if not all(key) or key in keys or metric.get('nonRegressionPassed') is not True or isinstance(baseline_rate, bool) or isinstance(post_rate, bool) or isinstance(change, bool) or not isinstance(baseline_rate, (int, float)) or not isinstance(post_rate, (int, float)) or not isinstance(change, (int, float)) or not 0 <= baseline_rate <= 1 or not 0 <= post_rate <= 1 or abs((post_rate - baseline_rate) - change) > 0.000001 or post_rate > baseline_rate:
-        raise SystemExit('The required Session 11 adversarial per-risk schema is incomplete, duplicated, or regressed.')
-    keys.add(key)
 state_json.write_text(json.dumps({
     'bicepPath': bicep_path,
     'apimPolicyPath': apim_policy_path,
@@ -480,9 +478,19 @@ az bicep lint --file "$bicep_path"
 az bicep build --file "$bicep_path" --stdout >/dev/null
 
 if [[ "$phase" == 'decisions' ]]; then
-  printf 'PASS: release policy, immutable metadata, source paths, action pins, dependencies, and environment parameters are consistent.\n'
+  printf 'PASS: release policy, immutable metadata, source paths, action pins, and environment parameters are consistent.\n'
   exit 0
 fi
+
+[[ -n "$baseline_record_path" ]] || fail '--baseline-record-path is required for ready preflight.'
+[[ -n "$candidate_record_path" ]] || fail '--candidate-record-path is required for ready preflight.'
+[[ -n "$security_release_attestation_path" ]] || fail '--security-release-attestation-path is required for ready preflight.'
+"$artifact_root/pipeline/validate-release.sh" \
+  --mode dependencies \
+  --release-sha "$approved_release_sha" \
+  --baseline-record-path "$baseline_record_path" \
+  --candidate-record-path "$candidate_record_path" \
+  --security-release-attestation-path "$security_release_attestation_path"
 
 repo_json="$(gh api "repos/$expected_repository")"
 python - "$repo_json" <<'PY'

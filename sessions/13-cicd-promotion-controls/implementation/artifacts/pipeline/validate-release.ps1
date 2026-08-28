@@ -12,7 +12,13 @@ param(
     [string]$SmokeResultPath,
 
     [Parameter()]
+    [string]$BaselineRecordPath,
+
+    [Parameter()]
     [string]$CandidateRecordPath,
+
+    [Parameter()]
+    [string]$SecurityReleaseAttestationPath,
 
     [Parameter()]
     [string]$RuntimeValuesPath,
@@ -73,6 +79,36 @@ function Resolve-RepositoryPath {
     return $candidate
 }
 
+function Resolve-TemporaryExternalJson {
+    param(
+        [Parameter(Mandatory)][string]$Path,
+        [Parameter(Mandatory)][string]$Purpose
+    )
+
+    if (-not [System.IO.Path]::IsPathRooted($Path) -or
+        $Path.IndexOfAny([char[]]"*?[]") -ge 0) {
+        throw "$Purpose must be one literal absolute temporary JSON path."
+    }
+    $candidate = [System.IO.Path]::GetFullPath($Path)
+    $repoPrefix = [System.IO.Path]::GetFullPath([string]$repoRoot).TrimEnd("\") + "\"
+    if ($candidate.StartsWith($repoPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+        throw "$Purpose must not be stored in the repository."
+    }
+    $allowedRoots = @([System.IO.Path]::GetTempPath(), [string]$env:RUNNER_TEMP) |
+        Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
+        ForEach-Object { [System.IO.Path]::GetFullPath($_).TrimEnd("\") + "\" }
+    if (-not ($allowedRoots | Where-Object {
+            $candidate.StartsWith($_, [System.StringComparison]::OrdinalIgnoreCase)
+        })) {
+        throw "$Purpose must be staged in the approved temporary workspace."
+    }
+    if (-not (Test-Path -LiteralPath $candidate -PathType Leaf) -or
+        [System.IO.Path]::GetExtension($candidate).ToLowerInvariant() -ne ".json") {
+        throw "$Purpose must be an existing temporary JSON file."
+    }
+    return $candidate
+}
+
 function Assert-ImplementationMarker {
     param(
         [Parameter(Mandatory)][object]$Value,
@@ -102,6 +138,7 @@ function Assert-ImmutableValue {
 
 function Invoke-Session10Gate {
     param(
+        [Parameter(Mandatory)][string]$BaselineRecord,
         [Parameter(Mandatory)][string]$CandidateRecord,
         [Parameter(Mandatory)][ValidateSet("pass", "block")][string]$Expected
     )
@@ -111,9 +148,9 @@ function Invoke-Session10Gate {
     $thresholds = Resolve-RepositoryPath $paths.session10ThresholdPolicy "Session 10 threshold policy" @(".yaml", ".yml")
     $spec = Resolve-RepositoryPath $paths.session10EvaluationSpec "Session 10 evaluation specification" @(".json")
     $dataset = Resolve-RepositoryPath $paths.session10Dataset "Session 10 evaluation dataset" @(".jsonl")
-    $baseline = Resolve-RepositoryPath $paths.session10BaselineRecord "Session 10 approved baseline record" @(".json")
+    $baseline = Resolve-TemporaryExternalJson $BaselineRecord "Session 10 approved baseline record"
     $releasePolicy = Resolve-RepositoryPath $paths.session10ReleasePolicy "Session 10 release policy" @(".json")
-    $candidate = Resolve-RepositoryPath $CandidateRecord "Session 10 candidate record" @(".json")
+    $candidate = Resolve-TemporaryExternalJson $CandidateRecord "Session 10 candidate record"
     $candidateRecordValue = Read-JsonObject $candidate
     if ([string]$candidateRecordValue.run.runId -cne [string]$control.immutableRelease.evaluationRunId) {
         throw "The passing Session 10 candidate record does not match immutableRelease.evaluationRunId."
@@ -146,41 +183,67 @@ function Invoke-Session10BlockedSelfTest {
     }
 }
 
-function Assert-AdversarialReport {
-    $path = Resolve-RepositoryPath `
-        $control.sourcePaths.session11AdversarialReport `
-        "Session 11 adversarial before-after report" `
-        @(".json")
+function Assert-SecurityReleaseAttestation {
+    param([Parameter(Mandatory)][string]$Path)
+
+    $path = Resolve-TemporaryExternalJson $Path "Session 11 security-release attestation"
     $report = Read-JsonObject $path
-    Assert-ImplementationMarker $report "Session 11 adversarial report" "11-red-teaming-threat-defense"
-    if ($report.schemaVersion -ne 1 -or
-        [string]$report.recordType -ne "red-team-before-after-aggregate" -or
-        [string]$report.status -ne "confirmed") {
-        throw "Session 11 adversarial report must be confirmed; pending or failed reports block promotion."
+    Assert-ImplementationMarker $report "Session 11 security-release attestation" "11-red-teaming-threat-defense"
+    $requiredAttestationFields = @(
+        "schemaVersion",
+        "implementationSession",
+        "recordType",
+        "status",
+        "authorization",
+        "reportLocation",
+        "target",
+        "releaseBinding",
+        "configurationSha256",
+        "baseline",
+        "postRemediation",
+        "privacy",
+        "comparison"
+    )
+    if (@(Compare-Object $requiredAttestationFields @($report.PSObject.Properties.Name)).Count -ne 0) {
+        throw "Session 11 security-release attestation has an incomplete or payload-bearing root schema."
     }
+    if ($report.schemaVersion -ne 1 -or
+        [string]$report.recordType -ne "security-release-attestation" -or
+        [string]$report.status -ne "confirmed") {
+        throw "Session 11 security-release attestation must be confirmed; pending or failed attestations block promotion."
+    }
+    $authorization = $report.authorization
+    if (@(Compare-Object @("status", "system", "recordUrl") @($authorization.PSObject.Properties.Name)).Count -ne 0 -or
+        [string]$authorization.status -cne "authorized" -or
+        [string]::IsNullOrWhiteSpace([string]$authorization.system) -or
+        -not [uri]::IsWellFormedUriString([string]$authorization.recordUrl, [UriKind]::Absolute) -or
+        -not [uri]::IsWellFormedUriString([string]$report.reportLocation, [UriKind]::Absolute)) {
+        throw "Session 11 attestation must carry authorized external security/change status and report location."
+    }
+    $releasePolicy = Read-JsonObject (Resolve-RepositoryPath `
+        $control.sourcePaths.session10ReleasePolicy `
+        "Session 10 release policy" `
+        @(".json"))
     if ([string]$report.target.type -cne "azure_ai_agent" -or
         [string]$report.target.name -cne [string]$control.immutableRelease.agentName -or
-        [string]::IsNullOrWhiteSpace([string]$report.target.baselineVersion) -or
+        [string]$report.target.baselineVersion -cne [string]$releasePolicy.target.approvedVersion -or
         [string]$report.target.postRemediationVersion -cne
             [string]$control.immutableRelease.agentVersion -or
         [string]$report.target.baselineVersion -ceq
             [string]$report.target.postRemediationVersion) {
-        throw "Session 11 adversarial report targets another agent name or immutable version."
+        throw "Session 11 attestation does not bind the approved baseline and remediated release-agent versions."
     }
     if ([string]$report.configurationSha256 -notmatch "^[0-9a-fA-F]{64}$") {
-        throw "Session 11 adversarial report must name the shared attack-plan configuration SHA-256."
+        throw "Session 11 security-release attestation must name the shared attack-plan configuration SHA-256."
     }
-    $handoffPath = Resolve-RepositoryPath `
-        $control.sourcePaths.session11RiskChangeHandoff `
-        "Session 11 risk/change handoff" `
-        @(".json")
-    $handoff = Read-JsonObject $handoffPath
-    Assert-ImplementationMarker $handoff "Session 11 risk/change handoff" "11-red-teaming-threat-defense"
-    if ([string]$handoff.target.agentName -cne [string]$report.target.name -or
-        [string]$handoff.target.baselineVersion -cne [string]$report.target.baselineVersion -or
-        [string]$handoff.target.postRemediationVersion -cne
-            [string]$report.target.postRemediationVersion) {
-        throw "Session 11 risk/change handoff does not match the report target and immutable versions."
+    $binding = $report.releaseBinding
+    if (@(Compare-Object @("agentName", "baselineVersion", "remediatedVersion", "versionsMatch") @($binding.PSObject.Properties.Name)).Count -ne 0 -or
+        [string]$binding.agentName -cne [string]$control.immutableRelease.agentName -or
+        [string]$binding.baselineVersion -cne [string]$releasePolicy.target.approvedVersion -or
+        [string]$binding.remediatedVersion -cne [string]$control.immutableRelease.agentVersion -or
+        $binding.versionsMatch -isnot [bool] -or
+        $binding.versionsMatch -ne $true) {
+        throw "Session 11 attestation must confirm its baseline and remediated versions match the release agent."
     }
     $requiredRunFields = @(
         "evalId",
@@ -227,12 +290,12 @@ function Assert-AdversarialReport {
     )
     $actualPrivacyFields = @($report.privacy.PSObject.Properties.Name)
     if (@(Compare-Object $requiredPrivacyFields $actualPrivacyFields).Count -ne 0) {
-        throw "Session 11 adversarial report has an incomplete privacy schema."
+        throw "Session 11 security-release attestation has an incomplete privacy schema."
     }
     foreach ($field in $requiredPrivacyFields) {
         if ($report.privacy.$field -isnot [bool] -or
             $report.privacy.$field -ne $false) {
-            throw "Session 11 adversarial report must remain payload-free: privacy.$field."
+            throw "Session 11 security-release attestation must remain payload-free: privacy.$field."
         }
     }
     foreach ($field in @(
@@ -242,12 +305,12 @@ function Assert-AdversarialReport {
     )) {
         if ($report.comparison.$field -isnot [bool] -or
             $report.comparison.$field -ne $true) {
-            throw "Session 11 adversarial comparison field $field must be the JSON boolean true."
+            throw "Session 11 security-release attestation comparison field $field must be the JSON boolean true."
         }
     }
     $metrics = @($report.comparison.metrics)
     if ($metrics.Count -eq 0) {
-        throw "Session 11 adversarial report must include per-risk comparison rows."
+        throw "Session 11 security-release attestation must include per-risk comparison rows."
     }
     $metricKeys = [Collections.Generic.HashSet[string]]::new(
         [StringComparer]::Ordinal
@@ -264,7 +327,7 @@ function Assert-AdversarialReport {
             "nonRegressionPassed"
         )
         if (@(Compare-Object $requiredMetricFields @($metric.PSObject.Properties.Name)).Count -ne 0) {
-            throw "Session 11 adversarial report has an incomplete per-risk comparison schema."
+            throw "Session 11 security-release attestation has an incomplete per-risk comparison schema."
         }
         foreach ($field in @("evaluatorName", "riskCategory", "attackStrategy")) {
             if ([string]::IsNullOrWhiteSpace([string]$metric.$field)) {
@@ -273,7 +336,7 @@ function Assert-AdversarialReport {
         }
         $key = "$($metric.evaluatorName)`n$($metric.riskCategory)`n$($metric.attackStrategy)"
         if (-not $metricKeys.Add($key)) {
-            throw "Session 11 adversarial report has a duplicate per-risk comparison row."
+            throw "Session 11 security-release attestation has a duplicate per-risk comparison row."
         }
         if ($metric.nonRegressionPassed -isnot [bool] -or
             $metric.nonRegressionPassed -ne $true) {
@@ -305,7 +368,7 @@ function Assert-AdversarialReport {
         }
     }
     if ($prohibitedActionCount -eq 0) {
-        throw "Session 11 adversarial report must include a prohibited-actions metric."
+        throw "Session 11 security-release attestation must include a prohibited-actions metric."
     }
 }
 
@@ -437,6 +500,17 @@ if ([string]$control.records.manifestFinalizationFailureBehavior -cne
     "stop-and-require-manual-restore") {
     throw "Manifest finalization failure must stop for manual restore."
 }
+$releaseRecordLifecycle = $control.records.releaseRecordLifecycle
+if ([string]$releaseRecordLifecycle.updater -cne
+    "Controlled AI release promotion workflow after production deployment and routing" -or
+    [string]$releaseRecordLifecycle.reviewCadence -cne
+    "Every successful production promotion and before manual restore" -or
+    [string]$releaseRecordLifecycle.consumer -cne
+    "Approved release store and Restore previous AI release workflow" -or
+    $releaseRecordLifecycle.repositoryMirrorAllowed -isnot [bool] -or
+    $releaseRecordLifecycle.repositoryMirrorAllowed -ne $false) {
+    throw "Release-record lifecycle must name its workflow updater, review cadence, consumer, and repository-mirror boundary."
+}
 if ([string]$control.routing.strategy -notin @("canary", "blue-green")) {
     throw "Routing strategy must be canary or blue-green."
 }
@@ -479,6 +553,9 @@ $requiredWorkflowFragments = @(
     'ref: ${{ inputs.release_sha }}',
     'releaseCommitSha="${{ inputs.release_sha }}"',
     '-Mode CreateManifest -ReleaseSha "${{ inputs.release_sha }}"',
+    'RetrieveEvaluationResult',
+    'RetrieveSecurityReleaseAttestation',
+    '-SecurityReleaseAttestationPath',
     "Apply evaluation and adversarial gates before deployment",
     'SESSION12_SMOKE_URL: ${{ vars.SESSION12_SMOKE_URL }}',
     'SESSION12_SMOKE_FAILURE_URL: ${{ vars.SESSION12_SMOKE_FAILURE_URL }}',
@@ -531,6 +608,12 @@ if (-not $restoreWorkflow.Contains("workflow_dispatch:") -or
     $restoreWorkflow.Contains("workflow_run:")) {
     throw "Restore must remain manual-only."
 }
+if ($restoreWorkflow -match "(?m)^  id-token:\s*write\s*$" -or
+    $restoreWorkflow -notmatch "(?m)^  contents:\s*read\s*$" -or
+    $restoreWorkflow -notmatch "(?m)^    environment:\s*production\s*$" -or
+    $restoreWorkflow -notmatch "(?m)^      id-token:\s*write\s*$") {
+    throw "Restore must grant id-token: write only to its protected production job."
+}
 
 if ([string]$control.releaseCommit.source -cne "workflow_dispatch.release_sha" -or
     [string]$control.releaseCommit.format -cne "full-40-character-git-sha" -or
@@ -554,8 +637,7 @@ foreach ($property in @(
     "apimPolicyVersion",
     "evaluationRunId",
     "evaluationThresholdPolicyVersion",
-    "evaluationThresholdPolicySha256",
-    "previousApprovedReleaseId"
+    "evaluationThresholdPolicySha256"
 )) {
     Assert-ImmutableValue ([string]$control.immutableRelease.$property) "immutableRelease.$property"
 }
@@ -571,20 +653,8 @@ $releasePolicyPath = Resolve-RepositoryPath `
     $control.sourcePaths.session10ReleasePolicy `
     "Session 10 release policy" `
     @(".json")
-$baselineRecordPath = Resolve-RepositoryPath `
-    $control.sourcePaths.session10BaselineRecord `
-    "Session 10 approved baseline record" `
-    @(".json")
-$candidateRecordPath = Resolve-RepositoryPath `
-    $control.sourcePaths.session10CandidateRecord `
-    "Session 10 candidate record" `
-    @(".json")
 $releasePolicy = Read-JsonObject $releasePolicyPath
-$baselineRecord = Read-JsonObject $baselineRecordPath
-$candidateRecord = Read-JsonObject $candidateRecordPath
 Assert-ImplementationMarker $releasePolicy "Session 10 release policy" "10-foundry-evaluations-quality-gates"
-Assert-ImplementationMarker $baselineRecord "Session 10 baseline record" "10-foundry-evaluations-quality-gates"
-Assert-ImplementationMarker $candidateRecord "Session 10 candidate record" "10-foundry-evaluations-quality-gates"
 if ($releasePolicy.schemaVersion -ne 2) {
     throw "Session 10 release policy must use schemaVersion 2."
 }
@@ -631,17 +701,11 @@ if ($decisionDate.Date -gt [datetime]::UtcNow.Date) {
     throw "Session 10 release policy decisionDate cannot be in the future."
 }
 if ([string]$releasePolicy.target.agentName -cne [string]$control.immutableRelease.agentName -or
-    [string]$releasePolicy.target.candidateVersion -cne [string]$control.immutableRelease.agentVersion -or
-    [string]$baselineRecord.run.target.name -cne [string]$control.immutableRelease.agentName -or
-    [string]$candidateRecord.run.target.name -cne [string]$control.immutableRelease.agentName -or
-    [string]$baselineRecord.run.target.version -cne [string]$releasePolicy.target.approvedVersion -or
-    [string]$candidateRecord.run.target.version -cne [string]$control.immutableRelease.agentVersion) {
-    throw "Session 10 release policy and records must target the approved agent name and immutable versions."
+    [string]$releasePolicy.target.candidateVersion -cne [string]$control.immutableRelease.agentVersion) {
+    throw "Session 10 release policy must target the approved immutable agent version."
 }
-if ([string]$releasePolicy.gate.baselineRunId -cne [string]$baselineRecord.run.runId -or
-    [string]$releasePolicy.gate.candidateRunId -cne [string]$candidateRecord.run.runId -or
-    [string]$candidateRecord.run.runId -cne [string]$control.immutableRelease.evaluationRunId) {
-    throw "Session 10 release-policy run IDs must match the baseline, candidate, and immutable release."
+if ([string]$releasePolicy.gate.candidateRunId -cne [string]$control.immutableRelease.evaluationRunId) {
+    throw "Session 10 release-policy candidate run ID must match the immutable release."
 }
 $releaseGatePath = Resolve-RepositoryPath `
     $control.sourcePaths.session10ReleaseGate `
@@ -665,6 +729,25 @@ foreach ($entry in @(
     @($control.sourcePaths.releaseStoreScript, "approved release-store script", @(".ps1"))
 )) {
     $null = Resolve-RepositoryPath $entry[0] $entry[1] $entry[2]
+}
+$externalGateArtifacts = $control.records.externalGateArtifacts
+if ([string]$externalGateArtifacts.session10EvaluationResults.retrieveMode -cne "RetrieveEvaluationResult" -or
+    [string]$externalGateArtifacts.session10EvaluationResults.interface -cne "releaseStoreScript" -or
+    $externalGateArtifacts.session10EvaluationResults.temporaryArtifactOnly -isnot [bool] -or
+    $externalGateArtifacts.session10EvaluationResults.temporaryArtifactOnly -ne $true -or
+    $externalGateArtifacts.session10EvaluationResults.repositoryMirrorAllowed -isnot [bool] -or
+    $externalGateArtifacts.session10EvaluationResults.repositoryMirrorAllowed -ne $false -or
+    $externalGateArtifacts.session11SecurityReleaseAttestation.schemaVersion -ne 1 -or
+    [string]$externalGateArtifacts.session11SecurityReleaseAttestation.recordType -cne "security-release-attestation" -or
+    [string]$externalGateArtifacts.session11SecurityReleaseAttestation.interface -cne "releaseStoreScript" -or
+    [string]$externalGateArtifacts.session11SecurityReleaseAttestation.retrieveMode -cne "RetrieveSecurityReleaseAttestation" -or
+    [string]$externalGateArtifacts.session11SecurityReleaseAttestation.requiredAuthorizationStatus -cne "authorized" -or
+    [string]$externalGateArtifacts.session11SecurityReleaseAttestation.requiredConfirmationStatus -cne "confirmed" -or
+    $externalGateArtifacts.session11SecurityReleaseAttestation.temporaryArtifactOnly -isnot [bool] -or
+    $externalGateArtifacts.session11SecurityReleaseAttestation.temporaryArtifactOnly -ne $true -or
+    $externalGateArtifacts.session11SecurityReleaseAttestation.repositoryMirrorAllowed -isnot [bool] -or
+    $externalGateArtifacts.session11SecurityReleaseAttestation.repositoryMirrorAllowed -ne $false) {
+    throw "External evaluation and security gate artifacts must use the approved temporary-artifact contract."
 }
 
 foreach ($pair in @(
@@ -698,10 +781,15 @@ switch ($Mode) {
         Write-Host "PASS: workflow enforcement, immutable metadata, source paths, action pins, and environment parameters are consistent."
     }
     "Dependencies" {
-        Invoke-Session10Gate $control.sourcePaths.session10CandidateRecord "pass"
+        if ([string]::IsNullOrWhiteSpace($BaselineRecordPath) -or
+            [string]::IsNullOrWhiteSpace($CandidateRecordPath) -or
+            [string]::IsNullOrWhiteSpace($SecurityReleaseAttestationPath)) {
+            throw "-BaselineRecordPath, -CandidateRecordPath, and -SecurityReleaseAttestationPath are required for Dependencies mode."
+        }
+        Invoke-Session10Gate $BaselineRecordPath $CandidateRecordPath "pass"
         Invoke-Session10BlockedSelfTest
-        Assert-AdversarialReport
-        Write-Host "PASS: Session 10 permitted path, generated blocked self-test, and confirmed Session 11 adversarial report are ready."
+        Assert-SecurityReleaseAttestation $SecurityReleaseAttestationPath
+        Write-Host "PASS: Session 10 permitted path, generated blocked self-test, and confirmed external Session 11 security-release attestation are ready."
     }
     "Smoke" {
         if ([string]::IsNullOrWhiteSpace($SmokeResultPath)) {
@@ -711,17 +799,14 @@ switch ($Mode) {
         Write-Host "PASS: Session 12 smoke and observability result is complete and payload-safe."
     }
     "Intended" {
-        if ([string]::IsNullOrWhiteSpace($SmokeResultPath)) {
-            throw "-SmokeResultPath is required for Intended mode."
+        if ([string]::IsNullOrWhiteSpace($SmokeResultPath) -or
+            [string]::IsNullOrWhiteSpace($BaselineRecordPath) -or
+            [string]::IsNullOrWhiteSpace($CandidateRecordPath) -or
+            [string]::IsNullOrWhiteSpace($SecurityReleaseAttestationPath)) {
+            throw "-SmokeResultPath, -BaselineRecordPath, -CandidateRecordPath, and -SecurityReleaseAttestationPath are required for Intended mode."
         }
-        $selectedCandidate = if ([string]::IsNullOrWhiteSpace($CandidateRecordPath)) {
-            [string]$control.sourcePaths.session10CandidateRecord
-        }
-        else {
-            $CandidateRecordPath
-        }
-        Invoke-Session10Gate $selectedCandidate "pass"
-        Assert-AdversarialReport
+        Invoke-Session10Gate $BaselineRecordPath $CandidateRecordPath "pass"
+        Assert-SecurityReleaseAttestation $SecurityReleaseAttestationPath
         Assert-SmokeResult $SmokeResultPath
         Write-Host "PASS: intended quality, adversarial, and smoke gates permit production approval."
     }
@@ -743,27 +828,11 @@ switch ($Mode) {
         $replacementMap = [ordered]@{
             "__RUNTIME_RELEASE_ID__" = $runtime.releaseId
             "__RUNTIME_COMMIT_SHA__" = $runtime.commitSha
-            "__RUNTIME_BICEP_ENTRYPOINT__" = $runtime.bicepEntrypoint
-            "__RUNTIME_BICEP_TEMPLATE_SHA256__" = $runtime.bicepTemplateSha256
-            "__RUNTIME_PROMPT_VERSION__" = $runtime.promptVersion
-            "__RUNTIME_AGENT_NAME__" = $runtime.agentName
-            "__RUNTIME_AGENT_VERSION__" = $runtime.agentVersion
-            "__RUNTIME_MODEL_DEPLOYMENT_ALIAS__" = $runtime.modelDeploymentAlias
-            "__RUNTIME_APIM_POLICY_SHA256__" = $runtime.apimPolicySha256
-            "__RUNTIME_APIM_POLICY_VERSION__" = $runtime.apimPolicyVersion
-            "__RUNTIME_EVALUATION_RUN_ID__" = $runtime.evaluationRunId
-            "__RUNTIME_EVALUATION_THRESHOLD_POLICY_VERSION__" = $runtime.evaluationThresholdPolicyVersion
-            "__RUNTIME_EVALUATION_THRESHOLD_POLICY_SHA256__" = $runtime.evaluationThresholdPolicySha256
-            "__RUNTIME_ADVERSARIAL_REPORT_SHA256__" = $runtime.adversarialReportSha256
             "__RUNTIME_NONPRODUCTION_DEPLOYMENT_ID__" = $runtime.nonproductionDeploymentId
-            "__RUNTIME_PRODUCTION_APPROVAL_RECORD_URL__" = $runtime.productionApprovalRecordUrl
-            "__RUNTIME_PRODUCTION_APPROVER_ROLE__" = $runtime.productionApproverRole
             "__RUNTIME_ROUTING_STRATEGY__" = $runtime.routingStrategy
             "__RUNTIME_CANDIDATE_SELECTOR__" = $runtime.candidateSelector
             "__RUNTIME_STABLE_SELECTOR__" = $runtime.stableSelector
-            "__RUNTIME_PREVIOUS_APPROVED_RELEASE_ID__" = $runtime.previousApprovedReleaseId
             "__RUNTIME_GITHUB_ACTIONS_RUN_URL__" = $runtime.githubActionsRunUrl
-            "__RUNTIME_APPROVED_RELEASE_STORE__" = $runtime.approvedReleaseStore
         }
         foreach ($entry in $replacementMap.GetEnumerator()) {
             if ([string]::IsNullOrWhiteSpace([string]$entry.Value)) {

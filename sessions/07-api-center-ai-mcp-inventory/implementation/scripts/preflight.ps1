@@ -119,13 +119,13 @@ $apiManagementServiceReaderRoleId = "71522526-b88f-4d52-b57f-d31fc3546d0d"
 $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
 $bicepPath = Join-Path $artifactRoot "api-center\main.bicep"
 $metadataPath = Join-Path $artifactRoot "api-center\metadata-schemas.json"
-$catalogRecordsPath = Join-Path $artifactRoot "catalog\catalog-records.json"
+$agentDefinitionPath = Join-Path $artifactRoot "api-center\agent-api-definition.json"
 $openApiPath = Join-Path $artifactRoot "catalog\specs\policy-assistant-agent.openapi.json"
 $environmentPath = Join-Path $artifactRoot "environments\sandbox.json"
 $requiredFiles = @(
     $bicepPath
     $metadataPath
-    $catalogRecordsPath
+    $agentDefinitionPath
     $openApiPath
     $environmentPath
 )
@@ -146,18 +146,6 @@ $requiredSentinels = @(
     "__REQUIRED_FOUNDRY_ACCOUNT_NAME__"
     "__REQUIRED_FOUNDRY_PROJECT_NAME__"
     "__REQUIRED_LAST_REVIEW_DATE__"
-    "__REQUIRED_MCP_DATA_CLASSIFICATION__"
-    "__REQUIRED_MCP_EVALUATION_RESULTS_URL__"
-    "__REQUIRED_MCP_EXPIRY_DATE__"
-    "__REQUIRED_MCP_LAST_REVIEW_DATE__"
-    "__REQUIRED_MCP_PERMITTED_CONSUMER__"
-    "__REQUIRED_MCP_RESIDENCY_PROFILE__"
-    "__REQUIRED_MCP_RISK_TIER__"
-    "__REQUIRED_MCP_SERVER_DESCRIPTION__"
-    "__REQUIRED_MCP_SERVER_SUMMARY__"
-    "__REQUIRED_MCP_SERVER_TITLE__"
-    "__REQUIRED_MCP_SERVER_VERSION_ID__"
-    "__REQUIRED_MCP_SERVER_VERSION_TITLE__"
     "__REQUIRED_MODEL_PROVIDER__"
     "__REQUIRED_PERMITTED_CONSUMER__"
     "__REQUIRED_RESIDENCY_PROFILE__"
@@ -187,24 +175,15 @@ if ($sentinels) {
 
 $environment = Get-Content -LiteralPath $environmentPath -Raw | ConvertFrom-Json -ErrorAction Stop
 $metadataDefinitions = Get-Content -LiteralPath $metadataPath -Raw | ConvertFrom-Json -ErrorAction Stop
-$catalogRecords = Get-Content -LiteralPath $catalogRecordsPath -Raw | ConvertFrom-Json -ErrorAction Stop
-$agentRecord = $catalogRecords.records.agent
-$apimRecord = $catalogRecords.records.apim
-$mcpRecord = $catalogRecords.records.mcp
-foreach ($record in @($agentRecord, $apimRecord, $mcpRecord)) {
-    $merged = [ordered]@{}
-    foreach ($property in $catalogRecords.commonMetadata.PSObject.Properties) {
-        $merged[$property.Name] = $property.Value
-    }
-    foreach ($property in $record.customProperties.PSObject.Properties) {
-        $merged[$property.Name] = $property.Value
-    }
-    $record.customProperties = [pscustomobject]$merged
-}
+$agentDefinition = Get-Content -LiteralPath $agentDefinitionPath -Raw | ConvertFrom-Json -ErrorAction Stop
+$agentRecord = $agentDefinition.api
 $openApi = Get-Content -LiteralPath $openApiPath -Raw | ConvertFrom-Json -ErrorAction Stop
 
 if ([string]$environment.implementationSession -ne $implementationSession) {
     throw "The approved environment has the wrong implementationSession marker."
+}
+if ([string]$agentDefinition.implementationSession -ne $implementationSession) {
+    throw "The direct agent definition has the wrong implementationSession marker."
 }
 if ([string]$environment.apiCenterPlan -notin @("Free", "Standard")) {
     throw "apiCenterPlan must be Free or Standard."
@@ -223,11 +202,6 @@ foreach ($definition in $metadataDefinitions) {
 }
 
 Assert-GovernanceRecord -Record $agentRecord -Description "Agent API record"
-Assert-GovernanceRecord -Record $apimRecord -Description "APIM API record"
-Assert-GovernanceRecord -Record $mcpRecord -Description "MCP server record"
-if ([string]$mcpRecord.transport -ne "streamable-http") {
-    throw "The remote MCP record must use Streamable HTTP."
-}
 if ([string]$openApi.openapi -ne "3.0.3" -or $null -eq $openApi.paths."/responses".post) {
     throw "The authoritative agent definition must be OpenAPI 3.0.3 with POST /responses."
 }
@@ -310,8 +284,8 @@ $session07Api = Invoke-AzJson `
 if ([string]$session07Api.description -notlike "*implementationSession=06-apim-ai-gateway*") {
     throw "The APIM source does not contain the marked Session 06 API."
 }
-if ([string]$session07Api.displayName -ne [string]$apimRecord.sourceTitle) {
-    throw "The Session 06 APIM display name does not match the approved API Center reconciliation title."
+if ([string]$session07Api.displayName -ne "Governed policy assistant Responses API") {
+    throw "The Session 06 APIM display name does not match the approved synchronized API."
 }
 
 $role = Invoke-AzJson `
@@ -370,7 +344,7 @@ Write-Host "  Location: $($environment.location)"
 Write-Host "  Plan decision: $($environment.apiCenterPlan)"
 Write-Host "  APIM source: $expectedApimId"
 Write-Host "  Agent API: $($agentRecord.title)"
-Write-Host "  Remote MCP server: $($mcpRecord.title)"
+Write-Host "  Remote MCP server: supplied at registration and retained in API Center only"
 Write-Host "  Runtime URLs: supplied at delivery and not retained"
 
 & az bicep build --file $bicepPath --stdout *> $null
@@ -393,4 +367,4 @@ if ($LASTEXITCODE -ne 0) {
     throw "The API Center deployment preview failed."
 }
 
-Write-Host "PASS: Session 07 files, shared metadata source, APIM boundary, runtime coordinates, CLI integration, and deployment preview are ready."
+Write-Host "PASS: Session 07 files, direct-agent desired state, APIM boundary, runtime coordinates, CLI integration, and deployment preview are ready."

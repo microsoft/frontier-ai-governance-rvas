@@ -14,7 +14,7 @@ html: true
 
 # Azure API Management as the AI gateway
 
-**270 minutes - One configured APIM route to the governed agent**
+**210 minutes - One configured APIM route to the governed agent**
 
 <!-- Notes: Session 05 established the agent. Today we configure the controlled APIM route to that endpoint. -->
 
@@ -236,6 +236,9 @@ Prompt Shields plus request and completion checks through Azure AI Content Safet
 
 APIM checks Hate, SelfHarm, Sexual, and Violence at threshold 4 on the eight-level scale.
 
+For a streaming completion violation, APIM stops forwarding later events. The client can receive a
+truncated stream instead of a normal `403`.
+
 <!-- Notes: The safety owner approves the threshold and Content Safety data path. -->
 
 ---
@@ -267,6 +270,10 @@ Application Insights receives:
 - LLM token metrics by API, product, and subscription
 
 Request body bytes, response body bytes, and client IP logging are set to zero or disabled.
+
+Streaming clients set `stream_options.include_usage=true`. Interrupted streams can leave token
+counts incomplete, and token-limit counts are estimated. Cost Management and invoices remain the
+billing record.
 
 <!-- Notes: Correlation and consumption data are enough for this control. Prompt logging is not a default. -->
 

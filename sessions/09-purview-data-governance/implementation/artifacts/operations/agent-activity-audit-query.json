@@ -1,7 +1,6 @@
 {
   "schemaVersion": 1,
   "implementationSession": "09-purview-data-governance",
-  "agentInstanceId": "__REQUIRED_AGENT_INSTANCE_ID__",
   "lookbackHours": 24,
   "microsoftGraphApplicationPermission": "AuditLogsQuery.Read.All",
   "operations": [
@@ -25,6 +24,5 @@
     "User identities",
     "File names",
     "Resource URLs"
-  ],
-  "ownerRole": "__REQUIRED_AUDIT_OWNER_ROLE__"
+  ]
 }

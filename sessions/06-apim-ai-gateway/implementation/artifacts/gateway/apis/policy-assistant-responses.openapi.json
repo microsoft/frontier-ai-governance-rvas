@@ -73,7 +73,18 @@
           },
           "stream": {
             "type": "boolean",
-            "default": false
+            "default": false,
+            "description": "When true, also set stream_options.include_usage to true so APIM can read reported usage for token metrics."
+          },
+          "stream_options": {
+            "type": "object",
+            "properties": {
+              "include_usage": {
+                "type": "boolean",
+                "description": "Set to true for streaming calls so the response includes token usage when the model supports it."
+              }
+            },
+            "additionalProperties": true
           }
         },
         "additionalProperties": true

@@ -36,15 +36,12 @@ az bicep build --file .\policy\initiative.bicep
 az bicep build --file .\policy\assignment.bicep
 ```
 
-## Operating record
+## Operational ownership
 
-[`decisions/resource-model.md`](decisions/resource-model.md) keeps the current-versus-classic
-decision and points to the customer's inventory or migration backlog. Live resource details stay
-in that customer system.
-
-[`governance/change-reference.md`](governance/change-reference.md) points to the customer change
-and risk records for the policy guardrails. Azure Policy and Policy Insights remain authoritative
-for deployed policy and exemption state.
+Azure holds the deployed resource, policy assignment, compliance, and exemption state. Platform
+operations keeps live inventory and classic-migration work in the customer systems that own those
+records. The cloud platform owner uses the normal change and risk process to approve enforcement
+or exemptions. Those one-time decisions do not belong in this repository.
 
 `scripts/resolve-builtins.ps1` resolves current built-ins outside Bicep and returns their IDs,
 versions, and effects to the current shell. Re-resolve them before each implementation. The script

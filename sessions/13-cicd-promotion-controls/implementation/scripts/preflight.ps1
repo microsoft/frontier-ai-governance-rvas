@@ -14,7 +14,16 @@ param(
 
     [Parameter(Mandatory)]
     [ValidatePattern("^[0-9a-f]{40}$")]
-    [string]$ApprovedReleaseSha
+    [string]$ApprovedReleaseSha,
+
+    [Parameter()]
+    [string]$BaselineRecordPath,
+
+    [Parameter()]
+    [string]$CandidateRecordPath,
+
+    [Parameter()]
+    [string]$SecurityReleaseAttestationPath
 )
 
 Set-StrictMode -Version Latest
@@ -31,7 +40,6 @@ $productionParametersPath = Join-Path $artifactRoot "environments\production.par
 $coveredDecisionSentinels = @(
     "__REQUIRED_ACTIONS_CHECKOUT_FULL_SHA__",
     "__REQUIRED_ACTIONS_SETUP_PYTHON_FULL_SHA__",
-    "__REQUIRED_ACTIONS_UPLOAD_ARTIFACT_FULL_SHA__",
     "__REQUIRED_ADMIN_BYPASS_DISABLED_TRUE__",
     "__REQUIRED_AGENT_NAME_OR_ID__",
     "__REQUIRED_AGENT_VERSION__",
@@ -59,7 +67,6 @@ $coveredDecisionSentinels = @(
     "__REQUIRED_NONPRODUCTION_RESOURCE_GROUP__",
     "__REQUIRED_NONPRODUCTION_SUBSCRIPTION_ID__",
     "__REQUIRED_PREVENT_SELF_REVIEW_TRUE__",
-    "__REQUIRED_PREVIOUS_APPROVED_RELEASE_ID__",
     "__REQUIRED_PRODUCTION_BRANCH_OR_TAG_RESTRICTION__",
     "__REQUIRED_PRODUCTION_AZURE_CLIENT_ID__",
     "__REQUIRED_PRODUCTION_ENVIRONMENT_PLAN_SUPPORT_CONFIRMED_TRUE__",
@@ -76,8 +83,6 @@ $coveredDecisionSentinels = @(
     "__REQUIRED_RELEASE_STORE_SCRIPT_PATH__",
     "__REQUIRED_ROUTING_CONTROL_SCRIPT_PATH__",
     "__REQUIRED_ROUTING_STRATEGY_CANARY_OR_BLUE_GREEN__",
-    "__REQUIRED_SESSION10_APPROVED_BASELINE_RECORD_PATH__",
-    "__REQUIRED_SESSION10_CANDIDATE_RECORD_PATH__",
     "__REQUIRED_STABLE_ROUTING_SELECTOR__",
     "__REQUIRED_UNIT_TEST_SCRIPT_PATH__"
 )
@@ -555,9 +560,19 @@ Assert-WorkloadIdentity `
     -Scope $ApprovedProductionScope `
     -EnvironmentName "production"
 
-& $validatorPath -Mode Dependencies -ReleaseSha $ApprovedReleaseSha
+if ([string]::IsNullOrWhiteSpace($BaselineRecordPath) -or
+    [string]::IsNullOrWhiteSpace($CandidateRecordPath) -or
+    [string]::IsNullOrWhiteSpace($SecurityReleaseAttestationPath)) {
+    throw "-BaselineRecordPath, -CandidateRecordPath, and -SecurityReleaseAttestationPath are required for Ready preflight."
+}
+& $validatorPath `
+    -Mode Dependencies `
+    -ReleaseSha $ApprovedReleaseSha `
+    -BaselineRecordPath $BaselineRecordPath `
+    -CandidateRecordPath $CandidateRecordPath `
+    -SecurityReleaseAttestationPath $SecurityReleaseAttestationPath
 if (-not $?) {
-    throw "Session 10 evaluation dependencies or the Session 11 adversarial report are not ready."
+    throw "Session 10 evaluation dependencies or the external Session 11 security-release attestation are not ready."
 }
 
 Write-Host "Preview 1 of 2: nonproduction at $ApprovedNonproductionScope"

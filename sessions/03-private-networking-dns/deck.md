@@ -14,7 +14,7 @@ html: true
 
 # Private networking, DNS, and controlled egress
 
-**300 minutes · Prepare and check the private client path**
+**270 minutes · Prepare and check the private client path**
 
 <!-- Notes: Frame this as a network control implementation, not a general Azure networking lecture. -->
 
@@ -29,7 +29,7 @@ html: true
 - Approved clients resolve the current service endpoints to private addresses.
 - Those endpoints accept TCP 443 from the approved private execution host.
 - The Agent Service subnet routes to the customer firewall; the customer firewall source owns its rules.
-- Public access changes only after all five services resolve privately, accept TCP 443, and their prior settings are saved in the restore record.
+- Public access changes only after all three Foundry endpoint families and four dependency FQDNs resolve privately, accept TCP 443, and the five prior service states are recorded in the approved change system.
 
 <!-- Notes: Identity decides who can call a service. Networking decides where the call can come from. -->
 
@@ -84,6 +84,7 @@ operational system keeps the five-service cutover record.
 
 | Decision | Chosen approach | Tradeoff |
 |---|---|---|
+| Network architecture | Customer-managed BYO VNet for this kit | Microsoft-managed networking is a separate pre-session choice |
 | Foundry account | Keep it only when it already uses the exact delegated subnet | Otherwise replacement and configuration replay need separate approval |
 | DNS ownership | Reuse authoritative central zones, or create approved local zones | Hybrid and central designs need forwarding and artifact changes |
 | Agent egress | Route the dedicated subnet to the customer firewall | The route does not prove firewall rules or runtime traffic |
@@ -150,7 +151,7 @@ private endpoint IPv4
 
 ---
 
-## Seven zones · five endpoints
+## Seven zones · five private endpoints
 
 <div class="cards">
 <div class="card">
@@ -159,7 +160,7 @@ private endpoint IPv4
 
 ### Foundry
 
-`account` · three zones
+`account` · three endpoint families and three zones
 
 </div>
 <div class="card">
@@ -195,11 +196,14 @@ Storage `blob` and Cosmos DB `Sql` complete the required dependency set.
 1. **Azure-only client:** link the record-owning zone to the client VNet.
 2. **Peered spokes:** link the same zone to each approved client or resolver VNet.
 3. **Hybrid:** forward the public service zone to an Azure-side forwarder or Private Resolver.
-4. **Central DNS:** adapt the artifact to reference existing zones.
+4. **Central DNS:** keep the same implementation tree, reference existing zone IDs, and leave links and forwarding with the central DNS deployment.
 
 > On-premises DNS cannot query Azure's `168.63.129.16` virtual IP directly.
 
-<!-- Notes: Ask the DNS owner to name the record-owning zones, resolver, and forwarding rules. -->
+When a shared private zone also serves public resources of the same type, the DNS owner records
+the approved fallback-to-Internet setting or another resolution path before linking the zone.
+
+<!-- Notes: Ask the DNS owner to name the record-owning zones, resolver, forwarding rules, and mixed public/private resolution path. -->
 
 ---
 
@@ -211,7 +215,14 @@ Storage `blob` and Cosmos DB `Sql` complete the required dependency set.
 
 Session 03 records the external firewall repository or policy reference. It does not copy firewall rules into this kit.
 
+The firewall owner confirms the Microsoft Entra access rule required by Agent Service, any
+feature-specific destinations in scope, and that TLS inspection does not inject an untrusted
+certificate.
+
 Session 05 checks agent-runtime traffic through the prepared path.
+
+Bing Grounding, Websearch, and SharePoint Grounding still use public endpoints. Exclude them when
+the approved agent design requires every tool call to stay private.
 
 <!-- Notes: Do not claim that a route proves the firewall rule or the agent-runtime path. -->
 
@@ -239,15 +250,15 @@ This kit does not deploy missing dependency services.
 
 ## Build and test private connectivity
 
-**Timebox:** 300 minutes
+**Timebox:** 270 minutes
 
 | Time | Work |
 |---:|---|
 | 70 min | Scope decisions, implementation files, preflight, and `what-if` |
-| 75 min | Network deployment and private endpoint approvals |
+| 90 min | Network deployment and private endpoint approvals |
 | 45 min | DNS and firewall integration |
 | 35 min | Guarded public-access cutover and result check |
-| 15 min | Ownership, scope limits, and restore procedure |
+| 30 min | Ownership, scope limits, and restore procedure |
 
 <!-- Notes: Confirm the delivery owner before the first state change. -->
 
@@ -277,6 +288,7 @@ The planned change should contain one approved VNet pattern, two subnets, one ro
 - The deployment would duplicate a central private DNS zone.
 - A private endpoint connection remains pending.
 - A configured endpoint fails private DNS or TCP 443.
+- the network architecture is still undecided between this BYO VNet path and Microsoft-managed networking.
 - The firewall needs a blanket internet rule.
 - The complete cutover record cannot be written outside the repository.
 - A service update fails during cutover.
@@ -302,10 +314,14 @@ From the approved private execution host:
 
 ```powershell
 .\scripts\connectivity-check.ps1 `
-  -EndpointMatrixPath .\artifacts\network\endpoint-matrix.json
+  -ParameterPath .\artifacts\environments\sandbox.bicepparam
 ```
 
 **Expected:** each configured alias resolves only to RFC 1918 IPv4 addresses and accepts TCP 443. The script prints the result and saves no file.
+
+Anyone using the Foundry portal or Agent Playground follows the same approved private route and
+DNS path, either from that host or through the customer-approved VPN, ExpressRoute, or Bastion
+access pattern.
 
 <!-- Notes: This is the one standard-mode result check. -->
 
@@ -362,9 +378,11 @@ The cutover record stays outside the repository. Connectivity check output is no
 1. Review the cutover record against the five approved service IDs and resource group.
 2. Restore each state from the cutover record.
 3. Confirm the approved execution host can reach each service.
-4. Remove only allowed network resource types carrying the Session 03 marker.
+4. Keep the Agent subnet, route, and VNet while the Foundry account still uses network injection.
+   To retire that network, use a separately approved Foundry account retirement and purge before
+   removing the injected network resources.
 
-Automated network removal stops unless every recorded prior state is `Enabled`.
+Restoring public access does not detach the injected subnet.
 
 When a service was already private-only, its owner must confirm another approved way to reach it first.
 
@@ -374,7 +392,7 @@ When a service was already private-only, its owner must confirm another approved
 
 ## Recap and next dependency
 
-- **Connectivity:** normal service FQDN, private DNS answer, approved private endpoint.
+- **Connectivity:** all three Foundry endpoint families and four dependency FQDNs resolve through approved private endpoints.
 - **Egress preparation:** dedicated Agent subnet, customer firewall route, and external policy source.
 - **Safety:** private connectivity and stored prior settings before cutover.
 - **Result:** configured endpoints resolve privately and accept TCP 443.

@@ -1,5 +1,13 @@
 # AI service operational incident runbook
 
+## Lifecycle
+
+| Field | Decision |
+|---|---|
+| Updater | The named incident commander with the named service owner |
+| Review cadence | Quarterly, and after an incident that changes containment or recovery steps |
+| Consumer | The incident commander and service operators use this runbook during containment and recovery |
+
 ## Scope and first actions
 
 This runbook covers the Session 12 service, gateway, model, agent, tool, evaluation, and telemetry

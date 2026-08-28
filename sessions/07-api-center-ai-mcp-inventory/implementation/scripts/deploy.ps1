@@ -20,9 +20,9 @@ $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
 $environmentPath = Join-Path $artifactRoot "environments\sandbox.json"
 $bicepPath = Join-Path $artifactRoot "api-center\main.bicep"
 $openApiPath = Join-Path $artifactRoot "catalog\specs\policy-assistant-agent.openapi.json"
-$agentRecordPath = Join-Path $artifactRoot "catalog\catalog-records.json"
+$agentDefinitionPath = Join-Path $artifactRoot "api-center\agent-api-definition.json"
 $environment = Get-Content -LiteralPath $environmentPath -Raw | ConvertFrom-Json -ErrorAction Stop
-$agentRecord = (Get-Content -LiteralPath $agentRecordPath -Raw | ConvertFrom-Json -ErrorAction Stop).records.agent
+$agentRecord = (Get-Content -LiteralPath $agentDefinitionPath -Raw | ConvertFrom-Json -ErrorAction Stop).api
 
 & (Join-Path $PSScriptRoot "preflight.ps1") `
     -ApprovedSubscriptionId $ApprovedSubscriptionId `
@@ -95,4 +95,4 @@ Write-Host "API Center: $($deployment.properties.outputs.apiCenterId.value)"
 Write-Host "APIM synchronization can take up to 24 hours."
 Write-Host "Confirm the current '$($environment.apiCenterPlan)' plan in the API Center portal; the stable 2024-03-01 Bicep service resource does not expose plan selection."
 Write-Host "Register the registered remote MCP server through the current native API Center portal flow, using only the supplied runtime URL."
-Write-Host "After synchronization and MCP registration, run reconcile-inventory.ps1 and check-inventory.ps1."
+Write-Host "After synchronization and MCP registration, run check-inventory.ps1 with the portal MCP title."

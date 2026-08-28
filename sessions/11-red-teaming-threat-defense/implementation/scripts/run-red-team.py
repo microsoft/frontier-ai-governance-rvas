@@ -40,6 +40,8 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--prepare-taxonomy", action="store_true")
     parser.add_argument("--check-only", action="store_true")
+    parser.add_argument("--taxonomy-id")
+    parser.add_argument("--post-remediation-version")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--timeout-minutes", type=int, default=120)
     args = parser.parse_args()
@@ -48,6 +50,10 @@ def parse_args() -> argparse.Namespace:
         parser.error("--prepare-taxonomy and --check-only are mutually exclusive")
     if not args.prepare_taxonomy and not args.check_only and args.output is None:
         parser.error("--output is required for a red-team run")
+    if not args.prepare_taxonomy and not args.check_only and not args.taxonomy_id:
+        parser.error("--taxonomy-id is required for a red-team run")
+    if args.phase == "post-remediation" and not args.check_only and not args.post_remediation_version:
+        parser.error("--post-remediation-version is required for the post-remediation run")
     if args.timeout_minutes < 1 or args.timeout_minutes > 360:
         parser.error("--timeout-minutes must be between 1 and 360")
     return args
@@ -139,6 +145,16 @@ def write_record(path: Path, record: dict[str, Any]) -> None:
         json.dump(record, handle, indent=2)
         handle.write("\n")
     temporary.replace(path)
+
+
+def require_external_output(path: Path) -> Path:
+    output_path = path.resolve()
+    repository_root = Path(__file__).resolve().parents[4]
+    if output_path.is_relative_to(repository_root):
+        raise ValueError(
+            "--output must point to the approved security record store outside this repository"
+        )
+    return output_path
 
 
 def aggregate_results(
@@ -262,15 +278,17 @@ def main() -> int:
     if config.get("implementationSession") != IMPLEMENTATION_SESSION:
         raise ValueError("Attack plan has the wrong implementationSession marker")
 
-    handoff_path = config_path.parents[1] / "governance" / "risk-change-handoff.json"
-    handoff = load_json(handoff_path)
     endpoint = require_environment("FOUNDRY_PROJECT_ENDPOINT")
     judge_model = require_environment("FOUNDRY_MODEL_NAME")
     agent_name = str(config["target"]["name"])
-    baseline_version = str(config["target"]["version"])
-    post_version = str(handoff["target"]["postRemediationVersion"])
+    baseline_version = require_environment("FOUNDRY_BASELINE_AGENT_VERSION")
+    post_version = args.post_remediation_version or os.environ.get(
+        "FOUNDRY_POST_REMEDIATION_AGENT_VERSION", ""
+    ).strip()
     agent_version = baseline_version if args.phase == "baseline" else post_version
-    if baseline_version == post_version:
+    if args.phase == "post-remediation" and not post_version:
+        raise ValueError("FOUNDRY_POST_REMEDIATION_AGENT_VERSION is required")
+    if post_version and baseline_version == post_version:
         raise ValueError("Baseline and post-remediation versions must differ")
 
     target = AzureAIAgentTarget(name=agent_name, version=agent_version)
@@ -309,14 +327,12 @@ def main() -> int:
             )
             print(f"Prepared taxonomy: {taxonomy.id}")
             print(
-                "Review and update it in Foundry, then place the approved ID in "
-                "attack-plan.json and set customerReviewed to true."
+                "Review and approve it in Foundry, then supply its current ID through "
+                "--taxonomy-id for a red-team run."
             )
             return 0
 
-        taxonomy_id = config["taxonomy"].get("approvedTaxonomyId")
-        if not config["taxonomy"].get("customerReviewed") or not taxonomy_id:
-            raise ValueError("An approved, customer-reviewed taxonomy ID is required")
+        taxonomy_id = args.taxonomy_id
 
         with project_client.get_openai_client() as openai_client:
             evaluation = openai_client.evals.create(
@@ -410,10 +426,11 @@ def main() -> int:
                     "implementationSession=11-red-teaming-threat-defense"
                 ),
             }
-            write_record(args.output.resolve(), record)
+            output_path = require_external_output(args.output)
+            write_record(output_path, record)
             print(
                 f"Completed {args.phase} red-team run {run.id}; "
-                f"aggregate record: {args.output.resolve()}"
+                f"aggregate record: {output_path}"
             )
             print(
                 "  overall attack success rate: "

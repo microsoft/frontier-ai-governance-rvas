@@ -77,28 +77,22 @@ $productionJob = @($jobs) |
     Select-Object -First 1
 
 if ($Check -eq "Intended") {
+    $gateStep = @($validationJob.steps) |
+        Where-Object { [string]$_.name -eq "Apply evaluation and adversarial gates before deployment" } |
+        Select-Object -First 1
     if ([string]$run.path -cne [string]$control.repository.workflowPath -or
         [string]$run.display_title -cne $expectedRunName -or
         [string]$run.event -ne "workflow_dispatch" -or
         [string]$run.status -ne "completed" -or [string]$run.conclusion -ne "success" -or
         $null -eq $validationJob -or [string]$validationJob.conclusion -ne "success" -or
+        $null -eq $gateStep -or [string]$gateStep.conclusion -ne "success" -or
         $null -eq $nonproductionPreviewJob -or [string]$nonproductionPreviewJob.conclusion -ne "success" -or
         $null -eq $nonproductionJob -or [string]$nonproductionJob.conclusion -ne "success" -or
         $null -eq $productionPreviewJob -or [string]$productionPreviewJob.conclusion -ne "success" -or
         $null -eq $productionJob -or [string]$productionJob.conclusion -ne "success") {
         throw "The intended workflow run did not complete both controlled stages successfully."
     }
-    $artifacts = gh api "repos/$repository/actions/runs/$PromotionRunId/artifacts?per_page=100"
-    if ($LASTEXITCODE -ne 0) {
-        throw "Could not inspect implementation files for promotion run $PromotionRunId."
-    }
-    $manifestArtifact = @(($artifacts | ConvertFrom-Json).artifacts) |
-        Where-Object { [string]$_.name -eq "release-manifest" -and $_.expired -ne $true } |
-        Select-Object -First 1
-    if ($null -eq $manifestArtifact) {
-        throw "The intended workflow run has no release-manifest artifact."
-    }
-    Write-Host "PASS: the immutable release passed nonproduction and protected production, and the linked manifest remains in operation."
+    Write-Host "PASS: the immutable release passed temporary external evaluation and security gates, nonproduction, and protected production. GitHub retains workflow and deployment metadata; the approved release store retains the restore record."
 }
 else {
     if ($null -eq $validationJob) {

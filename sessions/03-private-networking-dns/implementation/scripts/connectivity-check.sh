@@ -2,18 +2,15 @@
 set -euo pipefail
 
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-tmpdir="$(mktemp -d)"
-cleanup() {
-  [[ -d "$tmpdir" ]] && rm -rf -- "$tmpdir"
-}
-trap cleanup EXIT
+parameter_path="$script_dir/../artifacts/environments/sandbox.bicepparam"
+timeout_seconds='8'
 
 usage() {
   cat <<'USAGE'
-Usage: ./scripts/connectivity-check.sh [--endpoint-matrix-path <path>] [--timeout-seconds <seconds>]
+Usage: ./scripts/connectivity-check.sh [--parameter-path <path>] [--timeout-seconds <seconds>]
 
-Validate that each current endpoint resolves only to RFC 1918 IPv4 addresses and accepts TCP 443
-from the current approved private execution host.
+Derive the seven current service FQDNs from approved resource IDs and validate that each resolves
+only to RFC 1918 IPv4 addresses and accepts TCP 443 from the current private execution host.
 USAGE
 }
 
@@ -22,14 +19,11 @@ die() {
   exit 1
 }
 
-endpoint_matrix_path="$script_dir/../artifacts/network/endpoint-matrix.json"
-timeout_seconds='8'
-
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --endpoint-matrix-path)
+    --parameter-path)
       [[ $# -ge 2 ]] || die "Missing value for $1"
-      endpoint_matrix_path="$2"
+      parameter_path="$2"
       shift 2
       ;;
     --timeout-seconds)
@@ -48,42 +42,58 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-[[ -f "$endpoint_matrix_path" ]] || die "Endpoint matrix is missing: $endpoint_matrix_path"
+[[ -f "$parameter_path" ]] || die "Parameter file is missing: $parameter_path"
 command -v python3 >/dev/null 2>&1 || die 'Python 3 is required and was not found on PATH.'
 
-python3 - "$endpoint_matrix_path" "$timeout_seconds" <<'PY'
+python3 - "$parameter_path" "$timeout_seconds" <<'PY'
 import ipaddress
-import json
+from pathlib import Path
+import re
 import socket
 import sys
 
-matrix_path = sys.argv[1]
+parameter_path = Path(sys.argv[1])
 try:
     timeout_seconds = int(sys.argv[2])
 except ValueError as exc:
-    raise SystemExit('TimeoutSeconds must be an integer.') from exc
+    raise SystemExit("timeout-seconds must be an integer.") from exc
 if timeout_seconds < 2 or timeout_seconds > 30:
-    raise SystemExit('TimeoutSeconds must be between 2 and 30 seconds.')
-with open(matrix_path, encoding='utf-8') as handle:
-    matrix = json.load(handle)
-if matrix.get('implementationSession') != '03-private-networking-dns':
-    raise SystemExit('The endpoint matrix has the wrong implementation marker.')
-expected = {'foundry', 'storage-blob', 'ai-search', 'cosmos-sql', 'key-vault'}
-endpoints = matrix.get('endpoints') or []
-aliases = [str(item.get('alias', '')).strip().lower() for item in endpoints]
-fqdns = [str(item.get('fqdn', '')).strip().lower() for item in endpoints]
-if len(aliases) != len(expected) or set(aliases) != expected:
-    raise SystemExit('The endpoint matrix must contain the five unique aliases: foundry, storage-blob, ai-search, cosmos-sql, key-vault.')
-if any(not fqdn for fqdn in fqdns) or len(set(fqdns)) != len(expected):
-    raise SystemExit('The endpoint matrix must contain one distinct FQDN for each approved service.')
-private_networks = [
-    ipaddress.ip_network('10.0.0.0/8'),
-    ipaddress.ip_network('172.16.0.0/12'),
-    ipaddress.ip_network('192.168.0.0/16'),
+    raise SystemExit("timeout-seconds must be between 2 and 30 seconds.")
+
+text = parameter_path.read_text(encoding="utf-8")
+fields = {
+    "foundry": "foundryResourceId",
+    "storage": "storageResourceId",
+    "search": "searchResourceId",
+    "cosmos": "cosmosResourceId",
+    "key-vault": "keyVaultResourceId",
+}
+names = {}
+for alias, field in fields.items():
+    matches = re.findall(
+        rf"^\s*param\s+{re.escape(field)}\s*=\s*'([^']+)'\s*$",
+        text,
+        flags=re.MULTILINE,
+    )
+    if len(matches) != 1 or not matches[0].strip().rstrip("/").split("/")[-1]:
+        raise SystemExit(f"Parameter '{field}' must contain exactly one valid resource ID.")
+    names[alias] = matches[0].strip().rstrip("/").split("/")[-1]
+
+endpoints = [
+    ("foundry-cognitive", f"{names['foundry']}.cognitiveservices.azure.com"),
+    ("foundry-openai", f"{names['foundry']}.openai.azure.com"),
+    ("foundry-services", f"{names['foundry']}.services.ai.azure.com"),
+    ("storage-blob", f"{names['storage']}.blob.core.windows.net"),
+    ("ai-search", f"{names['search']}.search.windows.net"),
+    ("cosmos-sql", f"{names['cosmos']}.documents.azure.com"),
+    ("key-vault", f"{names['key-vault']}.vault.azure.net"),
 ]
-for endpoint in endpoints:
-    alias = str(endpoint.get('alias', '')).strip().lower()
-    fqdn = str(endpoint.get('fqdn', '')).strip()
+private_networks = [
+    ipaddress.ip_network("10.0.0.0/8"),
+    ipaddress.ip_network("172.16.0.0/12"),
+    ipaddress.ip_network("192.168.0.0/16"),
+]
+for alias, fqdn in endpoints:
     try:
         resolved = sorted({
             result[4][0]
@@ -91,17 +101,16 @@ for endpoint in endpoints:
         })
     except socket.gaierror as exc:
         raise SystemExit(f"Endpoint '{alias}' DNS lookup failed: {exc}") from exc
-    if not resolved:
-        raise SystemExit(f"Endpoint '{alias}' did not resolve to an IPv4 address.")
-    for address in resolved:
-        ip = ipaddress.ip_address(address)
-        if not any(ip in network for network in private_networks):
-            raise SystemExit(f"Endpoint '{alias}' did not resolve only to RFC 1918 IPv4 addresses.")
+    if not resolved or any(
+        not any(ipaddress.ip_address(address) in network for network in private_networks)
+        for address in resolved
+    ):
+        raise SystemExit(f"Endpoint '{alias}' did not resolve only to RFC 1918 IPv4 addresses.")
     try:
         with socket.create_connection((fqdn, 443), timeout=timeout_seconds):
             pass
     except OSError as exc:
         raise SystemExit(f"Endpoint '{alias}' did not accept TCP 443.") from exc
     print(f"PASS: {alias} uses private DNS and accepts TCP 443.")
-print('PASS: Current endpoint connectivity is available from this host.')
+print("PASS: Current endpoint connectivity is available from this host.")
 PY

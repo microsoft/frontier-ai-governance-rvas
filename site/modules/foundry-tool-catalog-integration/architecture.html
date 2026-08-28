@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="Bind one approved Azure API Center remote MCP server record to one dedicated versioned Toolbox in Microsoft Foundry, then reconcile the catalog record, project connection, allow-listed tool, and live Toolbox tool list.">
+    <title>Architecture | Optional module: API Center private tool catalog to Foundry Toolbox | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page module-page">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program">Sessions</a>
+          <a href="../../index.html#optional-modules" aria-current="page">Optional modules</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="architecture">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#optional-modules">Optional modules</a>
+            <span aria-hidden="true">/</span>
+            <a href="index.html">Optional module</a>
+          </nav>
+          <p class="chapter-header__label">Chapter 2 of 6 · Architecture</p>
+          <h1 id="architecture">API Center private tool catalog to Foundry Toolbox</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Optional module · Draft</span>
+            <span>3 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Module chapters">
+        <ol class="session-content-width"><li><a href="index.html"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html" aria-current="page"><span>2</span>Architecture</a></li><li><a href="before-you-start.html"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <div class="chapter-actions">
+          <button
+            class="deck-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="session-deck-dialog"
+            data-deck-open
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+              <path d="M8 20h8M12 16.5V20"></path>
+            </svg>
+            <span>Open the deck</span>
+          </button>
+          <a
+            class="implementation-files-link"
+            href="implementation/"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 7.5h6l2-2h9v13h-17z"></path>
+              <path d="m9.5 11-2 2 2 2M14.5 11l2 2-2 2"></path>
+            </svg>
+            <span>View implementation files</span>
+            <span class="visually-hidden"> on GitHub (opens in a new tab)</span>
+          </a>
+        </div>
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/azure-api-center.svg" alt="">
+                <strong>Azure API Center</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-ai-foundry.svg" alt="">
+                <strong>Microsoft Foundry</strong>
+              </li><li>
+                <img src="../../assets/icons/foundry-agent-service.svg" alt="">
+                <strong>Foundry Agent Service</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Architecture">
+          <p class="implementation-guide__label">Chapter 2 of 6</p>
+          <h3 id="architecture-at-a-glance">Architecture at a glance<a class="heading-anchor" href="#architecture-at-a-glance" aria-label="Link to Architecture at a glance">#</a></h3>
+<p>The flow has two control planes and one runtime endpoint:</p>
+<ol><li>The API catalog owner keeps the approved MCP server, version, deployment, access, and authentication metadata in Azure API Center.</li><li>The Foundry tool owner opens the intended project, goes to <strong>Build &gt; Tools</strong>, finds the private catalog by its API Center name, selects the approved MCP record, and completes its project connection.</li><li>The Toolbox deployment process creates one immutable version from <code>toolbox-version.json</code>. The version refers to that project connection, exposes one allowed tool, and requires approval for every call.</li><li>Agent teams consume the unversioned Toolbox endpoint. The implementation check uses the version-specific endpoint so it can inspect the exact created version.</li></ol>
+<p>The repository owns the binding record and Toolbox version payload. Live API Center, project connection, and Toolbox state remain authoritative. The endpoint hash in the binding record joins the API Center deployment to the Toolbox payload without retaining the endpoint in the governance record.</p>
+<h3 id="design-choices-and-tradeoffs">Design choices and tradeoffs<a class="heading-anchor" href="#design-choices-and-tradeoffs" aria-label="Link to Design choices and tradeoffs">#</a></h3>
+<div class="table-scroll"><table><thead><tr><th scope="col">Decision</th><th scope="col">Chosen approach</th><th scope="col">Benefits</th><th scope="col">Costs and limitations</th><th scope="col">Revisit when</th></tr></thead><tbody><tr><td>Catalog source</td><td>One Azure API Center private tool catalog record</td><td>Reuses the Session 07 inventory and owner metadata</td><td>The Foundry Tools private catalog is public preview and portal-led</td><td>Microsoft publishes a stable automated catalog-to-project binding API</td></tr><tr><td>Reuse boundary</td><td>One new dedicated Toolbox</td><td>Gives agents one stable consumer endpoint and keeps this change isolated</td><td>A separate Toolbox adds one managed object and owner</td><td>The tool becomes part of an already governed multi-tool Toolbox</td></tr><tr><td>Tool exposure</td><td>One exact <code>allowed_tools</code> entry</td><td>Keeps the runtime surface narrow and makes drift visible</td><td>A tool rename requires a new Toolbox version</td><td>The MCP owner intentionally changes the public tool contract</td></tr><tr><td>Approval</td><td><code>require_approval</code> set to <code>always</code></td><td>Agent runtimes receive the requirement with the tool metadata</td><td>The runtime must still present and enforce the approval interaction</td><td>Session 08 approves a different action-specific policy and the runtime supports it</td></tr><tr><td>Validation</td><td><code>tools/list</code> against the version-specific endpoint</td><td>Checks the immutable version before agent reuse</td><td>It confirms discovery and approval metadata, not business behavior</td><td>A safe, non-mutating operation is approved for an additional runtime check</td></tr></tbody></table></div>
+<h3 id="architecture-guidance">Architecture guidance<a class="heading-anchor" href="#architecture-guidance" aria-label="Link to Architecture guidance">#</a></h3>
+<p>Use Microsoft’s <a href="https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/private-tool-catalog">private tool catalog guidance</a> for the current Azure API Center registration, authorization, access, and <strong>Build &gt; Tools</strong> discovery path. The page marks this feature as public preview and notes that Azure RBAC changes can take up to 24 hours to appear.</p>
+<p>Use <a href="https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/toolbox">Create and manage a toolbox in Foundry</a> for Toolbox versioning, the <code>v1</code> data-plane route, the default and version-specific MCP endpoints, and the <code>tools/list</code> check. A Toolbox version is immutable. The first version of a new Toolbox becomes its default version.</p>
+<p>The <a href="https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/model-context-protocol">MCP tool guidance</a> defines project connections, <code>allowed_tools</code>, approval settings, and the Toolbox reuse pattern. Treat the remote server's tool metadata and results as untrusted input even when its catalog record is approved.</p>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Optional module</dd></div><div><dt>Status</dt><dd>Optional module · Draft</dd></div><div><dt>Duration</dt><dd>3 hours</dd></div><div><dt>Implementation mode</dt><dd>Standard</dd></div><div><dt>Last verified</dt><dd>2026-08-28</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="index.html"><span>Previous chapter</span><strong>Scope and outcomes</strong></a>
+        <a href="before-you-start.html"><span>Next chapter</span><strong>Before you start</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Optional module · Architecture</p>
+    </footer>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Optional module</p>
+            <h2 id="session-deck-title">API Center private tool catalog to Foundry Toolbox slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Optional module: API Center private tool catalog to Foundry Toolbox slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>

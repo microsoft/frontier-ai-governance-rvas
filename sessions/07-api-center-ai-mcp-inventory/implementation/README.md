@@ -29,6 +29,19 @@ calls. APIM owns runtime controls for the synchronized route, and
 [Session 08](../../08-mcp-tool-security/implementation/README.md) governs MCP tool use. Production
 discovery, write-capable MCP tools, and unrelated estate assets are excluded.
 
+Four optional modules can build on this inventory without changing Session 07:
+
+- [API Center private tool catalog to Foundry Toolbox](../../../modules/foundry-tool-catalog-integration/implementation/README.md)
+  creates one curated, reusable Toolbox;
+- [Azure API Center registry discovery](../../../modules/api-center-registry-discovery/implementation/README.md)
+  exposes the approved MCP server set to supported developer clients; and
+- [A2A agent inventory in Microsoft Agent 365](../../../modules/a2a-agent-inventory/implementation/README.md)
+  confirms the enterprise inventory record through a supported Agent 365 integration; and
+- [A2A agent discovery in Azure API Center](../../../modules/a2a-api-center-discovery/implementation/README.md)
+  publishes a runtime-owned A2A interface for developer discovery when that catalog entry is needed.
+
+Each module has its own access and lifecycle decisions. None is enabled here.
+
 ## Architecture
 
 ### Architecture at a glance
@@ -37,8 +50,8 @@ API Center gives the team one design-time catalog for this governed path. Three 
 Bicep registers the Session 05 agent API and its OpenAPI definition directly. A one-way integration
 reads every API from the Session 06 APIM instance, using a managed identity with API Management
 Service Reader Role. The API program owner adds the approved remote MCP server through the
-supported portal form. After APIM synchronization creates its record, the reconciliation script
-adds the shared metadata.
+supported portal form. After APIM synchronization creates its record, the asset owner maintains
+its metadata in API Center.
 
 ![The direct agent definition, one-way APIM synchronization, and portal-based MCP registration feed API Center; APIM remains on the separate runtime request path](../assets/diagrams/api-center-inventory-flow.svg)
 
@@ -56,7 +69,7 @@ runtime location for tool-security work.
 |---|---|---|---|---|
 | Inventory scope | Register the direct agent, the synchronized APIM API, and one remote MCP server | The inventory covers this governed path without claiming to cover the whole estate | Assets outside these sources remain outside the control | The API program owner approves a broader source boundary and names its metadata owners |
 | APIM ingestion | Use one-way synchronization with API Management Service Reader Role | API definitions stay aligned without giving API Center write access to APIM | The first sync can take up to 24 hours and imports every API in the APIM instance | Selective synchronization or a narrower APIM source becomes available |
-| MCP registration | Use the native portal flow and keep approved values in the shared catalog record | The registration follows the supported native MCP model | A person must complete it because the stable Azure Resource Manager API does not expose those fields | Microsoft publishes a stable MCP resource contract |
+| MCP registration | Use the native portal flow and keep the resulting metadata in API Center | The registration follows the supported native MCP model | A person must complete it because the stable Azure Resource Manager API does not expose those fields | Microsoft publishes a stable MCP resource contract |
 | State ownership | Let API Center own design metadata while each service owns its runtime state | The catalog does not pretend to report live health | Owners must reconcile metadata when a service changes | A supported integration can safely update the same fields from runtime state |
 | Plan | Record Free or Standard, then confirm the plan in the portal | The support and cost choice remains explicit | Stable Bicep does not set the plan | The service API exposes supported plan deployment |
 
@@ -90,8 +103,8 @@ Confirm these prerequisites:
 - One existing remote, read-only MCP server uses an approved HTTPS Streamable HTTP endpoint.
 - The selected API Center region is currently advertised by the `Microsoft.ApiCenter` provider.
 - The business, technical, data, risk, residency, evaluation, review, expiry, and consumer decisions
-  have recorded owners.
-- All three metadata records are complete before deployment.
+  have named owners in API Center.
+- The direct-agent deployment definition is complete before deployment.
 - Plan two delivery windows. The 240 minutes covers active work across both windows, not the APIM
   synchronization wait.
 
@@ -102,9 +115,9 @@ Confirm these prerequisites:
 | Deployment | [`artifacts/api-center/main.bicep`](artifacts/api-center/main.bicep) | The Session 07 API Center deployment scripts |
 | Deployment | [`artifacts/api-center/apim-reader.bicep`](artifacts/api-center/apim-reader.bicep) | The Session 07 API Center deployment scripts |
 | Deployment | [`artifacts/api-center/metadata-schemas.json`](artifacts/api-center/metadata-schemas.json) | The API Center metadata-schema resources |
-| Deployment | [`artifacts/catalog/catalog-records.json`](artifacts/catalog/catalog-records.json) | The Session 07 Bicep deployment and reconciliation scripts |
+| Deployment | [`artifacts/api-center/agent-api-definition.json`](artifacts/api-center/agent-api-definition.json) | The Session 07 API Center deployment scripts |
 | Deployment | [`artifacts/catalog/specs/policy-assistant-agent.openapi.json`](artifacts/catalog/specs/policy-assistant-agent.openapi.json) | The API Center definition import |
-| Deployment | [`artifacts/environments/sandbox.json`](artifacts/environments/sandbox.json) | The Session 07 preflight, deployment, reconciliation, and inventory-check scripts |
+| Deployment | [`artifacts/environments/sandbox.json`](artifacts/environments/sandbox.json) | The Session 07 preflight, deployment, and inventory-check scripts |
 
 ### Official documentation
 
@@ -214,8 +227,9 @@ guidance](https://learn.microsoft.com/en-us/azure/api-center/register-discover-m
 
 ### 1. Window one: confirm readiness
 
-Confirm `catalog-records.json` and `sandbox.json`. The catalog file supplies one shared metadata
-source and record-specific values. Missing metadata stops the first window.
+Confirm `agent-api-definition.json` and `sandbox.json`. The definition supplies the direct agent
+API's desired state. API Center remains the authoritative location for synchronized APIM and native
+MCP metadata.
 Keep subscription IDs, runtime URLs, credentials, tokens, prompts, responses, and telemetry outside
 source control.
 
@@ -225,11 +239,13 @@ Set runtime values in the shell:
 $approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
 $session05AgentBaseUrl = $env:SESSION07_AGENT_BASE_URL
 $remoteMcpServerUrl = $env:SESSION07_MCP_SERVER_URL
+$remoteMcpServerTitle = "approved remote MCP server title"
 ```
 ```bash
 approved_subscription_id="${AZURE_SUBSCRIPTION_ID:?Set AZURE_SUBSCRIPTION_ID.}"
 session05_agent_base_url="${SESSION07_AGENT_BASE_URL:?Set SESSION07_AGENT_BASE_URL.}"
 remote_mcp_server_url="${SESSION07_MCP_SERVER_URL:?Set SESSION07_MCP_SERVER_URL.}"
+remote_mcp_server_title="approved remote MCP server title"
 ```
 
 The direct agent URL must end at:
@@ -250,8 +266,9 @@ https://<account>.services.ai.azure.com/api/projects/<project>/agents/<agent>/en
 ./scripts/preflight.sh --approved-subscription-id "$approved_subscription_id" --session05-agent-base-url "$session05_agent_base_url" --remote-mcp-server-url "$remote_mcp_server_url"
 ```
 
-Preflight parses every JSON artifact, checks all 12 metadata definitions, validates the current
-OpenAPI contract, rejects unknown decision sentinels, and verifies the runtime URL shapes. It checks
+Preflight parses the direct-agent definition and deployment inputs, checks all 12 metadata
+definitions, validates the current OpenAPI contract, rejects unknown decision sentinels, and verifies
+the runtime URL shapes. It checks
 Azure CLI and `apic-extension`, the approved subscription and resource group, live API Center
 provider locations, APIM tier and source marker, the stable reader role, and name collisions. It
 then compiles the Bicep and runs an ARM `what-if`.
@@ -282,27 +299,19 @@ Wait for the [Session 06](../../06-apim-ai-gateway/implementation/README.md) API
 API Center inventory. If synchronization does not complete during the session, stop at this point and
 resume after the source reports healthy. Do not register the same API manually.
 
-### 4. Window two: reconcile after synchronization
+### 4. Window two: maintain the synchronized API metadata
 
-```powershell
-.\scripts\reconcile-inventory.ps1 `
-  -ApprovedSubscriptionId $approvedSubscriptionId
-```
-```bash
-./scripts/reconcile-inventory.sh --approved-subscription-id "$approved_subscription_id"
-```
-
-Resume only after the source is healthy and synchronization has completed. The script requires
-exactly one synchronized API with the approved title and applies the approved
-mandatory metadata. It stops on a missing or duplicate title.
+Resume only after the source is healthy and synchronization has completed. In API Center, open the
+single synchronized **Governed policy assistant Responses API** record and set its required metadata.
+The API owner maintains that live record, including ownership, permitted consumers, classification,
+residency, risk, evaluation destination, review date, and expiry.
 
 ### 5. Register the approved remote MCP server
 
 In the Azure portal, open the deployed API Center:
 
 1. Select **Inventory > Assets > Register an asset > MCP server**.
-2. Enter the MCP title, summary, description, version, lifecycle, and metadata from
-   `catalog-records.json`.
+2. Enter the approved MCP title, summary, description, version, lifecycle, and metadata.
 3. Add one remote using `$remoteMcpServerUrl`.
 4. Associate it with the approved nonproduction runtime environment.
 5. Keep the selected runtime transport on Streamable HTTP and create the record.
@@ -323,10 +332,11 @@ Run the **read-only inventory check**:
 
 ```powershell
 .\scripts\check-inventory.ps1 `
-  -ApprovedSubscriptionId $approvedSubscriptionId
+  -ApprovedSubscriptionId $approvedSubscriptionId `
+  -RemoteMcpServerTitle $remoteMcpServerTitle
 ```
 ```bash
-./scripts/check-inventory.sh --approved-subscription-id "$approved_subscription_id"
+./scripts/check-inventory.sh --approved-subscription-id "$approved_subscription_id" --remote-mcp-server-title "$remote_mcp_server_title"
 ```
 
 Expected result: the three selected records each appear once with the required metadata, and the
@@ -343,7 +353,7 @@ on the current supported surface. Do not describe this check as end-to-end runti
 
 Keep the **API Center inventory in operation**, including the service, system identity, required
 metadata schema, APIM integration, direct agent API, native MCP record, definitions, deployments,
-shared catalog source, and scripts. The API program owner owns the API Center service and metadata
+and scripts. The API program owner owns the API Center service and metadata
 schema. Business and technical owners maintain their records. The data and risk owners maintain
 classification, residency, risk tier, review, and expiry. The APIM owner maintains the source
 integration. Developers own definition quality.
@@ -351,7 +361,7 @@ integration. Developers own definition quality.
 Run this implementation only against the nonproduction inventory scope listed in the control
 definition. It does not approve
 production discovery, public access, an MCP write path, an API Center portal, a private endpoint, a
-Foundry tool catalog, or a custom analysis profile.
+Foundry tool catalog, registry-based MCP discovery, A2A inventory, or a custom analysis profile.
 
 If the API Center inventory must be removed, the API program owner first confirms that no later
 session or approved consumer depends on it. Use the approved Azure change path to check the live

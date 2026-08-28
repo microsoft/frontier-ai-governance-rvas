@@ -34,8 +34,10 @@ def validate_args(args: argparse.Namespace) -> tuple[str, str]:
         raise SystemExit("--slug must be lower-case kebab-case")
     if not args.title.strip():
         raise SystemExit("--title cannot be empty")
-    if not 30 <= args.duration_minutes <= 480:
-        raise SystemExit("--duration-minutes must be between 30 and 480")
+    if not 30 <= args.duration_minutes <= 480 or args.duration_minutes % 30 != 0:
+        raise SystemExit(
+            "--duration-minutes must be from 30 to 480 in 30-minute increments"
+        )
     return session_id, args.slug
 
 

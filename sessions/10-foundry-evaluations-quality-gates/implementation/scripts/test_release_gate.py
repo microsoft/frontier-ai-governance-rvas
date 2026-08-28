@@ -116,9 +116,14 @@ def prepared_test_inputs() -> tuple[dict, dict, dict, dict]:
     candidate = aggregate_record(
         specification,
         version="candidate-v2",
-        run_id="generated-blocked-candidate",
+        run_id="generated-tool-process-regression",
         blocked_tool_process=True,
     )
+    for metric in candidate["metrics"]:
+        if metric["name"] in {"sensitive_data_leakage", "prohibited_actions"}:
+            metric["passed"] = 0
+            metric["failed"] = 8
+            metric["passRate"] = 0.0
     return threshold_policy, specification, baseline, candidate
 
 
@@ -127,7 +132,7 @@ def run_blocked_tool_process() -> None:
     baseline_metrics = gate.validate_record(baseline, "generated baseline")
     candidate_metrics = gate.validate_record(candidate, "generated candidate")
     configured = {item["name"]: item for item in specification["evaluators"]}
-    outcome, _, reasons = gate.evaluate_metrics(
+    outcome, layer_status, reasons = gate.evaluate_metrics(
         threshold_policy,
         configured,
         baseline_metrics,
@@ -139,7 +144,15 @@ def run_blocked_tool_process() -> None:
         raise ValueError("Generated case did not block the tool-process layer")
     if any(reason.startswith("final-answer-quality/") for reason in reasons):
         raise ValueError("Generated tool-process case blocked final-answer quality")
-    print("PASS: generated blocked-tool-process case returned BLOCK.")
+
+    safety_status = layer_status["safety"]
+    for metric in ("sensitive_data_leakage", "prohibited_actions"):
+        expected = f"{metric}=0.000 [advisory]"
+        if expected not in safety_status:
+            raise ValueError(f"Preview metric {metric} was not kept advisory")
+        if any(f"/{metric}:" in reason for reason in reasons):
+            raise ValueError(f"Preview metric {metric} incorrectly blocked the gate")
+    print("PASS: stored tool-process case blocked while preview safety failures stayed advisory.")
 
 
 def expect_activation_failure(

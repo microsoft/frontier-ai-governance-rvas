@@ -14,7 +14,7 @@ html: true
 
 # Foundry evaluations and release quality gates
 
-**300 minutes - Compare two versions with one data set and separate gate layers**
+**270 minutes - Compare two versions with one data set and separate gate layers**
 
 <!-- Notes: Sessions 05 and 08 created the governed agent and tool boundary. Today release eligibility becomes measurable. -->
 
@@ -52,7 +52,7 @@ Session 10 makes that decision callable. Session 13 puts it in the promotion pat
 
 1. Keep the versioned golden set and one evaluation definition for two approved agent versions.
 2. Establish release thresholds from the approved baseline.
-3. Keep detailed results in Foundry and payload-free aggregate records in the approved release store.
+3. Keep detailed results in Foundry and payload-free aggregate results in the approved release store.
 4. Activate the callable release-eligibility gate.
 5. Confirm the approved record passes and the generated tool-process regression blocks.
 
@@ -78,7 +78,8 @@ A fluent answer can still use the wrong tool, wrong input, or unsafe path.
 | Tool process | Did the agent select, call, and complete the right tool behavior? | Tool call accuracy, tool call success |
 | Safety | Did every row avoid the selected risks? | Violence, hate/unfairness, protected material |
 
-Preview task-adherence and blocked-action evaluators remain **advisory**.
+Preview task-adherence, prohibited-action, and sensitive-data-leakage evaluators remain
+**advisory**. The last two stay in the safety layer.
 
 <!-- Notes: Session 08 remains the hard authorization boundary for blocked writes. -->
 
@@ -99,8 +100,8 @@ Preview task-adherence and blocked-action evaluators remain **advisory**.
 The same fixed set of approved test cases runs against the approved version and the candidate.
 Foundry evaluates answer quality, tool process, and safety separately.
 
-Foundry keeps row detail. The approved release store holds payload-free aggregates, thresholds, and
-active gate state.
+Foundry keeps row detail. The approved release platform holds payload-free aggregates, activation,
+and promotion decisions. The repository keeps the version-controlled threshold and policy definitions.
 
 The gate returns `PASS` or `BLOCK`. It cannot promote. Session 13 controls the stable selector.
 
@@ -141,8 +142,8 @@ Conflicting bounds stop the gate.
 | Baseline-derived thresholds | Ties the gate to observed approved behavior | A weak baseline must be fixed, not fitted |
 | Separate metric floors | Stops averages from hiding a failed layer | Owners maintain several explicit decisions |
 
-Record the approver, approval date, baseline run ID, and active policy state. Safety stays at `1.00`,
-every maximum error count stays at `0`, and previews remain nonblocking.
+Record approval, baseline run IDs, and activation in the approved release platform. Safety stays at
+`1.00`, every maximum error count stays at `0`, and previews remain nonblocking.
 
 <!-- Notes: If the approved version is poor, remediate it. Do not lower the gate to fit. -->
 
@@ -225,7 +226,11 @@ Before each run, the quality owner checks the selected region against the curren
 - required risk and safety evaluation; and
 - protected-material evaluation.
 
-Record the same-day manual support gate in `release-policy.json`. Use the current Microsoft support documentation as the authority for the run.
+Protected material is currently available only in **East US 2**. Keep that blocking metric and run
+the complete gate there, or stop and revise the policy with the safety and release owners. Never
+drop it during a run.
+
+Record the same-day manual support gate in the approved release platform.
 
 For isolated projects:
 
@@ -233,6 +238,21 @@ For isolated projects:
 - the project managed identity has **Foundry User** on the approved Foundry project.
 
 <!-- Notes: Evaluation region support is narrower than general model deployment support. -->
+
+---
+
+<!-- _class: decision -->
+
+## Decision gate 3 - Are tool evaluators compatible?
+
+The tool owner approves blocking `tool_call_accuracy` and `tool_call_success` only for supported
+tool types.
+
+This kit uses one user-defined **Function Tool**. Keep the gate disabled if the trace adds Azure AI
+Search, Bing Grounding, Bing Custom Search, SharePoint Grounding, Code Interpreter, Fabric Data
+Agent, or Web Search.
+
+<!-- Notes: Limited tool support can make a blocking process metric misleading. -->
 
 ---
 
@@ -260,19 +280,18 @@ The evaluation operator has **Foundry User** on the approved Foundry project. Th
 
 ### Keep
 
-- data version and SHA-256
-- approved agent name and version
-- evaluation and run IDs
-- pass, fail, and error counts
-- pass rate per metric and layer
-- Foundry report URL
+- versioned synthetic data
+- evaluation definition
+- threshold policy
+- release-policy contract
 
-### Keep in Foundry
+### Keep in authoritative platforms
 
 - queries and responses
 - tool arguments and results
 - evaluator reasons
 - row-level details
+- run aggregates, activation, and promotion decisions
 
 <!-- Notes: Aggregate records support release automation without copying customer interaction data. -->
 
@@ -314,7 +333,8 @@ Preflight checks:
 - focused-route records for approved resources, identities, APIM, tool authorization, and synthetic data, including the successful read and denied-write results;
 - JSON, JSONL, categories, case IDs, and service limits;
 - agent/version consistency;
-- evaluator layers and preview status;
+- evaluator layers, preview status, and tool-owner compatibility;
+- East US 2 while protected material remains blocking;
 - same-day manual region support, network, managed identity, and budget decisions;
 - approved Azure subscription and AIServices resource; and
 - both approved agent versions through the Foundry SDK.
@@ -331,7 +351,7 @@ The Evals API has no dry run. Before billing starts, preflight prints the projec
 python .\scripts\run-evaluation.py `
   --spec .\artifacts\eval\evaluation-spec.json `
   --target approved `
-  --output .\artifacts\release-records\approved-baseline.json
+  --output $env:APPROVED_RELEASE_STORE\approved-baseline.json
 ```
 
 The hash-derived dataset version makes unchanged input reusable and changed input explicit.
@@ -348,7 +368,7 @@ Stop on a failed run, missing evaluator, errored row, unexpected tool, or unsafe
 python .\scripts\run-evaluation.py `
   --spec .\artifacts\eval\evaluation-spec.json `
   --target candidate `
-  --output .\artifacts\release-records\candidate.json
+  --output $env:APPROVED_RELEASE_STORE\candidate.json
 ```
 
 Then apply the active policy:
@@ -425,6 +445,7 @@ Expected:
 - tool-call accuracy: **blocked**
 - tool-call success: **blocked**
 - selected safety metrics: **passing**
+- advisory prohibited-action and sensitive-data-leakage signals: **nonblocking**
 - candidate: **still unpinned**
 
 The answer cannot hide the failed tool path.
@@ -450,7 +471,8 @@ Session 10 produces the callable gate. Session 13 enforces it. The gate never pr
 2. Mark the gate disabled.
 3. Remove delivery integration only after dependency review.
 4. Cancel unnecessary running evaluations.
-5. Keep the golden data set, thresholds, aggregate release records, release policy, and blocked self-test command in their listed operating stores.
+5. Keep the golden data set, thresholds, release policy, and blocked self-test command in operation.
+   Foundry and the release platform retain current results and decisions.
 
 Do not delete the project, agent, model, tool path, logs, or customer data as a shortcut.
 
@@ -463,8 +485,8 @@ Do not delete the project, agent, model, tool path, logs, or customer data as a 
 | Owner | Operational responsibility |
 |---|---|
 | Quality owner | Golden set, evaluator selection, threshold history |
-| Safety owner | Safety coverage and preview boundary |
-| Tool owner | Tool-process remediation |
+| Safety owner | Safety coverage, protected-material region, and preview boundary |
+| Tool owner | Tool-process compatibility and remediation |
 | Cost owner | Evaluation consumption |
 | Release owner | Gate state and stable version selector |
 
@@ -480,6 +502,8 @@ Do not delete the project, agent, model, tool path, logs, or customer data as a 
 - One data hash makes runs comparable.
 - Baseline-derived thresholds make the gate explainable.
 - Separate layers prevent quality averages from masking unsafe process.
+- Protected material stays blocking only on its supported East US 2 path.
+- Preview prohibited-action and sensitive-data-leakage signals stay advisory.
 - Aggregate records support delivery without copying interaction data.
 - The release owner, not the script, changes promotion state.
 

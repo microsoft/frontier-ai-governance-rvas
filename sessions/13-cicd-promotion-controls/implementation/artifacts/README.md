@@ -1,32 +1,40 @@
 # Controlled-promotion artifact index
 
-The [implementation guide](../README.md) is the operator runbook. This file maps the machine
-contracts that the validators and GitHub Actions workflows consume.
+The [implementation guide](../README.md) is the operator runbook. This file maps the desired-state
+definitions and machine contracts that the validators and GitHub Actions workflows consume.
 
-| Path | Runtime consumer |
+| Path | Updater and cadence | Consumer |
 |---|---|
-| `control-definition.json` | Validators, preflight, promotion, and restore workflows |
-| `github/promotion.yml` | GitHub Actions release operators |
-| `github/restore-previous-release.yml` | GitHub Actions restore operators |
-| `pipeline/release-manifest.template.json` | Promotion workflow and approved release store |
-| `pipeline/validate-release.ps1` | Windows workflow and PowerShell release operators |
-| `pipeline/validate-release.sh` | Bash release operators |
-| `environments/nonproduction.parameters.json` | Nonproduction preview and apply jobs |
-| `environments/production.parameters.json` | Production preview and apply jobs |
+| `control-definition.json` | Release controls owner before a boundary or external-interface contract change | Validators, preflight, promotion, and restore workflows |
+| `github/promotion.yml` | Release engineering owner before a process change | GitHub Actions release operators |
+| `github/restore-previous-release.yml` | Release engineering owner before a restore-path change | GitHub Actions restore operators |
+| `pipeline/release-manifest.template.json` | Promotion workflow on every successful production promotion | Approved release store and manual restore workflow |
+| `pipeline/validate-release.ps1` | Release controls owner when a contract changes | Windows workflow and PowerShell release operators |
+| `pipeline/validate-release.sh` | Release controls owner when a contract changes | Bash release operators |
+| `environments/nonproduction.parameters.json` | Platform owner before a nonproduction desired-state change | Nonproduction preview and apply jobs |
+| `environments/production.parameters.json` | Platform owner before a production desired-state change | Production preview and apply jobs |
 
-The control points to Session 10's active threshold policy, enabled release policy, approved
-baseline, matching candidate, and generated `blocked-tool-process` self-test. Session 11's report
-must name the same agent and immutable version, keep complete per-risk comparison rows, and set all
-five privacy flags to `false`. Its `socDelivery` object is separate operational evidence.
+The control keeps Session 10's evaluation definition, threshold policy, release policy, and
+generated `blocked-tool-process` self-test in the repository as desired state. The approved
+release/security-store interface retrieves the baseline and candidate results into the temporary
+workspace for each gate check.
+
+The same interface retrieves a version 1 `security-release-attestation` for Session 11. The
+temporary artifact must show external authorization status `authorized`, a report location, a
+confirmed comparison for the release agent's approved baseline and remediated versions, lower
+aggregate attack success, per-risk non-regression, blocked prohibited actions, and all five privacy
+flags set to `false`. The security and change systems retain authorization and report records.
 
 The approved commit SHA stays outside the release commit. An authorized operator supplies the full
-SHA as `workflow_dispatch.release_sha`; every promotion checkout uses that ref, deployment commands
-pass it as the runtime `releaseCommitSha`, and manifest creation requires the same value.
+SHA as `workflow_dispatch.release_sha`; every promotion checkout uses that ref, and deployment
+commands pass it as the runtime `releaseCommitSha`.
 
 The `nonproduction` GitHub environment provides Session 12's normal and failure URLs, Application
 Insights and Log Analytics resource IDs, and bounded polling settings. Its bearer token is an
 environment secret. Session 12 owns the retry loop; this session validates the timeout, retry, and
 attempt fields without querying telemetry a second time.
 
-Restore remains manual. A manifest-finalization failure stops the promotion workflow and leaves the
-staged manifest unapproved.
+GitHub owns workflow, environment, and deployment metadata. Azure Resource Manager owns deployment
+state, and API Management owns live routing. The promotion workflow writes one small release record
+to the approved release store after production routing. Manual restore reads that record. The
+repository does not keep a runtime copy.

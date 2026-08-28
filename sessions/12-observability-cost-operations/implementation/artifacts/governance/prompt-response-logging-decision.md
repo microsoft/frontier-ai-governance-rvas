@@ -1,5 +1,13 @@
 # Prompt and response logging decision
 
+## Lifecycle
+
+| Field | Decision |
+|---|---|
+| Updater | The named data-protection owner with the named observability owner |
+| Review cadence | Quarterly, before an exception, and at each exception expiry |
+| Consumer | The privacy and observability owners use this record to keep standard content logging disabled or operate an approved exception |
+
 ## Standard telemetry
 
 | Field | Decision |
@@ -28,4 +36,3 @@ When the status is `Disabled`, leave those values as `N/A`.
 | Governance field | Decision |
 |---|---|
 | Decision owner | `__REQUIRED_DATA_PROTECTION_OWNER__` |
-| Review date | `__REQUIRED_REVIEW_DATE__` |

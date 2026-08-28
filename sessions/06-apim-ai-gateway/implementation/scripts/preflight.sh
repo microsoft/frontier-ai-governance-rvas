@@ -146,6 +146,7 @@ jq -e '.implementationSession == "06-apim-ai-gateway"' "$control_path" >/dev/nul
 jq -e '.implementationSession == "06-apim-ai-gateway"' "$environment_path" >/dev/null || fail "sandbox.json has the wrong implementationSession marker."
 jq -e '.api.operationPath == "/responses"' "$control_path" >/dev/null || fail "Session 06 must expose one POST /responses operation."
 jq -e '.paths["/responses"].post != null' "$openapi_path" >/dev/null || fail "Session 06 must expose one POST /responses operation."
+jq -e '.components.schemas.ResponseRequest.properties.stream_options.properties.include_usage.type == "boolean"' "$openapi_path" >/dev/null || fail "The Responses contract must document stream_options.include_usage for streaming token metrics."
 jq -e '.product.subscriptionRequired == true' "$control_path" >/dev/null || fail "The governed product must require an APIM subscription."
 jq -e '.semanticCaching.enabled == false' "$control_path" >/dev/null || fail "Semantic caching is deferred for Session 06."
 jq -e '.telemetry.requestBodyBytesLogged == 0 and .telemetry.responseBodyBytesLogged == 0 and .telemetry.clientIpLogged == false' "$control_path" >/dev/null || fail "Gateway diagnostics must keep request bodies, response bodies, and client IP logging disabled."

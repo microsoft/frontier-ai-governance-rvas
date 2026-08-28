@@ -14,7 +14,7 @@ html: true
 
 # Azure API Center and the AI/MCP inventory
 
-**240 minutes - One searchable design-time inventory**
+**210 minutes - One searchable design-time inventory**
 
 <!-- Notes: Session 06 established runtime enforcement. This session records three selected assets with owners and required metadata. -->
 
@@ -42,7 +42,7 @@ Each record has an owner, lifecycle state, classification, and runtime location.
 1. Deploy a tagged API Center with required metadata.
 2. Synchronize the [Session 06](../06-apim-ai-gateway/) APIM source through managed identity.
 3. Register the [Session 05](../05-governed-agent-baseline/) agent endpoint and one remote MCP server.
-4. Keep one shared metadata source in the API Center operating repository and the APIM reconciliation path.
+4. Keep the direct agent definition in source control and maintain synchronized and native metadata in API Center.
 5. Check required metadata and APIM integration state, then review native MCP health manually.
 
 <!-- Notes: Keep the discussion anchored to the current inventory, not every API Center feature. -->
@@ -66,6 +66,7 @@ Missing ownership and lifecycle decisions become visible before an asset is trea
 - Foundry, APIM, and the MCP server remain the live source for runtime state.
 - API Center inventories and supports discovery; it does not authorize or block runtime calls.
 - Session 08 governs MCP tool use.
+- Separate optional modules cover Foundry Toolbox reuse, API Center registry discovery, and A2A inventory. None is enabled here.
 
 <!-- Notes: Inventory is useful because its runtime limits are explicit. -->
 
@@ -278,7 +279,7 @@ Stop for local `stdio`, embedded credentials, or write-capable tools. [Session 0
 | Decision | Chosen approach | Benefit | Cost |
 |---|---|---|---|
 | APIM ingestion | One-way synchronization with reader access | Definitions follow APIM without write rights | Sync can take 24 hours and imports the whole instance |
-| MCP registration | Native portal flow | Uses the supported MCP asset model | Manual entry remains |
+| MCP registration | Native portal flow with metadata maintained in API Center | Uses the supported MCP asset model | Manual entry remains |
 | Runtime state | Keep it in Foundry, APIM, and MCP | The catalog does not pretend to be health monitoring | Owners must reconcile metadata after changes |
 | Inventory scope | Three selected assets | Clear ownership boundary | The rest of the estate stays outside this control |
 
@@ -310,14 +311,13 @@ api-center/
   main.bicep
   apim-reader.bicep
   metadata-schemas.json
+  agent-api-definition.json
 catalog/
-  catalog-records.json
   specs/policy-assistant-agent.openapi.json
 environments/sandbox.json
 scripts/
   preflight.ps1
   deploy.ps1
-  reconcile-inventory.ps1
   check-inventory.ps1
   manual removal guidance
 ```
@@ -340,7 +340,7 @@ The 240 minutes covers active work across both windows, not the wait of up to 24
 2. Confirm **Contributor** on the API Center resource group and time-bound **User Access Administrator** on the approved APIM instance.
 3. Run preflight and inspect the ARM `what-if`.
 4. Deploy API Center and link the APIM source.
-5. Reconcile the synchronized API metadata.
+5. Set the synchronized API metadata in API Center.
 6. Register the native remote MCP server.
 7. Run the read-only inventory check.
 
@@ -374,7 +374,7 @@ The 240 minutes covers active work across both windows, not the wait of up to 24
   -RemoteMcpServerUrl $remoteMcpServerUrl
 ```
 
-Then reconcile the synchronized APIM record and register the MCP server from the API Center record.
+Then maintain the synchronized APIM metadata and register the MCP server in API Center.
 
 Expected state: one marked inventory with the three selected asset paths and no committed runtime URL.
 
@@ -384,9 +384,12 @@ Expected state: one marked inventory with the three selected asset paths and no 
 
 ## Confirm the result
 
+Set `$remoteMcpServerTitle` to the exact title assigned during the API Center MCP registration.
+
 ```powershell
 .\scripts\check-inventory.ps1 `
-  -ApprovedSubscriptionId $approvedSubscriptionId
+  -ApprovedSubscriptionId $approvedSubscriptionId `
+  -RemoteMcpServerTitle $remoteMcpServerTitle
 ```
 
 Expected result:

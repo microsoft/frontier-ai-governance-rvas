@@ -18,14 +18,9 @@ $requiredFiles = @(
     "identity\human-role-assignments.bicep"
     "identity\workload-identity.bicep"
     "identity\role-definitions.json"
-    "identity\role-to-task-matrix.md"
-    "pim\pim-change-reference.md"
 )
 $requiredSentinels = @(
     "__REQUIRED_GITHUB_ENVIRONMENT__"
-    "__REQUIRED_PIM_CHANGE_REFERENCE__"
-    "__REQUIRED_PIM_OWNER__"
-    "__REQUIRED_PLATFORM_ADMINISTRATOR_GROUP_REFERENCE__"
 )
 if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
     throw "Azure CLI is required. Install it through the customer-managed tool process."
@@ -74,6 +69,7 @@ $requiredRoleKeys = @(
     "foundryUser"
     "foundryProjectManager"
     "foundryAccountOwner"
+    "foundryAgentConsumer"
     "reader"
     "cognitiveServicesUser"
     "storageBlobDataReader"
@@ -90,6 +86,10 @@ $expectedRoles = @{
     foundryAccountOwner = @{
         id = "e47c6f54-e4a2-4754-9501-8e0985b135e1"
         names = @("Foundry Account Owner", "Azure AI Account Owner")
+    }
+    foundryAgentConsumer = @{
+        id = "eed3b665-ab3a-47b6-8f48-c9382fb1dad6"
+        names = @("Foundry Agent Consumer")
     }
     reader = @{
         id = "acdd72a7-3385-48ef-bd42-f606fba81ae7"
@@ -112,7 +112,7 @@ if (
     $actualRoleKeys.Count -ne $requiredRoleKeys.Count -or
     @($requiredRoleKeys | Where-Object { $_ -notin $actualRoleKeys }).Count -gt 0
 ) {
-    throw "role-definitions.json must contain the six documented role keys."
+    throw "role-definitions.json must contain the seven documented role keys."
 }
 
 Write-Host "Role resolution:"

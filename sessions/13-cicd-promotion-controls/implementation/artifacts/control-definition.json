@@ -63,10 +63,6 @@
     "session10ThresholdPolicy": "sessions/10-foundry-evaluations-quality-gates/implementation/artifacts/eval/thresholds.yaml",
     "session10EvaluationSpec": "sessions/10-foundry-evaluations-quality-gates/implementation/artifacts/eval/evaluation-spec.json",
     "session10Dataset": "sessions/10-foundry-evaluations-quality-gates/implementation/artifacts/eval/data/golden-v1.jsonl",
-    "session10BaselineRecord": "__REQUIRED_SESSION10_APPROVED_BASELINE_RECORD_PATH__",
-    "session10CandidateRecord": "__REQUIRED_SESSION10_CANDIDATE_RECORD_PATH__",
-    "session11AdversarialReport": "sessions/11-red-teaming-threat-defense/implementation/artifacts/reports/before-after-report.json",
-    "session11RiskChangeHandoff": "sessions/11-red-teaming-threat-defense/implementation/artifacts/governance/risk-change-handoff.json",
     "session12SmokePowerShell": "sessions/12-observability-cost-operations/implementation/scripts/smoke.ps1",
     "session12SmokeBash": "sessions/12-observability-cost-operations/implementation/scripts/smoke.sh",
     "routingControlScript": "__REQUIRED_ROUTING_CONTROL_SCRIPT_PATH__",
@@ -89,8 +85,7 @@
     "apimPolicyVersion": "__REQUIRED_APIM_POLICY_VERSION__",
     "evaluationRunId": "__REQUIRED_EVALUATION_RUN_ID__",
     "evaluationThresholdPolicyVersion": "__REQUIRED_EVALUATION_THRESHOLD_POLICY_VERSION__",
-    "evaluationThresholdPolicySha256": "__REQUIRED_EVALUATION_THRESHOLD_POLICY_SHA256__",
-    "previousApprovedReleaseId": "__REQUIRED_PREVIOUS_APPROVED_RELEASE_ID__"
+    "evaluationThresholdPolicySha256": "__REQUIRED_EVALUATION_THRESHOLD_POLICY_SHA256__"
   },
   "routing": {
     "strategy": "__REQUIRED_ROUTING_STRATEGY_CANARY_OR_BLUE_GREEN__",
@@ -106,6 +101,30 @@
     ],
     "approvedReleaseStore": "__REQUIRED_APPROVED_RELEASE_STORE__",
     "repositoryRuntimeOutputAllowed": false,
-    "manifestFinalizationFailureBehavior": "stop-and-require-manual-restore"
+    "externalGateArtifacts": {
+      "session10EvaluationResults": {
+        "interface": "releaseStoreScript",
+        "retrieveMode": "RetrieveEvaluationResult",
+        "temporaryArtifactOnly": true,
+        "repositoryMirrorAllowed": false
+      },
+      "session11SecurityReleaseAttestation": {
+        "schemaVersion": 1,
+        "recordType": "security-release-attestation",
+        "interface": "releaseStoreScript",
+        "retrieveMode": "RetrieveSecurityReleaseAttestation",
+        "requiredAuthorizationStatus": "authorized",
+        "requiredConfirmationStatus": "confirmed",
+        "temporaryArtifactOnly": true,
+        "repositoryMirrorAllowed": false
+      }
+    },
+    "manifestFinalizationFailureBehavior": "stop-and-require-manual-restore",
+    "releaseRecordLifecycle": {
+      "updater": "Controlled AI release promotion workflow after production deployment and routing",
+      "reviewCadence": "Every successful production promotion and before manual restore",
+      "consumer": "Approved release store and Restore previous AI release workflow",
+      "repositoryMirrorAllowed": false
+    }
   }
 }

@@ -79,6 +79,12 @@ the implementation document or deck.
 `implementation.mode` is `standard` or `extended`. Extended sessions add a non-empty
 `implementation.extended_reason` that names the delivery need. Standard sessions omit that field.
 
+`duration_minutes` is facilitated customer working time in 30-minute increments. It includes the
+briefing, required customer decisions, guided implementation, observable check, and operating or
+restore handoff. It assumes prerequisites, access, and nonproduction capacity are ready before the
+session. Do not include procurement, asynchronous approval or provisioning waits, or optional deep
+dives in the published duration.
+
 Control objectives and outcomes must distinguish deployment, configuration, and validation from
 enforcement. Claim platform enforcement only when the Microsoft service sits on every in-scope
 change path and blocks noncompliant changes. If an operator can change the service out of path,

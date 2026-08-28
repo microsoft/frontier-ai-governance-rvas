@@ -14,6 +14,7 @@ read-only policy lookup tool or from context the user supplies in the current re
 ## Prohibited behavior
 
 Refuse requests to create, update, approve, publish, delete, or otherwise mutate policy records.
-Explain that this agent has no write tool and route the user to the human-owned change
-process. Do not invent a write capability, produce a simulated success message, or reinterpret a
-read operation as authorization to change state.
+The prohibited write action for this implementation is
+`__REQUIRED_PROHIBITED_WRITE_ACTION__`. Route legitimate change requests to
+`__REQUIRED_HUMAN_CHANGE_ROUTE__`. Do not invent a write capability, produce a simulated success
+message, or reinterpret a read operation as authorization to change state.

@@ -6,9 +6,9 @@
 
 Deploy **privacy-safe operating controls for one governed service**. The team adds a shared workbook
 and three owned alert rules, deploys a monthly budget notification, records cost-allocation and
-privacy decisions, and keeps an incident runbook. A paired smoke check uses approved synthetic
-requests to confirm supported runtime correlation and keep tool failure separate from model
-failure.
+privacy decisions, and keeps an incident runbook. The named Session 13 GitHub promotion workflow
+runs the paired smoke check against live telemetry. Its result stays in the runner's temporary
+workspace and is not retained in the customer clone.
 
 ### Why it matters
 
@@ -25,10 +25,14 @@ runtime telemetry. Cost Management remains authoritative for billed cost, and De
 system keep the security and incident records.
 
 Standard telemetry excludes prompts, responses, tool payloads, credentials, query strings, user
-identifiers, and personal data. Token metrics estimate usage rather than billed cost. Cost data can
-lag by 8-24 hours, and a budget sends notifications without stopping resources. Production content
+identifiers, and personal data. Token metrics estimate usage rather than billed cost. API Management
+tracks at most 100 unique values per dimension and 1,000 active time series per metric namespace;
+data for new values or series beyond either limit is silently discarded. Cost Management billed
+cost is authoritative, even though it can lag by 8-24 hours. A budget sends notifications without
+stopping resources. Production content
 logging and user-level cost allocation need separate approval. Session 13 consumes the payload-free
-smoke result; it does not inherit or copy the authoritative service records.
+smoke result from its runner workspace; it does not inherit or copy the authoritative service
+records.
 
 ## Architecture
 
@@ -45,8 +49,8 @@ error.
 Application Insights collects the supported runtime spans. Its workbook gives operators one place
 to inspect them, and its alert queries decide when to notify an owner through Azure Monitor. API
 Management also emits bounded token metrics for a faster usage estimate. Cost Management reports
-the billed cost later, normally after an 8-24 hour delay. The design keeps these two clocks separate
-because an estimate cannot settle the bill.
+the authoritative billed cost later, normally after an 8-24 hour delay. The design keeps these two
+clocks separate because an estimate cannot settle the bill.
 
 The records stay in the systems that produce them. Application Insights holds runtime telemetry,
 while the source-controlled API Management policy defines the gateway configuration. Cost
@@ -59,9 +63,9 @@ failure path, then the runbook assigns containment to the service, tool, AI qual
 owner. If trace context breaks, a field carries sensitive data, or a signal cannot keep tool and
 model outcomes separate, the operator stops rather than accepting an incomplete operating view.
 
-The boundary covers correlation, monitoring, notification, and the owned incident paths. Session
-14 receives only the payload-free smoke result through the fixed script interface. It receives no
-copies of the service records.
+The boundary covers correlation, monitoring, notification, and the owned incident paths. The
+Session 13 GitHub promotion workflow receives a payload-free result from its temporary runner
+workspace. It receives no copies of the service records.
 
 [`artifacts/telemetry/telemetry-contract.json`](artifacts/telemetry/telemetry-contract.json) defines
 the payload-free signals and context. The workbook and three Kusto Query Language (KQL) alert
@@ -75,7 +79,7 @@ failure path. The budget Bicep files deploy the separate billing notification.
 |---|---|---|---|---|
 | Runtime content | Standard telemetry excludes prompts, responses, and tool payloads. | Operators can trace service behavior without making the monitoring store a content archive. | A failure that requires content inspection needs a separate, time-limited approval for content logging. | A documented diagnostic need cannot be met with payload-free attributes. |
 | Trace volume | Apply fixed-rate or rate-limited sampling where traces begin. Preserve each selected trace from end to end, and do not sample metrics. | Operators still get joined traces while the team keeps ingestion bounded. | Sampling can miss a rare failure. Approved error and security signals may need to bypass the normal rate. | Baseline volume or failure frequency changes, or the selected language changes its OpenTelemetry behavior. |
-| Cost signal | API Management publishes low-cardinality token metrics for operational estimates. Cost Management supplies billed cost. | Operators see usage sooner while the bill remains a separate, authoritative record. | Token counts can be incomplete. Billed cost normally arrives 8-24 hours later. | The gateway policy or model provider changes. Also revisit the choice when allocation dimensions or billing scope change. |
+| Cost signal | API Management publishes low-cardinality token metrics for operational estimates. Cost Management billed cost is authoritative. | Operators see usage sooner without treating an estimate as an invoice. | Token counts can be incomplete. API Management silently discards new values or series after 100 unique values per dimension or 1,000 active time series per metric namespace. Billed cost normally arrives 8-24 hours later. | The gateway policy or model provider changes. Also revisit the choice when allocation dimensions or billing scope change. |
 
 ### Architecture guidance
 
@@ -130,7 +134,6 @@ Every row is required when the numbered prerequisite sessions are not complete.
 
 | Type | File | Consumer |
 |---|---|---|
-| Record | [`artifacts/control-definition.json`](artifacts/control-definition.json) | The observability owner, preflight scripts, smoke scripts, and Session 13 validators |
 | Runtime | [`artifacts/telemetry/telemetry-contract.json`](artifacts/telemetry/telemetry-contract.json) | Application developers, the observability owner, and preflight scripts |
 | Deployment | [`artifacts/infra/main.bicep`](artifacts/infra/main.bicep) | The Azure deployment pipeline |
 | Deployment | [`artifacts/infra/main.bicepparam`](artifacts/infra/main.bicepparam) | The Azure deployment pipeline |
@@ -193,8 +196,11 @@ from that baseline and the approved SLOs, not arbitrary perfect scores. The acti
 to the operations receiver listed in the alert rule using the common alert schema.
 
 APIM's `llm-emit-token-metric` policy supports at most five custom dimensions. This kit uses only
-the low-cardinality service dimensions listed in the policy. Streaming interruptions and model/provider behavior
-can make token counts incomplete. Cost Management remains the delayed billing source.
+the low-cardinality service dimensions listed in the policy. API Management tracks at most 100
+unique values per dimension and 1,000 active time series per metric namespace. New values or series
+beyond either limit are not tracked, and their metric data is silently discarded. Streaming
+interruptions and model or provider behavior can also make token counts incomplete. Cost Management
+billed cost is authoritative.
 
 The subscription budget sends actual and forecast notifications; it does not enforce a hard stop.
 Stop if dimensions contain users, emails, content, request IDs, or free text. Also stop when the
@@ -203,19 +209,18 @@ real-time enforcement.
 
 ### Scope and ownership
 
-Run this kit only against the nonproduction service, Application Insights component, deployment
-resource group, action group, and subscription budget listed in `control-definition.json`. The APIM policy remains
-in the gateway owner's repository. `control-definition.json` points to that source, and preflight
-checks the live file for correlation and token metrics. Never replace an API-scope policy that
-contains authentication, safety, routing, or quota controls.
+Run this kit only against the approved nonproduction service, Application Insights component,
+deployment resource group, action group, and subscription budget. The APIM policy remains in the
+gateway owner's repository and is changed through its approved delivery path. Never replace an
+API-scope policy that contains authentication, safety, routing, or quota controls.
 
 ## Implement
 
 ### 1. Complete required decisions
 
-Fill in the control, telemetry, deployment-parameter, and budget-parameter files. Complete the
-retention, content-logging, and cost-allocation Markdown records. Keep the **service name identical
-across the machine contracts**. Confirm that every
+Fill in the telemetry, deployment-parameter, and budget-parameter files. Complete the retention,
+content-logging, and cost-allocation Markdown records. Keep the **service name identical across the
+machine contracts**. Confirm that every
 target resource carries the approved application, environment, cost-center, owner, and
 data-classification tags through its owning infrastructure definition. Use Microsoft’s [log search alert
 guidance](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-create-log-alert-rule)
@@ -255,10 +260,9 @@ framework automatically captures content and cannot be filtered before export.
 
 ### 3. Confirm the customer-owned APIM policy
 
-Set `gatewayPolicy.customerOwnedSourcePath` in `control-definition.json` to the gateway owner's
-repository-relative XML policy. Confirm that its `set-header` and `llm-emit-token-metric` elements
-preserve Session 06 authentication, token-limit, rate-limit, routing, content-safety, and backend
-controls.
+Confirm that the gateway owner's reviewed APIM policy preserves Session 06 authentication,
+token-limit, rate-limit, routing, content-safety, and backend controls while it propagates trace
+context and emits bounded token metrics.
 
 Do not use `User ID`, `Subscription ID`, request ID, correlation ID, prompt, response, or free text
 as a metric dimension.
@@ -372,10 +376,10 @@ Before either request, the scripts resolve `SESSION12_AI_RESOURCE_ID` with Azure
 `WorkspaceResourceId`, compared without case sensitivity, must equal
 `SESSION12_LOG_ANALYTICS_WORKSPACE_ID`. The query is sent only to that bound workspace.
 
-The normal endpoint accepts the fixed read-only body defined in the control. The separate failure
+The normal endpoint accepts an approved read-only body. The separate failure
 endpoint handles a lookup for a nonexistent synthetic policy: its tool dependency must fail while
-the model records an independent successful result. Both bodies carry the same fixed synthetic
-marker and lower-case release commit SHA. The same SHA is sent in `x-release-commit-sha`. The
+the model records an independent successful result. Both bodies carry the same run-specific,
+non-sensitive probe marker and lower-case release commit SHA. The same SHA is sent in `x-release-commit-sha`. The
 application must write it to the `release.commit.sha` custom property on both correlated request
 records. The scripts discard response bodies and retain only safe correlation IDs. Their JSON
 output contains no request, response, tool, or telemetry payload.
@@ -390,7 +394,7 @@ correlation IDs immediately, then retry until all six required request, model, a
 both exact commit matches appear, with no missing or mismatched commit property. Readiness starts a
 stability check inside the same timeout. Three identical summaries, each separated by the retry
 interval, must report the same maximum `TimeGenerated` watermark. The third summary is the final
-query. It must still show zero fixed-marker matches, zero prohibited property names, and zero
+query. It must still show zero probe-marker matches, zero prohibited property names, and zero
 missing or mismatched commit values. Any change resets the three-query sequence.
 
 The property-name check comes from `telemetry-contract.json`: `gen_ai.prompt`,
@@ -404,19 +408,6 @@ twice the retry interval. This leaves room for the initial snapshot and two retr
 is ready on the first query. A final query can run at the timeout boundary. `telemetryPollAttempts`
 counts every telemetry query across readiness and stability, including the initial and final
 queries. The result also records the configured timeout and retry interval.
-
-Run the payload-free contract mocks before wiring the smoke check into Session 13:
-
-```powershell
-python .\scripts\test-smoke-contract.py
-```
-```bash
-python ./scripts/test-smoke-contract.py
-```
-
-The mocks check Bash bearer handling, dotted authorization and AI-content property leakage, delayed
-privacy and commit failures, workspace mismatch, and duplicate response correlation IDs. They also
-confirm that polling stops at its bound without waiting in real time.
 
 Expected result:
 
@@ -432,20 +423,20 @@ Expected result:
 - root `commitSha` is present only after both correlated request records match the CLI SHA;
 - request count, errors, latency, model deployment, tokens, agent version, tool failure, and
   quality/safety signals appear in their intended views; and
-- the fixed marker and prohibited payload properties are absent from `AppRequests`,
+- the probe marker and prohibited payload properties are absent from `AppRequests`,
   `AppDependencies`, `AppEvents`, `AppTraces`, and `AppExceptions`, including each table's
   payload-bearing columns and custom properties.
 
 Stop if the component points to another workspace, either request record lacks the exact release
 SHA, the two correlation IDs match, or a hop is missing. A failed-tool route without an independent
 model result also stops the check. Treat an unstable watermark, a prohibited dotted property, the
-fixed marker, or timeout as failure. Do not weaken redaction to make the trace look complete.
+probe marker, or timeout as failure. Do not weaken redaction to make the trace look complete.
 
 ## After implementation
 
-Keep the **telemetry contract, alerts, and incident runbook**, together with the workbook export,
-Bicep-consumed alert queries, alert definitions, budget, cost-allocation metadata, privacy
-decisions, and paired smoke scripts. The gateway owner's APIM repository keeps the policy.
+Keep the **telemetry contract, alerts, and incident runbook**, together with the workbook
+definition, Bicep-consumed alert queries, budget, cost-allocation record, privacy decisions, and
+paired smoke scripts. The gateway owner's APIM repository keeps the policy.
 Application Insights retains operational telemetry under the approved workspace policy. Foundry,
 Defender, APIM, Cost Management, and the SOC system remain the systems of record for their detailed
 data.
@@ -460,14 +451,15 @@ During an incident, the incident commander orders containment. The service owner
 affected agent or model route, the tool owner disables an affected binding, and the credential
 owner revokes or rotates exposed credentials.
 
-This implementation remains scoped to the nonproduction service listed in
-`control-definition.json`. [Session 13](../../13-cicd-promotion-controls/implementation/README.md) calls
-`implementation/scripts/smoke.ps1` or `smoke.sh` through the fixed mode, environment, commit SHA,
-and result-path interface.
+This implementation remains scoped to the approved nonproduction service. The named
+[Session 13](../../13-cicd-promotion-controls/implementation/README.md) GitHub promotion workflow
+calls `implementation/scripts/smoke.ps1` or `smoke.sh` through the fixed mode, environment, commit
+SHA, and result-path interface.
 It also supplies the seven documented runtime environment inputs. Session 13 requires `status:
 passed`, both binding checks, distinct correlation fields, a stable final query, all other positive
 checks, `sensitiveInputPresent: false`, `payloadsRetained: false`, and the five-entry
-`privacySurfacesChecked` list.
+`privacySurfacesChecked` list. The scripts reject a result path outside the GitHub runner's
+temporary workspace, so no live check output is retained in this repository.
 
 Restore is manual because application instrumentation and the APIM policy share existing delivery
 paths:
@@ -478,7 +470,7 @@ paths:
    authentication, safety, routing, and quota controls;
 3. disable only the Session 12 alert rules while correcting a noisy query or threshold;
 4. remove only resources listed in the approved Session 12 what-if and tagged
-   `implementationSession=13`;
+   `implementationSession=12`;
 5. delete the exact Session 12 budget only after the cost owner confirms no other workflow depends
    on it; and
 6. keep the data needed for an active incident or retention obligation.

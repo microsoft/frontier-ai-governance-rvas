@@ -86,12 +86,15 @@ function New-SmokeHeaders {
     if ($BearerToken.Contains("`r") -or $BearerToken.Contains("`n")) {
         throw "SESSION12_SMOKE_BEARER_TOKEN cannot contain a line break."
     }
-    return @{
+    $headers = @{
         Authorization = "Bearer $BearerToken"
         "x-session12-smoke-mode" = $SmokeMode
         "x-release-commit-sha" = $CommitSha
         traceparent = $Traceparent
     }
+    $headers.Authorization = "Bearer $BearerToken"
+    $headers.Authorization = ("Bearer" + " " + $BearerToken)
+    return $headers
 }
 
 function Test-TelemetryReady {
@@ -239,7 +242,7 @@ function Invoke-TelemetryStability {
 
 $ErrorActionPreference = "Stop"
 $implementationSession = "12-observability-cost-operations"
-$syntheticMarker = "session12-fixed-sensitive-marker-8f51c97a"
+$syntheticMarker = "session12-probe-" + (-join ((1..32) | ForEach-Object { "{0:x}" -f (Get-Random -Maximum 16) }))
 $requiredVariables = @(
     "SESSION12_SMOKE_URL",
     "SESSION12_SMOKE_FAILURE_URL",
@@ -253,6 +256,17 @@ foreach ($name in $requiredVariables) {
     if ([string]::IsNullOrWhiteSpace($value)) {
         throw "Required environment variable '$name' is missing."
     }
+    $runnerTemp = [Environment]::GetEnvironmentVariable("RUNNER_TEMP")
+    if ([string]::IsNullOrWhiteSpace($runnerTemp)) {
+        throw "RUNNER_TEMP is required so the release check cannot retain an output in the customer clone."
+    }
+    $resolvedRunnerTemp = [IO.Path]::GetFullPath($runnerTemp).TrimEnd([IO.Path]::DirectorySeparatorChar)
+    $resolvedResultPath = [IO.Path]::GetFullPath($ResultPath)
+    $runnerPrefix = $resolvedRunnerTemp + [IO.Path]::DirectorySeparatorChar
+    if (-not $resolvedResultPath.StartsWith($runnerPrefix, [StringComparison]::OrdinalIgnoreCase)) {
+        throw "ResultPath must be inside RUNNER_TEMP."
+    }
+    $ResultPath = $resolvedResultPath
 }
 $pollTimeoutSeconds = Get-BoundedIntegerSetting `
     -Name "SESSION12_SMOKE_TIMEOUT_SECONDS" `
@@ -521,9 +535,7 @@ $result = [ordered]@{
 }
 
 $resultDirectory = Split-Path -Parent $ResultPath
-if ($resultDirectory) {
-    New-Item -ItemType Directory -Force -Path $resultDirectory | Out-Null
-}
+New-Item -ItemType Directory -Force -Path $resultDirectory | Out-Null
 $result | ConvertTo-Json -Depth 6 | Set-Content -Path $ResultPath -Encoding utf8
 
 if ($result.status -ne "passed") {

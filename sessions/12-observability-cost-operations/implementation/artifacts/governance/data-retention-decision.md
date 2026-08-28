@@ -1,5 +1,13 @@
 # Data retention decision
 
+## Lifecycle
+
+| Field | Decision |
+|---|---|
+| Updater | The named observability owner with the named data-protection owner |
+| Review cadence | Annually, and before a retention, legal-hold, or data-residency change |
+| Consumer | The observability owner uses this record to apply the approved retention boundary |
+
 | Field | Decision |
 |---|---|
 | Application Insights resource ID | `__REQUIRED_APPLICATION_INSIGHTS_RESOURCE_ID__` |
@@ -9,7 +17,6 @@
 | Private-access boundary status | `__REQUIRED_PRIVATE_ACCESS_STATUS_YES__` |
 | Daily cap decision | `__REQUIRED_DAILY_CAP_DECISION__` |
 | Owner | `__REQUIRED_DATA_RETENTION_OWNER__` |
-| Review date | `__REQUIRED_REVIEW_DATE__` |
 
 A daily cap is a last-resort ingestion control and can create an observability gap. Sampling is the
 primary volume control.

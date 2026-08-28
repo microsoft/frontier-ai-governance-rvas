@@ -1,32 +1,15 @@
-# Evaluation control
+# Evaluation control artifacts
 
-These artifacts define the Session 10 release-evaluation control.
+The repository keeps the definitions that run and govern the release gate:
 
-| Path | Operational purpose |
-|---|---|
-| `eval/evaluation-spec.json` | Versioned agent target, evaluator set, data mappings, and result-handling contract |
-| `eval/data/golden-v1.jsonl` | Synthetic golden cases used for both approved and candidate versions |
-| `eval/thresholds.yaml` | Baseline-derived release thresholds, metric layers, and exception rules |
-| `gate-tests/cases/tool-process-regression.json` | Payload-free sample case proving that a tool-process regression blocks release |
-| `governance/evaluation-governance-decision.md` | Owner approval boundary for draft thresholds, baseline review, and exception limits |
-| `release/release-policy.json` | Target, current manual support gate, capability decisions, owners, exception boundary, and gate state |
-| `release-records/release-record-template.json` | Payload-free release evaluation record shape retained outside Foundry |
-| `operations/disable-and-restore.md` | Immediate disable switch and ordered restore route |
+| Path | Purpose | Consumer |
+|---|---|---|
+| `eval/evaluation-spec.json` | Versioned evaluator and data-mapping contract. | Evaluation runner and release gate |
+| `eval/data/golden-v1.jsonl` | Versioned synthetic cases. | Evaluation runner |
+| `eval/thresholds.yaml` | Version-controlled gate thresholds and non-overridable boundaries. | Release gate and promotion workflow |
+| `release/release-policy.json` | Version-controlled support, ownership, and exception policy. | Release gate, preflight, and promotion workflow |
+| `operations/disable-and-restore.md` | Operating disable and restore procedure. | Release owner and incident operator |
 
-Detailed queries, responses, tool arguments, tool results, evaluator reasons, and personal data stay in
-Microsoft Foundry. A release record contains only target identifiers, dataset hash, aggregate counts,
-and the Foundry report URL.
-
-Resolve every `__REQUIRED_*__` decision before running the corresponding evaluation phase. The
-threshold policy includes draft starter values for relevance, tool process, and safety. The owners
-listed in the governance decision must review them against the approved baseline before the gate is enabled. After the approved
-version runs, enter its run ID and confirm or replace the numeric thresholds before candidate
-evaluation.
-`test_release_gate.py --mode blocked-tool-process` generates its payload-free aggregate records in
-memory and runs them against the same decision code used by `release-gate.py`.
-
-Session 10 produces a callable `PASS` or `BLOCK` gate. The Session 13 controlled-promotion workflow
-enforces it with the approved evaluation specification, threshold policy, release policy, approved
-baseline record, and candidate record. Session 13 must use `--require-enabled`; the callable then
-requires an enabled gate, an approved dated decision, active thresholds, and matching baseline and
-candidate run IDs.
+Microsoft Foundry retains detailed evaluations and row-level results. The approved release platform
+retains aggregate runs, gate activation, and promotion decisions. The runner accepts an explicit
+external output path and refuses to write run results inside this repository.

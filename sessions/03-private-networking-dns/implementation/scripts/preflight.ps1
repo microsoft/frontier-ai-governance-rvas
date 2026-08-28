@@ -6,7 +6,19 @@ param(
 
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string]$ResourceGroupName
+    [string]$ResourceGroupName,
+
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [string]$NetworkOperatorObjectId,
+
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [string]$DnsOperatorObjectId,
+
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [string[]]$DnsScopeResourceId
 )
 
 Set-StrictMode -Version Latest
@@ -18,8 +30,6 @@ $parameterPath = Join-Path $artifactRoot "environments\sandbox.bicepparam"
 $requiredFiles = @(
     "infra\network\main.bicep"
     "environments\sandbox.bicepparam"
-    "network\endpoint-matrix.json"
-    "decisions\network-design-record.md"
 )
 $requiredProviders = @(
     "Microsoft.App"
@@ -31,30 +41,16 @@ $requiredProviders = @(
     "Microsoft.Storage"
 )
 $requiredSentinels = @(
-    "__REQUIRED_ADDRESS_DECISION__"
     "__REQUIRED_AGENT_SUBNET_CIDR__"
-    "__REQUIRED_AI_SEARCH_FQDN__"
-    "__REQUIRED_COSMOS_FQDN__"
     "__REQUIRED_COSMOS_RESOURCE_ID__"
-    "__REQUIRED_CUTOVER_DECISION__"
-    "__REQUIRED_DNS_DECISION__"
     "__REQUIRED_EXPIRY_DATE__"
-    "__REQUIRED_FIREWALL_DECISION__"
-    "__REQUIRED_FIREWALL_SOURCE_REFERENCE__"
     "__REQUIRED_FIREWALL_PRIVATE_IP__"
-    "__REQUIRED_FORWARDING_DECISION__"
-    "__REQUIRED_FOUNDRY_FQDN__"
-    "__REQUIRED_FOUNDRY_INJECTION_DECISION__"
     "__REQUIRED_FOUNDRY_RESOURCE_ID__"
-    "__REQUIRED_KEY_VAULT_FQDN__"
     "__REQUIRED_KEY_VAULT_RESOURCE_ID__"
     "__REQUIRED_LOCATION__"
     "__REQUIRED_PRIVATE_ENDPOINT_SUBNET_CIDR__"
-    "__REQUIRED_SCOPE_DECISION__"
     "__REQUIRED_SEARCH_RESOURCE_ID__"
-    "__REQUIRED_STORAGE_BLOB_FQDN__"
     "__REQUIRED_STORAGE_RESOURCE_ID__"
-    "__REQUIRED_TOPOLOGY_DECISION__"
     "__REQUIRED_VNET_CIDR__"
     "__REQUIRED_VNET_NAME__"
 )
@@ -84,23 +80,6 @@ foreach ($relativePath in $requiredFiles) {
     }
 }
 
-$endpointMatrix = Get-Content -LiteralPath (Join-Path $artifactRoot "network\endpoint-matrix.json") -Raw |
-    ConvertFrom-Json -ErrorAction Stop
-if ($endpointMatrix.implementationSession -ne "03-private-networking-dns") {
-    throw "The endpoint matrix has the wrong implementation marker."
-}
-$expectedEndpointAliases = @("foundry", "storage-blob", "ai-search", "cosmos-sql", "key-vault")
-$actualEndpointAliases = @(
-    $endpointMatrix.endpoints |
-        ForEach-Object { ([string]$_.alias).Trim().ToLowerInvariant() }
-)
-if (
-    $actualEndpointAliases.Count -ne $expectedEndpointAliases.Count -or
-    @($actualEndpointAliases | Sort-Object -Unique).Count -ne $expectedEndpointAliases.Count -or
-    @($expectedEndpointAliases | Where-Object { $_ -notin $actualEndpointAliases }).Count -gt 0
-) {
-    throw "The endpoint matrix must contain the five unique approved service aliases."
-}
 $matches = @(Get-ChildItem $artifactRoot -Recurse -File |
     Select-String -Pattern "__REQUIRED_[A-Z0-9_]+__")
 if ($matches.Count -gt 0) {
@@ -123,6 +102,58 @@ $resourceGroup = Invoke-AzJson `
     -Description "Implementation resource-group lookup"
 if (-not $resourceGroup.location) {
     throw "The approved implementation resource group has no location."
+}
+
+$networkContributorId = "4d97b98b-1d4f-4787-a291-c67834d212e7"
+$privateDnsZoneContributorId = "b12aa53e-6015-4669-85d0-8515ebb3ae7f"
+
+function Assert-ExactRoleAssignment {
+    param(
+        [Parameter(Mandatory)][string]$PrincipalObjectId,
+        [Parameter(Mandatory)][string]$RoleDefinitionId,
+        [Parameter(Mandatory)][string]$Scope,
+        [Parameter(Mandatory)][string]$RoleName
+    )
+
+    $assignments = @(
+        Invoke-AzJson `
+            -Arguments @(
+                "role", "assignment", "list",
+                "--assignee-object-id", $PrincipalObjectId,
+                "--fill-principal-name", "false",
+                "--scope", $Scope
+            ) `
+            -Description "$RoleName assignment lookup"
+    )
+    $match = @(
+        $assignments | Where-Object {
+            ([string]$_.roleDefinitionId).EndsWith(
+                "/$RoleDefinitionId",
+                [System.StringComparison]::OrdinalIgnoreCase
+            ) -and
+            ([string]$_.scope).Equals($Scope, [System.StringComparison]::OrdinalIgnoreCase)
+        }
+    )
+    if ($match.Count -lt 1) {
+        throw "Principal '$PrincipalObjectId' lacks $RoleName on exact scope '$Scope'."
+    }
+}
+
+Assert-ExactRoleAssignment `
+    -PrincipalObjectId $NetworkOperatorObjectId `
+    -RoleDefinitionId $networkContributorId `
+    -Scope ([string]$resourceGroup.id) `
+    -RoleName "Network Contributor"
+
+foreach ($dnsScope in $DnsScopeResourceId) {
+    if ($dnsScope -notmatch "^/subscriptions/[^/]+/resourceGroups/[^/]+(?:/providers/Microsoft\.Network/privateDnsZones/[^/]+)?$") {
+        throw "DnsScopeResourceId must be a resource-group ID or a private DNS zone ID."
+    }
+    Assert-ExactRoleAssignment `
+        -PrincipalObjectId $DnsOperatorObjectId `
+        -RoleDefinitionId $privateDnsZoneContributorId `
+        -Scope $dnsScope.TrimEnd("/") `
+        -RoleName "Private DNS Zone Contributor"
 }
 
 $expectedServiceResources = [ordered]@{
@@ -239,4 +270,4 @@ if ($LASTEXITCODE -ne 0) {
     throw "Bicep what-if failed.`n$($whatIfOutput | Out-String)"
 }
 
-Write-Host "PASS: Session 03 files, decisions, Azure scope, service resources, providers, Bicep syntax, and what-if are ready."
+Write-Host "PASS: Session 03 files, decisions, Azure scope, operator roles, service resources, providers, Bicep syntax, and what-if are ready."

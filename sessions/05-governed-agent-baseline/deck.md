@@ -14,7 +14,7 @@ html: true
 
 # Governed Microsoft Foundry agent baseline
 
-**240 minutes - One versioned agent, one read tool, no write path**
+**180 minutes - One versioned agent, one read tool, no write path**
 
 <!-- Notes: Establish the agent identity, version, tool, safety, and tracing controls before adding APIM and MCP. -->
 
@@ -65,7 +65,7 @@ The Foundry project managed identity does a separate job: it authorizes the dire
 - One application-only read through the project managed identity
 - No write tool and no delegated user authorization
 - Live Foundry state is the source of truth; repository definitions own intended configuration
-- APIM, MCP, distribution, and evaluations remain later review records
+- APIM, MCP, distribution, and evaluations remain later-session work
 
 <!-- Notes: Instructions reinforce the boundary. Tool absence and downstream authorization enforce it. -->
 
@@ -123,6 +123,8 @@ identity handles the downstream tool call.
 | Runtime pattern | Why it does or does not fit |
 |---|---|
 | Prompt agent | Selected. It provides the managed runtime, immutable versions, and stable endpoint this baseline needs. |
+| Direct OpenAPI attachment | Selected. One agent owns one visible tool contract and downstream authorization path. |
+| Foundry Toolbox | Defer to an optional module when several agents need a curated, reusable tool endpoint. Session 08 is the handoff when APIM and MCP controls are also required. |
 | Hosted agent | It adds code and container control that this read-only scenario does not need. |
 | Responses API only | The application would own an ephemeral definition, so Foundry would hold no persistent agent resource. |
 
@@ -146,7 +148,10 @@ Resolve before creation:
 
 Stop on an unmarked name collision or legacy agent with no unique identity.
 
-<!-- Notes: A legacy shared-identity agent is recreated under a new governed name. -->
+The older Agent Application model used a shared identity during development and created a distinct
+identity at publication. This current agent receives its unique identity when it is created.
+
+<!-- Notes: Do not apply the older publish-time identity rule to the current agent object model. -->
 
 ---
 
@@ -252,8 +257,8 @@ The caller enters through the stable endpoint. Foundry uses the agent identity a
 routes the request to the pinned version, then uses the project managed identity for the single
 OpenAPI GET call.
 
-Foundry owns live identity, versions, and routing. Git holds the intended configuration and release
-record. The control ends at the direct read API; Session 06 receives the pinned endpoint.
+Foundry owns live identity, versions, routing, and the RAI policy. Git holds the intended
+configuration. The control ends at the direct read API; Session 06 receives the pinned endpoint.
 
 ---
 
@@ -264,8 +269,6 @@ agents/policy-assistant/
   agent.json
   instructions.md
   tool-manifest.json
-  prohibited-actions.json
-operations/release-operations.json
 scripts/
   preflight.ps1
   deploy.ps1
@@ -282,7 +285,7 @@ Runtime endpoints, IDs, prompts, responses, and traces stay out of source contro
 
 **Timebox: 240 minutes**
 
-1. Resolve the agent, RAI, tool, prohibition, and tracing decisions.
+1. Resolve the agent, RAI, tool, prohibition, and tracing decisions in their implementation or platform owners.
 2. Run preflight and inspect the read-only mutation summary.
 3. Create one fixed agent version.
 4. Pin the stable Responses endpoint and confirm unique identity.
@@ -298,7 +301,10 @@ Runtime endpoints, IDs, prompts, responses, and traces stay out of source contro
 
 **Live Foundry resources:** approved subscription and project, `AIServices` resource, Foundry User role ID, model deployment, Application Insights connection, downstream assignment, existing-agent marker, and unique Entra Agent Identity.
 
-Foundry has no data-plane agent `what-if`; preflight uses read-only lookup plus an specific change summary.
+Foundry has no data-plane agent `what-if`; preflight uses read-only lookup plus a specific change summary.
+
+The portal can pin a version, but protocol, authorization, and agent-card settings still require the
+REST API or SDK. The scripts and API response are authoritative.
 
 <!-- Notes: This is an explicit platform limitation, not a reason to skip preview. -->
 
@@ -317,7 +323,7 @@ Foundry has no data-plane agent `what-if`; preflight uses read-only lookup plus 
 
 Expected state: one new fixed version, unique identity, Responses + Entra endpoint, 100% pinned traffic.
 
-<!-- Notes: The deployment updates the current version and source-hash fields in `release-operations.json` only. -->
+<!-- Notes: Foundry retains the active version and endpoint selector. The deployment does not write a release record. -->
 
 ---
 

@@ -16,12 +16,12 @@ trap cleanup EXIT
 
 usage() {
   cat <<'USAGE'
-Usage: ./scripts/preflight.sh --resource-group-name <name> --deployment-location <region> [--deployment-name <name>] [--artifacts-path <path>]
+Usage: ./scripts/preflight.sh --resource-group-name <name> --deployment-location <region> [--deployment-name <name>] [--artifacts-path <path>] [--confirm-inherited-policy-review]
 
 Validate Session 01 artifacts, required __REQUIRED_*__ decisions, resolved built-in policy IDs in
 the current shell, the approved sandbox subscription and resource group, provider registrations,
-Bicep compilation for the Foundry baseline and the policy initiative and assignment, and the
-available what-if previews.
+inherited policy review, Bicep compilation for the Foundry baseline and the policy initiative and
+assignment, and the available what-if previews.
 USAGE
 }
 
@@ -204,6 +204,7 @@ resource_group_name=""
 deployment_name="rvas-s01-baseline"
 deployment_location=""
 artifacts_path=""
+confirm_inherited_policy_review=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -226,6 +227,10 @@ while [[ $# -gt 0 ]]; do
       [[ $# -ge 2 ]] || die "Missing value for $1"
       artifacts_path="$2"
       shift 2
+      ;;
+    --confirm-inherited-policy-review)
+      confirm_inherited_policy_review=true
+      shift
       ;;
     --help)
       usage
@@ -256,13 +261,11 @@ implementation_session='01-platform-baseline'
 required_files=(
   'infra/foundry/main.bicep'
   'environments/sandbox.bicepparam'
-  'decisions/resource-model.md'
   'policy/initiative.bicep'
   'policy/assignment.bicep'
   'policy/guardrail-settings.json'
   'environments/initiative.bicepparam'
   'environments/policy-assignment.bicepparam'
-  'governance/change-reference.md'
 )
 for relative in "${required_files[@]}"; do
   [[ -f "$artifacts_path/$relative" ]] || die "Required implementation file is missing: $relative"
@@ -281,13 +284,8 @@ scan_unresolved_sentinels "$artifacts_path" \
   '__REQUIRED_CRITICALITY__' \
   '__REQUIRED_COST_CENTER__' \
   '__REQUIRED_EXPIRY_DATE__' \
-  '__REQUIRED_RESOURCE_MODEL_DECISION__' \
-  '__REQUIRED_CUSTOMER_SYSTEM_REFERENCE__' \
   '__REQUIRED_PRIMARY_REGION__' \
   '__REQUIRED_SECONDARY_REGION__' \
-  '__REQUIRED_CHANGE_REFERENCE__' \
-  '__REQUIRED_POLICY_OWNER__' \
-  '__REQUIRED_RISK_REFERENCE_OR_NONE__'
 
 foundry_parameters_file="$artifacts_path/environments/sandbox.bicepparam"
 validate_foundry_parameters "$foundry_parameters_file"
@@ -308,6 +306,45 @@ print((json.loads(os.environ['PYTHON_JSON_INPUT']).get('marker') or '').strip())
 PY
 )"
 [[ "$group_marker" == "$implementation_session" ]] || die "Resource group '$resource_group_name' must have implementationSession=$implementation_session."
+
+policy_assignments_json="$(run_capture az policy assignment list \
+  --scope "$(
+    PYTHON_JSON_INPUT="$group_json" python3 - <<'PY'
+import json
+import os
+print(json.loads(os.environ['PYTHON_JSON_INPUT']).get('id', ''))
+PY
+  )" \
+  --disable-scope-strict-match true \
+  --query '[].{name:name,displayName:displayName,scope:scope,enforcementMode:enforcementMode,policyDefinitionId:policyDefinitionId}' \
+  --only-show-errors \
+  --output json)" || die 'Applicable policy-assignment lookup failed.'
+inherited_assignments="$(
+  PYTHON_JSON_INPUT="$policy_assignments_json" GROUP_JSON_INPUT="$group_json" python3 - <<'PY'
+import json
+import os
+
+group_id = str(json.loads(os.environ['GROUP_JSON_INPUT']).get('id', '')).rstrip('/')
+assignments = json.loads(os.environ['PYTHON_JSON_INPUT'])
+for assignment in assignments:
+    scope = str(assignment.get('scope') or '').rstrip('/')
+    if scope and scope.casefold() != group_id.casefold() and not scope.casefold().startswith(group_id.casefold() + '/'):
+        print(
+            '{}\t{}\t{}\t{}\t{}'.format(
+                assignment.get('displayName') or '',
+                assignment.get('name') or '',
+                scope,
+                assignment.get('enforcementMode') or '',
+                assignment.get('policyDefinitionId') or '',
+            )
+        )
+PY
+)"
+if [[ -n "$inherited_assignments" ]]; then
+  printf 'Inherited policy assignments:\n'
+  printf '%s\n' "$inherited_assignments"
+  "$confirm_inherited_policy_review" || die 'Inherited policy assignments apply to the sandbox resource group. Review their effects and exemptions with the cloud platform owner, then rerun with --confirm-inherited-policy-review.'
+fi
 
 for provider in Microsoft.CognitiveServices Microsoft.Insights Microsoft.OperationalInsights Microsoft.PolicyInsights; do
   state="$(run_capture az provider show --namespace "$provider" --query registrationState --only-show-errors --output tsv)" || die "Provider lookup failed for $provider."
@@ -365,4 +402,4 @@ else
   printf '%s\n' "$assignment_preview"
 fi
 
-printf '\nREADY: tools, files, decisions, approved sandbox subscription and resource group, provider registrations, and every available deployment preview are ready.\n'
+printf '\nREADY: tools, files, decisions, approved sandbox subscription and resource group, inherited-policy review, provider registrations, and every available deployment preview are ready.\n'

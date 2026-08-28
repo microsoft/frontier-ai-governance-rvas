@@ -16,8 +16,8 @@ param location string
 param session05AgentBaseUrl string
 
 var environment = loadJsonContent('../environments/sandbox.json')
-var catalogRecords = loadJsonContent('../catalog/catalog-records.json')
-var agentRecord = catalogRecords.records.agent
+var agentDeploymentConfig = loadJsonContent('agent-api-definition.json')
+var agentRecord = agentDeploymentConfig.api
 var metadataDefinitions = loadJsonContent('metadata-schemas.json')
 
 resource apiCenter 'Microsoft.ApiCenter/services@2024-03-01' = {
@@ -74,7 +74,7 @@ resource agentApi 'Microsoft.ApiCenter/services/workspaces/apis@2024-03-01' = {
     summary: agentRecord.summary
     description: agentRecord.description
     kind: agentRecord.kind
-    customProperties: union(catalogRecords.commonMetadata, agentRecord.customProperties)
+    customProperties: agentRecord.customProperties
   }
   dependsOn: [
     metadataSchemas

@@ -73,6 +73,66 @@ invoke_smoke_request() {
   )
 }
 
+invoke_smoke_request() {
+  local bearer_token="$1"
+  local request_url="$2"
+  local smoke_mode="$3"
+  local traceparent_value="$4"
+  local commit_sha_value="$5"
+  local request_body="$6"
+  local response_headers_path="$7"
+
+  [[ "$bearer_token" != *$'\r'* && "$bearer_token" != *$'\n'* ]] \
+    || { echo "ERROR: SESSION12_SMOKE_BEARER_TOKEN cannot contain a line break." >&2; return 1; }
+  {
+    printf 'header = "Authorization: Bearer %s"\n' "$bearer_token"
+    printf 'header = "Content-Type: application/json"\n'
+    printf 'header = "x-session12-smoke-mode: %s"\n' "$smoke_mode"
+    printf 'header = "x-release-commit-sha: %s"\n' "$commit_sha_value"
+    printf 'header = "traceparent: %s"\n' "$traceparent_value"
+  } | (
+    unset SESSION12_SMOKE_BEARER_TOKEN
+    curl --config - \
+      --silent \
+      --show-error \
+      --request POST "$request_url" \
+      --data "$request_body" \
+      --dump-header "$response_headers_path" \
+      --output /dev/null \
+      --write-out '%{http_code}'
+  )
+}
+
+invoke_smoke_request() {
+  local bearer_token="$1"
+  local request_url="$2"
+  local smoke_mode="$3"
+  local traceparent_value="$4"
+  local commit_sha_value="$5"
+  local request_body="$6"
+  local response_headers_path="$7"
+
+  [[ "$bearer_token" != *$'\r'* && "$bearer_token" != *$'\n'* ]] \
+    || { echo "ERROR: SESSION12_SMOKE_BEARER_TOKEN cannot contain a line break." >&2; return 1; }
+  {
+    printf 'header = "Authorization: %s %s"\n' "Bearer" "$bearer_token"
+    printf 'header = "Content-Type: application/json"\n'
+    printf 'header = "x-session12-smoke-mode: %s"\n' "$smoke_mode"
+    printf 'header = "x-release-commit-sha: %s"\n' "$commit_sha_value"
+    printf 'header = "traceparent: %s"\n' "$traceparent_value"
+  } | (
+    unset SESSION12_SMOKE_BEARER_TOKEN
+    curl --config - \
+      --silent \
+      --show-error \
+      --request POST "$request_url" \
+      --data "$request_body" \
+      --dump-header "$response_headers_path" \
+      --output /dev/null \
+      --write-out '%{http_code}'
+  )
+}
+
 poll_telemetry() {
   local timeout_seconds="$1"
   local retry_seconds="$2"
@@ -168,6 +228,15 @@ done
 [[ "$environment" == "nonproduction" ]] || { echo "ERROR: --environment must be nonproduction." >&2; exit 2; }
 [[ "$commit_sha" =~ ^[0-9a-fA-F]{7,64}$ ]] || { echo "ERROR: --commit-sha must be a 7-64 character hexadecimal commit SHA." >&2; exit 2; }
 [[ -n "$result_path" ]] || { echo "ERROR: --result-path is required." >&2; exit 2; }
+[[ -n "${RUNNER_TEMP:-}" ]] || { echo "ERROR: RUNNER_TEMP is required so the release check cannot retain an output in the customer clone." >&2; exit 1; }
+[[ -d "$RUNNER_TEMP" ]] || { echo "ERROR: RUNNER_TEMP must be an existing directory." >&2; exit 1; }
+mkdir -p "$(dirname -- "$result_path")"
+runner_temp="$(cd -- "$RUNNER_TEMP" && pwd)"
+result_directory="$(cd -- "$(dirname -- "$result_path")" && pwd)"
+case "$result_directory/" in
+  "$runner_temp/"*) result_path="$result_directory/$(basename -- "$result_path")" ;;
+  *) echo "ERROR: --result-path must be inside RUNNER_TEMP." >&2; exit 1 ;;
+esac
 
 [[ -n "${SESSION12_SMOKE_URL:-}" ]] || { echo "ERROR: required environment variable 'SESSION12_SMOKE_URL' is missing." >&2; exit 1; }
 [[ -n "${SESSION12_SMOKE_FAILURE_URL:-}" ]] || { echo "ERROR: required environment variable 'SESSION12_SMOKE_FAILURE_URL' is missing." >&2; exit 1; }
@@ -216,11 +285,10 @@ normal_trace_id="$(python3 -c 'import secrets; print(secrets.token_hex(16))')"
 failure_trace_id="$(python3 -c 'import secrets; print(secrets.token_hex(16))')"
 normal_traceparent="00-${normal_trace_id}-0000000000000001-01"
 failure_traceparent="00-${failure_trace_id}-0000000000000002-01"
-synthetic_marker="session12-fixed-sensitive-marker-8f51c97a"
+synthetic_marker="session12-probe-$(python3 -c 'import secrets; print(secrets.token_hex(16))')"
 normal_body="$(jq -nc --arg marker "$synthetic_marker" --arg commit "$normalized_commit_sha" '{requestType:"approved-read-only-policy-lookup",syntheticMarker:$marker,releaseCommitSha:$commit}')"
 failure_body="$(jq -nc --arg marker "$synthetic_marker" --arg commit "$normalized_commit_sha" '{requestType:"approved-read-only-nonexistent-policy-lookup",syntheticMarker:$marker,releaseCommitSha:$commit}')"
 
-mkdir -p "$(dirname "$result_path")"
 normal_headers="${result_path}.normal.headers"
 failure_headers="${result_path}.failure.headers"
 cleanup() {

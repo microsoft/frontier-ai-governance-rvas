@@ -4,6 +4,8 @@
   "requiredTagNames": [
     "businessOwner",
     "technicalOwner",
+    "dataClassification",
+    "criticality",
     "costCenter",
     "expiryDate"
   ]

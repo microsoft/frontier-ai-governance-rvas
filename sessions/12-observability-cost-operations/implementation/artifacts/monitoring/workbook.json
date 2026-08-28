@@ -137,11 +137,11 @@
     {
       "type": 1,
       "content": {
-        "json": "## Operating boundary\nToken metrics estimate usage and can be incomplete for interrupted streams. Azure Cost Management data is delayed and remains the billing source. Prompt, response, tool payload, authorization, cookie, query-string, and user-level dimensions are excluded from standard telemetry."
+        "json": "## Operating boundary\nToken metrics estimate usage and can be incomplete for interrupted streams. API Management tracks at most 100 unique values per dimension and 1,000 active time series per metric namespace; data beyond either limit is silently discarded. Azure Cost Management billed cost is authoritative. Prompt, response, tool payload, authorization, cookie, query-string, and user-level dimensions are excluded from standard telemetry."
       },
       "name": "boundary"
     }
   ],
   "fallbackResourceIds": [],
-  "fromTemplateId": "rvas-session-13-ai-operations"
+  "fromTemplateId": "rvas-session-12-ai-operations"
 }

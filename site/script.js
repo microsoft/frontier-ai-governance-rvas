@@ -4,7 +4,6 @@
   document.documentElement.classList.add("js");
 
   const records = [...document.querySelectorAll(".session-record")];
-  const filterButtons = [...document.querySelectorAll("[data-filter]")];
   const toolFilterButtons = [
     ...document.querySelectorAll("[data-tool-filter]"),
   ];
@@ -34,7 +33,6 @@
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const shellCookieName = "rvas-command-shell";
 
-  let activePhase = "all";
   let activeTool = "all";
   let activeRoute = "all";
   let searchTerm = "";
@@ -95,8 +93,6 @@
     const visiblePhaseCounts = new Map();
 
     records.forEach((record) => {
-      const matchesPhase =
-        activePhase === "all" || record.dataset.phase === activePhase;
       const sessionNumber = Number(record.id.replace("session-", ""));
       const matchesRoute =
         activeRoute === "all" || sessionNumber <= routeSessions[activeRoute];
@@ -107,8 +103,7 @@
         `${record.dataset.search ?? ""} ${record.textContent ?? ""}`,
       );
       const matchesSearch = !searchTerm || haystack.includes(searchTerm);
-      const isVisible =
-        matchesRoute && matchesPhase && matchesTool && matchesSearch;
+      const isVisible = matchesRoute && matchesTool && matchesSearch;
 
       record.hidden = !isVisible;
       if (isVisible) {
@@ -135,17 +130,6 @@
     if (emptyState) {
       emptyState.hidden = visibleCount !== 0;
     }
-  };
-
-  const selectPhase = (phase) => {
-    activePhase = phase;
-    filterButtons.forEach((button) => {
-      button.setAttribute(
-        "aria-pressed",
-        String(button.dataset.filter === activePhase),
-      );
-    });
-    updateResults();
   };
 
   const persistFilters = () => {
@@ -266,12 +250,6 @@
     );
     primaryNav.classList.toggle("is-open", isOpen);
   };
-
-  filterButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      selectPhase(button.dataset.filter ?? "all");
-    });
-  });
 
   toolFilterButtons.forEach((button) => {
     button.addEventListener("click", () => {

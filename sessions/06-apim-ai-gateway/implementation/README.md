@@ -104,7 +104,7 @@ Confirm these prerequisites:
 | Deployment | [`artifacts/gateway/main.bicep`](artifacts/gateway/main.bicep) | The Session 06 APIM deployment scripts |
 | Deployment | [`artifacts/gateway/apis/policy-assistant-responses.openapi.json`](artifacts/gateway/apis/policy-assistant-responses.openapi.json) | The API Management API import |
 | Deployment | [`artifacts/gateway/policies/policy.xml`](artifacts/gateway/policies/policy.xml) | The API Management gateway runtime |
-| Record | [`artifacts/governance/gateway-control.json`](artifacts/governance/gateway-control.json) | The Session 06 preflight and APIM deployment scripts |
+| Deployment | [`artifacts/governance/gateway-control.json`](artifacts/governance/gateway-control.json) | The Session 06 preflight and APIM deployment scripts |
 | Record | [`artifacts/governance/model-routing-decision.md`](artifacts/governance/model-routing-decision.md) | The API product, platform, safety, and operations owners |
 | Deployment | [`artifacts/environments/sandbox.json`](artifacts/environments/sandbox.json) | The Session 06 preflight and deployment scripts |
 
@@ -115,7 +115,7 @@ before selecting a tier or relying on a token, safety, routing, or observability
 
 ## Decisions and stop conditions
 
-Resolve every `__REQUIRED_*__` value in the two implementation JSON records before deployment.
+Resolve every `__REQUIRED_*__` value in the two implementation JSON deployment inputs before deployment.
 
 ### How clients authenticate to APIM
 
@@ -188,6 +188,10 @@ The APIM policy calls the approved Azure AI Content Safety backend. Prompt Shiel
 Requests and completions are checked against Hate, SelfHarm, Sexual, and Violence at threshold 4 on
 the eight-level scale.
 
+For a nonstreaming violation, APIM returns `403 Forbidden`. For a streaming completion, APIM checks
+sliding windows and stops forwarding later events when it detects a violation. The client can
+receive a truncated stream instead of a normal 403 response.
+
 The safety owner approves the threshold and data handling. The network owner confirms that the APIM
 gateway can reach the exact Content Safety endpoint. The identity owner confirms **Cognitive
 Services User** (`a97b65f3-24c7-4388-baec-2e87135dc908`) for the APIM system-assigned identity on
@@ -201,6 +205,16 @@ Application Insights receives W3C correlation, APIM request telemetry, and token
 product, and subscription dimensions. Diagnostic body logging is set to zero bytes and client IP
 logging is disabled. Do not add `trace`, Event Hub body logging, prompt logging, or completion
 logging during this session.
+
+For streaming Responses calls, clients set `stream_options.include_usage` to `true`. The metric
+policy uses reported usage when the response includes it, although an interrupted stream can leave
+the captured count incomplete. The token-limit policy estimates prompt and completion tokens for
+streaming calls. Treat both as operational signals for limits and monitoring. Azure Cost Management
+and the issued invoice remain authoritative for billing.
+
+The metric policy stays before backend selection. Its API, product, and subscription dimensions do
+not depend on the selected backend, and moving it would not identify the concrete member chosen
+from the backend pool.
 
 Semantic caching is deferred. The data owner decides which content may be cached. The API product
 owner sets the maximum age and the event that invalidates an entry. The identity owner approves the
@@ -268,6 +282,9 @@ The script reruns preflight, then deploys child resources into the existing APIM
 result is one subscription-protected API and product, four non-secret APIM named values, a primary-first
 backend pool, managed-identity backend authentication, safety and token policies, and body-free
 Application Insights diagnostics.
+
+The OpenAPI contract documents `stream_options.include_usage` for streaming clients. Keep it set to
+`true` when `stream` is `true`.
 
 Use the already issued test-workload subscription. Do not create or issue a subscription during
 this session.
@@ -351,7 +368,7 @@ Do not retain the response, subscription key, or request headers.
 ## After implementation
 
 Keep the **APIM API and controlled product in operation**, with their APIM named values, backend pool,
-circuit breakers, policy, diagnostics, governance records, and deployment scripts. The API product
+circuit breakers, policy, diagnostics, deployment inputs, routing decision, and deployment scripts. The API product
 owner owns client subscriptions and limits. Identity owns the Entra app role and APIM identity
 assignments. Platform owns routing and APIM capacity. Safety owns the Content Safety settings.
 Operations owns telemetry, alerts, retention, and cost.

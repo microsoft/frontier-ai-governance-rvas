@@ -2,7 +2,7 @@ schema_version: 2
 module:
   slug: "obo-delegated-access"
   title: "Delegated API access with OAuth on-behalf-of"
-  duration_minutes: 210
+  duration_minutes: 270
   status: "draft"
   last_verified: "2026-08-25"
   audience:

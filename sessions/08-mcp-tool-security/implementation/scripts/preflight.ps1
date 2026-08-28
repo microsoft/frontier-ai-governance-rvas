@@ -445,6 +445,23 @@ foreach ($requiredPolicyElement in @(
 if ($policyText -match "context\.Response\.Body" -or $policyText -match "gen_ai\.tool\.call\.(arguments|result)") {
     throw "The MCP policy must not read or log streamed tool payloads."
 }
+$forwardRequest = $policy.GetElementsByTagName("forward-request")[0]
+if ($null -eq $forwardRequest -or
+    [string]$forwardRequest."buffer-response" -ne "false" -or
+    [string]$forwardRequest."fail-on-error-status-code" -ne "false") {
+    throw "The MCP backend must stream responses and intentionally forward backend error statuses through the normal outbound path."
+}
+$queryText = Get-Content -LiteralPath $queryPath -Raw
+foreach ($requiredQueryField in @(
+        "operation_Id",
+        "session08.correlation_id",
+        "gen_ai.tool.name",
+        "error.type"
+    )) {
+    if ($queryText -notmatch [regex]::Escape($requiredQueryField)) {
+        throw "mcp-traffic.kql is missing required correlation or MCP dimension: $requiredQueryField"
+    }
+}
 
 $account = Invoke-AzJson -Arguments @("account", "show") -Description "Azure account lookup"
 if ([string]$account.id -ne $ApprovedSubscriptionId) {

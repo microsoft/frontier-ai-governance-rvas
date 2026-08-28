@@ -35,9 +35,21 @@ def parse_args() -> argparse.Namespace:
     args = parser.parse_args()
     if not args.check_only and not args.target:
         parser.error("--target is required unless --check-only is used")
+    if not args.check_only and args.output is None:
+        parser.error("--output is required for an evaluation run")
     if args.timeout_minutes < 1 or args.timeout_minutes > 360:
         parser.error("--timeout-minutes must be between 1 and 360")
     return args
+
+
+def require_external_output(path: Path) -> Path:
+    output_path = path.resolve()
+    repository_root = Path(__file__).resolve().parents[4]
+    if output_path.is_relative_to(repository_root):
+        raise ValueError(
+            "--output must point to the approved release store outside this repository"
+        )
+    return output_path
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -320,21 +332,15 @@ def main() -> int:
             },
         }
 
-        output_path = args.output
-        if output_path is None:
-            output_path = (
-                spec_path.parents[1]
-                / "release-records"
-                / f"{args.target}-{target_version}.json"
-            )
-        write_record(output_path.resolve(), record)
+        output_path = require_external_output(args.output)
+        write_record(output_path, record)
         by_layer: dict[str, list[str]] = defaultdict(list)
         for metric in metrics:
             by_layer[metric["layer"]].append(
                 f"{metric['name']}={metric['passRate']:.3f} "
                 f"({metric['errored']} errored)"
             )
-        print(f"Completed Foundry run {run.id}; aggregate record: {output_path.resolve()}")
+        print(f"Completed Foundry run {run.id}; aggregate record: {output_path}")
         for layer, values in by_layer.items():
             print(f"  {layer}: {', '.join(values)}")
         return 0

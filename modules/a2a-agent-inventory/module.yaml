@@ -1,0 +1,50 @@
+schema_version: 2
+module:
+  slug: "a2a-agent-inventory"
+  title: "A2A agent inventory in Microsoft Agent 365"
+  duration_minutes: 150
+  status: "draft"
+  last_verified: "2026-08-28"
+  audience:
+    - "Microsoft Agent 365 administrators and AI platform engineers"
+    - "A2A runtime owners and Microsoft Entra identity owners"
+    - "Agent owners responsible for lifecycle and retirement"
+  prerequisites:
+    - "One A2A agent exists in an approved nonproduction runtime and its runtime owner controls the source repository or supported platform integration."
+    - "The Agent 365 administrator has confirmed the tenant licensing, administrator access, and current Agent Registry availability."
+    - "The delivery team has identified one supported onboarding route: built-in integration, Registry sync from a supported platform, or runtime-owned Agent 365 SDK integration."
+    - "The agent owner, runtime owner, and retirement owner are available to observe the live Agent 365 record."
+  related_sessions:
+    - "Session 05 - Governed Microsoft Foundry agent baseline"
+    - "Session 09 - Purview data governance and Agent 365 data controls"
+    - "Session 14 - Agent fleet governance, multi-region design, and production rehearsal"
+  services_in_scope:
+    - "agent-365"
+    - "microsoft-entra-agent-id"
+  control_objective: "Onboard or confirm one approved A2A agent in Microsoft Agent 365 through a supported integration route, then observe its live inventory and ownership state."
+implementation:
+  mode: "standard"
+  live_only: true
+implementation_outcomes:
+  - "Choose the supported Agent 365 onboarding route for one existing A2A agent."
+  - "Complete the approved built-in, Registry sync, or runtime-owned SDK path without copying the agent definition or card into this repository."
+  - "Observe the live Agent 365 record with its owner and lifecycle state."
+  - "Confirm the runtime owner can maintain the selected integration and remove or retire the agent through the approved platform path."
+deliverables:
+  implementation: "implementation/README.md"
+  deck: "deck.md"
+  leave_behind: []
+retained_files: []
+sources:
+  - title: "Connect existing agents to Microsoft Agent 365"
+    url: "https://learn.microsoft.com/microsoft-agent-365/connect-existing-agents"
+    accessed: "2026-08-28"
+    supports: "Current built-in, Registry sync, and SDK options for onboarding existing agents to Agent 365."
+  - title: "Choose an Agent 365 integration option"
+    url: "https://learn.microsoft.com/microsoft-agent-365/developer/choose-integration-option"
+    accessed: "2026-08-28"
+    supports: "Current criteria for built-in integration, Registry sync, and Agent 365 SDK integration."
+  - title: "Connected platforms in the Microsoft 365 agent registry"
+    url: "https://learn.microsoft.com/microsoft-agent-365/admin/connected-platforms"
+    accessed: "2026-08-28"
+    supports: "Current supported Registry sync platforms and administrator-led synchronization flow."

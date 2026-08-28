@@ -22,12 +22,12 @@ html: true
 
 ## Control objective
 
-> Reconcile one governed service's agent and MCP records. Then rehearse routing to its approved secondary deployment and check the expected identity reference, policy version, and trace contract.
+> Locate one governed service's agent and MCP records in their native services. Then rehearse routing to its approved secondary deployment and check the expected identity reference, policy version, and trace contract.
 
 Operators must:
 
-- reconcile the approved agent and MCP server;
-- distinguish live Azure queries from dated portal snapshots; and
+- locate the approved agent and MCP server in their native services;
+- inspect live Azure resources and native service state; and
 - move regional routing and check the expected identity reference, policy, and tracing on the active path.
 
 <!-- Notes: A second region without service ownership is only spare infrastructure. -->
@@ -46,11 +46,11 @@ This rehearsal gives the service and delivery owners one visible regional result
 
 ## Implementation outcomes
 
-1. Reconcile the governed agent across Foundry Control Plane and Agent 365 without treating either view as the other's replacement.
-2. Query stable Azure resources live and label other inventory as a dated operator snapshot.
+1. Locate the governed agent across Foundry Control Plane and Agent 365 without treating either view as the other's replacement.
+2. Query Azure resources live and inspect the other service views where they are authoritative.
 3. Use one minimal regional Bicep parameter contract, keeping regional gateways with regional backends.
 4. Record the primary-region management-plane and regional rate-limit constraints.
-5. Route one governed service to its approved secondary deployment, check the expected identity reference, gateway policy, and tracing, then preserve an restore path.
+5. Route one governed service to its approved secondary deployment, check the expected identity reference, gateway policy, and tracing, then keep a restore path.
 
 <!-- Notes: Standard mode fits because the plan calls for one visible failover result, not a manufactured blocked test. -->
 
@@ -77,7 +77,7 @@ This rehearsal gives the service and delivery owners one visible regional result
 | 11 Evaluation | Definition, thresholds, baseline, candidate, regression | Quality owner sees candidate pass and regression block |
 | 12 Threat defense | Confirmed payload-free report, Defender route | Security owner sees blocked actions and one Defender signal |
 | 13 Observability | Logging contract, workbook, alerts, smoke result | Observability owner traces one safe request with separate failures |
-| 14 Promotion | Protected environments, specific OIDC subjects, fixed manifest, previous-release restore | Release owner shows allowed production approval and blocked regression |
+| 13 Promotion | Protected environments, deployment metadata, and previous-release restore | Release owner sees approval after what-if |
 
 <!-- Notes: Every substitute has specific state, a decision record, an owner, and the result needed here. -->
 
@@ -95,22 +95,25 @@ Foundry Control Plane shows supported agents across accessible Azure projects. A
 
 ## Architecture overview
 
-The design separates the information used to identify the service from the setting that moves
-traffic. A dated portal view can inform the rehearsal, but it cannot move the active selector.
+The design separates the service records from the setting that moves traffic. The native services
+retain the state they own; the repository holds the configuration consumed by the rehearsal.
 
 | Path | What happens | Decision record |
 |---|---|---|
-| Inventory | Live Azure resources are compared with dated Foundry Control Plane, Agent 365, Purview, and Defender observations | Recorded IDs, immutable versions, snapshot dates, and owners |
+| Service state | Native service views and live Azure resources identify the governed service | Native platforms |
 | Traffic | The setting for the active route moves from a healthy primary deployment to the existing secondary path | Customer change system and regional health result |
 | Restore | A failed active check returns the same selector through the documented restore path | Customer change system |
 
-<!-- Notes: The same agent appears in several systems because each answers a different operating question. Portal observations are snapshots, not proof of current state. The source-controlled regional contract and runbook govern the rehearsal. The customer change system owns the result. -->
+<!-- Notes: The same agent appears in several systems because each answers a different operating question. The source-controlled regional contract and runbook govern the rehearsal. The customer change system owns the result. -->
 
 ---
 
 ## Fleet and regional control
 
-![Live Azure and Foundry state is reconciled with dated Agent 365, Purview, and Defender operator snapshots by recorded owners](assets/diagrams/fleet-control-map.svg)
+The service owner identifies the governed agent and MCP server in Foundry Control Plane, Agent
+365, and the API inventory. Azure Resource Manager checks the project, telemetry resource, and
+API Management topology. The active-path health result is transient, then the customer change
+system records the outcome.
 
 <!-- Notes: Traffic moves. The active path must report the expected identity reference, policy version, and trace contract. No identity object is moved by this session. -->
 
@@ -139,7 +142,8 @@ mean that the operator lacks access; it does not prove that the agent is absent.
 **Agent 365** provides the complete registry across Microsoft and non-Microsoft agents.
 **Microsoft Entra Agent ID** remains authoritative for identity.
 
-Use tenant-scoped **AI Reader** for inventory.
+**AI Reader is a privileged tenant role.** Use a time-bound PIM-eligible activation for inventory,
+then let it expire at the end of the approved window.
 
 A missing registry record returns to a temporary **Agent Registry Administrator** in pre-work.
 Identity changes require **Agent ID Administrator**.
@@ -170,6 +174,10 @@ steps.
 ![Microsoft Defender XDR](assets/icons/microsoft/microsoft-defender-xdr.svg)
 
 ### Defender
+
+Record whether Unified RBAC is not activated, partially activated, or active for all in-scope
+workloads. Then record whether visibility uses Entra Security Reader, Defender Unified RBAC, or a
+mixed model.
 
 Confirm the expected agent runtime and risk signals. Defender keeps the threat investigation and
 protection record alongside its existing user, app, and device records.
@@ -206,7 +214,7 @@ Stop on a duplicate, ownerless, or version-ambiguous production record.
 
 | Decision | Chosen approach | Why | Requirement |
 |---|---|---|---|
-| Inventory | Live Azure queries plus dated portal observations | Separates current state from snapshots | Owners review snapshot dates before rehearsal |
+| Service state | Native service views plus live Azure queries | Uses the systems that own current state | Operators need access to each service |
 | Gateway topology | One Premium (classic) multi-region instance or separate regional gateways | Keeps the approved network and isolation design | Accept the primary management plane or the added release work |
 | Restore | Move one selector and keep the secondary deployment | Narrows the restore and leaves standby ready | Session 13 controls drift; capacity cost continues |
 
@@ -293,14 +301,14 @@ Do not deploy a partial `Microsoft.ApiManagement/service` definition beside the 
 
 ## Reconcile inventory and run the regional failover
 
-Before preflight, record one governed agent and one MCP server. Query the stable Azure resources live.
-
-Capture Agent 365, Purview, and Defender observations as a dated operator snapshot. Complete the secondary-region deployment before the timed rehearsal.
+Before preflight, locate one governed agent and one MCP server in their native services. Query the
+Azure resources used by the rehearsal. Complete the secondary-region deployment before the timed
+rehearsal.
 
 **Timebox: 130 minutes**
 
 1. Match project, logs, agent, and store identifiers across the source configuration files.
-2. Reconcile live Azure resources and dated portal views.
+2. Check live Azure resources and the relevant native service views.
 3. Run decision preflight.
 4. Confirm the secondary path was deployed through the existing [Session 13](../13-cicd-promotion-controls/) release control.
 5. Run controlled failover; its wrapper repeats ready preflight before health and routing.
@@ -313,7 +321,7 @@ Capture Agent 365, Purview, and Defender observations as a dated operator snapsh
 
 ### Decisions
 
-Named values, approved scope, snapshot date, HTTPS endpoints, repository paths, script syntax, Bicep lint, and Bicep build.
+Named values, approved scope, HTTPS endpoints, repository paths, script syntax, Bicep lint, and Bicep build.
 
 ### Ready
 
@@ -321,9 +329,12 @@ Active Azure subscription, API Management IDs, tiers and regions, additional loc
 
 Neither phase deploys or moves traffic.
 
-The inventory operator uses Azure **Reader** at subscription scope and tenant **AI Reader**.
+The inventory operator uses Azure **Reader** at subscription scope and a time-bound PIM activation
+for privileged tenant **AI Reader**.
 
-The security operator uses **Purview Data Security AI Viewer** plus Microsoft Entra **Security Reader**. Azure what-if requires temporary **Contributor** on the approved regional resource group.
+The security operator uses **Purview Data Security AI Viewer** plus a time-bound Microsoft Entra
+**Security Reader** activation. Azure what-if requires temporary **Contributor** on the approved
+regional resource group.
 
 <!-- Notes: Human role activations expire after the rehearsal. A clean compile is not a clean deployment preview. -->
 
@@ -352,7 +363,7 @@ No secret argument. No free-form command string.
 ## Stop conditions
 
 - unresolved owner, scope, or version;
-- missing live Azure resources or an outdated portal snapshot;
+- missing live Azure resources or a native service record for the governed agent or MCP server;
 - unsupported API Management tier or topology;
 - remote backend without an approved reason;
 - no internal routing path;
@@ -405,7 +416,7 @@ Expected on the active secondary path:
 
 ## Restore path
 
-the approved routing restore path:
+The approved routing restore path:
 
 1. checks primary readiness;
 2. previews secondary-to-primary routing;
@@ -432,14 +443,14 @@ Fleet-wide lifecycle enforcement is outside this session. The rehearsal does not
 | Security owner | Purview and Defender visibility |
 | Delivery owner | Rehearsal authority and stop decision |
 
-<!-- Notes: The source systems keep live inventory, audit, deployment, and logs records. -->
+<!-- Notes: The source systems keep live inventory, audit, deployment, and logs records. The repository retains desired configuration and the maintained restore runbook. -->
 
 ---
 
 ## Recap
 
 - One governed agent and one MCP server
-- Live stable Azure queries plus a dated portal snapshot
+- Native service views plus live Azure queries
 - One minimal regional parameter contract
 - Co-located gateway and backend paths
 - Primary management-plane limits recorded

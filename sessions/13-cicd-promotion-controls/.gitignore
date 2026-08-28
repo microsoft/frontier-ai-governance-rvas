@@ -2,3 +2,8 @@
 deck.html
 deck.pdf
 .render/
+
+# Temporary records retrieved from approved external release and security systems
+**/external-release-inputs/
+**/*-evaluation-result.json
+**/*-security-release-attestation.json

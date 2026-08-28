@@ -46,7 +46,7 @@ script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 artifact_root=$(cd -- "$script_dir/../artifacts" && pwd)
 bicep_path="$artifact_root/api-center/main.bicep"
 metadata_path="$artifact_root/api-center/metadata-schemas.json"
-catalog_records_path="$artifact_root/catalog/catalog-records.json"
+agent_definition_path="$artifact_root/api-center/agent-api-definition.json"
 openapi_path="$artifact_root/catalog/specs/policy-assistant-agent.openapi.json"
 environment_path="$artifact_root/environments/sandbox.json"
 required_sentinels=(
@@ -66,18 +66,6 @@ required_sentinels=(
   "__REQUIRED_FOUNDRY_ACCOUNT_NAME__"
   "__REQUIRED_FOUNDRY_PROJECT_NAME__"
   "__REQUIRED_LAST_REVIEW_DATE__"
-  "__REQUIRED_MCP_DATA_CLASSIFICATION__"
-  "__REQUIRED_MCP_EVALUATION_RESULTS_URL__"
-  "__REQUIRED_MCP_EXPIRY_DATE__"
-  "__REQUIRED_MCP_LAST_REVIEW_DATE__"
-  "__REQUIRED_MCP_PERMITTED_CONSUMER__"
-  "__REQUIRED_MCP_RESIDENCY_PROFILE__"
-  "__REQUIRED_MCP_RISK_TIER__"
-  "__REQUIRED_MCP_SERVER_DESCRIPTION__"
-  "__REQUIRED_MCP_SERVER_SUMMARY__"
-  "__REQUIRED_MCP_SERVER_TITLE__"
-  "__REQUIRED_MCP_SERVER_VERSION_ID__"
-  "__REQUIRED_MCP_SERVER_VERSION_TITLE__"
   "__REQUIRED_MODEL_PROVIDER__"
   "__REQUIRED_PERMITTED_CONSUMER__"
   "__REQUIRED_RESIDENCY_PROFILE__"
@@ -125,7 +113,7 @@ require_command jq
 require_command python3
 
 [[ -d "$artifact_root" ]] || fail "Required implementation artifacts folder is missing: $artifact_root"
-for path in "$bicep_path" "$metadata_path" "$catalog_records_path" "$openapi_path" "$environment_path"; do
+for path in "$bicep_path" "$metadata_path" "$agent_definition_path" "$openapi_path" "$environment_path"; do
   [[ -f "$path" ]] || fail "Required implementation file is missing: $path"
 done
 
@@ -156,25 +144,21 @@ if ((${#unresolved_sentinels[@]} > 0)); then
   fail "Resolve every Session 07 customer decision before deployment: ${unresolved_sentinels[*]}"
 fi
 
-python3 - "$metadata_path" "$catalog_records_path" "$openapi_path" "$environment_path" <<'PY'
+python3 - "$metadata_path" "$agent_definition_path" "$openapi_path" "$environment_path" <<'PY'
 import json
 import sys
 from datetime import datetime
 
-metadata_path, catalog_path, openapi_path, environment_path = sys.argv[1:]
+metadata_path, agent_definition_path, openapi_path, environment_path = sys.argv[1:]
 metadata = json.load(open(metadata_path, encoding='utf-8'))
-catalog = json.load(open(catalog_path, encoding='utf-8'))
-common = catalog['commonMetadata']
-agent = catalog['records']['agent']
-apim = catalog['records']['apim']
-mcp = catalog['records']['mcp']
-for record in (agent, apim, mcp):
-    record['customProperties'] = common | record.get('customProperties', {})
+agent = json.load(open(agent_definition_path, encoding='utf-8'))['api']
 openapi = json.load(open(openapi_path, encoding='utf-8'))
 environment = json.load(open(environment_path, encoding='utf-8'))
 
 if environment.get('implementationSession') != '07-api-center-ai-mcp-inventory':
     raise SystemExit('The approved environment has the wrong implementationSession marker.')
+if json.load(open(agent_definition_path, encoding='utf-8')).get('implementationSession') != '07-api-center-ai-mcp-inventory':
+    raise SystemExit('The direct agent definition has the wrong implementationSession marker.')
 if environment.get('apiCenterPlan') not in {'Free', 'Standard'}:
     raise SystemExit('apiCenterPlan must be Free or Standard.')
 if len(metadata) != 12:
@@ -216,11 +200,7 @@ def validate_record(record, description):
     if props['implementationSession'] != '07-api-center-ai-mcp-inventory':
         raise SystemExit(f"{description} has the wrong implementationSession marker.")
 
-validate_record(agent, 'Agent API record')
-validate_record(apim, 'APIM API record')
-validate_record(mcp, 'MCP server record')
-if mcp.get('transport') != 'streamable-http':
-    raise SystemExit('The remote MCP record must use Streamable HTTP.')
+validate_record(agent, 'Agent API definition')
 if openapi.get('openapi') != '3.0.3' or openapi.get('paths', {}).get('/responses', {}).get('post') is None:
     raise SystemExit('The authoritative agent definition must be OpenAPI 3.0.3 with POST /responses.')
 if 'servers' in openapi:
@@ -279,7 +259,7 @@ fi
 
 session07_api_json=$(az_json 'Session 06 APIM API lookup' apim api show --api-id policy-assistant-responses --service-name "$(jq -r '.apiManagementName' <<<"$environment_json")" --resource-group "$(jq -r '.apiManagementResourceGroupName' <<<"$environment_json")")
 [[ $(jq -r '.description // ""' <<<"$session07_api_json") == *'implementationSession=06-apim-ai-gateway'* ]] || fail 'The APIM source does not contain the marked Session 06 API.'
-[[ $(jq -r '.displayName' <<<"$session07_api_json") == $(jq -r '.records.apim.sourceTitle' "$catalog_records_path") ]] || fail 'The Session 06 APIM display name does not match the approved API Center reconciliation title.'
+[[ $(jq -r '.displayName' <<<"$session07_api_json") == 'Governed policy assistant Responses API' ]] || fail 'The Session 06 APIM display name does not match the approved synchronized API.'
 
 role_json=$(az_json 'API Management Service Reader Role lookup' role definition list --name 71522526-b88f-4d52-b57f-d31fc3546d0d)
 [[ $(jq -r 'length' <<<"$role_json") == '1' && $(jq -r '.[0].roleName' <<<"$role_json") == 'API Management Service Reader Role' ]] || fail 'Role definition 71522526-b88f-4d52-b57f-d31fc3546d0d is not the current API Management Service Reader Role.'
@@ -298,8 +278,8 @@ echo "  API Center: /subscriptions/$approved_subscription_id/resourceGroups/$(jq
 echo "  Location: $(jq -r '.location' <<<"$environment_json")"
 echo "  Plan decision: $(jq -r '.apiCenterPlan' <<<"$environment_json")"
 echo "  APIM source: $expected_apim_id"
-echo "  Agent API: $(jq -r '.records.agent.title' "$catalog_records_path")"
-echo "  Remote MCP server: $(jq -r '.records.mcp.title' "$catalog_records_path")"
+echo "  Agent API: $(jq -r '.api.title' "$agent_definition_path")"
+echo '  Remote MCP server: supplied at registration and retained in API Center only'
 echo '  Runtime URLs: supplied at delivery and not retained'
 
 az bicep build --file "$bicep_path" --stdout >/dev/null || fail 'The API Center Bicep definition failed to compile.'
@@ -316,4 +296,4 @@ az deployment group what-if \
   --only-show-errors \
   --no-pretty-print >/dev/null || fail 'The API Center deployment preview failed.'
 
-echo 'PASS: Session 07 files, shared metadata source, APIM boundary, runtime coordinates, CLI integration, and deployment preview are ready.'
+echo 'PASS: Session 07 files, direct-agent desired state, APIM boundary, runtime coordinates, CLI integration, and deployment preview are ready.'

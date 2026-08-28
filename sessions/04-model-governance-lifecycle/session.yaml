@@ -3,9 +3,9 @@ session:
   id: "04"
   slug: "model-governance-lifecycle"
   title: "Model governance, data residency, quota, and lifecycle"
-  duration_minutes: 210
+  duration_minutes: 180
   status: "draft"
-  last_verified: "2026-08-26"
+  last_verified: "2026-08-28"
   audience:
     - "AI product owners and AI engineers"
     - "Cloud and Microsoft Foundry platform engineers"
@@ -17,6 +17,7 @@ session:
     - "The deployment operator has a time-bound Cognitive Services Contributor role assignment on that exact Microsoft Foundry resource."
     - "The customer's normal review process has approved the exact model coordinates, workload purpose, processing-location requirement, and external decision reference."
     - "The platform owner can read model availability and quota for the approved subscription and Foundry resource."
+    - "The named Responsible AI policy already exists under the exact Microsoft Foundry resource and can be read through the stable 2026-05-01 resource API."
   dependencies:
     - "Session 01 - Microsoft Foundry platform baseline, inventory, and landing-zone guardrails"
     - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
@@ -28,9 +29,8 @@ session:
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Record the exact approved model coordinates, workload purpose, decision route, processing-location requirement, lifecycle owner, and review date in one governance record."
-  - "Keep each deployment's desired model, SKU, capacity, content filter, and fixed no-auto-upgrade setting in the Bicep input file."
-  - "Check the approval record against the deployment plan, live model availability and lifecycle data, operator access, quota where the CLI can match it safely, and the Bicep preview."
+  - "Keep each deployment's external approval reference, exact model, SKU, capacity, content filter, processing-location requirement, review date, quota headroom, and fixed no-auto-upgrade setting in the Bicep input file."
+  - "Check the deployment plan against current Azure model availability and lifecycle data, named Responsible AI policy, operator access, quota where the CLI can match it safely, and the Bicep preview."
   - "Deploy at least one approved serverless API model version in the existing Foundry resource. The live child deployment must match the approved plan."
 deliverables:
   implementation: "implementation/README.md"
@@ -39,7 +39,6 @@ deliverables:
     - "implementation/artifacts/infra/models/main.bicep"
     - "implementation/artifacts/environments/sandbox.bicepparam"
     - "implementation/artifacts/models/deployment-profiles.json"
-    - "implementation/artifacts/governance/model-approval-record.json"
     - "implementation/scripts/preflight.ps1"
     - "implementation/scripts/preflight.sh"
 retained_files:
@@ -51,10 +50,7 @@ retained_files:
     operational_purpose: "Bind the Bicep deployment to the nonproduction AIServices resource recorded in the environment parameters."
   - path: "implementation/artifacts/models/deployment-profiles.json"
     consumer: "The Session 04 Bicep entrypoint and preflight scripts"
-    operational_purpose: "Supply the repository-owned model, SKU, capacity, filter, and fixed no-auto-upgrade state for each child deployment."
-  - path: "implementation/artifacts/governance/model-approval-record.json"
-    consumer: "The model lifecycle owner and Session 04 preflight scripts"
-    operational_purpose: "Bind each deployment to its approved model coordinates, purpose, authority, location requirement, review date, and change route."
+    operational_purpose: "Supply the repository-owned approval reference, model, SKU, capacity, filter, processing-location requirement, review date, quota headroom, and fixed no-auto-upgrade state for each child deployment."
   - path: "implementation/scripts/preflight.ps1"
     consumer: "The PowerShell-based Foundry deployment operator"
     operational_purpose: "Stop a model change when approval, scope, access, live lifecycle, location, quota, Bicep, or what-if checks fail."
@@ -72,8 +68,8 @@ sources:
     supports: "Current model capabilities, deployment types, lifecycle filtering, and regional availability references."
   - title: "Understanding deployment types in Microsoft Foundry Models"
     url: "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types"
-    accessed: "2026-08-25"
-    supports: "Global, Data Zone, regional, provisioned, batch, and developer deployment behavior, SKU names, billing, latency, and processing-location implications."
+    accessed: "2026-08-28"
+    supports: "Global, US/EU/APAC Data Zone, regional, provisioned, batch, and DeveloperTier behavior, SKU names, billing, latency, and processing-location implications."
   - title: "Data, privacy, and security for Foundry Models sold by Azure"
     url: "https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy"
     accessed: "2026-08-25"
@@ -86,6 +82,10 @@ sources:
     url: "https://learn.microsoft.com/en-us/azure/templates/microsoft.cognitiveservices/2026-05-01/accounts/deployments"
     accessed: "2026-08-25"
     supports: "Stable Bicep resource API and properties for model, SKU capacity, tags, and version upgrade behavior."
+  - title: "Microsoft.CognitiveServices accounts/raiPolicies 2026-05-01"
+    url: "https://learn.microsoft.com/en-us/azure/templates/microsoft.cognitiveservices/2026-05-01/accounts/raipolicies"
+    accessed: "2026-08-28"
+    supports: "Stable resource API used by preflight to verify that each named Responsible AI policy exists under the selected Foundry resource."
   - title: "Microsoft Foundry Models quotas and limits"
     url: "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/quotas-limits"
     accessed: "2026-08-25"
@@ -110,3 +110,7 @@ sources:
     url: "https://learn.microsoft.com/en-us/cli/azure/deployment/group?view=azure-cli-latest"
     accessed: "2026-08-26"
     supports: "Stable Bicep build, deployment, and resource-group what-if behavior, including FullResourcePayloads output."
+  - title: "Built-in policies for model deployment in Microsoft Foundry portal"
+    url: "https://learn.microsoft.com/en-us/azure/foundry/how-to/model-deployment-policy"
+    accessed: "2026-08-28"
+    supports: "Complementary generally available Azure Policy controls for approved-model and model-eligibility restrictions across deployment paths."

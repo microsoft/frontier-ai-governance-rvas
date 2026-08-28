@@ -68,6 +68,7 @@ resource foundry 'Microsoft.CognitiveServices/accounts@2026-05-01' = {
     customSubDomainName: foundryName
     disableLocalAuth: true
     publicNetworkAccess: publicNetworkAccess
+    // Temporary baseline posture. Session 03 owns the approved outbound network design.
     restrictOutboundNetworkAccess: false
   }
 }
@@ -117,6 +118,7 @@ resource applicationInsightsConnection 'Microsoft.CognitiveServices/accounts/pro
   properties: {
     category: 'AppInsights'
     target: applicationInsights.id
+    // Stable baseline path. ProjectManagedIdentity trace ingestion remains a preview upgrade decision.
     authType: 'ApiKey'
     isSharedToAll: true
     credentials: {

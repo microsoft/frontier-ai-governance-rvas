@@ -1,8 +1,15 @@
 # SOC triage playbook for Session 11 AI signals
 
-Use this playbook only for the nonproduction Foundry project and policy-assistant version listed in
-`../red-team/authorization-scope.json`. Do not copy prompts, responses, tool payloads, prompt evidence, user
+Use this playbook only for the nonproduction Foundry project and policy-assistant version authorized
+in the approved change system. Do not copy prompts, responses, tool payloads, prompt evidence, user
 identities, or customer data into this repository.
+
+| Field | Value |
+|---|---|
+| Maintained by | SOC owner |
+| Consumer | SOC analyst and incident commander |
+| Update trigger | An incident, routing, product, or control-boundary change |
+| Review cadence | Quarterly |
 
 ## Triage
 
@@ -14,6 +21,10 @@ identities, or customer data into this repository.
    only for payload-free alert metadata.
 4. Correlate the alert with the Foundry red-team run ID and report URL. Keep detailed attack and
    response content in the governed portals.
+
+The hunt uses exact current alert titles for jailbreak, credential leakage, suspicious access,
+tool misuse, LLM reconnaissance, wallet or cost abuse, phishing or malicious URLs, and malicious
+uploaded AI models. Do not replace the title list with a broad `Title has "AI"` filter.
 
 ## Contain
 
@@ -34,3 +45,8 @@ required.
 
 Recovery returns only the previously approved agent version and tool boundary. A Session 11 result
 does not authorize production promotion.
+
+Defender AI model posture and malware scanning cover model and supply-chain risk. They do not
+replace the agent red-team comparison. Defender real-time protection is also a separate control
+surface: supported blocking depends on the agent type and integration. Session 11 does not create
+or change those rules.

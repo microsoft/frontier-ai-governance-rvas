@@ -14,7 +14,7 @@ html: true
 
 # Microsoft Foundry platform baseline, inventory, and landing-zone guardrails
 
-**360 minutes · Deploy an owned baseline, then stage deny-mode guardrails**
+**300 minutes · Deploy an owned baseline, then stage deny-mode guardrails**
 
 ---
 
@@ -25,7 +25,7 @@ html: true
 - create the current Foundry parent-and-project model from Bicep;
 - give both boundaries managed identities and explicit ownership metadata;
 - connect the project to workspace-based Application Insights;
-- record the customer inventory link and, when needed, a migration-backlog pointer;
+- update the customer inventory and, when needed, the migration backlog through their normal systems;
 - resolve current built-ins and deploy a reusable initiative staged on the same resource group; and
 - promote the assignment to `Default` only after owner review and change approval.
 
@@ -132,7 +132,8 @@ The platform owner assigns confirmed migrations in the backlog.
 |---|---|---|
 | Resource model | Current Foundry resource and child project | Classic assets need separate migration work |
 | Desired state | Bicep and `.bicepparam` | Portal changes must be reconciled |
-| Baseline identity and tracing | System-assigned identities and an Application Insights connection | A later runtime check proves trace delivery, not this session |
+| Tracing authentication | Stable `ApiKey` Application Insights connection; preview `ProjectManagedIdentity` is a later upgrade decision | The baseline stays deployable, but the connection remains key-based |
+| Outbound network posture | `restrictOutboundNetworkAccess: false` until Session 03 | Session 01 does not claim outbound isolation |
 | Policy packaging | One initiative referencing current Microsoft built-ins | Built-in IDs and effects must be checked before each deployment |
 | Assignment scope | Exact same sandbox resource group | Sibling groups and wider scopes stay outside this control |
 | Enforcement rollout | `DoNotEnforce`, owner review, then `Default` | Evaluation time can delay enforcement |
@@ -150,7 +151,10 @@ The platform owner assigns confirmed migrations in the backlog.
 | `costCenter` | `expiryDate` |
 | `environment` | Plain text only; no sensitive values |
 
-The same tag object is applied to the resource group and every taggable resource. Tags do not inherit automatically from the resource group, which is exactly the gap the required-tag policy checks for new changes.
+The same tag object is applied to the resource group and every taggable resource. The initiative requires `businessOwner`, `technicalOwner`, `dataClassification`, `criticality`, `costCenter`, and `expiryDate`. The `implementationSession` and fixed sandbox `environment` tags remain deployment-owned markers.
+
+Foundry model approval and eligibility policies are separate AI-specific built-ins. Session 04 owns
+that model-governance decision; they are not added to this initiative.
 
 <!-- Notes: Use team aliases and synthetic classifications. Tags are visible to anyone with tag read access. -->
 
@@ -160,7 +164,7 @@ The same tag object is applied to the resource group and every taggable resource
 
 1. **Decide** the region, network choice, ownership values, expiry, and resource model.
 2. **Mark** the approved resource group with `implementationSession=01-platform-baseline`.
-3. **Preflight** tools, providers, sentinels, the approved sandbox subscription and resource group, Bicep syntax, and planned changes for both layers.
+3. **Preflight** tools, providers, sentinels, inherited policy assignments, the approved sandbox scope, Bicep syntax, and planned changes for both layers.
 4. **Deploy** the Foundry parent, project, workspace, Application Insights, and connection.
 5. **Resolve** the current built-ins, then deploy the initiative and stage the assignment in `DoNotEnforce`.
 6. **Review** live Policy Insights findings, then promote to `Default` after change-authority approval.
@@ -190,11 +194,12 @@ Deploy a production-shaped Foundry baseline, then stage Azure Policy guardrails 
 - any `__REQUIRED_*__` value remains;
 - Azure CLI is not using the approved sandbox subscription or approved sandbox resource group;
 - the resource-group marker is missing or belongs to another implementation;
+- inherited policy effects and exemptions have not been reviewed by the cloud platform owner;
 - a resolved built-in is deprecated, changed effect, or no longer matches the expected parameters;
 - provider registration or public access would bypass the customer's change rules; or
 - a preview includes anything outside the documented baseline or guardrail scope.
 
-The Application Insights connection string is resolved inside Bicep. Never move it into a parameter, output, tag, or repository file. Keep `DoNotEnforce` until the cloud platform owner has reviewed live Policy Insights findings and the change authority has approved `Default`.
+The stable Application Insights connection uses `ApiKey`; Bicep resolves its connection string without exposing it as a parameter or output. Preview `ProjectManagedIdentity` trace ingestion is a later upgrade decision. Keep `DoNotEnforce` until the cloud platform owner has reviewed live Policy Insights findings and the change authority has approved `Default`.
 
 <!-- Notes: These are the consequential gates. Routine steps do not need a checkpoint. -->
 
@@ -208,7 +213,8 @@ Rerun the preflight and inspect its final deployment previews, then inspect the 
 .\scripts\preflight.ps1 `
   -ResourceGroupName $resourceGroup `
   -DeploymentName "rvas-s01-baseline" `
-  -DeploymentLocation $location
+  -DeploymentLocation $location `
+  -ConfirmInheritedPolicyReview
 ```
 
 **Expected:** no unintended change to the Foundry baseline, and a `Default`-enforcement assignment with the approved locations, tags, and session marker.

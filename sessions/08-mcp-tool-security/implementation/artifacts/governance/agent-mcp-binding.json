@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "implementationSession": "08-mcp-tool-security",
   "agentName": "__REQUIRED_AGENT_NAME__",
-  "candidateVersionState": "not-pinned",
   "serverLabel": "policy-catalog",
   "serverId": "policy-catalog-mcp",
   "transport": "streamable-http",

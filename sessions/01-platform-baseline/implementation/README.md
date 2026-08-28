@@ -14,10 +14,9 @@ every taggable resource. We then create a policy initiative at the subscription 
 that resource group in `DoNotEnforce`, review Policy Insights, and move the same assignment to
 `Default` after owner review and change approval.
 
-This session owns the deployed baseline, a repeat deployment preview with no unintended change, a
-decision record that points to the authoritative customer inventory item, and the live initiative
-and assignment whose scope, parameters, references, marker, and enforcement mode match the approved
-design.
+This session owns the deployed baseline, a repeat deployment preview with no unintended change,
+and the live initiative and assignment whose scope, parameters, references, marker, and enforcement
+mode match the approved design.
 
 ### Why it matters
 
@@ -31,10 +30,11 @@ decide whether denial is safe.
 ### Boundaries
 
 Live Azure resource state is authoritative for the Foundry baseline. The customer inventory system
-owns environment inventory and any migration backlog; the repository keeps deployable desired state
-and pointers to those records. The Application Insights connection makes the baseline
-telemetry-connected, but this session does not run an application or prove that telemetry is
-arriving.
+owns environment inventory and any migration backlog; the repository keeps deployable desired
+state. The Application Insights connection uses the stable `ApiKey` connection shape. Bicep reads the
+connection string from Azure and does not expose it as a parameter or output. The preview
+`ProjectManagedIdentity` trace-ingestion path is an explicit upgrade decision, not part of this
+baseline. This session does not run an application or prove that telemetry is arriving.
 
 Azure Policy is authoritative for the initiative, assignment, enforcement mode, and exemptions.
 Policy Insights is authoritative for evaluated compliance. `Default` enforcement applies when Azure
@@ -48,8 +48,9 @@ production parameters, or move subscriptions.
 [Session 02](../../02-identity-privileged-access/implementation/README.md) and
 [Session 03](../../03-private-networking-dns/implementation/README.md) own identity and private
 connectivity. Diagnostic settings, network controls, managed identity, Defender plans, approved
-SKUs, encryption, and sandbox expiry require their own designs and handoffs. The connection string
-is resolved inside Bicep and is neither a parameter nor an output.
+SKUs, encryption, and sandbox expiry require their own designs and handoffs. Session 03 also owns
+the change from the temporary `restrictOutboundNetworkAccess: false` baseline to the approved
+outbound network posture.
 
 ## Architecture
 
@@ -70,15 +71,20 @@ exist. The rollout begins in audit-only `DoNotEnforce`, where Policy Insights ev
 without Azure Policy denying the change. Once those results are current, the cloud platform owner
 reviews the likely impact and any exemptions, and the change authority may then approve `Default`.
 
-The design groups Microsoft's built-in policy rules into a custom initiative instead of maintaining
-local copies. Before deployment, a lookup step finds the IDs currently visible in the tenant and
-confirms that the rules still have the expected effects. A single assignment limits that initiative
-to the sandbox resource group.
+The design groups Microsoft's location and required-tag built-ins into a custom initiative instead
+of maintaining local copies. Before deployment, a lookup step finds the IDs currently visible in
+the tenant and confirms that the rules still have the expected effects. The required-tag list
+includes `dataClassification` and `criticality`, so those deployment tags are covered by the same
+deny boundary. A single assignment limits that initiative to the sandbox resource group.
+
+Microsoft also publishes AI-specific built-ins for model approval and eligibility. Those controls
+belong with the model-governance boundary in
+[Session 04](../../04-model-governance-lifecycle/implementation/README.md); this session does not
+add them to the landing-zone initiative.
 
 Azure shows what is deployed now and what policy state applies to it. The repository defines the
-intended resource and policy shape. The customer inventory system tells operators where the
-environment belongs and tracks any classic assets that still need work; the customer change or risk
-system records the decision to enforce. None of these records tries to replace the others.
+intended resource and policy shape. The customer inventory system tracks the environment and any classic assets that still need work;
+the customer change or risk system records the decision to enforce.
 
 This session stops at the platform, tracing connection, and the two policy rules. It does not
 enforce broader policy, grant production access, or prove that traces are arriving.
@@ -96,7 +102,8 @@ both inheriting the checks assigned here.
 |---|---|---|---|---|
 | Foundry resource model | Use the current `AIServices` resource with one child project | New work starts within the supported management boundary | Confirmed classic assets remain outside this deployment and need separate migration work | A classic workload is approved for migration |
 | Desired state | Keep Bicep and `.bicepparam` in the customer repository | The team can review and repeat the deployment | A portal change creates drift and must be reconciled | The deployment pipeline or ownership model changes |
-| Identity and tracing | Give both Foundry resources system-assigned identities and connect the project to workspace-based Application Insights | No stored credential is needed, and the tracing connection is ready | Session 02 adds role assignments; this connection alone does not prove trace delivery | A different identity boundary or tracing store is approved |
+| Tracing authentication | Use the stable `ApiKey` Application Insights project connection without exposing the connection string in parameters or outputs | The baseline uses the stable resource API and remains deployable through Bicep | The connection remains key-based; preview `ProjectManagedIdentity` also needs Application Insights authentication and role changes | The preview path is approved for the environment |
+| Outbound network posture | Keep `restrictOutboundNetworkAccess: false` during the baseline | Session 01 does not claim outbound isolation before its network design exists | This is temporary and allows outbound access subject to other platform controls | Session 03 implements the approved private networking and outbound-control design |
 | Policy packaging | Group the current Microsoft built-ins in one custom initiative | References and parameters stay together; Microsoft still owns the underlying rules | Built-in IDs or behavior can change, so check both before deployment | Microsoft deprecates a built-in or its rule no longer fits |
 | Assignment scope | Assign the initiative only to the same sandbox resource group | A first use of deny cannot affect sibling groups or wider scopes | The subscription and management groups are outside this control | A wider scope has its own parameters, owner, and restore plan |
 | Enforcement rollout | Start in audit-only `DoNotEnforce`; after review and approval, change the same assignment to enforcing `Default` | The owner sees likely impact before Azure starts denying requests | Policy evaluation takes time, and stale results stop promotion | The operating process can safely support a different rollout |
@@ -143,6 +150,8 @@ You need:
 - the time-bound Resource Policy Contributor assignment described above;
 - permission to run deployment what-if at the sandbox resource-group scope and at the subscription
   scope;
+- access to review policy assignments inherited from the subscription and management-group
+  hierarchy;
 - registered `Microsoft.CognitiveServices`, `Microsoft.Insights`, `Microsoft.OperationalInsights`,
   and `Microsoft.PolicyInsights` providers; and
 - the Reader role on the approved sandbox subscription only if you will search that subscription
@@ -156,13 +165,11 @@ Replace the two sandbox region values in `artifacts/environments/policy-assignme
 |---|---|---|
 | Deployment | [`artifacts/infra/foundry/main.bicep`](artifacts/infra/foundry/main.bicep) | The platform deployment pipeline |
 | Deployment | [`artifacts/environments/sandbox.bicepparam`](artifacts/environments/sandbox.bicepparam) | The platform deployment pipeline |
-| Record | [`artifacts/decisions/resource-model.md`](artifacts/decisions/resource-model.md) | The platform owner and operational inventory process |
 | Deployment | [`artifacts/policy/initiative.bicep`](artifacts/policy/initiative.bicep) | The subscription policy deployment pipeline |
 | Deployment | [`artifacts/policy/assignment.bicep`](artifacts/policy/assignment.bicep) | The sandbox policy deployment pipeline |
 | Deployment | [`artifacts/policy/guardrail-settings.json`](artifacts/policy/guardrail-settings.json) | The initiative and assignment parameter builds |
 | Deployment | [`artifacts/environments/initiative.bicepparam`](artifacts/environments/initiative.bicepparam) | The subscription policy deployment pipeline |
 | Deployment | [`artifacts/environments/policy-assignment.bicepparam`](artifacts/environments/policy-assignment.bicepparam) | The sandbox policy deployment pipeline |
-| Record | [`artifacts/governance/change-reference.md`](artifacts/governance/change-reference.md) | The cloud platform owner and change authority |
 
 Before creating or tagging the resource group, use read-only commands to inspect the selected
 subscription and any existing group:
@@ -214,26 +221,33 @@ Make these decisions before deployment:
    group. Manual removal requires the group tag `implementationSession=01-platform-baseline`. Stop
    if the group is shared and its owner has not approved that marker.
 2. **Customer values.** Replace every `__REQUIRED_*__` value in
-   `artifacts/environments/sandbox.bicepparam`, `artifacts/decisions/resource-model.md`,
-   `artifacts/environments/policy-assignment.bicepparam`, and
-   `artifacts/governance/change-reference.md`. Use an ISO `yyyy-MM-dd` expiry date. Stop if any
-   sentinel remains.
-3. **Resource model.** The platform owner records one required decision: use the current Foundry
-   resource and child-project model for new work. Existing confirmed hub-based projects keep their
-   approved controls until the platform owner approves separate migration work. Do not mix both
-   models in this deployment.
+   `artifacts/environments/sandbox.bicepparam` and
+   `artifacts/environments/policy-assignment.bicepparam`. Use an ISO `yyyy-MM-dd` expiry date.
+   Stop if any sentinel remains.
+3. **Resource model.** Use the current Foundry resource and child-project model for new work.
+   Existing confirmed hub-based projects keep their approved controls until the platform owner
+   approves separate migration work. Do not mix both models in this deployment.
 4. **Foundry network posture.** The `publicNetworkAccess` property controls whether the Foundry
    resource accepts traffic through its public network endpoint. Set it to the approved value. The
    supplied artifact requires an explicit choice. Do not set it to `Disabled` until the approved
    execution host has a working private path. Do not set it to `Enabled` when the landing-zone
    rules prohibit public network access.
-5. **Planned baseline scope.** The first Foundry preview should contain only the documented baseline
+5. **Foundry outbound posture.** The baseline sets `restrictOutboundNetworkAccess: false` because
+   Session 01 does not yet own the private egress design. Treat this as temporary. Session 03 must
+   replace it with the approved outbound-control design before the environment is treated as
+   network isolated.
+6. **Tracing authentication.** Keep the stable `ApiKey` connection in this baseline. Move to the
+   preview
+   [`ProjectManagedIdentity` trace-ingestion path](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/trace-ingestion-entra-authentication)
+   only after the platform and monitoring owners accept preview use, plan Application Insights
+   local-authentication changes, and approve the required Monitoring Metrics Publisher assignments.
+7. **Planned baseline scope.** The first Foundry preview should contain only the documented baseline
    resources. Stop if it targets another group, changes an existing resource unexpectedly, or needs
    a provider registration that the customer has not approved.
 
 | Gate | Continue when | Stop when |
 |---|---|---|
-| Policy scope | The subscription, sandbox resource group, owner, and inherited assignments are understood | The scope is shared, ownership is missing, or an inherited policy makes the change unsafe |
+| Policy scope | Preflight lists inherited assignments and the cloud platform owner confirms their effects and exemptions | The scope is shared, ownership is missing, the review is not confirmed, or an inherited policy makes the change unsafe |
 | Policy enforcement | Both built-ins are current, nondeprecated, and still use the expected `Deny` effect and parameters | A definition changed, is unavailable, or applies more broadly than intended |
 | Exemption | The live Azure Policy exemption is limited to the approved scope and policy references, and the customer risk system holds the decision reference | The exemption is broader than the approved exception, has no expiry, or has no customer risk reference |
 | Promotion | The cloud platform owner has reviewed live Policy Insights findings and exemptions, restore ownership is ready, and the change authority has approved `Default` | Evaluation is stale, the review is incomplete, or the change authority has not approved `Default` |
@@ -260,7 +274,8 @@ The Bicep uses the stable APIs verified on 2026-08-26:
 
 Keep `disableLocalAuth: true`. If the project-managed identity tracing path, the resolved built-in
 policy IDs, or the approved region have changed since the verification date, stop and recheck the
-Microsoft sources recorded in `session.yaml`.
+Microsoft sources recorded in `session.yaml`. The shipped connection remains `ApiKey`; the
+project-managed identity path is still preview.
 
 ### 2. Prepare the marked resource group
 
@@ -399,8 +414,26 @@ not listed above remain in place.
 ```
 
 Preflight rejects unresolved decisions and tag-source divergence, confirms that Azure CLI is using
-the approved sandbox subscription and resource group, checks provider registrations, builds the
-Foundry and policy Bicep files, and prints a deployment preview for each available deployment.
+the approved sandbox subscription and resource group, lists inherited policy assignments, checks
+provider registrations, builds the Foundry and policy Bicep files, and prints a deployment preview
+for each available deployment. If inherited assignments exist, review their effects and exemptions
+with the cloud platform owner, then rerun with the explicit confirmation:
+
+```powershell
+.\scripts\preflight.ps1 `
+  -ResourceGroupName $resourceGroup `
+  -DeploymentName $deployment `
+  -DeploymentLocation $location `
+  -ConfirmInheritedPolicyReview
+```
+```bash
+./scripts/preflight.sh \
+  --resource-group-name "$resource_group" \
+  --deployment-name "$deployment" \
+  --deployment-location "$location" \
+  --confirm-inherited-policy-review
+```
+
 Inspect every scope and planned resource. Do not continue on an unexpected change.
 
 ### 4. Deploy the baseline
@@ -440,9 +473,8 @@ az resource list \
   --output json
 ```
 
-Do not commit the response. Platform operations creates or updates the inventory item and returns
-the external reference. Record that pointer in `artifacts/decisions/resource-model.md`; the
-customer system remains authoritative for live resource details.
+Do not commit the response. Platform operations creates or updates the inventory item in the
+customer system, which remains authoritative for live resource details.
 
 Run this subscription query only when classic assets are in scope and the operator has subscription
 Reader access:
@@ -461,9 +493,8 @@ az resource list \
 ```
 
 Skip the query otherwise. It returns Azure Machine Learning workspaces that may be Foundry
-(classic) hubs. The operator verifies each candidate in Foundry (classic). The platform owner puts
-each confirmed hub-based project in the customer migration backlog with an owner and due date.
-Record only the backlog reference in `artifacts/decisions/resource-model.md`.
+(classic) hubs. The operator verifies each candidate in Foundry (classic). The platform owner puts each confirmed
+hub-based project in the customer migration backlog with an owner and due date.
 
 ### 6. Deploy the initiative
 
@@ -601,11 +632,11 @@ az policy state list \
   --only-show-errors
 ```
 
-New assignments and scans are asynchronous. Read the wait period from the customer change record,
-then inspect again if the state is stale. Keep `DoNotEnforce` while results remain stale, record the
-cloud platform owner and next review date in that customer record, and stop the session before
-promotion. Create any approved exemption in Azure Policy and put its decision reference in the
-customer risk system; do not mirror the exemption in this repository.
+New assignments and scans are asynchronous. Follow the wait period in the normal change process,
+then inspect again if the state is stale. Keep `DoNotEnforce` while results remain stale, keep the
+cloud platform owner and next review date in that process, and stop the session before promotion.
+Create any approved exemption in Azure Policy and keep its decision reference in the customer risk
+system.
 
 ### 9. Promote the approved assignment
 
@@ -642,9 +673,8 @@ az deployment group create \
 
 ### 10. Commit the operational implementation
 
-Commit the Bicep, parameter files, decision and change-reference records, and scripts. Leave
-environment inventory and other customer-specific command responses in the customer's operational
-systems.
+Commit the Bicep, parameter files, and scripts. Leave environment inventory, approval details, and
+customer-specific command responses in the customer systems that own them.
 
 ## Confirm the result
 
@@ -722,10 +752,9 @@ means the guardrail rollout is incomplete. You do not need to save any command o
 
 The **platform owner keeps the deployed baseline** and the **cloud platform owner keeps the
 subscription initiative and sandbox assignment** unless the customer chooses to remove them. The
-repository keeps the implementation files. Platform operations owns the inventory item, while the
-resource-model record keeps its external reference. The customer backlog owns any classic
-migration work. The change authority approves promotion, restore, or removal of the policy scope in
-the customer change system.
+repository keeps the implementation files. Platform operations owns the inventory item and the
+customer backlog owns any classic migration work. The change authority approves promotion, restore,
+or removal of the policy scope in the customer change system.
 
 The `expiryDate` remains the trigger to keep or remove sandbox resources. This session does not
 authorize production use.

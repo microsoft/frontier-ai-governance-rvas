@@ -169,6 +169,21 @@ const formatShortDuration = (minutes) => {
   return `${Number.isInteger(hours) ? hours : hours.toFixed(1)}h`;
 };
 
+const validateDeliveryDuration = (durationMinutes, sourceLabel) => {
+  if (
+    !Number.isInteger(durationMinutes) ||
+    durationMinutes < 30 ||
+    durationMinutes > 480 ||
+    durationMinutes % 30 !== 0
+  ) {
+    throw new Error(
+      `${sourceLabel} duration_minutes must be an integer from 30 to 480 in 30-minute increments.`,
+    );
+  }
+
+  return durationMinutes;
+};
+
 const titleCase = (value) =>
   value ? `${value.charAt(0).toUpperCase()}${value.slice(1)}` : "";
 
@@ -279,6 +294,21 @@ const githubSourceUrl = ({ href, sourceKind, sourceSlug }) => {
     .join("/");
 
   return `${sourceServerUrl}/${sourceRepository}/blob/${encodeURIComponent(sourceRevision)}/${encodedPath}`;
+};
+
+const githubImplementationUrl = ({ sourceKind, sourceSlug }) => {
+  if (!sourceRepository || !sourceRevision || !sourceSlug) {
+    return "";
+  }
+
+  const collection = sourceKind === "module" ? "modules" : "sessions";
+  const directoryPath = `${collection}/${sourceSlug}/implementation`;
+  const encodedPath = directoryPath
+    .split("/")
+    .map((segment) => encodeURIComponent(segment))
+    .join("/");
+
+  return `${sourceServerUrl}/${sourceRepository}/tree/${encodeURIComponent(sourceRevision)}/${encodedPath}`;
 };
 
 const rewriteLink = (
@@ -783,6 +813,11 @@ const pageTemplate = ({
   ...item
 }) => {
   const context = pageContextFor({ ...item, title }, chapter, chapters);
+  const implementationUrl =
+    githubImplementationUrl({
+      sourceKind: item.kind,
+      sourceSlug: item.slug,
+    }) || "implementation/";
   const chapterLinks = chapters
     .map(
       ({ file, index, title: chapterTitle }) =>
@@ -915,19 +950,34 @@ const pageTemplate = ({
       </nav>
 
       <div class="session-reading-layout session-content-width">
-        <button
-          class="deck-launcher"
-          type="button"
-          aria-haspopup="dialog"
-          aria-controls="session-deck-dialog"
-          data-deck-open
-        >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
-            <path d="M8 20h8M12 16.5V20"></path>
-          </svg>
-          <span>Open the deck</span>
-        </button>
+        <div class="chapter-actions">
+          <button
+            class="deck-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="session-deck-dialog"
+            data-deck-open
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+              <path d="M8 20h8M12 16.5V20"></path>
+            </svg>
+            <span>Open the deck</span>
+          </button>
+          <a
+            class="implementation-files-link"
+            href="${escapeHtml(implementationUrl)}"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 7.5h6l2-2h9v13h-17z"></path>
+              <path d="m9.5 11-2 2 2 2M14.5 11l2 2-2 2"></path>
+            </svg>
+            <span>View implementation files</span>
+            <span class="visually-hidden"> on GitHub (opens in a new tab)</span>
+          </a>
+        </div>
         <aside class="service-panel" aria-labelledby="service-panel-title">
           <h2 id="service-panel-title">Services in scope</h2>
           <ul>${serviceList}</ul>
@@ -1029,7 +1079,10 @@ const loadSessions = async (serviceRegistry) => {
       if (!/^\d{2}$/.test(id) || !Number.isInteger(number)) {
         throw new Error(`${relative(root, yamlPath)} has invalid session ID "${id}".`);
       }
-      const durationMinutes = Number(scalar(yaml, "duration_minutes"));
+      const durationMinutes = validateDeliveryDuration(
+        Number(scalar(yaml, "duration_minutes")),
+        relative(root, yamlPath),
+      );
       const sourceLabel = `${relative(root, yamlPath)} services_in_scope`;
       const item = {
         audience: list(yaml, "audience"),
@@ -1090,7 +1143,10 @@ const loadModules = async (serviceRegistry) => {
         "utf8",
       );
       const title = scalar(yaml, "title");
-      const durationMinutes = Number(scalar(yaml, "duration_minutes"));
+      const durationMinutes = validateDeliveryDuration(
+        Number(scalar(yaml, "duration_minutes")),
+        relative(root, yamlPath),
+      );
       const sourceLabel = `${relative(root, yamlPath)} services_in_scope`;
       const item = {
         audience: list(yaml, "audience"),
@@ -1320,9 +1376,9 @@ const renderModuleCard = (module) => {
 };
 
 const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
-  const totalHours = Math.round(
-    sessions.reduce((sum, session) => sum + session.durationMinutes / 60, 0),
-  );
+  const totalHours = formatShortDuration(
+    sessions.reduce((sum, session) => sum + session.durationMinutes, 0),
+  ).replace(/h$/, "");
   const sessionServiceIds = new Set(
     sessions.flatMap(({ services }) => services.map(({ id }) => id)),
   );
@@ -1527,16 +1583,10 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
 
       <section class="section program" id="program" aria-labelledby="program-title">
         <div class="section-heading section-heading--program">
-          <div><p class="section-kicker">Session catalog</p><h2 id="program-title">Browse all ${sessions.length} sessions.</h2><p>Phase, service, and text filters work together. Service and focused-route selections are kept in the URL, so you can share a filtered view.</p></div>
+          <div><p class="section-kicker">Session catalog</p><h2 id="program-title">Browse all ${sessions.length} sessions.</h2><p>Focused route, service, and text filters work together. Service and focused-route selections are kept in the URL, so you can share a filtered view.</p></div>
           <p class="register-instruction">Optional modules stay outside this filter and the 14-session count.</p>
         </div>
         <div class="registry-controls">
-          <div class="phase-filters" role="group" aria-label="Filter by phase">
-            <button type="button" data-filter="all" aria-pressed="true">All phases</button>
-            <button type="button" data-filter="foundation" aria-pressed="false">Foundation · 1–5</button>
-            <button type="button" data-filter="runtime" aria-pressed="false">Live traffic · 6–11</button>
-            <button type="button" data-filter="operations" aria-pressed="false">Operations · 12–14</button>
-          </div>
           <label class="registry-search"><span>Search sessions</span><span class="registry-search__field"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"></circle><path d="m13 13 4 4"></path></svg><input type="search" autocomplete="off" placeholder="Title, control, outcome…" data-session-search></span></label>
         </div>
         <div class="route-filter-row">
@@ -1561,7 +1611,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
           <output data-results-count aria-live="polite">${sessions.length} sessions shown</output>
         </div>
         <div class="session-register">${sessionCards}</div>
-        <p class="empty-result" data-empty-state hidden>No session matches the selected phase, service, and search text.</p>
+        <p class="empty-result" data-empty-state hidden>No session matches the selected route, service, and search text.</p>
       </section>
 
       <section class="routes-section" id="routes" aria-labelledby="routes-title">
