@@ -752,11 +752,11 @@ const buildBriefSections = (item) => {
     },
   ];
 
-  if (item.kind === "module" && item.relatedSessions.length) {
+  if (item.kind === "module" && item.relatedContent.length) {
     sections.push({
       className: "session-brief__references session-brief__list",
-      title: "Related numbered sessions",
-      items: item.relatedSessions,
+      title: "Related sessions and modules",
+      items: item.relatedContent,
       linked: true,
       wholeEntryLink: true,
       layout: "stack",
@@ -808,6 +808,7 @@ const pageTemplate = ({
   guide,
   nextPage,
   previousPage,
+  moduleLinks,
   sessionLinks,
   title,
   ...item
@@ -842,11 +843,16 @@ const pageTemplate = ({
     items
       .map((entry) => {
         const sessionNumber = entry.match(/\bSession\s+(\d{2})\b/)?.[1];
-        const slug = sessionNumber ? sessionLinks.get(sessionNumber) : "";
+        const sessionSlug = sessionNumber ? sessionLinks.get(sessionNumber) : "";
+        const moduleSlug = moduleLinks.get(entry);
         const content = renderBriefText(entry);
-        return slug
-          ? `<li><a href="${outputPrefixFor(item.kind, "session")}${slug}/">${content}</a></li>`
-          : `<li>${content}</li>`;
+        if (sessionSlug) {
+          return `<li><a href="${outputPrefixFor(item.kind, "session")}${sessionSlug}/">${content}</a></li>`;
+        }
+        if (moduleSlug) {
+          return `<li><a href="${outputPrefixFor(item.kind, "module")}${moduleSlug}/">${content}</a></li>`;
+        }
+        return `<li>${content}</li>`;
       })
       .join("");
   const renderBriefSection = ({
@@ -1098,7 +1104,7 @@ const loadSessions = async (serviceRegistry) => {
         mode: scalar(yaml, "mode"),
         number,
         phase: phaseFor(number),
-        relatedSessions: [],
+        relatedContent: [],
         services: resolveServices({
           ids: list(yaml, "services_in_scope"),
           registry: serviceRegistry,
@@ -1160,7 +1166,7 @@ const loadModules = async (serviceRegistry) => {
         kind: "module",
         lastVerified: scalar(yaml, "last_verified"),
         mode: scalar(yaml, "mode"),
-        relatedSessions: list(yaml, "related_sessions"),
+        relatedContent: list(yaml, "related_content"),
         services: resolveServices({
           ids: list(yaml, "services_in_scope"),
           registry: serviceRegistry,
@@ -1280,6 +1286,7 @@ const buildCollection = async ({ items, outputRoot, descriptorFile }) => {
           guide,
           nextPage,
           previousPage,
+          moduleLinks,
           sessionLinks,
         }),
         "utf8",
@@ -1741,6 +1748,7 @@ const modules = await loadModules(serviceRegistry);
 const sessionLinks = new Map(
   sessions.map((session) => [String(session.number).padStart(2, "0"), session.slug]),
 );
+const moduleLinks = new Map(modules.map((module) => [module.title, module.slug]));
 
 await writeFile(
   join(siteRoot, "index.html"),
@@ -1755,11 +1763,13 @@ await writeFile(
 
 await buildCollection({
   items: sessions,
+  moduleLinks,
   outputRoot: sessionsOutputRoot,
   descriptorFile: "session.yaml",
 });
 await buildCollection({
   items: modules,
+  moduleLinks,
   outputRoot: modulesOutputRoot,
   descriptorFile: "module.yaml",
 });

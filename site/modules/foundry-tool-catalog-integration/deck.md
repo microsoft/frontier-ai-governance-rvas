@@ -198,7 +198,7 @@ Keep the MCP server record in API Center unless its owner separately retires the
 
 ---
 
-## Related numbered sessions
+## Related sessions and modules
 
 - **Session 05** owns agent release and endpoint consumption.
 - **Session 07** owns the API Center inventory record.

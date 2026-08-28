@@ -217,7 +217,7 @@ No application-only retry. No token or payload logging.
 
 ---
 
-## Related numbered sessions
+## Related sessions and modules
 
 - **Session 02** selects human, workload, agent, or delegated authority.
 - **Session 05** keeps the direct OpenAPI baseline application-only.

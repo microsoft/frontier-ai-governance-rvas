@@ -57,7 +57,7 @@ module:
     - "Application and identity engineers"
   prerequisites:
     - "An approved nonproduction application chain"
-  related_sessions:
+  related_content:
     - "Session 03 - Entra identity, RBAC, PIM, and workload identities"
   control_objective: "Configure downstream APIs to authorize the signed-in user's delegated identity."
 implementation:
@@ -83,7 +83,8 @@ sources:
     supports: "Protocol behavior and token-exchange constraints."
 ```
 
-Use three to five outcomes. `related_sessions` provides context and cross-links; it does not make
+Use three to five outcomes. `related_content` provides context and cross-links to sessions or
+other modules; it does not make
 the module part of the numbered sequence. Follow the session contract's implementation-file value
 test, `retained_files` schema, authoritative-state rule, and limits on platform-enforcement claims.
 

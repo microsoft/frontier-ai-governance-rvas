@@ -1407,7 +1407,7 @@ def main() -> int:
         date.fromisoformat(str(entity.get("last_verified", "")))
     except ValueError:
         failures.append(f"{entity_name}.last_verified must use YYYY-MM-DD")
-    list_keys = ("audience", "prerequisites", "related_sessions") if is_module else (
+    list_keys = ("audience", "prerequisites", "related_content") if is_module else (
         "audience",
         "prerequisites",
         "dependencies",

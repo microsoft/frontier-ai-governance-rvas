@@ -14,7 +14,7 @@ module:
     - "The Agent 365 administrator has confirmed the tenant licensing, administrator access, and current Agent Registry availability."
     - "The delivery team has identified a supported onboarding route: built-in integration, Registry sync from a supported platform, or runtime-owned Agent 365 SDK integration."
     - "The agent owner, runtime owner, and retirement owner are available to observe the live Agent 365 record."
-  related_sessions:
+  related_content:
     - "Session 05 - Governed Microsoft Foundry agent baseline"
     - "Session 09 - Purview data governance and Agent 365 data controls"
     - "Session 14 - Agent fleet governance, multi-region design, and production rehearsal"

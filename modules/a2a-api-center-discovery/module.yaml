@@ -13,7 +13,7 @@ module:
     - "Developers have a documented need to discover the agent's A2A interface through Azure API Center."
     - "The runtime owner controls an approved Git or API Management source integration that can publish the A2A asset without a manual duplicate record."
     - "The API Center owner can inspect the source integration and the resulting Agent asset in the approved nonproduction API Center."
-  related_sessions:
+  related_content:
     - "Session 07 - Azure API Center and the AI/MCP inventory"
     - "A2A agent inventory in Microsoft Agent 365"
   services_in_scope:

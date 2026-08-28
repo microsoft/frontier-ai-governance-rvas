@@ -16,7 +16,7 @@ module:
     - "The developer access group has the Azure API Center Data Reader role at the exact API Center resource scope."
     - "An API Center configuration owner can update API visibility and MCP Registry settings through the approved Azure portal change path."
     - "The client owner has a supported MCP registry integration or an approved adapter that consumes the module client contract."
-  related_sessions:
+  related_content:
     - "Session 07 - Azure API Center and the AI/MCP inventory"
     - "Session 08 - MCP and tool security"
   services_in_scope:

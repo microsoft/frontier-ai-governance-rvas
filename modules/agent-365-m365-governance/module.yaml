@@ -14,7 +14,7 @@ module:
     - "A nonproduction agent or pilot agent family is approved for inventory, publishing, connector, identity, oversharing, and Defender posture review."
     - "The tenant owner has recorded the Agent 365 administrator, Entra identity owner, Copilot Studio environment owner, Power Platform DLP owner, SharePoint owner, Defender owner, and publishing approver roles."
     - "No production-wide agent publishing, connector blocking, Conditional Access enforcement, or SharePoint sharing change is made during this module."
-  related_sessions:
+  related_content:
     - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
     - "Session 07 - Azure API Center and the AI/MCP inventory"
     - "Session 08 - MCP and tool security"

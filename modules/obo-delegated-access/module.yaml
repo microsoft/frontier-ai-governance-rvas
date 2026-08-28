@@ -15,7 +15,7 @@ module:
     - "An exportable Azure Key Vault certificate is approved for middle-tier client authentication and can be exposed as a protected PFX through the approved runtime integration."
     - "The identity owner can approve exact delegated permissions and consent."
     - "One permitted user and one user without downstream resource authority are available for the delivery checks."
-  related_sessions:
+  related_content:
     - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
     - "Session 05 - Governed Microsoft Foundry agent baseline"
     - "Session 08 - MCP and tool security"
