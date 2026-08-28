@@ -84,13 +84,14 @@ named lifecycle owner, and review history.
 Confirm these prerequisites:
 
 - Sessions 01-02 are complete in the approved nonproduction subscription and resource group.
-- Azure CLI is installed, signed in to the approved subscription, and can build Bicep.
 - The existing Microsoft Foundry resource has Azure resource kind `AIServices`.
 - The deployment operator has a time-bound **Cognitive Services Contributor** assignment on that
-  exact Foundry resource. Record the operator's Entra object ID for preflight.
+  exact Foundry resource.
 - The customer's normal decision process has approved the exact model coordinates, workload
   purpose, processing-location requirement, and external decision reference.
 - The platform owner can read model availability and subscription quota.
+
+Use the repository Execution environment section in README.md for client setup.
 
 The customer can compare models and keep detailed terms, privacy, security, evaluation, and
 procurement records in its normal systems. Session 04 keeps the deployment inputs needed to
@@ -108,45 +109,6 @@ control one change path.
 
 Compare the selected option with Microsoft’s [Foundry model deployment types](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types)
 before approving its processing location, capacity model, and operating boundary.
-
-### Set the runtime scope
-
-Use real Azure identifiers only in the current shell and command arguments.
-
-```powershell
-$approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
-$resourceGroup = "approved-session-04-resource-group"
-$foundryAccount = "approved-existing-foundry-resource"
-$operatorObjectId = "00000000-0000-0000-0000-000000000000"
-```
-
-```bash
-approved_subscription_id="${AZURE_SUBSCRIPTION_ID:-}"
-resource_group="approved-session-04-resource-group"
-foundry_account="approved-existing-foundry-resource"
-operator_object_id="00000000-0000-0000-0000-000000000000"
-```
-
-Inspect the account before editing the implementation files:
-
-```powershell
-az cognitiveservices account show `
-  --name $foundryAccount `
-  --resource-group $resourceGroup `
-  --query "{id:id,kind:kind,location:location}" `
-  --output table
-```
-
-```bash
-az cognitiveservices account show \
-  --name "$foundry_account" \
-  --resource-group "$resource_group" \
-  --query '{id:id,kind:kind,location:location}' \
-  --output table
-```
-
-The resource ID must point to the approved subscription and resource group. `kind` must read
-`AIServices`.
 
 ## Decisions and stop conditions
 
@@ -228,6 +190,42 @@ when checking the supported deployment properties.
 Set the existing Foundry resource name in `sandbox.bicepparam`.
 
 ### 2. Run preflight
+
+Use real Azure identifiers only in the current shell and command arguments. Set the preflight
+inputs, including the deployment operator's Entra object ID:
+
+```powershell
+$approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
+$resourceGroup = "approved-session-04-resource-group"
+$foundryAccount = "approved-existing-foundry-resource"
+$operatorObjectId = "00000000-0000-0000-0000-000000000000"
+```
+```bash
+approved_subscription_id="${AZURE_SUBSCRIPTION_ID:-}"
+resource_group="approved-session-04-resource-group"
+foundry_account="approved-existing-foundry-resource"
+operator_object_id="00000000-0000-0000-0000-000000000000"
+```
+
+Inspect the account before preflight:
+
+```powershell
+az cognitiveservices account show `
+  --name $foundryAccount `
+  --resource-group $resourceGroup `
+  --query "{id:id,kind:kind,location:location}" `
+  --output table
+```
+```bash
+az cognitiveservices account show \
+  --name "$foundry_account" \
+  --resource-group "$resource_group" \
+  --query '{id:id,kind:kind,location:location}' \
+  --output table
+```
+
+The resource ID must point to the approved subscription and resource group. `kind` must read
+`AIServices`.
 
 ```powershell
 .\scripts\preflight.ps1 `

@@ -20,7 +20,6 @@ session:
     - "The Foundry project managed identity has Foundry User on the exact Foundry project."
     - "A judge-model deployment, evaluation budget, release owner, quality owner, tool owner, safety owner, and exception authority are approved."
     - "The evaluation operator has Foundry User on the exact Foundry project."
-    - "Azure CLI is authenticated to the approved subscription."
   dependencies:
     - "Session 04 - Model governance, data residency, quota, and lifecycle"
     - "Session 05 - Governed Microsoft Foundry agent baseline"

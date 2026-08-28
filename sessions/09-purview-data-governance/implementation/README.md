@@ -143,6 +143,9 @@ approved change. Wait for the propagation period recorded in that change before 
 
 ### 4. Query current Agent 365 activity
 
+Before running the query, connect Exchange Online and Security & Compliance PowerShell to the
+approved Microsoft 365 tenant.
+
 Run the query with the same current agent identifier:
 
 ```powershell

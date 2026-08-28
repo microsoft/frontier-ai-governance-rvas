@@ -99,9 +99,9 @@ to identify the release.
    The schema-version 2 release policy must have `gate.state=enabled`,
    `gate.decision=approved`, a valid `gate.decisionDate`, the exact activation contract, and
    `requiredEnforcementOption=--require-enabled`. Its baseline and candidate run IDs must match the
-   threshold policy and temporary external result records. Session 10 supplies the gate and its PASS/BLOCK contract. Its stable blocked check is
-   `python sessions/10-foundry-evaluations-quality-gates/implementation/scripts/test_release_gate.py
-   --mode blocked-tool-process`. This workflow enforces both calls.
+   threshold policy and temporary external result records. Session 10 supplies the gate and its
+   PASS/BLOCK contract. Its stable blocked self-test must return BLOCK. This workflow enforces both
+   checks.
 4. Confirm the approved release/security-store interface retrieves a Session 11 version 1
    `security-release-attestation` into the approved temporary workspace. The attestation has
    `status=confirmed`, `authorization.status=authorized`, an external authorization record URL,
@@ -112,24 +112,8 @@ to identify the release.
    `containsEvaluatorReasons`, to `false`. The security and change systems retain the
    authorization and report records. A pending, failed, incomplete, mismatched, or payload-bearing
    attestation stops promotion.
-5. Use the operational [Session 12](../../12-observability-cost-operations/implementation/README.md)
-   smoke executables with their fixed interfaces:
-
-   ```powershell
-   ..\..\12-observability-cost-operations\implementation\scripts\smoke.ps1 `
-     -Mode Pipeline `
-     -Environment nonproduction `
-     -CommitSha <40-character-sha> `
-     -ResultPath <runner-temporary-json-path>
-   ```
-   ```bash
-   ../../12-observability-cost-operations/implementation/scripts/smoke.sh \
-     --mode pipeline \
-     --environment nonproduction \
-     --commit-sha <40-character-sha> \
-     --result-path <runner-temporary-json-path>
-   ```
-
+5. The promotion workflow uses the operational
+   [Session 12](../../12-observability-cost-operations/implementation/README.md) smoke interface.
    Its JSON result must use `implementationSession:
    12-observability-cost-operations`, target the same `commitSha`, have status `passed`, mark
    `syntheticRequest`, `endToEndTrace`, and `toolAndModelFailureSeparated` as `passed`, set
@@ -166,16 +150,15 @@ to identify the release.
    **Contributor** assignments. The release owner
    accepts the release-store operations. The delivery owner records each decision before live
    delivery.
-11. Install Azure CLI with Bicep, GitHub CLI, Git, Python 3.12, and PowerShell 7.
-    - The GitHub administrator authenticates `gh` with repository **Administration: read** and
-      **Secret scanning alerts: read** permission so preflight can inspect all four environments,
-      variables, nonproduction secret names, deployment branch policies, and open secret alerts.
-    - The Entra administrator gives the preflight operator recorded for this session a temporary **Directory Readers**
-      activation at tenant scope. The operator also has **Contributor** at the exact
-      nonproduction and production resource-group scopes so Azure can run both what-if operations.
-      These human assignments expire or are removed after the ready check.
-12. Allow 300 minutes. The release authority, quality and security authorities, production approver,
-   routing authority, and delivery owner must be available for their live decisions.
+11. The GitHub administrator authenticates `gh` with repository **Administration: read** and
+    **Secret scanning alerts: read** permission so preflight can inspect all four environments,
+    variables, nonproduction secret names, deployment branch policies, and open secret alerts.
+    The Entra administrator gives the preflight operator recorded for this session a temporary
+    **Directory Readers** activation at tenant scope. The operator also has **Contributor** at the
+    exact nonproduction and production resource-group scopes so Azure can run both what-if
+    operations. These human assignments expire or are removed after the ready check.
+12. The release authority, quality and security authorities, production approver, routing authority,
+    and delivery owner must be available for their live decisions.
 
 ### Focused-route substitute baseline
 
@@ -353,6 +336,9 @@ default, adding `id-token: write` only to environment jobs. The restore workflow
 Dispatch **Controlled AI release promotion** with the approved full SHA in `release_sha` and
 `evaluation_record=candidate`.
 
+The workflow invokes the Session 12 smoke interface in `Pipeline` mode for `nonproduction`, with
+the selected release SHA and a result path in the GitHub runner's temporary workspace.
+
 The workflow:
 
 1. checks out the protected default branch with full history, verifies the workflow ref, and proves
@@ -408,6 +394,18 @@ production workflow reference, nonproduction deployment, and selected routing st
 Dispatch the same workflow with
 `evaluation_record=generated-blocked-tool-process-self-test`. This runs Session 10's stable
 blocked check against a generated in-memory case.
+
+For a local check before dispatch, run the stable Session 10 self-test from the implementation
+directory:
+
+```powershell
+python ../../10-foundry-evaluations-quality-gates/implementation/scripts/test_release_gate.py `
+  --mode blocked-tool-process
+```
+```bash
+python ../../10-foundry-evaluations-quality-gates/implementation/scripts/test_release_gate.py \
+  --mode blocked-tool-process
+```
 
 After that run completes:
 

@@ -14,7 +14,7 @@ session:
   prerequisites:
     - "Engagement pre-work is complete, including an approved sandbox subscription and customer-owned Git repository."
     - "The delivery region has been checked for the Foundry capabilities planned for the wider engagement."
-    - "Azure CLI with Bicep support is installed, and the deployment operator has the Contributor role on the approved sandbox subscription when this session creates the resource group, or on the exact sandbox resource group when it already exists."
+    - "The deployment operator has the Contributor role on the approved sandbox subscription when this session creates the resource group, or on the exact sandbox resource group when it already exists."
     - "The deployment operator also has a time-bound Resource Policy Contributor role assignment on the approved sandbox subscription, covering the subscription policy set definition and the assignment on the exact sandbox resource group."
     - "The deployment operator can run deployment what-if at the exact sandbox resource-group scope and at the subscription scope."
     - "The cloud platform owner can review policy assignments inherited from the subscription and management-group hierarchy before this session changes the resource group."

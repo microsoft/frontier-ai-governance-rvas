@@ -12,7 +12,6 @@ session:
     - "Release owners responsible for enabling agent tool access"
   prerequisites:
     - "Sessions 01-06 are complete in the approved nonproduction scope."
-    - "The Session 05 policy assistant, Session 06 API Management instance, and Session 07 API Center inventory are available."
     - "An existing APIM-managed GET operation reads a synthetic policy record and performs no mutation."
     - "The Session 06 API Management instance has a system-assigned identity."
     - "The Session 06 API Management instance has an Application Insights logger with request and response body logging set to zero bytes."
@@ -22,7 +21,7 @@ session:
     - "An Entra application audience and app role are approved for the Foundry agent-to-APIM call."
     - "The API Management system-assigned identity has the approved backend role definition ID at the exact backend resource scope. The role contains only the read Actions or DataActions required by get_policy, and preflight rejects wildcard, write, delete, and action permissions."
     - "The release owner, data owner, security owner, and prohibited write action are recorded."
-    - "All implementation file details are complete and the API Center metadata update process is agreed before the session."
+    - "The API Center metadata update process is agreed before the session."
   dependencies:
     - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
     - "Session 05 - Governed Microsoft Foundry agent baseline"

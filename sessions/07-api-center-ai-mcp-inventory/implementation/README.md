@@ -85,10 +85,8 @@ runtime location for tool-security work.
 Confirm these prerequisites:
 
 - Sessions 01-05 are complete in the approved nonproduction scope.
-- Azure CLI 2.57.0 or later and the current `apic-extension` are installed.
-- The deployment operator is signed in to the approved subscription and has a time-bound
-  **Contributor** role assignment on the exact resource group where this session deploys API
-  Center.
+- The deployment operator has a time-bound **Contributor** role assignment on the exact resource
+  group where this session deploys API Center.
 - The role-assignment operator has time-bound **User Access Administrator** on the exact
   [Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM instance. This assignment permits creation of the **API Management Service Reader
   Role** (`71522526-b88f-4d52-b57f-d31fc3546d0d`) assignment at that APIM scope.
@@ -98,16 +96,12 @@ Confirm these prerequisites:
 - The APIM source boundary is approved for synchronization. The integration imports every API from
   the linked APIM instance. If that instance contains unrelated APIs, their owners must complete the
   same mandatory metadata before linking; otherwise stop and do not create the integration.
-- The [Session 05](../../05-governed-agent-baseline/implementation/README.md) agent account, project, agent name, and direct endpoint are known.
 - The [Session 06](../../06-apim-ai-gateway/implementation/README.md) API ID `policy-assistant-responses` is present and carries its implementation
   marker.
 - One existing remote, read-only MCP server uses an approved HTTPS Streamable HTTP endpoint.
 - The selected API Center region is currently advertised by the `Microsoft.ApiCenter` provider.
 - The business, technical, data, risk, residency, evaluation, review, expiry, and consumer decisions
   have named owners in API Center.
-- The direct-agent deployment definition is complete before deployment.
-- Plan two delivery windows. The 240 minutes covers active work across both windows, not the APIM
-  synchronization wait.
 
 ### Implementation files
 
@@ -225,6 +219,7 @@ separate from APIM runtime enforcement.
 Use **two delivery windows** because APIM synchronization can take up to 24 hours. When registering
 the remote server, follow Microsoft’s [MCP inventory and discovery
 guidance](https://learn.microsoft.com/en-us/azure/api-center/register-discover-mcp-server).
+The published 210 minutes covers active work in both windows, not the synchronization wait.
 
 ### 1. Window one: confirm readiness
 
@@ -268,8 +263,8 @@ https://<account>.services.ai.azure.com/api/projects/<project>/agents/<agent>/en
 
 Preflight parses the direct-agent definition and deployment inputs, checks all 12 metadata
 definitions, validates the current OpenAPI contract, rejects unknown decision sentinels, and verifies
-the runtime URL shapes. It checks
-Azure CLI and `apic-extension`, the approved subscription and resource group, live API Center
+the runtime URL shapes. It verifies that Azure CLI and `apic-extension` can run the GA APIM
+integration command, then checks the approved subscription and resource group, live API Center
 provider locations, APIM tier and source marker, the stable reader role, and name collisions. It
 then compiles the Bicep and runs an ARM `what-if`.
 

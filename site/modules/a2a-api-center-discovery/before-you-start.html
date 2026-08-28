@@ -105,27 +105,7 @@
           <p class="implementation-guide__label">Chapter 3 of 6</p>
           <p>Confirm these prerequisites:</p>
 <ul><li>The Agent 365 core module has produced a live enterprise inventory record for the agent.</li><li>Developers need API Center discovery for this A2A interface.</li><li>The runtime owner has selected Git or API Management as the technical source.</li><li>The selected source has the current agent definition and card without credentials embedded in source-controlled discovery content.</li><li>The API Center owner can inspect the source integration and the resulting live asset.</li></ul>
-<p>Run preflight with the selected source reference. It validates the module boundary before a portal-led integration change. It does not create an API Center asset or retain supplied values. A read-only deployment preview is unsupported because the selected source integration owns the change.</p>
-<section class="code-tabs" data-code-tabs>
-  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
-    <button type="button" role="tab" id="command-shell-1-powershell-tab" aria-controls="command-shell-1-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
-    <button type="button" role="tab" id="command-shell-1-bash-tab" aria-controls="command-shell-1-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
-  </div>
-  <div class="code-tabs__panel" id="command-shell-1-powershell-panel" role="tabpanel" aria-labelledby="command-shell-1-powershell-tab" tabindex="0" data-shell-panel="powershell">
-    <p class="code-tabs__fallback-label">PowerShell</p>
-    <pre><code class="language-powershell">.\scripts\preflight.ps1 `
-  -TargetScope &quot;one-approved-a2a-discovery-asset&quot; `
-  -SourceIntegration &quot;git&quot; `
-  -RuntimeSourceReference &quot;https://example.invalid/agent-source&quot;</code></pre>
-  </div>
-  <div class="code-tabs__panel" id="command-shell-1-bash-panel" role="tabpanel" aria-labelledby="command-shell-1-bash-tab" tabindex="0" data-shell-panel="bash">
-    <p class="code-tabs__fallback-label">Bash</p>
-    <pre><code class="language-bash">./scripts/preflight.sh \
-  --target-scope &quot;one-approved-a2a-discovery-asset&quot; \
-  --source-integration &quot;git&quot; \
-  --runtime-source-reference &quot;https://example.invalid/agent-source&quot;</code></pre>
-  </div>
-</section>
+<p>Run preflight with the selected source reference in <strong>Implement › 1. Run preflight</strong>. It validates the module boundary before a portal-led integration change without creating an API Center asset or retaining supplied values. A read-only deployment preview is unsupported because the selected source integration owns the change.</p>
 
         </article>
         <aside class="facts-panel" aria-labelledby="facts-panel-title">

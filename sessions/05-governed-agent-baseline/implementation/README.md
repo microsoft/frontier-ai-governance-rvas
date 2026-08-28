@@ -89,8 +89,6 @@ Confirm the implementation definitions:
 
 Confirm the live Foundry resources:
 
-- Azure CLI is installed, signed in to the approved subscription, and can acquire a token for
-  `https://ai.azure.com/.default`.
 - The existing Microsoft Foundry resource has the Azure resource property `kind` set to
   `AIServices`. This property identifies the current Foundry resource type.
 - The existing Foundry project is reachable from the approved execution host over the private path

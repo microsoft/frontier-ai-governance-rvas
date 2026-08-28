@@ -115,35 +115,15 @@ both inheriting the checks assigned here.
 
 ## Before you start
 
-Use a working branch in the customer-owned repository and run commands from this
-`implementation` directory. The deployment operator needs the Contributor role on the approved
-sandbox subscription or resource group for the baseline, and a time-bound **Resource Policy
+Use the repository Execution environment section in README.md for client setup. The deployment
+operator needs the Contributor role on the approved sandbox subscription or resource group for the
+baseline, and a time-bound **Resource Policy
 Contributor** assignment on the approved sandbox subscription for the guardrails. That second
 assignment covers the policy set definition at subscription scope and the policy assignment on the
 same sandbox resource group.
 
-```powershell
-$resourceGroup = "rg-rvas-s01-sandbox"
-$deployment = "rvas-s01-baseline"
-$location = "<approved-region>"
-
-az account show --query "{subscription:name,user:user.name,tenant:tenantDisplayName}" --output table
-az bicep version
-az provider show --namespace Microsoft.PolicyInsights --query registrationState --output tsv
-```
-```bash
-resource_group="rg-rvas-s01-sandbox"
-deployment="rvas-s01-baseline"
-location="<approved-region>"
-
-az account show --query '{subscription:name,user:user.name,tenant:tenantDisplayName}' --output table
-az bicep version
-az provider show --namespace Microsoft.PolicyInsights --query registrationState --output tsv
-```
-
 You need:
 
-- Azure CLI 2.47.0 or later with Bicep 0.18.4 or later;
 - the Contributor role on the approved sandbox subscription if this session creates the resource
   group, or on the exact sandbox resource group if it already exists;
 - the time-bound Resource Policy Contributor assignment described above;
@@ -155,8 +135,6 @@ You need:
   and `Microsoft.PolicyInsights` providers; and
 - the Reader role on the approved sandbox subscription only if you will search that subscription
   for Foundry (classic) candidates.
-
-Replace the two sandbox region values in `artifacts/environments/policy-assignment.bicepparam`.
 
 ### Implementation files
 
@@ -260,6 +238,22 @@ connection string during deployment and does not emit it.
 
 Edit the parameter and decision files in place. Keep the single artifact tree listed in
 **Implementation files**.
+
+Set the approved scope and deployment values in the current shell:
+
+```powershell
+$resourceGroup = "rg-rvas-s01-sandbox"
+$deployment = "rvas-s01-baseline"
+$location = "<approved-region>"
+```
+```bash
+resource_group="rg-rvas-s01-sandbox"
+deployment="rvas-s01-baseline"
+location="<approved-region>"
+```
+
+Set the two sandbox region values in
+`artifacts/environments/policy-assignment.bicepparam`.
 
 The Bicep uses these stable APIs:
 

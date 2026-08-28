@@ -21,7 +21,6 @@ session:
     - "Required Purview, Agent 365, Audit, DLP, eDiscovery, and pay-as-you-go entitlements have been confirmed."
     - "The DLP and label operator is a member of the Compliance Data Administrator role group in the approved Microsoft 365 tenant."
     - "The audit-query operator has the View-Only Audit Logs role in both Microsoft Purview and the Exchange admin center, and the Microsoft Graph application used for Audit Search has the approved `AuditLogsQuery.Read.All` application permission with administrator consent."
-    - "Exchange Online and Security & Compliance PowerShell are connected to the approved Microsoft 365 tenant."
   dependencies:
     - "Session 01 - Microsoft Foundry platform baseline, inventory, and landing-zone guardrails"
     - "Session 02 - Entra identity, RBAC, PIM, and workload identities"

@@ -16,7 +16,6 @@ session:
     - "One customer-approved remote read-only MCP server is available for inventory registration."
     - "An Azure region currently supporting API Center has been approved."
     - "The API program owner has approved the Free or Standard API Center plan and its support and limit implications."
-    - "Azure CLI 2.57.0 or later and the current apic-extension are installed on the approved execution host."
     - "The deployment operator has a time-bound Contributor role assignment on the exact resource group where this session deploys API Center."
     - "The role-assignment operator has a time-bound User Access Administrator role assignment on the exact Session 06 API Management instance."
     - "The metadata for the agent, APIM API, and MCP server is complete before the first delivery window."

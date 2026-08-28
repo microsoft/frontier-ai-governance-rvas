@@ -357,7 +357,7 @@ The 210 minutes covers active work across both windows, not the wait of up to 24
 - All JSON and OpenAPI artifacts parse.
 - Twelve required metadata schemas are present.
 - Runtime URLs are remote HTTPS values and remain outside source.
-- Azure CLI and the GA APIM integration command are available.
+- The GA APIM integration command passes preflight.
 - The region is advertised for API Center.
 - The approved APIM instance, tier, Session 06 marker, and reader role match.
 - Existing names are absent or carry the Session 07 marker.

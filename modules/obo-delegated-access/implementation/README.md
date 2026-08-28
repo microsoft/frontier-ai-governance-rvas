@@ -108,7 +108,6 @@ design.
 
 Confirm these prerequisites:
 
-- Sessions 02, 05, and 08 have established the identity boundaries relevant to this application.
 - The client, middle tier, and downstream API already exist in an approved nonproduction tenant.
 - The client can sign in users and request a token for the middle-tier audience.
 - The downstream API exposes one narrow delegated read scope and enforces resource authorization
@@ -153,8 +152,6 @@ Preflight reads the current application and service-principal configuration, com
 implementation files, and prints the exact change plan. Microsoft Graph does not provide a what-if
 operation for these application-registration changes, so this read-only plan is the required
 preview.
-
-Allow 210 minutes for the module.
 
 ## Decisions and stop conditions
 

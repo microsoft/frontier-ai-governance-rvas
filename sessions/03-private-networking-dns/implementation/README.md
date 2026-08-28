@@ -92,7 +92,6 @@ Confirm these prerequisites:
   exist; missing dependency services are not created in this session.
 - The AI platform owner has approved any required account replacement and replay of account,
   project, connection, identity, and role configuration.
-- Azure CLI with Bicep support is installed and signed in to the approved subscription.
 - `Microsoft.App`, `Microsoft.CognitiveServices`, `Microsoft.DocumentDB`, `Microsoft.KeyVault`,
   `Microsoft.Network`, `Microsoft.Search`, and `Microsoft.Storage` are registered.
 - The network deployment operator has the time-bound Network Contributor role on the exact
@@ -100,9 +99,7 @@ Confirm these prerequisites:
   private endpoints.
 - The DNS operator has the time-bound Private DNS Zone Contributor role on the resource group that
   contains the seven private DNS zones, or on each reused private DNS zone.
-- The Entra object IDs for the network and DNS operators are available. Record the exact
-  resource-group or private-zone scope for every Private DNS Zone Contributor assignment that
-  preflight must inspect.
+- The Entra object IDs for the network and DNS operators are available for preflight.
 - The Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault service owners recorded for this session have each
   accepted responsibility for approving the private endpoint connection on their exact service
   through the existing service change process. This session assigns no service-approval role to
@@ -117,33 +114,14 @@ Confirm these prerequisites:
 Do not create a VM, runner, or other resource just for the connectivity check. Do not place any
 workload in the delegated Agent Service subnet.
 
+Use the repository Execution environment section in README.md for client setup.
+
 ### Implementation files
 
 | Type | File | Consumer |
 |---|---|---|
 | Deployment | [`artifacts/infra/network/main.bicep`](artifacts/infra/network/main.bicep) | The network deployment pipeline |
 | Deployment | [`artifacts/environments/sandbox.bicepparam`](artifacts/environments/sandbox.bicepparam) | The network deployment pipeline |
-
-Set the approved scope and existing service IDs in the current shell:
-
-```powershell
-$approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
-$resourceGroup = "approved-session-04-resource-group"
-$networkOperatorObjectId = "network-operator-object-id"
-$dnsOperatorObjectId = "dns-operator-object-id"
-$dnsScopeResourceIds = @(
-  "/subscriptions/$approvedSubscriptionId/resourceGroups/approved-dns-resource-group"
-)
-$cutoverChangeReference = "approved-change-reference"
-```
-```bash
-approved_subscription_id="${AZURE_SUBSCRIPTION_ID:-}"
-resource_group="approved-session-04-resource-group"
-network_operator_object_id="network-operator-object-id"
-dns_operator_object_id="dns-operator-object-id"
-dns_scope_resource_id="/subscriptions/$approved_subscription_id/resourceGroups/approved-dns-resource-group"
-cutover_change_reference="approved-change-reference"
-```
 
 ## Decisions and stop conditions
 
@@ -246,6 +224,29 @@ Applications keep using their normal service FQDNs. Inside the approved network,
 service CNAME into the private zone and returns the private-endpoint address.
 
 ### 2. Run preflight and inspect `what-if`
+
+Set the approved scope, operator object IDs, DNS assignment scope, and existing service IDs in the
+current shell. Provide each resource-group or private-zone scope that contains a Private DNS Zone
+Contributor assignment for preflight to inspect:
+
+```powershell
+$approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
+$resourceGroup = "approved-session-04-resource-group"
+$networkOperatorObjectId = "network-operator-object-id"
+$dnsOperatorObjectId = "dns-operator-object-id"
+$dnsScopeResourceIds = @(
+  "/subscriptions/$approvedSubscriptionId/resourceGroups/approved-dns-resource-group"
+)
+$cutoverChangeReference = "approved-change-reference"
+```
+```bash
+approved_subscription_id="${AZURE_SUBSCRIPTION_ID:-}"
+resource_group="approved-session-04-resource-group"
+network_operator_object_id="network-operator-object-id"
+dns_operator_object_id="dns-operator-object-id"
+dns_scope_resource_id="/subscriptions/$approved_subscription_id/resourceGroups/approved-dns-resource-group"
+cutover_change_reference="approved-change-reference"
+```
 
 ```powershell
 .\scripts\preflight.ps1 `

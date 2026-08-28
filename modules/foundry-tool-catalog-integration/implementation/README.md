@@ -107,9 +107,7 @@ Confirm:
   configuration creates a project connection;
 - the agent release owner understands that Toolbox approval metadata still needs an enforcing
   runtime approval experience;
-- Azure CLI is signed in to the intended tenant;
-- Azure Developer CLI 1.25 or later has the `microsoft.foundry` extension; and
-- Python 3 is available for the payload checks and the final read-only query.
+- Azure Developer CLI 1.25 or later has the `microsoft.foundry` extension.
 
 Complete every `__REQUIRED_*__` value under
 [`artifacts/`](artifacts/README.md) in an approved private working copy. Do not commit the completed
@@ -127,8 +125,8 @@ The module uses **standard mode** because it makes a bounded configuration chang
 read-only observable check. It does not need a failure-path exercise or a delivery-owner
 checkpoint.
 
-Allow 180 minutes. The private catalog's Azure RBAC assignment can take up to 24 hours to
-propagate, so assign access before the delivery window.
+The private catalog's Azure RBAC assignment can take up to 24 hours to propagate, so assign access
+before the delivery window.
 
 ## Decisions and stop conditions
 

@@ -105,8 +105,8 @@ Confirm these prerequisites:
   responses, tokens, and customer data are not captured.
 - The release owner, data owner, security owner, tool owner, and human change route are named in
   the applicable implementation definition or live Microsoft platform state.
-- All implementation files are complete, the exact backend role assignment is active, and API Center
-  metadata maintenance is agreed before the session.
+- The exact backend role assignment is active, and API Center metadata maintenance is agreed before
+  the session.
 - The customer permits the current `2025-09-01-preview` APIM management API for this nonproduction
   deployment. Runtime identity, backend authorization, and tool absence remain the primary controls;
   preview automation is not the only security boundary.
@@ -225,9 +225,7 @@ stable endpoint still selects the prior Session 05 version.
 
 ### 1. Check implementation definitions
 
-Confirm that `sandbox.json`, `agent-mcp-binding.json`, `security-evaluation.md`, and
-`threat-model.md` are complete. The approved-read and adversarial record IDs must already exist in
-the approved synthetic data set.
+The approved-read and adversarial record IDs must already exist in the approved synthetic data set.
 
 Check the tool description, argument schema, approved output fields, prohibited action, candidate
 binding, and both evaluation cases. The security owner confirms the adversarial case still matches
@@ -272,8 +270,9 @@ binding_path="$artifact_root/governance/agent-mcp-binding.json"
 
 Preflight runs three groups of checks:
 
-1. **Implementation definitions:** parses the machine JSON and XML, rejects unresolved decisions
-   across every artifact, and checks that only the approved tool is bound, along with GET behavior, argument schema, candidate
+1. **Implementation definitions:** verifies that the required implementation files are present,
+   parses the machine JSON and XML, rejects unresolved decisions across every artifact, and checks
+   that only the approved tool is bound, along with GET behavior, argument schema, candidate
    allowlist, mandatory approval, and prohibited action.
 2. **Live Azure resources:** verifies the approved subscription and APIM scope, supported tier,
    system identity, backing operation, exact read assignment, payload-free diagnostics, Foundry

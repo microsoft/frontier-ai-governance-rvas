@@ -73,7 +73,6 @@ A mismatch returns the operator to the restore runbook.
 7. Give the preview operator built-in **Contributor** at the exact regional resource group.
 8. Complete the secondary-region deployment through the Session 13 promotion path.
 9. Prepare a maintenance window, delivery authority, restore authority, and customer change record.
-10. Install Azure CLI with Bicep and PowerShell 7.
 
 ### Focused-route substitute baseline
 

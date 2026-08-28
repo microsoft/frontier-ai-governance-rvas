@@ -91,7 +91,9 @@ change. Foundry and the release platform record support checks, run IDs, activat
 
 ### 1. Set runtime context
 
-Keep the current resource coordinates and external release-store path in the shell:
+Complete the shared Execution environment setup in the root README before this step. Sign in to
+Azure CLI for the approved subscription and install the required Python dependencies. Then keep the
+current resource coordinates and external release-store path in the shell:
 
 ```powershell
 $approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID

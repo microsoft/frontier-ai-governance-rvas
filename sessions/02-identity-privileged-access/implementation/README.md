@@ -82,9 +82,11 @@ authorization.
 approved nonproduction subscription and resource group, the Foundry resource and project recorded
 for this session, the storage account recorded for this session, the four customer-owned groups, and
 the protected GitHub environment.
+
+Use the repository Execution environment section in README.md for client setup.
+
 You also need:
 
-- Azure CLI with Bicep support, signed in to the approved subscription;
 - the time-bound Owner or User Access Administrator role on the exact nonproduction resource group
   that contains the Foundry resource, Foundry project, and storage account;
 - the Owner or User Access Administrator role on the existing Foundry resource whose Foundry
@@ -92,40 +94,6 @@ You also need:
 - Microsoft Entra ID P2 or Microsoft Entra ID Governance licensing;
 - four customer-owned security groups; and
 - one protected GitHub environment.
-
-Work from the `implementation` directory. Keep object IDs and tenant coordinates in the shell or the
-customer's configuration system.
-
-```powershell
-$resourceGroup = Read-Host "Approved resource group"
-$foundryAccountName = Read-Host "Existing Foundry resource name"
-$foundryProjectName = Read-Host "Existing Foundry project name"
-$storageAccountName = Read-Host "Existing storage account name"
-$projectManagerGroupObjectId = Read-Host "Project manager group object ID"
-$developerGroupObjectId = Read-Host "Developer group object ID"
-$auditorGroupObjectId = Read-Host "Auditor group object ID"
-$githubOwner = Read-Host "GitHub owner"
-$githubRepository = Read-Host "GitHub repository"
-$githubEnvironment = Read-Host "Protected GitHub environment"
-$expiryDate = Read-Host "Identity operating-until date (YYYY-MM-DD)"
-```
-```bash
-read -r -p "Approved resource group: " resource_group
-read -r -p "Existing Foundry resource name: " foundry_account_name
-read -r -p "Existing Foundry project name: " foundry_project_name
-read -r -p "Existing storage account name: " storage_account_name
-read -r -p "Project manager group object ID: " project_manager_group_object_id
-read -r -p "Developer group object ID: " developer_group_object_id
-read -r -p "Auditor group object ID: " auditor_group_object_id
-read -r -p "GitHub owner: " github_owner
-read -r -p "GitHub repository: " github_repository
-read -r -p "Protected GitHub environment: " github_environment
-read -r -p "Identity operating-until date (YYYY-MM-DD): " expiry_date
-```
-
-Complete the required GitHub environment value in
-[`artifacts/identity/workload-identity.bicep`](artifacts/identity/workload-identity.bicep).
-Preflight rejects every unresolved `__REQUIRED_*__` value.
 
 ### Implementation files
 
@@ -245,6 +213,36 @@ Confirm the task boundaries, scopes, eligible group, approvers, expiry, and GitH
 the customer's normal identity change process. Replace the GitHub environment sentinel in
 `workload-identity.bicep`. This session uses direct human access or workload/application-only
 access; it does not add a delegated authorization path.
+
+Keep object IDs and tenant coordinates in the shell or the customer's configuration system. Set the
+preflight inputs in the current shell:
+
+```powershell
+$resourceGroup = Read-Host "Approved resource group"
+$foundryAccountName = Read-Host "Existing Foundry resource name"
+$foundryProjectName = Read-Host "Existing Foundry project name"
+$storageAccountName = Read-Host "Existing storage account name"
+$projectManagerGroupObjectId = Read-Host "Project manager group object ID"
+$developerGroupObjectId = Read-Host "Developer group object ID"
+$auditorGroupObjectId = Read-Host "Auditor group object ID"
+$githubOwner = Read-Host "GitHub owner"
+$githubRepository = Read-Host "GitHub repository"
+$githubEnvironment = Read-Host "Protected GitHub environment"
+$expiryDate = Read-Host "Identity operating-until date (YYYY-MM-DD)"
+```
+```bash
+read -r -p "Approved resource group: " resource_group
+read -r -p "Existing Foundry resource name: " foundry_account_name
+read -r -p "Existing Foundry project name: " foundry_project_name
+read -r -p "Existing storage account name: " storage_account_name
+read -r -p "Project manager group object ID: " project_manager_group_object_id
+read -r -p "Developer group object ID: " developer_group_object_id
+read -r -p "Auditor group object ID: " auditor_group_object_id
+read -r -p "GitHub owner: " github_owner
+read -r -p "GitHub repository: " github_repository
+read -r -p "Protected GitHub environment: " github_environment
+read -r -p "Identity operating-until date (YYYY-MM-DD): " expiry_date
+```
 
 Run preflight:
 

@@ -113,8 +113,6 @@ proof of red-team improvement.
 
 ![Microsoft Foundry](assets/icons/microsoft/azure-ai-foundry.svg)
 
-- `azure-ai-projects` 2.x
-- preview API `2025-11-15-preview`
 - Foundry User on the approved Foundry project for the operator and project managed identity
 - approved prompt or container agent version
 - transient agentic run with only partial isolation
@@ -298,17 +296,9 @@ The saved hunt matches the current alert titles exactly. It does not use a broad
 
 ## Safe preview
 
-Preflight validates:
-
-- every decision sentinel required for the selected phase;
-- focused-route records for approved resources, identities, network injection, APIM, tool authorization, synthetic data, and the passing Session 10 approved record;
-- authorization dates and owner presence;
-- same-day manual region support gate;
-- approved agent, project, resource, and subscription;
-- evaluator and attack-strategy completeness;
-- synthetic, read-only, payload-free boundaries;
-- Defender plan and prompt-evidence decision; and
-- SOC route.
+Preflight stops the run unless authorization, approved scope and identities, the attack plan,
+regional support, Defender coverage, and the SOC route match the approved records. It also enforces
+the synthetic, read-only, and payload-free boundaries.
 
 No taxonomy or run is created by preflight.
 

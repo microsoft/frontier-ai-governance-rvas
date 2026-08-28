@@ -109,8 +109,8 @@ Confirm:
   resource-group scope and **Log Analytics Reader** at the exact workspace scope. If Application
   Insights or the action group is outside that resource group, assign **Monitoring Reader** at each
   exact resource scope.
-- The same operator has **Cost Management Contributor** at the exact subscription scope and Azure
-  CLI Bicep support. Activate these human assignments for preflight, deployment, and the
+- The same operator has **Cost Management Contributor** at the exact subscription scope. Activate
+  these human assignments for preflight, deployment, and the
   confirmation check only. Expire or remove them through the approved access process afterward.
 - The observability, application, gateway, tool, AI quality, security operations, data-protection,
   and cost owners can resolve the required decisions.

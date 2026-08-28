@@ -93,6 +93,9 @@ quarterly and after a routing or Defender change.
 
 ### 1. Set the current runtime inputs
 
+Complete the shared Execution environment setup in the root README before this step.
+`run-red-team.py` uses `azure-ai-projects` 2.x with preview API `2025-11-15-preview`.
+
 ```powershell
 $approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
 $expectedRegion = $env:APPROVED_RED_TEAM_REGION

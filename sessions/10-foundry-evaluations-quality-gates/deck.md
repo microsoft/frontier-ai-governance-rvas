@@ -123,10 +123,6 @@ built-in evaluators
 run + output items in Foundry
 ```
 
-The implementation runner uses `azure-ai-projects` 2.x and the OpenAI-compatible Evals API.
-
-<!-- Notes: Reverify the SDK path before delivery if a later major version is installed. -->
-
 ---
 
 <!-- _class: decision -->
@@ -314,10 +310,8 @@ Run the approved version before setting quality and tool thresholds.
 **Timebox: 65 minutes**
 
 1. Resolve the Foundry project, agent, owner, evaluator, region, and fixed-version decisions.
-2. Install the required SDK dependencies.
-3. Set the approved shell context.
-4. Run baseline preflight.
-5. Execute the approved-version evaluation.
+2. Run baseline preflight with the approved runtime inputs.
+3. Execute the approved-version evaluation.
 
 The stable endpoint does not move.
 
@@ -327,19 +321,13 @@ The stable endpoint does not move.
 
 ## Preflight boundary
 
-Preflight checks:
+Preflight stops the run unless the approved scope, identities, data contract, tool compatibility,
+regional support, and budget checks pass.
 
-- every decision sentinel;
-- focused-route records for approved resources, identities, APIM, tool authorization, and synthetic data, including the successful read and denied-write results;
-- JSON, JSONL, categories, case IDs, and service limits;
-- agent/version consistency;
-- evaluator layers, preview status, and tool-owner compatibility;
-- East US 2 while protected material remains blocking;
-- same-day manual region support, network, managed identity, and budget decisions;
-- approved Azure subscription and AIServices resource; and
-- both approved agent versions through the Foundry SDK.
-
-The Evals API has no dry run. Before billing starts, preflight prints the project alias, region, approved agent version, dataset SHA-256, case count, evaluator names, and the rule to keep only aggregate output. The runner targets that version without calling the stable selector, so the approved endpoint does not change.
+The Evals API has no dry run. Before billing starts, preflight prints the project alias, region,
+approved agent version, dataset SHA-256, case count, evaluator names, and the aggregate-only output
+rule. The runner targets that version without calling the stable selector, so the approved endpoint
+does not change.
 
 <!-- Notes: The release owner checks every printed value before authorizing consumption. -->
 

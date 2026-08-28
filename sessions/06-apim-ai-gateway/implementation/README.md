@@ -79,7 +79,6 @@ definition and runtime location for inventory. Session 08 adds MCP tool controls
 Confirm these prerequisites:
 
 - Sessions 01-04 are complete in the approved nonproduction scope.
-- Azure CLI is installed and signed in to the approved subscription.
 - The deployment operator has a time-bound **Contributor** role assignment on the exact
   nonproduction resource group that contains the APIM instance.
 - The existing APIM instance uses Developer, Basic, Basic v2, Standard, Standard v2, Premium, or

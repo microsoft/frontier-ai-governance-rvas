@@ -80,24 +80,11 @@ Confirm these prerequisites:
   source-controlled discovery content.
 - The API Center owner can inspect the source integration and the resulting live asset.
 
-Run preflight with the selected source reference. It validates the module boundary before a
-portal-led integration change. It does not create an API Center asset or retain supplied values.
+Run preflight with the selected source reference in **Implement › 1. Run preflight**. It validates
+the module boundary before a portal-led integration change without creating an API Center asset or
+retaining supplied values.
 A read-only deployment preview is unsupported because the selected source integration owns the
 change.
-
-```powershell
-.\scripts\preflight.ps1 `
-  -TargetScope "one-approved-a2a-discovery-asset" `
-  -SourceIntegration "git" `
-  -RuntimeSourceReference "https://example.invalid/agent-source"
-```
-
-```bash
-./scripts/preflight.sh \
-  --target-scope "one-approved-a2a-discovery-asset" \
-  --source-integration "git" \
-  --runtime-source-reference "https://example.invalid/agent-source"
-```
 
 ## Decisions and stop conditions
 

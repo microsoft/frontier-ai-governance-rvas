@@ -83,24 +83,11 @@ Confirm these prerequisites:
 - The agent owner and retirement owner can inspect the live record and its removal path.
 - The delivery team has selected a supported integration route before it changes any state.
 
-Run the readiness check. It validates the selected route and the runtime-owned source reference.
-It does not create an Agent 365 record or store the supplied values.
+Run the readiness check in **Implement › 1. Run preflight** before the platform change. It
+validates the selected route and the runtime-owned source reference without creating an Agent 365
+record or storing supplied values.
 A read-only deployment preview is unsupported because Agent 365 onboarding follows the selected
 platform or runtime-owned change path.
-
-```powershell
-.\scripts\preflight.ps1 `
-  -TargetScope "one-approved-a2a-agent" `
-  -IntegrationPath "sdk" `
-  -RuntimeSourceReference "https://example.invalid/agent-source"
-```
-
-```bash
-./scripts/preflight.sh \
-  --target-scope "one-approved-a2a-agent" \
-  --integration-path "sdk" \
-  --runtime-source-reference "https://example.invalid/agent-source"
-```
 
 ## Decisions and stop conditions
 

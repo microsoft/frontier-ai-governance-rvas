@@ -102,27 +102,7 @@
           <p class="implementation-guide__label">Chapter 3 of 6</p>
           <p>Confirm these prerequisites:</p>
 <ul><li>An A2A agent already runs in the approved nonproduction scope.</li><li>The Agent 365 administrator has checked tenant licensing and can open the Agent Registry.</li><li>The runtime owner has identified the product repository or supported source integration that owns the agent definition and card.</li><li>The agent owner and retirement owner can inspect the live record and its removal path.</li><li>The delivery team has selected a supported integration route before it changes any state.</li></ul>
-<p>Run the readiness check. It validates the selected route and the runtime-owned source reference. It does not create an Agent 365 record or store the supplied values. A read-only deployment preview is unsupported because Agent 365 onboarding follows the selected platform or runtime-owned change path.</p>
-<section class="code-tabs" data-code-tabs>
-  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
-    <button type="button" role="tab" id="command-shell-1-powershell-tab" aria-controls="command-shell-1-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
-    <button type="button" role="tab" id="command-shell-1-bash-tab" aria-controls="command-shell-1-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
-  </div>
-  <div class="code-tabs__panel" id="command-shell-1-powershell-panel" role="tabpanel" aria-labelledby="command-shell-1-powershell-tab" tabindex="0" data-shell-panel="powershell">
-    <p class="code-tabs__fallback-label">PowerShell</p>
-    <pre><code class="language-powershell">.\scripts\preflight.ps1 `
-  -TargetScope &quot;one-approved-a2a-agent&quot; `
-  -IntegrationPath &quot;sdk&quot; `
-  -RuntimeSourceReference &quot;https://example.invalid/agent-source&quot;</code></pre>
-  </div>
-  <div class="code-tabs__panel" id="command-shell-1-bash-panel" role="tabpanel" aria-labelledby="command-shell-1-bash-tab" tabindex="0" data-shell-panel="bash">
-    <p class="code-tabs__fallback-label">Bash</p>
-    <pre><code class="language-bash">./scripts/preflight.sh \
-  --target-scope &quot;one-approved-a2a-agent&quot; \
-  --integration-path &quot;sdk&quot; \
-  --runtime-source-reference &quot;https://example.invalid/agent-source&quot;</code></pre>
-  </div>
-</section>
+<p>Run the readiness check in <strong>Implement › 1. Run preflight</strong> before the platform change. It validates the selected route and the runtime-owned source reference without creating an Agent 365 record or storing supplied values. A read-only deployment preview is unsupported because Agent 365 onboarding follows the selected platform or runtime-owned change path.</p>
 
         </article>
         <aside class="facts-panel" aria-labelledby="facts-panel-title">

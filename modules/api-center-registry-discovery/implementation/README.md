@@ -125,22 +125,11 @@ Confirm these prerequisites:
 | Runtime | [`artifacts/registry-client-settings.json`](artifacts/registry-client-settings.json) | The developer-client configuration pipeline or approved client adapter |
 | Record | [`artifacts/registry-ownership.json`](artifacts/registry-ownership.json) | The API Center configuration owner and MCP server owners |
 
-Run preflight after resolving the artifact values in the approved private configuration path:
-
-```powershell
-$targetScope = "<approved API Center discovery scope alias>"
-.\scripts\preflight.ps1 -TargetScope $targetScope
-```
-
-```bash
-target_scope="<approved API Center discovery scope alias>"
-./scripts/preflight.sh --target-scope "$target_scope"
-```
-
-Preflight checks the exact endpoint path, default workspace, Microsoft Entra mode, Azure API Center
-Data Reader role, delegated scope, global visibility conditions, approved names, and ownership
-markers. A read-only deployment preview is unsupported for Data API visibility, so the Azure
-portal preview is the required change review.
+After resolving artifact values in the approved private configuration path, run preflight in
+**Implement › 1. Complete the client and ownership records**. It checks the exact endpoint path,
+default workspace, Microsoft Entra mode, Azure API Center Data Reader role, delegated scope,
+global visibility conditions, approved names, and ownership markers. A read-only deployment preview
+is unsupported for Data API visibility, so the Azure portal preview is the required change review.
 
 ## Decisions and stop conditions
 

@@ -116,17 +116,8 @@ Confirm these prerequisites:
 | Record | [`artifacts/data/sharepoint-oversharing-assessment.md`](artifacts/data/sharepoint-oversharing-assessment.md) | The SharePoint owner and data owner |
 | Runtime | [`artifacts/defender/agent-security-hunting-queries.kql`](artifacts/defender/agent-security-hunting-queries.kql) | The Defender owner and SOC analyst |
 
-Run preflight after filling the module artifacts:
-
-```powershell
-.\scripts\preflight.ps1
-```
-
-```bash
-./scripts/preflight.sh
-```
-
-Preflight checks that the module artifacts exist and that no required owner decision remains.
+Complete the module artifacts, then run preflight in **Implement › 3. Run preflight**. Preflight
+checks that the artifacts exist and that no required owner decision remains.
 A read-only deployment preview is unsupported because this module records portal-led owner
 decisions and makes no tenant state change.
 

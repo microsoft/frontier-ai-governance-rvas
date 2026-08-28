@@ -8,6 +8,20 @@ LLMOps runs across the series rather than appearing as a separate session. Sessi
 13, and 14 connect model lifecycle, evaluation, observability, controlled release, and fleet
 operations.
 
+## Execution environment
+
+Use a working branch and run each guided implementation from its `implementation/` directory.
+Install the tools required by the commands you plan to run:
+
+- Azure CLI with Bicep support. Sign in to the approved subscription before Azure work.
+- PowerShell 7 for PowerShell-based implementation steps.
+- Git, GitHub CLI, and Python 3.12 for the controlled-promotion commands.
+- Exchange Online and Security & Compliance PowerShell for the Session 09 audit query.
+- The current `apic-extension` when an API Center integration command requires it.
+
+Preflight checks the session-specific command capability, active scope, and configuration. Keep
+credentials, tenant and subscription IDs, and runtime values out of the repository.
+
 ## Preview locally
 
 The files in `sessions/` are the source for the numbered session guides and slide decks.
