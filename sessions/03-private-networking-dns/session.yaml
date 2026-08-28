@@ -35,9 +35,9 @@ implementation:
   mode: "standard"
 implementation_outcomes:
   - "Prepare a landing-zone-aligned spoke with separate private-endpoint and dedicated Agent Service subnets."
-  - "Deploy the approved network, DNS links, and initial private endpoints. If Foundry account replacement is required, pause for the separately approved replacement and replay, then update the Foundry endpoint and all five resource IDs."
-  - "Route the delegated Agent Service subnet through the customer-approved firewall; maintain its rules and review history in the customer firewall policy source."
-  - "From the approved execution host, confirm that the in-use Foundry endpoint families and four dependency FQDNs resolve to private addresses and that the host can connect to each endpoint on TCP 443. Record the prior public-access states in the approved change system, then disable public network access."
+  - "Deploy the approved network, DNS links, and initial private endpoints. If Foundry replacement is required, pause for the separately approved replacement and replay, then update the Foundry endpoint and all five resource IDs."
+  - "Route the delegated Agent Service subnet through the customer-approved firewall. The customer firewall policy source retains its rules and review history."
+  - "From the approved execution host, confirm that the in-use Foundry endpoint families and four dependency FQDNs resolve to private addresses and accept TCP 443. Record prior public-access states in the approved change system, then disable public network access."
   - "Confirm that the three Foundry endpoint families and four dependency endpoints resolve to private addresses and accept TCP 443 from an approved client. Session 05 checks agent-runtime traffic."
 deliverables:
   implementation: "implementation/README.md"

@@ -5,34 +5,31 @@
 ### What we will do
 
 Connect the approved nonproduction execution host to Microsoft Foundry, Storage, Azure AI Search,
-Azure Cosmos DB, and Azure Key Vault through private networking. In the nonproduction subscription
-and resource group declared in the approved parameter file, deploy or update the spoke,
-private-endpoint subnet, dedicated Agent Service subnet, firewall route, seven private DNS zones
-and links, and five private endpoints. The scripts derive the three Foundry endpoint families and
-four dependency FQDNs from the approved resource IDs. Before cutover, record the five
-public-access states in the approved change system, then disable public access.
+Azure Cosmos DB, and Azure Key Vault over private networking. In the subscription and resource
+group named in the approved parameter file, deploy or update the spoke, private-endpoint subnet,
+dedicated Agent Service subnet, firewall route, seven private DNS zones and links, and five private
+endpoints. The scripts derive three Foundry endpoint families and four dependency FQDNs from the
+approved resource IDs. Record the five public-access states in the approved change system before
+you disable public access.
 
-During this session, participants complete the cutover and verify that the seven configured
-endpoint FQDNs resolve to private RFC 1918 addresses and that the approved execution host can
-connect to each endpoint on TCP 443.
+Complete the cutover, then verify that all seven configured endpoint FQDNs resolve to private RFC
+1918 addresses and that the approved execution host can reach each endpoint on TCP 443.
 
 ### Why it matters
 
-The private endpoint and DNS path gives service owners a tested route before public endpoints are
-disabled. Capturing prior settings first supports lockout recovery. The separate Agent Service
-subnet and firewall route prepare the network boundary needed by the agent runtime.
+The private endpoint and DNS path gives service owners a tested route before they disable public
+endpoints. The prior settings support recovery if the cutover blocks access. The separate Agent
+Service subnet and firewall route prepare the network boundary for the agent runtime.
 
 ### Boundaries
 
-Use Azure to check the current networking, DNS, private endpoint, and service public-access state.
-Maintain egress rules in the customer firewall source. Store the cutover and restore record in the
-approved change system. Use the repository's Bicep files to define the reusable network
-configuration.
+Azure holds the current network, DNS, private endpoint, and service public-access state. The
+customer firewall source holds egress rules. Store cutover and restore details in the approved
+change system. The repository's Bicep files define the reusable network configuration.
 
-Adapt the Bicep when the landing zone already supplies the VNet or authoritative private DNS zones.
-Before this session starts, choose the customer-managed BYO VNet path implemented here or a
-Microsoft-managed network. Stop if that architecture decision is open. Do not combine both designs
-in one deployment.
+If the landing zone already supplies the VNet or authoritative private DNS zones, adapt the Bicep.
+Before the session, choose this customer-managed BYO VNet path or Microsoft-managed networking.
+Stop until the owner makes that choice. Do not combine the two designs in one deployment.
 This session does not modify a hub or Virtual WAN, deploy firewall rules, create missing dependency
 services, or create an execution host. It does not replace a Foundry account itself. If immutable
 `networkInjections` require replacement, the change owner completes the separately approved account
@@ -48,23 +45,22 @@ Foundry account created with the delegated subnet.
 
 Clients keep using each service's normal public name. Inside the approved network, private DNS
 follows the name's alias, or CNAME, chain into a linked private DNS zone. It returns the private
-endpoint's RFC 1918 address, which is reachable only through the private network. The client then
-opens TCP 443 to that address. Foundry can expose `cognitiveservices.azure.com`,
+endpoint's RFC 1918 address. The client opens TCP 443 to that address over the private network.
+Foundry can expose `cognitiveservices.azure.com`,
 `openai.azure.com`, and `services.ai.azure.com`; the scripts derive every family from the Foundry
 resource ID. Storage, Azure AI Search, Azure Cosmos DB, and Azure Key Vault use the same private
 DNS pattern.
 
 Agent Service has a different path. Its dedicated delegated subnet sends the default route to the
-customer-managed firewall. The route is configured in Azure, while firewall administrators
-maintain the outbound rules in the customer firewall source. This distinction prevents anyone from
-treating the route as proof that the firewall permits the traffic.
+customer-managed firewall. Azure configures the route. Firewall administrators maintain outbound
+rules in the customer firewall source. A route does not prove that the firewall permits traffic.
 
-Azure shows the current network, DNS, private endpoints, and public-access settings. Before public
-access is disabled, the cutover owner records the previous setting for all five services in the
-approved change system. Operators use that record if they need to restore access.
+Azure shows the current network, DNS, private endpoints, and public-access settings. Before the
+cutover, the cutover owner records the previous setting for all five services in the approved
+change system. Operators use that record to restore access if needed.
 
 This session confirms private DNS resolution and TCP 443 from the approved client. It does not
-grant service access or prove Agent runtime traffic. Session 02 configures identity and access controls, and
+grant service access or prove Agent runtime traffic. Session 02 configures identity and access,
 [Session 05](../../05-governed-agent-baseline/implementation/README.md) checks the agent path from
 the delegated subnet.
 
@@ -74,10 +70,10 @@ the delegated subnet.
 
 | Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
 |---|---|---|---|---|
-| Foundry account and Agent subnet | Keep the account when it was created with the exact delegated subnet. Otherwise, use a separately approved replacement and replay | This respects the network-injection boundary set when the account is created | Replacement needs its own change, configuration replay, and service-owner coordination | Microsoft supports changing network injection in place |
-| Network ownership | Use the customer-managed BYO VNet path implemented by these deployment files | The customer manages address space, routing, DNS integration, and firewall policy | Microsoft-managed networking is a separate architecture and implementation path | The platform owner selects Microsoft-managed networking before delivery |
-| Private DNS ownership | Reuse authoritative central zones when they exist. Otherwise, create the approved local zones and links | There is one owner for each record, whether resolution is hub, spoke, or hybrid | Central DNS may need artifact changes and conditional forwarding | The resolver, hub, or zone owner changes |
-| Agent egress | Send the dedicated Agent subnet's default route to the customer firewall | The route is configured in Azure; firewall administrators maintain the rules in the customer firewall source | A route alone does not prove that a firewall rule exists or that Agent runtime traffic works | Session 05 finds a blocked runtime dependency or the egress design changes |
+| Foundry account and Agent subnet | Keep the account if it uses the exact delegated subnet. Otherwise, replace and replay it through a separate approved change | Respects the account-create network-injection boundary | Replacement needs a separate change, configuration replay, and service-owner coordination | Microsoft supports in-place network-injection changes |
+| Network ownership | Use the customer-managed BYO VNet path in these deployment files | The customer controls address space, routing, DNS integration, and firewall policy | Microsoft-managed networking follows a different architecture and delivery path | The platform owner selects Microsoft-managed networking before delivery |
+| Private DNS ownership | Reuse central zones when they are authoritative. Otherwise, create approved local zones and links | Each record has one owner across hub, spoke, or hybrid resolution | Central DNS may need Bicep changes and conditional forwarding | The resolver, hub, or zone owner changes |
+| Agent egress | Send the dedicated Agent subnet's default route to the customer firewall | Azure owns the route; firewall administrators own the rules | A route does not prove that a rule exists or that agent-runtime traffic works | Session 05 finds a blocked runtime dependency or the egress design changes |
 
 ### Architecture guidance
 
@@ -128,30 +124,28 @@ Use the repository Execution environment section in README.md for client setup.
 ## Decisions and stop conditions
 
 Complete every `__REQUIRED_*__` value in the parameter file in a customer working copy. Record
-approval, topology, firewall, DNS, and restore decisions in the systems designated for those
-records, not in this repository.
+approval, topology, firewall, DNS, and restore decisions in their approved systems, not in this
+repository.
 
 ### Foundry account and subnet
 
-**Foundry Agent Service BYO VNet injection is an account-create setting.** It cannot be added to an
-existing account or moved to another delegated subnet. The AI platform owner must make one
-decision:
+**Foundry Agent Service BYO VNet injection is an account-create setting.** You cannot add it to an
+existing account or move it to another delegated subnet. The AI platform owner must decide:
 
 1. confirm that the existing account already references this exact Agent Service subnet; or
 2. approve a controlled replacement, name the change owner, and approve replay of the approved
    project, connections, identities, role assignments, and model deployments.
 
-All five service resources must exist before public-access cutover. Stop when Foundry, Storage,
-Azure AI Search, Cosmos DB, or Key Vault is missing. Stop if the AI platform owner has not decided
-whether to keep or replace the Foundry account, the change authority has not approved required
-replacement and replay, or the restore owner is missing. This session configures networking; it
-does not create a missing dependency service.
+All five service resources must exist before public-access cutover. Stop if Foundry, Storage, Azure
+AI Search, Cosmos DB, or Key Vault is missing. Also stop if the AI platform owner has not decided
+whether to keep or replace the Foundry account, the change authority has not approved replacement
+and replay, or no restore owner is named. This session configures networking. It does not create a
+missing dependency service.
 
 The AI platform owner must also confirm the network architecture before delivery. These deployment
-files implement the customer-managed BYO VNet path. A Microsoft-managed network is a valid
-alternative, but it uses managed private endpoints and assigns responsibilities differently. If
-that design is approved, stop and use it instead of modifying these deployment files during the
-session.
+files implement the customer-managed BYO VNet path. Microsoft-managed networking uses managed
+private endpoints and different ownership boundaries. If the owner selects it, stop and use that
+path instead of changing these deployment files.
 
 ### Topology, addressing, DNS, and egress
 
@@ -162,19 +156,17 @@ The network, DNS, and firewall owners must agree on:
 - one authoritative instance of each required private DNS zone;
 - the resolver and conditional-forwarding route for hybrid clients; and
 - a default route to one customer-approved firewall and the customer firewall repository or policy
-  reference where outbound rules are maintained, including the Microsoft Entra access rule required
-  by Agent Service, any feature-specific destinations in scope, and confirmation that TLS
-  inspection does not inject an untrusted certificate.
+  reference where outbound rules are maintained. That source must include the Microsoft Entra
+  access rule required by Agent Service, feature-specific destinations in scope, and confirmation
+  that TLS inspection does not inject an untrusted certificate.
 
-Stop if an address overlaps a connected or reserved range. Stop if the proposed deployment
-duplicates a central private DNS zone, uses the Agent subnet for another workload, or needs a
-blanket internet rule. For existing central zones, update `main.bicep` instead of creating a second
-set of deployment files: replace the local zone declarations and links with references to the
-approved zone resource IDs, and keep the private endpoints and DNS zone groups in `main.bicep`.
-The DNS operator continues to manage VNet links, forwarding, and zone records through the central
-DNS deployment. When the shared zone also serves public
-resources of the same type, the DNS owner must record the approved fallback-to-Internet setting or
-another resolution path before linking the zone.
+Stop if an address overlaps a connected or reserved range. Also stop if the deployment duplicates a
+central private DNS zone, reuses the Agent subnet for another workload, or needs a blanket internet
+rule. For central zones, update `main.bicep` to reference the approved zone resource IDs and remove
+the local zone and link declarations. Keep the private endpoints and DNS zone groups in
+`main.bicep`. The DNS operator manages VNet links, forwarding, and zone records through the central
+DNS deployment. If a shared zone also serves public resources of the same type, the DNS owner must
+record the fallback-to-Internet setting or another resolution path before linking the zone.
 
 Portal and Agent Playground users must use the approved private execution host or the
 customer-approved VPN, ExpressRoute, or Bastion access pattern. Their browser must resolve the
@@ -182,10 +174,10 @@ same private service addresses as the execution host.
 
 ### Public-access cutover
 
-The affected service owners approve the maintenance window. The approved change record identifies
-where prior states are stored and who can retrieve them. The cutover script must run from the
-approved private execution host. It derives every endpoint from the parameter file, checks private
-connectivity, displays the five current public-access states, and adds
+Affected service owners approve the maintenance window. The approved change record identifies where
+prior states are stored and who can retrieve them. Run the cutover script from the approved private
+execution host. It derives every endpoint from the parameter file, checks private connectivity,
+displays the five current public-access states, and adds
 `networkControlSession=03-private-networking-dns` without replacing existing tags.
 
 Stop before cutover when:
@@ -197,22 +189,21 @@ Stop before cutover when:
 - the displayed prior states have not been recorded in the approved change system; or
 - no owner can restore access during the maintenance window.
 
-After cutover, stop all further changes if private DNS or TCP 443 connectivity fails. Restoring the
-recorded prior states does not detach the injected subnet. Keep the Agent subnet, route, and VNet
-while the Foundry account still uses network injection. Never remove private connectivity while
-public access is still disabled or the approved execution host cannot reach the services.
+After cutover, stop all further changes if private DNS or TCP 443 fails. Restoring the recorded
+prior states does not detach the injected subnet. Keep the Agent subnet, route, and VNet while the
+Foundry account still uses network injection. Do not remove private connectivity while public
+access is disabled or the approved execution host cannot reach the services.
 
 ## Implement
 
 ### 1. Configure the implementation files
 
-Complete the parameter file in the customer working copy. In the approved change record, identify
-the customer firewall repository or policy system where outbound rules are maintained. If the
-customer uses central private DNS, change
-the same Bicep file to reference the existing zone IDs and remove its local zone and link
-declarations. Keep one **authoritative zone per service**. The Microsoft Foundry
+Complete the parameter file in the customer working copy. In the approved change record, name the
+customer firewall repository or policy system that maintains outbound rules. If the customer uses
+central private DNS, change the same Bicep file to reference existing zone IDs and remove local
+zone and link declarations. Keep one **authoritative zone per service**. The Microsoft Foundry
 [end-to-end network-isolation sample](https://github.com/microsoft-foundry/foundry-samples/tree/main/infrastructure/infrastructure-setup-bicep/15-private-network-standard-agent-setup)
-shows the supported resource relationships; keep this session’s approved names, scopes, and
+shows the supported resource relationships. Keep this session's approved names, scopes, and
 customer-owned firewall design.
 
 Configure these endpoint subresources and private DNS zones:
@@ -232,9 +223,9 @@ service CNAME into the private zone and returns the private-endpoint address.
 
 ### 2. Run preflight and inspect `what-if`
 
-Set the approved scope, operator object IDs, DNS assignment scope, and existing service IDs in the
-current shell. Provide each resource-group or private-zone scope that contains a Private DNS Zone
-Contributor assignment for preflight to inspect:
+Set the approved scope, operator object IDs, DNS assignment scope, and existing service IDs in your
+shell. Provide every resource-group or private-zone scope where the DNS operator has Private DNS
+Zone Contributor for preflight to inspect:
 
 ```powershell
 $approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
@@ -276,12 +267,12 @@ Repeat `-DnsScopeResourceId` or `--dns-scope-resource-id` when the DNS operator 
 assignments on individual reused zones.
 
 Preflight rejects unresolved decisions and parses all five service IDs from the parameter file. It
-requires a unique live resource for each alias in the approved subscription and exact resource
-group, checks Network Contributor and Private DNS Zone Contributor at the supplied exact scopes,
-verifies required providers, builds the Bicep, and runs a resource-group `what-if`.
+requires one live resource for each alias in the approved subscription and resource group. It checks
+Network Contributor and Private DNS Zone Contributor at the supplied scopes, verifies providers,
+builds the Bicep, and runs a resource-group `what-if`.
 
 Review the preview with the network and DNS owners. Expect the approved VNet, route table, two
-subnets, seven zones and links, and five private endpoints. Stop on any delete, replacement,
+subnets, seven zones and links, and five private endpoints. Stop on a delete, replacement,
 unapproved zone, unexpected resource group, Foundry deployment, hub change, or public-access
 change.
 
@@ -308,17 +299,17 @@ az deployment group create \
   --only-show-errors
 ```
 
-Approve pending private endpoint connections through each service owner when the deployment
-operator lacks approval rights. Public access stays unchanged. If Foundry replacement is required,
-the dependency endpoints can remain, but the Foundry endpoint must be updated after replacement.
+Each service owner approves a pending private endpoint connection if the deployment operator lacks
+approval rights. Public access stays unchanged. If Foundry replacement is required, dependency
+endpoints can remain, but update the Foundry endpoint after replacement.
 
 ### 4. Replace and replay the Foundry account when approved
 
-Skip this step when the existing account already uses the exact Agent Service subnet. Otherwise,
-the change owner recorded in the approved change process replaces the Foundry account through the
-separately approved change and
-replays the approved project, connections, identities, role assignments, and model deployments.
-These deployment files do not create the replacement account or dependency services.
+Skip this step if the existing account already uses the exact Agent Service subnet. Otherwise, the
+change owner named in the approved change process replaces the Foundry account through a separate
+approved change. The owner replays approved projects, connections, identities, role assignments,
+and model deployments. These deployment files do not create the replacement account or dependency
+services.
 
 ### 5. Integrate customer DNS and firewall policy
 
@@ -328,11 +319,10 @@ On-premises DNS cannot query Azure's `168.63.129.16` virtual IP directly.
 
 Use the customer firewall repository or policy system named in the approved change. The firewall
 owner maintains the Microsoft Entra access rule required by Agent Service, reviewed
-feature-specific destinations, and any tool-specific destinations in that repository or policy
-system. The firewall owner must also confirm that TLS inspection does not inject an untrusted
-certificate. Session 03 does not copy or deploy these rules. Do not add a
-blanket internet rule to make preflight pass. Session 05 confirms that agent-runtime traffic
-follows the prepared route.
+feature-specific destinations, and tool-specific destinations there. The firewall owner also
+confirms that TLS inspection does not inject an untrusted certificate. Session 03 does not copy or
+deploy these rules. Do not add a blanket internet rule to make preflight pass. Session 05 confirms
+that agent-runtime traffic follows the prepared route.
 
 Bing Grounding, Websearch, and SharePoint Grounding still use public endpoints in an isolated
 Foundry environment. If the approved architecture requires every agent-tool call to stay private,
@@ -340,14 +330,14 @@ exclude those tools from Session 05 rather than treating this VNet as coverage f
 
 ### 6. Update five resource IDs and check connectivity
 
-The AI platform owner confirms that the existing account needed no replacement or that the approved
-replacement and replay completed. The network owner then points the Foundry private endpoint and
-DNS zone group at the existing or replacement account. Each service owner confirms the current
-resource ID for Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault. Update the parameter
-file, then run `connectivity-check` from the approved execution host.
+The AI platform owner confirms that the existing account needs no replacement, or that replacement
+and replay finished. The network owner then points the Foundry private endpoint and DNS zone group
+to the existing or replacement account. Each service owner confirms the current resource ID for
+Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault. Update the parameter file, then run
+`connectivity-check` from the approved execution host.
 
-Continue only when the three Foundry endpoint-family FQDNs and four dependency FQDNs resolve to
-RFC 1918 addresses and the approved execution host can connect to each endpoint on TCP 443.
+Continue when the three Foundry endpoint-family FQDNs and four dependency FQDNs resolve to RFC 1918
+addresses and the approved execution host reaches each endpoint on TCP 443.
 
 ### 7. Record prior states and disable public access
 
@@ -376,9 +366,9 @@ change record stops the sequence.
 ```
 
 The script first confirms that the five unique service IDs use the expected Azure resource types
-and belong to the approved subscription and resource group. It then checks private connectivity
-and displays the five prior public-access states. Copy them to the approved change system, then
-rerun with the explicit confirmation. The script adds the Session 03 marker and requests
+and belong to the approved subscription and resource group. It then checks private connectivity and
+displays the five prior public-access states. Copy them to the approved change system, then rerun
+the script with explicit confirmation. The script adds the Session 03 marker and requests
 `Disabled` on each service.
 
 If any update fails, do not rerun the command blindly. Inspect the approved change record,
@@ -386,8 +376,7 @@ identify which services changed, and start the manual restore procedure.
 
 ## Confirm the result
 
-Run the required check from the approved private execution host used for cutover, using the
-parameter file:
+Run the check from the approved private execution host used for cutover:
 
 ```powershell
 .\scripts\connectivity-check.ps1 `
@@ -399,32 +388,33 @@ parameter file:
 ```
 
 Each configured service alias must resolve only to RFC 1918 IPv4 addresses, and the approved
-execution host must connect to each endpoint on TCP 443. The script prints the result and exits. It
-does not create a resource or save a result file.
+execution host must reach each endpoint on TCP 443. The script prints the result and exits. It does
+not create a resource or save a result file.
 
 ## After implementation
 
-Keep the **approved private-network resources and settings in operation**: the spoke or approved VNet changes, Agent
-Service subnet, private-endpoint subnet, firewall route, private endpoints, DNS configuration,
-customer firewall source reference, and disabled public-access settings. The network owner
-maintains the subnets and route. DNS and firewall owners maintain their configurations. Each
-service owner maintains its private endpoint and public-access setting.
+Keep the private-network resources and settings in operation: the spoke or approved VNet changes,
+Agent Service subnet, private-endpoint subnet, firewall route, private endpoints, DNS
+configuration, customer firewall source reference, and disabled public-access settings. The network
+owner maintains the subnets and route. DNS and firewall owners maintain their settings. Each service
+owner maintains its private endpoint and public-access setting.
 
 Store the public-access cutover record in the approved change system. The cutover owner captures
 the displayed prior states there before confirmation, and the restore owner retrieves them there.
 
 Run this implementation only in the approved nonproduction subscription and resource group.
-Production needs its own address, DNS, firewall, change-window, and service-owner decisions. Agent Service runtime traffic remains unconfirmed until
+Production needs separate address, DNS, firewall, change-window, and service-owner decisions.
+Agent Service runtime traffic remains unconfirmed until
 [Session 05](../../05-governed-agent-baseline/implementation/README.md) runs an agent from a
 Foundry account created with this subnet.
 
-Keep these network resources and access settings in place by default. If access must be restored, the network, DNS,
-firewall, security, and affected service owners review the approved change record with the change
-authority before any change.
+Keep these network resources and access settings in place by default. If access must be restored,
+the network, DNS, firewall, security, and affected service owners review the approved change record
+with the change authority first.
 
 Restore each service's recorded public-access state first. Then confirm that the approved execution
 host can still reach each service. Restoring access does not release a Foundry account's injected
 subnet. Keep the Agent subnet, route, and VNet until a separately approved Foundry account
-retirement and purge has completed. Do not remove network resources when any recorded prior state
-is not `Enabled`, when a VNet link in a marked private DNS zone lacks the Session 03 marker, or
-when a service was already private-only before this session and has no other approved access path.
+retirement and purge finishes. Do not remove network resources if a recorded prior state is not
+`Enabled`, a VNet link in a marked private DNS zone lacks the Session 03 marker, or a service was
+already private-only and has no other approved access path.
