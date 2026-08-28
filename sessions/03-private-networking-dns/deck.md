@@ -14,7 +14,7 @@ html: true
 
 # Private networking, DNS, and controlled egress
 
-**270 minutes · Build and check the private client path**
+270 minutes · Build and check the private client path
 
 <!-- Notes: Frame this as a network control implementation, not a general Azure networking lecture. -->
 
@@ -112,7 +112,7 @@ Configure BYO VNet injection when the Foundry account is created.
 | Has no `networkInjections` setting | Approve replacement and replay of approved configuration |
 | References another subnet | Approve a new account and replay into it |
 
-**Do not attempt an in-place retrofit or claim that Session 05 agent traffic uses this route before Session 05 runs its agent check.**
+An in-place retrofit is **not available**. Do not claim that Session 05 agent traffic uses this route before Session 05 runs its agent check.
 
 <!-- Notes: This product constraint must have an owner before deployment. -->
 
@@ -194,10 +194,10 @@ Storage `blob` and Cosmos DB `Sql` complete the required dependency set.
 
 ## Decision 2 · DNS ownership
 
-1. **Azure-only client:** link the private DNS zone that contains the record to the client VNet.
-2. **Peered spokes:** link the same zone to each approved client or resolver VNet.
-3. **Hybrid:** forward the public service zone to an Azure-side forwarder or Private Resolver.
-4. **Central DNS:** update the existing Bicep deployment to reference existing zone IDs. Keep links and forwarding in the central DNS deployment.
+1. Azure-only client: link the private DNS zone that contains the record to the client VNet.
+2. Peered spokes: link the same zone to each approved client or resolver VNet.
+3. Hybrid: forward the public service zone to an Azure-side forwarder or Private Resolver.
+4. Central DNS: update the existing Bicep deployment to reference existing zone IDs. Keep links and forwarding in the central DNS deployment.
 
 > On-premises DNS cannot query Azure's `168.63.129.16` virtual IP directly.
 
@@ -210,9 +210,8 @@ fallback-to-Internet setting or another resolution path before linking the zone.
 
 ## Where egress routing and rules are configured
 
-**Configured in this session:** `0.0.0.0/0 → customer firewall`
-
-**Maintained in the customer firewall source:** destinations, ports, review history, and deployment.
+Configured in this session: `0.0.0.0/0 → customer firewall`
+Maintained in the customer firewall source: destinations, ports, review history, and deployment.
 
 Session 03 records the external firewall repository or policy reference. Its deployment files do
 not include firewall rules.
@@ -236,13 +235,13 @@ the approved agent design requires every tool call to stay private.
 
 These deployment files do not create missing dependency services.
 
-1. **Decide and approve** whether to keep or replace the Foundry account.
-2. **Deploy** the network, DNS links, and initial private endpoints.
-3. **Pause for replacement and replay** through a separate approved change when required.
-4. **Reconcile** the Foundry endpoint and all five current resource IDs.
-5. **Check** private DNS and TCP 443 from the approved execution host.
+1. Decide and approve whether to keep or replace the Foundry account.
+2. Deploy the network, DNS links, and initial private endpoints.
+3. Pause for replacement and replay through a separate approved change when required.
+4. Reconcile the Foundry endpoint and all five current resource IDs.
+5. Check private DNS and TCP 443 from the approved execution host.
 6. **Record and disable** all prior public-access settings, then request `Disabled`.
-7. **Confirm** private DNS and TCP 443 again.
+7. Confirm private DNS and TCP 443 again.
 
 <!-- Notes: The cutover script checks private DNS and TCP 443 before the first public-access change. -->
 
@@ -252,7 +251,7 @@ These deployment files do not create missing dependency services.
 
 ## Build and test private connectivity
 
-**Timebox:** 270 minutes
+Timebox: 270 minutes
 
 | Time | Work |
 |---:|---|
@@ -395,12 +394,12 @@ When a service was already private-only, its owner must confirm another approved
 
 ## Recap and next dependency
 
-- **Connectivity:** three Foundry endpoint families and four dependency FQDNs resolve through approved private endpoints.
-- **Egress:** a dedicated Agent subnet routes through the customer firewall.
-- **Cutover:** check private connectivity and record prior settings before disabling public access.
-- **Next:** [Session 05](../05-governed-agent-baseline/) runs an agent through the delegated subnet.
+- Connectivity: three Foundry endpoint families and four dependency FQDNs resolve through approved private endpoints.
+- Egress: a dedicated Agent subnet routes through the customer firewall.
+- Cutover: check private connectivity and record prior settings before disabling public access.
+- Next: [Session 05](../05-governed-agent-baseline/) runs an agent through the delegated subnet.
 
-Next: **[Session 04 · Models, residency, quota, and lifecycle](../04-model-governance-lifecycle/)**
+Next: [Session 04 · Models, residency, quota, and lifecycle](../04-model-governance-lifecycle/)
 
 <!-- Notes: Close on the operational control and the account-level dependency. -->
 

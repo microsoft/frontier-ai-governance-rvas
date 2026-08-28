@@ -70,13 +70,13 @@ through the runbook.
    dependencies, API Management capacity, and the agent's tool path.
 3. Confirm that the customer Bicep entrypoint reads
    `artifacts/regional/region.parameters.json` and deploys the complete regional stack.
-4. Give the inventory operator Azure **Reader** at the selected subscription. Make Microsoft Entra
-   **AI Reader** PIM-eligible at tenant scope and activate it only for the reconciliation window.
+4. Give the inventory operator Azure Reader at the selected subscription. Make Microsoft Entra
+   AI Reader PIM-eligible at tenant scope and activate it only for the reconciliation window.
 5. Confirm the Defender Unified RBAC activation state and the permission model that gives the
    security operator read access to the in-scope workload.
-6. Give the security operator **Purview Data Security AI Viewer** and a time-bound Microsoft Entra
-   **Security Reader** activation when Defender Unified RBAC does not cover the workload.
-7. Give the preview operator built-in **Contributor** at the exact regional resource group.
+6. Give the security operator Purview Data Security AI Viewer and a time-bound Microsoft Entra
+   Security Reader activation when Defender Unified RBAC does not cover the workload.
+7. Give the preview operator built-in Contributor at the exact regional resource group.
 8. Complete the secondary-region deployment through the Session 14 promotion path.
 9. Prepare a maintenance window, delivery authority, restore authority, and customer change record.
 

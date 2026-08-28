@@ -14,7 +14,7 @@ html: true
 
 # Microsoft Foundry platform baseline, inventory, and landing-zone guardrails
 
-**300 minutes · Deploy a tagged baseline, name its owners, then stage deny-mode guardrails**
+300 minutes · Deploy a tagged baseline, name its owners, then stage deny-mode guardrails
 
 ---
 
@@ -161,14 +161,14 @@ covers that model-governance decision. This initiative does not add them.
 
 ## Implementation path
 
-1. **Decide** the region, network choice, ownership values, expiry, and resource model.
-2. **Mark** the approved resource group with `implementationSession=01-platform-baseline`.
+1. Decide the region, network choice, ownership values, expiry, and resource model.
+2. Mark the approved resource group with `implementationSession=01-platform-baseline`.
 3. **Run preflight** for tools, providers, sentinels, inherited policy assignments, the approved sandbox scope, Bicep syntax, and planned changes for both layers.
-4. **Deploy** the Foundry parent, project, workspace, Application Insights, and connection.
-5. **Resolve** the current built-ins, then deploy the initiative and stage the assignment in `DoNotEnforce`.
-6. **Review** live Policy Insights findings, then promote to `Default` after change-authority approval.
-7. **Confirm** the deployment preview and the live assignment state.
-8. **Operate** live inventory, the migration backlog, and policy exemptions through the customer systems.
+4. Deploy the Foundry parent, project, workspace, Application Insights, and connection.
+5. Resolve the current built-ins, then deploy the initiative and **stage the assignment in `DoNotEnforce`**.
+6. Review live Policy Insights findings, then **promote to `Default` after change-authority approval**.
+7. Confirm the deployment preview and the live assignment state.
+8. Operate live inventory, the migration backlog, and policy exemptions through the customer systems.
 
 ---
 
@@ -176,15 +176,15 @@ covers that model-governance decision. This initiative does not add them.
 
 ## Deploy the baseline and guardrails
 
-**Timebox:** 250 minutes
+Timebox: 250 minutes
 
 Deploy the Foundry baseline in the approved sandbox resource group, then stage Azure Policy guardrails on that resource group.
 
-- **State change:** current Foundry parent, child project, observability connection, subscription initiative, and resource-group assignment
-- **Operator access:** Contributor on the approved sandbox scope, plus a time-bound Resource Policy Contributor assignment for the guardrails
-- **Safety boundary:** resolved decisions, approved sandbox subscription and resource group, and the marked removal scope
-- **Data rule:** no secrets or customer content in parameters, tags, outputs, or source control
-- **Live state:** deployed baseline, staged-then-promoted policy assignment, reusable definitions, and customer-system records
+- State change: current Foundry parent, child project, observability connection, subscription initiative, and resource-group assignment
+- Operator access: Contributor on the approved sandbox scope, plus a time-bound Resource Policy Contributor assignment for the guardrails
+- Safety boundary: resolved decisions, approved sandbox subscription and resource group, and the marked removal scope
+- Data rule: no secrets or customer content in parameters, tags, outputs, or source control
+- Live state: deployed baseline, staged-then-promoted policy assignment, reusable definitions, and customer-system records
 
 ---
 
@@ -216,7 +216,7 @@ Rerun preflight, inspect the final deployment previews, then inspect the live po
   -ConfirmInheritedPolicyReview
 ```
 
-**Expected:** no unintended change to the Foundry baseline, and a `Default`-enforcement assignment with the approved locations, tags, and session marker.
+Expected: no unintended change to the Foundry baseline, and a `Default`-enforcement assignment with the approved locations, tags, and session marker.
 
 The project `AppInsights` connection may appear as `Modify` or `Deploy` because its credential is write-only. Treat that connection as expected platform noise. A `DoNotEnforce` assignment means the guardrail rollout is incomplete.
 

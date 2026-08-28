@@ -16,7 +16,7 @@ description: Optional implementation add-on for publishing a runtime-owned A2A a
 
 # A2A agent discovery in Azure API Center
 
-**60 minutes - A live developer-discovery asset**
+60 minutes - A live developer-discovery asset
 
 ---
 
@@ -53,7 +53,7 @@ This repository stores no copy of these records.
 
 ## Use API Center only when developers need it
 
-Add this asset only when developers need discovery.
+Add this asset only when developers **need discovery**.
 
 If they do not need it, keep the Agent 365 enterprise inventory record and do not create another
 catalog entry.
@@ -82,7 +82,7 @@ Runtime-owned Git or API Management source
        Live A2A discovery asset
 ```
 
-Do not manually register the agent beside its source integration.
+Do not **manually register the agent** beside its source integration.
 
 ---
 
@@ -103,7 +103,7 @@ Do not manually register the agent beside its source integration.
 1. Confirm the developer-discovery need.
 2. Run preflight with the runtime-owned source reference.
 3. Configure or refresh the approved source integration.
-4. Open the live Agent asset in API Center.
+4. Open the **live Agent asset** in API Center.
 5. Confirm the A2A interface and its source relationship.
 
 ---

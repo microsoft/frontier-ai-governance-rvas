@@ -14,7 +14,7 @@ html: true
 
 # Red teaming, prompt injection, and Defender
 
-**270 minutes - Compare authorized baseline and remediation results, then route a Defender signal**
+270 minutes - Compare authorized baseline and remediation results, then route a Defender signal
 
 <!-- Notes: Session 11 measured release quality. Today we compare two authorized versions and check the security route. -->
 
@@ -127,7 +127,7 @@ decision.
 
 Use the authorized nonproduction policy-assistant version, synthetic data, and read-only tool.
 
-Keep blocked writes independently denied. Stop on any unexpected side effect.
+Keep blocked writes **independently denied**. Stop on any unexpected side effect.
 
 <!-- Notes: Batch evaluation has a broader region list; do not use it for this decision. -->
 
@@ -219,7 +219,7 @@ Do not:
 
 | Path | Chosen use | Cost or limit |
 |---|---|---|
-| Defender for Cloud **AI services** | Operating path for Foundry workload signals | A red-team run may not create an alert |
+| Defender for Cloud AI services | Operating path for Foundry workload signals | A red-team run may not create an alert |
 | Agent 365 Defender detection | Optional agent-specific path when onboarded | Public preview; never the sole control |
 | Route-health result | Confirm delivery when no authorized event is available | Proves the route, not red-team improvement |
 
@@ -286,7 +286,7 @@ The saved hunt matches the current alert titles exactly. It does not use a broad
 
 ## Run the red-team plan and route the Defender signal
 
-**Timebox: 100 minutes**
+Timebox: 100 minutes
 
 1. Validate authorization, the Foundry project, both policy-assistant versions, current region support, Defender coverage, and each required owner decision.
 2. Prepare and human-review the blocked-action taxonomy.

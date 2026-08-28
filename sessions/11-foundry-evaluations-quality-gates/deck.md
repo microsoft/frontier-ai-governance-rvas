@@ -14,7 +14,7 @@ html: true
 
 # Foundry evaluations and release quality gates
 
-**330 minutes - Compare two versions with one data set and separate gate layers**
+330 minutes - Compare two versions with one data set and separate gate layers
 
 <!-- Notes: Sessions 05 and 08 created the governed agent and tool boundary. Today release eligibility becomes measurable. -->
 
@@ -223,7 +223,7 @@ Before each run, the quality owner checks the selected region against the curren
 - required risk and safety evaluation; and
 - protected-material evaluation.
 
-Protected material is currently available only in **East US 2**. Keep that blocking metric and run
+Protected material is currently available only in East US 2. Keep that blocking metric and run
 the complete gate there, or stop and revise the policy with the safety and release owners. Never
 drop it during a run.
 
@@ -232,7 +232,7 @@ Record the same-day manual support gate in the approved release platform.
 For isolated projects:
 
 - evaluation subnet delegation is confirmed; and
-- the project managed identity has **Foundry User** on the approved Foundry project.
+- the project managed identity has Foundry User on the approved Foundry project.
 
 <!-- Notes: Evaluation region support is narrower than general model deployment support. -->
 
@@ -245,7 +245,7 @@ For isolated projects:
 The tool owner approves blocking `tool_call_accuracy` and `tool_call_success` only for supported
 tool types.
 
-This kit uses one user-defined **Function Tool**. Keep the gate disabled if the trace adds Azure AI
+This kit uses one user-defined Function Tool. **Keep the gate disabled** if the trace adds Azure AI
 Search, Bing Grounding, Bing Custom Search, SharePoint Grounding, Code Interpreter, Fabric Data
 Agent, or Web Search.
 
@@ -267,7 +267,7 @@ FOUNDRY_MODEL_NAME
 
 No key, token, endpoint, tenant ID, or subscription ID is committed.
 
-The evaluation operator has **Foundry User** on the approved Foundry project. The cost owner
+The evaluation operator has Foundry User on the approved Foundry project. The cost owner
 approves judge-model and evaluation consumption before the run.
 
 <!-- Notes: DefaultAzureCredential uses the customer's approved secretless path. -->
@@ -309,7 +309,7 @@ Run the approved version before you set quality and tool thresholds.
 
 ## Run the approved-version evaluation
 
-**Timebox: 65 minutes**
+Timebox: 65 minutes
 
 1. Resolve the Foundry project, agent, owner, evaluator, region, and fixed-version decisions.
 2. Run baseline preflight with the approved runtime inputs.
@@ -432,11 +432,11 @@ Run `test_release_gate.py --mode blocked-tool-process`.
 
 Expected:
 
-- final-answer relevance: **passing**
-- tool-call accuracy: **blocked**
-- tool-call success: **blocked**
-- selected safety metrics: **passing**
-- advisory prohibited-action and sensitive-data-leakage signals: **nonblocking**
+- final-answer relevance: passing
+- tool-call accuracy: blocked
+- tool-call success: blocked
+- selected safety metrics: passing
+- advisory prohibited-action and sensitive-data-leakage signals: nonblocking
 - candidate: **still unpinned**
 
 The answer cannot hide the failed tool path.

@@ -4,9 +4,9 @@
 
 ### What we will do
 
-Add or refresh an already-governed A2A agent in Azure API Center when developers need its
-technical interface. The API Center asset comes from a runtime-owned Git or API Management source
-integration. The delivery team then reviews the live catalog asset.
+Add or refresh an already-governed A2A agent in Azure API Center when **developers need its
+technical interface**. The API Center asset comes from a **runtime-owned source integration** in
+Git or API Management. The delivery team then reviews the live catalog asset.
 
 Azure API Center holds the live discovery entry. This module does not create a manual agent
 registration, copy the A2A definition, or keep a second inventory record in this repository.
@@ -80,7 +80,7 @@ Confirm these prerequisites:
   source-controlled discovery content.
 - The API Center owner can review the source integration and resulting live asset.
 
-Run preflight with the selected source reference in **Implement › 1. Run preflight**. It checks the
+Run preflight with the selected source reference in Implement › 1. Run preflight. It checks the
 module boundary before a portal-led integration change without creating an API Center asset or
 retaining supplied values.
 A read-only deployment preview is unsupported because the change is made through the selected
@@ -93,13 +93,12 @@ source integration.
 Use this add-on when developers need the A2A interface in API Center. Do not add the asset merely
 because an Agent 365 enterprise record exists.
 
-Stop if the developer use case is unclear or the existing Agent 365 record is missing.
+**Stop if the developer use case is unclear** or the existing Agent 365 record is missing.
 
 ### Select the source integration
 
-Choose **git** when the runtime product repository is the approved source. Choose **api-management**
-when API Management publishes the technical A2A asset and the documented synchronization path
-supports it.
+Choose git when the runtime product repository is the approved source. Choose api-management when
+API Management publishes the technical A2A asset and the documented synchronization path supports it.
 
 Stop if the plan relies on a manual Agent registration beside an existing source integration, an
 unsupported source, a local agent-card upload, or copied metadata in this repository.

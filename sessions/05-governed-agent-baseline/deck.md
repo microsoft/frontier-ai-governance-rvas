@@ -14,7 +14,7 @@ html: true
 
 # Governed Microsoft Foundry agent baseline
 
-**180 minutes - A versioned agent with one read tool and no write path**
+180 minutes - A versioned agent with one read tool and no write path
 
 <!-- Notes: Establish the agent identity, version, tool, safety, and tracing controls before adding APIM and MCP. -->
 
@@ -144,7 +144,7 @@ Resolve before creation:
 2. [Session 04](../04-model-governance-lifecycle/) consolidated approval record and matching live ARM model deployment.
 3. Named RAI policy.
 4. Responses protocol with Entra authorization.
-5. Fixed-version routing, not "always latest."
+5. **Fixed-version routing, not "always latest."**
 
 Stop if the name collides with an unmarked agent or a legacy agent has no unique identity.
 
@@ -178,7 +178,7 @@ No `POST`, `PUT`, `PATCH`, or `DELETE` operation is registered.
 
 The downstream API authorization owner approves the managed-identity read assignment before preflight.
 
-Stop unless all are true:
+**Stop** unless all are true:
 
 - The operation is genuinely read-only despite using GET.
 - The Entra audience matches the downstream resource.
@@ -285,7 +285,7 @@ Keep runtime endpoints, IDs, prompts, responses, and traces out of source contro
 
 ## Create and pin the governed agent
 
-**Timebox: 180 minutes**
+Timebox: 180 minutes
 
 1. Resolve the agent, RAI, tool, prohibited-action, and tracing decisions with the responsible owner.
 2. Run preflight and inspect its read-only planned-change summary.
@@ -299,10 +299,10 @@ Keep runtime endpoints, IDs, prompts, responses, and traces out of source contro
 
 ## Preflight inventory and safety checks
 
-**Implementation definitions:** recorded owners, approved model and RAI policy, the `get_policy`
+Implementation definitions: recorded owners, approved model and RAI policy, the `get_policy`
 GET operation, no write operation, and no live endpoint in source.
 
-**Live Foundry resources:** approved subscription and project, `AIServices` resource, Foundry User role ID, model deployment, Application Insights connection, downstream assignment, existing-agent marker, and unique Entra Agent Identity.
+Live Foundry resources: approved subscription and project, `AIServices` resource, Foundry User role ID, model deployment, Application Insights connection, downstream assignment, existing-agent marker, and unique Entra Agent Identity.
 
 Foundry has no data-plane agent `what-if`. Preflight uses a read-only lookup and a specific change summary.
 
@@ -324,7 +324,7 @@ or SDK. Use the scripts and API response to check them.
   -ReadApiBaseUrl $readApiBaseUrl
 ```
 
-Expected state: a new fixed version, unique identity, a Responses endpoint with Entra authorization,
+**Expected state:** a new fixed version, unique identity, a Responses endpoint with Entra authorization,
 and 100% traffic pinned to that version.
 
 <!-- Notes: Foundry retains the active version and endpoint selector. The deployment does not write a release record. -->

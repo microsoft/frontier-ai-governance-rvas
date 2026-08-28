@@ -14,7 +14,7 @@ html: true
 
 # Observability, cost, and operational controls
 
-**240 minutes - Trace an approved request, route alerts, and assign cost**
+240 minutes - Trace an approved request, route alerts, and assign cost
 
 <!-- Notes: Session 12 connected red-team behavior to detection. This session adds the operating views, routes, and cost controls for one service. -->
 
@@ -147,7 +147,7 @@ Workflow and external agents remain preview and need an approved nonproduction p
 
 service · environment · operation type · model deployment · agent version · tool name · result
 
-**One W3C trace across supported runtime spans. One non-sensitive correlation ID. Separate success states.**
+**One W3C trace across supported runtime spans** with one non-sensitive correlation ID and separate success states.
 
 <!-- Notes: A tool error must not be relabeled as model failure. -->
 
@@ -255,8 +255,8 @@ Use baseline-derived thresholds, evaluation windows, and an approved action grou
 
 `llm-emit-token-metric` supports at most five custom dimensions.
 
-API Management tracks at most **100 unique values per dimension** and **1,000 active time series
-per metric namespace**. New values or series beyond either limit are silently discarded.
+API Management tracks at most 100 unique values per dimension and 1,000 active time series
+per metric namespace. New values or series beyond either limit are silently discarded.
 
 ### Approved
 
@@ -280,11 +280,11 @@ APIM token metrics provide near-real-time usage signals for routing, anomaly det
 
 ### Billing clock
 
-Cost Management data typically arrives **8-24 hours later**. Its billed cost is authoritative.
+Cost Management data typically arrives 8-24 hours later. Its billed cost is authoritative.
 
 ### Budget behavior
 
-Actual and forecast thresholds notify owners. They do not stop resources.
+Actual and forecast thresholds notify owners. **They do not stop resources.**
 
 <!-- Notes: Never describe the budget as a kill switch. -->
 
@@ -309,7 +309,7 @@ Keep logs, Defender, and SOC routing active unless they are the confirmed fault.
 
 ## Deploy linked logs, alerts, and budget
 
-**Timebox: 95 minutes**
+Timebox: 95 minutes
 
 1. Resolve log, retention, alert, and cost settings. Name the owner for each.
 2. Confirm the approved OpenTelemetry instrumentation was deployed during pre-work.
@@ -334,7 +334,7 @@ Preflight checks:
 - both Bicep templates; and
 - resource-group and subscription what-if previews.
 
-The deployment operator uses **Monitoring Contributor** on the deployment resource group, **Log Analytics Reader** on the workspace, **Monitoring Reader** on monitored resources outside the group, and **Cost Management Contributor** on the subscription.
+The deployment operator uses Monitoring Contributor on the deployment resource group, Log Analytics Reader on the workspace, Monitoring Reader on monitored resources outside the group, and Cost Management Contributor on the subscription.
 
 Human access expires after the confirmation check.
 

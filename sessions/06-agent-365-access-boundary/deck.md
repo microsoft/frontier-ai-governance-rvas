@@ -35,7 +35,7 @@ its approved permissions. Then confirm that the group can use it and an excluded
 
 Agent Registry answers which agents exist. Group deployment decides who can use one of them.
 
-The pilot stays with an accountable test group until the delivery owner approves a wider change.
+The pilot stays with an accountable test group until **the delivery owner approves a wider change**.
 
 <!-- Notes: Avoid treating inventory visibility as an access boundary. -->
 
@@ -98,10 +98,10 @@ The pilot stays with an accountable test group until the delivery owner approves
 ## Install the scoped pilot
 
 1. Complete `agent-deployment.json` and run preflight.
-2. Open **Agents** > **All agents** > **Registry**.
+2. Open Agents > All agents > Registry.
 3. Select the approved Available agent and choose **Install**.
 4. Select the named test group.
-5. Review permissions, grant approved admin consent, and finish deployment.
+5. Review permissions, grant **approved admin consent**, and finish deployment.
 
 <!-- Notes: Stop if the portal shows a different agent, wider audience, or unexpected permission. -->
 

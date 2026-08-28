@@ -147,7 +147,7 @@ The identity owner approves:
 - middle tier to downstream API: `Policy.Read`; and
 - the approved consent type.
 
-Stop if an existing grant is ambiguous or the requested scope is broader than the read operation.
+**Stop if an existing grant is ambiguous or the requested scope is broader than the read operation.**
 
 <!-- Notes: The configure scripts merge the module entries and preserve unrelated permissions. -->
 
@@ -220,9 +220,9 @@ No application-only retry. No token or payload logging.
 
 ## Related sessions and modules
 
-- **Session 02** selects human, workload, agent, or delegated authority.
-- **Session 05** keeps the direct OpenAPI baseline application-only.
-- **Session 09** uses APIM managed identity for inbound authority.
+- Session 02 selects human, workload, agent, or delegated authority.
+- Session 05 keeps the direct OpenAPI baseline application-only.
+- Session 09 uses APIM managed identity for inbound authority.
 
 This module is used when those application-only paths do not satisfy a real per-user requirement.
 

@@ -14,7 +14,7 @@ html: true
 
 # Purview data governance and Agent 365 data controls
 
-**240 minutes - A labelled path with one data control**
+240 minutes - A labelled path with one data control
 
 <!-- Notes: Session 09 constrained tool authority. Today we govern the data that agents can reach and share. -->
 
@@ -64,7 +64,7 @@ leads a quarterly review.
 - The approved nonproduction Agent 365 instance, test group, and label ID
 - Microsoft Purview is the live source for label, DLP, Audit, and DSPM state
 - `coverage-handoff.md` names who maintains the Agent 365 and Foundry DLP paths
-- The Agent 365 DLP policy does not govern Foundry
+- The Agent 365 DLP policy **does not govern Foundry**
 - Production, additional agents, broad populations, and payload collection are excluded
 
 <!-- Notes: Foundry Purview Data Security and policy prerequisites remain a separate control path. -->
@@ -152,8 +152,8 @@ each product path because no single service view shows those responsibilities to
 
 The policy scope must list the agent instance. Broad intent is not scope.
 
-Use current **DSPM > AI observability** for agent risk and activity. The Insider Risk Management
-**Risky AI usage** template can surface prompt-injection, protected-material, and exfiltration risk.
+Use current DSPM > AI observability for agent risk and activity. The Insider Risk Management
+Risky AI usage template can surface prompt-injection, protected-material, and exfiltration risk.
 
 <!-- Notes: Other Purview capabilities exist, but this session implements only what supports the control. -->
 
@@ -170,7 +170,7 @@ Use current **DSPM > AI observability** for agent risk and activity. The Insider
 - Keep Microsoft Foundry Audit coverage distinct from policy billing.
 - Record Foundry DLP as active only when both parts are implemented.
 
-Use **DSPM for AI (classic)** only to check the Foundry enterprise-app collection policy and report
+Use DSPM for AI (classic) only to check the Foundry enterprise-app collection policy and report
 coverage. Record the result in the handoff; do not deploy the one-click policy in this session.
 
 <!-- Notes: Do not tell the customer that the Agent 365 policy protects Foundry API calls. -->
@@ -381,7 +381,7 @@ The saved audit query filters to one agent instance and prints no prompt, respon
 
 ## Apply the Agent 365 data control
 
-**Timebox: 240 minutes**
+Timebox: 240 minutes
 
 Review Purview data risk. Classify one synthetic source, configure one Agent 365 DLP policy, and
 confirm the expected result. Do not retain interaction content.
@@ -393,7 +393,7 @@ confirm the expected result. Do not retain interaction content.
 ## Implementation path
 
 1. Resolve the coverage, owner, label, source, action, and audit decisions.
-2. Use **Compliance Data Administrator** for label and DLP work, **View-Only Audit Logs** in Purview and Exchange, and **AuditLogsQuery.Read.All** for Microsoft Graph Audit Search.
+2. Use Compliance Data Administrator for label and DLP work, View-Only Audit Logs in Purview and Exchange, and AuditLogsQuery.Read.All for Microsoft Graph Audit Search.
 3. Run preflight against the approved tenant.
 4. Confirm the Foundry DLP handoff among the Purview operator, Foundry platform owner, and application developer. Do not configure Foundry DLP in this session.
 5. Confirm the approved label and explicit rights on the synthetic source.
@@ -433,7 +433,7 @@ Confirm the intended scoped result, the out-of-scope non-match, and the delivery
 
 Send the labelled synthetic item down the defined blocked interaction path.
 
-**Expected**
+**Expected result**
 
 - `Block`: the path does not complete.
 - `Audit`: the path completes and the match is recorded.

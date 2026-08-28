@@ -124,7 +124,7 @@
 </section>
 <p>For the <strong>intended-path check</strong>, the permitted user's call returns 2xx, a correlation ID, and the <code>downstream-authorized</code> decision header. The downstream API authorizes the preserved user and the middle tier logs metadata only.</p>
 <p>For the <strong>failure-path check</strong>, the denied user's call returns 401 or 403 with the <code>downstream-denied</code> decision header. This prevents an inbound-token or exchange failure from passing as a downstream authorization test. No protected resource is returned, no application-only retry occurs, and the failure remains correlated without recording either token or payload.</p>
-<p>At the <strong>delivery-owner checkpoint</strong>, the owner observes both status codes and confirms that the downstream API made the user-specific decision. The client prompt and middle-tier instructions do not make that decision.</p>
+<p>At the delivery-owner checkpoint, the owner observes both status codes and confirms that the downstream API made the user-specific decision. The client prompt and middle-tier instructions do not make that decision.</p>
 <h2 id="after-implementation">After implementation<a class="heading-anchor" href="#after-implementation" aria-label="Link to After implementation">#</a></h2>
 <p>Keep:</p>
 <ul><li>the approved app-registration and consent definitions;</li><li>the authorization matrix and token claim rules;</li><li>the certificate reference and thumbprint;</li><li>the Python middle-tier component and pinned dependencies;</li><li>the threat model; and</li><li>the paired operational scripts.</li></ul>

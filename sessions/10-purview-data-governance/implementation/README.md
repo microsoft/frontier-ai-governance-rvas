@@ -73,7 +73,7 @@ Confirm these prerequisites:
 - The data owner approves the source, classification, label, encryption rights, and `Block` or
   `Audit` action. The source is synthetic.
 - The DLP operator has **Compliance Data Administrator** in the approved Microsoft 365 tenant.
-- The audit operator has **View-Only Audit Logs** in Purview and the Exchange admin center.
+- The audit operator has View-Only Audit Logs in Purview and the Exchange admin center.
 - The Microsoft Graph application used for the audit query has
   `AuditLogsQuery.Read.All` with administrator consent.
 - The Purview operator, Foundry platform owner, and application developer own the Foundry DLP
@@ -93,7 +93,7 @@ Use aliases and role names in the repository. Keep tenant IDs, source URLs, prom
 user identities, file names, audit exports, findings, and screenshots in Purview and the approved
 change systems.
 
-Stop before the change when:
+**Stop before the change** when:
 
 - the qualifying Agent 365 license, E5 or approved exception, or a required Purview entitlement is
   unconfirmed;
@@ -194,7 +194,7 @@ the current portal summary followed by `TestWithNotifications` simulation.
 ### 3. Configure the Agent 365 DLP policy for the approved scope
 
 Create a custom Purview DLP policy from the approved change record. Enter the coordinates in
-**Approved DLP policy coordinates** exactly, then add the recorded notification, incident route, and
+Approved DLP policy coordinates exactly, then add the recorded notification, incident route, and
 restore path. Start in `TestWithNotifications`.
 
 Review the Purview policy summary and simulation. Confirm that the simulation includes the selected
@@ -233,7 +233,7 @@ behavior and apply the selected output control.
 ### Blocked or failure path
 
 Run the interaction again with the approved out-of-scope test-group alias. Keep the agent, source,
-label, direction, location, and action unchanged. The policy must not report a match. Stop if the
+label, direction, location, and action unchanged. The policy must **not report a match**. Stop if the
 scope is wider than approved, the observed action differs, generated content is treated as
 protected without the selected output control, or audit activity remains absent after the stated
 ingestion allowance.

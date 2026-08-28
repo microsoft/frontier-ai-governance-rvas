@@ -195,31 +195,31 @@ details, so store it in the customer's normal inventory system rather than commi
 
 Make these decisions before deployment:
 
-1. **Approved Azure scope.** Name the approved sandbox subscription and exact sandbox resource
+1. Approved Azure scope. Name the approved sandbox subscription and exact sandbox resource
    group. Manual removal requires the group tag `implementationSession=01-platform-baseline`.
    Stop if the group is shared and its owner has not approved that marker.
-2. **Set customer values.** Replace every `__REQUIRED_*__` value in
+2. Set customer values. Replace every `__REQUIRED_*__` value in
    `artifacts/environments/sandbox.bicepparam` and
    `artifacts/environments/policy-assignment.bicepparam`. Use an ISO `yyyy-MM-dd` expiry date.
    Stop if any sentinel remains.
-3. **Resource model.** Use the current Foundry resource and child-project model for new work.
+3. Resource model. Use the current Foundry resource and child-project model for new work.
    Existing confirmed hub-based projects keep their approved controls until the platform owner
    approves separate migration work. Do not mix the models in this deployment.
-4. **Foundry network posture.** The `publicNetworkAccess` property controls whether the Foundry
+4. Foundry network posture. The `publicNetworkAccess` property controls whether the Foundry
    resource accepts traffic through its public network endpoint. Set it to the approved value. The
    supplied Bicep parameter requires an explicit choice. Do not set it to `Disabled` until the approved
    execution host has a working private path. Do not set it to `Enabled` when the landing-zone
    rules prohibit public network access.
-5. **Foundry outbound posture.** The baseline sets `restrictOutboundNetworkAccess: false` because
+5. Foundry outbound posture. The baseline sets `restrictOutboundNetworkAccess: false` because
    Session 01 does not include a private-egress design. Treat this as temporary. Session 03 must
    replace it with the approved outbound-control design before anyone treats the environment as
    network isolated.
-6. **Tracing authentication.** Keep the stable `ApiKey` connection in this baseline. Move to the
+6. Tracing authentication. Keep the stable `ApiKey` connection in this baseline. Move to the
    preview
    [`ProjectManagedIdentity` trace-ingestion path](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/trace-ingestion-entra-authentication)
    only after the platform and monitoring owners accept preview use, plan Application Insights
    local-authentication changes, and approve the required Monitoring Metrics Publisher assignments.
-7. **Confirm the planned baseline scope.** The first Foundry preview must contain the documented
+7. Confirm the planned baseline scope. The first Foundry preview must contain the documented
    baseline resources. Stop if it targets another group, changes an existing resource
    unexpectedly, or needs a provider registration that the customer has not approved.
 
@@ -238,7 +238,7 @@ connection string during deployment and does not emit it.
 ### 1. Resolve the implementation definitions
 
 Edit the parameter and decision files in place. Keep the artifact tree listed in
-**Implementation files**.
+Implementation files.
 
 Set the approved scope and deployment values in the current shell:
 
@@ -633,7 +633,7 @@ approved exemption in Azure Policy and keep its decision reference in the custom
 ### 9. Promote the approved assignment
 
 The cloud platform owner must finish the live findings and exemption review. The change authority
-must approve enforcement. Stop and do not enter **Confirm the result** until both gates are
+must approve enforcement. Stop and do not enter Confirm the result until both gates are
 complete. After approval, change `enforcementMode` in
 `artifacts/environments/policy-assignment.bicepparam` to `Default`, rerun preflight, inspect the
 assignment preview, and redeploy the same assignment:
@@ -670,7 +670,7 @@ customer-specific command responses in the applicable customer inventory and cha
 
 ## Confirm the result
 
-Rerun preflight and inspect the **final Bicep deployment previews**:
+Rerun preflight and inspect the final Bicep deployment previews:
 
 ```powershell
 .\scripts\preflight.ps1 `
@@ -690,7 +690,7 @@ can appear as `Modify` or `Deploy` because its credential is write-only. Treat t
 an expected what-if result. Stop on any other create, delete, modify, deploy, or indeterminate
 result for the Foundry baseline.
 
-Then inspect the **deployed initiative and assignment** once, using Microsoft's
+Then inspect the deployed initiative and assignment once, using Microsoft's
 [policy compliance guidance](https://learn.microsoft.com/en-us/azure/governance/policy/how-to/get-compliance-data)
 to interpret the live Policy Insights state:
 
@@ -742,8 +742,8 @@ The guardrail rollout is incomplete. Do not save command output.
 
 ## After implementation
 
-The **platform owner maintains the deployed baseline**. The **cloud platform owner maintains the
-subscription initiative and sandbox assignment** unless removal is approved. Store the
+The platform owner maintains the deployed baseline. The cloud platform owner maintains the
+subscription initiative and sandbox assignment unless removal is approved. Store the
 implementation files in the repository. Platform operations maintains the inventory item and
 records confirmed classic migrations in the migration backlog. The change authority approves
 promotion, restore, or removal of the policy scope in the customer change system.

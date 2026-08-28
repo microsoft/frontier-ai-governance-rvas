@@ -144,14 +144,14 @@ to identify the release.
    parameter files.
 10. The GitHub administrator approves the environment protections and native secret controls. The
    Entra administrator accepts all four federated credentials and the two exact resource-group-scoped
-   **Contributor** assignments. The release owner
+   Contributor assignments. The release owner
    accepts the release-store operations. The delivery owner records each decision before live
    delivery.
-11. The GitHub administrator authenticates `gh` with repository **Administration: read** and
-    **Secret scanning alerts: read** permission so preflight can inspect all four environments,
+11. The GitHub administrator authenticates `gh` with repository Administration: read and
+    Secret scanning alerts: read permission so preflight can inspect all four environments,
     variables, nonproduction secret names, deployment branch policies, and open secret alerts.
     The Entra administrator gives the preflight operator recorded for this session a temporary
-    **Directory Readers** activation at tenant scope. The operator also has **Contributor** at the
+    Directory Readers activation at tenant scope. The operator also has Contributor at the
     exact nonproduction and production resource-group scopes so Azure can run both what-if
     operations. These human assignments expire or are removed after the ready check.
 12. The release authority, quality and security authorities, production approver, routing authority,
@@ -207,7 +207,7 @@ Resolve every `__REQUIRED_*__` value in the
   use a default subject with immutable owner and repository IDs. Older repositories can keep the
   name-based form. Record
   the exact subject that this repository returns. Do not reconstruct it from an example;
-- the built-in **Contributor** role, ID `b24988ac-6180-42a0-ab88-20f7382dd24c`, as the only Azure
+- the built-in Contributor role, ID `b24988ac-6180-42a0-ab88-20f7382dd24c`, as the only Azure
   role on each workload service principal, assigned at its exact environment resource-group scope;
 - nonproduction and production apply reviewer teams and prevent-self-review settings;
 - production reviewer role, deployment branch or tag restriction, disabled administrator bypass,
@@ -285,7 +285,7 @@ administrative path:
 
 1. verify accepted Entra workload identity federation credentials for all four GitHub environment
    subjects;
-2. verify each stage service principal has only **Contributor** at its exact resource-group scope and has
+2. verify each stage service principal has only Contributor at its exact resource-group scope and has
    no inherited Azure role assignment;
 3. verify GitHub environment variables `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`,
    `AZURE_SUBSCRIPTION_ID`, and `AZURE_RESOURCE_GROUP` match each preview and apply environment;
@@ -344,7 +344,7 @@ default, adding `id-token: write` only to environment jobs. The restore workflow
 
 ### 5. Run the intended promotion
 
-Dispatch **Controlled AI release promotion** with the approved full SHA in `release_sha` and
+Dispatch Controlled AI release promotion with the approved full SHA in `release_sha` and
 `evaluation_record=candidate`.
 
 The workflow invokes the Session 13 smoke interface in `Pipeline` mode for `nonproduction`, with
@@ -459,7 +459,7 @@ previous approved release at 100% and correct the control before another run.
 
 ## After implementation
 
-Keep the **workflow definitions and immutable release link**, environment parameter files, control
+Keep the workflow definitions and immutable release link, environment parameter files, control
 definition, release-record template, validator, and approved workflow revision. GitHub Actions
 retains build, deployment, and environment approval metadata. Microsoft Foundry retains evaluation
 and adversarial records. The approved external release platform retains Session 11 result records,

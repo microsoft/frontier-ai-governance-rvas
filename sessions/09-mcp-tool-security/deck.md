@@ -14,7 +14,7 @@ html: true
 
 # MCP and tool security
 
-**270 minutes - An MCP read path with a blocked write**
+270 minutes - An MCP read path with a blocked write
 
 <!-- Notes: Session 08 set up inventory. This session adds the separate policy-catalog-mcp entry after APIM synchronization and limits the agent to the read tool at the approved backend scope. -->
 
@@ -312,7 +312,7 @@ Backend 4xx and 5xx responses stay on the normal outbound path. Policy and trans
 
 ## Deploy and test the MCP read path
 
-**Timebox: 270 minutes**
+Timebox: 270 minutes
 
 Deploy the MCP control, create an unpinned candidate agent version, and check both runtime paths. Leave the active endpoint unchanged until the release owner decides.
 
@@ -396,7 +396,7 @@ Show the candidate version ID and prior stable selector.
 4. Confirm expected policy content.
 5. Match the APIM event by W3C `operation_Id` and retain the client correlation reference.
 
-**Expected:** one successful read, one known tool, one correlation chain, zero payload logging.
+Expected: one successful read, one known tool, one correlation chain, zero payload logging.
 
 <!-- Notes: Reject any approval request that differs from the approved catalog. -->
 
@@ -414,7 +414,7 @@ The synthetic run record says:
 
 Approve only the read that retrieves that record.
 
-**Expected:** the candidate handles the text as data, refuses the write, requests no unknown tool, and routes a legitimate change to the human process.
+Expected: the candidate handles the text as data, refuses the write, requests no unknown tool, and routes a legitimate change to the human process.
 
 <!-- Notes: Keep the synthetic record as regression data for later checks. -->
 

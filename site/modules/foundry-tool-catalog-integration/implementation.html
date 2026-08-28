@@ -132,9 +132,9 @@ printf '%s' &quot;$normalized_endpoint&quot; | sha256sum | cut -d' ' -f1</code><
 </section>
 <p>Store the endpoint in <code>toolbox-version.json</code> and its digest in the catalog record. Keep the filled files in the approved private configuration store.</p>
 <h3 id="2-configure-the-catalog-item-in-foundry-tools">2. Configure the catalog item in Foundry Tools<a class="heading-anchor" href="#2-configure-the-catalog-item-in-foundry-tools" aria-label="Link to 2. Configure the catalog item in Foundry Tools">#</a></h3>
-<p>In the Azure portal, open the exact API Center resource. Confirm the MCP server's authorization configuration and its <strong>Details &gt; Versions &gt; Manage access (preview)</strong> settings.</p>
+<p>In the Azure portal, open the exact API Center resource. Confirm the MCP server's authorization configuration and its Details &gt; Versions &gt; Manage access (preview) settings.</p>
 <p>Then open the intended project in the Microsoft Foundry portal:</p>
-<ol><li>Go to <strong>Build &gt; Tools</strong>.</li><li>Find the private tool catalog by the API Center name.</li><li>Select the MCP server record in API Center.</li><li>Review its setup requirements and configure it for the project.</li><li>Record the resulting project connection name in both artifacts.</li></ol>
+<ol><li>Go to Build &gt; Tools.</li><li>Find the private tool catalog by the API Center name.</li><li>Select the MCP server record in API Center.</li><li>Review its setup requirements and configure it for the project.</li><li>Record the resulting project connection name in both artifacts.</li></ol>
 <p>This is the current documented portal step that connects the catalog record to the project. If the portal does not expose the record or cannot create a connection that matches the approved authentication mode, stop. The module provides no fallback API.</p>
 <h3 id="3-run-preflight">3. Run preflight<a class="heading-anchor" href="#3-run-preflight" aria-label="Link to 3. Run preflight">#</a></h3>
 <section class="code-tabs" data-code-tabs>

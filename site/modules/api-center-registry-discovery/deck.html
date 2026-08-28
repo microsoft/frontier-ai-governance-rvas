@@ -63,7 +63,7 @@ separate API Center MCP server at <code>/mcp</code>.</p>
 <h2 id="architecture-overview">Architecture overview</h2>
 <ol>
 <li>The MCP server passes the Session 09 decision.</li>
-<li>Its API Center lifecycle moves to <strong>Production</strong>.</li>
+<li>Its API Center lifecycle moves to Production.</li>
 <li>Data API visibility selects <strong>MCP + Production</strong>.</li>
 <li>A Microsoft Entra-authenticated client reads the registry.</li>
 <li>The operational check compares all returned names with the ownership record.</li>
@@ -79,11 +79,11 @@ separate API Center MCP server at <code>/mcp</code>.</p>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8" data-paginate="true" data-theme="ai-governance" lang="en-US" data-marpit-pagination="8" style="--paginate:true;--theme:ai-governance;" data-marpit-pagination-total="15" data-size="16:9">
 <h2 id="authentication-and-roles">Authentication and roles</h2>
 <ul>
-<li><strong>Access method:</strong> Microsoft Entra ID</li>
-<li><strong>Developer role:</strong> Azure API Center Data Reader</li>
-<li><strong>Assignment scope:</strong> the exact API Center resource</li>
-<li><strong>Delegated data-plane scope:</strong> <code>https://azure-apicenter.net/Data.Read.All</code></li>
-<li><strong>Anonymous access:</strong> disabled</li>
+<li>Access method: Microsoft Entra ID</li>
+<li>Developer role: Azure API Center Data Reader</li>
+<li>Assignment scope: the exact API Center resource</li>
+<li>Delegated data-plane scope: <code>https://azure-apicenter.net/Data.Read.All</code></li>
+<li>Anonymous access: disabled</li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9" data-paginate="true" data-class="decision" data-theme="ai-governance" lang="en-US" class="decision" data-marpit-pagination="9" style="--paginate:true;--class:decision;--theme:ai-governance;" data-marpit-pagination-total="15" data-size="16:9">
@@ -122,14 +122,14 @@ separate API Center MCP server at <code>/mcp</code>.</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="10" data-paginate="true" data-theme="ai-governance" lang="en-US" data-marpit-pagination="10" style="--paginate:true;--theme:ai-governance;" data-marpit-pagination-total="15" data-size="16:9">
 <h2 id="retained-artifacts">Retained artifacts</h2>
-<p><strong>Client settings</strong></p>
+<p>Client settings</p>
 <ul>
 <li>registry endpoint;</li>
 <li>Microsoft Entra references;</li>
 <li>supported client handoffs; and</li>
 <li>approved server names.</li>
 </ul>
-<p><strong>Ownership record</strong></p>
+<p>Ownership record</p>
 <ul>
 <li>global visibility conditions;</li>
 <li>owner roles and review date; and</li>
@@ -140,7 +140,7 @@ separate API Center MCP server at <code>/mcp</code>.</p>
 <h2 id="implement-the-module">Implement the module</h2>
 <ol>
 <li>Complete both artifacts and run preflight.</li>
-<li>Move approved MCP versions to <strong>Production</strong>.</li>
+<li>Move approved MCP versions to Production.</li>
 <li>Confirm Microsoft Entra access and Azure API Center Data Reader.</li>
 <li>Configure and preview Data API visibility.</li>
 <li>Map the registry endpoint into the supported client.</li>

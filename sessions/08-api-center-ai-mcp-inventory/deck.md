@@ -14,7 +14,7 @@ html: true
 
 # Azure API Center and the AI/MCP inventory
 
-**210 minutes - Three required entries in a searchable design-time inventory**
+210 minutes - Three required entries in a searchable design-time inventory
 
 <!-- Notes: Session 07 established runtime enforcement. This session adds three selected assets with owners and required metadata. -->
 
@@ -336,10 +336,10 @@ Use two delivery windows. Window one deploys and links the source. Window two re
 
 The 210 minutes covers active work in both windows. It does not include the wait of up to 24 hours.
 
-**Timebox: 210 minutes**
+Timebox: 210 minutes
 
 1. Resolve scope, ownership, metadata, region, and runtime decisions.
-2. Confirm **Contributor** on the API Center resource group and time-bound **User Access Administrator** on the approved APIM instance.
+2. Confirm Contributor on the API Center resource group and time-bound User Access Administrator on the approved APIM instance.
 3. Run preflight and inspect the ARM `what-if`.
 4. Deploy API Center and link the APIM source.
 5. Set the synchronized API metadata in API Center.
@@ -424,7 +424,7 @@ Removal deletes only the marked API Center and APIM reader assignment.
 
 - Add the three required assets: direct agent API, synchronized APIM API, and remote MCP server.
 - Require the same metadata for the direct agent, synchronized APIM API, and remote MCP server.
-- Assign **API Management Service Reader Role** to the API Center managed identity on the Session 07 APIM instance.
+- Assign API Management Service Reader Role to the API Center managed identity on the Session 07 APIM instance.
 - Run managed definition analysis and the missing-metadata check.
 
 Next, constrain MCP identities, tools, arguments, outputs, and side effects in [Session 09](../09-mcp-tool-security/).

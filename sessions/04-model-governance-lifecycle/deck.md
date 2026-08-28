@@ -14,7 +14,7 @@ html: true
 
 # Model governance, data residency, quota, and lifecycle
 
-**180 minutes · Approve the exact model version, then deploy it from version-controlled files**
+180 minutes · Approve the exact model version, then deploy it from version-controlled files
 
 <!-- Notes: Frame the session as a deployment control under an existing Foundry resource. -->
 
@@ -66,7 +66,7 @@ Supported serverless API model deployments that `main.bicep` creates under the e
 - Managed-compute deployments
 - Foundry account, project, connection, network, and content filter creation
 
-> This path does not enforce an allowlist across every deployment method.
+> This path **does not enforce an allowlist across every deployment method**.
 
 <!-- Notes: Separate version-controlled intent from platform-wide prevention. -->
 
@@ -118,7 +118,7 @@ coordinates. Another template, the portal, the CLI, or an API can bypass these c
 
 ## Approval checkpoint
 
-Pause until the team records:
+**Pause** until the team records:
 
 1. approved model name, version, and provider format;
 2. approved workload purpose and a `global`, `data-zone:us`, `data-zone:eu`, `data-zone:apac`, or `region:<azure-region>` processing requirement;
@@ -155,13 +155,13 @@ The approved model and SKU must be available to the existing Foundry resource.
 - Deployment profile matches the approved change
 - Review date has not passed
 - Existing resource ID and `AIServices` kind
-- **Cognitive Services Contributor** at the approved resource scope
+- Cognitive Services Contributor at the approved resource scope
 - Live approved model, version, format, SKU, and capacity bounds
 - Live `raiPolicyName` under the exact Foundry resource
 - Match between a regional requirement and the Foundry account location
 - Live lifecycle state and deprecation fields when Azure returns them
 - Live quota metric and approved headroom when Azure returns a safe mapping
-- Bicep build and resource-scoped what-if
+- **Bicep build and resource-scoped what-if**
 
 <!-- Notes: The script rejects unrelated what-if resource IDs. -->
 
@@ -201,7 +201,7 @@ shows the `Microsoft.CognitiveServices/accounts/deployments/sku.name` restrictio
 
 ## Implementation path
 
-**Timebox:** 180 minutes
+Timebox: 180 minutes
 
 1. Complete `deployment-profiles.json` after normal change approval.
 2. Name the existing Foundry resource in `sandbox.bicepparam`.

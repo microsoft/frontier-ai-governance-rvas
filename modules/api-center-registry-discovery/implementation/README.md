@@ -205,16 +205,16 @@ target_scope="<approved API Center discovery scope alias>"
 
 ### 2. Set the approved lifecycle stage
 
-In the Azure portal, open the approved API Center and select **Inventory > Assets**. Open every MCP
+In the Azure portal, open the approved API Center and select Inventory > Assets. Open every MCP
 server in the ownership record and set its approved version lifecycle to **Production** through the
 normal inventory change path.
 
-Keep candidate servers at **Design** or **Preview**. Mark retired servers **Deprecated** before
+Keep candidate servers at Design or Preview. Mark retired servers Deprecated before
 their next client discovery window.
 
 ### 3. Configure developer access
 
-Under **Consumption > Portal settings**, confirm that Microsoft Entra ID is configured and
+Under Consumption > Portal settings, confirm that Microsoft Entra ID is configured and
 anonymous access is disabled. Confirm the developer group has **Azure API Center Data Reader** at
 the exact API Center resource scope.
 
@@ -223,7 +223,7 @@ discovered MCP server.
 
 ### 4. Configure Data API visibility
 
-Under **Consumption > Data API settings**, configure API visibility with the two built-in
+Under Consumption > Data API settings, configure API visibility with the two built-in
 conditions recorded in `registry-ownership.json`. Use the portal preview to compare the visible MCP
 records with `approvedServers`.
 

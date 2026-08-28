@@ -14,7 +14,7 @@ html: true
 
 # Agent fleet governance, multi-region design, and production rehearsal
 
-**270 minutes - Reconcile inventory and test one controlled regional move**
+270 minutes - Reconcile inventory and test one controlled regional move
 
 <!-- Notes: Session 14 made release promotion repeatable. This session checks one service while traffic moves to its secondary deployment. -->
 
@@ -128,7 +128,7 @@ records the outcome.
 
 ![Microsoft Foundry](assets/icons/microsoft/azure-ai-foundry.svg)
 
-**Operate > Assets > Agents**
+Operate > Assets > Agents
 
 Foundry Control Plane discovers supported agents across the projects a user can access in a
 subscription. It shows the version, published state, status, and Entra ID.
@@ -144,14 +144,14 @@ the operator lacks access. It does not prove the agent is absent.
 
 ![Microsoft Agent 365](assets/icons/microsoft/agent-365.svg)
 
-**Agent 365** provides the complete registry across Microsoft and non-Microsoft agents.
-**Microsoft Entra** remains the identity and access control plane for the agent.
+Agent 365 provides the complete registry across Microsoft and non-Microsoft agents.
+Microsoft Entra remains the identity and access control plane for the agent.
 
 **AI Reader is a privileged tenant role.** Use a time-bound PIM-eligible activation for inventory,
 then let it expire at the end of the approved window.
 
-If the registry record is missing, a temporarily activated **Agent Registry Administrator**
-registers the existing agent during pre-work. Identity changes require **Agent ID Administrator**.
+If the registry record is missing, a temporarily activated Agent Registry Administrator
+registers the existing agent during pre-work. Identity changes require Agent ID Administrator.
 
 <!-- Notes: Agent 365 answers which agents the enterprise has registered. Microsoft Entra answers which identity the agent uses and how that identity is governed. The rehearsal moves neither object. -->
 
@@ -309,7 +309,7 @@ Before preflight, locate one governed agent and one MCP server in their native s
 Azure resources used by the rehearsal. Complete the secondary-region deployment before the timed
 rehearsal.
 
-**Timebox: 130 minutes**
+Timebox: 130 minutes
 
 1. Match project, logs, agent, and store identifiers across the source configuration files.
 2. Check live Azure resources and the relevant native service views.
@@ -333,11 +333,11 @@ Active Azure subscription, API Management IDs, tiers and regions, additional loc
 
 Neither phase deploys resources or moves traffic.
 
-The inventory operator uses Azure **Reader** at subscription scope and a time-bound PIM activation
-for privileged tenant **AI Reader**.
+The inventory operator uses Azure Reader at subscription scope and a time-bound PIM activation
+for privileged tenant AI Reader.
 
-The security operator uses **Purview Data Security AI Viewer** plus a time-bound Microsoft Entra
-**Security Reader** activation. Azure what-if requires temporary **Contributor** on the approved
+The security operator uses Purview Data Security AI Viewer plus a time-bound Microsoft Entra
+Security Reader activation. Azure what-if requires temporary Contributor on the approved
 regional resource group.
 
 <!-- Notes: Human role activations expire after the rehearsal. A clean compile is not a clean deployment preview. -->

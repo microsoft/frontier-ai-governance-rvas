@@ -14,7 +14,7 @@ html: true
 
 # Entra identity, RBAC, PIM, and workload identities
 
-**240 minutes · Group access, PIM elevation, and GitHub OIDC trust**
+240 minutes · Group access, PIM elevation, and GitHub OIDC trust
 
 ---
 
@@ -96,7 +96,7 @@ the GitHub trust. Session 03 adds private connectivity; Session 05 configures th
 | Auditors | Reader | Foundry resource | Group |
 | Agent endpoint callers | Foundry Agent Consumer | Project or individual agent | Deferred to Session 05 |
 
-**No subscription-level assignment. No permanent platform elevation.**
+No subscription-level assignment. Platform elevation is **PIM eligible and time-bound**.
 
 `Foundry Owner` is omitted because it combines account administration with project development,
 publishing, and endpoint use.
@@ -117,7 +117,7 @@ Display names can lag across tools. Do not copy role IDs into slides or decision
 
 Use the approved platform-administrator group as the PIM-eligible principal.
 
-1. The operator is **eligible**, not active.
+1. The operator is eligible, not active.
 2. Activation requires MFA and justification.
 3. A member of the approved approver group approves or denies each activation.
 4. Each activation lasts no more than two hours.
@@ -188,11 +188,11 @@ Sources: [Microsoft Entra workload identity federation](https://learn.microsoft.
 
 ## Safety gates
 
-- **Production:** stop if the subscription, resource group, Foundry resource, Foundry project, or storage account is production or shared with production.
-- **Role scope:** stop if a preview shows a subscription-level assignment.
-- **PIM:** stop without recorded owners, customer approvers, licensing, and an approved emergency path.
-- **OIDC:** stop if the managed identity would accept tokens from more than one protected environment.
-- **Customer data:** inspect configuration only; do not read model, blob, or secret content.
+- Production: stop if the subscription, resource group, Foundry resource, Foundry project, or storage account is production or shared with production.
+- Role scope: stop if a preview shows a subscription-level assignment.
+- PIM: stop without recorded owners, customer approvers, licensing, and an approved emergency path.
+- OIDC: stop if the managed identity would accept tokens from more than one protected environment.
+- Customer data: inspect configuration only; do not read model, blob, or secret content.
 
 <!-- Notes: A read-only role-definition lookup at subscription scope is not a role assignment. -->
 
@@ -200,12 +200,12 @@ Sources: [Microsoft Entra workload identity federation](https://learn.microsoft.
 
 ## Implementation path
 
-1. **Decide** owners, approvers, operating dates, and the GitHub environment.
+1. Decide owners, approvers, operating dates, and the GitHub environment.
 2. **Run preflight** to check the approved nonproduction subscription and resource group, read role IDs from `role-definitions.json`, reject unresolved placeholder values, and compile Bicep.
-3. **Preview and deploy** the three standing group assignments.
-4. **Configure** Foundry Account Owner eligibility through PIM.
-5. **Preview and deploy** the managed identity, credential, and two role assignments.
-6. **Confirm** the live configuration once.
+3. Preview and deploy the three standing group assignments.
+4. Configure Foundry Account Owner eligibility through PIM.
+5. Preview and deploy the managed identity, credential, and two role assignments.
+6. Confirm the live configuration once.
 
 ---
 
@@ -213,7 +213,7 @@ Sources: [Microsoft Entra workload identity federation](https://learn.microsoft.
 
 ## Apply the identity assignments
 
-**Timebox:** 240 minutes
+Timebox: 240 minutes
 
 Configure human access and one workload identity in the approved nonproduction scope.
 
@@ -240,7 +240,7 @@ Inspect one marked workload identity:
 5. No direct assignment appears at subscription scope.
 6. No unexpected portal-created direct-user assignment remains on the Foundry resource or project.
 
-**Read the console. Do not redirect, export, or save command output.**
+Read the console. **Do not redirect, export, or save command output.**
 
 ---
 
@@ -277,11 +277,11 @@ The workload script removes the two role assignments before it removes the manag
 
 ## Recap and next dependency
 
-- **Humans:** groups for normal work; PIM for elevated work.
-- **Workload:** one identity, one exact trust, and two scoped roles.
-- **Next:** use the [delegated OBO module](../../modules/obo-delegated-access/) when a downstream API must authorize the signed-in user.
-- **Safety:** no production scope, subscription assignments, broad OIDC subject, or customer-data access.
-- **Result:** inspect the live configuration once. Save nothing.
+- Humans: groups for normal work; PIM for elevated work.
+- Workload: one identity, one exact trust, and two scoped roles.
+- Next: use the [delegated OBO module](../../modules/obo-delegated-access/) when a downstream API must authorize the signed-in user.
+- Safety: no production scope, subscription assignments, broad OIDC subject, or customer-data access.
+- Result: inspect the live configuration once. Save nothing.
 - [Session 03](../03-private-networking-dns/) configures private service connectivity and firewall-controlled Agent Service traffic for these identities.
 
 ---

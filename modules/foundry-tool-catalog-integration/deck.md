@@ -55,10 +55,10 @@ Toolbox provides a stable MCP-compatible endpoint.
 
 ## Current product path
 
-1. **Azure API Center** stores the approved MCP server record.
-2. **Foundry Tools** discovers the private catalog under **Build > Tools**.
+1. Azure API Center stores the approved MCP server record.
+2. Foundry Tools discovers the private catalog under Build > Tools.
 3. The operator configures the selected record as a project connection.
-4. **Toolbox** exposes a versioned, MCP-compatible endpoint for agent reuse.
+4. Toolbox exposes a versioned, MCP-compatible endpoint for agent reuse.
 
 The private tool catalog is **public preview** and the catalog handoff is **portal-led**.
 
@@ -130,7 +130,7 @@ No credential, token, tenant ID, endpoint, or tool result belongs in the reposit
 ## Implementation path
 
 1. Complete the catalog record and Toolbox payload.
-2. Confirm the MCP server record in API Center under **Build > Tools**.
+2. Confirm the MCP server record in API Center under Build > Tools.
 3. Configure the project connection through the catalog flow.
 4. Run preflight.
 5. Create the first Toolbox version through the Foundry `v1` data-plane API.
@@ -202,9 +202,9 @@ Keep the MCP server record in API Center unless its owner separately retires the
 
 ## Related sessions and modules
 
-- **Session 05** covers agent release and endpoint consumption.
-- **Session 08** covers the API Center inventory record.
-- **Session 09** covers MCP authentication, tool safety, and runtime controls.
+- Session 05 covers agent release and endpoint consumption.
+- Session 08 covers the API Center inventory record.
+- Session 09 covers MCP authentication, tool safety, and runtime controls.
 
 This module configures only the connection from the catalog to Toolbox.
 

@@ -63,8 +63,8 @@ continues to live in its native service.
 Confirm these prerequisites:
 
 - Session 05 has created the governed nonproduction agent.
-- The Agent 365 administrator can locate the selected agent in **Microsoft 365 admin center** >
-  **Agents** > **All agents** > **Registry**, and the agent has **Available** status.
+- The Agent 365 administrator can locate the selected agent in Microsoft 365 admin center >
+  Agents > All agents > Registry, and the agent has **Available** status.
 - The selected agent supports installation through Microsoft 365 admin center.
 - The delivery owner has named one nonproduction Microsoft Entra security group, a group member,
   an excluded user, and one host product for the pilot.
@@ -106,8 +106,8 @@ installation path, or the proposed audience is broader than the approved test gr
 ### Permissions and host product
 
 Record exactly one host product and the approved use case. The Entra owner reviews the agent's
-requested permissions before the Microsoft 365 administrator grants consent. Do not use an
-organization-wide deployment or add a host product during this session.
+requested permissions before the Microsoft 365 administrator grants consent. **Do not use an
+organization-wide deployment** or add a host product during this session.
 
 Stop if a requested permission is unapproved, the consent screen differs from the reviewed
 permission set, or the agent asks for access outside the approved use case.
@@ -129,8 +129,8 @@ before changing Microsoft 365 state.
 
 ### 2. Install the agent for the test group
 
-The Microsoft 365 administrator opens **Agents** > **All agents** > **Registry** and selects the
-Available agent listed in the deployment contract. Select **Install**, choose the named test group,
+The Microsoft 365 administrator opens Agents > All agents > Registry and selects the
+Available agent listed in the deployment contract. Select Install, choose the named test group,
 review the requested permissions, grant the approved admin consent, and finish the deployment.
 
 Keep the deployment limited to the recorded group and host product. Stop if Microsoft 365 presents
@@ -149,9 +149,9 @@ available to that user. Do not add the user to the group to work around the resu
 
 ### 5. Delivery-owner checkpoint
 
-The delivery owner observes both checks with the Microsoft 365 administrator. Keep the group
+The delivery owner observes both checks with the Microsoft 365 administrator. **Keep the group
 deployment in place only when the member can use the agent, the excluded user cannot, and the
-consent matches the approved permission set.
+consent matches the approved permission set.**
 
 ## Confirm the result
 
@@ -168,6 +168,6 @@ group owner maintains membership. The Agent 365 administrator monitors the regis
 agent availability. The delivery owner approves any wider deployment through the customer change
 process.
 
-To restore the prior state, the Microsoft 365 administrator selects the agent in **Agents** >
-**All agents** > **Registry**, selects **Uninstall**, and removes it from the recorded test group.
+To restore the prior state, the Microsoft 365 administrator selects the agent in Agents >
+All agents > Registry, selects Uninstall, and removes it from the recorded test group.
 This session does not delete the agent or change its runtime configuration.

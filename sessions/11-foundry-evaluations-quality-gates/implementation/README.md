@@ -62,7 +62,7 @@ Confirm these prerequisites:
 - Protected-material evaluation runs in East US 2 while it remains a blocking metric.
 - The tool owner has approved tool-call evaluators for the supported Function Tool path, with no
   limited-support tool in the evaluated path.
-- The operator and project managed identity have **Foundry User** on the exact project.
+- The operator and project managed identity have Foundry User on the exact project.
 - The golden data set contains synthetic content only.
 
 ### Implementation files
@@ -103,7 +103,7 @@ Evaluate two different immutable versions of the same agent in the approved nonp
 project. The stable endpoint stays pinned to the approved version throughout both runs. The runner
 targets the named version directly and does not call the stable selector.
 
-This gate supports tool-process metrics for the approved Function Tool path. Keep the gate disabled
+This gate supports tool-process metrics for the approved Function Tool path. **Keep the gate disabled**
 when a limited-support tool enters that path, including Azure AI Search, Bing Grounding, Bing Custom
 Search, SharePoint Grounding, Code Interpreter, Fabric Data Agent, or Web Search. The tool owner
 must approve compatibility again before tool-process metrics can block a release.
@@ -124,8 +124,8 @@ They cannot become the sole blocking control.
 
 ### Apply zero-error and exception rules
 
-The gate returns `PASS` for the candidate only when every blocking metric is present, meets its
-active threshold, and has zero evaluator errors. Final-answer quality, tool process, and safety are
+The gate returns `PASS` for the candidate **only when every blocking metric is present, meets its
+active threshold, and has zero evaluator errors**. Final-answer quality, tool process, and safety are
 separate blocking layers; a passing result in one layer cannot offset a failure in another.
 
 An exception can address an eligible non-safety quality failure. It must name the failed metric and

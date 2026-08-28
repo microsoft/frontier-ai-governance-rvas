@@ -27,9 +27,9 @@ This optional module sits outside the 15-session sequence. It handles the MCP se
 Center, the related Foundry project connection, a new dedicated Toolbox, and the approved MCP tool
 in an approved nonproduction scope.
 
-The private tool catalog is in public preview. Its API Center authentication, access, and discovery
+The private tool catalog is **public preview**. Its API Center authentication, access, and discovery
 steps run through the portal. The module provides no replacement API for that handoff. Record the
-preview decision and successful discovery under **Build > Tools** before creating a Toolbox.
+preview decision and successful discovery under Build > Tools before creating a Toolbox.
 
 Azure API Center holds the inventory record and deployment metadata. The MCP server defines tools
 available at runtime. The Foundry project connection stores runtime authentication settings. The
@@ -49,7 +49,7 @@ The flow moves from API Center through the Foundry project connection to the run
 
 1. The API catalog owner keeps the MCP server record in API Center, including its version,
    deployment, access, and authentication metadata.
-2. The Foundry tool owner opens the intended project, goes to **Build > Tools**, finds the private
+2. The Foundry tool owner opens the intended project, goes to Build > Tools, finds the private
    catalog by its API Center name, selects the MCP server record in API Center, and completes its
    project connection.
 3. The Toolbox deployment process creates an immutable version from
@@ -76,7 +76,7 @@ Toolbox payload without storing the endpoint in the governance record.
 
 Use Microsoft’s [private tool catalog
 guidance](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/private-tool-catalog)
-for the current Azure API Center registration, authorization, access, and **Build > Tools**
+for the current Azure API Center registration, authorization, access, and Build > Tools
 discovery path. The page marks the feature as public preview and notes that Azure RBAC changes can
 take up to 24 hours to appear.
 
@@ -119,7 +119,7 @@ copy because it contains tenant-specific resource coordinates and the MCP endpoi
 | Deployment | [`artifacts/toolbox/toolbox-version.json`](artifacts/toolbox/toolbox-version.json) | The Foundry Toolbox deployment process |
 | Runtime | [`artifacts/operations/check_toolbox.py`](artifacts/operations/check_toolbox.py) | The Foundry tool owner |
 
-The module uses **standard mode** because it makes a bounded configuration change and runs a
+The module uses standard mode because it makes a bounded configuration change and runs a
 read-only check. It does not need a failure-path exercise or delivery-owner checkpoint.
 
 The private catalog's Azure RBAC assignment can take up to 24 hours to propagate, so assign access
@@ -134,7 +134,7 @@ Set `previewDecision.privateToolCatalog` to
 preview terms and operating limits.
 
 Set `previewDecision.catalogDiscovery` to `confirmed-in-foundry-tools` only after the operator
-opens the intended Microsoft Foundry project, goes to **Build > Tools**, filters by the API Center
+opens the intended Microsoft Foundry project, goes to Build > Tools, filters by the API Center
 name, and sees the API Center MCP server record.
 
 Stop if the record is absent. Check the API Center Data Reader assignment, the selected Foundry
@@ -170,8 +170,8 @@ consumers or tools.
 `require_approval: "always"`. Set `expectedNamespacedTool` to
 `<server_label>.<allowed_tool_name>`.
 
-The approval value is metadata returned to the agent runtime. The runtime must still show the
-pending action and wait for a user decision. Do not treat the Toolbox endpoint itself as the
+The approval value is metadata returned to the agent runtime. The runtime must still **show the
+pending action and wait for a user decision**. Do not treat the Toolbox endpoint itself as the
 approval enforcement point.
 
 ### Keep credentials out of the files
@@ -216,11 +216,11 @@ files in the approved private configuration store.
 ### 2. Configure the catalog item in Foundry Tools
 
 In the Azure portal, open the exact API Center resource. Confirm the MCP server's authorization
-configuration and its **Details > Versions > Manage access (preview)** settings.
+configuration and its Details > Versions > Manage access (preview) settings.
 
 Then open the intended project in the Microsoft Foundry portal:
 
-1. Go to **Build > Tools**.
+1. Go to Build > Tools.
 2. Find the private tool catalog by the API Center name.
 3. Select the MCP server record in API Center.
 4. Review its setup requirements and configure it for the project.

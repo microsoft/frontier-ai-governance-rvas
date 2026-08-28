@@ -76,7 +76,7 @@ definition and runtime location for inventory. Session 09 adds MCP tool controls
 Confirm these prerequisites:
 
 - Sessions 01-04 are complete in the approved nonproduction scope.
-- The deployment operator has a time-bound **Contributor** role assignment on the exact
+- The deployment operator has a time-bound Contributor role assignment on the exact
   nonproduction resource group that contains the APIM instance.
 - The existing APIM instance uses Developer, Basic, Basic v2, Standard, Standard v2, Premium, or
   Premium v2.
@@ -115,7 +115,7 @@ Resolve every `__REQUIRED_*__` value in the two JSON deployment inputs before de
 
 ### How clients authenticate to APIM
 
-The product requires **two independent client credentials**: a workload-specific APIM subscription
+The product requires two independent client credentials: a workload-specific APIM subscription
 key and a Microsoft Entra application token. The token policy pins the tenant, client application,
 audience, and required `roles` claim. The subscription ID also keys the token-limit counter. Each
 APIM gateway has its own counter. There is no tenant-wide counter shared across regions. For a
@@ -144,7 +144,7 @@ https://<account>.services.ai.azure.com/api/projects/<project>/agents/<agent>/en
 APIM appends `/responses` from the API operation. The full runtime URL stays outside source control.
 
 Stop if the endpoint differs from the existing Foundry account, project, or agent; if the agent
-endpoint is not pinned and Entra-authorized; or if the APIM identity's **Foundry Agent Consumer**
+endpoint is not pinned and Entra-authorized; or if the APIM identity's Foundry Agent Consumer
 assignment applies to the Foundry project or resource instead of the individual Session 05 agent.
 
 ### Limits, retry, and routing
@@ -190,8 +190,8 @@ sliding windows and stops forwarding later events when it detects a violation. T
 receive a truncated stream instead of a normal 403 response.
 
 The safety owner approves the threshold and data handling. The network owner confirms that the APIM
-gateway can reach the exact Content Safety endpoint. The identity owner confirms **Cognitive
-Services User** (`a97b65f3-24c7-4388-baec-2e87135dc908`) for the APIM system-assigned identity on
+gateway can reach the exact Content Safety endpoint. The identity owner confirms Cognitive Services User
+(`a97b65f3-24c7-4388-baec-2e87135dc908`) for the APIM system-assigned identity on
 that Content Safety resource. Stop if the backend uses a key, points to another resource, lacks that
 assignment, or conflicts with the Session 05 RAI policy. APIM safety is another layer. It does not
 replace the model-level policy.
@@ -363,7 +363,7 @@ Do not retain the response, subscription key, or request headers.
 
 ## After implementation
 
-Keep the **APIM API and controlled product in operation** with their APIM named values, backend
+Keep the APIM API and controlled product in operation with their APIM named values, backend
 pool, circuit breakers, policy, diagnostics, deployment inputs, routing decision, and deployment
 scripts. The API product owner owns client subscriptions and limits. Identity owns the Entra app
 role and APIM identity assignments. Platform owns routing and APIM capacity. Safety owns Content
@@ -383,6 +383,6 @@ If the secondary route is enabled and must be backed out while the primary route
 `secondaryBackendEnabled` back to `false`, clear `SESSION06_SECONDARY_AGENT_BASE_URL`, rerun
 preflight, and redeploy the gateway. The deployment removes the secondary backend from the pool
 without changing the primary path.
-If the gateway is permanently retired, the identity owner reviews the **Foundry Agent Consumer**
-assignment on the Session 05 agent and the **Cognitive Services User** assignment on the Content
+If the gateway is permanently retired, the identity owner reviews the Foundry Agent Consumer
+assignment on the Session 05 agent and the Cognitive Services User assignment on the Content
 Safety resource. Remove an assignment only when no other approved APIM call depends on it.

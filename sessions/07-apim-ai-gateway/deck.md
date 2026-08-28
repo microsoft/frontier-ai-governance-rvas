@@ -14,7 +14,7 @@ html: true
 
 # Azure API Management as the AI gateway
 
-**210 minutes - One configured APIM route to the Session 05 agent**
+210 minutes - One configured APIM route to the Session 05 agent
 
 <!-- Notes: Session 05 established the agent. Today we configure the controlled APIM route to that endpoint. -->
 
@@ -318,7 +318,7 @@ Runtime backend URLs, subscription IDs, product keys, and bearer tokens stay out
 
 ## Deploy the APIM runtime policy
 
-**Timebox: 210 minutes**
+Timebox: 210 minutes
 
 1. Resolve identity, ownership, limits, safety, and routing decisions.
 2. Run preflight and inspect the APIM `what-if`.

@@ -83,7 +83,7 @@ Confirm the following:
 
 - Sessions 01-02 are complete in the approved nonproduction subscription and resource group.
 - The existing Microsoft Foundry resource has Azure resource kind `AIServices`.
-- The deployment operator has a time-bound **Cognitive Services Contributor** assignment on that
+- The deployment operator has a time-bound Cognitive Services Contributor assignment on that
   exact Foundry resource.
 - The normal decision process has approved the exact model coordinates, workload purpose,
   processing-location requirement, and external decision reference.
@@ -147,7 +147,7 @@ Stop when the SKU behavior does not meet the approved requirement, the review da
 
 ### Live checks and manual gates
 
-Preflight checks **Cognitive Services Contributor** for the supplied operator object ID at the
+Preflight checks Cognitive Services Contributor for the supplied operator object ID at the
 exact Foundry resource scope. It then uses `az cognitiveservices account list-models` to match the
 model, SKU, capacity bounds, lifecycle state, and published deprecation fields returned by Azure.
 For every `raiPolicyName`, it uses the stable `Microsoft.CognitiveServices/accounts/raiPolicies`
@@ -166,7 +166,7 @@ explicit data-zone confirmation switch.
 
 Some catalog entries do not return `lifecycleStatus` or a quota `usageName`. Permissions can also
 block the quota call. The script stops in either case. Check the current model details, retirement
-notice, and Foundry **Quota** page. Then rerun with `-ConfirmManualLifecycle` or
+notice, and Foundry Quota page. Then rerun with `-ConfirmManualLifecycle` or
 `-ConfirmManualQuota` in PowerShell, or the matching Bash flags. Data-zone deployments use
 `-ConfirmManualDataZone` or `--confirm-manual-data-zone` after the location check. These switches
 record an operator confirmation for that run. They do not claim that the CLI validated missing data.
@@ -335,7 +335,7 @@ capacity, and `modelApprovalId` match `deployment-profiles.json`.
 
 ## After implementation
 
-Keep the **versioned deployment definitions**: the Bicep and parameter file, deployment profiles,
+Keep the versioned deployment definitions: the Bicep and parameter file, deployment profiles,
 artifact index, and paired scripts. The platform owner manages live capacity and deployment
 changes. Keep the lifecycle owner, review history, replacement work, and supporting approval
 detail in the change system.

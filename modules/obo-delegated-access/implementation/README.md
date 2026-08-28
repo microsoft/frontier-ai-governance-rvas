@@ -13,8 +13,8 @@ on-behalf-of (OBO) exchange.
 Then confirm that a permitted user succeeds and that a user without downstream resource authority
 is denied.
 
-The working delegated flow preserves signed-in user authority in the **middle tier**. The
-**downstream API** still makes the resource-authorization decision for that user.
+The working delegated flow preserves signed-in user authority in the middle tier. The
+downstream API still makes the resource-authorization decision for that user.
 
 ### Why it matters
 
@@ -339,7 +339,7 @@ For the **failure-path check**, the denied user's call returns 401 or 403 with t
 passing as a downstream authorization test. No protected resource is returned, no application-only
 retry occurs, and the failure remains correlated without recording either token or payload.
 
-At the **delivery-owner checkpoint**, the owner observes both status codes and confirms that the
+At the delivery-owner checkpoint, the owner observes both status codes and confirms that the
 downstream API made the user-specific decision. The client prompt and middle-tier instructions do
 not make that decision.
 

@@ -104,7 +104,7 @@
 <h3 id="what-we-will-do">What we will do<a class="heading-anchor" href="#what-we-will-do" aria-label="Link to What we will do">#</a></h3>
 <p>Configure an existing trusted Python middle tier to exchange a signed-in user's token for a delegated token for an existing protected API. Record the approved client, middle tier, downstream audience, delegated scope, and consent boundary. Add only the approved delegated permissions, validate the inbound assertion, and use a protected Azure Key Vault certificate for the OAuth 2.0 on-behalf-of (OBO) exchange.</p>
 <p>Then confirm that a permitted user succeeds and that a user without downstream resource authority is denied.</p>
-<p>The working delegated flow preserves signed-in user authority in the <strong>middle tier</strong>. The <strong>downstream API</strong> still makes the resource-authorization decision for that user.</p>
+<p>The working delegated flow preserves signed-in user authority in the middle tier. The downstream API still makes the resource-authorization decision for that user.</p>
 <h3 id="why-it-matters">Why it matters<a class="heading-anchor" href="#why-it-matters" aria-label="Link to Why it matters">#</a></h3>
 <p>A workload identity gives the middle tier the same application authority for every request. It does not fit a downstream resource whose access must change with the signed-in user. OBO carries that user context across the middle tier without forwarding the original bearer token.</p>
 <p>The permitted-user check confirms that Microsoft Entra ID accepts the delegated trust chain. The denied-user check confirms that the downstream API still enforces its user-specific resource rules.</p>

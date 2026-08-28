@@ -121,13 +121,13 @@
   </div>
 </section>
 <h3 id="2-set-the-approved-lifecycle-stage">2. Set the approved lifecycle stage<a class="heading-anchor" href="#2-set-the-approved-lifecycle-stage" aria-label="Link to 2. Set the approved lifecycle stage">#</a></h3>
-<p>In the Azure portal, open the approved API Center and select <strong>Inventory &gt; Assets</strong>. Open every MCP server in the ownership record and set its approved version lifecycle to <strong>Production</strong> through the normal inventory change path.</p>
-<p>Keep candidate servers at <strong>Design</strong> or <strong>Preview</strong>. Mark retired servers <strong>Deprecated</strong> before their next client discovery window.</p>
+<p>In the Azure portal, open the approved API Center and select Inventory &gt; Assets. Open every MCP server in the ownership record and set its approved version lifecycle to <strong>Production</strong> through the normal inventory change path.</p>
+<p>Keep candidate servers at Design or Preview. Mark retired servers Deprecated before their next client discovery window.</p>
 <h3 id="3-configure-developer-access">3. Configure developer access<a class="heading-anchor" href="#3-configure-developer-access" aria-label="Link to 3. Configure developer access">#</a></h3>
-<p>Under <strong>Consumption &gt; Portal settings</strong>, confirm that Microsoft Entra ID is configured and anonymous access is disabled. Confirm the developer group has <strong>Azure API Center Data Reader</strong> at the exact API Center resource scope.</p>
+<p>Under Consumption &gt; Portal settings, confirm that Microsoft Entra ID is configured and anonymous access is disabled. Confirm the developer group has <strong>Azure API Center Data Reader</strong> at the exact API Center resource scope.</p>
 <p>This role controls access to visible data-plane records. It does not authorize calls to the discovered MCP server.</p>
 <h3 id="4-configure-data-api-visibility">4. Configure Data API visibility<a class="heading-anchor" href="#4-configure-data-api-visibility" aria-label="Link to 4. Configure Data API visibility">#</a></h3>
-<p>Under <strong>Consumption &gt; Data API settings</strong>, configure API visibility with the two built-in conditions recorded in <code>registry-ownership.json</code>. Use the portal preview to compare the visible MCP records with <code>approvedServers</code>.</p>
+<p>Under Consumption &gt; Data API settings, configure API visibility with the two built-in conditions recorded in <code>registry-ownership.json</code>. Use the portal preview to compare the visible MCP records with <code>approvedServers</code>.</p>
 <p>Save the change only when every previewed MCP server name is approved and every approved name is present.</p>
 <h3 id="5-configure-the-client-path">5. Configure the client path<a class="heading-anchor" href="#5-configure-the-client-path" aria-label="Link to 5. Configure the client path">#</a></h3>
 <p>For Visual Studio Code, GitHub Copilot, or another registry-capable tool, map <code>registry.endpoint</code> into the client's current MCP registry setting. If the Azure API Center extension for Visual Studio Code is the chosen path, also provide the data-plane host, portal application client ID, and tenant ID from the approved configuration system.</p>

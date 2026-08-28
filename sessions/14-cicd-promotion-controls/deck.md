@@ -14,7 +14,7 @@ html: true
 
 # CI/CD, policy as code, and controlled promotion
 
-**300 minutes - A fixed release through protected stages**
+300 minutes - A fixed release through protected stages
 
 <!-- Notes: Session 13 made the service operable. This session keeps promotion repeatable and limited. -->
 
@@ -153,10 +153,10 @@ Floating tags, `latest`, mutable aliases, a release SHA outside the protected de
 Record the subject that this repository issues:
 
 - name-based: `repo:owner/repository:environment:<environment>`
-- immutable default after **2026-07-15** for created, renamed, or transferred repositories:
+- immutable default after 2026-07-15 for created, renamed, or transferred repositories:
   `repo:owner@ID/repository@ID:environment:<environment>`
 
-Each stage service principal has built-in **Contributor** (`b24988ac-6180-42a0-ab88-20f7382dd24c`) only at its environment resource group.
+Each stage service principal has built-in Contributor (`b24988ac-6180-42a0-ab88-20f7382dd24c`) only at its environment resource group.
 
 <!-- Notes: Use the repository's actual OIDC format. Human GitHub and Entra admin access expires after ready preflight. -->
 
@@ -301,7 +301,7 @@ The platform owner accepts both parameter files. GitHub and Entra administrators
 
 Live delivery runs the permitted and blocked paths, then pauses for the delivery owner.
 
-**Timebox: 115 minutes**
+Timebox: 115 minutes
 
 1. Resolve required decisions and run decision preflight.
 2. Confirm environment protection, the four specific OIDC subjects, both Contributor assignments, and secret controls.
@@ -331,12 +331,12 @@ Neither phase deploys or changes resources.
 
 ## Promotion job order
 
-1. **Validate** - repository, pins, secrets, unit, external evaluation records, security attestation
-2. **Nonproduction preview** - OIDC, lint/build, what-if
-3. **Nonproduction apply** - reviewer approval, deploy, smoke
-4. **Production preview** - OIDC, digest recheck, what-if
-5. **Production apply** - reviewer approval, deploy
-6. **Stage, route, finalize** - keep the release record unapproved until routing succeeds
+1. Validate - repository, pins, secrets, unit, external evaluation records, security attestation
+2. Nonproduction preview - OIDC, lint/build, what-if
+3. Nonproduction apply - reviewer approval, deploy, smoke
+4. Production preview - OIDC, digest recheck, what-if
+5. Production apply - reviewer approval, deploy
+6. Stage, route, finalize - keep the release record unapproved until routing succeeds
 
 GitHub `needs` places each approval after its preview.
 

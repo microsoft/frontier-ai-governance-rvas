@@ -102,11 +102,11 @@ Confirm the following:
 - The platform owner records the Foundry agent type. Tracing is generally available for prompt and
   hosted agents. A workflow or external agent remains preview. Stop unless the approved preview-use
   decision names that agent and nonproduction scope.
-- The deployment operator recorded for this session has **Monitoring Contributor** at the exact deployment
-  resource-group scope and **Log Analytics Reader** at the exact workspace scope. If Application
-  Insights or the action group is outside that resource group, assign **Monitoring Reader** at each
+- The deployment operator recorded for this session has Monitoring Contributor at the exact deployment
+  resource-group scope and Log Analytics Reader at the exact workspace scope. If Application
+  Insights or the action group is outside that resource group, assign Monitoring Reader at each
   exact resource scope.
-- The same operator has **Cost Management Contributor** at the exact subscription scope. Activate
+- The same operator has Cost Management Contributor at the exact subscription scope. Activate
   these human assignments for preflight, deployment, and the
   confirmation check only. Expire or remove them through the approved access process afterward.
 - The observability, application, gateway, tool, AI quality, security operations, data-protection,
@@ -215,8 +215,7 @@ API-scope policy that contains authentication, safety, routing, or quota control
 ### 1. Complete required decisions
 
 Complete the telemetry, deployment-parameter, and budget-parameter files. Complete the retention,
-content-logging, and cost-allocation Markdown records. Keep the **service name identical across the
-machine-readable files**. Confirm that the infrastructure definition applies the approved
+content-logging, and cost-allocation Markdown records. Keep the service name identical across the machine-readable files. Confirm that the infrastructure definition applies the approved
 application, environment, cost-center, owner, and data-classification tags to each target resource.
 Use Microsoft’s [log search alert guidance](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-create-log-alert-rule)
 to check the query, evaluation frequency, and action-group configuration.
@@ -329,7 +328,7 @@ to the receiver configured for that alert rule.
 
 ## Confirm the result
 
-Set the **approved runtime coordinates**. PowerShell builds the bearer header in memory. Bash feeds a
+Set the approved runtime coordinates. PowerShell builds the bearer header in memory. Bash feeds a
 curl configuration through standard input, with the token removed from curl's environment. Neither
 script prints the token, places it on a process command line, or writes it to disk.
 
@@ -403,7 +402,7 @@ is ready on the first query. A final query can run at the timeout boundary. `tel
 counts every telemetry query across readiness and stability, including the initial and final
 queries. The result also records the configured timeout and retry interval.
 
-Expected result:
+**Expected result:**
 
 - `status` is `passed` and `commitSha` matches the release;
 - the normal operation links its request to successful model and tool dependencies;
@@ -428,7 +427,7 @@ probe marker, or timeout as failure. Do not weaken redaction to make the trace l
 
 ## After implementation
 
-Keep the **telemetry definition, alerts, and incident runbook**, together with the workbook
+Keep the telemetry definition, alerts, and incident runbook, together with the workbook
 definition, Bicep-consumed alert queries, budget, cost-allocation record, privacy decisions, and
 paired smoke scripts. The gateway owner's APIM repository keeps the policy.
 Application Insights retains operational telemetry under the approved workspace policy. Foundry,

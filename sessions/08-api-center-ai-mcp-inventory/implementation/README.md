@@ -84,11 +84,11 @@ tool-security work.
 Confirm these prerequisites:
 
 - Sessions 01-05 are complete in the approved nonproduction scope.
-- The deployment operator has a time-bound **Contributor** role assignment on the exact resource
+- The deployment operator has a time-bound Contributor role assignment on the exact resource
   group where this session deploys API Center.
-- The role-assignment operator has time-bound **User Access Administrator** on the exact
-  [Session 07](../../07-apim-ai-gateway/implementation/README.md) APIM instance. This assignment permits creation of the **API Management Service Reader
-  Role** (`71522526-b88f-4d52-b57f-d31fc3546d0d`) assignment at that APIM scope.
+- The role-assignment operator has time-bound User Access Administrator on the exact
+  [Session 07](../../07-apim-ai-gateway/implementation/README.md) APIM instance. This assignment permits creation of the API Management Service Reader
+  Role (`71522526-b88f-4d52-b57f-d31fc3546d0d`) assignment at that APIM scope.
 - The API program owner has chosen Free or Standard after reviewing current limits, support, and
   cost. The Free plan has no Microsoft support; the documented Standard benefit requires an eligible
   linked Standard, Standard v2, Premium, or Premium v2 APIM instance.
@@ -125,7 +125,7 @@ data where the customer's data-handling rules permit it.
 
 ### Which assets to add to API Center
 
-**API Center stores the approved design-time inventory metadata** for the three required assets:
+API Center stores the **approved design-time inventory metadata** for the three required assets:
 the direct agent endpoint, the APIM runtime API, and the approved remote MCP server. The APIM integration is one-way
 from APIM to API Center. It does not deploy or change APIs in APIM.
 
@@ -188,7 +188,7 @@ completed. Do not create a duplicate manual API entry while waiting.
 
 ### MCP registration
 
-Use the native **Register an asset > MCP server** flow. Enter the runtime URL from
+Use the native Register an asset > MCP server flow. Enter the runtime URL from
 `$env:SESSION07_MCP_SERVER_URL`; do not write it into the repository. Select Streamable HTTP as the
 approved runtime path. API Center may also generate an SSE definition as product behavior; this
 session does not design a new SSE transport.
@@ -215,7 +215,7 @@ separate from APIM runtime enforcement.
 
 ## Implement
 
-Use **two delivery windows** because APIM synchronization can take up to 24 hours. When registering
+Use two delivery windows because APIM synchronization can take up to 24 hours. When registering
 the remote server, follow Microsoft’s [MCP inventory and discovery
 guidance](https://learn.microsoft.com/en-us/azure/api-center/register-discover-mcp-server). The
 published 210 minutes covers active work in both windows. It does not include the synchronization wait.
@@ -290,14 +290,14 @@ creates its APIM environment and deployment records.
 In the API Center portal, confirm the plan matches `sandbox.json`. If the required decision is
 Standard, complete the approved upgrade after the eligible APIM integration exists.
 
-Wait for the [Session 07](../../07-apim-ai-gateway/implementation/README.md) API title **Governed policy assistant Responses API** to appear once in the
+Wait for the [Session 07](../../07-apim-ai-gateway/implementation/README.md) API title Governed policy assistant Responses API to appear once in the
 API Center inventory. If synchronization does not complete during the session, stop at this point and
 resume after the source reports healthy. Do not register the same API manually.
 
 ### 4. Window two: maintain the synchronized API metadata
 
 Resume only after the source is healthy and synchronization has completed. In API Center, open the
-single synchronized **Governed policy assistant Responses API** entry and set its required metadata.
+single synchronized Governed policy assistant Responses API entry and set its required metadata.
 The API owner maintains that live entry, including ownership, permitted consumers, classification,
 residency, risk, evaluation destination, review date, and expiry.
 
@@ -305,7 +305,7 @@ residency, risk, evaluation destination, review date, and expiry.
 
 In the Azure portal, open the deployed API Center:
 
-1. Select **Inventory > Assets > Register an asset > MCP server**.
+1. Select Inventory > Assets > Register an asset > MCP server.
 2. Enter the approved MCP title, summary, description, version, lifecycle, and metadata.
 3. Add the approved remote server using `$remoteMcpServerUrl`.
 4. Associate it with the approved nonproduction runtime environment.
@@ -347,7 +347,7 @@ validation.
 
 ## After implementation
 
-Keep the **API Center inventory in operation**, including the service, system identity, required
+Keep the API Center inventory in operation, including the service, system identity, required
 metadata schema, APIM integration, direct agent API, native MCP server entry, definitions,
 deployments, and scripts. The API program owner owns the API Center service and metadata schema.
 Business and technical owners maintain their records. The data and risk owners maintain

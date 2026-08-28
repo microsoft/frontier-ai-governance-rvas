@@ -88,7 +88,7 @@ Confirm these prerequisites:
 - That APIM service uses Developer, Basic, Basic v2, Standard, Standard v2, Premium, or Premium v2.
 - The APIM service is not a workspace. APIM MCP server capabilities are not currently supported in
   workspaces.
-- The deployment operator has a time-bound **Contributor** role assignment on the exact resource
+- The deployment operator has a time-bound Contributor role assignment on the exact resource
   group that contains the APIM instance.
 - An existing REST API has the approved `GET` operation. The operation accepts a
   `policyId`, validates it at the backend, returns only approved fields, and cannot mutate state.
@@ -99,7 +99,7 @@ Confirm these prerequisites:
   Preflight rejects wildcard, write, delete, and action permissions. Its token audience differs from
   the inbound MCP audience, and the inbound MCP token is never forwarded to the backend.
 - The Foundry agent identity has the approved app role for the MCP audience. The user running the
-  checks has **Foundry User** on the exact Session 05 Foundry project, which permits creation and
+  checks has Foundry User on the exact Session 05 Foundry project, which permits creation and
   testing of the candidate agent version.
 - Global and MCP diagnostics log zero request and response body bytes. Arguments, results, prompts,
   responses, tokens, and customer data are not captured.
@@ -270,14 +270,14 @@ binding_path="$artifact_root/governance/agent-mcp-binding.json"
 
 Preflight runs three groups of checks:
 
-1. **Implementation definitions:** verifies that the required implementation files are present,
+1. Implementation definitions: verifies that the required implementation files are present,
    parses the machine JSON and XML, rejects unresolved decisions across every artifact, and checks
    that only the approved tool is bound, along with GET behavior, argument schema, candidate
    allowlist, mandatory approval, and prohibited action.
-2. **Live Azure resources:** verifies the approved subscription and APIM scope, supported tier,
+2. Live Azure resources: verifies the approved subscription and APIM scope, supported tier,
    system identity, backing operation, exact read assignment, payload-free diagnostics, Foundry
    resource, and name collision.
-3. **Deployment preview:** compiles Bicep and runs ARM `what-if`.
+3. Deployment preview: compiles Bicep and runs ARM `what-if`.
 
 Stop if `what-if` replaces or removes an unrelated API, policy, diagnostic, logger, or APIM named value.
 The preview should add or update only the five Session 09 APIM named values, the MCP API, its only
@@ -323,7 +323,7 @@ Create a remote-tool project connection in the existing Foundry project using:
 
 - name from `agent-mcp-binding.json`;
 - target from `$env:SESSION08_MCP_SERVER_URL`;
-- authentication type **agentic identity**; and
+- authentication type agentic identity; and
 - audience from `mcpAudience`.
 
 The current Azure Developer CLI command is:
@@ -411,7 +411,7 @@ Use Foundry's candidate-version test surface or an approved client that can targ
 candidate. Keep the release owner present. Do not save prompts, responses, approvals, or traces to the
 repository.
 
-Before **each** check, the release owner reads the **visible candidate version ID** aloud and
+Before each check, the release owner reads the **visible candidate version ID** aloud and
 confirms that it matches the saved candidate. The release owner also confirms that the stable
 endpoint still routes 100% to the prior Session 05 version. Stop if either version selector is
 hidden or differs.
@@ -453,14 +453,14 @@ requires payload logging to explain the result.
 
 The release owner observes both results during delivery:
 
-- **Enable:** pin 100% of the stable agent endpoint to the candidate version only when both checks
+- Enable: pin 100% of the stable agent endpoint to the candidate version only when both checks
   behave exactly as expected and the API Center entry has all required owner metadata.
-- **Disable:** leave or restore the Session 05 version at 100%, keep the MCP candidate unpinned, and
+- Disable: leave or restore the Session 05 version at 100%, keep the MCP candidate unpinned, and
   route failures to the security and tool owners.
 
 ## After implementation
 
-Keep the **APIM MCP API and its one tool in operation**, with the policy, nonsecret APIM named
+Keep the APIM MCP API and its one tool in operation, with the policy, nonsecret APIM named
 values, diagnostic, Foundry project connection, approved candidate version when enabled, and API
 Center metadata. APIM stores the deployed MCP policy, Foundry records the active agent version, and
 API Center stores the inventory metadata.

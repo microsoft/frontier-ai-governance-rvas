@@ -64,7 +64,7 @@ This repository does not hold a second inventory record.
 | Registry sync | The administrator validates a supported connection and runs sync | The connection has a current result and the in-scope agent appears in Agent Registry |
 | Agent 365 SDK | The runtime owner releases the SDK integration from the product repository | The released integration produces a live record for the in-scope agent |
 
-Stop if no path fits the runtime. Choose a built-in or Registry sync route when either meets the
+**Stop if no path fits the runtime.** Choose a built-in or Registry sync route when either meets the
 need.
 
 ---

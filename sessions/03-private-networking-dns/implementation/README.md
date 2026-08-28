@@ -129,7 +129,7 @@ repository.
 
 ### Foundry account and subnet
 
-**Foundry Agent Service BYO VNet injection is an account-create setting.** You cannot add it to an
+Foundry Agent Service BYO VNet injection is an **account-create setting**. You cannot add it to an
 existing account or move it to another delegated subnet. The AI platform owner must decide:
 
 1. confirm that the existing account already references this exact Agent Service subnet; or
@@ -180,7 +180,7 @@ execution host. It derives every endpoint from the parameter file, checks privat
 displays the five current public-access states, and adds
 `networkControlSession=03-private-networking-dns` without replacing existing tags.
 
-Stop before cutover when:
+**Stop before cutover** when:
 
 - any private endpoint connection is not approved;
 - any of the three in-use Foundry endpoint families or four dependency FQDNs does not resolve only
@@ -201,7 +201,7 @@ access is disabled or the approved execution host cannot reach the services.
 Complete the parameter file in the customer working copy. In the approved change record, name the
 customer firewall repository or policy system that maintains outbound rules. If the customer uses
 central private DNS, change the same Bicep file to reference existing zone IDs and remove local
-zone and link declarations. Keep one **authoritative zone per service**. The Microsoft Foundry
+zone and link declarations. Keep one authoritative zone per service. The Microsoft Foundry
 [end-to-end network-isolation sample](https://github.com/microsoft-foundry/foundry-samples/tree/main/infrastructure/infrastructure-setup-bicep/16-private-network-standard-agent-setup)
 shows the supported resource relationships. Keep this session's approved names, scopes, and
 customer-owned firewall design.
@@ -387,7 +387,7 @@ Run the check from the approved private execution host used for cutover:
   --parameter-path ./artifacts/environments/sandbox.bicepparam
 ```
 
-Each configured service alias must resolve only to RFC 1918 IPv4 addresses, and the approved
+Each configured service alias must **resolve only to RFC 1918 IPv4 addresses**, and the approved
 execution host must reach each endpoint on TCP 443. The script prints the result and exits. It does
 not create a resource or save a result file.
 

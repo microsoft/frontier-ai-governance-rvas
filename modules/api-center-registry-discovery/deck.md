@@ -73,7 +73,7 @@ separate API Center MCP server at `/mcp`.
 ## Architecture overview
 
 1. The MCP server passes the Session 09 decision.
-2. Its API Center lifecycle moves to **Production**.
+2. Its API Center lifecycle moves to Production.
 3. Data API visibility selects **MCP + Production**.
 4. A Microsoft Entra-authenticated client reads the registry.
 5. The operational check compares all returned names with the ownership record.
@@ -98,11 +98,11 @@ Do not substitute the portal URL or the separate `/mcp` catalog endpoint.
 
 ## Authentication and roles
 
-- **Access method:** Microsoft Entra ID
-- **Developer role:** Azure API Center Data Reader
-- **Assignment scope:** the exact API Center resource
-- **Delegated data-plane scope:** `https://azure-apicenter.net/Data.Read.All`
-- **Anonymous access:** disabled
+- Access method: Microsoft Entra ID
+- Developer role: Azure API Center Data Reader
+- Assignment scope: the exact API Center resource
+- Delegated data-plane scope: `https://azure-apicenter.net/Data.Read.All`
+- Anonymous access: disabled
 
 <!-- Notes: The role reads visible registry data. It does not authorize the discovered server. -->
 
@@ -125,14 +125,14 @@ Do not substitute the portal URL or the separate `/mcp` catalog endpoint.
 
 ## Retained artifacts
 
-**Client settings**
+Client settings
 
 - registry endpoint;
 - Microsoft Entra references;
 - supported client handoffs; and
 - approved server names.
 
-**Ownership record**
+Ownership record
 
 - global visibility conditions;
 - owner roles and review date; and
@@ -147,7 +147,7 @@ Do not substitute the portal URL or the separate `/mcp` catalog endpoint.
 ## Implement the module
 
 1. Complete both artifacts and run preflight.
-2. Move approved MCP versions to **Production**.
+2. Move approved MCP versions to Production.
 3. Confirm Microsoft Entra access and Azure API Center Data Reader.
 4. Configure and preview Data API visibility.
 5. Map the registry endpoint into the supported client.

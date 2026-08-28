@@ -103,8 +103,8 @@ Confirm the live Foundry resources:
   authorization documentation must name the action required by `get_policy`.
   `tool-manifest.json` must record the custom role definition ID and exact assignment scope.
 - The named RAI policy and existing Application Insights connection already exist. The operations
-  group has **Log Analytics Reader** on that exact Application Insights resource. If its Log
-  Analytics tables are protected, the group also has **Privileged Monitoring Data Reader**. The
+  group has Log Analytics Reader on that exact Application Insights resource. If its Log
+  Analytics tables are protected, the group also has Privileged Monitoring Data Reader. The
   operations owner has approved the trace retention period and data-handling requirements.
 - The agent deployment operator has the time-bound **Foundry User** role, role ID
   `53ca6127-db72-4b80-b1b0-d745d6d5456d`, on that exact Foundry project. This project-scoped role
@@ -129,7 +129,7 @@ Resolve every `__REQUIRED_*__` value in a working copy before deployment.
 
 ### Agent and release model
 
-Use a **persistent prompt agent**. The agent name is immutable. Each saved configuration becomes an
+Use a persistent prompt agent. The agent name is immutable. Each saved configuration becomes an
 immutable version. Pin the stable endpoint to the version created in this session. Do not use the
 "always latest" selector for this baseline.
 
@@ -200,7 +200,7 @@ retention ownership, regional handling, sampling, or sensitive-content restricti
 ### 1. Complete the implementation definitions
 
 Populate `agent.json`, `instructions.md`, and the read path and audience in `tool-manifest.json`.
-Keep **`__RUNTIME_READ_API_BASE_URL__` unchanged**. Deployment replaces it in memory. Use
+Keep `__RUNTIME_READ_API_BASE_URL__` unchanged. Deployment replaces it in memory. Use
 Microsoft’s [OpenAPI tool guidance](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/openapi)
 to check the supported authentication and operation definition.
 
@@ -276,8 +276,8 @@ prompt, response, and trace data out of the repository.
 ## Confirm the result
 
 Send **a synthetic request through the stable endpoint** for policy `POL-001`. The unique
-**Entra Agent Identity** identifies the agent and secures its endpoint. The Foundry **project
-managed identity** authenticates the direct OpenAPI read.
+Entra Agent Identity identifies the agent and secures its endpoint. The Foundry project managed
+identity authenticates the direct OpenAPI read.
 
 ```powershell
 $config = Get-Content .\artifacts\agents\policy-assistant\agent.json -Raw |

@@ -332,7 +332,7 @@ The template uses deterministic assignment names and declares `principalType: Gr
 
 In Microsoft Entra admin center:
 
-1. Open **ID Governance > Privileged Identity Management > Azure resources**.
+1. Open ID Governance > Privileged Identity Management > Azure resources.
 2. Select the approved Foundry resource, then open the Foundry Account Owner settings.
 3. Set the maximum duration of each activation to two hours. Require MFA, justification, and approval.
 4. Select the customer-owned approver group and notification recipients approved through the
@@ -503,7 +503,7 @@ Read the console and stop there. Do not redirect, export, or save command output
 
 ## After implementation
 
-Maintain these **resources, settings, and files**:
+Maintain these resources, settings, and files:
 
 | Resource or setting | Operating owner |
 |---|---|
