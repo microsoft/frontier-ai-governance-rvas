@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "01-platform-baseline",
+  "requiredTagNames": [
+    "businessOwner",
+    "technicalOwner",
+    "costCenter",
+    "expiryDate"
+  ]
+}

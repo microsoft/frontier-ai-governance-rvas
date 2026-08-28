@@ -16,10 +16,12 @@ trap cleanup EXIT
 
 usage() {
   cat <<'USAGE'
-Usage: ./scripts/preflight.sh --resource-group-name <name> [--deployment-name <name>] [--artifacts-path <path>]
+Usage: ./scripts/preflight.sh --resource-group-name <name> --deployment-location <region> [--deployment-name <name>] [--artifacts-path <path>]
 
-Validate Session 01 artifacts, required __REQUIRED_*__ decisions, the approved sandbox subscription and resource group,
-provider registrations, Bicep compilation, and the read-only group what-if preview.
+Validate Session 01 artifacts, required __REQUIRED_*__ decisions, resolved built-in policy IDs in
+the current shell, the approved sandbox subscription and resource group, provider registrations,
+Bicep compilation for the Foundry baseline and the policy initiative and assignment, and the
+available what-if previews.
 USAGE
 }
 
@@ -82,7 +84,7 @@ require_az_min_version() {
   local version_json current
   version_json="$(run_capture az version --output json --only-show-errors)" || die "Azure CLI $minimum or later is required."
   current="$(PYTHON_JSON_INPUT="$version_json" python3 - <<'PY'
-import json, sys
+import json
 import os
 print(json.loads(os.environ['PYTHON_JSON_INPUT']).get('azure-cli', '0.0.0'))
 PY
@@ -95,7 +97,7 @@ require_bicep_min_version() {
   local raw current
   raw="$(run_capture az bicep version)" || die "Bicep $minimum or later is required."
   current="$(PYTHON_TEXT_INPUT="$raw" python3 - <<'PY'
-import re, sys
+import re
 import os
 text = os.environ['PYTHON_TEXT_INPUT']
 match = re.search(r'(\d+\.\d+\.\d+)', text)
@@ -138,7 +140,7 @@ if found:
 PY
 }
 
-validate_parameters() {
+validate_foundry_parameters() {
   local parameter_file="$1"
   python3 - "$parameter_file" <<'PY'
 from pathlib import Path
@@ -163,8 +165,44 @@ if not network_match or network_match.group(1) not in {'Enabled', 'Disabled'}:
 PY
 }
 
+validate_policy_settings() {
+  local implementation_session="$1"
+  shift
+  python3 - "$implementation_session" "$@" <<'PY'
+import json
+from pathlib import Path
+import re
+import sys
+
+implementation_session = sys.argv[1]
+settings_path = Path(sys.argv[2])
+settings = json.loads(settings_path.read_text(encoding='utf-8'))
+tags = [str(item).strip() for item in settings.get('requiredTagNames', [])]
+if (
+    settings.get('implementationSession') != implementation_session
+    or not tags
+    or any(not tag for tag in tags)
+    or len(set(tags)) != len(tags)
+):
+    raise SystemExit(
+        f'policy/guardrail-settings.json must contain one nonempty, unique requiredTagNames list and the {implementation_session} marker.'
+    )
+for raw_path in sys.argv[3:]:
+    path = Path(raw_path)
+    text = path.read_text(encoding='utf-8')
+    if (
+        "loadJsonContent('../policy/guardrail-settings.json')" not in text
+        or not re.search(r'(?m)^\s*param\s+requiredTagNames\s*=\s*settings\.requiredTagNames\s*$', text)
+    ):
+        raise SystemExit(
+            f'{path.name} must load requiredTagNames from policy/guardrail-settings.json.'
+        )
+PY
+}
+
 resource_group_name=""
 deployment_name="rvas-s01-baseline"
+deployment_location=""
 artifacts_path=""
 
 while [[ $# -gt 0 ]]; do
@@ -177,6 +215,11 @@ while [[ $# -gt 0 ]]; do
     --deployment-name)
       [[ $# -ge 2 ]] || die "Missing value for $1"
       deployment_name="$2"
+      shift 2
+      ;;
+    --deployment-location)
+      [[ $# -ge 2 ]] || die "Missing value for $1"
+      deployment_location="$2"
       shift 2
       ;;
     --artifacts-path)
@@ -196,6 +239,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 [[ -n "$resource_group_name" ]] || { usage >&2; die '--resource-group-name is required.'; }
+[[ -n "$deployment_location" ]] || { usage >&2; die '--deployment-location is required.'; }
 
 if [[ -z "$artifacts_path" ]]; then
   artifacts_path="$script_dir/../artifacts"
@@ -207,13 +251,25 @@ require_command python3 'Python 3 is required and was not found on PATH.'
 require_az_min_version '2.47.0'
 require_bicep_min_version '0.18.4'
 
+implementation_session='01-platform-baseline'
+
 required_files=(
   'infra/foundry/main.bicep'
   'environments/sandbox.bicepparam'
   'decisions/resource-model.md'
+  'policy/initiative.bicep'
+  'policy/assignment.bicep'
+  'policy/guardrail-settings.json'
+  'environments/initiative.bicepparam'
+  'environments/policy-assignment.bicepparam'
+  'governance/change-reference.md'
 )
 for relative in "${required_files[@]}"; do
   [[ -f "$artifacts_path/$relative" ]] || die "Required implementation file is missing: $relative"
+done
+
+for name in RVAS_ALLOWED_LOCATIONS_POLICY_ID RVAS_REQUIRE_TAG_POLICY_ID; do
+  [[ -n "${!name:-}" ]] || die "Set $name from resolve-builtins.sh output before deployment."
 done
 
 scan_unresolved_sentinels "$artifacts_path" \
@@ -226,23 +282,34 @@ scan_unresolved_sentinels "$artifacts_path" \
   '__REQUIRED_COST_CENTER__' \
   '__REQUIRED_EXPIRY_DATE__' \
   '__REQUIRED_RESOURCE_MODEL_DECISION__' \
-  '__REQUIRED_CUSTOMER_SYSTEM_REFERENCE__'
+  '__REQUIRED_CUSTOMER_SYSTEM_REFERENCE__' \
+  '__REQUIRED_PRIMARY_REGION__' \
+  '__REQUIRED_SECONDARY_REGION__' \
+  '__REQUIRED_CHANGE_REFERENCE__' \
+  '__REQUIRED_POLICY_OWNER__' \
+  '__REQUIRED_RISK_REFERENCE_OR_NONE__'
 
-parameters_file="$artifacts_path/environments/sandbox.bicepparam"
-validate_parameters "$parameters_file"
+foundry_parameters_file="$artifacts_path/environments/sandbox.bicepparam"
+validate_foundry_parameters "$foundry_parameters_file"
+
+validate_policy_settings \
+  "$implementation_session" \
+  "$artifacts_path/policy/guardrail-settings.json" \
+  "$artifacts_path/environments/initiative.bicepparam" \
+  "$artifacts_path/environments/policy-assignment.bicepparam"
 
 account_json="$(run_capture az account show --only-show-errors --output json)" || die 'Azure account lookup failed.'
 group_json="$(run_capture az group show --name "$resource_group_name" --query '{id:id,location:location,marker:tags.implementationSession}' --only-show-errors --output json)" || die 'The approved sandbox resource group lookup failed.'
 
 group_marker="$(PYTHON_JSON_INPUT="$group_json" python3 - <<'PY'
-import json, sys
+import json
 import os
 print((json.loads(os.environ['PYTHON_JSON_INPUT']).get('marker') or '').strip())
 PY
 )"
-[[ "$group_marker" == '01-platform-baseline' ]] || die "Resource group '$resource_group_name' must have implementationSession=01-platform-baseline."
+[[ "$group_marker" == "$implementation_session" ]] || die "Resource group '$resource_group_name' must have implementationSession=$implementation_session."
 
-for provider in Microsoft.CognitiveServices Microsoft.Insights Microsoft.OperationalInsights; do
+for provider in Microsoft.CognitiveServices Microsoft.Insights Microsoft.OperationalInsights Microsoft.PolicyInsights; do
   state="$(run_capture az provider show --namespace "$provider" --query registrationState --only-show-errors --output tsv)" || die "Provider lookup failed for $provider."
   state="${state//$'\r'/}"
   [[ "$state" == 'Registered' ]] || die "Provider $provider is '$state'. Register it only through the customer-approved change process."
@@ -250,23 +317,26 @@ done
 
 template_file="$artifacts_path/infra/foundry/main.bicep"
 run_capture az bicep build --file "$template_file" --stdout >/dev/null || die 'Bicep build failed for the Foundry baseline.'
+for file in initiative.bicep assignment.bicep; do
+  run_capture az bicep build --file "$artifacts_path/policy/$file" --stdout >/dev/null || die "Bicep build failed: policy/$file"
+done
 
 subscription_name="$(PYTHON_JSON_INPUT="$account_json" python3 - <<'PY'
-import json, sys
+import json
 import os
 account = json.loads(os.environ['PYTHON_JSON_INPUT'])
 print(account.get('name', ''))
 PY
 )"
 subscription_id="$(PYTHON_JSON_INPUT="$account_json" python3 - <<'PY'
-import json, sys
+import json
 import os
 account = json.loads(os.environ['PYTHON_JSON_INPUT'])
 print(account.get('id', ''))
 PY
 )"
 group_location="$(PYTHON_JSON_INPUT="$group_json" python3 - <<'PY'
-import json, sys
+import json
 import os
 print(json.loads(os.environ['PYTHON_JSON_INPUT']).get('location', ''))
 PY
@@ -276,10 +346,23 @@ printf 'Preflight target:\n'
 printf '  Subscription:   %s (%s)\n' "$subscription_name" "$subscription_id"
 printf '  Resource group: %s\n' "$resource_group_name"
 printf '  Location:       %s\n' "$group_location"
-printf '  Marker:         implementationSession=01-platform-baseline\n'
+printf '  Marker:         implementationSession=%s\n' "$implementation_session"
 printf '  Deployment:     %s\n\n' "$deployment_name"
-printf 'Bicep deployment preview:\n'
+printf 'Foundry baseline deployment preview:\n'
 
-preview_output="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name "$deployment_name" --parameters "$parameters_file" --result-format ResourceIdOnly --only-show-errors)" || die 'Bicep deployment preview failed.'
-printf '%s\n' "$preview_output"
-printf 'READY: tools, files, decisions, approved sandbox subscription and resource group, and deployment preview are available.\n'
+foundry_preview="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name "$deployment_name" --parameters "$foundry_parameters_file" --result-format ResourceIdOnly --only-show-errors)" || die 'Foundry baseline deployment preview failed.'
+printf '%s\n' "$foundry_preview"
+
+printf '\nPolicy initiative deployment preview:\n'
+initiative_preview="$(run_capture az deployment sub what-if --location "$deployment_location" --name rvas-s01-guardrails-initiative-preflight --parameters "$artifacts_path/environments/initiative.bicepparam" --result-format ResourceIdOnly --only-show-errors)" || die 'Initiative preview failed.'
+printf '%s\n' "$initiative_preview"
+
+if [[ -z "${RVAS_INITIATIVE_DEFINITION_ID:-}" ]]; then
+  printf 'Assignment preview pending. Set RVAS_INITIATIVE_DEFINITION_ID after the initiative deployment, then rerun preflight.\n'
+else
+  printf '\nPolicy assignment deployment preview:\n'
+  assignment_preview="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name rvas-s01-guardrails-assignment-preflight --parameters "$artifacts_path/environments/policy-assignment.bicepparam" --result-format ResourceIdOnly --only-show-errors)" || die 'Assignment preview failed.'
+  printf '%s\n' "$assignment_preview"
+fi
+
+printf '\nREADY: tools, files, decisions, approved sandbox subscription and resource group, provider registrations, and every available deployment preview are ready.\n'

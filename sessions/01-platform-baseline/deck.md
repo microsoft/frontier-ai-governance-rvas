@@ -12,24 +12,27 @@ html: true
 
 <p class="eyebrow">AI Governance Co-implementation · Session 01</p>
 
-# Microsoft Foundry platform baseline and inventory
+# Microsoft Foundry platform baseline, inventory, and landing-zone guardrails
 
-**210 minutes · Deploy an owned, rebuildable Foundry baseline**
+**360 minutes · Deploy an owned baseline, then stage deny-mode guardrails**
 
 ---
 
 ## Control and session outcomes
 
-> Establish one owned, tagged Microsoft Foundry baseline connected to workspace-based Application Insights through a repeatable deployment.
+> Establish one owned, tagged Microsoft Foundry baseline connected to workspace-based Application Insights, then put that baseline behind an Azure Policy assignment that denies evaluated ARM changes using disallowed locations or missing required tags.
 
 - create the current Foundry parent-and-project model from Bicep;
 - give both boundaries managed identities and explicit ownership metadata;
-- connect the project to workspace-based Application Insights; and
-- record the customer inventory link and, when needed, a migration-backlog pointer with the resource-model decision.
+- connect the project to workspace-based Application Insights;
+- record the customer inventory link and, when needed, a migration-backlog pointer;
+- resolve current built-ins and deploy a reusable initiative staged on the same resource group; and
+- promote the assignment to `Default` only after owner review and change approval.
 
-The connection configures a monitoring path. This session does not prove that application logs are arriving.
+The connection configures a monitoring path; it does not prove that application logs are arriving.
+The policy assignment does not fix existing resources or cover controls outside these two rules.
 
-<!-- Notes: Set the boundary early. Policy enforcement, production RBAC, and private networking come later. -->
+<!-- Notes: Set the boundary early, then narrow the change path into it. Production RBAC and private networking come later. -->
 
 ---
 
@@ -37,7 +40,7 @@ The connection configures a monitoring path. This session does not prove that ap
 
 ## Why it matters
 
-Later controls need a stable Foundry boundary that the team can rebuild and identify by owner. Operations also needs one place to find the live resource details.
+Later controls need a stable Foundry boundary that the team can rebuild and identify by owner. Operations needs one place to find the live resource details. Staging the policy on that same boundary shows the likely impact before deny mode is turned on, so the owner can handle exemptions before the change authority promotes enforcement.
 
 ---
 
@@ -45,9 +48,7 @@ Later controls need a stable Foundry boundary that the team can rebuild and iden
 
 ## Architecture overview
 
-One deployment creates the Foundry boundary that later controls build on. Azure shows what is
-running; the repository defines the intended shape; the customer inventory tells operators where
-the environment belongs.
+One deployment creates the Foundry boundary; a second layer narrows the change path into it. Azure shows what is running and what policy applies; the repository defines the intended shape; the customer inventory and change systems own their own records.
 
 <div class="columns">
 <div>
@@ -55,9 +56,10 @@ the environment belongs.
 ### What happens
 
 1. Read the subscription and existing tags without changing them.
-2. Preview the approved resource group.
-3. Deploy the Foundry resource, child project, and Application Insights connection.
-4. Record the live baseline in the customer system.
+2. Preview and deploy the Foundry resource, child project, and Application Insights connection.
+3. Resolve current built-ins and preview the initiative and assignment.
+4. Stage the assignment in `DoNotEnforce`, then promote to `Default` after review.
+5. Record the live baseline in the customer system.
 
 Classic assets are not pulled into this boundary. Their migration backlog stays in the customer
 inventory system.
@@ -70,7 +72,7 @@ inventory system.
 </div>
 </div>
 
-<!-- Notes: The repository holds reusable definitions. Environment inventory stays in the customer's operating system. -->
+<!-- Notes: The repository holds reusable definitions. Environment inventory and change approval stay in the customer's operating systems. -->
 
 ---
 
@@ -114,6 +116,14 @@ The platform owner assigns confirmed migrations in the backlog.
 
 ---
 
+## Promotion path for the guardrails
+
+![Azure Policy state machine from built-in resolution through staged assignment, approval, enforcement, and operation](assets/diagrams/policy-promotion.svg)
+
+<!-- Notes: New assignments take time to propagate. A stale first policy-state query is a stop condition. Enforcement mode and observed compliance are separate facts. -->
+
+---
+
 <!-- _class: decision -->
 
 ## Implementation tradeoffs
@@ -122,9 +132,12 @@ The platform owner assigns confirmed migrations in the backlog.
 |---|---|---|
 | Resource model | Current Foundry resource and child project | Classic assets need separate migration work |
 | Desired state | Bicep and `.bicepparam` | Portal changes must be reconciled |
-| Baseline identity and tracing | System-assigned identities and an Application Insights connection | Session 03 grants access; a later runtime check proves trace delivery |
+| Baseline identity and tracing | System-assigned identities and an Application Insights connection | A later runtime check proves trace delivery, not this session |
+| Policy packaging | One initiative referencing current Microsoft built-ins | Built-in IDs and effects must be checked before each deployment |
+| Assignment scope | Exact same sandbox resource group | Sibling groups and wider scopes stay outside this control |
+| Enforcement rollout | `DoNotEnforce`, owner review, then `Default` | Evaluation time can delay enforcement |
 
-<!-- Notes: Keep an existing landing-zone restriction. This session never weakens the network rule to make deployment easier. -->
+<!-- Notes: Keep an existing landing-zone restriction. This session never weakens a network or policy rule to make deployment easier. -->
 
 ---
 
@@ -137,7 +150,7 @@ The platform owner assigns confirmed migrations in the backlog.
 | `costCenter` | `expiryDate` |
 | `environment` | Plain text only; no sensitive values |
 
-The same tag object is applied to the resource group and every taggable resource. Tags do not inherit automatically from the resource group.
+The same tag object is applied to the resource group and every taggable resource. Tags do not inherit automatically from the resource group, which is exactly the gap the required-tag policy checks for new changes.
 
 <!-- Notes: Use team aliases and synthetic classifications. Tags are visible to anyone with tag read access. -->
 
@@ -147,26 +160,28 @@ The same tag object is applied to the resource group and every taggable resource
 
 1. **Decide** the region, network choice, ownership values, expiry, and resource model.
 2. **Mark** the approved resource group with `implementationSession=01-platform-baseline`.
-3. **Preflight** tools, providers, sentinels, the approved sandbox subscription and resource group, Bicep syntax, and planned changes.
-4. **Deploy** the parent, project, Log Analytics workspace, Application Insights, and connection.
-5. **Confirm** the live state with one repeat deployment preview.
-6. **Operate** live inventory and any migration backlog through the customer system.
+3. **Preflight** tools, providers, sentinels, the approved sandbox subscription and resource group, Bicep syntax, and planned changes for both layers.
+4. **Deploy** the Foundry parent, project, workspace, Application Insights, and connection.
+5. **Resolve** the current built-ins, then deploy the initiative and stage the assignment in `DoNotEnforce`.
+6. **Review** live Policy Insights findings, then promote to `Default` after change-authority approval.
+7. **Confirm** the deployment preview and the live assignment state.
+8. **Operate** live inventory, the migration backlog, and policy exemptions through the customer systems.
 
 ---
 
 <!-- _class: implementation -->
 
-## Deploy the Foundry baseline
+## Deploy the baseline and guardrails
 
-**Timebox:** 100 minutes
+**Timebox:** 250 minutes
 
-Deploy a production-shaped Foundry baseline in one approved sandbox resource group.
+Deploy a production-shaped Foundry baseline, then stage Azure Policy guardrails on the same resource group.
 
-- **State change:** current Foundry parent, child project, and observability connection
-- **Operator access:** Contributor on the approved sandbox subscription when creating the resource group, or on the approved sandbox resource group when it already exists
+- **State change:** current Foundry parent, child project, observability connection, subscription initiative, and resource-group assignment
+- **Operator access:** Contributor on the approved sandbox scope, plus a time-bound Resource Policy Contributor assignment for the guardrails
 - **Safety boundary:** resolved decisions, approved sandbox subscription and resource group, and marked removal scope
 - **Data rule:** no secrets or customer content in parameters, tags, outputs, or source control
-- **Live state:** deployed baseline, reusable definitions, and one decision plus customer-system pointer
+- **Live state:** deployed baseline, staged-then-promoted policy assignment, reusable definitions, and decision plus customer-system pointers
 
 ---
 
@@ -175,32 +190,32 @@ Deploy a production-shaped Foundry baseline in one approved sandbox resource gro
 - any `__REQUIRED_*__` value remains;
 - Azure CLI is not using the approved sandbox subscription or approved sandbox resource group;
 - the resource-group marker is missing or belongs to another implementation;
+- a resolved built-in is deprecated, changed effect, or no longer matches the expected parameters;
 - provider registration or public access would bypass the customer's change rules; or
-- the first preview includes anything outside the documented baseline.
+- a preview includes anything outside the documented baseline or guardrail scope.
 
-The Application Insights connection string is resolved inside Bicep. Never move it into a parameter, output, tag, or repository file.
+The Application Insights connection string is resolved inside Bicep. Never move it into a parameter, output, tag, or repository file. Keep `DoNotEnforce` until the cloud platform owner has reviewed live Policy Insights findings and the change authority has approved `Default`.
 
 <!-- Notes: These are the consequential gates. Routine steps do not need a checkpoint. -->
 
 ---
 
-## One result check
+## Two result checks
 
-Rerun the preflight and inspect its final Bicep deployment preview:
+Rerun the preflight and inspect its final deployment previews, then inspect the live policy assignment:
 
 ```powershell
 .\scripts\preflight.ps1 `
   -ResourceGroupName $resourceGroup `
-  -DeploymentName "rvas-s01-baseline"
+  -DeploymentName "rvas-s01-baseline" `
+  -DeploymentLocation $location
 ```
 
-**Expected:** no unintended change to the operational baseline.
+**Expected:** no unintended change to the Foundry baseline, and a `Default`-enforcement assignment with the approved locations, tags, and session marker.
 
-The project `AppInsights` connection may appear as `Modify` or `Deploy` because its credential is write-only. Treat only that connection as expected platform noise.
+The project `AppInsights` connection may appear as `Modify` or `Deploy` because its credential is write-only. Treat only that connection as expected platform noise. A `DoNotEnforce` assignment means the guardrail rollout is incomplete.
 
-Any other change means stop and investigate. The command output does not need to be saved.
-
-<!-- Notes: Observe the live preview with the team. This is the session's single result check. -->
+<!-- Notes: Observe both live states with the team. Neither check needs a saved output file. -->
 
 ---
 
@@ -209,22 +224,23 @@ Any other change means stop and investigate. The command output does not need to
 | Operational item | Location | Owner |
 |---|---|---|
 | Foundry resource, project, workspace, Application Insights, and connection | Approved sandbox resource group | Platform owner |
+| Subscription initiative and sandbox policy assignment | Same sandbox scope | Cloud platform owner |
 | Bicep, parameters, preflight, and guarded removal guidance | Customer-owned repository | Platform engineering |
 | Live resource inventory and any migration backlog | Customer operational system | Platform operations |
-| Current-versus-classic decision and external system reference | Resource-model decision | Platform owner |
+| Policy Insights findings, exemptions, and change approval | Customer change and risk system | Cloud platform owner and change authority |
 
-The `expiryDate` tells the owner when to keep or remove the sandbox baseline. Removal applies only to the marked group and resources listed by the current deployment.
+The `expiryDate` tells the owner when to keep or remove the sandbox baseline. If enforcement causes an operational problem, first redeploy the assignment with `DoNotEnforce`.
 
-<!-- Notes: Keep the baseline for Session 02 unless the customer chooses the guarded removal path. -->
+<!-- Notes: Keep the baseline and guardrails for Session 03 unless the customer chooses the guarded removal path. -->
 
 ---
 
 ## Recap and next dependency
 
-- Session 01 leaves a rebuildable current-model Foundry boundary.
-- Identity, tags, and the observability connection are defined in source.
-- Operations receives the baseline; classic candidates stay out of this deployment.
-- [Session 02](../02-landing-zone-guardrails/) turns the configuration requirements into Azure Policy audit and deny controls.
+- Session 01 leaves a rebuildable current-model Foundry boundary with staged, reviewed policy guardrails.
+- Identity, tags, the observability connection, and the required-tag policy are defined in source.
+- Operations receives the baseline and inventory; the change authority owns the enforcement decision.
+- [Session 03](../03-identity-privileged-access/) gives people and workloads narrow, time-bound identities inside this same boundary.
 
 ---
 
