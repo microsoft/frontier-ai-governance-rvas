@@ -4,7 +4,7 @@ set -euo pipefail
 usage() {
   cat <<'USAGE'
 Usage:
-  preflight.sh --approved-subscription-id SUBSCRIPTION_ID --session06-agent-base-url HTTPS_URL --remote-mcp-server-url HTTPS_URL
+  preflight.sh --approved-subscription-id SUBSCRIPTION_ID --session05-agent-base-url HTTPS_URL --remote-mcp-server-url HTTPS_URL
 USAGE
 }
 
@@ -86,7 +86,7 @@ required_sentinels=(
 )
 
 approved_subscription_id=""
-session06_agent_base_url=""
+session05_agent_base_url=""
 remote_mcp_server_url=""
 while (($# > 0)); do
   case "$1" in
@@ -95,9 +95,9 @@ while (($# > 0)); do
       approved_subscription_id=$2
       shift 2
       ;;
-    --session06-agent-base-url)
-      [[ $# -ge 2 ]] || fail "--session06-agent-base-url requires a value."
-      session06_agent_base_url=$2
+    --session05-agent-base-url)
+      [[ $# -ge 2 ]] || fail "--session05-agent-base-url requires a value."
+      session05_agent_base_url=$2
       shift 2
       ;;
     --remote-mcp-server-url)
@@ -117,7 +117,7 @@ while (($# > 0)); do
 done
 
 [[ -n "$approved_subscription_id" ]] || fail "--approved-subscription-id is required."
-[[ -n "$session06_agent_base_url" ]] || fail "--session06-agent-base-url is required."
+[[ -n "$session05_agent_base_url" ]] || fail "--session05-agent-base-url is required."
 [[ -n "$remote_mcp_server_url" ]] || fail "--remote-mcp-server-url is required."
 
 require_command az
@@ -129,7 +129,7 @@ for path in "$bicep_path" "$metadata_path" "$catalog_records_path" "$openapi_pat
   [[ -f "$path" ]] || fail "Required implementation file is missing: $path"
 done
 
-validate_runtime_uri "$session06_agent_base_url" || fail "Session06AgentBaseUrl must be a remote HTTPS URL without credentials, query string, or fragment."
+validate_runtime_uri "$session05_agent_base_url" || fail "Session05AgentBaseUrl must be a remote HTTPS URL without credentials, query string, or fragment."
 validate_runtime_uri "$remote_mcp_server_url" || fail "RemoteMcpServerUrl must be a remote HTTPS URL without credentials, query string, or fragment."
 
 export TMPDIR="$script_dir/.tmp"
@@ -151,9 +151,9 @@ if ((${#unresolved_sentinels[@]} > 0)); then
     $known || unknown+=("$sentinel")
   done
   if ((${#unknown[@]} > 0)); then
-    fail "Add explicit Session 08 preflight checks for new sentinels: ${unknown[*]}"
+    fail "Add explicit Session 07 preflight checks for new sentinels: ${unknown[*]}"
   fi
-  fail "Resolve every Session 08 customer decision before deployment: ${unresolved_sentinels[*]}"
+  fail "Resolve every Session 07 customer decision before deployment: ${unresolved_sentinels[*]}"
 fi
 
 python3 - "$metadata_path" "$catalog_records_path" "$openapi_path" "$environment_path" <<'PY'
@@ -173,7 +173,7 @@ for record in (agent, apim, mcp):
 openapi = json.load(open(openapi_path, encoding='utf-8'))
 environment = json.load(open(environment_path, encoding='utf-8'))
 
-if environment.get('implementationSession') != '08-api-center-ai-mcp-inventory':
+if environment.get('implementationSession') != '07-api-center-ai-mcp-inventory':
     raise SystemExit('The approved environment has the wrong implementationSession marker.')
 if environment.get('apiCenterPlan') not in {'Free', 'Standard'}:
     raise SystemExit('apiCenterPlan must be Free or Standard.')
@@ -213,7 +213,7 @@ def validate_record(record, description):
     expiry = datetime.strptime(props['expiryDate'], '%Y-%m-%d')
     if expiry <= last_review:
         raise SystemExit(f"{description} expiryDate must be later than lastReviewDate.")
-    if props['implementationSession'] != '08-api-center-ai-mcp-inventory':
+    if props['implementationSession'] != '07-api-center-ai-mcp-inventory':
         raise SystemExit(f"{description} has the wrong implementationSession marker.")
 
 validate_record(agent, 'Agent API record')
@@ -229,7 +229,7 @@ PY
 
 environment_json=$(cat "$environment_path")
 expected_agent_url="https://$(jq -r '.foundryAccountName' <<<"$environment_json").services.ai.azure.com/api/projects/$(jq -r '.foundryProjectName' <<<"$environment_json")/agents/$(jq -r '.agentName' <<<"$environment_json")/endpoint/protocols/openai"
-[[ ${session06_agent_base_url%/} == "$expected_agent_url" ]] || fail "Session06AgentBaseUrl does not match the existing Session 06 Foundry account, project, and agent."
+[[ ${session05_agent_base_url%/} == "$expected_agent_url" ]] || fail "Session05AgentBaseUrl does not match the existing Session 05 Foundry account, project, and agent."
 
 version_ge() {
   local current=$1
@@ -277,16 +277,16 @@ if [[ $(jq -r '.apiCenterPlan' <<<"$environment_json") == 'Free' ]]; then
   warn 'The Free plan has limited features and no Microsoft support. Confirm its limits fit this nonproduction scope.'
 fi
 
-session07_api_json=$(az_json 'Session 07 APIM API lookup' apim api show --api-id policy-assistant-responses --service-name "$(jq -r '.apiManagementName' <<<"$environment_json")" --resource-group "$(jq -r '.apiManagementResourceGroupName' <<<"$environment_json")")
-[[ $(jq -r '.description // ""' <<<"$session07_api_json") == *'implementationSession=07-apim-ai-gateway'* ]] || fail 'The APIM source does not contain the marked Session 07 API.'
-[[ $(jq -r '.displayName' <<<"$session07_api_json") == $(jq -r '.records.apim.sourceTitle' "$catalog_records_path") ]] || fail 'The Session 07 APIM display name does not match the approved API Center reconciliation title.'
+session07_api_json=$(az_json 'Session 06 APIM API lookup' apim api show --api-id policy-assistant-responses --service-name "$(jq -r '.apiManagementName' <<<"$environment_json")" --resource-group "$(jq -r '.apiManagementResourceGroupName' <<<"$environment_json")")
+[[ $(jq -r '.description // ""' <<<"$session07_api_json") == *'implementationSession=06-apim-ai-gateway'* ]] || fail 'The APIM source does not contain the marked Session 06 API.'
+[[ $(jq -r '.displayName' <<<"$session07_api_json") == $(jq -r '.records.apim.sourceTitle' "$catalog_records_path") ]] || fail 'The Session 06 APIM display name does not match the approved API Center reconciliation title.'
 
 role_json=$(az_json 'API Management Service Reader Role lookup' role definition list --name 71522526-b88f-4d52-b57f-d31fc3546d0d)
 [[ $(jq -r 'length' <<<"$role_json") == '1' && $(jq -r '.[0].roleName' <<<"$role_json") == 'API Management Service Reader Role' ]] || fail 'Role definition 71522526-b88f-4d52-b57f-d31fc3546d0d is not the current API Management Service Reader Role.'
 
 existing_api_center=$(az apic show --name "$(jq -r '.apiCenterName' <<<"$environment_json")" --resource-group "$(jq -r '.resourceGroupName' <<<"$environment_json")" --only-show-errors --output json 2>/dev/null || true)
 if [[ -n "$existing_api_center" ]]; then
-  [[ $(jq -r '.tags.implementationSession // empty' <<<"$existing_api_center") == '08-api-center-ai-mcp-inventory' ]] || fail 'An existing API Center uses the configured name without the Session 08 marker.'
+  [[ $(jq -r '.tags.implementationSession // empty' <<<"$existing_api_center") == '07-api-center-ai-mcp-inventory' ]] || fail 'An existing API Center uses the configured name without the Session 07 marker.'
   existing_integration=$(az apic integration show --resource-group "$(jq -r '.resourceGroupName' <<<"$environment_json")" --service-name "$(jq -r '.apiCenterName' <<<"$environment_json")" --integration-name "$(jq -r '.integrationName' <<<"$environment_json")" --only-show-errors --output json 2>/dev/null || true)
   if [[ -n "$existing_integration" ]] && [[ "$existing_integration" != *"$expected_apim_id"* ]]; then
     fail 'The current integration name already points to a different API source.'
@@ -304,7 +304,7 @@ echo '  Runtime URLs: supplied at delivery and not retained'
 
 az bicep build --file "$bicep_path" --stdout >/dev/null || fail 'The API Center Bicep definition failed to compile.'
 az deployment group what-if \
-  --name session08-api-center-preview \
+  --name session07-api-center-preview \
   --resource-group "$(jq -r '.resourceGroupName' <<<"$environment_json")" \
   --template-file "$bicep_path" \
   --parameters \
@@ -312,8 +312,8 @@ az deployment group what-if \
     "apiManagementName=$(jq -r '.apiManagementName' <<<"$environment_json")" \
     "apiCenterName=$(jq -r '.apiCenterName' <<<"$environment_json")" \
     "location=$(jq -r '.location' <<<"$environment_json")" \
-    "session06AgentBaseUrl=$session06_agent_base_url" \
+    "session05AgentBaseUrl=$session05_agent_base_url" \
   --only-show-errors \
   --no-pretty-print >/dev/null || fail 'The API Center deployment preview failed.'
 
-echo 'PASS: Session 08 files, shared metadata source, APIM boundary, runtime coordinates, CLI integration, and deployment preview are ready.'
+echo 'PASS: Session 07 files, shared metadata source, APIM boundary, runtime coordinates, CLI integration, and deployment preview are ready.'

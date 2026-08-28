@@ -10,13 +10,13 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation - Session 13</p>
+<p class="eyebrow">AI Governance Co-implementation - Session 12</p>
 
 # Observability, cost, and operational controls
 
 **270 minutes - Trace one request, route alerts, and assign cost**
 
-<!-- Notes: Session 12 connected red-team behavior to detection. This session adds the operating views, routes, and cost controls for one service. -->
+<!-- Notes: Session 11 connected red-team behavior to detection. This session adds the operating views, routes, and cost controls for one service. -->
 
 ---
 
@@ -54,7 +54,7 @@ Cost tags and budget notifications give the cost owner a delayed billing view. T
 2. Deploy a shared workbook and three alert rules with owned routes.
 3. Keep limited token metrics and low-cardinality allocation tags.
 4. Deploy budget notifications that do not stop resources.
-5. Operate four incident paths listed in the runbook and a payload-free smoke review record for Session 14.
+5. Operate four incident paths listed in the runbook and a payload-free smoke review record for Session 12.
 
 <!-- Notes: Standard mode ends with one composite visible check. -->
 
@@ -87,13 +87,19 @@ Runtime spans share approved context. Cost, evaluation, and security records sta
 
 ## Architecture overview
 
+<!-- _class: diagram -->
+
 ![One approved synthetic request carries trace context through API Management, agent, model, and tool spans. Application Insights feeds workbooks and alerts. Evaluation records keep their own owner path, as do security and cost records.](assets/diagrams/operational-correlation-flow.svg)
+
+<!-- Notes: Treat the request as the spine of the operating view. W3C trace context links the gateway, agent, model, and tool spans, and each span keeps its own result. This lets an operator locate the failing hop. Application Insights owns runtime telemetry. Cost, evaluation, and security records remain in their source systems. Session 13 receives only the payload-free smoke result. -->
+
+---
+
+## What this means
 
 One request keeps the same W3C trace identifier through API Management, the agent, the model, and
 the tool. Application Insights joins those runtime spans. Cost, evaluation, and security records
-stay with their own systems, and Session 14 receives only the payload-free smoke result.
-
-<!-- Notes: Treat the request as the spine of the operating view. W3C trace context links the gateway, agent, model, and tool spans, and each span keeps its own result. This lets an operator locate the failing hop. Application Insights owns runtime telemetry. Cost, evaluation, and security records remain in their source systems. Session 14 receives only the payload-free smoke result. -->
+stay with their own systems, and Session 13 receives only the payload-free smoke result.
 
 ---
 
@@ -337,7 +343,7 @@ Human access expires after the confirmation check.
 
 Instrumentation and the customer-owned APIM policy merge are completed before the session.
 
-The gateway repository remains the source of truth and preserves the Session 07 authentication, token-limit, rate-limit, routing, content-safety, and backend controls.
+The gateway repository remains the source of truth and preserves the Session 06 authentication, token-limit, rate-limit, routing, content-safety, and backend controls.
 
 ```powershell
 .\scripts\preflight.ps1 `
@@ -353,7 +359,7 @@ Then deploy:
 2. budget at subscription scope; and
 3. application and APIM changes through their existing delivery paths.
 
-<!-- Notes: Preflight reads the gateway owner's policy source instead of a Session 13 copy. -->
+<!-- Notes: Preflight reads the gateway owner's policy source instead of a Session 12 copy. -->
 
 ---
 
@@ -370,7 +376,7 @@ The check must show:
 - expected operational, token, and quality fields; and
 - no fixed marker in request, dependency, event, trace, exception, or custom-property data.
 
-The JSON result is payload-free and can be consumed unchanged by Session 14.
+The JSON result is payload-free and can be consumed unchanged by Session 13.
 
 Stop on a missing hop, collapsed failure boundary, commit mismatch, or sensitive content.
 
@@ -397,7 +403,7 @@ Stop immediately for:
 - content, credentials, query strings, user data, or free text in logs;
 - high-cardinality token dimensions;
 - thresholds without baseline or owner;
-- an APIM policy change that removes or replaces Session 07 authentication, token-limit, rate-limit, routing, content-safety, or backend controls;
+- an APIM policy change that removes or replaces Session 06 authentication, token-limit, rate-limit, routing, content-safety, or backend controls;
 - a what-if with unrelated changes; or
 - a budget presented as real-time enforcement.
 
@@ -417,17 +423,17 @@ Stop immediately for:
 | Security operations | Security correlation and incident route |
 | Cost owner | Tags, budget, and billing reconciliation |
 
-<!-- Notes: Session 14 later controls promotion of these definitions. -->
+<!-- Notes: Session 13 later controls promotion of these definitions. -->
 
 ---
 
 ## Manual restore
 
 1. Route to the last approved application version.
-2. Restore the previous APIM policy through the [Session 07](../07-apim-ai-gateway/) path.
-3. Disable only noisy Session 13 alerts while correcting them.
+2. Restore the previous APIM policy through the [Session 06](../06-apim-ai-gateway/) path.
+3. Disable only noisy Session 12 alerts while correcting them.
 4. Remove only approved resources tagged `implementationSession=13`.
-5. Delete the Session 13 budget only with cost-owner approval.
+5. Delete the Session 12 budget only with cost-owner approval.
 6. Preserve records required by an active incident or retention decision.
 
 Do not disable monitoring or defense to silence a real signal.
@@ -444,7 +450,7 @@ Do not disable monitoring or defense to silence a real signal.
 - Low-cardinality token allocation
 - Budget notification, not automatic shutdown
 - Four owned incident paths
-- One paired payload-free smoke contract for Session 14
+- One paired payload-free smoke contract for Session 12
 
 <!-- Notes: The implementation definitions cover logs, alert routing, cost allocation, and incident response. -->
 
@@ -454,4 +460,4 @@ Do not disable monitoring or defense to silence a real signal.
 
 # Thank you!
 
-<!-- Notes: Next, Session 14 moves the definitions through controlled CI/CD and promotion. -->
+<!-- Notes: Next, Session 13 moves the definitions through controlled CI/CD and promotion. -->

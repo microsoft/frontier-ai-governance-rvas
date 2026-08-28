@@ -60,6 +60,19 @@
       </nav>
 
       <div class="session-reading-layout session-content-width">
+        <button
+          class="deck-launcher"
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls="session-deck-dialog"
+          data-deck-open
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+            <path d="M8 20h8M12 16.5V20"></path>
+          </svg>
+          <span>Open the deck</span>
+        </button>
         <aside class="service-panel" aria-labelledby="service-panel-title">
           <h2 id="service-panel-title">Services in scope</h2>
           <ul><li>
@@ -113,20 +126,6 @@
       </div>
       <p>Optional module · Decisions and boundaries</p>
     </footer>
-
-    <button
-      class="deck-launcher"
-      type="button"
-      aria-haspopup="dialog"
-      aria-controls="session-deck-dialog"
-      data-deck-open
-    >
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
-        <path d="M8 20h8M12 16.5V20"></path>
-      </svg>
-      <span>View slide deck</span>
-    </button>
 
     <dialog
       class="deck-dialog"

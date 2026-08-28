@@ -48,7 +48,7 @@ while (($# > 0)); do
 done
 [[ -n "$approved_subscription_id" ]] || fail "--approved-subscription-id is required."
 
-grep -R -q -E '__REQUIRED_[A-Z0-9_]+__' "$artifact_root" && fail 'Resolve every Session 08 customer decision before checking the live inventory.'
+grep -R -q -E '__REQUIRED_[A-Z0-9_]+__' "$artifact_root" && fail 'Resolve every Session 07 customer decision before checking the live inventory.'
 account_json=$(az_json 'Azure account lookup' account show)
 [[ $(jq -r '.id' <<<"$account_json") == "$approved_subscription_id" ]] || fail 'Azure CLI is not using the approved subscription.'
 

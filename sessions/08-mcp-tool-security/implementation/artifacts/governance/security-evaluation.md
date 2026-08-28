@@ -1,6 +1,6 @@
 # Security evaluation
 
-Use this record for the Session 09 Microsoft Foundry candidate-version security checks.
+Use this record for the Session 08 Microsoft Foundry candidate-version security checks.
 
 | Field | Decision |
 |---|---|

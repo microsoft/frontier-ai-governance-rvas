@@ -9,7 +9,7 @@ runtime calls.
 | `api-center/main.bicep` | API Center, system identity, metadata schemas, workspace, Foundry environment, agent API record, and scoped APIM reader module |
 | `api-center/apim-reader.bicep` | Exact API Management Service Reader Role assignment in the existing APIM resource group |
 | `api-center/metadata-schemas.json` | Required API metadata definitions and allowed governance values |
-| `catalog/catalog-records.json` | Shared metadata source plus the Session 06 agent, synchronized APIM, and native MCP record values |
+| `catalog/catalog-records.json` | Shared metadata source plus the Session 05 agent, synchronized APIM, and native MCP record values |
 | `catalog/specs/policy-assistant-agent.openapi.json` | OpenAPI definition imported for the direct agent endpoint |
 | `environments/sandbox.json` | Approved API Center, APIM, Foundry, and integration coordinates |
 

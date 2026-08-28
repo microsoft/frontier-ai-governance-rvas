@@ -1,6 +1,6 @@
 # Implementation artifacts
 
-These artifacts define the Session 04 network deployment and connectivity checks.
+These artifacts define the Session 03 network deployment and connectivity checks.
 
 | Path | Operational purpose |
 |---|---|

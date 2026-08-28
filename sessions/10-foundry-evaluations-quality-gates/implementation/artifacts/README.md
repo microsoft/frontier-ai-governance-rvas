@@ -1,6 +1,6 @@
 # Evaluation control
 
-These artifacts define the Session 11 release-evaluation control.
+These artifacts define the Session 10 release-evaluation control.
 
 | Path | Operational purpose |
 |---|---|
@@ -25,8 +25,8 @@ evaluation.
 `test_release_gate.py --mode blocked-tool-process` generates its payload-free aggregate records in
 memory and runs them against the same decision code used by `release-gate.py`.
 
-Session 11 produces a callable `PASS` or `BLOCK` gate. The Session 14 controlled-promotion workflow
+Session 10 produces a callable `PASS` or `BLOCK` gate. The Session 13 controlled-promotion workflow
 enforces it with the approved evaluation specification, threshold policy, release policy, approved
-baseline record, and candidate record. Session 14 must use `--require-enabled`; the callable then
+baseline record, and candidate record. Session 13 must use `--require-enabled`; the callable then
 requires an enabled gate, an approved dated decision, active thresholds, and matching baseline and
 candidate run IDs.

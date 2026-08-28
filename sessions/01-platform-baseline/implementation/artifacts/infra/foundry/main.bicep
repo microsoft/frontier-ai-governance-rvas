@@ -13,7 +13,7 @@ param projectName string = 'platform-baseline'
 @description('Approved Azure region for the implementation baseline.')
 param location string = resourceGroup().location
 
-@description('Public access remains explicit until Session 04 implements the private path.')
+@description('Public access remains explicit until Session 03 implements the private path.')
 param publicNetworkAccess string = 'Enabled'
 
 @description('Business owner team alias. Do not use a personal email address.')

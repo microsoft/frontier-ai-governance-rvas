@@ -149,17 +149,17 @@ if ($sentinelMatches.Count -gt 0) {
     $unresolved = @($sentinelMatches.Matches.Value | Sort-Object -Unique)
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
     if ($unknown.Count -gt 0) {
-        throw "Add explicit checks for new Session 05 decisions: $($unknown -join ', ')"
+        throw "Add explicit checks for new Session 04 decisions: $($unknown -join ', ')"
     }
-    throw "Resolve all Session 05 decisions before deployment: $($unresolved -join ', ')"
+    throw "Resolve all Session 04 decisions before deployment: $($unresolved -join ', ')"
 }
 
 $profileSet = Get-Content -LiteralPath $profilePath -Raw | ConvertFrom-Json -ErrorAction Stop
 $approvalRecord = Get-Content -LiteralPath $approvalPath -Raw | ConvertFrom-Json -ErrorAction Stop
-if ([string]$profileSet.implementationSession -ne "05-model-governance-lifecycle") {
+if ([string]$profileSet.implementationSession -ne "04-model-governance-lifecycle") {
     throw "The deployment profiles have the wrong implementation marker."
 }
-if ([string]$approvalRecord.implementationSession -ne "05-model-governance-lifecycle") {
+if ([string]$approvalRecord.implementationSession -ne "04-model-governance-lifecycle") {
     throw "The approval record has the wrong implementation marker."
 }
 
@@ -578,7 +578,7 @@ $whatIf = Invoke-AzJson `
     -Arguments @(
         "deployment", "group", "what-if",
         "--resource-group", $ResourceGroupName,
-        "--name", "rvas-s05-preflight",
+        "--name", "rvas-s04-preflight",
         "--template-file", $templatePath,
         "--parameters", $parameterPath,
         "--result-format", "FullResourcePayloads",
@@ -600,4 +600,4 @@ foreach ($change in @($whatIf.changes)) {
 }
 
 $whatIf | ConvertTo-Json -Depth 20
-Write-Host "PASS: Session 05 approval, deployment plan, operator role, live availability and lifecycle, quota gate, Bicep, and scoped what-if are ready."
+Write-Host "PASS: Session 04 approval, deployment plan, operator role, live availability and lifecycle, quota gate, Bicep, and scoped what-if are ready."

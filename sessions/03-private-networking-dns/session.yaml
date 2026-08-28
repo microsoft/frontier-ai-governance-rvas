@@ -1,6 +1,6 @@
 schema_version: 2
 session:
-  id: "04"
+  id: "03"
   slug: "private-networking-dns"
   title: "Private networking, DNS, and controlled egress"
   duration_minutes: 300
@@ -11,7 +11,7 @@ session:
     - "AI platform engineers"
     - "DNS, firewall, and security reviewers"
   prerequisites:
-    - "Sessions 01-03 are complete, and the exact Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault resource IDs are recorded for the nonproduction resource group."
+    - "Sessions 01-02 are complete, and the exact Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault resource IDs are recorded for the nonproduction resource group."
     - "The customer has approved nonoverlapping RFC 1918 address ranges for a dedicated spoke, Agent subnet, and private-endpoint subnet."
     - "The network design record names the customer-managed firewall private IP, DNS integration pattern, and execution host inside the approved private network."
     - "The network deployment operator has the time-bound Network Contributor role on the exact nonproduction resource group where this session deploys the VNet, subnets, route table, and private endpoints."
@@ -20,9 +20,8 @@ session:
     - "The network design record names where the public-access cutover record is stored and who can retrieve it during restore."
     - "The AI platform owner has approved any required Foundry account replacement and configuration replay before endpoint or public-access cutover."
   dependencies:
-    - "Session 01 - Microsoft Foundry platform baseline and inventory"
-    - "Session 02 - Landing-zone guardrails with Azure Policy"
-    - "Session 03 - Entra identity, RBAC, PIM, and workload identities"
+    - "Session 01 - Microsoft Foundry platform baseline, inventory, and landing-zone guardrails"
+    - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
   services_in_scope:
     - "azure-ai-foundry"
     - "azure-key-vault"
@@ -38,7 +37,7 @@ implementation_outcomes:
   - "Deploy the approved network, DNS links, and initial private endpoints; if Foundry account replacement is required, pause for the separately approved replacement and replay before reconciling the Foundry endpoint and all five resource IDs."
   - "Route the delegated Agent Service subnet through the customer-approved firewall and record the customer firewall policy source."
   - "Disable public network access only after the approved execution host resolves all five service FQDNs to private addresses, reaches TCP 443, and every prior public-access state is written to the restore record."
-  - "The current service endpoints resolve to private addresses and accept TCP 443 from an approved client. Session 06 checks agent-runtime traffic."
+  - "The current service endpoints resolve to private addresses and accept TCP 443 from an approved client. Session 05 checks agent-runtime traffic."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"

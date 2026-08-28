@@ -30,7 +30,7 @@ Usage: ./scripts/public-access-cutover.sh \
   [--timeout-seconds <seconds>] \
   [--what-if] [--confirm]
 
-Validate the approved Session 04 service set, check private connectivity, write the full restore
+Validate the approved Session 03 service set, check private connectivity, write the full restore
 record outside the repository, and disable public network access only when --confirm is supplied.
 USAGE
 }
@@ -137,7 +137,7 @@ for item in sys.argv[3:]:
     })
 record = {
     'schemaVersion': 1,
-    'session': '04-private-networking-dns',
+    'session': '03-private-networking-dns',
     'capturedAtUtc': captured_at,
     'status': status,
     'resources': entries,
@@ -248,8 +248,8 @@ python3 - "$endpoint_matrix_path" <<'PY'
 import json, sys
 with open(sys.argv[1], encoding='utf-8') as handle:
     matrix = json.load(handle)
-if matrix.get('implementationSession') != '04-private-networking-dns' or len(matrix.get('endpoints') or []) != 5:
-    raise SystemExit('EndpointMatrixPath must contain the complete Session 04 endpoint set.')
+if matrix.get('implementationSession') != '03-private-networking-dns' or len(matrix.get('endpoints') or []) != 5:
+    raise SystemExit('EndpointMatrixPath must contain the complete Session 03 endpoint set.')
 PY
 
 "$script_dir/connectivity-check.sh" --endpoint-matrix-path "$endpoint_matrix_path" --timeout-seconds "$timeout_seconds"
@@ -334,7 +334,7 @@ printf '  Subscription:   %s\n' "$approved_subscription_id"
 printf '  Resource group: %s\n' "$resource_group_name"
 printf 'Restore state: %s\n' "$cutover_record_path"
 if [[ "$confirm" != 'true' || "$what_if" == 'true' ]]; then
-  printf 'No public-access changes were applied. Add --confirm to write the complete restore record, add the Session 04 marker, and disable public network access.\n'
+  printf 'No public-access changes were applied. Add --confirm to write the complete restore record, add the Session 03 marker, and disable public network access.\n'
   exit 0
 fi
 
@@ -350,7 +350,7 @@ for index in "${!alias_order[@]}"; do
   resource_id="${resource_ids[$index]}"
   record_entries[$index]="$alias_name|$resource_id|${prior_states[$alias_name]}|Disabled|UpdatePending"
   write_cutover_record "$cutover_record_path" 'Cutover in progress'
-  run_capture az tag update --resource-id "$resource_id" --operation Merge --tags networkControlSession=04-private-networking-dns --only-show-errors >/dev/null || die "Tag update failed for $alias_name."
+  run_capture az tag update --resource-id "$resource_id" --operation Merge --tags networkControlSession=03-private-networking-dns --only-show-errors >/dev/null || die "Tag update failed for $alias_name."
   set_public_network_access "$alias_name" "$resource_id" "${resource_names[$alias_name]}" 'Disabled'
   record_entries[$index]="$alias_name|$resource_id|${prior_states[$alias_name]}|Disabled|Applied"
   write_cutover_record "$cutover_record_path" 'Cutover in progress'

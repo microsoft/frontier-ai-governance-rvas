@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "12-red-teaming-threat-defense",
+  "implementationSession": "11-red-teaming-threat-defense",
   "name": "policy-assistant-agentic-red-team",
   "sdk": {
     "package": "azure-ai-projects",
@@ -74,5 +74,5 @@
     "retainToolPayloadsInRepository": false,
     "humanReviewRequired": true
   },
-  "implementationMarker": "implementationSession=12-red-teaming-threat-defense"
+  "implementationMarker": "implementationSession=11-red-teaming-threat-defense"
 }

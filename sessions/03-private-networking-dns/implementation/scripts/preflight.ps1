@@ -86,7 +86,7 @@ foreach ($relativePath in $requiredFiles) {
 
 $endpointMatrix = Get-Content -LiteralPath (Join-Path $artifactRoot "network\endpoint-matrix.json") -Raw |
     ConvertFrom-Json -ErrorAction Stop
-if ($endpointMatrix.implementationSession -ne "04-private-networking-dns") {
+if ($endpointMatrix.implementationSession -ne "03-private-networking-dns") {
     throw "The endpoint matrix has the wrong implementation marker."
 }
 $expectedEndpointAliases = @("foundry", "storage-blob", "ai-search", "cosmos-sql", "key-vault")
@@ -106,7 +106,7 @@ $matches = @(Get-ChildItem $artifactRoot -Recurse -File |
 if ($matches.Count -gt 0) {
     $unresolved = @($matches.Matches.Value | Sort-Object -Unique)
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
-    $message = "Resolve all Session 04 decisions before deployment: $($unresolved -join ', ')."
+    $message = "Resolve all Session 03 decisions before deployment: $($unresolved -join ', ')."
     if ($unknown.Count -gt 0) {
         $message += " Add explicit checks for new sentinels: $($unknown -join ', ')."
     }
@@ -230,7 +230,7 @@ if ($LASTEXITCODE -ne 0) {
 
 $whatIfOutput = & az deployment group what-if `
     --resource-group $ResourceGroupName `
-    --name "rvas-s04-preflight" `
+    --name "rvas-s03-preflight" `
     --template-file $templatePath `
     --parameters $parameterPath `
     --no-pretty-print `
@@ -239,4 +239,4 @@ if ($LASTEXITCODE -ne 0) {
     throw "Bicep what-if failed.`n$($whatIfOutput | Out-String)"
 }
 
-Write-Host "PASS: Session 04 files, decisions, Azure scope, service resources, providers, Bicep syntax, and what-if are ready."
+Write-Host "PASS: Session 03 files, decisions, Azure scope, service resources, providers, Bicep syntax, and what-if are ready."

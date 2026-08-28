@@ -10,13 +10,13 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation - Session 07</p>
+<p class="eyebrow">AI Governance Co-implementation - Session 06</p>
 
 # Azure API Management as the AI gateway
 
 **270 minutes - One configured APIM route to the governed agent**
 
-<!-- Notes: Session 06 established the agent. Today we configure the controlled APIM route to that endpoint. -->
+<!-- Notes: Session 05 established the agent. Today we configure the controlled APIM route to that endpoint. -->
 
 ---
 
@@ -26,7 +26,7 @@ html: true
 
 ### Result check
 
-- The operational APIM API path reaches the pinned [Session 06](../06-governed-agent-baseline/) Responses endpoint.
+- The operational APIM API path reaches the pinned [Session 05](../05-governed-agent-baseline/) Responses endpoint.
 - Client identity and product subscription are checked before the backend hop.
 - Runtime limits, safety, routing, and logs are applied as one policy.
 - An invalid identity receives `401 Unauthorized`.
@@ -65,7 +65,7 @@ Operations gets correlation and token metrics without prompt or response logging
 - The direct Foundry endpoint still exists and remains the live source for agent runtime state.
 - This session does not prove that every client path uses APIM.
 - Production ingress, semantic caching, secondary-region routing, and write-capable agents are out.
-- API Center inventory and MCP controls remain Sessions 08 and 09 review records.
+- API Center inventory and MCP controls remain Sessions 07 and 08 review records.
 
 <!-- Notes: Direct endpoint access needs its own owner and control. -->
 
@@ -75,7 +75,7 @@ Operations gets correlation and token metrics without prompt or response logging
 
 # APIM checks calls sent through the configured route
 
-API Center records the API in [Session 08](../08-api-center-ai-mcp-inventory/).
+API Center records the API in [Session 07](../07-api-center-ai-mcp-inventory/).
 
 The workload sends its Microsoft Entra token and APIM subscription key to one route. APIM validates
 both, applies limits and safety checks, then replaces caller authorization before the Foundry call.
@@ -106,7 +106,15 @@ The current APIM tier must be **Developer, Basic, Basic v2, Standard, Standard v
 
 ## Architecture overview
 
+<!-- _class: diagram -->
+
 ![An ordered APIM request pipeline validates the product subscription and Entra token, applies size, token, and safety controls, then routes with circuit-breaker protection and managed identity to the pinned Foundry endpoint while emitting body-free logs](assets/diagrams/apim-ai-gateway-flow.svg)
+
+<!-- Notes: The boundary covers calls sent through this APIM route. Direct Foundry access remains separate. -->
+
+---
+
+## What this means
 
 Every governed call follows one APIM route. Inbound policy identifies the workload, assigns its
 usage, and checks request size, token use, and content. APIM selects a backend only after those
@@ -114,10 +122,8 @@ checks pass. It then uses its own managed identity to obtain a Foundry token and
 agent.
 
 APIM owns the route and runtime policy. Foundry owns the agent. Application Insights receives
-correlation and token metrics without request or response bodies. Session 08 receives the API
+correlation and token metrics without request or response bodies. Session 07 receives the API
 definition and runtime location.
-
-<!-- Notes: The boundary covers calls sent through this APIM route. Direct Foundry access remains separate. -->
 
 ---
 
@@ -132,7 +138,7 @@ definition and runtime location.
 | Safety | Run APIM Content Safety before the Foundry RAI policy | APIM can stop unsafe input before the agent call | The check adds latency, cost, and another data path |
 | Routing | Use the primary backend with one read-safe retry | The failure path stays bounded | This session provides no regional failover |
 
-<!-- Notes: The client bearer token is replaced before the backend call. Revisit routing in Session 15. -->
+<!-- Notes: The client bearer token is replaced before the backend call. Revisit routing in Session 14. -->
 
 ---
 
@@ -186,9 +192,9 @@ Identity fails before safety processing or a Foundry call.
 
 Limits are starting values. Each APIM gateway keeps its own counters.
 
-The API product owner divides the workload allowance into per-region budgets. The platform owner configures them in Session 15.
+The API product owner divides the workload allowance into per-region budgets. The platform owner configures them in Session 14.
 
-<!-- Notes: Token counters are gateway-local. Session 15 must budget them per region. -->
+<!-- Notes: Token counters are gateway-local. Session 14 must budget them per region. -->
 
 ---
 
@@ -196,7 +202,7 @@ The API product owner divides the workload allowance into per-region budgets. Th
 
 ## Decision 2 - Retry and routing
 
-The primary backend is the pinned Session 06 agent.
+The primary backend is the pinned Session 05 agent.
 
 - Circuit opens after five 429/5xx responses in one minute.
 - The circuit remains open for one minute.
@@ -216,7 +222,7 @@ Stop if a retry could repeat a write or other consequential action.
 
 ### Foundry model policy
 
-The RAI policy from Session 06 remains attached to the agent.
+The RAI policy from Session 05 remains attached to the agent.
 
 </div>
 <div class="card">
@@ -313,7 +319,7 @@ Runtime backend URLs, subscription IDs, product keys, and bearer tokens stay out
 4. Use the workload-specific product subscription issued before the session.
 5. Call the gateway once with an invalid bearer token.
 
-<!-- Notes: Existing identities, Content Safety, logs, and the Session 06 agent are prerequisites. -->
+<!-- Notes: Existing identities, Content Safety, logs, and the Session 05 agent are prerequisites. -->
 
 ---
 
@@ -327,7 +333,7 @@ Runtime backend URLs, subscription IDs, product keys, and bearer tokens stay out
 - Content Safety backend, resource, and role assignment match.
 - Application Insights logger exists.
 - Agent base URL matches the existing account, project, and agent.
-- Existing API ID is absent or carries the Session 07 marker.
+- Existing API ID is absent or carries the Session 06 marker.
 
 <!-- Notes: Preflight ends with an ARM what-if. Any unrelated delete or replacement is a stop. -->
 
@@ -355,7 +361,7 @@ The invalid bearer check proves only that APIM blocks that identity before Conte
 Call the APIM path with:
 
 - A valid workload product subscription key
-- `Authorization: Bearer invalid-session07-token`
+- `Authorization: Bearer invalid-session06-token`
 - A synthetic request body
 
 Expected result: `401 Unauthorized`.
@@ -376,7 +382,7 @@ The request stops at APIM. Content Safety and the Foundry agent are not called.
 | Content Safety backend and threshold | Safety owner |
 | Correlation, metrics, retention, and alerts | Operations owner |
 
-Removal deletes only the marked Session 07 APIM child resources.
+Removal deletes only the marked Session 06 APIM child resources.
 
 <!-- Notes: Foundry, Content Safety, Application Insights, and role assignments remain. -->
 
@@ -389,7 +395,7 @@ Removal deletes only the marked Session 07 APIM child resources.
 - Apply per-workload token limits, Prompt Shields, and harm checks.
 - Emit correlation and token metrics without body logging.
 
-Next: register the AI API and its required metadata in [Session 08](../08-api-center-ai-mcp-inventory/).
+Next: register the AI API and its required metadata in [Session 07](../07-api-center-ai-mcp-inventory/).
 
 <!-- Notes: APIM now checks requests on the configured route. The design-time inventory comes next. -->
 

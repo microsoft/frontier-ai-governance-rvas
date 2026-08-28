@@ -21,8 +21,8 @@ Foundry and still be risky once it reaches Microsoft 365 users.
 
 ### Boundaries
 
-This optional module sits outside the 15-session sequence. It complements Session 10 for Purview
-data controls, Session 12 for Defender, and Session 15 for fleet visibility. It does not replace
+This optional module sits outside the 14-session sequence. It complements Session 09 for Purview
+data controls, Session 11 for Defender, and Session 14 for fleet visibility. It does not replace
 those sessions.
 
 Use it for one nonproduction pilot agent or agent family. Microsoft 365 Admin Center, Microsoft
@@ -87,9 +87,9 @@ control individual connector or MCP actions rather than treating the whole conne
 Preflight comes last. It finds missing files and unresolved owner decisions in the packet. It does
 not query any of the live control planes.
 
-The numbered sessions still own their parts of the wider system. Session 03 supplies the identity
-ownership model. Sessions 08 and 09 set the inventory and tool boundaries. Sessions 10 and 12
-remain the data and Defender handoffs. Session 15 brings the reviewed pilot record into fleet
+The numbered sessions still own their parts of the wider system. Session 02 supplies the identity
+ownership model. Sessions 07 and 08 set the inventory and tool boundaries. Sessions 10 and 12
+remain the data and Defender handoffs. Session 14 brings the reviewed pilot record into fleet
 operations.
 
 ## Before you start

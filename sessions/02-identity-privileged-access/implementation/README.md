@@ -30,7 +30,7 @@ eligibility.
 
 No subscription-level role is assigned. The workload path is application-only and does not carry
 a signed-in user's delegated authority. It is not the Agent ID used by Microsoft Foundry Agent
-Service; [Session 06](../../06-governed-agent-baseline/implementation/README.md) owns that runtime
+Service; [Session 05](../../05-governed-agent-baseline/implementation/README.md) owns that runtime
 identity. When a downstream API must authorize each signed-in user, use the
 [Delegated API access with OAuth on-behalf-of module](../../../modules/obo-delegated-access/)
 instead of widening this workload identity. Allow 270 minutes for this implementation.
@@ -56,7 +56,7 @@ account.
 
 Azure RBAC and PIM show who can act now and who may activate elevated access. The managed identity
 and federated credential define the GitHub trust. The repository keeps the intended assignments
-and pointers to customer decisions. Session 04 adds private connectivity. Session 06 owns the
+and pointers to customer decisions. Session 03 adds private connectivity. Session 05 owns the
 Foundry Agent ID and its runtime authorization path.
 
 ### Design choices and tradeoffs
@@ -75,8 +75,7 @@ Foundry Agent ID and its runtime authorization path.
 
 ## Before you start
 
-[Session 01](../../01-platform-baseline/implementation/README.md) and
-[Session 02](../../02-landing-zone-guardrails/implementation/README.md) must be complete. Use the
+[Session 01](../../01-platform-baseline/implementation/README.md) must be complete. Use the
 approved nonproduction subscription and resource group, the Foundry resource and project recorded
 for this session, the storage account recorded for this session, the four customer-owned groups, and
 the protected GitHub environment.
@@ -162,7 +161,7 @@ Pick the caller boundary before you change any role assignment or trust:
 |---|---|---|
 | A signed-in person works directly in the portal, CLI, or SDK | Direct human access | Use group assignment for normal work and PIM for elevation |
 | A workflow, daemon, or application should keep the same authority no matter who started it | Workload or application-only | Use the dedicated managed identity in this session |
-| A Foundry agent must call tools as its own actor | Agent identity | Use the Agent ID path in [Session 06](../../06-governed-agent-baseline/implementation/README.md) |
+| A Foundry agent must call tools as its own actor | Agent identity | Use the Agent ID path in [Session 05](../../05-governed-agent-baseline/implementation/README.md) |
 | A middle tier must call a downstream API and that API must authorize each signed-in user differently | Delegated OBO | Use the [Delegated API access with OAuth on-behalf-of module](../../../modules/obo-delegated-access/) |
 
 Choose OBO only when downstream authorization must vary by the signed-in user. If the same
@@ -259,7 +258,7 @@ Preview the three group assignments:
 ```powershell
 az deployment group what-if `
   --resource-group $resourceGroup `
-  --name rvas-s03-human-rbac-preview `
+  --name rvas-s02-human-rbac-preview `
   --template-file .\artifacts\identity\human-role-assignments.bicep `
   --parameters `
     "foundryAccountName=$foundryAccountName" `
@@ -272,7 +271,7 @@ az deployment group what-if `
 ```bash
 az deployment group what-if \
   --resource-group "$resource_group" \
-  --name rvas-s03-human-rbac-preview \
+  --name rvas-s02-human-rbac-preview \
   --template-file ./artifacts/identity/human-role-assignments.bicep \
   --parameters \
     "foundryAccountName=$foundry_account_name" \
@@ -292,7 +291,7 @@ After the change owner approves that preview, deploy the same parameters:
 ```powershell
 az deployment group create `
   --resource-group $resourceGroup `
-  --name rvas-s03-human-rbac `
+  --name rvas-s02-human-rbac `
   --template-file .\artifacts\identity\human-role-assignments.bicep `
   --parameters `
     "foundryAccountName=$foundryAccountName" `
@@ -305,7 +304,7 @@ az deployment group create `
 ```bash
 az deployment group create \
   --resource-group "$resource_group" \
-  --name rvas-s03-human-rbac \
+  --name rvas-s02-human-rbac \
   --template-file ./artifacts/identity/human-role-assignments.bicep \
   --parameters \
     "foundryAccountName=$foundry_account_name" \
@@ -344,7 +343,7 @@ Preview the managed identity, exact GitHub trust, and two role assignments:
 ```powershell
 az deployment group what-if `
   --resource-group $resourceGroup `
-  --name rvas-s03-workload-identity-preview `
+  --name rvas-s02-workload-identity-preview `
   --template-file .\artifacts\identity\workload-identity.bicep `
   --parameters `
     "foundryAccountName=$foundryAccountName" `
@@ -358,7 +357,7 @@ az deployment group what-if `
 ```bash
 az deployment group what-if \
   --resource-group "$resource_group" \
-  --name rvas-s03-workload-identity-preview \
+  --name rvas-s02-workload-identity-preview \
   --template-file ./artifacts/identity/workload-identity.bicep \
   --parameters \
     "foundryAccountName=$foundry_account_name" \
@@ -376,7 +375,7 @@ deploy it:
 ```powershell
 az deployment group create `
   --resource-group $resourceGroup `
-  --name rvas-s03-workload-identity `
+  --name rvas-s02-workload-identity `
   --template-file .\artifacts\identity\workload-identity.bicep `
   --parameters `
     "foundryAccountName=$foundryAccountName" `
@@ -390,7 +389,7 @@ az deployment group create `
 ```bash
 az deployment group create \
   --resource-group "$resource_group" \
-  --name rvas-s03-workload-identity \
+  --name rvas-s02-workload-identity \
   --template-file ./artifacts/identity/workload-identity.bicep \
   --parameters \
     "foundryAccountName=$foundry_account_name" \
@@ -422,7 +421,7 @@ guidance](https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-
 ```powershell
 $identity = az identity show `
   --resource-group $resourceGroup `
-  --name id-rvas-s03-workload `
+  --name id-rvas-s02-workload `
   --output json | ConvertFrom-Json
 
 [pscustomobject]@{
@@ -446,7 +445,7 @@ az role assignment list `
 ```bash
 identity_json="$(az identity show \
   --resource-group "$resource_group" \
-  --name id-rvas-s03-workload \
+  --name id-rvas-s02-workload \
   --output json \
   --only-show-errors)"
 
@@ -465,7 +464,7 @@ print("ClientId: {}".format(identity.get("clientId", "")))
 
 az identity federated-credential list \
   --resource-group "$resource_group" \
-  --identity-name id-rvas-s03-workload \
+  --identity-name id-rvas-s02-workload \
   --query "[].{name:name,issuer:issuer,subject:subject,audience:audiences[0]}" \
   --output table
 
@@ -482,7 +481,7 @@ az role assignment list \
 The human assignments must match the three group scopes in the task matrix; no standing Foundry
 Account Owner assignment may exist. The PIM eligible principal and activation settings must match the live Entra configuration and
 customer change decision. The workload identity shows `implementationSession` as
-`03-identity-privileged-access`. One federated
+`02-identity-privileged-access`. One federated
 credential shows the exact GitHub issuer, repository environment subject, and Azure token-exchange
 audience. The direct assignments are Cognitive Services User on the Foundry resource recorded for
 this session and Storage Blob Data Reader on the storage account recorded for this session. There is no subscription-level assignment.

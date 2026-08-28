@@ -10,13 +10,13 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation - Session 15</p>
+<p class="eyebrow">AI Governance Co-implementation - Session 14</p>
 
 # Agent fleet governance, multi-region design, and production rehearsal
 
 **270 minutes - Reconcile inventory and test one controlled regional move**
 
-<!-- Notes: Session 14 made release promotion repeatable. This session checks one service while traffic moves to its secondary deployment. -->
+<!-- Notes: Session 13 made release promotion repeatable. This session checks one service while traffic moves to its secondary deployment. -->
 
 ---
 
@@ -56,7 +56,7 @@ This rehearsal gives the service and delivery owners one visible regional result
 
 ---
 
-## Focused-route baseline: Sessions 06-10
+## Focused-route baseline: Sessions 05-09
 
 | Substitute | Live state | Owner result |
 |---|---|---|
@@ -70,7 +70,7 @@ This rehearsal gives the service and delivery owners one visible regional result
 
 ---
 
-## Focused-route baseline: Sessions 11-14
+## Focused-route baseline: Sessions 10-13
 
 | Substitute | Live state | Owner result |
 |---|---|---|
@@ -208,9 +208,9 @@ Stop on a duplicate, ownerless, or version-ambiguous production record.
 |---|---|---|---|
 | Inventory | Live Azure queries plus dated portal observations | Separates current state from snapshots | Owners review snapshot dates before rehearsal |
 | Gateway topology | One Premium (classic) multi-region instance or separate regional gateways | Keeps the approved network and isolation design | Accept the primary management plane or the added release work |
-| Restore | Move one selector and keep the secondary deployment | Narrows the restore and leaves standby ready | Session 14 controls drift; capacity cost continues |
+| Restore | Move one selector and keep the secondary deployment | Narrows the restore and leaves standby ready | Session 13 controls drift; capacity cost continues |
 
-<!-- Notes: Session 14 owns regional configuration promotion. Session 15 moves traffic and checks the active path. -->
+<!-- Notes: Session 13 owns regional configuration promotion. Session 14 moves traffic and checks the active path. -->
 
 ---
 
@@ -276,7 +276,7 @@ The service and delivery owners must accept:
 
 ## Deploy through the existing Bicep entrypoint
 
-The Session 15 control definition points to:
+The Session 14 control definition points to:
 
 - the customer Bicep entrypoint that owns the full regional stack;
 - one minimal `region.parameters.json` contract;
@@ -302,7 +302,7 @@ Capture Agent 365, Purview, and Defender observations as a dated operator snapsh
 1. Match project, logs, agent, and store identifiers across the source configuration files.
 2. Reconcile live Azure resources and dated portal views.
 3. Run decision preflight.
-4. Confirm the secondary path was deployed through the existing [Session 14](../14-cicd-promotion-controls/) release control.
+4. Confirm the secondary path was deployed through the existing [Session 13](../13-cicd-promotion-controls/) release control.
 5. Run controlled failover; its wrapper repeats ready preflight before health and routing.
 
 <!-- Notes: Keep the maintenance window for the final routing move, not for unresolved design work. -->
@@ -368,7 +368,15 @@ Keep the current selector.
 
 ## Controlled failover sequence
 
+<!-- _class: diagram -->
+
 ![The regional failover checks primary health, confirms secondary readiness, previews and moves the selector, verifies the secondary path, then restores the primary selector](assets/diagrams/regional-failover-sequence.svg)
+
+<!-- Notes: The script leaves the secondary selector active long enough for the owner to observe the result. -->
+
+---
+
+## The failover steps
 
 1. Freeze infrastructure and policy changes.
 2. Rerun ready preflight.
@@ -377,8 +385,6 @@ Keep the current selector.
 5. Delivery owner confirms the high-impact production traffic move listed in the runbook.
 6. Move the selector listed in the topology.
 7. Check the active secondary path.
-
-<!-- Notes: The script leaves the secondary selector active long enough for the owner to observe the result. -->
 
 ---
 

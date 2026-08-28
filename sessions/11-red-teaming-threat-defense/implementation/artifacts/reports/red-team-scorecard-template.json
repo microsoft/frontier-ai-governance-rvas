@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "12-red-teaming-threat-defense",
+  "implementationSession": "11-red-teaming-threat-defense",
   "recordType": "payload-free-red-team-scorecard",
   "authorizationId": "__REQUIRED_AUTHORIZATION_ID__",
   "agentName": "__REQUIRED_AGENT_NAME__",
@@ -19,5 +19,5 @@
     "containsEvaluatorReasons": false,
     "containsPromptEvidence": false
   },
-  "implementationMarker": "implementationSession=12-red-teaming-threat-defense"
+  "implementationMarker": "implementationSession=11-red-teaming-threat-defense"
 }

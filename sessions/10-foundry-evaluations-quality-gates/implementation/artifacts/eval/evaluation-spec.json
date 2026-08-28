@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "11-foundry-evaluations-quality-gates",
-  "evaluationName": "session11-policy-assistant-release",
+  "implementationSession": "10-foundry-evaluations-quality-gates",
+  "evaluationName": "session10-policy-assistant-release",
   "dataset": {
-    "name": "session11-policy-assistant-golden",
+    "name": "session10-policy-assistant-golden",
     "versionPrefix": "1",
     "path": "data/golden-v1.jsonl",
     "minimumCases": 8,

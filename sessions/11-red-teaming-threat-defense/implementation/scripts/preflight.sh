@@ -5,7 +5,7 @@ usage() {
   cat <<'USAGE'
 Usage: ./scripts/preflight.sh --approved-subscription-id <guid> [--phase prepare-taxonomy|baseline|post-remediation]
 
-Runs the Session 12 Bash preflight. The script validates required files, tools, sentinels, target
+Runs the Session 11 Bash preflight. The script validates required files, tools, sentinels, target
 scope, implementation file consistency, dependency imports, and the exact red-team target before it
 prints the safe read-only preview summary.
 
@@ -168,7 +168,7 @@ if (( ${#unknown_sentinels[@]} > 0 )); then
 fi
 
 if (( ${#unresolved_locations[@]} > 0 )); then
-  printf 'Resolve every Session 12 decision required for %s before continuing:\n%s\n' "$phase" "$(printf '%s\n' "${unresolved_locations[@]}")" >&2
+  printf 'Resolve every Session 11 decision required for %s before continuing:\n%s\n' "$phase" "$(printf '%s\n' "${unresolved_locations[@]}")" >&2
   exit 1
 fi
 
@@ -184,7 +184,7 @@ artifact_root = Path(sys.argv[1])
 script_dir = Path(sys.argv[2])
 approved_subscription_id = sys.argv[3]
 phase = sys.argv[4]
-implementation_session = '12-red-teaming-threat-defense'
+implementation_session = '11-red-teaming-threat-defense'
 
 authorization = json.loads((artifact_root / 'red-team' / 'authorization-scope.json').read_text())
 attack_plan = json.loads((artifact_root / 'red-team' / 'attack-plan.json').read_text())
@@ -303,5 +303,5 @@ print(f"  Evaluators: {', '.join(sorted(criteria))}")
 print(f"  Defender route: {handoff['defender']['selectedSignalPath']} -> {handoff['socDelivery']['routeType']} -> {handoff['socDelivery']['destinationAlias']}")
 print('  Repository output: aggregate metrics and alert/incident references only')
 print('Read-only deployment preview is unsupported by the red-team API. No taxonomy or run was created.')
-print(f'PASS: Session 12 authorization, current manual support gate, risk/change handoff, Foundry target, and {phase} phase are ready.')
+print(f'PASS: Session 11 authorization, current manual support gate, risk/change handoff, Foundry target, and {phase} phase are ready.')
 PY

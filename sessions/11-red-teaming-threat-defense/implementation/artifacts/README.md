@@ -1,4 +1,4 @@
-# Session 12 implementation artifacts
+# Session 11 implementation artifacts
 
 These artifacts define the authorized red-team run for the nonproduction Foundry agent. Replace each
 `__REQUIRED_*__` decision before the session. The post-remediation version and remediation commit
@@ -13,7 +13,7 @@ data outside the repository.
 | `red-team/attack-plan.json` | Exact policy-assistant name and version, approved taxonomy, evaluators, and attack strategies |
 | `red-team/taxonomy-review-checklist.md` | Human review boundary before an approved taxonomy ID is used |
 | `red-team/safe-seed-examples.json` | Safe synthetic seed-objective examples without reusable harmful prompts |
-| `governance/release-gate-mapping.md` | Mapping from red-team outcomes to Session 11 rerun and Session 14 release handling |
+| `governance/release-gate-mapping.md` | Mapping from red-team outcomes to Session 10 rerun and Session 13 release handling |
 | `governance/risk-change-handoff.json` | Customer change reference, remediation, residual risk, Defender decision, and separate SOC-delivery status |
 | `reports/red-team-scorecard-template.json` | Payload-free scorecard shape for aggregate ASR and release impact |
 | `reports/evidence-retention-record.md` | Repository retention boundary for red-team, Defender, and SOC records |

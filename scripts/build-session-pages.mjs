@@ -671,8 +671,8 @@ const formatDuration = (minutes) => {
 };
 
 const phaseFor = (number) => {
-  if (number <= 6) return { name: "Governed foundation", key: "foundation" };
-  if (number <= 12) return { name: "Runtime assurance", key: "runtime" };
+  if (number <= 5) return { name: "Governed foundation", key: "foundation" };
+  if (number <= 11) return { name: "Runtime assurance", key: "runtime" };
   return { name: "Operate at scale", key: "operations" };
 };
 
@@ -915,6 +915,19 @@ const pageTemplate = ({
       </nav>
 
       <div class="session-reading-layout session-content-width">
+        <button
+          class="deck-launcher"
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls="session-deck-dialog"
+          data-deck-open
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+            <path d="M8 20h8M12 16.5V20"></path>
+          </svg>
+          <span>Open the deck</span>
+        </button>
         <aside class="service-panel" aria-labelledby="service-panel-title">
           <h2 id="service-panel-title">Services in scope</h2>
           <ul>${serviceList}</ul>
@@ -947,20 +960,6 @@ ${chapter.id === "scope-and-outcomes" ? `          <section class="session-brief
       </div>
       <p>${escapeHtml(context.footerLabel)} · ${escapeHtml(chapter.title)}</p>
     </footer>
-
-    <button
-      class="deck-launcher"
-      type="button"
-      aria-haspopup="dialog"
-      aria-controls="session-deck-dialog"
-      data-deck-open
-    >
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
-        <path d="M8 20h8M12 16.5V20"></path>
-      </svg>
-      <span>View slide deck</span>
-    </button>
 
     <dialog
       class="deck-dialog"
@@ -1321,9 +1320,8 @@ const renderModuleCard = (module) => {
 };
 
 const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
-  const totalHours = sessions.reduce(
-    (sum, session) => sum + session.durationMinutes / 60,
-    0,
+  const totalHours = Math.round(
+    sessions.reduce((sum, session) => sum + session.durationMinutes / 60, 0),
   );
   const sessionServiceIds = new Set(
     sessions.flatMap(({ services }) => services.map(({ id }) => id)),
@@ -1346,19 +1344,19 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
   const phases = [
     {
       key: "foundation",
-      range: "1–6",
+      range: "1–5",
       label: "Governed foundation",
       sessions: sessions.filter(({ phase }) => phase.key === "foundation"),
     },
     {
       key: "runtime",
-      range: "7–12",
+      range: "6–11",
       label: "Control live AI traffic",
       sessions: sessions.filter(({ phase }) => phase.key === "runtime"),
     },
     {
       key: "operations",
-      range: "13–15",
+      range: "12–14",
       label: "Operate at scale",
       sessions: sessions.filter(({ phase }) => phase.key === "operations"),
     },
@@ -1378,7 +1376,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="A 15-session guided co-implementation series for practical Microsoft AI governance.">
+    <meta name="description" content="A 14-session guided co-implementation series for practical Microsoft AI governance.">
     <title>Practical Microsoft AI Governance</title>
     <link rel="icon" href="assets/img/logo-mark.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1415,7 +1413,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
             <p class="hero__eyebrow">RVAS · Microsoft AI governance</p>
             <h1 id="hero-title">Build the control. <span>Keep the implementation.</span></h1>
             <p class="hero__lead">Customer engineers implement each control in a sandbox or nonproduction tenant. The people who will operate it make the decisions, run the check, and keep the files.</p>
-            <div class="hero__actions"><a class="button button--primary" href="#program">Browse the sessions <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 6l4 4-4 4"></path></svg></a></div>
+            <div class="hero__actions"><a class="button button--primary" href="#program">Browse the sessions <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 6l4 4-4 4"></path></svg></a><a class="button button--secondary" href="#routes">Compare routes</a></div>
             <dl class="program-docket" aria-label="Program facts">
               <div><dd>${sessions.length}</dd><dt>Sessions</dt></div>
               <div><dd>${totalHours}</dd><dt>Working hours</dt></div>
@@ -1423,8 +1421,8 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
             </dl>
           </div>
           <aside class="program-outcome program-outcome--compact" aria-label="Customer-owned result">
-            <p>Customer-owned result</p>
-            <h2>A governed deployment your team can change safely.</h2>
+            <p>Customer-owned result, complete route</p>
+            <h2>A governed deployment your team can change with confidence.</h2>
             <ul>
               <li>A governed Microsoft Foundry deployment</li>
               <li>Source-controlled implementation files</li>
@@ -1447,26 +1445,22 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
           <div class="section-heading"><div><p class="section-kicker">Guided co-implementation</p><h2 id="approach-title">One control at a time, with its owner in the room.</h2><p>Standard mode implements the control and runs one observable check. Extended mode is reserved for work that needs an allowed path, a blocked or failure path, and a delivery-owner checkpoint.</p></div></div>
           <div class="method-grid">
             <article><span>Build</span><h3>Use production-shaped configuration.</h3><p>Customer engineers deploy through the approved change path. Reusable configuration and normal operating records stay in the customer repository.</p></article>
-            <article><span>Check</span><h3>Observe a defined result.</h3><p>The listed control owner confirms the check. Consequential changes still require the appropriate service, security, data, or release owner.</p></article>
-          </div>
-          <div class="governance-note">
-            <p><strong>Microsoft Foundry</strong> covers the project, models, agents, tools, evaluation, and tracing used in the build. <strong>Foundry Control Plane</strong> manages supported agents across accessible Azure projects. <strong>Microsoft Agent 365</strong> gives administrators a tenant-level registry and governance controls across platforms.</p>
-            <p>LLMOps runs through Sessions 05, 11, and 13–15. AIOps keeps its narrower meaning: using AI to operate IT systems, which sits outside the default scope.</p>
+            <article><span>Check</span><h3>Observe a defined result.</h3><p>The listed control owner confirms the check. Consequential changes still require the appropriate service, security, data, or release owner. Checks and evaluation examples run on fictional records, never customer data.</p></article>
           </div>
         </div>
       </section>
 
       <section class="section program" id="program" aria-labelledby="program-title">
         <div class="section-heading section-heading--program">
-          <div><p class="section-kicker">Session catalog</p><h2 id="program-title">Browse all ${sessions.length} sessions.</h2><p>Phase, service, and text filters work together. Service selection is the only filter kept in the URL.</p></div>
-          <p class="register-instruction">Optional modules stay outside this filter and the 15-session count.</p>
+          <div><p class="section-kicker">Session catalog</p><h2 id="program-title">Browse all ${sessions.length} sessions.</h2><p>Phase, service, and text filters work together. Service and focused-route selections are kept in the URL, so you can share a filtered view.</p></div>
+          <p class="register-instruction">Optional modules stay outside this filter and the 14-session count.</p>
         </div>
         <div class="registry-controls">
           <div class="phase-filters" role="group" aria-label="Filter by phase">
             <button type="button" data-filter="all" aria-pressed="true">All phases</button>
-            <button type="button" data-filter="foundation" aria-pressed="false">Foundation · 1–6</button>
-            <button type="button" data-filter="runtime" aria-pressed="false">Live traffic · 7–12</button>
-            <button type="button" data-filter="operations" aria-pressed="false">Operations · 13–15</button>
+            <button type="button" data-filter="foundation" aria-pressed="false">Foundation · 1–5</button>
+            <button type="button" data-filter="runtime" aria-pressed="false">Live traffic · 6–11</button>
+            <button type="button" data-filter="operations" aria-pressed="false">Operations · 12–14</button>
           </div>
           <label class="registry-search"><span>Search sessions</span><span class="registry-search__field"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"></circle><path d="m13 13 4 4"></path></svg><input type="search" autocomplete="off" placeholder="Title, control, outcome…" data-session-search></span></label>
         </div>
@@ -1477,24 +1471,27 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
             ${filterButtons}
           </div>
         </div>
-        <div class="registry-status"><output data-results-count aria-live="polite">${sessions.length} sessions shown</output><span>All session records remain available without JavaScript and in print.</span></div>
+        <div class="registry-status">
+          <output data-results-count aria-live="polite">${sessions.length} sessions shown</output>
+          <p class="route-status" data-route-status hidden>Focused route: <strong data-route-status-name></strong> <span data-route-status-range></span><button type="button" data-route-clear>Show all ${sessions.length} sessions</button></p>
+        </div>
         <div class="session-register">${sessionCards}</div>
         <p class="empty-result" data-empty-state hidden>No session matches the selected phase, service, and search text.</p>
       </section>
 
       <section class="routes-section" id="routes" aria-labelledby="routes-title">
         <div class="section">
-          <div class="section-heading"><div><p class="section-kicker">Route guidance</p><h2 id="routes-title">Keep the dependencies. Stop where your scope ends.</h2><p>The complete route produces the connected deployment across all ${sessions.length} sessions. A focused route includes the prerequisite sessions and leaves later, unrelated controls unimplemented.</p></div></div>
+          <div class="section-heading"><div><p class="section-kicker">Route guidance</p><h2 id="routes-title">Keep the dependencies. Stop where your scope ends.</h2><p>The complete route produces the connected deployment across all ${sessions.length} sessions. A focused route includes its prerequisite sessions and leaves later, unrelated controls unimplemented.</p></div></div>
           <div class="route-choice">
-            <div class="route-choice__primary"><div><h3>Complete build · ${totalHours} working hours</h3><p>Move from platform baseline to governed agent, live traffic controls, controlled release, and regional rehearsal.</p></div><ol class="route-choice__sequence"><li><span>1–6</span> Governed foundation</li><li><span>7–12</span> Live AI traffic controls</li><li><span>13–15</span> Operate at scale</li></ol><a class="button button--primary" href="#program">Browse all sessions</a></div>
-            <details class="route-choice__alternatives" open><summary><span><strong>Focused routes</strong><small>Each route starts with its prerequisites</small></span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 8 5 5 5-5"></path></svg></summary>
+            <div class="route-choice__primary"><div><h3>Complete build · ${totalHours} working hours</h3><p>Move from platform baseline to governed agent, live traffic controls, controlled release, and regional rehearsal.</p></div><ol class="route-choice__sequence"><li><span>1–5</span> Governed foundation</li><li><span>6–11</span> Live AI traffic controls</li><li><span>12–14</span> Operate at scale</li></ol><a class="button button--primary" href="#program">Browse all sessions</a></div>
+            <details class="route-choice__alternatives" open><summary><span><strong>Focused routes</strong><small>Each route runs its prerequisite sessions in order</small></span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 8 5 5 5-5"></path></svg></summary>
               <div class="route-register"><div class="route-register__head"><span>Customer need</span><span>Session route</span></div>
-                <div><strong>Governed pilot</strong><span><a href="#session-1">1–6 · Foundation to agent</a></span></div>
-                <div><strong>Secure private platform</strong><span><a href="#session-1">1–7 · Foundation to gateway</a></span></div>
-                <div><strong>API and MCP governance</strong><span><a href="#session-1">1–9 · Foundation to MCP</a></span></div>
-                <div><strong>Data and compliance</strong><span><a href="#session-1">1–10 · Foundation to Purview</a></span></div>
-                <div><strong>Security operations</strong><span><a href="#session-1">1–13 · Foundation to operations</a></span></div>
-                <div><strong>LLMOps and release operations</strong><span><a href="#session-1">1–14 · Foundation to controlled promotion</a></span></div>
+                <div><strong>Governed pilot</strong><span><a data-route-filter="governed-pilot" href="?route=governed-pilot#program">1–5 · Foundation to agent</a></span></div>
+                <div><strong>Secure private platform</strong><span><a data-route-filter="secure-private-platform" href="?route=secure-private-platform#program">1–6 · Foundation to gateway</a></span></div>
+                <div><strong>API and MCP governance</strong><span><a data-route-filter="api-mcp-governance" href="?route=api-mcp-governance#program">1–8 · Foundation to MCP</a></span></div>
+                <div><strong>Data and compliance</strong><span><a data-route-filter="data-compliance" href="?route=data-compliance#program">1–9 · Foundation to Purview</a></span></div>
+                <div><strong>Security operations</strong><span><a data-route-filter="security-operations" href="?route=security-operations#program">1–12 · Foundation to operations</a></span></div>
+                <div><strong>LLMOps and release operations</strong><span><a data-route-filter="llmops-release-operations" href="?route=llmops-release-operations#program">1–13 · Foundation to controlled promotion</a></span></div>
               </div>
             </details>
           </div>
@@ -1503,14 +1500,13 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
 
       <section class="readiness-section" id="readiness" aria-labelledby="readiness-title">
         <div class="section">
-          <div class="section-heading"><div><p class="section-kicker">Pre-work</p><h2 id="readiness-title">Set up the sandbox before Session 1.</h2><p>Missing prerequisites stop hands-on work before the first deployment.</p></div></div>
+          <div class="section-heading"><div><p class="section-kicker">Pre-work</p><h2 id="readiness-title">Clear the pre-work before Session 1.</h2><p>Each item below blocks hands-on work at the first deployment. Model quota and Purview or Agent 365 entitlements are not needed on day one, but approval runs long, so raise those requests while you work through this list.</p></div></div>
           <div class="readiness-grid">
             <article><span>Environment</span><h3>Dedicated sandbox</h3><p>Use an approved subscription and register the required resource providers.</p></article>
             <article><span>Source control</span><h3>Customer-owned repository</h3><p>Prepare the repository that will keep implementation files and decisions.</p></article>
-            <article><span>Capacity</span><h3>Regions and quota checked</h3><p>Confirm service availability, quota, and any product entitlements.</p></article>
-            <article><span>Access</span><h3>Named roles ready</h3><p>Give participants the time-bound access required by their selected sessions.</p></article>
-            <article><span>Data</span><h3>Fictional test records</h3><p>Keep customer data out of the checks and evaluation examples.</p></article>
-            <article><span>Scenario</span><h3>One bounded use case</h3><p>Use an internal policy assistant with one read-only MCP tool and one write action it must refuse.</p></article>
+            <article><span>Access</span><h3>Roles at the exact scope</h3><p>Session 1 needs Contributor on the sandbox scope plus permission to run deployment what-if there. Later sessions add their own time-bound roles.</p></article>
+            <article><span>Region</span><h3>Delivery region approved</h3><p>Check the region against the Foundry capabilities planned for the wider engagement.</p></article>
+            <article><span>Scenario</span><h3>One bounded use case</h3><p>Use an internal policy assistant that starts with one read-only API tool and gains a governed MCP path and one write action it must refuse as later sessions add them.</p></article>
           </div>
         </div>
       </section>

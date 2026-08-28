@@ -27,7 +27,7 @@ Support varies by region, transient agent runs are only partly isolated, and sca
 positives. The security owner must use the current Microsoft support documentation and human review.
 This bounded nonproduction comparison is not a penetration test, does not authorize production
 promotion, and does not guarantee that every run creates a Defender alert. Its comparison report
-and risk handoff feed Session 14; SOC delivery remains a separate operational result.
+and risk handoff feed Session 13; SOC delivery remains a separate operational result.
 
 ## Architecture
 
@@ -74,20 +74,20 @@ covers subscription coverage and the prompt-evidence decision.
 
 Confirm these prerequisites:
 
-- Sessions 01-11 are complete in the full path. For a focused route, confirm the platform inventory
+- Sessions 01-09 are complete in the full path. For a focused route, confirm the platform inventory
   lists the exact nonproduction Foundry resource, project, policy-assistant agent, immutable baseline
   version, remediated version, and stable-endpoint selector.
 - For a focused route, confirm the access, network, gateway, tool, data, and evaluation records list
   the project access assignments, network-injection record when isolated, APIM policy reference,
   `get_policy` allowlist, backend role definition ID and assignment scope, prohibited-write
-  decision, synthetic-data classification, and Session 11 gate configuration. The stable endpoint
+  decision, synthetic-data classification, and Session 10 gate configuration. The stable endpoint
   must select the approved version, `get_policy` must read successfully, the prohibited write must
-  be absent or denied, and the Session 11 gate must return `PASS` for its approved record.
-- The [Session 06](../../06-governed-agent-baseline/implementation/README.md) policy assistant has one immutable nonproduction baseline version. Its stable
+  be absent or denied, and the Session 10 gate must return `PASS` for its approved record.
+- The [Session 05](../../05-governed-agent-baseline/implementation/README.md) policy assistant has one immutable nonproduction baseline version. Its stable
   endpoint remains pinned and unchanged during this session.
-- The [Session 09](../../09-mcp-tool-security/implementation/README.md) prohibited write is absent or independently denied at the tool and backend. The
+- The [Session 08](../../08-mcp-tool-security/implementation/README.md) prohibited write is absent or independently denied at the tool and backend. The
   only described tool in this exercise is the synthetic, read-only `get_policy` path.
-- The [Session 11](../../11-foundry-evaluations-quality-gates/implementation/README.md) golden evaluation remains available. After remediation, rerun it before any later
+- The [Session 10](../../10-foundry-evaluations-quality-gates/implementation/README.md) golden evaluation remains available. After remediation, rerun it before any later
   promotion decision.
 - The current manual support gate confirms that the selected Foundry project region supports cloud
   red teaming on the day of the run.
@@ -117,11 +117,11 @@ Confirm these prerequisites:
 | Runtime | [`artifacts/red-team/attack-plan.json`](artifacts/red-team/attack-plan.json) | The red-team runner, comparison process, and security owner |
 | Record | [`artifacts/red-team/taxonomy-review-checklist.md`](artifacts/red-team/taxonomy-review-checklist.md) | The security, agent, and tool owners |
 | Runtime | [`artifacts/red-team/safe-seed-examples.json`](artifacts/red-team/safe-seed-examples.json) | The security owner and red-team operator |
-| Record | [`artifacts/governance/release-gate-mapping.md`](artifacts/governance/release-gate-mapping.md) | The security owner, release owner, and Session 14 validators |
+| Record | [`artifacts/governance/release-gate-mapping.md`](artifacts/governance/release-gate-mapping.md) | The security owner, release owner, and Session 13 validators |
 | Record | [`artifacts/governance/risk-change-handoff.json`](artifacts/governance/risk-change-handoff.json) | The security owner, change owner, SOC owner, and comparison script |
 | Record | [`artifacts/reports/red-team-scorecard-template.json`](artifacts/reports/red-team-scorecard-template.json) | The release owner and security owner |
 | Record | [`artifacts/reports/evidence-retention-record.md`](artifacts/reports/evidence-retention-record.md) | The security, Defender, SOC, tool, and release owners |
-| Runtime | [`artifacts/reports/before-after-report.json`](artifacts/reports/before-after-report.json) | The release owner and Session 14 validators |
+| Runtime | [`artifacts/reports/before-after-report.json`](artifacts/reports/before-after-report.json) | The release owner and Session 13 validators |
 | Runtime | [`artifacts/defender/ai-alert-hunt.kql`](artifacts/defender/ai-alert-hunt.kql) | The SOC analyst |
 | Record | [`artifacts/operations/soc-triage-playbook.md`](artifacts/operations/soc-triage-playbook.md) | The SOC analyst and incident commander |
 
@@ -186,7 +186,7 @@ version and owned changes in these layers:
 3. APIM, Prompt Shields, content filters, identity, request, and correlation controls remain active;
 4. grounding and tool data remain synthetic, the agent can read only the implementation source aliases,
    and no agent or APIM backend role permits a write; and
-5. the [Session 11](../../11-foundry-evaluations-quality-gates/implementation/README.md) quality gate is rerun after adversarial remediation.
+5. the [Session 10](../../10-foundry-evaluations-quality-gates/implementation/README.md) quality gate is rerun after adversarial remediation.
 
 Do not lower or remove the prohibited-action taxonomy to manufacture a lower ASR. Stop if a
 remediation depends only on a system prompt, widens tool or data access, disables an independent
@@ -392,11 +392,11 @@ contains exactly `containsAttackPrompts`, `containsAgentResponses`, `containsToo
 
 Expected SOC result: `socDelivery.status` is `confirmed`, and the customer handoff points to an
 authorized Defender event or route-health result with the agent or model context. A pending SOC
-result does not rewrite the red-team outcome. It leaves Session 12 incomplete until the SOC owner
+result does not rewrite the red-team outcome. It leaves Session 11 incomplete until the SOC owner
 confirms delivery.
 Use
 [`artifacts/governance/release-gate-mapping.md`](artifacts/governance/release-gate-mapping.md)
-when handing the result to Session 11 and Session 14. Use
+when handing the result to Session 10 and Session 13. Use
 [`artifacts/reports/evidence-retention-record.md`](artifacts/reports/evidence-retention-record.md)
 to confirm that no detailed prompts, responses, tool payloads, or alert evidence were retained in
 the repository.
@@ -426,7 +426,7 @@ continuous scans, or make preview capabilities a sole control.
 
 Restore is manual because the safe response depends on the finding:
 
-1. Stop active red-team runs and keep the stable endpoint on the previously approved [Session 06](../../06-governed-agent-baseline/implementation/README.md)
+1. Stop active red-team runs and keep the stable endpoint on the previously approved [Session 05](../../05-governed-agent-baseline/implementation/README.md)
    version.
 2. Disable the affected agent version or detach its tool binding when unsafe behavior persists.
 3. Restore only the previously approved instruction, APIM, content-control, permission, and

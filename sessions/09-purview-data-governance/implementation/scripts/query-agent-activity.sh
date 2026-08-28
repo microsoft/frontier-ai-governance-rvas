@@ -126,7 +126,7 @@ payload = json.loads(base64.urlsafe_b64decode(parts[1] + '=' * (-len(parts[1]) %
 if sys.argv[2] not in payload.get('roles', []):
     raise SystemExit('The Microsoft Graph application token must include AuditLogsQuery.Read.All with administrator consent.')
 PY
-create_body=$(jq -n --arg start "$start_utc" --arg end "$end_utc" --argjson ops "$(jq -c '.operations' <<<"$query_json")" '{displayName:"Session 10 Agent 365 activity query", filterStartDateTime:$start, filterEndDateTime:$end, operationFilters:$ops}')
+create_body=$(jq -n --arg start "$start_utc" --arg end "$end_utc" --argjson ops "$(jq -c '.operations' <<<"$query_json")" '{displayName:"Session 09 Agent 365 activity query", filterStartDateTime:$start, filterEndDateTime:$end, operationFilters:$ops}')
 graph_request POST 'https://graph.microsoft.com/v1.0/security/auditLog/queries' "$graph_token" "$create_body"
 [[ "$GRAPH_STATUS" == '201' || "$GRAPH_STATUS" == '200' ]] || fail 'Creating the unified audit log query failed.'
 query_id=$(jq -r '.id // empty' <<<"$GRAPH_BODY")

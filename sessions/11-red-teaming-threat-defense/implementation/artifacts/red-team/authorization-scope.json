@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "12-red-teaming-threat-defense",
+  "implementationSession": "11-red-teaming-threat-defense",
   "authorizationId": "__REQUIRED_AUTHORIZATION_ID__",
   "approvedOn": "__REQUIRED_AUTHORIZATION_DATE__",
   "expiresOn": "__REQUIRED_AUTHORIZATION_EXPIRY__",
@@ -51,5 +51,5 @@
     "writeCapableToolsAllowed": false,
     "stopContactRole": "__REQUIRED_STOP_CONTACT_ROLE__"
   },
-  "implementationMarker": "implementationSession=12-red-teaming-threat-defense"
+  "implementationMarker": "implementationSession=11-red-teaming-threat-defense"
 }

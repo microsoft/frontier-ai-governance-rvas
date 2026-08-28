@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "11-foundry-evaluations-quality-gates",
+  "implementationSession": "10-foundry-evaluations-quality-gates",
   "recordType": "payload-free-release-evaluation-record",
   "releaseOwner": "__REQUIRED_RELEASE_OWNER_ROLE__",
   "agentName": "__REQUIRED_AGENT_NAME__",
@@ -18,5 +18,5 @@
     "containsEvaluatorReasons": false,
     "containsPersonalData": false
   },
-  "implementationMarker": "implementationSession=11-foundry-evaluations-quality-gates"
+  "implementationMarker": "implementationSession=10-foundry-evaluations-quality-gates"
 }

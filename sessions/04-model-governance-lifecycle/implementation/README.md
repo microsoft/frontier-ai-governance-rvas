@@ -29,7 +29,7 @@ with access can still create a deployment through another template, the portal, 
 Detecting or blocking those changes needs a separate control. Instant-access models and
 managed-compute deployments are outside scope. The Foundry account, projects, connections, private
 networking, content filter definitions, and model evaluation stay unchanged.
-[Session 11](../../11-foundry-evaluations-quality-gates/implementation/README.md) adds repeatable
+[Session 10](../../10-foundry-evaluations-quality-gates/implementation/README.md) adds repeatable
 release evaluation.
 
 ## Architecture
@@ -45,7 +45,7 @@ Bicep can then create or update the child deployment under the existing Foundry 
 The responsibilities follow the change. The decision system authorizes the model, the repository
 describes the intended deployment, and preflight guards the approved path. Azure holds the live
 state. Model traffic stays in Azure because this path moves configuration, not prompts or
-responses. Session 06 receives the approved deployment name and exact model coordinates.
+responses. Session 05 receives the approved deployment name and exact model coordinates.
 
 ![The approval record and deployment profile pass through live Azure checks before Bicep changes model child deployments; lifecycle review can keep, replace, or retire them](../assets/diagrams/model-governance-flow.svg)
 
@@ -78,7 +78,7 @@ automatically.
 
 Confirm these prerequisites:
 
-- Sessions 01-04 are complete in the approved nonproduction subscription and resource group.
+- Sessions 01-02 are complete in the approved nonproduction subscription and resource group.
 - Azure CLI is installed, signed in to the approved subscription, and can build Bicep.
 - The existing Microsoft Foundry resource has Azure resource kind `AIServices`.
 - The deployment operator has a time-bound **Cognitive Services Contributor** assignment on that
@@ -88,7 +88,7 @@ Confirm these prerequisites:
 - The platform owner can read model availability and subscription quota.
 
 The customer can compare models and keep detailed terms, privacy, security, evaluation, or
-procurement records in its normal systems. Session 05 keeps only the reference in the approval record and operating
+procurement records in its normal systems. Session 04 keeps only the reference in the approval record and operating
 fields needed to control deployment.
 
 ### Implementation files
@@ -97,8 +97,8 @@ fields needed to control deployment.
 |---|---|---|
 | Deployment | [`artifacts/infra/models/main.bicep`](artifacts/infra/models/main.bicep) | The Azure deployment pipeline operated by the Foundry platform team |
 | Deployment | [`artifacts/environments/sandbox.bicepparam`](artifacts/environments/sandbox.bicepparam) | The Azure deployment pipeline operated by the Foundry platform team |
-| Deployment | [`artifacts/models/deployment-profiles.json`](artifacts/models/deployment-profiles.json) | The Session 05 Bicep entrypoint and preflight scripts |
-| Record | [`artifacts/governance/model-approval-record.json`](artifacts/governance/model-approval-record.json) | The model lifecycle owner and Session 05 preflight scripts |
+| Deployment | [`artifacts/models/deployment-profiles.json`](artifacts/models/deployment-profiles.json) | The Session 04 Bicep entrypoint and preflight scripts |
+| Record | [`artifacts/governance/model-approval-record.json`](artifacts/governance/model-approval-record.json) | The model lifecycle owner and Session 04 preflight scripts |
 
 ### Official documentation
 
@@ -289,7 +289,7 @@ Ignore, Delete, Unsupported, and changes to unrelated resources.
 ```powershell
 az deployment group create `
   --resource-group $resourceGroup `
-  --name rvas-s05-approved-models `
+  --name rvas-s04-approved-models `
   --template-file .\artifacts\infra\models\main.bicep `
   --parameters .\artifacts\environments\sandbox.bicepparam `
   --only-show-errors
@@ -298,7 +298,7 @@ az deployment group create `
 ```bash
 az deployment group create \
   --resource-group "$resource_group" \
-  --name rvas-s05-approved-models \
+  --name rvas-s04-approved-models \
   --template-file ./artifacts/infra/models/main.bicep \
   --parameters ./artifacts/environments/sandbox.bicepparam \
   --only-show-errors
@@ -362,5 +362,5 @@ change-control design. Instant-access and managed-compute models still need thei
 
 If a model deployment must be removed, the workload and platform owners first confirm that no
 consumer depends on it. Use the approved Foundry or Azure deployment path to remove one selected
-Session 05 deployment at a time. Check for the
-`implementationSession=05-model-governance-lifecycle` tag and leave every other resource in place.
+Session 04 deployment at a time. Check for the
+`implementationSession=04-model-governance-lifecycle` tag and leave every other resource in place.

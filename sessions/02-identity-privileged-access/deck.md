@@ -10,7 +10,7 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation · Session 03</p>
+<p class="eyebrow">AI Governance Co-implementation · Session 02</p>
 
 # Entra identity, RBAC, PIM, and workload identities
 
@@ -56,25 +56,31 @@ Human administration needs a time boundary. Workloads need narrow authority with
 |---|---|
 | A signed-in person works directly in Foundry or Azure | Human group access, with PIM only for elevation |
 | A workflow or application should keep the same authority for every run | Workload or application-only managed identity |
-| A Foundry agent needs its own runtime actor | Agent identity in [Session 06](../06-governed-agent-baseline/) |
+| A Foundry agent needs its own runtime actor | Agent identity in [Session 05](../05-governed-agent-baseline/) |
 | A middle tier must call a downstream API and authorization must vary by signed-in user | [Delegated API access with OAuth on-behalf-of](../../modules/obo-delegated-access/) |
 
 > Select OBO only when the downstream API must authorize the signed-in user.
 
-<!-- Notes: Do not call the Session 03 managed identity an Agent ID object or an OBO path. -->
+<!-- Notes: Do not call the Session 02 managed identity an Agent ID object or an OBO path. -->
 
 ---
 
 ## Architecture overview
 
+<!-- _class: diagram -->
+
 ![Identity-path decision tree separating direct human, GitHub OIDC workload, Foundry agent identity, and delegated OBO paths](assets/diagrams/identity-boundary.svg)
+
+---
+
+## What this means
 
 People receive access through customer-owned groups; platform administrators activate the
 time-limited role through PIM. GitHub uses a separate, application-only OIDC trust with no stored
 Azure client secret.
 
 Azure RBAC and PIM hold live human access. The managed identity and federated credential hold
-workload trust. Session 04 adds private connectivity; Session 06 owns the Agent ID.
+workload trust. Session 03 adds private connectivity; Session 05 owns the Agent ID.
 
 ---
 
@@ -223,7 +229,7 @@ Use one confirmation: live Azure RBAC assignments, Entra PIM eligibility and rol
 
 Inspect one marked workload identity:
 
-1. The tag reads `implementationSession: 03-identity-privileged-access`.
+1. The tag reads `implementationSession: 02-identity-privileged-access`.
 2. One credential has the expected issuer, environment subject, and audience.
 3. Cognitive Services User ends at the Foundry resource.
 4. Storage Blob Data Reader ends at one storage account.
@@ -270,7 +276,7 @@ The workload script removes the two role assignments before it removes the manag
 - **Next step:** use the [delegated OBO module](../../modules/obo-delegated-access/) when a downstream API must authorize the signed-in user.
 - **Safety:** no production scope, subscription assignments, broad OIDC subject, or customer-data access.
 - **Result:** inspect the approved configuration once and save nothing.
-- **Next:** [Session 04](../04-private-networking-dns/) gives these identities private service connectivity and firewall-controlled Agent Service traffic.
+- **Next:** [Session 03](../03-private-networking-dns/) gives these identities private service connectivity and firewall-controlled Agent Service traffic.
 
 ---
 

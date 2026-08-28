@@ -1,4 +1,4 @@
-# Session 04 network design record
+# Session 03 network design record
 
 ## Decision owners
 
@@ -18,7 +18,7 @@
 
 Foundry Agent Service BYO VNet injection is configured when the Foundry account is created and
 cannot be added to the [Session 01](../../../../01-platform-baseline/implementation/README.md) account later. This session creates and configures the delegated
-subnet and controlled route. Before [Session 06](../../../../06-governed-agent-baseline/implementation/README.md), the AI platform owner must either:
+subnet and controlled route. Before [Session 05](../../../../05-governed-agent-baseline/implementation/README.md), the AI platform owner must either:
 
 1. confirm the existing Foundry account was already created with `networkInjections` for this exact
    subnet; or
@@ -33,9 +33,9 @@ Do not describe Agent Service egress as working until an agent runs in the injec
 
 ## Firewall boundary
 
-The Session 04 Bicep routes the delegated Agent Service subnet to the approved firewall. It does
+The Session 03 Bicep routes the delegated Agent Service subnet to the approved firewall. It does
 not create firewall rules. The customer firewall repository or policy system listed above owns the
-allowed destinations and change history. Session 06 checks agent-runtime traffic through that
+allowed destinations and change history. Session 05 checks agent-runtime traffic through that
 path.
 
 ## DNS contract
@@ -56,5 +56,5 @@ path.
   changing a service.
 - Record the system that stores the cutover file and the person or team responsible for retrieving
   it during restore. Record both in `__REQUIRED_CUTOVER_DECISION__`.
-- Restore the recorded prior states before removing any marked Session 04 network resource.
+- Restore the recorded prior states before removing any marked Session 03 network resource.
 - Keep the private network by default. Restore needs explicit cross-owner approval.

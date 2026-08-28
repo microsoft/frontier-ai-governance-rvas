@@ -25,10 +25,10 @@ identity calls the downstream API, and no signed-in human token is propagated.
 
 The absent write operation and downstream read authorization constrain the tool path. Instructions
 do not enforce that boundary on their own. Publishing to Microsoft 365 or Teams and delegated
-user access are excluded. [Session 07](../../07-apim-ai-gateway/implementation/README.md) configures
-the APIM route, [Session 09](../../09-mcp-tool-security/implementation/README.md) replaces the direct
+user access are excluded. [Session 06](../../06-apim-ai-gateway/implementation/README.md) configures
+the APIM route, [Session 08](../../08-mcp-tool-security/implementation/README.md) replaces the direct
 tool with an MCP path, and
-[Session 11](../../11-foundry-evaluations-quality-gates/implementation/README.md) adds repeatable
+[Session 10](../../10-foundry-evaluations-quality-gates/implementation/README.md) adds repeatable
 evaluations.
 
 ## Architecture
@@ -55,7 +55,7 @@ create an immutable prompt-agent version in the existing Foundry project and sen
 traffic to it.
 
 The boundary ends at the direct read API. No write operation appears in the tool definition, and
-downstream authorization denies writes. Session 07 adds APIM ingress. Session 09 later replaces the
+downstream authorization denies writes. Session 06 adds APIM ingress. Session 08 later replaces the
 direct tool path with MCP.
 
 ### Design choices and tradeoffs
@@ -64,7 +64,7 @@ direct tool path with MCP.
 |---|---|---|---|---|
 | Agent runtime | Use a persistent prompt agent with an immutable version and pinned stable endpoint | Operators can identify and recreate the released configuration | Each configuration change creates another version | The workload needs hosted code or an application-owned ephemeral definition |
 | Identities at each boundary | Use Agent Identity at the endpoint and the project managed identity for the direct OpenAPI call | Each identity follows the current Foundry boundary and its scope remains visible | The downstream API sees the project identity, not the user or agent | The tool path supports agent identity or requires delegated user authority |
-| Tool authority | Expose one GET operation; omit writes and deny them through downstream authorization | The enforceable surface stays small | A read-only design limits what the agent can do | A separately approved workflow adds consequential actions and Session 09 controls |
+| Tool authority | Expose one GET operation; omit writes and deny them through downstream authorization | The enforceable surface stays small | A read-only design limits what the agent can do | A separately approved workflow adds consequential actions and Session 08 controls |
 | Release routing | Send 100% of traffic to one pinned version | Operators always know which configuration handles a request | Promotion requires an explicit deployment step | A tested rollout design needs weighted traffic |
 
 ### Architecture guidance
@@ -77,7 +77,7 @@ direct tool path with MCP.
 
 Confirm the implementation definitions:
 
-- Sessions 01-05 are complete for the approved nonproduction environment.
+- Sessions 01-03 are complete for the approved nonproduction environment.
 - `agent.json`, `instructions.md`, `prohibited-actions.json`, and `release-operations.json` list
   their owners and have no unresolved decisions.
 - `tool-manifest.json` contains one `get_policy` GET operation and no write operation.
@@ -90,8 +90,8 @@ Confirm the live Foundry resources:
 - The existing Microsoft Foundry resource has the Azure resource property `kind` set to
   `AIServices`. This property identifies the current Foundry resource type.
 - The existing Foundry project is reachable from the approved execution host over the private path
-  implemented in Session 04.
-- The [Session 05](../../05-model-governance-lifecycle/implementation/README.md) consolidated
+  implemented in Session 03.
+- The [Session 04](../../04-model-governance-lifecycle/implementation/README.md) consolidated
   approval record links the selected deployment name to its exact model coordinates. The matching
   live ARM child deployment has provisioning state `Succeeded`. The AI product owner has checked the current Agent Service
   region-and-model support table for prompt agents and OpenAPI tools in the Foundry project region.
@@ -113,11 +113,11 @@ Confirm the live Foundry resources:
 
 | Type | File | Consumer |
 |---|---|---|
-| Deployment | [`artifacts/agents/policy-assistant/agent.json`](artifacts/agents/policy-assistant/agent.json) | The Session 06 agent deployment scripts |
+| Deployment | [`artifacts/agents/policy-assistant/agent.json`](artifacts/agents/policy-assistant/agent.json) | The Session 05 agent deployment scripts |
 | Deployment | [`artifacts/agents/policy-assistant/instructions.md`](artifacts/agents/policy-assistant/instructions.md) | The Microsoft Foundry prompt-agent version |
-| Deployment | [`artifacts/agents/policy-assistant/tool-manifest.json`](artifacts/agents/policy-assistant/tool-manifest.json) | The Session 06 agent deployment scripts |
-| Deployment | [`artifacts/agents/policy-assistant/prohibited-actions.json`](artifacts/agents/policy-assistant/prohibited-actions.json) | The Session 06 agent deployment scripts |
-| Record | [`artifacts/operations/release-operations.json`](artifacts/operations/release-operations.json) | The Session 06 preflight and deployment scripts |
+| Deployment | [`artifacts/agents/policy-assistant/tool-manifest.json`](artifacts/agents/policy-assistant/tool-manifest.json) | The Session 05 agent deployment scripts |
+| Deployment | [`artifacts/agents/policy-assistant/prohibited-actions.json`](artifacts/agents/policy-assistant/prohibited-actions.json) | The Session 05 agent deployment scripts |
+| Record | [`artifacts/operations/release-operations.json`](artifacts/operations/release-operations.json) | The Session 05 preflight and deployment scripts |
 
 ### Official documentation
 
@@ -134,7 +134,7 @@ Use one **persistent prompt agent**. The agent name is immutable, each saved con
 an immutable version, and the stable endpoint must be pinned to the version created in this session.
 Do not use the "always latest" selector for this baseline.
 
-Stop if the selected model deployment does not match the [Session 05](../../05-model-governance-lifecycle/implementation/README.md) consolidated approval record and live ARM child deployment, the region/model does
+Stop if the selected model deployment does not match the [Session 04](../../04-model-governance-lifecycle/implementation/README.md) consolidated approval record and live ARM child deployment, the region/model does
 not support the OpenAPI tool, the proposed name collides with an unmarked agent, or an existing
 agent has no unique `instance_identity`. A legacy shared-identity agent is not upgraded in place;
 choose a new name and create a current-model agent.
@@ -170,7 +170,7 @@ Name one realistic write action, its policy owner, and the human-owned change ro
 instructions require refusal, and the tool surface makes the action impossible to call.
 
 Stop if the product owner asks to add a write tool during this session. Consequential write
-authorization, approval tokens, and MCP controls belong in [Session 09](../../09-mcp-tool-security/implementation/README.md).
+authorization, approval tokens, and MCP controls belong in [Session 08](../../08-mcp-tool-security/implementation/README.md).
 
 ### Content controls and tracing
 
@@ -204,16 +204,16 @@ $approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
 $resourceGroup = "approved-session-06-resource-group"
 $foundryAccount = "approved-existing-foundry-resource"
 $projectName = "approved-existing-foundry-project"
-$readApiBaseUrl = $env:SESSION06_READ_API_BASE_URL
-$applicationInsightsResourceId = $env:SESSION06_APP_INSIGHTS_RESOURCE_ID
+$readApiBaseUrl = $env:SESSION05_READ_API_BASE_URL
+$applicationInsightsResourceId = $env:SESSION05_APP_INSIGHTS_RESOURCE_ID
 ```
 ```bash
 approved_subscription_id="${AZURE_SUBSCRIPTION_ID:?Set AZURE_SUBSCRIPTION_ID.}"
 resource_group="approved-session-06-resource-group"
 foundry_account="approved-existing-foundry-resource"
 project_name="approved-existing-foundry-project"
-read_api_base_url="${SESSION06_READ_API_BASE_URL:?Set SESSION06_READ_API_BASE_URL.}"
-application_insights_resource_id="${SESSION06_APP_INSIGHTS_RESOURCE_ID:?Set SESSION06_APP_INSIGHTS_RESOURCE_ID.}"
+read_api_base_url="${SESSION05_READ_API_BASE_URL:?Set SESSION05_READ_API_BASE_URL.}"
+application_insights_resource_id="${SESSION05_APP_INSIGHTS_RESOURCE_ID:?Set SESSION05_APP_INSIGHTS_RESOURCE_ID.}"
 ```
 
 Do not place these values, access tokens, prompts, responses, or customer data in the repository.
@@ -261,7 +261,7 @@ scope.
 Deployment creates a new immutable prompt-agent version, applies the model, instructions, RAI policy
 from `agent.json`, and one OpenAPI tool, then configures the stable endpoint for Responses with Entra
 authorization and pins 100% of traffic to the returned version. It refuses to update an existing
-agent unless its agent card carries `implementationSession=06-governed-agent-baseline`.
+agent unless its agent card carries `implementationSession=05-governed-agent-baseline`.
 
 The script confirms that Foundry returned a unique `instance_identity` and updates only the current
 release operations record with the active version and source hashes. It does not store the endpoint,
@@ -300,8 +300,8 @@ agent_name=$(python3 -c 'import json, pathlib; print(json.loads(pathlib.Path("ar
 token=$(az account get-access-token --scope https://ai.azure.com/.default --query accessToken --output tsv --only-show-errors)
 uri="https://${foundry_account}.services.ai.azure.com/api/projects/${project_name}/agents/${agent_name}/endpoint/protocols/openai/responses"
 
-export SESSION06_URI="$uri"
-export SESSION06_TOKEN="$token"
+export SESSION05_URI="$uri"
+export SESSION05_TOKEN="$token"
 python3 - <<'PY'
 import json
 import os
@@ -311,10 +311,10 @@ body = json.dumps({
     "input": "Use get_policy to read synthetic policy POL-001. Return only its approved fields."
 }).encode()
 request = urllib.request.Request(
-    os.environ["SESSION06_URI"],
+    os.environ["SESSION05_URI"],
     data=body,
     headers={
-        "Authorization": f"Bearer {os.environ['SESSION06_TOKEN']}",
+        "Authorization": f"Bearer {os.environ['SESSION05_TOKEN']}",
         "Content-Type": "application/json",
     },
     method="POST",
@@ -323,7 +323,7 @@ with urllib.request.urlopen(request) as response:
     payload = json.load(response)
 print(payload.get("output"))
 PY
-unset SESSION06_URI SESSION06_TOKEN
+unset SESSION05_URI SESSION05_TOKEN
 ```
 
 Confirm that the expected record is returned, `get_policy` is the only tool call, and the downstream
@@ -347,6 +347,6 @@ evaluation quality.
 Keep the agent in operation by default. If removal is required, the product, platform, identity, and
 operations owners first confirm that no approved consumer depends on the endpoint. Use the approved
 Foundry change path to remove only the agent whose name matches `agent.json` and whose live agent
-card contains the Session 06 marker. That removal includes the agent's versions, identity, and
+card contains the Session 05 marker. That removal includes the agent's versions, identity, and
 stable endpoint. It does not remove the Foundry project, model, read API, RAI policy, Application
 Insights resource, or repository definitions.

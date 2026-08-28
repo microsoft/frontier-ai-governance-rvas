@@ -18,7 +18,7 @@ usage() {
   cat <<'USAGE'
 Usage: ./scripts/preflight.sh --resource-group-name <name> [--artifacts-path <path>]
 
-Validate Session 03 files, __REQUIRED_*__ identity and PIM decisions, the approved nonproduction resource group,
+Validate Session 02 files, __REQUIRED_*__ identity and PIM decisions, the approved nonproduction resource group,
 semantic built-in role resolution, and both implementation Bicep templates.
 USAGE
 }
@@ -207,7 +207,7 @@ expected = {
         ('Storage Blob Data Reader',),
     ),
 }
-if document.get('implementationSession') != '03-identity-privileged-access':
+if document.get('implementationSession') != '02-identity-privileged-access':
     raise SystemExit('role-definitions.json has the wrong implementation marker.')
 roles = document.get('roles') or {}
 if set(roles) != set(required):
@@ -254,4 +254,4 @@ done <<<"$role_lines"
 for file in human-role-assignments.bicep workload-identity.bicep; do
   run_capture az bicep build --file "$artifacts_path/identity/$file" --stdout >/dev/null || die "Bicep build failed: identity/$file"
 done
-printf 'PASS: Session 03 tools, files, decisions, approved nonproduction resource group, role definitions, and Bicep syntax are ready.\n'
+printf 'PASS: Session 02 tools, files, decisions, approved nonproduction resource group, role definitions, and Bicep syntax are ready.\n'

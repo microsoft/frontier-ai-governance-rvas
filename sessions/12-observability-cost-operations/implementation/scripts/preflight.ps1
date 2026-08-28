@@ -348,22 +348,22 @@ if ([int]$control.schemaVersion -ne 2) {
 }
 $smoke = $control.confirmation.smokeExecutable
 $requiredRuntimeEnvironment = @(
-    "SESSION13_SMOKE_URL",
-    "SESSION13_SMOKE_FAILURE_URL",
-    "SESSION13_AI_RESOURCE_ID",
-    "SESSION13_LOG_ANALYTICS_WORKSPACE_ID",
-    "SESSION13_SMOKE_BEARER_TOKEN"
+    "SESSION12_SMOKE_URL",
+    "SESSION12_SMOKE_FAILURE_URL",
+    "SESSION12_AI_RESOURCE_ID",
+    "SESSION12_LOG_ANALYTICS_WORKSPACE_ID",
+    "SESSION12_SMOKE_BEARER_TOKEN"
 )
 if (@($smoke.runtimeEnvironment).Count -ne $requiredRuntimeEnvironment.Count -or
     @($requiredRuntimeEnvironment | Where-Object { $_ -notin @($smoke.runtimeEnvironment) }).Count -gt 0) {
-    throw "The Session 13 smoke runtime environment contract has changed."
+    throw "The Session 12 smoke runtime environment contract has changed."
 }
 $polling = $smoke.ingestionPolling
-if ([string]$polling.timeoutEnvironment -ne "SESSION13_SMOKE_TIMEOUT_SECONDS" -or
+if ([string]$polling.timeoutEnvironment -ne "SESSION12_SMOKE_TIMEOUT_SECONDS" -or
     [int]$polling.defaultTimeoutSeconds -ne 180 -or
     [int]$polling.minimumTimeoutSeconds -ne 30 -or
     [int]$polling.maximumTimeoutSeconds -ne 600 -or
-    [string]$polling.retryEnvironment -ne "SESSION13_SMOKE_RETRY_SECONDS" -or
+    [string]$polling.retryEnvironment -ne "SESSION12_SMOKE_RETRY_SECONDS" -or
     [int]$polling.defaultRetrySeconds -ne 15 -or
     [int]$polling.minimumRetrySeconds -ne 5 -or
     [int]$polling.maximumRetrySeconds -ne 60 -or
@@ -396,7 +396,7 @@ if ([string]$smoke.requestBodies.normal.releaseCommitSha -ne "exact lower-case C
     throw "Both smoke requests must bind the exact release commit SHA."
 }
 if ([string]$smoke.authentication.scheme -ne "Bearer" -or
-    [string]$smoke.authentication.tokenEnvironment -ne "SESSION13_SMOKE_BEARER_TOKEN" -or
+    [string]$smoke.authentication.tokenEnvironment -ne "SESSION12_SMOKE_BEARER_TOKEN" -or
     [string]$smoke.authentication.powershellTransport -ne "in-memory request header" -or
     [string]$smoke.authentication.bashTransport -ne "curl configuration over standard input" -or
     [bool]$smoke.authentication.tokenWrittenToDisk) {
@@ -411,9 +411,9 @@ if ([string]$smoke.releaseCommitBinding.requestHeader -ne "x-release-commit-sha"
     -not [bool]$smoke.releaseCommitBinding.copyToResultOnlyAfterTelemetryMatch) {
     throw "The release commit telemetry-binding contract has changed."
 }
-if ([string]$smoke.workspaceBinding.componentResourceEnvironment -ne "SESSION13_AI_RESOURCE_ID" -or
+if ([string]$smoke.workspaceBinding.componentResourceEnvironment -ne "SESSION12_AI_RESOURCE_ID" -or
     [string]$smoke.workspaceBinding.componentProperty -ne "WorkspaceResourceId" -or
-    [string]$smoke.workspaceBinding.workspaceResourceEnvironment -ne "SESSION13_LOG_ANALYTICS_WORKSPACE_ID" -or
+    [string]$smoke.workspaceBinding.workspaceResourceEnvironment -ne "SESSION12_LOG_ANALYTICS_WORKSPACE_ID" -or
     [string]$smoke.workspaceBinding.resourceIdComparison -ne "case-insensitive" -or
     -not [bool]$smoke.workspaceBinding.requiredBeforeQuery) {
     throw "The Application Insights workspace-binding contract has changed."
@@ -442,7 +442,7 @@ $requiredCheckNames = @(
 )
 if (@($smoke.requiredChecks.PSObject.Properties.Name).Count -ne $requiredCheckNames.Count -or
     @($requiredCheckNames | Where-Object { $_ -notin @($smoke.requiredChecks.PSObject.Properties.Name) }).Count -gt 0) {
-    throw "The Session 13 smoke result-check fields have changed."
+    throw "The Session 12 smoke result-check fields have changed."
 }
 if ([string]$smoke.requiredChecks.syntheticRequest -ne "passed" -or
     [string]$smoke.requiredChecks.endToEndTrace -ne "passed" -or
@@ -456,7 +456,7 @@ if ([string]$smoke.requiredChecks.syntheticRequest -ne "passed" -or
     [bool]$smoke.requiredChecks.payloadsRetained -or
     [bool]$smoke.requiredChecks.sensitiveInputPresent -or
     [bool]$smoke.requiredChecks.telemetryPollTimedOut) {
-    throw "The Session 13 smoke result-check contract is incomplete."
+    throw "The Session 12 smoke result-check contract is incomplete."
 }
 if ([string]$control.previewSupported -ne "Supported") {
     throw "Both Azure deployments require read-only what-if previews."
@@ -672,11 +672,11 @@ $appInsightsWorkspaceId = [string]$appInsights.properties.WorkspaceResourceId
 if ($appInsightsWorkspaceId -notmatch "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Microsoft\.OperationalInsights/workspaces/[^/]+$") {
     throw "The approved Application Insights component must expose a valid WorkspaceResourceId."
 }
-$runtimeWorkspaceId = [Environment]::GetEnvironmentVariable("SESSION13_LOG_ANALYTICS_WORKSPACE_ID")
+$runtimeWorkspaceId = [Environment]::GetEnvironmentVariable("SESSION12_LOG_ANALYTICS_WORKSPACE_ID")
 if (-not [string]::IsNullOrWhiteSpace($runtimeWorkspaceId) -and
     $appInsightsWorkspaceId.TrimEnd("/").ToLowerInvariant() -ne
         $runtimeWorkspaceId.TrimEnd("/").ToLowerInvariant()) {
-    throw "The live Application Insights WorkspaceResourceId does not match SESSION13_LOG_ANALYTICS_WORKSPACE_ID."
+    throw "The live Application Insights WorkspaceResourceId does not match SESSION12_LOG_ANALYTICS_WORKSPACE_ID."
 }
 $actionGroupResourceId = Get-BicepStringParameter -Path $mainParametersPath -Name "actionGroupResourceId"
 $actionGroup = az resource show --ids $actionGroupResourceId -o json |
@@ -691,7 +691,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 $null = az monitor app-insights query --help
 if ($LASTEXITCODE -ne 0) {
-    throw "Azure CLI Application Insights query support is required by the Session 13 smoke executable."
+    throw "Azure CLI Application Insights query support is required by the Session 12 smoke executable."
 }
 $null = az bicep build --file $mainTemplatePath --stdout
 if ($LASTEXITCODE -ne 0) {

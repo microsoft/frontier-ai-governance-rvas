@@ -2,8 +2,8 @@
 
 ## Scope
 
-The [Session 06](../../../../06-governed-agent-baseline/implementation/README.md) policy assistant calls one Session 09 MCP endpoint in the
-[Session 07](../../../../07-apim-ai-gateway/implementation/README.md) API Management instance. APIM maps `get_policy` to one existing GET operation. The
+The [Session 05](../../../../05-governed-agent-baseline/implementation/README.md) policy assistant calls one Session 08 MCP endpoint in the
+[Session 06](../../../../06-apim-ai-gateway/implementation/README.md) API Management instance. APIM maps `get_policy` to one existing GET operation. The
 source API, Foundry project, model, network, and API Center service remain existing dependencies.
 
 ## Trust boundaries
@@ -56,7 +56,7 @@ that review passes.
 
 | Hop | Caller | Resource and audience | Required authority | Excluded |
 |---|---|---|---|---|
-| User to agent | Approved nonproduction user group | Session 06 agent endpoint | Existing agent consumer access | Project administration |
+| User to agent | Approved nonproduction user group | Session 05 agent endpoint | Existing agent consumer access | Project administration |
 | Agent to MCP | Candidate agent identity | `__REQUIRED_MCP_AUDIENCE__` | App role `__REQUIRED_MCP_CALLER_APP_ROLE__` | APIM management |
 | APIM to backing API | APIM system-assigned identity | `__REQUIRED_BACKEND_AUDIENCE__` at `__REQUIRED_BACKEND_AUTHORIZATION_SCOPE__` | Read role `__REQUIRED_BACKEND_ROLE_DEFINITION_ID__` | Forwarded caller token and writes |
 | Release | `__REQUIRED_RELEASE_OWNER__` | Candidate agent version | Observe both checks, then pin or disable | Scope changes during the checkpoint |
@@ -66,12 +66,12 @@ separately approved delegated-access implementation if the API must authorize ea
 
 ## Disable and restore
 
-Keep the Session 06 version pinned while testing. If either check fails, leave the stable endpoint
-unchanged. If the candidate is already active, restore the previous Session 06 version at 100%
+Keep the Session 05 version pinned while testing. If either check fails, leave the stable endpoint
+unchanged. If the candidate is already active, restore the previous Session 05 version at 100%
 before changing infrastructure.
 
 Then remove the Foundry project connection only when no other governed tool uses it. Preview and
-use the approved APIM change path to delete the marked Session 09 MCP resources. Revoke the APIM
+use the approved APIM change path to delete the marked Session 08 MCP resources. Revoke the APIM
 backend role only when the identity owner confirms that no other path depends on it. Never delete
 the backing API, APIM service, Foundry agent, API Center, Application Insights resource, or source
 data during this restore.

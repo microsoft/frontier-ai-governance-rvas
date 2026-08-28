@@ -1,6 +1,6 @@
 schema_version: 2
 session:
-  id: "13"
+  id: "12"
   slug: "observability-cost-operations"
   title: "Observability, cost, and operational controls"
   duration_minutes: 270
@@ -11,13 +11,13 @@ session:
     - "Azure Monitor, API Management, and FinOps operators"
     - "AI safety, security operations, and service owners"
   prerequisites:
-    - "Sessions 01-12 are complete in the full engagement path. A focused route may use the substitute baselines below; each baseline must name its owner, decision record, exact control state, and observable result."
+    - "Sessions 01-10 are complete in the full engagement path. A focused route may use the substitute baselines below; each baseline must name its owner, decision record, exact control state, and observable result."
     - "The substitute runtime baseline records the deployed Foundry project, immutable agent version, Microsoft Entra agent identity, approved network path, versioned APIM policy, registered tool identities and scopes, and data-policy assignment. The platform, gateway, tool, and data owners confirm that one approved read-only request reaches only the backend and tool listed in that baseline."
     - "The substitute tracing baseline requires the OpenTelemetry and APIM propagation configuration. The observability owner confirms that one non-sensitive correlation ID joins the gateway, agent, model, and tool spans in the approved workspace while each span keeps its own result."
     - "The substitute evaluation baseline requires the evaluation definition, threshold policy, and latest approved aggregate result. The AI quality owner confirms that the result lists the deployed agent version and that the release gate returns its recorded pass or block result."
     - "The substitute security baseline requires the payload-free adversarial summary, Defender onboarding state, and security-event route. The security operations owner confirms that prohibited actions are recorded as blocked and that one expected runtime signal reaches the Defender or SOC record listed in that route."
     - "The agent type's tracing status is recorded before implementation. Foundry tracing is generally available for prompt and hosted agents; workflow and external agents remain preview and require an approved preview-use decision."
-    - "The Session 06 nonproduction policy assistant and its Session 07 API Management gateway route are available for one approved synthetic request."
+    - "The Session 05 nonproduction policy assistant and its Session 06 API Management gateway route are available for one approved synthetic request."
     - "The gateway owner exposes an approved synthetic failure route that returns a handled read-only tool failure for a nonexistent synthetic policy while the model produces its own result."
     - "A workspace-based Application Insights resource, Log Analytics workspace, action group, and approved data-retention boundary exist."
     - "The agent, gateway, and tool owners can propagate W3C trace context plus one non-sensitive correlation ID."
@@ -27,12 +27,12 @@ session:
     - "The same operator has the built-in Cost Management Contributor role at the exact subscription scope. Human role activations last only through preflight, deployment, and the confirmation check, then expire or are removed through the approved access process; approved service identities keep only their separately approved runtime access."
     - "The observability, application, gateway, tool, security operations, AI quality, and cost owners are present or have delegated decisions."
   dependencies:
-    - "Session 06 - Governed Microsoft Foundry agent baseline"
-    - "Session 07 - Azure API Management as the AI gateway"
-    - "Session 09 - MCP and tool security"
-    - "Session 10 - Purview data governance and Agent 365 data controls"
-    - "Session 11 - Foundry evaluations and release quality gates"
-    - "Session 12 - Red teaming, prompt injection, and Defender"
+    - "Session 05 - Governed Microsoft Foundry agent baseline"
+    - "Session 06 - Azure API Management as the AI gateway"
+    - "Session 08 - MCP and tool security"
+    - "Session 09 - Purview data governance and Agent 365 data controls"
+    - "Session 10 - Foundry evaluations and release quality gates"
+    - "Session 11 - Red teaming, prompt injection, and Defender"
   services_in_scope:
     - "azure-monitor"
     - "application-insights"
@@ -47,7 +47,7 @@ implementation_outcomes:
   - "Deploy an Azure Workbook and operational, tool-failure, and AI-quality alert rules over the approved Application Insights scope."
   - "Emit bounded APIM token metrics, allocate service cost through approved low-cardinality dimensions and resource tags, and deploy a subscription budget that notifies owners without stopping spend."
   - "Keep data-retention and prompt-response logging decisions in the governance files only where preflight and operations consume them."
-  - "Run the paired payload-free smoke executable for Session 14. It checks distinct safe correlation IDs, the release commit on both requests, an expected tool failure with an independent model result, the exact workspace binding, and a stable final privacy query after bounded ingestion polling."
+  - "Run the paired payload-free smoke executable for Session 12. It checks distinct safe correlation IDs, the release commit on both requests, an expected tool failure with an independent model result, the exact workspace binding, and a stable final privacy query after bounded ingestion polling."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"
@@ -73,7 +73,7 @@ deliverables:
     - "implementation/scripts/test-smoke-contract.py"
 retained_files:
   - path: "implementation/artifacts/control-definition.json"
-    consumer: "The observability owner, preflight scripts, smoke scripts, and Session 14 validators"
+    consumer: "The observability owner, preflight scripts, smoke scripts, and Session 13 validators"
     operational_purpose: "Bind scope, owners, authenticated smoke requests, distinct correlation IDs, release-commit and workspace checks, ingestion stability, runtime inputs, and required results."
   - path: "implementation/artifacts/telemetry/telemetry-contract.json"
     consumer: "Application developers, the observability owner, and preflight scripts"
@@ -121,10 +121,10 @@ retained_files:
     consumer: "The Bash-based observability operator"
     operational_purpose: "Apply the same readiness, policy, privacy, cost, alert, and smoke-contract checks outside Windows."
   - path: "implementation/scripts/smoke.ps1"
-    consumer: "The PowerShell-based observability operator and Session 14 promotion workflow"
+    consumer: "The PowerShell-based observability operator and Session 13 promotion workflow"
     operational_purpose: "Authenticate in memory, enforce distinct correlation IDs, bind the workspace and release commit, require stable privacy telemetry, and write the payload-free promotion result."
   - path: "implementation/scripts/smoke.sh"
-    consumer: "The Bash-based observability operator and Session 14 promotion workflow"
+    consumer: "The Bash-based observability operator and Session 13 promotion workflow"
     operational_purpose: "Authenticate through curl standard input and apply the same correlation, workspace, commit, stability, failure-separation, and privacy checks outside Windows."
   - path: "implementation/scripts/test-smoke-contract.py"
     consumer: "Session maintainers and the continuous-integration test runner"

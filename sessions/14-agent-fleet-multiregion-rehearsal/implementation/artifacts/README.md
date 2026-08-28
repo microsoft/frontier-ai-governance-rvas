@@ -1,6 +1,6 @@
 # Implementation artifacts
 
-Session 15 keeps only the definitions needed to repeat one governed-agent and one MCP regional
+Session 14 keeps only the definitions needed to repeat one governed-agent and one MCP regional
 rehearsal.
 
 | Path | Purpose |

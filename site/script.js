@@ -9,6 +9,11 @@
     ...document.querySelectorAll("[data-tool-filter]"),
   ];
   const phaseMarkers = [...document.querySelectorAll("[data-phase-marker]")];
+  const routeFilterLinks = [...document.querySelectorAll("[data-route-filter]")];
+  const routeStatus = document.querySelector("[data-route-status]");
+  const routeStatusName = document.querySelector("[data-route-status-name]");
+  const routeStatusRange = document.querySelector("[data-route-status-range]");
+  const routeClear = document.querySelector("[data-route-clear]");
   const searchInput = document.querySelector("[data-session-search]");
   const resultsCount = document.querySelector("[data-results-count]");
   const emptyState = document.querySelector("[data-empty-state]");
@@ -32,8 +37,18 @@
 
   let activePhase = "all";
   let activeTool = "all";
+  let activeRoute = "all";
   let searchTerm = "";
   let activeShell = "powershell";
+
+  const routeSessions = {
+    "governed-pilot": 5,
+    "secure-private-platform": 6,
+    "api-mcp-governance": 8,
+    "data-compliance": 9,
+    "security-operations": 12,
+    "llmops-release-operations": 13,
+  };
 
   const normalize = (value) =>
     value.toLocaleLowerCase().replace(/\s+/g, " ").trim();
@@ -83,6 +98,9 @@
     records.forEach((record) => {
       const matchesPhase =
         activePhase === "all" || record.dataset.phase === activePhase;
+      const sessionNumber = Number(record.id.replace("session-", ""));
+      const matchesRoute =
+        activeRoute === "all" || sessionNumber <= routeSessions[activeRoute];
       const services = (record.dataset.services ?? "").split(/\s+/);
       const matchesTool =
         activeTool === "all" || services.includes(activeTool);
@@ -90,7 +108,8 @@
         `${record.dataset.search ?? ""} ${record.textContent ?? ""}`,
       );
       const matchesSearch = !searchTerm || haystack.includes(searchTerm);
-      const isVisible = matchesPhase && matchesTool && matchesSearch;
+      const isVisible =
+        matchesRoute && matchesPhase && matchesTool && matchesSearch;
 
       record.hidden = !isVisible;
       if (isVisible) {
@@ -124,18 +143,27 @@
     updateResults();
   };
 
-  const persistTool = () => {
-    const url = new URL(window.location.pathname, window.location.origin);
+  const persistFilters = () => {
+    const url = new URL(window.location.href);
     if (activeTool === "all") {
       url.searchParams.delete("tool");
     } else {
       url.searchParams.set("tool", activeTool);
+    }
+    if (activeRoute === "all") {
+      url.searchParams.delete("route");
+    } else {
+      url.searchParams.set("route", activeRoute);
     }
     url.hash = "program";
     window.history.replaceState(null, "", url);
   };
 
   const selectTool = (tool, { persist = true } = {}) => {
+    if (tool !== "all" && activeRoute !== "all") {
+      selectRoute("all", { persist: false });
+    }
+
     activeTool = tool;
     toolFilterButtons.forEach((button) => {
       button.setAttribute(
@@ -145,8 +173,55 @@
     });
     updateResults();
     if (persist) {
-      persistTool();
+      persistFilters();
     }
+  };
+
+  const selectRoute = (route, { persist = true } = {}) => {
+    if (route !== "all" && activeTool !== "all") {
+      selectTool("all", { persist: false });
+    }
+
+    activeRoute = route;
+    let activeLabel = "";
+    routeFilterLinks.forEach((link) => {
+      const selected = link.dataset.routeFilter === activeRoute;
+      link.setAttribute("aria-current", selected ? "page" : "false");
+      if (selected) {
+        activeLabel =
+          link.closest("div")?.querySelector("strong")?.textContent?.trim() ??
+          "";
+      }
+    });
+
+    if (routeStatus) {
+      const lastSession = routeSessions[activeRoute];
+      routeStatus.hidden = activeRoute === "all";
+      if (routeStatusName) {
+        routeStatusName.textContent = activeLabel;
+      }
+      if (routeStatusRange) {
+        routeStatusRange.textContent = lastSession
+          ? `Sessions 1–${lastSession}`
+          : "";
+      }
+    }
+
+    updateResults();
+    if (persist) {
+      persistFilters();
+    }
+  };
+
+  const restoreRoute = () => {
+    if (routeFilterLinks.length === 0) {
+      return;
+    }
+    const requested = new URL(window.location.href).searchParams.get("route");
+    const available = routeFilterLinks.some(
+      (link) => link.dataset.routeFilter === requested,
+    );
+    selectRoute(available ? requested : "all", { persist: false });
   };
 
   const restoreTool = () => {
@@ -159,7 +234,7 @@
     );
     selectTool(available ? requested : "all", { persist: false });
     if (requested) {
-      persistTool();
+      persistFilters();
     }
   };
 
@@ -212,6 +287,20 @@
     button.addEventListener("click", () => {
       selectTool(button.dataset.toolFilter ?? "all");
     });
+  });
+
+  routeFilterLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      selectRoute(link.dataset.routeFilter ?? "all");
+      document.querySelector("#program")?.scrollIntoView({
+        behavior: reducedMotion.matches ? "auto" : "smooth",
+      });
+    });
+  });
+
+  routeClear?.addEventListener("click", () => {
+    selectRoute("all");
   });
 
   searchInput?.addEventListener("input", (event) => {
@@ -427,6 +516,7 @@
 
   enableDiagramZoom();
   selectShell(readShellPreference(), { persist: false });
+  restoreRoute();
   restoreTool();
   updateResults();
   updateServiceMap();

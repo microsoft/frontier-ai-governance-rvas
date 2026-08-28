@@ -8,7 +8,7 @@ usage() {
   cat <<'USAGE'
 Usage: ./scripts/preflight.sh --approved-subscription-id <id> --resource-group-name <name> --foundry-account-name <name> --operator-object-id <id> [--confirm-manual-data-zone] [--confirm-manual-lifecycle] [--confirm-manual-quota]
 
-Validate the Session 05 approval record, deployment plan, Azure scope, operator role, live model
+Validate the Session 04 approval record, deployment plan, Azure scope, operator role, live model
 availability and lifecycle, quota when Azure exposes an exact usage metric, Bicep, and what-if.
 USAGE
 }
@@ -137,13 +137,13 @@ if unresolved:
     known = set(os.environ["REQUIRED_SENTINELS"].splitlines())
     unknown = [item for item in unresolved if item not in known]
     if unknown:
-        raise SystemExit("Add explicit checks for new Session 05 decisions: " + ", ".join(unknown))
-    raise SystemExit("Resolve all Session 05 decisions before deployment: " + ", ".join(unresolved))
+        raise SystemExit("Add explicit checks for new Session 04 decisions: " + ", ".join(unknown))
+    raise SystemExit("Resolve all Session 04 decisions before deployment: " + ", ".join(unresolved))
 
 profiles = json.loads((root / "models/deployment-profiles.json").read_text(encoding="utf-8"))
 record = json.loads((root / "governance/model-approval-record.json").read_text(encoding="utf-8"))
 for item, label in ((profiles, "deployment profiles"), (record, "approval record")):
-    if item.get("implementationSession") != "05-model-governance-lifecycle":
+    if item.get("implementationSession") != "04-model-governance-lifecycle":
         raise SystemExit(f"The {label} has the wrong implementation marker.")
 
 deployments = profiles.get("deployments")
@@ -419,7 +419,7 @@ if manual_quota:
 PY
 
 run_capture az bicep build --file "$template_path" --stdout --only-show-errors >/dev/null || die "Bicep build failed: $template_path"
-what_if_json="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name rvas-s05-preflight --template-file "$template_path" --parameters "$parameter_path" --result-format FullResourcePayloads --no-pretty-print --only-show-errors --output json)" || die 'Bicep what-if failed.'
+what_if_json="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name rvas-s04-preflight --template-file "$template_path" --parameters "$parameter_path" --result-format FullResourcePayloads --no-pretty-print --only-show-errors --output json)" || die 'Bicep what-if failed.'
 
 python3 - "$expected_foundry_id" "$profile_path" \
   3< <(printf '%s' "$what_if_json") <<'PY'
@@ -442,4 +442,4 @@ for change in result.get("changes", []):
 PY
 
 printf '%s\n' "$what_if_json"
-printf 'PASS: Session 05 approval, deployment plan, operator role, live availability and lifecycle, quota gate, Bicep, and scoped what-if are ready.\n'
+printf 'PASS: Session 04 approval, deployment plan, operator role, live availability and lifecycle, quota gate, Bicep, and scoped what-if are ready.\n'

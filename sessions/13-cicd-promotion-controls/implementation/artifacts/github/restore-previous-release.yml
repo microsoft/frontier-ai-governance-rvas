@@ -41,7 +41,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $control = Get-Content -LiteralPath "sessions/13-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
           $actualScope = "/subscriptions/${{ vars.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ vars.AZURE_RESOURCE_GROUP }}"
           if ([string]$control.targetScopes.production -ine $actualScope -or
               [string]$control.azure.productionClientId -ine "${{ vars.AZURE_CLIENT_ID }}" -or
@@ -61,7 +61,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $control = Get-Content -LiteralPath "sessions/13-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
           if ([string]$control.immutableRelease.previousApprovedReleaseId -cne "${{ inputs.approved_release_id }}") {
             throw "Restore target is not the exact previous approved release."
           }
@@ -90,7 +90,7 @@ jobs:
             throw "Manifest digest does not match the approved release store."
           }
           $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
-          if ([string]$manifest.implementationSession -ne "14-cicd-promotion-controls") {
+          if ([string]$manifest.implementationSession -ne "13-cicd-promotion-controls") {
             throw "Manifest has the wrong implementationSession marker."
           }
           if ([string]$manifest.releaseId -cne "${{ inputs.approved_release_id }}") {
@@ -99,7 +99,7 @@ jobs:
           if ([string]$manifest.commitSha -notmatch "^[0-9a-fA-F]{40}$") {
             throw "Restore target does not carry an immutable commit SHA."
           }
-          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $control = Get-Content -LiteralPath "sessions/13-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
           if ([int]$manifest.schemaVersion -ne 1 -or
               [string]$manifest.routing.strategy -notin @("canary", "blue-green") -or
               [string]$manifest.routing.stableSelector -cne [string]$control.routing.stableSelector -or
@@ -112,7 +112,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $control = Get-Content -LiteralPath "sessions/13-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
           & $control.sourcePaths.routingControlScript `
             -Mode Restore `
             -ApprovedManifestPath "${{ steps.manifest.outputs.path }}" `
@@ -125,7 +125,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $control = Get-Content -LiteralPath "sessions/13-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
           & $control.sourcePaths.routingControlScript `
             -Mode Restore `
             -ApprovedManifestPath "${{ steps.manifest.outputs.path }}" `

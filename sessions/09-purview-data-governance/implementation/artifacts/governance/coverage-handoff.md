@@ -1,6 +1,6 @@
 # Purview coverage handoff
 
-This Session 10 record keeps the manual product, label, source-access, DSPM, and DLP decisions in one
+This Session 09 record keeps the manual product, label, source-access, DSPM, and DLP decisions in one
 place. The data owner maintains it and reviews it on the recorded date.
 
 | Field | Decision |
@@ -117,7 +117,7 @@ activity records.
 | Field | Decision |
 |---|---|
 | Policy name | `__REQUIRED_DLP_POLICY_NAME__` |
-| Description | `implementationSession=10-purview-data-governance` |
+| Description | `implementationSession=09-purview-data-governance` |
 | Workload | Microsoft Agent 365 |
 | Agent instance ID | `__REQUIRED_AGENT_INSTANCE_ID__` |
 | Agent instance alias | `__REQUIRED_AGENT_INSTANCE_ALIAS__` |

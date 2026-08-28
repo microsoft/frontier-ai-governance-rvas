@@ -29,7 +29,7 @@ $environmentPath = Join-Path $artifactRoot "environments\sandbox.json"
 $apimRecordPath = Join-Path $artifactRoot "catalog\catalog-records.json"
 if ((Get-ChildItem -LiteralPath $artifactRoot -File -Recurse |
         Select-String -Pattern "__REQUIRED_[A-Z0-9_]+__")) {
-    throw "Resolve every Session 08 customer decision before reconciling the inventory."
+    throw "Resolve every Session 07 customer decision before reconciling the inventory."
 }
 $environment = Get-Content -LiteralPath $environmentPath -Raw | ConvertFrom-Json -ErrorAction Stop
 $catalog = Get-Content -LiteralPath $apimRecordPath -Raw | ConvertFrom-Json -ErrorAction Stop
@@ -82,7 +82,7 @@ $customProperties = $record.customProperties | ConvertTo-Json -Compress -Depth 2
     --only-show-errors `
     --output none
 if ($LASTEXITCODE -ne 0) {
-    throw "Updating mandatory metadata on the synchronized Session 07 API failed."
+    throw "Updating mandatory metadata on the synchronized Session 06 API failed."
 }
 
 Write-Host "Updated mandatory governance metadata on '$($record.sourceTitle)'."

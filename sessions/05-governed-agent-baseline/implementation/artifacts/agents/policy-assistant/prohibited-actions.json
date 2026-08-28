@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "06-governed-agent-baseline",
+  "implementationSession": "05-governed-agent-baseline",
   "policyOwner": "__REQUIRED_POLICY_OWNER__",
   "humanChangeRoute": "__REQUIRED_HUMAN_CHANGE_ROUTE__",
   "actions": [

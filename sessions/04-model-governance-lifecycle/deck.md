@@ -10,7 +10,7 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation · Session 05</p>
+<p class="eyebrow">AI Governance Co-implementation · Session 04</p>
 
 # Model governance, data residency, quota, and lifecycle
 
@@ -99,7 +99,7 @@ apply.
 </div>
 </div>
 
-Azure owns live state. Session 06 receives the approved deployment name and model coordinates.
+Azure owns live state. Session 05 receives the approved deployment name and model coordinates.
 Portal, CLI, API, and template changes made elsewhere stay outside this boundary.
 
 <!-- Notes: Live service facts stay in Azure and are read again during preflight. -->
@@ -261,7 +261,7 @@ Expected result:
 
 No inference request is needed for this check.
 
-<!-- Notes: Session 06 consumes the resulting live deployment. -->
+<!-- Notes: Session 05 consumes the resulting live deployment. -->
 
 ---
 
@@ -291,7 +291,7 @@ Supporting detail stays in the external system referenced by the approval record
 </div>
 </div>
 
-Removal covers one deployment only when it carries the Session 05 marker.
+Removal covers one deployment only when it carries the Session 04 marker.
 
 <!-- Notes: Other deployments and the parent Foundry resource remain in place. -->
 
@@ -304,9 +304,9 @@ Removal covers one deployment only when it carries the Session 05 marker.
 - Live lifecycle, availability, and quota stay in Azure.
 - Manual checks are explicit when stable CLI data is missing.
 - The control covers this deployment path, not every path into the platform.
-- [Session 06](../06-governed-agent-baseline/) consumes the approved live deployment.
+- [Session 05](../05-governed-agent-baseline/) consumes the approved live deployment.
 
-<!-- Notes: Close on the review record that Session 06 consumes. -->
+<!-- Notes: Close on the review record that Session 05 consumes. -->
 
 ---
 

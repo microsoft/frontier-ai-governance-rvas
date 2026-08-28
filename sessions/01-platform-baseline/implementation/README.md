@@ -45,8 +45,8 @@ these two policy rules.
 The work stays in one approved sandbox or nonproduction resource group. It does not deploy a model,
 assign roles, create a private network path, deploy a management-group policy definition, prepare
 production parameters, or move subscriptions.
-[Session 03](../../03-identity-privileged-access/implementation/README.md) and
-[Session 04](../../04-private-networking-dns/implementation/README.md) own identity and private
+[Session 02](../../02-identity-privileged-access/implementation/README.md) and
+[Session 03](../../03-private-networking-dns/implementation/README.md) own identity and private
 connectivity. Diagnostic settings, network controls, managed identity, Defender plans, approved
 SKUs, encryption, and sandbox expiry require their own designs and handoffs. The connection string
 is resolved inside Bicep and is neither a parameter nor an output.
@@ -82,8 +82,8 @@ system records the decision to enforce. None of these records tries to replace t
 
 This session stops at the platform, tracing connection, and the two policy rules. It does not
 enforce broader policy, grant production access, or prove that traces are arriving.
-[Session 03](../../03-identity-privileged-access/implementation/README.md) adds access, and
-[Session 04](../../04-private-networking-dns/implementation/README.md) adds private connectivity,
+[Session 02](../../02-identity-privileged-access/implementation/README.md) adds access, and
+[Session 03](../../03-private-networking-dns/implementation/README.md) adds private connectivity,
 both inheriting the checks assigned here.
 
 ![The customer-owned repository deploys the Foundry resource hierarchy and Application Insights connection, then hands live inventory ownership to the customer system](../assets/diagrams/session-flow.svg)
@@ -96,7 +96,7 @@ both inheriting the checks assigned here.
 |---|---|---|---|---|
 | Foundry resource model | Use the current `AIServices` resource with one child project | New work starts within the supported management boundary | Confirmed classic assets remain outside this deployment and need separate migration work | A classic workload is approved for migration |
 | Desired state | Keep Bicep and `.bicepparam` in the customer repository | The team can review and repeat the deployment | A portal change creates drift and must be reconciled | The deployment pipeline or ownership model changes |
-| Identity and tracing | Give both Foundry resources system-assigned identities and connect the project to workspace-based Application Insights | No stored credential is needed, and the tracing connection is ready | Session 03 adds role assignments; this connection alone does not prove trace delivery | A different identity boundary or tracing store is approved |
+| Identity and tracing | Give both Foundry resources system-assigned identities and connect the project to workspace-based Application Insights | No stored credential is needed, and the tracing connection is ready | Session 02 adds role assignments; this connection alone does not prove trace delivery | A different identity boundary or tracing store is approved |
 | Policy packaging | Group the current Microsoft built-ins in one custom initiative | References and parameters stay together; Microsoft still owns the underlying rules | Built-in IDs or behavior can change, so check both before deployment | Microsoft deprecates a built-in or its rule no longer fits |
 | Assignment scope | Assign the initiative only to the same sandbox resource group | A first use of deny cannot affect sibling groups or wider scopes | The subscription and management groups are outside this control | A wider scope has its own parameters, owner, and restore plan |
 | Enforcement rollout | Start in audit-only `DoNotEnforce`; after review and approval, change the same assignment to enforcing `Default` | The owner sees likely impact before Azure starts denying requests | Policy evaluation takes time, and stale results stop promotion | The operating process can safely support a different rollout |

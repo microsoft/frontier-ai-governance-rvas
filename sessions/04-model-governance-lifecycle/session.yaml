@@ -1,6 +1,6 @@
 schema_version: 2
 session:
-  id: "05"
+  id: "04"
   slug: "model-governance-lifecycle"
   title: "Model governance, data residency, quota, and lifecycle"
   duration_minutes: 210
@@ -11,16 +11,16 @@ session:
     - "Cloud and Microsoft Foundry platform engineers"
     - "Data, privacy, procurement, and security reviewers"
   prerequisites:
-    - "Sessions 01-04 are complete in the approved nonproduction subscription and resource group."
-    - "The existing Microsoft Foundry resource and project names are recorded, and the approved execution host reaches that Foundry resource through the Session 04 private path."
+    - "Sessions 01-02 are complete in the approved nonproduction subscription and resource group."
+    - "The existing Microsoft Foundry resource and project names are recorded, and the approved execution host reaches that Foundry resource through the Session 03 private path."
     - "The existing Microsoft Foundry resource has the Azure resource property `kind` set to `AIServices`."
     - "The deployment operator has a time-bound Cognitive Services Contributor role assignment on that exact Microsoft Foundry resource."
     - "The customer's normal review process has approved the exact model coordinates, workload purpose, processing-location requirement, and external decision reference."
     - "The platform owner can read model availability and quota for the approved subscription and Foundry resource."
   dependencies:
-    - "Session 01 - Microsoft Foundry platform baseline and inventory"
-    - "Session 03 - Entra identity, RBAC, PIM, and workload identities"
-    - "Session 04 - Private networking, DNS, and controlled egress"
+    - "Session 01 - Microsoft Foundry platform baseline, inventory, and landing-zone guardrails"
+    - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
+    - "Session 03 - Private networking, DNS, and controlled egress"
   services_in_scope:
     - "azure-ai-foundry"
     - "azure-openai"
@@ -50,10 +50,10 @@ retained_files:
     consumer: "The Azure deployment pipeline operated by the Foundry platform team"
     operational_purpose: "Bind the Bicep deployment to the nonproduction AIServices resource recorded in the environment parameters."
   - path: "implementation/artifacts/models/deployment-profiles.json"
-    consumer: "The Session 05 Bicep entrypoint and preflight scripts"
+    consumer: "The Session 04 Bicep entrypoint and preflight scripts"
     operational_purpose: "Supply the repository-owned model, SKU, capacity, filter, and fixed no-auto-upgrade state for each child deployment."
   - path: "implementation/artifacts/governance/model-approval-record.json"
-    consumer: "The model lifecycle owner and Session 05 preflight scripts"
+    consumer: "The model lifecycle owner and Session 04 preflight scripts"
     operational_purpose: "Bind each deployment to its approved model coordinates, purpose, authority, location requirement, review date, and change route."
   - path: "implementation/scripts/preflight.ps1"
     consumer: "The PowerShell-based Foundry deployment operator"

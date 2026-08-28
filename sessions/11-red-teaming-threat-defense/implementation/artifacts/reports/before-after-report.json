@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "12-red-teaming-threat-defense",
+  "implementationSession": "11-red-teaming-threat-defense",
   "recordType": "red-team-before-after-aggregate",
   "status": "pending-runs",
   "generatedAt": null,
@@ -19,5 +19,5 @@
     "containsEvaluatorReasons": false,
     "containsPromptEvidence": false
   },
-  "implementationMarker": "implementationSession=12-red-teaming-threat-defense"
+  "implementationMarker": "implementationSession=11-red-teaming-threat-defense"
 }

@@ -45,10 +45,10 @@ The certificate remains in Azure Key Vault and reaches the approved runtime only
 protected certificate integration. This repository stores references, never private keys, bearer
 tokens, tenant values, endpoints, or user data.
 
-This optional module sits outside the 15-session sequence. It complements the identity decision in
-[Session 03](../../../sessions/03-identity-privileged-access/), the application-only agent baseline
-in [Session 06](../../../sessions/06-governed-agent-baseline/), and the application-only MCP path
-in [Session 09](../../../sessions/09-mcp-tool-security/).
+This optional module sits outside the 14-session sequence. It complements the identity decision in
+[Session 02](../../../sessions/02-identity-privileged-access/), the application-only agent baseline
+in [Session 05](../../../sessions/05-governed-agent-baseline/), and the application-only MCP path
+in [Session 08](../../../sessions/08-mcp-tool-security/).
 
 ## Architecture
 
@@ -90,7 +90,7 @@ application-only authority or change the resource's access model.
 Start with Microsoft’s [OBO flow
 guidance](https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-on-behalf-of-flow).
 It explains why the inbound audience, user assertion, and downstream scope have different jobs.
-Session 03 supplies the identity decision: choose this module only if an application-only path
+Session 02 supplies the identity decision: choose this module only if an application-only path
 would erase a real per-user authorization decision. Sessions 06 and 09 keep their application-only
 routes.
 

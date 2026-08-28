@@ -10,7 +10,7 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation - Session 06</p>
+<p class="eyebrow">AI Governance Co-implementation - Session 05</p>
 
 # Governed Microsoft Foundry agent baseline
 
@@ -43,7 +43,7 @@ html: true
 4. Apply the RAI policy from `agent.json` and server-side tracing.
 5. Pin the stable Responses endpoint to the implemented version.
 
-<!-- Notes: Session 07 fronts this endpoint with APIM; Session 09 introduces MCP controls. -->
+<!-- Notes: Session 06 fronts this endpoint with APIM; Session 08 introduces MCP controls. -->
 
 ---
 
@@ -139,7 +139,7 @@ The decision record explicitly names `persistent-prompt-agent`.
 Resolve before creation:
 
 1. Fixed agent name and accountable owner.
-2. [Session 05](../05-model-governance-lifecycle/) consolidated approval record and matching live ARM model deployment.
+2. [Session 04](../04-model-governance-lifecycle/) consolidated approval record and matching live ARM model deployment.
 3. Named RAI policy.
 4. Responses protocol with Entra authorization.
 5. Fixed-version routing, not "always latest."
@@ -238,16 +238,22 @@ Tracing can capture content, tool use, tokens, latency, retries, and cost.
 
 ## Architecture overview
 
+<!-- _class: diagram -->
+
 ![A fixed prompt-agent version sits between its version-controlled definition and a pinned endpoint protected by a unique Entra Agent Identity. A separate Foundry project managed identity makes the only OpenAPI GET call to the approved API. The write path is absent, while the configured RAI policy and Application Insights tracing remain attached to the version.](assets/diagrams/governed-agent-flow.svg)
+
+<!-- Notes: The endpoint identity and project identity do different jobs. The control ends at the direct read API. -->
+
+---
+
+## What this means
 
 The caller enters through the stable endpoint. Foundry uses the agent identity at that boundary,
 routes the request to the pinned version, then uses the project managed identity for the single
 OpenAPI GET call.
 
 Foundry owns live identity, versions, and routing. Git holds the intended configuration and release
-record. The control ends at the direct read API; Session 07 receives the pinned endpoint.
-
-<!-- Notes: The endpoint identity and project identity do different jobs. The control ends at the direct read API. -->
+record. The control ends at the direct read API; Session 06 receives the pinned endpoint.
 
 ---
 
@@ -341,7 +347,7 @@ Do not retain the response or export the trace.
 | Tool contract and human change route | API/policy owner |
 | Trace access, retention, and cost | Operations owner |
 
-Removal deletes only the marked Session 06 agent and its versions.
+Removal deletes only the marked Session 05 agent and its versions.
 
 <!-- Notes: The model, API, project, RAI policy, and logs resource remain. -->
 
@@ -354,7 +360,7 @@ Removal deletes only the marked Session 06 agent and its versions.
 - Register one GET-only tool and keep the blocked write action absent.
 - Apply the RAI policy from `agent.json` and assign trace ownership.
 
-Next: place the governed endpoint behind the [Session 07 APIM AI gateway](../07-apim-ai-gateway/).
+Next: place the governed endpoint behind the [Session 06 APIM AI gateway](../06-apim-ai-gateway/).
 
 <!-- Notes: The customer now owns the baseline that later sessions extend. -->
 

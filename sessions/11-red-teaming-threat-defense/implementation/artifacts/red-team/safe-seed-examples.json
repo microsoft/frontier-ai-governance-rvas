@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "12-red-teaming-threat-defense",
+  "implementationSession": "11-red-teaming-threat-defense",
   "recordType": "safe-synthetic-red-team-seed-examples",
   "purpose": "Show the structure of customer-owned seed objectives without retaining harmful reusable prompts.",
   "targetBoundary": {

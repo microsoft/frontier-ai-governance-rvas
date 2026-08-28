@@ -21,7 +21,7 @@ access. If an auditor needs those data actions, record that as a separate decisi
 |---|---|---|
 | A person works directly in Foundry, the Azure portal, the CLI, or an approved operator path | Direct human | The resource should authorize that signed-in person or group. Use PIM when the task is elevated. |
 | A workflow or application should do the same thing regardless of who started it | Workload or application-only | The authority belongs to the workload. Keep one dedicated managed identity and narrow roles. |
-| A Foundry agent needs its own runtime actor for tool calls | Agent identity | Foundry Agent Service keeps the agent separate from human and workload identities. See [Session 06](../../../../06-governed-agent-baseline/implementation/README.md). |
+| A Foundry agent needs its own runtime actor for tool calls | Agent identity | Foundry Agent Service keeps the agent separate from human and workload identities. See [Session 05](../../../../05-governed-agent-baseline/implementation/README.md). |
 | A middle tier calls a downstream API and the downstream decision must change by signed-in user | Delegated OBO | Carry the user's delegated authority across the hop. Use OBO only in this case, through a separately approved implementation. |
 
 OBO is not a stronger managed identity. If the downstream API should return the same authorization

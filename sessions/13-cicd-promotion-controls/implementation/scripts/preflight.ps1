@@ -76,8 +76,8 @@ $coveredDecisionSentinels = @(
     "__REQUIRED_RELEASE_STORE_SCRIPT_PATH__",
     "__REQUIRED_ROUTING_CONTROL_SCRIPT_PATH__",
     "__REQUIRED_ROUTING_STRATEGY_CANARY_OR_BLUE_GREEN__",
-    "__REQUIRED_SESSION11_APPROVED_BASELINE_RECORD_PATH__",
-    "__REQUIRED_SESSION11_CANDIDATE_RECORD_PATH__",
+    "__REQUIRED_SESSION10_APPROVED_BASELINE_RECORD_PATH__",
+    "__REQUIRED_SESSION10_CANDIDATE_RECORD_PATH__",
     "__REQUIRED_STABLE_ROUTING_SELECTOR__",
     "__REQUIRED_UNIT_TEST_SCRIPT_PATH__"
 )
@@ -473,20 +473,20 @@ $productionPreviewVariables = Get-EnvironmentVariableMap "production-preview"
 $productionVariables = Get-EnvironmentVariableMap "production"
 $nonproductionSecretNames = Get-EnvironmentSecretNames "nonproduction"
 foreach ($requiredName in @(
-    "SESSION13_SMOKE_URL",
-    "SESSION13_SMOKE_FAILURE_URL",
-    "SESSION13_AI_RESOURCE_ID",
-    "SESSION13_LOG_ANALYTICS_WORKSPACE_ID"
+    "SESSION12_SMOKE_URL",
+    "SESSION12_SMOKE_FAILURE_URL",
+    "SESSION12_AI_RESOURCE_ID",
+    "SESSION12_LOG_ANALYTICS_WORKSPACE_ID"
 )) {
     if (-not $nonproductionVariables.ContainsKey($requiredName) -or
         [string]::IsNullOrWhiteSpace([string]$nonproductionVariables[$requiredName])) {
-        throw "nonproduction GitHub environment variable $requiredName is required for the Session 13 smoke."
+        throw "nonproduction GitHub environment variable $requiredName is required for the Session 12 smoke."
     }
 }
 $pollTimeout = 180
 $pollRetry = 15
-$pollTimeoutValue = [string]$nonproductionVariables["SESSION13_SMOKE_TIMEOUT_SECONDS"]
-$pollRetryValue = [string]$nonproductionVariables["SESSION13_SMOKE_RETRY_SECONDS"]
+$pollTimeoutValue = [string]$nonproductionVariables["SESSION12_SMOKE_TIMEOUT_SECONDS"]
+$pollRetryValue = [string]$nonproductionVariables["SESSION12_SMOKE_RETRY_SECONDS"]
 if ((-not [string]::IsNullOrWhiteSpace($pollTimeoutValue) -and
         -not [int]::TryParse($pollTimeoutValue, [ref]$pollTimeout)) -or
     (-not [string]::IsNullOrWhiteSpace($pollRetryValue) -and
@@ -494,10 +494,10 @@ if ((-not [string]::IsNullOrWhiteSpace($pollTimeoutValue) -and
     $pollTimeout -lt 30 -or $pollTimeout -gt 600 -or
     $pollRetry -lt 5 -or $pollRetry -gt 60 -or
     $pollRetry -gt $pollTimeout) {
-    throw "Session 13 telemetry polling must use timeout 30-600 seconds and retry 5-60 seconds."
+    throw "Session 12 telemetry polling must use timeout 30-600 seconds and retry 5-60 seconds."
 }
-if (@($nonproductionSecretNames) -cnotcontains "SESSION13_SMOKE_BEARER_TOKEN") {
-    throw "nonproduction GitHub environment secret SESSION13_SMOKE_BEARER_TOKEN is required."
+if (@($nonproductionSecretNames) -cnotcontains "SESSION12_SMOKE_BEARER_TOKEN") {
+    throw "nonproduction GitHub environment secret SESSION12_SMOKE_BEARER_TOKEN is required."
 }
 foreach ($pair in @(
     @($nonproductionPreviewVariables, $nonproductionScope, "nonproduction-preview"),
@@ -557,14 +557,14 @@ Assert-WorkloadIdentity `
 
 & $validatorPath -Mode Dependencies -ReleaseSha $ApprovedReleaseSha
 if (-not $?) {
-    throw "Session 11 evaluation dependencies or the Session 12 adversarial report are not ready."
+    throw "Session 10 evaluation dependencies or the Session 11 adversarial report are not ready."
 }
 
 Write-Host "Preview 1 of 2: nonproduction at $ApprovedNonproductionScope"
 az deployment group what-if `
     --subscription $nonproductionScope.SubscriptionId `
     --resource-group $nonproductionScope.ResourceGroupName `
-    --name "s14-preflight-nonproduction" `
+    --name "s13-preflight-nonproduction" `
     --template-file $bicepPath `
     --parameters $nonproductionParametersPath `
     releaseCommitSha=$ApprovedReleaseSha `
@@ -575,7 +575,7 @@ Write-Host "Preview 2 of 2: production at $ApprovedProductionScope"
 az deployment group what-if `
     --subscription $productionScope.SubscriptionId `
     --resource-group $productionScope.ResourceGroupName `
-    --name "s14-preflight-production" `
+    --name "s13-preflight-production" `
     --template-file $bicepPath `
     --parameters $productionParametersPath `
     releaseCommitSha=$ApprovedReleaseSha `

@@ -36,7 +36,7 @@ switch ($Check) {
         }
         & $validatorPath -Mode Blocked -ReleaseSha $ReleaseSha
         if (-not $?) {
-            throw "The Session 11 generated self-test did not produce the expected BLOCK outcome."
+            throw "The Session 10 generated self-test did not produce the expected BLOCK outcome."
         }
 
     }
@@ -102,7 +102,7 @@ if ($Check -eq "Intended") {
 }
 else {
     if ($null -eq $validationJob) {
-        throw "The blocked workflow run does not identify the generated Session 11 self-test input."
+        throw "The blocked workflow run does not identify the generated Session 10 self-test input."
     }
     $gateStep = @($validationJob.steps) |
         Where-Object { [string]$_.name -eq "Apply evaluation and adversarial gates before deployment" } |

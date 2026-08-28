@@ -26,11 +26,11 @@ $environment = Get-Content -LiteralPath $environmentPath -Raw | ConvertFrom-Json
     -PrimaryAgentBaseUrl $PrimaryAgentBaseUrl `
     -SecondaryAgentBaseUrl $SecondaryAgentBaseUrl
 if ($LASTEXITCODE -ne 0) {
-    throw "Session 07 preflight failed."
+    throw "Session 06 preflight failed."
 }
 
 $deployment = & az deployment group create `
-    --name "session07-apim-ai-gateway" `
+    --name "session06-apim-ai-gateway" `
     --resource-group ([string]$environment.resourceGroupName) `
     --template-file $bicepPath `
     --parameters `
@@ -43,10 +43,10 @@ $deployment = & az deployment group create `
     --only-show-errors `
     --output json
 if ($LASTEXITCODE -ne 0) {
-    throw "Session 07 API Management deployment failed."
+    throw "Session 06 API Management deployment failed."
 }
 
 $result = $deployment | ConvertFrom-Json -ErrorAction Stop
-Write-Host "Deployed Session 07 API Management control."
+Write-Host "Deployed Session 06 API Management control."
 Write-Host "Gateway path: $($result.properties.outputs.gatewayPath.value)"
 Write-Host "The product owner must issue or approve a workload-specific product subscription before client use."

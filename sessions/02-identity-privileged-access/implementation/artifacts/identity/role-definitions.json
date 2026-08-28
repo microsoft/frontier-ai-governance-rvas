@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "03-identity-privileged-access",
+  "implementationSession": "02-identity-privileged-access",
   "roles": {
     "foundryUser": {
       "id": "53ca6127-db72-4b80-b1b0-d745d6d5456d"

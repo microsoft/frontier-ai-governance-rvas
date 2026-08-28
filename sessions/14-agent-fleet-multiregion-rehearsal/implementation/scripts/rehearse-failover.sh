@@ -5,7 +5,7 @@ usage() {
   cat <<'USAGE'
 Usage: ./scripts/rehearse-failover.sh --approved-scope <resource-group-id> --change-record-id <record> [--confirm]
 
-Runs the Session 15 Bash failover rehearsal. The script validates the approved scope and required
+Runs the Session 14 Bash failover rehearsal. The script validates the approved scope and required
 implementationSession marker, checks the named secondary path, previews the route move, requires
 explicit confirmation, moves only the named selector, and validates the active secondary result.
 
@@ -100,7 +100,7 @@ expected_region = sys.argv[3]
 parameters = json.loads(Path(sys.argv[4]).read_text())['parameters']
 value = lambda name: parameters[name]['value']
 checks = {
-    'implementationSession': '15-agent-fleet-multiregion-rehearsal',
+    'implementationSession': '14-agent-fleet-multiregion-rehearsal',
     'status': expected_status,
     'region': expected_region,
     'agentVersion': value('agentVersion'),
@@ -177,7 +177,7 @@ if grep -RnoE --binary-files=without-match '__REQUIRED_[A-Z0-9_]+__' "$artifact_
 fi
 
 action_session="$(json_get "$control_path" implementationSession)"
-[[ "$action_session" == '15-agent-fleet-multiregion-rehearsal' ]] || fail 'Control definition has the wrong implementationSession marker.'
+[[ "$action_session" == '14-agent-fleet-multiregion-rehearsal' ]] || fail 'Control definition has the wrong implementationSession marker.'
 control_scope="$(json_get "$control_path" approvedAzureScope)"
 [[ "$control_scope" == "$approved_scope" ]] || fail 'The approved scope differs from the requested scope.'
 

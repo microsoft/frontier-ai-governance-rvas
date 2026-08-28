@@ -10,13 +10,13 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation - Session 12</p>
+<p class="eyebrow">AI Governance Co-implementation - Session 11</p>
 
 # Red teaming, prompt injection, and Defender
 
 **270 minutes - Compare an authorized baseline and remediation, then route a Defender signal**
 
-<!-- Notes: Session 11 measured release quality. Today we compare two authorized versions and check the security route. -->
+<!-- Notes: Session 10 measured release quality. Today we compare two authorized versions and check the security route. -->
 
 ---
 
@@ -72,7 +72,15 @@ Remediation is already complete. Timed work compares the two versions and checks
 
 ## Architecture overview
 
+<!-- _class: diagram -->
+
 ![An authorized plan cycles through baseline measurement, owned remediation, a fixed version, same-plan rerun, per-key decision, and remaining risk; a separate Defender-to-SOC route joins the operations review record without proving red-team improvement](assets/diagrams/red-team-defense-loop.svg)
+
+<!-- Notes: Remediation is pre-work. Keep same-plan comparison and SOC delivery as separate checks. -->
+
+---
+
+## What this means
 
 The design asks whether one remediation changed the result of an approved attack plan. That exact
 plan runs against the baseline and the remediated immutable version. Existing tool and backend
@@ -83,8 +91,6 @@ Defender or Microsoft Sentinel route checks delivery to the SOC.
 
 The payload-free risk handoff carries both results without treating SOC delivery as proof of
 red-team improvement.
-
-<!-- Notes: Remediation is pre-work. Keep same-plan comparison and SOC delivery as separate checks. -->
 
 ---
 
@@ -279,7 +285,7 @@ The visible record must show the source, route type, destination alias, Defender
 Preflight validates:
 
 - every decision sentinel required for the selected phase;
-- focused-route records for approved resources, identities, network injection, APIM, tool authorization, synthetic data, and the passing Session 11 approved record;
+- focused-route records for approved resources, identities, network injection, APIM, tool authorization, synthetic data, and the passing Session 10 approved record;
 - authorization dates and owner presence;
 - same-day manual region support gate;
 - approved agent, project, resource, and subscription;
@@ -321,7 +327,7 @@ Detailed output remains in Foundry.
 | Tool path | Tool owner | Keep writes absent or independently denied |
 | Gateway/content | Security owner | Keep identity, Prompt Shields, filters, and correlation in operation |
 | Data | Security/data owner | Keep synthetic source aliases read-only; no agent or APIM backend role permits writes |
-| Release quality | Release owner | Rerun [Session 11](../11-foundry-evaluations-quality-gates/) after remediation |
+| Release quality | Release owner | Rerun [Session 10](../10-foundry-evaluations-quality-gates/) after remediation |
 
 Pre-work creates a **new fixed agent version**.
 
@@ -397,7 +403,7 @@ Stop immediately for:
 | Remaining-risk owner | Accept, rerun, or disable decision |
 | Cost owner | Red-team and judge-model consumption |
 
-<!-- Notes: Session 12 authorizes no production promotion. -->
+<!-- Notes: Session 11 authorizes no production promotion. -->
 
 ---
 
@@ -406,7 +412,7 @@ Stop immediately for:
 1. Stop the run.
 2. Keep the stable endpoint on the previously approved version.
 3. Disable the affected version or detach its tool binding when needed.
-4. Restore only approved [Session 06](../06-governed-agent-baseline/), [Session 07](../07-apim-ai-gateway/), [Session 09](../09-mcp-tool-security/), and [Session 10](../10-purview-data-governance/) control definitions.
+4. Restore only approved [Session 05](../05-governed-agent-baseline/), [Session 06](../06-apim-ai-gateway/), [Session 08](../08-mcp-tool-security/), and [Session 09](../09-purview-data-governance/) control definitions.
 5. Keep Defender and SOC routing active unless they have a separate operational fault.
 6. Remove cloud red-team definitions only after the security owner confirms retention needs.
 
@@ -432,4 +438,4 @@ Stop immediately for:
 
 # Thank you!
 
-<!-- Notes: Next, Session 13 connects operational logs, cost, and incident response. -->
+<!-- Notes: Next, Session 12 connects operational logs, cost, and incident response. -->

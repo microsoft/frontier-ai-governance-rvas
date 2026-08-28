@@ -5,7 +5,7 @@ var roleDefinitions = loadJsonContent('role-definitions.json')
 @description('Dedicated workload identity name.')
 @minLength(3)
 @maxLength(128)
-param workloadIdentityName string = 'id-rvas-s03-workload'
+param workloadIdentityName string = 'id-rvas-s02-workload'
 
 @description('Azure region for the user-assigned managed identity.')
 param location string = resourceGroup().location
@@ -28,7 +28,7 @@ param githubEnvironment string = '__REQUIRED_GITHUB_ENVIRONMENT__'
 @description('Review date for the sandbox identity in YYYY-MM-DD format.')
 param expiryDate string
 
-var marker = '03-identity-privileged-access'
+var marker = '02-identity-privileged-access'
 var githubSubject = 'repo:${githubOwner}/${githubRepository}:environment:${githubEnvironment}'
 
 resource workloadIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2024-11-30' = {

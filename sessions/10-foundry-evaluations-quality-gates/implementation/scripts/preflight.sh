@@ -5,7 +5,7 @@ usage() {
   cat <<'USAGE'
 Usage: ./scripts/preflight.sh --approved-subscription-id <guid> [--phase baseline|candidate]
 
-Runs the Session 11 Bash preflight. The script validates required files, tools, sentinels, target
+Runs the Session 10 Bash preflight. The script validates required files, tools, sentinels, target
 scope, implementation file consistency, dependency imports, and the exact evaluation target before it
 prints the safe read-only preview summary.
 
@@ -164,7 +164,7 @@ artifact_root = Path(sys.argv[1])
 script_dir = Path(sys.argv[2])
 approved_subscription_id = sys.argv[3]
 phase = sys.argv[4]
-implementation_session = '11-foundry-evaluations-quality-gates'
+implementation_session = '10-foundry-evaluations-quality-gates'
 
 release_policy = json.loads((artifact_root / 'release' / 'release-policy.json').read_text())
 spec = json.loads((artifact_root / 'eval' / 'evaluation-spec.json').read_text())
@@ -290,5 +290,5 @@ print(f"  Golden cases: {len(rows)}; SHA-256: {dataset_hash}")
 print(f"  Evaluators: {', '.join(sorted(evaluator_names))}")
 print('  Repository output: aggregate metrics only')
 print('Read-only deployment preview is unsupported by the Evals API. The safe preview is the exact scope above; the stable endpoint remains pinned.')
-print(f'PASS: Session 11 release policy, current manual support gate, Foundry target, dataset, dependencies, and {phase} gate are ready.')
+print(f'PASS: Session 10 release policy, current manual support gate, Foundry target, dataset, dependencies, and {phase} gate are ready.')
 PY

@@ -28,7 +28,7 @@ function Invoke-AzJson {
     return (($raw | Out-String) | ConvertFrom-Json -ErrorAction Stop)
 }
 
-$implementationSession = "11-foundry-evaluations-quality-gates"
+$implementationSession = "10-foundry-evaluations-quality-gates"
 $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
 $releasePolicyPath = Join-Path $artifactRoot "release\release-policy.json"
 $specPath = Join-Path $artifactRoot "eval\evaluation-spec.json"
@@ -84,9 +84,9 @@ if ($sentinels.Count -gt 0) {
     $unresolved = @($sentinels.Matches.Value | Sort-Object -Unique)
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
     if ($unknown.Count -gt 0) {
-        throw "Add explicit Session 11 preflight checks for new sentinels: $($unknown -join ', ')."
+        throw "Add explicit Session 10 preflight checks for new sentinels: $($unknown -join ', ')."
     }
-    throw "Resolve every Session 11 customer decision before running evaluation: $($unresolved -join ', ')."
+    throw "Resolve every Session 10 customer decision before running evaluation: $($unresolved -join ', ')."
 }
 
 $jsonFiles = @(
@@ -223,7 +223,7 @@ if (-not [bool]$spec.resultHandling.retainAggregateOnly -or
 
 & python -c "import azure.ai.projects, azure.identity, openai, yaml" 2>$null
 if ($LASTEXITCODE -ne 0) {
-    throw "Install the Session 11 Python dependencies: python -m pip install -r `"$requirementsPath`""
+    throw "Install the Session 10 Python dependencies: python -m pip install -r `"$requirementsPath`""
 }
 
 $account = Invoke-AzJson -Arguments @("account", "show") -Description "Azure account lookup"
@@ -278,4 +278,4 @@ Write-Host "  Golden cases: $($rows.Count); SHA-256: $datasetHash"
 Write-Host "  Evaluators: $($evaluatorNames -join ', ')"
 Write-Host "  Repository output: aggregate metrics only"
 Write-Host "Read-only deployment preview is unsupported by the Evals API. The safe preview is the exact scope above; the stable endpoint remains pinned."
-Write-Host "PASS: Session 11 release policy, current manual support gate, Foundry target, dataset, dependencies, and $Phase gate are ready."
+Write-Host "PASS: Session 10 release policy, current manual support gate, Foundry target, dataset, dependencies, and $Phase gate are ready."

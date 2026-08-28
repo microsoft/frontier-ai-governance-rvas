@@ -92,7 +92,7 @@ $sentinels = @(Get-ChildItem -LiteralPath $artifactRoot -File -Recurse |
     Select-String -Pattern "__REQUIRED_[A-Z0-9_]+__")
 if ($sentinels.Count -gt 0) {
     $unresolved = @($sentinels.Matches.Value | Sort-Object -Unique)
-    throw "Resolve every Session 06 customer decision before deployment: $($unresolved -join ', ')."
+    throw "Resolve every Session 05 customer decision before deployment: $($unresolved -join ', ')."
 }
 
 $apiUri = [uri]$ReadApiBaseUrl
@@ -142,7 +142,7 @@ $existing = Invoke-AiRequest -Method GET -Uri $agentUri -AllowNotFound
 if ($null -ne $existing) {
     $existingDescription = [string]$existing.agent_card.description
     if ($existingDescription -notlike "*$($config.implementationSession)*") {
-        throw "An agent with this name exists without the Session 06 implementation marker."
+        throw "An agent with this name exists without the Session 05 implementation marker."
     }
 }
 

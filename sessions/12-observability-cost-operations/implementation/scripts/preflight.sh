@@ -6,7 +6,7 @@ usage() {
 Usage: ./scripts/preflight.sh --approved-subscription-id <guid> --approved-resource-group-name <name> \
   --approved-application-insights-resource-id <resource-id> --deployment-location <azure-region>
 
-Runs the Session 13 Bash preflight. The script validates required files, tools, sentinels, target
+Runs the Session 12 Bash preflight. The script validates required files, tools, sentinels, target
 scope, telemetry and privacy implementation files, then compiles the Bicep templates and runs both
 read-only deployment previews.
 
@@ -339,20 +339,20 @@ smoke = control.get('confirmation', {}).get('smokeExecutable', {})
 if control.get('schemaVersion') != 2:
     raise SystemExit('The control definition must use smoke contract schemaVersion 2.')
 if set(smoke.get('runtimeEnvironment', [])) != {
-    'SESSION13_SMOKE_URL',
-    'SESSION13_SMOKE_FAILURE_URL',
-    'SESSION13_AI_RESOURCE_ID',
-    'SESSION13_LOG_ANALYTICS_WORKSPACE_ID',
-    'SESSION13_SMOKE_BEARER_TOKEN',
+    'SESSION12_SMOKE_URL',
+    'SESSION12_SMOKE_FAILURE_URL',
+    'SESSION12_AI_RESOURCE_ID',
+    'SESSION12_LOG_ANALYTICS_WORKSPACE_ID',
+    'SESSION12_SMOKE_BEARER_TOKEN',
 }:
-    raise SystemExit('The Session 13 smoke runtime environment contract has changed.')
+    raise SystemExit('The Session 12 smoke runtime environment contract has changed.')
 polling = smoke.get('ingestionPolling', {})
 if polling != {
-    'timeoutEnvironment': 'SESSION13_SMOKE_TIMEOUT_SECONDS',
+    'timeoutEnvironment': 'SESSION12_SMOKE_TIMEOUT_SECONDS',
     'defaultTimeoutSeconds': 180,
     'minimumTimeoutSeconds': 30,
     'maximumTimeoutSeconds': 600,
-    'retryEnvironment': 'SESSION13_SMOKE_RETRY_SECONDS',
+    'retryEnvironment': 'SESSION12_SMOKE_RETRY_SECONDS',
     'defaultRetrySeconds': 15,
     'minimumRetrySeconds': 5,
     'maximumRetrySeconds': 60,
@@ -382,7 +382,7 @@ if any(
     raise SystemExit('Both smoke requests must bind the exact release commit SHA.')
 if smoke.get('authentication') != {
     'scheme': 'Bearer',
-    'tokenEnvironment': 'SESSION13_SMOKE_BEARER_TOKEN',
+    'tokenEnvironment': 'SESSION12_SMOKE_BEARER_TOKEN',
     'powershellTransport': 'in-memory request header',
     'bashTransport': 'curl configuration over standard input',
     'tokenWrittenToDisk': False,
@@ -397,9 +397,9 @@ if smoke.get('releaseCommitBinding') != {
 }:
     raise SystemExit('The release commit telemetry-binding contract has changed.')
 if smoke.get('workspaceBinding') != {
-    'componentResourceEnvironment': 'SESSION13_AI_RESOURCE_ID',
+    'componentResourceEnvironment': 'SESSION12_AI_RESOURCE_ID',
     'componentProperty': 'WorkspaceResourceId',
-    'workspaceResourceEnvironment': 'SESSION13_LOG_ANALYTICS_WORKSPACE_ID',
+    'workspaceResourceEnvironment': 'SESSION12_LOG_ANALYTICS_WORKSPACE_ID',
     'resourceIdComparison': 'case-insensitive',
     'requiredBeforeQuery': True,
 }:
@@ -423,7 +423,7 @@ if set(required_checks) != {
     'payloadsRetained',
     'telemetryPollTimedOut',
 }:
-    raise SystemExit('The Session 13 smoke result-check fields have changed.')
+    raise SystemExit('The Session 12 smoke result-check fields have changed.')
 if any(required_checks.get(name) != 'passed' for name in ('syntheticRequest', 'endToEndTrace', 'toolAndModelFailureSeparated')):
     raise SystemExit('The smoke contract is missing a required passed result check.')
 if any(required_checks.get(name) is not True for name in ('expectedToolFailure', 'independentModelResult')):
@@ -535,11 +535,11 @@ app_insights_type="$(jq -r '.type // empty' <<<"$app_insights_json")"
 app_insights_workspace_id="$(jq -r '.properties.WorkspaceResourceId // .properties.workspaceResourceId // empty' <<<"$app_insights_json")"
 [[ "${app_insights_workspace_id,,}" =~ ^/subscriptions/[^/]+/resourcegroups/[^/]+/providers/microsoft\.operationalinsights/workspaces/[^/]+$ ]] \
   || fail 'The approved Application Insights component must expose a valid WorkspaceResourceId.'
-if [[ -n "${SESSION13_LOG_ANALYTICS_WORKSPACE_ID:-}" ]]; then
+if [[ -n "${SESSION12_LOG_ANALYTICS_WORKSPACE_ID:-}" ]]; then
   live_workspace_id="${app_insights_workspace_id%/}"
-  runtime_workspace_id="${SESSION13_LOG_ANALYTICS_WORKSPACE_ID%/}"
+  runtime_workspace_id="${SESSION12_LOG_ANALYTICS_WORKSPACE_ID%/}"
   [[ "${live_workspace_id,,}" == "${runtime_workspace_id,,}" ]] \
-    || fail 'The live Application Insights WorkspaceResourceId does not match SESSION13_LOG_ANALYTICS_WORKSPACE_ID.'
+    || fail 'The live Application Insights WorkspaceResourceId does not match SESSION12_LOG_ANALYTICS_WORKSPACE_ID.'
 fi
 action_group_resource_id="$(python - "$artifact_root/cost/../infra/main.bicepparam" <<'PY'
 import re, sys

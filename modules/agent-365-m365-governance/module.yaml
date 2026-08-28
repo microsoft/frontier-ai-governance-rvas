@@ -15,12 +15,12 @@ module:
     - "The tenant owner has recorded the Agent 365 administrator, Entra identity owner, Copilot Studio environment owner, Power Platform DLP owner, SharePoint owner, Defender owner, and publishing approver roles."
     - "No production-wide agent publishing, connector blocking, Conditional Access enforcement, or SharePoint sharing change is made during this module."
   related_sessions:
-    - "Session 03 - Entra identity, RBAC, PIM, and workload identities"
-    - "Session 08 - Azure API Center and the AI/MCP inventory"
-    - "Session 09 - MCP and tool security"
-    - "Session 10 - Purview data governance and Agent 365 data controls"
-    - "Session 12 - Red teaming, prompt injection, and Defender"
-    - "Session 15 - Agent fleet governance, multi-region design, and production rehearsal"
+    - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
+    - "Session 07 - Azure API Center and the AI/MCP inventory"
+    - "Session 08 - MCP and tool security"
+    - "Session 09 - Purview data governance and Agent 365 data controls"
+    - "Session 11 - Red teaming, prompt injection, and Defender"
+    - "Session 14 - Agent fleet governance, multi-region design, and production rehearsal"
   services_in_scope:
     - "agent-365"
     - "microsoft-365-copilot"

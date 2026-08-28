@@ -398,6 +398,14 @@ code {
   gap: 12px;
 }
 
+.hero__status {
+  max-width: 46ch;
+  margin: 20px 0 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
 .button {
   display: inline-flex;
   align-items: center;
@@ -765,16 +773,25 @@ code {
 
 .readiness-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 14px;
 }
 
 .readiness-grid article {
+  grid-column: span 2;
   min-width: 0;
   border: 1px solid var(--c-line);
   border-radius: var(--radius);
   background: var(--c-white);
   padding: 20px;
+}
+
+.readiness-grid article:nth-child(4):nth-last-child(2) {
+  grid-column: 2 / span 2;
+}
+
+.readiness-grid article:nth-child(5):nth-last-child(1) {
+  grid-column: 4 / span 2;
 }
 
 .readiness-grid article > span,
@@ -974,6 +991,49 @@ code {
 .registry-status output {
   color: var(--c-mid-navy);
   font-weight: 600;
+}
+
+.route-status {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 0;
+  padding: 5px 6px 5px 12px;
+  border: 1px solid var(--c-rvap-blue);
+  border-radius: 999px;
+  background: rgba(26, 119, 227, 0.08);
+  color: var(--c-mid-navy);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+}
+
+.route-status strong {
+  color: var(--c-rvap-blue);
+  font-weight: 700;
+}
+
+.route-status [data-route-status-range]::before {
+  content: "·";
+  margin-right: 7px;
+}
+
+.route-status button {
+  border: 0;
+  border-radius: 999px;
+  background: var(--c-navy);
+  color: var(--c-white);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  padding: 5px 11px;
+  cursor: pointer;
+}
+
+.route-status button:hover {
+  background: var(--c-rvap-blue);
 }
 
 .session-register {
@@ -2076,31 +2136,38 @@ code {
 }
 
 .deck-launcher {
-  position: fixed;
-  z-index: 90;
-  bottom: max(18px, env(safe-area-inset-bottom));
-  left: max(18px, env(safe-area-inset-left));
+  grid-area: deck;
   display: inline-flex;
+  width: 100%;
+  min-height: 52px;
   align-items: center;
-  min-height: 48px;
+  justify-content: center;
   gap: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid color-mix(in srgb, var(--c-rvap-blue) 45%, white);
   border-radius: var(--radius);
-  background: var(--c-navy);
-  color: var(--c-white);
+  background: color-mix(in srgb, var(--c-rvap-blue) 12%, white);
+  color: var(--c-mid-navy);
   cursor: pointer;
-  padding: 11px 16px;
-  box-shadow: 0 12px 28px rgba(3, 34, 84, 0.28);
-  font-weight: 700;
+  padding: 12px 16px;
+  box-shadow: 0 8px 22px rgba(26, 119, 227, 0.13);
+  font-weight: 750;
+  transition:
+    background 0.18s,
+    border-color 0.18s,
+    box-shadow 0.18s,
+    transform 0.18s var(--ease-out);
 }
 
-.deck-launcher::before {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 4px;
-  border-radius: var(--radius) 0 0 var(--radius);
-  content: "";
-  background: var(--session-phase);
+.deck-launcher:hover {
+  border-color: var(--c-rvap-blue);
+  background: color-mix(in srgb, var(--c-rvap-blue) 18%, white);
+  box-shadow: 0 10px 26px rgba(26, 119, 227, 0.2);
+  transform: translateY(-1px);
+}
+
+.deck-launcher:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--c-rvap-blue) 35%, transparent);
+  outline-offset: 3px;
 }
 
 .deck-launcher svg {
@@ -2400,6 +2467,32 @@ code {
   font-weight: 600;
   padding: 4px 8px;
   text-decoration: none;
+}
+
+.route-register a[aria-current="page"] {
+  border-color: var(--c-navy);
+  background: var(--c-navy);
+  color: var(--c-white);
+}
+
+.route-register a[aria-current="page"]::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.route-register > div:not(.route-register__head):has(a[aria-current="page"]) strong {
+  color: var(--c-rvap-blue);
+}
+
+.route-register__note {
+  margin: 14px 2px 0;
+  color: var(--c-ink-secondary);
+  font-size: 0.8rem;
+  line-height: 1.6;
 }
 
 /* Sources */
@@ -2863,6 +2956,12 @@ code {
     grid-template-columns: 1fr;
   }
 
+  .readiness-grid article,
+  .readiness-grid article:nth-child(4):nth-last-child(2),
+  .readiness-grid article:nth-child(5):nth-last-child(1) {
+    grid-column: auto;
+  }
+
   .phase-register {
     margin-top: 36px;
   }
@@ -3002,6 +3101,17 @@ code {
     gap: 5px;
   }
 
+  .route-status {
+    width: 100%;
+    justify-content: space-between;
+    border-radius: var(--radius-sm);
+    padding: 8px 8px 8px 12px;
+  }
+
+  .route-status [data-route-status-range]::before {
+    content: none;
+  }
+
   .phase-marker {
     align-items: flex-start;
     flex-wrap: wrap;
@@ -3059,11 +3169,6 @@ code {
 
   .session-hero__actions .button {
     width: 100%;
-  }
-
-  .deck-launcher {
-    right: 18px;
-    justify-content: center;
   }
 
   .deck-dialog {
@@ -3435,6 +3540,13 @@ code {
   border-radius: 50%;
   background: var(--c-hero-accent);
   content: "";
+}
+
+.program-outcome__note {
+  margin: 20px 0 0;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.78rem;
+  line-height: 1.6;
 }
 
 .program-docket {
@@ -3818,10 +3930,11 @@ html:not(.js) .map-controls {
 
 .session-reading-layout {
   grid-template-areas:
+    "article deck"
     "article services"
     "article facts";
   grid-template-columns: minmax(0, 1fr) 270px;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto 1fr;
   gap: 18px 32px;
   padding-block: 52px 64px;
 }
@@ -4092,6 +4205,7 @@ html:not(.js) .map-controls {
 
   .session-reading-layout {
     grid-template-areas:
+      "deck"
       "services"
       "article"
       "facts";

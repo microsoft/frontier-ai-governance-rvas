@@ -6,7 +6,7 @@ param(
 
     [Parameter(Mandatory)]
     [ValidatePattern("^https://")]
-    [string]$Session06AgentBaseUrl,
+    [string]$Session05AgentBaseUrl,
 
     [Parameter(Mandatory)]
     [ValidatePattern("^https://")]
@@ -89,7 +89,7 @@ function Assert-GovernanceRecord {
     if ($expiry -le $lastReview) {
         throw "$Description expiryDate must be later than lastReviewDate."
     }
-    if ([string]$Record.customProperties.implementationSession -ne "08-api-center-ai-mcp-inventory") {
+    if ([string]$Record.customProperties.implementationSession -ne "07-api-center-ai-mcp-inventory") {
         throw "$Description has the wrong implementationSession marker."
     }
 }
@@ -114,7 +114,7 @@ function Assert-RuntimeUri {
     }
 }
 
-$implementationSession = "08-api-center-ai-mcp-inventory"
+$implementationSession = "07-api-center-ai-mcp-inventory"
 $apiManagementServiceReaderRoleId = "71522526-b88f-4d52-b57f-d31fc3546d0d"
 $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
 $bicepPath = Join-Path $artifactRoot "api-center\main.bicep"
@@ -180,9 +180,9 @@ if ($sentinels) {
     $unresolved = @($sentinels.Matches.Value | Sort-Object -Unique)
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
     if ($unknown.Count -gt 0) {
-        throw "Add explicit Session 08 preflight checks for new sentinels: $($unknown -join ', ')."
+        throw "Add explicit Session 07 preflight checks for new sentinels: $($unknown -join ', ')."
     }
-    throw "Resolve every Session 08 customer decision before deployment: $($unresolved -join ', ')."
+    throw "Resolve every Session 07 customer decision before deployment: $($unresolved -join ', ')."
 }
 
 $environment = Get-Content -LiteralPath $environmentPath -Raw | ConvertFrom-Json -ErrorAction Stop
@@ -235,11 +235,11 @@ if ($null -ne $openApi.PSObject.Properties["servers"]) {
     throw "The authoritative OpenAPI definition must not commit a runtime server URL."
 }
 
-Assert-RuntimeUri -Value $Session06AgentBaseUrl -Description "Session06AgentBaseUrl"
+Assert-RuntimeUri -Value $Session05AgentBaseUrl -Description "Session05AgentBaseUrl"
 Assert-RuntimeUri -Value $RemoteMcpServerUrl -Description "RemoteMcpServerUrl"
 $expectedAgentBaseUrl = "https://$($environment.foundryAccountName).services.ai.azure.com/api/projects/$($environment.foundryProjectName)/agents/$($environment.agentName)/endpoint/protocols/openai"
-if ($Session06AgentBaseUrl.TrimEnd("/") -ne $expectedAgentBaseUrl) {
-    throw "Session06AgentBaseUrl does not match the existing Session 06 Foundry account, project, and agent."
+if ($Session05AgentBaseUrl.TrimEnd("/") -ne $expectedAgentBaseUrl) {
+    throw "Session05AgentBaseUrl does not match the existing Session 05 Foundry account, project, and agent."
 }
 
 $cliVersion = Invoke-AzJson -Arguments @("version") -Description "Azure CLI version lookup"
@@ -306,12 +306,12 @@ $session07Api = Invoke-AzJson `
         "--service-name", [string]$environment.apiManagementName,
         "--resource-group", [string]$environment.apiManagementResourceGroupName
     ) `
-    -Description "Session 07 APIM API lookup"
-if ([string]$session07Api.description -notlike "*implementationSession=07-apim-ai-gateway*") {
-    throw "The APIM source does not contain the marked Session 07 API."
+    -Description "Session 06 APIM API lookup"
+if ([string]$session07Api.description -notlike "*implementationSession=06-apim-ai-gateway*") {
+    throw "The APIM source does not contain the marked Session 06 API."
 }
 if ([string]$session07Api.displayName -ne [string]$apimRecord.sourceTitle) {
-    throw "The Session 07 APIM display name does not match the approved API Center reconciliation title."
+    throw "The Session 06 APIM display name does not match the approved API Center reconciliation title."
 }
 
 $role = Invoke-AzJson `
@@ -350,7 +350,7 @@ if ($apiCenterExists) {
         }
     }
     if ([string]$marker -ne $implementationSession) {
-        throw "An existing API Center uses the configured name without the Session 08 marker."
+        throw "An existing API Center uses the configured name without the Session 07 marker."
     }
     $existingIntegrationRaw = & az apic integration show `
         --resource-group ([string]$environment.resourceGroupName) `
@@ -378,7 +378,7 @@ if ($LASTEXITCODE -ne 0) {
     throw "The API Center Bicep definition failed to compile."
 }
 & az deployment group what-if `
-    --name "session08-api-center-preview" `
+    --name "session07-api-center-preview" `
     --resource-group ([string]$environment.resourceGroupName) `
     --template-file $bicepPath `
     --parameters `
@@ -386,11 +386,11 @@ if ($LASTEXITCODE -ne 0) {
       "apiManagementName=$($environment.apiManagementName)" `
       "apiCenterName=$($environment.apiCenterName)" `
       "location=$($environment.location)" `
-      "session06AgentBaseUrl=$Session06AgentBaseUrl" `
+      "session05AgentBaseUrl=$Session05AgentBaseUrl" `
     --only-show-errors `
     --no-pretty-print
 if ($LASTEXITCODE -ne 0) {
     throw "The API Center deployment preview failed."
 }
 
-Write-Host "PASS: Session 08 files, shared metadata source, APIM boundary, runtime coordinates, CLI integration, and deployment preview are ready."
+Write-Host "PASS: Session 07 files, shared metadata source, APIM boundary, runtime coordinates, CLI integration, and deployment preview are ready."

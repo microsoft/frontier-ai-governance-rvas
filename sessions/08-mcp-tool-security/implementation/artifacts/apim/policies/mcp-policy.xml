@@ -5,7 +5,7 @@
     <set-header name="X-Correlation-ID" exists-action="override">
       <value>@((string)context.Variables["correlation-id"])</value>
     </set-header>
-    <validate-azure-ad-token tenant-id="@@ENTRA_TENANT_ID@@" header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. A valid Microsoft Entra token for this MCP server is required." output-token-variable-name="session09-jwt">
+    <validate-azure-ad-token tenant-id="@@ENTRA_TENANT_ID@@" header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. A valid Microsoft Entra token for this MCP server is required." output-token-variable-name="session08-jwt">
       <client-application-ids>
         <application-id>@@CLIENT_APPLICATION_ID@@</application-id>
       </client-application-ids>
@@ -18,11 +18,11 @@
         </claim>
       </required-claims>
     </validate-azure-ad-token>
-    <rate-limit-by-key calls="@@TOOL_CALLS_PER_MINUTE@@" renewal-period="60" counter-key="@(((Jwt)context.Variables[&quot;session09-jwt&quot;]).Claims.GetValueOrDefault(&quot;appid&quot;, &quot;unknown&quot;) + &quot;:&quot; + context.Variables.GetValueOrDefault&lt;string&gt;(&quot;gen_ai.tool.name&quot;, &quot;protocol&quot;))" retry-after-header-name="Retry-After" />
-    <trace source="session09-mcp-tool-security" severity="information">
-      <message>MCP request evaluated by Session 09 control.</message>
-      <metadata name="session09.correlation_id" value="@((string)context.Variables[&quot;correlation-id&quot;])" />
-      <metadata name="session09.tool_name" value="@(context.Variables.GetValueOrDefault&lt;string&gt;(&quot;gen_ai.tool.name&quot;, &quot;protocol&quot;))" />
+    <rate-limit-by-key calls="@@TOOL_CALLS_PER_MINUTE@@" renewal-period="60" counter-key="@(((Jwt)context.Variables[&quot;session08-jwt&quot;]).Claims.GetValueOrDefault(&quot;appid&quot;, &quot;unknown&quot;) + &quot;:&quot; + context.Variables.GetValueOrDefault&lt;string&gt;(&quot;gen_ai.tool.name&quot;, &quot;protocol&quot;))" retry-after-header-name="Retry-After" />
+    <trace source="session08-mcp-tool-security" severity="information">
+      <message>MCP request evaluated by Session 08 control.</message>
+      <metadata name="session08.correlation_id" value="@((string)context.Variables[&quot;correlation-id&quot;])" />
+      <metadata name="session08.tool_name" value="@(context.Variables.GetValueOrDefault&lt;string&gt;(&quot;gen_ai.tool.name&quot;, &quot;protocol&quot;))" />
     </trace>
     <authentication-managed-identity resource="@@BACKEND_AUDIENCE@@" ignore-error="false" />
   </inbound>

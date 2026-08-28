@@ -1,6 +1,6 @@
 # Evaluation governance decision
 
-This record keeps the human approval boundary for the Session 11 release gate. Microsoft Foundry
+This record keeps the human approval boundary for the Session 10 release gate. Microsoft Foundry
 keeps the detailed evaluation rows. This repository keeps the policy decision, aggregate run
 references, and the reason the selected thresholds are acceptable for the governed agent.
 
@@ -14,7 +14,7 @@ references, and the reason the selected thresholds are acceptable for the govern
 | Approved agent version | `__REQUIRED_APPROVED_AGENT_VERSION__` |
 | Candidate agent version | `__REQUIRED_CANDIDATE_AGENT_VERSION__` |
 | Support check date | `__REQUIRED_SUPPORT_CHECK_DATE__` |
-| Decision state | Draft until the release owner approves the Session 11 checkpoint |
+| Decision state | Draft until the release owner approves the Session 10 checkpoint |
 
 ## Draft threshold rationale
 

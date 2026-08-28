@@ -43,7 +43,7 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
-$marker = "04-private-networking-dns"
+$marker = "03-private-networking-dns"
 
 function Invoke-AzJson {
     param(
@@ -188,7 +188,7 @@ if (
     $endpointMatrix.implementationSession -ne $marker -or
     @($endpointMatrix.endpoints).Count -ne 5
 ) {
-    throw "EndpointMatrixPath must contain the complete Session 04 endpoint set."
+    throw "EndpointMatrixPath must contain the complete Session 03 endpoint set."
 }
 
 $targets = @(
@@ -311,7 +311,7 @@ Write-Host "  Resource group: $ResourceGroupName"
 Write-Host "Restore state: $recordPath"
 if (-not $PSCmdlet.ShouldProcess(
     "five approved nonproduction services",
-    "Write the complete restore record, add the Session 04 marker, and disable public network access"
+    "Write the complete restore record, add the Session 03 marker, and disable public network access"
 )) {
     Write-Host "No public-access changes were applied."
     return

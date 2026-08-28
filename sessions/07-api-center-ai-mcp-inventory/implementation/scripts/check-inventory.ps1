@@ -35,7 +35,7 @@ $mcpRecord = $catalog.records.mcp
 
 if ((Get-ChildItem -LiteralPath $artifactRoot -File -Recurse |
         Select-String -Pattern "__REQUIRED_[A-Z0-9_]+__")) {
-    throw "Resolve every Session 08 customer decision before checking the live inventory."
+    throw "Resolve every Session 07 customer decision before checking the live inventory."
 }
 
 $account = Invoke-AzJson -Arguments @("account", "show") -Description "Azure account lookup"

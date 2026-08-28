@@ -143,7 +143,7 @@ trap 'rm -rf "$temp_dir"' EXIT
 
 mapfile -t unresolved_sentinels < <(grep -R -h -o -E '__REQUIRED_[A-Z0-9_]+__' "$artifact_root" | sort -u || true)
 if ((${#unresolved_sentinels[@]} > 0)); then
-  fail "Resolve every Session 06 customer decision before deployment: ${unresolved_sentinels[*]}"
+  fail "Resolve every Session 05 customer decision before deployment: ${unresolved_sentinels[*]}"
 fi
 
 account_json=$(az_json 'Azure account lookup' account show)
@@ -192,9 +192,9 @@ token=$(get_ai_token)
 api_request GET "$agent_uri" "$token"
 if [[ "$API_STATUS" == '200' ]]; then
   existing_description=$(jq -r '.agent_card.description // ""' "$API_BODY_FILE")
-  [[ "$existing_description" == *'06-governed-agent-baseline'* ]] || fail "An agent with this name exists without the Session 06 implementation marker."
+  [[ "$existing_description" == *'05-governed-agent-baseline'* ]] || fail "An agent with this name exists without the Session 05 implementation marker."
 elif [[ "$API_STATUS" != '404' ]]; then
-  fail "Unable to inspect the configured Session 06 agent name."
+  fail "Unable to inspect the configured Session 05 agent name."
 fi
 
 api_request POST "$project_endpoint/agents?api-version=v1" "$token" "$create_body"
@@ -205,7 +205,7 @@ created_version=$(jq -r '.version // empty' "$API_BODY_FILE")
 patch_body="$temp_dir/patch-body.json"
 jq -n \
   --arg version "$created_version" \
-  --arg session "06-governed-agent-baseline" \
+  --arg session "05-governed-agent-baseline" \
   '{agent_endpoint:{version_selector:{version_selection_rules:[{type:"FixedRatio", agent_version:$version, traffic_percentage:100}]}, protocol_configuration:{responses:{}}, authorization_schemes:[{type:"Entra"}]}, agent_card:{version:"1.0.0", description:("Internal policy assistant. implementationSession=" + $session), skills:[{id:"policy-lookup", name:"Policy lookup", description:"Reads an approved policy record by identifier without changing state.", tags:["policy","read-only","governed"], examples:["Summarize policy POL-001."]}]}}' > "$patch_body"
 api_request PATCH "$agent_uri" "$token" "$patch_body"
 [[ "$API_STATUS" == '200' ]] || fail "Foundry agent endpoint configuration failed."
@@ -213,7 +213,7 @@ principal_id=$(jq -r '.instance_identity.principal_id // empty' "$API_BODY_FILE"
 [[ -n "$principal_id" ]] || fail "The created agent does not expose a unique Entra Agent Identity."
 
 jq \
-  --arg session "06-governed-agent-baseline" \
+  --arg session "05-governed-agent-baseline" \
   --arg agent_name "$agent_name" \
   --arg active_version "$created_version" \
   --arg model_deployment_name "$model_deployment_name" \

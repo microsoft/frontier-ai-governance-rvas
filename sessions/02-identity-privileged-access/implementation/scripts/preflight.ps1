@@ -104,7 +104,7 @@ $expectedRoles = @{
         names = @("Storage Blob Data Reader")
     }
 }
-if ($roleDocument.implementationSession -ne "03-identity-privileged-access") {
+if ($roleDocument.implementationSession -ne "02-identity-privileged-access") {
     throw "role-definitions.json has the wrong implementation marker."
 }
 $actualRoleKeys = @($roleDocument.roles.PSObject.Properties.Name)
@@ -150,4 +150,4 @@ foreach ($file in @("human-role-assignments.bicep", "workload-identity.bicep")) 
     & az bicep build --file (Join-Path $ArtifactsPath "identity\$file") --stdout | Out-Null
     if ($LASTEXITCODE -ne 0) { throw "Bicep build failed: identity\$file" }
 }
-Write-Host "PASS: Session 03 tools, files, decisions, approved nonproduction resource group, role definitions, and Bicep syntax are ready."
+Write-Host "PASS: Session 02 tools, files, decisions, approved nonproduction resource group, role definitions, and Bicep syntax are ready."

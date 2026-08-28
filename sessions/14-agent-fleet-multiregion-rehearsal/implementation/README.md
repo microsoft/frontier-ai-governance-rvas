@@ -27,7 +27,7 @@ location or separate regional gateways, with gateways close to their backends. R
 traffic to an already deployed secondary path. The rehearsal does not guarantee that a Microsoft
 Entra identity object or Agent 365 registry object moves between regions, and it does not enforce
 lifecycle rules across the wider fleet. New infrastructure or policy changes return through the
-Session 14 promotion control; broader fleet reconciliation stays with normal operations.
+Session 13 promotion control; broader fleet reconciliation stays with normal operations.
 
 ## Architecture
 
@@ -58,7 +58,7 @@ parameters and runbook define how the rehearsal runs. The customer change system
 result. Together, these sources provide the operating view; no single inventory replaces them.
 
 The boundary covers inventory reconciliation and one approved traffic move. It does not move
-identity or registry objects, and it does not enforce fleet-wide lifecycle rules. Session 14 owns
+identity or registry objects, and it does not enforce fleet-wide lifecycle rules. Session 13 owns
 infrastructure and policy promotion into both regions. The service owner keeps the routing and
 restore path in normal operations.
 
@@ -74,7 +74,7 @@ traffic move and restore path.
 |---|---|---|---|---|
 | Inventory freshness | Query stable Azure resources live. Label every portal-only observation with its snapshot date. | Operators can tell current resource state from a point-in-time administrative view. | An owner must review snapshot fields before the rehearsal because they can become stale. | A portal-only surface gains a stable, supported inventory API. |
 | Regional gateway topology | Use either one Premium (classic) multi-region API Management instance or separate regional gateways. Keep every gateway close to its backend. | The service can keep its approved network and isolation design without introducing another routing platform. | One instance retains a primary-region management plane and regional counters. Separate gateways require more release and configuration work. | Management-plane availability or blast-radius needs change. Revisit it as well when tier support, network design, or global limits change. |
-| Restore scope | Move only the approved selector. Leave the secondary deployment in place after traffic returns to primary. | The restore stays narrow, and the approved secondary path remains ready. | The team continues to pay for capacity. Session 14 must keep the secondary configuration from drifting. | The continuity plan changes the warm-standby requirement or decommissions the secondary region. |
+| Restore scope | Move only the approved selector. Leave the secondary deployment in place after traffic returns to primary. | The restore stays narrow, and the approved secondary path remains ready. | The team continues to pay for capacity. Session 13 must keep the secondary configuration from drifting. | The continuity plan changes the warm-standby requirement or decommissions the secondary region. |
 
 ### Architecture guidance
 
@@ -87,7 +87,7 @@ traffic move and restore path.
 
 ## Before you start
 
-1. Complete Sessions 06-14 or confirm every focused-route substitute below.
+1. Complete Sessions 05-13 or confirm every focused-route substitute below.
 2. Approve primary and secondary regions for model availability, quota, data residency, network
    dependencies, API Management capacity, and the tools used by the rehearsed agent.
 3. Confirm the customer Bicep entrypoint accepts
@@ -98,7 +98,7 @@ traffic move and restore path.
 5. Give the security operator **Purview Data Security AI Viewer** and Microsoft Entra
    **Security Reader** for the dated portal checks.
 6. Give the preview operator built-in **Contributor** at the exact regional resource group.
-7. Complete the approved secondary-region deployment through the Session 14 promotion path.
+7. Complete the approved secondary-region deployment through the Session 13 promotion path.
 8. Prepare a maintenance window, change record, restore authority, and operational record store.
 9. Install Azure CLI with Bicep and PowerShell 7.
 
@@ -120,9 +120,9 @@ traffic move and restore path.
 
 | Type | File | Consumer |
 |---|---|---|
-| Record | [`artifacts/control-definition.json`](artifacts/control-definition.json) | The Session 15 preflight scripts and regional rehearsal operators |
+| Record | [`artifacts/control-definition.json`](artifacts/control-definition.json) | The Session 14 preflight scripts and regional rehearsal operators |
 | Record | [`artifacts/fleet/agent-inventory.md`](artifacts/fleet/agent-inventory.md) | The service continuity owner |
-| Deployment | [`artifacts/regional/region.parameters.json`](artifacts/regional/region.parameters.json) | The customer Bicep deployment, Session 15 preflight scripts, and routing wrappers |
+| Deployment | [`artifacts/regional/region.parameters.json`](artifacts/regional/region.parameters.json) | The customer Bicep deployment, Session 14 preflight scripts, and routing wrappers |
 | Record | [`artifacts/regional/failover-runbook.md`](artifacts/regional/failover-runbook.md) | The service continuity and routing operators |
 
 ### Customer health script interface
@@ -144,7 +144,7 @@ The result contains:
 
 ```json
 {
-  "implementationSession": "15-agent-fleet-multiregion-rehearsal",
+  "implementationSession": "14-agent-fleet-multiregion-rehearsal",
   "status": "ready",
   "region": "swedencentral",
   "agentVersion": "recorded-immutable-version",
@@ -247,7 +247,7 @@ parameter file as the **single regional deployment contract** for the rehearsal.
 
 For one multi-region instance, use the same API Management resource ID for both paths and include
 the secondary region under `additionalLocations`. For separate gateways, use different resource
-IDs and apply the same policy revision through Session 14. Check Microsoft’s [API Management
+IDs and apply the same policy revision through Session 13. Check Microsoft’s [API Management
 multi-region guidance](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-deploy-multi-region)
 before accepting the selected topology.
 

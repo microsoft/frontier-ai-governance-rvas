@@ -15,11 +15,11 @@ Plain static HTML, CSS, and JavaScript, deployed with GitHub Pages.
 The public site serves two audiences equally:
 
 - Enterprise AI, cloud platform, security, and governance leaders evaluating a practical Microsoft AI governance engagement.
-- Practitioners using the 15-session series as a technical implementation reference.
+- Practitioners using the 14-session series as a technical implementation reference.
 
 ## Product Purpose
 
-Present a modular Microsoft AI governance series that customer teams can execute. The full series produces a working deployment and reusable, version-controlled configuration. The site explains how the work runs, shows all 15 sessions, and helps readers choose the full build or a focused route.
+Present a modular Microsoft AI governance series that customer teams can execute. The full series produces a working deployment and reusable, version-controlled configuration. The site explains how the work runs, shows all 14 sessions, and helps readers choose the full build or a focused route.
 
 ## Positioning
 
@@ -29,7 +29,7 @@ Standard mode is the default. The team implements one explicit control, keeps pr
 
 Extended mode is used only when a control needs both an allowed and a blocked or failure check. The delivery lead records the reason before the session, and the delivery owner confirms the result at a checkpoint. Both modes keep only the records needed for normal operations and use the implementation resources required by the control.
 
-The complete route contains 65 working hours across the 15 published session durations. Those hours cover hands-on work and owner decisions, including session checks. Focused routes deliver the selected control area and include its prerequisite sessions; they omit unrelated controls and do not represent the complete deployment.
+The complete route contains 64 working hours across the 14 published session durations. Those hours cover hands-on work and owner decisions, including session checks. Focused routes deliver the selected control area and include its prerequisite sessions; they omit unrelated controls and do not represent the complete deployment.
 
 ## Operating Context
 
@@ -37,24 +37,25 @@ The series spans Microsoft Foundry, Foundry Agent Service, Foundry Control Plane
 
 Readers need an executive overview and enough technical detail to understand session dependencies, practical outcomes, session outputs, and the check that confirms each control.
 
-LLMOps is a cross-session operating thread, not a separate numbered session. Session 05 covers
-model selection, deployment versions, quota, and retirement. Session 11 adds repeatable evaluation
-and release thresholds. Session 13 connects tracing, operational signals, cost, and incident
-response. Session 14 controls promotion and previous-release restore, while Session 15 extends ownership and
-operations across the agent fleet.
+LLMOps runs through the series as a cross-session thread rather than a single numbered session.
+Session 04 covers model selection, deployment versions, quota, and retirement. Session 10 adds
+repeatable evaluation and release thresholds. Session 12 connects tracing, operational signals,
+cost, and incident response. Session 13 controls promotion and previous-release restore, and
+Session 14 extends ownership and operations across the agent fleet.
 
-In this program, LLMOps means operating models, prompts, agents, evaluations, telemetry, cost
-controls, and releases as one managed lifecycle. AIOps keeps its narrower industry meaning: using
-AI to operate IT systems. That use case sits outside the default course scope.
+We use LLMOps here to mean operating models, prompts, agents, evaluations, telemetry, cost
+controls, and releases as one managed lifecycle. That's different from AIOps, which keeps its
+narrower industry meaning of using AI to operate IT systems, and sits outside this course's default
+scope.
 
 ## Capabilities and Constraints
 
 - The first public surface is a static, responsive reference site with no server-side runtime.
 - The site must deploy from this repository through GitHub Pages.
 - Source material is date-sensitive and must preserve its dated caveats, product distinctions, and citations.
-- The 15 sessions should remain modular so readers can run the complete route or choose a focused route with its prerequisites.
+- The 14 sessions should remain modular so readers can run the complete route or choose a focused route with its prerequisites.
 - Optional implementation modules may address architecture-specific needs outside the default
-  sequence. They remain separate from the 15 sessions and do not change session numbering, phases,
+  sequence. They remain separate from the 14 sessions and do not change session numbering, phases,
   or counts.
 - The site must not invent customer claims, testimonials, benchmarks, licensing promises, or deployment guarantees.
 

@@ -6,7 +6,7 @@ param(
 
     [Parameter(Mandatory)]
     [ValidatePattern("^https://")]
-    [string]$Session06AgentBaseUrl,
+    [string]$Session05AgentBaseUrl,
 
     [Parameter(Mandatory)]
     [ValidatePattern("^https://")]
@@ -26,11 +26,11 @@ $agentRecord = (Get-Content -LiteralPath $agentRecordPath -Raw | ConvertFrom-Jso
 
 & (Join-Path $PSScriptRoot "preflight.ps1") `
     -ApprovedSubscriptionId $ApprovedSubscriptionId `
-    -Session06AgentBaseUrl $Session06AgentBaseUrl `
+    -Session05AgentBaseUrl $Session05AgentBaseUrl `
     -RemoteMcpServerUrl $RemoteMcpServerUrl
 
 $deploymentRaw = & az deployment group create `
-    --name "session08-api-center-inventory" `
+    --name "session07-api-center-inventory" `
     --resource-group ([string]$environment.resourceGroupName) `
     --template-file $bicepPath `
     --parameters `
@@ -38,11 +38,11 @@ $deploymentRaw = & az deployment group create `
       "apiManagementName=$($environment.apiManagementName)" `
       "apiCenterName=$($environment.apiCenterName)" `
       "location=$($environment.location)" `
-      "session06AgentBaseUrl=$Session06AgentBaseUrl" `
+      "session05AgentBaseUrl=$Session05AgentBaseUrl" `
     --only-show-errors `
     --output json
 if ($LASTEXITCODE -ne 0) {
-    throw "Session 08 API Center deployment failed."
+    throw "Session 07 API Center deployment failed."
 }
 $deployment = $deploymentRaw | ConvertFrom-Json -ErrorAction Stop
 
@@ -86,11 +86,11 @@ else {
         --only-show-errors `
         --output none
     if ($LASTEXITCODE -ne 0) {
-        throw "Creating the Session 07 APIM integration failed."
+        throw "Creating the Session 06 APIM integration failed."
     }
 }
 
-Write-Host "Deployed the marked Session 08 API Center control."
+Write-Host "Deployed the marked Session 07 API Center control."
 Write-Host "API Center: $($deployment.properties.outputs.apiCenterId.value)"
 Write-Host "APIM synchronization can take up to 24 hours."
 Write-Host "Confirm the current '$($environment.apiCenterPlan)' plan in the API Center portal; the stable 2024-03-01 Bicep service resource does not expose plan selection."

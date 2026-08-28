@@ -19,7 +19,7 @@ usage() {
   cat <<'USAGE'
 Usage: ./scripts/preflight.sh --approved-subscription-id <id> --resource-group-name <name>
 
-Validate Session 04 files, __REQUIRED_*__ decisions, approved Azure scope, service resource
+Validate Session 03 files, __REQUIRED_*__ decisions, approved Azure scope, service resource
 identities, resource providers, Bicep compilation, and the read-only group what-if preview.
 USAGE
 }
@@ -71,7 +71,7 @@ for path in root.rglob('*'):
 if found:
     unresolved = sorted(found)
     unknown = [item for item in unresolved if item not in allowed]
-    message = f"Resolve all Session 04 decisions before deployment: {', '.join(unresolved)}."
+    message = f"Resolve all Session 03 decisions before deployment: {', '.join(unresolved)}."
     if unknown:
         message += f" Add explicit checks for new sentinels: {', '.join(unknown)}."
     print(message, file=sys.stderr)
@@ -125,7 +125,7 @@ import json, sys
 endpoint_path = sys.argv[1]
 with open(endpoint_path, encoding='utf-8') as handle:
     endpoint_matrix = json.load(handle)
-if endpoint_matrix.get('implementationSession') != '04-private-networking-dns':
+if endpoint_matrix.get('implementationSession') != '03-private-networking-dns':
     raise SystemExit('The endpoint matrix has the wrong implementation marker.')
 expected = {'foundry', 'storage-blob', 'ai-search', 'cosmos-sql', 'key-vault'}
 aliases = [str(item.get('alias', '')).strip().lower() for item in endpoint_matrix.get('endpoints', [])]
@@ -312,6 +312,6 @@ printf '  Resource group: %s\n' "$resource_group_name"
 printf '  Location:       %s\n' "$resource_group_location"
 printf '  Approved scope: nonproduction subscription and network resource group\n'
 printf 'Bicep deployment preview:\n'
-preview_output="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name rvas-s04-preflight --template-file "$artifact_root/infra/network/main.bicep" --parameters "$artifact_root/environments/sandbox.bicepparam" --no-pretty-print --only-show-errors)" || die 'Bicep what-if failed.'
+preview_output="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name rvas-s03-preflight --template-file "$artifact_root/infra/network/main.bicep" --parameters "$artifact_root/environments/sandbox.bicepparam" --no-pretty-print --only-show-errors)" || die 'Bicep what-if failed.'
 printf '%s\n' "$preview_output"
-printf 'PASS: Session 04 files, decisions, Azure scope, service resources, providers, Bicep syntax, and what-if are ready.\n'
+printf 'PASS: Session 03 files, decisions, Azure scope, service resources, providers, Bicep syntax, and what-if are ready.\n'

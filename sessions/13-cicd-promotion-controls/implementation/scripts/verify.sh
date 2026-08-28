@@ -6,7 +6,7 @@ usage() {
 Usage: ./scripts/verify.sh --check intended|blocked --release-sha <40-character-sha> \
   --promotion-run-id <github-actions-run-id>
 
-Runs the Session 14 Bash verification entrypoint. The script validates the requested check, reads the
+Runs the Session 13 Bash verification entrypoint. The script validates the requested check, reads the
 operational control, inspects the named GitHub Actions run, and confirms the intended or blocked path.
 
 Required options:
@@ -121,7 +121,7 @@ for command_name in gh python; do
   require_command "$command_name"
 done
 
-grep -Eq '"implementationSession"[[:space:]]*:[[:space:]]*"14-cicd-promotion-controls"' "$control_path" ||
+grep -Eq '"implementationSession"[[:space:]]*:[[:space:]]*"13-cicd-promotion-controls"' "$control_path" ||
   fail 'Control definition has the wrong implementationSession marker.'
 
 repository="$(json_get "$control_path" 'repository.owner')/$(json_get "$control_path" 'repository.name')"
@@ -177,7 +177,7 @@ if check == 'intended':
     print('PASS: the immutable release passed nonproduction and protected production, and the linked manifest remains in operation.')
 else:
     if validation_job is None:
-        raise SystemExit('The blocked workflow run does not identify the generated Session 11 self-test input.')
+        raise SystemExit('The blocked workflow run does not identify the generated Session 10 self-test input.')
     gate_step = next((step for step in validation_job.get('steps', []) if step.get('name') == 'Apply evaluation and adversarial gates before deployment'), None)
     failed_before_gate = [
         step for step in validation_job.get('steps', [])

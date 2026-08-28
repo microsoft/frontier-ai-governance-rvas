@@ -11,7 +11,7 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
-$implementationSession = "04-private-networking-dns"
+$implementationSession = "03-private-networking-dns"
 
 function Test-PrivateIPv4 {
     param([Parameter(Mandatory)][string]$Address)

@@ -32,7 +32,7 @@ function Invoke-AzJson {
     return (($raw | Out-String) | ConvertFrom-Json -ErrorAction Stop)
 }
 
-$implementationSession = "07-apim-ai-gateway"
+$implementationSession = "06-apim-ai-gateway"
 $foundryAgentConsumerRoleId = "eed3b665-ab3a-47b6-8f48-c9382fb1dad6"
 $cognitiveServicesUserRoleId = "a97b65f3-24c7-4388-baec-2e87135dc908"
 $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
@@ -84,9 +84,9 @@ if ($sentinels) {
     $unresolved = @($sentinels.Matches.Value | Sort-Object -Unique)
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
     if ($unknown.Count -gt 0) {
-        throw "Add explicit Session 07 preflight checks for new sentinels: $($unknown -join ', ')."
+        throw "Add explicit Session 06 preflight checks for new sentinels: $($unknown -join ', ')."
     }
-    throw "Resolve every Session 07 customer decision before deployment: $($unresolved -join ', ')."
+    throw "Resolve every Session 06 customer decision before deployment: $($unresolved -join ', ')."
 }
 
 $control = Get-Content -LiteralPath $controlPath -Raw | ConvertFrom-Json -ErrorAction Stop
@@ -100,13 +100,13 @@ if ([string]$control.implementationSession -ne $implementationSession -or
 }
 if ([string]$control.api.operationPath -ne "/responses" -or
     $null -eq $openApi.paths."/responses".post) {
-    throw "Session 07 must expose one POST /responses operation."
+    throw "Session 06 must expose one POST /responses operation."
 }
 if (-not [bool]$control.product.subscriptionRequired) {
     throw "The governed product must require an APIM subscription."
 }
 if ([bool]$control.semanticCaching.enabled) {
-    throw "Semantic caching is deferred for Session 07."
+    throw "Semantic caching is deferred for Session 06."
 }
 if ([int]$control.telemetry.requestBodyBytesLogged -ne 0 -or
     [int]$control.telemetry.responseBodyBytesLogged -ne 0 -or
@@ -160,7 +160,7 @@ $forbiddenPolicyTerms = @(
 $policyText = Get-Content -LiteralPath $policyPath -Raw
 foreach ($term in $forbiddenPolicyTerms) {
     if ($policyText -match [regex]::Escape($term)) {
-        throw "The Session 07 policy must not contain '$term'."
+        throw "The Session 06 policy must not contain '$term'."
     }
 }
 
@@ -172,7 +172,7 @@ if ($primaryUri.Scheme -ne "https" -or
 }
 $expectedPrimaryBase = "https://$($environment.foundryAccountName).services.ai.azure.com/api/projects/$($environment.foundryProjectName)/agents/$($environment.agentName)/endpoint/protocols/openai"
 if ($PrimaryAgentBaseUrl.TrimEnd("/") -ne $expectedPrimaryBase) {
-    throw "PrimaryAgentBaseUrl does not match the existing Session 06 Foundry agent."
+    throw "PrimaryAgentBaseUrl does not match the existing Session 05 Foundry agent."
 }
 if ([bool]$environment.secondaryBackendEnabled) {
     if ([string]::IsNullOrWhiteSpace($SecondaryAgentBaseUrl)) {
@@ -227,7 +227,7 @@ $foundryAssignments = Invoke-AzJson `
     ) `
     -Description "APIM Foundry Agent Consumer assignment lookup"
 if (@($foundryAssignments).Count -eq 0) {
-    throw "Assign Foundry Agent Consumer to the APIM identity at the individual Session 06 agent scope."
+    throw "Assign Foundry Agent Consumer to the APIM identity at the individual Session 05 agent scope."
 }
 
 $contentSafetyResourceId = [string]$environment.contentSafetyResourceId
@@ -270,7 +270,7 @@ $existingApiRaw = & az rest --method get --url $apiUrl --only-show-errors --outp
 if ($LASTEXITCODE -eq 0) {
     $existingApi = $existingApiRaw | ConvertFrom-Json -ErrorAction Stop
     if ([string]$existingApi.properties.description -notlike "*implementationSession=$implementationSession*") {
-        throw "An existing APIM API uses the configured ID without the Session 07 marker."
+        throw "An existing APIM API uses the configured ID without the Session 06 marker."
     }
 }
 
@@ -283,7 +283,7 @@ Write-Host "  Request/response body logging: disabled"
 Write-Host "  Semantic caching: deferred"
 
 & az deployment group what-if `
-    --name "session07-apim-ai-gateway-preview" `
+    --name "session06-apim-ai-gateway-preview" `
     --resource-group ([string]$environment.resourceGroupName) `
     --template-file $bicepPath `
     --parameters `
@@ -299,4 +299,4 @@ if ($LASTEXITCODE -ne 0) {
     throw "The API Management deployment preview failed."
 }
 
-Write-Host "PASS: Session 07 files, decisions, policy, approved Azure scope, identities, safety backend, logger, agent route, and deployment preview are ready."
+Write-Host "PASS: Session 06 files, decisions, policy, approved Azure scope, identities, safety backend, logger, agent route, and deployment preview are ready."

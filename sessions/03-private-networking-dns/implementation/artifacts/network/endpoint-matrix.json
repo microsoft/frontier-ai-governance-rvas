@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "04-private-networking-dns",
+  "implementationSession": "03-private-networking-dns",
   "endpoints": [
     {
       "alias": "foundry",

@@ -6,7 +6,7 @@
 
 Create and exercise a **callable release-eligibility gate for exact agent versions** using repeatable
 customer-specific evaluation results. The team runs one versioned golden data set against the
-currently approved [Session 06](../../06-governed-agent-baseline/implementation/README.md) version
+currently approved [Session 05](../../05-governed-agent-baseline/implementation/README.md) version
 and a separate candidate version. It activates the approved thresholds and release policy, then
 confirms that the approved record returns `PASS` and the in-memory tool-process regression returns
 `BLOCK`.
@@ -22,11 +22,11 @@ hiding a failed tool path or safety check.
 Microsoft Foundry remains authoritative for detailed queries, responses, tool calls, evaluator
 reasons, and row-level results. The approved release store holds payload-free aggregate records,
 thresholds, and gate state. Preview task-adherence and prohibited-action evaluators stay advisory,
-and the gate does not replace the [Session 09](../../09-mcp-tool-security/implementation/README.md)
+and the gate does not replace the [Session 08](../../08-mcp-tool-security/implementation/README.md)
 authorization controls.
 
 This session does not change the stable endpoint or promote a version. It creates and exercises the
-callable eligibility contract. [Session 14](../../14-cicd-promotion-controls/implementation/README.md)
+callable eligibility contract. [Session 13](../../13-cicd-promotion-controls/implementation/README.md)
 places that contract in the protected promotion path and makes promotion depend on it.
 
 ## Architecture
@@ -47,7 +47,7 @@ callable gate reads that state and returns `PASS` or `BLOCK`.
 
 Foundry keeps the evaluation runs and row-level detail. The approved release store keeps the data
 hash, aggregates, thresholds, and active policy used for the release decision. The gate can return
-a decision, but it cannot change the stable endpoint. Session 14 consumes that result inside its
+a decision, but it cannot change the stable endpoint. Session 13 consumes that result inside its
 protected promotion path.
 
 ### Design choices and tradeoffs
@@ -57,7 +57,7 @@ protected promotion path.
 | Run one versioned golden set against both exact agent versions | Both results use the same cases and data hash. | A data change requires a new version and approved baseline. | The approved use cases or risk set changes. |
 | Keep final-answer, tool-process, and safety rules separate | A strong average cannot hide a failed tool path or safety row. | Owners maintain several thresholds and route failures to the right owner. | A supported evaluator changes status or meaning. |
 | Derive active thresholds from the approved baseline, within owner-approved floors | The gate uses observed approved behavior without dropping below owner tolerances. | A weak baseline must be fixed; lowering the floor cannot make it acceptable. | The baseline, evaluator set, or owner tolerance changes. |
-| Return `PASS` or `BLOCK` and leave version selection to Session 14 | Evaluation code has no authority to promote a version. | The control is incomplete until the delivery workflow calls the gate. | Session 14 changes its promotion contract. |
+| Return `PASS` or `BLOCK` and leave version selection to Session 13 | Evaluation code has no authority to promote a version. | The control is incomplete until the delivery workflow calls the gate. | Session 13 changes its promotion contract. |
 
 ### Architecture guidance
 
@@ -72,7 +72,7 @@ and project-identity requirements in the
 
 Confirm these prerequisites:
 
-- Sessions 01-10 are complete in the full path. For a focused route, confirm the platform inventory
+- Sessions 01-08 are complete in the full path. For a focused route, confirm the platform inventory
   lists the exact nonproduction Foundry resource, project, policy-assistant agent, approved version,
   candidate version, and stable-endpoint selector.
 - For a focused route, confirm the access, gateway, tool, and data records list the operator
@@ -80,9 +80,9 @@ Confirm these prerequisites:
   backend role definition ID and assignment scope, prohibited-write decision, and synthetic-data
   classification. The stable endpoint must select the approved version, `get_policy` must read
   successfully, and the prohibited write must be absent or denied.
-- The [Session 06](../../06-governed-agent-baseline/implementation/README.md) policy assistant has one currently approved immutable version and a different
+- The [Session 05](../../05-governed-agent-baseline/implementation/README.md) policy assistant has one currently approved immutable version and a different
   candidate version. The stable endpoint remains pinned to the approved version.
-- The [Session 09](../../09-mcp-tool-security/implementation/README.md) `get_policy` path, synthetic records, prohibited write, and human change route remain
+- The [Session 08](../../08-mcp-tool-security/implementation/README.md) `get_policy` path, synthetic records, prohibited write, and human change route remain
   available to the candidate.
 - On the day of each run, the quality owner checks the selected project region and evaluator set
   against the current Microsoft evaluation support documentation. Record `supported` and the check
@@ -102,12 +102,12 @@ Confirm these prerequisites:
 
 | Type | File | Consumer |
 |---|---|---|
-| Runtime | [`artifacts/eval/evaluation-spec.json`](artifacts/eval/evaluation-spec.json) | The evaluation runner, release gate, preflight scripts, and Session 14 validators |
+| Runtime | [`artifacts/eval/evaluation-spec.json`](artifacts/eval/evaluation-spec.json) | The evaluation runner, release gate, preflight scripts, and Session 13 validators |
 | Runtime | [`artifacts/eval/data/golden-v1.jsonl`](artifacts/eval/data/golden-v1.jsonl) | The evaluation runner and release gate |
-| Runtime | [`artifacts/eval/thresholds.yaml`](artifacts/eval/thresholds.yaml) | The release gate, preflight scripts, and Session 14 validators |
-| Runtime | [`artifacts/gate-tests/cases/tool-process-regression.json`](artifacts/gate-tests/cases/tool-process-regression.json) | The release owner and Session 14 validators |
+| Runtime | [`artifacts/eval/thresholds.yaml`](artifacts/eval/thresholds.yaml) | The release gate, preflight scripts, and Session 13 validators |
+| Runtime | [`artifacts/gate-tests/cases/tool-process-regression.json`](artifacts/gate-tests/cases/tool-process-regression.json) | The release owner and Session 13 validators |
 | Record | [`artifacts/governance/evaluation-governance-decision.md`](artifacts/governance/evaluation-governance-decision.md) | The release, quality, tool, safety, and exception owners |
-| Record | [`artifacts/release/release-policy.json`](artifacts/release/release-policy.json) | The release owner, release gate, preflight scripts, and Session 14 promotion workflow |
+| Record | [`artifacts/release/release-policy.json`](artifacts/release/release-policy.json) | The release owner, release gate, preflight scripts, and Session 13 promotion workflow |
 | Record | [`artifacts/release-records/release-record-template.json`](artifacts/release-records/release-record-template.json) | The release owner and audit reviewers |
 | Record | [`artifacts/operations/disable-and-restore.md`](artifacts/operations/disable-and-restore.md) | The release owner and incident operator |
 
@@ -137,7 +137,7 @@ an exact agent version is not eligible for this gate.
 
 The supplied JSONL includes normal, edge, refusal, multilingual, sensitive-data, tool-use,
 indirect-attack, and failure cases. Every case has a stable `case_id`, one category, a synthetic query,
-an expected behavior, and the Session 09 read-only tool definition.
+an expected behavior, and the Session 08 read-only tool definition.
 
 The quality and safety owners must review additions or edits. Change the data set version when content
 changes. The runner derives the Foundry dataset version from the local SHA-256 hash, so identical
@@ -410,7 +410,7 @@ Update the candidate run ID in `release-policy.json`. Do not set the decision to
 ## Confirm the result
 
 **Keep the release owner present.** The owner confirms the gate behavior here; production approval
-remains in Session 14.
+remains in Session 13.
 
 ### Intended path: approved version passes
 
@@ -478,7 +478,7 @@ The release owner observes both gate behaviors and the actual candidate outcome:
 - **Enable the gate:** set `gate.state` to `enabled`, `gate.decision` to `approved`, and
   `gate.decisionDate` to the approval date only when the approved path passes, the blocked self-test
   returns `BLOCK`, every blocking candidate metric is complete, and the planned
-  [Session 14](../../14-cicd-promotion-controls/implementation/README.md) delivery path names this
+  [Session 13](../../13-cicd-promotion-controls/implementation/README.md) delivery path names this
   gate. `gate.baselineRunId` must equal both the supplied baseline run ID and
   `thresholds.yaml` `baseline.source_run_id`. `gate.candidateRunId` must equal the supplied
   candidate run ID.
@@ -497,12 +497,12 @@ consolidated release policy, and scripts.
 The quality owner owns the data set, evaluator selection, and threshold history. The safety owner owns
 the safety set and preview-evaluator boundary. The tool owner owns tool-process failures. The cost
 owner monitors evaluation consumption. The release owner owns the stable version selector and gate
-state. In [Session 14](../../14-cicd-promotion-controls/implementation/README.md), the controlled
+state. In [Session 13](../../13-cicd-promotion-controls/implementation/README.md), the controlled
 promotion workflow invokes `release-gate.py` with the approved evaluation specification, threshold
 policy, approved baseline record, candidate record, and release policy. It must pass both
 `--release-policy implementation/artifacts/release/release-policy.json` and `--require-enabled`.
 That mode rejects a pending or disabled gate, an unapproved or undated decision, an inactive
-threshold policy, or mismatched run IDs before it evaluates metrics. Session 14 may call
+threshold policy, or mismatched run IDs before it evaluates metrics. Session 13 may call
 `test_release_gate.py --mode blocked-tool-process` for the same in-memory blocked-path test.
 
 Run this implementation only against the nonproduction Foundry project, policy-assistant agent, two
@@ -510,7 +510,7 @@ agent versions, synthetic data set, and evaluator set listed in the evaluation s
 catalog change, production traffic, continuous production evaluation, red teaming, broad trace
 collection, or automatic promotion.
 
-The immediate disable switch is the stable endpoint selector. Keep or restore the approved [Session 06](../../06-governed-agent-baseline/implementation/README.md)
+The immediate disable switch is the stable endpoint selector. Keep or restore the approved [Session 05](../../05-governed-agent-baseline/implementation/README.md)
 version at 100%. Follow
 [`artifacts/operations/disable-and-restore.md`](artifacts/operations/disable-and-restore.md) before
 removing a gate, evaluation definition, or dataset version. The scripts do not change the endpoint or

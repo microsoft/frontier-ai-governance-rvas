@@ -35,7 +35,7 @@ Do not renumber sessions. Keep the existing ID, slug, title, duration, and contr
 the request explicitly changes one of them.
 
 Optional modules live under `modules/`, have no numeric ID or program phase, and never alter the
-15-session count. Follow `references/module-contract.md` and validate them with the same validator.
+14-session count. Follow `references/module-contract.md` and validate them with the same validator.
 
 ## Implementation modes
 

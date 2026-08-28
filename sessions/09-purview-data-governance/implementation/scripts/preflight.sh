@@ -126,7 +126,7 @@ if ((${#unresolved_sentinels[@]} > 0)); then
     $known || unknown+=("$sentinel")
   done
   if ((${#unknown[@]} > 0)); then
-    fail "Add explicit Session 10 preflight checks for new sentinels: ${unknown[*]}"
+    fail "Add explicit Session 09 preflight checks for new sentinels: ${unknown[*]}"
   fi
   locations=$(grep -R -n -E '__REQUIRED_[A-Z0-9_]+__' "$artifact_root" | sort -u)
   fail "Resolve every required customer decision before tenant changes:\n$locations"
@@ -140,7 +140,7 @@ import sys
 
 coverage_text = open(sys.argv[1], encoding='utf-8').read()
 audit = json.load(open(sys.argv[2], encoding='utf-8'))
-marker = '10-purview-data-governance'
+marker = '09-purview-data-governance'
 required_operations = ['AIInvokeAgent', 'AIExecuteTool', 'AIInferenceCall', 'AIGuardrail']
 required_output_fields = ['CreationDate', 'Operation', 'AgentId', 'AgentName', 'ResultStatus']
 
@@ -383,4 +383,4 @@ if str(payload.get('tid', '')).lower() != sys.argv[2].lower():
     raise SystemExit('The Microsoft Graph application token does not identify the approved tenant.')
 PY
 
-echo 'PASS: Session 10 Markdown safety decisions, DLP and audit bindings, approved tenant, and AuditLogsQuery.Read.All token are ready.'
+echo 'PASS: Session 09 Markdown safety decisions, DLP and audit bindings, approved tenant, and AuditLogsQuery.Read.All token are ready.'

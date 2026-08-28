@@ -1,19 +1,19 @@
 targetScope = 'resourceGroup'
 
-@description('Existing Session 07 API Management service name.')
+@description('Existing Session 06 API Management service name.')
 param apiManagementName string
 
-var implementationSession = '09-mcp-tool-security'
+var implementationSession = '08-mcp-tool-security'
 var environment = loadJsonContent('../environments/sandbox.json')
 var binding = loadJsonContent('../governance/agent-mcp-binding.json')
 var rawPolicy = loadTextContent('policies/mcp-policy.xml')
 var openBrace = '{'
 var closeBrace = '}'
-var namedTenantId = '${openBrace}${openBrace}session09-entra-tenant-id${closeBrace}${closeBrace}'
-var namedClientApplicationId = '${openBrace}${openBrace}session09-client-application-id${closeBrace}${closeBrace}'
-var namedMcpAudience = '${openBrace}${openBrace}session09-mcp-audience${closeBrace}${closeBrace}'
-var namedRequiredAppRole = '${openBrace}${openBrace}session09-required-app-role${closeBrace}${closeBrace}'
-var namedBackendAudience = '${openBrace}${openBrace}session09-backend-audience${closeBrace}${closeBrace}'
+var namedTenantId = '${openBrace}${openBrace}session08-entra-tenant-id${closeBrace}${closeBrace}'
+var namedClientApplicationId = '${openBrace}${openBrace}session08-client-application-id${closeBrace}${closeBrace}'
+var namedMcpAudience = '${openBrace}${openBrace}session08-mcp-audience${closeBrace}${closeBrace}'
+var namedRequiredAppRole = '${openBrace}${openBrace}session08-required-app-role${closeBrace}${closeBrace}'
+var namedBackendAudience = '${openBrace}${openBrace}session08-backend-audience${closeBrace}${closeBrace}'
 var identityPolicy = replace(
   replace(
     replace(
@@ -52,9 +52,9 @@ resource applicationInsightsLogger 'Microsoft.ApiManagement/service/loggers@2025
 
 resource tenantId 'Microsoft.ApiManagement/service/namedValues@2025-09-01-preview' = {
   parent: apim
-  name: 'session09-entra-tenant-id'
+  name: 'session08-entra-tenant-id'
   properties: {
-    displayName: 'session09-entra-tenant-id'
+    displayName: 'session08-entra-tenant-id'
     secret: false
     tags: [
       implementationSession
@@ -65,9 +65,9 @@ resource tenantId 'Microsoft.ApiManagement/service/namedValues@2025-09-01-previe
 
 resource clientApplicationId 'Microsoft.ApiManagement/service/namedValues@2025-09-01-preview' = {
   parent: apim
-  name: 'session09-client-application-id'
+  name: 'session08-client-application-id'
   properties: {
-    displayName: 'session09-client-application-id'
+    displayName: 'session08-client-application-id'
     secret: false
     tags: [
       implementationSession
@@ -78,9 +78,9 @@ resource clientApplicationId 'Microsoft.ApiManagement/service/namedValues@2025-0
 
 resource mcpAudience 'Microsoft.ApiManagement/service/namedValues@2025-09-01-preview' = {
   parent: apim
-  name: 'session09-mcp-audience'
+  name: 'session08-mcp-audience'
   properties: {
-    displayName: 'session09-mcp-audience'
+    displayName: 'session08-mcp-audience'
     secret: false
     tags: [
       implementationSession
@@ -91,9 +91,9 @@ resource mcpAudience 'Microsoft.ApiManagement/service/namedValues@2025-09-01-pre
 
 resource requiredAppRole 'Microsoft.ApiManagement/service/namedValues@2025-09-01-preview' = {
   parent: apim
-  name: 'session09-required-app-role'
+  name: 'session08-required-app-role'
   properties: {
-    displayName: 'session09-required-app-role'
+    displayName: 'session08-required-app-role'
     secret: false
     tags: [
       implementationSession
@@ -104,9 +104,9 @@ resource requiredAppRole 'Microsoft.ApiManagement/service/namedValues@2025-09-01
 
 resource backendAudience 'Microsoft.ApiManagement/service/namedValues@2025-09-01-preview' = {
   parent: apim
-  name: 'session09-backend-audience'
+  name: 'session08-backend-audience'
   properties: {
-    displayName: 'session09-backend-audience'
+    displayName: 'session08-backend-audience'
     secret: false
     tags: [
       implementationSession

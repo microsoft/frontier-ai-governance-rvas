@@ -138,9 +138,9 @@ if ((${#unresolved_sentinels[@]} > 0)); then
     $known || unknown+=("$sentinel")
   done
   if ((${#unknown[@]} > 0)); then
-    fail "Add explicit Session 09 preflight checks for new sentinels: ${unknown[*]}"
+    fail "Add explicit Session 08 preflight checks for new sentinels: ${unknown[*]}"
   fi
-  fail "Resolve every Session 09 customer decision before deployment: ${unresolved_sentinels[*]}"
+  fail "Resolve every Session 08 customer decision before deployment: ${unresolved_sentinels[*]}"
 fi
 
 python3 - "$environment_path" "$binding_path" "$evaluation_path" "$policy_path" <<'PY'
@@ -268,7 +268,7 @@ approved = section(evaluation_lines, approved_heading)
 denied = section(evaluation_lines, denied_heading)
 
 for record in (environment, binding):
-    if record.get('implementationSession') != '09-mcp-tool-security':
+    if record.get('implementationSession') != '08-mcp-tool-security':
         raise SystemExit('A implementation file has the wrong implementationSession marker.')
 tool = binding.get('tool', {})
 if tool.get('id') != 'get_policy':
@@ -333,7 +333,7 @@ for value in (environment.get('entraTenantId', ''), environment.get('clientAppli
 for field, description in ((environment.get('mcpAudience', ''), 'mcpAudience'), (environment.get('backendAudience', ''), 'backendAudience')):
     if not re.match(r'^(https|api)://', field) or re.search(r'[?#]', field):
         raise SystemExit(f'{description} must be an HTTPS or api:// audience without a query string or fragment.')
-for required in ['validate-azure-ad-token', 'rate-limit-by-key', 'authentication-managed-identity', 'X-Correlation-ID', 'session09-mcp-tool-security']:
+for required in ['validate-azure-ad-token', 'rate-limit-by-key', 'authentication-managed-identity', 'X-Correlation-ID', 'session08-mcp-tool-security']:
     if required not in policy_text:
         raise SystemExit(f'The MCP policy is missing required control: {required}')
 if 'context.Response.Body' in policy_text or re.search(r'gen_ai\.tool\.call\.(arguments|result)', policy_text):
@@ -412,12 +412,12 @@ PY
 )
 agent_uri="https://$(jq -r '.foundryAccountName' <<<"$environment_json").services.ai.azure.com/api/projects/$(jq -r '.foundryProjectName' <<<"$environment_json")/agents/$agent_name?api-version=v1"
 api_request GET "$agent_uri" "$token"
-[[ "$API_STATUS" == '200' ]] || fail 'Unable to read the existing Session 06 policy assistant.'
-[[ $(jq -r '.agent_card.description // ""' "$API_BODY_FILE") == *'06-governed-agent-baseline'* ]] || fail 'The approved agent ID is not the marked Session 06 policy assistant.'
+[[ "$API_STATUS" == '200' ]] || fail 'Unable to read the existing Session 05 policy assistant.'
+[[ $(jq -r '.agent_card.description // ""' "$API_BODY_FILE") == *'05-governed-agent-baseline'* ]] || fail 'The approved agent ID is not the marked Session 05 policy assistant.'
 
 existing_mcp=$(az rest --method GET --uri "$expected_apim_id/apis/$(jq -r '.mcpServerId' <<<"$environment_json")?api-version=2025-09-01-preview" --only-show-errors --output json 2>/dev/null || true)
 if [[ -n "$existing_mcp" ]]; then
-  [[ $(jq -r '.properties.description // ""' <<<"$existing_mcp") == *'implementationSession=09-mcp-tool-security'* ]] || fail 'An APIM API already uses the MCP server ID without the Session 09 marker.'
+  [[ $(jq -r '.properties.description // ""' <<<"$existing_mcp") == *'implementationSession=08-mcp-tool-security'* ]] || fail 'An APIM API already uses the MCP server ID without the Session 08 marker.'
 fi
 
 echo 'Deployment preview:'
@@ -428,7 +428,7 @@ echo "  Backend identity: APIM system identity -> $(jq -r '.backendAuthorization
 echo "  Candidate agent: $(jq -r '.agentName' <<<"$environment_json") (not pinned)"
 echo '  Telemetry: correlation and MCP dimensions only; body bytes 0'
 
-az bicep build --file "$bicep_path" --stdout >/dev/null || fail 'The Session 09 Bicep definition failed to compile.'
-az deployment group what-if --name session09-mcp-preview --resource-group "$(jq -r '.resourceGroupName' <<<"$environment_json")" --template-file "$bicep_path" --parameters "apiManagementName=$(jq -r '.apiManagementName' <<<"$environment_json")" --only-show-errors --no-pretty-print >/dev/null || fail 'The Session 09 deployment preview failed.'
+az bicep build --file "$bicep_path" --stdout >/dev/null || fail 'The Session 08 Bicep definition failed to compile.'
+az deployment group what-if --name session08-mcp-preview --resource-group "$(jq -r '.resourceGroupName' <<<"$environment_json")" --template-file "$bicep_path" --parameters "apiManagementName=$(jq -r '.apiManagementName' <<<"$environment_json")" --only-show-errors --no-pretty-print >/dev/null || fail 'The Session 08 deployment preview failed.'
 
-echo 'PASS: Session 09 Markdown security cases, one-tool boundary, identity scopes, payload-free telemetry, approved APIM and backend scopes, and deployment preview are ready.'
+echo 'PASS: Session 08 Markdown security cases, one-tool boundary, identity scopes, payload-free telemetry, approved APIM and backend scopes, and deployment preview are ready.'

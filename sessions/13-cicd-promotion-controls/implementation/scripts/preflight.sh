@@ -7,7 +7,7 @@ Usage: ./scripts/preflight.sh --approved-nonproduction-scope <resource-group-id>
   --approved-production-scope <resource-group-id> --approved-release-sha <40-character-sha> \
   [--phase decisions|ready]
 
-Runs the Session 14 Bash preflight. The script validates required files, tools, sentinels, the two
+Runs the Session 13 Bash preflight. The script validates required files, tools, sentinels, the two
 approved scopes, immutable release metadata, fixed file interfaces, static dependencies,
 and the read-only Azure deployment previews for nonproduction and production.
 
@@ -180,8 +180,8 @@ covered_decision_sentinels=(
   "__REQUIRED_RELEASE_STORE_SCRIPT_PATH__"
   "__REQUIRED_ROUTING_CONTROL_SCRIPT_PATH__"
   "__REQUIRED_ROUTING_STRATEGY_CANARY_OR_BLUE_GREEN__"
-  "__REQUIRED_SESSION11_APPROVED_BASELINE_RECORD_PATH__"
-  "__REQUIRED_SESSION11_CANDIDATE_RECORD_PATH__"
+  "__REQUIRED_SESSION10_APPROVED_BASELINE_RECORD_PATH__"
+  "__REQUIRED_SESSION10_CANDIDATE_RECORD_PATH__"
   "__REQUIRED_STABLE_ROUTING_SELECTOR__"
   "__REQUIRED_UNIT_TEST_SCRIPT_PATH__"
 )
@@ -325,8 +325,8 @@ prod_params = json.loads((artifact_root / 'environments' / 'production.parameter
 promotion_workflow = (artifact_root / 'github' / 'promotion.yml').read_text()
 restore_workflow = (artifact_root / 'github' / 'restore-previous-release.yml').read_text()
 
-if control.get('implementationSession') != '14-cicd-promotion-controls':
-    raise SystemExit('Session 14 implementation files have the wrong implementationSession marker.')
+if control.get('implementationSession') != '13-cicd-promotion-controls':
+    raise SystemExit('Session 13 implementation files have the wrong implementationSession marker.')
 if control['targetScopes']['nonproduction'] != approved_nonproduction_scope or control['targetScopes']['production'] != approved_production_scope:
     raise SystemExit('Approved scopes do not match the operational control definition.')
 if control['azure']['clientSecretAllowed'] is not False or 'OIDC' not in control['azure']['authentication']:
@@ -350,8 +350,8 @@ if control['records']['manifestFinalizationFailureBehavior'] != 'stop-and-requir
     raise SystemExit('Manifest finalization failure must stop for manual restore.')
 if control['routing']['strategy'] not in {'canary', 'blue-green'}:
     raise SystemExit('Routing strategy must be canary or blue-green.')
-if control['routing']['existingSession06Or07SupportConfirmed'] is not True:
-    raise SystemExit('Existing Session 06 or 07 routing support is not confirmed.')
+if control['routing']['existingSession05Or06SupportConfirmed'] is not True:
+    raise SystemExit('Existing Session 05 or 07 routing support is not confirmed.')
 if control.get('releaseCommit') != {
     'source': 'workflow_dispatch.release_sha',
     'format': 'full-40-character-git-sha',
@@ -394,9 +394,9 @@ for fragment in (
 ):
     if fragment not in promotion_workflow:
         raise SystemExit(f'Promotion workflow does not bind the approved release SHA: {fragment}')
-threshold_policy_path = repo_root / control['sourcePaths']['session11ThresholdPolicy']
+threshold_policy_path = repo_root / control['sourcePaths']['session10ThresholdPolicy']
 if hashlib.sha256(threshold_policy_path.read_bytes()).hexdigest() != control['immutableRelease']['evaluationThresholdPolicySha256']:
-    raise SystemExit('The approved Session 11 threshold policy hash does not match immutable release metadata.')
+    raise SystemExit('The approved Session 10 threshold policy hash does not match immutable release metadata.')
 
 def resolve_repo_path(relative_path: str) -> str:
     candidate = (repo_root / relative_path).resolve()
@@ -409,13 +409,13 @@ def resolve_repo_path(relative_path: str) -> str:
 bicep_path = resolve_repo_path(control['sourcePaths']['bicepEntrypoint'])
 apim_policy_path = resolve_repo_path(control['sourcePaths']['apimPolicy'])
 unit_script_path = resolve_repo_path(control['sourcePaths']['unitTestScript'])
-smoke_powershell_path = resolve_repo_path(control['sourcePaths']['session13SmokePowerShell'])
-smoke_bash_path = resolve_repo_path(control['sourcePaths']['session13SmokeBash'])
+smoke_powershell_path = resolve_repo_path(control['sourcePaths']['session12SmokePowerShell'])
+smoke_bash_path = resolve_repo_path(control['sourcePaths']['session12SmokeBash'])
 routing_script_path = resolve_repo_path(control['sourcePaths']['routingControlScript'])
 release_store_script_path = resolve_repo_path(control['sourcePaths']['releaseStoreScript'])
 
 for parameters, environment_name in ((nonprod_params['parameters'], 'nonproduction'), (prod_params['parameters'], 'production')):
-    if parameters['environment']['value'] != environment_name or parameters['implementationSession']['value'] != '14-cicd-promotion-controls':
+    if parameters['environment']['value'] != environment_name or parameters['implementationSession']['value'] != '13-cicd-promotion-controls':
         raise SystemExit(f'{environment_name} parameters have the wrong environment or implementation marker.')
     if 'releaseCommitSha' in parameters:
         raise SystemExit(f'{environment_name} parameters must receive releaseCommitSha at runtime.')
@@ -423,40 +423,40 @@ for parameters, environment_name in ((nonprod_params['parameters'], 'nonproducti
         if parameters[parameter_name]['value'] != control['immutableRelease'][control_name]:
             raise SystemExit(f'{environment_name} parameters disagree on {parameter_name}.')
 
-release_gate = repo_root / control['sourcePaths']['session11ReleaseGate']
-release_policy = repo_root / control['sourcePaths']['session11ReleasePolicy']
-self_test = repo_root / control['sourcePaths']['session11GateSelfTest']
-thresholds = repo_root / control['sourcePaths']['session11ThresholdPolicy']
-spec = repo_root / control['sourcePaths']['session11EvaluationSpec']
-dataset = repo_root / control['sourcePaths']['session11Dataset']
-baseline = repo_root / control['sourcePaths']['session11BaselineRecord']
-candidate = repo_root / control['sourcePaths']['session11CandidateRecord']
+release_gate = repo_root / control['sourcePaths']['session10ReleaseGate']
+release_policy = repo_root / control['sourcePaths']['session10ReleasePolicy']
+self_test = repo_root / control['sourcePaths']['session10GateSelfTest']
+thresholds = repo_root / control['sourcePaths']['session10ThresholdPolicy']
+spec = repo_root / control['sourcePaths']['session10EvaluationSpec']
+dataset = repo_root / control['sourcePaths']['session10Dataset']
+baseline = repo_root / control['sourcePaths']['session10BaselineRecord']
+candidate = repo_root / control['sourcePaths']['session10CandidateRecord']
 subprocess.check_call([sys.executable, str(release_gate), '--policy', str(thresholds), '--spec', str(spec), '--dataset', str(dataset), '--baseline-result', str(baseline), '--candidate-result', str(candidate), '--release-policy', str(release_policy), '--require-enabled', '--evaluated-target', 'candidate', '--expect', 'pass', '--phase', 'candidate'])
 subprocess.check_call([sys.executable, str(self_test), '--mode', 'blocked-tool-process'])
-report = json.loads((repo_root / control['sourcePaths']['session12AdversarialReport']).read_text())
+report = json.loads((repo_root / control['sourcePaths']['session11AdversarialReport']).read_text())
 if report.get('status') != 'confirmed' or not report['comparison']['lowerOverallAttackSuccessRate'] or not report['comparison']['perRiskNonRegressionPassed'] or not report['comparison']['prohibitedActionsBlocked']:
-    raise SystemExit('The confirmed Session 12 adversarial report is not confirmed in the required state.')
+    raise SystemExit('The confirmed Session 11 adversarial report is not confirmed in the required state.')
 if report.get('target', {}).get('name') != control['immutableRelease']['agentName'] or report.get('target', {}).get('postRemediationVersion') != control['immutableRelease']['agentVersion']:
-    raise SystemExit('The confirmed Session 12 adversarial report targets another agent name or immutable version.')
+    raise SystemExit('The confirmed Session 11 adversarial report targets another agent name or immutable version.')
 if set(report.get('privacy', {})) != {'containsAttackPrompts', 'containsAgentResponses', 'containsToolPayloads', 'containsEvaluatorReasons', 'containsPromptEvidence'}:
-    raise SystemExit('The confirmed Session 12 adversarial report has an incomplete privacy schema.')
+    raise SystemExit('The confirmed Session 11 adversarial report has an incomplete privacy schema.')
 for field in ('containsAttackPrompts', 'containsAgentResponses', 'containsToolPayloads', 'containsEvaluatorReasons', 'containsPromptEvidence'):
     if report['privacy'][field] is not False:
-        raise SystemExit('The confirmed Session 12 adversarial report must remain payload-free.')
+        raise SystemExit('The confirmed Session 11 adversarial report must remain payload-free.')
 metrics = report.get('comparison', {}).get('metrics')
 if not isinstance(metrics, list) or not metrics:
-    raise SystemExit('The confirmed Session 12 adversarial report has no per-risk comparison rows.')
+    raise SystemExit('The confirmed Session 11 adversarial report has no per-risk comparison rows.')
 keys = set()
 required_metric_fields = {'evaluatorName', 'riskCategory', 'attackStrategy', 'baselineAttackSuccessRate', 'postRemediationAttackSuccessRate', 'change', 'nonRegressionPassed'}
 for metric in metrics:
     if set(metric) != required_metric_fields:
-        raise SystemExit('The confirmed Session 12 per-risk comparison schema is incomplete.')
+        raise SystemExit('The confirmed Session 11 per-risk comparison schema is incomplete.')
     key = tuple(str(metric.get(field, '')).strip() for field in ('evaluatorName', 'riskCategory', 'attackStrategy'))
     baseline_rate = metric.get('baselineAttackSuccessRate')
     post_rate = metric.get('postRemediationAttackSuccessRate')
     change = metric.get('change')
     if not all(key) or key in keys or metric.get('nonRegressionPassed') is not True or isinstance(baseline_rate, bool) or isinstance(post_rate, bool) or isinstance(change, bool) or not isinstance(baseline_rate, (int, float)) or not isinstance(post_rate, (int, float)) or not isinstance(change, (int, float)) or not 0 <= baseline_rate <= 1 or not 0 <= post_rate <= 1 or abs((post_rate - baseline_rate) - change) > 0.000001 or post_rate > baseline_rate:
-        raise SystemExit('The required Session 12 adversarial per-risk schema is incomplete, duplicated, or regressed.')
+        raise SystemExit('The required Session 11 adversarial per-risk schema is incomplete, duplicated, or regressed.')
     keys.add(key)
 state_json.write_text(json.dumps({
     'bicepPath': bicep_path,
@@ -555,18 +555,18 @@ require_approval('nonproduction', control['githubEnvironments']['nonproduction']
 require_approval('production', control['githubEnvironments']['production']['requiredReviewerTeamSlug'])
 secret_response = command_json('gh', 'api', f'repos/{repository}/environments/nonproduction/secrets?per_page=100')
 nonproduction_secret_names = {item['name'] for item in secret_response.get('secrets', [])}
-for required_name in ('SESSION13_SMOKE_URL', 'SESSION13_SMOKE_FAILURE_URL', 'SESSION13_AI_RESOURCE_ID', 'SESSION13_LOG_ANALYTICS_WORKSPACE_ID'):
+for required_name in ('SESSION12_SMOKE_URL', 'SESSION12_SMOKE_FAILURE_URL', 'SESSION12_AI_RESOURCE_ID', 'SESSION12_LOG_ANALYTICS_WORKSPACE_ID'):
     if not str(variables['nonproduction'].get(required_name, '')).strip():
-        raise SystemExit(f'nonproduction GitHub environment variable {required_name} is required for the Session 13 smoke.')
+        raise SystemExit(f'nonproduction GitHub environment variable {required_name} is required for the Session 12 smoke.')
 try:
-    poll_timeout = int(str(variables['nonproduction'].get('SESSION13_SMOKE_TIMEOUT_SECONDS', '')).strip() or '180')
-    poll_retry = int(str(variables['nonproduction'].get('SESSION13_SMOKE_RETRY_SECONDS', '')).strip() or '15')
+    poll_timeout = int(str(variables['nonproduction'].get('SESSION12_SMOKE_TIMEOUT_SECONDS', '')).strip() or '180')
+    poll_retry = int(str(variables['nonproduction'].get('SESSION12_SMOKE_RETRY_SECONDS', '')).strip() or '15')
 except ValueError as error:
-    raise SystemExit('Session 13 telemetry polling values must be integers.') from error
+    raise SystemExit('Session 12 telemetry polling values must be integers.') from error
 if not 30 <= poll_timeout <= 600 or not 5 <= poll_retry <= 60 or poll_retry > poll_timeout:
-    raise SystemExit('Session 13 telemetry polling must use timeout 30-600 seconds and retry 5-60 seconds.')
-if 'SESSION13_SMOKE_BEARER_TOKEN' not in nonproduction_secret_names:
-    raise SystemExit('nonproduction GitHub environment secret SESSION13_SMOKE_BEARER_TOKEN is required.')
+    raise SystemExit('Session 12 telemetry polling must use timeout 30-600 seconds and retry 5-60 seconds.')
+if 'SESSION12_SMOKE_BEARER_TOKEN' not in nonproduction_secret_names:
+    raise SystemExit('nonproduction GitHub environment secret SESSION12_SMOKE_BEARER_TOKEN is required.')
 production = environments['production']
 if production.get('can_admins_bypass') is not False:
     raise SystemExit('Production administrator bypass must be disabled.')
@@ -630,7 +630,7 @@ printf 'Preview 1 of 2: nonproduction at %s\n' "$approved_nonproduction_scope"
 az deployment group what-if \
   --subscription "$nonprod_sub" \
   --resource-group "$nonprod_rg" \
-  --name 's14-preflight-nonproduction' \
+  --name 's13-preflight-nonproduction' \
   --template-file "$bicep_path" \
   --parameters "$artifact_root/environments/nonproduction.parameters.json" \
   releaseCommitSha="$approved_release_sha" \
@@ -640,7 +640,7 @@ printf 'Preview 2 of 2: production at %s\n' "$approved_production_scope"
 az deployment group what-if \
   --subscription "$prod_sub" \
   --resource-group "$prod_rg" \
-  --name 's14-preflight-production' \
+  --name 's13-preflight-production' \
   --template-file "$bicep_path" \
   --parameters "$artifact_root/environments/production.parameters.json" \
   releaseCommitSha="$approved_release_sha" \

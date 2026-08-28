@@ -50,7 +50,7 @@ while (($# > 0)); do
 done
 [[ -n "$approved_subscription_id" ]] || fail "--approved-subscription-id is required."
 
-grep -R -q -E '__REQUIRED_[A-Z0-9_]+__' "$artifact_root" && fail 'Resolve every Session 08 customer decision before reconciling the inventory.'
+grep -R -q -E '__REQUIRED_[A-Z0-9_]+__' "$artifact_root" && fail 'Resolve every Session 07 customer decision before reconciling the inventory.'
 
 environment_json=$(cat "$environment_path")
 record_json=$(jq -c '.records.apim + {customProperties:(.commonMetadata + .records.apim.customProperties)}' "$apim_record_path")
@@ -72,5 +72,5 @@ print(match.get('name') or match.get('id', '').split('/')[-1])
 PY
 )
 custom_properties=$(jq -c '.customProperties' <<<"$record_json")
-update_output=$(az apic api update --resource-group "$(jq -r '.resourceGroupName' <<<"$environment_json")" --service-name "$(jq -r '.apiCenterName' <<<"$environment_json")" --api-id "$api_id" --custom-properties "$custom_properties" --only-show-errors --output none 2>&1) || fail "Updating mandatory metadata on the synchronized Session 07 API failed.\n$update_output"
+update_output=$(az apic api update --resource-group "$(jq -r '.resourceGroupName' <<<"$environment_json")" --service-name "$(jq -r '.apiCenterName' <<<"$environment_json")" --api-id "$api_id" --custom-properties "$custom_properties" --only-show-errors --output none 2>&1) || fail "Updating mandatory metadata on the synchronized Session 06 API failed.\n$update_output"
 echo "Updated mandatory governance metadata on '$(jq -r '.sourceTitle' <<<"$record_json")'."

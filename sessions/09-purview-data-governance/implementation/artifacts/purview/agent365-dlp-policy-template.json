@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "10-purview-data-governance",
+  "implementationSession": "09-purview-data-governance",
   "recordType": "agent365-dlp-policy-template",
   "policy": {
     "name": "__REQUIRED_DLP_POLICY_NAME__",
-    "description": "implementationSession=10-purview-data-governance",
+    "description": "implementationSession=09-purview-data-governance",
     "mode": {
       "initial": "TestWithNotifications",
       "final": "Enable",
@@ -46,5 +46,5 @@
     "retainAuditExports": false,
     "retainScreenshots": false
   },
-  "implementationMarker": "implementationSession=10-purview-data-governance"
+  "implementationMarker": "implementationSession=09-purview-data-governance"
 }

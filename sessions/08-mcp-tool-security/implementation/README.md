@@ -5,7 +5,7 @@
 ### What we will do
 
 Configure **one bounded MCP tool path** for the existing
-[Session 06](../../06-governed-agent-baseline/implementation/README.md) policy assistant. Its tool
+[Session 05](../../05-governed-agent-baseline/implementation/README.md) policy assistant. Its tool
 surface exposes only `get_policy`. APIM validates the candidate agent's Entra identity, MCP audience,
 app role, and input, then uses its own read-only managed identity at the exact backend scope.
 Telemetry keeps the tool name and correlation without payloads. The owned result is a candidate
@@ -22,7 +22,7 @@ until both runtime paths are observed.
 ### Boundaries
 
 This session changes one MCP API in the existing
-[Session 07](../../07-apim-ai-gateway/implementation/README.md) APIM service and one unpinned
+[Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM service and one unpinned
 candidate in the existing Foundry project. APIM is authoritative for the MCP policy and backend
 identity. Foundry is authoritative for the candidate and stable version selector. Application
 Insights holds payload-free runtime telemetry; API Center holds design-time inventory metadata.
@@ -63,7 +63,7 @@ replace the prior stable version.
 |---|---|---|---|
 | Expose the existing GET operation as the single `get_policy` tool | The executable surface matches the approved read. A write cannot appear through tool discovery. | Every new operation or argument needs review and deployment. | The agent receives another approved business action. |
 | Check the agent at APIM, then call the backend as APIM | The backend sees APIM's read-only identity instead of the caller's token. | The team must maintain two audiences and their role assignments. | The backend must authorize individual users. |
-| Test an unpinned candidate before changing the stable selector | A failed check leaves the prior version serving traffic. | Enablement waits for the approved-read and prohibited-write checks. | Session 14 places this checkpoint in a protected promotion workflow. |
+| Test an unpinned candidate before changing the stable selector | A failed check leaves the prior version serving traffic. | Enablement waits for the approved-read and prohibited-write checks. | Session 13 places this checkpoint in a protected promotion workflow. |
 | Log correlation and tool metadata with body logging set to zero | Operators can follow a call without retaining tool content. | Content investigations must use the governed source systems. | The security owner approves another data-handling design. |
 
 ### Architecture guidance
@@ -80,10 +80,10 @@ Keep `allowed_tools` limited to `get_policy` and require approval.
 
 Confirm these prerequisites:
 
-- Sessions 01-08 are complete in the approved nonproduction scope.
-- The [Session 06](../../06-governed-agent-baseline/implementation/README.md) persistent policy assistant is pinned to a known version and carries its
-  `06-governed-agent-baseline` marker.
-- The [Session 07](../../07-apim-ai-gateway/implementation/README.md) APIM service has a system-assigned identity and an Application Insights logger.
+- Sessions 01-06 are complete in the approved nonproduction scope.
+- The [Session 05](../../05-governed-agent-baseline/implementation/README.md) persistent policy assistant is pinned to a known version and carries its
+  `05-governed-agent-baseline` marker.
+- The [Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM service has a system-assigned identity and an Application Insights logger.
 - That APIM service uses Developer, Basic, Basic v2, Standard, Standard v2, Premium, or Premium v2.
 - The APIM service is not a workspace. APIM MCP server capabilities are not currently supported in
   workspaces.
@@ -98,7 +98,7 @@ Confirm these prerequisites:
   Preflight rejects wildcard, write, delete, and action permissions. Its token audience differs from
   the inbound MCP audience, and the inbound MCP token is never forwarded to the backend.
 - The Foundry agent identity has the approved app role for the MCP audience. The user running the
-  checks has **Foundry User** on the exact Session 06 Foundry project, which permits creation and
+  checks has **Foundry User** on the exact Session 05 Foundry project, which permits creation and
   testing of the candidate agent version.
 - Global and MCP diagnostics log zero request and response body bytes. Arguments, results, prompts,
   responses, tokens, and customer data are not captured.
@@ -113,9 +113,9 @@ Confirm these prerequisites:
 
 | Type | File | Consumer |
 |---|---|---|
-| Deployment | [`artifacts/apim/main.bicep`](artifacts/apim/main.bicep) | The Session 09 APIM deployment scripts |
+| Deployment | [`artifacts/apim/main.bicep`](artifacts/apim/main.bicep) | The Session 08 APIM deployment scripts |
 | Deployment | [`artifacts/apim/policies/mcp-policy.xml`](artifacts/apim/policies/mcp-policy.xml) | The API Management MCP runtime |
-| Deployment | [`artifacts/environments/sandbox.json`](artifacts/environments/sandbox.json) | The Session 09 preflight and deployment scripts |
+| Deployment | [`artifacts/environments/sandbox.json`](artifacts/environments/sandbox.json) | The Session 08 preflight and deployment scripts |
 | Deployment | [`artifacts/governance/agent-mcp-binding.json`](artifacts/governance/agent-mcp-binding.json) | The Foundry agent release owner |
 | Record | [`artifacts/governance/security-evaluation.md`](artifacts/governance/security-evaluation.md) | The security owner running the Foundry candidate-version checks |
 | Record | [`artifacts/governance/threat-model.md`](artifacts/governance/threat-model.md) | The security and identity owners |
@@ -175,7 +175,7 @@ or finds any granted operation outside the approved read behavior.
 The endpoint uses current Streamable HTTP at `/mcp`. Do not design a new HTTP+SSE path. The APIM
 management resource uses the current documented preview API because MCP `apis/tools` automation
 requires it. Stop if preview deployment is prohibited, the APIM tier lacks MCP support, or the
-existing Session 07 APIM instance is a workspace. If preview automation is prohibited but the APIM tier supports MCP, the APIM
+existing Session 06 APIM instance is a workspace. If preview automation is prohibited but the APIM tier supports MCP, the APIM
 owner may use the documented portal flow. The owner must create exactly one `policy-catalog-mcp`
 server with one `get_policy` tool, save the APIM resource and tool IDs in the binding record plus the portal
 configuration reference, apply the same policy file, and confirm through an APIM read that no other
@@ -198,7 +198,7 @@ bodies, if sensitive headers are added, or if an observer cannot trace the check
 ### Release decision
 
 The candidate agent version requires approval for every MCP call and allows only `get_policy`. The
-stable endpoint remains on the Session 06 version while checks run. Stop and keep or restore the
+stable endpoint remains on the Session 05 version while checks run. Stop and keep or restore the
 prior version when:
 
 - the approval request names another server, tool, or argument;
@@ -210,7 +210,7 @@ prior version when:
 
 The saved candidate version ID must be visible in the Foundry test surface before either check.
 Before each request, the release owner confirms that the test targets that candidate ID and the
-stable endpoint still selects the prior Session 06 version.
+stable endpoint still selects the prior Session 05 version.
 
 ## Implement
 
@@ -272,7 +272,7 @@ Preflight runs three groups of checks:
 3. **Deployment preview:** compiles Bicep and runs ARM `what-if`.
 
 Stop if `what-if` replaces or removes an unrelated API, policy, diagnostic, logger, or APIM named value.
-The preview should add or update only the five Session 09 APIM named values, one MCP API, one tool, one
+The preview should add or update only the five Session 08 APIM named values, one MCP API, one tool, one
 policy, and one API diagnostic.
 
 ### 3. Deploy the APIM MCP control
@@ -300,7 +300,7 @@ APIM trace access, and backend diagnostics that follow the customer's data-handl
 
 Do not wait for APIM synchronization during active delivery. After exactly one
 `policy-catalog-mcp` record appears, the API program owner uses the
-[Session 08](../../08-api-center-ai-mcp-inventory/implementation/README.md) reconciliation process
+[Session 07](../../07-api-center-ai-mcp-inventory/implementation/README.md) reconciliation process
 and applies the required owner, classification, consumer, residency, risk, evaluation, review, and
 expiry metadata.
 
@@ -314,14 +314,14 @@ APIM checks.
 Create a remote-tool project connection in the existing Foundry project using:
 
 - name from `agent-mcp-binding.json`;
-- target from `$env:SESSION09_MCP_SERVER_URL`;
+- target from `$env:SESSION08_MCP_SERVER_URL`;
 - authentication type **agentic identity**; and
 - audience from `mcpAudience`.
 
 The current Azure Developer CLI command is:
 
 ```powershell
-$env:SESSION09_MCP_SERVER_URL =
+$env:SESSION08_MCP_SERVER_URL =
   "https://$($environment.apiManagementName).azure-api.net/$($environment.mcpServerPath)/mcp"
 
 azd ai project set `
@@ -329,12 +329,12 @@ azd ai project set `
 
 azd ai connection create $binding.projectConnectionName `
   --kind remote-tool `
-  --target $env:SESSION09_MCP_SERVER_URL `
+  --target $env:SESSION08_MCP_SERVER_URL `
   --auth-type agentic-identity `
   --audience $environment.mcpAudience
 ```
 ```bash
-session09_mcp_server_url=$(ENVIRONMENT_PATH="$environment_path" python3 - <<'PY'
+session08_mcp_server_url=$(ENVIRONMENT_PATH="$environment_path" python3 - <<'PY'
 import json
 import os
 import pathlib
@@ -369,9 +369,9 @@ print(json.loads(pathlib.Path(os.environ["ENVIRONMENT_PATH"]).read_text())["mcpA
 PY
 )
 
-export SESSION09_MCP_SERVER_URL="$session09_mcp_server_url"
+export SESSION08_MCP_SERVER_URL="$session08_mcp_server_url"
 azd ai project set "$project_url"
-azd ai connection create "$project_connection_name" --kind remote-tool --target "$SESSION09_MCP_SERVER_URL" --auth-type agentic-identity --audience "$mcp_audience"
+azd ai connection create "$project_connection_name" --kind remote-tool --target "$SESSION08_MCP_SERVER_URL" --auth-type agentic-identity --audience "$mcp_audience"
 ```
 
 If the installed `azd ai` surface differs, use the current Foundry portal connection flow with the
@@ -379,12 +379,12 @@ same approved values. Do not use a custom key or paste a bearer token into the c
 
 ### 6. Create but do not pin the candidate agent version
 
-In Foundry, open the existing [Session 06](../../06-governed-agent-baseline/implementation/README.md) policy assistant and create a new version from its currently
+In Foundry, open the existing [Session 05](../../05-governed-agent-baseline/implementation/README.md) policy assistant and create a new version from its currently
 pinned definition:
 
 1. Keep the approved model, RAI policy, instructions, temperature, endpoint authorization, and agent
    identity behavior.
-2. Remove the direct Session 06 OpenAPI tool so there is no parallel path around APIM.
+2. Remove the direct Session 05 OpenAPI tool so there is no parallel path around APIM.
 3. Add the remote MCP server URL and project connection from `agent-mcp-binding.json`.
 4. Set `allowed_tools` to only `get_policy`.
 5. Set `require_approval` to `always`.
@@ -395,7 +395,7 @@ the project connection uses a different identity, approval is not mandatory, or 
 changes live traffic.
 
 Copy the visible candidate version ID into the delivery workspace, not the repository. Show that ID
-in the test surface and show that the stable endpoint still selects the prior Session 06 version.
+in the test surface and show that the stable endpoint still selects the prior Session 05 version.
 
 ## Confirm the result
 
@@ -405,7 +405,7 @@ repository.
 
 Before **each** check, the release owner reads the **visible candidate version ID** aloud and confirms
 it matches the saved candidate. The release owner also confirms the stable endpoint still routes
-100% to the prior Session 06 version. Stop if either version selector is hidden or differs.
+100% to the prior Session 05 version. Stop if either version selector is hidden or differs.
 
 ### Intended path: approved read
 
@@ -445,7 +445,7 @@ The release owner observes both results during delivery:
 
 - **Enable:** pin 100% of the stable agent endpoint to the candidate version only when both checks
   behave exactly as expected and API Center ownership is complete.
-- **Disable:** leave or restore the Session 06 version at 100%, keep the MCP candidate unpinned, and
+- **Disable:** leave or restore the Session 05 version at 100%, keep the MCP candidate unpinned, and
   route failures to the security and tool owners.
 
 ## After implementation
@@ -467,11 +467,11 @@ tools, production release, MCP resources or prompts, APIM workspaces, cross-tena
 payload logging, a broader tool catalog, or per-user downstream authorization. Require a separately
 approved delegated-access implementation when the backend must authorize each signed-in user.
 
-The immediate disable switch is the stable agent version selector. Restore the previous [Session 06](../../06-governed-agent-baseline/implementation/README.md)
+The immediate disable switch is the stable agent version selector. Restore the previous [Session 05](../../05-governed-agent-baseline/implementation/README.md)
 version at 100% before removing infrastructure. If the MCP endpoint must be removed, confirm that no
 active agent or consumer references it. Use the approved APIM change path to check the live Session
-09 marker and remove only the MCP API and five Session 09 APIM named values. The backing API, backend
+09 marker and remove only the MCP API and five Session 08 APIM named values. The backing API, backend
 role assignment, APIM service, Foundry agent, API Center, Application Insights, and implementation
-files remain. Revoke the backend role separately only when the identity owner confirms Session 09
+files remain. Revoke the backend role separately only when the identity owner confirms Session 08
 introduced it and no operational MCP server or API operation
 uses that assignment.

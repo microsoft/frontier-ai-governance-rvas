@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run stable in-memory checks against the Session 11 gate decision code."""
+"""Run stable in-memory checks against the Session 10 gate decision code."""
 
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ RELEASE_POLICY_PATH = (
 )
 
 module_spec = importlib.util.spec_from_file_location(
-    "session11_release_gate",
+    "session10_release_gate",
     SCRIPT_DIR / "release-gate.py",
 )
 if module_spec is None or module_spec.loader is None:
@@ -70,7 +70,7 @@ def aggregate_record(
         )
     return {
         "schemaVersion": 1,
-        "implementationSession": "11-foundry-evaluations-quality-gates",
+        "implementationSession": "10-foundry-evaluations-quality-gates",
         "recordType": "generated-gate-self-test",
         "run": {
             "runId": run_id,

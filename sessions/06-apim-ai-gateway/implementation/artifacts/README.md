@@ -1,7 +1,7 @@
 # Implementation artifacts
 
 These files define one APIM boundary around the
-[Session 06](../../../06-governed-agent-baseline/implementation/README.md) agent.
+[Session 05](../../../05-governed-agent-baseline/implementation/README.md) agent.
 
 | Path | Operational purpose |
 |---|---|

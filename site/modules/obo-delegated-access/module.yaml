@@ -16,9 +16,9 @@ module:
     - "The identity owner can approve exact delegated permissions and consent."
     - "One permitted user and one user without downstream resource authority are available for the delivery checks."
   related_sessions:
-    - "Session 03 - Entra identity, RBAC, PIM, and workload identities"
-    - "Session 06 - Governed Microsoft Foundry agent baseline"
-    - "Session 09 - MCP and tool security"
+    - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
+    - "Session 05 - Governed Microsoft Foundry agent baseline"
+    - "Session 08 - MCP and tool security"
   services_in_scope:
     - "microsoft-entra-id"
     - "azure-key-vault"

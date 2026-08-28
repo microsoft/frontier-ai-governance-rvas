@@ -5,8 +5,8 @@
 ### What we will do
 
 Record **three selected assets in API Center**: the
-[Session 06](../../06-governed-agent-baseline/implementation/README.md) agent API, the synchronized
-[Session 07](../../07-apim-ai-gateway/implementation/README.md) APIM API, and one approved remote
+[Session 05](../../05-governed-agent-baseline/implementation/README.md) agent API, the synchronized
+[Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM API, and one approved remote
 MCP server. The owned result is one searchable design-time inventory where those records carry the
 required owner, lifecycle, classification, risk, review, and runtime-location metadata.
 
@@ -26,7 +26,7 @@ fields.
 
 API Center inventories and supports discovery. It does not inspect, authorize, or block runtime
 calls. APIM owns runtime controls for the synchronized route, and
-[Session 09](../../09-mcp-tool-security/implementation/README.md) governs MCP tool use. Production
+[Session 08](../../08-mcp-tool-security/implementation/README.md) governs MCP tool use. Production
 discovery, write-capable MCP tools, and unrelated estate assets are excluded.
 
 ## Architecture
@@ -34,8 +34,8 @@ discovery, write-capable MCP tools, and unrelated estate assets are excluded.
 ### Architecture at a glance
 
 API Center gives the team one design-time catalog for this governed path. Three sources feed it.
-Bicep registers the Session 06 agent API and its OpenAPI definition directly. A one-way integration
-reads every API from the Session 07 APIM instance, using a managed identity with API Management
+Bicep registers the Session 05 agent API and its OpenAPI definition directly. A one-way integration
+reads every API from the Session 06 APIM instance, using a managed identity with API Management
 Service Reader Role. The API program owner adds the approved remote MCP server through the
 supported portal form. After APIM synchronization creates its record, the reconciliation script
 adds the shared metadata.
@@ -47,7 +47,7 @@ passes through the catalog; it continues to follow the APIM request path and its
 
 API Center is the record for design-time metadata and discovery. Foundry, APIM, and the MCP server
 still report their own runtime state. The boundary ends with the inventory and the health of its
-sources. API Center neither inspects nor blocks a call. Session 09 receives the MCP record and
+sources. API Center neither inspects nor blocks a call. Session 08 receives the MCP record and
 runtime location for tool-security work.
 
 ### Design choices and tradeoffs
@@ -70,13 +70,13 @@ runtime location for tool-security work.
 
 Confirm these prerequisites:
 
-- Sessions 01-07 are complete in the approved nonproduction scope.
+- Sessions 01-05 are complete in the approved nonproduction scope.
 - Azure CLI 2.57.0 or later and the current `apic-extension` are installed.
 - The deployment operator is signed in to the approved subscription and has a time-bound
   **Contributor** role assignment on the exact resource group where this session deploys API
   Center.
 - The role-assignment operator has time-bound **User Access Administrator** on the exact
-  [Session 07](../../07-apim-ai-gateway/implementation/README.md) APIM instance. This assignment permits creation of the **API Management Service Reader
+  [Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM instance. This assignment permits creation of the **API Management Service Reader
   Role** (`71522526-b88f-4d52-b57f-d31fc3546d0d`) assignment at that APIM scope.
 - The API program owner has chosen Free or Standard after reviewing current limits, support, and
   cost. The Free plan has no Microsoft support; the documented Standard benefit requires an eligible
@@ -84,8 +84,8 @@ Confirm these prerequisites:
 - The APIM source boundary is approved for synchronization. The integration imports every API from
   the linked APIM instance. If that instance contains unrelated APIs, their owners must complete the
   same mandatory metadata before linking; otherwise stop and do not create the integration.
-- The [Session 06](../../06-governed-agent-baseline/implementation/README.md) agent account, project, agent name, and direct endpoint are known.
-- The [Session 07](../../07-apim-ai-gateway/implementation/README.md) API ID `policy-assistant-responses` is present and carries its implementation
+- The [Session 05](../../05-governed-agent-baseline/implementation/README.md) agent account, project, agent name, and direct endpoint are known.
+- The [Session 06](../../06-apim-ai-gateway/implementation/README.md) API ID `policy-assistant-responses` is present and carries its implementation
   marker.
 - One existing remote, read-only MCP server uses an approved HTTPS Streamable HTTP endpoint.
 - The selected API Center region is currently advertised by the `Microsoft.ApiCenter` provider.
@@ -99,12 +99,12 @@ Confirm these prerequisites:
 
 | Type | File | Consumer |
 |---|---|---|
-| Deployment | [`artifacts/api-center/main.bicep`](artifacts/api-center/main.bicep) | The Session 08 API Center deployment scripts |
-| Deployment | [`artifacts/api-center/apim-reader.bicep`](artifacts/api-center/apim-reader.bicep) | The Session 08 API Center deployment scripts |
+| Deployment | [`artifacts/api-center/main.bicep`](artifacts/api-center/main.bicep) | The Session 07 API Center deployment scripts |
+| Deployment | [`artifacts/api-center/apim-reader.bicep`](artifacts/api-center/apim-reader.bicep) | The Session 07 API Center deployment scripts |
 | Deployment | [`artifacts/api-center/metadata-schemas.json`](artifacts/api-center/metadata-schemas.json) | The API Center metadata-schema resources |
-| Deployment | [`artifacts/catalog/catalog-records.json`](artifacts/catalog/catalog-records.json) | The Session 08 Bicep deployment and reconciliation scripts |
+| Deployment | [`artifacts/catalog/catalog-records.json`](artifacts/catalog/catalog-records.json) | The Session 07 Bicep deployment and reconciliation scripts |
 | Deployment | [`artifacts/catalog/specs/policy-assistant-agent.openapi.json`](artifacts/catalog/specs/policy-assistant-agent.openapi.json) | The API Center definition import |
-| Deployment | [`artifacts/environments/sandbox.json`](artifacts/environments/sandbox.json) | The Session 08 preflight, deployment, reconciliation, and inventory-check scripts |
+| Deployment | [`artifacts/environments/sandbox.json`](artifacts/environments/sandbox.json) | The Session 07 preflight, deployment, reconciliation, and inventory-check scripts |
 
 ### Official documentation
 
@@ -153,7 +153,7 @@ Every in-scope asset has these properties:
 | Risk tier | `low`, `moderate`, `high`, or `critical` |
 | Evaluation results URL | Owned evaluation record or evaluation backlog |
 | Last review and expiry | ISO dates with expiry after review |
-| Implementation session | `08-api-center-ai-mcp-inventory` |
+| Implementation session | `07-api-center-ai-mcp-inventory` |
 
 Stop if an owner is not recorded, the classification or residency decision is unresolved, the
 evaluation URL has no accountable destination, or expiry is used without an operating response.
@@ -176,18 +176,18 @@ assets. Microsoft states that synchronization normally completes within minutes 
 24 hours.
 
 Stop if the API Center identity would receive contributor access, if the APIM source is in a
-different directory, if the Session 07 API marker is absent, or if initial synchronization has not
+different directory, if the Session 06 API marker is absent, or if initial synchronization has not
 completed. Do not create a duplicate manual API record while waiting.
 
 ### MCP registration
 
 Use the native **Register an asset > MCP server** flow. Enter the runtime URL from
-`$env:SESSION08_MCP_SERVER_URL`; do not write it into the repository. Select Streamable HTTP as the
+`$env:SESSION07_MCP_SERVER_URL`; do not write it into the repository. Select Streamable HTTP as the
 approved runtime path. API Center may also generate an SSE definition as product behavior; this
 session does not design a new SSE transport.
 
 Stop if the server is write-capable, uses local `stdio`, lacks an approved HTTPS endpoint, embeds a
-credential in its URL, or has no runtime owner. [Session 09](../../09-mcp-tool-security/implementation/README.md) adds tool authorization, blocked-write,
+credential in its URL, or has no runtime owner. [Session 08](../../08-mcp-tool-security/implementation/README.md) adds tool authorization, blocked-write,
 and prompt-injection controls. Registration here does not approve the MCP server for production use.
 
 The split is deliberate. Stable `Microsoft.ApiCenter@2024-03-01` ARM resources deploy the API
@@ -223,13 +223,13 @@ Set runtime values in the shell:
 
 ```powershell
 $approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
-$session06AgentBaseUrl = $env:SESSION08_AGENT_BASE_URL
-$remoteMcpServerUrl = $env:SESSION08_MCP_SERVER_URL
+$session05AgentBaseUrl = $env:SESSION07_AGENT_BASE_URL
+$remoteMcpServerUrl = $env:SESSION07_MCP_SERVER_URL
 ```
 ```bash
 approved_subscription_id="${AZURE_SUBSCRIPTION_ID:?Set AZURE_SUBSCRIPTION_ID.}"
-session06_agent_base_url="${SESSION08_AGENT_BASE_URL:?Set SESSION08_AGENT_BASE_URL.}"
-remote_mcp_server_url="${SESSION08_MCP_SERVER_URL:?Set SESSION08_MCP_SERVER_URL.}"
+session05_agent_base_url="${SESSION07_AGENT_BASE_URL:?Set SESSION07_AGENT_BASE_URL.}"
+remote_mcp_server_url="${SESSION07_MCP_SERVER_URL:?Set SESSION07_MCP_SERVER_URL.}"
 ```
 
 The direct agent URL must end at:
@@ -243,11 +243,11 @@ https://<account>.services.ai.azure.com/api/projects/<project>/agents/<agent>/en
 ```powershell
 .\scripts\preflight.ps1 `
   -ApprovedSubscriptionId $approvedSubscriptionId `
-  -Session06AgentBaseUrl $session06AgentBaseUrl `
+  -Session05AgentBaseUrl $session05AgentBaseUrl `
   -RemoteMcpServerUrl $remoteMcpServerUrl
 ```
 ```bash
-./scripts/preflight.sh --approved-subscription-id "$approved_subscription_id" --session06-agent-base-url "$session06_agent_base_url" --remote-mcp-server-url "$remote_mcp_server_url"
+./scripts/preflight.sh --approved-subscription-id "$approved_subscription_id" --session05-agent-base-url "$session05_agent_base_url" --remote-mcp-server-url "$remote_mcp_server_url"
 ```
 
 Preflight parses every JSON artifact, checks all 12 metadata definitions, validates the current
@@ -264,11 +264,11 @@ changes a broader role assignment, or introduces a runtime URL into source contr
 ```powershell
 .\scripts\deploy.ps1 `
   -ApprovedSubscriptionId $approvedSubscriptionId `
-  -Session06AgentBaseUrl $session06AgentBaseUrl `
+  -Session05AgentBaseUrl $session05AgentBaseUrl `
   -RemoteMcpServerUrl $remoteMcpServerUrl
 ```
 ```bash
-./scripts/deploy.sh --approved-subscription-id "$approved_subscription_id" --session06-agent-base-url "$session06_agent_base_url" --remote-mcp-server-url "$remote_mcp_server_url"
+./scripts/deploy.sh --approved-subscription-id "$approved_subscription_id" --session05-agent-base-url "$session05_agent_base_url" --remote-mcp-server-url "$remote_mcp_server_url"
 ```
 
 The script reruns preflight, deploys the marked API Center, imports the approved agent OpenAPI
@@ -278,7 +278,7 @@ creates its own APIM environment and deployment records.
 In the API Center portal, confirm the plan matches `sandbox.json`. If the required decision is
 Standard, complete the approved upgrade after the eligible APIM integration exists.
 
-Wait for the [Session 07](../../07-apim-ai-gateway/implementation/README.md) API title **Governed policy assistant Responses API** to appear once in the
+Wait for the [Session 06](../../06-apim-ai-gateway/implementation/README.md) API title **Governed policy assistant Responses API** to appear once in the
 API Center inventory. If synchronization does not complete during the session, stop at this point and
 resume after the source reports healthy. Do not register the same API manually.
 

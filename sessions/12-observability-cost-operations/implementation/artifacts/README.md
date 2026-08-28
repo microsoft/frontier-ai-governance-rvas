@@ -1,6 +1,6 @@
 # Observability and operations control
 
-These artifacts define the Session 13 observability and operations control.
+These artifacts define the Session 12 observability and operations control.
 
 | Path | Operational purpose |
 |---|---|
@@ -33,7 +33,7 @@ The gateway owner keeps the APIM policy in the customer policy repository, and t
 points to that source. Operator and correlation queries are embedded in the workbook. The paired
 smoke scripts call the normal route and a dedicated handled-failure route. They require a failed
 tool dependency, an independent successful model result, and no fixed marker across the five
-documented Application Insights tables before writing a payload-free result for Session 14. They
+documented Application Insights tables before writing a payload-free result for Session 12. They
 poll both correlation IDs for no more than 180 seconds by default and report a failed check when ingestion misses the bounded
 window. Before querying, they resolve the live component-to-workspace binding. Both correlated
 request records must carry the exact CLI commit SHA in `release.commit.sha`. PowerShell holds the

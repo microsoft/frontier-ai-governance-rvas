@@ -1,6 +1,6 @@
 # Agent inventory operator snapshot
 
-This Session 15 record is a dated operator snapshot. It is not proof of current service state.
+This Session 14 record is a dated operator snapshot. It is not proof of current service state.
 
 | Field | Observation |
 |---|---|

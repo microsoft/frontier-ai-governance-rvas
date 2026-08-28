@@ -3,7 +3,7 @@ targetScope = 'resourceGroup'
 @description('Azure region shared by the spoke virtual network and Foundry resource.')
 param location string = resourceGroup().location
 
-@description('Dedicated Session 04 spoke virtual network name.')
+@description('Dedicated Session 03 spoke virtual network name.')
 param virtualNetworkName string
 
 @description('Nonoverlapping RFC 1918 address space for the spoke.')
@@ -36,7 +36,7 @@ param keyVaultResourceId string
 @description('Expiry date for the nonproduction implementation in YYYY-MM-DD form.')
 param expiryDate string
 
-var implementationSession = '04-private-networking-dns'
+var implementationSession = '03-private-networking-dns'
 var tags = {
   environment: 'sandbox'
   implementationSession: implementationSession

@@ -1,4 +1,4 @@
-# SOC triage playbook for Session 12 AI signals
+# SOC triage playbook for Session 11 AI signals
 
 Use this playbook only for the nonproduction Foundry project and policy-assistant version listed in
 `../red-team/authorization-scope.json`. Do not copy prompts, responses, tool payloads, prompt evidence, user
@@ -18,8 +18,8 @@ identities, or customer data into this repository.
 ## Contain
 
 - For unsafe tool behavior, disable the agent endpoint or remove the tool binding through the
-  existing [Session 06](../../../../06-governed-agent-baseline/implementation/README.md) or
-  [Session 09](../../../../09-mcp-tool-security/implementation/README.md) control. Do not depend on a system-prompt edit alone.
+  existing [Session 05](../../../../05-governed-agent-baseline/implementation/README.md) or
+  [Session 08](../../../../08-mcp-tool-security/implementation/README.md) control. Do not depend on a system-prompt edit alone.
 - For suspected leakage, stop the run, disable the affected data or tool path, and follow the
   customer's data incident process.
 - For a false positive, keep the Defender disposition in the SOC system, not as copied evidence in
@@ -32,5 +32,5 @@ changes. The tool owner controls permissions and backend authorization, while th
 controls sensor coverage. The residual-risk authority decides whether another remediation run is
 required.
 
-Recovery returns only the previously approved agent version and tool boundary. A Session 12 result
+Recovery returns only the previously approved agent version and tool boundary. A Session 11 result
 does not authorize production promotion.

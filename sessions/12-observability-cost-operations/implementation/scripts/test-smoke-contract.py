@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run payload-free mocks against the paired Session 13 smoke contracts."""
+"""Run payload-free mocks against the paired Session 12 smoke contracts."""
 
 from __future__ import annotations
 
@@ -81,7 +81,7 @@ def test_static_contract() -> None:
                 )
     if (
         "--config -" not in bash
-        or "unset SESSION13_SMOKE_BEARER_TOKEN" not in bash
+        or "unset SESSION12_SMOKE_BEARER_TOKEN" not in bash
         or "set +x" not in bash
     ):
         raise RuntimeError("Bash must pass the bearer header through curl standard input")
@@ -110,15 +110,15 @@ curl() {
   config="$(cat)"
   [[ "$config" == *"Authorization: Bearer ${expected_test_token}"* ]] || return 91
   [[ "$config" == *"x-release-commit-sha: abcdef1"* ]] || return 92
-  [[ -z "${SESSION13_SMOKE_BEARER_TOKEN+x}" ]] || return 93
+  [[ -z "${SESSION12_SMOKE_BEARER_TOKEN+x}" ]] || return 93
   local argument
   for argument in "$@"; do
     [[ "$argument" != *"$expected_test_token"* ]] || return 94
   done
   printf '204'
 }
-export SESSION13_SMOKE_BEARER_TOKEN="$expected_test_token"
-status="$(invoke_smoke_request "$SESSION13_SMOKE_BEARER_TOKEN" "https://example.invalid" "normal" "00-00000000000000000000000000000000-0000000000000001-01" "abcdef1" '{"releaseCommitSha":"abcdef1"}' "unused.headers")"
+export SESSION12_SMOKE_BEARER_TOKEN="$expected_test_token"
+status="$(invoke_smoke_request "$SESSION12_SMOKE_BEARER_TOKEN" "https://example.invalid" "normal" "00-00000000000000000000000000000000-0000000000000001-01" "abcdef1" '{"releaseCommitSha":"abcdef1"}' "unused.headers")"
 [[ "$status" == "204" ]]
 workspace_binding_matches "/SUBSCRIPTIONS/S/RESOURCEGROUPS/R/providers/Microsoft.OperationalInsights/workspaces/W/" "/subscriptions/s/resourcegroups/r/providers/microsoft.operationalinsights/workspaces/w"
 if workspace_binding_matches "/subscriptions/s/resourceGroups/r/providers/Microsoft.OperationalInsights/workspaces/wrong" "/subscriptions/s/resourceGroups/r/providers/Microsoft.OperationalInsights/workspaces/right"; then
@@ -208,19 +208,19 @@ function global:Invoke-WebRequest {
   param([string]$Uri,[string]$Method,[hashtable]$Headers,[string]$ContentType,[string]$Body,[switch]$SkipHttpErrorCheck)
   if($Headers.Authorization -ne "Bearer mock-token"){throw "PowerShell did not send the bearer token"}
   if($Headers["x-release-commit-sha"] -ne "abcdef1" -or $Body -notmatch '"releaseCommitSha":"abcdef1"'){throw "Release SHA binding failed"}
-  $traceId=if($Headers["x-session13-smoke-mode"] -eq "normal"){"00000000000000000000000000000001"}else{"00000000000000000000000000000002"}
+  $traceId=if($Headers["x-session12-smoke-mode"] -eq "normal"){"00000000000000000000000000000001"}else{"00000000000000000000000000000002"}
   [pscustomobject]@{StatusCode=204;Headers=@{traceparent="00-$traceId-0000000000000001-01"}}
 }
 function global:Start-Sleep {param([int]$Seconds)}
-$env:SESSION13_SMOKE_URL="https://normal.example.invalid"
-$env:SESSION13_SMOKE_FAILURE_URL="https://failure.example.invalid"
-$env:SESSION13_AI_RESOURCE_ID="/subscriptions/s/resourceGroups/r/providers/Microsoft.Insights/components/a"
-$env:SESSION13_LOG_ANALYTICS_WORKSPACE_ID="/subscriptions/s/resourceGroups/r/providers/Microsoft.OperationalInsights/workspaces/w"
-$env:SESSION13_SMOKE_BEARER_TOKEN="mock-token"
+$env:SESSION12_SMOKE_URL="https://normal.example.invalid"
+$env:SESSION12_SMOKE_FAILURE_URL="https://failure.example.invalid"
+$env:SESSION12_AI_RESOURCE_ID="/subscriptions/s/resourceGroups/r/providers/Microsoft.Insights/components/a"
+$env:SESSION12_LOG_ANALYTICS_WORKSPACE_ID="/subscriptions/s/resourceGroups/r/providers/Microsoft.OperationalInsights/workspaces/w"
+$env:SESSION12_SMOKE_BEARER_TOKEN="mock-token"
 
 foreach($boundary in @(@{Timeout=30;Retry=15},@{Timeout=120;Retry=60})){
-  $env:SESSION13_SMOKE_TIMEOUT_SECONDS=[string]$boundary.Timeout
-  $env:SESSION13_SMOKE_RETRY_SECONDS=[string]$boundary.Retry
+  $env:SESSION12_SMOKE_TIMEOUT_SECONDS=[string]$boundary.Timeout
+  $env:SESSION12_SMOKE_RETRY_SECONDS=[string]$boundary.Retry
   $resultPath=Join-Path $env:SMOKE_TEST_ROOT ".smoke-contract-$($boundary.Timeout)-$($boundary.Retry).json"
   Remove-Item $resultPath -Force -ErrorAction SilentlyContinue
   & $env:SMOKE_PS_PATH -Mode Pipeline -Environment nonproduction -CommitSha abcdef1 -ResultPath $resultPath
@@ -234,8 +234,8 @@ foreach($boundary in @(@{Timeout=30;Retry=15},@{Timeout=120;Retry=60})){
   Remove-Item $resultPath -Force
 }
 foreach($boundary in @(@{Timeout=30;Retry=16},@{Timeout=119;Retry=60})){
-  $env:SESSION13_SMOKE_TIMEOUT_SECONDS=[string]$boundary.Timeout
-  $env:SESSION13_SMOKE_RETRY_SECONDS=[string]$boundary.Retry
+  $env:SESSION12_SMOKE_TIMEOUT_SECONDS=[string]$boundary.Timeout
+  $env:SESSION12_SMOKE_RETRY_SECONDS=[string]$boundary.Retry
   $errorText=""
   try{& $env:SMOKE_PS_PATH -Mode Pipeline -Environment nonproduction -CommitSha abcdef1 -ResultPath (Join-Path $env:SMOKE_TEST_ROOT ".smoke-contract-invalid.json")}
   catch{$errorText=$_.Exception.Message}

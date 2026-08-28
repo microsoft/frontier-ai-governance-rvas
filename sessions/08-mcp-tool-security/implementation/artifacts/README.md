@@ -1,6 +1,6 @@
 # Implementation artifacts
 
-These files define the governed Session 09 MCP path: one deployable APIM MCP server, one
+These files define the governed Session 08 MCP path: one deployable APIM MCP server, one
 allowlisted read tool, identity and release decisions, an active security evaluation, and the
 monitoring and restore paths.
 

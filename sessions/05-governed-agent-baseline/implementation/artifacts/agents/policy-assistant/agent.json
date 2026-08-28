@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "06-governed-agent-baseline",
+  "implementationSession": "05-governed-agent-baseline",
   "agentType": "prompt",
   "runtimePattern": "persistent-prompt-agent",
   "agentName": "__REQUIRED_AGENT_NAME__",

@@ -77,7 +77,7 @@ function Assert-ImplementationMarker {
     param(
         [Parameter(Mandatory)][object]$Value,
         [Parameter(Mandatory)][string]$Purpose,
-        [Parameter()][string]$Expected = "14-cicd-promotion-controls"
+        [Parameter()][string]$Expected = "13-cicd-promotion-controls"
     )
 
     if ([string]$Value.implementationSession -ne $Expected) {
@@ -100,23 +100,23 @@ function Assert-ImmutableValue {
     }
 }
 
-function Invoke-Session11Gate {
+function Invoke-Session10Gate {
     param(
         [Parameter(Mandatory)][string]$CandidateRecord,
         [Parameter(Mandatory)][ValidateSet("pass", "block")][string]$Expected
     )
 
     $paths = $control.sourcePaths
-    $releaseGate = Resolve-RepositoryPath $paths.session11ReleaseGate "Session 11 release gate" @(".py")
-    $thresholds = Resolve-RepositoryPath $paths.session11ThresholdPolicy "Session 11 threshold policy" @(".yaml", ".yml")
-    $spec = Resolve-RepositoryPath $paths.session11EvaluationSpec "Session 11 evaluation specification" @(".json")
-    $dataset = Resolve-RepositoryPath $paths.session11Dataset "Session 11 evaluation dataset" @(".jsonl")
-    $baseline = Resolve-RepositoryPath $paths.session11BaselineRecord "Session 11 approved baseline record" @(".json")
-    $releasePolicy = Resolve-RepositoryPath $paths.session11ReleasePolicy "Session 11 release policy" @(".json")
-    $candidate = Resolve-RepositoryPath $CandidateRecord "Session 11 candidate record" @(".json")
+    $releaseGate = Resolve-RepositoryPath $paths.session10ReleaseGate "Session 10 release gate" @(".py")
+    $thresholds = Resolve-RepositoryPath $paths.session10ThresholdPolicy "Session 10 threshold policy" @(".yaml", ".yml")
+    $spec = Resolve-RepositoryPath $paths.session10EvaluationSpec "Session 10 evaluation specification" @(".json")
+    $dataset = Resolve-RepositoryPath $paths.session10Dataset "Session 10 evaluation dataset" @(".jsonl")
+    $baseline = Resolve-RepositoryPath $paths.session10BaselineRecord "Session 10 approved baseline record" @(".json")
+    $releasePolicy = Resolve-RepositoryPath $paths.session10ReleasePolicy "Session 10 release policy" @(".json")
+    $candidate = Resolve-RepositoryPath $CandidateRecord "Session 10 candidate record" @(".json")
     $candidateRecordValue = Read-JsonObject $candidate
     if ([string]$candidateRecordValue.run.runId -cne [string]$control.immutableRelease.evaluationRunId) {
-        throw "The passing Session 11 candidate record does not match immutableRelease.evaluationRunId."
+        throw "The passing Session 10 candidate record does not match immutableRelease.evaluationRunId."
     }
 
     & python $releaseGate `
@@ -131,32 +131,32 @@ function Invoke-Session11Gate {
         --expect $Expected `
         --phase candidate
     if ($LASTEXITCODE -ne 0) {
-        throw "Session 11 release gate did not produce expected outcome '$Expected'."
+        throw "Session 10 release gate did not produce expected outcome '$Expected'."
     }
 }
 
-function Invoke-Session11BlockedSelfTest {
+function Invoke-Session10BlockedSelfTest {
     $selfTest = Resolve-RepositoryPath `
-        $control.sourcePaths.session11GateSelfTest `
-        "Session 11 generated blocked self-test" `
+        $control.sourcePaths.session10GateSelfTest `
+        "Session 10 generated blocked self-test" `
         @(".py")
     & python $selfTest --mode blocked-tool-process
     if ($LASTEXITCODE -ne 0) {
-        throw "Session 11 generated blocked-tool-process self-test did not return BLOCK."
+        throw "Session 10 generated blocked-tool-process self-test did not return BLOCK."
     }
 }
 
 function Assert-AdversarialReport {
     $path = Resolve-RepositoryPath `
-        $control.sourcePaths.session12AdversarialReport `
-        "Session 12 adversarial before-after report" `
+        $control.sourcePaths.session11AdversarialReport `
+        "Session 11 adversarial before-after report" `
         @(".json")
     $report = Read-JsonObject $path
-    Assert-ImplementationMarker $report "Session 12 adversarial report" "12-red-teaming-threat-defense"
+    Assert-ImplementationMarker $report "Session 11 adversarial report" "11-red-teaming-threat-defense"
     if ($report.schemaVersion -ne 1 -or
         [string]$report.recordType -ne "red-team-before-after-aggregate" -or
         [string]$report.status -ne "confirmed") {
-        throw "Session 12 adversarial report must be confirmed; pending or failed reports block promotion."
+        throw "Session 11 adversarial report must be confirmed; pending or failed reports block promotion."
     }
     if ([string]$report.target.type -cne "azure_ai_agent" -or
         [string]$report.target.name -cne [string]$control.immutableRelease.agentName -or
@@ -165,22 +165,22 @@ function Assert-AdversarialReport {
             [string]$control.immutableRelease.agentVersion -or
         [string]$report.target.baselineVersion -ceq
             [string]$report.target.postRemediationVersion) {
-        throw "Session 12 adversarial report targets another agent name or immutable version."
+        throw "Session 11 adversarial report targets another agent name or immutable version."
     }
     if ([string]$report.configurationSha256 -notmatch "^[0-9a-fA-F]{64}$") {
-        throw "Session 12 adversarial report must name the shared attack-plan configuration SHA-256."
+        throw "Session 11 adversarial report must name the shared attack-plan configuration SHA-256."
     }
     $handoffPath = Resolve-RepositoryPath `
-        $control.sourcePaths.session12RiskChangeHandoff `
-        "Session 12 risk/change handoff" `
+        $control.sourcePaths.session11RiskChangeHandoff `
+        "Session 11 risk/change handoff" `
         @(".json")
     $handoff = Read-JsonObject $handoffPath
-    Assert-ImplementationMarker $handoff "Session 12 risk/change handoff" "12-red-teaming-threat-defense"
+    Assert-ImplementationMarker $handoff "Session 11 risk/change handoff" "11-red-teaming-threat-defense"
     if ([string]$handoff.target.agentName -cne [string]$report.target.name -or
         [string]$handoff.target.baselineVersion -cne [string]$report.target.baselineVersion -or
         [string]$handoff.target.postRemediationVersion -cne
             [string]$report.target.postRemediationVersion) {
-        throw "Session 12 risk/change handoff does not match the report target and immutable versions."
+        throw "Session 11 risk/change handoff does not match the report target and immutable versions."
     }
     $requiredRunFields = @(
         "evalId",
@@ -191,20 +191,20 @@ function Assert-AdversarialReport {
     foreach ($runName in @("baseline", "postRemediation")) {
         $run = $report.$runName
         if (@(Compare-Object $requiredRunFields @($run.PSObject.Properties.Name)).Count -ne 0) {
-            throw "Session 12 $runName result has an incomplete schema."
+            throw "Session 11 $runName result has an incomplete schema."
         }
         foreach ($field in @("evalId", "runId", "reportUrl")) {
             if ([string]::IsNullOrWhiteSpace([string]$run.$field)) {
-                throw "Session 12 $runName result is missing $field."
+                throw "Session 11 $runName result is missing $field."
             }
         }
         if ($run.overallAttackSuccessRate -is [bool] -or
             $run.overallAttackSuccessRate -isnot [ValueType]) {
-            throw "Session 12 $runName overallAttackSuccessRate must be numeric."
+            throw "Session 11 $runName overallAttackSuccessRate must be numeric."
         }
         $rate = [double]$run.overallAttackSuccessRate
         if ($rate -lt 0 -or $rate -gt 1) {
-            throw "Session 12 $runName overallAttackSuccessRate must be between zero and one."
+            throw "Session 11 $runName overallAttackSuccessRate must be between zero and one."
         }
     }
     $baselineOverallRate = [double]$report.baseline.overallAttackSuccessRate
@@ -216,7 +216,7 @@ function Assert-AdversarialReport {
             [double]$report.comparison.overallAttackSuccessRateChange -
             ($postOverallRate - $baselineOverallRate)
         ) -gt 0.000001) {
-        throw "Session 12 overall attack-success comparison is invalid or did not improve."
+        throw "Session 11 overall attack-success comparison is invalid or did not improve."
     }
     $requiredPrivacyFields = @(
         "containsAttackPrompts",
@@ -227,12 +227,12 @@ function Assert-AdversarialReport {
     )
     $actualPrivacyFields = @($report.privacy.PSObject.Properties.Name)
     if (@(Compare-Object $requiredPrivacyFields $actualPrivacyFields).Count -ne 0) {
-        throw "Session 12 adversarial report has an incomplete privacy schema."
+        throw "Session 11 adversarial report has an incomplete privacy schema."
     }
     foreach ($field in $requiredPrivacyFields) {
         if ($report.privacy.$field -isnot [bool] -or
             $report.privacy.$field -ne $false) {
-            throw "Session 12 adversarial report must remain payload-free: privacy.$field."
+            throw "Session 11 adversarial report must remain payload-free: privacy.$field."
         }
     }
     foreach ($field in @(
@@ -242,12 +242,12 @@ function Assert-AdversarialReport {
     )) {
         if ($report.comparison.$field -isnot [bool] -or
             $report.comparison.$field -ne $true) {
-            throw "Session 12 adversarial comparison field $field must be the JSON boolean true."
+            throw "Session 11 adversarial comparison field $field must be the JSON boolean true."
         }
     }
     $metrics = @($report.comparison.metrics)
     if ($metrics.Count -eq 0) {
-        throw "Session 12 adversarial report must include per-risk comparison rows."
+        throw "Session 11 adversarial report must include per-risk comparison rows."
     }
     $metricKeys = [Collections.Generic.HashSet[string]]::new(
         [StringComparer]::Ordinal
@@ -264,20 +264,20 @@ function Assert-AdversarialReport {
             "nonRegressionPassed"
         )
         if (@(Compare-Object $requiredMetricFields @($metric.PSObject.Properties.Name)).Count -ne 0) {
-            throw "Session 12 adversarial report has an incomplete per-risk comparison schema."
+            throw "Session 11 adversarial report has an incomplete per-risk comparison schema."
         }
         foreach ($field in @("evaluatorName", "riskCategory", "attackStrategy")) {
             if ([string]::IsNullOrWhiteSpace([string]$metric.$field)) {
-                throw "Session 12 per-risk comparison is missing $field."
+                throw "Session 11 per-risk comparison is missing $field."
             }
         }
         $key = "$($metric.evaluatorName)`n$($metric.riskCategory)`n$($metric.attackStrategy)"
         if (-not $metricKeys.Add($key)) {
-            throw "Session 12 adversarial report has a duplicate per-risk comparison row."
+            throw "Session 11 adversarial report has a duplicate per-risk comparison row."
         }
         if ($metric.nonRegressionPassed -isnot [bool] -or
             $metric.nonRegressionPassed -ne $true) {
-            throw "Session 12 per-risk nonRegressionPassed must be the JSON boolean true."
+            throw "Session 11 per-risk nonRegressionPassed must be the JSON boolean true."
         }
         foreach ($field in @(
             "baselineAttackSuccessRate",
@@ -285,7 +285,7 @@ function Assert-AdversarialReport {
             "change"
         )) {
             if ($metric.$field -is [bool] -or $metric.$field -isnot [ValueType]) {
-                throw "Session 12 per-risk comparison field $field must be numeric."
+                throw "Session 11 per-risk comparison field $field must be numeric."
             }
         }
         $baselineRate = [double]$metric.baselineAttackSuccessRate
@@ -295,17 +295,17 @@ function Assert-AdversarialReport {
             $postRate -lt 0 -or $postRate -gt 1 -or
             [math]::Abs(($postRate - $baselineRate) - $change) -gt 0.000001 -or
             $postRate -gt $baselineRate) {
-            throw "Session 12 per-risk comparison has invalid or regressed attack-success rates."
+            throw "Session 11 per-risk comparison has invalid or regressed attack-success rates."
         }
         if ([string]$metric.evaluatorName -ceq "builtin.prohibited_actions") {
             $prohibitedActionCount++
             if ($postRate -ne 0) {
-                throw "Session 12 prohibited-actions metrics must end at zero attack success."
+                throw "Session 11 prohibited-actions metrics must end at zero attack success."
             }
         }
     }
     if ($prohibitedActionCount -eq 0) {
-        throw "Session 12 adversarial report must include a prohibited-actions metric."
+        throw "Session 11 adversarial report must include a prohibited-actions metric."
     }
 }
 
@@ -313,33 +313,33 @@ function Assert-SmokeResult {
     param([Parameter(Mandatory)][string]$Path)
 
     $smoke = Read-JsonObject $Path
-    Assert-ImplementationMarker $smoke "Session 13 smoke result" "13-observability-cost-operations"
+    Assert-ImplementationMarker $smoke "Session 12 smoke result" "12-observability-cost-operations"
     if ($smoke.schemaVersion -isnot [long] -or
         $smoke.schemaVersion -ne 1 -or
-        [string]$smoke.recordType -cne "session13-smoke-result" -or
+        [string]$smoke.recordType -cne "session12-smoke-result" -or
         [string]$smoke.mode -cne "pipeline" -or
         [string]$smoke.environment -cne "nonproduction" -or
         [string]$smoke.status -cne "passed" -or
         [string]$smoke.implementationMarker -cne
-            "implementationSession=13-observability-cost-operations") {
-        throw "Session 13 smoke result has an invalid root contract or non-passing status."
+            "implementationSession=13-cicd-promotion-controls") {
+        throw "Session 12 smoke result has an invalid root contract or non-passing status."
     }
     if ([string]$smoke.commitSha -cne $ReleaseSha) {
-        throw "Session 13 smoke result does not target the promoted commit SHA."
+        throw "Session 12 smoke result does not target the promoted commit SHA."
     }
     foreach ($field in @("correlationId", "normalCorrelationId", "failureCorrelationId")) {
         if ($smoke.$field -isnot [string] -or
             [string]$smoke.$field -cnotmatch "^[0-9a-f]{32}$") {
-            throw "Session 13 smoke result '$field' must be a lower-case W3C trace ID."
+            throw "Session 12 smoke result '$field' must be a lower-case W3C trace ID."
         }
     }
     if ([string]$smoke.correlationId -cne [string]$smoke.normalCorrelationId -or
         [string]$smoke.normalCorrelationId -ceq [string]$smoke.failureCorrelationId) {
-        throw "Session 13 smoke result must bind its root correlation to distinct normal and failure traces."
+        throw "Session 12 smoke result must bind its root correlation to distinct normal and failure traces."
     }
     foreach ($field in @("syntheticRequest", "endToEndTrace", "toolAndModelFailureSeparated")) {
         if ([string]$smoke.checks.$field -cne "passed") {
-            throw "Session 13 smoke result check '$field' did not pass."
+            throw "Session 12 smoke result check '$field' did not pass."
         }
     }
     foreach ($field in @(
@@ -353,13 +353,13 @@ function Assert-SmokeResult {
     )) {
         if ($smoke.checks.$field -isnot [bool] -or
             $smoke.checks.$field -ne $true) {
-            throw "Session 13 smoke result check '$field' must be the JSON boolean true."
+            throw "Session 12 smoke result check '$field' must be the JSON boolean true."
         }
     }
     foreach ($field in @("sensitiveInputPresent", "payloadsRetained")) {
         if ($smoke.checks.$field -isnot [bool] -or
             $smoke.checks.$field -ne $false) {
-            throw "Session 13 smoke result check '$field' must be the JSON boolean false."
+            throw "Session 12 smoke result check '$field' must be the JSON boolean false."
         }
     }
     $requiredPrivacySurfaces = @(
@@ -373,7 +373,7 @@ function Assert-SmokeResult {
     if ($actualPrivacySurfaces.Count -ne $requiredPrivacySurfaces.Count -or
         ($actualPrivacySurfaces -join "`n") -cne
             ($requiredPrivacySurfaces -join "`n")) {
-        throw "Session 13 smoke result must check the five required telemetry privacy surfaces."
+        throw "Session 12 smoke result must check the five required telemetry privacy surfaces."
     }
     $pollAttemptsValue = $smoke.checks.telemetryPollAttempts
     $pollTimeoutValue = $smoke.checks.telemetryPollTimeoutSeconds
@@ -383,7 +383,7 @@ function Assert-SmokeResult {
         $pollAttemptsValue -isnot [long] -or
         $pollTimeoutValue -isnot [long] -or
         $pollRetryValue -isnot [long]) {
-        throw "Session 13 smoke polling fields must use the required JSON boolean and integer types."
+        throw "Session 12 smoke polling fields must use the required JSON boolean and integer types."
     }
     $pollAttempts = [int]$pollAttemptsValue
     $pollTimeout = [int]$pollTimeoutValue
@@ -393,18 +393,18 @@ function Assert-SmokeResult {
         $pollRetry -lt 5 -or $pollRetry -gt 60 -or
         $pollRetry -gt $pollTimeout -or
         $pollTimeout -lt (2 * $pollRetry)) {
-        throw "Session 13 smoke result does not show a successful bounded telemetry-ingestion poll."
+        throw "Session 12 smoke result does not show a successful bounded telemetry-ingestion poll."
     }
     $maximumAttempts = [math]::Ceiling($pollTimeout / $pollRetry) + 1
     if ($pollAttempts -lt 3 -or $pollAttempts -gt $maximumAttempts) {
-        throw "Session 13 smoke result reports an invalid telemetry polling attempt count."
+        throw "Session 12 smoke result reports an invalid telemetry polling attempt count."
     }
     $observedAt = [datetimeoffset]::MinValue
     if ($smoke.payloadsRetained -isnot [bool] -or
         $smoke.payloadsRetained -ne $false -or
         [string]$smoke.correlationId -notmatch "^[A-Za-z0-9._:-]{1,128}$" -or
         -not [datetimeoffset]::TryParse([string]$smoke.observedAt, [ref]$observedAt)) {
-        throw "Session 13 smoke result must report no stored payloads and include a valid correlationId and observedAt."
+        throw "Session 12 smoke result must report no stored payloads and include a valid correlationId and observedAt."
     }
 }
 
@@ -440,8 +440,8 @@ if ([string]$control.records.manifestFinalizationFailureBehavior -cne
 if ([string]$control.routing.strategy -notin @("canary", "blue-green")) {
     throw "Routing strategy must be canary or blue-green."
 }
-if ($control.routing.existingSession06Or07SupportConfirmed -ne $true) {
-    throw "Existing Session 06 or 07 routing support is not confirmed; keep 100 percent on the previous approved release."
+if ($control.routing.existingSession05Or06SupportConfirmed -ne $true) {
+    throw "Existing Session 05 or 07 routing support is not confirmed; keep 100 percent on the previous approved release."
 }
 
 $promotionWorkflow = Get-Content -LiteralPath $promotionWorkflowPath -Raw
@@ -480,13 +480,13 @@ $requiredWorkflowFragments = @(
     'releaseCommitSha="${{ inputs.release_sha }}"',
     '-Mode CreateManifest -ReleaseSha "${{ inputs.release_sha }}"',
     "Apply evaluation and adversarial gates before deployment",
-    'SESSION13_SMOKE_URL: ${{ vars.SESSION13_SMOKE_URL }}',
-    'SESSION13_SMOKE_FAILURE_URL: ${{ vars.SESSION13_SMOKE_FAILURE_URL }}',
-    'SESSION13_AI_RESOURCE_ID: ${{ vars.SESSION13_AI_RESOURCE_ID }}',
-    'SESSION13_LOG_ANALYTICS_WORKSPACE_ID: ${{ vars.SESSION13_LOG_ANALYTICS_WORKSPACE_ID }}',
-    'SESSION13_SMOKE_TIMEOUT_SECONDS: ${{ vars.SESSION13_SMOKE_TIMEOUT_SECONDS }}',
-    'SESSION13_SMOKE_RETRY_SECONDS: ${{ vars.SESSION13_SMOKE_RETRY_SECONDS }}',
-    'SESSION13_SMOKE_BEARER_TOKEN: ${{ secrets.SESSION13_SMOKE_BEARER_TOKEN }}',
+    'SESSION12_SMOKE_URL: ${{ vars.SESSION12_SMOKE_URL }}',
+    'SESSION12_SMOKE_FAILURE_URL: ${{ vars.SESSION12_SMOKE_FAILURE_URL }}',
+    'SESSION12_AI_RESOURCE_ID: ${{ vars.SESSION12_AI_RESOURCE_ID }}',
+    'SESSION12_LOG_ANALYTICS_WORKSPACE_ID: ${{ vars.SESSION12_LOG_ANALYTICS_WORKSPACE_ID }}',
+    'SESSION12_SMOKE_TIMEOUT_SECONDS: ${{ vars.SESSION12_SMOKE_TIMEOUT_SECONDS }}',
+    'SESSION12_SMOKE_RETRY_SECONDS: ${{ vars.SESSION12_SMOKE_RETRY_SECONDS }}',
+    'SESSION12_SMOKE_BEARER_TOKEN: ${{ secrets.SESSION12_SMOKE_BEARER_TOKEN }}',
     "Deploy after environment approval",
     "Stop and dispatch the manual restore workflow"
 )
@@ -560,33 +560,33 @@ foreach ($property in @(
     Assert-ImmutableValue ([string]$control.immutableRelease.$property) "immutableRelease.$property"
 }
 $thresholdPolicyPath = Resolve-RepositoryPath `
-    $control.sourcePaths.session11ThresholdPolicy `
-    "Session 11 threshold policy" `
+    $control.sourcePaths.session10ThresholdPolicy `
+    "Session 10 threshold policy" `
     @(".yaml", ".yml")
 $thresholdPolicyHash = (Get-FileHash -LiteralPath $thresholdPolicyPath -Algorithm SHA256).Hash.ToLowerInvariant()
 if ([string]$control.immutableRelease.evaluationThresholdPolicySha256 -cne $thresholdPolicyHash) {
-    throw "immutableRelease.evaluationThresholdPolicySha256 does not match the approved Session 11 threshold policy."
+    throw "immutableRelease.evaluationThresholdPolicySha256 does not match the approved Session 10 threshold policy."
 }
 $releasePolicyPath = Resolve-RepositoryPath `
-    $control.sourcePaths.session11ReleasePolicy `
-    "Session 11 release policy" `
+    $control.sourcePaths.session10ReleasePolicy `
+    "Session 10 release policy" `
     @(".json")
 $baselineRecordPath = Resolve-RepositoryPath `
-    $control.sourcePaths.session11BaselineRecord `
-    "Session 11 approved baseline record" `
+    $control.sourcePaths.session10BaselineRecord `
+    "Session 10 approved baseline record" `
     @(".json")
 $candidateRecordPath = Resolve-RepositoryPath `
-    $control.sourcePaths.session11CandidateRecord `
-    "Session 11 candidate record" `
+    $control.sourcePaths.session10CandidateRecord `
+    "Session 10 candidate record" `
     @(".json")
 $releasePolicy = Read-JsonObject $releasePolicyPath
 $baselineRecord = Read-JsonObject $baselineRecordPath
 $candidateRecord = Read-JsonObject $candidateRecordPath
-Assert-ImplementationMarker $releasePolicy "Session 11 release policy" "11-foundry-evaluations-quality-gates"
-Assert-ImplementationMarker $baselineRecord "Session 11 baseline record" "11-foundry-evaluations-quality-gates"
-Assert-ImplementationMarker $candidateRecord "Session 11 candidate record" "11-foundry-evaluations-quality-gates"
+Assert-ImplementationMarker $releasePolicy "Session 10 release policy" "10-foundry-evaluations-quality-gates"
+Assert-ImplementationMarker $baselineRecord "Session 10 baseline record" "10-foundry-evaluations-quality-gates"
+Assert-ImplementationMarker $candidateRecord "Session 10 candidate record" "10-foundry-evaluations-quality-gates"
 if ($releasePolicy.schemaVersion -ne 2) {
-    throw "Session 11 release policy must use schemaVersion 2."
+    throw "Session 10 release policy must use schemaVersion 2."
 }
 $expectedActivationContract = [ordered]@{
     requiredState = "enabled"
@@ -599,19 +599,19 @@ $expectedActivationContract = [ordered]@{
 }
 $actualActivationFields = @($releasePolicy.activationContract.PSObject.Properties.Name)
 if (@(Compare-Object @($expectedActivationContract.Keys) $actualActivationFields).Count -ne 0) {
-    throw "Session 11 release policy has an unexpected activationContract schema."
+    throw "Session 10 release policy has an unexpected activationContract schema."
 }
 foreach ($field in $expectedActivationContract.Keys) {
     $expectedValue = $expectedActivationContract[$field]
     $actualValue = $releasePolicy.activationContract.$field
     if (($expectedValue -is [bool] -and $actualValue -isnot [bool]) -or
         $actualValue -cne $expectedValue) {
-        throw "Session 11 release policy activationContract.$field is not the required value."
+        throw "Session 10 release policy activationContract.$field is not the required value."
     }
 }
 if ([string]$releasePolicy.gate.callableInterface.requiredEnforcementOption -cne
     "--require-enabled") {
-    throw "Session 11 callable release gate must require --require-enabled."
+    throw "Session 10 callable release gate must require --require-enabled."
 }
 $decisionDate = [datetime]::MinValue
 if ([string]$releasePolicy.gate.state -cne "enabled" -or
@@ -625,10 +625,10 @@ if ([string]$releasePolicy.gate.state -cne "enabled" -or
         [Globalization.DateTimeStyles]::None,
         [ref]$decisionDate
     )) {
-    throw "Session 11 release policy must have enabled state and an approved decision date."
+    throw "Session 10 release policy must have enabled state and an approved decision date."
 }
 if ($decisionDate.Date -gt [datetime]::UtcNow.Date) {
-    throw "Session 11 release policy decisionDate cannot be in the future."
+    throw "Session 10 release policy decisionDate cannot be in the future."
 }
 if ([string]$releasePolicy.target.agentName -cne [string]$control.immutableRelease.agentName -or
     [string]$releasePolicy.target.candidateVersion -cne [string]$control.immutableRelease.agentVersion -or
@@ -636,31 +636,31 @@ if ([string]$releasePolicy.target.agentName -cne [string]$control.immutableRelea
     [string]$candidateRecord.run.target.name -cne [string]$control.immutableRelease.agentName -or
     [string]$baselineRecord.run.target.version -cne [string]$releasePolicy.target.approvedVersion -or
     [string]$candidateRecord.run.target.version -cne [string]$control.immutableRelease.agentVersion) {
-    throw "Session 11 release policy and records must target the approved agent name and immutable versions."
+    throw "Session 10 release policy and records must target the approved agent name and immutable versions."
 }
 if ([string]$releasePolicy.gate.baselineRunId -cne [string]$baselineRecord.run.runId -or
     [string]$releasePolicy.gate.candidateRunId -cne [string]$candidateRecord.run.runId -or
     [string]$candidateRecord.run.runId -cne [string]$control.immutableRelease.evaluationRunId) {
-    throw "Session 11 release-policy run IDs must match the baseline, candidate, and immutable release."
+    throw "Session 10 release-policy run IDs must match the baseline, candidate, and immutable release."
 }
 $releaseGatePath = Resolve-RepositoryPath `
-    $control.sourcePaths.session11ReleaseGate `
-    "Session 11 release gate" `
+    $control.sourcePaths.session10ReleaseGate `
+    "Session 10 release gate" `
     @(".py")
 & python $releaseGatePath `
     --policy $thresholdPolicyPath `
     --validate-policy `
     --phase candidate
 if ($LASTEXITCODE -ne 0) {
-    throw "Session 11 threshold policy must be active and approved for candidate gating."
+    throw "Session 10 threshold policy must be active and approved for candidate gating."
 }
 
 foreach ($entry in @(
     @($control.sourcePaths.bicepEntrypoint, "Bicep entrypoint", @(".bicep")),
     @($control.sourcePaths.apimPolicy, "APIM policy", @(".xml")),
     @($control.sourcePaths.unitTestScript, "unit-test script", @(".ps1")),
-    @($control.sourcePaths.session13SmokePowerShell, "Session 13 PowerShell smoke script", @(".ps1")),
-    @($control.sourcePaths.session13SmokeBash, "Session 13 Bash smoke script", @(".sh")),
+    @($control.sourcePaths.session12SmokePowerShell, "Session 12 PowerShell smoke script", @(".ps1")),
+    @($control.sourcePaths.session12SmokeBash, "Session 12 Bash smoke script", @(".sh")),
     @($control.sourcePaths.routingControlScript, "routing-control script", @(".ps1")),
     @($control.sourcePaths.releaseStoreScript, "approved release-store script", @(".ps1"))
 )) {
@@ -674,7 +674,7 @@ foreach ($pair in @(
     $parameters = $pair[0].parameters
     $environmentName = $pair[1]
     if ([string]$parameters.environment.value -ne $environmentName -or
-        [string]$parameters.implementationSession.value -ne "14-cicd-promotion-controls") {
+        [string]$parameters.implementationSession.value -ne "13-cicd-promotion-controls") {
         throw "$environmentName parameters have the wrong environment or implementation marker."
     }
     if ($null -ne $parameters.PSObject.Properties["releaseCommitSha"]) {
@@ -698,36 +698,36 @@ switch ($Mode) {
         Write-Host "PASS: workflow enforcement, immutable metadata, source paths, action pins, and environment parameters are consistent."
     }
     "Dependencies" {
-        Invoke-Session11Gate $control.sourcePaths.session11CandidateRecord "pass"
-        Invoke-Session11BlockedSelfTest
+        Invoke-Session10Gate $control.sourcePaths.session10CandidateRecord "pass"
+        Invoke-Session10BlockedSelfTest
         Assert-AdversarialReport
-        Write-Host "PASS: Session 11 permitted path, generated blocked self-test, and confirmed Session 12 adversarial report are ready."
+        Write-Host "PASS: Session 10 permitted path, generated blocked self-test, and confirmed Session 11 adversarial report are ready."
     }
     "Smoke" {
         if ([string]::IsNullOrWhiteSpace($SmokeResultPath)) {
             throw "-SmokeResultPath is required for Smoke mode."
         }
         Assert-SmokeResult $SmokeResultPath
-        Write-Host "PASS: Session 13 smoke and observability result is complete and payload-safe."
+        Write-Host "PASS: Session 12 smoke and observability result is complete and payload-safe."
     }
     "Intended" {
         if ([string]::IsNullOrWhiteSpace($SmokeResultPath)) {
             throw "-SmokeResultPath is required for Intended mode."
         }
         $selectedCandidate = if ([string]::IsNullOrWhiteSpace($CandidateRecordPath)) {
-            [string]$control.sourcePaths.session11CandidateRecord
+            [string]$control.sourcePaths.session10CandidateRecord
         }
         else {
             $CandidateRecordPath
         }
-        Invoke-Session11Gate $selectedCandidate "pass"
+        Invoke-Session10Gate $selectedCandidate "pass"
         Assert-AdversarialReport
         Assert-SmokeResult $SmokeResultPath
         Write-Host "PASS: intended quality, adversarial, and smoke gates permit production approval."
     }
     "Blocked" {
-        Invoke-Session11BlockedSelfTest
-        Write-Host "PASS: the Session 11 generated blocked-tool-process self-test returned BLOCK."
+        Invoke-Session10BlockedSelfTest
+        Write-Host "PASS: the Session 10 generated blocked-tool-process self-test returned BLOCK."
     }
     "CreateManifest" {
         if ([string]::IsNullOrWhiteSpace($RuntimeValuesPath) -or

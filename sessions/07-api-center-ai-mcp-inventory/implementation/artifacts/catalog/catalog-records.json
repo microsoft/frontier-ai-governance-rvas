@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "08-api-center-ai-mcp-inventory",
+  "implementationSession": "07-api-center-ai-mcp-inventory",
   "commonMetadata": {
     "businessOwner": "__REQUIRED_BUSINESS_OWNER__",
     "technicalOwner": "__REQUIRED_TECHNICAL_OWNER__",
@@ -14,14 +14,14 @@
     "evaluationResultsUrl": "__REQUIRED_EVALUATION_RESULTS_URL__",
     "lastReviewDate": "__REQUIRED_LAST_REVIEW_DATE__",
     "expiryDate": "__REQUIRED_EXPIRY_DATE__",
-    "implementationSession": "08-api-center-ai-mcp-inventory"
+    "implementationSession": "07-api-center-ai-mcp-inventory"
   },
   "records": {
     "agent": {
       "apiId": "policy-assistant-agent-api",
       "title": "Policy assistant agent API",
-      "summary": "Direct Session 06 Microsoft Foundry agent endpoint.",
-      "description": "Design-time record for the pinned, Entra-authorized Session 06 agent Responses endpoint.",
+      "summary": "Direct Session 05 Microsoft Foundry agent endpoint.",
+      "description": "Design-time record for the pinned, Entra-authorized Session 05 agent Responses endpoint.",
       "kind": "rest",
       "versionId": "v1-0-0",
       "versionTitle": "1.0.0",
@@ -47,7 +47,7 @@
       "lifecycleStage": "testing",
       "environmentTitle": "Approved nonproduction MCP runtime",
       "transport": "streamable-http",
-      "runtimeUrlEnvironmentVariable": "SESSION08_MCP_SERVER_URL",
+      "runtimeUrlEnvironmentVariable": "SESSION07_MCP_SERVER_URL",
       "customProperties": {
         "assetKind": "mcp-server",
         "dataClassification": "__REQUIRED_MCP_DATA_CLASSIFICATION__",

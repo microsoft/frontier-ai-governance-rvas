@@ -43,18 +43,18 @@
       "requestBodies": {
         "normal": {
           "requestType": "approved-read-only-policy-lookup",
-          "syntheticMarker": "session13-fixed-sensitive-marker-8f51c97a",
+          "syntheticMarker": "session12-fixed-sensitive-marker-8f51c97a",
           "releaseCommitSha": "exact lower-case CommitSha CLI value"
         },
         "expectedToolFailure": {
           "requestType": "approved-read-only-nonexistent-policy-lookup",
-          "syntheticMarker": "session13-fixed-sensitive-marker-8f51c97a",
+          "syntheticMarker": "session12-fixed-sensitive-marker-8f51c97a",
           "releaseCommitSha": "exact lower-case CommitSha CLI value"
         }
       },
       "authentication": {
         "scheme": "Bearer",
-        "tokenEnvironment": "SESSION13_SMOKE_BEARER_TOKEN",
+        "tokenEnvironment": "SESSION12_SMOKE_BEARER_TOKEN",
         "powershellTransport": "in-memory request header",
         "bashTransport": "curl configuration over standard input",
         "tokenWrittenToDisk": false
@@ -70,25 +70,25 @@
         "copyToResultOnlyAfterTelemetryMatch": true
       },
       "workspaceBinding": {
-        "componentResourceEnvironment": "SESSION13_AI_RESOURCE_ID",
+        "componentResourceEnvironment": "SESSION12_AI_RESOURCE_ID",
         "componentProperty": "WorkspaceResourceId",
-        "workspaceResourceEnvironment": "SESSION13_LOG_ANALYTICS_WORKSPACE_ID",
+        "workspaceResourceEnvironment": "SESSION12_LOG_ANALYTICS_WORKSPACE_ID",
         "resourceIdComparison": "case-insensitive",
         "requiredBeforeQuery": true
       },
       "runtimeEnvironment": [
-        "SESSION13_SMOKE_URL",
-        "SESSION13_SMOKE_FAILURE_URL",
-        "SESSION13_AI_RESOURCE_ID",
-        "SESSION13_LOG_ANALYTICS_WORKSPACE_ID",
-        "SESSION13_SMOKE_BEARER_TOKEN"
+        "SESSION12_SMOKE_URL",
+        "SESSION12_SMOKE_FAILURE_URL",
+        "SESSION12_AI_RESOURCE_ID",
+        "SESSION12_LOG_ANALYTICS_WORKSPACE_ID",
+        "SESSION12_SMOKE_BEARER_TOKEN"
       ],
       "ingestionPolling": {
-        "timeoutEnvironment": "SESSION13_SMOKE_TIMEOUT_SECONDS",
+        "timeoutEnvironment": "SESSION12_SMOKE_TIMEOUT_SECONDS",
         "defaultTimeoutSeconds": 180,
         "minimumTimeoutSeconds": 30,
         "maximumTimeoutSeconds": 600,
-        "retryEnvironment": "SESSION13_SMOKE_RETRY_SECONDS",
+        "retryEnvironment": "SESSION12_SMOKE_RETRY_SECONDS",
         "defaultRetrySeconds": 15,
         "minimumRetrySeconds": 5,
         "maximumRetrySeconds": 60,

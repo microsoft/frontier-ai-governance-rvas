@@ -27,7 +27,7 @@ system keep the security and incident records.
 Standard telemetry excludes prompts, responses, tool payloads, credentials, query strings, user
 identifiers, and personal data. Token metrics estimate usage rather than billed cost. Cost data can
 lag by 8-24 hours, and a budget sends notifications without stopping resources. Production content
-logging and user-level cost allocation need separate approval. Session 14 consumes the payload-free
+logging and user-level cost allocation need separate approval. Session 13 consumes the payload-free
 smoke result; it does not inherit or copy the authoritative service records.
 
 ## Architecture
@@ -90,10 +90,10 @@ failure path. The budget Bicep files deploy the separate billing notification.
 
 Confirm:
 
-- Sessions 01-12 are complete. A focused route may use the substitute baseline below. A label such
+- Sessions 01-10 are complete. A focused route may use the substitute baseline below. A label such
   as “same controls” is not enough.
-- The [Session 06](../../06-governed-agent-baseline/implementation/README.md) policy assistant and
-  [Session 07](../../07-apim-ai-gateway/implementation/README.md) APIM route can process one approved synthetic,
+- The [Session 05](../../05-governed-agent-baseline/implementation/README.md) policy assistant and
+  [Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM route can process one approved synthetic,
   read-only request without changing production.
 - A workspace-based Application Insights component, its Log Analytics workspace, and an approved
   action group already exist.
@@ -130,7 +130,7 @@ Every row is required when the numbered prerequisite sessions are not complete.
 
 | Type | File | Consumer |
 |---|---|---|
-| Record | [`artifacts/control-definition.json`](artifacts/control-definition.json) | The observability owner, preflight scripts, smoke scripts, and Session 14 validators |
+| Record | [`artifacts/control-definition.json`](artifacts/control-definition.json) | The observability owner, preflight scripts, smoke scripts, and Session 13 validators |
 | Runtime | [`artifacts/telemetry/telemetry-contract.json`](artifacts/telemetry/telemetry-contract.json) | Application developers, the observability owner, and preflight scripts |
 | Deployment | [`artifacts/infra/main.bicep`](artifacts/infra/main.bicep) | The Azure deployment pipeline |
 | Deployment | [`artifacts/infra/main.bicepparam`](artifacts/infra/main.bicepparam) | The Azure deployment pipeline |
@@ -250,14 +250,14 @@ Apply [`telemetry-contract.json`](artifacts/telemetry/telemetry-contract.json):
 5. drop prohibited attributes before export; and
 6. configure the approved source sampling and actionable log levels.
 
-This change must already be deployed through the existing [Session 06](../../06-governed-agent-baseline/implementation/README.md) application path. Stop if a library or
+This change must already be deployed through the existing [Session 05](../../05-governed-agent-baseline/implementation/README.md) application path. Stop if a library or
 framework automatically captures content and cannot be filtered before export.
 
 ### 3. Confirm the customer-owned APIM policy
 
 Set `gatewayPolicy.customerOwnedSourcePath` in `control-definition.json` to the gateway owner's
 repository-relative XML policy. Confirm that its `set-header` and `llm-emit-token-metric` elements
-preserve Session 07 authentication, token-limit, rate-limit, routing, content-safety, and backend
+preserve Session 06 authentication, token-limit, rate-limit, routing, content-safety, and backend
 controls.
 
 Do not use `User ID`, `Subscription ID`, request ID, correlation ID, prompt, response, or free text
@@ -336,14 +336,14 @@ curl configuration through standard input, with the token removed from curl's en
 script prints the token, places it on a process command line, or writes it to disk.
 
 ```powershell
-$env:SESSION13_SMOKE_URL = $env:APPROVED_SYNTHETIC_SMOKE_URL
-$env:SESSION13_SMOKE_FAILURE_URL = $env:APPROVED_SYNTHETIC_FAILURE_URL
-$env:SESSION13_AI_RESOURCE_ID = $env:APPROVED_APPLICATION_INSIGHTS_RESOURCE_ID
-$env:SESSION13_LOG_ANALYTICS_WORKSPACE_ID = $env:APPROVED_LOG_ANALYTICS_WORKSPACE_ID
-$env:SESSION13_SMOKE_BEARER_TOKEN = $env:APPROVED_SYNTHETIC_SMOKE_TOKEN
-$env:SESSION13_SMOKE_TIMEOUT_SECONDS = "180"
-$env:SESSION13_SMOKE_RETRY_SECONDS = "15"
-$resultPath = Join-Path $env:RUNNER_TEMP "session13-smoke.json"
+$env:SESSION12_SMOKE_URL = $env:APPROVED_SYNTHETIC_SMOKE_URL
+$env:SESSION12_SMOKE_FAILURE_URL = $env:APPROVED_SYNTHETIC_FAILURE_URL
+$env:SESSION12_AI_RESOURCE_ID = $env:APPROVED_APPLICATION_INSIGHTS_RESOURCE_ID
+$env:SESSION12_LOG_ANALYTICS_WORKSPACE_ID = $env:APPROVED_LOG_ANALYTICS_WORKSPACE_ID
+$env:SESSION12_SMOKE_BEARER_TOKEN = $env:APPROVED_SYNTHETIC_SMOKE_TOKEN
+$env:SESSION12_SMOKE_TIMEOUT_SECONDS = "180"
+$env:SESSION12_SMOKE_RETRY_SECONDS = "15"
+$resultPath = Join-Path $env:RUNNER_TEMP "session12-smoke.json"
 
 .\scripts\smoke.ps1 `
   -Mode Pipeline `
@@ -352,14 +352,14 @@ $resultPath = Join-Path $env:RUNNER_TEMP "session13-smoke.json"
   -ResultPath $resultPath
 ```
 ```bash
-export SESSION13_SMOKE_URL="${APPROVED_SYNTHETIC_SMOKE_URL}"
-export SESSION13_SMOKE_FAILURE_URL="${APPROVED_SYNTHETIC_FAILURE_URL}"
-export SESSION13_AI_RESOURCE_ID="${APPROVED_APPLICATION_INSIGHTS_RESOURCE_ID}"
-export SESSION13_LOG_ANALYTICS_WORKSPACE_ID="${APPROVED_LOG_ANALYTICS_WORKSPACE_ID}"
-export SESSION13_SMOKE_BEARER_TOKEN="${APPROVED_SYNTHETIC_SMOKE_TOKEN}"
-export SESSION13_SMOKE_TIMEOUT_SECONDS="180"
-export SESSION13_SMOKE_RETRY_SECONDS="15"
-result_path="${RUNNER_TEMP}/session13-smoke.json"
+export SESSION12_SMOKE_URL="${APPROVED_SYNTHETIC_SMOKE_URL}"
+export SESSION12_SMOKE_FAILURE_URL="${APPROVED_SYNTHETIC_FAILURE_URL}"
+export SESSION12_AI_RESOURCE_ID="${APPROVED_APPLICATION_INSIGHTS_RESOURCE_ID}"
+export SESSION12_LOG_ANALYTICS_WORKSPACE_ID="${APPROVED_LOG_ANALYTICS_WORKSPACE_ID}"
+export SESSION12_SMOKE_BEARER_TOKEN="${APPROVED_SYNTHETIC_SMOKE_TOKEN}"
+export SESSION12_SMOKE_TIMEOUT_SECONDS="180"
+export SESSION12_SMOKE_RETRY_SECONDS="15"
+result_path="${RUNNER_TEMP}/session12-smoke.json"
 
 ./scripts/smoke.sh \
   --mode pipeline \
@@ -368,9 +368,9 @@ result_path="${RUNNER_TEMP}/session13-smoke.json"
   --result-path "$result_path"
 ```
 
-Before either request, the scripts resolve `SESSION13_AI_RESOURCE_ID` with Azure CLI. Its live
+Before either request, the scripts resolve `SESSION12_AI_RESOURCE_ID` with Azure CLI. Its live
 `WorkspaceResourceId`, compared without case sensitivity, must equal
-`SESSION13_LOG_ANALYTICS_WORKSPACE_ID`. The query is sent only to that bound workspace.
+`SESSION12_LOG_ANALYTICS_WORKSPACE_ID`. The query is sent only to that bound workspace.
 
 The normal endpoint accepts the fixed read-only body defined in the control. The separate failure
 endpoint handles a lookup for a nonexistent synthetic policy: its tool dependency must fail while
@@ -383,7 +383,7 @@ output contains no request, response, tool, or telemetry payload.
 The request and response trace IDs are normalized to 32 lower-case hexadecimal characters. The
 normal and failure IDs must remain distinct after any response `traceparent` override. The
 payload-free result keeps both as `normalCorrelationId` and `failureCorrelationId`; the existing
-`correlationId` field remains the normal ID for Session 14 compatibility.
+`correlationId` field remains the normal ID for Session 13 compatibility.
 
 Application Insights ingestion is asynchronous. Both scripts query the normal and failure
 correlation IDs immediately, then retry until all six required request, model, and tool counts plus
@@ -405,7 +405,7 @@ is ready on the first query. A final query can run at the timeout boundary. `tel
 counts every telemetry query across readiness and stability, including the initial and final
 queries. The result also records the configured timeout and retry interval.
 
-Run the payload-free contract mocks before wiring the smoke check into Session 14:
+Run the payload-free contract mocks before wiring the smoke check into Session 13:
 
 ```powershell
 python .\scripts\test-smoke-contract.py
@@ -461,10 +461,10 @@ affected agent or model route, the tool owner disables an affected binding, and 
 owner revokes or rotates exposed credentials.
 
 This implementation remains scoped to the nonproduction service listed in
-`control-definition.json`. [Session 14](../../14-cicd-promotion-controls/implementation/README.md) calls
+`control-definition.json`. [Session 13](../../13-cicd-promotion-controls/implementation/README.md) calls
 `implementation/scripts/smoke.ps1` or `smoke.sh` through the fixed mode, environment, commit SHA,
 and result-path interface.
-It also supplies the seven documented runtime environment inputs. Session 14 requires `status:
+It also supplies the seven documented runtime environment inputs. Session 13 requires `status:
 passed`, both binding checks, distinct correlation fields, a stable final query, all other positive
 checks, `sensitiveInputPresent: false`, `payloadsRetained: false`, and the five-entry
 `privacySurfacesChecked` list.
@@ -472,14 +472,14 @@ checks, `sensitiveInputPresent: false`, `payloadsRetained: false`, and the five-
 Restore is manual because application instrumentation and the APIM policy share existing delivery
 paths:
 
-1. route the application to the last approved [Session 06](../../06-governed-agent-baseline/implementation/README.md) version if instrumentation causes a
+1. route the application to the last approved [Session 05](../../05-governed-agent-baseline/implementation/README.md) version if instrumentation causes a
    service fault;
-2. restore the previous [Session 07](../../07-apim-ai-gateway/implementation/README.md) API policy through its owning repository, preserving
+2. restore the previous [Session 06](../../06-apim-ai-gateway/implementation/README.md) API policy through its owning repository, preserving
    authentication, safety, routing, and quota controls;
-3. disable only the Session 13 alert rules while correcting a noisy query or threshold;
-4. remove only resources listed in the approved Session 13 what-if and tagged
+3. disable only the Session 12 alert rules while correcting a noisy query or threshold;
+4. remove only resources listed in the approved Session 12 what-if and tagged
    `implementationSession=13`;
-5. delete the exact Session 13 budget only after the cost owner confirms no other workflow depends
+5. delete the exact Session 12 budget only after the cost owner confirms no other workflow depends
    on it; and
 6. keep the data needed for an active incident or retention obligation.
 

@@ -10,13 +10,13 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation - Session 09</p>
+<p class="eyebrow">AI Governance Co-implementation - Session 08</p>
 
 # MCP and tool security
 
 **270 minutes - One governed read path, one blocked write**
 
-<!-- Notes: Session 08 inventoried the MCP server. This session limits the agent to one read tool and one backend scope. -->
+<!-- Notes: Session 07 inventoried the MCP server. This session limits the agent to one read tool and one backend scope. -->
 
 ---
 
@@ -84,7 +84,15 @@ Discovery tells us what exists. Runtime authorization decides what can happen.
 
 ## Architecture overview
 
+<!-- _class: diagram -->
+
 ![The candidate Foundry agent uses an agent-identity token for the APIM MCP audience; APIM validates that token, ends caller authority, and uses its read-only managed identity for the backend while approved reads and blocked writes diverge](assets/diagrams/mcp-tool-security-flow.svg)
+
+<!-- Notes: Trace the two-token flow. The absent write tool and backend read role enforce the side-effect boundary. Body logging stays at zero. -->
+
+---
+
+## What this means
 
 The candidate calls APIM with its agent identity. APIM is the point where authority changes: it
 checks that identity and exposes one tool, `get_policy`.
@@ -93,8 +101,6 @@ Caller authority ends at APIM. APIM calls the backend with its own identity at o
 
 Foundry owns the candidate binding and stable selector. APIM owns runtime policy and backend
 identity. API Center receives design-time inventory metadata.
-
-<!-- Notes: Trace the two-token flow. The absent write tool and backend read role enforce the side-effect boundary. Body logging stays at zero. -->
 
 ---
 
@@ -228,7 +234,7 @@ Stop if the inbound token reaches the backend or APIM receives a contributor-sty
 | User | Use existing agent endpoint | Administer project |
 | Candidate agent | Invoke one MCP audience and role | Call other APIM APIs |
 | APIM identity | Read one backend scope | Create, update, publish, delete |
-| Operator | Deploy Session 09 resources | Change unrelated APIs |
+| Operator | Deploy Session 08 resources | Change unrelated APIs |
 | Release owner | Pin or disable candidate | Redesign control during checkpoint |
 
 <!-- Notes: Name accountable roles before deployment. -->
@@ -343,7 +349,7 @@ Stop before state change when:
 - the backing operation is not proven read-only;
 - the role or scope is broader than approved;
 - `what-if` touches unrelated resources; or
-- the MCP server ID collides without the Session 09 marker.
+- the MCP server ID collides without the Session 08 marker.
 
 <!-- Notes: Preflight names each condition and refuses deployment. -->
 
@@ -355,7 +361,7 @@ Preflight reports three sections: implementation definitions, live Azure checks,
 
 ![Microsoft Foundry Agent Service](assets/icons/microsoft/foundry-agent-service.svg)
 
-Keep from [Session 06](../06-governed-agent-baseline/):
+Keep from [Session 05](../05-governed-agent-baseline/):
 
 - model, RAI policy, instructions, and temperature
 - endpoint authorization and agent identity behavior
@@ -368,7 +374,7 @@ Change in candidate only:
 - require approval `always`
 - do not pin yet
 
-Show the candidate version ID. Confirm the stable endpoint still selects the prior Session 06 version before either check.
+Show the candidate version ID. Confirm the stable endpoint still selects the prior Session 05 version before either check.
 
 <!-- Notes: Avoid a parallel direct path around APIM. -->
 
@@ -426,7 +432,7 @@ Both checks pass, API Center ownership is complete, and the stable endpoint is p
 
 ### Disable
 
-Either check fails. Keep or restore the [Session 06](../06-governed-agent-baseline/) version, leave the candidate unpinned, and route remediation.
+Either check fails. Keep or restore the [Session 05](../05-governed-agent-baseline/) version, leave the candidate unpinned, and route remediation.
 
 </div>
 </div>
@@ -454,11 +460,11 @@ Other owners keep their assigned control current.
 
 ## Disable before delete
 
-1. Restore the previous [Session 06](../06-governed-agent-baseline/) version at 100%.
+1. Restore the previous [Session 05](../05-governed-agent-baseline/) version at 100%.
 2. Confirm no active agent references the MCP endpoint.
 3. Remove the project connection only when unused.
 4. Review marker-checked APIM removal.
-5. Delete only Session 09 MCP resources and APIM named values.
+5. Delete only Session 08 MCP resources and APIM named values.
 6. Remove the APIM backend role assignment only after the identity owner confirms that no operational MCP server or API operation uses it.
 
 Never delete the backing API, APIM service, Foundry agent, API Center, or Application Insights.

@@ -1,4 +1,4 @@
-# Session 06 diagram
+# Session 05 diagram
 
 `governed-agent-flow.excalidraw` is the editable authority for the agent control anatomy.
 `governed-agent-flow.svg` is its rendered briefing asset. Edit the Excalidraw source first, then

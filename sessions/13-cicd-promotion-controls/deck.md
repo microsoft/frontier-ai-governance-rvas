@@ -10,13 +10,13 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation - Session 14</p>
+<p class="eyebrow">AI Governance Co-implementation - Session 13</p>
 
 # CI/CD, policy as code, and controlled promotion
 
 **300 minutes - One fixed release, two controlled stages**
 
-<!-- Notes: Session 13 made the service operable. This session keeps promotion repeatable and limited. -->
+<!-- Notes: Session 12 made the service operable. This session keeps promotion repeatable and limited. -->
 
 ---
 
@@ -39,7 +39,7 @@ html: true
 
 A release is safe to promote only while its code, AI configuration, gate results, approvals, and traffic change describe the same release unit.
 
-The protected workflow keeps that relationship easy to inspect. It also stops Session 11's known tool-process regression before any Azure preview or approval.
+The protected workflow keeps that relationship easy to inspect. It also stops Session 10's known tool-process regression before any Azure preview or approval.
 
 <!-- Notes: The SHA is the release spine from input through restore. -->
 
@@ -48,7 +48,7 @@ The protected workflow keeps that relationship easy to inspect. It also stops Se
 ## Implementation outcomes
 
 1. Bind one fixed release to the protected `release_sha`.
-2. Make Azure deployment depend on the Session 11 gate and the other approved release checks.
+2. Make Azure deployment depend on the Session 10 gate and the other approved release checks.
 3. Require protected nonproduction and production approvals after their what-if previews.
 4. Bind both deployments, routing, and the approved manifest to the same SHA.
 5. Confirm the allowed path, blocked path, and previous-release restore reference.
@@ -101,12 +101,18 @@ carries it forward. A mismatch starts a new release.
 
 ## Controlled promotion flow
 
+<!-- _class: diagram -->
+
 ![One commit moves through repository checks and release gates before deployment. Failed checks stop the release, and restore returns to the previous approved version.](assets/diagrams/controlled-promotion-flow.svg)
+
+<!-- Notes: The release SHA stays the same through every preview, approval, deployment, route change, and manifest record. The two red exits stop before the Azure change boundary. -->
+
+---
+
+## What this means
 
 Failed gates leave Azure unchanged. Manual restore uses the previous approved manifest and its own
 production approval.
-
-<!-- Notes: The release SHA stays the same through every preview, approval, deployment, route change, and manifest record. The two red exits stop before the Azure change boundary. -->
 
 ---
 
@@ -219,9 +225,9 @@ Stop on unrelated deletion, replacement, scope drift, or unexplained expansion.
 | Gate | Required result |
 |---|---|
 | Unit | Customer script succeeds for the matching commit |
-| [Session 13](../13-observability-cost-operations/) smoke | Operational executable, logging-bound commit, live workspace binding, distinct trace IDs, fixed-time polling, no sensitive input or stored payload |
-| [Session 11](../11-foundry-evaluations-quality-gates/) evaluation | Aggregate quality, tool-process, and safety thresholds pass |
-| [Session 12](../12-red-teaming-threat-defense/) red-team | Confirmed report and matching review record, fixed version binding, lower ASR, no risk category getting worse, blocked actions at zero ASR |
+| [Session 12](../12-observability-cost-operations/) smoke | Operational executable, logging-bound commit, live workspace binding, distinct trace IDs, fixed-time polling, no sensitive input or stored payload |
+| [Session 10](../10-foundry-evaluations-quality-gates/) evaluation | Aggregate quality, tool-process, and safety thresholds pass |
+| [Session 11](../11-red-teaming-threat-defense/) red-team | Confirmed report and matching review record, fixed version binding, lower ASR, no risk category getting worse, blocked actions at zero ASR |
 
 Any blocking failure prevents the production job.
 
@@ -233,23 +239,23 @@ Any blocking failure prevents the production job.
 
 ![Microsoft Foundry](assets/icons/microsoft/azure-ai-foundry.svg)
 
-### [Session 11](../11-foundry-evaluations-quality-gates/)
+### [Session 10](../10-foundry-evaluations-quality-gates/)
 
 Use the callable `release-gate.py` with its threshold policy, evaluation definition, baseline, candidate, and required tool-process block case.
 
-Session 14 enforces it in promotion.
+Session 13 enforces it in promotion.
 
-### [Session 12](../12-red-teaming-threat-defense/)
+### [Session 11](../11-red-teaming-threat-defense/)
 
 Consume the confirmed payload-free before/after report and its version-matched risk/change review record. SOC delivery stays a separate result.
 
-### [Session 13](../13-observability-cost-operations/)
+### [Session 12](../12-observability-cost-operations/)
 
-Call the Session 13 `smoke.ps1` executable with fixed arguments.
+Call the Session 12 `smoke.ps1` executable with fixed arguments.
 
-Session 13 polls log arrival with a fixed timeout and retry interval.
+Session 12 polls log arrival with a fixed timeout and retry interval.
 
-Session 14 requires at least three attempts and a timeout that allows two retry intervals. The Bash path remains paired for operator use.
+Session 13 requires at least three attempts and a timeout that allows two retry intervals. The Bash path remains paired for operator use.
 
 <!-- Notes: No arbitrary shell strings and no copied gate implementation. -->
 
@@ -259,7 +265,7 @@ Session 14 requires at least three attempts and a timeout that allows two retry 
 
 ![Azure API Management](assets/icons/microsoft/azure-api-management.svg)
 
-Use `canary` or `blue-green` only when the existing [Session 06](../06-governed-agent-baseline/) or [Session 07](../07-apim-ai-gateway/) path already supports:
+Use `canary` or `blue-green` only when the existing [Session 05](../05-governed-agent-baseline/) or [Session 06](../06-apim-ai-gateway/) path already supports:
 
 - fixed candidate and stable selectors;
 - a limited traffic move;
@@ -302,7 +308,7 @@ Files, decision sentinels, approved scopes, repository metadata, workflow enforc
 
 ### Ready
 
-GitHub plan and environments, native secret controls, Session 13 environment variable and optional secret names, four specific OIDC subjects, both resource-group Contributor assignments, and both deployment what-if operations.
+GitHub plan and environments, native secret controls, Session 12 environment variable and optional secret names, four specific OIDC subjects, both resource-group Contributor assignments, and both deployment what-if operations.
 
 Neither phase deploys or changes a resource.
 
@@ -351,7 +357,7 @@ Dispatch the same workflow with:
 
 `evaluation_record=generated-blocked-tool-process-self-test`
 
-The workflow runs [Session 11](../11-foundry-evaluations-quality-gates/)'s stable in-memory tool-process self-test.
+The workflow runs [Session 10](../10-foundry-evaluations-quality-gates/)'s stable in-memory tool-process self-test.
 
 Expected:
 
@@ -410,8 +416,8 @@ One customer-owned delivery control:
 | Release owner | Workflows, action pins, manifest continuity |
 | GitHub and Entra admins | Environment protection and OIDC trust |
 | Platform owner | Bicep entrypoint, parameters, approved Azure scopes, both what-if approvals |
-| Quality and security owners | Session 11 and 12 gate health |
-| Observability owner | Session 13 smoke interface |
+| Quality and security owners | Session 09 and 11 gate health |
+| Observability owner | Session 12 smoke interface |
 | Gateway owner | Existing routing selectors |
 | Delivery owner | Intended and blocked checkpoint |
 

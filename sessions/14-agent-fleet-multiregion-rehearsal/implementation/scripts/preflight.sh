@@ -268,7 +268,7 @@ for name in required_visibility:
     if field(visibility, name, visibility_heading) != 'Confirmed':
         raise SystemExit(f"agent-inventory.md field '{name}' must be Confirmed.")
 
-if control.get('implementationSession') != '15-agent-fleet-multiregion-rehearsal' or values.get('implementationSession') != '15-agent-fleet-multiregion-rehearsal':
+if control.get('implementationSession') != '14-agent-fleet-multiregion-rehearsal' or values.get('implementationSession') != '14-agent-fleet-multiregion-rehearsal':
     raise SystemExit('A implementation file has the wrong implementationSession marker.')
 if control.get('approvedAzureScope', '').lower() != scope.lower():
     raise SystemExit('Approved scope differs from the operational control.')
@@ -395,7 +395,7 @@ PY
 az deployment group what-if \
   --subscription "$(json_value subscriptionId)" \
   --resource-group "$(json_value resourceGroup)" \
-  --name s15-regional-preflight \
+  --name s14-regional-preflight \
   --template-file "$bicep_path" \
   --parameters "@$(json_value parameters)" \
   --no-pretty-print

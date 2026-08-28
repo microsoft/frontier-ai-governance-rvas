@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "05-model-governance-lifecycle",
+  "implementationSession": "04-model-governance-lifecycle",
   "approvals": [
     {
       "approvalId": "__REQUIRED_APPROVAL_ID__",

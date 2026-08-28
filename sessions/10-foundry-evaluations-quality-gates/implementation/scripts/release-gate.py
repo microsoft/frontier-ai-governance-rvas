@@ -15,7 +15,7 @@ from typing import Any
 import yaml
 
 
-IMPLEMENTATION_SESSION = "11-foundry-evaluations-quality-gates"
+IMPLEMENTATION_SESSION = "10-foundry-evaluations-quality-gates"
 LAYERS = {"final-answer-quality", "tool-process", "safety"}
 
 

@@ -1,6 +1,6 @@
 # Retained evidence checklist
 
-Use this checklist to decide what remains in the repository after Session 10. Keep the live
+Use this checklist to decide what remains in the repository after Session 09. Keep the live
 Microsoft Purview and Agent 365 records authoritative.
 
 | Item | Repository handling | Owner |

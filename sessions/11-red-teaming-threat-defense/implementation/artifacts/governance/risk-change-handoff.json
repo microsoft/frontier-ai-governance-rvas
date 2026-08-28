@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "12-red-teaming-threat-defense",
+  "implementationSession": "11-red-teaming-threat-defense",
   "changeReference": "__REQUIRED_CHANGE_REFERENCE__",
   "target": {
     "subscriptionAlias": "__REQUIRED_SUBSCRIPTION_ALIAS__",
@@ -105,5 +105,5 @@
     "requiresProhibitedActionsBlocked": true,
     "requiresPayloadFreeRecord": true
   },
-  "implementationMarker": "implementationSession=12-red-teaming-threat-defense"
+  "implementationMarker": "implementationSession=11-red-teaming-threat-defense"
 }

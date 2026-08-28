@@ -60,6 +60,19 @@
       </nav>
 
       <div class="session-reading-layout session-content-width">
+        <button
+          class="deck-launcher"
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls="session-deck-dialog"
+          data-deck-open
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+            <path d="M8 20h8M12 16.5V20"></path>
+          </svg>
+          <span>Open the deck</span>
+        </button>
         <aside class="service-panel" aria-labelledby="service-panel-title">
           <h2 id="service-panel-title">Services in scope</h2>
           <ul><li>
@@ -84,7 +97,7 @@
 <p>Use this module only when an existing client, confidential middle tier, and protected downstream API already require per-user authorization. If the operation should run with one workload identity regardless of who started it, use managed identity instead.</p>
 <p>The module changes <strong>exact delegated permissions and consent</strong>, the middle-tier OBO implementation, and its payload-free diagnostics. It does not create replacement applications, redesign the downstream authorization model, or grant missing resource authority to the denied user. The original bearer token stops at the middle tier. No application-only retry may bypass a downstream denial.</p>
 <p>The certificate remains in Azure Key Vault and reaches the approved runtime only through its protected certificate integration. This repository stores references, never private keys, bearer tokens, tenant values, endpoints, or user data.</p>
-<p>This optional module sits outside the 15-session sequence. It complements the identity decision in <a href="../../sessions/03-identity-privileged-access/">Session 03</a>, the application-only agent baseline in <a href="../../sessions/06-governed-agent-baseline/">Session 06</a>, and the application-only MCP path in <a href="../../sessions/09-mcp-tool-security/">Session 09</a>.</p>
+<p>This optional module sits outside the 14-session sequence. It complements the identity decision in <a href="../../sessions/02-identity-privileged-access/">Session 02</a>, the application-only agent baseline in <a href="../../sessions/05-governed-agent-baseline/">Session 05</a>, and the application-only MCP path in <a href="../../sessions/08-mcp-tool-security/">Session 08</a>.</p>
           <section class="session-brief" aria-labelledby="session-brief-title">
             <h2 id="session-brief-title">Module preparation</h2>
             <div class="session-brief__grid"><div class="session-brief__audience session-brief__list" data-list-layout="stack">
@@ -95,7 +108,7 @@
               <ul><li>An approved nonproduction tenant contains an existing client, confidential Python middle tier, and protected downstream API.</li><li>The downstream API exposes one narrow delegated read scope and enforces resource authorization for each user.</li><li>An exportable Azure Key Vault certificate is approved for middle-tier client authentication and can be exposed as a protected PFX through the approved runtime integration.</li><li>The identity owner can approve exact delegated permissions and consent.</li><li>One permitted user and one user without downstream resource authority are available for the delivery checks.</li></ul>
             </div><div class="session-brief__references session-brief__list" data-list-layout="stack">
               <h3>Related numbered sessions</h3>
-              <ul><li><a href="../../sessions/03-identity-privileged-access/">Session 03 - Entra identity, RBAC, PIM, and workload identities</a></li><li><a href="../../sessions/06-governed-agent-baseline/">Session 06 - Governed Microsoft Foundry agent baseline</a></li><li><a href="../../sessions/09-mcp-tool-security/">Session 09 - MCP and tool security</a></li></ul>
+              <ul><li><a href="../../sessions/02-identity-privileged-access/">Session 02 - Entra identity, RBAC, PIM, and workload identities</a></li><li><a href="../../sessions/05-governed-agent-baseline/">Session 05 - Governed Microsoft Foundry agent baseline</a></li><li><a href="../../sessions/08-mcp-tool-security/">Session 08 - MCP and tool security</a></li></ul>
             </div></div>
           </section>
 
@@ -119,20 +132,6 @@
       </div>
       <p>Optional module · Scope and outcomes</p>
     </footer>
-
-    <button
-      class="deck-launcher"
-      type="button"
-      aria-haspopup="dialog"
-      aria-controls="session-deck-dialog"
-      data-deck-open
-    >
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
-        <path d="M8 20h8M12 16.5V20"></path>
-      </svg>
-      <span>View slide deck</span>
-    </button>
 
     <dialog
       class="deck-dialog"

@@ -1,6 +1,6 @@
 /* @theme ai-governance */
 @import "default";
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap");
 
 :root {
   --rvap-blue: #1A77E3;
@@ -20,9 +20,9 @@
   --surface-paper: #FAFBFD;
   --line: #E3E6ED;
   --line-soft: #DDE6F7;
-  --font-display: "Aptos Display", "Outfit", "Segoe UI", system-ui, sans-serif;
-  --font-body: "Aptos", "Inter", "Segoe UI", system-ui, sans-serif;
-  --font-mono: "Cascadia Code", "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+  --font-display: "Outfit", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", "Fira Code", ui-monospace, monospace;
 }
 
 section {
@@ -46,12 +46,14 @@ h3 {
 
 h1 {
   font-size: 1.9em;
+  font-weight: 700;
   line-height: 1.08;
 }
 
 h2 {
   display: block;
   font-size: 1.35em;
+  font-weight: 600;
   line-height: 1.12;
   margin-bottom: 0.55em;
   padding: 0;
@@ -61,6 +63,7 @@ h2 {
 h3 {
   color: var(--rvap-blue);
   font-size: 0.95em;
+  font-weight: 600;
   margin-bottom: 0.25em;
 }
 
@@ -276,6 +279,22 @@ section.compact {
 
 section.compact li {
   margin: 0.14em 0;
+}
+
+section.diagram {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+section.diagram h2 {
+  text-align: center;
+}
+
+section.diagram img {
+  max-height: 560px;
+  max-width: 100%;
 }
 
 section.exercise,

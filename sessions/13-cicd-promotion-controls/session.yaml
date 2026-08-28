@@ -1,6 +1,6 @@
 schema_version: 2
 session:
-  id: "14"
+  id: "13"
   slug: "cicd-promotion-controls"
   title: "CI/CD, policy as code, and controlled promotion"
   duration_minutes: 300
@@ -11,14 +11,14 @@ session:
     - "GitHub, Microsoft Entra, Azure, and API Management administrators"
     - "AI quality, security, service, and delivery owners"
   prerequisites:
-    - "Sessions 06, 07, 11, 12, and 13 are complete. A focused route may use only the five substitute baselines below; each baseline must identify its owner, configuration or record, control state, and observable result."
+    - "Sessions 05, 06, 10, 11, and and 13 are complete. A focused route may use only the five substitute baselines below; each baseline must identify its owner, configuration or record, control state, and observable result."
     - "The immutable-agent substitute requires one release record for the prompt, agent, model, and Bicep inputs. The approved commit SHA is supplied through the protected workflow input instead of being stored inside that commit."
     - "The gateway substitute requires the versioned APIM policy and the stable and candidate selectors listed in the routing contract. The gateway owner confirms that preview changes only those selectors, the candidate route passes its read-only health check, and restore returns traffic to the exact previous selector."
     - "The evaluation substitute requires the evaluation definition, active threshold policy, enabled release policy, approved baseline, and passing candidate record. The release-policy baseline and candidate run IDs match those records, and the AI quality owner confirms that the callable release gate passes the candidate and blocks its generated self-test."
     - "The adversarial substitute requires a confirmed payload-free before/after report and risk/change handoff for the immutable agent version. The handoff matches the baseline and post-remediation versions. The security owner confirms that overall attack success is lower, every tracked risk passes non-regression, prohibited actions are blocked, and the report status is `confirmed`. SOC delivery remains a separate operational result."
-    - "The observability substitute requires the Session 13 PowerShell and Bash smoke executables. The observability owner confirms that the result verifies the release commit in telemetry, verifies the live Application Insights workspace binding, uses distinct normal and failure trace IDs, waits for stable ingestion, separates tool failure from model failure, reports no sensitive input, and retains no payloads."
+    - "The observability substitute requires the Session 12 PowerShell and Bash smoke executables. The observability owner confirms that the result verifies the release commit in telemetry, verifies the live Application Insights workspace binding, uses distinct normal and failure trace IDs, waits for stable ingestion, separates tool failure from model failure, reports no sensitive input, and retains no payloads."
     - "The unit-check owner has accepted the customer unit script, the routing owner has accepted the customer routing script, the release owner has accepted the release-store script, and the platform owner has accepted both environment parameter contracts. The delivery owner has recorded these decisions before the session."
-    - "The protected `nonproduction` GitHub environment defines the Session 13 normal and failure URLs, Application Insights resource ID, Log Analytics workspace ID, and the `SESSION13_SMOKE_BEARER_TOKEN` secret. Optional timeout and retry variables override the configured 180-second and 15-second defaults."
+    - "The protected `nonproduction` GitHub environment defines the Session 12 normal and failure URLs, Application Insights resource ID, Log Analytics workspace ID, and the `SESSION12_SMOKE_BEARER_TOKEN` secret. Optional timeout and retry variables override the configured 180-second and 15-second defaults."
     - "GitHub environments `nonproduction-preview`, `nonproduction`, `production-preview`, and `production`, native secret scanning, and push protection are configured and accepted. The two apply environments require reviewers and prevent self-review."
     - "The nonproduction and production Microsoft Entra workload service principals each have a federated credential for their preview environment and another for their apply environment. Every credential subject exactly matches the repository's current GitHub OIDC subject format and environment name."
     - "Each workload service principal has only the built-in Contributor role (role ID `b24988ac-6180-42a0-ab88-20f7382dd24c`) at its exact environment resource-group scope. Contributor supplies deployment and what-if permissions but cannot assign Azure roles."
@@ -26,11 +26,11 @@ session:
     - "The approved release store can stage, approve, and retrieve one manifest by exact release ID and SHA-256."
     - "The release, quality, security, production-approval, routing, and delivery authorities are recorded and available for their live decisions."
   dependencies:
-    - "Session 06 - Governed Microsoft Foundry agent baseline"
-    - "Session 07 - Azure API Management as the AI gateway"
-    - "Session 11 - Foundry evaluations and release quality gates"
-    - "Session 12 - Red teaming, prompt injection, and Defender"
-    - "Session 13 - Observability, cost, and operational controls"
+    - "Session 05 - Governed Microsoft Foundry agent baseline"
+    - "Session 06 - Azure API Management as the AI gateway"
+    - "Session 10 - Foundry evaluations and release quality gates"
+    - "Session 11 - Red teaming, prompt injection, and Defender"
+    - "Session 12 - Observability, cost, and operational controls"
   services_in_scope:
     - "github-actions"
     - "microsoft-entra-workload-id"
@@ -43,7 +43,7 @@ implementation:
   extended_reason: "The delivery must prove both the permitted promotion path and the blocked evaluation path before a delivery-owner checkpoint."
 implementation_outcomes:
   - "Keep one GitHub Actions workflow that proves the approved release SHA is reachable from the protected default branch before checkout, uses environment-scoped Azure OIDC, and deploys that same commit in both stages."
-  - "Enforce the enabled Session 11 callable gate and generated blocked self-test before any Azure deployment, binding evaluation and adversarial results to the immutable agent name and version."
+  - "Enforce the enabled Session 10 callable gate and generated blocked self-test before any Azure deployment, binding evaluation and adversarial results to the immutable agent name and version."
   - "Run each Bicep what-if in a preview environment and require approval in the matching apply environment before deployment."
   - "Bind protected approvals, both deployments, routing, the approved manifest, and manual previous-release restore to the selected release SHA and its recorded previous release."
   - "Run the generated blocked-tool-process self-test before deployment, complete the permitted promotion through the protected environments, then pause for the delivery owner."
@@ -65,7 +65,7 @@ deliverables:
     - "implementation/scripts/verify.sh"
 retained_files:
   - path: "implementation/artifacts/control-definition.json"
-    consumer: "The Session 14 validators, preflight scripts, and GitHub Actions workflows"
+    consumer: "The Session 13 validators, preflight scripts, and GitHub Actions workflows"
     operational_purpose: "Bind repository, protected-branch lineage, environment, OIDC, Azure scope, upstream gate, immutable release, routing, and ownership decisions."
   - path: "implementation/artifacts/github/promotion.yml"
     consumer: "GitHub Actions and the release operator"

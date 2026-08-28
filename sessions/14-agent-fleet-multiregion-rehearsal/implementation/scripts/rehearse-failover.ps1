@@ -44,7 +44,7 @@ function Read-HealthResult {
         throw "Customer health script did not write its required JSON result."
     }
     $result = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json -ErrorAction Stop
-    if ([string]$result.implementationSession -cne "15-agent-fleet-multiregion-rehearsal" -or
+    if ([string]$result.implementationSession -cne "14-agent-fleet-multiregion-rehearsal" -or
         [string]$result.status -cne $ExpectedStatus -or
         [string]$result.region -ine $ExpectedRegion -or
         [string]$result.agentVersion -cne [string]$Regional.agentVersion -or
@@ -65,7 +65,7 @@ if (-not $?) {
 }
 
 $control = Get-Content -LiteralPath $controlPath -Raw | ConvertFrom-Json -ErrorAction Stop
-if ([string]$control.implementationSession -cne "15-agent-fleet-multiregion-rehearsal" -or
+if ([string]$control.implementationSession -cne "14-agent-fleet-multiregion-rehearsal" -or
     [string]$control.approvedAzureScope -ine $ApprovedScope) {
     throw "Control marker or approved scope differs from the rehearsal request."
 }
@@ -87,8 +87,8 @@ if ([string]::IsNullOrWhiteSpace([string]$regional.primarySelector) -or
 
 $healthScript = Resolve-RepoFile ([string]$control.sourcePaths.healthCheckPowerShell)
 $routingScript = Resolve-RepoFile ([string]$control.sourcePaths.routingControlPowerShell)
-$secondaryReadinessPath = Join-Path ([System.IO.Path]::GetTempPath()) "s15-secondary-ready-$PID.json"
-$secondaryActivePath = Join-Path ([System.IO.Path]::GetTempPath()) "s15-secondary-active-$PID.json"
+$secondaryReadinessPath = Join-Path ([System.IO.Path]::GetTempPath()) "s14-secondary-ready-$PID.json"
+$secondaryActivePath = Join-Path ([System.IO.Path]::GetTempPath()) "s14-secondary-active-$PID.json"
 
 try {
     & $healthScript `

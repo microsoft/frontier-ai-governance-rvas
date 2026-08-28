@@ -1,6 +1,6 @@
 # APIM model-routing decision
 
-This record keeps the routing decision for the Session 07 APIM gateway. APIM remains authoritative
+This record keeps the routing decision for the Session 06 APIM gateway. APIM remains authoritative
 for the live backend pool and policy. This file records the owner-approved routing boundary that the
 deployment must preserve.
 
@@ -48,4 +48,4 @@ separate preview adoption decision.
 ## Token counter boundary
 
 APIM token counters are gateway-local. For multi-region routing, the API product owner splits the
-approved workload allowance by region in Session 15 rather than assuming one shared global counter.
+approved workload allowance by region in Session 14 rather than assuming one shared global counter.

@@ -74,7 +74,7 @@ covers simulation, enablement, and the propagation wait.
 
 Confirm these prerequisites:
 
-- Sessions 01-09 are complete in the full path. For a focused route, confirm the platform inventory
+- Sessions 01-07 are complete in the full path. For a focused route, confirm the platform inventory
   lists the exact nonproduction Foundry resource, Foundry project, policy-assistant agent, and Agent
   365 instance.
 - For a focused route, confirm the access inventory lists the assignment scope for each Foundry and
@@ -84,7 +84,7 @@ Confirm these prerequisites:
   starts, a read of the labelled synthetic item must succeed and the prohibited write must be absent
   or denied.
 - One nonproduction Agent 365 instance and one test group are approved for DLP scope.
-- The [Session 06](../../06-governed-agent-baseline/implementation/README.md) Foundry policy assistant and its Azure subscription are available for a separate
+- The [Session 05](../../05-governed-agent-baseline/implementation/README.md) Foundry policy assistant and its Azure subscription are available for a separate
   coverage review.
 - The synthetic data set contains one item that already has the selected sensitivity label.
 - The data owner has approved the prohibited sharing path and either `Block` or `Audit`.
@@ -264,7 +264,7 @@ is the exact portal policy summary followed by `TestWithNotifications` simulatio
 
 ### 3. Enable and review Purview data security
 
-For the [Session 06](../../06-governed-agent-baseline/implementation/README.md) Foundry subscription, use the approved route:
+For the [Session 05](../../05-governed-agent-baseline/implementation/README.md) Foundry subscription, use the approved route:
 
 1. Enable **Microsoft Purview Data Security** in Foundry Control Plane, or use the approved Defender
    for Cloud route.
@@ -390,7 +390,7 @@ Foundry DLP integration.
 Restore is manual because DLP policy scope, label publication, encryption rights, and Foundry data
 security can have dependencies outside this session:
 
-1. Change the Session 10 DLP policy back to `TestWithNotifications` to remove blocking while keeping
+1. Change the Session 09 DLP policy back to `TestWithNotifications` to remove blocking while keeping
    visibility.
 2. Disable the policy only after the data and agent owners confirm no active workflow depends on it.
 3. Remove the Agent 365 instance and test group from the policy before deleting the policy.

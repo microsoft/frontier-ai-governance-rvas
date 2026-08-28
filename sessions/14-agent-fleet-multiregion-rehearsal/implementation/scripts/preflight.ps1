@@ -306,8 +306,8 @@ $resourceGroup = $scopeMatch.Groups[2].Value
 
 $control = Read-JsonObject $controlPath
 $parameters = Read-JsonObject $parametersPath
-if ([string]$control.implementationSession -cne "15-agent-fleet-multiregion-rehearsal" -or
-    [string](Get-ParameterValue $parameters "implementationSession") -cne "15-agent-fleet-multiregion-rehearsal") {
+if ([string]$control.implementationSession -cne "14-agent-fleet-multiregion-rehearsal" -or
+    [string](Get-ParameterValue $parameters "implementationSession") -cne "14-agent-fleet-multiregion-rehearsal") {
     throw "A implementation file has the wrong implementationSession marker."
 }
 if ([string]$control.approvedAzureScope -ine $approvedTargetScope) {
@@ -503,7 +503,7 @@ elseif ($primaryApimId -ieq $secondaryApimId -or [string]$secondaryApim.location
 az deployment group what-if `
     --subscription $subscriptionId `
     --resource-group $resourceGroup `
-    --name "s15-regional-preflight" `
+    --name "s14-regional-preflight" `
     --template-file $bicepPath `
     --parameters "@$parametersPath" `
     --no-pretty-print

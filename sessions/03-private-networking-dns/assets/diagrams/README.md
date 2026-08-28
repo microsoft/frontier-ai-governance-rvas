@@ -1,4 +1,4 @@
-# Session 04 diagrams
+# Session 03 diagrams
 
 The `.excalidraw` files are the authoritative, editable sources:
 
@@ -11,4 +11,4 @@ The matching `.svg` files are portable renders used by the implementation guide 
 an SVG from its Excalidraw source after any diagram change.
 
 The diagrams use the endpoint aliases, required FQDN placeholders, DNS zones, and state fields from
-the Session 04 artifacts. They contain no customer topology, addresses, or identifiers.
+the Session 03 artifacts. They contain no customer topology, addresses, or identifiers.

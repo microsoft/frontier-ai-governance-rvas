@@ -1,6 +1,6 @@
 schema_version: 2
 session:
-  id: "03"
+  id: "02"
   slug: "identity-privileged-access"
   title: "Entra identity, RBAC, PIM, and workload identities"
   duration_minutes: 270
@@ -11,15 +11,14 @@ session:
     - "Cloud and AI platform engineers"
     - "AI application owners and security reviewers"
   prerequisites:
-    - "Sessions 01 and 02 are complete, with an approved nonproduction Foundry resource, project, storage account, and customer-owned repository."
+    - "Session 01 is complete, with an approved nonproduction Foundry resource, project, storage account, and customer-owned repository."
     - "Four customer-owned groups exist for platform administration, project management, development, and audit; their object IDs are available."
     - "The role-assignment operator has the time-bound Owner or User Access Administrator role on the exact nonproduction resource group that contains the Foundry resource, project, and storage account."
     - "The PIM operator has the Owner or User Access Administrator role on the existing Foundry resource whose Foundry Account Owner settings this session changes."
     - "Microsoft Entra ID P2 or Microsoft Entra ID Governance licensing is confirmed for the PIM implementation."
     - "A protected GitHub environment is available for the OpenID Connect trust."
   dependencies:
-    - "Session 01 - Microsoft Foundry platform baseline and inventory"
-    - "Session 02 - Landing-zone guardrails with Azure Policy"
+    - "Session 01 - Microsoft Foundry platform baseline, inventory, and landing-zone guardrails"
   services_in_scope:
     - "microsoft-entra-id"
     - "microsoft-entra-workload-id"

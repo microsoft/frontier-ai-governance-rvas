@@ -1,6 +1,6 @@
 schema_version: 2
 session:
-  id: "07"
+  id: "06"
   slug: "apim-ai-gateway"
   title: "Azure API Management as the AI gateway"
   duration_minutes: 270
@@ -11,20 +11,20 @@ session:
     - "Identity, application security, and safety engineers"
     - "Operations and service owners"
   prerequisites:
-    - "Sessions 01-06 are complete in the approved nonproduction scope."
+    - "Sessions 01-04 are complete in the approved nonproduction scope."
     - "An existing API Management instance with a system-assigned managed identity is reachable from the approved execution host."
     - "The API Management instance uses Developer, Basic, Basic v2, Standard, Standard v2, Premium, or Premium v2; the current tier supports llm-token-limit, llm-content-safety, backend pools, managed identity, products, subscriptions, and diagnostics."
     - "The deployment operator has a time-bound Contributor role assignment on the exact nonproduction resource group that contains the API Management instance."
-    - "The Session 06 agent exposes a pinned, Entra-authorized Responses endpoint."
-    - "The API Management system-assigned identity has Foundry Agent Consumer, role ID eed3b665-ab3a-47b6-8f48-c9382fb1dad6, on the individual Session 06 agent."
+    - "The Session 05 agent exposes a pinned, Entra-authorized Responses endpoint."
+    - "The API Management system-assigned identity has Foundry Agent Consumer, role ID eed3b665-ab3a-47b6-8f48-c9382fb1dad6, on the individual Session 05 agent."
     - "An Azure AI Content Safety backend is configured in API Management for managed-identity authentication."
     - "The API Management system-assigned identity has Cognitive Services User, role ID a97b65f3-24c7-4388-baec-2e87135dc908, on that exact Azure AI Content Safety resource."
     - "An existing Application Insights logger is configured in API Management with managed-identity credentials."
     - "A Microsoft Entra application registration, app role, and workload-specific controlled APIM product subscription have been approved and issued for the live check."
   dependencies:
-    - "Session 03 - Entra identity, RBAC, PIM, and workload identities"
-    - "Session 04 - Private networking, DNS, and controlled egress"
-    - "Session 06 - Governed Microsoft Foundry agent baseline"
+    - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
+    - "Session 03 - Private networking, DNS, and controlled egress"
+    - "Session 05 - Governed Microsoft Foundry agent baseline"
   services_in_scope:
     - "azure-api-management"
     - "azure-ai-foundry"
@@ -34,7 +34,7 @@ session:
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Configure one version-controlled API Management API and controlled product for the governed Session 06 agent."
+  - "Configure one version-controlled API Management API and controlled product for the governed Session 05 agent."
   - "Require a valid Microsoft Entra application identity at ingress and use the API Management managed identity for the Foundry backend."
   - "Reject oversized requests, enforce token limits, apply Content Safety checks, and control timeout, retry, circuit-breaker, and backend selection before calling Foundry."
   - "Emit correlation and token metrics to Application Insights without logging prompts or responses."
@@ -53,7 +53,7 @@ deliverables:
     - "implementation/scripts/deploy.ps1"
 retained_files:
   - path: "implementation/artifacts/gateway/main.bicep"
-    consumer: "The Session 07 APIM deployment scripts"
+    consumer: "The Session 06 APIM deployment scripts"
     operational_purpose: "Deploy and reconcile the governed API, product, APIM named values, backends, diagnostics, and policy attachment."
   - path: "implementation/artifacts/gateway/apis/policy-assistant-responses.openapi.json"
     consumer: "The API Management API import"
@@ -62,20 +62,20 @@ retained_files:
     consumer: "The API Management gateway runtime"
     operational_purpose: "Validate callers and apply size, token, safety, routing, managed-identity, and telemetry controls."
   - path: "implementation/artifacts/governance/gateway-control.json"
-    consumer: "The Session 07 preflight and APIM deployment scripts"
+    consumer: "The Session 06 preflight and APIM deployment scripts"
     operational_purpose: "Supply the approved identity, limit, safety, routing, cache, and ownership decisions."
   - path: "implementation/artifacts/governance/model-routing-decision.md"
     consumer: "The API product, platform, safety, and operations owners"
     operational_purpose: "Record approved APIM routing modes, secondary backend activation criteria, preview boundaries, and regional token-counter ownership."
   - path: "implementation/artifacts/environments/sandbox.json"
-    consumer: "The Session 07 preflight and deployment scripts"
+    consumer: "The Session 06 preflight and deployment scripts"
     operational_purpose: "Bind every APIM action to the approved nonproduction resources and implementation marker."
   - path: "implementation/scripts/preflight.ps1"
     consumer: "The API Management deployment operator"
     operational_purpose: "Check the APIM scope, identity roles, policy inputs, collisions, and ARM what-if before deployment."
   - path: "implementation/scripts/deploy.ps1"
     consumer: "The API Management deployment operator"
-    operational_purpose: "Deploy the marked Session 07 child resources into the existing APIM service."
+    operational_purpose: "Deploy the marked Session 06 child resources into the existing APIM service."
 sources:
   - title: "AI gateway capabilities in Azure API Management"
     url: "https://learn.microsoft.com/en-us/azure/api-management/genai-gateway-capabilities"

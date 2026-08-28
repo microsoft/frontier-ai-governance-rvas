@@ -66,7 +66,7 @@ if timeout_seconds < 2 or timeout_seconds > 30:
     raise SystemExit('TimeoutSeconds must be between 2 and 30 seconds.')
 with open(matrix_path, encoding='utf-8') as handle:
     matrix = json.load(handle)
-if matrix.get('implementationSession') != '04-private-networking-dns':
+if matrix.get('implementationSession') != '03-private-networking-dns':
     raise SystemExit('The endpoint matrix has the wrong implementation marker.')
 expected = {'foundry', 'storage-blob', 'ai-search', 'cosmos-sql', 'key-vault'}
 endpoints = matrix.get('endpoints') or []

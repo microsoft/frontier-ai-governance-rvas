@@ -10,13 +10,13 @@ html: true
 
 ![Program logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation - Session 11</p>
+<p class="eyebrow">AI Governance Co-implementation - Session 10</p>
 
 # Foundry evaluations and release quality gates
 
 **300 minutes - Compare two versions with one data set and separate gate layers**
 
-<!-- Notes: Sessions 06 and 09 created the governed agent and tool boundary. Today release eligibility becomes measurable. -->
+<!-- Notes: Sessions 05 and 08 created the governed agent and tool boundary. Today release eligibility becomes measurable. -->
 
 ---
 
@@ -30,7 +30,7 @@ html: true
 - Thresholds point back to the approved baseline.
 - Final-answer, tool-process, and safety failures remain separate.
 - The approved record passes and the blocking regression run record blocks.
-- The release owner activates a callable gate ready for Session 14 enforcement.
+- The release owner activates a callable gate ready for Session 13 enforcement.
 
 <!-- Notes: The gate decides eligibility. It never changes the live version selector. -->
 
@@ -42,7 +42,7 @@ Release owners need one stable answer to a narrow question: is this approved age
 
 Separate final-answer, tool-process, and safety checks stop a strong average from hiding a failed tool path or safety issue.
 
-Session 11 makes that decision callable. Session 14 puts it in the promotion path.
+Session 10 makes that decision callable. Session 13 puts it in the promotion path.
 
 <!-- Notes: Eligibility is this session's owned result. Promotion enforcement comes later. -->
 
@@ -80,13 +80,21 @@ A fluent answer can still use the wrong tool, wrong input, or unsafe path.
 
 Preview task-adherence and blocked-action evaluators remain **advisory**.
 
-<!-- Notes: Session 09 remains the hard authorization boundary for blocked writes. -->
+<!-- Notes: Session 08 remains the hard authorization boundary for blocked writes. -->
 
 ---
 
 ## Architecture overview
 
-![One versioned golden data set fans into approved and candidate fixed agent versions; separate final-answer, tool-process, and safety evaluator layers converge into aggregate records, then baseline thresholds and release policy return PASS for Session 14 or BLOCK with the candidate unpinned](assets/diagrams/evaluation-release-gate-flow.svg)
+<!-- _class: diagram -->
+
+![One versioned golden data set fans into approved and candidate fixed agent versions; separate final-answer, tool-process, and safety evaluator layers converge into aggregate records, then baseline thresholds and release policy return PASS for Session 13 or BLOCK with the candidate unpinned](assets/diagrams/evaluation-release-gate-flow.svg)
+
+<!-- Notes: Follow data left to right, then point out the promotion boundary after the gate result. -->
+
+---
+
+## What this means
 
 The same fixed set of approved test cases runs against the approved version and the candidate.
 Foundry evaluates answer quality, tool process, and safety separately.
@@ -94,9 +102,7 @@ Foundry evaluates answer quality, tool process, and safety separately.
 Foundry keeps row detail. The approved release store holds payload-free aggregates, thresholds, and
 active gate state.
 
-The gate returns `PASS` or `BLOCK`. It cannot promote. Session 14 controls the stable selector.
-
-<!-- Notes: Follow data left to right, then point out the promotion boundary after the gate result. -->
+The gate returns `PASS` or `BLOCK`. It cannot promote. Session 13 controls the stable selector.
 
 ---
 
@@ -431,16 +437,16 @@ The answer cannot hide the failed tool path.
 
 | Decision | Required action |
 |---|---|
-| Enable gate | Confirm every blocking candidate metric is complete, target IDs match the approved specification and release policy, and each failure has its quality, tool, or safety owner; then hand the callable `release-gate.py` interface to [Session 14](../14-cicd-promotion-controls/) |
+| Enable gate | Confirm every blocking candidate metric is complete, target IDs match the approved specification and release policy, and each failure has its quality, tool, or safety owner; then hand the callable `release-gate.py` interface to [Session 13](../13-cicd-promotion-controls/) |
 | Disable gate | Keep stable endpoint on the approved version and route gate defects to the quality owner |
 
-Session 11 produces the callable gate. Session 14 enforces it. The gate never promotes by itself.
+Session 10 produces the callable gate. Session 13 enforces it. The gate never promotes by itself.
 
 ---
 
 ## Immediate disable and restore
 
-1. Keep or restore the approved [Session 06](../06-governed-agent-baseline/) version at 100%.
+1. Keep or restore the approved [Session 05](../05-governed-agent-baseline/) version at 100%.
 2. Mark the gate disabled.
 3. Remove delivery integration only after dependency review.
 4. Cancel unnecessary running evaluations.
@@ -462,7 +468,7 @@ Do not delete the project, agent, model, tool path, logs, or customer data as a 
 | Cost owner | Evaluation consumption |
 | Release owner | Gate state and stable version selector |
 
-[Session 14](../14-cicd-promotion-controls/) calls this gate with the approved evaluation specification, threshold policy, and release records. It consumes `PASS` or `BLOCK` without changing metric meanings.
+[Session 13](../13-cicd-promotion-controls/) calls this gate with the approved evaluation specification, threshold policy, and release records. It consumes `PASS` or `BLOCK` without changing metric meanings.
 
 <!-- Notes: Keep the ownership model small and operational. -->
 
@@ -485,4 +491,4 @@ Do not delete the project, agent, model, tool path, logs, or customer data as a 
 
 # Thank you!
 
-<!-- Notes: Session 12 attacks the implementation; Session 14 later integrates this gate into delivery. -->
+<!-- Notes: Session 11 attacks the implementation; Session 13 later integrates this gate into delivery. -->

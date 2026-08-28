@@ -14,7 +14,7 @@ reference.
 
 A release is safe to promote only when its code, AI configuration, gate results, deployment
 approvals, and traffic change still describe the same immutable unit. The workflow makes that
-relationship inspectable and stops Session 11's known tool-process regression before any Azure
+relationship inspectable and stops Session 10's known tool-process regression before any Azure
 preview or approval.
 
 ### Boundaries
@@ -25,11 +25,11 @@ state, and API Management owns the selected route. Foundry, Application Insights
 approved release store remain authoritative for their linked gate, telemetry, security, and
 manifest records.
 
-The workflow uses the existing [Session 06](../../06-governed-agent-baseline/implementation/README.md)
-agent and [Session 07](../../07-apim-ai-gateway/implementation/README.md) routing path. It does not
+The workflow uses the existing [Session 05](../../05-governed-agent-baseline/implementation/README.md)
+agent and [Session 06](../../06-apim-ai-gateway/implementation/README.md) routing path. It does not
 create another delivery platform or make routing available where the current platform lacks a safe
-preview and restore path. Session 11 creates the callable eligibility gate; this session makes
-promotion depend on it. Session 15 may consume the protected release path for its approved
+preview and restore path. Session 10 creates the callable eligibility gate; this session makes
+promotion depend on it. Session 14 may consume the protected release path for its approved
 secondary deployment.
 
 ## Architecture
@@ -46,7 +46,7 @@ new release instead of quietly promoting a different unit.
 
 The workflow makes decisions before it changes Azure. It first proves that the SHA is reachable
 from the protected default branch. Unit checks then run alongside the evaluation, adversarial, and
-observability gates supplied by Sessions 11-13. Any failed gate ends the run before the Azure change
+observability gates supplied by Sessions 10-12. Any failed gate ends the run before the Azure change
 boundary.
 
 Preview and apply use different GitHub environments. A preview job presents its exact OIDC subject,
@@ -62,7 +62,7 @@ it links these records instead of copying them.
 
 The workflow controls only changes made through this promotion path. Manual restore follows a
 separate, production-approved workflow. It reads the previous approved manifest, checks the target
-release, and returns the stable selector to that release. Session 15 uses this protected path to
+release, and returns the stable selector to that release. Session 14 uses this protected path to
 deploy an approved secondary region.
 
 [`artifacts/github/promotion.yml`](artifacts/github/promotion.yml) implements the promotion path.
@@ -93,18 +93,18 @@ to identify the release.
 1. Work from the exact customer repository. Keep the reviewed workflow on the protected default
    branch, and record the approved 40-character release SHA in the customer's change system. The
    SHA must be reachable from that branch. The release commit itself must not store the SHA.
-2. Complete Sessions 06, 07, 11, 12, and 13. A focused route may use the substitute baseline
+2. Complete Sessions 05, 06, 10, 11, and and 13. A focused route may use the substitute baseline
    below, but every row must pass before the workflow is installed.
-3. Confirm the approved [Session 11](../../11-foundry-evaluations-quality-gates/implementation/README.md) threshold policy, release policy, baseline record, and passing candidate record are usable by the callable
-   `sessions/11-foundry-evaluations-quality-gates/implementation/scripts/release-gate.py`.
+3. Confirm the approved [Session 10](../../10-foundry-evaluations-quality-gates/implementation/README.md) threshold policy, release policy, baseline record, and passing candidate record are usable by the callable
+   `sessions/10-foundry-evaluations-quality-gates/implementation/scripts/release-gate.py`.
    The schema-version 2 release policy must have `gate.state=enabled`,
    `gate.decision=approved`, a valid `gate.decisionDate`, the exact activation contract, and
    `requiredEnforcementOption=--require-enabled`. Its baseline and candidate run IDs must match the
-   threshold policy and records. Session 11 supplies the gate and its PASS/BLOCK contract. Its stable blocked check is
-   `python sessions/11-foundry-evaluations-quality-gates/implementation/scripts/test_release_gate.py
+   threshold policy and records. Session 10 supplies the gate and its PASS/BLOCK contract. Its stable blocked check is
+   `python sessions/10-foundry-evaluations-quality-gates/implementation/scripts/test_release_gate.py
    --mode blocked-tool-process`. This workflow enforces both calls.
 4. Confirm
-   `sessions/12-red-teaming-threat-defense/implementation/artifacts/reports/before-after-report.json`
+   `sessions/11-red-teaming-threat-defense/implementation/artifacts/reports/before-after-report.json`
    has status `confirmed`, names distinct baseline and post-remediation versions, and binds the
    post-remediation version to the immutable release. The matching
    `artifacts/governance/risk-change-handoff.json` must name the same agent and versions. The report
@@ -114,18 +114,18 @@ to identify the release.
    `socDelivery.status` is a
    separate operational result and does not prove the red-team comparison. `pending-runs` or any
    failed comparison stops promotion.
-5. Use the operational [Session 13](../../13-observability-cost-operations/implementation/README.md)
+5. Use the operational [Session 12](../../12-observability-cost-operations/implementation/README.md)
    smoke executables with their fixed interfaces:
 
    ```powershell
-   ..\..\13-observability-cost-operations\implementation\scripts\smoke.ps1 `
+   ..\..\12-observability-cost-operations\implementation\scripts\smoke.ps1 `
      -Mode Pipeline `
      -Environment nonproduction `
      -CommitSha <40-character-sha> `
      -ResultPath <runner-temporary-json-path>
    ```
    ```bash
-   ../../13-observability-cost-operations/implementation/scripts/smoke.sh \
+   ../../12-observability-cost-operations/implementation/scripts/smoke.sh \
      --mode pipeline \
      --environment nonproduction \
      --commit-sha <40-character-sha> \
@@ -133,18 +133,18 @@ to identify the release.
    ```
 
    Its JSON result must use `implementationSession:
-   13-observability-cost-operations`, target the same `commitSha`, have status `passed`, mark
+   12-observability-cost-operations`, target the same `commitSha`, have status `passed`, mark
    `syntheticRequest`, `endToEndTrace`, and `toolAndModelFailureSeparated` as `passed`, set
    `sensitiveInputPresent` and `payloadsRetained` to `false`, and include distinct lower-case W3C
    trace IDs for the normal and expected-failure requests. The root `correlationId` must equal the
    normal trace ID. The result must also show stable telemetry ingestion, no polling timeout, a
    bounded attempt count of at least three, a timeout from 30 to 600 seconds, and a retry interval
    from 5 to 60 seconds. The timeout must allow at least two retry intervals.
-   The protected `nonproduction` environment provides `SESSION13_SMOKE_URL`,
-   `SESSION13_SMOKE_FAILURE_URL`, `SESSION13_AI_RESOURCE_ID`,
-   `SESSION13_LOG_ANALYTICS_WORKSPACE_ID`. Store `SESSION13_SMOKE_BEARER_TOKEN` as an environment
-   secret. Optional `SESSION13_SMOKE_TIMEOUT_SECONDS` and `SESSION13_SMOKE_RETRY_SECONDS` variables
-   override the 180-second and 15-second defaults. Session 13 owns the polling loop; Session 14
+   The protected `nonproduction` environment provides `SESSION12_SMOKE_URL`,
+   `SESSION12_SMOKE_FAILURE_URL`, `SESSION12_AI_RESOURCE_ID`,
+   `SESSION12_LOG_ANALYTICS_WORKSPACE_ID`. Store `SESSION12_SMOKE_BEARER_TOKEN` as an environment
+   secret. Optional `SESSION12_SMOKE_TIMEOUT_SECONDS` and `SESSION12_SMOKE_RETRY_SECONDS` variables
+   override the 180-second and 15-second defaults. Session 12 owns the polling loop; Session 13
    invokes it and requires `checks.telemetryPollTimedOut=false`,
    `checks.releaseCommitShaVerified=true`, and `checks.workspaceBindingVerified=true` in the
    payload-free result. It also requires `checks.correlationIdsDistinct=true` and
@@ -183,13 +183,13 @@ to identify the release.
 | Gateway | A versioned APIM policy names stable and candidate selectors, and the approved routing control supports preview and restore. | The gateway owner confirms preview changes only those selectors, the candidate health check passes, and restore returns traffic to the exact previous selector. |
 | Evaluation | The evaluation definition, active threshold policy, enabled release policy, approved baseline, passing candidate, and generated gate self-test are present. | The AI quality owner sees the callable gate pass the matching candidate and the generated tool-process self-test return BLOCK. |
 | Adversarial | A confirmed payload-free before/after report names the immutable agent version and records lower attack success, per-risk non-regression, and blocked prohibited actions. | The security owner reads all three comparison fields from the report without treating SOC delivery as red-team proof. |
-| Observability | The Session 13 smoke executables return the release commit, correlation ID, trace status, failure-boundary status, and payload-retention status. | The observability owner runs the executable for the same commit and gets a passing trace, separated failures, `sensitiveInputPresent: false`, and `payloadsRetained: false`. |
+| Observability | The Session 12 smoke executables return the release commit, correlation ID, trace status, failure-boundary status, and payload-retention status. | The observability owner runs the executable for the same commit and gets a passing trace, separated failures, `sensitiveInputPresent: false`, and `payloadsRetained: false`. |
 
 ### Implementation files
 
 | Type | File | Consumer |
 |---|---|---|
-| Record | [`artifacts/control-definition.json`](artifacts/control-definition.json) | The Session 14 validators, preflight scripts, and GitHub Actions workflows |
+| Record | [`artifacts/control-definition.json`](artifacts/control-definition.json) | The Session 13 validators, preflight scripts, and GitHub Actions workflows |
 | Deployment | [`artifacts/github/promotion.yml`](artifacts/github/promotion.yml) | GitHub Actions and the release operator |
 | Deployment | [`artifacts/github/restore-previous-release.yml`](artifacts/github/restore-previous-release.yml) | GitHub Actions and the production restore operator |
 | Runtime | [`artifacts/pipeline/release-manifest.template.json`](artifacts/pipeline/release-manifest.template.json) | The promotion workflow and approved release store |
@@ -214,11 +214,11 @@ to identify the release.
 - nonproduction and production apply reviewer teams and prevent-self-review settings;
 - production reviewer role, deployment branch or tag restriction, disabled administrator bypass,
   and whether the GitHub plan supports those protections;
-- Bicep, APIM policy, unit, Session 11, Session 12 report and risk/change handoff, Session 13,
+- Bicep, APIM policy, unit, Session 10, Session 11 report and risk/change handoff, Session 12,
   routing, and approved release-store source paths;
 - the approved 40-character commit supplied through `release_sha`, plus the agent name, prompt,
   agent version, model alias, APIM policy, evaluation run, threshold policy, and previous release;
-- `canary` or `blue-green`, selectors, and whether the existing Session 06 or 07 path supports it;
+- `canary` or `blue-green`, selectors, and whether the existing Session 05 or 07 path supports it;
   and
 - the customer-approved release store.
 
@@ -235,12 +235,12 @@ Stop before any administrative or deployment change if:
 - the customer plan does not expose the required production protections;
 - production can be self-approved, reached from an unrestricted ref, or bypassed by an
   administrator;
-- the Session 12 report is pending, failed, lacks per-risk non-regression, is not comparable, or
+- the Session 11 report is pending, failed, lacks per-risk non-regression, is not comparable, or
   contains payloads;
-- the Session 13 check is missing, failed, for another commit, exposes sensitive input, retains
+- the Session 12 check is missing, failed, for another commit, exposes sensitive input, retains
   payloads, lacks its correlation ID, or does not report successful bounded ingestion polling;
 - a what-if contains unrelated or destructive change; or
-- existing Session 06 or 07 routing cannot safely perform the selected canary or blue-green move.
+- existing Session 05 or 07 routing cannot safely perform the selected canary or blue-green move.
   In that case, keep 100% on the previous approved release.
 
 No AI-quality signal restores a previous release automatically.
@@ -344,10 +344,10 @@ The workflow:
    `release_sha` is an ancestor of that branch before checking out or running release content;
 2. checks out `release_sha`, confirms `git rev-parse HEAD` matches it, then checks workflow
    structure, full action pins, native secret controls, unit
-   checks, Session 11 evaluation gate, and Session 12 report;
+   checks, Session 10 evaluation gate, and Session 11 report;
 3. runs the generated blocked-tool-process self-test before any Azure preview or deployment;
 4. signs in through `nonproduction-preview`, then lints, builds, and runs what-if;
-5. pauses at protected `nonproduction`; after approval, deploys and runs the Session 13 smoke check;
+5. pauses at protected `nonproduction`; after approval, deploys and runs the Session 12 smoke check;
 6. signs in through `production-preview`, rechecks digests, and runs production what-if;
 7. pauses at protected `production`; after approval, deploys the identical release;
 8. stages the linked manifest in the approved release store, where it remains unavailable to
@@ -390,7 +390,7 @@ production environment record, previous approved release, and selected routing s
 ### Blocked/failure path
 
 Dispatch the same workflow with
-`evaluation_record=generated-blocked-tool-process-self-test`. This runs Session 11's stable
+`evaluation_record=generated-blocked-tool-process-self-test`. This runs Session 10's stable
 blocked check against a generated in-memory case.
 
 After that run completes:
@@ -408,7 +408,7 @@ After that run completes:
   --promotion-run-id <github-actions-run-id>
 ```
 
-Expected result: the Session 11 self-test returns BLOCK in the validation job. Both previews, both
+Expected result: the Session 10 self-test returns BLOCK in the validation job. Both previews, both
 approvals, and both deployments are skipped.
 
 If you want the local implementation check before you inspect the remote run, use the same validator pair
@@ -445,7 +445,7 @@ into this repository.
 The release owner owns workflow operation and manifest continuity. GitHub and Entra administrators
 own environment protections and federation. The platform owner owns Bicep scopes and approves both
 what-if results. AI quality and
-security owners own Session 11 and 12 gates. The observability owner owns the Session 13 smoke
+security owners own Session 09 and 11 gates. The observability owner owns the Session 12 smoke
 interface. The gateway owner owns routing. The delivery owner owns the final checkpoint.
 
 Restore is manual. Dispatch **Restore previous AI release** with the exact previous approved

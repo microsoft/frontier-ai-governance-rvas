@@ -267,7 +267,7 @@ if ($sentinels.Count -gt 0) {
     $unresolved = @($sentinels.Matches.Value | Sort-Object -Unique)
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredDecisionSentinels })
     if ($unknown.Count -gt 0) {
-        throw "Add explicit Session 10 preflight checks for new sentinels: $($unknown -join ', ')."
+        throw "Add explicit Session 09 preflight checks for new sentinels: $($unknown -join ', ')."
     }
     $locations = $sentinels |
         ForEach-Object { "$($_.Path):$($_.LineNumber) $($_.Matches.Value)" } |
@@ -374,7 +374,7 @@ if ($sourceLabelId -cne $labelId) {
 
 Assert-MarkdownValue -Section $dlp -Field "Environment" -Expected "Nonproduction" -Heading $dlpHeading
 Assert-MarkdownValue -Section $dlp -Field "Description" `
-    -Expected "implementationSession=10-purview-data-governance" -Heading $dlpHeading
+    -Expected "implementationSession=09-purview-data-governance" -Heading $dlpHeading
 Assert-MarkdownValue -Section $dlp -Field "Initial mode" `
     -Expected "TestWithNotifications" -Heading $dlpHeading
 Assert-MarkdownValue -Section $dlp -Field "Final mode" -Expected "Enable" -Heading $dlpHeading
@@ -409,7 +409,7 @@ if ($ruleLabelId -cne $labelId) {
 $dlpAgentInstanceId = Get-MarkdownField -Section $dlp -Field "Agent instance ID" -Heading $dlpHeading
 $null = Get-MarkdownField -Section $dlp -Field "Policy name" -Heading $dlpHeading
 
-$marker = "10-purview-data-governance"
+$marker = "09-purview-data-governance"
 $requiredOperations = @("AIInvokeAgent", "AIExecuteTool", "AIInferenceCall", "AIGuardrail")
 if ([int]$audit.schemaVersion -ne 1 -or
     [string]$audit.implementationSession -cne $marker -or
@@ -455,4 +455,4 @@ if (@($tokenPayload.roles) -notcontains "AuditLogsQuery.Read.All") {
 if ([string]$tokenPayload.tid -ne $ApprovedTenantId) {
     throw "The Microsoft Graph application token does not identify the approved tenant."
 }
-Write-Host "PASS: Session 10 Markdown safety decisions, DLP and audit bindings, approved tenant, and AuditLogsQuery.Read.All token are ready."
+Write-Host "PASS: Session 09 Markdown safety decisions, DLP and audit bindings, approved tenant, and AuditLogsQuery.Read.All token are ready."

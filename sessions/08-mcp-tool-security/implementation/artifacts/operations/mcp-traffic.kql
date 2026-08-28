@@ -13,7 +13,7 @@ requests
         tostring(customDimensions["user_agent.version"])
     ),
     authType = tostring(customDimensions["auth.type"]),
-    correlationId = tostring(customDimensions["session09.correlation_id"]),
+    correlationId = tostring(customDimensions["session08.correlation_id"]),
     duration,
     success,
     resultCode

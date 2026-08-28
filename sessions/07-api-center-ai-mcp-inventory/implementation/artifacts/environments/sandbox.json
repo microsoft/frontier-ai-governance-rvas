@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "08-api-center-ai-mcp-inventory",
+  "implementationSession": "07-api-center-ai-mcp-inventory",
   "resourceGroupName": "__REQUIRED_API_CENTER_RESOURCE_GROUP_NAME__",
   "apiCenterName": "__REQUIRED_API_CENTER_NAME__",
   "location": "__REQUIRED_API_CENTER_LOCATION__",
@@ -19,6 +19,6 @@
     "criticality": "__REQUIRED_CRITICALITY__",
     "costCenter": "__REQUIRED_COST_CENTER__",
     "expiryDate": "__REQUIRED_EXPIRY_DATE__",
-    "implementationSession": "08-api-center-ai-mcp-inventory"
+    "implementationSession": "07-api-center-ai-mcp-inventory"
   }
 }

@@ -34,7 +34,7 @@ services, or create an execution host. It does not replace a Foundry account its
 replacement and configuration replay, then returns here to reconcile the Foundry endpoint.
 
 Private DNS and TCP 443 confirm the approved client path, not agent-runtime traffic.
-[Session 06](../../06-governed-agent-baseline/implementation/README.md) runs that check from a
+[Session 05](../../05-governed-agent-baseline/implementation/README.md) runs that check from a
 Foundry account created with the delegated subnet.
 
 ## Architecture
@@ -57,8 +57,8 @@ access is disabled, the approved operational system records the previous setting
 services. Operators use that record if they need to restore access.
 
 This session proves private DNS resolution and TCP 443 from the approved client. It does not grant
-service access or prove Agent runtime traffic. Session 03 supplies the identity boundary, and
-[Session 06](../../06-governed-agent-baseline/implementation/README.md) checks the agent path from
+service access or prove Agent runtime traffic. Session 02 supplies the identity boundary, and
+[Session 05](../../05-governed-agent-baseline/implementation/README.md) checks the agent path from
 the delegated subnet.
 
 ![Approved clients use private DNS and endpoints while the delegated Agent Service subnet routes through the customer firewall](../assets/diagrams/private-network-flow.svg)
@@ -69,7 +69,7 @@ the delegated subnet.
 |---|---|---|---|---|
 | Foundry account and Agent subnet | Keep the account only if it was created with the exact delegated subnet. Otherwise, use a separately approved replacement and replay | This respects the network-injection boundary set when the account is created | Replacement needs its own change, configuration replay, and service-owner coordination | Microsoft supports changing network injection in place |
 | Private DNS ownership | Reuse authoritative central zones when they exist. Otherwise, create the approved local zones and links | There is one owner for each record, whether resolution is hub, spoke, or hybrid | Central DNS may need artifact changes and conditional forwarding | The resolver, hub, or zone owner changes |
-| Agent egress | Send the dedicated Agent subnet's default route to the customer firewall | Azure owns the route; the firewall source owns the rules | A route alone does not prove that a firewall rule exists or that Agent runtime traffic works | Session 06 finds a blocked runtime dependency or the egress design changes |
+| Agent egress | Send the dedicated Agent subnet's default route to the customer firewall | Azure owns the route; the firewall source owns the rules | A route alone does not prove that a firewall rule exists or that Agent runtime traffic works | Session 05 finds a blocked runtime dependency or the egress design changes |
 
 ### Architecture guidance
 
@@ -81,7 +81,7 @@ the delegated subnet.
 
 Confirm these prerequisites:
 
-- Sessions 01-03 are complete in the nonproduction subscription and resource group recorded in the
+- Sessions 01-02 are complete in the nonproduction subscription and resource group recorded in the
   network design record.
 - The Foundry account plus its Storage, Azure AI Search, Cosmos DB, and Key Vault dependencies all
   exist; missing dependency services are not created in this session.
@@ -200,7 +200,7 @@ The affected service owners approve the maintenance window. The network design r
 the restore record is stored and who can retrieve it. The cutover script must run from the
 approved private execution host. It checks every configured endpoint
 before changing public access, writes all five prior states atomically to the external cutover
-record, and adds `networkControlSession=04-private-networking-dns` without replacing existing tags.
+record, and adds `networkControlSession=03-private-networking-dns` without replacing existing tags.
 
 Stop before cutover when:
 
@@ -271,7 +271,7 @@ $artifacts = Resolve-Path .\artifacts
 
 az deployment group create `
   --resource-group $resourceGroup `
-  --name rvas-s04-private-network `
+  --name rvas-s03-private-network `
   --template-file "$artifacts\infra\network\main.bicep" `
   --parameters "$artifacts\environments\sandbox.bicepparam" `
   --only-show-errors
@@ -281,7 +281,7 @@ artifacts_dir="$(cd ./artifacts && pwd)"
 
 az deployment group create \
   --resource-group "$resource_group" \
-  --name rvas-s04-private-network \
+  --name rvas-s03-private-network \
   --template-file "$artifacts_dir/infra/network/main.bicep" \
   --parameters "$artifacts_dir/environments/sandbox.bicepparam" \
   --only-show-errors
@@ -305,9 +305,9 @@ forward the public service zones through an Azure-side DNS forwarder or Azure Pr
 On-premises DNS cannot query Azure's `168.63.129.16` virtual IP directly.
 
 Use the customer firewall repository or policy system listed in the network design record. That
-source owns reviewed Microsoft Entra destinations and any tool-specific destinations. Session 04
+source owns reviewed Microsoft Entra destinations and any tool-specific destinations. Session 03
 does not copy or deploy those rules. Do not add a blanket internet rule to make preflight pass.
-Session 06 confirms that agent-runtime traffic follows the prepared route.
+Session 05 confirms that agent-runtime traffic follows the prepared route.
 
 ### 6. Reconcile five resource IDs and check connectivity
 
@@ -358,7 +358,7 @@ record stops the sequence.
 The script first confirms that the five unique service IDs use the expected Azure resource types,
 belong to the approved subscription and resource group, and correspond to the five current endpoint
 aliases. It then checks private connectivity and records all five prior public-access states in the
-restore record store. The script merges the Session 04 marker and requests `Disabled` on each
+restore record store. The script merges the Session 03 marker and requests `Disabled` on each
 service. Each record update replaces the file atomically. `<cutover-record>.previous` keeps the
 prior valid version. Keep both files where the restore owner can retrieve them.
 
@@ -396,7 +396,7 @@ record exists only to restore the exact prior state.
 Run this implementation only in the nonproduction subscription and resource group recorded in the
 network design record.
 Production needs its own address, DNS, firewall, change-window, and service-owner decisions. Agent Service runtime traffic remains unconfirmed until
-[Session 06](../../06-governed-agent-baseline/implementation/README.md) runs an agent from a
+[Session 05](../../05-governed-agent-baseline/implementation/README.md) runs an agent from a
 Foundry account created with this subnet.
 
 Keep the operational control in place by default. If access must be restored, the network owner,
@@ -404,7 +404,7 @@ DNS owner, firewall owner, affected service owners, security owner, and change a
 cutover record before any change.
 
 Restore each service's recorded public-access state first. Then confirm that the approved execution
-host can still reach each service. Remove marked Session 04 network resources only after those
+host can still reach each service. Remove marked Session 03 network resources only after those
 checks pass. Do not remove network resources when any recorded prior state is not `Enabled`, when a
-VNet link in a marked private DNS zone lacks the Session 04 marker, or when a service was already
+VNet link in a marked private DNS zone lacks the Session 03 marker, or when a service was already
 private-only before this session and has no other approved access path.

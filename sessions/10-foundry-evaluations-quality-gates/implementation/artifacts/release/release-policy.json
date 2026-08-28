@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "implementationSession": "11-foundry-evaluations-quality-gates",
+  "implementationSession": "10-foundry-evaluations-quality-gates",
   "gateName": "policy-assistant-evaluation-release-gate",
   "target": {
     "environment": "nonproduction",
@@ -58,7 +58,7 @@
         "BLOCK"
       ],
       "automaticPromotion": false,
-      "enforcedBy": "14-cicd-promotion-controls"
+      "enforcedBy": "13-cicd-promotion-controls"
     }
   },
   "activationContract": {
@@ -86,5 +86,5 @@
     "mayOverrideToolProcessFailure": false,
     "automaticPromotionAllowed": false
   },
-  "implementationMarker": "implementationSession=11-foundry-evaluations-quality-gates"
+  "implementationMarker": "implementationSession=10-foundry-evaluations-quality-gates"
 }

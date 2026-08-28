@@ -231,7 +231,7 @@ The project `AppInsights` connection may appear as `Modify` or `Deploy` because 
 
 The `expiryDate` tells the owner when to keep or remove the sandbox baseline. If enforcement causes an operational problem, first redeploy the assignment with `DoNotEnforce`.
 
-<!-- Notes: Keep the baseline and guardrails for Session 03 unless the customer chooses the guarded removal path. -->
+<!-- Notes: Keep the baseline and guardrails for Session 02 unless the customer chooses the guarded removal path. -->
 
 ---
 
@@ -240,7 +240,7 @@ The `expiryDate` tells the owner when to keep or remove the sandbox baseline. If
 - Session 01 leaves a rebuildable current-model Foundry boundary with staged, reviewed policy guardrails.
 - Identity, tags, the observability connection, and the required-tag policy are defined in source.
 - Operations receives the baseline and inventory; the change authority owns the enforcement decision.
-- [Session 03](../03-identity-privileged-access/) gives people and workloads narrow, time-bound identities inside this same boundary.
+- [Session 02](../02-identity-privileged-access/) gives people and workloads narrow, time-bound identities inside this same boundary.
 
 ---
 

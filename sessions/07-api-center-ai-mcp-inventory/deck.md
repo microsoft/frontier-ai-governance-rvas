@@ -10,25 +10,25 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation - Session 08</p>
+<p class="eyebrow">AI Governance Co-implementation - Session 07</p>
 
 # Azure API Center and the AI/MCP inventory
 
 **240 minutes - One searchable design-time inventory**
 
-<!-- Notes: Session 07 established runtime enforcement. This session records three selected assets with owners and required metadata. -->
+<!-- Notes: Session 06 established runtime enforcement. This session records three selected assets with owners and required metadata. -->
 
 ---
 
 ## Control objective
 
-> Record three selected assets in API Center: the Session 06 agent API, the synchronized Session 07 APIM API, and one approved remote MCP server.
+> Record three selected assets in API Center: the Session 05 agent API, the synchronized Session 06 APIM API, and one approved remote MCP server.
 
 Each record has an owner, lifecycle state, classification, and runtime location.
 
 ### Result check
 
-- The [Session 06](../06-governed-agent-baseline/) agent and [Session 07](../07-apim-ai-gateway/) APIM API are inventoried.
+- The [Session 05](../05-governed-agent-baseline/) agent and [Session 06](../06-apim-ai-gateway/) APIM API are inventoried.
 - One approved remote MCP server is registered as a native asset.
 - Twelve governance properties are required and populated.
 - The read-only check finds no missing metadata in the governed inventory.
@@ -40,8 +40,8 @@ Each record has an owner, lifecycle state, classification, and runtime location.
 ## Implementation outcomes
 
 1. Deploy a tagged API Center with required metadata.
-2. Synchronize the [Session 07](../07-apim-ai-gateway/) APIM source through managed identity.
-3. Register the [Session 06](../06-governed-agent-baseline/) agent endpoint and one remote MCP server.
+2. Synchronize the [Session 06](../06-apim-ai-gateway/) APIM source through managed identity.
+3. Register the [Session 05](../05-governed-agent-baseline/) agent endpoint and one remote MCP server.
 4. Keep one shared metadata source in the API Center operating repository and the APIM reconciliation path.
 5. Check required metadata and APIM integration state, then review native MCP health manually.
 
@@ -61,11 +61,11 @@ Missing ownership and lifecycle decisions become visible before an asset is trea
 
 ## Control boundaries
 
-- Scope covers the Session 06 agent API, Session 07 APIM API, and one approved remote MCP server.
+- Scope covers the Session 05 agent API, Session 06 APIM API, and one approved remote MCP server.
 - API Center is the source of truth for their design-time inventory metadata.
 - Foundry, APIM, and the MCP server remain the live source for runtime state.
 - API Center inventories and supports discovery; it does not authorize or block runtime calls.
-- Session 09 governs MCP tool use.
+- Session 08 governs MCP tool use.
 
 <!-- Notes: Inventory is useful because its runtime limits are explicit. -->
 
@@ -114,17 +114,23 @@ request to a backend.
 
 ## Architecture overview
 
+<!-- _class: diagram -->
+
 ![Direct agent registration, one-way APIM synchronization, and manual remote MCP registration converge on API Center while APIM enforces the separate runtime request path](assets/diagrams/api-center-inventory-flow.svg)
+
+<!-- Notes: Follow the three inbound paths. The control ends at inventory and source health, before runtime enforcement. -->
+
+---
+
+## What this means
 
 API Center provides one design-time catalog for this governed path. Bicep registers the Foundry
 agent definition. A read-only managed identity imports every API from the APIM instance, and the
 API program owner registers the approved remote MCP server in the portal.
 
 API Center owns the resulting metadata. Foundry, APIM, and the MCP server keep their runtime state.
-The boundary ends at inventory and source health. Live requests stay on the APIM path. Session 09
+The boundary ends at inventory and source health. Live requests stay on the APIM path. Session 08
 receives the MCP record and runtime location.
-
-<!-- Notes: Follow the three inbound paths. The control ends at inventory and source health, before runtime enforcement. -->
 
 ---
 
@@ -135,8 +141,8 @@ API Center
 ├─ checks every record against the required metadata schema
 ├─ groups governed records in the default workspace
 ├─ associates the agent with its Foundry nonproduction environment
-├─ records the Session 06 agent API, version, definition, and deployment
-├─ reads APIs through the Session 07 APIM source integration
+├─ records the Session 05 agent API, version, definition, and deployment
+├─ reads APIs through the Session 06 APIM source integration
 └─ records the approved remote MCP server through the native asset type
 ```
 
@@ -218,7 +224,7 @@ At expiry, the technical owner renews after review, retires and hides the record
 
 ![Azure API Management](assets/icons/microsoft/azure-api-management.svg)
 
-- API Center gets **API Management Service Reader Role** on the Session 07 APIM instance.
+- API Center gets **API Management Service Reader Role** on the Session 06 APIM instance.
 - The GA integration imports APIs, definitions, environments, and deployments.
 - APIM changes synchronize to API Center; catalog edits do not flow back.
 - Initial synchronization usually takes minutes but can take up to 24 hours.
@@ -259,7 +265,7 @@ The API Center record requires:
 - Classification, residency, and risk tier
 - Review, expiry, and evaluation destination
 
-Stop for local `stdio`, embedded credentials, or write-capable tools. [Session 09](../09-mcp-tool-security/) governs tool use.
+Stop for local `stdio`, embedded credentials, or write-capable tools. [Session 08](../08-mcp-tool-security/) governs tool use.
 
 <!-- Notes: Registration is inventory, not approval for production or consequential writes. -->
 
@@ -352,8 +358,8 @@ The 240 minutes covers active work across both windows, not the wait of up to 24
 - Runtime URLs are remote HTTPS values and remain outside source.
 - Azure CLI and the GA APIM integration command are available.
 - The region is advertised for API Center.
-- The approved APIM instance, tier, Session 07 marker, and reader role match.
-- Existing names are absent or carry the Session 08 marker.
+- The approved APIM instance, tier, Session 06 marker, and reader role match.
+- Existing names are absent or carry the Session 07 marker.
 
 <!-- Notes: Preflight compiles Bicep and ends with a resource-group what-if. -->
 
@@ -364,7 +370,7 @@ The 240 minutes covers active work across both windows, not the wait of up to 24
 ```powershell
 .\scripts\deploy.ps1 `
   -ApprovedSubscriptionId $approvedSubscriptionId `
-  -Session06AgentBaseUrl $session06AgentBaseUrl `
+  -Session05AgentBaseUrl $session05AgentBaseUrl `
   -RemoteMcpServerUrl $remoteMcpServerUrl
 ```
 
@@ -413,10 +419,10 @@ Removal deletes only the marked API Center and APIM reader assignment.
 
 - Inventory the three selected records: direct agent API, synchronized APIM API, and remote MCP server.
 - Require the same metadata for the direct agent, synchronized APIM API, and remote MCP server.
-- Assign **API Management Service Reader Role** to the API Center managed identity on the Session 07 APIM instance.
+- Assign **API Management Service Reader Role** to the API Center managed identity on the Session 06 APIM instance.
 - Run managed definition analysis and the missing-metadata check.
 
-Next: constrain MCP identities, tools, arguments, outputs, and side effects in [Session 09](../09-mcp-tool-security/).
+Next: constrain MCP identities, tools, arguments, outputs, and side effects in [Session 08](../08-mcp-tool-security/).
 
 <!-- Notes: The registry now knows what exists; the next session governs what tools can do. -->
 

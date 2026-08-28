@@ -1,9 +1,9 @@
 targetScope = 'resourceGroup'
 
-@description('Existing Session 07 API Management resource group.')
+@description('Existing Session 06 API Management resource group.')
 param apiManagementResourceGroupName string
 
-@description('Existing Session 07 API Management service name.')
+@description('Existing Session 06 API Management service name.')
 param apiManagementName string
 
 @description('API Center service name.')
@@ -12,8 +12,8 @@ param apiCenterName string
 @description('Approved API Center region.')
 param location string
 
-@description('Runtime URL for the Session 06 agent endpoint. Do not commit it.')
-param session06AgentBaseUrl string
+@description('Runtime URL for the Session 05 agent endpoint. Do not commit it.')
+param session05AgentBaseUrl string
 
 var environment = loadJsonContent('../environments/sandbox.json')
 var catalogRecords = loadJsonContent('../catalog/catalog-records.json')
@@ -61,7 +61,7 @@ resource foundryEnvironment 'Microsoft.ApiCenter/services/workspaces/environment
   name: 'foundry-nonproduction'
   properties: {
     title: 'Microsoft Foundry nonproduction'
-    description: 'Approved Session 06 Microsoft Foundry agent runtime.'
+    description: 'Approved Session 05 Microsoft Foundry agent runtime.'
     kind: 'testing'
   }
 }
@@ -95,7 +95,7 @@ resource agentDefinition 'Microsoft.ApiCenter/services/workspaces/apis/versions/
   name: agentRecord.definitionId
   properties: {
     title: 'OpenAPI'
-    description: 'Session 06 policy assistant Responses API contract.'
+    description: 'Session 05 policy assistant Responses API contract.'
   }
 }
 
@@ -104,12 +104,12 @@ resource agentDeployment 'Microsoft.ApiCenter/services/workspaces/apis/deploymen
   name: agentRecord.deploymentId
   properties: {
     title: 'Foundry nonproduction'
-    description: 'Pinned Session 06 agent endpoint.'
+    description: 'Pinned Session 05 agent endpoint.'
     definitionId: agentDefinition.id
     environmentId: foundryEnvironment.id
     server: {
       runtimeUri: [
-        session06AgentBaseUrl
+        session05AgentBaseUrl
       ]
     }
     state: 'active'
@@ -117,7 +117,7 @@ resource agentDeployment 'Microsoft.ApiCenter/services/workspaces/apis/deploymen
 }
 
 module apiManagementReader 'apim-reader.bicep' = {
-  name: 'session08-apim-reader'
+  name: 'session07-apim-reader'
   scope: resourceGroup(apiManagementResourceGroupName)
   params: {
     apiManagementName: apiManagementName

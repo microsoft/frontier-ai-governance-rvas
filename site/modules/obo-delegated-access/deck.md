@@ -56,13 +56,19 @@ OBO carries that user context across the middle tier without forwarding the orig
 
 ## Architecture and authority
 
+<!-- _class: diagram -->
+
 ![The OBO sequence validates the inbound token, uses certificate authentication for token exchange, and ends in allowed-user success or missing-authority denial](assets/diagrams/obo-trust-chain.svg)
+
+<!-- Notes: The client gets a token for the middle tier. The middle tier validates it, then uses the user assertion and its certificate to request a downstream token from Microsoft Entra ID. Entra owns token issuance. The downstream API owns resource access for each user. -->
+
+---
+
+## What this means
 
 In the OAuth on-behalf-of (OBO) flow, the inbound token stops at the middle tier. Microsoft Entra
 ID issues a new delegated token for the downstream API, preserving the user's identity so the API
 can allow one user and deny another.
-
-<!-- Notes: The client gets a token for the middle tier. The middle tier validates it, then uses the user assertion and its certificate to request a downstream token from Microsoft Entra ID. Entra owns token issuance. The downstream API owns resource access for each user. -->
 
 ---
 
@@ -213,9 +219,9 @@ No application-only retry. No token or payload logging.
 
 ## Related numbered sessions
 
-- **Session 03** selects human, workload, agent, or delegated authority.
-- **Session 06** keeps the direct OpenAPI baseline application-only.
-- **Session 09** replaces inbound authority with APIM managed identity.
+- **Session 02** selects human, workload, agent, or delegated authority.
+- **Session 05** keeps the direct OpenAPI baseline application-only.
+- **Session 08** replaces inbound authority with APIM managed identity.
 
 This module is used when those application-only paths do not satisfy a real per-user requirement.
 

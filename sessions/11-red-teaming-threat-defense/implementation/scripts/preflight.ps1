@@ -28,7 +28,7 @@ function Invoke-AzJson {
     return (($raw | Out-String) | ConvertFrom-Json -ErrorAction Stop)
 }
 
-$implementationSession = "12-red-teaming-threat-defense"
+$implementationSession = "11-red-teaming-threat-defense"
 $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
 $authorizationPath = Join-Path $artifactRoot "red-team\authorization-scope.json"
 $attackPlanPath = Join-Path $artifactRoot "red-team\attack-plan.json"
@@ -111,10 +111,10 @@ if ($sentinelMatches.Count -gt 0) {
     $unresolved = @($sentinelMatches.Matches.Value | Sort-Object -Unique)
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
     if ($unknown.Count -gt 0) {
-        throw "Add explicit Session 12 preflight checks for new sentinels: $($unknown -join ', ')."
+        throw "Add explicit Session 11 preflight checks for new sentinels: $($unknown -join ', ')."
     }
     if ($unresolved.Count -gt 0) {
-        throw "Resolve every Session 12 decision required for $Phase before continuing: $($unresolved -join ', ')."
+        throw "Resolve every Session 11 decision required for $Phase before continuing: $($unresolved -join ', ')."
     }
 }
 
@@ -316,7 +316,7 @@ if ($Phase -eq "PostRemediation") {
 
 & python -c "import azure.ai.projects, azure.identity, openai" 2>$null
 if ($LASTEXITCODE -ne 0) {
-    throw "Install the Session 12 Python dependencies: python -m pip install -r `"$requirementsPath`""
+    throw "Install the Session 11 Python dependencies: python -m pip install -r `"$requirementsPath`""
 }
 
 $account = Invoke-AzJson -Arguments @("account", "show") -Description "Azure account lookup"
@@ -364,4 +364,4 @@ Write-Host "  Evaluators: $($criteria -join ', ')"
 Write-Host "  Defender route: $($defender.selectedSignalPath) -> $($socDelivery.routeType) -> $($socDelivery.destinationAlias)"
 Write-Host "  Repository output: aggregate metrics and alert/incident references only"
 Write-Host "Read-only deployment preview is unsupported by the red-team API. No taxonomy or run was created."
-Write-Host "PASS: Session 12 authorization, current manual support gate, risk/change handoff, Foundry target, and $Phase phase are ready."
+Write-Host "PASS: Session 11 authorization, current manual support gate, risk/change handoff, Foundry target, and $Phase phase are ready."

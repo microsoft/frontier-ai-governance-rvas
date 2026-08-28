@@ -1,6 +1,6 @@
 # Implementation artifacts
 
-These files define the Session 10 Purview control. They contain no prompts,
+These files define the Session 09 Purview control. They contain no prompts,
 responses, tenant IDs, user names, source URLs, audit exports, or customer content.
 
 | Path | Operational purpose |

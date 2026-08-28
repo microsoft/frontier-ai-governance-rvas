@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "11-foundry-evaluations-quality-gates",
+  "implementationSession": "10-foundry-evaluations-quality-gates",
   "caseId": "gate-test-tool-process-regression",
   "purpose": "Confirm the callable release gate blocks a candidate aggregate when final-answer quality passes but the tool-process layer falls below the approved floor.",
   "inputRecord": {

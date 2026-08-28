@@ -10,13 +10,13 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation - Session 10</p>
+<p class="eyebrow">AI Governance Co-implementation - Session 09</p>
 
 # Purview data governance and Agent 365 data controls
 
 **240 minutes - One labelled path, one scoped data control**
 
-<!-- Notes: Session 09 constrained tool authority. Today we govern the data that agents can reach and share. -->
+<!-- Notes: Session 08 constrained tool authority. Today we govern the data that agents can reach and share. -->
 
 ---
 
@@ -113,7 +113,15 @@ Current DLP is narrower. It can block supported sensitive-information-type promp
 
 ## Architecture overview
 
+<!-- _class: diagram -->
+
 ![Agent 365 and Microsoft Foundry share Purview Audit and DSPM paths, while DLP scope, enablement, billing, user context, and manual checks remain product-specific](assets/diagrams/purview-product-coverage-split.svg)
+
+<!-- Notes: Start with the Agent 365 transaction, then show where that policy boundary ends. -->
+
+---
+
+## What this means
 
 Agent 365 and Foundry use separate Purview policy paths. On the Agent 365 path, Purview checks the
 agent, group, direction, location, and label before either blocking a matched interaction or
@@ -124,8 +132,6 @@ current DLP coverage.
 
 Purview owns live label, policy, Audit, and DSPM state. The coverage handoff records who owns each
 product path because no single service view does.
-
-<!-- Notes: Start with the Agent 365 transaction, then show where that policy boundary ends. -->
 
 ---
 
@@ -262,7 +268,7 @@ The policy names the agent, people, directions, locations, label, and action.
 
 ## The approved DLP scope
 
-| Coordinate | Session 10 boundary |
+| Coordinate | Session 09 boundary |
 |---|---|
 | Environment | Nonproduction |
 | Agent | One Agent 365 instance |
@@ -486,4 +492,4 @@ The data, information protection, agent, Foundry, and audit owners maintain thei
 
 # Thank you!
 
-<!-- Notes: Keep the control in operation and carry the labelled data set into Session 11 evaluations. -->
+<!-- Notes: Keep the control in operation and carry the labelled data set into Session 10 evaluations. -->

@@ -10,7 +10,7 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation · Session 04</p>
+<p class="eyebrow">AI Governance Co-implementation · Session 03</p>
 
 # Private networking, DNS, and controlled egress
 
@@ -59,7 +59,15 @@ The separate Agent subnet prepares a later runtime path. It does not claim that 
 
 ## Architecture overview
 
+<!-- _class: diagram -->
+
 ![Authorized clients use private DNS and endpoints while Agent traffic routes through the customer firewall and public access is denied](assets/diagrams/private-network-flow.svg)
+
+<!-- Notes: Walk left to right. Call out the separate subnets and the Session 05 runtime handoff. -->
+
+---
+
+## What this means
 
 The approved client asks for each service by its normal name. Private DNS returns the private
 endpoint address, and the client connects on TCP 443. The separate Agent subnet sends its default
@@ -67,8 +75,6 @@ route to the customer firewall.
 
 Azure holds live network and service state. The firewall source owns egress rules, while the
 operational system keeps the five-service cutover record.
-
-<!-- Notes: Walk left to right. Call out the separate subnets and the Session 06 runtime handoff. -->
 
 ---
 
@@ -82,7 +88,7 @@ operational system keeps the five-service cutover record.
 | DNS ownership | Reuse authoritative central zones, or create approved local zones | Hybrid and central designs need forwarding and artifact changes |
 | Agent egress | Route the dedicated subnet to the customer firewall | The route does not prove firewall rules or runtime traffic |
 
-<!-- Notes: Resolve these choices before network deployment. Session 06 checks the agent runtime path. -->
+<!-- Notes: Resolve these choices before network deployment. Session 05 checks the agent runtime path. -->
 
 ---
 
@@ -94,17 +100,17 @@ Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault must already exist.
 
 If the Foundry account was not created with the configured subnet, pause here.
 
-The AI platform owner and change authority must complete the approved replacement first. Session 04 then reconciles the Foundry endpoint.
+The AI platform owner and change authority must complete the approved replacement first. Session 03 then reconciles the Foundry endpoint.
 
 Current BYO VNet injection is configured when the Foundry account is created.
 
-| [Session 01](../01-platform-baseline/) account state | Required action before [Session 06](../06-governed-agent-baseline/) |
+| [Session 01](../01-platform-baseline/) account state | Required action before [Session 05](../05-governed-agent-baseline/) |
 |---|---|
 | References this Agent subnet | Keep the account and recorded subnet decision |
 | Has no `networkInjections` setting | Approve replacement and replay of approved configuration |
 | References another subnet | Approve a new account and replay into it |
 
-**Do not attempt an in-place retrofit or claim that Session 06 agent traffic uses this route before Session 06 runs its agent check.**
+**Do not attempt an in-place retrofit or claim that Session 05 agent traffic uses this route before Session 05 runs its agent check.**
 
 <!-- Notes: This product constraint must have an owner before deployment. -->
 
@@ -203,9 +209,9 @@ Storage `blob` and Cosmos DB `Sql` complete the required dependency set.
 
 **Owned by the customer firewall source:** destinations, ports, review history, and deployment.
 
-Session 04 records the external firewall repository or policy reference. It does not copy firewall rules into this kit.
+Session 03 records the external firewall repository or policy reference. It does not copy firewall rules into this kit.
 
-Session 06 checks agent-runtime traffic through the prepared path.
+Session 05 checks agent-runtime traffic through the prepared path.
 
 <!-- Notes: Do not claim that a route proves the firewall rule or the agent-runtime path. -->
 
@@ -326,7 +332,7 @@ An agent has not run through the delegated subnet or called a governed tool.
 
 ### Next decision
 
-Confirm the existing account uses the delegated subnet, or complete the approved replacement, before [Session 06](../06-governed-agent-baseline/).
+Confirm the existing account uses the delegated subnet, or complete the approved replacement, before [Session 05](../05-governed-agent-baseline/).
 
 </div>
 </div>
@@ -356,7 +362,7 @@ The cutover record stays outside the repository. Connectivity check output is no
 1. Review the cutover record against the five approved service IDs and resource group.
 2. Restore each state from the cutover record.
 3. Confirm the approved execution host can reach each service.
-4. Remove only allowed network resource types carrying the Session 04 marker.
+4. Remove only allowed network resource types carrying the Session 03 marker.
 
 Automated network removal stops unless every recorded prior state is `Enabled`.
 
@@ -372,9 +378,9 @@ When a service was already private-only, its owner must confirm another approved
 - **Egress preparation:** dedicated Agent subnet, customer firewall route, and external policy source.
 - **Safety:** private connectivity and stored prior settings before cutover.
 - **Result:** configured endpoints resolve privately and accept TCP 443.
-- **Pending work:** [Session 06](../06-governed-agent-baseline/) runs an agent through the delegated subnet.
+- **Pending work:** [Session 05](../05-governed-agent-baseline/) runs an agent through the delegated subnet.
 
-Next: **[Session 05 · Models, residency, quota, and lifecycle](../05-model-governance-lifecycle/)**
+Next: **[Session 04 · Models, residency, quota, and lifecycle](../04-model-governance-lifecycle/)**
 
 <!-- Notes: Close on the operational control and the account-level dependency. -->
 

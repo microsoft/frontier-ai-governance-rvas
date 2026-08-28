@@ -60,6 +60,19 @@
       </nav>
 
       <div class="session-reading-layout session-content-width">
+        <button
+          class="deck-launcher"
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls="session-deck-dialog"
+          data-deck-open
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+            <path d="M8 20h8M12 16.5V20"></path>
+          </svg>
+          <span>Open the deck</span>
+        </button>
         <aside class="service-panel" aria-labelledby="service-panel-title">
           <h2 id="service-panel-title">Services in scope</h2>
           <ul><li>
@@ -105,7 +118,7 @@
 <p>Use the <a href="https://learn.microsoft.com/en-us/microsoft-agent-365/overview">Microsoft Agent 365 overview</a> to establish what Agent Registry and Agent Map can tell the Agent 365 administrator about this pilot. The inventory record then captures the alias, owner, sponsor, and lifecycle decision. It points back to Agent 365 rather than copying the live registry.</p>
 <p>The publishing checklist connects that inventory to the availability decision. The approver checks current state and the restore path in <a href="https://learn.microsoft.com/en-us/microsoft-365/admin/manage/manage-copilot-agents-integrated-apps">Microsoft 365 Admin Center agent management</a>. Connector and MCP action decisions go into the connector matrix. Apply <a href="https://learn.microsoft.com/en-us/power-platform/admin/advanced-connector-policies">Advanced Connector Policies</a> only when the tenant supports the action-level rule the owner needs. These policies allow the owner to control individual connector or MCP actions rather than treating the whole connector as one unit.</p>
 <p>Preflight comes last. It finds missing files and unresolved owner decisions in the packet. It does not query any of the live control planes.</p>
-<p>The numbered sessions still own their parts of the wider system. Session 03 supplies the identity ownership model. Sessions 08 and 09 set the inventory and tool boundaries. Sessions 10 and 12 remain the data and Defender handoffs. Session 15 brings the reviewed pilot record into fleet operations.</p>
+<p>The numbered sessions still own their parts of the wider system. Session 02 supplies the identity ownership model. Sessions 07 and 08 set the inventory and tool boundaries. Sessions 10 and 12 remain the data and Defender handoffs. Session 14 brings the reviewed pilot record into fleet operations.</p>
 
         </article>
         <aside class="facts-panel" aria-labelledby="facts-panel-title">
@@ -127,20 +140,6 @@
       </div>
       <p>Optional module · Architecture</p>
     </footer>
-
-    <button
-      class="deck-launcher"
-      type="button"
-      aria-haspopup="dialog"
-      aria-controls="session-deck-dialog"
-      data-deck-open
-    >
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
-        <path d="M8 20h8M12 16.5V20"></path>
-      </svg>
-      <span>View slide deck</span>
-    </button>
 
     <dialog
       class="deck-dialog"

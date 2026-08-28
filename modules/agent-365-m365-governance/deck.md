@@ -56,13 +56,19 @@ Both sides have to line up before wider rollout.
 
 ## Architecture and authoritative state
 
+<!-- _class: diagram -->
+
 ![Live Microsoft 365 control planes feed owner decisions into one pilot review packet without changing tenant state](assets/diagrams/agent-365-control-plane-review.svg)
+
+<!-- Notes: Agent 365, Microsoft 365 Admin Center, Microsoft Entra, Copilot Studio, Power Platform, SharePoint, and Defender XDR remain authoritative. The packet records aliases, decisions, and next owners. Preflight checks packet completeness only. -->
+
+---
+
+## What this means
 
 No single admin surface answers every governance question about an agent. Owners inspect one pilot
 in the services they govern. The repository connects their decisions without copying or changing
 tenant state.
-
-<!-- Notes: Agent 365, Microsoft 365 Admin Center, Microsoft Entra, Copilot Studio, Power Platform, SharePoint, and Defender XDR remain authoritative. The packet records aliases, decisions, and next owners. Preflight checks packet completeness only. -->
 
 ---
 
