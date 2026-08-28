@@ -1583,14 +1583,14 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
           <div class="section-heading"><div><p class="section-kicker">Guided co-implementation</p><h2 id="approach-title">One control at a time, with its owner in the room.</h2><p>Standard mode implements the control and runs one observable check. Extended mode is reserved for work that needs an allowed path, a blocked or failure path, and a delivery-owner checkpoint.</p></div></div>
           <div class="method-grid">
             <article><span>Build</span><h3>Use production-shaped configuration.</h3><p>Customer engineers deploy through the approved change path. Reusable configuration and normal operating records stay in the customer repository.</p></article>
-            <article><span>Check</span><h3>Observe a defined result.</h3><p>The listed control owner confirms the check. Consequential changes still require the appropriate service, security, data, or release owner. Checks and evaluation examples run on fictional records, never customer data.</p></article>
+            <article><span>Check</span><h3>Observe a defined result.</h3><p>The listed control owner confirms the check. The relevant service, security, data, or release owner approves consequential changes. Checks and evaluation examples run on fictional records, never customer data.</p></article>
           </div>
         </div>
       </section>
 
       <section class="section program" id="program" aria-labelledby="program-title">
         <div class="section-heading section-heading--program">
-          <div><p class="section-kicker">Session catalog</p><h2 id="program-title">Browse all ${sessions.length} sessions.</h2><p>Focused route, service, and text filters work together. Service and focused-route selections are kept in the URL, so you can share a filtered view.</p></div>
+          <div><p class="section-kicker">Session catalog</p><h2 id="program-title">Browse all ${sessions.length} sessions.</h2><p>Use a focused route, a service filter, or text search. The selected route or service stays in the URL, so you can share the filtered view.</p></div>
           <p class="register-instruction">Optional modules stay outside this filter and the 15-session count.</p>
         </div>
         <div class="registry-controls">
@@ -1623,25 +1623,25 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
 
       <section class="routes-section" id="routes" aria-labelledby="routes-title">
         <div class="section">
-          <div class="section-heading"><div><h2 id="routes-title">Choose how far the implementation needs to go.</h2><p>Every route starts at Session 01 and keeps the dependencies in order. Pick the point where your current scope is complete.</p></div></div>
+          <div class="section-heading"><div><h2 id="routes-title">Choose how far the implementation needs to go.</h2><p>Every route starts at Session 01 and keeps dependencies in order. Choose the route that covers the controls you need.</p></div></div>
           <div class="route-choice">
             <div class="route-choice__primary"><div><h3>Complete build · ${totalHours} working hours</h3><p>Run all ${sessions.length} sessions, from the platform baseline through controlled release and regional rehearsal.</p></div><ol class="route-choice__sequence"><li><span>1–5</span> Governed foundation</li><li><span>6–12</span> Live AI traffic controls</li><li><span>13–15</span> Operate at scale</li></ol><a class="button button--primary" data-route-clear href="#program">Browse all sessions</a></div>
             <div class="route-choice__heading"><div><h3>Focused routes</h3><p>Each option shows the control state you reach, the work it includes, and where to stop.</p></div><div class="route-choice__legend" aria-label="Route phase colors"><span><i class="is-foundation"></i>Foundation</span><span><i class="is-runtime"></i>Live traffic</span><span><i class="is-operations"></i>Operations</span></div></div>
             <div class="route-paths" role="list">${routeCards}</div>
-            <p class="route-choice__note">Sessions 13–15 also define documented substitute baselines for teams that reach them without every earlier session.</p>
+            <p class="route-choice__note">Sessions 13–15 define substitute baselines for teams that enter the series without every earlier session.</p>
           </div>
         </div>
       </section>
 
       <section class="readiness-section" id="readiness" aria-labelledby="readiness-title">
         <div class="section">
-          <div class="section-heading"><div><p class="section-kicker">Pre-work</p><h2 id="readiness-title">Clear the pre-work before Session 1.</h2><p>Each item below blocks hands-on work at the first deployment. Model quota and Purview or Agent 365 entitlements are not needed on day one, but approval runs long, so raise those requests while you work through this list.</p></div></div>
+          <div class="section-heading"><div><p class="section-kicker">Pre-work</p><h2 id="readiness-title">Clear the pre-work before Session 1.</h2><p>Each item below blocks hands-on work at the first deployment. Model quota and Purview or Agent 365 entitlements are not needed on day one, but approval lead times can be long. Request them while you complete this list.</p></div></div>
           <div class="readiness-grid">
             <article><span>Environment</span><h3>Dedicated sandbox</h3><p>Use an approved subscription and register the required resource providers.</p></article>
             <article><span>Source control</span><h3>Customer-owned repository</h3><p>Prepare the repository that will keep implementation files and decisions.</p></article>
             <article><span>Access</span><h3>Roles at the exact scope</h3><p>Session 1 needs Contributor on the sandbox scope plus permission to run deployment what-if there. Later sessions add their own time-bound roles.</p></article>
-            <article><span>Region</span><h3>Delivery region approved</h3><p>Check the region against the Foundry capabilities planned for the wider engagement.</p></article>
-            <article><span>Scenario</span><h3>One bounded use case</h3><p>Use an internal policy assistant that starts with one read-only API tool and gains a governed MCP path and one write action it must refuse as later sessions add them.</p></article>
+            <article><span>Region</span><h3>Delivery region approved</h3><p>Check that the approved region supports the Foundry capabilities required by your planned sessions.</p></article>
+            <article><span>Scenario</span><h3>One bounded use case</h3><p>Start with an internal policy assistant and one read-only API tool. Later sessions add a governed MCP path and a write action that the agent must refuse.</p></article>
           </div>
         </div>
       </section>
