@@ -205,8 +205,9 @@ scope.
 
 ### 4. Install the approved agent after DLP propagation
 
-After the approved DLP policy is enabled and its recorded propagation period has elapsed, open
-[Session 06's deployment contract](../../06-agent-365-access-boundary/implementation/artifacts/agent-deployment.json).
+After the approved DLP policy is enabled and its recorded propagation period has elapsed, open the
+Session 06 deployment contract at
+`sessions/06-agent-365-access-boundary/implementation/artifacts/agent-deployment.json`.
 Confirm it still names the approved agent, test group, host product, and consent decision. Install
 that agent in Microsoft 365 admin center for the recorded group and host product. Grant only the
 recorded approved consent.
