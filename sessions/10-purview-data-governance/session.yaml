@@ -14,7 +14,7 @@ session:
     - "Complete Session 06 for one approved Microsoft Foundry, Copilot Studio, or Agent Builder agent. Confirm that `agent-deployment.json` records the exact platform, Agent Registry entry, test group, host product, and validation aliases."
     - "For a Foundry agent only, confirm the Sessions 01-07 responsible-AI records, model-evaluation record, Entra application ID, user-context authentication flow, and exact APIM `get_policy` path used by the Foundry Data Security extension."
     - "Approve one nonproduction Agent 365 instance, one test user group, a labelled synthetic item, the label and encryption rights, the DLP action and locations, and the restore route."
-    - "Confirm the required Purview, Agent 365, Audit, DLP, and eDiscovery entitlements. For the Foundry Data Security extension, also confirm its pay-as-you-go requirement."
+    - "Confirm the required Purview, Agent 365, Audit, and DLP entitlements. For the Foundry Data Security extension, also confirm its pay-as-you-go requirement."
     - "Assign the DLP and label operator Compliance Data Administrator in the approved Microsoft 365 tenant."
     - "Assign the audit operator View-Only Audit Logs in Microsoft Purview and the Exchange admin center. Grant the Microsoft Graph Audit Search application `AuditLogsQuery.Read.All` application permission with administrator consent."
   dependencies:

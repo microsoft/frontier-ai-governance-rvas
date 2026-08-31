@@ -73,9 +73,9 @@ Confirm:
 - The data owner approved the nonproduction Agent 365 instance, test group, synthetic labelled
   item, label and encryption rights, DLP action and locations, generated-content control, and
   restore route.
-- The required Purview, Agent 365, Audit, DLP, and eDiscovery entitlements are confirmed. Agent 365
-  needs a qualifying license; Microsoft recommends E5. For the Foundry Data Security extension,
-  also confirm its pay-as-you-go requirement.
+- The required Purview, Agent 365, Audit, and DLP entitlements are confirmed. Agent 365 needs a
+  qualifying license; Microsoft recommends E5. For the Foundry Data Security extension, also
+  confirm its pay-as-you-go requirement.
 - The DLP and label operator has **Compliance Data Administrator** in the approved Microsoft 365
   tenant.
 - The audit operator has **View-Only Audit Logs** in both Microsoft Purview and the Exchange admin
