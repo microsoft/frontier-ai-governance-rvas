@@ -3,7 +3,7 @@ session:
   id: "03"
   slug: "private-networking-dns"
   title: "Private networking, DNS, and controlled egress"
-  duration_minutes: 270
+  duration_minutes: 150
   status: "draft"
   last_verified: "2026-08-28"
   audience:
@@ -11,7 +11,7 @@ session:
     - "AI platform engineers"
     - "DNS, firewall, and security reviewers"
   prerequisites:
-    - "Sessions 01-02 are complete, and the exact Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault resource IDs are recorded for the nonproduction resource group."
+    - "Sessions 01-02 are complete. Session 01 created the Foundry account with its approved network pattern and, for BYO VNet, the exact delegated Agent Service subnet."
     - "The customer has approved nonoverlapping RFC 1918 address ranges for a dedicated spoke, Agent subnet, and private-endpoint subnet."
     - "The approved network design and change record identify the customer-managed firewall private IP, DNS integration pattern, and execution host inside the approved private network."
     - "The network deployment operator has the time-bound Network Contributor role on the exact nonproduction resource group where this session deploys the VNet, subnets, route table, and private endpoints."
@@ -19,7 +19,6 @@ session:
     - "The Entra object IDs for the network deployment operator and DNS operator, plus the exact DNS role-assignment scope, are available for preflight."
     - "The service owners recorded for Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault have each accepted responsibility for approving the private endpoint connection on their service through the existing service change process; this session assigns no service-approval role to the network deployment operator."
     - "The approved change record identifies where prior public-access states are stored and who can retrieve them during restore."
-    - "The AI platform owner has approved any required Foundry account replacement and configuration replay before endpoint or public-access cutover."
   dependencies:
     - "Session 01 - Microsoft Foundry platform baseline, inventory, and landing-zone guardrails"
     - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
@@ -30,12 +29,12 @@ session:
     - "azure-monitor"
     - "azure-private-link"
     - "azure-private-dns"
-  control_objective: "Connect Foundry and four dependencies privately, then disable public access after private DNS and TCP 443 checks succeed from the approved nonproduction execution host."
+  control_objective: "Connect the existing Foundry account and four customer-provided dependencies privately, then disable public access after private DNS and TCP 443 checks succeed from the approved nonproduction execution host."
 implementation:
   mode: "standard"
 implementation_outcomes:
   - "Prepare a landing-zone-aligned spoke with separate private-endpoint and dedicated Agent Service subnets."
-  - "Deploy the approved network, DNS links, and initial private endpoints. If Foundry replacement is required, pause for the separately approved replacement and replay, then update the Foundry endpoint and all five resource IDs."
+  - "Deploy private DNS links and initial private endpoints for the Foundry account and the four customer-provided dependencies."
   - "Route the delegated Agent Service subnet through the customer-approved firewall. The customer firewall policy source retains its rules and review history."
   - "From the approved execution host, confirm that the in-use Foundry endpoint families and four dependency FQDNs resolve to private addresses and accept TCP 443. Record prior public-access states in the approved change system, then disable public network access."
   - "Confirm that the three Foundry endpoint families and four dependency endpoints resolve to private addresses and accept TCP 443 from an approved client. Session 05 checks agent-runtime traffic."

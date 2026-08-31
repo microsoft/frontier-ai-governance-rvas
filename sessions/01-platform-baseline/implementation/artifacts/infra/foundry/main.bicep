@@ -13,8 +13,19 @@ param projectName string = 'platform-baseline'
 @description('Approved Azure region for the implementation baseline.')
 param location string = resourceGroup().location
 
-@description('Public access remains explicit until Session 03 implements the private path.')
+@description('Approved account network pattern. This input has no implicit default.')
+@allowed([
+  'public'
+  'public-private-inbound'
+  'byo-vnet'
+])
+param networkPattern string
+
+@description('Public access stays enabled until Session 03 validates the private client path and performs cutover.')
 param publicNetworkAccess string = 'Enabled'
+
+@description('Resource ID of the dedicated Microsoft.App/environments delegated subnet. Required for byo-vnet.')
+param agentSubnetResourceId string = ''
 
 @description('Business owner team alias. Do not use a personal email address.')
 param businessOwner string
@@ -68,8 +79,14 @@ resource foundry 'Microsoft.CognitiveServices/accounts@2026-05-01' = {
     customSubDomainName: foundryName
     disableLocalAuth: true
     publicNetworkAccess: publicNetworkAccess
-    // Temporary baseline posture. Session 03 owns the approved outbound network design.
-    restrictOutboundNetworkAccess: false
+    restrictOutboundNetworkAccess: networkPattern == 'byo-vnet'
+    networkInjections: networkPattern == 'byo-vnet' ? [
+      {
+        scenario: 'agent'
+        subnetArmId: agentSubnetResourceId
+        useMicrosoftManagedNetwork: false
+      }
+    ] : []
   }
 }
 

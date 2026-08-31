@@ -162,6 +162,14 @@ network_match = re.search(r"(?m)^\s*param\s+publicNetworkAccess\s*=\s*'([^']+)'\
 if not network_match or network_match.group(1) not in {'Enabled', 'Disabled'}:
     print('publicNetworkAccess must be either Enabled or Disabled.', file=sys.stderr)
     raise SystemExit(1)
+pattern_match = re.search(r"(?m)^\s*param\s+networkPattern\s*=\s*'([^']+)'\s*$", text)
+if not pattern_match or pattern_match.group(1) not in {'public', 'public-private-inbound', 'byo-vnet'}:
+    print('networkPattern must be public, public-private-inbound, or byo-vnet.', file=sys.stderr)
+    raise SystemExit(1)
+subnet_match = re.search(r"(?m)^\s*param\s+agentSubnetResourceId\s*=\s*'([^']*)'\s*$", text)
+if pattern_match.group(1) == 'byo-vnet' and (not subnet_match or not subnet_match.group(1).strip()):
+    print('byo-vnet requires agentSubnetResourceId from the approved delegated subnet.', file=sys.stderr)
+    raise SystemExit(1)
 PY
 }
 
@@ -260,7 +268,9 @@ implementation_session='01-platform-baseline'
 
 required_files=(
   'infra/foundry/main.bicep'
+  'infra/network/main.bicep'
   'environments/sandbox.bicepparam'
+  'environments/network-foundation.bicepparam'
   'policy/initiative.bicep'
   'policy/assignment.bicep'
   'policy/guardrail-settings.json'
@@ -277,6 +287,12 @@ done
 
 scan_unresolved_sentinels "$artifacts_path" \
   '__REQUIRED_AZURE_REGION__' \
+  '__REQUIRED_NETWORK_PATTERN__' \
+  '__REQUIRED_VNET_NAME__' \
+  '__REQUIRED_VNET_CIDR__' \
+  '__REQUIRED_AGENT_SUBNET_CIDR__' \
+  '__REQUIRED_PRIVATE_ENDPOINT_SUBNET_CIDR__' \
+  '__REQUIRED_FIREWALL_PRIVATE_IP__' \
   '__REQUIRED_PUBLIC_NETWORK_ACCESS__' \
   '__REQUIRED_BUSINESS_OWNER__' \
   '__REQUIRED_TECHNICAL_OWNER__' \
@@ -346,7 +362,7 @@ if [[ -n "$inherited_assignments" ]]; then
   "$confirm_inherited_policy_review" || die 'Inherited policy assignments apply to the sandbox resource group. Review their effects and exemptions with the cloud platform owner, then rerun with --confirm-inherited-policy-review.'
 fi
 
-for provider in Microsoft.CognitiveServices Microsoft.Insights Microsoft.OperationalInsights Microsoft.PolicyInsights; do
+for provider in Microsoft.CognitiveServices Microsoft.Insights Microsoft.OperationalInsights Microsoft.PolicyInsights Microsoft.Network Microsoft.App; do
   state="$(run_capture az provider show --namespace "$provider" --query registrationState --only-show-errors --output tsv)" || die "Provider lookup failed for $provider."
   state="${state//$'\r'/}"
   [[ "$state" == 'Registered' ]] || die "Provider $provider is '$state'. Register it only through the customer-approved change process."
@@ -354,6 +370,7 @@ done
 
 template_file="$artifacts_path/infra/foundry/main.bicep"
 run_capture az bicep build --file "$template_file" --stdout >/dev/null || die 'Bicep build failed for the Foundry baseline.'
+run_capture az bicep build --file "$artifacts_path/infra/network/main.bicep" --stdout >/dev/null || die 'Bicep build failed for the BYO VNet foundation.'
 for file in initiative.bicep assignment.bicep; do
   run_capture az bicep build --file "$artifacts_path/policy/$file" --stdout >/dev/null || die "Bicep build failed: policy/$file"
 done

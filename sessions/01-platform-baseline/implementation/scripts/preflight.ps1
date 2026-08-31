@@ -35,7 +35,9 @@ if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
 
 $requiredFiles = @(
     "infra\foundry\main.bicep"
+    "infra\network\main.bicep"
     "environments\sandbox.bicepparam"
+    "environments\network-foundation.bicepparam"
     "policy\initiative.bicep"
     "policy\assignment.bicep"
     "policy\guardrail-settings.json"
@@ -44,6 +46,12 @@ $requiredFiles = @(
 )
 $requiredSentinels = @(
     "__REQUIRED_AZURE_REGION__"
+    "__REQUIRED_NETWORK_PATTERN__"
+    "__REQUIRED_VNET_NAME__"
+    "__REQUIRED_VNET_CIDR__"
+    "__REQUIRED_AGENT_SUBNET_CIDR__"
+    "__REQUIRED_PRIVATE_ENDPOINT_SUBNET_CIDR__"
+    "__REQUIRED_FIREWALL_PRIVATE_IP__"
     "__REQUIRED_PUBLIC_NETWORK_ACCESS__"
     "__REQUIRED_BUSINESS_OWNER__"
     "__REQUIRED_TECHNICAL_OWNER__"
@@ -108,6 +116,23 @@ $networkMatch = [regex]::Match(
 )
 if (-not $networkMatch.Success -or $networkMatch.Groups[1].Value -notin @("Enabled", "Disabled")) {
     throw "publicNetworkAccess must be either Enabled or Disabled."
+}
+
+$networkPatternMatch = [regex]::Match(
+    $foundryParametersText,
+    "(?m)^\s*param\s+networkPattern\s*=\s*'([^']+)'\s*$"
+)
+if (-not $networkPatternMatch.Success -or $networkPatternMatch.Groups[1].Value -notin @("public", "public-private-inbound", "byo-vnet")) {
+    throw "networkPattern must be public, public-private-inbound, or byo-vnet."
+}
+if ($networkPatternMatch.Groups[1].Value -eq "byo-vnet") {
+    $subnetMatch = [regex]::Match(
+        $foundryParametersText,
+        "(?m)^\s*param\s+agentSubnetResourceId\s*=\s*'([^']+)'\s*$"
+    )
+    if (-not $subnetMatch.Success -or [string]::IsNullOrWhiteSpace($subnetMatch.Groups[1].Value)) {
+        throw "byo-vnet requires agentSubnetResourceId from the approved delegated subnet."
+    }
 }
 
 $settingsPath = Join-Path $ArtifactsPath "policy\guardrail-settings.json"
@@ -187,6 +212,8 @@ $providers = @(
     "Microsoft.Insights"
     "Microsoft.OperationalInsights"
     "Microsoft.PolicyInsights"
+    "Microsoft.Network"
+    "Microsoft.App"
 )
 foreach ($provider in $providers) {
     $stateOutput = & az provider show `
@@ -208,6 +235,11 @@ $templateFile = Join-Path $ArtifactsPath "infra\foundry\main.bicep"
 & az bicep build --file $templateFile --stdout | Out-Null
 if ($LASTEXITCODE -ne 0) {
     throw "Bicep build failed for the Foundry baseline."
+}
+$networkTemplateFile = Join-Path $ArtifactsPath "infra\network\main.bicep"
+& az bicep build --file $networkTemplateFile --stdout | Out-Null
+if ($LASTEXITCODE -ne 0) {
+    throw "Bicep build failed for the BYO VNet foundation."
 }
 foreach ($file in @("initiative.bicep", "assignment.bicep")) {
     $policyFile = Join-Path $ArtifactsPath "policy\$file"

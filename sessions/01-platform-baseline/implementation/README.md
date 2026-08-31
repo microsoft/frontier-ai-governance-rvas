@@ -143,6 +143,8 @@ You need:
 |---|---|---|
 | Deployment | [`artifacts/infra/foundry/main.bicep`](artifacts/infra/foundry/main.bicep) | The platform deployment pipeline |
 | Deployment | [`artifacts/environments/sandbox.bicepparam`](artifacts/environments/sandbox.bicepparam) | The platform deployment pipeline |
+| Deployment | [`artifacts/infra/network/main.bicep`](artifacts/infra/network/main.bicep) | The platform deployment pipeline |
+| Deployment | [`artifacts/environments/network-foundation.bicepparam`](artifacts/environments/network-foundation.bicepparam) | The platform deployment pipeline |
 | Deployment | [`artifacts/policy/initiative.bicep`](artifacts/policy/initiative.bicep) | The subscription policy deployment pipeline |
 | Deployment | [`artifacts/policy/assignment.bicep`](artifacts/policy/assignment.bicep) | The sandbox policy deployment pipeline |
 | Deployment | [`artifacts/policy/guardrail-settings.json`](artifacts/policy/guardrail-settings.json) | The initiative and assignment parameter builds |

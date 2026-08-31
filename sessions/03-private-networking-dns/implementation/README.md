@@ -31,9 +31,8 @@ If the landing zone already supplies the VNet or authoritative private DNS zones
 Before the session, choose this customer-managed BYO VNet path or Microsoft-managed networking.
 Stop until the owner makes that choice. Do not combine the two designs in one deployment.
 This session does not modify a hub or Virtual WAN, deploy firewall rules, create missing dependency
-services, or create an execution host. It does not replace a Foundry account itself. If immutable
-`networkInjections` require replacement, the change owner completes the separately approved account
-replacement and configuration replay. The network owner then updates the Foundry endpoint.
+services, create an execution host, or replace a Foundry account. An existing account without the
+approved BYO VNet injection must complete a separate approved migration before it enters this route.
 
 Private DNS and TCP 443 confirm the approved client path, not agent-runtime traffic.
 [Session 05](../../05-governed-agent-baseline/implementation/README.md) runs that check from a
@@ -70,7 +69,7 @@ the delegated subnet.
 
 | Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
 |---|---|---|---|---|
-| Foundry account and Agent subnet | Keep the account if it uses the exact delegated subnet. Otherwise, replace and replay it through a separate approved change | Respects the account-create network-injection boundary | Replacement needs a separate change, configuration replay, and service-owner coordination | Microsoft supports in-place network-injection changes |
+| Foundry account and Agent subnet | Consume the Session 01 account and its recorded network pattern | Session 01 creates the immutable BYO VNet setting before any agent work starts | An incompatible existing account must migrate outside this series | The selected account or network pattern changes |
 | Network ownership | Use the customer-managed BYO VNet path in these deployment files | The customer controls address space, routing, DNS integration, and firewall policy | Microsoft-managed networking follows a different architecture and delivery path | The platform owner selects Microsoft-managed networking before delivery |
 | Private DNS ownership | Reuse central zones when they are authoritative. Otherwise, create approved local zones and links | Each record has one owner across hub, spoke, or hybrid resolution | Central DNS may need Bicep changes and conditional forwarding | The resolver, hub, or zone owner changes |
 | Agent egress | Send the dedicated Agent subnet's default route to the customer firewall | Azure owns the route; firewall administrators own the rules | A route does not prove that a rule exists or that agent-runtime traffic works | Session 05 finds a blocked runtime dependency or the egress design changes |
@@ -88,8 +87,6 @@ Confirm these prerequisites:
 - Sessions 01-02 are complete in the approved nonproduction subscription and resource group.
 - The Foundry account plus its Storage, Azure AI Search, Cosmos DB, and Key Vault dependencies all
   exist; missing dependency services are not created in this session.
-- The AI platform owner has approved any required account replacement and replay of account,
-  project, connection, identity, and role configuration.
 - `Microsoft.App`, `Microsoft.CognitiveServices`, `Microsoft.DocumentDB`, `Microsoft.KeyVault`,
   `Microsoft.Network`, `Microsoft.Search`, and `Microsoft.Storage` are registered.
 - The network deployment operator has the time-bound Network Contributor role on the exact
@@ -129,18 +126,11 @@ repository.
 
 ### Foundry account and subnet
 
-Foundry Agent Service BYO VNet injection is an **account-create setting**. You cannot add it to an
-existing account or move it to another delegated subnet. The AI platform owner must decide:
-
-1. confirm that the existing account already references this exact Agent Service subnet; or
-2. approve a controlled replacement, name the change owner, and approve replay of the approved
-   project, connections, identities, role assignments, and model deployments.
-
-All five service resources must exist before public-access cutover. Stop if Foundry, Storage, Azure
-AI Search, Cosmos DB, or Key Vault is missing. Also stop if the AI platform owner has not decided
-whether to keep or replace the Foundry account, the change authority has not approved replacement
-and replay, or no restore owner is named. This session configures networking. It does not create a
-missing dependency service.
+Foundry Agent Service BYO VNet injection is an **account-create setting**. Session 01 records the
+selected network pattern and, when applicable, creates the account with the approved delegated
+subnet. All five service resources must exist before public-access cutover. Stop if Foundry,
+Storage, Azure AI Search, Cosmos DB, or Key Vault is missing, the Foundry account does not match
+its Session 01 pattern, or no restore owner is named.
 
 The AI platform owner must also confirm the network architecture before delivery. These deployment
 files implement the customer-managed BYO VNet path. Microsoft-managed networking uses managed
@@ -300,18 +290,9 @@ az deployment group create \
 ```
 
 Each service owner approves a pending private endpoint connection if the deployment operator lacks
-approval rights. Public access stays unchanged. If Foundry replacement is required, dependency
-endpoints can remain, but update the Foundry endpoint after replacement.
+approval rights. Public access stays unchanged.
 
-### 4. Replace and replay the Foundry account when approved
-
-Skip this step if the existing account already uses the exact Agent Service subnet. Otherwise, the
-change owner named in the approved change process replaces the Foundry account through a separate
-approved change. The owner replays approved projects, connections, identities, role assignments,
-and model deployments. These deployment files do not create the replacement account or dependency
-services.
-
-### 5. Integrate customer DNS and firewall policy
+### 4. Integrate customer DNS and firewall policy
 
 Link the authoritative zones to every approved client or resolver VNet. For hybrid resolution,
 forward the public service zones through an Azure-side DNS forwarder or Azure Private Resolver.
@@ -328,18 +309,17 @@ Bing Grounding, Websearch, and SharePoint Grounding still use public endpoints i
 Foundry environment. If the approved architecture requires every agent-tool call to stay private,
 exclude those tools from Session 05 rather than treating this VNet as coverage for them.
 
-### 6. Update five resource IDs and check connectivity
+### 5. Update five resource IDs and check connectivity
 
-The AI platform owner confirms that the existing account needs no replacement, or that replacement
-and replay finished. The network owner then points the Foundry private endpoint and DNS zone group
-to the existing or replacement account. Each service owner confirms the current resource ID for
-Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault. Update the parameter file, then run
-`connectivity-check` from the approved execution host.
+The network owner points the Foundry private endpoint and DNS zone group to the Session 01 account.
+Each service owner confirms the current resource ID for Foundry, Storage, Azure AI Search, Cosmos
+DB, and Key Vault. Update the parameter file, then run `connectivity-check` from the approved
+execution host.
 
 Continue when the three Foundry endpoint-family FQDNs and four dependency FQDNs resolve to RFC 1918
 addresses and the approved execution host reaches each endpoint on TCP 443.
 
-### 7. Record prior states and disable public access
+### 6. Record prior states and disable public access
 
 Run this command from the same approved private execution host:
 
