@@ -208,10 +208,9 @@ Make these decisions before deployment:
    Existing confirmed hub-based projects keep their approved controls until the platform owner
    approves separate migration work. Do not mix the models in this deployment.
 4. Foundry network posture. The `publicNetworkAccess` property controls whether the Foundry
-   resource accepts traffic through its public network endpoint. Set it to the approved value. The
-   supplied Bicep parameter requires an explicit choice. Do not set it to `Disabled` until the approved
-   execution host has a working private path. Do not set it to `Enabled` when the landing-zone
-   rules prohibit public network access.
+   resource accepts traffic through its public network endpoint. The canonical environment input is
+   `Disabled` after the Session 03 cutover. Preflight rejects `Enabled` whenever Session 03 has
+   marked the Foundry account as cut over.
 5. Foundry outbound posture. The baseline sets `restrictOutboundNetworkAccess: false` because
    Session 01 does not include a private-egress design. Treat this as temporary. Session 03 must
    replace it with the approved outbound-control design before anyone treats the environment as

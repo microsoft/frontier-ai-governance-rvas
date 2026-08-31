@@ -438,7 +438,7 @@ Stop immediately if you find:
 1. Route to the last approved application version.
 2. Restore the previous APIM policy through the [Session 07](../07-apim-ai-gateway/) path.
 3. Disable only noisy Session 13 alerts while correcting them.
-4. Remove only approved resources tagged `implementationSession=12`.
+4. Remove only approved resources tagged `implementationSession=13-observability-cost-operations`.
 5. Delete the Session 13 budget only with cost-owner approval.
 6. Preserve records required by an active incident or retention decision.
 

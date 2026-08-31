@@ -63,8 +63,8 @@
     "session10ThresholdPolicy": "sessions/11-foundry-evaluations-quality-gates/implementation/artifacts/eval/thresholds.yaml",
     "session10EvaluationSpec": "sessions/11-foundry-evaluations-quality-gates/implementation/artifacts/eval/evaluation-spec.json",
     "session10Dataset": "sessions/11-foundry-evaluations-quality-gates/implementation/artifacts/eval/data/golden-v1.jsonl",
-    "session12SmokePowerShell": "sessions/13-observability-cost-operations/implementation/scripts/smoke.ps1",
-    "session12SmokeBash": "sessions/13-observability-cost-operations/implementation/scripts/smoke.sh",
+    "session13SmokePowerShell": "sessions/13-observability-cost-operations/implementation/scripts/smoke.ps1",
+    "session13SmokeBash": "sessions/13-observability-cost-operations/implementation/scripts/smoke.sh",
     "routingControlScript": "__REQUIRED_ROUTING_CONTROL_SCRIPT_PATH__",
     "releaseStoreScript": "__REQUIRED_RELEASE_STORE_SCRIPT_PATH__"
   },

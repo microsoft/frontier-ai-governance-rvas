@@ -11,7 +11,7 @@ session:
     - "Identity, application security, and safety engineers"
     - "Operations and service owners"
   prerequisites:
-    - "Complete Sessions 01-04 in the approved nonproduction scope."
+    - "Complete Sessions 02, 03, and 05 in the approved nonproduction scope."
     - "Make an existing API Management instance with a system-assigned managed identity reachable from the approved execution host."
     - "Use Developer, Basic, Basic v2, Standard, Standard v2, Premium, or Premium v2. The selected tier must support llm-token-limit, llm-content-safety, backend pools, managed identity, products, subscriptions, and diagnostics."
     - "Give the deployment operator a time-bound Contributor role assignment on the exact nonproduction resource group that contains the API Management instance."

@@ -52,7 +52,6 @@ $requiredSentinels = @(
     "__REQUIRED_AGENT_SUBNET_CIDR__"
     "__REQUIRED_PRIVATE_ENDPOINT_SUBNET_CIDR__"
     "__REQUIRED_FIREWALL_PRIVATE_IP__"
-    "__REQUIRED_PUBLIC_NETWORK_ACCESS__"
     "__REQUIRED_BUSINESS_OWNER__"
     "__REQUIRED_TECHNICAL_OWNER__"
     "__REQUIRED_DATA_CLASSIFICATION__"
@@ -132,6 +131,23 @@ if ($networkPatternMatch.Groups[1].Value -eq "byo-vnet") {
     )
     if (-not $subnetMatch.Success -or [string]::IsNullOrWhiteSpace($subnetMatch.Groups[1].Value)) {
         throw "byo-vnet requires agentSubnetResourceId from the approved delegated subnet."
+    }
+
+    $cutoverAccountsRaw = & az resource list `
+        --resource-group $ResourceGroupName `
+        --resource-type "Microsoft.CognitiveServices/accounts" `
+        --query "[?tags.implementationSession=='$implementationSession'].{id:id,networkControlSession:tags.networkControlSession}" `
+        --only-show-errors `
+        --output json 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        throw "Foundry cutover-marker lookup failed.`n$($cutoverAccountsRaw | Out-String)"
+    }
+    $cutoverAccounts = @(($cutoverAccountsRaw | Out-String) | ConvertFrom-Json -ErrorAction Stop)
+    if (
+        $networkMatch.Groups[1].Value -eq "Enabled" -and
+        @($cutoverAccounts | Where-Object { $_.networkControlSession -eq "03-private-networking-dns" }).Count -gt 0
+    ) {
+        throw "publicNetworkAccess cannot be Enabled after Session 03 records networkControlSession=03-private-networking-dns on the Session 01 Foundry account."
     }
 }
 

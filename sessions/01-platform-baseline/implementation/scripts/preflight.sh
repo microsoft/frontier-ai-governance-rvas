@@ -293,7 +293,6 @@ scan_unresolved_sentinels "$artifacts_path" \
   '__REQUIRED_AGENT_SUBNET_CIDR__' \
   '__REQUIRED_PRIVATE_ENDPOINT_SUBNET_CIDR__' \
   '__REQUIRED_FIREWALL_PRIVATE_IP__' \
-  '__REQUIRED_PUBLIC_NETWORK_ACCESS__' \
   '__REQUIRED_BUSINESS_OWNER__' \
   '__REQUIRED_TECHNICAL_OWNER__' \
   '__REQUIRED_DATA_CLASSIFICATION__' \
@@ -305,6 +304,33 @@ scan_unresolved_sentinels "$artifacts_path" \
 
 foundry_parameters_file="$artifacts_path/environments/sandbox.bicepparam"
 validate_foundry_parameters "$foundry_parameters_file"
+
+cutover_accounts_json="$(run_capture az resource list \
+  --resource-group "$resource_group_name" \
+  --resource-type Microsoft.CognitiveServices/accounts \
+  --query "[?tags.implementationSession=='$implementation_session'].{id:id,networkControlSession:tags.networkControlSession}" \
+  --only-show-errors \
+  --output json)" || die 'Foundry cutover-marker lookup failed.'
+PYTHON_JSON_INPUT="$cutover_accounts_json" python3 - "$foundry_parameters_file" <<'PY'
+import json
+from pathlib import Path
+import re
+import os
+import sys
+
+text = Path(sys.argv[1]).read_text(encoding="utf-8")
+match = re.search(r"(?m)^\s*param\s+publicNetworkAccess\s*=\s*'([^']+)'\s*$", text)
+accounts = json.loads(os.environ["PYTHON_JSON_INPUT"])
+if (
+    match
+    and match.group(1) == "Enabled"
+    and any(account.get("networkControlSession") == "03-private-networking-dns" for account in accounts)
+):
+    raise SystemExit(
+        "publicNetworkAccess cannot be Enabled after Session 03 records "
+        "networkControlSession=03-private-networking-dns on the Session 01 Foundry account."
+    )
+PY
 
 validate_policy_settings \
   "$implementation_session" \

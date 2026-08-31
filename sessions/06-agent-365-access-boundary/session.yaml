@@ -14,7 +14,7 @@ session:
     - "Session 05 has created the governed nonproduction agent, and the Agent 365 administrator has confirmed that the selected agent appears in Agent Registry with Available status."
     - "The selected agent supports installation through Microsoft 365 admin center and has an approved nonproduction test group."
     - "The Microsoft 365 administrator can deploy the agent to the selected group and grant its approved admin consent. The Entra owner has approved the permission list."
-    - "One test-group member and one user outside that group are available for the intended and excluded access checks."
+    - "A Microsoft 365 administrator can complete the scoped installation with user access withheld. Do not give the test group meaningful use until Session 10 confirms that its DLP policy is enabled and propagated."
     - "The delivery owner has approved the agent, group, requested permissions, host products, and uninstall route in the customer change process."
   dependencies:
     - "Session 05 - Governed Microsoft Foundry agent baseline"
@@ -22,15 +22,15 @@ session:
     - "agent-365"
     - "microsoft-365-copilot"
     - "microsoft-entra-id"
-  control_objective: "Install one approved nonproduction agent from Microsoft Agent 365 Agent Registry for a named test group, grant its approved permissions, and confirm that the group can use it while an excluded user cannot."
+  control_objective: "Install one approved nonproduction agent from Microsoft Agent 365 Agent Registry for a named test group, grant its approved permissions, and keep user access withheld until Session 10 confirms DLP coverage."
 implementation:
   mode: "extended"
-  extended_reason: "The group deployment changes Microsoft 365 availability and grants approved permissions, so the delivery owner confirms both member access and excluded-user denial before the pilot remains installed."
+  extended_reason: "The group deployment changes Microsoft 365 availability and grants approved permissions, so the delivery owner confirms the withheld-access boundary before the pilot remains installed."
 implementation_outcomes:
   - "Install the approved Agent Registry agent for one nonproduction Microsoft Entra security group."
   - "Grant only the permission set approved for that agent deployment."
-  - "Confirm that a named test-group member can find and use the agent in its approved host product."
-  - "Confirm that a user outside the test group cannot find or use the installed agent."
+  - "Keep the deployment limited to synthetic setup and withhold meaningful user access until Session 10 confirms the DLP policy is enabled and propagated."
+  - "After Session 10, confirm that a named test-group member can use the DLP-covered agent while an excluded user cannot."
   - "Keep the group deployment configuration and manual uninstall route for the Microsoft 365 administrator."
 deliverables:
   implementation: "implementation/README.md"
@@ -40,7 +40,7 @@ deliverables:
 retained_files:
   - path: "implementation/artifacts/agent-deployment.json"
     consumer: "The Microsoft 365 administrator and Session 06 preflight scripts"
-    operational_purpose: "Define the approved Agent Registry entry, test group, permission consent, host products, validation users, and uninstall route for the scoped agent deployment."
+    operational_purpose: "Define the approved Agent Registry entry, test group, permission consent, synthetic-data boundary, withheld-access state, and uninstall route for the scoped agent deployment."
 sources:
   - title: "Governance and Lifecycle actions for agents available in Microsoft 365 admin center"
     url: "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-actions"

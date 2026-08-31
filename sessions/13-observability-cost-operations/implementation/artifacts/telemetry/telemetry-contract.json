@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "12",
+  "implementationSession": "13-observability-cost-operations",
   "serviceName": "__REQUIRED_SERVICE_NAME__",
   "environment": "nonproduction",
   "propagation": {

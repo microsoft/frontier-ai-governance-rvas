@@ -1,11 +1,8 @@
 using '../infra/network/main.bicep'
 
 param location = '__REQUIRED_LOCATION__'
-param virtualNetworkName = '__REQUIRED_VNET_NAME__'
-param virtualNetworkAddressPrefix = '__REQUIRED_VNET_CIDR__'
-param agentSubnetPrefix = '__REQUIRED_AGENT_SUBNET_CIDR__'
-param privateEndpointSubnetPrefix = '__REQUIRED_PRIVATE_ENDPOINT_SUBNET_CIDR__'
-param firewallPrivateIp = '__REQUIRED_FIREWALL_PRIVATE_IP__'
+param virtualNetworkResourceId = '__REQUIRED_SESSION01_VNET_RESOURCE_ID__'
+param privateEndpointSubnetResourceId = '__REQUIRED_SESSION01_PRIVATE_ENDPOINT_SUBNET_RESOURCE_ID__'
 param foundryResourceId = '__REQUIRED_FOUNDRY_RESOURCE_ID__'
 param storageResourceId = '__REQUIRED_STORAGE_RESOURCE_ID__'
 param searchResourceId = '__REQUIRED_SEARCH_RESOURCE_ID__'

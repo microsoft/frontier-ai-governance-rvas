@@ -50,6 +50,9 @@ fi
   fail "The Entra owner must approve the requested agent permissions before installation."
 [[ $(jq -r '.deployment.restoreAction' "$deployment_path") == "Uninstall" ]] ||
   fail "The Session 06 restore action must be Uninstall."
+[[ $(jq -r '.dataBoundary.allowedData' "$deployment_path") == "SyntheticOnly" &&
+   $(jq -r '.dataBoundary.userAccess' "$deployment_path") == "WithheldPendingSession10DlpConfirmation" ]] ||
+  fail "Session 06 permits synthetic-data setup only. Withhold user access until Session 10 confirms the DLP policy."
 [[ $(jq -r '.deployment.hostProducts | length' "$deployment_path") == "1" ]] ||
   fail "Configure exactly one approved host product for the scoped pilot."
 [[ -n $(jq -r '.deployment.hostProducts[0]' "$deployment_path") ]] ||

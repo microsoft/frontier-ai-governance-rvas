@@ -442,8 +442,8 @@ def resolve_repo_path(relative_path: str) -> str:
 bicep_path = resolve_repo_path(control['sourcePaths']['bicepEntrypoint'])
 apim_policy_path = resolve_repo_path(control['sourcePaths']['apimPolicy'])
 unit_script_path = resolve_repo_path(control['sourcePaths']['unitTestScript'])
-smoke_powershell_path = resolve_repo_path(control['sourcePaths']['session12SmokePowerShell'])
-smoke_bash_path = resolve_repo_path(control['sourcePaths']['session12SmokeBash'])
+smoke_powershell_path = resolve_repo_path(control['sourcePaths']['session13SmokePowerShell'])
+smoke_bash_path = resolve_repo_path(control['sourcePaths']['session13SmokeBash'])
 routing_script_path = resolve_repo_path(control['sourcePaths']['routingControlScript'])
 release_store_script_path = resolve_repo_path(control['sourcePaths']['releaseStoreScript'])
 
@@ -563,18 +563,18 @@ require_approval('nonproduction', control['githubEnvironments']['nonproduction']
 require_approval('production', control['githubEnvironments']['production']['requiredReviewerTeamSlug'])
 secret_response = command_json('gh', 'api', f'repos/{repository}/environments/nonproduction/secrets?per_page=100')
 nonproduction_secret_names = {item['name'] for item in secret_response.get('secrets', [])}
-for required_name in ('SESSION12_SMOKE_URL', 'SESSION12_SMOKE_FAILURE_URL', 'SESSION12_AI_RESOURCE_ID', 'SESSION12_LOG_ANALYTICS_WORKSPACE_ID'):
+for required_name in ('SESSION13_SMOKE_URL', 'SESSION13_SMOKE_FAILURE_URL', 'SESSION13_AI_RESOURCE_ID', 'SESSION13_LOG_ANALYTICS_WORKSPACE_ID'):
     if not str(variables['nonproduction'].get(required_name, '')).strip():
         raise SystemExit(f'nonproduction GitHub environment variable {required_name} is required for the Session 13 smoke.')
 try:
-    poll_timeout = int(str(variables['nonproduction'].get('SESSION12_SMOKE_TIMEOUT_SECONDS', '')).strip() or '180')
-    poll_retry = int(str(variables['nonproduction'].get('SESSION12_SMOKE_RETRY_SECONDS', '')).strip() or '15')
+    poll_timeout = int(str(variables['nonproduction'].get('SESSION13_SMOKE_TIMEOUT_SECONDS', '')).strip() or '180')
+    poll_retry = int(str(variables['nonproduction'].get('SESSION13_SMOKE_RETRY_SECONDS', '')).strip() or '15')
 except ValueError as error:
     raise SystemExit('Session 13 telemetry polling values must be integers.') from error
 if not 30 <= poll_timeout <= 600 or not 5 <= poll_retry <= 60 or poll_retry > poll_timeout:
     raise SystemExit('Session 13 telemetry polling must use timeout 30-600 seconds and retry 5-60 seconds.')
-if 'SESSION12_SMOKE_BEARER_TOKEN' not in nonproduction_secret_names:
-    raise SystemExit('nonproduction GitHub environment secret SESSION12_SMOKE_BEARER_TOKEN is required.')
+if 'SESSION13_SMOKE_BEARER_TOKEN' not in nonproduction_secret_names:
+    raise SystemExit('nonproduction GitHub environment secret SESSION13_SMOKE_BEARER_TOKEN is required.')
 production = environments['production']
 if production.get('can_admins_bypass') is not False:
     raise SystemExit('Production administrator bypass must be disabled.')

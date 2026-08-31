@@ -114,17 +114,17 @@ to identify the release.
 5. The promotion workflow uses the operational
    [Session 13](../../13-observability-cost-operations/implementation/README.md) smoke interface.
    Its JSON result must use `implementationSession:
-   12-observability-cost-operations`, target the same `commitSha`, have status `passed`, mark
+   13-observability-cost-operations`, target the same `commitSha`, have status `passed`, mark
    `syntheticRequest`, `endToEndTrace`, and `toolAndModelFailureSeparated` as `passed`, set
    `sensitiveInputPresent` and `payloadsRetained` to `false`, and include distinct lower-case W3C
    trace IDs for the normal and expected-failure requests. The root `correlationId` must equal the
    normal trace ID. The result must also show stable telemetry ingestion, no polling timeout, a
    bounded attempt count of at least three, a timeout from 30 to 600 seconds, and a retry interval
    from 5 to 60 seconds. The timeout must allow at least two retry intervals.
-   The protected `nonproduction` environment provides `SESSION12_SMOKE_URL`,
-   `SESSION12_SMOKE_FAILURE_URL`, `SESSION12_AI_RESOURCE_ID`,
-   `SESSION12_LOG_ANALYTICS_WORKSPACE_ID`. Store `SESSION12_SMOKE_BEARER_TOKEN` as an environment
-   secret. Optional `SESSION12_SMOKE_TIMEOUT_SECONDS` and `SESSION12_SMOKE_RETRY_SECONDS` variables
+   The protected `nonproduction` environment provides `SESSION13_SMOKE_URL`,
+   `SESSION13_SMOKE_FAILURE_URL`, `SESSION13_AI_RESOURCE_ID`,
+   `SESSION13_LOG_ANALYTICS_WORKSPACE_ID`. Store `SESSION13_SMOKE_BEARER_TOKEN` as an environment
+   secret. Optional `SESSION13_SMOKE_TIMEOUT_SECONDS` and `SESSION13_SMOKE_RETRY_SECONDS` variables
    override the 180-second and 15-second defaults. The Session 13 smoke scripts perform the polling; Session 14
    invokes it and requires `checks.telemetryPollTimedOut=false`,
    `checks.releaseCommitShaVerified=true`, and `checks.workspaceBindingVerified=true` in the

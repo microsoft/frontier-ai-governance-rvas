@@ -38,10 +38,10 @@ The series spans Microsoft Foundry, Foundry Agent Service, Foundry Control Plane
 Readers need an executive overview and enough technical detail to understand session dependencies, practical outcomes, session outputs, and the check that confirms each control.
 
 LLMOps runs through the series as a cross-session thread rather than a single numbered session.
-Session 04 covers model selection, deployment versions, quota, and retirement. Session 10 adds
-repeatable evaluation and release thresholds. Session 12 connects tracing, operational signals,
-cost, and incident response. Session 13 controls promotion and previous-release restore, and
-Session 14 extends ownership and operations across the agent fleet.
+Session 04 covers model selection, deployment versions, quota, and retirement. Session 11 adds
+repeatable evaluation and release thresholds. Session 13 connects tracing, operational signals,
+cost, and incident response. Session 14 controls promotion and previous-release restore, and
+Session 15 extends ownership and operations across the agent fleet.
 
 We use LLMOps here to mean operating models, prompts, agents, evaluations, telemetry, cost
 controls, and releases as one managed lifecycle. That's different from AIOps, which keeps its

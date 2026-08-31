@@ -14,7 +14,7 @@ description: Install one approved Agent Registry agent for a nonproduction group
 
 ## Session 06 · 180 minutes
 
-Install one nonproduction agent for one test group.
+Install one nonproduction agent for synthetic setup in one test group.
 
 <!-- Notes: Keep the session focused on availability and consent. The agent runtime stays in its native service. -->
 
@@ -23,7 +23,7 @@ Install one nonproduction agent for one test group.
 ## Control objective
 
 Install one approved Agent Registry agent for a named Microsoft Entra test group. Review and grant
-its approved permissions. Then confirm that the group can use it and an excluded user cannot.
+its approved permissions. Withhold meaningful user access until Session 10 confirms DLP coverage.
 
 ![Microsoft Agent 365](assets/icons/microsoft/agent-365.svg)
 
@@ -107,13 +107,13 @@ The pilot stays with an accountable test group until **the delivery owner approv
 
 ---
 
-## Check both paths
+## Hold user access until DLP is confirmed
 
 | Check | Expected result |
 | --- | --- |
-| Named group member | Finds and uses the agent in the approved host product |
-| User outside the test group | Cannot find or use the agent |
-| Delivery owner | Observes both results and the consent scope |
+| Test group | Uses synthetic setup data only |
+| Session 10 DLP policy | Is enabled and propagation is confirmed before meaningful use |
+| Delivery owner | Confirms the withheld-access boundary and consent scope |
 
 <!-- Notes: The excluded-user result matters. Do not add the excluded user to the group to make the test pass. -->
 

@@ -53,15 +53,15 @@ invoke_smoke_request() {
   local response_headers_path="$7"
 
   [[ "$bearer_token" != *$'\r'* && "$bearer_token" != *$'\n'* ]] \
-    || { echo "ERROR: SESSION12_SMOKE_BEARER_TOKEN cannot contain a line break." >&2; return 1; }
+    || { echo "ERROR: SESSION13_SMOKE_BEARER_TOKEN cannot contain a line break." >&2; return 1; }
   {
     printf 'header = "Authorization: Bearer %s"\n' "$bearer_token"
     printf 'header = "Content-Type: application/json"\n'
-    printf 'header = "x-session12-smoke-mode: %s"\n' "$smoke_mode"
+    printf 'header = "x-session13-smoke-mode: %s"\n' "$smoke_mode"
     printf 'header = "x-release-commit-sha: %s"\n' "$commit_sha_value"
     printf 'header = "traceparent: %s"\n' "$traceparent_value"
   } | (
-    unset SESSION12_SMOKE_BEARER_TOKEN
+    unset SESSION13_SMOKE_BEARER_TOKEN
     curl --config - \
       --silent \
       --show-error \
@@ -83,15 +83,15 @@ invoke_smoke_request() {
   local response_headers_path="$7"
 
   [[ "$bearer_token" != *$'\r'* && "$bearer_token" != *$'\n'* ]] \
-    || { echo "ERROR: SESSION12_SMOKE_BEARER_TOKEN cannot contain a line break." >&2; return 1; }
+    || { echo "ERROR: SESSION13_SMOKE_BEARER_TOKEN cannot contain a line break." >&2; return 1; }
   {
     printf 'header = "Authorization: Bearer %s"\n' "$bearer_token"
     printf 'header = "Content-Type: application/json"\n'
-    printf 'header = "x-session12-smoke-mode: %s"\n' "$smoke_mode"
+    printf 'header = "x-session13-smoke-mode: %s"\n' "$smoke_mode"
     printf 'header = "x-release-commit-sha: %s"\n' "$commit_sha_value"
     printf 'header = "traceparent: %s"\n' "$traceparent_value"
   } | (
-    unset SESSION12_SMOKE_BEARER_TOKEN
+    unset SESSION13_SMOKE_BEARER_TOKEN
     curl --config - \
       --silent \
       --show-error \
@@ -113,15 +113,15 @@ invoke_smoke_request() {
   local response_headers_path="$7"
 
   [[ "$bearer_token" != *$'\r'* && "$bearer_token" != *$'\n'* ]] \
-    || { echo "ERROR: SESSION12_SMOKE_BEARER_TOKEN cannot contain a line break." >&2; return 1; }
+    || { echo "ERROR: SESSION13_SMOKE_BEARER_TOKEN cannot contain a line break." >&2; return 1; }
   {
     printf 'header = "Authorization: %s %s"\n' "Bearer" "$bearer_token"
     printf 'header = "Content-Type: application/json"\n'
-    printf 'header = "x-session12-smoke-mode: %s"\n' "$smoke_mode"
+    printf 'header = "x-session13-smoke-mode: %s"\n' "$smoke_mode"
     printf 'header = "x-release-commit-sha: %s"\n' "$commit_sha_value"
     printf 'header = "traceparent: %s"\n' "$traceparent_value"
   } | (
-    unset SESSION12_SMOKE_BEARER_TOKEN
+    unset SESSION13_SMOKE_BEARER_TOKEN
     curl --config - \
       --silent \
       --show-error \
@@ -238,29 +238,29 @@ case "$result_directory/" in
   *) echo "ERROR: --result-path must be inside RUNNER_TEMP." >&2; exit 1 ;;
 esac
 
-[[ -n "${SESSION12_SMOKE_URL:-}" ]] || { echo "ERROR: required environment variable 'SESSION12_SMOKE_URL' is missing." >&2; exit 1; }
-[[ -n "${SESSION12_SMOKE_FAILURE_URL:-}" ]] || { echo "ERROR: required environment variable 'SESSION12_SMOKE_FAILURE_URL' is missing." >&2; exit 1; }
-[[ -n "${SESSION12_AI_RESOURCE_ID:-}" ]] || { echo "ERROR: required environment variable 'SESSION12_AI_RESOURCE_ID' is missing." >&2; exit 1; }
-[[ -n "${SESSION12_LOG_ANALYTICS_WORKSPACE_ID:-}" ]] || { echo "ERROR: required environment variable 'SESSION12_LOG_ANALYTICS_WORKSPACE_ID' is missing." >&2; exit 1; }
-[[ -n "${SESSION12_SMOKE_BEARER_TOKEN:-}" ]] || { echo "ERROR: required environment variable 'SESSION12_SMOKE_BEARER_TOKEN' is missing." >&2; exit 1; }
-poll_timeout_seconds="${SESSION12_SMOKE_TIMEOUT_SECONDS:-180}"
-poll_retry_seconds="${SESSION12_SMOKE_RETRY_SECONDS:-15}"
+[[ -n "${SESSION13_SMOKE_URL:-}" ]] || { echo "ERROR: required environment variable 'SESSION13_SMOKE_URL' is missing." >&2; exit 1; }
+[[ -n "${SESSION13_SMOKE_FAILURE_URL:-}" ]] || { echo "ERROR: required environment variable 'SESSION13_SMOKE_FAILURE_URL' is missing." >&2; exit 1; }
+[[ -n "${SESSION13_AI_RESOURCE_ID:-}" ]] || { echo "ERROR: required environment variable 'SESSION13_AI_RESOURCE_ID' is missing." >&2; exit 1; }
+[[ -n "${SESSION13_LOG_ANALYTICS_WORKSPACE_ID:-}" ]] || { echo "ERROR: required environment variable 'SESSION13_LOG_ANALYTICS_WORKSPACE_ID' is missing." >&2; exit 1; }
+[[ -n "${SESSION13_SMOKE_BEARER_TOKEN:-}" ]] || { echo "ERROR: required environment variable 'SESSION13_SMOKE_BEARER_TOKEN' is missing." >&2; exit 1; }
+poll_timeout_seconds="${SESSION13_SMOKE_TIMEOUT_SECONDS:-180}"
+poll_retry_seconds="${SESSION13_SMOKE_RETRY_SECONDS:-15}"
 [[ "$poll_timeout_seconds" =~ ^[0-9]+$ ]] && (( poll_timeout_seconds >= 30 && poll_timeout_seconds <= 600 )) \
-  || { echo "ERROR: SESSION12_SMOKE_TIMEOUT_SECONDS must be an integer from 30 through 600." >&2; exit 1; }
+  || { echo "ERROR: SESSION13_SMOKE_TIMEOUT_SECONDS must be an integer from 30 through 600." >&2; exit 1; }
 [[ "$poll_retry_seconds" =~ ^[0-9]+$ ]] && (( poll_retry_seconds >= 5 && poll_retry_seconds <= 60 )) \
-  || { echo "ERROR: SESSION12_SMOKE_RETRY_SECONDS must be an integer from 5 through 60." >&2; exit 1; }
+  || { echo "ERROR: SESSION13_SMOKE_RETRY_SECONDS must be an integer from 5 through 60." >&2; exit 1; }
 poll_timeout_seconds=$((10#$poll_timeout_seconds))
 poll_retry_seconds=$((10#$poll_retry_seconds))
 poll_timing_valid "$poll_timeout_seconds" "$poll_retry_seconds" \
-  || { echo "ERROR: SESSION12_SMOKE_TIMEOUT_SECONDS must be at least twice SESSION12_SMOKE_RETRY_SECONDS." >&2; exit 1; }
+  || { echo "ERROR: SESSION13_SMOKE_TIMEOUT_SECONDS must be at least twice SESSION13_SMOKE_RETRY_SECONDS." >&2; exit 1; }
 
-[[ "$SESSION12_AI_RESOURCE_ID" =~ ^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Microsoft\.Insights/components/[^/]+$ ]] \
-  || { echo "ERROR: SESSION12_AI_RESOURCE_ID must be a full Application Insights resource ID." >&2; exit 1; }
-[[ "$SESSION12_LOG_ANALYTICS_WORKSPACE_ID" =~ ^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Microsoft\.OperationalInsights/workspaces/[^/]+$ ]] \
-  || { echo "ERROR: SESSION12_LOG_ANALYTICS_WORKSPACE_ID must be a full Log Analytics workspace resource ID." >&2; exit 1; }
-[[ "$SESSION12_SMOKE_URL" == https://* && "$SESSION12_SMOKE_FAILURE_URL" == https://* ]] \
+[[ "$SESSION13_AI_RESOURCE_ID" =~ ^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Microsoft\.Insights/components/[^/]+$ ]] \
+  || { echo "ERROR: SESSION13_AI_RESOURCE_ID must be a full Application Insights resource ID." >&2; exit 1; }
+[[ "$SESSION13_LOG_ANALYTICS_WORKSPACE_ID" =~ ^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Microsoft\.OperationalInsights/workspaces/[^/]+$ ]] \
+  || { echo "ERROR: SESSION13_LOG_ANALYTICS_WORKSPACE_ID must be a full Log Analytics workspace resource ID." >&2; exit 1; }
+[[ "$SESSION13_SMOKE_URL" == https://* && "$SESSION13_SMOKE_FAILURE_URL" == https://* ]] \
   || { echo "ERROR: both smoke endpoints must use HTTPS." >&2; exit 1; }
-[[ "$SESSION12_SMOKE_URL" != "$SESSION12_SMOKE_FAILURE_URL" ]] \
+[[ "$SESSION13_SMOKE_URL" != "$SESSION13_SMOKE_FAILURE_URL" ]] \
   || { echo "ERROR: the synthetic failure endpoint must be separate from the normal smoke endpoint." >&2; exit 1; }
 for command in az curl jq python3; do
   command -v "$command" >/dev/null 2>&1 || { echo "ERROR: required command '$command' was not found." >&2; exit 1; }
@@ -269,23 +269,23 @@ done
 subscription_id="$(az account show --query id --output tsv)"
 [[ -n "$subscription_id" ]] || { echo "ERROR: Azure CLI is not authenticated." >&2; exit 1; }
 component_json="$(az resource show \
-  --ids "$SESSION12_AI_RESOURCE_ID" \
+  --ids "$SESSION13_AI_RESOURCE_ID" \
   --api-version 2020-02-02 \
   --output json)"
 component_type="$(jq -r '.type // empty' <<<"$component_json")"
 component_workspace_resource_id="$(jq -r '.properties.WorkspaceResourceId // .properties.workspaceResourceId // empty' <<<"$component_json")"
 [[ "${component_type,,}" == "microsoft.insights/components" ]] \
-  || { echo "ERROR: SESSION12_AI_RESOURCE_ID could not be resolved as an Application Insights component." >&2; exit 1; }
-workspace_binding_matches "$component_workspace_resource_id" "$SESSION12_LOG_ANALYTICS_WORKSPACE_ID" \
-  || { echo "ERROR: the Application Insights component WorkspaceResourceId does not match SESSION12_LOG_ANALYTICS_WORKSPACE_ID." >&2; exit 1; }
-normalized_workspace_resource_id="$(normalize_resource_id "$SESSION12_LOG_ANALYTICS_WORKSPACE_ID")"
+  || { echo "ERROR: SESSION13_AI_RESOURCE_ID could not be resolved as an Application Insights component." >&2; exit 1; }
+workspace_binding_matches "$component_workspace_resource_id" "$SESSION13_LOG_ANALYTICS_WORKSPACE_ID" \
+  || { echo "ERROR: the Application Insights component WorkspaceResourceId does not match SESSION13_LOG_ANALYTICS_WORKSPACE_ID." >&2; exit 1; }
+normalized_workspace_resource_id="$(normalize_resource_id "$SESSION13_LOG_ANALYTICS_WORKSPACE_ID")"
 normalized_commit_sha="${commit_sha,,}"
 
 normal_trace_id="$(python3 -c 'import secrets; print(secrets.token_hex(16))')"
 failure_trace_id="$(python3 -c 'import secrets; print(secrets.token_hex(16))')"
 normal_traceparent="00-${normal_trace_id}-0000000000000001-01"
 failure_traceparent="00-${failure_trace_id}-0000000000000002-01"
-synthetic_marker="session12-probe-$(python3 -c 'import secrets; print(secrets.token_hex(16))')"
+synthetic_marker="session13-probe-$(python3 -c 'import secrets; print(secrets.token_hex(16))')"
 normal_body="$(jq -nc --arg marker "$synthetic_marker" --arg commit "$normalized_commit_sha" '{requestType:"approved-read-only-policy-lookup",syntheticMarker:$marker,releaseCommitSha:$commit}')"
 failure_body="$(jq -nc --arg marker "$synthetic_marker" --arg commit "$normalized_commit_sha" '{requestType:"approved-read-only-nonexistent-policy-lookup",syntheticMarker:$marker,releaseCommitSha:$commit}')"
 
@@ -297,8 +297,8 @@ cleanup() {
 trap cleanup EXIT
 
 normal_status="$(invoke_smoke_request \
-  "$SESSION12_SMOKE_BEARER_TOKEN" \
-  "$SESSION12_SMOKE_URL" \
+  "$SESSION13_SMOKE_BEARER_TOKEN" \
+  "$SESSION13_SMOKE_URL" \
   "normal" \
   "$normal_traceparent" \
   "$normalized_commit_sha" \
@@ -307,8 +307,8 @@ normal_status="$(invoke_smoke_request \
 [[ "$normal_status" =~ ^2[0-9][0-9]$ ]] || { echo "ERROR: the normal synthetic request did not return a success status." >&2; exit 1; }
 
 failure_status="$(invoke_smoke_request \
-  "$SESSION12_SMOKE_BEARER_TOKEN" \
-  "$SESSION12_SMOKE_FAILURE_URL" \
+  "$SESSION13_SMOKE_BEARER_TOKEN" \
+  "$SESSION13_SMOKE_FAILURE_URL" \
   "expected-tool-failure" \
   "$failure_traceparent" \
   "$normalized_commit_sha" \
@@ -445,7 +445,7 @@ if [[ "$telemetry_poll_timed_out" == false && "$telemetry_ingestion_stable" == t
 fi
 
 jq -n \
-  --arg implementation_session "12-observability-cost-operations" \
+  --arg implementation_session "13-observability-cost-operations" \
   --arg mode "$mode" \
   --arg environment "$environment" \
   --arg commit_sha "$normalized_commit_sha" \
@@ -468,7 +468,7 @@ jq -n \
   '{
     schemaVersion: 1,
     implementationSession: $implementation_session,
-    recordType: "session12-smoke-result",
+    recordType: "session13-smoke-result",
     mode: $mode,
     environment: $environment,
     commitSha: (if $release_commit_sha_verified then $commit_sha else null end),

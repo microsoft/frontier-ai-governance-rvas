@@ -11,7 +11,7 @@ session:
     - "Identity, application security, and AI safety engineers"
     - "Release owners responsible for enabling agent tool access"
   prerequisites:
-    - "Complete Sessions 01-06 in the approved nonproduction scope."
+    - "Complete Sessions 02, 05, 07, and 08 in the approved nonproduction scope."
     - "Use an existing APIM-managed GET operation that reads a synthetic policy record without changing state."
     - "Give the Session 07 API Management instance a system-assigned identity."
     - "Configure an Application Insights logger on the Session 07 API Management instance with request and response body logging set to zero bytes."

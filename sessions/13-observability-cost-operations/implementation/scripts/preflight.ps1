@@ -139,7 +139,7 @@ Get-ChildItem -LiteralPath $artifactRoot -File -Recurse -Filter "*.json" | ForEa
 }
 
 $telemetry = Get-Content -LiteralPath $telemetryPath -Raw | ConvertFrom-Json
-if ([int]$telemetry.schemaVersion -ne 1 -or [string]$telemetry.implementationSession -cne "12") {
+if ([int]$telemetry.schemaVersion -ne 1 -or [string]$telemetry.implementationSession -cne "13-observability-cost-operations") {
     throw "Telemetry contract has a stale schema or implementation session marker."
 }
 if ([string]$telemetry.propagation.standard -ne "W3C Trace Context" -or

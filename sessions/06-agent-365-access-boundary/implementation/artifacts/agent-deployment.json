@@ -18,6 +18,10 @@
     "adminConsent": "Approved",
     "restoreAction": "Uninstall"
   },
+  "dataBoundary": {
+    "allowedData": "SyntheticOnly",
+    "userAccess": "WithheldPendingSession10DlpConfirmation"
+  },
   "validation": {
     "memberAlias": "__REQUIRED_TEST_GROUP_MEMBER_ALIAS__",
     "excludedUserAlias": "__REQUIRED_EXCLUDED_USER_ALIAS__",

@@ -6,8 +6,8 @@
 
 Install one approved nonproduction agent from Agent Registry for a named Microsoft Entra test group.
 The Microsoft 365 administrator reviews the requested permissions and grants consent for that
-installation. A group member then uses the agent in one approved host product. A user outside the
-group cannot find or use it.
+installation. Keep the deployment limited to synthetic setup and withhold meaningful user access
+until Session 10 confirms that the DLP policy is enabled and propagated.
 
 The installed agent, consent state, and deployment group remain in Microsoft 365. The repository
 keeps the configuration contract that the administrator uses for the scoped deployment.
@@ -136,30 +136,31 @@ review the requested permissions, grant the approved admin consent, and finish t
 Keep the deployment limited to the recorded group and host product. Stop if Microsoft 365 presents
 a broader audience, a different agent, or an unapproved permission.
 
-### 3. Confirm the intended-path check
+### 3. Confirm the intended-path setup boundary
 
-The named group member opens the recorded host product, finds the installed agent, and completes
-the approved use case. Confirm that the agent is available to the member and that the interaction
-uses the expected nonproduction agent.
+Use only synthetic setup data. Do not ask the test group to use the agent for a meaningful business
+case before Session 10 confirms that the DLP policy is enabled and propagated.
 
-### 4. Confirm the blocked-path check
+### 4. Confirm the blocked-path boundary
 
-The named user outside the test group opens the same host product. Confirm that the agent is not
-available to that user. Do not add the user to the group to work around the result.
+After Session 10 confirms the DLP policy, the named group member opens the recorded host product
+and completes the approved use case. The named user outside the test group confirms that the agent
+is unavailable. Do not add that user to the group to work around the result.
 
 ### 5. Delivery-owner checkpoint
 
-The delivery owner observes both checks with the Microsoft 365 administrator. **Keep the group
-deployment in place only when the member can use the agent, the excluded user cannot, and the
-consent matches the approved permission set.**
+The delivery owner observes the withheld-access boundary with the Microsoft 365 administrator.
+**Keep the group deployment in place only when it remains limited to synthetic setup, user access
+is withheld pending Session 10 DLP confirmation, and the consent matches the approved permission
+set.**
 
 ## Confirm the result
 
 Inspect the selected agent in Agent Registry and its Microsoft 365 deployment details.
 
 Expected result: the agent remains installed for the named test group in one approved host product,
-the group member can use it for the approved case, the excluded user cannot access it, and the
-administrator can uninstall the same scoped deployment.
+with synthetic setup permitted and meaningful user access withheld until Session 10 confirms DLP
+coverage. The administrator can uninstall the same scoped deployment.
 
 ## After implementation
 

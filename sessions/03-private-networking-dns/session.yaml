@@ -11,10 +11,10 @@ session:
     - "AI platform engineers"
     - "DNS, firewall, and security reviewers"
   prerequisites:
-    - "Sessions 01-02 are complete. Session 01 created the Foundry account with its approved network pattern and, for BYO VNet, the exact delegated Agent Service subnet."
-    - "The customer has approved nonoverlapping RFC 1918 address ranges for a dedicated spoke, Agent subnet, and private-endpoint subnet."
-    - "The approved network design and change record identify the customer-managed firewall private IP, DNS integration pattern, and execution host inside the approved private network."
-    - "The network deployment operator has the time-bound Network Contributor role on the exact nonproduction resource group where this session deploys the VNet, subnets, route table, and private endpoints."
+    - "Sessions 01 and 02 are complete. Session 01 created the Foundry account and is the declarative owner of the BYO VNet, route table, delegated Agent Service subnet, and private-endpoint subnet."
+    - "The approved Session 01 network foundation supplies the existing VNet and private-endpoint subnet resource IDs. Its delegated Agent Service subnet and firewall route remain unchanged in this session."
+    - "The approved network design and change record identify the DNS integration pattern and execution host inside the approved private network."
+    - "The network deployment operator has the time-bound Network Contributor role on the exact nonproduction resource group where this session deploys private endpoints."
     - "The DNS operator has the time-bound Private DNS Zone Contributor role on the resource group that contains the seven private DNS zones, or on each reused private DNS zone."
     - "The Entra object IDs for the network deployment operator and DNS operator, plus the exact DNS role-assignment scope, are available for preflight."
     - "The service owners recorded for Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault have each accepted responsibility for approving the private endpoint connection on their service through the existing service change process; this session assigns no service-approval role to the network deployment operator."
@@ -33,7 +33,7 @@ session:
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Prepare a landing-zone-aligned spoke with separate private-endpoint and dedicated Agent Service subnets."
+  - "Reference the Session 01-owned landing-zone VNet and private-endpoint subnet without redeploying their VNet, route, or subnet configuration."
   - "Deploy private DNS links and initial private endpoints for the Foundry account and the four customer-provided dependencies."
   - "Route the delegated Agent Service subnet through the customer-approved firewall. The customer firewall policy source retains its rules and review history."
   - "From the approved execution host, confirm that the in-use Foundry endpoint families and four dependency FQDNs resolve to private addresses and accept TCP 443. Record prior public-access states in the approved change system, then disable public network access."
@@ -50,10 +50,10 @@ deliverables:
 retained_files:
   - path: "implementation/artifacts/infra/network/main.bicep"
     consumer: "The network deployment pipeline"
-    operational_purpose: "Deploy and maintain the spoke, delegated and private-endpoint subnets, firewall route, private DNS, and private endpoints."
+    operational_purpose: "Deploy and maintain private DNS links and private endpoints that consume the Session 01-owned VNet and private-endpoint subnet."
   - path: "implementation/artifacts/environments/sandbox.bicepparam"
     consumer: "The network deployment pipeline"
-    operational_purpose: "Supply the approved address ranges, firewall next hop, service resource IDs, and sandbox expiry."
+    operational_purpose: "Supply the approved Session 01 network resource IDs, service resource IDs, and sandbox expiry."
   - path: "implementation/scripts/preflight.ps1"
     consumer: "The network deployment operator"
     operational_purpose: "Reject unresolved network decisions, unapproved Azure scope, or mismatched service resource identities and show the network deployment preview."

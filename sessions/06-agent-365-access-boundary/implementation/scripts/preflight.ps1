@@ -54,6 +54,10 @@ if ([string]$deployment.deployment.adminConsent -ne "Approved") {
 if ([string]$deployment.deployment.restoreAction -ne "Uninstall") {
     throw "The Session 06 restore action must be Uninstall."
 }
+if ([string]$deployment.dataBoundary.allowedData -ne "SyntheticOnly" -or
+    [string]$deployment.dataBoundary.userAccess -ne "WithheldPendingSession10DlpConfirmation") {
+    throw "Session 06 permits synthetic-data setup only. Withhold user access until Session 10 confirms the DLP policy."
+}
 if (@($deployment.deployment.hostProducts).Count -ne 1 -or
     [string]::IsNullOrWhiteSpace([string]$deployment.deployment.hostProducts[0])) {
     throw "Configure exactly one approved host product for the scoped pilot."

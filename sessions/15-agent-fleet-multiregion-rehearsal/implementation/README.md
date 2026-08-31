@@ -64,7 +64,7 @@ through the runbook.
 
 ## Before you start
 
-1. Complete Sessions 05-13. If your team built the controls outside this series, confirm the
+1. Complete Sessions 05, 07-14. If your team built the controls outside this series, confirm the
    required state in the table below before starting the rehearsal.
 2. Approve the primary and secondary regions for model availability, quota, residency, network
    dependencies, API Management capacity, and the agent's tool path.
@@ -88,14 +88,14 @@ before the rehearsal. Complete every row before moving traffic.
 | Existing control | What must already work | How the owner confirms it |
 |---|---|---|
 | 05 Agent baseline | Foundry project, immutable agent version, model alias, and Entra identity | Platform owner invokes the approved version. |
-| 06 Gateway | Versioned APIM policy and regional selectors | Gateway owner previews the approved selectors. |
-| 07 Inventory | Exact API, agent, and MCP identifiers with owners | Inventory owner locates each native identifier. |
-| 08 Tool security | Workload identity, allowed operations, and egress | Tool owner checks the allowed path and blocked unauthorized action. |
-| 09 Data governance | Classification, residency, Purview policy ID, and covered agent | Data owner finds the agent in the applicable policy. |
-| 10 Evaluation | Threshold policy, approved baseline, and passing candidate | Quality owner sees the release gate pass. |
-| 11 Threat defense | Payload-free comparison and Defender route | Security owner checks the prohibited action and Defender signal. |
-| 12 Observability | Telemetry definition, workbook, alerts, and smoke interface | Observability owner traces a safe request with separate failures. |
-| 13 Promotion | Protected environments, deployment metadata, and previous-release restore | Release owner sees the approval after what-if. |
+| 07 Gateway | Versioned APIM policy and regional selectors | Gateway owner previews the approved selectors. |
+| 08 Inventory | Exact API, agent, and MCP identifiers with owners | Inventory owner locates each native identifier. |
+| 09 Tool security | Workload identity, allowed operations, and egress | Tool owner checks the allowed path and blocked unauthorized action. |
+| 10 Data governance | Classification, residency, Purview policy ID, and covered agent | Data owner finds the agent in the applicable policy. |
+| 11 Evaluation | Threshold policy, approved baseline, and passing candidate | Quality owner sees the release gate pass. |
+| 12 Threat defense | Payload-free comparison and Defender route | Security owner checks the prohibited action and Defender signal. |
+| 13 Observability | Telemetry definition, workbook, alerts, and smoke interface | Observability owner traces a safe request with separate failures. |
+| 14 Promotion | Protected environments, deployment metadata, and previous-release restore | Release owner sees the approval after what-if. |
 
 ### Implementation files
 

@@ -478,10 +478,10 @@ $productionPreviewVariables = Get-EnvironmentVariableMap "production-preview"
 $productionVariables = Get-EnvironmentVariableMap "production"
 $nonproductionSecretNames = Get-EnvironmentSecretNames "nonproduction"
 foreach ($requiredName in @(
-    "SESSION12_SMOKE_URL",
-    "SESSION12_SMOKE_FAILURE_URL",
-    "SESSION12_AI_RESOURCE_ID",
-    "SESSION12_LOG_ANALYTICS_WORKSPACE_ID"
+    "SESSION13_SMOKE_URL",
+    "SESSION13_SMOKE_FAILURE_URL",
+    "SESSION13_AI_RESOURCE_ID",
+    "SESSION13_LOG_ANALYTICS_WORKSPACE_ID"
 )) {
     if (-not $nonproductionVariables.ContainsKey($requiredName) -or
         [string]::IsNullOrWhiteSpace([string]$nonproductionVariables[$requiredName])) {
@@ -490,8 +490,8 @@ foreach ($requiredName in @(
 }
 $pollTimeout = 180
 $pollRetry = 15
-$pollTimeoutValue = [string]$nonproductionVariables["SESSION12_SMOKE_TIMEOUT_SECONDS"]
-$pollRetryValue = [string]$nonproductionVariables["SESSION12_SMOKE_RETRY_SECONDS"]
+$pollTimeoutValue = [string]$nonproductionVariables["SESSION13_SMOKE_TIMEOUT_SECONDS"]
+$pollRetryValue = [string]$nonproductionVariables["SESSION13_SMOKE_RETRY_SECONDS"]
 if ((-not [string]::IsNullOrWhiteSpace($pollTimeoutValue) -and
         -not [int]::TryParse($pollTimeoutValue, [ref]$pollTimeout)) -or
     (-not [string]::IsNullOrWhiteSpace($pollRetryValue) -and
@@ -501,8 +501,8 @@ if ((-not [string]::IsNullOrWhiteSpace($pollTimeoutValue) -and
     $pollRetry -gt $pollTimeout) {
     throw "Session 13 telemetry polling must use timeout 30-600 seconds and retry 5-60 seconds."
 }
-if (@($nonproductionSecretNames) -cnotcontains "SESSION12_SMOKE_BEARER_TOKEN") {
-    throw "nonproduction GitHub environment secret SESSION12_SMOKE_BEARER_TOKEN is required."
+if (@($nonproductionSecretNames) -cnotcontains "SESSION13_SMOKE_BEARER_TOKEN") {
+    throw "nonproduction GitHub environment secret SESSION13_SMOKE_BEARER_TOKEN is required."
 }
 foreach ($pair in @(
     @($nonproductionPreviewVariables, $nonproductionScope, "nonproduction-preview"),

@@ -90,7 +90,7 @@ failure path. The budget Bicep files deploy the separate billing notification.
 
 Confirm the following:
 
-- Complete Sessions 01-11. If the earlier controls were implemented outside this series, confirm
+- Complete Sessions 05, 07, and 09-12. If the earlier controls were implemented outside this series, confirm
   the required state in the table below.
 - The [Session 05](../../05-governed-agent-baseline/implementation/README.md) policy assistant and
   [Session 07](../../07-apim-ai-gateway/implementation/README.md) APIM route can process an approved synthetic,
@@ -333,14 +333,14 @@ curl configuration through standard input, with the token removed from curl's en
 script prints the token, places it on a process command line, or writes it to disk.
 
 ```powershell
-$env:SESSION12_SMOKE_URL = $env:APPROVED_SYNTHETIC_SMOKE_URL
-$env:SESSION12_SMOKE_FAILURE_URL = $env:APPROVED_SYNTHETIC_FAILURE_URL
-$env:SESSION12_AI_RESOURCE_ID = $env:APPROVED_APPLICATION_INSIGHTS_RESOURCE_ID
-$env:SESSION12_LOG_ANALYTICS_WORKSPACE_ID = $env:APPROVED_LOG_ANALYTICS_WORKSPACE_ID
-$env:SESSION12_SMOKE_BEARER_TOKEN = $env:APPROVED_SYNTHETIC_SMOKE_TOKEN
-$env:SESSION12_SMOKE_TIMEOUT_SECONDS = "180"
-$env:SESSION12_SMOKE_RETRY_SECONDS = "15"
-$resultPath = Join-Path $env:RUNNER_TEMP "session12-smoke.json"
+$env:SESSION13_SMOKE_URL = $env:APPROVED_SYNTHETIC_SMOKE_URL
+$env:SESSION13_SMOKE_FAILURE_URL = $env:APPROVED_SYNTHETIC_FAILURE_URL
+$env:SESSION13_AI_RESOURCE_ID = $env:APPROVED_APPLICATION_INSIGHTS_RESOURCE_ID
+$env:SESSION13_LOG_ANALYTICS_WORKSPACE_ID = $env:APPROVED_LOG_ANALYTICS_WORKSPACE_ID
+$env:SESSION13_SMOKE_BEARER_TOKEN = $env:APPROVED_SYNTHETIC_SMOKE_TOKEN
+$env:SESSION13_SMOKE_TIMEOUT_SECONDS = "180"
+$env:SESSION13_SMOKE_RETRY_SECONDS = "15"
+$resultPath = Join-Path $env:RUNNER_TEMP "session13-smoke.json"
 
 .\scripts\smoke.ps1 `
   -Mode Pipeline `
@@ -349,14 +349,14 @@ $resultPath = Join-Path $env:RUNNER_TEMP "session12-smoke.json"
   -ResultPath $resultPath
 ```
 ```bash
-export SESSION12_SMOKE_URL="${APPROVED_SYNTHETIC_SMOKE_URL}"
-export SESSION12_SMOKE_FAILURE_URL="${APPROVED_SYNTHETIC_FAILURE_URL}"
-export SESSION12_AI_RESOURCE_ID="${APPROVED_APPLICATION_INSIGHTS_RESOURCE_ID}"
-export SESSION12_LOG_ANALYTICS_WORKSPACE_ID="${APPROVED_LOG_ANALYTICS_WORKSPACE_ID}"
-export SESSION12_SMOKE_BEARER_TOKEN="${APPROVED_SYNTHETIC_SMOKE_TOKEN}"
-export SESSION12_SMOKE_TIMEOUT_SECONDS="180"
-export SESSION12_SMOKE_RETRY_SECONDS="15"
-result_path="${RUNNER_TEMP}/session12-smoke.json"
+export SESSION13_SMOKE_URL="${APPROVED_SYNTHETIC_SMOKE_URL}"
+export SESSION13_SMOKE_FAILURE_URL="${APPROVED_SYNTHETIC_FAILURE_URL}"
+export SESSION13_AI_RESOURCE_ID="${APPROVED_APPLICATION_INSIGHTS_RESOURCE_ID}"
+export SESSION13_LOG_ANALYTICS_WORKSPACE_ID="${APPROVED_LOG_ANALYTICS_WORKSPACE_ID}"
+export SESSION13_SMOKE_BEARER_TOKEN="${APPROVED_SYNTHETIC_SMOKE_TOKEN}"
+export SESSION13_SMOKE_TIMEOUT_SECONDS="180"
+export SESSION13_SMOKE_RETRY_SECONDS="15"
+result_path="${RUNNER_TEMP}/session13-smoke.json"
 
 ./scripts/smoke.sh \
   --mode pipeline \
@@ -365,9 +365,9 @@ result_path="${RUNNER_TEMP}/session12-smoke.json"
   --result-path "$result_path"
 ```
 
-Before either request, the scripts resolve `SESSION12_AI_RESOURCE_ID` through Azure CLI. Its live
+Before either request, the scripts resolve `SESSION13_AI_RESOURCE_ID` through Azure CLI. Its live
 `WorkspaceResourceId`, compared without case sensitivity, must equal
-`SESSION12_LOG_ANALYTICS_WORKSPACE_ID`. The query is sent only to that workspace.
+`SESSION13_LOG_ANALYTICS_WORKSPACE_ID`. The query is sent only to that workspace.
 
 The normal endpoint accepts an approved read-only body. The separate failure endpoint handles a
 lookup for a nonexistent synthetic policy. Its tool dependency must fail while the model records an
@@ -464,7 +464,7 @@ paths:
    authentication, safety, routing, and quota controls;
 3. disable only the Session 13 alert rules while correcting a noisy query or threshold;
 4. remove only resources listed in the approved Session 13 what-if and tagged
-   `implementationSession=12`;
+   `implementationSession=13-observability-cost-operations`;
 5. delete the exact Session 13 budget only after the cost owner confirms no other workflow depends
    on it; and
 6. keep the data needed for an active incident or retention obligation.

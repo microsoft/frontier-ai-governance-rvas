@@ -121,7 +121,7 @@ for path in root.rglob("*.json"):
     json.loads(path.read_text())
 
 telemetry = json.loads((root / "telemetry" / "telemetry-contract.json").read_text())
-if telemetry.get("schemaVersion") != 1 or telemetry.get("implementationSession") != "12":
+if telemetry.get("schemaVersion") != 1 or telemetry.get("implementationSession") != "13-observability-cost-operations":
     raise SystemExit("Telemetry contract has a stale schema or implementation session marker.")
 if telemetry.get("propagation", {}).get("standard") != "W3C Trace Context" or telemetry["propagation"].get("correlationIdMayContainUserData"):
     raise SystemExit("Telemetry must use W3C Trace Context and reject user data in correlation IDs.")

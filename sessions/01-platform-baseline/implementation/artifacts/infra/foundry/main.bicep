@@ -21,7 +21,7 @@ param location string = resourceGroup().location
 ])
 param networkPattern string
 
-@description('Public access stays enabled until Session 03 validates the private client path and performs cutover.')
+@description('Canonical desired public-access state. Session 03 records its private-network cutover before later Session 01 reconciliations.')
 param publicNetworkAccess string = 'Enabled'
 
 @description('Resource ID of the dedicated Microsoft.App/environments delegated subnet. Required for byo-vnet.')

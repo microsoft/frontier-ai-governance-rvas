@@ -376,10 +376,10 @@ function Assert-SmokeResult {
     param([Parameter(Mandatory)][string]$Path)
 
     $smoke = Read-JsonObject $Path
-    Assert-ImplementationMarker $smoke "Session 13 smoke result" "12-observability-cost-operations"
+    Assert-ImplementationMarker $smoke "Session 13 smoke result" "13-observability-cost-operations"
     if ($smoke.schemaVersion -isnot [long] -or
         $smoke.schemaVersion -ne 1 -or
-        [string]$smoke.recordType -cne "session12-smoke-result" -or
+        [string]$smoke.recordType -cne "session13-smoke-result" -or
         [string]$smoke.mode -cne "pipeline" -or
         [string]$smoke.environment -cne "nonproduction" -or
         [string]$smoke.status -cne "passed" -or
@@ -557,13 +557,13 @@ $requiredWorkflowFragments = @(
     'RetrieveSecurityReleaseAttestation',
     '-SecurityReleaseAttestationPath',
     "Apply evaluation and adversarial gates before deployment",
-    'SESSION12_SMOKE_URL: ${{ vars.SESSION12_SMOKE_URL }}',
-    'SESSION12_SMOKE_FAILURE_URL: ${{ vars.SESSION12_SMOKE_FAILURE_URL }}',
-    'SESSION12_AI_RESOURCE_ID: ${{ vars.SESSION12_AI_RESOURCE_ID }}',
-    'SESSION12_LOG_ANALYTICS_WORKSPACE_ID: ${{ vars.SESSION12_LOG_ANALYTICS_WORKSPACE_ID }}',
-    'SESSION12_SMOKE_TIMEOUT_SECONDS: ${{ vars.SESSION12_SMOKE_TIMEOUT_SECONDS }}',
-    'SESSION12_SMOKE_RETRY_SECONDS: ${{ vars.SESSION12_SMOKE_RETRY_SECONDS }}',
-    'SESSION12_SMOKE_BEARER_TOKEN: ${{ secrets.SESSION12_SMOKE_BEARER_TOKEN }}',
+    'SESSION13_SMOKE_URL: ${{ vars.SESSION13_SMOKE_URL }}',
+    'SESSION13_SMOKE_FAILURE_URL: ${{ vars.SESSION13_SMOKE_FAILURE_URL }}',
+    'SESSION13_AI_RESOURCE_ID: ${{ vars.SESSION13_AI_RESOURCE_ID }}',
+    'SESSION13_LOG_ANALYTICS_WORKSPACE_ID: ${{ vars.SESSION13_LOG_ANALYTICS_WORKSPACE_ID }}',
+    'SESSION13_SMOKE_TIMEOUT_SECONDS: ${{ vars.SESSION13_SMOKE_TIMEOUT_SECONDS }}',
+    'SESSION13_SMOKE_RETRY_SECONDS: ${{ vars.SESSION13_SMOKE_RETRY_SECONDS }}',
+    'SESSION13_SMOKE_BEARER_TOKEN: ${{ secrets.SESSION13_SMOKE_BEARER_TOKEN }}',
     "Deploy after environment approval",
     "Stop and dispatch the manual restore workflow"
 )
@@ -723,8 +723,8 @@ foreach ($entry in @(
     @($control.sourcePaths.bicepEntrypoint, "Bicep entrypoint", @(".bicep")),
     @($control.sourcePaths.apimPolicy, "APIM policy", @(".xml")),
     @($control.sourcePaths.unitTestScript, "unit-test script", @(".ps1")),
-    @($control.sourcePaths.session12SmokePowerShell, "Session 13 PowerShell smoke script", @(".ps1")),
-    @($control.sourcePaths.session12SmokeBash, "Session 13 Bash smoke script", @(".sh")),
+    @($control.sourcePaths.session13SmokePowerShell, "Session 13 PowerShell smoke script", @(".ps1")),
+    @($control.sourcePaths.session13SmokeBash, "Session 13 Bash smoke script", @(".sh")),
     @($control.sourcePaths.routingControlScript, "routing-control script", @(".ps1")),
     @($control.sourcePaths.releaseStoreScript, "approved release-store script", @(".ps1"))
 )) {

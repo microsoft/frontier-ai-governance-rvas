@@ -30,7 +30,7 @@ param toolFailureThreshold string
 @description('Failed AI quality or safety evaluation count that opens the quality alert.')
 param qualityFailureThreshold string
 
-var implementationSession = '12'
+var implementationSession = '13-observability-cost-operations'
 var commonTags = {
   implementationSession: implementationSession
   service: serviceName
@@ -38,7 +38,7 @@ var commonTags = {
 }
 
 resource workbook 'Microsoft.Insights/workbooks@2023-06-01' = {
-  name: guid(resourceGroup().id, 'rvas-12-operations-workbook')
+  name: guid(resourceGroup().id, 'rvas-13-operations-workbook')
   location: location
   kind: 'shared'
   tags: commonTags

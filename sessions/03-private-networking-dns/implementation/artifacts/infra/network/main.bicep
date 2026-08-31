@@ -1,22 +1,13 @@
 targetScope = 'resourceGroup'
 
-@description('Azure region shared by the spoke virtual network and Foundry resource.')
+@description('Azure region for the Session 03 private endpoints and private DNS resources.')
 param location string = resourceGroup().location
 
-@description('Dedicated Session 03 spoke virtual network name.')
-param virtualNetworkName string
+@description('Resource ID of the Session 01-owned virtual network that private DNS zones link to.')
+param virtualNetworkResourceId string
 
-@description('Nonoverlapping RFC 1918 address space for the spoke.')
-param virtualNetworkAddressPrefix string
-
-@description('Dedicated /27-or-larger subnet for Foundry Agent Service network injection.')
-param agentSubnetPrefix string
-
-@description('Dedicated subnet for private endpoints.')
-param privateEndpointSubnetPrefix string
-
-@description('Private IP of the customer-approved firewall next hop.')
-param firewallPrivateIp string
+@description('Resource ID of the Session 01-owned private-endpoint subnet.')
+param privateEndpointSubnetResourceId string
 
 @description('Existing Microsoft Foundry resource ID.')
 param foundryResourceId string
@@ -42,8 +33,6 @@ var tags = {
   implementationSession: implementationSession
   expiryDate: expiryDate
 }
-var agentSubnetName = 'snet-foundry-agent'
-var privateEndpointSubnetName = 'snet-private-endpoints'
 var dnsZoneNames = [
   'privatelink.cognitiveservices.azure.com'
   'privatelink.openai.azure.com'
@@ -98,65 +87,6 @@ var endpointSpecs = [
   }
 ]
 
-resource routeTable 'Microsoft.Network/routeTables@2024-05-01' = {
-  name: 'rt-${virtualNetworkName}-controlled-egress'
-  location: location
-  tags: tags
-  properties: {
-    disableBgpRoutePropagation: false
-    routes: [
-      {
-        name: 'default-via-customer-firewall'
-        properties: {
-          addressPrefix: '0.0.0.0/0'
-          nextHopType: 'VirtualAppliance'
-          nextHopIpAddress: firewallPrivateIp
-        }
-      }
-    ]
-  }
-}
-
-resource virtualNetwork 'Microsoft.Network/virtualNetworks@2024-05-01' = {
-  name: virtualNetworkName
-  location: location
-  tags: tags
-  properties: {
-    addressSpace: {
-      addressPrefixes: [
-        virtualNetworkAddressPrefix
-      ]
-    }
-    subnets: [
-      {
-        name: agentSubnetName
-        properties: {
-          addressPrefix: agentSubnetPrefix
-          routeTable: {
-            id: routeTable.id
-          }
-          delegations: [
-            {
-              name: 'foundry-agent-service'
-              properties: {
-                serviceName: 'Microsoft.App/environments'
-              }
-            }
-          ]
-          privateEndpointNetworkPolicies: 'Enabled'
-        }
-      }
-      {
-        name: privateEndpointSubnetName
-        properties: {
-          addressPrefix: privateEndpointSubnetPrefix
-          privateEndpointNetworkPolicies: 'Disabled'
-        }
-      }
-    ]
-  }
-}
-
 resource privateDnsZones 'Microsoft.Network/privateDnsZones@2024-06-01' = [for zoneName in dnsZoneNames: {
   name: zoneName
   location: 'global'
@@ -165,13 +95,13 @@ resource privateDnsZones 'Microsoft.Network/privateDnsZones@2024-06-01' = [for z
 
 resource privateDnsZoneLinks 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2024-06-01' = [for (zoneName, index) in dnsZoneNames: {
   parent: privateDnsZones[index]
-  name: 'link-${virtualNetworkName}'
+  name: 'link-session01-vnet'
   location: 'global'
   tags: tags
   properties: {
     registrationEnabled: false
     virtualNetwork: {
-      id: virtualNetwork.id
+      id: virtualNetworkResourceId
     }
   }
 }]
@@ -182,7 +112,7 @@ resource privateEndpoints 'Microsoft.Network/privateEndpoints@2024-05-01' = [for
   tags: tags
   properties: {
     subnet: {
-      id: resourceId('Microsoft.Network/virtualNetworks/subnets', virtualNetwork.name, privateEndpointSubnetName)
+      id: privateEndpointSubnetResourceId
     }
     privateLinkServiceConnections: [
       {
@@ -215,8 +145,7 @@ resource privateEndpointDnsZoneGroups 'Microsoft.Network/privateEndpoints/privat
 }]
 
 output implementationSession string = implementationSession
-output virtualNetworkName string = virtualNetwork.name
-output agentSubnetName string = agentSubnetName
-output privateEndpointSubnetName string = privateEndpointSubnetName
+output virtualNetworkResourceId string = virtualNetworkResourceId
+output privateEndpointSubnetResourceId string = privateEndpointSubnetResourceId
 output privateEndpointAliases array = [for endpoint in endpointSpecs: endpoint.name]
 output privateDnsZoneNames array = dnsZoneNames

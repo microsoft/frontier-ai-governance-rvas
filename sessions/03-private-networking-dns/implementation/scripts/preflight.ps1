@@ -41,18 +41,15 @@ $requiredProviders = @(
     "Microsoft.Storage"
 )
 $requiredSentinels = @(
-    "__REQUIRED_AGENT_SUBNET_CIDR__"
     "__REQUIRED_COSMOS_RESOURCE_ID__"
     "__REQUIRED_EXPIRY_DATE__"
-    "__REQUIRED_FIREWALL_PRIVATE_IP__"
     "__REQUIRED_FOUNDRY_RESOURCE_ID__"
     "__REQUIRED_KEY_VAULT_RESOURCE_ID__"
     "__REQUIRED_LOCATION__"
-    "__REQUIRED_PRIVATE_ENDPOINT_SUBNET_CIDR__"
     "__REQUIRED_SEARCH_RESOURCE_ID__"
+    "__REQUIRED_SESSION01_PRIVATE_ENDPOINT_SUBNET_RESOURCE_ID__"
+    "__REQUIRED_SESSION01_VNET_RESOURCE_ID__"
     "__REQUIRED_STORAGE_RESOURCE_ID__"
-    "__REQUIRED_VNET_CIDR__"
-    "__REQUIRED_VNET_NAME__"
 )
 
 function Invoke-AzJson {
@@ -179,6 +176,31 @@ $expectedServiceResources = [ordered]@{
     }
 }
 $parameterText = Get-Content -LiteralPath $parameterPath -Raw
+$networkResourceIds = [ordered]@{
+    virtualNetworkResourceId = "Microsoft.Network/virtualNetworks"
+    privateEndpointSubnetResourceId = "Microsoft.Network/virtualNetworks/subnets"
+}
+foreach ($parameterName in $networkResourceIds.Keys) {
+    $matches = [regex]::Matches(
+        $parameterText,
+        "(?m)^\s*param\s+$([regex]::Escape($parameterName))\s*=\s*'([^']+)'\s*$"
+    )
+    if ($matches.Count -ne 1) {
+        throw "Parameter '$parameterName' must contain exactly one quoted Session 01 resource ID."
+    }
+    $resourceId = $matches[0].Groups[1].Value.Trim().TrimEnd("/")
+    $resource = Invoke-AzJson `
+        -Arguments @("resource", "show", "--ids", $resourceId, "--query", "{id:id,type:type,tags:tags}") `
+        -Description "Session 01 network resource lookup for '$parameterName'"
+    if (
+        [string]$resource.id -ine $resourceId -or
+        [string]$resource.type -ine $networkResourceIds[$parameterName] -or
+        ($parameterName -eq "virtualNetworkResourceId" -and
+            [string]$resource.tags.implementationSession -ne "01-platform-baseline")
+    ) {
+        throw "Parameter '$parameterName' must identify the Session 01-owned $($networkResourceIds[$parameterName])."
+    }
+}
 $inputResourceIds = [System.Collections.Generic.HashSet[string]]::new(
     [System.StringComparer]::OrdinalIgnoreCase
 )

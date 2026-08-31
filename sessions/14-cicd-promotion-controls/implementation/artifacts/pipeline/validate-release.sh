@@ -315,8 +315,8 @@ smoke = json.loads(Path(sys.argv[1]).read_text())
 release_sha = sys.argv[2]
 if (
     smoke.get('schemaVersion') != 1
-    or smoke.get('implementationSession') != '12-observability-cost-operations'
-    or smoke.get('recordType') != 'session12-smoke-result'
+    or smoke.get('implementationSession') != '13-observability-cost-operations'
+    or smoke.get('recordType') != 'session13-smoke-result'
     or smoke.get('mode') != 'pipeline'
     or smoke.get('environment') != 'nonproduction'
     or smoke.get('status') != 'passed'
@@ -705,13 +705,13 @@ required_fragments = (
     '-Mode RetrieveSecurityReleaseAttestation',
     '-SecurityReleaseAttestationPath',
     'Apply evaluation and adversarial gates before deployment',
-    'SESSION12_SMOKE_URL: ${{ vars.SESSION12_SMOKE_URL }}',
-    'SESSION12_SMOKE_FAILURE_URL: ${{ vars.SESSION12_SMOKE_FAILURE_URL }}',
-    'SESSION12_AI_RESOURCE_ID: ${{ vars.SESSION12_AI_RESOURCE_ID }}',
-    'SESSION12_LOG_ANALYTICS_WORKSPACE_ID: ${{ vars.SESSION12_LOG_ANALYTICS_WORKSPACE_ID }}',
-    'SESSION12_SMOKE_TIMEOUT_SECONDS: ${{ vars.SESSION12_SMOKE_TIMEOUT_SECONDS }}',
-    'SESSION12_SMOKE_RETRY_SECONDS: ${{ vars.SESSION12_SMOKE_RETRY_SECONDS }}',
-    'SESSION12_SMOKE_BEARER_TOKEN: ${{ secrets.SESSION12_SMOKE_BEARER_TOKEN }}',
+    'SESSION13_SMOKE_URL: ${{ vars.SESSION13_SMOKE_URL }}',
+    'SESSION13_SMOKE_FAILURE_URL: ${{ vars.SESSION13_SMOKE_FAILURE_URL }}',
+    'SESSION13_AI_RESOURCE_ID: ${{ vars.SESSION13_AI_RESOURCE_ID }}',
+    'SESSION13_LOG_ANALYTICS_WORKSPACE_ID: ${{ vars.SESSION13_LOG_ANALYTICS_WORKSPACE_ID }}',
+    'SESSION13_SMOKE_TIMEOUT_SECONDS: ${{ vars.SESSION13_SMOKE_TIMEOUT_SECONDS }}',
+    'SESSION13_SMOKE_RETRY_SECONDS: ${{ vars.SESSION13_SMOKE_RETRY_SECONDS }}',
+    'SESSION13_SMOKE_BEARER_TOKEN: ${{ secrets.SESSION13_SMOKE_BEARER_TOKEN }}',
     'Deploy after environment approval',
     'Stop and dispatch the manual restore workflow',
 )
@@ -831,8 +831,8 @@ resolved = {
     'bicepEntrypointPath': str(resolve_repo_path(paths['bicepEntrypoint'], 'Bicep entrypoint', ('.bicep',))),
     'apimPolicyPath': str(resolve_repo_path(paths['apimPolicy'], 'APIM policy', ('.xml',))),
     'unitTestScriptPath': str(resolve_repo_path(paths['unitTestScript'], 'unit-test script', ('.ps1',))),
-    'session12SmokePowerShellPath': str(resolve_repo_path(paths['session12SmokePowerShell'], 'Session 13 PowerShell smoke script', ('.ps1',))),
-    'session12SmokeBashPath': str(resolve_repo_path(paths['session12SmokeBash'], 'Session 13 Bash smoke script', ('.sh',))),
+    'session13SmokePowerShellPath': str(resolve_repo_path(paths['session13SmokePowerShell'], 'Session 13 PowerShell smoke script', ('.ps1',))),
+    'session13SmokeBashPath': str(resolve_repo_path(paths['session13SmokeBash'], 'Session 13 Bash smoke script', ('.sh',))),
     'routingControlScriptPath': str(resolve_repo_path(paths['routingControlScript'], 'routing-control script', ('.ps1',))),
     'releaseStoreScriptPath': str(resolve_repo_path(paths['releaseStoreScript'], 'approved release-store script', ('.ps1',))),
 }

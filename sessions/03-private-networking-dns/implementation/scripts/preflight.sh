@@ -140,18 +140,15 @@ for relative in "${required_files[@]}"; do
 done
 
 scan_unresolved_sentinels "$artifact_root" \
-  '__REQUIRED_AGENT_SUBNET_CIDR__' \
   '__REQUIRED_COSMOS_RESOURCE_ID__' \
   '__REQUIRED_EXPIRY_DATE__' \
-  '__REQUIRED_FIREWALL_PRIVATE_IP__' \
   '__REQUIRED_FOUNDRY_RESOURCE_ID__' \
   '__REQUIRED_KEY_VAULT_RESOURCE_ID__' \
   '__REQUIRED_LOCATION__' \
-  '__REQUIRED_PRIVATE_ENDPOINT_SUBNET_CIDR__' \
   '__REQUIRED_SEARCH_RESOURCE_ID__' \
-  '__REQUIRED_STORAGE_RESOURCE_ID__' \
-  '__REQUIRED_VNET_CIDR__' \
-  '__REQUIRED_VNET_NAME__'
+  '__REQUIRED_SESSION01_PRIVATE_ENDPOINT_SUBNET_RESOURCE_ID__' \
+  '__REQUIRED_SESSION01_VNET_RESOURCE_ID__' \
+  '__REQUIRED_STORAGE_RESOURCE_ID__'
 
 account_json="$(run_capture az account show --only-show-errors --output json)" || die 'Azure account lookup failed.'
 current_subscription_id="$(PYTHON_JSON_INPUT="$account_json" python3 - <<'PY'
@@ -177,6 +174,52 @@ import os
 print(json.loads(os.environ['PYTHON_JSON_INPUT']).get('id', ''))
 PY
 )"
+
+network_resource_lines="$(python3 - "$artifact_root/environments/sandbox.bicepparam" <<'PY'
+from pathlib import Path
+import re
+import sys
+
+text = Path(sys.argv[1]).read_text(encoding="utf-8")
+for parameter_name, expected_type in (
+    ("virtualNetworkResourceId", "Microsoft.Network/virtualNetworks"),
+    ("privateEndpointSubnetResourceId", "Microsoft.Network/virtualNetworks/subnets"),
+):
+    matches = re.findall(
+        rf"^\s*param\s+{re.escape(parameter_name)}\s*=\s*'([^']+)'\s*$",
+        text,
+        flags=re.MULTILINE,
+    )
+    if len(matches) != 1:
+        raise SystemExit(
+            f"Parameter '{parameter_name}' must contain exactly one quoted Session 01 resource ID."
+        )
+    print(f"{parameter_name}\t{matches[0].strip().rstrip('/')}\t{expected_type}")
+PY
+)" || die 'Session 01 network resource ID validation failed.'
+while IFS=$'\t' read -r parameter_name resource_id expected_type; do
+  resource_json="$(run_capture az resource show --ids "$resource_id" --query '{id:id,type:type,tags:tags}' --only-show-errors --output json)" ||
+    die "Session 01 network resource lookup failed for '$parameter_name'."
+  PYTHON_JSON_INPUT="$resource_json" python3 - "$parameter_name" "$resource_id" "$expected_type" <<'PY'
+import json
+import os
+import sys
+
+parameter_name, expected_id, expected_type = sys.argv[1:]
+resource = json.loads(os.environ["PYTHON_JSON_INPUT"])
+if (
+    str(resource.get("id", "")).rstrip("/").casefold() != expected_id.casefold()
+    or str(resource.get("type", "")).casefold() != expected_type.casefold()
+    or (
+        parameter_name == "virtualNetworkResourceId"
+        and str((resource.get("tags") or {}).get("implementationSession") or "") != "01-platform-baseline"
+    )
+):
+    raise SystemExit(
+        f"Parameter '{parameter_name}' must identify the Session 01-owned {expected_type}."
+    )
+PY
+done <<<"$network_resource_lines"
 
 check_exact_role() {
   local principal_id="$1"

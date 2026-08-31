@@ -11,7 +11,7 @@ session:
     - "API product, risk, and data owners"
     - "Developers responsible for agent and MCP discovery"
   prerequisites:
-    - "Complete Sessions 01-05 in the approved nonproduction scope."
+    - "Complete Sessions 02, 05, and 07 in the approved nonproduction scope."
     - "Make the Session 05 agent endpoint and Session 07 API Management API available."
     - "Choose one approved remote read-only MCP server to register in the inventory."
     - "Approve an Azure region that currently supports API Center."

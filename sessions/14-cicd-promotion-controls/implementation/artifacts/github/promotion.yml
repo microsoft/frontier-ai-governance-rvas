@@ -299,20 +299,20 @@ jobs:
           "deployment_id=$id" >> $env:GITHUB_OUTPUT
       - name: Run Session 13 smoke and intended gates
         env:
-          SESSION12_SMOKE_URL: ${{ vars.SESSION12_SMOKE_URL }}
-          SESSION12_SMOKE_FAILURE_URL: ${{ vars.SESSION12_SMOKE_FAILURE_URL }}
-          SESSION12_AI_RESOURCE_ID: ${{ vars.SESSION12_AI_RESOURCE_ID }}
-          SESSION12_LOG_ANALYTICS_WORKSPACE_ID: ${{ vars.SESSION12_LOG_ANALYTICS_WORKSPACE_ID }}
-          SESSION12_SMOKE_TIMEOUT_SECONDS: ${{ vars.SESSION12_SMOKE_TIMEOUT_SECONDS }}
-          SESSION12_SMOKE_RETRY_SECONDS: ${{ vars.SESSION12_SMOKE_RETRY_SECONDS }}
-          SESSION12_SMOKE_BEARER_TOKEN: ${{ secrets.SESSION12_SMOKE_BEARER_TOKEN }}
+          SESSION13_SMOKE_URL: ${{ vars.SESSION13_SMOKE_URL }}
+          SESSION13_SMOKE_FAILURE_URL: ${{ vars.SESSION13_SMOKE_FAILURE_URL }}
+          SESSION13_AI_RESOURCE_ID: ${{ vars.SESSION13_AI_RESOURCE_ID }}
+          SESSION13_LOG_ANALYTICS_WORKSPACE_ID: ${{ vars.SESSION13_LOG_ANALYTICS_WORKSPACE_ID }}
+          SESSION13_SMOKE_TIMEOUT_SECONDS: ${{ vars.SESSION13_SMOKE_TIMEOUT_SECONDS }}
+          SESSION13_SMOKE_RETRY_SECONDS: ${{ vars.SESSION13_SMOKE_RETRY_SECONDS }}
+          SESSION13_SMOKE_BEARER_TOKEN: ${{ secrets.SESSION13_SMOKE_BEARER_TOKEN }}
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
           $root = "sessions/14-cicd-promotion-controls/implementation/artifacts"
           $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
-          $result = Join-Path $env:RUNNER_TEMP "session12-smoke.json"
-          & $control.sourcePaths.session12SmokePowerShell -Mode Pipeline -Environment nonproduction -CommitSha "${{ inputs.release_sha }}" -ResultPath $result
+          $result = Join-Path $env:RUNNER_TEMP "session13-smoke.json"
+          & $control.sourcePaths.session13SmokePowerShell -Mode Pipeline -Environment nonproduction -CommitSha "${{ inputs.release_sha }}" -ResultPath $result
           if (-not $?) { throw "Session 13 smoke command failed." }
           $releasePolicy = Get-Content -LiteralPath $control.sourcePaths.session10ReleasePolicy -Raw | ConvertFrom-Json
           $externalRoot = Join-Path $env:RUNNER_TEMP "external-release-inputs"

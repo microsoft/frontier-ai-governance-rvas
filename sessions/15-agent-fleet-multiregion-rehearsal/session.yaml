@@ -11,7 +11,7 @@ session:
     - "Microsoft Foundry, Microsoft 365, Microsoft Entra, Purview, and Defender administrators"
     - "Service, security, continuity, and delivery owners"
   prerequisites:
-    - "Deploy a governed production candidate from Sessions 05-13 behind an approved regional routing path. If your team built those controls outside this series, the delivery team must confirm the required state for all nine controls in the implementation document before the rehearsal."
+    - "Deploy a governed production candidate from Sessions 05, 07-14 behind an approved regional routing path. If your team built those controls outside this series, the delivery team must confirm the required state for all nine controls in the implementation document before the rehearsal."
     - "Approve a primary and secondary Azure region for the model, agent, gateway, data, network, quota, and residency requirements."
     - "The existing customer Bicep entrypoint deploys and updates the complete API Management and regional backend configuration."
     - "When using one multi-region API Management instance, use Premium (classic). Do not treat Premium v2 as multi-region capable."
