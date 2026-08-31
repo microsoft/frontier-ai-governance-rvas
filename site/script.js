@@ -42,9 +42,12 @@
     routeFilterLinks
       .map((link) => [
         link.dataset.routeFilter,
-        Number(link.dataset.routeEnd),
+        (link.dataset.routeSessions ?? "")
+          .split(",")
+          .map(Number)
+          .filter(Number.isInteger),
       ])
-      .filter(([route, endSession]) => route && Number.isInteger(endSession)),
+      .filter(([route, sessionNumbers]) => route && sessionNumbers.length > 0),
   );
 
   const normalize = (value) =>
@@ -95,7 +98,8 @@
     records.forEach((record) => {
       const sessionNumber = Number(record.id.replace("session-", ""));
       const matchesRoute =
-        activeRoute === "all" || sessionNumber <= routeSessions[activeRoute];
+        activeRoute === "all" ||
+        (routeSessions[activeRoute] ?? []).includes(sessionNumber);
       const services = (record.dataset.services ?? "").split(/\s+/);
       const matchesTool =
         activeTool === "all" || services.includes(activeTool);

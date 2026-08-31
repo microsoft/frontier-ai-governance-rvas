@@ -4,8 +4,9 @@
 
 ### What we will do
 
-Prepare one approved nonproduction Agent Registry deployment for a Microsoft Entra test group.
-**Keep the agent uninstalled.** Session 10 uses the contract after DLP propagation.
+Prepare one approved nonproduction Agent Registry deployment for a Microsoft Entra test group. The
+agent can come from **Microsoft Foundry, Copilot Studio, or Agent Builder**. **Keep it uninstalled.**
+Session 10 uses the contract after DLP propagation.
 
 ### Why it matters
 
@@ -14,10 +15,15 @@ closed until the data control is ready.
 
 ### Boundaries
 
-The scope is one Available entry, test group, host product, and consent decision. Agent 365 holds
-inventory and installation. Microsoft Entra holds identity and membership. The repository holds
-the contract. Runtime, membership, Conditional Access, and tenant-wide blocks do not change.
-[Session 07](../../07-apim-ai-gateway/implementation/README.md) controls Foundry API ingress.
+The scope is one supported source platform, Available entry, test group, host product, and consent
+decision. Agent 365 holds inventory and installation. Microsoft Entra holds identity and
+membership. The source platform continues to own the runtime and publishing lifecycle. The
+repository holds the deployment contract. Membership, Conditional Access, and tenant-wide blocks
+do not change.
+
+For a Foundry agent, [Session 05](../../05-governed-agent-baseline/implementation/README.md) owns the
+runtime baseline and [Session 07](../../07-apim-ai-gateway/implementation/README.md) controls API
+ingress. Copilot Studio and Agent Builder keep their runtime controls in their native platform.
 [Session 10](../../10-purview-data-governance/implementation/README.md) owns installation and access
 checks after DLP confirmation.
 
@@ -25,9 +31,17 @@ checks after DLP confirmation.
 
 ### Architecture at a glance
 
-The administrator records the agent, group, host, use case, consent, and validation aliases in
-`agent-deployment.json`. Preflight checks it. The administrator confirms no installation. Session
-10 confirms DLP, installs the agent, and checks access. The runtime stays in its native service.
+The administrator records the agent origin, group, host, use case, consent, and validation aliases
+in `agent-deployment.json`. Preflight accepts these platform values:
+
+| Agent origin | Entry requirement |
+|---|---|
+| Microsoft Foundry | Complete Session 05 and confirm the agent is Available in Agent Registry |
+| Copilot Studio | Publish the approved agent and confirm its runtime owner and registry entry |
+| Agent Builder | Publish the approved agent and confirm its owner and registry entry |
+
+The administrator confirms no installation. Session 10 confirms DLP, installs the agent, and checks
+access. The runtime stays in its source platform.
 
 ### Design choices and tradeoffs
 
@@ -46,7 +60,8 @@ The administrator records the agent, group, host, use case, consent, and validat
 
 ## Before you start
 
-Session 05 must have created the agent. The Agent 365 administrator finds it under **Agents > All
+The source-platform owner must have published the agent through one supported entry path. For
+Foundry, complete Session 05. The Agent 365 administrator finds the agent under **Agents > All
 agents > Registry** with **Available** status and group installation. The delivery owner approves
 the scope and post-DLP route. The Entra owner approves permissions. A Microsoft 365 administrator
 owns inspection and removal.
@@ -75,7 +90,7 @@ consent, synthetic-data boundary, and `PrepareOnly` action.
 
 | Gate | Continue | Stop |
 |---|---|---|
-| Agent | Exact registry ID is Available with group installation | Missing, unavailable, or another path |
+| Agent | Exact registry ID is Available and `platform` is `foundry`, `copilot-studio`, or `agent-builder` | Missing, unavailable, or unsupported origin |
 | Audience | One sponsored nonproduction group | Wider audience |
 | Consent | One host, use case, and approved permission set | Changed, unapproved, or excessive permission |
 | Access | No installation or consent | Access exists before DLP |
@@ -85,7 +100,7 @@ Do not select **Install**, grant consent, add a host product, or use an organiza
 
 ## Implement
 
-1. Complete `agent-deployment.json` and run preflight.
+1. Set the supported `agent.platform` value, complete `agent-deployment.json`, and run preflight.
 2. Open **Agents > All agents > Registry** and select the recorded agent.
 3. Confirm that the group has no installation. Do not install or grant consent.
 4. Compare the saved host and consent with the approval.
@@ -112,8 +127,9 @@ installation.**
 
 ## After implementation
 
-The Agent 365 administrator owns the entry. The Entra owner maintains membership. The Microsoft
-365 administrator keeps the contract. Session 10 owns installation and access checks.
+The Agent 365 administrator owns the entry. The source-platform owner maintains the published
+agent and runtime. The Entra owner maintains membership. The Microsoft 365 administrator keeps the
+contract. Session 10 owns installation and access checks.
 
 To restore the boundary, remove the group installation under **Agents > All agents > Registry**.
 Leave the agent, runtime, and membership unchanged.

@@ -22,11 +22,11 @@ html: true
 
 ## Why it matters
 
-> Keep an ownership record for the separate Agent 365 and Foundry DLP paths, configure one scoped Agent 365 DLP policy from current Purview state, and query payload-free audit activity.
+> Configure one scoped Agent 365 DLP policy for a Foundry, Copilot Studio, or Agent Builder agent, and query payload-free audit activity.
 
 By the end of the session:
 
-- `coverage-handoff.md` names the owners on both product paths.
+- `coverage-handoff.md` names the Agent 365 and source-platform owners.
 - The approved label and any VIEW and EXTRACT rights are confirmed.
 - One nonproduction Agent 365 policy is simulated, enabled, and checked after propagation.
 - The included user finds the agent; the excluded user does not.
@@ -48,17 +48,17 @@ By the end of the session:
 </div>
 <div>
 
-**Agent 365**
+**Common Agent 365 path**
 
 Purview evaluates the agent, group, direction, location, and label. It applies the approved
 `Block` or `Audit` action.
 
-**Microsoft Foundry**
+**Foundry extension**
 
-Foundry DLP needs an Entra-app-scoped rule plus application integration that calls
-`processContent` with signed-in user context.
+Only when `agent.platform` is `foundry`, add the Entra-app-scoped rule and application integration
+that calls `processContent` with signed-in user context.
 
-The Agent 365 policy does not govern Foundry calls.
+Copilot Studio and Agent Builder keep runtime controls in their source platform.
 
 </div>
 </div>
@@ -93,13 +93,14 @@ administrator consent.
 
 **Total session: 180 minutes.**
 
-1. Confirm entitlements, owners, Session 01-07 control state, and the synthetic source.
+1. Read the Session 06 platform, then confirm entitlements, owners, and the synthetic source.
 2. Run preflight against the approved tenant and Agent 365 instance.
 3. Create the custom policy with the approved coordinates in `TestWithNotifications`.
 4. Review simulation, enable through the approved change, and wait outside the facilitated work
    for the recorded propagation allowance.
 5. Resume after propagation. Install the Session 06-approved agent for its group and host product.
 6. Confirm availability, run the labelled interaction and non-match, then query audit activity.
+   For Foundry, also confirm the separate DLP enforcement path.
 
 <!-- Notes: The published duration excludes the asynchronous propagation wait. -->
 
@@ -113,9 +114,10 @@ Stop before or during the change when:
 
 - a required license, entitlement, owner, role, permission, or restore route is missing;
 - the policy summary differs from the approved agent, group, label, directions, locations, or action;
-- the prior-session inventory, `get_policy` allowlist, backend role scope, read result, or denied-write result is unresolved;
+- the Session 06 platform, registry entry, group, host product, or validation aliases are unresolved;
 - an encrypted source lacks explicit agent VIEW and EXTRACT rights plus a direct share;
-- Foundry DLP is called active without the app-scoped rule, `processContent`, and user context;
+- for a Foundry agent, Foundry DLP is called active without the app-scoped rule, `processContent`,
+  and user context;
 - production data, prompts, responses, identities, raw audit content, or portal copies enter the repository.
 
 <!-- Notes: The portal summary and simulation are the preview for this portal-led change. -->
@@ -168,11 +170,12 @@ Output: time, operation, agent ID, agent name, and result status.
 
 ### Keep in operation
 
-- Data owner: cross-product handoff
+- Data owner: Agent 365 and source-platform handoff
 - Information protection owner: labels and output control
 - Agent 365 owner: workflow impact
+- Source-platform owner: published agent and runtime
 - Audit owner: query definition and operation names
-- Foundry owner, Purview operator, and developer: separate Foundry path
+- Foundry owner, Purview operator, and developer: conditional Foundry path
 
 </div>
 </div>
@@ -190,8 +193,9 @@ If the policy causes a problem:
 3. Remove the scoped agent and group before deleting a session-created policy.
 4. Remove label rights or source sharing only after the data owner confirms no dependency remains.
 
-Do not delete a reused label, Foundry coverage, audit records, or source data. Review
-`coverage-handoff.md` quarterly and after an owner or product-boundary change.
+Do not delete a reused label, audit records, or source data. For a Foundry agent, change Foundry
+coverage only through its own review. Review `coverage-handoff.md` quarterly and after an owner or
+product-boundary change.
 
 Session 11 can use this labelled, governed path for evaluation work.
 

@@ -25,7 +25,8 @@ html: true
 > Prepare one approved Agent Registry deployment for a named Microsoft Entra test group. Keep it
 > uninstalled until Session 10 confirms DLP coverage.
 
-Record the agent, group, host, use case, and consent. Microsoft 365 must show no group installation.
+The agent can come from Microsoft Foundry, Copilot Studio, or Agent Builder. Record its origin,
+group, host, use case, and consent. Microsoft 365 must show no group installation.
 
 ---
 
@@ -38,12 +39,17 @@ Record the agent, group, host, use case, and consent. Microsoft 365 must show no
 
 ![Microsoft Agent 365](assets/icons/microsoft/agent-365.svg)
 
-Agent 365 holds inventory and installation. Microsoft Entra holds identity and membership.
+Agent 365 holds inventory and installation. Microsoft Entra holds identity and membership. The
+source platform keeps runtime ownership.
 
 </div>
 <div>
 
 The repository holds `agent-deployment.json`.
+
+- **Foundry:** complete Session 05
+- **Copilot Studio:** publish the approved agent
+- **Agent Builder:** publish the approved agent
 
 Session 06 confirms no installation. Session 10 confirms DLP, installs, and checks both users.
 
@@ -58,7 +64,7 @@ Session 06 confirms no installation. Session 10 confirms DLP, installs, and chec
 
 | Decision | Answer |
 |---|---|
-| Agent | Available registry entry |
+| Agent | Available registry entry from a supported platform |
 | Audience | Sponsored test group |
 | Use | One host, use case, and approved consent |
 | Restore | Administrator who can remove access |
@@ -73,7 +79,7 @@ Runtime, membership, Conditional Access, and tenant-wide blocks do not change.
 
 **90 minutes total · about 60 minutes guided work**
 
-1. Complete `agent-deployment.json`; run preflight.
+1. Record `foundry`, `copilot-studio`, or `agent-builder`; run preflight.
 2. Inspect the Available registry entry.
 3. Confirm no group installation.
 4. Match host and consent to the approval.
@@ -118,6 +124,7 @@ The delivery owner observes both checks.
 ## Operate and restore
 
 - Agent 365 administrator: registry
+- Source-platform owner: published agent and runtime
 - Entra owner: membership
 - Microsoft 365 administrator: contract
 - Session 10: installation and checks

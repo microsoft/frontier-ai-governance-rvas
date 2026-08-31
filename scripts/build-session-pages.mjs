@@ -1428,51 +1428,88 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
     {
       id: "governed-pilot",
       name: "Governed pilot",
-      endSession: 5,
+      sessionNumbers: [1, 2, 3, 4, 5],
       outcome:
         "A versioned Foundry agent with its platform, identity, networking, and model controls in place.",
     },
     {
       id: "secure-private-platform",
       name: "Secure private platform",
-      endSession: 6,
+      sessionNumbers: [1, 2, 3, 4, 5, 6, 7],
       outcome:
         "The governed agent runs through API Management with identity, limits, and content safety applied at the gateway.",
     },
     {
       id: "api-mcp-governance",
       name: "API and MCP governance",
-      endSession: 8,
+      sessionNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       outcome:
         "API and MCP inventory, authorization, tool scope, and runtime telemetry are connected around the governed agent.",
     },
     {
       id: "data-compliance",
       name: "Data and compliance",
-      endSession: 9,
+      sessionNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       outcome:
         "The governed runtime adds Purview data controls and an owned handoff for Agent 365 and Foundry coverage.",
     },
     {
       id: "security-operations",
       name: "Security operations",
-      endSession: 12,
+      sessionNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
       outcome:
         "Evaluation, red-team, telemetry, cost, alerting, and incident controls are operating around the service.",
     },
     {
       id: "llmops-release-operations",
       name: "LLMOps and release operations",
-      endSession: 13,
+      sessionNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
       outcome:
         "The governed service moves through evaluation, operations, and protected promotion as one managed release path.",
     },
+    {
+      id: "foundry-agent365",
+      name: "Foundry + Agent 365",
+      sessionNumbers: [1, 2, 3, 4, 5, 6, 10],
+      filterLabel: "01–06 + 10",
+      outcome:
+        "Build a governed Foundry agent, register it with Agent 365, then apply the shared Purview data-control path.",
+    },
+    {
+      id: "copilot-studio-agent365",
+      name: "Copilot Studio + Agent 365",
+      sessionNumbers: [6, 10],
+      filterLabel: "06 + 10",
+      outcome:
+        "Start with an approved published Copilot Studio agent, register its access boundary, then apply Agent 365 data controls.",
+    },
+    {
+      id: "agent-builder-agent365",
+      name: "Agent Builder + Agent 365",
+      sessionNumbers: [6, 10],
+      filterLabel: "06 + 10",
+      outcome:
+        "Start with an approved published Agent Builder agent, register its access boundary, then apply Agent 365 data controls.",
+    },
   ].map((route) => {
-    const routeSessions = sessions.filter(
-      ({ number }) => number <= route.endSession,
+    const includedNumbers = new Set(route.sessionNumbers);
+    const routeSessions = sessions.filter(({ number }) =>
+      includedNumbers.has(number),
     );
+    const firstSession = Math.min(...route.sessionNumbers);
+    const lastSession = Math.max(...route.sessionNumbers);
+    const contiguous =
+      route.sessionNumbers.length === lastSession - firstSession + 1;
     return {
       ...route,
+      firstSession,
+      lastSession,
+      sessionData: route.sessionNumbers.join(","),
+      sessionLabel:
+        route.filterLabel ??
+        (contiguous
+          ? `${String(firstSession).padStart(2, "0")}–${String(lastSession).padStart(2, "0")}`
+          : route.sessionNumbers.map((number) => String(number).padStart(2, "0")).join(" + ")),
       sessionCount: routeSessions.length,
       duration: formatDuration(
         routeSessions.reduce(
@@ -1484,17 +1521,18 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
   });
   const routeCards = focusedRoutes
     .map((route) => {
+      const includedNumbers = new Set(route.sessionNumbers);
       const steps = sessions
         .map(
           (session) =>
-            `<span class="route-path__step route-path__step--${session.phase.key}${session.number <= route.endSession ? " is-included" : ""}${session.number === route.endSession ? " is-end" : ""}"></span>`,
+            `<span class="route-path__step route-path__step--${session.phase.key}${includedNumbers.has(session.number) ? " is-included" : ""}${session.number === route.lastSession ? " is-end" : ""}"></span>`,
         )
         .join("");
-      return `<a class="route-path" role="listitem" data-route-filter="${escapeHtml(route.id)}" data-route-name="${escapeHtml(route.name)}" data-route-end="${route.endSession}" href="?route=${escapeHtml(route.id)}#program" aria-label="Show ${escapeHtml(route.name)}: Sessions 1 through ${route.endSession}">
-                  <span class="route-path__header"><strong>${escapeHtml(route.name)}</strong><span>Ends at Session ${String(route.endSession).padStart(2, "0")}</span></span>
+      return `<a class="route-path" role="listitem" data-route-filter="${escapeHtml(route.id)}" data-route-name="${escapeHtml(route.name)}" data-route-sessions="${route.sessionData}" href="?route=${escapeHtml(route.id)}#program" aria-label="Show ${escapeHtml(route.name)}: Sessions ${escapeHtml(route.sessionLabel)}">
+                  <span class="route-path__header"><strong>${escapeHtml(route.name)}</strong><span>Sessions ${escapeHtml(route.sessionLabel)}</span></span>
                   <span class="route-path__outcome">${escapeHtml(route.outcome)}</span>
                   <span class="route-path__track" aria-hidden="true">${steps}</span>
-                  <span class="route-path__track-labels"><span>Session 01</span><span>Session ${String(route.endSession).padStart(2, "0")}</span></span>
+                  <span class="route-path__track-labels"><span>Session ${String(route.firstSession).padStart(2, "0")}</span><span>Session ${String(route.lastSession).padStart(2, "0")}</span></span>
                   <span class="route-path__footer"><span><b>${route.sessionCount}</b> sessions</span><span><b>${escapeHtml(route.duration)}</b></span><span class="route-path__action">Show this route ${arrowIcon}</span></span>
                 </a>`;
     })
@@ -1597,12 +1635,12 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
           <label class="registry-search"><span>Search sessions</span><span class="registry-search__field"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"></circle><path d="m13 13 4 4"></path></svg><input type="search" autocomplete="off" placeholder="Title, control, outcome…" data-session-search></span></label>
         </div>
         <div class="route-filter-row">
-          <div class="route-filter-row__head"><div><h3>Filter by focused route</h3><p>Choose the part of the program you want to see. Routes always start at Session 01.</p></div><a href="#routes">Compare routes</a></div>
+          <div class="route-filter-row__head"><div><h3>Filter by focused route</h3><p>Choose the control path you need. Agent 365 routes can start with an existing approved agent.</p></div><a href="#routes">Compare routes</a></div>
           <div class="route-filters" role="group" aria-label="Filter by focused route">
-            <button type="button" class="route-filter" data-route-filter="all" data-route-name="All sessions" data-route-end="14" aria-pressed="true">All sessions</button>
+            <button type="button" class="route-filter" data-route-filter="all" data-route-name="All sessions" data-route-sessions="${sessions.map(({ number }) => number).join(",")}" aria-pressed="true">All sessions</button>
             ${focusedRoutes
               .map(
-                (route) => `<button type="button" class="route-filter" data-route-filter="${escapeHtml(route.id)}" data-route-name="${escapeHtml(route.name)}" data-route-end="${route.endSession}" aria-pressed="false">${escapeHtml(route.name)} <span>1–${route.endSession}</span></button>`,
+                (route) => `<button type="button" class="route-filter" data-route-filter="${escapeHtml(route.id)}" data-route-name="${escapeHtml(route.name)}" data-route-sessions="${route.sessionData}" aria-pressed="false">${escapeHtml(route.name)} <span>${escapeHtml(route.sessionLabel)}</span></button>`,
               )
               .join("")}
           </div>
@@ -1623,7 +1661,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
 
       <section class="routes-section" id="routes" aria-labelledby="routes-title">
         <div class="section">
-          <div class="section-heading"><div><h2 id="routes-title">Choose how far the implementation needs to go.</h2><p>Every route starts at Session 01 and keeps dependencies in order. Choose the route that covers the controls you need.</p></div></div>
+          <div class="section-heading"><div><h2 id="routes-title">Choose the implementation path you need.</h2><p>Full-platform routes start at Session 01. Agent 365 routes can enter with an approved Foundry, Copilot Studio, or Agent Builder agent.</p></div></div>
           <div class="route-choice">
             <div class="route-choice__primary"><div><h3>Complete build · ${totalHours} working hours</h3><p>Run all ${sessions.length} sessions, from the platform baseline through controlled release and regional rehearsal.</p></div><ol class="route-choice__sequence"><li><span>1–5</span> Governed foundation</li><li><span>6–12</span> Live AI traffic controls</li><li><span>13–15</span> Operate at scale</li></ol><a class="button button--primary" data-route-clear href="#program">Browse all sessions</a></div>
             <div class="route-choice__heading"><div><h3>Focused routes</h3><p>Each option shows the control state you reach, the work it includes, and where to stop.</p></div><div class="route-choice__legend" aria-label="Route phase colors"><span><i class="is-foundation"></i>Foundation</span><span><i class="is-runtime"></i>Live traffic</span><span><i class="is-operations"></i>Operations</span></div></div>

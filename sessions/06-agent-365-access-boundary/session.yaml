@@ -11,22 +11,23 @@ session:
     - "Microsoft Entra identity and application owners"
     - "Agent product owners and test-group sponsors"
   prerequisites:
-    - "Session 05 has created the governed nonproduction agent. The Agent 365 administrator has confirmed that it appears in Agent Registry with Available status and supports group installation through Microsoft 365 admin center."
+    - "One approved nonproduction agent from Microsoft Foundry, Copilot Studio, or Agent Builder appears in Agent Registry with Available status and supports group installation through Microsoft 365 admin center."
+    - "For a Foundry agent, complete Session 05. For a Copilot Studio or Agent Builder agent, the source-platform owner confirms the published agent, runtime owner, and approved lifecycle path."
     - "The Microsoft 365 administrator can inspect the registry entry and its installation path. The Entra owner has approved the requested permissions."
     - "The delivery owner has approved one nonproduction test group, one host product, the use case, and the post-DLP installation route."
     - "Do not install the agent for the test group until Session 10 confirms that its DLP policy is enabled and propagated."
   dependencies:
-    - "Session 05 - Governed Microsoft Foundry agent baseline"
+    - "One supported Agent 365 entry path: Session 05 for Microsoft Foundry, or an approved published Copilot Studio or Agent Builder agent"
   services_in_scope:
     - "agent-365"
     - "microsoft-365-copilot"
     - "microsoft-entra-id"
-  control_objective: "Prepare one approved nonproduction Agent Registry deployment for a named test group, keep it uninstalled, then hand it to Session 10 after DLP coverage is confirmed."
+  control_objective: "Prepare one approved nonproduction Agent Registry deployment for a Foundry, Copilot Studio, or Agent Builder agent, keep it uninstalled, then hand it to Session 10 after DLP coverage is confirmed."
 implementation:
   mode: "extended"
   extended_reason: "The deployment stays uninstalled until Session 10 confirms DLP coverage, so the delivery owner checks the prepared contract and any premature installation."
 implementation_outcomes:
-  - "Record the approved Agent Registry entry, test group, host product, use case, and permission-consent decision."
+  - "Record the approved agent origin, Agent Registry entry, test group, host product, use case, and permission-consent decision."
   - "Confirm that Microsoft 365 has no installation for the test group."
   - "Hand the deployment contract and restore route to Session 10 for post-DLP installation and access checks."
 deliverables:

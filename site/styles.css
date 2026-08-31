@@ -2494,7 +2494,7 @@ code {
 
 .route-path__track {
   display: grid;
-  grid-template-columns: repeat(14, minmax(3px, 1fr));
+  grid-template-columns: repeat(15, minmax(3px, 1fr));
   align-items: center;
   gap: 4px;
   min-height: 12px;

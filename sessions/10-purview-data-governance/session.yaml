@@ -8,30 +8,27 @@ session:
   last_verified: "2026-08-28"
   audience:
     - "Data owners and Microsoft Purview administrators"
-    - "Microsoft Agent 365 and Microsoft Foundry platform owners"
+    - "Microsoft Agent 365 and source-platform owners"
     - "Compliance, security, and AI application engineers"
   prerequisites:
-    - "Complete Sessions 01-07. From their records, confirm the exact nonproduction Foundry resource and project, policy-assistant agent, Agent 365 instance, identity assignment scopes, get_policy allowlist, backend role definition ID and scope, successful labelled-item read, and absent or denied prohibited write."
+    - "Complete Session 06 for one approved Microsoft Foundry, Copilot Studio, or Agent Builder agent. Confirm that `agent-deployment.json` records the exact platform, Agent Registry entry, test group, host product, and validation aliases."
+    - "For a Foundry agent only, confirm the Sessions 01-07 responsible-AI records, model-evaluation record, Entra application ID, user-context authentication flow, and exact APIM `get_policy` path used by the Foundry Data Security extension."
     - "Approve one nonproduction Agent 365 instance, one test user group, a labelled synthetic item, the label and encryption rights, the DLP action and locations, and the restore route."
-    - "Keep the Session 05 Foundry policy assistant and its Azure subscription available for a separate Purview coverage review."
-    - "Confirm the required Purview, Agent 365, Audit, DLP, eDiscovery, and pay-as-you-go entitlements."
+    - "Confirm the required Purview, Agent 365, Audit, DLP, and eDiscovery entitlements. For the Foundry Data Security extension, also confirm its pay-as-you-go requirement."
     - "Assign the DLP and label operator Compliance Data Administrator in the approved Microsoft 365 tenant."
     - "Assign the audit operator View-Only Audit Logs in Microsoft Purview and the Exchange admin center. Grant the Microsoft Graph Audit Search application `AuditLogsQuery.Read.All` application permission with administrator consent."
   dependencies:
-    - "Session 01 - Microsoft Foundry platform baseline, inventory, and landing-zone guardrails"
-    - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
-    - "Session 05 - Governed Microsoft Foundry agent baseline"
     - "Session 06 - Microsoft Agent 365 onboarding and access boundaries"
   services_in_scope:
     - "microsoft-purview"
     - "agent-365"
     - "azure-ai-foundry"
-  control_objective: "Keep a source-controlled file that assigns owners for the Agent 365 and Foundry DLP paths, configure an Agent 365 DLP policy for the approved scope from current Purview state, and query payload-free Agent 365 audit activity."
+  control_objective: "Keep a source-controlled file that assigns the Agent 365 and source-platform owners, configure an Agent 365 DLP policy for the approved scope from current Purview state, and query payload-free Agent 365 audit activity. For a Foundry agent, also record the separate Foundry Data Security boundary."
 implementation:
   mode: "extended"
   extended_reason: "DLP propagation separates configuration from live confirmation. After the propagation allowance recorded in the approved change, the delivery owner observes the intended result and a one-coordinate out-of-scope non-match before keeping the policy enabled."
 implementation_outcomes:
-  - "Assign separate owners to the Foundry DLP rule and application integration, with a quarterly review."
+  - "Assign the Agent 365 and source-platform owners. For a Foundry agent, assign the separate DLP rule and application-integration owners. Review the boundary quarterly."
   - "Reuse an approved sensitivity label and confirm explicit VIEW and EXTRACT rights for the Agent 365 instance when encryption applies."
   - "Simulate and enable the scoped nonproduction DLP policy, then install the Session 06-approved agent for its recorded group and host product after propagation."
   - "Keep and run a payload-free Agent 365 audit query with the current unified audit operation names."
@@ -48,8 +45,8 @@ deliverables:
     - "implementation/scripts/query-agent-activity.sh"
 retained_files:
   - path: "implementation/artifacts/governance/coverage-handoff.md"
-    consumer: "The data, information protection, Agent 365, Foundry, and audit owners"
-    operational_purpose: "Record the owner for each side of the Agent 365 and Foundry boundary. The data owner updates it after a boundary change and reviews it quarterly."
+    consumer: "The data, information protection, Agent 365, source-platform, and audit owners"
+    operational_purpose: "Record the Agent 365 and source-platform owners, including the separate Foundry DLP path when selected. The data owner updates it after a boundary change and reviews it quarterly."
   - path: "implementation/artifacts/operations/agent-activity-audit-query.json"
     consumer: "The Agent 365 audit-query scripts"
     operational_purpose: "Define approved Agent 365 operations and payload-free output fields. The audit owner reviews it quarterly and when Purview changes an operation name."

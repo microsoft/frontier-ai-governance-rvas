@@ -4,15 +4,18 @@
 
 ### What we will do
 
-Keep a source-controlled ownership record for the separate Agent 365 and Foundry DLP paths.
 Configure one Agent 365 DLP policy for the approved nonproduction scope from current Microsoft
 Purview state. After simulation and propagation, confirm the intended result, one out-of-scope
-non-match, agent availability, and payload-free audit activity.
+non-match, agent availability, and payload-free audit activity. This path supports agents from
+**Microsoft Foundry, Copilot Studio, and Agent Builder**.
+
+Keep a source-controlled ownership record for Agent 365 and the selected source platform. If
+`agent.platform` is `foundry`, also record the separate Foundry Data Security DLP path.
 
 ### Why it matters
 
-Agent 365 and Foundry use different DLP paths. The ownership record makes that boundary explicit,
-while Purview remains authoritative for labels, policies, findings, and audit activity.
+Agent 365 DLP is the common control. The ownership record makes the source-platform boundary
+explicit, while Purview remains authoritative for labels, policies, findings, and audit activity.
 
 ### Boundaries
 
@@ -20,9 +23,11 @@ The change covers one approved nonproduction Agent 365 instance, test group, sen
 action, interaction directions, and set of locations. Purview and the approved change system hold
 the policy coordinates, simulation, enablement, results, and restore decision.
 
-The Agent 365 policy does not govern Foundry calls. Foundry DLP needs an Entra-app-scoped rule and
+The selected source platform continues to own the published agent and runtime. For a Foundry agent,
+the Agent 365 policy does not govern Foundry calls. Foundry DLP needs an Entra-app-scoped rule and
 application integration that calls Microsoft Graph `processContent` with signed-in user context.
-That rule and integration remain a separate approved change.
+That conditional extension remains a separate approved change. Do not apply it to Copilot Studio or
+Agent Builder.
 
 Keep tenant IDs, source URLs, prompts, responses, identities, file names, audit exports, findings,
 screenshots, and portal-state copies out of the repository.
@@ -37,14 +42,15 @@ On the Agent 365 path, Purview evaluates the agent, group, direction, location, 
 applies the approved `Block` or `Audit` action. The audit scripts query current activity and display
 five payload-free fields.
 
-Foundry Data Security follows its own enablement and DLP path. `coverage-handoff.md` names the
-owners on both sides. `agent-activity-audit-query.json` defines the repeatable Agent 365 query.
+`coverage-handoff.md` names the Agent 365 and source-platform owners.
+`agent-activity-audit-query.json` defines the repeatable Agent 365 query. For Foundry, the handoff
+also names the separate Foundry Data Security owners.
 
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Tradeoff |
 |---|---|---|
-| Product boundary | Keep Agent 365 and Foundry DLP separate | Owners maintain two control paths |
+| Product boundary | Keep Agent 365 and the source-platform runtime separate | Foundry adds a second DLP path |
 | DLP scope | One nonproduction agent and test group | Broader rollout needs another approval |
 | Action | Use the approved `Block` or `Audit` choice | `Block` can interrupt work; `Audit` does not stop it |
 | Audit output | Display metadata fields without an export | Investigation detail stays in Purview |
@@ -59,28 +65,32 @@ owners on both sides. `agent-activity-audit-query.json` defines the repeatable A
 
 Confirm:
 
-- The Sessions 01-07 records identify the exact Foundry resource and project, policy-assistant
-  agent, Agent 365 instance, identity scopes, `get_policy` allowlist, backend role definition ID and
-  scope, successful labelled-item read, and absent or denied prohibited write.
+- Session 06 records one approved `foundry`, `copilot-studio`, or `agent-builder` platform value,
+  the exact Agent 365 instance, test group, host product, and validation aliases.
+- For `foundry` only, the Sessions 01-07 records identify the responsible-AI and model-evaluation
+  records, Entra application ID, user-context authentication flow, and exact APIM `get_policy`
+  path.
 - The data owner approved the nonproduction Agent 365 instance, test group, synthetic labelled
   item, label and encryption rights, DLP action and locations, generated-content control, and
   restore route.
-- The required Purview, Agent 365, Audit, DLP, eDiscovery, and pay-as-you-go entitlements are
-  confirmed. Agent 365 needs a qualifying license; Microsoft recommends E5.
+- The required Purview, Agent 365, Audit, DLP, and eDiscovery entitlements are confirmed. Agent 365
+  needs a qualifying license; Microsoft recommends E5. For the Foundry Data Security extension,
+  also confirm its pay-as-you-go requirement.
 - The DLP and label operator has **Compliance Data Administrator** in the approved Microsoft 365
   tenant.
 - The audit operator has **View-Only Audit Logs** in both Microsoft Purview and the Exchange admin
   center.
 - The Microsoft Graph application used for Audit Search has the
   `AuditLogsQuery.Read.All` application permission with administrator consent.
-- The Purview operator, Agent 365 owner, Foundry platform owner, application developer,
-  information protection owner, data owner, and audit owner accept their recorded responsibilities.
+- The Purview operator, Agent 365 owner, source-platform owner, information protection owner, data
+  owner, and audit owner accept their recorded responsibilities. For Foundry, include the Foundry
+  platform owner and application developer.
 
 ### Implementation files
 
 | Type | File | Consumer |
 |---|---|---|
-| Record | [`artifacts/governance/coverage-handoff.md`](artifacts/governance/coverage-handoff.md) | The data, information protection, Agent 365, Foundry, and audit owners |
+| Record | [`artifacts/governance/coverage-handoff.md`](artifacts/governance/coverage-handoff.md) | The data, information protection, Agent 365, source-platform, and audit owners |
 | Runtime | [`artifacts/operations/agent-activity-audit-query.json`](artifacts/operations/agent-activity-audit-query.json) | The Agent 365 audit-query scripts |
 
 ## Decisions and stop conditions
@@ -91,6 +101,7 @@ The approved change and Purview policy summary must match these coordinates:
 |---|---|
 | Environment | Approved nonproduction environment |
 | Agent | One approved Agent 365 instance |
+| Origin | `foundry`, `copilot-studio`, or `agent-builder` from the Session 06 contract |
 | People | Approved test group |
 | Directions | Human-to-agent and agent-to-human |
 | Locations | Teams, OneDrive or SharePoint, and email |
@@ -113,16 +124,19 @@ does not grant those rights to the agent.
 Source labels do not automatically protect new Agent 365 content. Choose a labelled destination
 library, mandatory user labelling, or an approved auto-labelling policy before live confirmation.
 
-Do not report Foundry DLP as active without both the app-scoped rule and `processContent` with user
-context. Update `coverage-handoff.md` after an owner or boundary change and review it quarterly.
+For `foundry`, do not report Foundry DLP as active without both the app-scoped rule and
+`processContent` with user context. Skip that extension for Copilot Studio and Agent Builder.
+Update `coverage-handoff.md` after an owner or boundary change and review it quarterly.
 
 ## Implement
 
 ### 1. Confirm current state and ownership
 
-Check the approved label, publishing scope, encrypted-label rights, generated-content control, and
-synthetic source. Confirm that `coverage-handoff.md` names the Foundry rule owner and application
-developer. Keep the current policy and approval in Purview and the approved change system.
+Read `agent.platform` from the Session 06 contract. Check the approved label, publishing scope,
+encrypted-label rights, generated-content control, and synthetic source. Confirm that
+`coverage-handoff.md` names the Agent 365 and source-platform owners. For `foundry`, also confirm
+the Foundry rule owner and application developer. Keep the current policy and approval in Purview
+and the approved change system.
 
 ### 2. Run preflight
 
@@ -166,6 +180,10 @@ host product, with the recorded consent.
 
 The included member must find the agent. The excluded user must not. Remove the installation and
 stop if either result differs. Use the labelled synthetic source for the later interaction.
+
+For a Foundry agent, confirm the separate app-scoped rule and user-context `processContent`
+enforcement path. For Copilot Studio or Agent Builder, keep runtime controls with the named
+source-platform owner and continue.
 
 ### 5. Query current Agent 365 activity
 
@@ -212,9 +230,10 @@ or disable it if a check fails. Record both results in Purview and the approved 
 |---|---|
 | DLP policy, simulation and enablement state, findings, and change history | Purview operator and Agent 365 owner |
 | Label, encryption rights, and generated-content control | Information protection owner |
-| Cross-product ownership record | Data owner |
+| Agent 365 and source-platform ownership record | Data owner |
+| Published agent and native runtime controls | Source-platform owner |
 | Payload-free query definition and audit operation | Audit owner |
-| Foundry Data Security, app-scoped rule, and `processContent` integration | Foundry platform owner, Purview operator, and application developer |
+| Conditional Foundry Data Security, app-scoped rule, and `processContent` integration | Foundry platform owner, Purview operator, and application developer |
 
 Restore through the approved Purview change path:
 
@@ -224,5 +243,5 @@ Restore through the approved Purview change path:
 4. Remove label rights or source sharing only after the data owner confirms that no Agent 365
    dependency remains.
 
-Do not delete a reused label, Foundry coverage, audit records, or source data. Change Foundry
+Do not delete a reused label, audit records, or source data. For a Foundry agent, change Foundry
 coverage or billing only through its separate dependency review.

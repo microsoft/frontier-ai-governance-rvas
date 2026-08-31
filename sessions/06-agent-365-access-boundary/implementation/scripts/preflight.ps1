@@ -7,6 +7,7 @@ $ErrorActionPreference = "Stop"
 $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
 $deploymentPath = Join-Path $artifactRoot "agent-deployment.json"
 $approvedTargetScope = "nonproduction-agent365-group-pilot"
+$supportedPlatforms = @("foundry", "copilot-studio", "agent-builder")
 $requiredSentinels = @(
     "__REQUIRED_AGENT_ALIAS__",
     "__REQUIRED_AGENT_PLATFORM__",
@@ -47,6 +48,10 @@ if ([string]$deployment.targetScope -ne $approvedTargetScope) {
 if ([string]$deployment.agent.requiredStatus -ne "Available") {
     throw "The selected Agent Registry agent must be Available before installation."
 }
+$agentPlatform = [string]$deployment.agent.platform
+if ($agentPlatform -notin $supportedPlatforms) {
+    throw "agent.platform must be one of: $($supportedPlatforms -join ', ')."
+}
 if ([string]$deployment.deployment.adminConsent -ne "Approved") {
     throw "The Entra owner must approve the requested agent permissions before installation."
 }
@@ -64,4 +69,4 @@ if (@($deployment.deployment.hostProducts).Count -ne 1 -or
 }
 
 Write-Host "No read-only deployment preview is supported for this Microsoft 365 admin center action. Preflight validates the approved target scope and the exact change contract."
-Write-Host "PASS: The Agent 365 deployment contract is complete for one Available agent, one test group, one host product, approved permission consent, and an uninstall restore path."
+Write-Host "PASS: The Agent 365 deployment contract is complete for one supported $agentPlatform agent, one test group, one host product, approved permission consent, and an uninstall restore path."

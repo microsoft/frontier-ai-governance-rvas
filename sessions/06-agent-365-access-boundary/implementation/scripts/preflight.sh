@@ -5,6 +5,7 @@ script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 artifact_root=$(cd -- "$script_dir/../artifacts" && pwd)
 deployment_path="$artifact_root/agent-deployment.json"
 approved_target_scope="nonproduction-agent365-group-pilot"
+supported_platforms=("foundry" "copilot-studio" "agent-builder")
 required_sentinels=(
   "__REQUIRED_AGENT_ALIAS__"
   "__REQUIRED_AGENT_PLATFORM__"
@@ -46,6 +47,12 @@ fi
   fail "agent-deployment.json must use the approved target scope '$approved_target_scope'."
 [[ $(jq -r '.agent.requiredStatus' "$deployment_path") == "Available" ]] ||
   fail "The selected Agent Registry agent must be Available before installation."
+agent_platform=$(jq -r '.agent.platform' "$deployment_path")
+platform_supported=false
+for supported_platform in "${supported_platforms[@]}"; do
+  [[ "$agent_platform" == "$supported_platform" ]] && platform_supported=true && break
+done
+$platform_supported || fail "agent.platform must be one of: ${supported_platforms[*]}."
 [[ $(jq -r '.deployment.adminConsent' "$deployment_path") == "Approved" ]] ||
   fail "The Entra owner must approve the requested agent permissions before installation."
 [[ $(jq -r '.deployment.action' "$deployment_path") == "PrepareOnly" &&
@@ -60,4 +67,4 @@ fi
   fail "Configure exactly one approved host product for the scoped pilot."
 
 echo "No read-only deployment preview is supported for this Microsoft 365 admin center action. Preflight validates the approved target scope and the exact change contract."
-echo "PASS: The Agent 365 deployment contract is complete for one Available agent, one test group, one host product, approved permission consent, and an uninstall restore path."
+echo "PASS: The Agent 365 deployment contract is complete for one supported $agent_platform agent, one test group, one host product, approved permission consent, and an uninstall restore path."
