@@ -1,101 +1,88 @@
-# Implementation - Agent fleet governance, multi-region design, and production rehearsal
+# Implement the agent fleet multi-region rehearsal
 
 ## Session scope
 
 ### What we will do
 
-Locate one governed agent and one MCP server in their native services, then rehearse routing to an
-approved secondary deployment. The active-path check compares the immutable agent version, Entra
-identity reference, API Management policy version, endpoint, and trace fields with the
-source-controlled regional parameters.
+Locate one governed agent and one MCP server in their native services. Then move the approved
+traffic selector to an existing secondary deployment and check the immutable agent version, Entra
+identity reference, API Management policy version, endpoint, and trace fields.
 
 ### Why it matters
 
-A secondary deployment needs an operator who can identify the service and move traffic through an
-approved path. This rehearsal gives the service and delivery owners one visible regional result.
+A secondary deployment is useful when an operator can identify the service, move traffic through
+an approved path, recognize a bad result, and restore the primary path.
 
 ### Boundaries
 
-Foundry Control Plane and Agent 365 store agent inventory. Microsoft Entra stores identity state,
-Purview stores policy state, Defender stores security state, Azure Monitor stores telemetry, and
-API Management reports the active gateway configuration. The customer repository keeps the files
-that preflight and the rehearsal wrappers read: approved scope and script paths in
-`control-definition.json`, regional deployment inputs in `region.parameters.json`, and restore
-steps in `failover-runbook.md`. Native platforms and the customer change system retain portal
-exports, runtime output, approval records, and one-time rehearsal results.
+Foundry Control Plane and Agent 365 hold agent inventory. Entra holds identity state, Purview holds
+policy state, Defender holds security state, Azure Monitor holds telemetry, and API Management
+reports gateway configuration. The customer change system records approval and the rehearsal
+result.
 
-The regional path uses one Premium (classic) API Management service with an additional location, or
-separate regional gateways. Session 14 promotes infrastructure and policy changes. The rehearsal
-moves the approved traffic selector to an existing secondary path, checks it, and restores the
-primary selector when required. Identity and registry objects remain in their current regions.
+The repository keeps the approved scope and script paths in `control-definition.json`, expected
+regional values in `region.parameters.json`, and restore steps in `failover-runbook.md`. Session 14
+promotes infrastructure and policy changes. This session moves one approved selector. It does not
+move identity or registry objects, deploy a partial gateway definition, or prove fleet-wide
+lifecycle enforcement.
 
 ## Architecture
 
 ### Architecture at a glance
 
-This rehearsal switches traffic between existing regional deployments. Agent, MCP server, identity,
-and inventory records stay in their native services. Azure Resource Manager checks regional
-resources and API Management topology. The repository supplies regional parameters and the customer
-health and routing interfaces. The customer change system approves the switch and records its
-outcome.
+The primary and secondary deployments already exist. Preflight checks their Azure resources, API
+Management topology, customer script interfaces, and Bicep what-if without moving traffic. The
+customer health script checks readiness. The routing script previews and then changes the selector
+after delivery-owner approval. A second health check compares the active path with the regional
+parameters.
 
-First, check the primary and secondary deployments without moving traffic. Then preview the selector
-change from the primary path to the secondary path. After the delivery owner approves the move,
-change the selector and test the live path. The test must return the expected agent identity
-reference, policy version, endpoint, and trace fields. If it does not, restore the primary selector
-through the runbook.
+![The team checks readiness, moves one named selector to the secondary region, verifies it, and restores the primary selector.](../assets/diagrams/regional-failover-sequence.svg)
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
-|---|---|---|---|---|
-| Service state | Inspect live state in native services and Azure Resource Manager. | The operator sees current platform state. | Access is needed in each service. | A service adds or retires an inventory surface. |
-| Gateway topology | Use one Premium (classic) multi-region instance or separate regional gateways. | The design can match the approved network boundary. | One instance keeps a primary-region management plane and regional counters. Separate gateways add release work. | Capacity, blast radius, tier support, or network design changes. |
-| Restore scope | Move the approved selector and keep the secondary deployment. | The restore is narrow and the standby path stays available. | The secondary capacity remains in service. | The continuity plan changes. |
+| Decision | Chosen approach | Tradeoff |
+|---|---|---|
+| Service state | Inspect live Azure and native service state | Operators need access to every source system |
+| Gateway topology | One Premium (classic) multi-region service or separate regional gateways | One service keeps a primary-region management plane; separate gateways add release work |
+| Restore | Move only the approved selector and keep the secondary deployment | Standby capacity remains in service |
 
 ### Architecture guidance
 
 - [Manage agents at scale in Microsoft Foundry Control Plane](https://learn.microsoft.com/en-us/azure/foundry/control-plane/how-to-manage-agents)
-  describes subscription-scoped inventory, access, traces, and fleet metrics.
 - [Deploy an Azure API Management instance to multiple Azure regions](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-deploy-multi-region)
-  describes regional gateways, routing, and regional counter behavior.
 - [Reliability in Azure API Management](https://learn.microsoft.com/en-us/azure/reliability/reliability-api-management)
-  identifies the API Management tiers that support multi-region deployment.
 
 ## Before you start
 
-1. Complete Sessions 05, 07-14. If your team built the controls outside this series, verify the
-   controls in the table below before starting the rehearsal.
-2. Approve the primary and secondary regions for model availability, quota, residency, network
-   dependencies, API Management capacity, and the agent's tool path.
-3. Confirm that the customer Bicep entrypoint reads
-   `artifacts/regional/region.parameters.json` and deploys the complete regional stack.
-4. Give the inventory operator Azure Reader at the selected subscription. Make Microsoft Entra
-   AI Reader PIM-eligible at tenant scope and activate it only for the reconciliation window.
-5. Confirm the Defender Unified RBAC activation state and the permission model that gives the
-   security operator read access to the in-scope workload.
-6. Give the security operator Purview Data Security AI Viewer and a time-bound Microsoft Entra
-   Security Reader activation when Defender Unified RBAC does not cover the workload.
-7. Give the preview operator built-in Contributor at the exact regional resource group.
-8. Complete the secondary-region deployment through the Session 14 promotion path.
-9. Prepare a maintenance window, delivery authority, restore authority, and customer change record.
+Complete Sessions 05 and 07-14. If your team built those controls elsewhere, confirm these states
+before the rehearsal:
 
-### If you are starting with Session 15
-
-This table is for teams that built earlier controls outside this series. Complete every row before
-moving traffic.
-
-| Existing control | What must already work | How the owner confirms it |
+| Control | Required state | Owner check |
 |---|---|---|
-| 05 Agent baseline | Foundry project, immutable agent version, model alias, and Entra identity | Platform owner invokes the approved version. |
-| 07 Gateway | Versioned APIM policy and regional selectors | Gateway owner previews the approved selectors. |
-| 08 Inventory | Exact API, agent, and MCP identifiers with owners | Inventory owner locates each native identifier. |
-| 09 Tool security | Workload identity, allowed operations, and egress | Tool owner checks the allowed path and blocked unauthorized action. |
-| 10 Data governance | Classification, residency, Purview policy ID, and covered agent | Data owner finds the agent in the applicable policy. |
-| 11 Evaluation | Threshold policy, approved baseline, and passing candidate | Quality owner sees the release gate pass. |
-| 12 Threat defense | Payload-free comparison and Defender route | Security owner checks the prohibited action and Defender signal. |
-| 13 Observability | Telemetry definition, workbook, alerts, and smoke interface | Observability owner traces a safe request with separate failures. |
-| 14 Promotion | Protected environments, deployment metadata, and previous-release restore | Release owner sees the approval after what-if. |
+| 05 Agent baseline | Foundry project, immutable agent version, model alias, and Entra identity | Platform owner invokes the approved version |
+| 07 Gateway | Versioned API Management policy and regional selectors | Gateway owner previews the selectors |
+| 08 Inventory | Exact API, agent, and MCP identifiers with owners | Inventory owner locates every native identifier |
+| 09 Tool security | Workload identity, allowed operations, and egress | Tool owner checks the allowed path and blocked unauthorized action |
+| 10 Data governance | Classification, residency, Purview policy ID, and covered agent | Data owner finds the agent in the policy |
+| 11 Evaluation | Threshold policy, approved baseline, and passing candidate | Quality owner sees the release gate pass |
+| 12 Threat defense | Payload-free comparison and Defender route | Security owner checks the prohibited action and Defender signal |
+| 13 Observability | Telemetry definition, workbook, alerts, and smoke interface | Observability owner traces a safe request with separate failures |
+| 14 Promotion | Protected environments, deployment metadata, and previous-release restore | Release owner sees approval after what-if |
+
+Also confirm:
+
+- Both regions meet the model, quota, residency, data, network, capacity, and tool-path requirements.
+- The customer Bicep entrypoint deploys the complete regional stack. The secondary deployment is ready.
+- The inventory operator has Azure Reader at subscription scope and a time-bound PIM activation for
+  the privileged Entra AI Reader role at tenant scope.
+- The security owner has recorded the Defender Unified RBAC activation state. The security operator
+  has Purview Data Security AI Viewer and, when Unified RBAC does not cover the workload, a
+  time-bound Entra Security Reader activation at tenant scope.
+- The preview operator has built-in Contributor at the exact regional resource group.
+- The maintenance window, change record, delivery authority, and restore authority are ready.
+
+Use time-bound access. Agent Registry Administrator may add a missing registry record. Agent ID
+Administrator is required only for an identity change. Return either task to pre-work.
 
 ### Implementation files
 
@@ -105,26 +92,10 @@ moving traffic.
 | Deployment | [`artifacts/regional/region.parameters.json`](artifacts/regional/region.parameters.json) | The customer Bicep deployment, Session 15 preflight scripts, and routing wrappers |
 | Record | [`artifacts/regional/failover-runbook.md`](artifacts/regional/failover-runbook.md) | The service continuity and routing operators |
 
-### Rehearsal scripts
-
-The implementation repository supplies two small adapters for the team's health and routing
-systems. The Session 15 wrappers call them in a fixed order: confirm secondary readiness, preview
-the selector move, switch traffic after approval, then check the active path. The health-check
-script never changes traffic. The routing-control script is the only script that can do so.
-
-### Health-check script interface
-
-The wrapper calls this script twice for the secondary region.
-
-| Mode | When it runs | What it does | Result |
-|---|---|---|---|
-| `Readiness` | Before routing preview | Checks that the existing secondary deployment can serve the approved synthetic request. | Writes a temporary JSON result with `status: ready`. |
-| `Active` | After failover | Sends the same safe check through the active secondary selector. | Writes a temporary JSON result with `status: active`. |
-
-Both modes receive the secondary Azure region and a temporary result path outside the repository.
-They return exit code zero only when the check completes. The wrapper then compares the returned
-agent version, identity, gateway policy, endpoint, and trace status with `region.parameters.json`.
-A failed check stops the rehearsal.
+The wrappers call customer-owned paired PowerShell and Bash scripts. The health script accepts
+`Readiness` or `Active`, the Azure region, and a temporary result path outside the repository. Its
+JSON result reports the session marker, status, region, agent version, identity, policy version,
+endpoint checks, trace checks, and `sensitiveInputPresent`.
 
 ```powershell
 .\customer-regional-health.ps1 `
@@ -139,24 +110,8 @@ A failed check stops the rehearsal.
   --result-path <customer-managed-runtime-path>
 ```
 
-The JSON result contains `implementationSession`, `status`, `region`, `agentVersion`,
-`agentIdentityId`, `gatewayPolicyVersion`, endpoint, identity, policy, trace statuses, and
-`sensitiveInputPresent`. The synthetic request contains no customer data.
-
-### Routing-control script interface
-
-The routing-control script works with the team's existing traffic layer. It receives the approved
-selectors, Azure scope, and change-record ID. It accepts no secret or free-form command.
-
-| Mode | When it runs | What it may do | Result |
-|---|---|---|---|
-| `Preview` | Before delivery-owner approval | Shows the proposed primary-to-secondary selector move. | Makes no traffic change. |
-| `Failover` | After the preview and delivery-owner approval | Moves traffic from the named primary selector to the named secondary selector. | Changes only those approved selectors. |
-| `Restore` | When an active-path check fails or the delivery owner stops the rehearsal | Returns traffic to the named primary selector. | Changes only the approved selector pair. |
-
-Each mode returns exit code zero only when the preview or routing action completes. Any nonzero exit
-stops the wrapper. The wrapper does not call `Restore` automatically. Use the approved restore
-procedure when traffic has moved.
+The routing script accepts `Preview`, `Failover`, or `Restore`. It changes only the named selector
+pair in the approved scope and accepts no secret or free-form command.
 
 ```powershell
 .\customer-routing-control.ps1 `
@@ -175,59 +130,43 @@ procedure when traffic has moved.
   --change-record-id <customer-change-record>
 ```
 
-Use `Preview` before approval. Use `Failover` only after approval. Use `Restore` through the
-approved change process when the active-path check does not match the expected values in
-`region.parameters.json`.
-
 ## Decisions and stop conditions
 
-Resolve every `__REQUIRED_*__` value. Decide the following:
+Resolve every `__REQUIRED_*__` value. Name the exact Azure scope and the platform, service,
+security, and delivery owners. Record both regions, the gateway pattern, routing mode, distinct
+selectors, Foundry project, immutable agent version, Entra identity, policy version, Application
+Insights resource, gateway and backend URLs, customer Bicep entrypoint, paired customer scripts,
+and change process.
 
-- the exact resource-group scope and the service, platform, security, and delivery owners;
-- the primary and secondary regions, gateway topology, routing mode, and distinct selectors;
-- the Foundry project, immutable agent version, Entra agent identity, gateway policy version, and
-  Application Insights resource used by the active-path check;
-- API Management resource IDs, tiers, gateway URLs, backend URLs, and customer-owned routing;
-- the Bicep entrypoint plus paired PowerShell and Bash health and routing script paths; and
-- the customer change process that records the production decision and result.
-
-Inspect the governed agent in Foundry Control Plane and Agent 365, and inspect its MCP server in the
-applicable API inventory. Check Purview and Defender in their native portals. Those services retain
-their live state. The repository does not mirror it.
+For one multi-region service, use the same API Management resource ID for both paths and Premium
+(classic). Put the secondary region in `additionalLocations`. Separate gateways use different
+resource IDs and receive the same policy revision through Session 14. Internal mode needs
+customer-owned cross-region routing and DNS.
 
 Stop before routing when:
 
-- a sentinel remains, the approved scope differs, or a source path leaves the repository;
-- Azure Resource Manager cannot query the Foundry project, Application Insights resource, or API
-  Management resource;
-- the native services cannot locate the governed agent or MCP server, or either record lacks an
-  owner;
-- the primary and secondary selectors are missing or equal;
-- the secondary region lacks the required model, quota, data, network, or tool path;
-- the selected multi-region API Management instance is not Premium (classic);
-- separate regional gateways use the same resource ID;
-- internal routing lacks customer-owned cross-region routing and DNS;
-- the Bicep what-if has an unrelated deletion, replacement, tier change, or network change; or
-- either customer script breaks its fixed interface.
+- a required value remains, the Azure scope differs, or a script path leaves the repository;
+- Azure Resource Manager cannot query the Foundry project, Application Insights, or API Management;
+- the agent or MCP server is missing, duplicated, ownerless, or version-ambiguous;
+- selectors are missing or equal, or the regions do not meet the approved requirements;
+- the API Management tier or topology is unsupported;
+- Bicep what-if shows an unrelated deletion, replacement, tier change, or network change; or
+- a customer script breaks its documented interface.
 
-**Keep the current selector if any stop condition remains.**
+**Keep the current selector while any stop condition remains.**
 
 ## Implement
 
-### 1. Locate the governed service in native systems
+### 1. Reconcile the governed service
 
-Use Foundry Control Plane and Agent 365 to locate the governed agent. Use the API inventory to
-locate its MCP server. Check the relevant Purview and Defender views before the maintenance window.
-Do not export portal data, traces, prompts, screenshots, or runtime output to this repository.
+Locate the agent in Foundry Control Plane and Agent 365, its MCP server in the API inventory, and
+the applicable Purview and Defender state. Do not copy portal exports, prompts, traces,
+screenshots, or runtime output into the repository.
 
-### 2. Complete the regional parameters
+### 2. Complete the inputs and check decisions
 
-Complete `regional/region.parameters.json`. The customer Bicep entrypoint reads this file for the
-regional deployment inputs used during the rehearsal.
-
-For one multi-region instance, use the same API Management resource ID for both paths and include
-the secondary region under `additionalLocations`. Separate gateways use different resource IDs and
-receive the same policy revision through Session 14.
+Complete `artifacts/control-definition.json`, `artifacts/regional/region.parameters.json`, and the
+restore runbook.
 
 ```powershell
 .\scripts\preflight.ps1 `
@@ -240,7 +179,7 @@ receive the same policy revision through Session 14.
   --approved-scope "/subscriptions/<id>/resourceGroups/<name>"
 ```
 
-### 3. Run live checks and deployment preview
+### 3. Check live readiness and preview deployment changes
 
 ```powershell
 .\scripts\preflight.ps1 `
@@ -253,14 +192,13 @@ receive the same policy revision through Session 14.
   --approved-scope "/subscriptions/<id>/resourceGroups/<name>"
 ```
 
-Ready preflight checks live Azure resources and API Management topology, then runs Bicep what-if.
+Ready preflight checks the live resources and gateway topology, then runs Bicep what-if.
 
-### 4. Run the regional rehearsal
+### 4. Run the rehearsal
 
-Freeze infrastructure and gateway policy changes. The service owner checks secondary readiness. The
-routing script previews the approved selectors.
-
-![The team checks readiness, moves one named selector to the secondary region, verifies it, and restores the primary selector.](../assets/diagrams/regional-failover-sequence.svg)
+Freeze infrastructure and gateway policy changes. The wrapper reruns ready preflight, checks
+secondary readiness, previews the selector move, pauses for delivery-owner approval, moves traffic,
+and checks the active path.
 
 ```powershell
 .\scripts\rehearse-failover.ps1 `
@@ -275,31 +213,26 @@ routing script previews the approved selectors.
   --runtime-directory "/customer/runtime"
 ```
 
-The wrappers rerun ready preflight before the health check. They reject empty or equal selectors.
-The delivery owner confirms the production traffic move after preview. Each wrapper removes its
-temporary health result outside the repository. The customer change system records the outcome.
+The temporary health result stays outside the repository and is removed by the wrapper. The
+customer change system records the outcome.
 
 ## Confirm the result
 
-Inspect wrapper output and active service telemetry.
+Inspect the wrapper output and active telemetry once. The secondary path must report the expected
+immutable agent version, Entra identity reference, API Management policy version, endpoint, and
+trace fields from `region.parameters.json`. `sensitiveInputPresent` must be false.
 
-**Expected result:** the immutable agent version is active through the secondary selector and
-regional backend. The Entra agent identity, API Management policy version, endpoint, and trace
-checks match `region.parameters.json`.
-
-Restore the primary selector before another change if a field differs.
+If any field differs, stop other changes and restore the primary selector.
 
 ## After implementation
 
-Keep `control-definition.json`, `regional/region.parameters.json`, the paired wrappers, and the
-Markdown restore runbook. The platform owner updates the control definition and regional parameters
-when deployment or script paths change. The service continuity owner updates the runbook before each
-scheduled rehearsal and after routing, topology, or restore-process changes.
+The platform owner maintains the control definition and regional parameters. The service continuity
+owner maintains the runbook and paired rehearsal wrappers. Native Microsoft services remain
+authoritative for live inventory, identity, policy, security, telemetry, and gateway state. The
+customer change system keeps approval and runtime results.
 
-Azure, Foundry, Agent 365, Entra, Purview, Defender, Azure Monitor, API Management, and the
-customer change system remain the systems of record. GitHub protected environments, deployment
-metadata, and release metadata continue to record promotion status under Session 14.
+To restore, check primary readiness, preview the secondary-to-primary selector move, get
+delivery-owner confirmation, and call the routing control in `Restore` mode. Restore only the
+documented selector pair. Then check the active primary path. Keep the secondary deployment.
 
-Restore the primary selector through the approved routing control in the runbook. Check primary
-readiness, preview the selector update, get delivery-owner confirmation, then restore only the
-documented selector. The secondary region remains deployed.
+Expire all temporary human role activations through the approved access process.

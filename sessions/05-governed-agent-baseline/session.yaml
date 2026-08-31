@@ -3,7 +3,7 @@ session:
   id: "05"
   slug: "governed-agent-baseline"
   title: "Governed Microsoft Foundry agent baseline"
-  duration_minutes: 180
+  duration_minutes: 150
   status: "draft"
   last_verified: "2026-08-28"
   audience:
@@ -11,13 +11,12 @@ session:
     - "Microsoft Foundry platform and identity engineers"
     - "Security, safety, and observability owners"
   prerequisites:
-    - "Sessions 01 through 03 are complete in the approved nonproduction subscription, resource group, Foundry resource, and Foundry project."
-    - "The existing Microsoft Foundry resource has Azure resource property `kind` set to `AIServices`. Its existing project is reachable from the approved execution host."
+    - "Sessions 01 through 03 are complete in the approved nonproduction subscription, resource group, `AIServices` Foundry resource, and Foundry project. The approved execution host can reach the project."
     - "The agent deployment operator has the time-bound Foundry User role, role ID `53ca6127-db72-4b80-b1b0-d745d6d5456d`, on that exact Foundry project."
     - "The Session 04 consolidated approval record links the selected deployment name to its exact model coordinates. The live ARM child deployment has provisioning state `Succeeded`. The AI product owner has checked the current Agent Service region-and-model support table for prompt agents and OpenAPI tools in the Foundry project region."
-    - "The downstream API resource scope has an approved read-only HTTPS operation, exact Microsoft Entra audience, authorization owner, and exact built-in or custom read role assignment for the Foundry project managed identity."
+    - "The downstream API resource scope has an approved read-only HTTPS operation, exact Microsoft Entra audience, authorization owner, and exact built-in or custom read role assignment for the Foundry project managed identity. A custom role names the action required by `get_policy`."
     - "The exact RAI policy name is recorded for the selected model deployment. The safety owner has approved its input and output filtering settings."
-    - "Application Insights is connected to the Foundry project. The approved operations group has Log Analytics Reader on that exact Application Insights resource and, for protected Log Analytics tables, Privileged Monitoring Data Reader."
+    - "Application Insights is connected to the Foundry project. The approved operations group has Log Analytics Reader on that resource and, when its Log Analytics tables are protected, Privileged Monitoring Data Reader."
   dependencies:
     - "Session 01 - Microsoft Foundry platform baseline, inventory, and landing-zone guardrails"
     - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
@@ -30,15 +29,15 @@ session:
     - "microsoft-entra-workload-id"
     - "azure-monitor"
     - "application-insights"
-  control_objective: "Create a versioned prompt agent and pin it to a stable endpoint. Its unique Entra Agent Identity identifies the agent. The Foundry project managed identity authorizes the approved read-only OpenAPI tool. Keep write operations out of the tool definition, apply the RAI policy in the agent definition, and enable server-side tracing."
+  control_objective: "Create and pin a versioned prompt agent. Its unique Entra Agent Identity identifies the agent and secures the endpoint. The Foundry project managed identity authorizes the approved read-only OpenAPI tool. Keep write operations out of the tool definition, apply the RAI policy, and enable server-side tracing."
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Create a versioned prompt agent from approved instructions and a machine-readable definition."
-  - "Expose the approved read-only OpenAPI operation. Omit the prohibited write action from the agent's available tools."
-  - "Apply the RAI policy in the agent definition, Microsoft Entra endpoint authorization, and server-side tracing through the connected Application Insights resource."
-  - "Use the unique Entra Agent Identity to identify the agent and secure its endpoint. Use the Foundry project managed identity for the direct OpenAPI read. Pin the stable endpoint to the implemented version."
-  - "A synthetic get_policy read returns only the approved fields through the Foundry project managed identity. No other tool runs."
+  - "Create a prompt-agent version from the approved instructions, model, RAI policy, and OpenAPI definition."
+  - "Give the agent a unique Entra Agent Identity, protect its stable endpoint with Microsoft Entra authorization, and pin all traffic to the implemented version."
+  - "Expose `get_policy` as the approved application-only read through the Foundry project managed identity. Keep the prohibited write action out of the tool definition."
+  - "Enable server-side tracing through the connected Application Insights resource."
+  - "Confirm that one synthetic `get_policy` request returns approved fields and invokes no other tool."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"

@@ -14,276 +14,173 @@ html: true
 
 # Entra identity, RBAC, PIM, and workload identities
 
-240 minutes · Group access, PIM elevation, and GitHub OIDC trust
+210 minutes · Group access, PIM elevation, and GitHub OIDC trust
 
 ---
-
-## Control objective
-
-> Configure four group-based role assignments, PIM eligibility for Foundry administration, and one GitHub workload identity without a client secret for the approved nonproduction scopes.
-
-### Session result
-
-- Normal human access is group based.
-- Elevated Foundry administration is PIM eligible.
-- One managed identity accepts OIDC tokens from one protected GitHub environment.
-- The roles are scoped to the Foundry resource, project, and storage account recorded for this session.
-
-<!-- Notes: Set the boundary first. Change identity state only in the approved nonproduction scope. -->
-
----
-
-## Implementation outcomes
-
-1. Assign four functional groups to current Foundry roles at the smallest practical scopes.
-2. Assign normal human access through groups and move platform elevation into PIM.
-3. Deploy a dedicated managed identity whose credential trusts tokens from one protected GitHub environment.
-4. Confirm the live identity, credential, and role scopes.
-
----
-
-<!-- _class: section-divider -->
 
 ## Why it matters
 
-PIM limits the time for elevated human administration. Workloads need narrow role assignments without a stored Azure client secret.
+> Configure four group-based human role assignments, PIM eligibility for Foundry administration, and a GitHub workload identity without a client secret at the approved nonproduction scopes.
 
----
+By the end of the session:
 
-## Choose the identity flow
+- Three customer-owned groups have standing roles at the Foundry resource or project.
+- The platform-administrator group is PIM-eligible for Foundry Account Owner.
+- One managed identity trusts one protected GitHub environment.
+- Its roles apply to one Foundry resource and one storage account.
 
-| Situation | Use |
-|---|---|
-| A signed-in person works directly in Foundry or Azure | Human group access, with PIM only for elevation |
-| A workflow or application should keep the same authority for every run | Workload or application-only managed identity |
-| A Foundry agent needs its own runtime actor | Agent identity in [Session 05](../05-governed-agent-baseline/) |
-| A middle tier must call a downstream API and authorization must vary by signed-in user | [Delegated API access with OAuth on-behalf-of](../../modules/obo-delegated-access/) |
-
-> Select OBO only when the downstream API must authorize the signed-in user.
-
-<!-- Notes: Describe this as a user-assigned managed identity for GitHub OIDC. -->
-
----
-
-## Architecture overview
-
-<!-- _class: diagram -->
-
-![An authorization decision selects the identity path for a human, GitHub workload, Foundry agent, or delegated user.](assets/diagrams/identity-boundary.svg)
-
----
-
-## What this means
-
-People receive access through customer-owned groups. Platform administrators activate a
-time-limited role through PIM. GitHub uses a separate, application-only OIDC trust with no stored
-Azure client secret.
-
-Azure RBAC and PIM record live human access. The managed identity and federated credential define
-the GitHub trust. Session 03 adds private connectivity; Session 05 configures the Agent ID.
-
----
-
-<!-- _class: decision -->
-
-## Boundaries
-
-| Group | Role | Scope | Mode |
-|---|---|---|---|
-| Platform administrators | Foundry Account Owner | Foundry resource | PIM eligible |
-| Project managers | Foundry Project Manager | Foundry resource | Group |
-| Developers/users | Foundry User | One project | Group |
-| Auditors | Reader | Foundry resource | Group |
-| Agent endpoint callers | Foundry Agent Consumer | Project or individual agent | Deferred to Session 05 |
-
-All assignments remain at the documented resource, project, or storage-account scopes. Platform elevation is **PIM eligible and time-bound**.
-
-`Foundry Owner` is omitted because it combines account administration with project development,
-publishing, and endpoint use.
-
----
-
-## Resolve stable IDs in preflight
-
-Preflight reads stable role IDs from `role-definitions.json`. For each named role, it checks the
-expected ID, an accepted current or transitional display name, and the built-in type against live
-Azure role definitions. It then compiles both Bicep files.
-
-Display names can lag across tools. Resolve role IDs live and record the role names in decision records.
-
----
-
-## Configure time-bound PIM elevation
-
-Use the approved platform-administrator group as the PIM-eligible principal.
-
-1. The operator is eligible, not active.
-2. Activation requires MFA and justification.
-3. A member of the approved approver group approves or denies each activation.
-4. Each activation lasts no more than two hours.
-5. End group eligibility on the date approved through the customer identity change process.
-
-> PIM settings belong to one role on one resource. They do not inherit from a higher scope.
-
-After delivery, the identity owner schedules a recurring PIM access review for eligible and active
-privileged assignments.
-
-<!-- Notes: Stop if the change touches a shared policy or emergency-access path. -->
+<!-- Notes: Keep production and shared production resources out of scope. -->
 
 ---
 
 <!-- _class: two-column -->
 
-## Implementation tradeoffs
+## Architecture and authority
 
 <div class="columns">
 <div>
 
-### Chosen boundaries
+**Human path**
 
-- Groups for normal human access
-- PIM for elevated administration
-- Exact GitHub environment OIDC trust
+Customer-owned groups → Azure RBAC
+
+Platform administrators → PIM activation → Foundry Account Owner
+
+**Workload path**
+
+Protected GitHub environment → OIDC token → user-assigned managed identity → two scoped Azure roles
 
 </div>
 <div>
 
-### Costs and limits
-
-- Assign an owner for group membership and PIM approvals
-- Activation adds a deliberate step
-- Workload authority cannot vary by signed-in user
-- Azure DevOps workload identity federation needs a separate service connection and trust
+![Exact GitHub OIDC claims federate to a managed identity with resource-scoped Azure roles.](assets/diagrams/oidc-trust-scope.svg)
 
 </div>
 </div>
 
-Revisit the design when task scopes change, the protected environment moves, or downstream authorization must follow the signed-in user.
+Azure RBAC, PIM, and the managed identity hold live state. The repository owns the Bicep definitions and stable role IDs.
+
+<!-- Notes: The workload token is application-only. It carries no signed-in user's authority. -->
 
 ---
 
-## The managed identity trusts specific GitHub claims
+<!-- _class: decision -->
 
-```text
-issuer
-https://token.actions.githubusercontent.com
+## Roles and identity boundary
 
-subject
-repo:OWNER/REPOSITORY:environment:ENVIRONMENT
+| Access | Role | Scope | Mode |
+|---|---|---|---|
+| Platform administration | Foundry Account Owner | Foundry resource | PIM eligible |
+| Project management | Foundry Project Manager | Foundry resource | Group |
+| Project work | Foundry User | One project | Group |
+| Inspection | Reader | Foundry resource | Group |
+| GitHub workload | Cognitive Services User + Storage Blob Data Reader | Foundry resource + storage account | Managed identity |
 
-audience
-api://AzureADTokenExchange
-```
+Foundry Agent Consumer waits for [Session 05](../05-governed-agent-baseline/). Use the [delegated OBO module](../../modules/obo-delegated-access/) when downstream authorization must follow the signed-in user.
 
-The federated credential is stored on the managed identity.
-
-It accepts a token when GitHub issues the matching issuer, subject, and audience. The workflow needs `id-token: write`. The subject does not support wildcards.
-
-Microsoft Entra ID exchanges the GitHub OIDC token for an application-only token that represents
-the managed identity. Azure then applies that identity's role assignments. OBO is for downstream
-APIs that authorize the signed-in user.
-
-Sources: [Microsoft Entra workload identity federation](https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation-create-trust-user-assigned-managed-identity) and [GitHub OIDC for Azure](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure-openid-connect).
+<!-- Notes: Foundry Owner is too broad for this separation of duties. -->
 
 ---
 
-## Safety gates
+## Implementation tradeoffs
 
-- Production: stop if the subscription, resource group, Foundry resource, Foundry project, or storage account is production or shared with production.
-- Role scope: stop if a preview shows a subscription-level assignment.
-- PIM: stop without recorded owners, customer approvers, licensing, and an approved emergency path.
-- OIDC: stop if the managed identity would accept tokens from more than one protected environment.
-- Customer data: inspect configuration only; do not read model, blob, or secret content.
+| Decision | Required answer |
+|---|---|
+| Scope | Approved nonproduction subscription, resource group, Foundry resource, project, and storage account |
+| Human access | Four customer-owned group object IDs |
+| PIM | Owner, approver group, expiry, two-hour activation, MFA, and justification |
+| GitHub trust | Owner, repository, and one protected environment |
 
-<!-- Notes: A read-only role-definition lookup at subscription scope is not a role assignment. -->
+The GitHub credential matches this subject exactly:
 
----
+`repo:OWNER/REPOSITORY:environment:ENVIRONMENT`
 
-## Implementation path
+Issuer: `https://token.actions.githubusercontent.com`<br>
+Audience: `api://AzureADTokenExchange`
 
-1. Decide owners, approvers, operating dates, and the GitHub environment.
-2. **Run preflight** to check the approved nonproduction subscription and resource group, read role IDs from `role-definitions.json`, reject unresolved placeholder values, and compile Bicep.
-3. Preview and deploy the three standing group assignments.
-4. Configure Foundry Account Owner eligibility through PIM.
-5. Preview and deploy the managed identity, credential, and two role assignments.
-6. Confirm the live configuration once.
+<!-- Notes: The subject has no wildcard support. Azure DevOps uses a separate service-connection path. -->
 
 ---
 
 <!-- _class: implementation -->
 
-## Apply the identity assignments
+## Implementation path
 
-Timebox: 240 minutes
+**Total session: 210 minutes. Guided implementation: about 150 minutes.**
 
-Configure human access and one workload identity in the approved nonproduction scope.
+1. Record scopes, group IDs, PIM decisions, and the GitHub environment.
+2. Run preflight to check scope, sentinels, role IDs, and Bicep builds.
+3. Preview and deploy the three standing group assignments.
+4. Configure Foundry Account Owner eligibility in PIM.
+5. Preview and deploy the managed identity, exact GitHub trust, and two workload roles.
+6. Confirm live RBAC, PIM, and workload state once.
 
-- Human access uses groups and PIM.
-- GitHub OIDC trust uses one specific environment subject.
-- The workload identity has two narrow assignments.
-- Use deployment previews to confirm that every assignment stays within the Foundry resource, Foundry project, or storage-account scopes recorded for this session.
-- The confirmation commands read configuration and leave no output in the repository.
+The remaining time covers the briefing, decisions, and restore handoff.
 
-<!-- Notes: Pause after each preview. The change owner decides whether deployment proceeds. -->
-
----
-
-## Confirm the result
-
-In one review, inspect live Azure RBAC assignments, Entra PIM eligibility and role settings, and the workload identity at its approved scopes.
-
-Inspect one marked workload identity:
-
-1. The tag reads `implementationSession: 02-identity-privileged-access`.
-2. One credential has the expected issuer, environment subject, and audience.
-3. Cognitive Services User is scoped to the Foundry resource.
-4. Storage Blob Data Reader is scoped to one storage account.
-5. No direct assignment appears at subscription scope.
-6. No unexpected portal-created direct-user assignment remains on the Foundry resource or project.
-
-Read the console to confirm the live configuration.
+<!-- Notes: Review each preview before deployment. The guide provides paired PowerShell and Bash commands. -->
 
 ---
 
-## Resources in operation
+## Stop before changing identity state
 
-| State | Operating owner |
-|---|---|
-| Three group-based human assignments | Customer identity and Foundry owners |
-| PIM eligibility and per-activation settings | Microsoft Entra PIM; customer identity owner |
-| Recurring privileged-access review | Microsoft Entra PIM access reviews; customer identity owner |
-| Managed identity, GitHub credential, and two direct roles | Workload and platform owners |
-| Bicep files, `role-definitions.json`, and support scripts | Customer repository owner |
+- The target is production, shared with production, or not approved.
+- A role ID, accepted name, or `BuiltInRole` type does not resolve.
+- A preview assigns a role above the documented resource, project, or storage account.
+- PIM lacks a named owner, approver group, licence, expiry, or protected emergency path.
+- Someone proposes permanent active Foundry Account Owner.
+- The GitHub trust covers multiple repositories, all branches, or an unprotected environment.
+- A check would read model responses, blobs, secrets, or other customer content.
 
-Move the identity, roles, groups, or GitHub environment trust into production through a separate customer change.
-
----
-
-## Restore scope
-
-The guarded script:
-
-- requires `SupportsShouldProcess` and high-impact confirmation;
-- checks the `implementationSession` marker;
-- refuses assignments outside the documented Foundry and storage scopes; and
-- removes only the two workload assignments and the marked identity.
-
-The identity owner removes PIM eligibility before restoring prior settings.
-
-The workload script removes the two role assignments before it removes the managed identity.
-
-<!-- Notes: Use the approved identity change path before any removal. -->
+<!-- Notes: Subscription-level role-definition lookup is expected. Subscription-level role assignment is not. -->
 
 ---
 
-## Recap and next dependency
+<!-- _class: two-column -->
 
-- Humans: groups for normal work; PIM for elevated work.
-- Workload: one identity, one exact trust, and two scoped roles.
-- Next: use the [delegated OBO module](../../modules/obo-delegated-access/) when a downstream API must authorize the signed-in user.
-- Safety: no production scope, subscription assignments, broad OIDC subject, or customer-data access.
-- Result: inspect the live configuration once. Keep no command output.
-- [Session 03](../03-private-networking-dns/) configures private service connectivity and firewall-controlled Agent Service traffic for these identities.
+## Confirm and operate
+
+<div class="columns">
+<div>
+
+### Confirm once
+
+- Three standing group assignments match the approved scopes.
+- Foundry Account Owner is eligible, not standing.
+- PIM settings match the approved activation controls.
+- The marker is `02-identity-privileged-access`.
+- One credential has the exact GitHub claims.
+- Two workload roles use the approved resources.
+
+</div>
+<div>
+
+### Keep in operation
+
+- Identity owner: groups, PIM, and access reviews
+- Foundry owners: human role need
+- Workload and platform owners: managed identity and roles
+- Repository owner: Bicep, role IDs, and preflight scripts
+
+</div>
+</div>
+
+<!-- Notes: Read live service state. Keep command output out of the repository. -->
+
+---
+
+## Restore the prior state
+
+Use the approved identity change path.
+
+1. Remove PIM eligibility, then restore any role settings changed by Session 02.
+2. Remove a group assignment only after its owner confirms that Session 02 created it and no task needs it.
+3. Confirm no workflow uses the protected GitHub environment.
+4. Check the workload identity marker and its two documented assignments.
+5. Remove those assignments, then remove the managed identity and its child credential.
+
+Do not alter emergency access. Production needs a separate change.
+
+<!-- Notes: There is no removal script. Owners perform the guarded manual sequence. -->
 
 ---
 

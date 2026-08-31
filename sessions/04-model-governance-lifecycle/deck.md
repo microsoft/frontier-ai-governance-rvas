@@ -14,87 +14,49 @@ html: true
 
 # Model governance, data residency, quota, and lifecycle
 
-180 minutes · Approve the exact model version, then deploy it from version-controlled files
-
-<!-- Notes: Frame the session as a deployment control under an existing Foundry resource. -->
-
----
-
-## Control objective
-
-> Deploy exact approved serverless API model versions through version-controlled deployment profiles, preflight checks, and Bicep. Meet the workload's processing-location requirement.
-
-### Session result
-
-- The JSON file records the approved deployment profile.
-- Preflight compares it with current Azure state.
-- Bicep creates the listed child deployments.
-
-<!-- Notes: The external decision system remains the source for supporting review detail. -->
-
-The preflight scripts and Bicep files check deployments on this path. An authorized principal can
-still deploy through another template, the portal, the CLI, or an API.
+150 minutes · Check the approved model profile, deploy it, and confirm the live result
 
 ---
 
 ## Why it matters
 
-Model version and deployment type decide where processing happens and how quota is used.
+> Deploy exact approved serverless API model versions through version-controlled profiles, preflight checks, and Bicep. Meet the workload's processing-location requirement.
 
-Before Bicep changes the existing Foundry resource, preflight checks the exact model version,
-deployment type, processing location, and quota.
+By the end of the session:
+
+- Git records the approval reference and exact deployment settings.
+- Preflight checks scope, access, lifecycle, processing location, quota, and what-if.
+- Bicep deploys the listed child resources.
+- The live model coordinates, SKU, capacity, and approval tag match the profile.
+
+<!-- Notes: The decision system keeps the full approval and review history. -->
+
+---
+
+<!-- _class: two-column -->
+
+## Architecture and control boundary
+
+<div class="columns">
+<div>
+
+The decision system authorizes the model.
+
+The repository owns the deployment profile and Bicep.
+
+Azure owns live availability, quota, lifecycle, and deployment state.
+
+Other templates, the portal, CLI, and APIs can bypass this path. They need a separate control.
+
+</div>
+<div>
 
 ![An approved model choice moves through preflight, deployment, review, and a keep, replace, or retire decision.](assets/diagrams/model-governance-flow.svg)
 
-<!-- Notes: Workload purpose and processing location narrow into exact deployment state. A mismatch stops at preflight. -->
-
----
-
-<!-- _class: decision -->
-
-## Control boundary
-
-### Covered
-
-Supported serverless API model deployments that `main.bicep` creates under the existing
-`AIServices` resource.
-
-### Related paths
-
-- Other templates, the portal, CLI, and API use separately governed deployment paths
-- Instant-access models and managed-compute deployments require their own model governance design
-- Sessions 01 and 03 own Foundry account, project, connection, network, and content-filter setup
-
-> This path **does not enforce an allowlist across every deployment method**.
-
-<!-- Notes: Separate version-controlled intent from platform-wide prevention. -->
-
----
-
-## Architecture overview
-
-Each business approval maps to a model deployment. The decision system keeps the full review.
-`deployment-profiles.json` keeps the settings Bicep needs. Preflight compares those settings with
-current Azure state before Bicep changes a child deployment.
-
-<div class="cards">
-<div class="card">
-
-### Deployment choices
-
-`models/deployment-profiles.json`
-
-Records the external approval reference and the model version, SKU, capacity, content filter,
-processing-location requirement, review date, quota headroom, and `NoAutoUpgrade` setting that
-Bicep applies.
-
 </div>
 </div>
 
-Azure holds the live deployment state. Session 05 uses the approved deployment name and model
-coordinates. Another template, the portal, the CLI, or an API can bypass these checks.
-
-<!-- Notes: Live service facts stay in Azure and are read again during preflight. -->
+<!-- Notes: Do not describe these files as a platform-wide allowlist. -->
 
 ---
 
@@ -102,97 +64,30 @@ coordinates. Another template, the portal, the CLI, or an API can bypass these c
 
 ## Implementation tradeoffs
 
-| Decision | Chosen approach | Benefit | Cost |
-|---|---|---|---|
-| Where approval lives | Keep the full review in the decision system and deployment configuration in Git | The deployment path stays readable without duplicating the review | The external approval reference must match the change |
-| Where service facts come from | Read lifecycle and quota from Azure during preflight | The gate uses the current platform state | A missing field stops the run for a named manual check |
-| How versions move | Pin the exact version with `NoAutoUpgrade` | Every version change returns to approval | The owner must start retirement work before support ends |
-| What these files check | Deploy approved model versions through the version-controlled profile, preflight, and Bicep path | Operators can preview each change and restore an earlier deployment file | Other authorized methods can still create deployments |
-
-<!-- Notes: Revisit these choices when stable service fields or preventive controls become available. -->
-
----
-
-<!-- _class: decision -->
-
-## Approval checkpoint
-
-**Pause** until the team records:
-
-1. approved model name, version, and provider format;
-2. approved workload purpose and a `global`, `data-zone:us`, `data-zone:eu`, `data-zone:apac`, or `region:<azure-region>` processing requirement;
-3. decision authority and external decision reference;
-4. lifecycle owner, review date, and change route; and
-5. minimum unused quota percentage.
-
-Start a new external decision and update the profile for every model version change.
-
-<!-- Notes: Supporting terms and review detail stay in the referenced customer system. -->
-
----
-
-## Processing location follows deployment type
-
-| Requirement | Deployment family |
+| Decision | Required answer |
 |---|---|
-| Global processing | `GlobalStandard`, `GlobalProvisionedManaged`, `GlobalBatch` |
-| Data-zone processing | `DataZoneStandard`, `DataZoneProvisionedManaged`, `DataZoneBatch` |
-| Regional processing | `Standard`, `ProvisionedManaged` where supported |
+| Model | Exact name, version, format, deployment name, and approval ID |
+| Deployment | SKU, capacity, Responsible AI policy, and `NoAutoUpgrade` |
+| Processing | `global`, a US/EU/APAC data zone, or `region:<azure-region>` |
+| Operation | Review date, lifecycle owner, change route, and quota headroom |
 
-For data-zone approvals, use `data-zone:us`, `data-zone:eu`, or `data-zone:apac`.
-`DeveloperTier` is excluded. It is a 24-hour fine-tuned-model evaluation tier with no SLA or
-data-residency guarantee.
+`DeveloperTier` is outside this path. A model version change needs a new external decision and profile update.
 
-The approved model and SKU must be available to the existing Foundry resource.
-
-<!-- Notes: Resource location alone is not the inference processing boundary. -->
+<!-- Notes: These values must be settled before the team starts preflight. -->
 
 ---
 
-## Preflight checks live deployment inputs
+## Processing location follows the SKU
 
-- Deployment profile matches the approved change
-- Review date has not passed
-- Existing resource ID and `AIServices` kind
-- Cognitive Services Contributor at the approved resource scope
-- Live approved model, version, format, SKU, and capacity bounds
-- Live `raiPolicyName` under the exact Foundry resource
-- Match between a regional requirement and the Foundry account location
-- Live lifecycle state and deprecation fields when Azure returns them
-- Live quota metric and approved headroom when Azure returns a safe mapping
-- **Bicep build and resource-scoped what-if**
+| Requirement | Supported SKU family |
+|---|---|
+| Global | `GlobalStandard`, `GlobalProvisionedManaged`, `GlobalBatch` |
+| US, EU, or APAC data zone | `DataZoneStandard`, `DataZoneProvisionedManaged`, `DataZoneBatch` |
+| Regional | `Standard`, `ProvisionedManaged`, where supported |
 
-<!-- Notes: The script rejects unrelated what-if resource IDs. -->
+The Foundry resource location alone does not define the inference processing boundary.
 
----
-
-## Manual gates stay visible
-
-Azure can omit `lifecycleStatus` or a quota `usageName`. It also does not expose a stable
-region-to-data-zone mapping. Quota permissions can block the usage lookup.
-
-When that happens:
-
-1. Preflight stops.
-2. The operator checks the source named in the stop message.
-3. The operator reruns with the needed manual-confirmation switch.
-
-The switch records a human check for that run. It does not claim that the CLI supplied the missing data.
-
-<!-- Notes: Never turn missing API data into a false pass. -->
-
----
-
-## Complementary policy control
-
-This session deploys models through the version-controlled profiles, preflight scripts, and Bicep
-files. Azure Policy can separately deny selected deployment SKU names across other authorized
-methods.
-
-[Microsoft guidance](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types#restrict-deployment-types-with-azure-policy)
-shows the `Microsoft.CognitiveServices/accounts/deployments/sku.name` restriction pattern.
-
-<!-- Notes: Route Azure Policy deployment restrictions through the platform policy owner. -->
+<!-- Notes: Preflight checks regional matches. Data-zone membership needs a manual check because Azure CLI lacks a stable mapping. -->
 
 ---
 
@@ -200,123 +95,82 @@ shows the `Microsoft.CognitiveServices/accounts/deployments/sku.name` restrictio
 
 ## Implementation path
 
-Timebox: 180 minutes
+**Total session: 150 minutes. Guided implementation: about 105 minutes.**
 
-1. Complete `deployment-profiles.json` after normal change approval.
-2. Name the existing Foundry resource in `sandbox.bicepparam`.
-3. Run preflight with the operator object ID.
-4. Resolve every stop and inspect the scoped what-if.
-5. Deploy with `main.bicep`.
-6. Confirm every live child deployment.
+1. Complete `deployment-profiles.json` and `sandbox.bicepparam`.
+2. Run preflight against the exact Foundry resource and operator.
+3. Complete any named lifecycle, quota, or data-zone manual check.
+4. Inspect the scoped `FullResourcePayloads` what-if.
+5. Deploy the listed child models.
+6. Confirm the live result and hand off lifecycle ownership.
 
-<!-- Notes: Session time starts with the external decision already made. -->
+The remaining time covers the briefing, required decisions, and restore guidance.
 
----
-
-## Run preflight
-
-```powershell
-.\scripts\preflight.ps1 `
-  -ApprovedSubscriptionId $approvedSubscriptionId `
-  -ResourceGroupName $resourceGroup `
-  -FoundryAccountName $foundryAccount `
-  -OperatorObjectId $operatorObjectId
-```
-
-```bash
-./scripts/preflight.sh \
-  --approved-subscription-id "$approved_subscription_id" \
-  --resource-group-name "$resource_group" \
-  --foundry-account-name "$foundry_account" \
-  --operator-object-id "$operator_object_id"
-```
-
-<!-- Notes: Add a manual switch only after completing the portal check listed by preflight. -->
+<!-- Notes: The implementation guide contains paired PowerShell and Bash commands. -->
 
 ---
 
-## What-if is tightly scoped
+## Stop before the change when
 
-Preflight requests `FullResourcePayloads` output and permits changes only to:
+- A `__REQUIRED_*__` value remains or a JSON integer is still quoted.
+- The subscription, resource group, Foundry resource, or operator role is wrong.
+- The review date has passed or the model or SKU is deprecated.
+- Processing location, capacity, or quota headroom fails.
+- The named Responsible AI policy is missing.
+- Azure omits required lifecycle, quota, or data-zone facts and the operator has not completed the named manual check.
+- What-if contains another resource, a deletion, or an unsupported change.
 
-```text
-.../Microsoft.CognitiveServices/accounts/<foundry>/deployments/<listed-name>
-```
-
-It rejects:
-
-- another resource ID;
-- Ignore, Delete, or Unsupported;
-- any change type other than Create, Modify, or NoChange; or
-- a deployment name missing from the deployment profile.
-
-<!-- Notes: The template uses incremental mode and an existing parent resource. -->
+<!-- Notes: A manual switch records a completed check. It does not claim Azure supplied missing data. -->
 
 ---
 
-## Confirm the live deployment
+<!-- _class: two-column -->
 
-For each approved profile, inspect the matching child resource.
+## Confirm and operate
 
-Expected result:
+<div class="columns">
+<div>
 
-- The provisioning state is `Succeeded`.
-- The approved model name, version, and format match.
-- The SKU and capacity match.
-- `modelApprovalId` matches the deployment profile's `approvalId`.
+### Confirm once
 
-No inference request is needed for this check.
-
-<!-- Notes: Session 05 consumes the resulting live deployment. -->
-
----
-
-## Live deployment and removal
-
-<div class="cards">
-<div class="card">
-
-### Lifecycle owner
-
-Owns the review date, replacement work, and change notification route.
+- Provisioning state is `Succeeded`.
+- Model name, version, and format match.
+- SKU and capacity match.
+- `modelApprovalId` matches the profile.
 
 </div>
-<div class="card">
+<div>
 
-### Platform owner
+### Keep in operation
 
-Owns live availability, quota, deployment capacity, and removal.
-
-</div>
-<div class="card">
-
-### Decision authority
-
-Keeps the supporting detail in the approved change system.
+- Platform team: live capacity and deployments
+- Lifecycle owner: review and replacement
+- Decision authority: approval history
+- Platform engineering: profiles, Bicep, and preflight
 
 </div>
 </div>
 
-Remove a deployment only when it carries the Session 04 marker.
-
-<!-- Notes: Other deployments and the parent Foundry resource remain in place. -->
+<!-- Notes: Session 05 consumes the approved deployment name and model coordinates. -->
 
 ---
 
-## Recap
+## Restore or remove safely
 
-- Bicep reads `deployment-profiles.json` as deployment input.
-- Azure remains the live source for lifecycle, availability, and quota.
-- Preflight names each required manual check when stable CLI data is missing.
-- Separately governed deployment methods remain available.
-- [Session 05](../05-governed-agent-baseline/) uses the approved live deployment.
+To restore an earlier approved version:
 
-<!-- Notes: Close on the review record that Session 05 consumes. -->
+1. Restore its profile through the approved change process.
+2. Rerun preflight and inspect what-if.
+3. Redeploy the child resource.
+
+Remove one deployment only after the workload and platform owners confirm that no consumer uses it.
+Check for `implementationSession=04-model-governance-lifecycle`. Leave the parent Foundry resource
+and every other deployment in place.
+
+<!-- Notes: Other deployment methods still need a policy, permission, inventory, or change-control design. -->
 
 ---
 
 <!-- _class: closing -->
 
 # Thank you!
-
-<!-- Notes: Confirm the current owner and next review date. -->

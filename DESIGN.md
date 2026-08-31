@@ -53,7 +53,7 @@ The homepage follows this order:
 6. Pre-work
 7. Optional modules
 
-The program facts remain quiet inside the hero: 15 sessions, 59.5 facilitated working hours, and three phases.
+The program facts remain quiet inside the hero: 15 sessions, 48.5 facilitated working hours, and three phases.
 The outcome panel covers the governed deployment, source-controlled implementation, observable
 check, and named restore or removal ownership.
 

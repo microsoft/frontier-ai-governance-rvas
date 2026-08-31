@@ -3,7 +3,7 @@ session:
   id: "06"
   slug: "agent-365-access-boundary"
   title: "Microsoft Agent 365 onboarding and access boundaries"
-  duration_minutes: 180
+  duration_minutes: 90
   status: "draft"
   last_verified: "2026-08-28"
   audience:
@@ -11,11 +11,10 @@ session:
     - "Microsoft Entra identity and application owners"
     - "Agent product owners and test-group sponsors"
   prerequisites:
-    - "Session 05 has created the governed nonproduction agent, and the Agent 365 administrator has confirmed that the selected agent appears in Agent Registry with Available status."
-    - "The selected agent supports installation through Microsoft 365 admin center and has an approved nonproduction test group."
-    - "The Microsoft 365 administrator can inspect the selected Agent Registry entry and its proposed group-installation path. The Entra owner has approved the permission list."
+    - "Session 05 has created the governed nonproduction agent. The Agent 365 administrator has confirmed that it appears in Agent Registry with Available status and supports group installation through Microsoft 365 admin center."
+    - "The Microsoft 365 administrator can inspect the registry entry and its installation path. The Entra owner has approved the requested permissions."
+    - "The delivery owner has approved one nonproduction test group, one host product, the use case, and the post-DLP installation route."
     - "Do not install the agent for the test group until Session 10 confirms that its DLP policy is enabled and propagated."
-    - "The delivery owner has approved the agent, group, requested permissions, host products, and post-DLP installation route in the customer change process."
   dependencies:
     - "Session 05 - Governed Microsoft Foundry agent baseline"
   services_in_scope:
@@ -27,10 +26,9 @@ implementation:
   mode: "extended"
   extended_reason: "The deployment stays uninstalled until Session 10 confirms DLP coverage, so the delivery owner checks the prepared contract and any premature installation."
 implementation_outcomes:
-  - "Prepare the approved Agent Registry entry, test group, host product, and permission-consent decision while keeping the agent uninstalled."
-  - "Confirm that Microsoft 365 has no installation for the test group before Session 10 confirms DLP coverage."
-  - "Hand the prepared deployment contract to Session 10 for the post-DLP installation and access checks."
-  - "Keep the scoped deployment configuration and post-DLP installation route for the Microsoft 365 administrator."
+  - "Record the approved Agent Registry entry, test group, host product, use case, and permission-consent decision."
+  - "Confirm that Microsoft 365 has no installation for the test group."
+  - "Hand the deployment contract and restore route to Session 10 for post-DLP installation and access checks."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"
@@ -39,7 +37,7 @@ deliverables:
 retained_files:
   - path: "implementation/artifacts/agent-deployment.json"
     consumer: "The Microsoft 365 administrator and Session 06 preflight scripts"
-    operational_purpose: "Define the approved Agent Registry entry, test group, permission consent, uninstalled status, and post-DLP installation route for the scoped deployment."
+    operational_purpose: "Define the approved agent, test group, host product, consent, uninstalled state, and post-DLP installation route."
 sources:
   - title: "Governance and Lifecycle actions for agents available in Microsoft 365 admin center"
     url: "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-actions"

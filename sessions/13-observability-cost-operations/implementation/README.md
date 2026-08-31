@@ -1,36 +1,36 @@
-# Implementation - Observability, cost, and operational controls
+# Implement observability, cost, and operational controls
 
 ## Session scope
 
 ### What we will do
 
-Deploy **privacy-safe operating controls for one governed service**. The team adds a shared workbook
-and three alert rules that route to named owners. It deploys a monthly budget notification, records
-cost-allocation and privacy decisions, and keeps an incident runbook. The named Session 14 GitHub
-promotion workflow runs the paired smoke check against live telemetry. Its result stays in the
-runner's temporary workspace and is not retained in the customer clone.
+Deploy **privacy-safe operating controls for one governed service**. The team deploys a workbook,
+three alert rules, and a subscription budget. It also keeps the telemetry, retention, content
+logging, cost allocation, and incident definitions used in normal operation.
+
+The Session 14 GitHub promotion workflow runs the paired Session 13 smoke check. The check reads
+live telemetry and writes one payload-free result to the runner's temporary workspace.
 
 ### Why it matters
 
-Operators need enough joined context to tell whether the service, a tool, or model behavior is
-failing. The workbook and alerts support that decision. Cost tags and budget notifications give the
-cost owner a delayed billing view. The incident runbook names the owner who contains each failure.
+Operators need to locate a failure without collecting prompts or tool payloads. Joined runtime
+spans show whether the gateway, agent, model, or tool failed. Alerts route the signal to an owner.
+Cost Management gives the cost owner the billed view, while the runbook assigns containment.
 
 ### Boundaries
 
-The application, API Management, agent, model, and tool propagate W3C trace context where their
-instrumentation supports it. Evaluation, Cost Management, Defender, and SOC records do not all
-carry the same correlation ID. Application Insights stores deployed runtime telemetry. Cost
-Management stores billed-cost records, and Defender and the SOC system keep security and incident
-records.
+Application Insights stores supported runtime telemetry. Cost Management stores billed-cost
+records. Defender and the SOC system keep security and incident records. These systems remain
+authoritative for their own data.
 
 Standard telemetry excludes prompts, responses, tool payloads, credentials, query strings, user
-identifiers, and personal data. Token metrics estimate usage rather than billed cost. API Management
-tracks at most 100 unique values per dimension and 1,000 active time series per metric namespace.
-It silently discards data for new values or series beyond either limit. Cost Management billed cost
-is authoritative, even though it can lag by 8-24 hours. A budget sends notifications without
-stopping resources. Production content logging and user-level cost allocation need separate
-approval. Session 14 consumes the payload-free smoke result from its runner workspace.
+identifiers, and personal data. APIM token metrics estimate usage; billed cost is authoritative and
+normally lags by 8-24 hours. A budget sends notifications but does not stop resources.
+
+API Management allows at most five custom dimensions for `llm-emit-token-metric`. It tracks at most
+100 unique values per dimension and 1,000 active time series per metric namespace, then silently
+discards new values or series. Production content logging and user-level cost allocation require
+separate approval.
 
 ## Architecture
 
@@ -38,92 +38,66 @@ approval. Session 14 consumes the payload-free smoke result from its runner work
 
 ![Model and tool spans join one gateway and agent trace before operations correlates the results.](../assets/diagrams/operational-correlation-flow.svg)
 
-Treat the request as the spine of the operating view. API Management attaches W3C trace context to
-the approved synthetic request. This standard trace identifier follows the work across services.
-The agent carries it into model and tool calls, and each span records its own result. Operators can
-then follow one request and see which hop failed without treating a tool error as a model error.
+The approved request carries W3C trace context through API Management, the agent, the model, and
+the tool. One non-sensitive correlation ID joins the supported spans, while each span keeps its own
+result. A tool failure must not become a model failure.
 
-Application Insights collects supported runtime spans. Its workbook gives operators one place to
-inspect them, and its alert queries notify an owner through Azure Monitor. API Management also
-emits bounded token metrics for a faster usage estimate. Cost Management reports the authoritative
-billed cost later, normally after an 8-24 hour delay. Keep these clocks separate. An estimate
-cannot settle the bill.
-
-Records stay in the systems that produce them. Application Insights stores runtime telemetry, while
-the source-controlled API Management policy defines gateway configuration. Cost Management reports
-billed cost. Defender and the SOC system keep security and incident records. Shared trace context
-connects operating signals without copying those records into one store.
-
-Alerts identify the failure path. The incident runbook assigns containment to the service, tool, AI
-quality, or security owner. Stop if trace context breaks, a field carries sensitive data, or a
-signal cannot keep tool and model outcomes separate.
-
-Use these controls to correlate runtime signals, monitor the service, notify owners, and handle
-incidents. The Session 13 GitHub promotion workflow receives a payload-free result from its
-temporary runner workspace. It receives no copies of the service records.
-
-[`artifacts/telemetry/telemetry-contract.json`](artifacts/telemetry/telemetry-contract.json) defines
-the payload-free signals and context. The workbook and three Kusto Query Language (KQL) alert
-queries read that telemetry, while
-[`artifacts/operations/incident-runbook.md`](artifacts/operations/incident-runbook.md) assigns each
-failure path. The budget Bicep files deploy the separate billing notification.
+The workbook and alert queries read Application Insights. APIM emits bounded token metrics for a
+faster usage estimate. Cost Management reports the bill later. The customer-owned APIM repository
+remains authoritative for gateway policy, and the Session 14 workflow consumes the temporary smoke
+result.
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Why | Limits | Revisit when |
-|---|---|---|---|---|
-| Runtime content | Standard telemetry excludes prompts, responses, and tool payloads. | Operators can trace service behavior without turning the monitoring store into a content archive. | Content inspection needs separate, time-limited approval. | A documented diagnostic need cannot be met with payload-free attributes. |
-| Trace volume | Apply fixed-rate or rate-limited sampling where traces begin. Preserve each selected trace end to end, and do not sample metrics. | Operators still get joined traces while the team keeps ingestion bounded. | Sampling can miss a rare failure. Approved error and security signals may need to bypass the normal rate. | Baseline volume or failure frequency changes, or the selected language changes its OpenTelemetry behavior. |
-| Cost signal | API Management publishes low-cardinality token metrics for operating estimates. Cost Management billed cost is authoritative. | Operators see usage sooner without treating an estimate as an invoice. | Token counts can be incomplete. API Management silently discards new values or series after 100 unique values per dimension or 1,000 active time series per metric namespace. Billed cost normally arrives 8-24 hours later. | The gateway policy or model provider changes. Revisit the choice when allocation dimensions or billing scope change. |
+| Decision | Chosen approach | Benefit | Limit |
+|---|---|---|---|
+| Runtime content | Exclude prompts, responses, and tool payloads by default | Trace service behavior without creating a content archive | A diagnostic exception needs separate, time-limited approval |
+| Trace volume | Sample at the source, preserve selected traces end to end, and do not sample metrics | Bound ingestion while keeping joined traces | Sampling can miss rare failures |
+| Cost signal | Use low-cardinality APIM token metrics for estimates and Cost Management for billing | Give operators a fast signal without treating it as an invoice | Counts can be incomplete; billing normally lags 8-24 hours |
 
 ### Architecture guidance
 
 - [Trace agent overview](https://learn.microsoft.com/en-us/azure/foundry/observability/concepts/trace-agent-concept)
-  explains the supported Foundry tracing path and agent-type availability.
 - [Sampling in Azure Application Insights with OpenTelemetry](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-sampling)
-  covers complete-trace preservation, source sampling, and daily-cap cautions.
 - [Create and manage budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets)
-  explains budget timing and notification behavior.
 
 ## Before you start
 
-Confirm the following:
+Confirm these requirements:
 
-- Complete Sessions 05, 07, and 09-12. If the earlier controls were built outside this series,
-  verify the controls in the table below.
-- The [Session 05](../../05-governed-agent-baseline/implementation/README.md) policy assistant and
-  [Session 07](../../07-apim-ai-gateway/implementation/README.md) APIM route can process an approved synthetic,
-  read-only request without changing production.
-- A workspace-based Application Insights component, its Log Analytics workspace, and an approved
-  action group already exist.
-- The application, gateway, agent, and tool owners can preserve W3C `traceparent` and
-  `x-correlation-id`.
-- The platform owner records the Foundry agent type. Tracing is generally available for prompt and
-  hosted agents. A workflow or external agent remains preview. Stop unless the approved preview-use
-  decision names that agent and nonproduction scope.
-- The deployment operator recorded for this session has Monitoring Contributor at the exact deployment
-  resource-group scope and Log Analytics Reader at the exact workspace scope. If Application
-  Insights or the action group is outside that resource group, assign Monitoring Reader at each
-  exact resource scope.
-- The same operator has Cost Management Contributor at the exact subscription scope. Activate
-  these human assignments for preflight, deployment, and the
-  confirmation check only. Expire or remove them through the approved access process afterward.
+- Complete Sessions 05, 07, and 09-12, or verify the four entry controls below.
+- The Session 05 nonproduction policy assistant and Session 07 APIM route support an approved
+  read-only request and a separate handled failure for a nonexistent synthetic policy.
+- A workspace-based Application Insights component, its Log Analytics workspace, an action group,
+  and an approved retention boundary exist.
+- Application instrumentation is deployed. The customer-owned APIM policy already preserves W3C
+  context and emits bounded token metrics.
+- The Foundry agent type is recorded. Prompt and hosted agent tracing is generally available.
+  Workflow and external agent tracing remains preview and requires an approved nonproduction
+  preview-use decision.
+- Baseline telemetry has been reviewed before owners set alert thresholds.
 - The observability, application, gateway, tool, AI quality, security operations, data-protection,
-  and cost owners can resolve the required decisions.
-- Application instrumentation is deployed. The gateway owner has reviewed and applied the merge in
-  the customer-owned APIM policy source, and baseline telemetry has been reviewed before alert
-  thresholds are set.
+  cost, and service owners can make their required decisions.
 
-### Controls to verify when joining here
+When prerequisite sessions were implemented elsewhere, verify:
 
-Every row is required when the numbered prerequisite sessions are not complete.
-
-| Dependency | Required control state and exact record | Owner and observable result |
+| Control | Required state | Owner check |
 |---|---|---|
-| Runtime | The current deployment record names the Foundry project, immutable agent version, Microsoft Entra agent identity, approved network path, versioned APIM policy, registered tool identities and scopes, and data-policy assignment. | The platform, gateway, tool, and data owners confirm that an approved read-only request reaches only the backend and tool listed in that deployment record. |
-| Tracing | The deployed OpenTelemetry and APIM configuration propagates W3C `traceparent` plus one non-sensitive correlation ID across gateway, agent, model, and tool spans. | The observability owner finds one joined operation in the approved workspace, with a separate result on every span. |
-| Evaluation | The approved evaluation definition, threshold policy, and latest approved aggregate result name the deployed agent version. | The AI quality owner runs the approved release gate and gets the recorded pass or block result for that version. |
-| Security | The confirmed payload-free adversarial summary, Defender onboarding state, and security-event route name the protected agent version. | The security operations owner confirms that prohibited actions are recorded as blocked and one expected runtime signal reaches the Defender or SOC record listed in the route. |
+| Runtime | The deployment record names the Foundry project, immutable agent version, Microsoft Entra agent identity, network path, versioned APIM policy, tool identities and scopes, and data-policy assignment | Platform, gateway, tool, and data owners confirm that one approved read-only request reaches the listed backend and tool |
+| Tracing | OpenTelemetry and APIM propagate W3C `traceparent` and one non-sensitive correlation ID | Observability owner finds joined gateway, agent, model, and tool spans with separate results |
+| Evaluation | The evaluation definition, threshold policy, and approved aggregate result name the deployed version | AI quality owner gets the recorded pass or block result from the release gate |
+| Security | The payload-free adversarial summary, Defender onboarding state, and security-event route name the protected version | Security operations finds blocked prohibited actions and one expected signal in the listed Defender or SOC record |
+
+The deployment operator needs:
+
+- **Monitoring Contributor** at the exact deployment resource-group scope;
+- **Log Analytics Reader** at the exact workspace scope;
+- **Monitoring Reader** at the exact Application Insights and action-group resource scopes when
+  either resource is outside the deployment group; and
+- **Cost Management Contributor** at the exact subscription scope.
+
+Human access lasts through preflight, deployment, and confirmation. Remove or expire it through the
+approved access process afterward.
 
 ### Implementation files
 
@@ -145,82 +119,36 @@ Every row is required when the numbered prerequisite sessions are not complete.
 
 ## Decisions and stop conditions
 
-**Resolve every `__REQUIRED_*__` value before any state change.** Use role or group aliases instead of
-personal data. Keep subscription IDs, resource IDs, endpoints, credentials, connection strings, and
-customer data out of source control; provide runtime coordinates only in the approved customer
-repository or deployment environment.
+Resolve every `__REQUIRED_*__` value before a state change. Use team aliases, not personal data.
+Keep subscription IDs, resource IDs, endpoints, credentials, connection strings, and customer data
+out of source control.
 
-### Telemetry and correlation
+| Gate | Continue when | Stop when |
+|---|---|---|
+| Scope | Azure CLI targets the approved nonproduction subscription, deployment group, Application Insights component, workspace, action group, and budget scope | Any target is production, shared without approval, or outside the recorded scope |
+| Telemetry | W3C context is continuous, correlation is non-sensitive, and gateway, agent, model, and tool results remain separate | A hop is missing, a field carries sensitive data, or a dimension is unbounded |
+| Privacy | Filtering and redaction happen before export; standard content logging is disabled | Content capture is the default, cannot be filtered before export, or an exception lacks purpose, scope, owner, retention, expiry, and data-protection approval |
+| Sampling | Metrics remain unsampled; approved error and security signals bypass normal trace sampling | The sampler breaks complete selected traces or a daily cap is treated as normal control |
+| Alerts and cost | Thresholds come from baseline telemetry and approved SLOs; dimensions stay within APIM limits | A threshold lacks an owner, dimensions contain users or free text, or a budget is presented as spend enforcement |
+| Preview | Both Bicep what-if results contain only the workbook, three alerts, and exact budget | A preview replaces unrelated resources, removes an action route, or targets the wrong subscription |
 
-Use W3C Trace Context as the distributed-tracing standard. APIM preserves `traceparent`. The
-approved policy adds `x-correlation-id` when the caller did not provide one. The application copies
-the correlation ID into a low-cardinality span attribute and propagates both contexts to agent and
-tool calls.
-
-`telemetry-contract.json` requires separate gateway, agent, model, tool, evaluation, and security
-signals. A tool dependency with `ai.operation.type=tool` must remain a tool result; do not convert
-it to a model failure or generic exception.
-
-Stop if any hop breaks trace continuity, a correlation ID contains user or business data, service
-names are inconsistent, or a proposed field has unbounded cardinality.
-
-### Privacy, sampling, and retention
-
-Prompts, responses, tool inputs and outputs, authorization and cookie headers, URL query strings,
-and user identifiers are excluded from standard telemetry. OpenTelemetry cannot infer the
-customer's sensitive-data policy; filtering and redaction happen before export.
-
-Choose fixed-rate or rate-limited source sampling. Do not sample metrics. The observability owner
-configures the OpenTelemetry sampler and log filters so error spans, exception records, and approved
-security events bypass normal trace sampling. The owner tests that behavior with existing safe
-records before approval. Use trace-based log sampling where the selected language supports it. A
-daily cap is a last-resort control because it creates a telemetry gap after ingestion stops.
-
-Any content-logging exception needs an approved purpose, isolated scope, access owner, retention,
-expiry, and data-protection decision. Stop if content logging is proposed as a default, if the
-exception is open-ended, or if sensitive input appears during the confirmation check.
-
-When the exception status is `Disabled`, set purpose, scope, access owner, retention, and expiry to
-`N/A`. Supply those details only for an `Approved` exception.
-
-### Alerts, token telemetry, and cost
-
-Review baseline telemetry before choosing alert thresholds. The supplied alerts cover request error
-percentage, tool-failure count, and failed AI quality or safety evaluation events. Set thresholds
-from that baseline and the approved SLOs, not arbitrary perfect scores. The action group routes to
-the operations receiver listed in the alert rule through the common alert schema.
-
-APIM's `llm-emit-token-metric` policy supports at most five custom dimensions. This kit uses only
-the low-cardinality service dimensions listed in the policy. API Management tracks at most 100
-unique values per dimension and 1,000 active time series per metric namespace. New values or series
-beyond either limit are not tracked, and their metric data is silently discarded. Streaming
-interruptions and model or provider behavior can also make token counts incomplete. Cost Management
-billed cost is authoritative.
-
-The subscription budget sends actual and forecast notifications. Use a separate enforcement
-mechanism when resources must stop.
-Stop if dimensions contain users, emails, content, request IDs, or free text. Also stop when the
-metric would exceed the documented APIM policy limits or when anyone presents the budget as
-real-time enforcement.
-
-### Scope and responsibilities
-
-Run this kit only against the approved nonproduction service, Application Insights component,
-deployment resource group, action group, and subscription budget. The APIM policy remains in the
-gateway owner's repository and is changed through its approved delivery path. Never replace an
-API-scope policy that contains authentication, safety, routing, or quota controls.
+The gateway owner changes the APIM policy through its own repository. Do not replace an API-scope
+policy that contains Session 07 authentication, safety, routing, quota, token-limit, rate-limit, or
+backend controls.
 
 ## Implement
 
-### 1. Complete required decisions
+### 1. Complete the retained decisions
 
-Complete the telemetry, deployment-parameter, and budget-parameter files. Complete the retention,
-content-logging, and cost-allocation Markdown records. Keep the service name identical across the machine-readable files. Confirm that the infrastructure definition applies the approved
-application, environment, cost-center, owner, and data-classification tags to each target resource.
-Use Microsoft’s [log search alert guidance](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-create-log-alert-rule)
-to check the query, evaluation frequency, and action-group configuration.
+Complete the telemetry contract, deployment parameters, budget parameters, retention decision,
+content-logging decision, cost-allocation record, and incident runbook. Keep the service name
+consistent across machine-readable files.
 
-Set the environment coordinates in the shell:
+For a disabled content-logging exception, set its detail fields to `N/A`. An approved exception
+needs a bounded purpose, isolated scope, access owner, retention, expiry, and data-protection
+approval.
+
+Set the deployment coordinates:
 
 ```powershell
 $approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
@@ -228,6 +156,7 @@ $approvedResourceGroupName = $env:OBSERVABILITY_RESOURCE_GROUP
 $approvedApplicationInsightsResourceId = $env:APPLICATION_INSIGHTS_RESOURCE_ID
 $deploymentLocation = $env:AZURE_DEPLOYMENT_LOCATION
 ```
+
 ```bash
 approved_subscription_id="${AZURE_SUBSCRIPTION_ID}"
 approved_resource_group_name="${OBSERVABILITY_RESOURCE_GROUP}"
@@ -235,33 +164,18 @@ approved_application_insights_resource_id="${APPLICATION_INSIGHTS_RESOURCE_ID}"
 deployment_location="${AZURE_DEPLOYMENT_LOCATION}"
 ```
 
-### 2. Confirm pre-work instrumentation
+### 2. Confirm the pre-work
 
-Use the Azure Monitor OpenTelemetry distro version that supports the application's language.
-Configure the Application Insights connection string through the deployment environment, not source
-control.
-Apply [`telemetry-contract.json`](artifacts/telemetry/telemetry-contract.json):
+The application uses the supported Azure Monitor OpenTelemetry distro for its language and receives
+the Application Insights connection string through the deployment environment. It emits separate
+agent, model, tool, evaluation, and security signals; propagates `traceparent` and
+`x-correlation-id`; and drops prohibited attributes before export.
 
-1. set a stable cloud role and service name;
-2. emit separate agent, model, and tool spans with the required attributes;
-3. emit payload-free `ai.evaluation` events for sampled production evaluation;
-4. propagate `traceparent` and `x-correlation-id`;
-5. drop prohibited attributes before export; and
-6. configure the approved source sampling and actionable log levels.
+The customer-owned APIM policy preserves the Session 07 controls, trace context, and bounded token
+metrics. Do not use user, email, request, correlation, prompt, response, or free-text values as
+metric dimensions.
 
-Deploy this change through the existing [Session 05](../../05-governed-agent-baseline/implementation/README.md) application path before the session. Stop if a library or
-framework automatically captures content and cannot filter it before export.
-
-### 3. Confirm the customer-owned APIM policy
-
-Confirm that the gateway owner's reviewed APIM policy preserves Session 07 authentication,
-token-limit, rate-limit, routing, content-safety, and backend controls while it propagates trace
-context and emits bounded token metrics.
-
-Do not use `User ID`, `Subscription ID`, request ID, correlation ID, prompt, response, or free text
-as a metric dimension.
-
-### 4. Run preflight and inspect both previews
+### 3. Run preflight
 
 ```powershell
 .\scripts\preflight.ps1 `
@@ -270,6 +184,7 @@ as a metric dimension.
   -ApprovedApplicationInsightsResourceId $approvedApplicationInsightsResourceId `
   -DeploymentLocation $deploymentLocation
 ```
+
 ```bash
 ./scripts/preflight.sh \
   --approved-subscription-id "$approved_subscription_id" \
@@ -278,20 +193,12 @@ as a metric dimension.
   --deployment-location "$deployment_location"
 ```
 
-Preflight parses the JSON and XML artifacts and rejects unresolved decisions across the whole
-artifact tree, including Markdown records. It checks telemetry privacy and cardinality, resolves the
-Application Insights component and action group, compiles both Bicep templates, and prints:
+Preflight checks every required decision, artifact syntax, telemetry privacy and cardinality,
+resource binding, both Bicep templates, and the resource-group and subscription what-if previews.
 
-1. a resource-group what-if for the workbook and three alerts; and
-2. a subscription what-if for the monthly budget.
+### 4. Deploy the workbook, alerts, and budget
 
-Stop if either preview replaces an existing workbook or alert unexpectedly, targets the wrong
-scope, removes an action route, changes unrelated resources, or shows a budget outside the approved
-subscription.
-
-### 5. Deploy the workbook, alerts, and budget
-
-After the owners approve both previews:
+After the observability and cost owners approve both previews:
 
 ```powershell
 az deployment group create `
@@ -306,6 +213,7 @@ az deployment sub create `
   --template-file .\artifacts\cost\budget.bicep `
   --parameters .\artifacts\cost\budget.bicepparam
 ```
+
 ```bash
 az deployment group create \
   --subscription "$approved_subscription_id" \
@@ -320,17 +228,16 @@ az deployment sub create \
   --parameters ./artifacts/cost/budget.bicepparam
 ```
 
-Open the shared workbook. Run the request-error and tool-failure queries over their configured
-15-minute windows, then run the quality query over its configured 30-minute window. Each query must
-parse and return its expected result column, even when the count is zero. Do not force an alert with
-unsafe traffic. The action-group owner uses the existing authorized test path and confirms delivery
-to the receiver configured for that alert rule.
+Open the workbook. Run the request-error and tool-failure queries over their 15-minute windows and
+the quality query over its 30-minute window. Each query must parse and return its expected result
+column, even when the count is zero. The action-group owner uses the existing authorized test path
+to confirm delivery. Do not generate unsafe traffic to force an alert.
 
 ## Confirm the result
 
-Set the approved runtime coordinates. PowerShell builds the bearer header in memory. Bash feeds a
-curl configuration through standard input, with the token removed from curl's environment. Neither
-script prints the token, places it on a process command line, or writes it to disk.
+Run the paired smoke check from the Session 14 GitHub promotion workflow. The normal and handled
+failure routes must be different HTTPS endpoints. The scripts resolve the live Application Insights
+workspace before either request and reject a result path outside `RUNNER_TEMP`.
 
 ```powershell
 $env:SESSION13_SMOKE_URL = $env:APPROVED_SYNTHETIC_SMOKE_URL
@@ -348,6 +255,7 @@ $resultPath = Join-Path $env:RUNNER_TEMP "session13-smoke.json"
   -CommitSha $env:RELEASE_COMMIT_SHA `
   -ResultPath $resultPath
 ```
+
 ```bash
 export SESSION13_SMOKE_URL="${APPROVED_SYNTHETIC_SMOKE_URL}"
 export SESSION13_SMOKE_FAILURE_URL="${APPROVED_SYNTHETIC_FAILURE_URL}"
@@ -365,108 +273,52 @@ result_path="${RUNNER_TEMP}/session13-smoke.json"
   --result-path "$result_path"
 ```
 
-Before either request, the scripts resolve `SESSION13_AI_RESOURCE_ID` through Azure CLI. Its live
-`WorkspaceResourceId`, compared without case sensitivity, must equal
-`SESSION13_LOG_ANALYTICS_WORKSPACE_ID`. The query is sent only to that workspace.
+The scripts discard response bodies and keep only safe correlation IDs. They poll Application
+Insights until the normal and failure traces are complete and three consecutive queries have the
+same counts and latest `TimeGenerated` value. The default wait is 180 seconds with a 15-second
+retry.
 
-The normal endpoint accepts an approved read-only body. The separate failure endpoint handles a
-lookup for a nonexistent synthetic policy. Its tool dependency must fail while the model records an
-independent successful result. Both bodies carry the same run-specific, non-sensitive probe marker
-and lower-case release commit SHA. Send that SHA in `x-release-commit-sha`. The application writes
-it to the `release.commit.sha` custom property on both correlated request records. The scripts
-discard response bodies and retain only safe correlation IDs. Their JSON output contains no request,
-response, tool, or telemetry payload.
+The result must show:
 
-The request and response trace IDs are normalized to 32 lower-case hexadecimal characters. The
-normal and failure IDs must remain distinct after any response `traceparent` override. The
-payload-free result keeps both as `normalCorrelationId` and `failureCorrelationId`; the existing
-`correlationId` field remains the normal ID for Session 14 compatibility.
+- `status: passed`, the exact release commit SHA on both request records, and the live workspace
+  binding;
+- successful model and tool results for the normal route;
+- a failed tool dependency and independent successful model result for the failure route;
+- distinct safe correlation IDs, stable ingestion, and `telemetryPollTimedOut: false`;
+- the expected request, error, latency, model, token, agent, tool, and quality fields; and
+- no probe marker or prohibited payload property in requests, dependencies, events, traces, or
+  exceptions.
 
-Application Insights ingestion is asynchronous. Both scripts query the normal and failure
-correlation IDs immediately, then retry until all six required request, model, and tool counts and
-both exact commit matches appear, with no missing or mismatched commit property. Readiness starts a
-stability check within the same timeout. Three identical summaries, each separated by the retry
-interval, must report the same maximum `TimeGenerated` watermark. The third summary is the final
-query. It must still show zero probe-marker matches, zero prohibited property names, and zero
-missing or mismatched commit values. Any change resets the three-query sequence.
-
-The property-name check comes from `telemetry-contract.json`: `gen_ai.prompt`,
-`gen_ai.completion`, `ai.input.content`, `ai.output.content`, `tool.input`, `tool.output`,
-`http.request.header.authorization`, `http.request.header.cookie`, `url.query`, `enduser.id`, and
-`user.email`. Matching ignores case but preserves each dotted name as one property key.
-
-The default timeout is 180 seconds with a 15-second retry interval. The timeout accepts 30 through
-600 seconds, and the retry interval accepts 5 through 60 seconds. The timeout must be at least
-twice the retry interval. This leaves room for the initial snapshot and two retries when telemetry
-is ready on the first query. A final query can run at the timeout boundary. `telemetryPollAttempts`
-counts every telemetry query across readiness and stability, including the initial and final
-queries. The result also records the configured timeout and retry interval.
-
-**Expected result:**
-
-- `status` is `passed` and `commitSha` matches the release;
-- the normal operation links its request to successful model and tool dependencies;
-- the failure operation contains a failed non-model dependency and a separate successful model
-  dependency or model-result event;
-- `expectedToolFailure` and `independentModelResult` are `true`;
-- `toolAndModelFailureSeparated` is `passed`, and `telemetryPollTimedOut` is `false`;
-- `workspaceBindingVerified` and `releaseCommitShaVerified` are `true`;
-- `correlationIdsDistinct` and `telemetryIngestionStable` are `true`;
-- `normalCorrelationId` and `failureCorrelationId` are safe and different;
-- root `commitSha` is present only after both correlated request records match the CLI SHA;
-- request count, errors, latency, model deployment, tokens, agent version, tool failure, and
-  quality/safety signals appear in their intended views; and
-- the probe marker and prohibited payload properties are absent from `AppRequests`,
-  `AppDependencies`, `AppEvents`, `AppTraces`, and `AppExceptions`, including each table's
-  payload-bearing columns and custom properties.
-
-Stop if the component points to another workspace, either request record lacks the exact release
-SHA, the two correlation IDs match, or a hop is missing. A failed-tool route without an independent
-model result also stops the check. Treat an unstable watermark, a prohibited dotted property, the
-probe marker, or timeout as failure. Do not weaken redaction to make the trace look complete.
+Stop on a missing hop, matching correlation IDs, commit mismatch, unstable ingestion, workspace
+mismatch, sensitive content, or a tool failure without an independent model result. Do not weaken
+redaction to make a trace complete.
 
 ## After implementation
 
-Keep the telemetry definition, alerts, and incident runbook, together with the workbook
-definition, Bicep-consumed alert queries, budget, cost-allocation record, privacy decisions, and
-paired smoke scripts. The gateway owner's APIM repository keeps the policy.
-Application Insights retains operational telemetry under the approved workspace policy. Foundry,
-Defender, APIM, Cost Management, and the SOC system remain the systems of record for their detailed
-data.
+| Owner | What remains |
+|---|---|
+| Service owner | SLO and service operating decision |
+| Observability owner | Instrumentation, sampling, retention, workbook, and alerts |
+| Gateway owner | APIM correlation and token metrics in the customer policy repository |
+| Tool owner | Tool-span accuracy and independent authorization |
+| AI quality owner | Evaluation signals and thresholds |
+| Security operations | Security-event routing and incident handling |
+| Cost owner | Tags, budget thresholds, and reconciliation with billed cost |
+| Incident commander | Containment and recovery decisions |
 
-The service owner sets the operating SLO. The observability owner maintains instrumentation,
-sampling, retention, the workbook, and alerts. The gateway owner maintains APIM correlation and
-token metrics. The tool owner checks tool span accuracy and independent authorization. The AI
-quality owner sets evaluation signals and thresholds. Security operations routes security events
-and handles incidents. The cost owner maintains tags and budget thresholds, then reconciles
-estimates with billed cost.
+Run the control against the approved nonproduction service. Session 14 calls `smoke.ps1` or
+`smoke.sh` with the fixed pipeline mode, environment, commit SHA, runtime inputs, and runner-temporary
+result path.
 
-During an incident, the incident commander orders containment. The service owner changes the
-affected agent or model route, the tool owner disables an affected binding, and the credential
-owner revokes or rotates exposed credentials.
+Restore through the owning change paths:
 
-Run this only against the approved nonproduction service. The named
-[Session 14](../../14-cicd-promotion-controls/implementation/README.md) GitHub promotion workflow
-calls `implementation/scripts/smoke.ps1` or `smoke.sh` through the fixed mode, environment, commit
-SHA, and result-path interface.
-It also supplies the seven documented runtime environment inputs. Session 14 requires `status:
-passed`, both binding checks, distinct correlation fields, a stable final query, all other positive
-checks, `sensitiveInputPresent: false`, `payloadsRetained: false`, and the five-entry
-`privacySurfacesChecked` list. The scripts reject a result path outside the GitHub runner's
-temporary workspace, so no live check output is retained in this repository.
+1. Route the application to the last approved Session 05 version if instrumentation causes a fault.
+2. Restore the previous Session 07 APIM policy without removing authentication, safety, routing,
+   quota, token-limit, rate-limit, or backend controls.
+3. Disable only the noisy Session 13 alert rules while correcting their queries or thresholds.
+4. Remove only resources listed in the approved Session 13 what-if and tagged
+   `implementationSession=13-observability-cost-operations`.
+5. Delete the exact Session 13 budget only after the cost owner confirms that no workflow uses it.
+6. Keep records required by an active incident, legal hold, or retention obligation.
 
-Restore is manual because application instrumentation and the APIM policy use existing delivery
-paths:
-
-1. route the application to the last approved [Session 05](../../05-governed-agent-baseline/implementation/README.md) version if instrumentation causes a
-   service fault;
-2. restore the previous [Session 07](../../07-apim-ai-gateway/implementation/README.md) API policy through its owning repository, preserving
-   authentication, safety, routing, and quota controls;
-3. disable only the Session 13 alert rules while correcting a noisy query or threshold;
-4. remove only resources listed in the approved Session 13 what-if and tagged
-   `implementationSession=13-observability-cost-operations`;
-5. delete the exact Session 13 budget only after the cost owner confirms no other workflow depends
-   on it; and
-6. keep the data needed for an active incident or retention obligation.
-
-Do not disable telemetry, Defender, or SOC routing merely to silence a real operational signal.
+Do not disable telemetry, Defender, or SOC routing to silence a real signal.

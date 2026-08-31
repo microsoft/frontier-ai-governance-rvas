@@ -3,7 +3,7 @@ session:
   id: "03"
   slug: "private-networking-dns"
   title: "Private networking, DNS, and controlled egress"
-  duration_minutes: 150
+  duration_minutes: 180
   status: "draft"
   last_verified: "2026-08-28"
   audience:
@@ -11,14 +11,13 @@ session:
     - "AI platform engineers"
     - "DNS, firewall, and security reviewers"
   prerequisites:
-    - "Sessions 01 and 02 are complete. Session 01 created the Foundry account and is the declarative owner of the BYO VNet, route table, delegated Agent Service subnet, and private-endpoint subnet."
-    - "The approved Session 01 network foundation supplies the existing VNet and private-endpoint subnet resource IDs. Its delegated Agent Service subnet and firewall route remain unchanged in this session."
-    - "The approved network design and change record identify the DNS integration pattern and execution host inside the approved private network."
-    - "The network deployment operator has the time-bound Network Contributor role on the exact nonproduction resource group where this session deploys private endpoints."
-    - "The DNS operator has the time-bound Private DNS Zone Contributor role on the resource group that contains the seven private DNS zones, or on each reused private DNS zone."
-    - "The Entra object IDs for the network deployment operator and DNS operator, plus the exact DNS role-assignment scope, are available for preflight."
-    - "The service owners recorded for Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault have each accepted responsibility for approving the private endpoint connection on their service through the existing service change process; this session assigns no service-approval role to the network deployment operator."
-    - "The approved change record identifies where prior public-access states are stored and who can retrieve them during restore."
+    - "Sessions 01 and 02 are complete. Session 01 owns the existing BYO VNet, route table, delegated Agent Service subnet, and private-endpoint subnet."
+    - "The approved network design names the DNS pattern, customer firewall source, and execution host inside the private network."
+    - "The network deployment operator has time-bound Network Contributor on the exact nonproduction resource group used for this session."
+    - "The DNS operator has time-bound Private DNS Zone Contributor on the resource group that holds the seven zones, or on every reused zone."
+    - "Preflight has the two operator object IDs and every exact DNS role-assignment scope."
+    - "The Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault owners will approve private endpoint connections through the service change process."
+    - "The approved change record names the cutover owner, restore owner, and location for the five prior public-access states."
   dependencies:
     - "Session 01 - Microsoft Foundry platform baseline, inventory, and landing-zone guardrails"
     - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
@@ -33,11 +32,10 @@ session:
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Reuse the Session 01-owned landing-zone VNet and private-endpoint subnet. Leave its VNet, route, and subnet definitions unchanged."
-  - "Deploy private DNS links and initial private endpoints for the Foundry account and the four customer-provided dependencies."
-  - "Use the existing delegated Agent Service subnet route through the customer-approved firewall. The customer firewall policy source retains its rules and review history."
-  - "From the approved execution host, confirm that the in-use Foundry endpoint families and four dependency FQDNs resolve to private addresses and accept TCP 443. Record prior public-access states in the approved change system, then disable public network access."
-  - "Confirm that the three Foundry endpoint families and four dependency endpoints resolve to private addresses and accept TCP 443 from an approved client. Session 05 checks agent-runtime traffic."
+  - "Deploy seven private DNS zones and links plus five private endpoints against the Session 01-owned VNet and private-endpoint subnet."
+  - "Keep the delegated Agent Service subnet route to the customer firewall; firewall administrators maintain its rules in the customer firewall source."
+  - "Confirm that three Foundry endpoint families and four dependency FQDNs resolve to private addresses and accept TCP 443 from the approved execution host."
+  - "Record five prior public-access states in the approved change system, disable public access, and repeat the connectivity check."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"

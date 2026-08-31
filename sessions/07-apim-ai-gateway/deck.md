@@ -10,120 +10,59 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation - Session 07</p>
+<p class="eyebrow">AI Governance Co-implementation · Session 07</p>
 
 # Azure API Management as the AI gateway
 
-210 minutes - One configured APIM route to the Session 05 agent
+150 minutes · Configure one controlled APIM route to the Session 05 agent
 
-<!-- Notes: Session 05 established the agent. Today we configure the controlled APIM route to that endpoint. -->
-
----
-
-## Control objective
-
-> Configure one API Management route. APIM checks the client token and product subscription, applies limits and Content Safety policies, and uses managed identity to call the pinned Foundry agent.
-
-### Result check
-
-- The operational APIM API path reaches the pinned [Session 05](../05-governed-agent-baseline/) Responses endpoint.
-- APIM checks client identity and product subscription before the backend hop.
-- One policy applies runtime limits, safety, routing, and logging.
-- APIM returns `401 Unauthorized` for an invalid identity.
-
-<!-- Notes: The check is deliberately narrow. It proves the authentication boundary without sending a valid request to the agent. -->
-
----
-
-## Implementation outcomes
-
-1. Expose one governed agent operation through APIM.
-2. Use separate identities for the client and backend.
-3. Apply token, request-size, timeout, safety, and resiliency controls.
-4. Send correlation and token metrics without prompt or response bodies.
-5. Keep a rerunnable APIM definition and scoped removal guidance in the gateway repository.
-
-<!-- Notes: Keep the focus on the deployed control, not a catalog of APIM features. -->
+<!-- Notes: Session 05 established the agent. This session controls one APIM route to it. -->
 
 ---
 
 ## Why it matters
 
-The APIM route gives the API product owner one place to manage workload access and limits.
+> Configure one API Management route that validates the client token and product subscription,
+> applies approved limits and Content Safety, and uses managed identity to call the pinned Foundry
+> agent.
 
-The client authorization stays separate from the managed identity that calls Foundry.
+By the end of the session:
 
-Operations gets correlation and token metrics without prompt or response logging.
+- APIM owns a marked, version-controlled API and controlled product.
+- The client uses an Entra application token and workload-specific subscription.
+- APIM applies size, token, safety, timeout, retry, and circuit-breaker controls.
+- Application Insights receives correlation and token metrics without bodies.
+- An invalid bearer identity returns `401 Unauthorized` before Content Safety or Foundry.
 
-<!-- Notes: The value comes from one owned route, not from claiming universal coverage. -->
-
----
-
-## Control boundaries
-
-- The control applies to calls sent through the configured nonproduction APIM route.
-- The direct Foundry endpoint still exists and remains the live source for agent runtime state.
-- Other client paths need their own APIM adoption evidence.
-- Production ingress, semantic caching, secondary-region routing, and write-capable agents are out.
-- Session 08 covers API Center inventory, and Session 09 covers MCP controls.
-
-<!-- Notes: Direct endpoint access needs its own owner and control. -->
+<!-- Notes: This control covers traffic sent through the configured route. -->
 
 ---
 
-<!-- _class: section-divider -->
+<!-- _class: two-column -->
 
-# APIM checks calls sent through the configured route
+## Architecture and boundary
 
-API Center records the API in [Session 08](../08-api-center-ai-mcp-inventory/).
+<div class="columns">
+<div>
 
-The workload sends its Microsoft Entra token and APIM subscription key to one route. APIM checks
-both, applies limits and safety checks, then replaces the caller's authorization before calling Foundry.
+The caller sends two credentials: an Entra application token for identity and an APIM subscription
+for workload allocation.
 
-The direct Foundry endpoint still exists. This boundary covers only traffic sent through APIM.
+APIM checks both, applies limits and Content Safety, then replaces the caller's authorization with
+its managed-identity token for Foundry.
 
-<!-- Notes: Avoid mixing design-time inventory with runtime enforcement. -->
+APIM owns the live route and policy. Foundry owns the agent. Direct Foundry access needs a separate
+control.
 
----
-
-## APIM AI gateway is not a separate service
-
-![Azure API Management](assets/icons/microsoft/azure-api-management.svg)
-
-The AI gateway is a set of Azure API Management controls for AI traffic.
-
-It covers:
-
-- OpenAI-compatible model APIs and Foundry endpoints
-- MCP servers, A2A APIs, and self-hosted backends
-
-The current APIM tier must be **Developer, Basic, Basic v2, Standard, Standard v2, Premium, or Premium v2**.
-
-> Use stable APIM resource APIs and documented LLM policies. The unified model API preview is unsupported for this route.
-<!-- Notes: APIM provides the gateway service for this design. -->
-
----
-
-## Architecture overview
-
-<!-- _class: diagram -->
+</div>
+<div>
 
 ![An approved client passes APIM identity, limit, safety, and routing gates before reaching the Foundry agent.](assets/diagrams/apim-ai-gateway-flow.svg)
 
-<!-- Notes: The boundary covers calls sent through this APIM route. Direct Foundry access remains separate. -->
+</div>
+</div>
 
----
-
-## What this means
-
-Every governed call follows one APIM route. Inbound policy identifies the workload, assigns its
-usage, and checks request size, token use, and content. APIM selects a backend only after those
-checks pass. It then uses its own managed identity to obtain a Foundry token and call the pinned
-agent.
-
-APIM owns the route and runtime policy. Foundry owns the agent. Application Insights receives
-correlation and token metrics without request or response bodies. Session 08 receives the API
-definition and runtime location.
+<!-- Notes: Keep design-time inventory and runtime enforcement separate. -->
 
 ---
 
@@ -131,285 +70,137 @@ definition and runtime location.
 
 ## Implementation tradeoffs
 
-| Decision | Chosen approach | Why | Tradeoff |
-|---|---|---|---|
-| Client access | Entra app token plus one APIM subscription per workload | Identity and usage allocation can be revoked separately | Each client manages two credentials |
-| Backend access | Scope the APIM managed identity to one agent | APIM stores no backend key | Direct Foundry access needs a separate control |
-| Safety | Run APIM Content Safety before the Foundry RAI policy | APIM can stop unsafe input before the agent call | The check adds latency, cost, and another data path |
-| Routing | Use the primary backend with one read-safe retry | The failure path stays bounded | Regional failover remains disabled |
+| Decision | Chosen approach | Limit |
+|---|---|---|
+| Client access | Entra app token plus one APIM subscription per workload | Clients manage two credentials |
+| Backend access | APIM managed identity with Foundry Agent Consumer on one agent | Direct endpoint still exists |
+| Safety | APIM Content Safety before the agent's RAI policy | Adds latency, cost, and a data path |
+| Routing | Primary backend with one read-safe retry | Secondary and regional failover stay off |
+| Telemetry | Correlation and token metrics; zero body logging | Content is unavailable for debugging |
 
-<!-- Notes: The client bearer token is replaced before the backend call. Revisit routing in Session 15. -->
+The retry is safe here because the Session 05 agent has a read-only tool.
 
----
-
-<!-- _class: decision -->
-
-## Decision 1 - Client authorization
-
-The workload-specific controlled product subscription is issued before the session.
-
-Resolve before deployment:
-
-1. Microsoft Entra tenant.
-2. Calling application ID.
-3. API audience.
-4. Required application role.
-5. Product owner and one-subscription-per-workload process.
-
-Stop if the workload uses a shared key or an ambiguous audience.
-
-<!-- Notes: A subscription key is an allocation and revocation control. The Entra token carries application identity and role. -->
+<!-- Notes: Stop if a retry could repeat a consequential action. -->
 
 ---
 
-## Ingress policy order
+## Required controls and access
 
-```text
-1  Set or preserve X-Correlation-ID
-2  Validate tenant, client app, audience, and app role
-3  Reject oversized request bodies
-4  Apply token rate and daily quota per subscription
-5  Run Prompt Shields and harm-category checks
-6  Select the backend pool
-7  Acquire the APIM managed-identity token
-```
+| Control | Required value |
+|---|---|
+| Operator access | Time-bound Contributor on the exact APIM resource group |
+| Foundry access | Foundry Agent Consumer on the individual Session 05 agent |
+| Content Safety access | Cognitive Services User on the exact Content Safety resource |
+| Token limits | 20,000 TPM and 500,000 tokens/day per subscription |
+| Request and backend | 65,536 bytes; 120-second timeout |
+| Resiliency | One retry; circuit opens after 5 errors in 1 minute for 1 minute |
+| Safety | Prompt Shields; Hate, SelfHarm, Sexual, and Violence at threshold 4 |
 
-Identity fails before safety processing or a Foundry call.
+APIM counters are gateway-local. Session 15 assigns per-region budgets.
 
-<!-- Notes: Policy order is part of the security design. -->
-
----
-
-## Workload limits
-
-| Control | Approved default |
-|---|---:|
-| Token rate | 20,000 TPM per APIM subscription |
-| Token quota | 500,000 tokens per day |
-| Request body | 65,536 bytes |
-| Backend timeout | 120 seconds |
-| Retry | One retry for 429 and 5xx |
-
-Use these limits as starting values. Each APIM gateway keeps its own counters.
-
-The API product owner divides the workload allowance into per-region budgets. The platform owner configures those budgets in Session 15.
-
-<!-- Notes: Token counters are gateway-local. Session 15 must budget them per region. -->
+<!-- Notes: The Content Safety backend and Application Insights logger must already exist. -->
 
 ---
 
-<!-- _class: decision -->
+## Stop before the change when
 
-## Decision 2 - Retry and routing
+- A `__REQUIRED_*__` value remains.
+- Azure targets the wrong subscription, resource group, APIM service, agent, or safety resource.
+- APIM lacks its system identity or either scoped role assignment.
+- The client identity, audience, app role, or workload subscription is missing or shared.
+- Content Safety uses a key, is unreachable, or conflicts with the Session 05 RAI policy.
+- The Application Insights logger differs from the approved input.
+- ARM `what-if` changes APIM itself, unrelated resources, or the approved API or product ID.
+- A live endpoint, key, token, prompt, response, or customer data would enter source control.
 
-The pinned Session 05 agent is the primary backend.
-
-- Circuit opens after five 429/5xx responses in one minute.
-- The circuit remains open for one minute.
-- One buffered retry is allowed because the agent has a read-only tool.
-- Secondary routing stays disabled until a distinct compatible endpoint is approved.
-
-Stop if a retry could repeat a write or other consequential action.
-
-<!-- Notes: Do not pull multi-region design forward just to fill a backend pool. -->
-
----
-
-## Apply safety policy at APIM and the agent
-
-<div class="cards">
-<div class="card">
-
-### Foundry model policy
-
-The RAI policy from Session 05 remains attached to the agent.
-
-</div>
-<div class="card">
-
-### APIM safety policy
-
-Prompt Shields plus request and completion checks through Azure AI Content Safety.
-
-</div>
-</div>
-
-APIM checks Hate, SelfHarm, Sexual, and Violence at threshold 4 on the eight-level scale.
-
-For a streaming completion violation, APIM stops forwarding later events. The client can receive a
-truncated stream instead of a normal `403`.
-
-<!-- Notes: The safety owner approves the threshold and Content Safety data path. -->
-
----
-
-<!-- _class: decision -->
-
-## Decision 3 - Content Safety backend
-
-Stop unless all are true:
-
-- The APIM backend points to the approved Content Safety resource.
-- Backend authorization uses APIM managed identity.
-- APIM has **Cognitive Services User** on that approved resource.
-- The network path and resource location are approved.
-- The APIM threshold does not weaken the workload's safety decision.
-
-<!-- Notes: The policy sends content to the Content Safety resource. Treat that as a real data path. -->
-
----
-
-## Logs without content capture
-
-![Application Insights](assets/icons/microsoft/application-insights.svg)
-
-Application Insights receives:
-
-- W3C operation correlation
-- APIM request, dependency, latency, and error logs
-- LLM token metrics by API, product, and subscription
-
-Set request body bytes, response body bytes, and client IP logging to zero or disabled.
-
-Streaming clients set `stream_options.include_usage=true`. Interrupted streams can leave token
-counts incomplete, and token-limit counts are estimated. Cost Management and invoices remain the
-billing record.
-
-<!-- Notes: Correlation and consumption data are enough for this control. Prompt logging is not a default. -->
-
----
-
-## Semantic caching stays off
-
-Semantic caching can reduce latency and token use. It can also return stale or cross-context content when its boundaries are wrong.
-
-Keep it off until:
-
-- the data owner approves eligible content;
-- the identity owner approves tenant and workload cache keys;
-- the API product owner sets maximum age and invalidation events; and
-- operations owns access, purge, retention, and incident handling.
-
-<!-- Notes: A feature being available is not an implementation decision. -->
-
----
-
-## Files used to deploy and operate the route
-
-```text
-gateway/
-  main.bicep
-  apis/policy-assistant-responses.openapi.json
-  policies/policy.xml
-governance/
-  gateway-control.json
-environments/sandbox.json
-scripts/
-  preflight.ps1
-  deploy.ps1
-  manual removal guidance
-```
-
-Runtime backend URLs, subscription IDs, product keys, and bearer tokens stay out of source control.
+<!-- Notes: Preflight checks these gates and ends with ARM what-if. -->
 
 ---
 
 <!-- _class: implementation -->
 
-## Deploy the APIM runtime policy
+## Implementation path
 
-Timebox: 210 minutes
+**Total session: 150 minutes. Guided implementation: about 105 minutes.**
 
-1. Resolve identity, ownership, limits, safety, and routing decisions.
-2. Run preflight and inspect the APIM `what-if`.
-3. Deploy the API, product, policy, pool, and diagnostics.
-4. Use the workload-specific product subscription issued before the session.
-5. Call the gateway once with an invalid bearer token.
+1. Resolve the client, ownership, limits, safety, and routing inputs.
+2. Run paired PowerShell or Bash preflight and inspect ARM `what-if`.
+3. Deploy the marked API, product, named values, backend pool, policy, and diagnostics.
+4. Use the workload subscription issued before the session.
+5. Call the route once with an invalid bearer token.
 
-<!-- Notes: Existing identities, Content Safety, logs, and the Session 05 agent are prerequisites. -->
+The remaining time covers the briefing, decisions, and operating handoff.
 
----
-
-## Preflight safety gates
-
-- Every required decision sentinel is resolved.
-- The operator has time-bound **Contributor** on the approved APIM resource group.
-- APIM is in the approved resource group and on a supported tier.
-- APIM has a system-assigned managed identity.
-- Agent-scoped Foundry Agent Consumer is present.
-- Content Safety backend, resource, and role assignment match.
-- Application Insights logger exists.
-- Agent base URL matches the existing account, project, and agent.
-- Existing API ID is absent or carries the Session 07 marker.
-
-<!-- Notes: Preflight ends with an ARM what-if. Any unrelated delete or replacement is a stop. -->
-
----
-
-## Apply the control
-
-```powershell
-.\scripts\deploy.ps1 `
-  -ApprovedSubscriptionId $approvedSubscriptionId `
-  -PrimaryAgentBaseUrl $primaryAgentBaseUrl `
-  -SecondaryAgentBaseUrl $secondaryAgentBaseUrl
-```
-
-After deployment, confirm one governed API and product, a primary-first backend pool, fail-closed identities, the deployed LLM policies, and body-free Application Insights diagnostics.
-
-<!-- Notes: Deployment changes child resources in the existing APIM instance. -->
+<!-- Notes: The implementation guide contains the paired commands and exact parameters. -->
 
 ---
 
 ## Confirm the result
 
-The invalid bearer check proves only that APIM blocks that identity before Content Safety or Foundry is called.
+Use:
 
-Call the APIM path with:
+- the valid workload-specific APIM subscription key;
+- `Authorization: ******`; and
+- a synthetic request body.
 
-- A valid workload product subscription key
-- `Authorization: Bearer invalid-session06-token`
-- A synthetic request body
+**Expected result: `401 Unauthorized`.**
 
-Expected result: `401 Unauthorized`.
+APIM rejects the identity before it calls Content Safety or Foundry. Do not retain the response,
+key, or headers. Test other policy branches separately.
 
-The request stops at APIM. Content Safety and the Foundry agent are not called.
-
-<!-- Notes: Do not retain the response, key, or headers. One visible standard-mode check is enough. -->
-
----
-
-## Live state and ownership
-
-| Live state | Owner |
-|---|---|
-| Product subscriptions and workload limits | API product owner |
-| Entra app role and APIM identity access | Identity owner |
-| APIM capacity, backend pool, and circuit breaker | Platform owner |
-| Content Safety backend and threshold | Safety owner |
-| Correlation, metrics, retention, and alerts | Operations owner |
-
-Removal deletes the marked Session 07 APIM child resources.
-
-<!-- Notes: Foundry, Content Safety, Application Insights, and role assignments remain. -->
+<!-- Notes: This is the one standard-mode check. It proves the ingress identity boundary. -->
 
 ---
 
-## Recap
+<!-- _class: two-column -->
 
-- Require an APIM product subscription and a valid Entra application token.
-- Use APIM managed identity for the pinned Foundry agent.
-- Apply per-workload token limits, Prompt Shields, and harm checks.
-- Emit correlation and token metrics without body logging.
+## Operate and restore
 
-Next, register the AI API and its required metadata in [Session 08](../08-api-center-ai-mcp-inventory/).
+<div class="columns">
+<div>
 
-<!-- Notes: APIM now checks requests on the configured route. The design-time inventory comes next. -->
+### Keep in operation
+
+- Product owner: subscriptions and limits
+- Identity: app role and role assignments
+- Platform: APIM capacity and routing
+- Safety: backend and thresholds
+- Operations: metrics, alerts, retention, and cost
+
+</div>
+<div>
+
+### Restore safely
+
+Check `implementationSession=07-apim-ai-gateway`, then remove only the Session 07 API, product,
+backends, and four named values.
+
+Leave APIM, Foundry, Content Safety, the logger, role assignments, and repository definitions.
+
+</div>
+</div>
+
+<!-- Notes: Disable a secondary by setting secondaryBackendEnabled to false and redeploying. -->
+
+---
+
+## The handoff to Sessions 08 and 09
+
+Session 07 leaves:
+
+- one controlled APIM route to the pinned Foundry agent;
+- separate client and backend identities;
+- approved limits, safety checks, and body-free telemetry;
+- rerunnable deployment definitions and preflight; and
+- a scoped restore path.
+
+[Session 08](../08-api-center-ai-mcp-inventory/) records the API and runtime location.
+[Session 09](../09-mcp-tool-security/) adds the MCP tool boundary.
+
+<!-- Notes: End on the owned runtime control and the next dependencies. -->
 
 ---
 
 <!-- _class: closing -->
 
 # Thank you!
-
-<!-- Notes: Close on the owned runtime control and the next dependency. -->

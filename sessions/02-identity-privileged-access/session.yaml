@@ -3,7 +3,7 @@ session:
   id: "02"
   slug: "identity-privileged-access"
   title: "Entra identity, RBAC, PIM, and workload identities"
-  duration_minutes: 240
+  duration_minutes: 210
   status: "draft"
   last_verified: "2026-08-28"
   audience:
@@ -12,11 +12,10 @@ session:
     - "AI application owners and security reviewers"
   prerequisites:
     - "Complete Session 01 with an approved nonproduction Foundry resource, project, storage account, and customer-owned repository."
-    - "Create four customer-owned groups for platform administration, project management, development, and audit. Have their object IDs ready."
+    - "Create customer-owned groups for platform administration, project management, development, and audit, and have their object IDs ready."
     - "Give the role-assignment operator a time-bound Owner or User Access Administrator role on the exact nonproduction resource group that contains the Foundry resource, project, and storage account."
     - "Give the PIM operator Owner or User Access Administrator on the existing Foundry resource whose Foundry Account Owner settings this session changes."
-    - "Confirm Microsoft Entra ID P2 or Microsoft Entra ID Governance licensing for PIM."
-    - "Create a protected GitHub environment for the OpenID Connect trust."
+    - "Confirm Microsoft Entra ID P2 or Microsoft Entra ID Governance licensing for PIM, and create the protected GitHub environment used by the OpenID Connect trust."
   dependencies:
     - "Session 01 - Microsoft Foundry platform baseline, inventory, and landing-zone guardrails"
   services_in_scope:
@@ -29,11 +28,11 @@ session:
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Assign platform administrators as PIM-eligible Foundry Account Owners at the Foundry resource. Assign project managers Foundry Project Manager at that resource, developers Foundry User at one project, and auditors Reader at the Foundry resource."
-  - "Assign normal human access through groups. Configure the platform-administrator group object ID as the PIM-eligible principal."
-  - "Deploy a dedicated user-assigned managed identity without a client secret. Its federated credential trusts one protected GitHub environment. Scope its roles to one Foundry resource and one storage account."
+  - "Assign project managers, developers, and auditors through customer-owned groups at the approved Foundry resource or project scope."
+  - "Make the platform-administrator group PIM-eligible for Foundry Account Owner at the Foundry resource, with approval, MFA, justification, and a two-hour activation limit."
+  - "Deploy a user-assigned managed identity without a client secret. Trust one protected GitHub environment and scope its roles to one Foundry resource and one storage account."
   - "Session 05 assigns Foundry Agent Consumer after it identifies endpoint-only callers and approves a project or individual-agent scope."
-  - "Confirm that live Azure RBAC assignments, Entra PIM eligibility and role settings, the workload identity, and its role scopes match the approved design."
+  - "Confirm that live Azure RBAC, Entra PIM, the GitHub trust, and workload role scopes match the approved design."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"

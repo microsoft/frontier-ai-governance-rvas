@@ -29,7 +29,7 @@ Standard mode is the default. The team implements one explicit control, keeps pr
 
 Extended mode is used only when a control needs both an allowed and a blocked or failure check. The delivery lead records the reason before the session, and the delivery owner confirms the result at a checkpoint. Both modes keep only the records needed for normal operations and use the implementation resources required by the control.
 
-The complete route contains 59.5 facilitated working hours across the 15 published session durations. Each duration uses 30-minute increments and includes briefing and alignment, customer decisions, guided implementation, observable checks, and the operating or restore handoff. It assumes agreed prerequisites, access, and nonproduction capacity are ready before the session; asynchronous approvals, procurement, provisioning waits, and optional deep dives sit outside the published time. Focused routes deliver the selected control area and include its prerequisite sessions; they omit unrelated controls and do not represent the complete deployment.
+The complete route contains 48.5 facilitated working hours across the 15 published session durations. Each duration uses 30-minute increments and includes briefing and alignment, customer decisions, guided implementation, observable checks, and the operating or restore handoff. It assumes agreed prerequisites, access, and nonproduction capacity are ready before the session; asynchronous approvals, procurement, provisioning waits, and optional deep dives sit outside the published time. Focused routes deliver the selected control area and include its prerequisite sessions; they omit unrelated controls and do not represent the complete deployment.
 
 ## Operating Context
 

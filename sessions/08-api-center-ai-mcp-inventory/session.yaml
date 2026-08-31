@@ -3,7 +3,7 @@ session:
   id: "08"
   slug: "api-center-ai-mcp-inventory"
   title: "Azure API Center and the AI/MCP inventory"
-  duration_minutes: 210
+  duration_minutes: 180
   status: "draft"
   last_verified: "2026-08-28"
   audience:
@@ -11,14 +11,12 @@ session:
     - "API product, risk, and data owners"
     - "Developers responsible for agent and MCP discovery"
   prerequisites:
-    - "Complete Sessions 02, 05, and 07 in the approved nonproduction scope."
-    - "Make the Session 05 agent endpoint and Session 07 API Management API available."
-    - "Choose one approved remote read-only MCP server to register in the inventory."
-    - "Approve an Azure region that currently supports API Center."
-    - "Approve the Free or Standard API Center plan after reviewing its support and limit implications."
+    - "Complete Sessions 02, 05, and 07 in the approved nonproduction scope, with the Session 05 agent endpoint and marked Session 07 API available."
+    - "Choose an approved API Center region, Free or Standard plan, and remote read-only MCP server with an HTTPS Streamable HTTP endpoint."
     - "Give the deployment operator a time-bound Contributor role assignment on the exact resource group where this session deploys API Center."
-    - "Give the role-assignment operator a time-bound User Access Administrator role assignment on the exact Session 07 API Management instance."
-    - "Complete metadata for the agent, APIM API, and MCP server before the first delivery window."
+    - "Give the role-assignment operator time-bound User Access Administrator on the exact Session 07 API Management instance."
+    - "Approve the full API Management source boundary because the integration imports every API from the linked instance."
+    - "Name the owners and complete the required metadata for the direct agent API, synchronized APIs, and MCP server."
   dependencies:
     - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
     - "Session 05 - Governed Microsoft Foundry agent baseline"
@@ -28,15 +26,14 @@ session:
     - "azure-api-management"
     - "azure-ai-foundry"
     - "foundry-agent-service"
-  control_objective: "Add three selected assets to API Center: deploy the Session 05 agent API, synchronize the Session 07 APIM API, and register an approved remote MCP server. Record named owners, lifecycle, classification, and runtime-location metadata for each asset."
+  control_objective: "Add three selected assets to API Center: deploy the Session 05 agent API, synchronize the Session 07 APIM API, and register an approved remote MCP server. Record owner, lifecycle, classification, risk, review, and runtime-location metadata for each."
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Deploy and link a tagged API Center in the first delivery window."
-  - "Link the Session 07 API Management instance so its APIs, definitions, and deployments synchronize to the inventory."
-  - "Add the Session 05 agent API definition and register an approved remote MCP server. Give both lifecycle, risk, residency, and review metadata."
-  - "Keep the direct agent definition in source control. Asset owners maintain metadata in API Center."
-  - "After synchronization, check the three required Session 08 entries, their metadata, deployment locations, and source integration health. Owners also complete required metadata for other APIs synchronized from the linked APIM instance."
+  - "Deploy a tagged API Center, the direct Session 05 agent API definition, and the read-only Session 07 API Management integration."
+  - "Register the approved remote MCP server through the supported portal flow."
+  - "Record the required metadata for the three selected assets and every additional API imported from the linked API Management instance."
+  - "Check the three required entries and the source integration after synchronization. Keep runtime health authoritative in Foundry, API Management, and the MCP runtime."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"

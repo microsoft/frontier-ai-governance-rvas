@@ -3,7 +3,7 @@ session:
   id: "12"
   slug: "red-teaming-threat-defense"
   title: "Red teaming, prompt injection, and Defender"
-  duration_minutes: 270
+  duration_minutes: 240
   status: "draft"
   last_verified: "2026-08-28"
   audience:
@@ -11,19 +11,14 @@ session:
     - "Cloud security and Microsoft Defender administrators"
     - "Security operations and AI application owners"
   prerequisites:
-    - "Complete Sessions 01-10. If you built earlier controls outside this series, verify that the platform inventory names the exact nonproduction Foundry resource, project, policy-assistant agent, immutable baseline version, remediated version, and stable-endpoint selector."
-    - "If you built earlier controls outside this series, verify that the access, network, gateway, tool, data, and evaluation records list project access assignments, the network-injection record for an isolated project, APIM policy reference, get_policy allowlist, backend role definition ID and assignment scope, prohibited-write decision, synthetic-data classification, and Session 11 gate configuration. Verify that the stable endpoint selects the approved version, get_policy reads successfully, the prohibited write is absent or denied, and the Session 11 gate returns PASS for its approved record."
-    - "The Session 05 policy assistant has an approved immutable version in the nonproduction project for authorized adversarial testing."
-    - "The Session 09 prohibited write remains absent from the MCP allowlist and backend role, or the exact backend denies it."
-    - "The Session 11 golden evaluation gate and approved aggregate release record remain runnable against the remediated version."
-    - "Before each run, the security owner checks the Foundry project region against the current Microsoft cloud red-teaming documentation and records the manual support gate in the authorization scope; no stable support-discovery API is assumed."
-    - "The Foundry project managed identity has Foundry User on the exact Foundry project."
-    - "The red-team operator has Foundry User on the exact Foundry project."
-    - "An approved judge-model deployment and red-teaming budget are available in that Foundry project."
-    - "Defender for Cloud AI services threat protection is enabled on the approved subscription, and the chosen Defender-to-SOC route is operating."
-    - "The security owner has authorized the exact nonproduction Foundry project alias, policy-assistant agent name, immutable baseline version, attack categories, synthetic-data boundary, run window, and stop contact."
-    - "The SOC owner has accepted an authorized Defender event or route-health result that shows the source, route type, destination alias, Defender reference, SOC reference, observed time, and agent or model context."
-    - "The agent owner has completed the approved remediations and created the new immutable agent version before the timed session."
+    - "Complete Sessions 01-11. For controls built elsewhere, confirm the same platform inventory, access, network, gateway, tool, data, and evaluation state before this session."
+    - "The approved nonproduction policy assistant has immutable baseline and remediated versions. Its stable endpoint stays on the previously approved version."
+    - "The `get_policy` path is read-only. The prohibited write is absent from the MCP allowlist and backend role, or the backend denies it."
+    - "The project managed identity and red-team operator have Foundry User on the exact Foundry project. That project has an approved judge model and budget."
+    - "The Session 11 gate remains runnable against the remediated version and returns PASS for its approved record."
+    - "The security owner has authorized the exact project, agent, versions, attack categories, synthetic-data boundary, run window, stop contact, and same-day region support check."
+    - "Defender for Cloud AI services protection and the approved Defender-to-SOC route are operating."
+    - "The SOC owner has accepted an authorized event or route-health result with the source, route, destination, references, observed time, and agent or model context."
   dependencies:
     - "Session 05 - Governed Microsoft Foundry agent baseline"
     - "Session 07 - Azure API Management as the AI gateway"
@@ -38,11 +33,11 @@ session:
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Validate the authorization for the bounded cloud red-team exercise against the baseline and remediated fixed nonproduction Foundry agent versions."
-  - "Use the approved agent-specific attack plan for direct, encoded, indirect, leakage, prohibited-action, adherence, and unsafe-tool behavior."
-  - "Run the bounded plan against the baseline and the immutable version remediated before the session."
-  - "Require the remediated run to match or improve every tracked category and attack-strategy result for each evaluator. Keep prohibited actions blocked independently of model behavior."
-  - "Keep the approved attack-plan configuration, an exact-title AI alert hunt, and a SOC triage playbook. Foundry, Defender, and the SOC system retain run, alert, and delivery records."
+  - "Validate authorization, same-day region support, exact immutable versions, and the read-only tool boundary."
+  - "Run the approved agent-specific attack plan against the baseline and remediated versions."
+  - "Require lower overall attack success, no regression for any evaluator, category, or strategy key, and zero prohibited-action success."
+  - "Confirm the authorized Defender event or route-health result at the approved SOC destination."
+  - "Retain the attack plan, exact-title alert hunt, and SOC playbook while governed systems keep run, alert, and delivery records."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"
