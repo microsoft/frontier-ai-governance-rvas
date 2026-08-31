@@ -47,29 +47,3 @@ versions, and effects to the current shell. Resolve them again before each imple
 
 `policy/guardrail-settings.json` is the required-tag source. Both policy parameter files load it,
 and preflight rejects an inconsistent or malformed reference.
-
-## Deploy
-
-```powershell
-az deployment group create `
-  --resource-group $resourceGroup `
-  --name "rvas-s01-baseline" `
-  --parameters .\environments\sandbox.bicepparam `
-  --only-show-errors
-
-az deployment sub create `
-  --location $location `
-  --name "rvas-s01-guardrails-initiative" `
-  --parameters .\environments\initiative.bicepparam `
-  --only-show-errors
-
-az deployment group create `
-  --resource-group $resourceGroup `
-  --name "rvas-s01-guardrails-assignment" `
-  --parameters .\environments\policy-assignment.bicepparam `
-  --only-show-errors
-```
-
-Replace every `__REQUIRED_*__` value first. Run `..\scripts\preflight.ps1`. It stops the change
-when decisions are unresolved, the target scope is wrong, or a deployment preview is unexpected.
-Exclude credentials and customer data from parameters, tags, outputs, and the repository.
