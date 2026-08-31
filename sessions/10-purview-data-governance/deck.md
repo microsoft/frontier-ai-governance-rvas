@@ -120,7 +120,7 @@ returned action.
 
 <!-- _class: diagram -->
 
-![Agent 365 and Microsoft Foundry share Purview Audit and DSPM paths, while DLP scope, enablement, billing, user context, and manual checks remain product-specific](assets/diagrams/purview-product-coverage-split.svg)
+![Agent 365 and Microsoft Foundry use separate control paths that feed shared Purview visibility.](assets/diagrams/purview-product-coverage-split.svg)
 
 <!-- Notes: Start with the Agent 365 transaction, then show where that policy boundary ends. -->
 
@@ -354,7 +354,7 @@ The approved Purview change record names the propagation wait for the enabled po
 
 ## DLP lifecycle across two delivery windows
 
-![The Agent 365 DLP lifecycle confirms label rights, simulates approved scope, enables the policy, waits for propagation, checks one labelled match and one out-of-scope non-match, then reaches the delivery-owner checkpoint with scoped audit operations](assets/diagrams/purview-dlp-lifecycle.svg)
+![The team confirms scope, simulates the DLP policy, enables it, tests match and non-match cases, and asks the owner to confirm.](assets/diagrams/purview-dlp-lifecycle.svg)
 
 <!-- Notes: The red break is deliberate. Do not run the live checks before the recorded wait ends. -->
 

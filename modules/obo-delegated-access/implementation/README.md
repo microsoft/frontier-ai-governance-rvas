@@ -49,7 +49,7 @@ MCP path.
 
 ### Architecture at a glance
 
-![The OBO sequence validates a middle-tier token, exchanges the user assertion with certificate authentication, and produces permitted or denied downstream authorization](../assets/diagrams/obo-trust-chain.svg)
+![A signed-in user reaches a protected API through a middle tier and an Entra OBO token exchange.](../assets/diagrams/obo-trust-chain.svg)
 
 This design preserves the signed-in user's authority across a trusted middle tier. The downstream
 API can make its decision for that user instead of treating every request as the same application.

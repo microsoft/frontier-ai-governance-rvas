@@ -63,7 +63,7 @@ configures identity and access, and
 [Session 05](../../05-governed-agent-baseline/implementation/README.md) checks the agent path from
 the delegated subnet.
 
-![Approved clients use private DNS and endpoints while the delegated Agent Service subnet routes through the customer firewall](../assets/diagrams/private-network-flow.svg)
+![An approved private host reaches Foundry and data services through private DNS and private endpoints while public access is denied.](../assets/diagrams/private-network-flow.svg)
 
 ### Design choices and tradeoffs
 
@@ -322,7 +322,7 @@ addresses and the approved execution host reaches each endpoint on TCP 443.
 
 Run this command from the same approved private execution host:
 
-![The cutover checks private DNS and TCP 443, stores all five prior public-access states, and passes a confirmation gate before public access is disabled](../assets/diagrams/public-access-cutover.svg)
+![The team verifies the private path, saves prior state, disables public access, and then rechecks or restores.](../assets/diagrams/public-access-cutover.svg)
 
 The left side must finish before the first service update. A failed check or missing approved
 change record stops the sequence.

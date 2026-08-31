@@ -31,7 +31,7 @@ promotion, write-capable testing, a blocking-rule change, or a newly generated a
 
 ### Architecture at a glance
 
-![An authorized plan cycles through baseline measurement, agent-owner remediation, an immutable version, same-plan rerun, per-key decision, and remaining risk; a separate Defender route sends current security context to the SOC](../assets/diagrams/red-team-defense-loop.svg)
+![A baseline attack run leads to remediation, a new immutable version, and a same-plan rerun for the risk decision.](../assets/diagrams/red-team-defense-loop.svg)
 
 The same attack plan runs against two immutable versions. Foundry stores attack prompts, responses,
 evaluator detail, and run records. The runner writes a payload-free aggregate to the approved

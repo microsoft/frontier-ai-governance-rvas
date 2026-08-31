@@ -66,7 +66,7 @@ Platform operations maintains confirmed classic migrations in the customer migra
 </div>
 <div>
 
-![Flow from the customer repository to the Foundry baseline, operational inventory, and migration backlog](assets/diagrams/session-flow.svg)
+![A customer Git repository deploys the Foundry baseline, connects Application Insights, and hands live inventory to operations.](assets/diagrams/session-flow.svg)
 
 </div>
 </div>
@@ -117,7 +117,7 @@ The platform owner assigns confirmed migrations in the backlog.
 
 ## Promotion path for the guardrails
 
-![Azure Policy state machine from built-in resolution through staged assignment, approval, enforcement, and operation](assets/diagrams/policy-promotion.svg)
+![Azure Policy moves from built-in resolution to staged assignment, owner approval, enforcement, and operation.](assets/diagrams/policy-promotion.svg)
 
 <!-- Notes: New assignments take time to propagate. A stale first policy-state query is a stop condition. Enforcement mode and observed compliance are separate facts. -->
 

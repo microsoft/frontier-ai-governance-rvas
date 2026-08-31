@@ -89,9 +89,9 @@ This session deploys the platform, tracing connection, and two policy rules.
 [Session 03](../../03-private-networking-dns/implementation/README.md) adds private connectivity,
 both using the checks assigned here.
 
-![The customer-owned repository deploys the Foundry resource hierarchy and Application Insights connection, then hands live inventory ownership to the customer system](../assets/diagrams/session-flow.svg)
+![A customer Git repository deploys the Foundry baseline, connects Application Insights, and hands live inventory to operations.](../assets/diagrams/session-flow.svg)
 
-![Azure Policy moves from current built-in resolution through a staged assignment, owner review, approval, and enforcement](../assets/diagrams/policy-promotion.svg)
+![Azure Policy moves from built-in resolution to staged assignment, owner approval, enforcement, and operation.](../assets/diagrams/policy-promotion.svg)
 
 ### Design choices and tradeoffs
 

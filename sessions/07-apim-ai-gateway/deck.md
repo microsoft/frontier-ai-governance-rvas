@@ -108,7 +108,7 @@ The current APIM tier must be **Developer, Basic, Basic v2, Standard, Standard v
 
 <!-- _class: diagram -->
 
-![An ordered APIM request pipeline validates the product subscription and Entra token, applies size, token, and safety controls, then routes with circuit-breaker protection and managed identity to the pinned Foundry endpoint while emitting body-free logs](assets/diagrams/apim-ai-gateway-flow.svg)
+![An approved client passes APIM identity, limit, safety, and routing gates before reaching the Foundry agent.](assets/diagrams/apim-ai-gateway-flow.svg)
 
 <!-- Notes: The boundary covers calls sent through this APIM route. Direct Foundry access remains separate. -->
 

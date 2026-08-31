@@ -37,7 +37,7 @@ Session 08.
 
 ### Architecture at a glance
 
-![The candidate Foundry agent uses an agent-identity token for the APIM MCP audience; APIM validates that token, ends caller authority, and uses its read-only managed identity for the backend while approved reads and blocked writes diverge](../assets/diagrams/mcp-tool-security-flow.svg)
+![A Foundry agent and API Management use separate identities to reach a read-only backend.](../assets/diagrams/mcp-tool-security-flow.svg)
 
 API Management changes identity between the candidate Foundry agent and the backend. A request
 starts at the candidate Foundry agent and reaches the Streamable HTTP MCP endpoint in APIM. APIM
@@ -160,7 +160,7 @@ Authentication is separate at each hop:
    token for the backend audience.
 4. The backend authorizes the APIM identity at the exact read scope.
 
-![The candidate Foundry agent uses an agent-identity token for the APIM MCP audience; APIM validates that token, ends caller authority, and uses its read-only managed identity for the backend while approved reads and prohibited writes diverge](../assets/diagrams/mcp-tool-security-flow.svg)
+![A Foundry agent and API Management use separate identities to reach a read-only backend.](../assets/diagrams/mcp-tool-security-flow.svg)
 
 That backend call is application-only. It is not OBO. If the API must authorize each signed-in
 user, require a separately approved delegated-access implementation instead of changing this

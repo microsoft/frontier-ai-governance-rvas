@@ -1,8 +1,7 @@
 # Session diagrams
 
-`mcp-tool-security-flow.excalidraw` is the authoritative source for the two-hop MCP trust-boundary
-visual. Update it when the agent binding, APIM policy, backend authorization, or runtime checks
-change. Export `mcp-tool-security-flow.svg` for the implementation guide and deck.
+`mcp-tool-security-flow.excalidraw` is the authoritative source for the two-hop identity boundary.
+Export `mcp-tool-security-flow.svg` for the implementation guide and deck.
 
 The SVG is a generated presentation asset. Do not edit it without making the same change in the
 Excalidraw source.

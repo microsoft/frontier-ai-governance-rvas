@@ -392,7 +392,7 @@ Keep the current selector.
 
 <!-- _class: diagram -->
 
-![The regional failover checks primary health, confirms secondary readiness, previews and moves the selector, verifies the secondary path, then restores the primary selector](assets/diagrams/regional-failover-sequence.svg)
+![The team checks readiness, moves one named selector to the secondary region, verifies it, and restores the primary selector.](assets/diagrams/regional-failover-sequence.svg)
 
 <!-- Notes: The script leaves the secondary selector active long enough for the owner to observe the result. -->
 

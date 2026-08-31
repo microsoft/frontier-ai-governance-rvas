@@ -54,7 +54,7 @@ Session 07 APIM instance with a managed identity that has API Management Service
 API program owner adds the approved remote MCP server through the supported portal form. After APIM
 synchronization creates an entry, its asset owner maintains the metadata in API Center.
 
-![The direct agent definition, one-way APIM synchronization, and portal-based MCP registration feed API Center; APIM remains on the separate runtime request path](../assets/diagrams/api-center-inventory-flow.svg)
+![API Center tracks design-time inventory while API Management remains on the separate runtime request path.](../assets/diagrams/api-center-inventory-flow.svg)
 
 These paths carry definitions, runtime locations, and ownership metadata. Live API traffic does not
 pass through the catalog. It follows the APIM request path and its policies.

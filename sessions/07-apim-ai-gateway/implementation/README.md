@@ -46,7 +46,7 @@ Session 05 agent then applies its responsible AI (RAI) policy.
 Application Insights receives correlation and token metrics from this path. Request and response
 bodies stay out of the logs.
 
-![The APIM request pipeline checks the product subscription and Entra token, then applies size, token, and safety controls before routing to the pinned Foundry endpoint](../assets/diagrams/apim-ai-gateway-flow.svg)
+![An approved client passes APIM identity, limit, safety, and routing gates before reaching the Foundry agent.](../assets/diagrams/apim-ai-gateway-flow.svg)
 
 APIM shows the live route, product, backends, and runtime policy. Foundry remains the record for the
 agent itself. The repository defines the gateway configuration that the deployment path applies.

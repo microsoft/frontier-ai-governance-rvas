@@ -260,7 +260,7 @@ Ready preflight checks live Azure resources and API Management topology, then ru
 Freeze infrastructure and gateway policy changes. The service owner checks secondary readiness. The
 routing script previews the approved selectors.
 
-![Regional failover sequence from primary health through readiness, preview, selector change, secondary checks, and exact restore](../assets/diagrams/regional-failover-sequence.svg)
+![The team checks readiness, moves one named selector to the secondary region, verifies it, and restores the primary selector.](../assets/diagrams/regional-failover-sequence.svg)
 
 ```powershell
 .\scripts\rehearse-failover.ps1 `

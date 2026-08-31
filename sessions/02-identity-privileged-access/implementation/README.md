@@ -181,7 +181,7 @@ managed identity trusts an OIDC token when GitHub issues these exact claims:
 | Subject | `repo:OWNER/REPOSITORY:environment:ENVIRONMENT` |
 | Audience | `api://AzureADTokenExchange` |
 
-![GitHub OIDC trust from one protected environment through exact token claims to a user-assigned managed identity with Cognitive Services User on one Foundry resource and Storage Blob Data Reader on one storage account](../assets/diagrams/oidc-trust-scope.svg)
+![Exact GitHub OIDC claims federate to a managed identity with resource-scoped Azure roles.](../assets/diagrams/oidc-trust-scope.svg)
 
 The issuer and subject use exact matching. The standard subject property does not support
 wildcards. Stop if the requested trust covers every repository, every branch, or an unprotected

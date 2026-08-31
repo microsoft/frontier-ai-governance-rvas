@@ -247,7 +247,7 @@ Tracing can capture content, tool use, tokens, latency, retries, and cost.
 
 <!-- _class: diagram -->
 
-![A fixed prompt-agent version sits between its version-controlled definition and a pinned endpoint protected by a unique Entra Agent Identity. A separate Foundry project managed identity makes the only OpenAPI GET call to the approved API. The write path is absent, while the configured RAI policy and Application Insights tracing remain attached to the version.](assets/diagrams/governed-agent-flow.svg)
+![A versioned agent definition becomes an immutable endpoint whose project identity calls one read-only API.](assets/diagrams/governed-agent-flow.svg)
 
 <!-- Notes: The endpoint identity and project identity do different jobs. The control ends at the direct read API. -->
 

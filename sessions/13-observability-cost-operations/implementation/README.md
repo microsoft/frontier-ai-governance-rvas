@@ -36,7 +36,7 @@ approval. Session 14 consumes the payload-free smoke result from its runner work
 
 ### Architecture at a glance
 
-![An approved synthetic request carries trace context through API Management, agent, model, and tool spans. Application Insights feeds workbooks and alerts. Evaluation, security, and cost records stay in their source systems.](../assets/diagrams/operational-correlation-flow.svg)
+![Model and tool spans join one gateway and agent trace before operations correlates the results.](../assets/diagrams/operational-correlation-flow.svg)
 
 Treat the request as the spine of the operating view. API Management attaches W3C trace context to
 the approved synthetic request. This standard trace identifier follows the work across services.

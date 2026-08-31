@@ -86,7 +86,7 @@ Discovery tells us what exists. Runtime authorization decides what can happen.
 
 <!-- _class: diagram -->
 
-![The candidate Foundry agent uses an agent-identity token for the APIM MCP audience; APIM validates that token, ends caller authority, and uses its read-only managed identity for the backend while approved reads and blocked writes diverge](assets/diagrams/mcp-tool-security-flow.svg)
+![A Foundry agent and API Management use separate identities to reach a read-only backend.](assets/diagrams/mcp-tool-security-flow.svg)
 
 <!-- Notes: Trace the two-token flow. The absent write tool and backend read role enforce the side-effect boundary. Body logging stays at zero. -->
 

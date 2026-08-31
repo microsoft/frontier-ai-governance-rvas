@@ -50,7 +50,7 @@ Preflight blocks the run when the profile differs from the approval or current A
 holds the live child deployment. These steps change model deployment settings. Session 05 uses the
 approved deployment name and exact model coordinates.
 
-![The approved deployment profile passes through live Azure checks before Bicep changes model child deployments; lifecycle review can keep, replace, or retire them](../assets/diagrams/model-governance-flow.svg)
+![An approved model choice moves through preflight, deployment, review, and a keep, replace, or retire decision.](../assets/diagrams/model-governance-flow.svg)
 
 The checks run when an operator uses the deployment profiles, preflight scripts, and Bicep files.
 Another template, the portal, the CLI, or an API can bypass them. Operators can preview changes

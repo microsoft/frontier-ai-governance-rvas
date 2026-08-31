@@ -33,7 +33,7 @@ audit exports, findings summaries, screenshots, and portal-state copies out of t
 
 ### Architecture at a glance
 
-![Agent 365 and Microsoft Foundry share Purview Audit and DSPM paths, while DLP scope, enablement, billing, user context, and manual checks remain product-specific](../assets/diagrams/purview-product-coverage-split.svg)
+![Agent 365 and Microsoft Foundry use separate control paths that feed shared Purview visibility.](../assets/diagrams/purview-product-coverage-split.svg)
 
 Purview evaluates the Agent 365 path against the selected agent, group, direction, location, and
 label. It applies the approved `Block` or `Audit` action. The audit script asks Purview for current

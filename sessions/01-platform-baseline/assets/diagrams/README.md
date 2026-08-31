@@ -1,8 +1,7 @@
 # Session 01 diagrams
 
-`session-flow.excalidraw` is the editable source. It shows the customer-owned Bicep deployment,
-the Foundry baseline, and its workspace-based Application Insights connection. It ends when
-operations takes ownership of inventory and migration work.
+`session-flow.excalidraw` is the editable source. It shows the path from customer-owned
+configuration to the Foundry baseline, Application Insights, and operations inventory.
 
 `session-flow.svg` is the exported briefing asset used by `deck.md`. Regenerate it after changing
 the Excalidraw source.

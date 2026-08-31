@@ -89,7 +89,7 @@ Preview task-adherence, prohibited-action, and sensitive-data-leakage evaluators
 
 <!-- _class: diagram -->
 
-![A versioned golden data set evaluates approved and candidate fixed agent versions; separate final-answer, tool-process, and safety evaluator layers produce aggregate records, then baseline thresholds and release policy return PASS for Session 14 or BLOCK with the candidate unpinned](assets/diagrams/evaluation-release-gate-flow.svg)
+![Approved and candidate versions use the same data and evaluators before release thresholds return PASS or BLOCK.](assets/diagrams/evaluation-release-gate-flow.svg)
 
 <!-- Notes: Follow data left to right, then point out the promotion boundary after the gate result. -->
 

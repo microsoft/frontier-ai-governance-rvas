@@ -44,7 +44,7 @@ Model version and deployment type decide where processing happens and how quota 
 Before Bicep changes the existing Foundry resource, preflight checks the exact model version,
 deployment type, processing location, and quota.
 
-![Approval funnel and model lifecycle loop](assets/diagrams/model-governance-flow.svg)
+![An approved model choice moves through preflight, deployment, review, and a keep, replace, or retire decision.](assets/diagrams/model-governance-flow.svg)
 
 <!-- Notes: Workload purpose and processing location narrow into exact deployment state. A mismatch stops at preflight. -->
 

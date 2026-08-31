@@ -60,7 +60,7 @@ resource assignments and any new user grants.
 
 <!-- _class: diagram -->
 
-![The OBO sequence validates the inbound token, uses certificate authentication for token exchange, and ends in allowed-user success or missing-authority denial](assets/diagrams/obo-trust-chain.svg)
+![A signed-in user reaches a protected API through a middle tier and an Entra OBO token exchange.](assets/diagrams/obo-trust-chain.svg)
 
 <!-- Notes: The client gets a token for the middle tier. The middle tier validates it, then uses the user assertion and its certificate to request a downstream token from Microsoft Entra ID. Entra issues the token. The downstream API authorizes resource access for each user. -->
 

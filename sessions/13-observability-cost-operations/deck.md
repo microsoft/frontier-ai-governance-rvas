@@ -89,7 +89,7 @@ Runtime spans share approved context. Cost, evaluation, and security records sta
 
 <!-- _class: diagram -->
 
-![An approved synthetic request carries trace context through API Management, agent, model, and tool spans. Application Insights feeds workbooks and alerts. Evaluation, security, and cost records stay in their source systems.](assets/diagrams/operational-correlation-flow.svg)
+![Model and tool spans join one gateway and agent trace before operations correlates the results.](assets/diagrams/operational-correlation-flow.svg)
 
 <!-- Notes: Treat the request as the spine of the operating view. W3C trace context links the gateway, agent, model, and tool spans, and each span keeps its own result. This lets an operator locate the failing hop. Application Insights stores runtime telemetry. Cost, evaluation, and security records remain in their source systems. The Session 14 GitHub workflow uses its temporary smoke output. -->
 

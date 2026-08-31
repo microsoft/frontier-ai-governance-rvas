@@ -50,7 +50,7 @@ Identity identifies the agent and protects its endpoint. The Foundry project man
 the downstream OpenAPI call with the approved read assignment. The API sees the project identity,
 not the user or individual agent.
 
-![A fixed prompt-agent version sits between its repository definition and pinned endpoint; the endpoint uses the agent identity, while the project identity makes the approved OpenAPI GET call](../assets/diagrams/governed-agent-flow.svg)
+![A versioned agent definition becomes an immutable endpoint whose project identity calls one read-only API.](../assets/diagrams/governed-agent-flow.svg)
 
 Foundry shows the live agent version and identity, and where the endpoint routes traffic.
 `agent.json`, `instructions.md`, and `tool-manifest.json` define the agent version. The deployment

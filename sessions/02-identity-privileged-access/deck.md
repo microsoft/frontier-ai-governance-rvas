@@ -69,7 +69,7 @@ PIM limits the time for elevated human administration. Workloads need narrow rol
 
 <!-- _class: diagram -->
 
-![Identity-path decision tree separating direct human, GitHub OIDC workload, Foundry agent identity, and delegated OBO paths](assets/diagrams/identity-boundary.svg)
+![An authorization decision selects the identity path for a human, GitHub workload, Foundry agent, or delegated user.](assets/diagrams/identity-boundary.svg)
 
 ---
 

@@ -62,7 +62,7 @@ The separate Agent subnet prepares the later runtime path. Session 05 checks tha
 
 <!-- _class: diagram -->
 
-![Authorized clients use private DNS and endpoints while Agent traffic routes through the customer firewall and public access is denied](assets/diagrams/private-network-flow.svg)
+![An approved private host reaches Foundry and data services through private DNS and private endpoints while public access is denied.](assets/diagrams/private-network-flow.svg)
 
 <!-- Notes: Walk left to right. Call out the separate subnets and the Session 05 runtime handoff. -->
 
@@ -304,7 +304,7 @@ should contain seven zones and links and five private endpoints.
 
 ## Store restore settings before cutover
 
-![Private DNS and TCP 443 checks plus stored prior states happen before the public-access cutover](assets/diagrams/public-access-cutover.svg)
+![The team verifies the private path, saves prior state, disables public access, and then rechecks or restores.](assets/diagrams/public-access-cutover.svg)
 
 <!-- Notes: Read the timeline from left to right. Stop at the gate unless every check passed and the complete external record exists. -->
 

@@ -5,7 +5,7 @@ rendered copies used by the implementation guide and deck.
 
 | Source | Rendered copy | Use |
 |---|---|---|
-| `regional-failover-sequence.excalidraw` | `regional-failover-sequence.svg` | Shows the failover and exact restore sequence, including the APIM primary-region control-plane boundary and regional counters. |
+| `regional-failover-sequence.excalidraw` | `regional-failover-sequence.svg` | Shows the readiness, selector move, secondary check, and exact restore sequence. |
 
 Use the bundled Microsoft service icons without recoloring, cropping, rotating, or
 distorting them. Keep product names visible near their icons.

@@ -118,7 +118,7 @@ request to a backend.
 
 <!-- _class: diagram -->
 
-![Direct agent registration, one-way APIM synchronization, and manual remote MCP registration converge on API Center while APIM enforces the separate runtime request path](assets/diagrams/api-center-inventory-flow.svg)
+![API Center tracks design-time inventory while API Management remains on the separate runtime request path.](assets/diagrams/api-center-inventory-flow.svg)
 
 <!-- Notes: Follow the three inbound paths. The control ends at inventory and source health, before runtime enforcement. -->
 

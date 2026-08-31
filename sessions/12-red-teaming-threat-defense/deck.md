@@ -76,7 +76,7 @@ route.
 
 <!-- _class: diagram -->
 
-![An authorized plan cycles through baseline measurement, agent-owner remediation, a fixed version, same-plan rerun, per-key decision, and remaining risk; a separate Defender-to-SOC route joins the operations review record without proving red-team improvement](assets/diagrams/red-team-defense-loop.svg)
+![A baseline attack run leads to remediation, a new immutable version, and a same-plan rerun for the risk decision.](assets/diagrams/red-team-defense-loop.svg)
 
 <!-- Notes: Remediation is pre-work. Keep same-plan comparison and SOC delivery as separate checks. -->
 
