@@ -109,6 +109,33 @@ For other technologies:
 1. Prefer official vendor documentation.
 2. Use non-official sources only as supporting context, never as the authority for a finding.
 
+## Link and change checks
+
+Build a link inventory from every file in scope. Check Markdown links, reference-style links,
+HTML `href` and `src` attributes, and bare URLs that support technical claims.
+
+For each link:
+
+1. Resolve relative paths from the source file and confirm that the target exists in the repository.
+2. Check document fragments and heading anchors when the target content is available.
+3. Fetch external URLs. Record the final URL, status, redirects, and access date.
+4. Treat `404`, `410`, invalid hosts, redirect loops, and missing local targets or fragments as broken.
+5. Flag links that now redirect to a generic landing page, retired product, archived content, or a page
+  that no longer supports the adjacent claim.
+6. Do not call a link broken only because an automated request receives `401`, `403`, `429`, or a
+  transient `5xx`. Retry once when practical, then report it as unverified with the response status.
+
+Check what changed since the most recent report from this workflow:
+
+1. Read the previous report and inspect repository changes to in-scope files since that report's date.
+2. For each official source tied to a technical claim, look for a published or updated date, release
+  note, retirement notice, rename, changed prerequisite, or replacement page.
+3. Compare the current claim with the current official source. Record the old documented behavior,
+  the current behavior, and the evidence date when they differ.
+4. Report changed guidance even when the existing link still returns `200`.
+5. If no previous report exists or a source has no usable history, state that the comparison baseline
+  is unavailable and assess only its current validity.
+
 ## What to look for
 
 Extract and check claims that can become obsolete:
@@ -119,6 +146,8 @@ Extract and check claims that can become obsolete:
 - Security, identity, RBAC, managed identity, agent identity, data privacy, content safety, and logging guidance
 - GitHub Actions, gh-aw, GitHub Pages, Codespaces, Discussions, and issue-management automation guidance
 - Script names, validation commands, generated-page assumptions, and repository contribution rules
+- Broken local paths, missing anchors, dead external URLs, misleading redirects, and retired pages
+- Claims whose linked official guidance changed since the previous review
 
 ## Severity model
 
@@ -150,9 +179,9 @@ Use this structure:
 
 ### Priority actions
 
-| Severity | Area | Affected files | Finding | Recommended change | Delegation-ready issue |
-|---|---|---|---|---|---|
-| high | Foundry agents | `path/file.md` | [stale claim] | [specific change] | `[Docs] Update Foundry agent setup guidance` |
+| Severity | Type | Area | Affected files | Finding or change | Evidence | Recommended change | Delegation-ready issue |
+|---|---|---|---|---|---|---|---|
+| high | changed guidance | Foundry agents | `path/file.md` | [old behavior versus current behavior] | [official source and date] | [specific change] | `[Docs] Update Foundry agent setup guidance` |
 
 ### Suggested implementation path
 
@@ -161,7 +190,15 @@ Use this structure:
 <details>
 <summary>Official references checked</summary>
 
-- [Official doc title](url): why it matters
+- [Official doc title](url): why it matters, access date, final URL, and published or updated date when available
+
+</details>
+
+<details>
+<summary>Link check summary</summary>
+
+[Counts for checked, healthy, redirected, broken, and unverified links. List each broken or unverified
+link with its source file, target, result, and replacement when known.]
 
 </details>
 
@@ -180,6 +217,9 @@ Keep the discussion body concise enough for maintainers to scan. Put long eviden
 - If no obsolete or risky guidance is found, still create the Discussion with a short “no immediate changes” summary and a watch list of fast-moving areas checked.
 - Include exact file paths for every actionable finding.
 - Include official reference links for every actionable finding.
+- Include every confirmed broken link as an actionable finding. Group repeated targets into one row.
+- Distinguish `broken link`, `changed guidance`, `obsolete claim`, and `watch` in the report Type column.
+- Include the comparison baseline date and previous report URL in the executive summary.
 - Do not claim that code or documentation was verified by executing commands unless you actually ran those commands.
 - Do not expose secrets, environment values, private customer data, or copied proprietary content.
 - Do not open multiple reports in one run.
