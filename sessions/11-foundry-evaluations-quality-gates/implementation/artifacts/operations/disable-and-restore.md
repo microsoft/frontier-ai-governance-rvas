@@ -22,7 +22,7 @@ The Session 11 scripts never change the endpoint selector.
 4. Cancel any running Session 11 evaluation from Foundry if it is consuming unnecessary budget.
 5. Keep the golden data set in the approved evaluation store. Keep the threshold history,
    aggregate release records, and blocked self-test command.
-6.    Remove a Foundry evaluation definition or dataset version only when the quality owner confirms that
+6. Remove a Foundry evaluation definition or dataset version only when the quality owner confirms that
    no release record or comparison uses it.
 
 Do not delete the Foundry project, agent versions, judge-model deployment, Application Insights,

@@ -16,7 +16,7 @@ html: true
 
 240 minutes - Trace an approved request, route alerts, and assign cost
 
-<!-- Notes: Session 12 connected red-team behavior to detection. This session adds the operating views, routes, and cost controls for one service. -->
+<!-- Notes: Session 12 connected red-team behavior to detection. Today adds operating views, routes, and cost controls for one service. -->
 
 ---
 
@@ -44,7 +44,7 @@ The workbook and alert routes support that decision without pooling records from
 
 Cost tags and budget notifications give the cost owner a delayed billing view. The incident runbook names the owner who contains each failure.
 
-<!-- Notes: A budget notifies. It does not stop spend. -->
+<!-- Notes: A budget notifies owners. A separate enforcement mechanism stops spend. -->
 
 ---
 
@@ -53,16 +53,16 @@ Cost tags and budget notifications give the cost owner a delayed billing view. T
 1. Keep privacy-safe OpenTelemetry settings for supported runtime spans.
 2. Deploy a shared workbook and three alert rules that route to named owners.
 3. Keep bounded token metrics and low-cardinality allocation tags.
-4. Deploy budget notifications that do not stop resources.
+4. Deploy budget notifications that alert owners.
 5. Use the four incident paths in the runbook and run the release smoke check from the Session 14 GitHub promotion workflow.
 
 <!-- Notes: Standard mode ends with one composite visible check. -->
 
 ---
 
-## Required state when joining here
+## Controls to verify when joining here
 
-Teams joining here confirm this state before they begin the session.
+Teams joining here verify these controls before they begin.
 
 | Existing control | What must already work | How the owner confirms it |
 |---|---|---|
@@ -284,7 +284,7 @@ Cost Management data typically arrives 8-24 hours later. Its billed cost is auth
 
 ### Budget behavior
 
-Actual and forecast thresholds notify owners. **They do not stop resources.**
+Actual and forecast thresholds notify owners. **Use separate enforcement to stop resources.**
 
 <!-- Notes: Never describe the budget as a kill switch. -->
 

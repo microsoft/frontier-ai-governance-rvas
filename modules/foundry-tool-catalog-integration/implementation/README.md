@@ -15,31 +15,30 @@ exactly the approved namespaced tool.
 ### Why it matters
 
 Session 08 establishes the inventory record. Session 09 sets the MCP security boundary. This module
-uses those approved records to create a reusable Toolbox endpoint. Agent teams do not have to build
-the same tool configuration for every agent.
+uses those approved records to create a reusable Toolbox endpoint that gives agent teams a shared
+tool configuration.
 
 Preflight and the live check stop if the API Center deployment endpoint, Foundry project
 connection, allow list, or Toolbox result differs from the approved record.
 
 ### Boundaries
 
-This optional module sits outside the 15-session sequence. It handles the MCP server record in API
-Center, the related Foundry project connection, a new dedicated Toolbox, and the approved MCP tool
-in an approved nonproduction scope.
+This work handles the MCP server record in API Center, the related Foundry project connection, a
+new dedicated Toolbox, and the approved MCP tool in an approved nonproduction scope.
 
 The private tool catalog is **public preview**. Its API Center authentication, access, and discovery
-steps run through the portal. The module provides no replacement API for that handoff. Record the
-preview decision and successful discovery under Build > Tools before creating a Toolbox.
+steps run through the portal. Record the preview decision and successful discovery under Build >
+Tools before creating a Toolbox.
 
 Azure API Center holds the inventory record and deployment metadata. The MCP server defines tools
 available at runtime. The Foundry project connection stores runtime authentication settings. The
 Toolbox version records the allowed tool and approval setting.
 
-This module does not create an MCP server, change its authorization model, add a tool to an agent,
-or call the tool. It does not claim that API Center access settings alone enforce every runtime
-call. Agent integration remains with the owners of
-[Session 05](../../../sessions/05-governed-agent-baseline/), and MCP runtime controls remain with
-[Session 09](../../../sessions/09-mcp-tool-security/).
+The MCP server and its authorization model exist before this work. The dedicated Toolbox contains
+the approved MCP tool and supplies its endpoint for agent reuse. API Center access controls catalog
+discovery, while [Session 09](../../../sessions/09-mcp-tool-security/) runtime controls authorize
+each call. Agent owners integrate the endpoint through
+[Session 05](../../../sessions/05-governed-agent-baseline/).
 
 ## Architecture
 
@@ -119,8 +118,7 @@ copy because it contains tenant-specific resource coordinates and the MCP endpoi
 | Deployment | [`artifacts/toolbox/toolbox-version.json`](artifacts/toolbox/toolbox-version.json) | The Foundry Toolbox deployment process |
 | Runtime | [`artifacts/operations/check_toolbox.py`](artifacts/operations/check_toolbox.py) | The Foundry tool owner |
 
-The module uses standard mode because it makes a bounded configuration change and runs a
-read-only check. It does not need a failure-path exercise or delivery-owner checkpoint.
+The module uses standard mode for its bounded configuration change and read-only check.
 
 The private catalog's Azure RBAC assignment can take up to 24 hours to propagate, so assign access
 before the delivery window.
@@ -228,7 +226,7 @@ Then open the intended project in the Microsoft Foundry portal:
 
 This is the current documented portal step that connects the catalog record to the project. If the
 portal does not expose the record or cannot create a connection that matches the approved
-authentication mode, stop. The module provides no fallback API.
+authentication mode, stop.
 
 ### 3. Run preflight
 
@@ -298,7 +296,7 @@ unset token
 ```
 
 Do not print or retain the access token. Record the returned version number in
-`observedState.toolboxVersion`. Do not store either Toolbox endpoint in the repository.
+`observedState.toolboxVersion`.
 
 ### 5. Hand the consumer endpoint to agent owners
 
@@ -309,9 +307,8 @@ The reusable consumer endpoint omits `/versions/{version}` and always serves the
 {project_endpoint}/toolboxes/{toolbox_name}/mcp?api-version=v1
 ```
 
-Pass it to agent teams through the approved runtime configuration path. Do not add it directly to a
-Session 05 agent in this module. The release owner decides when an agent can use the Toolbox and
-how the runtime presents approval requests.
+Pass it to agent teams through the approved runtime configuration path. The release owner decides
+when an agent can use the Toolbox and how the runtime presents approval requests.
 
 ## Confirm the result
 

@@ -108,7 +108,7 @@
 <p>Complete every <code>__REQUIRED_*__</code> value under <a href="implementation/artifacts/README.md"><code>artifacts/</code></a> in an approved private working copy. Do not commit the completed copy because it contains tenant-specific resource coordinates and the MCP endpoint.</p>
 <h3 id="implementation-files">Implementation files<a class="heading-anchor" href="#implementation-files" aria-label="Link to Implementation files">#</a></h3>
 <div class="table-scroll"><table><thead><tr><th scope="col">Type</th><th scope="col">File</th><th scope="col">Consumer</th></tr></thead><tbody><tr><td>Record</td><td><a href="implementation/artifacts/governance/catalog-toolbox-binding.json"><code>artifacts/governance/catalog-toolbox-binding.json</code></a></td><td>The API catalog owner and Foundry tool owner</td></tr><tr><td>Deployment</td><td><a href="implementation/artifacts/toolbox/toolbox-version.json"><code>artifacts/toolbox/toolbox-version.json</code></a></td><td>The Foundry Toolbox deployment process</td></tr><tr><td>Runtime</td><td><a href="implementation/artifacts/operations/check_toolbox.py"><code>artifacts/operations/check_toolbox.py</code></a></td><td>The Foundry tool owner</td></tr></tbody></table></div>
-<p>The module uses standard mode because it makes a bounded configuration change and runs a read-only check. It does not need a failure-path exercise or delivery-owner checkpoint.</p>
+<p>The module uses standard mode for its bounded configuration change and read-only check.</p>
 <p>The private catalog's Azure RBAC assignment can take up to 24 hours to propagate, so assign access before the delivery window.</p>
 
         </article>

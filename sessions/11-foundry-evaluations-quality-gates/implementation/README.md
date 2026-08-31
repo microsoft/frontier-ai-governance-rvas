@@ -77,7 +77,7 @@ Confirm these prerequisites:
 
 ## Decisions and stop conditions
 
-Resolve required configuration values through the approved delivery change path. Do not put project
+Set required configuration values through the approved delivery change path. Do not put project
 endpoints, resource IDs, subscriptions, tokens, prompts, responses, tool payloads, or personal data
 in the repository.
 
@@ -146,8 +146,8 @@ evaluator becomes blocking, a limited-support tool enters the evaluated path, a 
 tool-process failure is treated as overridable, or a current result would be written under this
 repository.
 
-The release owner updates the version-controlled policy when evaluators, tools, or thresholds
-change. Foundry and the release platform record support checks, run IDs, gate state, and release
+When evaluators, tools, or thresholds change, the release owner updates the version-controlled
+policy. Foundry and the release platform record support checks, run IDs, gate state, and release
 decisions.
 
 ## Implement
@@ -277,7 +277,7 @@ python ./scripts/test_release_gate.py --mode blocked-tool-process
 ```
 
 The in-memory test returns `BLOCK` for tool-call accuracy and tool-call success while final-answer
-quality and safety remain passing. It creates no dataset, cloud resource, or repository file.
+quality and safety remain passing.
 
 ### Delivery-owner checkpoint
 

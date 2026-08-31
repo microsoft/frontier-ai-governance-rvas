@@ -32,7 +32,7 @@ implementation_outcomes:
   - "Assign platform administrators as PIM-eligible Foundry Account Owners at the Foundry resource. Assign project managers Foundry Project Manager at that resource, developers Foundry User at one project, and auditors Reader at the Foundry resource."
   - "Assign normal human access through groups. Configure the platform-administrator group object ID as the PIM-eligible principal."
   - "Deploy a dedicated user-assigned managed identity without a client secret. Its federated credential trusts one protected GitHub environment. Scope its roles to one Foundry resource and one storage account."
-  - "Do not assign Foundry Agent Consumer until the session that creates the agent identifies its endpoint-only callers and approved project or individual-agent scope."
+  - "Session 05 assigns Foundry Agent Consumer after it identifies endpoint-only callers and approves a project or individual-agent scope."
   - "Confirm that live Azure RBAC assignments, Entra PIM eligibility and role settings, the workload identity, and its role scopes match the approved design."
 deliverables:
   implementation: "implementation/README.md"
@@ -79,7 +79,7 @@ sources:
   - title: "Access Azure DevOps with Microsoft Entra workload identity"
     url: "https://learn.microsoft.com/en-us/azure/devops/pipelines/library/add-devops-entra-service-connection?view=azure-devops"
     accessed: "2026-08-28"
-    supports: "Azure DevOps workload identity federation as a separate service-connection path outside this GitHub-specific session."
+    supports: "Azure DevOps workload identity federation through its own service-connection path."
   - title: "Use Bicep to create Azure RBAC resources"
     url: "https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/scenarios-rbac"
     accessed: "2026-08-24"

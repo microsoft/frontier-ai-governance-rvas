@@ -1,6 +1,6 @@
 # Evaluation control artifacts
 
-The repository keeps the definitions that run and govern the release gate:
+The repository keeps the definitions used to run the release gate:
 
 | Path | Purpose | Consumer |
 |---|---|---|

@@ -23,18 +23,18 @@ client secret. Its role assignments are limited to those two resources.
 
 ### Boundaries
 
-Use Azure RBAC and Microsoft Entra PIM to inspect live human access. The managed identity and
-federated credential define the live GitHub trust. This repository contains role definitions and
-Bicep files. It does not copy live assignments, eligibility, or approval records.
+Azure RBAC and Microsoft Entra PIM hold live human-access records. The managed identity and
+federated credential define the live GitHub trust. The repository holds the role definitions and
+Bicep files that deploy the configuration.
 
-This session assigns no subscription-level role. The workload path is application-only and does
-not carry a signed-in user's delegated authority. It is not the Agent ID used by Microsoft Foundry
-Agent Service. [Session 05](../../05-governed-agent-baseline/implementation/README.md) configures
-that runtime identity and any Foundry Agent Consumer assignment at project or individual-agent
-scope. Azure DevOps workload identity federation uses a separate supported service connection.
-This session implements GitHub federation only. When a downstream API must authorize each
-signed-in user, use the [Delegated API access with OAuth on-behalf-of module](../../../modules/obo-delegated-access/)
-rather than widening this workload identity. Allow 240 minutes for this implementation.
+All assignments stay at the documented Foundry resource, project, or storage-account scope. The
+workload path is application-only, so it carries no signed-in user's delegated authority.
+[Session 05](../../05-governed-agent-baseline/implementation/README.md) configures the Foundry
+Agent ID and any Foundry Agent Consumer assignment at project or individual-agent scope. This
+session implements GitHub federation. Azure DevOps uses its own supported service connection.
+When a downstream API must authorize each signed-in user, use the
+[Delegated API access with OAuth on-behalf-of module](../../../modules/obo-delegated-access/).
+Allow 240 minutes for this implementation.
 
 ## Architecture
 
@@ -67,7 +67,7 @@ runtime authorization.
 | Normal human access | Assign roles to customer-owned groups at the Foundry resource or project | Team membership controls access without direct user assignments | The customer identity owner manages group membership and reviews it | A task needs a different role or resource boundary |
 | Elevated administration | Make Foundry Account Owner PIM-eligible, with approval, MFA, and a two-hour activation | Platform administration is active when someone needs it | This needs Entra licensing, named approvers, and an activation step | The emergency-access or approval model changes |
 | GitHub authentication | Trust exact OIDC claims for one protected environment on a user-assigned managed identity | GitHub needs no Azure client secret, and only the named environment can request this authority | The trust is application-only; a repository or environment change requires an update | A downstream API must authorize the signed-in user, or an agent needs its own identity |
-| Agent endpoint access | Reference Foundry Agent Consumer at project or individual-agent scope | Later sessions can grant endpoint-only access without project development rights | No assignment exists until the agent and its caller are known | Session 05 creates the agent and approves its callers |
+| Agent endpoint access | Reference Foundry Agent Consumer at project or individual-agent scope | Later sessions can grant endpoint-only access without project development rights | Session 05 records the agent and approved callers | Session 05 creates the agent and approves its callers |
 
 ### Architecture guidance
 
@@ -189,20 +189,20 @@ environment. Do not create a client secret as a fallback.
 
 System-assigned managed identities do not support this federated-credential configuration. A
 user-assigned managed identity supports up to 20 federated identity credentials. This
-implementation creates one. This path is application-only. It does not carry a signed-in user's
+implementation creates one. This path is application-only and carries no signed-in user's
 delegated authority to a downstream API.
 
 Azure DevOps can use Microsoft Entra workload identity federation through an Azure Resource
 Manager service connection. That path has its own issuer, subject, service-connection ownership,
 and migration guidance. Use the
 [Azure DevOps workload identity guidance](https://learn.microsoft.com/en-us/azure/devops/pipelines/library/add-devops-entra-service-connection?view=azure-devops)
-when Azure DevOps is the approved automation platform. Do not reuse or alter the GitHub federated
-credential in this implementation.
+when Azure DevOps is the approved automation platform. Create its trust separately from the
+GitHub federated credential.
 
 ### Customer data
 
-This session inspects identity configuration only. It does not read model responses, blobs,
-secrets, or other customer content. Stop if a step needs customer data to confirm the control.
+This session inspects identity configuration only. It reads no model responses, blobs, secrets, or
+other customer content. Stop if a step needs customer data to confirm the control.
 
 ## Implement
 
@@ -210,8 +210,8 @@ secrets, or other customer content. Stop if a step needs customer data to confir
 
 Confirm the task boundaries, scopes, eligible group, approvers, expiry, and GitHub environment in
 the customer's normal identity change process. Replace the GitHub environment sentinel in
-`workload-identity.bicep`. This session uses direct human access or workload/application-only
-access. It does not add a delegated authorization path.
+`workload-identity.bicep`. Use direct human or workload/application-only access in this session.
+Send delegated authorization requirements to the OBO module.
 
 Keep object IDs and tenant coordinates in the shell or the customer's configuration system. Set
 the preflight inputs in the current shell:
@@ -258,9 +258,9 @@ accepted current or transitional display name, and the `BuiltInRole` type. It re
 decisions, then compiles both Bicep files. Stop on any failure.
 
 Stop here if the customer now needs a downstream API to authorize each signed-in user differently.
-That is a delegated OBO design. Hand it to the
+That is a delegated OBO design. The
 [Delegated API access with OAuth on-behalf-of module](../../../modules/obo-delegated-access/)
-instead of adding it to this session.
+implements it.
 
 ### 2. Preview and deploy standing human roles
 
@@ -339,9 +339,7 @@ In Microsoft Entra admin center:
    normal identity change process.
 5. Add the platform-administrator group as eligible through the approved expiry.
 
-Do not use these files to change a shared PIM policy. If role settings affect other eligible
-principals, the customer identity owner must handle the change through the existing identity
-process.
+Use the customer identity process for any role setting that affects other eligible principals.
 
 MFA might not prompt again when the current sign-in session already satisfies it. If the customer
 requires reauthentication for each activation, use the approved Conditional Access authentication
@@ -419,8 +417,8 @@ need an Azure client secret.
 
 ## Confirm the result
 
-Use one confirmation to inspect the human assignments, live Entra PIM configuration, and workload
-identity. First confirm the three standing Azure RBAC group assignments. In Entra PIM, confirm
+Use one check to inspect the human assignments, live Entra PIM settings, and workload identity.
+First confirm the three standing Azure RBAC group assignments. In Entra PIM, confirm
 that Foundry Account Owner eligibility names the approved platform-administrator group. Confirm
 that live role settings match the approved two-hour activation, MFA, justification, approval,
 approver, and expiry decisions. Compare the approved change in the customer identity system, not a
@@ -499,7 +497,7 @@ repository environment subject, and Azure token-exchange audience. The direct as
 Cognitive Services User on the Foundry resource recorded for this session and Storage Blob Data
 Reader on the storage account recorded for this session. No subscription-level assignment exists.
 
-Read the console and stop there. Do not redirect, export, or save command output.
+Read the console and stop there.
 
 ## After implementation
 

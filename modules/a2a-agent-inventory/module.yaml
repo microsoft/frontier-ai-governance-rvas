@@ -27,7 +27,7 @@ implementation:
   live_only: true
 implementation_outcomes:
   - "Select the supported Agent 365 onboarding route for the existing A2A agent."
-  - "Complete the approved built-in, Registry sync, or runtime-owned SDK path without copying the agent definition or card into this repository."
+  - "Complete the approved built-in, Registry sync, or runtime-owned SDK path; the runtime owner maintains the agent definition and card in its source system."
   - "Review the live Agent 365 record, its owner, and its lifecycle state."
   - "Confirm the runtime owner can maintain the selected integration and remove or retire the agent through the approved platform path."
 deliverables:

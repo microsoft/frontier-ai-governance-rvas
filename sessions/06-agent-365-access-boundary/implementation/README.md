@@ -5,22 +5,20 @@
 ### What we will do
 
 Prepare one approved nonproduction Agent Registry deployment for a named Microsoft Entra test
-group. Do not install the agent or grant group availability in this session. Session 10 confirms
-the DLP policy, then uses this contract for the installation and access checks.
+group. Keep the agent uninstalled in this session. Session 10 confirms the DLP policy, then uses
+this contract for installation and access checks.
 
-The repository keeps the configuration contract that the administrator uses after DLP confirmation.
+The repository keeps the contract the administrator uses after DLP confirmation.
 
 ### Why it matters
 
-An Agent Registry record is an inventory entry. It does not decide who can use an agent. Group
-deployment creates a narrow availability boundary before a team exposes the agent to a wider
-population.
+Agent Registry is an inventory entry. Group installation decides who can use the agent. Keeping a
+recorded test-group deployment uninstalled preserves that boundary until DLP coverage exists.
 
 ### Boundaries
 
-This session applies to one Agent Registry-listed agent, one nonproduction test group, and one host
-product. It does not create, modify, stop, or delete the underlying agent. It does not publish the
-agent to the organization, block it tenant-wide, or configure Conditional Access.
+This session covers one Agent Registry-listed agent, one nonproduction test group, and one host
+product. It leaves the underlying agent, tenant-wide blocks, and Conditional Access unchanged.
 
 Microsoft Agent 365 and Microsoft 365 admin center remain authoritative for inventory, installation,
 consent, and user availability. Microsoft Entra remains authoritative for group membership and
@@ -33,21 +31,21 @@ adds Purview data controls.
 ### Architecture at a glance
 
 The Microsoft 365 administrator records the approved Agent Registry entry, Microsoft Entra
-security group, host product, and consent decision. The administrator does not deploy the agent in
-this session. Session 10 installs it only after DLP coverage is enabled and propagated.
+security group, host product, and consent decision. The agent remains uninstalled. Session 10
+installs it after DLP coverage is enabled and propagated.
 
 Agent Registry records the agent and its availability. Microsoft Entra records group membership.
-Session 06 keeps the post-DLP deployment decision in the repository. The agent's runtime continues
-to live in its native service.
+Session 06 keeps the post-DLP deployment decision in the repository. The agent runtime stays in
+its native service.
 
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
 |---|---|---|---|---|
-| Deployment audience | One existing Microsoft Entra test group | Defines the post-DLP pilot population | Administrators manage membership outside this session | The delivery owner approves a larger pilot |
+| Deployment audience | One existing Microsoft Entra test group | Defines the post-DLP pilot population | Entra administrators manage membership, and the delivery owner approves a larger pilot | The delivery owner approves a larger pilot |
 | Permission grant | Record the reviewed consent decision for the post-DLP deployment | Connects the decision to the exact pilot deployment | New permissions require another review | The agent's permission request changes |
-| Agent scope | Prepare one available Agent Registry entry for one host product | Keeps availability off until DLP coverage exists | It does not govern every way the runtime may be reached | The agent adds another supported host product |
-| Restore | Remove any premature installation from the test group | Restores the no-availability state without deleting the agent | Existing work in the native agent platform remains | The delivery owner retires the agent |
+| Agent scope | Prepare one Agent Registry entry for one host product and keep it uninstalled | Holds group access until DLP coverage exists | The installation controls the selected host-product route | The agent adds another supported host product |
+| Restore | Remove a premature installation from the test group | Restores the uninstalled condition and leaves the agent intact | Existing work in the native agent platform remains | The delivery owner retires the agent |
 
 ### Architecture guidance
 
@@ -111,8 +109,7 @@ permission set, or the agent asks for access outside the approved use case.
 ### Restore authority
 
 The Microsoft 365 administrator must be able to remove an accidental installation from the selected
-group. Removal restores the no-availability state; it does not delete the agent or remove its native
-runtime.
+group. Removal restores the uninstalled condition and leaves the agent and its native runtime intact.
 
 Stop if the team cannot name the administrator who can remove an accidental installation.
 
@@ -132,8 +129,8 @@ Session 10 owns the installation after it confirms DLP policy enablement and pro
 
 ### 3. Confirm the intended-path setup boundary
 
-The intended result is a complete deployment contract with no group availability. The group cannot
-use the agent because this session has not installed it.
+The intended result is a complete deployment contract and no installation for the test group. The
+group has no access because Session 06 leaves the agent uninstalled.
 
 ### 4. Confirm the blocked-path boundary
 
@@ -143,16 +140,16 @@ if one exists.
 
 ### 5. Delivery-owner checkpoint
 
-The delivery owner observes the withheld-access boundary with the Microsoft 365 administrator.
-**Keep the prepared contract only when no installation exists, the group has no availability, and
-the recorded consent decision matches the approved permission set.**
+The delivery owner observes the uninstalled boundary with the Microsoft 365 administrator.
+**Keep the prepared contract when no installation exists for the group and the recorded consent
+decision matches the approved permission set.**
 
 ## Confirm the result
 
 Inspect the selected agent in Agent Registry and its Microsoft 365 deployment details.
 
-Expected result: the contract names one approved agent, group, host product, and consent decision,
-while Microsoft 365 has no installation that makes the agent available to that group.
+Expected result: the contract names one approved agent, group, host product, and consent decision.
+Microsoft 365 has no installation for that group.
 
 ## After implementation
 
@@ -161,5 +158,5 @@ maintains membership. The Agent 365 administrator monitors the registry record. 
 the DLP-gated installation and access checks.
 
 If an installation occurs before DLP confirmation, the Microsoft 365 administrator selects the
-agent in Agents > All agents > Registry and removes it from the recorded test group. This session
-does not delete the agent or change its runtime configuration.
+agent in Agents > All agents > Registry and removes it from the recorded test group. Leave the
+agent and its runtime configuration unchanged.

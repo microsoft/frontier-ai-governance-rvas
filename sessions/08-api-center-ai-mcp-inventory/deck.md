@@ -33,7 +33,7 @@ Give each entry an owner, lifecycle state, classification, and runtime location.
 - Each entry contains twelve required governance properties.
 - The read-only check finds no missing metadata in the governed inventory.
 
-<!-- Notes: This is a design-time control. It does not replace runtime authorization. -->
+<!-- Notes: This is a design-time control. APIM remains the runtime authorization point. -->
 
 ---
 
@@ -62,10 +62,10 @@ Missing ownership and lifecycle decisions become visible before an asset is trea
 ## Control boundaries
 
 - Scope covers the Session 05 agent API, Session 07 APIM API, and the approved remote MCP server.
-- API Center imports every API from the linked APIM instance. Owners must complete required metadata for any additional synchronized APIs before the link is created; they are outside this session's required result.
-- API Center stores their approved design-time inventory metadata.
+- API Center imports every API from the linked APIM instance. Owners complete required metadata for additional synchronized APIs before creating the link.
+- API Center stores approved design-time inventory metadata.
 - Foundry, APIM, and the MCP server report their own runtime state.
-- API Center inventories and supports discovery; it does not authorize or block runtime calls.
+- API Center inventories assets and supports discovery. APIM authorizes and controls runtime calls.
 - Session 09 governs MCP tool use.
 - Separate optional modules cover Foundry Toolbox reuse, API Center registry discovery, and A2A inventory. None is enabled here.
 
@@ -110,7 +110,7 @@ request to a backend.
 </div>
 </div>
 
-<!-- Notes: Never describe API Center as a gateway or APIM as the catalog source of truth. -->
+<!-- Notes: Describe API Center as the design-time inventory and APIM as the runtime gateway. -->
 
 ---
 
@@ -131,7 +131,7 @@ definition. A read-only managed identity imports every API from the APIM instanc
 program owner registers the approved remote MCP server in the portal.
 
 API Center stores the resulting metadata. Foundry, APIM, and the MCP server keep their runtime
-state. This session covers inventory and source health. Live requests stay on the APIM path.
+state. Check inventory and source health here; live requests stay on the APIM path.
 Session 09 uses the MCP entry and runtime location.
 
 ---
@@ -197,7 +197,7 @@ The stable `2024-03-01` Bicep service resource does not expose plan selection. C
 
 The API program owner defines the schema. Asset, data, and risk owners keep their values current.
 
-Required metadata makes missing decisions visible. It does not grant access.
+Required metadata makes missing decisions visible. Access is governed at runtime.
 
 <!-- Notes: Use role or group names instead of personal data where possible. -->
 
@@ -283,7 +283,7 @@ Stop for local `stdio`, embedded credentials, or write-capable tools. [Session 0
 | APIM ingestion | One-way synchronization with reader access | Definitions follow APIM without write rights | Sync can take 24 hours and imports the whole instance |
 | MCP registration | Native portal flow with metadata maintained in API Center | Uses the supported MCP asset model | Manual entry remains |
 | Runtime state | Keep it in Foundry, APIM, and MCP | The catalog does not pretend to be health monitoring | Owners update API Center metadata after changes |
-| Inventory scope | Three required assets | Clear ownership boundary | Other synchronized APIs need metadata but stay outside this session's required result |
+| Inventory scope | Three required assets | Clear ownership boundary | Additional synchronized APIs need metadata and named owners |
 
 <!-- Notes: Revisit portal entry when Microsoft publishes a stable MCP resource contract. -->
 
@@ -334,7 +334,7 @@ scripts/
 
 Use two delivery windows. Window one deploys and links the source. Window two resumes after APIM synchronization to update metadata and confirm the result.
 
-The 210 minutes covers active work in both windows. It does not include the wait of up to 24 hours.
+The 210 minutes covers active work in both windows. Schedule up to 24 hours for synchronization.
 
 Timebox: 210 minutes
 
@@ -378,7 +378,7 @@ Timebox: 210 minutes
 
 Then maintain the synchronized APIM metadata and register the MCP server in API Center.
 
-Expected state: one marked inventory with the three required entries. Do not commit a runtime URL.
+After deployment, confirm one marked inventory with the three required entries. Supply the runtime URL only at deployment.
 
 <!-- Notes: The MCP runtime itself is not changed. -->
 

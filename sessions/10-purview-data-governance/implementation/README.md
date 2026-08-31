@@ -25,9 +25,9 @@ policy state, findings, and audit activity.
 
 The Agent 365 policy does not govern Foundry calls. Foundry DLP requires an Entra-app-scoped rule and
 an application integration that calls Microsoft Graph `processContent` with signed-in user context.
-This session records the Foundry owner and application-integration handoff. Do not enable Foundry
-Data Security or create a Foundry DLP rule. Do not change the application. Do not retain prompts,
-responses, identities, audit exports, findings summaries, screenshots, or portal-state copies here.
+Record the Foundry owner and application-integration handoff. Foundry Data Security, the Foundry DLP
+rule, and application changes belong to that separate path. Keep prompts, responses, identities,
+audit exports, findings summaries, screenshots, and portal-state copies out of the repository.
 
 ## Architecture
 
@@ -41,15 +41,14 @@ activity and prints five payload-free fields.
 
 Foundry Data Security follows a separate path. `coverage-handoff.md` names the Purview operator,
 Foundry platform owner, and application developer responsible for its rule and application
-integration. This session does not configure that path. `agent-activity-audit-query.json` defines
-the repeatable audit query for Agent 365.
+integration. `agent-activity-audit-query.json` defines the repeatable audit query for Agent 365.
 
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
 |---|---|---|---|---|
 | Product boundary | Agent 365 DLP and Foundry DLP stay separate. | Avoids a false coverage claim. | Owners manage two paths. | Microsoft adds a shared supported enforcement path. |
-| DLP scope | One nonproduction agent and test group. | Limits impact while validating the control. | Does not approve broader deployment. | The approved scope changes. |
+| DLP scope | One nonproduction agent and test group. | Limits impact while validating the control. | Broader deployment uses a separate release approval. | The approved scope changes. |
 | Audit output | Query only metadata fields at runtime. | Supports operations without exporting content. | Investigation detail stays in Purview. | Purview changes Agent 365 audit operations. |
 | Coverage handoff file | Name the owner of each Agent 365 and Foundry DLP responsibility in Markdown. | Shows responsibilities that no platform view presents together. | The data owner reviews it quarterly. | A product boundary or owner changes. |
 
@@ -78,7 +77,7 @@ Confirm these prerequisites:
   `AuditLogsQuery.Read.All` with administrator consent.
 - The Purview operator, Foundry platform owner, and application developer own the Foundry DLP
   rule and `processContent` handoff separately. If that Foundry path needs pay-as-you-go policy
-  billing, its owner obtains the approval outside this session.
+  billing, its owner obtains approval through the finance process.
 
 ### Implementation files
 
@@ -127,8 +126,8 @@ coordinate that is absent, broader, or different is a stop condition.
 | Initial policy state | `TestWithNotifications` |
 | Enablement | Approved change after simulation review and the recorded propagation wait |
 
-The DLP operator also records the notification and incident route with the policy. Do not infer
-scope from a policy name, a broad group, or an intended use case.
+The DLP operator also records the notification and incident route with the policy. Use the policy's
+explicit coordinates, not its name, a broad group, or an intended use case, to confirm scope.
 
 ### Label and generated-content gates
 
@@ -138,10 +137,9 @@ EXTRACT rights and a direct share to that source. "All users in the organization
 those rights to the agent instance.
 
 The source label does not automatically protect newly created Agent 365 content. Before live
-confirmation, choose an output control: a labelled destination library, mandatory user labelling,
-or an approved auto-labelling policy. Inspect and record the output label behavior in Purview or
-the approved change system. Do not mark generated content as protected because its source was
-labelled.
+confirmation, choose a labelled destination library, mandatory user labelling, or an approved
+auto-labelling policy. Inspect and record the output label behavior in Purview or the approved
+change system. Source labels alone do not prove generated content is protected.
 
 ### Audit constraints
 
@@ -158,10 +156,9 @@ URLs in Purview. The query does not export them to the repository or to a separa
 
 Confirm the entitlement, named owners, and approved nonproduction source. Then confirm the existing
 label, publishing scope, and encrypted-label rights. Check that `coverage-handoff.md` names the
-Foundry DLP rule owner and application developer. Treat it as a handoff record. Do not enable
-Foundry Data Security or create an app-scoped rule. Do not implement `processContent` in this
-session. Record the approved decisions, simulation, and findings in Purview or the approved change
-system.
+Foundry DLP rule owner and application developer. Record the approved decisions, simulation, and
+findings in Purview or the approved change system. The Foundry owner handles Data Security,
+app-scoped rules, and `processContent` on its separate path.
 
 ### 2. Run the preflight
 
@@ -186,7 +183,6 @@ agent_instance_id="${AGENT365_INSTANCE_ID:?Set AGENT365_INSTANCE_ID.}"
 ```
 
 Preflight checks the supplied tenant and agent scope, the Graph permission, and the query shape.
-It does not export or copy Purview state.
 
 A read-only deployment preview is unsupported for this portal-led DLP change. The safe preview is
 the current portal summary followed by `TestWithNotifications` simulation.
@@ -231,8 +227,8 @@ Run the query with the same current agent identifier:
 ./scripts/query-agent-activity.sh --agent-instance-id "$agent_instance_id"
 ```
 
-The scripts display time, operation, agent ID, agent name, and result status. They do not write an
-audit export or print interaction content.
+The scripts display time, operation, agent ID, agent name, and result status. They write no audit
+export or interaction content.
 
 ## Confirm the result
 

@@ -30,8 +30,7 @@ tracks at most 100 unique values per dimension and 1,000 active time series per 
 It silently discards data for new values or series beyond either limit. Cost Management billed cost
 is authoritative, even though it can lag by 8-24 hours. A budget sends notifications without
 stopping resources. Production content logging and user-level cost allocation need separate
-approval. Session 14 consumes the payload-free smoke result from its runner workspace. It does not
-copy the authoritative service records.
+approval. Session 14 consumes the payload-free smoke result from its runner workspace.
 
 ## Architecture
 
@@ -59,9 +58,9 @@ Alerts identify the failure path. The incident runbook assigns containment to th
 quality, or security owner. Stop if trace context breaks, a field carries sensitive data, or a
 signal cannot keep tool and model outcomes separate.
 
-This implementation covers correlation, monitoring, notification, and incident paths. The Session
-13 GitHub promotion workflow receives a payload-free result from its temporary runner workspace.
-It receives no copies of the service records.
+Use these controls to correlate runtime signals, monitor the service, notify owners, and handle
+incidents. The Session 13 GitHub promotion workflow receives a payload-free result from its
+temporary runner workspace. It receives no copies of the service records.
 
 [`artifacts/telemetry/telemetry-contract.json`](artifacts/telemetry/telemetry-contract.json) defines
 the payload-free signals and context. The workbook and three Kusto Query Language (KQL) alert
@@ -71,7 +70,7 @@ failure path. The budget Bicep files deploy the separate billing notification.
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Why | What it does not solve | Revisit when |
+| Decision | Chosen approach | Why | Limits | Revisit when |
 |---|---|---|---|---|
 | Runtime content | Standard telemetry excludes prompts, responses, and tool payloads. | Operators can trace service behavior without turning the monitoring store into a content archive. | Content inspection needs separate, time-limited approval. | A documented diagnostic need cannot be met with payload-free attributes. |
 | Trace volume | Apply fixed-rate or rate-limited sampling where traces begin. Preserve each selected trace end to end, and do not sample metrics. | Operators still get joined traces while the team keeps ingestion bounded. | Sampling can miss a rare failure. Approved error and security signals may need to bypass the normal rate. | Baseline volume or failure frequency changes, or the selected language changes its OpenTelemetry behavior. |
@@ -90,8 +89,8 @@ failure path. The budget Bicep files deploy the separate billing notification.
 
 Confirm the following:
 
-- Complete Sessions 05, 07, and 09-12. If the earlier controls were implemented outside this series, confirm
-  the required state in the table below.
+- Complete Sessions 05, 07, and 09-12. If the earlier controls were built outside this series,
+  verify the controls in the table below.
 - The [Session 05](../../05-governed-agent-baseline/implementation/README.md) policy assistant and
   [Session 07](../../07-apim-ai-gateway/implementation/README.md) APIM route can process an approved synthetic,
   read-only request without changing production.
@@ -115,7 +114,7 @@ Confirm the following:
   the customer-owned APIM policy source, and baseline telemetry has been reviewed before alert
   thresholds are set.
 
-### Required state when joining here
+### Controls to verify when joining here
 
 Every row is required when the numbered prerequisite sessions are not complete.
 
@@ -198,7 +197,8 @@ beyond either limit are not tracked, and their metric data is silently discarded
 interruptions and model or provider behavior can also make token counts incomplete. Cost Management
 billed cost is authoritative.
 
-The subscription budget sends actual and forecast notifications; it does not enforce a hard stop.
+The subscription budget sends actual and forecast notifications. Use a separate enforcement
+mechanism when resources must stop.
 Stop if dimensions contain users, emails, content, request IDs, or free text. Also stop when the
 metric would exceed the documented APIM policy limits or when anyone presents the budget as
 real-time enforcement.
@@ -445,7 +445,7 @@ During an incident, the incident commander orders containment. The service owner
 affected agent or model route, the tool owner disables an affected binding, and the credential
 owner revokes or rotates exposed credentials.
 
-This implementation remains scoped to the approved nonproduction service. The named
+Run this only against the approved nonproduction service. The named
 [Session 14](../../14-cicd-promotion-controls/implementation/README.md) GitHub promotion workflow
 calls `implementation/scripts/smoke.ps1` or `smoke.sh` through the fixed mode, environment, commit
 SHA, and result-path interface.

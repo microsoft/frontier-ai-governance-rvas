@@ -21,9 +21,8 @@ looks like an approval system even though it is only an inventory.
 
 ### Boundaries
 
-This optional module sits outside the 15-session sequence. It uses the Session 08 API Center
-default workspace and waits for the Session 09 runtime decision before a server moves to the
-discoverable lifecycle stage.
+Use the Session 08 API Center default workspace after the Session 09 runtime decision before a
+server moves to the discoverable lifecycle stage.
 
 Azure API Center holds the registry contents, lifecycle state, Data API visibility, and portal
 access. Microsoft Entra ID holds sign-in state and the Azure API Center Data Reader assignment. The
@@ -35,14 +34,13 @@ interpret a record, but it is not authorization.
 
 Discovery does not grant access to an MCP server or its tools. Runtime authentication,
 authorization, approval, and telemetry stay with Session 09 and the server platform. This module
-does not use anonymous portal access. It also does not enable the separate API Center MCP server at
-`/mcp`; that endpoint has its own Standard-tier requirement and searches the wider API and AI asset
-catalog.
+does not use anonymous portal access. The separate API Center MCP server at `/mcp` has its own
+Standard-tier requirement and searches the wider API and AI asset catalog.
 
 Microsoft Learn documents one MCP registry endpoint format and names Visual Studio Code, GitHub
-Copilot, and other tools as consumers. It does not publish one stable configuration-file schema for
-every client or a Resource Manager API for Data API visibility. The module therefore uses a
-client-neutral settings file and a portal-led visibility change.
+Copilot, and other tools as consumers. Client configuration-file schemas vary, and Data API
+visibility changes use the portal. The module therefore uses a client-neutral settings file and a
+portal-led visibility change.
 
 ## Architecture
 
@@ -168,8 +166,8 @@ Configure two built-in Data API visibility conditions:
 1. `API type` equals `MCP`.
 2. `Lifecycle stage` equals `Production`.
 
-Review the portal preview before saving. Microsoft documents that visibility applies to all users
-and related data-plane consumption features. It does not vary by developer group.
+Review the portal preview before saving. Microsoft documents that visibility applies globally to
+all users and related data-plane consumption features.
 
 Stop if the current portal cannot express both conditions, if the conditions are combined in a way
 that exposes either all MCP records or all Production APIs, or if custom metadata is being treated
@@ -218,8 +216,8 @@ Under Consumption > Portal settings, confirm that Microsoft Entra ID is configur
 anonymous access is disabled. Confirm the developer group has **Azure API Center Data Reader** at
 the exact API Center resource scope.
 
-This role controls access to visible data-plane records. It does not authorize calls to the
-discovered MCP server.
+This role controls access to visible data-plane records. The discovered MCP server's runtime
+authorization controls server and tool calls.
 
 ### 4. Configure Data API visibility
 
@@ -237,7 +235,7 @@ For Visual Studio Code, GitHub Copilot, or another registry-capable tool, map
 extension for Visual Studio Code is the chosen path, also provide the data-plane host, portal
 application client ID, and tenant ID from the approved configuration system.
 
-Do not substitute the API Center portal URL or the separate `/mcp` catalog endpoint.
+Use only the documented API Center data-plane endpoint.
 
 ### 6. Check live discovery
 

@@ -12,5 +12,5 @@ These files describe one organization-owned delegated trust chain:
 - `runtime/obo_proxy.py` validates the caller, performs OBO, and calls one fixed downstream route.
 - `runtime/requirements.txt` pins the direct Python dependencies.
 
-Resolve every `__REQUIRED_*__` value before configuration. Private keys, bearer tokens, tenant
-values, endpoints, and user data stay outside this tree.
+Resolve every `__REQUIRED_*__` value before configuration. Store private keys, bearer tokens,
+tenant values, endpoints, and user data only in approved protected systems.

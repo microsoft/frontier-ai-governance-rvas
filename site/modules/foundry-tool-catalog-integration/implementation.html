@@ -135,7 +135,7 @@ printf '%s' &quot;$normalized_endpoint&quot; | sha256sum | cut -d' ' -f1</code><
 <p>In the Azure portal, open the exact API Center resource. Confirm the MCP server's authorization configuration and its Details &gt; Versions &gt; Manage access (preview) settings.</p>
 <p>Then open the intended project in the Microsoft Foundry portal:</p>
 <ol><li>Go to Build &gt; Tools.</li><li>Find the private tool catalog by the API Center name.</li><li>Select the MCP server record in API Center.</li><li>Review its setup requirements and configure it for the project.</li><li>Record the resulting project connection name in both artifacts.</li></ol>
-<p>This is the current documented portal step that connects the catalog record to the project. If the portal does not expose the record or cannot create a connection that matches the approved authentication mode, stop. The module provides no fallback API.</p>
+<p>This is the current documented portal step that connects the catalog record to the project. If the portal does not expose the record or cannot create a connection that matches the approved authentication mode, stop.</p>
 <h3 id="3-run-preflight">3. Run preflight<a class="heading-anchor" href="#3-run-preflight" aria-label="Link to 3. Run preflight">#</a></h3>
 <section class="code-tabs" data-code-tabs>
   <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
@@ -205,11 +205,11 @@ version_endpoint=&quot;$project_endpoint/toolboxes/$toolbox_name/versions/$toolb
 unset token</code></pre>
   </div>
 </section>
-<p>Do not print or retain the access token. Record the returned version number in <code>observedState.toolboxVersion</code>. Do not store either Toolbox endpoint in the repository.</p>
+<p>Do not print or retain the access token. Record the returned version number in <code>observedState.toolboxVersion</code>.</p>
 <h3 id="5-hand-the-consumer-endpoint-to-agent-owners">5. Hand the consumer endpoint to agent owners<a class="heading-anchor" href="#5-hand-the-consumer-endpoint-to-agent-owners" aria-label="Link to 5. Hand the consumer endpoint to agent owners">#</a></h3>
 <p>The reusable consumer endpoint omits <code>/versions/{version}</code> and always serves the Toolbox <code>default_version</code>:</p>
 <pre><code class="language-text">{project_endpoint}/toolboxes/{toolbox_name}/mcp?api-version=v1</code></pre>
-<p>Pass it to agent teams through the approved runtime configuration path. Do not add it directly to a Session 05 agent in this module. The release owner decides when an agent can use the Toolbox and how the runtime presents approval requests.</p>
+<p>Pass it to agent teams through the approved runtime configuration path. The release owner decides when an agent can use the Toolbox and how the runtime presents approval requests.</p>
 
         </article>
         <aside class="facts-panel" aria-labelledby="facts-panel-title">

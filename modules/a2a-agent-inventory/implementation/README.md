@@ -8,26 +8,24 @@ Connect an approved A2A agent to Microsoft Agent 365 through the supported route
 built-in integration, Registry sync, or a runtime-owned Agent 365 SDK integration. The delivery
 team then reviews the live Agent Registry entry with the agent owner.
 
-Microsoft Agent 365 holds the live inventory record. This module does not create an agent card,
-technical definition, or copied inventory record in this repository.
+Microsoft Agent 365 owns the enterprise inventory record. The runtime owner owns the A2A
+definition, agent card, endpoint, and integration source.
 
 ### Why it matters
 
-Agent 365 records the agent, its lifecycle, and its owners. The runtime continues to own the A2A
-protocol, endpoint, and agent card. This split avoids a repository copy that goes stale when the
-runtime changes.
+Agent 365 gives the organization a live view of the agent, its lifecycle, and its owners. Runtime
+changes flow through the owner's source and supported integration.
 
 ### Boundaries
 
-This optional module sits outside the 15-session sequence. It follows the agent baseline in
-[Session 05](../../../sessions/05-governed-agent-baseline/implementation/README.md) and hands
-data controls to [Session 10](../../../sessions/10-purview-data-governance/implementation/README.md).
+Use the agent baseline in
+[Session 05](../../../sessions/05-governed-agent-baseline/implementation/README.md) and apply data
+controls from [Session 10](../../../sessions/10-purview-data-governance/implementation/README.md).
 Use the separate A2A API Center discovery module when developers need a catalog entry for the
 agent's technical interface.
 
-Microsoft Agent 365 is authoritative for the enterprise inventory. The runtime uses the A2A
-definition, agent card, endpoint, and behavior stored in its product repository. This repository
-retains neither customer-specific records nor completion evidence.
+Use the selected integration to keep the Agent 365 record current. The runtime owner continues to
+govern the A2A runtime, developer discovery, and data controls.
 
 ## Architecture
 
@@ -47,13 +45,10 @@ Runtime-owned A2A agent and definition
        live owner and lifecycle review
 ```
 
-Built-in integration and Registry sync bring an existing agent into Agent 365 without this module
-adding runtime code. The runtime team uses the SDK path in its product repository when the agent
-needs code-level Agent 365 capabilities.
+Built-in integration and Registry sync bring an existing agent into Agent 365. The runtime team
+uses the SDK path in its product repository when the agent needs code-level Agent 365 capabilities.
 
-Agent 365 is authoritative for the live enterprise inventory record. The runtime platform or
-product repository remains authoritative for the A2A definition, agent card, endpoint, and runtime
-behavior. The selected integration is the handoff between those two sources.
+The selected integration carries the A2A agent from its runtime source to Agent Registry.
 
 ### Design choices and tradeoffs
 
@@ -62,7 +57,7 @@ behavior. The selected integration is the handoff between those two sources.
 | Enterprise inventory | Agent 365 Agent Registry | One live record for inventory and lifecycle | The record has to arrive through a supported integration | The platform adds an approved A2A-specific onboarding route |
 | Runtime onboarding | Use built-in integration or Registry sync before a runtime-owned SDK integration | Avoids custom code when the platform path already covers the need | A route must match the runtime and required Agent 365 capabilities | The runtime changes platform or integration model |
 | A2A technical discovery | Separate API Center add-on when needed | Keeps developer discovery separate from enterprise inventory | It adds a second live platform record | Developers no longer need catalog discovery |
-| Repository record | None; the module is live-only | Avoids a stale repository copy | The facilitator must review the live service | A platform-supported export becomes an approved operational need |
+| Operational record | Agent Registry | The inventory stays with the service that operates it | The facilitator reviews the live service | A platform-supported export becomes an approved operational need |
 
 ### Architecture guidance
 
@@ -90,8 +85,7 @@ Confirm these prerequisites:
 - The delivery team has selected the route before changing any state.
 
 Run the readiness check in **Implement › 1. Run preflight** before the platform change. It checks
-the selected route and runtime-owned source reference. It does not create an Agent 365 record or
-store supplied values.
+the selected route and runtime-owned source reference.
 A read-only deployment preview is unsupported because Agent 365 onboarding follows the selected
 platform or runtime-owned change path.
 
@@ -113,7 +107,8 @@ Managed Agents`, `Databricks Genie`, `Google Vertex AI`, `Oracle Generative AI A
 that preview surface can change.
 
 Stop if the team proposes a manual inventory entry, an unsupported sync provider, or an SDK change
-in this governance repository. Do not treat API Center registration as Agent 365 onboarding.
+without an approved runtime-product delivery path. Agent 365 onboarding uses the selected
+integration.
 
 ### Interpret the preflight inputs
 
@@ -124,16 +119,13 @@ in this governance repository. Do not treat API Center registration as Agent 365
 | `RuntimeSourceReference` / `--runtime-source-reference` | An absolute HTTP or HTTPS URL for the runtime-owned product repository or supported source integration | Required for every route; it identifies the maintainer's source without copying it here | The value is absent, unresolved, not an absolute URL, or embeds credentials |
 | `RegistrySyncPlatform` / `--registry-sync-platform` | One supported provider name from the preceding list | Required for `registry-sync`; omit it for `built-in` and `sdk` | It is missing for Registry sync, supplied for another route, or not supported |
 
-The source reference identifies the live maintenance location. It is not an agent card, endpoint,
-credential, or copied inventory record.
+The source reference identifies the live maintenance location. Use an absolute URL without
+credentials.
 
-### Keep the source boundary
+### Keep the source safe
 
-The runtime owner keeps the A2A definition and agent card in the runtime product repository or the
-approved source system. Supply its source reference to preflight at run time.
-
-Stop if the source contains embedded credentials, if no owner can maintain it, or if the team plans
-to copy the agent card, endpoint, or catalog metadata into this module.
+Supply the runtime-owned source reference to preflight at run time. Stop if it contains embedded
+credentials or no owner can maintain it.
 
 ### Check the owners before the change
 
@@ -236,8 +228,7 @@ and lifecycle state. The runtime owner identifies the source and release or sync
 that will update it. The retirement owner identifies the approved removal decision.
 
 Resolve a mismatch before proceeding. A missing record, wrong agent, duplicate, stale sync result,
-or unresolved owner is a stop condition. No screenshot, export, copied inventory record, or agent
-card is created.
+or unresolved owner is a stop condition.
 
 ## Confirm the result
 
@@ -251,19 +242,16 @@ the selected route, or any owner cannot explain the retirement path.
 
 ## After implementation
 
-Agent 365 remains the enterprise inventory. The runtime owner maintains the A2A definition, card,
-and integration source. The Agent 365 administrator maintains inventory visibility. The agent
-owner makes lifecycle decisions. The retirement owner approves a change that removes the agent from
-use.
+The Agent 365 administrator maintains inventory visibility. The agent owner makes lifecycle
+decisions. The retirement owner approves a change that removes the agent from use.
 
 Use the same route to update, restore, or retire the inventory state:
 
 | Route | Safe retirement or removal action | Consequence to check first |
 |---|---|---|
-| built-in | The platform operator follows the platform's approved retirement, unpublish, or removal path. | Check the platform's own lifecycle effect and then review Agent Registry. This module does not use an Agent Registry change as a substitute for retiring the runtime agent. |
+| built-in | The platform operator follows the platform's approved retirement, unpublish, or removal path. | Check the platform's own lifecycle effect and then review Agent Registry. A runtime retirement requires the platform's approved lifecycle action; Agent Registry reflects the result. |
 | registry-sync | Retire the agent in the connected platform, then run or await the approved synchronization path. Remove a connected-platform configuration only through the Microsoft 365 admin center. | Treat a connection change as potentially affecting every agent synchronized through it. The retirement owner and Agent 365 administrator must review that impact before removal. |
-| sdk | The runtime owner changes or removes the SDK integration through the runtime product repository and its approved release path. | Review the released live state in Agent Registry. Do not remove runtime code or the runtime service from this module. Runtime retirement remains under the runtime owner's approved change path. |
+| sdk | The runtime owner changes or removes the SDK integration through the runtime product repository and its approved release path. | Review the released live state in Agent Registry. The runtime owner retires runtime code and service through that approved change path. |
 
 After any route-specific change, the Agent 365 administrator, runtime owner, and agent owner review
-the live record again. If the agent should no longer appear, confirm the result through the selected
-route rather than creating or keeping a local record.
+the live record again. If the agent should no longer appear, confirm it through the selected route.

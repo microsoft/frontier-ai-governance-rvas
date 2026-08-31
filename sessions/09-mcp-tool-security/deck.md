@@ -66,7 +66,7 @@ The release checkpoint keeps the candidate version off the stable endpoint until
 - The inbound MCP token never reaches the backing API.
 - Application Insights keeps correlation and tool metadata without payloads.
 - Foundry remains the live source for the candidate and stable version selector.
-- Delegated user access, write-capable tools, and backing-API changes are excluded.
+- Delegated user access, write-capable tools, and backing-API changes need separate approval.
 
 <!-- Notes: A refusal is supporting behavior. Tool absence and backend authorization enforce the write boundary. -->
 
@@ -215,7 +215,7 @@ system-assigned managed identity
   + approved backend scope
 ```
 
-This backend hop is application-only. It is not OBO, and the inbound MCP token never reaches the API.
+This backend hop is application-only; it is not OBO, and the inbound MCP token never reaches the API.
 
 If the API must authorize each signed-in user, use a separately approved delegated-access implementation.
 
@@ -396,7 +396,7 @@ Show the candidate version ID and prior stable selector.
 4. Confirm expected policy content.
 5. Match the APIM event by W3C `operation_Id` and retain the client correlation reference.
 
-Expected: one successful read, one known tool, one correlation chain, zero payload logging.
+Expected: one successful read through the known tool, one correlation chain, and zero payload logging.
 
 <!-- Notes: Reject any approval request that differs from the approved catalog. -->
 
@@ -427,14 +427,14 @@ Expected: the candidate handles the text as data, refuses the write, requests no
 <div class="cards">
 <div class="card">
 
-### Enable
+### Enable candidate
 
 Both checks pass, the API Center entry has all required owner metadata, and the stable endpoint is pinned 100% to the candidate.
 
 </div>
 <div class="card">
 
-### Disable
+### Keep the prior version
 
 Either check fails. Keep or restore the [Session 05](../05-governed-agent-baseline/) version, leave the candidate unpinned, and route remediation.
 

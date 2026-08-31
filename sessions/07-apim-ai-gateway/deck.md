@@ -63,7 +63,7 @@ Operations gets correlation and token metrics without prompt or response logging
 
 - The control applies to calls sent through the configured nonproduction APIM route.
 - The direct Foundry endpoint still exists and remains the live source for agent runtime state.
-- This session does not prove that every client path uses APIM.
+- Other client paths need their own APIM adoption evidence.
 - Production ingress, semantic caching, secondary-region routing, and write-capable agents are out.
 - Session 08 covers API Center inventory, and Session 09 covers MCP controls.
 
@@ -99,8 +99,8 @@ It covers:
 
 The current APIM tier must be **Developer, Basic, Basic v2, Standard, Standard v2, Premium, or Premium v2**.
 
-> Use stable APIM resource APIs and documented LLM policies. Do not use the unified model API preview.
-<!-- Notes: Product language matters. Do not imply that the customer needs another gateway service. -->
+> Use stable APIM resource APIs and documented LLM policies. The unified model API preview is unsupported for this route.
+<!-- Notes: APIM provides the gateway service for this design. -->
 
 ---
 
@@ -136,7 +136,7 @@ definition and runtime location.
 | Client access | Entra app token plus one APIM subscription per workload | Identity and usage allocation can be revoked separately | Each client manages two credentials |
 | Backend access | Scope the APIM managed identity to one agent | APIM stores no backend key | Direct Foundry access needs a separate control |
 | Safety | Run APIM Content Safety before the Foundry RAI policy | APIM can stop unsafe input before the agent call | The check adds latency, cost, and another data path |
-| Routing | Use the primary backend with one read-safe retry | The failure path stays bounded | This session provides no regional failover |
+| Routing | Use the primary backend with one read-safe retry | The failure path stays bounded | Regional failover remains disabled |
 
 <!-- Notes: The client bearer token is replaced before the backend call. Revisit routing in Session 15. -->
 
@@ -355,7 +355,7 @@ Timebox: 210 minutes
   -SecondaryAgentBaseUrl $secondaryAgentBaseUrl
 ```
 
-Expected state: one governed API and product, a primary-first backend pool, fail-closed identities, the deployed LLM policies, and body-free Application Insights diagnostics.
+After deployment, confirm one governed API and product, a primary-first backend pool, fail-closed identities, the deployed LLM policies, and body-free Application Insights diagnostics.
 
 <!-- Notes: Deployment changes child resources in the existing APIM instance. -->
 

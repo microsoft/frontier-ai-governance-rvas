@@ -22,13 +22,13 @@ session:
     - "agent-365"
     - "microsoft-365-copilot"
     - "microsoft-entra-id"
-  control_objective: "Prepare one approved nonproduction Agent Registry deployment for a named test group without granting availability, then hand it to Session 10 after DLP coverage is confirmed."
+  control_objective: "Prepare one approved nonproduction Agent Registry deployment for a named test group, keep it uninstalled, then hand it to Session 10 after DLP coverage is confirmed."
 implementation:
   mode: "extended"
-  extended_reason: "The deployment must not make the agent available before Session 10 confirms DLP coverage, so the delivery owner checks both the prepared state and the blocked installation path."
+  extended_reason: "The deployment stays uninstalled until Session 10 confirms DLP coverage, so the delivery owner checks the prepared contract and any premature installation."
 implementation_outcomes:
-  - "Prepare the approved Agent Registry entry, test group, host product, and permission-consent decision without installing the agent."
-  - "Confirm that Microsoft 365 has no group installation that makes the agent available before Session 10 confirms DLP coverage."
+  - "Prepare the approved Agent Registry entry, test group, host product, and permission-consent decision while keeping the agent uninstalled."
+  - "Confirm that Microsoft 365 has no installation for the test group before Session 10 confirms DLP coverage."
   - "Hand the prepared deployment contract to Session 10 for the post-DLP installation and access checks."
   - "Keep the scoped deployment configuration and post-DLP installation route for the Microsoft 365 administrator."
 deliverables:
@@ -39,7 +39,7 @@ deliverables:
 retained_files:
   - path: "implementation/artifacts/agent-deployment.json"
     consumer: "The Microsoft 365 administrator and Session 06 preflight scripts"
-    operational_purpose: "Define the approved Agent Registry entry, test group, permission consent, withheld-access state, and post-DLP installation route for the scoped deployment."
+    operational_purpose: "Define the approved Agent Registry entry, test group, permission consent, uninstalled status, and post-DLP installation route for the scoped deployment."
 sources:
   - title: "Governance and Lifecycle actions for agents available in Microsoft 365 admin center"
     url: "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-actions"

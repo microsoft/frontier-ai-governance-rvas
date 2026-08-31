@@ -16,7 +16,7 @@ html: true
 
 300 minutes - A fixed release through protected stages
 
-<!-- Notes: Session 13 made the service operable. This session keeps promotion repeatable and limited. -->
+<!-- Notes: Session 13 made the service operable. Today keeps promotion repeatable and limited. -->
 
 ---
 
@@ -57,9 +57,9 @@ The protected workflow makes that relationship easy to inspect. It also stops Se
 
 ---
 
-## Required state when joining here
+## Controls to verify when joining here
 
-Teams joining here confirm this state before they install the workflow.
+Teams joining here verify these controls before they install the workflow.
 
 | Existing control | What must already work | How the owner confirms it |
 |---|---|---|
@@ -267,8 +267,6 @@ Use `canary` or `blue-green` when the existing [Session 05](../05-governed-agent
 
 Otherwise, **stop and keep 100% on the previous approved selector.**
 
-<!-- Notes: Do not introduce a routing platform merely to complete this session. -->
-
 ---
 
 ## Routing-control script interface
@@ -429,7 +427,7 @@ The customer repository keeps workflows and definitions that require:
 | Release owner | Workflows, action pins, and release-record continuity |
 | GitHub and Entra admins | Environment protection and OIDC trust |
 | Platform owner | Bicep entrypoint, parameters, approved Azure scopes, both what-if approvals |
-| Quality and security owners | Session 11 and 11 gate health |
+| Quality and security owners | Session 11 evaluation and Session 12 red-team gate health |
 | Observability owner | Session 13 smoke interface |
 | Gateway owner | Existing routing selectors |
 | Delivery owner | Intended and blocked checkpoint |

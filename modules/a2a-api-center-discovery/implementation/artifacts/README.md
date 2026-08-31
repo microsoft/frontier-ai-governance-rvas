@@ -1,7 +1,8 @@
-# Live-only module
+# Live API Center discovery record
 
-This module retains no implementation artifacts. Azure API Center holds the developer discovery
-record, Microsoft Agent 365 holds the enterprise inventory record, and the runtime owner keeps the
-A2A definition and agent card in its approved source system.
+Azure API Center holds the developer discovery record. Microsoft Agent 365 holds the enterprise
+inventory record. The runtime owner maintains the A2A definition and agent card in its approved
+source system.
 
-Do not add customer-specific asset details, agent cards, endpoint URLs, exports, or evidence here.
+Keep customer-specific asset details, agent cards, endpoint URLs, and exports in their
+authoritative systems.

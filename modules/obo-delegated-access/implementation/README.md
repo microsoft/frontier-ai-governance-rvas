@@ -32,19 +32,18 @@ already require per-user authorization. If the operation should run with one wor
 regardless of who started it, use managed identity instead.
 
 The module changes **exact delegated permissions and consent**, the middle-tier OBO implementation,
-and its payload-free diagnostics. It does not create replacement applications, redesign the
-downstream authorization model, or grant missing resource authority to the denied user. The
-original bearer token stops at the middle tier. No application-only retry may bypass a downstream
-denial.
+and its payload-free diagnostics. It works with the existing applications and downstream
+authorization model. The original bearer token stops at the middle tier. No application-only retry
+may bypass a downstream denial.
 
 The certificate remains in Azure Key Vault and reaches the approved runtime only through its
 protected certificate integration. This repository stores references, never private keys, bearer
 tokens, tenant values, endpoints, or user data.
 
-This optional module sits outside the 15-session sequence. It complements the identity decision in
-[Session 02](../../../sessions/02-identity-privileged-access/), the application-only agent baseline
-in [Session 05](../../../sessions/05-governed-agent-baseline/), and the application-only MCP path
-in [Session 09](../../../sessions/09-mcp-tool-security/).
+[Session 02](../../../sessions/02-identity-privileged-access/) establishes the identity decision.
+[Session 05](../../../sessions/05-governed-agent-baseline/) provides the application-only agent
+baseline, and [Session 09](../../../sessions/09-mcp-tool-security/) provides the application-only
+MCP path.
 
 ## Architecture
 

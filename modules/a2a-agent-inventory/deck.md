@@ -12,7 +12,7 @@ description: Optional implementation module for onboarding an existing A2A agent
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation - Optional module</p>
+<p class="eyebrow">AI Governance Co-implementation · Optional module</p>
 
 # A2A agent inventory in Microsoft Agent 365
 
@@ -31,10 +31,8 @@ route, then confirm its live inventory record, owner, and lifecycle state.
 
 ## Why it matters
 
-Teams need a live inventory for the agent and its lifecycle.
-
-The runtime owner maintains the A2A definition, card, endpoint, and behavior. A repository copy
-goes stale when the runtime changes.
+Microsoft Agent 365 holds the enterprise inventory and lifecycle. The runtime owner maintains the
+A2A definition, agent card, endpoint, behavior, and integration source.
 
 ---
 
@@ -52,7 +50,7 @@ Agent 365 Agent Registry
   enterprise inventory and lifecycle
 ```
 
-This repository does not hold a second inventory record.
+The supported integration updates the Agent Registry from the runtime source.
 
 ---
 
@@ -74,16 +72,15 @@ need.
 | Choice | Route | Limit |
 |---|---|---|
 | Inventory | Agent 365 Agent Registry | A supported integration is required |
-| Runtime source | Product repository or platform source | This module does not author runtime code |
+| Runtime source | Product repository or platform source | Runtime changes follow the owner’s approved release path |
 | Technical discovery | Separate API Center add-on | It is used only when developers need it |
 
 ---
 
 ## Implementation boundary
 
-The runtime owner makes and deploys SDK changes from the runtime product repository. The Agent 365
-administrator configures supported connected platforms and reviews the registry. This module does
-not create an agent card, upload a Markdown definition, or duplicate ownership and lifecycle metadata.
+The runtime owner makes and deploys SDK changes through the runtime product release path. The Agent
+365 administrator configures supported connected platforms and reviews the registry.
 
 ---
 
@@ -116,7 +113,7 @@ The module passes when the intended live Agent 365 record matches the selected p
 can maintain and retire it through that path.
 
 Stop for a missing, duplicate, stale, or wrongly owned record. Resolve it through the source
-platform, then repeat the live review. No screenshot, export, or repository record is created.
+platform, then repeat the live review.
 
 ---
 
@@ -129,7 +126,7 @@ platform, then repeat the live review. No screenshot, export, or repository reco
 | Agent owner | Lifecycle and retirement decision |
 
 Remove a Registry sync connection only after checking every agent it can affect. SDK changes follow
-the runtime release path; they do not retire the runtime service from this module.
+the runtime release path. The runtime owner retires the runtime service through its approved path.
 
 Use the separate API Center discovery add-on when developers need the A2A interface in a catalog.
 

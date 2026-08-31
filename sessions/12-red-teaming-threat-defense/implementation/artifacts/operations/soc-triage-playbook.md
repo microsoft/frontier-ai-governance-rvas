@@ -15,7 +15,7 @@ identities, or customer data into the repository.
 
 1. Confirm the Defender alert or incident belongs to the approved subscription, Foundry project,
    agent or model, and authorized red-team window.
-2.    Decide whether the signal is a planned test, an unrelated benign event, or an unplanned security
+2. Decide whether the signal is a planned test, an unrelated benign event, or an unplanned security
    event. Never close an alert only because a red-team run was active.
 3. Review Defender evidence under the customer's security-data handling rules. Use the operational KQL
    only for payload-free alert metadata.
@@ -38,9 +38,9 @@ uploaded AI models. Do not replace the title list with a broad `Title has "AI"` 
 
 ## Escalate and recover
 
-The SOC owner coordinates the security decision. The agent owner handles instruction and version
-changes. The tool owner controls permissions and backend authorization. The Defender owner controls
-sensor coverage. The residual-risk authority decides whether another remediation run is required.
+The SOC owner coordinates the security decision. The agent owner changes instructions and versions.
+The tool owner controls permissions and backend authorization. The Defender owner controls sensor
+coverage. The residual-risk authority decides whether to run remediation again.
 
 Recovery returns only the previously approved agent version and tool boundary. A Session 12 result
 does not authorize production promotion.

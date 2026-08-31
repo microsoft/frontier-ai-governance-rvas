@@ -14,7 +14,7 @@ html: true
 
 # Private networking, DNS, and controlled egress
 
-270 minutes · Build and check the private client path
+150 minutes · Build and check the private client path
 
 <!-- Notes: Frame this as a network control implementation, not a general Azure networking lecture. -->
 
@@ -38,10 +38,10 @@ html: true
 
 ## Implementation outcomes
 
-1. Deploy a landing-zone-aligned spoke with separate private-endpoint and Agent Service subnets.
+1. Use the Session 01 BYO VNet, delegated Agent Service subnet, and private-endpoint subnet without redeploying them.
 2. Connect Foundry, Storage, AI Search, Cosmos DB, and Key Vault through private endpoints and DNS.
 3. Route the delegated Agent Service subnet through the approved firewall and record where the customer firewall policy is maintained.
-4. Disable public access only after checking private connectivity and recording every prior public-access setting.
+4. Disable public access after checking private connectivity and recording every prior public-access setting.
 5. Confirm the current endpoints still resolve privately and accept TCP 443.
 
 ---
@@ -52,7 +52,7 @@ html: true
 
 Check private DNS and endpoints before disabling public access. This reduces lockout risk.
 
-The separate Agent subnet prepares a later runtime path. It does not claim that an agent has used it yet.
+The separate Agent subnet prepares the later runtime path. Session 05 checks that path.
 
 <!-- Notes: One private endpoint does not create end-to-end isolation. -->
 
@@ -68,13 +68,13 @@ The separate Agent subnet prepares a later runtime path. It does not claim that 
 
 ---
 
-## What this means
+## Private client path
 
 Clients use each service's normal name. Private DNS returns the private endpoint address. The
 client connects on TCP 443. The separate Agent subnet sends its default route to the customer
 firewall.
 
-Azure holds the current network and service state. The customer firewall source holds egress
+Azure holds the current network and service settings. The customer firewall source holds egress
 rules. Store the five-service cutover record in the approved change system.
 
 ---
@@ -85,7 +85,7 @@ rules. Store the five-service cutover record in the approved change system.
 
 | Decision | Chosen approach | Tradeoff |
 |---|---|---|
-| Network architecture | Customer-managed BYO VNet in these deployment files | Microsoft-managed networking needs a separate design choice |
+| Network architecture | Consume the Session 01 customer-managed BYO VNet resource IDs | Microsoft-managed networking needs a separate design choice |
 | Foundry account | Keep it when it already uses the exact delegated subnet | Replacement and configuration replay need separate approval |
 | DNS ownership | Reuse authoritative central zones or create approved local zones | Hybrid and central designs need forwarding and Bicep changes |
 | Agent egress | Route the dedicated subnet to the customer firewall | The route does not prove firewall rules or runtime traffic |
@@ -100,9 +100,9 @@ rules. Store the five-service cutover record in the approved change system.
 
 Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault must already exist.
 
-If the Foundry account was not created with the configured subnet, pause here.
+If the Foundry account was not created with the approved subnet, pause here.
 
-The AI platform owner and change authority complete the approved replacement first. Session 03 then updates the Foundry endpoint.
+The AI platform owner and change authority complete the approved replacement first. Session 03 then connects the replacement account privately.
 
 Configure BYO VNet injection when the Foundry account is created.
 
@@ -112,7 +112,7 @@ Configure BYO VNet injection when the Foundry account is created.
 | Has no `networkInjections` setting | Approve replacement and replay of approved configuration |
 | References another subnet | Approve a new account and replay into it |
 
-An in-place retrofit is **not available**. Do not claim that Session 05 agent traffic uses this route before Session 05 runs its agent check.
+An in-place retrofit is **not available**. Session 05 confirms agent traffic on this route with its agent check.
 
 <!-- Notes: This product constraint must have an owner before deployment. -->
 
@@ -213,8 +213,8 @@ fallback-to-Internet setting or another resolution path before linking the zone.
 Configured in this session: `0.0.0.0/0 → customer firewall`
 Maintained in the customer firewall source: destinations, ports, review history, and deployment.
 
-Session 03 records the external firewall repository or policy reference. Its deployment files do
-not include firewall rules.
+Session 03 records the external firewall repository or policy reference. The firewall owner
+maintains the rules in that source.
 
 The firewall owner confirms the Microsoft Entra access rule required by Agent Service,
 feature-specific destinations in scope, and that TLS inspection does not inject an untrusted
@@ -233,10 +233,10 @@ the approved agent design requires every tool call to stay private.
 
 ## Implementation sequence
 
-These deployment files do not create missing dependency services.
+Required dependency services must be ready before deployment.
 
 1. Decide and approve whether to keep or replace the Foundry account.
-2. Deploy the network, DNS links, and initial private endpoints.
+2. Deploy private DNS links and initial private endpoints.
 3. Pause for replacement and replay through a separate approved change when required.
 4. Reconcile the Foundry endpoint and all five current resource IDs.
 5. Check private DNS and TCP 443 from the approved execution host.
@@ -251,15 +251,15 @@ These deployment files do not create missing dependency services.
 
 ## Build and test private connectivity
 
-Timebox: 270 minutes
+Timebox: 150 minutes
 
 | Time | Work |
 |---:|---|
-| 70 min | Scope decisions, implementation files, preflight, and `what-if` |
-| 90 min | Network deployment and private endpoint approvals |
-| 45 min | DNS and firewall integration |
-| 35 min | Guarded public-access cutover and result check |
-| 30 min | Ownership, scope limits, and restore procedure |
+| 30 min | Scope decisions, implementation files, preflight, and `what-if` |
+| 45 min | Private DNS and endpoint deployment, including service-owner approvals |
+| 30 min | DNS and firewall integration |
+| 30 min | Guarded public-access cutover and result check |
+| 15 min | Ownership, scope limits, and restore procedure |
 
 <!-- Notes: Confirm the delivery owner before the first state change. -->
 
@@ -277,8 +277,8 @@ Preflight stops when it finds:
 - a Bicep build failure; or
 - a failed resource-group `what-if`.
 
-The plan should contain the approved VNet, two subnets, a route table, seven zones and links, and
-five private endpoints.
+The plan should leave the existing Session 01 VNet, two subnets, and route table unchanged. It
+should contain seven zones and links and five private endpoints.
 
 <!-- Notes: Stop on any delete, replacement, hub change, Foundry deployment, or public-access change. -->
 
@@ -292,7 +292,7 @@ five private endpoints.
 - A configured endpoint fails private DNS or TCP 443.
 - The network architecture is still undecided between this BYO VNet path and Microsoft-managed networking.
 - The firewall needs a blanket internet rule.
-- The cutover owner cannot save the complete cutover record in the approved change system outside this repository.
+- The cutover owner cannot save the complete cutover record in the approved change system.
 - A service update fails during cutover.
 - The AI platform owner has not decided on replacement or the change authority has not approved required replay.
 
@@ -336,14 +336,15 @@ host or through the customer-approved VPN, ExpressRoute, or Bastion pattern.
 
 ### Configured now
 
-Private client connectivity, dependency endpoints, DNS links, and the Agent subnet route.
+Private client connectivity, dependency endpoints, and DNS links.
 
 </div>
 <div class="card">
 
-### Pending runtime check
+### Existing runtime route
 
-Session 05 must run an agent through the delegated subnet and call a tool it configures.
+Session 01 supplies the delegated subnet route. Session 05 must run an agent through it and call a
+tool it configures.
 
 </div>
 <div class="card">
@@ -355,11 +356,11 @@ Confirm the existing account uses the delegated subnet, or complete the approved
 </div>
 </div>
 
-<!-- Notes: The nonproduction implementation does not authorize production connectivity. -->
+<!-- Notes: Production connectivity needs its own approved address, DNS, firewall, and change-window decisions. -->
 
 ---
 
-## Live state and ownership
+## Resources in operation
 
 | Operational control | Owner |
 |---|---|
@@ -369,7 +370,7 @@ Confirm the existing account uses the delegated subnet, or complete the approved
 | Public-access settings and service private endpoints | Affected service owners |
 | Public-access cutover record | The cutover owner stores it in the system named in the network design record; the restore owner retrieves it |
 
-The cutover record stays outside the repository. Connectivity check output is not retained.
+The approved change system holds the cutover record. Connectivity check output remains in the terminal.
 
 <!-- Notes: Production needs separate address, DNS, firewall, and change-window decisions. -->
 

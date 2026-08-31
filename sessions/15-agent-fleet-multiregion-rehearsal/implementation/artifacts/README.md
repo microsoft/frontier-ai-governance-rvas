@@ -9,7 +9,7 @@ the customer change system retain live state, decisions, and runtime results.
 | `regional/region.parameters.json` | Deployment | The customer Bicep deployment, Session 15 preflight scripts, and routing wrappers | Platform owner | With every regional deployment change and before a rehearsal | Supplies regional deployment inputs and expected active-path values. |
 | `regional/failover-runbook.md` | Record | Service continuity and routing operators | Service continuity owner | Before every scheduled rehearsal and after a routing, topology, or restore-process change | Directs the approved selector move and restore sequence. |
 
-`control-definition.json` is a machine contract. `region.parameters.json` is desired-state
+`control-definition.json` is a machine contract. `region.parameters.json` is source-controlled
 configuration for the customer Bicep entrypoint. The runbook is the human-owned operating record
 in this tree. It names its owner and review cadence.
 

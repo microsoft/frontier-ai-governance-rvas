@@ -29,7 +29,7 @@ of truth for the live backend pool and policy. The deployment must preserve this
 
 Keep the secondary backend disabled until the service owner approves every check:
 
-| Check | Required state |
+| Check | Condition to meet |
 |---|---|
 | Endpoint compatibility | The secondary endpoint exposes the same Responses-compatible operation shape as the primary endpoint |
 | Model compatibility | The secondary model supports the same request fields, response fields, safety behavior, latency expectation, and tool boundary used by the primary route |

@@ -103,12 +103,12 @@
           <h2 id="module-scope">Module scope<a class="heading-anchor" href="#module-scope" aria-label="Link to Module scope">#</a></h2>
 <h3 id="what-we-will-do">What we will do<a class="heading-anchor" href="#what-we-will-do" aria-label="Link to What we will do">#</a></h3>
 <p>Connect an approved A2A agent to Microsoft Agent 365 through the supported route for its runtime: built-in integration, Registry sync, or a runtime-owned Agent 365 SDK integration. The delivery team then reviews the live Agent Registry entry with the agent owner.</p>
-<p>Microsoft Agent 365 holds the live inventory record. This module does not create an agent card, technical definition, or copied inventory record in this repository.</p>
+<p>Microsoft Agent 365 owns the enterprise inventory record. The runtime owner owns the A2A definition, agent card, endpoint, and integration source.</p>
 <h3 id="why-it-matters">Why it matters<a class="heading-anchor" href="#why-it-matters" aria-label="Link to Why it matters">#</a></h3>
-<p>Agent 365 records the agent, its lifecycle, and its owners. The runtime continues to own the A2A protocol, endpoint, and agent card. This split avoids a repository copy that goes stale when the runtime changes.</p>
+<p>Agent 365 gives the organization a live view of the agent, its lifecycle, and its owners. Runtime changes flow through the owner's source and supported integration.</p>
 <h3 id="boundaries">Boundaries<a class="heading-anchor" href="#boundaries" aria-label="Link to Boundaries">#</a></h3>
-<p>This optional module sits outside the 15-session sequence. It follows the agent baseline in <a href="../../sessions/05-governed-agent-baseline/">Session 05</a> and hands data controls to <a href="../../sessions/10-purview-data-governance/">Session 10</a>. Use the separate A2A API Center discovery module when developers need a catalog entry for the agent's technical interface.</p>
-<p>Microsoft Agent 365 is authoritative for the enterprise inventory. The runtime uses the A2A definition, agent card, endpoint, and behavior stored in its product repository. This repository retains neither customer-specific records nor completion evidence.</p>
+<p>Use the agent baseline in <a href="../../sessions/05-governed-agent-baseline/">Session 05</a> and apply data controls from <a href="../../sessions/10-purview-data-governance/">Session 10</a>. Use the separate A2A API Center discovery module when developers need a catalog entry for the agent's technical interface.</p>
+<p>Use the selected integration to keep the Agent 365 record current. The runtime owner continues to govern the A2A runtime, developer discovery, and data controls.</p>
           <section class="session-brief" aria-labelledby="session-brief-title">
             <h2 id="session-brief-title">Module preparation</h2>
             <div class="session-brief__grid"><div class="session-brief__audience session-brief__list" data-list-layout="stack">

@@ -63,10 +63,10 @@ records.
 **In scope:** registry endpoint, Microsoft Entra access, Data API visibility, client handoff, and
 the live allowlist check.
 
-**Outside the module:** MCP server credentials, tool authorization, per-user visibility, and the
+MCP server owners govern server credentials, tool authorization, per-user visibility, and the
 separate API Center MCP server at `/mcp`.
 
-<!-- Notes: Discovery never grants runtime access to the server. -->
+<!-- Notes: Runtime authorization governs access to the server. -->
 
 ---
 
@@ -90,7 +90,7 @@ https://<api-center-name>.data.<region>.azure-apicenter.ms/workspaces/default/v0
 
 Use the data-plane hostname, default workspace, and `v0.1` API version.
 
-Do not substitute the portal URL or the separate `/mcp` catalog endpoint.
+Use only the documented API Center data-plane endpoint.
 
 <!-- Notes: The Microsoft Learn page has a shortened example. The endpoint format includes /workspaces. -->
 
@@ -104,7 +104,7 @@ Do not substitute the portal URL or the separate `/mcp` catalog endpoint.
 - Delegated data-plane scope: `https://azure-apicenter.net/Data.Read.All`
 - Anonymous access: disabled
 
-<!-- Notes: The role reads visible registry data. It does not authorize the discovered server. -->
+<!-- Notes: The role reads visible registry data. The server authorizes its own connections. -->
 
 ---
 

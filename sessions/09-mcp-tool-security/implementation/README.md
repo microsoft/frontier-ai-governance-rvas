@@ -26,12 +26,12 @@ unpinned candidate in the existing Foundry project. APIM applies the MCP policy 
 identity. Foundry records the candidate and the version selected by the stable endpoint. Application
 Insights stores payload-free runtime telemetry. API Center stores design-time inventory metadata.
 
-The backend hop is application-only, not OBO. The inbound MCP token never reaches the backend. A
-system refusal alone does not enforce the write boundary; the absent tool and backend read role do.
-Delegated user authorization, write-capable tools, and changes to the backing API are excluded.
-When a check fails, the security and tool owners remediate the issue while the stable endpoint stays
-on the prior version. The Session 09 `policy-catalog-mcp` inventory entry is separate from the remote
-MCP server entry registered in Session 08.
+The backend hop is application-only, not OBO, and the inbound MCP token never reaches the backend.
+The absent tool and backend read role enforce the write boundary. Delegated user authorization,
+write-capable tools, and backing-API changes need separate work. When a check fails, the security
+and tool owners remediate the issue while the stable endpoint stays on the prior version. The Session
+09 `policy-catalog-mcp` inventory entry is separate from the remote MCP server entry registered in
+Session 08.
 
 ## Architecture
 
@@ -148,7 +148,7 @@ The MCP server exposes **only `get_policy`**, backed by the existing APIM operat
 The prohibited write is deliberately absent from the APIM tool resource, Foundry `allowed_tools`,
 and the backend role. Stop if the source operation has a hidden side effect, an additional MCP tool
 appears, the backing role can mutate data, or the team proposes adding a write during this session.
-A system prompt does not create an authorization boundary.
+System instructions support the control; tool absence and backend authorization enforce it.
 
 ### How each service authenticates
 
@@ -237,7 +237,7 @@ the payload-free diagnostic and correlation fields.
 
 Pre-work must already have assigned the exact role in `backendRoleDefinitionId` at
 `backendAuthorizationScope`. Use the customer's normal identity-as-code or time-bound role process.
-The live session does not change backend authorization.
+Pre-work assigns backend authorization; live delivery verifies it.
 
 Set the approved subscription in the shell:
 
@@ -314,8 +314,8 @@ metadata in API Center.
 
 Stop on a duplicate entry, missing runtime owner, or metadata that grants broader use than the
 threat model's authorization scope. The release owner cannot pin the candidate until the API
-program owner confirms the API Center metadata is complete. API Center registration is inventory;
-it does not replace APIM checks.
+program owner confirms the API Center metadata is complete. API Center records the inventory; APIM
+enforces the runtime checks.
 
 ### 5. Create the Foundry project connection
 
@@ -476,11 +476,11 @@ schema, output-field, backing-operation, identity, instruction, model, or approv
 owner owns policy and diagnostics. The release owner owns the
 active agent-version selector.
 
-Run this implementation only for the nonproduction read tool listed in `sandbox.json` and
-`agent-mcp-binding.json`. It does not approve write
-tools, production release, MCP resources or prompts, APIM workspaces, cross-tenant identity,
-payload logging, a broader tool catalog, or per-user downstream authorization. Require a separately
-approved delegated-access implementation when the backend must authorize each signed-in user.
+Run only for the nonproduction read tool listed in `sandbox.json` and `agent-mcp-binding.json`.
+Write tools, production release, MCP resources or prompts, APIM workspaces, cross-tenant identity,
+payload logging, a broader tool catalog, and per-user downstream authorization need separate
+approval. Use a separately approved delegated-access implementation when the backend must authorize
+each signed-in user.
 
 The immediate disable switch is the stable agent version selector. Restore the previous [Session 05](../../05-governed-agent-baseline/implementation/README.md)
 version at 100% before removing infrastructure. If the MCP endpoint must be removed, confirm that no

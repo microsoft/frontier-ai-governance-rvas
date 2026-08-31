@@ -11,7 +11,7 @@ session:
     - "Azure Monitor, API Management, and FinOps operators"
     - "AI safety, security operations, and service owners"
   prerequisites:
-    - "Complete Sessions 05, 07, and 09-12. If your team built the earlier controls outside this series, confirm the four entry conditions below. Each one names an owner, decision record, exact control state, and observable result."
+    - "Complete Sessions 05, 07, and 09-12. If your team built the earlier controls outside this series, verify the four entry conditions below. Each names an owner, decision record, exact control, and observable result."
     - "The runtime entry condition records the deployed Foundry project, immutable agent version, Microsoft Entra agent identity, approved network path, versioned APIM policy, registered tool identities and scopes, and data-policy assignment. The platform, gateway, tool, and data owners confirm that an approved read-only request reaches only the backend and tool listed in that record."
     - "The tracing entry condition requires the OpenTelemetry and APIM propagation configuration. The observability owner confirms that one non-sensitive correlation ID joins the gateway, agent, model, and tool spans in the approved workspace while each span keeps its own result."
     - "The evaluation entry condition requires the evaluation definition, threshold policy, and latest approved aggregate result. The AI quality owner confirms that the result lists the deployed agent version and that the release gate returns its recorded pass or block result."

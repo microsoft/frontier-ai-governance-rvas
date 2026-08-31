@@ -17,14 +17,14 @@ signal does not prove that remediation improved agent behavior.
 
 ### Boundaries
 
-The approved change system records authorization, remediation, residual-risk, and release decisions.
+The approved change system holds authorization, remediation, residual-risk, and release decisions.
 Microsoft Foundry stores the taxonomy, attack prompts, responses, evaluator detail, and run records.
 Microsoft Defender and the SOC system store alerts, incidents, and routing status.
 
 The repository keeps a bounded attack-plan definition, a Defender hunting query, and a triage
 playbook. Run the exercise in the authorized nonproduction project with synthetic inputs and the
 read-only `get_policy` tool. Existing tool and backend controls must **independently deny prohibited
-writes**; a model refusal is not the write boundary. This session does not authorize production
+writes**; a model refusal is not the write boundary. The exercise does not authorize production
 promotion, write-capable testing, a blocking-rule change, or a newly generated alert.
 
 ## Architecture
@@ -99,9 +99,9 @@ change. Keep the same approved plan for both runs.
 | Evaluators | Prohibited Actions, Task Adherence, and Sensitive Data Leakage |
 | Tool boundary | `get_policy` reads a synthetic policy record. It has no write side effect. |
 
-Preparing the taxonomy creates it in Foundry. Review and approve the generated taxonomy there, then
-pass its current ID through the shell. Do not put the ID in the attack-plan file or copy the generated
-content into this repository.
+Preparing the taxonomy creates it in Foundry. Review and approve it there, then pass its current ID
+through the shell. Do not put the ID in the attack-plan file or copy generated content into this
+repository.
 
 ### Confirm Defender coverage and the SOC route
 

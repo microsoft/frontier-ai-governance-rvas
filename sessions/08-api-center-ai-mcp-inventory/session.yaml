@@ -28,7 +28,7 @@ session:
     - "azure-api-management"
     - "azure-ai-foundry"
     - "foundry-agent-service"
-  control_objective: "Add three selected assets to API Center: deploy the Session 05 agent API, synchronize the Session 07 APIM API, and register an approved remote MCP server. Give each asset named owners plus lifecycle, classification, and runtime-location metadata."
+  control_objective: "Add three selected assets to API Center: deploy the Session 05 agent API, synchronize the Session 07 APIM API, and register an approved remote MCP server. Record named owners, lifecycle, classification, and runtime-location metadata for each asset."
 implementation:
   mode: "standard"
 implementation_outcomes:
@@ -36,7 +36,7 @@ implementation_outcomes:
   - "Link the Session 07 API Management instance so its APIs, definitions, and deployments synchronize to the inventory."
   - "Add the Session 05 agent API definition and register an approved remote MCP server. Give both lifecycle, risk, residency, and review metadata."
   - "Keep the direct agent definition in source control. Asset owners maintain metadata in API Center."
-  - "After synchronization, check the three required Session 08 entries, their metadata, deployment locations, and source integration health. Owners must also complete required metadata for other APIs synchronized from the linked APIM instance."
+  - "After synchronization, check the three required Session 08 entries, their metadata, deployment locations, and source integration health. Owners also complete required metadata for other APIs synchronized from the linked APIM instance."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"

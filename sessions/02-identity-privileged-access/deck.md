@@ -38,7 +38,7 @@ html: true
 1. Assign four functional groups to current Foundry roles at the smallest practical scopes.
 2. Assign normal human access through groups and move platform elevation into PIM.
 3. Deploy a dedicated managed identity whose credential trusts tokens from one protected GitHub environment.
-4. Confirm the live identity, credential, and role scopes without saving command output.
+4. Confirm the live identity, credential, and role scopes.
 
 ---
 
@@ -61,7 +61,7 @@ PIM limits the time for elevated human administration. Workloads need narrow rol
 
 > Select OBO only when the downstream API must authorize the signed-in user.
 
-<!-- Notes: Do not call the Session 02 managed identity an Agent ID object or an OBO path. -->
+<!-- Notes: Describe this as a user-assigned managed identity for GitHub OIDC. -->
 
 ---
 
@@ -96,7 +96,7 @@ the GitHub trust. Session 03 adds private connectivity; Session 05 configures th
 | Auditors | Reader | Foundry resource | Group |
 | Agent endpoint callers | Foundry Agent Consumer | Project or individual agent | Deferred to Session 05 |
 
-No subscription-level assignment. Platform elevation is **PIM eligible and time-bound**.
+All assignments remain at the documented resource, project, or storage-account scopes. Platform elevation is **PIM eligible and time-bound**.
 
 `Foundry Owner` is omitted because it combines account administration with project development,
 publishing, and endpoint use.
@@ -109,7 +109,7 @@ Preflight reads stable role IDs from `role-definitions.json`. For each named rol
 expected ID, an accepted current or transitional display name, and the built-in type against live
 Azure role definitions. It then compiles both Bicep files.
 
-Display names can lag across tools. Do not copy role IDs into slides or decision records.
+Display names can lag across tools. Resolve role IDs live and record the role names in decision records.
 
 ---
 
@@ -179,8 +179,9 @@ The federated credential is stored on the managed identity.
 
 It accepts a token when GitHub issues the matching issuer, subject, and audience. The workflow needs `id-token: write`. The subject does not support wildcards.
 
-This is not an OBO path. Microsoft Entra ID exchanges the GitHub OIDC token for an application-only
-token that represents the managed identity. Azure then applies that identity's role assignments.
+Microsoft Entra ID exchanges the GitHub OIDC token for an application-only token that represents
+the managed identity. Azure then applies that identity's role assignments. OBO is for downstream
+APIs that authorize the signed-in user.
 
 Sources: [Microsoft Entra workload identity federation](https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation-create-trust-user-assigned-managed-identity) and [GitHub OIDC for Azure](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure-openid-connect).
 
@@ -221,7 +222,7 @@ Configure human access and one workload identity in the approved nonproduction s
 - GitHub OIDC trust uses one specific environment subject.
 - The workload identity has two narrow assignments.
 - Use deployment previews to confirm that every assignment stays within the Foundry resource, Foundry project, or storage-account scopes recorded for this session.
-- The confirmation commands read configuration and save no output.
+- The confirmation commands read configuration and leave no output in the repository.
 
 <!-- Notes: Pause after each preview. The change owner decides whether deployment proceeds. -->
 
@@ -240,11 +241,11 @@ Inspect one marked workload identity:
 5. No direct assignment appears at subscription scope.
 6. No unexpected portal-created direct-user assignment remains on the Foundry resource or project.
 
-Read the console. **Do not redirect, export, or save command output.**
+Read the console to confirm the live configuration.
 
 ---
 
-## Live state
+## Resources in operation
 
 | State | Operating owner |
 |---|---|
@@ -281,7 +282,7 @@ The workload script removes the two role assignments before it removes the manag
 - Workload: one identity, one exact trust, and two scoped roles.
 - Next: use the [delegated OBO module](../../modules/obo-delegated-access/) when a downstream API must authorize the signed-in user.
 - Safety: no production scope, subscription assignments, broad OIDC subject, or customer-data access.
-- Result: inspect the live configuration once. Save nothing.
+- Result: inspect the live configuration once. Keep no command output.
 - [Session 03](../03-private-networking-dns/) configures private service connectivity and firewall-controlled Agent Service traffic for these identities.
 
 ---

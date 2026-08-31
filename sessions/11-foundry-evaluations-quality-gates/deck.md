@@ -392,8 +392,6 @@ An exception:
 
 It cannot override a safety failure or a tool-process failure.
 
-<!-- Notes: The consolidated release policy records this boundary; there is no unused exception template. -->
-
 ---
 
 <!-- _class: section-divider -->

@@ -1,7 +1,7 @@
 # Implementation artifacts
 
-- `models/deployment-profiles.json` defines the desired deployment for `main.bicep` and
-  preflight. It records the external approval reference and deployment controls.
+- `models/deployment-profiles.json` defines the approved deployment profile for `main.bicep` and
+  preflight. It records the external approval reference and deployment settings.
 - `environments/sandbox.bicepparam` names the existing nonproduction `AIServices` resource.
 - `infra/models/main.bicep` creates the listed child deployments.
 

@@ -25,10 +25,10 @@ selected route. Foundry, Application Insights, Defender, and the approved releas
 evaluation, telemetry, security, and release records.
 
 The workflow uses the existing [Session 05](../../05-governed-agent-baseline/implementation/README.md)
-agent and [Session 07](../../07-apim-ai-gateway/implementation/README.md) routing path. It does not
-create another delivery platform or add routing where the current platform lacks a safe preview and
-restore path. Session 11 creates the callable eligibility gate. This session makes promotion
-depend on it. Session 15 may use the protected release path for its approved secondary deployment.
+agent and [Session 07](../../07-apim-ai-gateway/implementation/README.md) routing path. The
+selected delivery platform needs a safe preview and restore path. Session 11 creates the callable
+eligibility gate. The workflow makes promotion depend on it. Session 15 may use the protected
+release path for its approved secondary deployment.
 
 ## Architecture
 
@@ -91,8 +91,8 @@ to identify the release.
    branch, and select the approved 40-character release SHA through the customer’s GitHub release
    and deployment process. The SHA must be reachable from that branch. The release commit itself
    must not store the SHA.
-2. Complete Sessions 05, 06, 10, 11, and 12. If the earlier controls were implemented outside
-   this series, confirm the required state in the table below before installing the workflow.
+2. Complete Sessions 05, 07, and 10-13. If the earlier controls were built outside this
+   series, verify the controls in the table below before installing the workflow.
 3. Confirm the approved [Session 11](../../11-foundry-evaluations-quality-gates/implementation/README.md) threshold policy and release policy are usable by the callable
    `sessions/11-foundry-evaluations-quality-gates/implementation/scripts/release-gate.py`.
    The schema-version 2 release policy must set `gate.state=enabled`,
@@ -157,7 +157,7 @@ to identify the release.
 12. The release authority, quality and security authorities, production approver, routing authority,
     and delivery owner must be available for their live decisions.
 
-### Required state when joining here
+### Controls to verify when joining here
 
 | Dependency | Required control state and exact configuration or record | Owner and observable result |
 |---|---|---|
@@ -212,11 +212,11 @@ Resolve every `__REQUIRED_*__` value in the
 - nonproduction and production apply reviewer teams and prevent-self-review settings;
 - production reviewer role, deployment branch or tag restriction, disabled administrator bypass,
   and whether the GitHub plan supports those protections;
-- source paths for Bicep, the APIM policy, unit checks, Session 11 desired state, the Session 13
+- source paths for Bicep, the APIM policy, unit checks, the Session 11 configuration, the Session 13
   smoke executable, routing, and the approved release/security-store interface;
 - the approved 40-character commit supplied through `release_sha`, plus the agent name, prompt,
   agent version, model alias, APIM policy, evaluation run, and threshold policy;
-- `canary` or `blue-green`, selectors, and whether the existing Session 05 or 06 path supports it;
+- `canary` or `blue-green`, selectors, and whether the existing Session 05 or 07 path supports it;
   and
 - the customer-approved release/security-store interface and its temporary external artifact
   workspace.
@@ -241,7 +241,7 @@ Stop before any administrative or deployment change if:
 - the Session 13 check is missing, failed, for another commit, exposes sensitive input, retains
   payloads, lacks its correlation ID, or does not report successful bounded ingestion polling;
 - a what-if contains unrelated or destructive change; or
-- existing Session 05 or 06 routing cannot safely perform the selected canary or blue-green move.
+- existing Session 05 or 07 routing cannot safely perform the selected canary or blue-green move.
   In that case, keep 100% on the previous approved release.
 
 No AI-quality signal restores a previous release automatically.
@@ -471,7 +471,7 @@ restore. Do not copy those runtime records into this repository.
 The release owner operates the workflows and maintains release-record continuity. GitHub and Entra
 administrators maintain environment protections and federation. The platform owner maintains the
 Bicep scopes and approves both what-if results. AI quality and security owners maintain the Session
-10 and 11 gates. The observability owner maintains the Session 13 smoke interface. The gateway
+11 evaluation and Session 12 red-team gates. The observability owner maintains the Session 13 smoke interface. The gateway
 owner controls routing. The delivery owner accepts the final checkpoint.
 
 Restore is manual. Dispatch **Restore previous AI release** with the exact approved release ID and

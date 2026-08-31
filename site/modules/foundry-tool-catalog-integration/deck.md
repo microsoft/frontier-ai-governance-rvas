@@ -62,8 +62,6 @@ Toolbox provides a stable MCP-compatible endpoint.
 
 The private tool catalog is **public preview** and the catalog handoff is **portal-led**.
 
-<!-- Notes: We do not invent an API for the API Center-to-Foundry catalog handoff. -->
-
 ---
 
 <!-- _class: decision -->
@@ -167,7 +165,7 @@ Its tool metadata reports:
 require_approval = always
 ```
 
-The check lists tools. It does not call the remote operation.
+The check lists tools and leaves the remote operation untouched.
 
 <!-- Notes: This confirms the intended connection without causing a business-side effect. -->
 

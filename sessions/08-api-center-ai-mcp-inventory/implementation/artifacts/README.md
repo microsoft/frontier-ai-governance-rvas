@@ -13,9 +13,9 @@ synchronized APIM entries, and the native MCP server entry. API Management still
 | `environments/sandbox.json` | Names the approved API Center, APIM, Foundry, and integration resources |
 
 Keep runtime URLs, credentials, tokens, prompts, responses, and telemetry outside the repository.
-Preflight rejects every `__REQUIRED_*__` value before deployment.
+Resolve every `__REQUIRED_*__` value before deployment; preflight rejects unresolved values.
 
 The stable `Microsoft.ApiCenter@2024-03-01` resources deploy the service and direct agent API. The
-API program owner uses the supported portal flow to maintain the native MCP server entry and
-synchronized APIM metadata. The live script checks required metadata and APIM integration health.
-The owner checks the native MCP deployment location and runtime health in the portal.
+API program owner maintains the native MCP server entry and synchronized APIM metadata through the
+supported portal flow. The live script checks required metadata and APIM integration health. The
+owner checks the native MCP deployment location and runtime health in the portal.

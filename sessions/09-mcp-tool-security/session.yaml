@@ -36,7 +36,7 @@ session:
   control_objective: "Configure an MCP path that exposes only get_policy, validates the candidate agent at APIM, uses a separate read-only managed identity from APIM to the backend, and emits payload-free telemetry. Keep the stable endpoint on the prior version until the release owner sees both checks."
 implementation:
   mode: "extended"
-  extended_reason: "The release owner must see an approved read and a blocked prohibited write before the candidate agent version can enable the MCP path."
+  extended_reason: "The release owner observes an approved read and a blocked prohibited write before enabling the MCP path for the candidate agent version."
 implementation_outcomes:
   - "Expose the existing read-only API operation as the only Streamable HTTP MCP tool through API Management."
   - "Validate the candidate agent's Entra identity, approved MCP audience, and app role at APIM."

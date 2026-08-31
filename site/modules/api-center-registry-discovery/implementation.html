@@ -125,13 +125,13 @@
 <p>Keep candidate servers at Design or Preview. Mark retired servers Deprecated before their next client discovery window.</p>
 <h3 id="3-configure-developer-access">3. Configure developer access<a class="heading-anchor" href="#3-configure-developer-access" aria-label="Link to 3. Configure developer access">#</a></h3>
 <p>Under Consumption &gt; Portal settings, confirm that Microsoft Entra ID is configured and anonymous access is disabled. Confirm the developer group has <strong>Azure API Center Data Reader</strong> at the exact API Center resource scope.</p>
-<p>This role controls access to visible data-plane records. It does not authorize calls to the discovered MCP server.</p>
+<p>This role controls access to visible data-plane records. The discovered MCP server's runtime authorization controls server and tool calls.</p>
 <h3 id="4-configure-data-api-visibility">4. Configure Data API visibility<a class="heading-anchor" href="#4-configure-data-api-visibility" aria-label="Link to 4. Configure Data API visibility">#</a></h3>
 <p>Under Consumption &gt; Data API settings, configure API visibility with the two built-in conditions recorded in <code>registry-ownership.json</code>. Use the portal preview to compare the visible MCP records with <code>approvedServers</code>.</p>
 <p>Save the change only when every previewed MCP server name is approved and every approved name is present.</p>
 <h3 id="5-configure-the-client-path">5. Configure the client path<a class="heading-anchor" href="#5-configure-the-client-path" aria-label="Link to 5. Configure the client path">#</a></h3>
 <p>For Visual Studio Code, GitHub Copilot, or another registry-capable tool, map <code>registry.endpoint</code> into the client's current MCP registry setting. If the Azure API Center extension for Visual Studio Code is the chosen path, also provide the data-plane host, portal application client ID, and tenant ID from the approved configuration system.</p>
-<p>Do not substitute the API Center portal URL or the separate <code>/mcp</code> catalog endpoint.</p>
+<p>Use only the documented API Center data-plane endpoint.</p>
 <h3 id="6-check-live-discovery">6. Check live discovery<a class="heading-anchor" href="#6-check-live-discovery" aria-label="Link to 6. Check live discovery">#</a></h3>
 <p>Have the approved OAuth credential helper place a short-lived token for the documented API Center data-plane delegated scope in the <code>API_CENTER_ACCESS_TOKEN</code> environment variable. The scripts read the token from the environment and do not print or retain it.</p>
 <section class="code-tabs" data-code-tabs>

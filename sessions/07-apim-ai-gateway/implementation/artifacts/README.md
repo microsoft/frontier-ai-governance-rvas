@@ -1,6 +1,6 @@
 # Implementation artifacts
 
-These files define one APIM route for the
+These files define an APIM route for the
 [Session 05](../../../05-governed-agent-baseline/implementation/README.md) agent.
 
 | Path | Operational purpose |
@@ -12,5 +12,5 @@ These files define one APIM route for the
 | `governance/model-routing-decision.md` | Records the approved routing boundary; owners review it every 90 days and before changing a secondary route |
 | `environments/sandbox.json` | Names the approved nonproduction APIM, Foundry agent, safety, and telemetry resources |
 
-Keep runtime subscription IDs and backend URLs outside the repository. Preflight rejects every
-`__REQUIRED_*__` value before deployment.
+Keep runtime subscription IDs and backend URLs outside the repository. Resolve every
+`__REQUIRED_*__` value before deployment; preflight rejects unresolved values.

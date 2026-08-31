@@ -25,12 +25,12 @@ session:
   services_in_scope:
     - "azure-ai-foundry"
     - "azure-openai"
-  control_objective: "Deploy exact approved serverless API model versions with version-controlled deployment profiles, preflight checks, and Bicep. Meet the workload's processing-location requirement."
+  control_objective: "Deploy exact approved serverless API model versions through version-controlled deployment profiles, preflight checks, and Bicep. Meet the workload's processing-location requirement."
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Record the external approval reference and required model deployment controls in the Bicep input file."
-  - "Use preflight to compare the deployment plan with current Azure availability and lifecycle data, the named Responsible AI policy, operator access, quota matched to the SKU's live `usageName`, and the Bicep preview."
+  - "Record the external approval reference and model deployment settings in the Bicep input file."
+  - "Use preflight to compare the deployment profile with current Azure availability and lifecycle data, the named Responsible AI policy, operator access, quota matched to the SKU's live `usageName`, and the Bicep preview."
   - "Deploy an approved serverless API model version in the existing Foundry resource. Confirm that the live child deployment matches the approved plan."
 deliverables:
   implementation: "implementation/README.md"
@@ -50,7 +50,7 @@ retained_files:
     operational_purpose: "Set the Bicep deployment's nonproduction AIServices resource through environment parameters."
   - path: "implementation/artifacts/models/deployment-profiles.json"
     consumer: "The Session 04 Bicep entrypoint and preflight scripts"
-    operational_purpose: "Supply the approval reference and model controls that preflight and Bicep use for each child deployment: model, SKU, capacity, filter, processing location, review date, quota headroom, and fixed no-auto-upgrade."
+    operational_purpose: "Supply the approval reference and settings that preflight and Bicep use for each child deployment: model, SKU, capacity, filter, processing location, review date, quota headroom, and fixed no-auto-upgrade."
   - path: "implementation/scripts/preflight.ps1"
     consumer: "The PowerShell-based Foundry deployment operator"
     operational_purpose: "Stop a model change when approval, scope, access, live lifecycle, location, quota, Bicep, or what-if checks fail."

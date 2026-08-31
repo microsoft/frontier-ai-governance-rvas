@@ -35,7 +35,7 @@ implementation_outcomes:
   - "Deploy a tagged Microsoft Foundry resource and child project through Bicep, with system-assigned managed identities and the stable ApiKey Application Insights connection without credentials in parameters or outputs."
   - "Resolve the current Azure Policy built-ins for allowed locations and required resource tags, including data classification and criticality. Deploy a reusable initiative and staged assignment to the same sandbox resource group. Use the required-tag list in `implementation/artifacts/policy/guardrail-settings.json`."
   - "Promote the assignment to Default after the cloud platform owner reviews live Policy Insights results and the change authority approves enforcement."
-  - "Rerun the Bicep deployment preview and confirm that the operational baseline has no unintended changes. Check that the live initiative and assignment use the approved scope, enforcement mode, locations, and tags."
+  - "Rerun the Bicep deployment preview and confirm that the deployed baseline has no unintended changes. Check that the live initiative and assignment use the approved scope, enforcement mode, locations, and tags."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"

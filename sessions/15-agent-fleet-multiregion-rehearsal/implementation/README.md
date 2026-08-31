@@ -21,13 +21,13 @@ Purview stores policy state, Defender stores security state, Azure Monitor store
 API Management reports the active gateway configuration. The customer repository keeps the files
 that preflight and the rehearsal wrappers read: approved scope and script paths in
 `control-definition.json`, regional deployment inputs in `region.parameters.json`, and restore
-steps in `failover-runbook.md`. It does not keep portal exports, runtime output, approval records,
-or one-time rehearsal results.
+steps in `failover-runbook.md`. Native platforms and the customer change system retain portal
+exports, runtime output, approval records, and one-time rehearsal results.
 
 The regional path uses one Premium (classic) API Management service with an additional location, or
-separate regional gateways. Session 14 promotes infrastructure and policy changes. This session
+separate regional gateways. Session 14 promotes infrastructure and policy changes. The rehearsal
 moves the approved traffic selector to an existing secondary path, checks it, and restores the
-primary selector when required. It does not move identity or registry objects between regions.
+primary selector when required. Identity and registry objects remain in their current regions.
 
 ## Architecture
 
@@ -64,8 +64,8 @@ through the runbook.
 
 ## Before you start
 
-1. Complete Sessions 05, 07-14. If your team built the controls outside this series, confirm the
-   required state in the table below before starting the rehearsal.
+1. Complete Sessions 05, 07-14. If your team built the controls outside this series, verify the
+   controls in the table below before starting the rehearsal.
 2. Approve the primary and secondary regions for model availability, quota, residency, network
    dependencies, API Management capacity, and the agent's tool path.
 3. Confirm that the customer Bicep entrypoint reads
@@ -82,8 +82,8 @@ through the runbook.
 
 ### If you are starting with Session 15
 
-This table is for teams that built earlier controls outside this series. It lists the state required
-before the rehearsal. Complete every row before moving traffic.
+This table is for teams that built earlier controls outside this series. Complete every row before
+moving traffic.
 
 | Existing control | What must already work | How the owner confirms it |
 |---|---|---|
@@ -254,7 +254,6 @@ receive the same policy revision through Session 14.
 ```
 
 Ready preflight checks live Azure resources and API Management topology, then runs Bicep what-if.
-It does not deploy resources or move traffic.
 
 ### 4. Run the regional rehearsal
 

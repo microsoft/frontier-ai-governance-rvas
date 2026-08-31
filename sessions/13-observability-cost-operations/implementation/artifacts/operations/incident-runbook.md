@@ -18,7 +18,7 @@ responses, tool payloads, credentials, or personal data into tickets or this rep
    agent version, tool name, time window, and correlation IDs.
 2. Preserve Application Insights, Defender, Foundry, APIM, and SOC records under their existing
    retention and access controls.
-   3. The incident commander orders containment when harm is active or spending is uncontrolled. The
+3. The incident commander orders containment when harm is active or spending is uncontrolled. The
    service owner disables or routes away from the affected agent or model version. The tool owner
    disables an affected tool binding. The credential owner revokes or rotates exposed credentials.
 4. Keep telemetry and security routing active unless they are the confirmed source of the incident.

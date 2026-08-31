@@ -6,9 +6,9 @@
 
 Create and pin **a versioned prompt agent** in the existing Microsoft Foundry project. Its unique
 Entra Agent Identity identifies the agent and secures the endpoint. The Foundry project managed
-identity authorizes the approved read-only OpenAPI operation. This session creates a stable endpoint
-pinned to the implemented version. The agent has no write tool, uses the RAI policy in `agent.json`,
-and sends server-side traces.
+identity authorizes the approved read-only OpenAPI operation. The deployment creates a stable
+endpoint pinned to the implemented version. The agent has no write tool, uses the RAI policy in
+`agent.json`, and sends server-side traces.
 
 ### Why it matters
 
@@ -24,14 +24,15 @@ deployment applies. The direct OpenAPI path is application-only. The project man
 the downstream API. It does not forward a signed-in human token.
 
 The absent write operation and downstream read authorization constrain the tool path. Instructions
-reinforce this boundary. They do not enforce it. This session excludes Microsoft 365 or Teams
-publishing and delegated user access. [Session 07](../../07-apim-ai-gateway/implementation/README.md)
-configures the APIM route. [Session 09](../../09-mcp-tool-security/implementation/README.md) replaces
-the direct tool with an MCP path. [Session 11](../../11-foundry-evaluations-quality-gates/implementation/README.md)
-adds repeatable evaluations.
+tell the agent how to respond; they do not enforce the boundary. Session 06 owns Microsoft 365 and
+Teams publishing, while the delegated-access module owns delegated user access.
+[Session 07](../../07-apim-ai-gateway/implementation/README.md) configures the APIM route.
+[Session 09](../../09-mcp-tool-security/implementation/README.md) replaces the direct tool with an
+MCP path. [Session 11](../../11-foundry-evaluations-quality-gates/implementation/README.md) adds
+repeatable evaluations.
 
-This baseline attaches the OpenAPI definition directly to the agent. It does not use Foundry
-Toolbox. If several agents need the same approved tool, define a future optional Toolbox module.
+This baseline attaches the OpenAPI definition directly to the agent. A future optional Toolbox
+module can provide a curated reusable tool when several agents need it.
 Use Session 09 when the tool must also pass through APIM and MCP controls.
 
 ## Architecture
@@ -52,9 +53,9 @@ not the user or individual agent.
 ![A fixed prompt-agent version sits between its repository definition and pinned endpoint; the endpoint uses the agent identity, while the project identity makes the approved OpenAPI GET call](../assets/diagrams/governed-agent-flow.svg)
 
 Foundry shows the live agent version and identity, and where the endpoint routes traffic.
-`agent.json`, `instructions.md`, and `tool-manifest.json` state the configuration to deploy. The
-deployment scripts read those files, create an immutable prompt-agent version in the existing
-Foundry project, and route all endpoint traffic to that version.
+`agent.json`, `instructions.md`, and `tool-manifest.json` define the agent version. The deployment
+scripts read those files, create an immutable prompt-agent version in the existing Foundry project,
+and route all endpoint traffic to that version.
 
 The boundary ends at the direct read API. The tool definition has no write operation, and
 downstream authorization denies writes. Session 07 adds APIM ingress. Session 09 replaces the
@@ -66,9 +67,9 @@ direct tool path with MCP.
 |---|---|---|---|---|
 | Agent runtime | Use a persistent prompt agent with an immutable version and pinned stable endpoint | Operators can identify and recreate the released configuration | Each configuration change creates another version | The workload needs hosted code or an application-owned ephemeral definition |
 | Identities at each boundary | Use Agent Identity at the endpoint and the project managed identity for the direct OpenAPI call | Operators can verify which identity protects the endpoint and which has the downstream API role | The downstream API sees the project identity, not the user or agent | The tool path supports agent identity or requires delegated user authority |
-| Tool attachment | Attach the approved OpenAPI definition directly to this agent | The agent version includes the definition, and `tool-manifest.json` records the downstream role definition ID and assignment scope | Reuse, toolbox versioning, and centralized tool lifecycle sit outside this agent | Several agents need the same curated tool, or Session 09 replaces the path with MCP |
+| Tool attachment | Attach the approved OpenAPI definition directly to this agent | The agent version includes the definition, and `tool-manifest.json` records the downstream role definition ID and assignment scope | A Toolbox module owns reuse, versioning, and centralized tool lifecycle | Several agents need the same curated tool, or Session 09 replaces the path with MCP |
 | Tool authority | Expose the approved GET operation; omit writes and deny them through downstream authorization | The agent can call the approved GET operation | A read-only design limits what the agent can do | A separately approved workflow adds consequential actions and Session 09 controls |
-| Release routing | Send 100% of traffic to the pinned version | Operators know which configuration handles a request | Promotion needs an explicit deployment step | A tested rollout design needs weighted traffic |
+| Release routing | Send 100% of traffic to the pinned version | Operators know which agent version handles a request | Promotion needs an explicit deployment step | A tested rollout design needs weighted traffic |
 
 ### Architecture guidance
 
@@ -140,15 +141,15 @@ unique `instance_identity`. Do not upgrade a legacy shared-identity agent in pla
 name and create a current-model agent.
 
 The shared project identity for development agents and the distinct identity created at publication
-belong to the older Agent Application model. This session uses the current agent object model. The
-agent receives its own `instance_identity` when it is created, and its stable endpoint is live
-without a separate publish resource. The direct OpenAPI `managed_identity` option uses the Foundry
-project managed identity for the downstream call.
+belong to the older Agent Application model. Use the current agent object model here. The agent
+receives its own `instance_identity` when it is created, and its stable endpoint is live without a
+separate publish resource. The direct OpenAPI `managed_identity` option uses the Foundry project
+managed identity for the downstream call.
 
 The Foundry portal can show the endpoint and pin its active version. It cannot currently configure
-protocols, authorization schemes, or the agent card. `agent.json` and the deployment scripts state
-the intended configuration. Inspect the Foundry REST API response for the live endpoint state. Stop
-if it differs from those settings.
+protocols, authorization schemes, or the agent card. `agent.json` and the deployment scripts
+define those settings. Inspect the Foundry REST API response for the live endpoint. Stop if it
+differs from the defined settings.
 
 ### Which identity makes the OpenAPI call
 
@@ -265,7 +266,7 @@ unexpected model, legacy shared identity, or resource outside the approved scope
 ```
 
 Deployment creates an immutable prompt-agent version. It applies the model, instructions, RAI
-policy from `agent.json`, and OpenAPI tool. It then configures the stable endpoint for Responses
+policy from `agent.json`, and OpenAPI tool. It then sets the stable endpoint for Responses
 with Entra authorization and pins 100% of traffic to the returned version. It refuses to update an
 existing agent unless its agent card carries `implementationSession=05-governed-agent-baseline`.
 
@@ -346,8 +347,9 @@ manages endpoint access and downstream authorization. The safety owner manages t
 operations owner manages trace access, retention, and cost.
 
 Run this implementation against the nonproduction project, model, API, and identity settings in
-`agent.json` and `tool-manifest.json`. It does not approve production release, write-capable tools,
-Microsoft 365 or Teams distribution, APIM ingress, MCP, or evaluation quality.
+`agent.json` and `tool-manifest.json`. The release owner approves production release and
+write-capable tools through their change process. Sessions 06, 07, 09, and 11 own Microsoft 365 or
+Teams distribution, APIM ingress, MCP, and evaluation quality.
 
 Keep the agent in operation by default. If removal is required, the product, platform, identity,
 and operations owners first confirm that no approved consumer uses the endpoint. Use the approved

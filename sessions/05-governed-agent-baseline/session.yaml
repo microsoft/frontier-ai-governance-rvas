@@ -30,12 +30,12 @@ session:
     - "microsoft-entra-workload-id"
     - "azure-monitor"
     - "application-insights"
-  control_objective: "Create a versioned prompt agent and pin it to a stable endpoint. Its unique Entra Agent Identity identifies the agent. The Foundry project managed identity authorizes the approved read-only OpenAPI tool. Keep write tools absent, apply the RAI policy in the agent definition, and enable server-side tracing."
+  control_objective: "Create a versioned prompt agent and pin it to a stable endpoint. Its unique Entra Agent Identity identifies the agent. The Foundry project managed identity authorizes the approved read-only OpenAPI tool. Keep write operations out of the tool definition, apply the RAI policy in the agent definition, and enable server-side tracing."
 implementation:
   mode: "standard"
 implementation_outcomes:
   - "Create a versioned prompt agent from approved instructions and a machine-readable definition."
-  - "Expose the approved read-only OpenAPI operation. Keep the prohibited write action out of the agent's available tools."
+  - "Expose the approved read-only OpenAPI operation. Omit the prohibited write action from the agent's available tools."
   - "Apply the RAI policy in the agent definition, Microsoft Entra endpoint authorization, and server-side tracing through the connected Application Insights resource."
   - "Use the unique Entra Agent Identity to identify the agent and secure its endpoint. Use the Foundry project managed identity for the direct OpenAPI read. Pin the stable endpoint to the implemented version."
   - "A synthetic get_policy read returns only the approved fields through the Foundry project managed identity. No other tool runs."
@@ -51,7 +51,7 @@ deliverables:
 retained_files:
   - path: "implementation/artifacts/agents/policy-assistant/agent.json"
     consumer: "The Session 05 agent deployment scripts"
-    operational_purpose: "Create each prompt-agent version with the approved model, RAI policy, endpoint, and identity settings."
+    operational_purpose: "Create each prompt-agent version with the approved model, RAI policy, endpoint, and identity details."
   - path: "implementation/artifacts/agents/policy-assistant/instructions.md"
     consumer: "The Microsoft Foundry prompt-agent version"
     operational_purpose: "Tell each deployed version how to read policies, which write action to refuse, and how a person can request the change."

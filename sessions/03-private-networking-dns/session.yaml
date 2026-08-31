@@ -29,13 +29,13 @@ session:
     - "azure-monitor"
     - "azure-private-link"
     - "azure-private-dns"
-  control_objective: "Connect the existing Foundry account and four customer-provided dependencies privately, then disable public access after private DNS and TCP 443 checks succeed from the approved nonproduction execution host."
+  control_objective: "Connect the existing Foundry account and four customer-provided dependencies through private endpoints, then disable public access after private DNS and TCP 443 checks succeed from the approved nonproduction execution host."
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Reference the Session 01-owned landing-zone VNet and private-endpoint subnet without redeploying their VNet, route, or subnet configuration."
+  - "Reuse the Session 01-owned landing-zone VNet and private-endpoint subnet. Leave its VNet, route, and subnet definitions unchanged."
   - "Deploy private DNS links and initial private endpoints for the Foundry account and the four customer-provided dependencies."
-  - "Route the delegated Agent Service subnet through the customer-approved firewall. The customer firewall policy source retains its rules and review history."
+  - "Use the existing delegated Agent Service subnet route through the customer-approved firewall. The customer firewall policy source retains its rules and review history."
   - "From the approved execution host, confirm that the in-use Foundry endpoint families and four dependency FQDNs resolve to private addresses and accept TCP 443. Record prior public-access states in the approved change system, then disable public network access."
   - "Confirm that the three Foundry endpoint families and four dependency endpoints resolve to private addresses and accept TCP 443 from an approved client. Session 05 checks agent-runtime traffic."
 deliverables:

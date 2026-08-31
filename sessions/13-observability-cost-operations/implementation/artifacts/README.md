@@ -1,6 +1,6 @@
 # Observability and operations control
 
-These artifacts hold the Session 13 desired-state configuration and retained Markdown records.
+These artifacts hold the Session 13 source-controlled configuration and retained Markdown records.
 
 | Path | Type | Updater and cadence | Consumer and operational purpose |
 |---|---|
@@ -24,9 +24,9 @@ synthetic route emits no evaluation or security reference, mark that correlation
 applicable in the live operating view.
 
 Treat the Application Insights connection string as runtime configuration. The approved synthetic
-request uses the customer's existing client and agent. This tree creates no test resource or fixture.
+request uses the customer's existing client and agent.
 
 The gateway owner keeps the APIM policy in the customer policy repository. The workbook embeds the
 operator and correlation queries. The named Session 14 GitHub promotion workflow runs the paired
 smoke scripts. They read live telemetry and write a payload-free check result only to the runner's
-temporary workspace for immediate workflow use. This tree keeps no Session 13 runtime record.
+temporary workspace for immediate workflow use.

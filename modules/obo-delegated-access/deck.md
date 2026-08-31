@@ -49,7 +49,8 @@ OBO carries user context across the middle tier without forwarding the original 
 
 **In scope:** delegated permissions and consent, inbound token checks, the OBO exchange, protected certificate use, and payload-free checks.
 
-**Outside the module:** replacement applications, downstream authorization redesign, new user grants, and application-only retry after a downstream denial.
+Use the existing applications and downstream authorization model. The downstream API owner manages
+resource assignments and any new user grants.
 
 <!-- Notes: The existing client, middle tier, and downstream API are approved inputs. -->
 
@@ -155,11 +156,8 @@ The identity owner approves:
 
 ## Downstream authorization still decides
 
-A successful exchange shows that Microsoft Entra ID accepted the trust chain.
-
-It does not prove that the user may read the protected resource.
-
-The downstream API checks the delegated scope and that user's resource assignment.
+A successful exchange shows that Microsoft Entra ID accepted the trust chain. The downstream API
+must still check the delegated scope and that user's resource assignment.
 
 <!-- Notes: This is why the module needs a denied-user check. -->
 
@@ -187,8 +185,6 @@ No application-only retry. No token or payload logging.
 3. Preview and apply the delegated permissions listed in the module record.
 4. Deploy the Python middle tier through the normal pipeline.
 5. Run the allowed and denied checks.
-
-<!-- Notes: Do not create a temporary API to make the check pass. -->
 
 ---
 
@@ -224,7 +220,8 @@ No application-only retry. No token or payload logging.
 - Session 05 keeps the direct OpenAPI baseline application-only.
 - Session 09 uses APIM managed identity for inbound authority.
 
-This module is used when those application-only paths do not satisfy a real per-user requirement.
+Use this module for a real per-user requirement that needs the downstream API to authorize the
+signed-in user.
 
 <!-- Notes: It complements the series without changing its sequence. -->
 

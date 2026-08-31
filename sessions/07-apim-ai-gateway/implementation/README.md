@@ -18,16 +18,16 @@ token metrics without prompt or response logging.
 
 ### Boundaries
 
-This session changes child resources in the established nonproduction APIM instance. APIM stores
-and applies the deployed gateway policy. Foundry stores the agent configuration and reports the
-direct endpoint state. The control applies to requests sent through this APIM route. It does not
-disable the direct Foundry endpoint or prove that every client path uses APIM. Owners govern direct
+The deployment changes child resources in the established nonproduction APIM instance. APIM stores
+and applies the gateway policy. Foundry stores the agent configuration and reports the direct
+endpoint state. The control covers requests sent through this APIM route. Owners govern direct
 endpoint access separately.
 
-Production ingress, semantic caching, secondary-region routing, and write-capable agents are
-excluded. [Session 08](../../08-api-center-ai-mcp-inventory/implementation/README.md) records the
-route in API Center, while
-[Session 09](../../09-mcp-tool-security/implementation/README.md) adds the MCP tool boundary.
+This route configures nonproduction ingress. Separate designs govern production ingress, semantic
+caching, secondary-region routing, and write-capable agents.
+[Session 08](../../08-api-center-ai-mcp-inventory/implementation/README.md) records the route in
+API Center, while [Session 09](../../09-mcp-tool-security/implementation/README.md) adds the MCP
+tool boundary.
 
 ## Architecture
 
@@ -62,7 +62,7 @@ definition and runtime location for inventory. Session 09 adds MCP tool controls
 | Client access | Require an Entra application token and one APIM subscription per workload | Identity and usage allocation can be inspected or revoked separately | Each client must manage two credentials | Entra-only allocation can meet the product owner's quota and revocation needs |
 | Backend identity | Give the APIM system-assigned managed identity Foundry Agent Consumer on one agent | APIM stores no backend key, and the role stops at the selected agent | The direct Foundry endpoint still exists | Direct endpoint access is removed or governed by another approved route |
 | Safety layers | Run APIM Content Safety before the Foundry agent's RAI policy | APIM can stop unsafe input before it reaches the agent | The extra check adds latency, cost, and another data path | Safety owners approve a different split based on measured behavior |
-| Routing | Use a primary backend with one read-safe retry; keep the secondary disabled | The failure path stays bounded and easy to reason about | This session provides no regional failover | A compatible secondary endpoint and Session 15 regional design are approved |
+| Routing | Use a primary backend with one read-safe retry; keep the secondary disabled | The failure path stays bounded and easy to reason about | Regional failover remains disabled | A compatible secondary endpoint and Session 15 regional design are approved |
 | Telemetry | Emit correlation and token metrics with body logging disabled | Operators can follow requests without retaining prompts or responses | They cannot debug the content of a failed exchange from these logs | A data owner approves narrowly scoped content capture |
 
 ### Architecture guidance
@@ -193,8 +193,7 @@ The safety owner approves the threshold and data handling. The network owner con
 gateway can reach the exact Content Safety endpoint. The identity owner confirms Cognitive Services User
 (`a97b65f3-24c7-4388-baec-2e87135dc908`) for the APIM system-assigned identity on
 that Content Safety resource. Stop if the backend uses a key, points to another resource, lacks that
-assignment, or conflicts with the Session 05 RAI policy. APIM safety is another layer. It does not
-replace the model-level policy.
+assignment, or conflicts with the Session 05 RAI policy. APIM safety adds a layer alongside the model-level policy.
 
 ### Telemetry and caching
 
@@ -356,9 +355,9 @@ PY
 unset SESSION06_GATEWAY_URL SESSION06_APIM_SUBSCRIPTION_KEY SESSION06_CORRELATION_ID
 ```
 
-Expected result: APIM returns `401 Unauthorized`. This shows that APIM blocks the invalid bearer
-identity at ingress before calling Content Safety or the Foundry agent. It does not cover other
-identities or policy branches.
+Expected result: APIM returns `401 Unauthorized`. APIM blocks the invalid bearer identity at
+ingress before it calls Content Safety or the Foundry agent. Test other identities and policy
+branches separately.
 Do not retain the response, subscription key, or request headers.
 
 ## After implementation
@@ -369,10 +368,9 @@ scripts. The API product owner owns client subscriptions and limits. Identity ow
 role and APIM identity assignments. Platform owns routing and APIM capacity. Safety owns Content
 Safety settings. Operations owns telemetry, alerts, retention, and cost.
 
-Run this implementation only against the nonproduction APIM and backend resources listed in the
-deployment inputs and routing decision. It does not approve a
-production ingress, secondary region, semantic cache, API Center registration, MCP server, or
-write-capable agent.
+Run only against the nonproduction APIM and backend resources listed in the deployment inputs and
+routing decision. Production ingress, secondary-region routing, semantic caching, API Center
+registration, MCP servers, and write-capable agents need separate approval.
 
 If the gateway API must be removed, the product and service owners first confirm that no approved
 consumer depends on it. Use the approved APIM change path to check the live API marker and remove

@@ -21,36 +21,34 @@ references, `implementationSession` marker, and enforcement mode.
 ### Why it matters
 
 Later controls need a stable Foundry resource and project. Tags name their owners. Bicep can
-redeploy them, and the project connects to Application Insights. Operations needs one inventory
-location for live resource details, not a competing repository copy. The policy assignment applies
-two landing-zone rules to evaluated Azure Resource Manager requests in that resource group before
-the sandbox expands. Staging shows likely impact first. The cloud platform owner can handle
-exemptions, and the change authority can decide whether denial is safe.
+redeploy them, and the project connects to Application Insights. Platform operations maintains live
+resource details in the customer inventory system. The policy assignment applies two landing-zone
+rules to evaluated Azure Resource Manager requests in that resource group before the sandbox
+expands. Staging shows likely impact first. The cloud platform owner handles exemptions, and the
+change authority decides whether denial is safe.
 
 ### Boundaries
 
-Inspect live Azure resources to verify the deployed Foundry baseline. Record environment inventory
-in the customer inventory system and confirmed classic migrations in the customer migration
-backlog. Use this repository's Bicep and parameter files to redeploy the baseline. The Application
-Insights connection uses the stable `ApiKey` configuration. Bicep reads the connection string from
-Azure and does not expose it as a parameter or output. The preview `ProjectManagedIdentity`
-trace-ingestion path is a later upgrade decision. This session does not run an application or
-prove that telemetry is arriving.
+Inspect live Azure resources to verify the deployed Foundry baseline. Platform operations records
+environment inventory in the customer inventory system and confirmed classic migrations in the
+customer migration backlog. Use this repository's Bicep and parameter files to redeploy the
+baseline. The Application Insights connection uses the stable `ApiKey` configuration. Bicep reads
+the connection string from Azure without making it a parameter or output. The preview
+`ProjectManagedIdentity` trace-ingestion path remains a later upgrade decision.
 
 Read the live initiative, assignment, enforcement mode, and exemptions from Azure Policy. Read
 evaluated compliance from Policy Insights. `Default` enforcement applies when Azure Policy
-evaluates an in-scope ARM request at the live resource-group assignment. It does not prove that
-existing resources are compliant, fix them, or cover change paths and controls outside these two
-policy rules.
+evaluates an in-scope ARM request at the live resource-group assignment. Existing resources need
+separate remediation.
 
-Deploy this session to the approved sandbox or nonproduction resource group. It does not deploy a
-model, assign roles, create a private network path, deploy a management-group policy definition,
-prepare production parameters, or move subscriptions.
-[Session 02](../../02-identity-privileged-access/implementation/README.md) implements identity, and
-[Session 03](../../03-private-networking-dns/implementation/README.md) implements private
-connectivity. Diagnostic settings, network controls, managed identity, Defender plans, approved
-SKUs, encryption, and sandbox expiry require their own designs and handoffs. For `byo-vnet`, this session creates the network foundation and sets
-`restrictOutboundNetworkAccess: true`. For other patterns, it remains `false`.
+Deploy this session to the approved sandbox or nonproduction resource group. It deploys the
+Foundry baseline, Application Insights connection, subscription initiative, and resource-group
+assignment. [Session 02](../../02-identity-privileged-access/implementation/README.md) implements
+identity, and [Session 03](../../03-private-networking-dns/implementation/README.md) implements
+private connectivity. Diagnostic settings, network controls, managed identity, Defender plans,
+approved SKUs, encryption, and sandbox expiry need their own designs and handoffs. For `byo-vnet`,
+this session creates the network foundation and sets `restrictOutboundNetworkAccess: true`. For
+other patterns, it remains `false`.
 
 ## Architecture
 
@@ -65,11 +63,11 @@ connection string during deployment. Operators do not pass it in or receive it a
 
 Every evaluated Azure Resource Manager change in that resource group passes through two checks.
 Azure Policy checks the location against the allowed list and checks for the approved tags. It can
-deny a request that fails either rule. Sibling resource groups and wider scopes remain untouched.
-The policy does not repair resources that already exist. The rollout begins in audit-only
-`DoNotEnforce`, where Policy Insights evaluates rules without Azure Policy denying the change.
-After results are current, the cloud platform owner reviews the impact and any exemptions. The
-change authority may then approve `Default`.
+deny a request that fails either rule. The assignment applies only to the sandbox resource group.
+Existing resources need separate remediation. The rollout begins in `DoNotEnforce`, where Policy
+Insights evaluates rules without Azure Policy denying the change. After results are current, the
+cloud platform owner reviews the impact and any exemptions. The change authority may then approve
+`Default`.
 
 The design groups Microsoft's location and required-tag built-ins in a custom initiative rather
 than keeping local copies. Before deployment, a lookup finds the IDs visible in the tenant and
@@ -78,19 +76,18 @@ checks that the rules still have the expected effects. The required-tag list inc
 either tag. One assignment limits the initiative to the sandbox resource group.
 
 Microsoft also publishes AI-specific built-ins for model approval and eligibility.
-[Session 04](../../04-model-governance-lifecycle/implementation/README.md) covers those controls;
-this session does not add them to the landing-zone initiative.
+[Session 04](../../04-model-governance-lifecycle/implementation/README.md) covers those controls.
+The landing-zone initiative contains location and tag rules.
 
-Azure shows what is deployed and which policy state applies. The repository's Bicep files define
-the expected resource and policy configuration. The customer inventory system tracks the
-environment. The customer migration backlog tracks confirmed classic migration work. The customer
-change or risk system records the decision to enforce.
+Azure shows deployed resources and applicable policy state. The repository's Bicep files define
+the expected resource and policy configuration. Platform operations tracks the environment in the
+customer inventory system and confirmed classic migration work in the customer migration backlog.
+The customer change or risk system records the enforcement decision.
 
-This session covers the platform, tracing connection, and two policy rules. It does not enforce
-broader policy, grant production access, or prove that traces are arriving.
+This session deploys the platform, tracing connection, and two policy rules.
 [Session 02](../../02-identity-privileged-access/implementation/README.md) adds access, and
 [Session 03](../../03-private-networking-dns/implementation/README.md) adds private connectivity,
-both inheriting the checks assigned here.
+both using the checks assigned here.
 
 ![The customer-owned repository deploys the Foundry resource hierarchy and Application Insights connection, then hands live inventory ownership to the customer system](../assets/diagrams/session-flow.svg)
 
@@ -100,12 +97,12 @@ both inheriting the checks assigned here.
 
 | Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
 |---|---|---|---|---|
-| Foundry resource model | Use the current `AIServices` resource with one child project | New work starts within the supported management boundary | Confirmed classic assets remain outside this deployment and need separate migration work | A classic workload is approved for migration |
-| Desired state | Keep Bicep and `.bicepparam` in the customer repository | The team can review and repeat the deployment | Portal changes create drift; update Bicep to match | The deployment pipeline or operating responsibilities change |
+| Foundry resource model | Use the current `AIServices` resource with one child project | New work starts within the supported management boundary | Separate migration work handles confirmed classic assets | A classic workload is approved for migration |
+| Deployment source | Keep Bicep and `.bicepparam` in the customer repository | The team can review and repeat the deployment | Portal changes create drift; update Bicep to match | The deployment pipeline or operating responsibilities change |
 | Tracing authentication | Use the stable `ApiKey` Application Insights project connection without exposing the connection string in parameters or outputs | The baseline uses the stable resource API and remains deployable through Bicep | The connection remains key-based; preview `ProjectManagedIdentity` also needs Application Insights authentication and role changes | The preview path is approved for the environment |
 | Outbound network posture | Set `restrictOutboundNetworkAccess: true` for `byo-vnet`; keep it `false` for the other patterns | The BYO VNet path uses the approved firewall route from the start | Firewall rules remain customer-owned and need separate review | The selected network pattern or firewall design changes |
 | Policy packaging | Group the current Microsoft built-ins in one custom initiative | References and parameters stay together; Microsoft maintains the underlying rules | Built-in IDs or behavior can change, so check both before deployment | Microsoft deprecates a built-in or its rule no longer fits |
-| Assignment scope | Assign the initiative only to the same sandbox resource group | A first use of deny cannot affect sibling groups or wider scopes | The subscription and management groups are outside this control | A wider scope has its own parameters, owner, and restore plan |
+| Assignment scope | Assign the initiative only to the same sandbox resource group | A first use of deny cannot affect sibling groups or wider scopes | Subscription and management-group rollouts need their own parameters, owner, and restore plan | A wider scope is approved |
 | Enforcement rollout | Start in audit-only `DoNotEnforce`; after review and approval, change the same assignment to enforcing `Default` | The owner sees likely impact before Azure starts denying requests | Policy evaluation takes time. Stale results stop promotion | The operating process can safely support a different rollout |
 
 ### Architecture guidance
@@ -164,7 +161,7 @@ The group lookup may return not found. Continue when the subscription is approve
 group's location, ownership, and tags permit this use.
 
 Resolve the two current policy built-ins and pass their IDs to Bicep. The resolver returns inputs
-to the current shell. It does not write a package or log file.
+to the current shell.
 
 ```powershell
 $builtIns = .\scripts\resolve-builtins.ps1 | ConvertFrom-Json
@@ -187,10 +184,10 @@ export RVAS_REQUIRE_TAG_POLICY_ID="$(
 )"
 ```
 
-Use team aliases and synthetic classifications in tags. Azure tags are plain text. Keep
+Use team aliases and synthetic classifications in tags. Azure tags are plain text. Exclude
 credentials, tenant and subscription IDs, endpoints, prompts, traces, responses, and customer
-data out of this repository. Operational inventory can contain resource IDs and environment
-details, so store it in the customer's normal inventory system rather than committing it.
+data from this repository. Platform operations stores operational inventory, including resource
+IDs and environment details, in the customer inventory system.
 
 ## Decisions and stop conditions
 
@@ -205,7 +202,7 @@ Make these decisions before deployment:
    Stop if any sentinel remains.
 3. Resource model. Use the current Foundry resource and child-project model for new work.
    Existing confirmed hub-based projects keep their approved controls until the platform owner
-   approves separate migration work. Do not mix the models in this deployment.
+   approves separate migration work. Deploy the current child-project model for new work.
 4. Foundry network posture. The `publicNetworkAccess` property controls whether the Foundry
    resource accepts traffic through its public network endpoint. The canonical environment input is
    `Disabled` after the Session 03 cutover. Preflight rejects `Enabled` whenever Session 03 has
@@ -230,8 +227,8 @@ Make these decisions before deployment:
 | Exemption | The live Azure Policy exemption is limited to the approved scope and policy references, and the decision reference is stored in the customer risk system | The exemption is broader than the approved exception, has no expiry, or has no customer risk reference |
 | Promotion | The cloud platform owner has reviewed live Policy Insights findings and exemptions, restore ownership is ready, and the change authority has approved `Default` | Evaluation is stale, the review is incomplete, or the change authority has not approved `Default` |
 
-Do not add secrets to parameter files. The Bicep connection reads the Application Insights
-connection string during deployment and does not emit it.
+Exclude secrets from parameter files. The Bicep connection reads the Application Insights
+connection string during deployment without emitting it.
 
 ## Implement
 
@@ -387,8 +384,8 @@ az tag update \
   --only-show-errors >/dev/null
 ```
 
-If the group already exists, inspect its location and tags before running this command. Never
-reuse an unrelated group for this session. The tag update uses `Merge`, so customer tags not listed
+If the group already exists, inspect its location and tags before running this command. Use a
+resource group approved for this session. The tag update uses `Merge`, so customer tags not listed
 above remain in place.
 
 ### 3. Run preflight
@@ -427,7 +424,7 @@ exemptions with the cloud platform owner. Then rerun with the explicit confirmat
   --confirm-inherited-policy-review
 ```
 
-Inspect every scope and planned resource. Do not continue on an unexpected change.
+Inspect every scope and planned resource. Stop on an unexpected change.
 
 ### 4. Deploy the BYO VNet foundation when selected
 
@@ -497,8 +494,8 @@ az resource list \
   --output json
 ```
 
-Do not commit the response. Platform operations creates or updates the inventory item in the
-customer system. Use that item for live resource details.
+Platform operations creates or updates the inventory item in the customer system. The inventory
+item holds the live resource details.
 
 Run this subscription query only when classic assets are in scope and the operator has subscription
 Reader access:
@@ -600,8 +597,7 @@ Keep `enforcementMode = 'DoNotEnforce'` for the first deployment.
 
 ### 8. Inspect impact before promotion
 
-Request an evaluation and inspect policy state for resources already in the approved scope. Do not
-deploy a seed resource.
+Request an evaluation and inspect policy state for resources already in the approved scope.
 
 ```powershell
 $scope = az group show `
@@ -664,8 +660,7 @@ approved exemption in Azure Policy and keep its decision reference in the custom
 ### 9. Promote the approved assignment
 
 The cloud platform owner must finish the live findings and exemption review. The change authority
-must approve enforcement. Stop and do not enter Confirm the result until both gates are
-complete. After approval, change `enforcementMode` in
+must approve enforcement. Enter Confirm the result after both gates are complete. After approval, change `enforcementMode` in
 `artifacts/environments/policy-assignment.bicepparam` to `Default`, rerun preflight, inspect the
 assignment preview, and redeploy the same assignment:
 
@@ -768,8 +763,8 @@ print(
 ```
 
 The assignment must show the approved resource-group scope, `Default` enforcement, allowed
-locations, required tags, and the session marker. A `DoNotEnforce` assignment fails this check.
-The guardrail rollout is incomplete. Do not save command output.
+locations, required tags, and the session marker. A `DoNotEnforce` assignment means promotion is
+incomplete. Store command output in the customer change record.
 
 ## After implementation
 
@@ -779,8 +774,8 @@ implementation files in the repository. Platform operations maintains the invent
 records confirmed classic migrations in the migration backlog. The change authority approves
 promotion, restore, or removal of the policy scope in the customer change system.
 
-The `expiryDate` remains the trigger to keep or remove sandbox resources. This session does not
-authorize production use.
+The `expiryDate` remains the trigger to keep or remove sandbox resources. Production use needs
+a separate approval and deployment path.
 
 If enforcement causes an operational problem, redeploy the sandbox assignment with
 `DoNotEnforce` first. That keeps policy visibility while requests recover.
@@ -789,9 +784,8 @@ If enforcement causes an operational problem, redeploy the sandbox assignment wi
 
 If the baseline must be removed, the platform owner uses the customer change path to inspect the
 current deployment outputs and the `implementationSession=01-platform-baseline` marker. Remove
-only resources listed by the current deployment. Do not use these instructions to delete the
-resource group. If a dedicated group must also be removed, inventory it first. Then use the
-customer's normal resource-group change process after confirming that no unrelated resource
+only resources listed by the current deployment. A dedicated resource group follows the customer
+resource-group change process after the team inventories it and confirms that no unrelated resource
 remains.
 
 To remove the policy assignment, the cloud platform owner checks the `implementationSession`
@@ -799,6 +793,6 @@ marker, confirms that no other assignment uses the initiative, and removes only 
 assignment and unreferenced initiative through the approved Azure Policy change path.
 
 Deleted Foundry accounts remain recoverable for 48 hours. The same name cannot be reused during
-that window unless an authorized operator performs an irreversible purge. Do not use these
-instructions to purge resources. Use a new resource-group name or prefix. Or follow Microsoft's
-recovery and purge procedure after an explicit customer decision.
+that window unless an authorized operator performs an irreversible purge. Use a new resource-group
+name or prefix. An authorized operator can follow Microsoft's recovery and purge procedure after
+an explicit customer decision.

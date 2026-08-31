@@ -5,7 +5,7 @@ size: 16:9
 paginate: true
 html: true
 title: Microsoft Agent 365 onboarding and access boundaries
-description: Prepare one approved Agent Registry deployment without granting group access before Session 10 confirms DLP coverage.
+description: Prepare one approved Agent Registry deployment, keep it uninstalled, and wait for Session 10 to confirm DLP coverage.
 ---
 
 <!-- _class: cover -->
@@ -22,8 +22,8 @@ Prepare one nonproduction Agent Registry deployment for one test group.
 
 ## Control objective
 
-Prepare one approved Agent Registry deployment for a named Microsoft Entra test group. Do not
-install it or grant group availability until Session 10 confirms DLP coverage.
+Prepare one approved Agent Registry deployment for a named Microsoft Entra test group. Keep it
+uninstalled until Session 10 confirms DLP coverage.
 
 ![Microsoft Agent 365](assets/icons/microsoft/agent-365.svg)
 
@@ -45,10 +45,10 @@ The deployment remains uninstalled until **Session 10 confirms that DLP is enabl
 
 ## Control boundary
 
-| In scope | Outside this session |
+| Prepared here | Owned through related paths |
 | --- | --- |
 | One Available Agent Registry entry | Agent creation or runtime changes |
-| One Microsoft Entra test group | Group installation before DLP confirmation |
+| One Microsoft Entra test group, kept uninstalled | Group installation before DLP confirmation |
 | One host product and approved consent decision | Tenant-wide block or Conditional Access |
 | Post-DLP installation route | Agent deletion |
 
@@ -65,7 +65,7 @@ The deployment remains uninstalled until **Session 10 confirms that DLP is enabl
 3. Session 10 confirms DLP before installation.
 4. Microsoft Entra supplies group membership after the approved installation.
 
-<!-- Notes: The icon represents Agent Registry. Explain the relationship in the spoken narrative rather than claiming it is an architecture diagram. -->
+<!-- Notes: Use the icon to represent Agent Registry and explain the relationship in the spoken narrative. -->
 
 ---
 
@@ -73,7 +73,7 @@ The deployment remains uninstalled until **Session 10 confirms that DLP is enabl
 
 | Choice | Decision |
 | --- | --- |
-| Audience | Prepare one Microsoft Entra test group without installing |
+| Audience | Prepare one Microsoft Entra test group and keep it uninstalled |
 | Permissions | Record the reviewed consent decision for the post-DLP deployment |
 | Restore | Remove a mistaken installation through Microsoft 365 admin center |
 
@@ -111,11 +111,11 @@ The deployment remains uninstalled until **Session 10 confirms that DLP is enabl
 
 | Check | Expected result |
 | --- | --- |
-| Test group | Is recorded for synthetic post-DLP validation; it has no agent access yet |
+| Test group | Is recorded for synthetic post-DLP validation; the agent is uninstalled |
 | Session 10 DLP policy | Is enabled and propagation is confirmed before meaningful use |
-| Delivery owner | Confirms the withheld-access boundary and consent scope |
+| Delivery owner | Confirms the uninstalled boundary and consent scope |
 
-<!-- Notes: The excluded-user result matters. Do not add the excluded user to the group to make the test pass. -->
+<!-- Notes: Preserve the excluded user's membership for the result check. -->
 
 ---
 

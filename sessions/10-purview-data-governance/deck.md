@@ -44,7 +44,7 @@ html: true
 4. Keep a payload-free Agent 365 unified audit log query definition.
 5. Observe one labelled interaction and record both results in Purview and the approved change system.
 
-<!-- Notes: These are operational controls, not a one-off compliance demonstration. -->
+<!-- Notes: These controls stay in operation after delivery. -->
 
 ---
 
@@ -64,8 +64,8 @@ leads a quarterly review.
 - The approved nonproduction Agent 365 instance, test group, and label ID
 - Microsoft Purview is the live source for label, DLP, Audit, and DSPM state
 - `coverage-handoff.md` names who maintains the Agent 365 and Foundry DLP paths
-- The Agent 365 DLP policy **does not govern Foundry**
-- Production, additional agents, broad populations, and payload collection are excluded
+- Foundry DLP follows a separate control path
+- The policy targets one nonproduction agent and test group; production and broader rollout use separate approved changes. Payload collection stays disabled.
 
 <!-- Notes: Foundry Purview Data Security and policy prerequisites remain a separate control path. -->
 
@@ -132,8 +132,7 @@ Agent 365 and Foundry use separate Purview policy paths. On the Agent 365 path, 
 agent, group, direction, location, and label before either blocking a matched interaction or
 auditing it without interruption.
 
-That DLP boundary does not extend to Foundry. Foundry has a separate enablement path and narrower
-current DLP coverage.
+Foundry has a separate enablement path and narrower current DLP coverage.
 
 Purview stores live label, policy, Audit, and DSPM state. The coverage handoff names who maintains
 each product path because no single service view shows those responsibilities together.
@@ -171,9 +170,10 @@ Risky AI usage template can surface prompt-injection, protected-material, and ex
 - Record Foundry DLP as active only when both parts are implemented.
 
 Use DSPM for AI (classic) only to check the Foundry enterprise-app collection policy and report
-coverage. Record the result in the handoff; do not deploy the one-click policy in this session.
+coverage. Record the result in the handoff. The Foundry owner decides whether to deploy the
+one-click policy on that separate path.
 
-<!-- Notes: Do not tell the customer that the Agent 365 policy protects Foundry API calls. -->
+<!-- Notes: Keep Agent 365 policy coverage and Foundry API coverage as separate product claims. -->
 
 ---
 
@@ -251,13 +251,13 @@ Stop when:
 - the source contains real customer data instead of the approved synthetic item; or
 - the source owner, review date, or expiry is missing.
 
-<!-- Notes: Do not create a second taxonomy to keep the session moving. -->
+<!-- Notes: Use the approved taxonomy. -->
 
 ---
 
 ## Generated content is a known gap
 
-Source label protection does not automatically become output protection for newly created Agent 365 content.
+Source label protection does not automatically protect newly created Agent 365 content.
 
 Record the observed output label and choose a control:
 
@@ -395,7 +395,7 @@ confirm the expected result. Do not retain interaction content.
 1. Resolve the coverage, owner, label, source, action, and audit decisions.
 2. Use Compliance Data Administrator for label and DLP work, View-Only Audit Logs in Purview and Exchange, and AuditLogsQuery.Read.All for Microsoft Graph Audit Search.
 3. Run preflight against the approved tenant.
-4. Confirm the Foundry DLP handoff among the Purview operator, Foundry platform owner, and application developer. Do not configure Foundry DLP in this session.
+4. Confirm the Foundry DLP handoff among the Purview operator, Foundry platform owner, and application developer. The Foundry team configures that DLP path through its own approved change.
 5. Confirm the approved label and explicit rights on the synthetic source.
 6. Build the Agent 365 DLP policy for the approved scope in simulation.
 7. Review the matched scope, then enable.
@@ -411,7 +411,7 @@ confirm the expected result. Do not retain interaction content.
 ## Safety gates
 
 - The approved Purview change record names the exact scope and restore route.
-- When earlier controls were implemented outside this series, confirm the platform references, assignment scopes, `get_policy` allowlist, backend role ID and scope, successful read result, and denied-write result.
+- Confirm the platform references, assignment scopes, `get_policy` allowlist, backend role ID and scope, successful read result, and denied-write result.
 - A Compliance Data Administrator recorded the label resolution and DLP policy-name check.
 - The Audit Search Graph token identifies the approved tenant and carries `AuditLogsQuery.Read.All`.
 - Agent 365 and Foundry coverage are not conflated.
@@ -462,7 +462,7 @@ Stop when:
 - the audit event remains absent after the explicit Audit wait window recorded by the audit owner in the approved change record; or
 - the output is treated as labelled when it is not.
 
-Do not retain the interaction content to explain a failure.
+Keep interaction content out of the repository when investigating a failure.
 
 <!-- Notes: Route the failure to the data, agent, and Purview owners. -->
 

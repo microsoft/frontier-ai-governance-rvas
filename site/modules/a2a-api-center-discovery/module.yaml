@@ -27,7 +27,7 @@ implementation:
 implementation_outcomes:
   - "Confirm that developers need A2A discovery for the approved agent."
   - "Select a supported Git or API Management source that the runtime owner maintains."
-  - "Create or refresh the live API Center asset through that source without a manual duplicate registration."
+  - "Create or refresh the live API Center asset through that source."
   - "Review the catalog asset and confirm that it still points to the current A2A interface."
 deliverables:
   implementation: "implementation/README.md"

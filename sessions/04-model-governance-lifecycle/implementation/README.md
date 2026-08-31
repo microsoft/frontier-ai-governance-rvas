@@ -21,41 +21,40 @@ The lifecycle owner can repeat this path without copying live Azure data into th
 ### Boundaries
 
 Azure holds the live availability, quota, lifecycle data, and deployed resource state. Keep the
-supporting approval detail in the decision system. Store deployment profiles and Bicep
-configuration in the repository.
+supporting approval detail in the decision system. Store deployment profiles and Bicep definitions in the repository.
 
-This implementation covers one deployment path. An authorized principal can still create a
-deployment through another template, the portal, the CLI, or an API. A separate control must
-detect or block those changes. Instant-access models and managed-compute deployments sit outside
-scope. This session does not change the Foundry account, projects, connections, private networking,
-content filter definitions, or model evaluation.
+The deployment profiles, preflight scripts, and Bicep cover one deployment path. An authorized
+principal can still create a deployment through another template, the portal, the CLI, or an API.
+A separate control must detect or block those changes. Instant-access models and managed-compute
+deployments require their own model governance design. Sessions 01, 03, and 11 own the Foundry
+account, project, connection, private-networking, content-filter, and model-evaluation paths.
 [Session 11](../../11-foundry-evaluations-quality-gates/implementation/README.md) adds repeatable
 release evaluation.
 
 Azure Policy can deny disallowed deployment SKUs across other change paths. The documented
 [deployment-type restriction pattern](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types#restrict-deployment-types-with-azure-policy)
-is a separate platform control; this session does not assign it.
+is a separate platform control owned by the cloud platform team.
 
 ## Architecture
 
 ### Architecture at a glance
 
-This design maps one business approval to one Azure model deployment. The decision system keeps
-the full review. `deployment-profiles.json` holds the settings needed to apply that decision.
-Before anything changes, preflight compares them with current Azure facts and a scoped Azure
-Resource Manager preview. It stops if they differ. Bicep then creates or updates the child
-deployment under the existing Foundry resource.
+One business approval maps to one Azure model deployment. The decision system keeps the full
+review. `deployment-profiles.json` holds the settings Bicep needs. Before anything changes,
+preflight compares them with current Azure facts and a scoped Azure Resource Manager preview. It
+stops on a mismatch. Bicep then creates or updates the child deployment under the existing Foundry
+resource.
 
 The decision system authorizes the model. The deployment profile states what Bicep deploys.
 Preflight blocks the run when the profile differs from the approval or current Azure state. Azure
-holds the live resource state. These steps change configuration. They do not send prompts or
-responses. Session 05 uses the approved deployment name and exact model coordinates.
+holds the live child deployment. These steps change model deployment settings. Session 05 uses the
+approved deployment name and exact model coordinates.
 
 ![The approved deployment profile passes through live Azure checks before Bicep changes model child deployments; lifecycle review can keep, replace, or retire them](../assets/diagrams/model-governance-flow.svg)
 
-These checks run when an operator uses these deployment profiles, preflight scripts, and Bicep
-files. Another template, the portal, the CLI, or an API can bypass them. Operators can preview
-changes and restore an earlier deployment file. Azure does not enforce these files as an allowlist.
+The checks run when an operator uses the deployment profiles, preflight scripts, and Bicep files.
+Another template, the portal, the CLI, or an API can bypass them. Operators can preview changes
+and restore an earlier deployment file. Azure does not treat these files as an allowlist.
 
 `deployment-profiles.json` records the external approval reference, model version, SKU, capacity,
 content filter, processing-location requirement, review date, quota headroom, and
@@ -112,10 +111,10 @@ before approving its processing location, capacity model, and operating boundary
 **Resolve every `__REQUIRED_*__` value** in the customer working copy. Preflight rejects unresolved
 values.
 
-### Deployment desired state
+### Deployment profile
 
 `deployment-profiles.json` is the machine-readable input for preflight and ARM through Bicep.
-Each entry contains its external approval reference, exact model coordinates, SKU and capacity,
+Each entry contains an external approval reference, exact model coordinates, SKU and capacity,
 content filter policy name, processing-location requirement, review date, quota headroom, and
 `versionUpgradeOption: NoAutoUpgrade`.
 Replace the entire quoted `capacity` and `minimumUnusedQuotaPercent` placeholders, including their
@@ -125,10 +124,9 @@ Keep live quota, current availability, lifecycle status, published retirement da
 capacity out of this file. Preflight reads them from Azure. Keep the full approval, lifecycle
 owner, and review history in the change system.
 
-The external approval covers exact model coordinates. This implementation does not allow an
-automatic upgrade to another version. For a lifecycle replacement or version change, record a new
-external decision, update the deployment profile, rerun preflight, and inspect the Bicep what-if
-output.
+The external approval covers exact model coordinates. `NoAutoUpgrade` holds that version in place.
+For a lifecycle replacement or version change, record a new external decision, update the
+deployment profile, rerun preflight, and inspect the Bicep what-if output.
 
 Choose a serverless API deployment SKU that meets the recorded processing-location requirement:
 

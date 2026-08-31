@@ -13,5 +13,5 @@ allowlisted read tool and record the identity, release, monitoring, and restore 
 | `governance/threat-model.md` | Records trust boundaries and restore guidance for the security owner's 90-day review |
 | `operations/mcp-traffic.kql` | Queries payload-free MCP traffic and correlation |
 
-Resolve every `__REQUIRED_*__` value before deployment. Do not commit runtime URLs, access tokens,
-subscription IDs, prompts, responses, or telemetry.
+Resolve every `__REQUIRED_*__` value before deployment. Keep runtime URLs, access tokens,
+subscription IDs, prompts, responses, and telemetry out of the repository.

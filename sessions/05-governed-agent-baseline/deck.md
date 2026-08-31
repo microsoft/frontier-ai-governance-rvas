@@ -14,7 +14,7 @@ html: true
 
 # Governed Microsoft Foundry agent baseline
 
-180 minutes - A versioned agent with one read tool and no write path
+180 minutes · A versioned agent with one read tool and no write path
 
 <!-- Notes: Establish the agent identity, version, tool, safety, and tracing controls before adding APIM and MCP. -->
 
@@ -37,7 +37,7 @@ html: true
 
 ## Implementation outcomes
 
-1. Create a persistent prompt agent from approved instructions and configuration.
+1. Create a persistent prompt agent from approved instructions and deployment files.
 2. Use a unique Entra Agent Identity to identify the agent and secure its endpoint.
 3. Use the project managed identity for the approved application-only GET OpenAPI tool.
 4. Apply the RAI policy in `agent.json` and enable server-side tracing.
@@ -55,7 +55,7 @@ The Entra Agent Identity identifies the agent and secures its endpoint.
 
 The Foundry project managed identity authorizes the direct OpenAPI read.
 
-<!-- Notes: Do not collapse the agent identity and project identity into one control claim. -->
+<!-- Notes: Present the agent identity and project identity as separate controls. -->
 
 ---
 
@@ -64,7 +64,7 @@ The Foundry project managed identity authorizes the direct OpenAPI read.
 - One prompt agent in the approved nonproduction Foundry project
 - One application-only read through the project managed identity
 - No write tool or delegated user authorization
-- Foundry holds the live state; repository definitions state the configuration to deploy
+- Foundry holds the live agent and endpoint; repository definitions define the version to deploy
 - APIM, MCP, distribution, and evaluations belong to later sessions
 
 <!-- Notes: Instructions reinforce the boundary. Tool absence and downstream authorization enforce it. -->
@@ -73,9 +73,10 @@ The Foundry project managed identity authorizes the direct OpenAPI read.
 
 <!-- _class: section-divider -->
 
-# Version the full agent configuration
+# Version the full agent definition
 
-The versioned release includes the instructions, tool, identity, safety settings, routing, and logs.
+The versioned release includes instructions, a tool, the RAI policy, identity settings, routing,
+and tracing.
 
 <!-- Notes: A model plus a prompt is not the governed unit. -->
 
@@ -99,7 +100,7 @@ Each agent version includes the model, instructions, OpenAPI tool, and RAI polic
 ### Stable endpoint
 
 The endpoint is created with the agent and routes callers to the selected version. The current
-agent model does not need a separate Agent Application.
+agent model carries its own endpoint and identity.
 
 </div>
 <div class="card">
@@ -125,7 +126,7 @@ identity makes the downstream tool call.
 | Prompt agent | Selected. It provides the managed runtime, immutable versions, and stable endpoint this baseline needs. |
 | Direct OpenAPI attachment | Selected. The agent version includes the OpenAPI definition, and the deployment files record the downstream role and assignment scope. |
 | Foundry Toolbox | Use a future optional module when several agents need a curated reusable tool endpoint. Session 09 is the handoff when APIM and MCP controls are also required. |
-| Hosted agent | It adds code and container control that this read-only scenario does not need. |
+| Hosted agent | Use a hosted agent when the workload needs code or container control. |
 | Responses API only | The application would send the definition with each request. Foundry would not store a persistent agent resource. |
 
 The decision record names `persistent-prompt-agent`.
@@ -151,7 +152,7 @@ Stop if the name collides with an unmarked agent or a legacy agent has no unique
 The older Agent Application model used a shared development identity and created a distinct
 identity at publication. The current agent receives its unique identity when it is created.
 
-<!-- Notes: Do not apply the older publish-time identity rule to the current agent object model. -->
+<!-- Notes: The current agent object receives its identity when created. -->
 
 ---
 
@@ -258,9 +259,9 @@ A caller enters through the stable endpoint. Foundry uses the agent identity at 
 routes the request to the pinned version, and uses the project managed identity for the one
 OpenAPI GET call.
 
-Foundry holds the live identity, versions, routing, and RAI policy. Git holds the intended
-configuration. This implementation covers calls through the direct read API. Session 07 uses the
-pinned endpoint.
+Foundry holds the live identity, versions, routing, and RAI policy. Git holds the version
+definition. This baseline covers calls through the direct read API. Session 07 uses the pinned
+endpoint.
 
 ---
 
@@ -324,10 +325,10 @@ or SDK. Use the scripts and API response to check them.
   -ReadApiBaseUrl $readApiBaseUrl
 ```
 
-**Expected state:** a new fixed version, unique identity, a Responses endpoint with Entra authorization,
-and 100% traffic pinned to that version.
+**Expected configuration:** a new fixed version, unique identity, a Responses endpoint with Entra
+authorization, and 100% traffic pinned to that version.
 
-<!-- Notes: Foundry retains the active version and endpoint selector. The deployment does not write a release record. -->
+<!-- Notes: Foundry retains the active version and endpoint selector. -->
 
 ---
 
@@ -349,9 +350,9 @@ Do not retain the response or export the trace.
 
 ---
 
-## Live state and ownership
+## Live agent and ownership
 
-| Live state | Owner |
+| Resource or setting | Owner |
 |---|---|
 | Agent behavior and pinned release | AI product owner |
 | Endpoint access, Entra Agent Identity, and downstream authorization | Platform/identity owner |

@@ -29,10 +29,10 @@ html: true
 - Resolve current built-ins and deploy a reusable initiative staged on the same resource group.
 - Promote the assignment to `Default` after owner review and change approval.
 
-The connection sets up a monitoring path. It does not prove that application logs are arriving.
-The policy assignment does not fix existing resources or cover controls outside these two rules.
+The connection establishes the monitoring path. Confirm application log delivery separately.
+Azure Policy evaluates ARM changes under these two rules. Existing resources need separate remediation.
 
-<!-- Notes: Set the boundary early, then narrow the change path into it. Production RBAC and private networking come later. -->
+<!-- Notes: Establish scope early. Production RBAC and private networking come later. -->
 
 ---
 
@@ -40,7 +40,7 @@ The policy assignment does not fix existing resources or cover controls outside 
 
 ## Why it matters
 
-Later controls need a stable Foundry resource and child project. The team can redeploy them from Bicep and identify their owners from tags. Operations needs one place for live resource details. Staging shows likely policy impact before deny mode starts. The owner can handle exemptions before the change authority promotes enforcement.
+Later controls need a stable Foundry resource and child project. The team redeploys them from Bicep and identifies their owners from tags. Platform operations maintains live resource details in the customer inventory system. Staging shows likely policy impact before deny mode starts. The cloud platform owner handles exemptions before the change authority promotes enforcement.
 
 ---
 
@@ -61,7 +61,7 @@ One deployment creates the Foundry resource and child project. Azure Policy then
 4. Stage the assignment in `DoNotEnforce`, then change it to `Default` after review.
 5. Record the live baseline in the customer inventory system.
 
-This boundary excludes classic assets. Keep their migration backlog in the customer inventory system.
+Platform operations maintains confirmed classic migrations in the customer migration backlog.
 
 </div>
 <div>
@@ -111,7 +111,7 @@ The platform owner assigns confirmed migrations in the backlog.
 
 > The product name changed. The Azure resource provider did not.
 
-<!-- Notes: New work uses the current child-project model. Do not mix hub templates into this baseline. -->
+<!-- Notes: New work uses the current child-project model. Classic hubs need a separate migration plan. -->
 
 ---
 
@@ -130,14 +130,14 @@ The platform owner assigns confirmed migrations in the backlog.
 | Decision | Chosen approach | Tradeoff |
 |---|---|---|
 | Resource model | Current Foundry resource and child project | Classic assets need separate migration work |
-| Desired state | Bicep and `.bicepparam` | Update the Bicep after portal changes create drift |
+| Deployment source | Bicep and `.bicepparam` | Update the Bicep after portal changes create drift |
 | Tracing authentication | Stable `ApiKey` Application Insights connection; preview `ProjectManagedIdentity` remains a later upgrade decision | The baseline stays deployable, but the connection remains key-based |
 | Outbound network posture | `restrictOutboundNetworkAccess: true` for `byo-vnet`; otherwise `false` | The BYO-VNet deployment enforces its own outbound restriction |
 | Policy packaging | One initiative referencing current Microsoft built-ins | Built-in IDs and effects must be checked before each deployment |
-| Assignment scope | Exact same sandbox resource group | Sibling groups and wider scopes stay outside this control |
+| Assignment scope | Exact same sandbox resource group | A separately owned rollout covers sibling groups and wider scopes |
 | Enforcement rollout | `DoNotEnforce`, owner review, then `Default` | Evaluation time can delay enforcement |
 
-<!-- Notes: Keep an existing landing-zone restriction. This session never weakens a network or policy rule to make deployment easier. -->
+<!-- Notes: Preserve existing landing-zone restrictions while deploying the baseline. -->
 
 ---
 
@@ -153,7 +153,7 @@ The platform owner assigns confirmed migrations in the backlog.
 Apply the same tags to the resource group and each taggable resource. The initiative requires `businessOwner`, `technicalOwner`, `dataClassification`, `criticality`, `costCenter`, and `expiryDate`. The deployment sets `implementationSession` and the fixed sandbox `environment` tag to identify these resources.
 
 Foundry model approval and eligibility policies are separate AI-specific built-ins. Session 04
-covers that model-governance decision. This initiative does not add them.
+covers that model-governance decision. The landing-zone initiative contains only location and tag rules.
 
 <!-- Notes: Use team aliases and synthetic classifications. Tags are visible to anyone with tag read access. -->
 
@@ -180,11 +180,11 @@ Timebox: 250 minutes
 
 Deploy the Foundry baseline in the approved sandbox resource group, then stage Azure Policy guardrails on that resource group.
 
-- State change: current Foundry parent, child project, observability connection, subscription initiative, and resource-group assignment
+- Deploys: current Foundry parent, child project, observability connection, subscription initiative, and resource-group assignment
 - Operator access: Contributor on the approved sandbox scope, plus a time-bound Resource Policy Contributor assignment for the guardrails
-- Safety boundary: resolved decisions, approved sandbox subscription and resource group, and the marked removal scope
-- Data rule: no secrets or customer content in parameters, tags, outputs, or source control
-- Live state: deployed baseline, staged-then-promoted policy assignment, reusable definitions, and customer-system records
+- Preconditions: resolved decisions, approved sandbox subscription and resource group, and the marked removal scope
+- Data rule: exclude secrets and customer content from parameters, tags, outputs, and source control
+- Result: deployed baseline, staged-then-promoted policy assignment, reusable definitions, and customer-system records
 
 ---
 
@@ -200,7 +200,7 @@ Deploy the Foundry baseline in the approved sandbox resource group, then stage A
 
 The stable Application Insights connection uses `ApiKey`. Bicep resolves its connection string without exposing it as a parameter or output. Preview `ProjectManagedIdentity` trace ingestion remains a later upgrade decision. Keep `DoNotEnforce` until the cloud platform owner reviews live Policy Insights findings and the change authority approves `Default`.
 
-<!-- Notes: These are the consequential gates. Routine steps do not need a checkpoint. -->
+<!-- Notes: Use checkpoints for consequential gates. -->
 
 ---
 
@@ -220,7 +220,7 @@ Expected: no unintended change to the Foundry baseline, and a `Default`-enforcem
 
 The project `AppInsights` connection may appear as `Modify` or `Deploy` because its credential is write-only. Treat that connection as expected platform noise. A `DoNotEnforce` assignment means the guardrail rollout is incomplete.
 
-<!-- Notes: Observe both live states with the team. Neither check needs a saved output file. -->
+<!-- Notes: Observe the deployed baseline and policy assignment with the team. -->
 
 ---
 
@@ -243,7 +243,7 @@ The `expiryDate` tells the owner when to keep or remove the sandbox baseline. If
 ## Recap and next dependency
 
 - Session 01 deploys a current-model Foundry resource and child project that Bicep can rebuild, with staged and reviewed policy guardrails.
-- Source defines the identities, tags, observability connection, and required-tag policy.
+- Bicep defines the identities, tags, observability connection, and required-tag policy.
 - Operations records the deployed baseline in inventory. The change authority decides whether to enable enforcement.
 - [Session 02](../02-identity-privileged-access/) assigns people and workloads narrow, time-bound access to these resources.
 

@@ -16,7 +16,7 @@ html: true
 
 270 minutes - Reconcile inventory and test one controlled regional move
 
-<!-- Notes: Session 14 made release promotion repeatable. This session checks one service while traffic moves to its secondary deployment. -->
+<!-- Notes: Session 14 made release promotion repeatable. Today checks one service while traffic moves to its secondary deployment. -->
 
 ---
 
@@ -38,7 +38,8 @@ Operators:
 
 A secondary deployment helps when operators can identify the service, move traffic through an approved path, and tell whether its controls still work.
 
-This rehearsal gives the service and delivery owners one visible regional result. It does not make one service check fleet-wide lifecycle enforcement.
+This rehearsal gives the service and delivery owners one visible regional result. Fleet-wide
+lifecycle enforcement needs a separate control.
 
 <!-- Notes: The rehearsal moves traffic, not an identity or registry object. -->
 
@@ -56,33 +57,33 @@ This rehearsal gives the service and delivery owners one visible regional result
 
 ---
 
-## What must already work: Sessions 05-09
+## Controls to verify: Sessions 05 and 07-10
 
-Teams joining at Session 15 use this table to confirm the required state before the rehearsal.
+Teams joining at Session 15 use this table to verify the controls before the rehearsal.
 Sessions 05-13 remain the guided path for building these controls.
 
 | Existing control | What must already work | How the owner confirms it |
 |---|---|---|
 | 05 Agent baseline | Project, fixed version, model alias, Entra identity | Platform owner gets the expected safe response |
-| 06 Gateway | Versioned APIM policy, selectors in the topology | Gateway owner previews the selected selector and reaches only the backend listed in the topology |
-| 07 Inventory | Approved API, agent, and MCP IDs, versions, owners | Inventory owner resolves each ID with no duplicate production record |
-| 08 Tool security | Workload identity, tool scope, operations, egress, version | Tool owner sees allowed read pass and unauthorized operation block |
-| 09 Data governance | Classification, residency, Purview policy IDs, covered agent | Data owner finds the agent in the policy listed in the inventory |
+| 07 Gateway | Versioned APIM policy, selectors in the topology | Gateway owner previews the selected selector and reaches only the backend listed in the topology |
+| 08 Inventory | Approved API, agent, and MCP IDs, versions, owners | Inventory owner resolves each ID with no duplicate production record |
+| 09 Tool security | Workload identity, tool scope, operations, egress, version | Tool owner sees allowed read pass and unauthorized operation block |
+| 10 Data governance | Classification, residency, Purview policy IDs, covered agent | Data owner finds the agent in the policy listed in the inventory |
 
 <!-- Notes: The implementation guide carries the full nine-row prerequisite table for teams joining at Session 15. -->
 
 ---
 
-## What must already work: Sessions 10-13
+## Controls to verify: Sessions 11-14
 
 | Existing control | What must already work | How the owner confirms it |
 |---|---|---|
-| 10 Evaluation | Definition, thresholds, baseline, candidate, regression | Quality owner sees candidate pass and regression block |
-| 11 Threat defense | Confirmed payload-free report, Defender route | Security owner sees blocked actions and one Defender signal |
-| 12 Observability | Telemetry definition, workbook, alerts, smoke result | Observability owner traces one safe request with separate failures |
-| 13 Promotion | Protected environments, deployment metadata, and previous-release restore | Release owner sees approval after what-if |
+| 11 Evaluation | Definition, thresholds, baseline, candidate, regression | Quality owner sees candidate pass and regression block |
+| 12 Threat defense | Confirmed payload-free report, Defender route | Security owner sees blocked actions and one Defender signal |
+| 13 Observability | Telemetry definition, workbook, alerts, smoke result | Observability owner traces one safe request with separate failures |
+| 14 Promotion | Protected environments, deployment metadata, and previous-release restore | Release owner sees approval after what-if |
 
-<!-- Notes: Every row identifies the existing control, the state needed for this rehearsal, and the owner who checks it. -->
+<!-- Notes: Every row identifies the existing control and the owner who checks it. -->
 
 ---
 
@@ -92,7 +93,7 @@ Sessions 05-13 remain the guided path for building these controls.
 
 Foundry Control Plane shows supported agents across Azure projects you can access. Agent 365 provides the enterprise registry.
 
-<!-- Notes: Do not collapse the product boundary. -->
+<!-- Notes: Keep Foundry Control Plane and Agent 365 as separate product boundaries. -->
 
 ---
 
@@ -133,8 +134,8 @@ Operate > Assets > Agents
 Foundry Control Plane discovers supported agents across the projects a user can access in a
 subscription. It shows the version, published state, status, and Entra ID.
 
-Application Insights supplies run, error, token, cost, and trace views. Missing inventory can mean
-the operator lacks access. It does not prove the agent is absent.
+Application Insights supplies run, error, token, cost, and trace views. A missing inventory listing
+can indicate that the operator lacks access. Verify the agent through its owner and native system.
 
 <!-- Notes: Record the exact agent ID and immutable version. A name alone cannot reconcile this view with Agent 365 or Microsoft Entra. -->
 
@@ -444,7 +445,8 @@ The secondary region remains deployed.
 
 The exercise checks one governed service through its agent and MCP records.
 
-Fleet-wide lifecycle enforcement is outside this session. The rehearsal does not move identity or registry objects between regions.
+Fleet-wide lifecycle enforcement needs a separate control. Identity and registry objects remain in
+their current regions.
 
 | Owner | Operational responsibility |
 |---|---|
@@ -453,7 +455,7 @@ Fleet-wide lifecycle enforcement is outside this session. The rehearsal does not
 | Security owner | Purview and Defender visibility |
 | Delivery owner | Rehearsal authority and stop decision |
 
-<!-- Notes: The source systems keep live inventory, audit, deployment, and logs records. The repository retains desired configuration and the maintained restore runbook. -->
+<!-- Notes: The source systems keep live inventory, audit, deployment, and logs records. The repository retains source-controlled configuration and the maintained restore runbook. -->
 
 ---
 

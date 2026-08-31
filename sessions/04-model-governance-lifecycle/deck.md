@@ -22,18 +22,18 @@ html: true
 
 ## Control objective
 
-> Deploy exact approved serverless API model versions with version-controlled deployment profiles, preflight checks, and Bicep. Meet the workload's processing-location requirement.
+> Deploy exact approved serverless API model versions through version-controlled deployment profiles, preflight checks, and Bicep. Meet the workload's processing-location requirement.
 
 ### Session result
 
-- The JSON file states the approved deployment.
+- The JSON file records the approved deployment profile.
 - Preflight compares it with current Azure state.
 - Bicep creates the listed child deployments.
 
 <!-- Notes: The external decision system remains the source for supporting review detail. -->
 
-These checks cover deployments made through these preflight scripts and Bicep files. An authorized
-principal can still deploy through another template, the portal, the CLI, or an API.
+The preflight scripts and Bicep files check deployments on this path. An authorized principal can
+still deploy through another template, the portal, the CLI, or an API.
 
 ---
 
@@ -59,12 +59,11 @@ deployment type, processing location, and quota.
 Supported serverless API model deployments that `main.bicep` creates under the existing
 `AIServices` resource.
 
-### Outside this control
+### Related paths
 
-- Deployments created through another template, the portal, CLI, or API
-- Instant-access models
-- Managed-compute deployments
-- Foundry account, project, connection, network, and content filter creation
+- Other templates, the portal, CLI, and API use separately governed deployment paths
+- Instant-access models and managed-compute deployments require their own model governance design
+- Sessions 01 and 03 own Foundry account, project, connection, network, and content-filter setup
 
 > This path **does not enforce an allowlist across every deployment method**.
 
@@ -75,8 +74,8 @@ Supported serverless API model deployments that `main.bicep` creates under the e
 ## Architecture overview
 
 Each business approval maps to a model deployment. The decision system keeps the full review.
-`deployment-profiles.json` keeps the settings that deployment needs. Preflight compares those
-settings with current Azure state before Bicep changes a child deployment.
+`deployment-profiles.json` keeps the settings Bicep needs. Preflight compares those settings with
+current Azure state before Bicep changes a child deployment.
 
 <div class="cards">
 <div class="card">
@@ -150,7 +149,7 @@ The approved model and SKU must be available to the existing Foundry resource.
 
 ---
 
-## Preflight checks live control inputs
+## Preflight checks live deployment inputs
 
 - Deployment profile matches the approved change
 - Review date has not passed
@@ -193,7 +192,7 @@ methods.
 [Microsoft guidance](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types#restrict-deployment-types-with-azure-policy)
 shows the `Microsoft.CognitiveServices/accounts/deployments/sku.name` restriction pattern.
 
-<!-- Notes: Do not add that policy to this session. Route it through the platform policy owner. -->
+<!-- Notes: Route Azure Policy deployment restrictions through the platform policy owner. -->
 
 ---
 
@@ -249,7 +248,7 @@ It rejects:
 - another resource ID;
 - Ignore, Delete, or Unsupported;
 - any change type other than Create, Modify, or NoChange; or
-- a deployment name missing from desired state.
+- a deployment name missing from the deployment profile.
 
 <!-- Notes: The template uses incremental mode and an existing parent resource. -->
 
@@ -272,7 +271,7 @@ No inference request is needed for this check.
 
 ---
 
-## Live state and removal
+## Live deployment and removal
 
 <div class="cards">
 <div class="card">
@@ -309,7 +308,7 @@ Remove a deployment only when it carries the Session 04 marker.
 - Bicep reads `deployment-profiles.json` as deployment input.
 - Azure remains the live source for lifecycle, availability, and quota.
 - Preflight names each required manual check when stable CLI data is missing.
-- Other deployment methods sit outside this control.
+- Separately governed deployment methods remain available.
 - [Session 05](../05-governed-agent-baseline/) uses the approved live deployment.
 
 <!-- Notes: Close on the review record that Session 05 consumes. -->

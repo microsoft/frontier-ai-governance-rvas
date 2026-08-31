@@ -11,8 +11,8 @@ These artifacts deploy a sandbox baseline and stage Azure Policy guardrails:
 - a resource-group assignment of that initiative, first staged in `DoNotEnforce` and changed to
   `Default` after review.
 
-The public network setting is a parameter. This tree does not add private endpoints, model
-deployments, extra role assignments, or a management-group policy definition.
+The public network setting is a parameter. Private endpoints, model deployments, extra role
+assignments, and management-group policy definitions have separate deployments.
 
 ## Design choices
 
@@ -22,7 +22,7 @@ deployments, extra role assignments, or a management-group policy definition.
 | System-assigned identities | Create durable principals without adding a credential |
 | `disableLocalAuth: true` | Keep Foundry data-plane access on Microsoft Entra authentication |
 | Workspace-based Application Insights | Provides the trace destination used by later sessions |
-| Connection string resolved inside Bicep | Keep it out of parameter files, outputs, and source control |
+| Connection string resolved inside Bicep | Exclude it from parameter files, outputs, and source control |
 | Stable `uniqueString()` suffix | Keeps names stable across repeat deployments to the same scope |
 | Seven common tags | Makes ownership, risk, cost, and expiry easy to inspect |
 | Current Microsoft built-ins grouped in one initiative | Keeps references and parameters together; Microsoft still owns the underlying rules |
@@ -39,13 +39,11 @@ az bicep build --file .\policy\assignment.bicep
 ## Operational ownership
 
 Azure holds the deployed resource, policy assignment, compliance, and exemption state. Platform
-operations keeps live inventory and classic-migration work in the customer systems that own those
-records. The cloud platform owner approves enforcement or exemptions through the normal change and
-risk process. Keep those decisions out of this repository.
+operations maintains live inventory and the classic-migration backlog in the customer systems. The
+cloud platform owner approves enforcement and exemptions through the customer change and risk process.
 
 `scripts/resolve-builtins.ps1` resolves current built-ins outside Bicep and returns their IDs,
-versions, and effects to the current shell. Resolve them again before each implementation. The
-script does not write an output package.
+versions, and effects to the current shell. Resolve them again before each implementation.
 
 `policy/guardrail-settings.json` is the required-tag source. Both policy parameter files load it,
 and preflight rejects an inconsistent or malformed reference.
@@ -74,4 +72,4 @@ az deployment group create `
 
 Replace every `__REQUIRED_*__` value first. Run `..\scripts\preflight.ps1`. It stops the change
 when decisions are unresolved, the target scope is wrong, or a deployment preview is unexpected.
-Keep credentials and customer data out of parameters, tags, outputs, and the repository.
+Exclude credentials and customer data from parameters, tags, outputs, and the repository.
