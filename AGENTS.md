@@ -78,8 +78,12 @@ Do not add:
 
 Do not make a sentence more formal simply because it is documentation.
 
-Optimize for sufficient completeness, not maximal completeness. Stop adding detail when the next addition would not materially change the reader's understanding,
-decision, or ability to act, and stop when additional work has low marginal value.
+> [!IMPORTANT]
+> Optimize for sufficient completeness, not maximal completeness. Stop adding detail when the next addition would not materially change the reader's understanding,
+> decision, or ability to act, and stop when additional work has low marginal value.
+> When writing, you need to consider strong simplification. Simplification is beauty.
+> Fix your attitude at overcomplicating things, considering that the greatest and finest minds
+> transfer knowledge by being clear and understandable.
 
 Add some strategic bold text.
 
