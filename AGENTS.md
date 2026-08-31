@@ -84,6 +84,7 @@ Do not make a sentence more formal simply because it is documentation.
 > When writing, you need to consider strong simplification. Simplification is beauty.
 > Fix your attitude at overcomplicating things, considering that the greatest and finest minds
 > transfer knowledge by being clear and understandable.
+> Always consider incremental utility value when trying to add things: if there is not, no need to add text or details.
 
 Add some strategic bold text.
 
