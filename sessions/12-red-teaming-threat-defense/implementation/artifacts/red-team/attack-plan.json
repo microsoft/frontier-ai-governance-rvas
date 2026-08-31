@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "11-red-teaming-threat-defense",
+  "implementationSession": "12-red-teaming-threat-defense",
   "name": "policy-assistant-agentic-red-team",
   "sdk": {
     "package": "azure-ai-projects",
@@ -76,5 +76,5 @@
     "consumer": "The red-team runner and security review",
     "reviewCadence": "Before each material agent, tool, taxonomy, or evaluator change"
   },
-  "implementationMarker": "implementationSession=11-red-teaming-threat-defense"
+  "implementationMarker": "implementationSession=12-red-teaming-threat-defense"
 }

@@ -120,7 +120,7 @@ for command_name in gh python; do
   require_command "$command_name"
 done
 
-grep -Eq '"implementationSession"[[:space:]]*:[[:space:]]*"13-cicd-promotion-controls"' "$control_path" ||
+grep -Eq '"implementationSession"[[:space:]]*:[[:space:]]*"14-cicd-promotion-controls"' "$control_path" ||
   fail 'Control definition has the wrong implementationSession marker.'
 
 repository="$(json_get "$control_path" 'repository.owner')/$(json_get "$control_path" 'repository.name')"

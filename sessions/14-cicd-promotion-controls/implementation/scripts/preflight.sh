@@ -347,7 +347,7 @@ prod_params = json.loads((artifact_root / 'environments' / 'production.parameter
 promotion_workflow = (artifact_root / 'github' / 'promotion.yml').read_text()
 restore_workflow = (artifact_root / 'github' / 'restore-previous-release.yml').read_text()
 
-if control.get('implementationSession') != '13-cicd-promotion-controls':
+if control.get('implementationSession') != '14-cicd-promotion-controls':
     raise SystemExit('Session 14 implementation files have the wrong implementationSession marker.')
 if control['targetScopes']['nonproduction'] != approved_nonproduction_scope or control['targetScopes']['production'] != approved_production_scope:
     raise SystemExit('Approved scopes do not match the operational control definition.')
@@ -427,7 +427,7 @@ for fragment in (
 ):
     if fragment not in promotion_workflow:
         raise SystemExit(f'Promotion workflow does not bind the approved release SHA: {fragment}')
-threshold_policy_path = repo_root / control['sourcePaths']['session10ThresholdPolicy']
+threshold_policy_path = repo_root / control['sourcePaths']['session11ThresholdPolicy']
 if hashlib.sha256(threshold_policy_path.read_bytes()).hexdigest() != control['immutableRelease']['evaluationThresholdPolicySha256']:
     raise SystemExit('The approved Session 11 threshold policy hash does not match immutable release metadata.')
 
@@ -448,7 +448,7 @@ routing_script_path = resolve_repo_path(control['sourcePaths']['routingControlSc
 release_store_script_path = resolve_repo_path(control['sourcePaths']['releaseStoreScript'])
 
 for parameters, environment_name in ((nonprod_params['parameters'], 'nonproduction'), (prod_params['parameters'], 'production')):
-    if parameters['environment']['value'] != environment_name or parameters['implementationSession']['value'] != '13-cicd-promotion-controls':
+    if parameters['environment']['value'] != environment_name or parameters['implementationSession']['value'] != '14-cicd-promotion-controls':
         raise SystemExit(f'{environment_name} parameters have the wrong environment or implementation marker.')
     if 'releaseCommitSha' in parameters:
         raise SystemExit(f'{environment_name} parameters must receive releaseCommitSha at runtime.')

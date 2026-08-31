@@ -71,7 +71,7 @@ session06_api=$(az_json "Session 07 APIM API lookup" apim api show \
   --api-id policy-assistant-responses \
   --service-name "$(jq -r '.apiManagementName' <<<"$environment_json")" \
   --resource-group "$(jq -r '.apiManagementResourceGroupName' <<<"$environment_json")")
-[[ $(jq -r '.description // ""' <<<"$session06_api") == *'implementationSession=06-apim-ai-gateway'* ]] ||
+[[ $(jq -r '.description // ""' <<<"$session06_api") == *'implementationSession=07-apim-ai-gateway'* ]] ||
   fail "The Session 07 APIM source does not contain the expected marker."
 inventory_json=$(az_json "API Center inventory lookup" apic api list \
   --resource-group "$(jq -r '.resourceGroupName' <<<"$environment_json")" \
@@ -84,7 +84,7 @@ import sys
 
 inventory = json.loads(sys.argv[1])
 agent_definition = json.load(open(sys.argv[2], encoding='utf-8'))
-if agent_definition.get('implementationSession') != '07-api-center-ai-mcp-inventory':
+if agent_definition.get('implementationSession') != '08-api-center-ai-mcp-inventory':
     raise SystemExit('The direct agent definition has the wrong implementationSession marker.')
 agent = agent_definition['api']
 titles = [agent['title'], sys.argv[3], sys.argv[4]]

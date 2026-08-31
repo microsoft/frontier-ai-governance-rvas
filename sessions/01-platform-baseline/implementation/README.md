@@ -49,9 +49,8 @@ prepare production parameters, or move subscriptions.
 [Session 02](../../02-identity-privileged-access/implementation/README.md) implements identity, and
 [Session 03](../../03-private-networking-dns/implementation/README.md) implements private
 connectivity. Diagnostic settings, network controls, managed identity, Defender plans, approved
-SKUs, encryption, and sandbox expiry require their own designs and handoffs. Session 03 also changes
-the temporary `restrictOutboundNetworkAccess: false` baseline to the approved
-outbound network posture.
+SKUs, encryption, and sandbox expiry require their own designs and handoffs. For `byo-vnet`, this session creates the network foundation and sets
+`restrictOutboundNetworkAccess: true`. For other patterns, it remains `false`.
 
 ## Architecture
 
@@ -104,7 +103,7 @@ both inheriting the checks assigned here.
 | Foundry resource model | Use the current `AIServices` resource with one child project | New work starts within the supported management boundary | Confirmed classic assets remain outside this deployment and need separate migration work | A classic workload is approved for migration |
 | Desired state | Keep Bicep and `.bicepparam` in the customer repository | The team can review and repeat the deployment | Portal changes create drift; update Bicep to match | The deployment pipeline or operating responsibilities change |
 | Tracing authentication | Use the stable `ApiKey` Application Insights project connection without exposing the connection string in parameters or outputs | The baseline uses the stable resource API and remains deployable through Bicep | The connection remains key-based; preview `ProjectManagedIdentity` also needs Application Insights authentication and role changes | The preview path is approved for the environment |
-| Outbound network posture | Keep `restrictOutboundNetworkAccess: false` during the baseline | Session 01 does not claim outbound isolation before its network design exists | This is temporary and allows outbound access subject to other platform controls | Session 03 implements the approved private networking and outbound-control design |
+| Outbound network posture | Set `restrictOutboundNetworkAccess: true` for `byo-vnet`; keep it `false` for the other patterns | The BYO VNet path uses the approved firewall route from the start | Firewall rules remain customer-owned and need separate review | The selected network pattern or firewall design changes |
 | Policy packaging | Group the current Microsoft built-ins in one custom initiative | References and parameters stay together; Microsoft maintains the underlying rules | Built-in IDs or behavior can change, so check both before deployment | Microsoft deprecates a built-in or its rule no longer fits |
 | Assignment scope | Assign the initiative only to the same sandbox resource group | A first use of deny cannot affect sibling groups or wider scopes | The subscription and management groups are outside this control | A wider scope has its own parameters, owner, and restore plan |
 | Enforcement rollout | Start in audit-only `DoNotEnforce`; after review and approval, change the same assignment to enforcing `Default` | The owner sees likely impact before Azure starts denying requests | Policy evaluation takes time. Stale results stop promotion | The operating process can safely support a different rollout |
@@ -211,10 +210,10 @@ Make these decisions before deployment:
    resource accepts traffic through its public network endpoint. The canonical environment input is
    `Disabled` after the Session 03 cutover. Preflight rejects `Enabled` whenever Session 03 has
    marked the Foundry account as cut over.
-5. Foundry outbound posture. The baseline sets `restrictOutboundNetworkAccess: false` because
-   Session 01 does not include a private-egress design. Treat this as temporary. Session 03 must
-   replace it with the approved outbound-control design before anyone treats the environment as
-   network isolated.
+5. Foundry outbound posture. For `byo-vnet`, Session 01 deploys the delegated subnet and firewall
+   route, then sets `restrictOutboundNetworkAccess: true`. For `public` and
+   `public-private-inbound`, it remains `false`. Session 03 adds private endpoints and DNS; it
+   does not replace the Session 01 network foundation.
 6. Tracing authentication. Keep the stable `ApiKey` connection in this baseline. Move to the
    preview
    [`ProjectManagedIdentity` trace-ingestion path](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/trace-ingestion-entra-authentication)
@@ -430,7 +429,38 @@ exemptions with the cloud platform owner. Then rerun with the explicit confirmat
 
 Inspect every scope and planned resource. Do not continue on an unexpected change.
 
-### 4. Deploy the baseline
+### 4. Deploy the BYO VNet foundation when selected
+
+For `byo-vnet`, deploy `network-foundation.bicepparam` before the Foundry baseline. Read the
+delegated-subnet resource ID from the deployment output and set it as `agentSubnetResourceId` in
+`sandbox.bicepparam`. For `public` and `public-private-inbound`, skip this step.
+
+```powershell
+az deployment group create `
+  --resource-group $resourceGroup `
+  --name rvas-s01-network-foundation `
+  --parameters .\artifacts\environments\network-foundation.bicepparam `
+  --only-show-errors
+$agentSubnetResourceId = az deployment group show `
+  --resource-group $resourceGroup `
+  --name rvas-s01-network-foundation `
+  --query properties.outputs.agentSubnetResourceId.value `
+  --output tsv
+```
+```bash
+az deployment group create \
+  --resource-group "$resource_group" \
+  --name rvas-s01-network-foundation \
+  --parameters ./artifacts/environments/network-foundation.bicepparam \
+  --only-show-errors
+agent_subnet_resource_id="$(az deployment group show \
+  --resource-group "$resource_group" \
+  --name rvas-s01-network-foundation \
+  --query properties.outputs.agentSubnetResourceId.value \
+  --output tsv)"
+```
+
+### 5. Deploy the baseline
 
 ```powershell
 az deployment group create `

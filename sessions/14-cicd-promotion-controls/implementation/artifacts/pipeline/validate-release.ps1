@@ -113,7 +113,7 @@ function Assert-ImplementationMarker {
     param(
         [Parameter(Mandatory)][object]$Value,
         [Parameter(Mandatory)][string]$Purpose,
-        [Parameter()][string]$Expected = "13-cicd-promotion-controls"
+        [Parameter()][string]$Expected = "14-cicd-promotion-controls"
     )
 
     if ([string]$Value.implementationSession -ne $Expected) {
@@ -144,12 +144,12 @@ function Invoke-Session10Gate {
     )
 
     $paths = $control.sourcePaths
-    $releaseGate = Resolve-RepositoryPath $paths.session10ReleaseGate "Session 11 release gate" @(".py")
-    $thresholds = Resolve-RepositoryPath $paths.session10ThresholdPolicy "Session 11 threshold policy" @(".yaml", ".yml")
-    $spec = Resolve-RepositoryPath $paths.session10EvaluationSpec "Session 11 evaluation specification" @(".json")
-    $dataset = Resolve-RepositoryPath $paths.session10Dataset "Session 11 evaluation dataset" @(".jsonl")
+    $releaseGate = Resolve-RepositoryPath $paths.session11ReleaseGate "Session 11 release gate" @(".py")
+    $thresholds = Resolve-RepositoryPath $paths.session11ThresholdPolicy "Session 11 threshold policy" @(".yaml", ".yml")
+    $spec = Resolve-RepositoryPath $paths.session11EvaluationSpec "Session 11 evaluation specification" @(".json")
+    $dataset = Resolve-RepositoryPath $paths.session11Dataset "Session 11 evaluation dataset" @(".jsonl")
     $baseline = Resolve-TemporaryExternalJson $BaselineRecord "Session 11 approved baseline record"
-    $releasePolicy = Resolve-RepositoryPath $paths.session10ReleasePolicy "Session 11 release policy" @(".json")
+    $releasePolicy = Resolve-RepositoryPath $paths.session11ReleasePolicy "Session 11 release policy" @(".json")
     $candidate = Resolve-TemporaryExternalJson $CandidateRecord "Session 11 candidate record"
     $candidateRecordValue = Read-JsonObject $candidate
     if ([string]$candidateRecordValue.run.runId -cne [string]$control.immutableRelease.evaluationRunId) {
@@ -174,7 +174,7 @@ function Invoke-Session10Gate {
 
 function Invoke-Session10BlockedSelfTest {
     $selfTest = Resolve-RepositoryPath `
-        $control.sourcePaths.session10GateSelfTest `
+        $control.sourcePaths.session11GateSelfTest `
         "Session 11 generated blocked self-test" `
         @(".py")
     & python $selfTest --mode blocked-tool-process
@@ -188,7 +188,7 @@ function Assert-SecurityReleaseAttestation {
 
     $path = Resolve-TemporaryExternalJson $Path "Session 12 security-release attestation"
     $report = Read-JsonObject $path
-    Assert-ImplementationMarker $report "Session 12 security-release attestation" "11-red-teaming-threat-defense"
+    Assert-ImplementationMarker $report "Session 12 security-release attestation" "12-red-teaming-threat-defense"
     $requiredAttestationFields = @(
         "schemaVersion",
         "implementationSession",
@@ -221,7 +221,7 @@ function Assert-SecurityReleaseAttestation {
         throw "Session 12 attestation must carry authorized external security/change status and report location."
     }
     $releasePolicy = Read-JsonObject (Resolve-RepositoryPath `
-        $control.sourcePaths.session10ReleasePolicy `
+        $control.sourcePaths.session11ReleasePolicy `
         "Session 11 release policy" `
         @(".json"))
     if ([string]$report.target.type -cne "azure_ai_agent" -or
@@ -384,7 +384,7 @@ function Assert-SmokeResult {
         [string]$smoke.environment -cne "nonproduction" -or
         [string]$smoke.status -cne "passed" -or
         [string]$smoke.implementationMarker -cne
-            "implementationSession=13-cicd-promotion-controls") {
+            "implementationSession=13-observability-cost-operations") {
         throw "Session 13 smoke result has an invalid root contract or non-passing status."
     }
     if ([string]$smoke.commitSha -cne $ReleaseSha) {
@@ -642,7 +642,7 @@ foreach ($property in @(
     Assert-ImmutableValue ([string]$control.immutableRelease.$property) "immutableRelease.$property"
 }
 $thresholdPolicyPath = Resolve-RepositoryPath `
-    $control.sourcePaths.session10ThresholdPolicy `
+    $control.sourcePaths.session11ThresholdPolicy `
     "Session 11 threshold policy" `
     @(".yaml", ".yml")
 $thresholdPolicyHash = (Get-FileHash -LiteralPath $thresholdPolicyPath -Algorithm SHA256).Hash.ToLowerInvariant()
@@ -650,11 +650,11 @@ if ([string]$control.immutableRelease.evaluationThresholdPolicySha256 -cne $thre
     throw "immutableRelease.evaluationThresholdPolicySha256 does not match the approved Session 11 threshold policy."
 }
 $releasePolicyPath = Resolve-RepositoryPath `
-    $control.sourcePaths.session10ReleasePolicy `
+    $control.sourcePaths.session11ReleasePolicy `
     "Session 11 release policy" `
     @(".json")
 $releasePolicy = Read-JsonObject $releasePolicyPath
-Assert-ImplementationMarker $releasePolicy "Session 11 release policy" "10-foundry-evaluations-quality-gates"
+Assert-ImplementationMarker $releasePolicy "Session 11 release policy" "11-foundry-evaluations-quality-gates"
 if ($releasePolicy.schemaVersion -ne 2) {
     throw "Session 11 release policy must use schemaVersion 2."
 }
@@ -708,7 +708,7 @@ if ([string]$releasePolicy.gate.candidateRunId -cne [string]$control.immutableRe
     throw "Session 11 release-policy candidate run ID must match the immutable release."
 }
 $releaseGatePath = Resolve-RepositoryPath `
-    $control.sourcePaths.session10ReleaseGate `
+    $control.sourcePaths.session11ReleaseGate `
     "Session 11 release gate" `
     @(".py")
 & python $releaseGatePath `
@@ -731,22 +731,22 @@ foreach ($entry in @(
     $null = Resolve-RepositoryPath $entry[0] $entry[1] $entry[2]
 }
 $externalGateArtifacts = $control.records.externalGateArtifacts
-if ([string]$externalGateArtifacts.session10EvaluationResults.retrieveMode -cne "RetrieveEvaluationResult" -or
-    [string]$externalGateArtifacts.session10EvaluationResults.interface -cne "releaseStoreScript" -or
-    $externalGateArtifacts.session10EvaluationResults.temporaryArtifactOnly -isnot [bool] -or
-    $externalGateArtifacts.session10EvaluationResults.temporaryArtifactOnly -ne $true -or
-    $externalGateArtifacts.session10EvaluationResults.repositoryMirrorAllowed -isnot [bool] -or
-    $externalGateArtifacts.session10EvaluationResults.repositoryMirrorAllowed -ne $false -or
-    $externalGateArtifacts.session11SecurityReleaseAttestation.schemaVersion -ne 1 -or
-    [string]$externalGateArtifacts.session11SecurityReleaseAttestation.recordType -cne "security-release-attestation" -or
-    [string]$externalGateArtifacts.session11SecurityReleaseAttestation.interface -cne "releaseStoreScript" -or
-    [string]$externalGateArtifacts.session11SecurityReleaseAttestation.retrieveMode -cne "RetrieveSecurityReleaseAttestation" -or
-    [string]$externalGateArtifacts.session11SecurityReleaseAttestation.requiredAuthorizationStatus -cne "authorized" -or
-    [string]$externalGateArtifacts.session11SecurityReleaseAttestation.requiredConfirmationStatus -cne "confirmed" -or
-    $externalGateArtifacts.session11SecurityReleaseAttestation.temporaryArtifactOnly -isnot [bool] -or
-    $externalGateArtifacts.session11SecurityReleaseAttestation.temporaryArtifactOnly -ne $true -or
-    $externalGateArtifacts.session11SecurityReleaseAttestation.repositoryMirrorAllowed -isnot [bool] -or
-    $externalGateArtifacts.session11SecurityReleaseAttestation.repositoryMirrorAllowed -ne $false) {
+if ([string]$externalGateArtifacts.session11EvaluationResults.retrieveMode -cne "RetrieveEvaluationResult" -or
+    [string]$externalGateArtifacts.session11EvaluationResults.interface -cne "releaseStoreScript" -or
+    $externalGateArtifacts.session11EvaluationResults.temporaryArtifactOnly -isnot [bool] -or
+    $externalGateArtifacts.session11EvaluationResults.temporaryArtifactOnly -ne $true -or
+    $externalGateArtifacts.session11EvaluationResults.repositoryMirrorAllowed -isnot [bool] -or
+    $externalGateArtifacts.session11EvaluationResults.repositoryMirrorAllowed -ne $false -or
+    $externalGateArtifacts.session12SecurityReleaseAttestation.schemaVersion -ne 1 -or
+    [string]$externalGateArtifacts.session12SecurityReleaseAttestation.recordType -cne "security-release-attestation" -or
+    [string]$externalGateArtifacts.session12SecurityReleaseAttestation.interface -cne "releaseStoreScript" -or
+    [string]$externalGateArtifacts.session12SecurityReleaseAttestation.retrieveMode -cne "RetrieveSecurityReleaseAttestation" -or
+    [string]$externalGateArtifacts.session12SecurityReleaseAttestation.requiredAuthorizationStatus -cne "authorized" -or
+    [string]$externalGateArtifacts.session12SecurityReleaseAttestation.requiredConfirmationStatus -cne "confirmed" -or
+    $externalGateArtifacts.session12SecurityReleaseAttestation.temporaryArtifactOnly -isnot [bool] -or
+    $externalGateArtifacts.session12SecurityReleaseAttestation.temporaryArtifactOnly -ne $true -or
+    $externalGateArtifacts.session12SecurityReleaseAttestation.repositoryMirrorAllowed -isnot [bool] -or
+    $externalGateArtifacts.session12SecurityReleaseAttestation.repositoryMirrorAllowed -ne $false) {
     throw "External evaluation and security gate artifacts must use the approved temporary-artifact contract."
 }
 
@@ -757,7 +757,7 @@ foreach ($pair in @(
     $parameters = $pair[0].parameters
     $environmentName = $pair[1]
     if ([string]$parameters.environment.value -ne $environmentName -or
-        [string]$parameters.implementationSession.value -ne "13-cicd-promotion-controls") {
+        [string]$parameters.implementationSession.value -ne "14-cicd-promotion-controls") {
         throw "$environmentName parameters have the wrong environment or implementation marker."
     }
     if ($null -ne $parameters.PSObject.Properties["releaseCommitSha"]) {

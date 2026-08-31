@@ -155,9 +155,9 @@ agent = json.load(open(agent_definition_path, encoding='utf-8'))['api']
 openapi = json.load(open(openapi_path, encoding='utf-8'))
 environment = json.load(open(environment_path, encoding='utf-8'))
 
-if environment.get('implementationSession') != '07-api-center-ai-mcp-inventory':
+if environment.get('implementationSession') != '08-api-center-ai-mcp-inventory':
     raise SystemExit('The approved environment has the wrong implementationSession marker.')
-if json.load(open(agent_definition_path, encoding='utf-8')).get('implementationSession') != '07-api-center-ai-mcp-inventory':
+if json.load(open(agent_definition_path, encoding='utf-8')).get('implementationSession') != '08-api-center-ai-mcp-inventory':
     raise SystemExit('The direct agent definition has the wrong implementationSession marker.')
 if environment.get('apiCenterPlan') not in {'Free', 'Standard'}:
     raise SystemExit('apiCenterPlan must be Free or Standard.')
@@ -197,7 +197,7 @@ def validate_record(record, description):
     expiry = datetime.strptime(props['expiryDate'], '%Y-%m-%d')
     if expiry <= last_review:
         raise SystemExit(f"{description} expiryDate must be later than lastReviewDate.")
-    if props['implementationSession'] != '07-api-center-ai-mcp-inventory':
+    if props['implementationSession'] != '08-api-center-ai-mcp-inventory':
         raise SystemExit(f"{description} has the wrong implementationSession marker.")
 
 validate_record(agent, 'Agent API definition')
@@ -258,7 +258,7 @@ if [[ $(jq -r '.apiCenterPlan' <<<"$environment_json") == 'Free' ]]; then
 fi
 
 session07_api_json=$(az_json 'Session 07 APIM API lookup' apim api show --api-id policy-assistant-responses --service-name "$(jq -r '.apiManagementName' <<<"$environment_json")" --resource-group "$(jq -r '.apiManagementResourceGroupName' <<<"$environment_json")")
-[[ $(jq -r '.description // ""' <<<"$session07_api_json") == *'implementationSession=06-apim-ai-gateway'* ]] || fail 'The APIM source does not contain the marked Session 07 API.'
+[[ $(jq -r '.description // ""' <<<"$session07_api_json") == *'implementationSession=07-apim-ai-gateway'* ]] || fail 'The APIM source does not contain the marked Session 07 API.'
 [[ $(jq -r '.displayName' <<<"$session07_api_json") == 'Governed policy assistant Responses API' ]] || fail 'The Session 07 APIM display name does not match the approved synchronized API.'
 
 role_json=$(az_json 'API Management Service Reader Role lookup' role definition list --name 71522526-b88f-4d52-b57f-d31fc3546d0d)
@@ -266,7 +266,7 @@ role_json=$(az_json 'API Management Service Reader Role lookup' role definition 
 
 existing_api_center=$(az apic show --name "$(jq -r '.apiCenterName' <<<"$environment_json")" --resource-group "$(jq -r '.resourceGroupName' <<<"$environment_json")" --only-show-errors --output json 2>/dev/null || true)
 if [[ -n "$existing_api_center" ]]; then
-  [[ $(jq -r '.tags.implementationSession // empty' <<<"$existing_api_center") == '07-api-center-ai-mcp-inventory' ]] || fail 'An existing API Center uses the configured name without the Session 08 marker.'
+  [[ $(jq -r '.tags.implementationSession // empty' <<<"$existing_api_center") == '08-api-center-ai-mcp-inventory' ]] || fail 'An existing API Center uses the configured name without the Session 08 marker.'
   existing_integration=$(az apic integration show --resource-group "$(jq -r '.resourceGroupName' <<<"$environment_json")" --service-name "$(jq -r '.apiCenterName' <<<"$environment_json")" --integration-name "$(jq -r '.integrationName' <<<"$environment_json")" --only-show-errors --output json 2>/dev/null || true)
   if [[ -n "$existing_integration" ]] && [[ "$existing_integration" != *"$expected_apim_id"* ]]; then
     fail 'The current integration name already points to a different API source.'

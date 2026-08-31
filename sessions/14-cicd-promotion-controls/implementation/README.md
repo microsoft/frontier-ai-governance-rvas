@@ -307,9 +307,9 @@ Run:
   -ApprovedNonproductionScope "/subscriptions/<id>/resourceGroups/<name>" `
   -ApprovedProductionScope "/subscriptions/<id>/resourceGroups/<name>" `
   -ApprovedReleaseSha "<40-character-release-sha>" `
-  -BaselineRecordPath "<temporary-session10-baseline-result.json>" `
-  -CandidateRecordPath "<temporary-session10-candidate-result.json>" `
-  -SecurityReleaseAttestationPath "<temporary-session11-attestation.json>"
+  -BaselineRecordPath "<temporary-session11-baseline-result.json>" `
+  -CandidateRecordPath "<temporary-session11-candidate-result.json>" `
+  -SecurityReleaseAttestationPath "<temporary-session12-attestation.json>"
 ```
 ```bash
 ./scripts/preflight.sh \
@@ -317,9 +317,9 @@ Run:
   --approved-nonproduction-scope "/subscriptions/<id>/resourceGroups/<name>" \
   --approved-production-scope "/subscriptions/<id>/resourceGroups/<name>" \
   --approved-release-sha "<40-character-release-sha>" \
-  --baseline-record-path "<temporary-session10-baseline-result.json>" \
-  --candidate-record-path "<temporary-session10-candidate-result.json>" \
-  --security-release-attestation-path "<temporary-session11-attestation.json>"
+  --baseline-record-path "<temporary-session11-baseline-result.json>" \
+  --candidate-record-path "<temporary-session11-candidate-result.json>" \
+  --security-release-attestation-path "<temporary-session12-attestation.json>"
 ```
 
 This phase reads GitHub plan and environment configuration, native secret controls, all four exact

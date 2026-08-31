@@ -161,7 +161,7 @@ Every in-scope asset has these properties:
 | Risk tier | `low`, `moderate`, `high`, or `critical` |
 | Evaluation results URL | Owned evaluation record or evaluation backlog |
 | Last review and expiry | ISO dates with expiry after review |
-| Implementation session | `07-api-center-ai-mcp-inventory` |
+| Implementation session | `08-api-center-ai-mcp-inventory` |
 
 Stop if an owner is not recorded, the classification or residency decision is unresolved, the
 evaluation URL has no accountable destination, or expiry is used without an operating response.

@@ -20,7 +20,7 @@ $environment = Get-Content -LiteralPath $environmentPath -Raw |
     ConvertFrom-Json -ErrorAction Stop
 
 $deployment = & az deployment group create `
-    --name "session08-mcp-tool-security" `
+    --name "session09-mcp-tool-security" `
     --resource-group ([string]$environment.resourceGroupName) `
     --template-file $bicepPath `
     --parameters "apiManagementName=$($environment.apiManagementName)" `

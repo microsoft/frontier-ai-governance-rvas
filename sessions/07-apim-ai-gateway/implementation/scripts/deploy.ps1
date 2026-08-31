@@ -30,7 +30,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 $deployment = & az deployment group create `
-    --name "session06-apim-ai-gateway" `
+    --name "session07-apim-ai-gateway" `
     --resource-group ([string]$environment.resourceGroupName) `
     --template-file $bicepPath `
     --parameters `

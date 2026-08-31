@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "implementationSession": "14-agent-fleet-multiregion-rehearsal",
+  "implementationSession": "15-agent-fleet-multiregion-rehearsal",
   "approvedAzureScope": "/subscriptions/__REQUIRED_SUBSCRIPTION_ID__/resourceGroups/__REQUIRED_RESOURCE_GROUP__",
   "sourcePaths": {
     "bicepEntrypoint": "__REQUIRED_CUSTOMER_BICEP_ENTRYPOINT_PATH__",

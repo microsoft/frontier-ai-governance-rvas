@@ -142,8 +142,8 @@ if ((${#unresolved_sentinels[@]} > 0)); then
   fail "Resolve every Session 07 customer decision before deployment: ${unresolved_sentinels[*]}"
 fi
 
-jq -e '.implementationSession == "06-apim-ai-gateway"' "$control_path" >/dev/null || fail "gateway-control.json has the wrong implementationSession marker."
-jq -e '.implementationSession == "06-apim-ai-gateway"' "$environment_path" >/dev/null || fail "sandbox.json has the wrong implementationSession marker."
+jq -e '.implementationSession == "07-apim-ai-gateway"' "$control_path" >/dev/null || fail "gateway-control.json has the wrong implementationSession marker."
+jq -e '.implementationSession == "07-apim-ai-gateway"' "$environment_path" >/dev/null || fail "sandbox.json has the wrong implementationSession marker."
 jq -e '.api.operationPath == "/responses"' "$control_path" >/dev/null || fail "Session 07 must expose one POST /responses operation."
 jq -e '.paths["/responses"].post != null' "$openapi_path" >/dev/null || fail "Session 07 must expose one POST /responses operation."
 jq -e '.components.schemas.ResponseRequest.properties.stream_options.properties.include_usage.type == "boolean"' "$openapi_path" >/dev/null || fail "The Responses contract must document stream_options.include_usage for streaming token metrics."
@@ -229,7 +229,7 @@ fi
 api_id=$(jq -r '.api.id' "$control_path")
 existing_api_raw=$(az rest --method get --url "https://management.azure.com$expected_apim_id/apis/$api_id?api-version=$api_version" --only-show-errors --output json 2>/dev/null || true)
 if [[ -n "$existing_api_raw" ]]; then
-  [[ $(jq -r '.properties.description // ""' <<<"$existing_api_raw") == *'implementationSession=06-apim-ai-gateway'* ]] || fail "An existing APIM API uses the configured ID without the Session 07 marker."
+  [[ $(jq -r '.properties.description // ""' <<<"$existing_api_raw") == *'implementationSession=07-apim-ai-gateway'* ]] || fail "An existing APIM API uses the configured ID without the Session 07 marker."
 fi
 
 echo 'Deployment preview:'
@@ -241,7 +241,7 @@ echo '  Request/response body logging: disabled'
 echo '  Semantic caching: deferred'
 
 az deployment group what-if \
-  --name session06-apim-ai-gateway-preview \
+  --name session07-apim-ai-gateway-preview \
   --resource-group "$(jq -r '.resourceGroupName' <<<"$environment_json")" \
   --template-file "$bicep_path" \
   --parameters \

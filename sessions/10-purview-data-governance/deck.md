@@ -399,7 +399,8 @@ confirm the expected result. Do not retain interaction content.
 5. Confirm the approved label and explicit rights on the synthetic source.
 6. Build the Agent 365 DLP policy for the approved scope in simulation.
 7. Review the matched scope, then enable.
-8. Run one labelled synthetic interaction.
+8. After the recorded propagation wait, install the Session 06-approved agent for its recorded group and host product. Confirm the recorded member can find it and the excluded user cannot.
+9. Run one labelled synthetic interaction.
 
 <!-- Notes: Keep Foundry coverage review separate from the Agent 365 policy deployment. -->
 

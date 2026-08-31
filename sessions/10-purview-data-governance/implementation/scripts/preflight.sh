@@ -65,7 +65,7 @@ import sys
 query = json.load(open(sys.argv[1], encoding="utf-8"))
 if (
     query.get("schemaVersion") != 1
-    or query.get("implementationSession") != "09-purview-data-governance"
+    or query.get("implementationSession") != "10-purview-data-governance"
     or query.get("microsoftGraphApplicationPermission") != "AuditLogsQuery.Read.All"
     or not isinstance(query.get("lookbackHours"), int)
     or not 1 <= query["lookbackHours"] <= 168

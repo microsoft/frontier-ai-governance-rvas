@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "implementationSession": {
-      "value": "14-agent-fleet-multiregion-rehearsal"
+      "value": "15-agent-fleet-multiregion-rehearsal"
     },
     "primaryRegion": {
       "value": "__REQUIRED_PRIMARY_REGION__"

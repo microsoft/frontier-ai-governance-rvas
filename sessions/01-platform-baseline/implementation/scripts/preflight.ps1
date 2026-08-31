@@ -78,8 +78,25 @@ $matches = @(
     Get-ChildItem -LiteralPath $ArtifactsPath -Recurse -File |
         Select-String -Pattern "__REQUIRED_[A-Z0-9_]+__"
 )
-if ($matches.Count -gt 0) {
-    $unresolved = @($matches.Matches.Value | Sort-Object -Unique)
+$unresolved = @($matches.Matches.Value | Sort-Object -Unique)
+$foundryParametersFile = Join-Path $ArtifactsPath "environments\sandbox.bicepparam"
+$foundryParametersText = Get-Content -LiteralPath $foundryParametersFile -Raw
+$preflightPatternMatch = [regex]::Match(
+    $foundryParametersText,
+    "(?m)^\s*param\s+networkPattern\s*=\s*'([^']+)'\s*$"
+)
+if ($preflightPatternMatch.Success -and $preflightPatternMatch.Groups[1].Value -ne "byo-vnet") {
+    $unresolved = @($unresolved | Where-Object {
+        $_ -notin @(
+            "__REQUIRED_VNET_NAME__"
+            "__REQUIRED_VNET_CIDR__"
+            "__REQUIRED_AGENT_SUBNET_CIDR__"
+            "__REQUIRED_PRIVATE_ENDPOINT_SUBNET_CIDR__"
+            "__REQUIRED_FIREWALL_PRIVATE_IP__"
+        )
+    })
+}
+if ($unresolved.Count -gt 0) {
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
     $message = "Resolve customer decisions before deployment: $($unresolved -join ', ')."
     if ($unknown.Count -gt 0) {
@@ -88,8 +105,6 @@ if ($matches.Count -gt 0) {
     throw $message
 }
 
-$foundryParametersFile = Join-Path $ArtifactsPath "environments\sandbox.bicepparam"
-$foundryParametersText = Get-Content -LiteralPath $foundryParametersFile -Raw
 $expiryMatch = [regex]::Match(
     $foundryParametersText,
     "(?m)^\s*param\s+expiryDate\s*=\s*'([^']+)'\s*$"

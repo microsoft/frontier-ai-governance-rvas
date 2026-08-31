@@ -70,7 +70,7 @@ def aggregate_record(
         )
     return {
         "schemaVersion": 1,
-        "implementationSession": "10-foundry-evaluations-quality-gates",
+        "implementationSession": "11-foundry-evaluations-quality-gates",
         "recordType": "generated-gate-self-test",
         "run": {
             "runId": run_id,

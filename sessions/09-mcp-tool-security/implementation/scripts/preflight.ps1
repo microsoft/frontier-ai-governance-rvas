@@ -228,7 +228,7 @@ function Get-MarkdownField {
     return $value
 }
 
-$implementationSession = "08-mcp-tool-security"
+$implementationSession = "09-mcp-tool-security"
 $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
 $environmentPath = Join-Path $artifactRoot "environments\sandbox.json"
 $bindingPath = Join-Path $artifactRoot "governance\agent-mcp-binding.json"
@@ -436,7 +436,7 @@ foreach ($requiredPolicyElement in @(
         "rate-limit-by-key",
         "authentication-managed-identity",
         "X-Correlation-ID",
-        "session08-mcp-tool-security"
+        "session09-mcp-tool-security"
     )) {
     if ($policyText -notmatch [regex]::Escape($requiredPolicyElement)) {
         throw "The MCP policy is missing required control: $requiredPolicyElement"

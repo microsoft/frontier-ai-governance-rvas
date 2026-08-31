@@ -129,6 +129,14 @@ for path in root.rglob("*"):
     except UnicodeDecodeError:
         continue
     found.update(pattern.findall(text))
+if os.environ.get("RVAS_NETWORK_PATTERN") != "byo-vnet":
+    found.difference_update({
+        "__REQUIRED_VNET_NAME__",
+        "__REQUIRED_VNET_CIDR__",
+        "__REQUIRED_AGENT_SUBNET_CIDR__",
+        "__REQUIRED_PRIVATE_ENDPOINT_SUBNET_CIDR__",
+        "__REQUIRED_FIREWALL_PRIVATE_IP__",
+    })
 if found:
     unresolved = sorted(found)
     unknown = [item for item in unresolved if item not in allowed]
@@ -285,7 +293,8 @@ for name in RVAS_ALLOWED_LOCATIONS_POLICY_ID RVAS_REQUIRE_TAG_POLICY_ID; do
   [[ -n "${!name:-}" ]] || die "Set $name from resolve-builtins.sh output before deployment."
 done
 
-scan_unresolved_sentinels "$artifacts_path" \
+network_pattern="$(sed -n "s/^[[:space:]]*param[[:space:]]\\+networkPattern[[:space:]]*=[[:space:]]*'\\([^']*\\)'.*/\\1/p" "$artifacts_path/environments/sandbox.bicepparam")"
+RVAS_NETWORK_PATTERN="$network_pattern" scan_unresolved_sentinels "$artifacts_path" \
   '__REQUIRED_AZURE_REGION__' \
   '__REQUIRED_NETWORK_PATTERN__' \
   '__REQUIRED_VNET_NAME__' \

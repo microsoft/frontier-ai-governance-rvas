@@ -18,7 +18,7 @@ param contentSafetyBackendId string
 @description('Whether to deploy a distinct secondary Foundry agent backend.')
 param secondaryBackendEnabled bool = false
 
-var implementationSession = '06-apim-ai-gateway'
+var implementationSession = '07-apim-ai-gateway'
 var control = loadJsonContent('../governance/gateway-control.json')
 var openApiDocument = loadTextContent('apis/policy-assistant-responses.openapi.json')
 var rawPolicy = loadTextContent('policies/policy.xml')

@@ -3,7 +3,7 @@ targetScope = 'resourceGroup'
 @description('Existing Session 06 API Management service name.')
 param apiManagementName string
 
-var implementationSession = '08-mcp-tool-security'
+var implementationSession = '09-mcp-tool-security'
 var environment = loadJsonContent('../environments/sandbox.json')
 var binding = loadJsonContent('../governance/agent-mcp-binding.json')
 var rawPolicy = loadTextContent('policies/mcp-policy.xml')

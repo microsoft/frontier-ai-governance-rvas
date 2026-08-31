@@ -50,7 +50,7 @@ $environment = Get-Content -LiteralPath (Join-Path $artifactRoot "environments\s
 $agentDefinition = Get-Content -LiteralPath (Join-Path $artifactRoot "api-center\agent-api-definition.json") -Raw |
     ConvertFrom-Json -ErrorAction Stop
 $agentRecord = $agentDefinition.api
-if ([string]$agentDefinition.implementationSession -ne "07-api-center-ai-mcp-inventory") {
+if ([string]$agentDefinition.implementationSession -ne "08-api-center-ai-mcp-inventory") {
     throw "The direct agent definition has the wrong implementationSession marker."
 }
 
@@ -70,7 +70,7 @@ $session06Api = Invoke-AzJson -Arguments @(
     "--service-name", [string]$environment.apiManagementName,
     "--resource-group", [string]$environment.apiManagementResourceGroupName
 ) -Description "Session 07 APIM API lookup"
-if ([string]$session06Api.description -notlike "*implementationSession=06-apim-ai-gateway*") {
+if ([string]$session06Api.description -notlike "*implementationSession=07-apim-ai-gateway*") {
     throw "The Session 07 APIM source does not contain the expected marker."
 }
 

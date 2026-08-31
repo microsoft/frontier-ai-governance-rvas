@@ -25,6 +25,7 @@ session:
     - "Session 01 - Microsoft Foundry platform baseline, inventory, and landing-zone guardrails"
     - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
     - "Session 05 - Governed Microsoft Foundry agent baseline"
+    - "Session 06 - Microsoft Agent 365 onboarding and access boundaries"
   services_in_scope:
     - "microsoft-purview"
     - "agent-365"
@@ -36,7 +37,7 @@ implementation:
 implementation_outcomes:
   - "Keep a source-controlled file that assigns separate owners to the Foundry DLP rule and application integration, with a review cadence."
   - "Reuse an approved sensitivity label and confirm explicit VIEW and EXTRACT rights for the Agent 365 instance when encryption applies."
-  - "Configure and simulate the DLP policy for the approved nonproduction scope. Confirm it after the approved propagation window."
+  - "Configure and simulate the DLP policy for the approved nonproduction scope. Confirm it after the approved propagation window, then install the Session 06-approved agent to its recorded test group and host product. Confirm availability for the recorded member and denial for the excluded user before the synthetic interaction."
   - "Keep a payload-free Agent 365 audit query definition in the operations repository with the current unified audit log operation names."
   - "Run the labelled synthetic interaction, then rerun it with the approved out-of-scope test-group alias. Keep all other policy coordinates unchanged. Record both results in Purview and the approved change system."
 deliverables:

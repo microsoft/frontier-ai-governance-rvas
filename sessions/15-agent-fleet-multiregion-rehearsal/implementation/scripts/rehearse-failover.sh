@@ -68,7 +68,7 @@ result = json.loads(Path(sys.argv[1]).read_text())
 parameters = json.loads(Path(sys.argv[4]).read_text())["parameters"]
 value = lambda name: parameters[name]["value"]
 expected = {
-    "implementationSession": "14-agent-fleet-multiregion-rehearsal",
+    "implementationSession": "15-agent-fleet-multiregion-rehearsal",
     "status": sys.argv[2],
     "region": sys.argv[3],
     "agentVersion": value("agentVersion"),
@@ -127,7 +127,7 @@ if grep -RnoE --binary-files=without-match '__REQUIRED_[A-Z0-9_]+__' "$artifact_
 fi
 
 control_session="$(json_get "$control_path" implementationSession)"
-[[ "$control_session" == '14-agent-fleet-multiregion-rehearsal' ]] ||
+[[ "$control_session" == '15-agent-fleet-multiregion-rehearsal' ]] ||
   fail 'Control definition has the wrong implementationSession marker.'
 control_scope="$(json_get "$control_path" approvedAzureScope)"
 [[ "$control_scope" == "$approved_scope" ]] || fail 'The approved scope differs from the requested scope.'

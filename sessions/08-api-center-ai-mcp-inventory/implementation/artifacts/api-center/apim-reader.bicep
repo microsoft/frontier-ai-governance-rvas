@@ -9,7 +9,7 @@ param apiCenterPrincipalId string
 @description('Resource ID of the Session 07 API Center.')
 param apiCenterResourceId string
 
-var implementationSession = '07-api-center-ai-mcp-inventory'
+var implementationSession = '08-api-center-ai-mcp-inventory'
 var apiManagementServiceReaderRoleId = '71522526-b88f-4d52-b57f-d31fc3546d0d'
 
 resource apiManagement 'Microsoft.ApiManagement/service@2024-05-01' existing = {

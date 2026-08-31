@@ -5,7 +5,7 @@ size: 16:9
 paginate: true
 html: true
 title: Microsoft Agent 365 onboarding and access boundaries
-description: Install one approved Agent Registry agent for a nonproduction group, confirm group access, and keep an uninstall route.
+description: Prepare one approved Agent Registry deployment without granting group access before Session 10 confirms DLP coverage.
 ---
 
 <!-- _class: cover -->
@@ -14,7 +14,7 @@ description: Install one approved Agent Registry agent for a nonproduction group
 
 ## Session 06 · 180 minutes
 
-Install one nonproduction agent for synthetic setup in one test group.
+Prepare one nonproduction Agent Registry deployment for one test group.
 
 <!-- Notes: Keep the session focused on availability and consent. The agent runtime stays in its native service. -->
 
@@ -22,8 +22,8 @@ Install one nonproduction agent for synthetic setup in one test group.
 
 ## Control objective
 
-Install one approved Agent Registry agent for a named Microsoft Entra test group. Review and grant
-its approved permissions. Withhold meaningful user access until Session 10 confirms DLP coverage.
+Prepare one approved Agent Registry deployment for a named Microsoft Entra test group. Do not
+install it or grant group availability until Session 10 confirms DLP coverage.
 
 ![Microsoft Agent 365](assets/icons/microsoft/agent-365.svg)
 
@@ -33,9 +33,9 @@ its approved permissions. Withhold meaningful user access until Session 10 confi
 
 ## Why it matters
 
-Agent Registry answers which agents exist. Group deployment decides who can use one of them.
+Agent Registry answers which agents exist. Installing to a group decides who can use one of them.
 
-The pilot stays with an accountable test group until **the delivery owner approves a wider change**.
+The deployment remains uninstalled until **Session 10 confirms that DLP is enabled and propagated**.
 
 <!-- Notes: Avoid treating inventory visibility as an access boundary. -->
 
@@ -48,9 +48,9 @@ The pilot stays with an accountable test group until **the delivery owner approv
 | In scope | Outside this session |
 | --- | --- |
 | One Available Agent Registry entry | Agent creation or runtime changes |
-| One Microsoft Entra test group | Organization-wide publishing |
-| One host product and approved consent | Tenant-wide block or Conditional Access |
-| Uninstall from the same group | Agent deletion |
+| One Microsoft Entra test group | Group installation before DLP confirmation |
+| One host product and approved consent decision | Tenant-wide block or Conditional Access |
+| Post-DLP installation route | Agent deletion |
 
 <!-- Notes: If any proposed action exceeds this boundary, stop and return it to the approved change path. -->
 
@@ -58,12 +58,12 @@ The pilot stays with an accountable test group until **the delivery owner approv
 
 ## Architecture overview
 
-![An Agent Registry entry is installed through Microsoft 365 admin center for a Microsoft Entra test group. A group member can use the agent in one host product, while a user outside the group cannot.](assets/icons/microsoft/agent-365.svg)
+![An Agent Registry entry, group, host product, and consent decision are prepared for a Microsoft Entra test group. Session 10 installs it after DLP confirmation.](assets/icons/microsoft/agent-365.svg)
 
 1. Agent Registry supplies the approved agent.
-2. Microsoft 365 admin center installs it for the test group.
-3. Microsoft Entra supplies group membership.
-4. The administrator can uninstall the same deployment.
+2. Microsoft 365 admin center retains the uninstalled registry entry.
+3. Session 10 confirms DLP before installation.
+4. Microsoft Entra supplies group membership after the approved installation.
 
 <!-- Notes: The icon represents Agent Registry. Explain the relationship in the spoken narrative rather than claiming it is an architecture diagram. -->
 
@@ -73,9 +73,9 @@ The pilot stays with an accountable test group until **the delivery owner approv
 
 | Choice | Decision |
 | --- | --- |
-| Audience | Install for one Microsoft Entra test group |
-| Permissions | Grant the reviewed consent during group deployment |
-| Restore | Uninstall from that same group |
+| Audience | Prepare one Microsoft Entra test group without installing |
+| Permissions | Record the reviewed consent decision for the post-DLP deployment |
+| Restore | Remove a mistaken installation through Microsoft 365 admin center |
 
 <!-- Notes: These choices keep the tenant change narrow and reversible. -->
 
@@ -95,13 +95,13 @@ The pilot stays with an accountable test group until **the delivery owner approv
 
 <!-- _class: implementation -->
 
-## Install the scoped pilot
+## Prepare the scoped deployment
 
 1. Complete `agent-deployment.json` and run preflight.
-2. Open Agents > All agents > Registry.
-3. Select the approved Available agent and choose **Install**.
-4. Select the named test group.
-5. Review permissions, grant **approved admin consent**, and finish deployment.
+2. Open Agents > All agents > Registry and inspect the approved Available agent.
+3. Confirm that it is not installed for the named test group.
+4. Record the group, host product, and approved consent decision.
+5. Hand the contract to Session 10 for the DLP-gated installation.
 
 <!-- Notes: Stop if the portal shows a different agent, wider audience, or unexpected permission. -->
 
@@ -111,7 +111,7 @@ The pilot stays with an accountable test group until **the delivery owner approv
 
 | Check | Expected result |
 | --- | --- |
-| Test group | Uses synthetic setup data only |
+| Test group | Is recorded for synthetic post-DLP validation; it has no agent access yet |
 | Session 10 DLP policy | Is enabled and propagation is confirmed before meaningful use |
 | Delivery owner | Confirms the withheld-access boundary and consent scope |
 
@@ -121,11 +121,11 @@ The pilot stays with an accountable test group until **the delivery owner approv
 
 ## What remains
 
-Microsoft 365 keeps the deployment and consent state. Microsoft Entra keeps group membership.
-Agent 365 keeps the registry record.
+Microsoft 365 keeps the Agent Registry entry. Microsoft Entra keeps group membership.
+Session 10 owns the installation and consent state after DLP confirmation.
 
-To restore the prior state, the Microsoft 365 administrator uninstalls the agent from the recorded
-test group. The agent and its runtime remain unchanged.
+If an installation occurs before DLP confirmation, the Microsoft 365 administrator removes it from
+the recorded test group. The agent and its runtime remain unchanged.
 
 <!-- Notes: Wider rollout needs a separate approved change. -->
 

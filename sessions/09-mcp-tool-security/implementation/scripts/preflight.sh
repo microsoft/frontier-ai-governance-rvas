@@ -269,7 +269,7 @@ approved = section(evaluation_lines, approved_heading)
 denied = section(evaluation_lines, denied_heading)
 
 for record in (environment, binding):
-    if record.get('implementationSession') != '08-mcp-tool-security':
+    if record.get('implementationSession') != '09-mcp-tool-security':
         raise SystemExit('A implementation file has the wrong implementationSession marker.')
 tool = binding.get('tool', {})
 if tool.get('id') != 'get_policy':
@@ -334,7 +334,7 @@ for value in (environment.get('entraTenantId', ''), environment.get('clientAppli
 for field, description in ((environment.get('mcpAudience', ''), 'mcpAudience'), (environment.get('backendAudience', ''), 'backendAudience')):
     if not re.match(r'^(https|api)://', field) or re.search(r'[?#]', field):
         raise SystemExit(f'{description} must be an HTTPS or api:// audience without a query string or fragment.')
-for required in ['validate-azure-ad-token', 'rate-limit-by-key', 'authentication-managed-identity', 'X-Correlation-ID', 'session08-mcp-tool-security']:
+for required in ['validate-azure-ad-token', 'rate-limit-by-key', 'authentication-managed-identity', 'X-Correlation-ID', 'session09-mcp-tool-security']:
     if required not in policy_text:
         raise SystemExit(f'The MCP policy is missing required control: {required}')
 if 'context.Response.Body' in policy_text or re.search(r'gen_ai\.tool\.call\.(arguments|result)', policy_text):
@@ -438,7 +438,7 @@ api_request GET "$agent_uri" "$token"
 
 existing_mcp=$(az rest --method GET --uri "$expected_apim_id/apis/$(jq -r '.mcpServerId' <<<"$environment_json")?api-version=2025-09-01-preview" --only-show-errors --output json 2>/dev/null || true)
 if [[ -n "$existing_mcp" ]]; then
-  [[ $(jq -r '.properties.description // ""' <<<"$existing_mcp") == *'implementationSession=08-mcp-tool-security'* ]] || fail 'An APIM API already uses the MCP server ID without the Session 09 marker.'
+  [[ $(jq -r '.properties.description // ""' <<<"$existing_mcp") == *'implementationSession=09-mcp-tool-security'* ]] || fail 'An APIM API already uses the MCP server ID without the Session 09 marker.'
 fi
 
 echo 'Deployment preview:'

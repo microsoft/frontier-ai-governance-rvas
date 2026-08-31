@@ -23,10 +23,9 @@ $requiredSentinels = @(
 if (-not (Test-Path -LiteralPath $deploymentPath -PathType Leaf)) {
     throw "Required Agent 365 deployment configuration is missing: $deploymentPath"
 }
-if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
-    throw "Python is required to validate the Agent 365 deployment configuration."
+if (-not (Get-Command ConvertFrom-Json -ErrorAction SilentlyContinue)) {
+    throw "PowerShell JSON support is required to validate the Agent 365 deployment configuration."
 }
-
 $sentinels = @(Get-ChildItem -LiteralPath $artifactRoot -File -Recurse |
     Select-String -Pattern "__REQUIRED_[A-Z0-9_]+__")
 if ($sentinels.Count -gt 0) {
@@ -51,8 +50,9 @@ if ([string]$deployment.agent.requiredStatus -ne "Available") {
 if ([string]$deployment.deployment.adminConsent -ne "Approved") {
     throw "The Entra owner must approve the requested agent permissions before installation."
 }
-if ([string]$deployment.deployment.restoreAction -ne "Uninstall") {
-    throw "The Session 06 restore action must be Uninstall."
+if ([string]$deployment.deployment.action -ne "PrepareOnly" -or
+    [string]$deployment.deployment.restoreAction -ne "NoInstallationToRemove") {
+    throw "Session 06 prepares the scoped deployment only. Session 10 may install it after DLP confirmation."
 }
 if ([string]$deployment.dataBoundary.allowedData -ne "SyntheticOnly" -or
     [string]$deployment.dataBoundary.userAccess -ne "WithheldPendingSession10DlpConfirmation") {

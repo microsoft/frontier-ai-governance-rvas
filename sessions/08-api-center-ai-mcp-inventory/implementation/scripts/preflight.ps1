@@ -89,7 +89,7 @@ function Assert-GovernanceRecord {
     if ($expiry -le $lastReview) {
         throw "$Description expiryDate must be later than lastReviewDate."
     }
-    if ([string]$Record.customProperties.implementationSession -ne "07-api-center-ai-mcp-inventory") {
+    if ([string]$Record.customProperties.implementationSession -ne "08-api-center-ai-mcp-inventory") {
         throw "$Description has the wrong implementationSession marker."
     }
 }
@@ -114,7 +114,7 @@ function Assert-RuntimeUri {
     }
 }
 
-$implementationSession = "07-api-center-ai-mcp-inventory"
+$implementationSession = "08-api-center-ai-mcp-inventory"
 $apiManagementServiceReaderRoleId = "71522526-b88f-4d52-b57f-d31fc3546d0d"
 $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
 $bicepPath = Join-Path $artifactRoot "api-center\main.bicep"
@@ -281,7 +281,7 @@ $session07Api = Invoke-AzJson `
         "--resource-group", [string]$environment.apiManagementResourceGroupName
     ) `
     -Description "Session 07 APIM API lookup"
-if ([string]$session07Api.description -notlike "*implementationSession=06-apim-ai-gateway*") {
+if ([string]$session07Api.description -notlike "*implementationSession=07-apim-ai-gateway*") {
     throw "The APIM source does not contain the marked Session 07 API."
 }
 if ([string]$session07Api.displayName -ne "Governed policy assistant Responses API") {

@@ -132,7 +132,7 @@ The platform owner assigns confirmed migrations in the backlog.
 | Resource model | Current Foundry resource and child project | Classic assets need separate migration work |
 | Desired state | Bicep and `.bicepparam` | Update the Bicep after portal changes create drift |
 | Tracing authentication | Stable `ApiKey` Application Insights connection; preview `ProjectManagedIdentity` remains a later upgrade decision | The baseline stays deployable, but the connection remains key-based |
-| Outbound network posture | `restrictOutboundNetworkAccess: false` until Session 03 | Session 01 does not claim outbound isolation |
+| Outbound network posture | `restrictOutboundNetworkAccess: true` for `byo-vnet`; otherwise `false` | The BYO-VNet deployment enforces its own outbound restriction |
 | Policy packaging | One initiative referencing current Microsoft built-ins | Built-in IDs and effects must be checked before each deployment |
 | Assignment scope | Exact same sandbox resource group | Sibling groups and wider scopes stay outside this control |
 | Enforcement rollout | `DoNotEnforce`, owner review, then `Default` | Evaluation time can delay enforcement |

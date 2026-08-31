@@ -48,8 +48,9 @@ fi
   fail "The selected Agent Registry agent must be Available before installation."
 [[ $(jq -r '.deployment.adminConsent' "$deployment_path") == "Approved" ]] ||
   fail "The Entra owner must approve the requested agent permissions before installation."
-[[ $(jq -r '.deployment.restoreAction' "$deployment_path") == "Uninstall" ]] ||
-  fail "The Session 06 restore action must be Uninstall."
+[[ $(jq -r '.deployment.action' "$deployment_path") == "PrepareOnly" &&
+   $(jq -r '.deployment.restoreAction' "$deployment_path") == "NoInstallationToRemove" ]] ||
+  fail "Session 06 prepares the scoped deployment only. Session 10 may install it after DLP confirmation."
 [[ $(jq -r '.dataBoundary.allowedData' "$deployment_path") == "SyntheticOnly" &&
    $(jq -r '.dataBoundary.userAccess' "$deployment_path") == "WithheldPendingSession10DlpConfirmation" ]] ||
   fail "Session 06 permits synthetic-data setup only. Withhold user access until Session 10 confirms the DLP policy."

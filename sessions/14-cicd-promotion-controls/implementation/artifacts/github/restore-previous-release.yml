@@ -89,7 +89,7 @@ jobs:
             throw "Manifest digest does not match the approved release store."
           }
           $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
-          if ([string]$manifest.implementationSession -ne "13-cicd-promotion-controls") {
+          if ([string]$manifest.implementationSession -ne "14-cicd-promotion-controls") {
             throw "Manifest has the wrong implementationSession marker."
           }
           if ([string]$manifest.releaseId -cne "${{ inputs.approved_release_id }}") {

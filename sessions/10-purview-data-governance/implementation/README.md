@@ -203,7 +203,19 @@ approved change. Wait for the propagation period recorded in that change before 
 confirmation. Keep the policy in simulation or restore it if the summary or simulation is outside
 scope.
 
-### 4. Query current Agent 365 activity
+### 4. Install the approved agent after DLP propagation
+
+After the approved DLP policy is enabled and its recorded propagation period has elapsed, open
+[Session 06's deployment contract](../../06-agent-365-access-boundary/implementation/artifacts/agent-deployment.json).
+Confirm it still names the approved agent, test group, host product, and consent decision. Install
+that agent in Microsoft 365 admin center for the recorded group and host product. Grant only the
+recorded approved consent.
+
+Confirm that the recorded group member can find the agent and that the excluded user cannot. Remove
+the installation and stop if either result differs. Do not run a business-data interaction; the
+following validation uses the labelled synthetic source only.
+
+### 5. Query current Agent 365 activity
 
 Before running the query, connect Exchange Online and Security & Compliance PowerShell to the
 approved Microsoft 365 tenant.

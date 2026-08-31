@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "08-mcp-tool-security",
+  "implementationSession": "09-mcp-tool-security",
   "agentName": "__REQUIRED_AGENT_NAME__",
   "serverLabel": "policy-catalog",
   "serverId": "policy-catalog-mcp",

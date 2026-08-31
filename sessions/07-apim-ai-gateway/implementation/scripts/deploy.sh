@@ -56,7 +56,7 @@ done
 "$script_dir/preflight.sh" --approved-subscription-id "$approved_subscription_id" --primary-agent-base-url "$primary_agent_base_url" --secondary-agent-base-url "$secondary_agent_base_url"
 
 deployment_json=$(az deployment group create \
-  --name session06-apim-ai-gateway \
+  --name session07-apim-ai-gateway \
   --resource-group "$(jq -r '.resourceGroupName' "$environment_path")" \
   --template-file "$bicep_path" \
   --parameters \

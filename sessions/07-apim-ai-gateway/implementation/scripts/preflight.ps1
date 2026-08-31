@@ -32,7 +32,7 @@ function Invoke-AzJson {
     return (($raw | Out-String) | ConvertFrom-Json -ErrorAction Stop)
 }
 
-$implementationSession = "06-apim-ai-gateway"
+$implementationSession = "07-apim-ai-gateway"
 $foundryAgentConsumerRoleId = "eed3b665-ab3a-47b6-8f48-c9382fb1dad6"
 $cognitiveServicesUserRoleId = "a97b65f3-24c7-4388-baec-2e87135dc908"
 $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
@@ -287,7 +287,7 @@ Write-Host "  Request/response body logging: disabled"
 Write-Host "  Semantic caching: deferred"
 
 & az deployment group what-if `
-    --name "session06-apim-ai-gateway-preview" `
+    --name "session07-apim-ai-gateway-preview" `
     --resource-group ([string]$environment.resourceGroupName) `
     --template-file $bicepPath `
     --parameters `

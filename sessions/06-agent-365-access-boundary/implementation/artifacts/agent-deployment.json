@@ -16,7 +16,8 @@
       "__REQUIRED_HOST_PRODUCT__"
     ],
     "adminConsent": "Approved",
-    "restoreAction": "Uninstall"
+    "action": "PrepareOnly",
+    "restoreAction": "NoInstallationToRemove"
   },
   "dataBoundary": {
     "allowedData": "SyntheticOnly",

@@ -24,7 +24,7 @@ from azure.ai.projects.models import (
 from azure.identity import DefaultAzureCredential
 
 
-IMPLEMENTATION_SESSION = "11-red-teaming-threat-defense"
+IMPLEMENTATION_SESSION = "12-red-teaming-threat-defense"
 TERMINAL_STATUSES = {"completed", "failed", "cancelled", "canceled"}
 RISK_CATEGORY_KEYS = {"riskcategory"}
 ATTACK_STRATEGY_KEYS = {"attackstrategy", "attacktechnique", "strategy"}
@@ -423,7 +423,7 @@ def main() -> int:
                     "containsPromptEvidence": False,
                 },
                 "implementationMarker": (
-                    "implementationSession=11-red-teaming-threat-defense"
+                    "implementationSession=12-red-teaming-threat-defense"
                 ),
             }
             output_path = require_external_output(args.output)

@@ -25,7 +25,7 @@ function Get-GraphToken {
     return $token.Trim()
 }
 
-foreach ($command in @("az", "python")) {
+foreach ($command in @("az")) {
     if (-not (Get-Command $command -ErrorAction SilentlyContinue)) {
         throw "$command is required."
     }
@@ -56,7 +56,7 @@ $expectedOperations = @("AIInvokeAgent", "AIExecuteTool", "AIInferenceCall", "AI
 $expectedFields = @("CreationDate", "Operation", "AgentId", "AgentName", "ResultStatus")
 if (
     [int]$query.schemaVersion -ne 1 -or
-    [string]$query.implementationSession -ne "09-purview-data-governance" -or
+    [string]$query.implementationSession -ne "10-purview-data-governance" -or
     [string]$query.microsoftGraphApplicationPermission -ne "AuditLogsQuery.Read.All" -or
     [int]$query.lookbackHours -lt 1 -or [int]$query.lookbackHours -gt 168 -or
     (@($query.operations) | Sort-Object) -join "|" -ne ($expectedOperations | Sort-Object) -join "|" -or

@@ -21,7 +21,7 @@ from azure.identity import DefaultAzureCredential
 from openai.types.eval_create_params import DataSourceConfigCustom
 
 
-IMPLEMENTATION_SESSION = "10-foundry-evaluations-quality-gates"
+IMPLEMENTATION_SESSION = "11-foundry-evaluations-quality-gates"
 TERMINAL_STATUSES = {"completed", "failed", "cancelled"}
 
 

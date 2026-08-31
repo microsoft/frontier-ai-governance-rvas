@@ -127,7 +127,7 @@ def resolve(relative, purpose):
 
 if control.get("schemaVersion") != 2:
     raise SystemExit("control-definition.json must use schemaVersion 2.")
-if control.get("implementationSession") != "14-agent-fleet-multiregion-rehearsal":
+if control.get("implementationSession") != "15-agent-fleet-multiregion-rehearsal":
     raise SystemExit("control-definition.json has the wrong implementationSession marker.")
 if str(control.get("approvedAzureScope", "")).lower() != scope.lower():
     raise SystemExit("Approved scope differs from the rehearsal contract.")

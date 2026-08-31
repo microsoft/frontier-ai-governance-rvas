@@ -85,7 +85,7 @@ foreach ($path in @($attackPlanPath, $huntPath, $playbookPath, (Join-Path $PSScr
 }
 
 $attackPlan = Get-Content -LiteralPath $attackPlanPath -Raw | ConvertFrom-Json -ErrorAction Stop
-if ([string]$attackPlan.implementationSession -ne "11-red-teaming-threat-defense" -or
+if ([string]$attackPlan.implementationSession -ne "12-red-teaming-threat-defense" -or
     [string]$attackPlan.target.type -ne "azure_ai_agent" -or
     [string]::IsNullOrWhiteSpace([string]$attackPlan.target.name) -or
     [bool]$attackPlan.resultHandling.retainAttackPromptsInRepository -or

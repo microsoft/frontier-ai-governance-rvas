@@ -165,7 +165,7 @@ artifact_root = Path(sys.argv[1])
 script_dir = Path(sys.argv[2])
 approved_subscription_id = sys.argv[3]
 phase = sys.argv[4]
-implementation_session = '10-foundry-evaluations-quality-gates'
+implementation_session = '11-foundry-evaluations-quality-gates'
 
 release_policy = json.loads((artifact_root / 'release' / 'release-policy.json').read_text())
 spec = json.loads((artifact_root / 'eval' / 'evaluation-spec.json').read_text())

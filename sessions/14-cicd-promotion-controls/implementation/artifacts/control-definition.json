@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "13-cicd-promotion-controls",
+  "implementationSession": "14-cicd-promotion-controls",
   "controlObjective": "One GitHub Actions workflow validates an exact release, deploys it to nonproduction, runs the required checks, waits for production approval, deploys the same release to production, verifies routing, and records the approved manifest.",
   "repository": {
     "host": "github.com",
@@ -57,12 +57,12 @@
     "bicepEntrypoint": "__REQUIRED_BICEP_ENTRYPOINT_PATH__",
     "apimPolicy": "__REQUIRED_APIM_POLICY_PATH__",
     "unitTestScript": "__REQUIRED_UNIT_TEST_SCRIPT_PATH__",
-    "session10ReleaseGate": "sessions/11-foundry-evaluations-quality-gates/implementation/scripts/release-gate.py",
-    "session10ReleasePolicy": "sessions/11-foundry-evaluations-quality-gates/implementation/artifacts/release/release-policy.json",
-    "session10GateSelfTest": "sessions/11-foundry-evaluations-quality-gates/implementation/scripts/test_release_gate.py",
-    "session10ThresholdPolicy": "sessions/11-foundry-evaluations-quality-gates/implementation/artifacts/eval/thresholds.yaml",
-    "session10EvaluationSpec": "sessions/11-foundry-evaluations-quality-gates/implementation/artifacts/eval/evaluation-spec.json",
-    "session10Dataset": "sessions/11-foundry-evaluations-quality-gates/implementation/artifacts/eval/data/golden-v1.jsonl",
+    "session11ReleaseGate": "sessions/11-foundry-evaluations-quality-gates/implementation/scripts/release-gate.py",
+    "session11ReleasePolicy": "sessions/11-foundry-evaluations-quality-gates/implementation/artifacts/release/release-policy.json",
+    "session11GateSelfTest": "sessions/11-foundry-evaluations-quality-gates/implementation/scripts/test_release_gate.py",
+    "session11ThresholdPolicy": "sessions/11-foundry-evaluations-quality-gates/implementation/artifacts/eval/thresholds.yaml",
+    "session11EvaluationSpec": "sessions/11-foundry-evaluations-quality-gates/implementation/artifacts/eval/evaluation-spec.json",
+    "session11Dataset": "sessions/11-foundry-evaluations-quality-gates/implementation/artifacts/eval/data/golden-v1.jsonl",
     "session13SmokePowerShell": "sessions/13-observability-cost-operations/implementation/scripts/smoke.ps1",
     "session13SmokeBash": "sessions/13-observability-cost-operations/implementation/scripts/smoke.sh",
     "routingControlScript": "__REQUIRED_ROUTING_CONTROL_SCRIPT_PATH__",
@@ -102,13 +102,13 @@
     "approvedReleaseStore": "__REQUIRED_APPROVED_RELEASE_STORE__",
     "repositoryRuntimeOutputAllowed": false,
     "externalGateArtifacts": {
-      "session10EvaluationResults": {
+      "session11EvaluationResults": {
         "interface": "releaseStoreScript",
         "retrieveMode": "RetrieveEvaluationResult",
         "temporaryArtifactOnly": true,
         "repositoryMirrorAllowed": false
       },
-      "session11SecurityReleaseAttestation": {
+      "session12SecurityReleaseAttestation": {
         "schemaVersion": 1,
         "recordType": "security-release-attestation",
         "interface": "releaseStoreScript",

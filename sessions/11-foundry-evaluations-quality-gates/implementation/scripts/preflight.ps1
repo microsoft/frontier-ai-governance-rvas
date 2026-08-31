@@ -28,7 +28,7 @@ function Invoke-AzJson {
     return (($raw | Out-String) | ConvertFrom-Json -ErrorAction Stop)
 }
 
-$implementationSession = "10-foundry-evaluations-quality-gates"
+$implementationSession = "11-foundry-evaluations-quality-gates"
 $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
 $releasePolicyPath = Join-Path $artifactRoot "release\release-policy.json"
 $specPath = Join-Path $artifactRoot "eval\evaluation-spec.json"

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "09-purview-data-governance",
+  "implementationSession": "10-purview-data-governance",
   "lookbackHours": 24,
   "microsoftGraphApplicationPermission": "AuditLogsQuery.Read.All",
   "operations": [
