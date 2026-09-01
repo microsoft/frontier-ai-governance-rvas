@@ -27,10 +27,10 @@ identity, not a signed-in user or the agent identity. The missing write operatio
 read authorization constrain the tool path. Instructions add refusal behavior but do not enforce
 that boundary.
 
-Session 06 owns Microsoft 365 and Teams distribution.
-[Session 08](../../08-apim-ai-gateway-implementation/implementation/README.md) adds APIM ingress.
-[Session 10](../../10-mcp-tool-security/implementation/README.md) replaces the direct tool path
-with MCP controls. [Session 11](../../11-foundry-evaluations-quality-gates/implementation/README.md)
+Session 05 owns Microsoft 365 and Teams distribution.
+[Session 07](../../07-apim-ai-gateway-implementation/implementation/README.md) adds APIM ingress.
+[Session 09](../../09-mcp-tool-security/implementation/README.md) replaces the direct tool path
+with MCP controls. [Session 10](../../10-foundry-evaluations-quality-gates/implementation/README.md)
 adds repeatable evaluations. Use a separately approved delegated-access implementation when the
 API must authorize the signed-in user.
 
@@ -55,7 +55,7 @@ read API.
 |---|---|---|---|
 | Runtime and release | Persistent prompt agent with an immutable version and pinned endpoint | Every configuration change creates a version | The workload needs hosted code or application-owned ephemeral definitions |
 | Identities | Agent identity at the endpoint; project managed identity for the OpenAPI call | The API sees the project identity, not the user or agent | The API needs delegated user access or a tool supports agent-identity authentication |
-| Tool | Attach one GET-only OpenAPI definition directly | Reuse and centralized tool lifecycle stay outside this baseline | Several agents need the tool, or Session 10 adds APIM and MCP |
+| Tool | Attach one GET-only OpenAPI definition directly | Reuse and centralized tool lifecycle stay outside this baseline | Several agents need the tool, or Session 09 adds APIM and MCP |
 | Routing | Send 100% of traffic to the new version | Promotion is an explicit deployment step | The release needs tested weighted routing |
 
 ### Architecture guidance
@@ -68,9 +68,9 @@ read API.
 
 Confirm:
 
-- Sessions 01-03 are complete. The approved execution host reaches the existing `AIServices`
-  Foundry resource and project through the Session 03 private path.
-- The [Session 04](../../04-model-governance-lifecycle/implementation/README.md) approval record
+- Sessions 01-02 are complete. The approved execution host reaches the existing `AIServices`
+  Foundry resource and project through the Session 02 private path.
+- The [Session 03](../../03-model-governance-lifecycle/implementation/README.md) approval record
   matches a live ARM child model deployment in `Succeeded` state. The selected region and model
   support prompt agents and OpenAPI tools.
 - The operator has time-bound **Foundry User**, role ID
@@ -90,9 +90,9 @@ out of the repository.
 
 | Type | File | Consumer |
 |---|---|---|
-| Deployment | [`artifacts/agents/policy-assistant/agent.json`](artifacts/agents/policy-assistant/agent.json) | The Session 05 agent deployment scripts |
+| Deployment | [`artifacts/agents/policy-assistant/agent.json`](artifacts/agents/policy-assistant/agent.json) | The Session 04 agent deployment scripts |
 | Deployment | [`artifacts/agents/policy-assistant/instructions.md`](artifacts/agents/policy-assistant/instructions.md) | The Microsoft Foundry prompt-agent version |
-| Deployment | [`artifacts/agents/policy-assistant/tool-manifest.json`](artifacts/agents/policy-assistant/tool-manifest.json) | The Session 05 agent deployment scripts |
+| Deployment | [`artifacts/agents/policy-assistant/tool-manifest.json`](artifacts/agents/policy-assistant/tool-manifest.json) | The Session 04 agent deployment scripts |
 
 ## Decisions and stop conditions
 
@@ -101,7 +101,7 @@ Resolve every `__REQUIRED_*__` value in a working copy before deployment. Keep
 
 | Gate | Continue when | Stop when |
 |---|---|---|
-| Agent and model | The immutable agent name, accountable owner, approved model deployment, named RAI policy, Responses protocol, Entra authorization, and fixed-version routing are set | The model differs from Session 04, the region or model does not support the tool, the name collides with an unmarked agent, or an existing agent has no unique `instance_identity` |
+| Agent and model | The immutable agent name, accountable owner, approved model deployment, named RAI policy, Responses protocol, Entra authorization, and fixed-version routing are set | The model differs from Session 03, the region or model does not support the tool, the name collides with an unmarked agent, or an existing agent has no unique `instance_identity` |
 | Tool authority | `tool-manifest.json` contains one genuine read-only GET operation, the exact Entra audience, role definition ID, assignment scope, authorization owner, and human change route | The API specification contains a credential; `get_policy` can change state; the role can write; the owner, audience, role, or scope is unresolved; or preflight does not find exactly one matching project-identity assignment |
 | Prohibited action | `instructions.md` names the blocked write action and the human approval route | The product owner asks to add a write tool in this session |
 | Safety and tracing | The live RAI policy meets the approved filters and trace ownership is settled | The policy is missing or trace readers, retention, regional handling, sampling, cost, or sensitive-content restrictions are unresolved |
@@ -122,19 +122,19 @@ Populate the three implementation files. The OpenAPI manifest must contain `get_
 
 ```powershell
 $approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
-$resourceGroup = "approved-session-05-resource-group"
+$resourceGroup = "approved-session-04-resource-group"
 $foundryAccount = "approved-existing-foundry-resource"
 $projectName = "approved-existing-foundry-project"
-$readApiBaseUrl = $env:SESSION05_READ_API_BASE_URL
-$applicationInsightsResourceId = $env:SESSION05_APP_INSIGHTS_RESOURCE_ID
+$readApiBaseUrl = $env:session04_READ_API_BASE_URL
+$applicationInsightsResourceId = $env:session04_APP_INSIGHTS_RESOURCE_ID
 ```
 ```bash
 approved_subscription_id="${AZURE_SUBSCRIPTION_ID:?Set AZURE_SUBSCRIPTION_ID.}"
-resource_group="approved-session-05-resource-group"
+resource_group="approved-session-04-resource-group"
 foundry_account="approved-existing-foundry-resource"
 project_name="approved-existing-foundry-project"
-read_api_base_url="${SESSION05_READ_API_BASE_URL:?Set SESSION05_READ_API_BASE_URL.}"
-application_insights_resource_id="${SESSION05_APP_INSIGHTS_RESOURCE_ID:?Set SESSION05_APP_INSIGHTS_RESOURCE_ID.}"
+read_api_base_url="${session04_READ_API_BASE_URL:?Set session04_READ_API_BASE_URL.}"
+application_insights_resource_id="${session04_APP_INSIGHTS_RESOURCE_ID:?Set session04_APP_INSIGHTS_RESOURCE_ID.}"
 ```
 
 ### 2. Run preflight
@@ -184,7 +184,7 @@ any failed gate or unexpected scope.
 Deployment applies the model, instructions, RAI policy, and OpenAPI tool. It creates a unique
 `instance_identity`, configures the stable Responses endpoint with Entra authorization, and pins
 100% of traffic to the returned version. It will not update an existing agent unless the agent card
-contains `implementationSession=05-governed-agent-baseline`.
+contains `implementationSession=04-governed-agent-baseline`.
 
 ## Confirm the result
 
@@ -217,8 +217,8 @@ agent_name=$(python3 -c 'import json, pathlib; print(json.loads(pathlib.Path("ar
 token=$(az account get-access-token --scope https://ai.azure.com/.default --query accessToken --output tsv --only-show-errors)
 uri="https://${foundry_account}.services.ai.azure.com/api/projects/${project_name}/agents/${agent_name}/endpoint/protocols/openai/responses"
 
-export SESSION05_URI="$uri"
-export SESSION05_TOKEN="$token"
+export session04_URI="$uri"
+export session04_TOKEN="$token"
 python3 - <<'PY'
 import json
 import os
@@ -228,10 +228,10 @@ body = json.dumps({
     "input": "Use get_policy to read synthetic policy POL-001. Return only its approved fields."
 }).encode()
 request = urllib.request.Request(
-    os.environ["SESSION05_URI"],
+    os.environ["session04_URI"],
     data=body,
     headers={
-        "Authorization": f"Bearer {os.environ['SESSION05_TOKEN']}",
+        "Authorization": f"Bearer {os.environ['session04_TOKEN']}",
         "Content-Type": "application/json",
     },
     method="POST",
@@ -240,7 +240,7 @@ with urllib.request.urlopen(request) as response:
     payload = json.load(response)
 print(payload.get("output"))
 PY
-unset SESSION05_URI SESSION05_TOKEN
+unset session04_URI session04_TOKEN
 ```
 
 The expected record must contain only approved fields, and `get_policy` must be the only tool call.
@@ -264,6 +264,6 @@ operation. Production release and write-capable tools require the approved chang
 To remove this baseline, the product, platform, identity, and operations owners first confirm that
 no approved consumer uses the endpoint. Through the approved Foundry change path, remove only the
 agent whose name matches `agent.json` and whose live agent card contains
-`implementationSession=05-governed-agent-baseline`. This removes its versions, identity, and stable
+`implementationSession=04-governed-agent-baseline`. This removes its versions, identity, and stable
 endpoint. It leaves the Foundry project, model deployment, read API, RAI policy, Application
 Insights resource, and repository definitions in place.

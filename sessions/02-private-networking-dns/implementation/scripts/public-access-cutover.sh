@@ -170,7 +170,7 @@ for index in "${!targets[@]}"; do
   IFS=$'\t' read -r alias _ _ <<<"${targets[$index]}"
   resource_id="${resource_ids[$index]}"
   resource_name="${resource_names[$index]}"
-  run_capture az tag update --resource-id "$resource_id" --operation Merge --tags networkControlSession=03-private-networking-dns --only-show-errors >/dev/null ||
+  run_capture az tag update --resource-id "$resource_id" --operation Merge --tags networkControlSession=02-private-networking-dns --only-show-errors >/dev/null ||
     die "Tag update failed for $alias."
   case "$alias" in
     foundry)

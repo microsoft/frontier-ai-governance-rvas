@@ -4,7 +4,7 @@ set -euo pipefail
 usage() {
   cat <<'USAGE'
 Usage:
-  deploy.sh --approved-subscription-id SUBSCRIPTION_ID --session05-agent-base-url HTTPS_URL --remote-mcp-server-url HTTPS_URL
+  deploy.sh --approved-subscription-id SUBSCRIPTION_ID --session04-agent-base-url HTTPS_URL --remote-mcp-server-url HTTPS_URL
 USAGE
 }
 
@@ -24,7 +24,7 @@ agent_definition_path="$script_dir/../artifacts/api-center/agent-api-definition.
 [[ -f "$agent_definition_path" ]] || fail "Required implementation file is missing: $agent_definition_path"
 
 approved_subscription_id=""
-session05_agent_base_url=""
+session04_agent_base_url=""
 remote_mcp_server_url=""
 while (($# > 0)); do
   case "$1" in
@@ -33,9 +33,9 @@ while (($# > 0)); do
       approved_subscription_id=$2
       shift 2
       ;;
-    --session05-agent-base-url)
-      [[ $# -ge 2 ]] || fail "--session05-agent-base-url requires a value."
-      session05_agent_base_url=$2
+    --session04-agent-base-url)
+      [[ $# -ge 2 ]] || fail "--session04-agent-base-url requires a value."
+      session04_agent_base_url=$2
       shift 2
       ;;
     --remote-mcp-server-url)
@@ -55,14 +55,14 @@ while (($# > 0)); do
 done
 
 [[ -n "$approved_subscription_id" ]] || fail "--approved-subscription-id is required."
-[[ -n "$session05_agent_base_url" ]] || fail "--session05-agent-base-url is required."
+[[ -n "$session04_agent_base_url" ]] || fail "--session04-agent-base-url is required."
 [[ -n "$remote_mcp_server_url" ]] || fail "--remote-mcp-server-url is required."
 
-"$script_dir/preflight.sh" --approved-subscription-id "$approved_subscription_id" --session05-agent-base-url "$session05_agent_base_url" --remote-mcp-server-url "$remote_mcp_server_url"
+"$script_dir/preflight.sh" --approved-subscription-id "$approved_subscription_id" --session04-agent-base-url "$session04_agent_base_url" --remote-mcp-server-url "$remote_mcp_server_url"
 
 environment_json=$(cat "$environment_path")
 deployment_json=$(az deployment group create \
-  --name session09-api-center-inventory \
+  --name session08-api-center-inventory \
   --resource-group "$(jq -r '.resourceGroupName' <<<"$environment_json")" \
   --template-file "$bicep_path" \
   --parameters \
@@ -70,9 +70,9 @@ deployment_json=$(az deployment group create \
     "apiManagementName=$(jq -r '.apiManagementName' <<<"$environment_json")" \
     "apiCenterName=$(jq -r '.apiCenterName' <<<"$environment_json")" \
     "location=$(jq -r '.location' <<<"$environment_json")" \
-    "session05AgentBaseUrl=$session05_agent_base_url" \
+    "session04AgentBaseUrl=$session04_agent_base_url" \
   --only-show-errors \
-  --output json 2>&1) || fail "Session 09 API Center deployment failed.\n$deployment_json"
+  --output json 2>&1) || fail "Session 08 API Center deployment failed.\n$deployment_json"
 
 specification='{"name":"openapi","version":"3.0.3"}'
 import_output=$(az apic api definition import-specification \
@@ -101,10 +101,10 @@ else
     --import-specification always \
     --target-lifecycle-stage testing \
     --only-show-errors \
-    --output none 2>&1) || fail "Creating the Session 08 APIM integration failed.\n$integration_output"
+    --output none 2>&1) || fail "Creating the Session 07 APIM integration failed.\n$integration_output"
 fi
 
-echo 'Deployed the marked Session 09 API Center control.'
+echo 'Deployed the marked Session 08 API Center control.'
 echo "API Center: $(jq -r '.properties.outputs.apiCenterId.value // empty' <<<"$deployment_json")"
 echo 'APIM synchronization can take up to 24 hours.'
 echo "Confirm the current '$(jq -r '.apiCenterPlan' <<<"$environment_json")' plan in the API Center portal; the stable 2024-03-01 Bicep service resource does not expose plan selection."

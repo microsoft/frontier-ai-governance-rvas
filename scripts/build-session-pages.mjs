@@ -273,10 +273,6 @@ const sourceServerUrl = (
 ).replace(/\/+$/, "");
 
 const githubSourceUrl = ({ href, sourceKind, sourceSlug }) => {
-  if (!sourceRepository || !sourceRevision || !sourceSlug) {
-    return "";
-  }
-
   const implementationPath = posix.normalize(href.replace(/^\.\//, ""));
   if (
     implementationPath === ".." ||
@@ -284,6 +280,10 @@ const githubSourceUrl = ({ href, sourceKind, sourceSlug }) => {
     posix.isAbsolute(implementationPath)
   ) {
     throw new Error(`Implementation link escapes its source folder: ${href}`);
+  }
+
+  if (!sourceRepository || !sourceRevision || !sourceSlug) {
+    return "";
   }
 
   const collection = sourceKind === "module" ? "modules" : "sessions";
@@ -1127,6 +1127,11 @@ const loadSessions = async (serviceRegistry) => {
   const ids = new Map();
   for (const session of sessions) {
     const id = String(session.number).padStart(2, "0");
+    if (!session.slug.startsWith(`${id}-`)) {
+      throw new Error(
+        `${ids.get(id) ?? `sessions/${session.slug}/session.yaml`} must match its ${id}- directory prefix.`,
+      );
+    }
     if (ids.has(id)) {
       throw new Error(
         `Duplicate session ID "${id}" in ${ids.get(id)} and sessions/${session.slug}/session.yaml.`,
@@ -1134,6 +1139,20 @@ const loadSessions = async (serviceRegistry) => {
     }
     ids.set(id, `sessions/${session.slug}/session.yaml`);
   }
+
+  const expectedIds = Array.from(
+    { length: 14 },
+    (_, index) => String(index + 1).padStart(2, "0"),
+  );
+  if (
+    sessions.length !== expectedIds.length ||
+    expectedIds.some((id) => !ids.has(id))
+  ) {
+    throw new Error(
+      `Expected exactly the continuous 01-14 session series. Found: ${[...ids.keys()].join(", ") || "none"}.`,
+    );
+  }
+
   return sessions.sort((left, right) => left.number - right.number);
 };
 
@@ -1392,6 +1411,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
   const sessionServices = serviceRegistry.services.filter(({ id }) =>
     sessionServiceIds.has(id),
   );
+  const loadedSessionNumbers = new Set(sessions.map(({ number }) => number));
   const filterButtons = sessionServices
     .map((service) => {
       const count = sessions.filter(({ services }) =>
@@ -1419,7 +1439,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
     },
     {
       key: "operations",
-      range: "13–15",
+      range: "13–14",
       label: "Operate at scale",
       sessions: sessions.filter(({ phase }) => phase.key === "operations"),
     },
@@ -1428,70 +1448,79 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
     {
       id: "governed-pilot",
       name: "Governed pilot",
-      sessionNumbers: [1, 2, 3, 4, 5],
+      sessionNumbers: [1, 2, 3, 4],
       outcome:
         "A versioned Foundry agent with its platform, identity, networking, and model controls in place.",
     },
     {
       id: "secure-private-platform",
       name: "Secure private platform",
-      sessionNumbers: [1, 2, 3, 4, 5, 6, 7],
+      sessionNumbers: [1, 2, 3, 4, 6, 7],
+      filterLabel: "01–04 + 06–07",
       outcome:
         "The governed agent runs through API Management with identity, limits, and content safety applied at the gateway.",
     },
     {
       id: "api-mcp-governance",
       name: "API and MCP governance",
-      sessionNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      sessionNumbers: [1, 2, 3, 4, 6, 7, 8, 9],
+      filterLabel: "01–04 + 06–09",
       outcome:
         "API and MCP inventory, authorization, tool scope, and runtime telemetry are connected around the governed agent.",
     },
     {
       id: "data-compliance",
       name: "Data and compliance",
-      sessionNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      sessionNumbers: [1, 2, 3, 4, 5],
       outcome:
         "The governed runtime adds Purview data controls and an owned handoff for Agent 365 and Foundry coverage.",
     },
     {
       id: "security-operations",
       name: "Security operations",
-      sessionNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+      sessionNumbers: [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12],
+      filterLabel: "01–04 + 06–12",
       outcome:
         "Evaluation, red-team, telemetry, cost, alerting, and incident controls are operating around the service.",
     },
     {
       id: "llmops-release-operations",
       name: "LLMOps and release operations",
-      sessionNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      sessionNumbers: [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      filterLabel: "01–04 + 06–14",
       outcome:
         "The governed service moves through evaluation, operations, and protected promotion as one managed release path.",
     },
     {
       id: "foundry-agent365",
       name: "Foundry + Agent 365",
-      sessionNumbers: [1, 2, 3, 4, 5, 6, 10],
-      filterLabel: "01–06 + 10",
+      sessionNumbers: [1, 2, 3, 4, 5],
       outcome:
         "Build a governed Foundry agent, register it with Agent 365, then apply the shared Purview data-control path.",
     },
     {
       id: "copilot-studio-agent365",
       name: "Copilot Studio + Agent 365",
-      sessionNumbers: [6, 10],
-      filterLabel: "06 + 10",
+      sessionNumbers: [5],
       outcome:
         "Start with an approved published Copilot Studio agent, register its access boundary, then apply Agent 365 data controls.",
     },
     {
       id: "agent-builder-agent365",
       name: "Agent Builder + Agent 365",
-      sessionNumbers: [6, 10],
-      filterLabel: "06 + 10",
+      sessionNumbers: [5],
       outcome:
         "Start with an approved published Agent Builder agent, register its access boundary, then apply Agent 365 data controls.",
     },
   ].map((route) => {
+    const unknownSessionNumbers = route.sessionNumbers.filter(
+      (number) => !loadedSessionNumbers.has(number),
+    );
+    if (unknownSessionNumbers.length) {
+      throw new Error(
+        `${route.name} references missing session IDs: ${unknownSessionNumbers.join(", ")}.`,
+      );
+    }
     const includedNumbers = new Set(route.sessionNumbers);
     const routeSessions = sessions.filter(({ number }) =>
       includedNumbers.has(number),
@@ -1552,7 +1581,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="A 15-session guided co-implementation series for practical Microsoft AI governance.">
+    <meta name="description" content="A 14-session guided co-implementation series for practical Microsoft AI governance.">
     <title>Practical Microsoft AI Governance</title>
     <link rel="icon" href="assets/img/logo-mark.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1629,7 +1658,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
       <section class="section program" id="program" aria-labelledby="program-title">
         <div class="section-heading section-heading--program">
           <div><p class="section-kicker">Session catalog</p><h2 id="program-title">Browse all ${sessions.length} sessions.</h2><p>Use a focused route, a service filter, or text search. The selected route or service stays in the URL, so you can share the filtered view.</p></div>
-          <p class="register-instruction">Optional modules stay outside this filter and the 15-session count.</p>
+          <p class="register-instruction">Optional modules stay outside this filter and the 14-session count.</p>
         </div>
         <div class="registry-controls">
           <label class="registry-search"><span>Search sessions</span><span class="registry-search__field"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"></circle><path d="m13 13 4 4"></path></svg><input type="search" autocomplete="off" placeholder="Title, control, outcome…" data-session-search></span></label>
@@ -1663,10 +1692,10 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
         <div class="section">
           <div class="section-heading"><div><h2 id="routes-title">Choose the implementation path you need.</h2><p>Full-platform routes start at Session 01. Agent 365 routes can enter with an approved Foundry, Copilot Studio, or Agent Builder agent.</p></div></div>
           <div class="route-choice">
-            <div class="route-choice__primary"><div><h3>Complete build · ${totalHours} working hours</h3><p>Run all ${sessions.length} sessions, from the platform baseline through controlled release and regional rehearsal.</p></div><ol class="route-choice__sequence"><li><span>1–5</span> Governed foundation</li><li><span>6–12</span> Live AI traffic controls</li><li><span>13–15</span> Operate at scale</li></ol><a class="button button--primary" data-route-clear href="#program">Browse all sessions</a></div>
+            <div class="route-choice__primary"><div><h3>Complete build · ${totalHours} working hours</h3><p>Run all ${sessions.length} sessions, from the platform baseline through controlled release and regional rehearsal.</p></div><ol class="route-choice__sequence"><li><span>1–5</span> Governed foundation</li><li><span>6–12</span> Live AI traffic controls</li><li><span>13–14</span> Operate at scale</li></ol><a class="button button--primary" data-route-clear href="#program">Browse all sessions</a></div>
             <div class="route-choice__heading"><div><h3>Focused routes</h3></div><div class="route-choice__legend" aria-label="Route phase colors"><span><i class="is-foundation"></i>Foundation</span><span><i class="is-runtime"></i>Live traffic</span><span><i class="is-operations"></i>Operations</span></div></div>
             <div class="route-paths" role="list">${routeCards}</div>
-            <p class="route-choice__note">Sessions 13–15 define substitute baselines for teams that enter the series without every earlier session.</p>
+            <p class="route-choice__note">Sessions 13–14 define substitute baselines for teams that enter the series without every earlier session.</p>
           </div>
         </div>
       </section>

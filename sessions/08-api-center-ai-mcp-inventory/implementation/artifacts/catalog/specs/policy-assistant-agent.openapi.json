@@ -3,14 +3,14 @@
   "info": {
     "title": "Policy assistant agent API",
     "version": "1.0.0",
-    "description": "Design-time contract for the Session 05 policy-assistant Responses endpoint."
+    "description": "Design-time contract for the Session 04 policy-assistant Responses endpoint."
   },
   "paths": {
     "/responses": {
       "post": {
         "operationId": "invokePolicyAssistant",
         "summary": "Invoke the governed policy assistant",
-        "description": "Submits a request to the pinned Session 05 policy assistant.",
+        "description": "Submits a request to the pinned Session 04 policy assistant.",
         "requestBody": {
           "required": true,
           "content": {

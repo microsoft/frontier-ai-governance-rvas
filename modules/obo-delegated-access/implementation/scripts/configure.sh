@@ -173,6 +173,7 @@ if settings.get('implementationSession') != MODULE_MARKER:
     fail(f'runtime/settings.json must use implementationSession={MODULE_MARKER}.')
 
 control_scope = control.get('scope') or {}
+authority_decision = control.get('authorityDecision') or {}
 owners = control.get('owners') or {}
 client = app_registrations.get('client') or {}
 middle_tier = app_registrations.get('middleTier') or {}
@@ -180,6 +181,26 @@ downstream = app_registrations.get('downstreamApi') or {}
 consent = app_registrations.get('consent') or {}
 inbound = token_contract.get('inbound') or {}
 downstream_contract = token_contract.get('downstream') or {}
+
+authority_model = require_non_empty(
+    authority_decision.get('model'),
+    'control-definition authorityDecision.model',
+)
+if authority_model != 'signed-in-user-obo':
+    fail('The authority decision must remain signed-in-user-obo.')
+if authority_decision.get('applicationOnlyManagedIdentity') != 'rejected':
+    fail('The authority decision must reject application-only managed identity.')
+require_non_empty(
+    authority_decision.get('reason'),
+    'control-definition authorityDecision.reason',
+)
+for artifact, label in (
+    (app_registrations, 'identity app-registrations authorityModel'),
+    (token_contract, 'token-claim contract authorityModel'),
+    (settings, 'runtime settings authorityModel'),
+):
+    if require_non_empty(artifact.get('authorityModel'), label) != authority_model:
+        fail('The authority model must match across the implementation files.')
 
 required_owner_fields = [
     'identityOwner',
@@ -189,6 +210,10 @@ required_owner_fields = [
 ]
 for field_name in required_owner_fields:
     require_non_empty(owners.get(field_name), f'control-definition owners.{field_name}')
+identity_owner = require_non_empty(
+    owners.get('identityOwner'),
+    'control-definition owners.identityOwner',
+)
 
 control_tenant_id = require_guid(control.get('tenantId'), 'control-definition tenantId')
 if require_guid(settings.get('tenantId'), 'runtime settings tenantId') != control_tenant_id:
@@ -242,7 +267,8 @@ if consent_scope != downstream_scope_value:
     fail('Consent scope must match the downstream delegated scope value.')
 if require_non_empty(consent.get('grantType'), 'identity app-registrations consent.grantType') != 'delegated':
     fail('The approved consent grantType must remain delegated.')
-require_non_empty(consent.get('owner'), 'identity app-registrations consent.owner')
+if require_non_empty(consent.get('owner'), 'identity app-registrations consent.owner') != identity_owner:
+    fail('The delegated-consent owner must match control-definition owners.identityOwner.')
 
 allowed_caller_ids = normalize_guid_list(settings.get('allowedCallerClientIds'), 'runtime settings allowedCallerClientIds')
 token_allowed_caller_ids = normalize_guid_list(inbound.get('allowedClientIds'), 'token-claim contract inbound.allowedClientIds')
@@ -281,6 +307,7 @@ result = {
     'moduleMarker': MODULE_MARKER,
     'artifactRoot': str(artifact_root),
     'tenantId': control_tenant_id,
+    'authorityModel': authority_model,
     'client': {
         'objectId': client_object_id,
         'applicationId': client_application_id,
@@ -648,6 +675,7 @@ actions.append(consent_action)
 plan = {
     'summary': {
         'tenantId': config['tenantId'],
+        'authorityModel': config['authorityModel'],
         'previewSupported': False,
         'client': {
             'displayName': client_app['displayName'],
@@ -703,6 +731,10 @@ summary = plan['summary']
 print('Configuration plan ready.')
 print('previewSupported=false. Microsoft Graph has no native what-if for these application and delegated-consent changes; this read-only plan is exact.')
 print(f"Approved tenant: {summary['tenantId']}")
+print(
+    f"Authority decision: {summary['authorityModel']}; "
+    "application-only managed identity is rejected."
+)
 for key, label in (('client', 'Client application'), ('middleTier', 'Middle-tier application'), ('downstream', 'Downstream application')):
     record = summary[key]
     print(f"{label}: {record['displayName']} ({record['objectId']})")

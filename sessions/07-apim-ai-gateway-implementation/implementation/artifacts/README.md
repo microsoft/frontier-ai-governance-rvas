@@ -1,7 +1,7 @@
 # Implementation artifacts
 
 These files define the APIM route for the
-[Session 05](../../../05-governed-agent-baseline/implementation/README.md) agent.
+[Session 04](../../../04-governed-agent-baseline/implementation/README.md) agent.
 
 | Path | Operational purpose |
 |---|---|

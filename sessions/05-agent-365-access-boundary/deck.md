@@ -10,7 +10,7 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation · Session 06</p>
+<p class="eyebrow">AI Governance Co-implementation · Session 05</p>
 
 # Microsoft Agent 365 secure rollout and data controls
 
@@ -114,7 +114,7 @@ Stop when:
 - production data or payload retention enters the path;
 - a Foundry agent lacks its separate app-scoped DLP rule or user-context `processContent` enforcement.
 
-The installation-phase preflight accepts Session 06 installation only when the DLP gate is
+The installation-phase preflight accepts Session 05 installation only when the DLP gate is
 recorded as `EnabledAndPropagated` and `Confirmed`.
 
 <!-- Notes: Do not use the session number as a blanket installation block. -->

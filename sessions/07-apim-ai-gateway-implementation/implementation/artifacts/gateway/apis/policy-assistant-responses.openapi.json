@@ -3,7 +3,7 @@
   "info": {
     "title": "Governed policy assistant Responses API",
     "version": "1.0.0",
-    "description": "APIM contract for the Session 05 policy-assistant Responses endpoint."
+    "description": "APIM contract for the Session 04 policy-assistant Responses endpoint."
   },
   "servers": [
     {

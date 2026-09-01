@@ -2,8 +2,32 @@
 
 ## Writing
 
-Before creating or editing prose, invoke `/humanize-writing`.
+### Writing gate
+
+Before drafting, editing, or returning repository prose, invoke
+`/humanize-writing`. This includes technical documentation, session kits,
+runbooks, Markdown, slide content, and user-facing explanations.
+
+In this repository, use the skill to simplify wording and remove AI-patterns from
+technical content. Its general technical-writing exclusion does not apply here.
+
 Use the `clear-thinker` voice unless the user requests another voice.
+
+Before finishing, complete both checks:
+1. Apply the prose simplification rules in this file.
+2. Apply the `/humanize-writing` AI-pattern dictionary and revise the draft until
+   it passes.
+
+### Cross-session implementation links
+
+An implementation guide can link to a sibling session's `implementation/README.md`
+with `../../<session-slug>/implementation/README.md`. The site builder turns that
+link into the sibling's published guide.
+
+Do not add a Markdown link or documented path variable that points to an artifact
+outside the current `implementation/` folder. When a script consumes an earlier
+session's artifact, keep that path inside the script or accept it as an explicit
+parameter. Run `npm run build:site` after changing implementation content.
 
 ### Default writing style
 
@@ -105,8 +129,3 @@ Rewrite or delete sentences that fail this test.
 Then apply the `/humanize-writing` AI-pattern dictionary.
 
 Preserve technical facts, Microsoft product names, dates, citations, and governance terminology exactly.
-
-## Visual identity
-
-- Treat `PRODUCT.md` and each session's `session.yaml` as the content authority. Never inherit curriculum copy, claims, or session numbering from a visual reference.
-- Reuse the supplied RVAP logos and official Microsoft product icons. Do not redraw, recolor, crop, rotate, or distort them.

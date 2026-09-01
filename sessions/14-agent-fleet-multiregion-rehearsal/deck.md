@@ -10,7 +10,7 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation · Session 15</p>
+<p class="eyebrow">AI Governance Co-implementation · Session 14</p>
 
 # Agent fleet governance, multi-region design, and production rehearsal
 
@@ -48,7 +48,7 @@ The repository holds the approved scope, regional inputs, script interfaces, and
 
 The customer change system holds approval and the rehearsal result.
 
-Session 14 remains the path for infrastructure and policy promotion.
+Session 13 remains the path for infrastructure and policy promotion.
 
 </div>
 <div>
@@ -104,7 +104,7 @@ The remaining time covers the briefing, final decisions, result check, and opera
 
 | Operator | Required access |
 |---|---|
-| Inventory | Azure Reader at subscription scope; time-bound PIM activation for privileged Entra AI Reader at tenant scope |
+| Inventory | Customer-approved temporary access: Azure Reader at subscription scope and privileged Entra AI Reader at tenant scope |
 | Security | Purview Data Security AI Viewer; time-bound Entra Security Reader at tenant scope when Defender Unified RBAC does not cover the workload |
 | Preview | Built-in Contributor at the exact regional resource group |
 | Delivery | Authority to approve the production selector move and restore |
@@ -167,7 +167,7 @@ runbook. The secondary deployment stays in service.
 </div>
 </div>
 
-<!-- Notes: Expire temporary human role activations after the rehearsal through the approved access process. -->
+<!-- Notes: The customer access process ends temporary access after the rehearsal. -->
 
 ---
 

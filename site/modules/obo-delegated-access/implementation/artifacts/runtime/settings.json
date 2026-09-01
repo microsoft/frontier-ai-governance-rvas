@@ -1,4 +1,5 @@
 {
+  "authorityModel": "signed-in-user-obo",
   "tenantId": "__REQUIRED_TENANT_ID__",
   "middleTierClientId": "__REQUIRED_MIDDLE_TIER_APPLICATION_ID__",
   "middleTierAudience": "__REQUIRED_MIDDLE_TIER_AUDIENCE__",
@@ -12,4 +13,3 @@
   "requestTimeoutSeconds": 10,
   "implementationSession": "optional-module-obo-delegated-access"
 }
-

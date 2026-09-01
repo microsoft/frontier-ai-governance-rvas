@@ -36,8 +36,10 @@ The Application Insights connection uses the stable `ApiKey` configuration witho
 connection string in parameters or outputs. A future approved change may adopt the preview
 `ProjectManagedIdentity` trace-ingestion path.
 
-[Session 02](../../02-identity-privileged-access/implementation/README.md) configures access.
-[Session 03](../../03-private-networking-dns/implementation/README.md) adds private endpoints and
+For this session, the deployment operator uses time-bound **Contributor** on the approved sandbox
+resource group and **Resource Policy Contributor** on the approved subscription. The cloud platform
+owner approves that access through the customer access process and removes it after confirmation.
+[Session 02](../../02-private-networking-dns/implementation/README.md) adds private endpoints and
 DNS. Existing resources need separate policy remediation.
 
 ## Architecture
@@ -76,8 +78,8 @@ the allowed-location and required-tag built-ins. Its resource-group assignment m
 Confirm these requirements:
 
 - The approved subscription, resource group, regions, network pattern, tags, and owners are known.
-- The deployment operator has Contributor on the approved sandbox scope and time-bound Resource
-  Policy Contributor on the approved subscription.
+- The deployment operator has time-bound **Contributor** on the exact approved sandbox resource
+  group and time-bound **Resource Policy Contributor** on the approved subscription.
 - The operator can run deployment what-if at resource-group and subscription scope.
 - The cloud platform owner has reviewed inherited policy assignments and exemptions.
 - The required Azure resource providers are registered.
@@ -104,8 +106,10 @@ control.
 
 Decide four things before deployment:
 
-1. **Scope and ownership.** Name the approved subscription and exact resource group. Confirm who
-   owns the baseline, policy assignment, inventory record, exemptions, and promotion decision.
+1. **Scope, ownership, and access.** Name the approved subscription and exact resource group.
+   The cloud platform owner approves the deployment operator's two time-bound assignments through
+   the customer access process, then removes them after confirmation. Confirm who owns the
+   baseline, policy assignment, inventory record, exemptions, and promotion decision.
 2. **Network pattern.** Select `public`, `public-private-inbound`, or `byo-vnet`. The choice has no
    default. For `byo-vnet`, approve the delegated subnet, private-endpoint subnet, route, firewall
    next hop, and network owner.

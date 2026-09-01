@@ -171,13 +171,13 @@ if ((${#unresolved_sentinels[@]} > 0)); then
     $known || unknown+=("$sentinel")
   done
   if ((${#unknown[@]} > 0)); then
-    fail "Add explicit Session 05 preflight checks for new sentinels: ${unknown[*]}"
+    fail "Add explicit Session 04 preflight checks for new sentinels: ${unknown[*]}"
   fi
-  fail "Resolve every Session 05 customer decision before deployment: ${unresolved_sentinels[*]}"
+  fail "Resolve every Session 04 customer decision before deployment: ${unresolved_sentinels[*]}"
 fi
 
-jq -e '.implementationSession == "05-governed-agent-baseline"' "$config_path" >/dev/null || fail "agent.json has the wrong implementation marker."
-jq -e '.agentType == "prompt" and .runtimePattern == "persistent-prompt-agent"' "$config_path" >/dev/null || fail "Session 05 implements one persistent prompt agent."
+jq -e '.implementationSession == "04-governed-agent-baseline"' "$config_path" >/dev/null || fail "agent.json has the wrong implementation marker."
+jq -e '.agentType == "prompt" and .runtimePattern == "persistent-prompt-agent"' "$config_path" >/dev/null || fail "Session 04 implements one persistent prompt agent."
 jq -e '.endpoint.versionSelection == "pinned"' "$config_path" >/dev/null || fail "The stable endpoint must pin one explicit agent version."
 jq -e '.endpoint.protocols == ["responses"]' "$config_path" >/dev/null || fail "The governed baseline exposes only the Responses protocol."
 jq -e '.endpoint.authorizationSchemes == ["Entra"]' "$config_path" >/dev/null || fail "The governed endpoint must use Microsoft Entra authorization only."
@@ -213,7 +213,7 @@ read_assignments=$(az_json 'Downstream read assignment lookup' role assignment l
 
 model_deployment_name=$(jq -r '.modelDeploymentName' "$config_path")
 model_json=$(az_json 'Model deployment lookup' cognitiveservices account deployment show --name "$foundry_account_name" --resource-group "$resource_group_name" --deployment-name "$model_deployment_name")
-[[ $(jq -r '.properties.provisioningState' <<<"$model_json") == 'Succeeded' ]] || fail "The approved Session 04 model deployment is not ready."
+[[ $(jq -r '.properties.provisioningState' <<<"$model_json") == 'Succeeded' ]] || fail "The approved Session 03 model deployment is not ready."
 
 ai_resource_json=$(az_json 'Application Insights lookup' resource show --ids "$application_insights_resource_id")
 [[ $(jq -r '.type | ascii_downcase' <<<"$ai_resource_json") == 'microsoft.insights/components' ]] || fail "The supplied Application Insights resource ID does not identify a Microsoft.Insights/components resource."
@@ -229,7 +229,7 @@ if (( existing_count > 1 )); then
 fi
 if (( existing_count == 1 )); then
   description=$(jq -r --arg name "$agent_name" '[.data[]?, .value[]?] | map(select(.name == $name))[0].agent_card.description // ""' "$API_BODY_FILE")
-  [[ "$description" == *'05-governed-agent-baseline'* ]] || fail "An existing agent uses the configured name but does not carry the Session 05 marker."
+  [[ "$description" == *'04-governed-agent-baseline'* ]] || fail "An existing agent uses the configured name but does not carry the Session 04 marker."
   principal_id=$(jq -r --arg name "$agent_name" '[.data[]?, .value[]?] | map(select(.name == $name))[0].instance_identity.principal_id // ""' "$API_BODY_FILE")
   [[ -n "$principal_id" ]] || fail "The existing agent is a legacy agent without a unique Entra Agent Identity. Create a new named agent instead."
   escaped_agent_name=$(python3 - "$agent_name" <<'PY'
@@ -260,4 +260,4 @@ if (( existing_count == 1 )); then
   echo "  Current/live active version: $live_version"
 fi
 echo "Foundry doesn't expose a what-if operation for data-plane agent version creation. This read-only lookup and exact mutation summary are the preview gate."
-echo 'PASS: Session 05 files, decisions, live release selector, approved Azure scope, model, Application Insights resource, Foundry project access, read-only tool boundary, unique-identity path, and preview gate are ready.'
+echo 'PASS: Session 04 files, decisions, live release selector, approved Azure scope, model, Application Insights resource, Foundry project access, read-only tool boundary, unique-identity path, and preview gate are ready.'

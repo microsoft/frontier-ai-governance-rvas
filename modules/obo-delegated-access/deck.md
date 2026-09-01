@@ -214,16 +214,14 @@ No application-only retry. No token or payload logging.
 
 ---
 
-## Related sessions and modules
+## Direct prerequisites and authority
 
-- Session 02 selects human, workload, agent, or delegated authority.
-- Session 05 keeps the direct OpenAPI baseline application-only.
-- Session 10 uses APIM managed identity for inbound authority.
+- Existing Microsoft Entra registrations identify the client, confidential middle tier, and downstream API.
+- The middle tier exposes its own audience and User `access_as_user` scope. The downstream API exposes a different audience and narrow delegated read scope.
+- A named customer identity owner approves the exact delegated permissions and consent.
+- **Choose signed-in user OBO** only when the downstream API must authorize each user. Shared or background work uses application-only managed identity and is outside this module.
 
-Use this module for a real per-user requirement that needs the downstream API to authorize the
-signed-in user.
-
-<!-- Notes: It complements the series without changing its sequence. -->
+<!-- Notes: The authority decision, registrations, API audiences, scopes, and identity owner are direct prerequisites. No numbered session is required. -->
 
 ---
 

@@ -1,6 +1,6 @@
 schema_version: 2
 session:
-  id: "06"
+  id: "05"
   slug: "agent-365-access-boundary"
   title: "Microsoft Agent 365 secure rollout and data controls"
   duration_minutes: 270
@@ -12,12 +12,12 @@ session:
     - "Microsoft Entra identity, source-platform, and audit owners"
   prerequisites:
     - "An approved nonproduction Microsoft Foundry, Copilot Studio, or Agent Builder agent appears in Agent Registry with Available status and supports group installation through Microsoft 365 admin center."
-    - "For a Foundry agent, complete Session 05. For a Copilot Studio or Agent Builder agent, the source-platform owner confirms publication, runtime ownership, and the approved lifecycle path."
+    - "For a Foundry agent, complete Session 04. For a Copilot Studio or Agent Builder agent, the source-platform owner confirms publication, runtime ownership, and the approved lifecycle path."
     - "The delivery owner approves one nonproduction test group, host product, use case, labelled synthetic item, DLP action and locations, and restore route."
     - "The DLP and label operator has Compliance Data Administrator in the approved Microsoft 365 tenant. The audit operator has View-Only Audit Logs in Purview and Exchange admin center."
     - "The Microsoft Graph Audit Search application has AuditLogsQuery.Read.All application permission with administrator consent."
   dependencies:
-    - "One supported Agent 365 entry path: Session 05 for Microsoft Foundry, or an approved published Copilot Studio or Agent Builder agent"
+    - "One supported Agent 365 entry path: Session 04 for Microsoft Foundry, or an approved published Copilot Studio or Agent Builder agent"
   services_in_scope:
     - "agent-365"
     - "microsoft-purview"
@@ -47,7 +47,7 @@ deliverables:
     - "implementation/scripts/query-agent-activity.sh"
 retained_files:
   - path: "implementation/artifacts/agent-deployment.json"
-    consumer: "The Microsoft 365 administrator and Session 06 preflight scripts"
+    consumer: "The Microsoft 365 administrator and Session 05 preflight scripts"
     operational_purpose: "Record the approved agent, test group, host product, consent, DLP readiness gate, scoped installation, and restore action."
   - path: "implementation/artifacts/governance/coverage-handoff.md"
     consumer: "The data, information protection, Agent 365, source-platform, and audit owners"

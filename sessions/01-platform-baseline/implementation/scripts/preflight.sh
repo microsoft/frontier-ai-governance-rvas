@@ -333,11 +333,11 @@ accounts = json.loads(os.environ["PYTHON_JSON_INPUT"])
 if (
     match
     and match.group(1) == "Enabled"
-    and any(account.get("networkControlSession") == "03-private-networking-dns" for account in accounts)
+    and any(account.get("networkControlSession") == "02-private-networking-dns" for account in accounts)
 ):
     raise SystemExit(
-        "publicNetworkAccess cannot be Enabled after Session 03 records "
-        "networkControlSession=03-private-networking-dns on the Session 01 Foundry account."
+        "publicNetworkAccess cannot be Enabled after Session 02 records "
+        "networkControlSession=02-private-networking-dns on the Session 01 Foundry account."
     )
 PY
 

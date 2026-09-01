@@ -17,7 +17,7 @@ public-access settings in the approved change system, disable public access, and
 The team tests the private client path before closing the public one. That reduces lockout risk and
 leaves a usable restore record.
 
-The delegated Agent Service subnet already routes to the customer firewall. Session 05 checks the
+The delegated Agent Service subnet already routes to the customer firewall. Session 04 checks the
 agent-runtime path.
 
 ### Boundaries
@@ -34,7 +34,7 @@ Microsoft-managed networking or if the Foundry account was not created with the 
 subnet. Use a separate approved migration or replacement before continuing.
 
 The connectivity check covers the approved client path. It does not prove agent-runtime traffic.
-[Session 05](../../05-governed-agent-baseline/implementation/README.md) runs that check.
+[Session 04](../../04-governed-agent-baseline/implementation/README.md) runs that check.
 
 ## Architecture
 
@@ -57,7 +57,7 @@ firewall permits traffic.
 | Network foundation | Consume the Session 01 VNet and subnet resource IDs | Microsoft-managed networking needs a different delivery path |
 | Foundry account | Use an account created with the approved delegated subnet | An incompatible account needs approved migration or replacement |
 | DNS ownership | Reuse authoritative central zones or deploy approved local zones | Central and hybrid designs need forwarding and Bicep changes |
-| Agent egress | Keep the dedicated subnet route to the customer firewall | Session 05 must still test firewall rules and runtime traffic |
+| Agent egress | Keep the dedicated subnet route to the customer firewall | Session 04 must still test firewall rules and runtime traffic |
 
 ### Architecture guidance
 
@@ -69,7 +69,7 @@ firewall permits traffic.
 
 Confirm these requirements:
 
-- Sessions 01 and 02 are complete in the approved nonproduction subscription and resource group.
+- Session 01 is complete in the approved nonproduction subscription and resource group.
 - The parameter file has the Session 01 VNet and private-endpoint subnet resource IDs.
 - Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault exist in that exact scope.
 - `Microsoft.App`, `Microsoft.CognitiveServices`, `Microsoft.DocumentDB`, `Microsoft.KeyVault`,
@@ -146,7 +146,7 @@ Set the approved scope and operator IDs:
 
 ```powershell
 $approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
-$resourceGroup = "approved-session-03-resource-group"
+$resourceGroup = "approved-session-02-resource-group"
 $networkOperatorObjectId = "network-operator-object-id"
 $dnsOperatorObjectId = "dns-operator-object-id"
 $dnsScopeResourceIds = @(
@@ -156,7 +156,7 @@ $cutoverChangeReference = "approved-change-reference"
 ```
 ```bash
 approved_subscription_id="${AZURE_SUBSCRIPTION_ID:-}"
-resource_group="approved-session-03-resource-group"
+resource_group="approved-session-02-resource-group"
 network_operator_object_id="network-operator-object-id"
 dns_operator_object_id="dns-operator-object-id"
 dns_scope_resource_id="/subscriptions/$approved_subscription_id/resourceGroups/approved-dns-resource-group"
@@ -260,7 +260,7 @@ Run the cutover script from the same host:
 
 The script validates the five unique resource IDs, checks connectivity, and displays the five prior
 public-access states. Copy those states to the approved change record before confirmation. It then
-adds `networkControlSession=03-private-networking-dns` without replacing existing tags and requests
+adds `networkControlSession=02-private-networking-dns` without replacing existing tags and requests
 `Disabled` on every service.
 
 If an update fails, inspect the change record and identify which services changed. Start the manual
@@ -294,7 +294,7 @@ prints the result and saves no file.
 | Bicep, parameters, and scripts | Network engineering |
 
 Keep this control in the approved nonproduction scope. Production needs separate address, DNS,
-firewall, service-owner, and change-window decisions. Session 05 must still test agent-runtime
+firewall, service-owner, and change-window decisions. Session 04 must still test agent-runtime
 traffic.
 
 If access must be restored, the network, DNS, firewall, security, and service owners review the

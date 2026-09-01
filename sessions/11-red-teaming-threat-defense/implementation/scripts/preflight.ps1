@@ -85,7 +85,7 @@ foreach ($path in @($attackPlanPath, $huntPath, $playbookPath, (Join-Path $PSScr
 }
 
 $attackPlan = Get-Content -LiteralPath $attackPlanPath -Raw | ConvertFrom-Json -ErrorAction Stop
-if ([string]$attackPlan.implementationSession -ne "12-red-teaming-threat-defense" -or
+if ([string]$attackPlan.implementationSession -ne "11-red-teaming-threat-defense" -or
     [string]$attackPlan.target.type -ne "azure_ai_agent" -or
     [string]::IsNullOrWhiteSpace([string]$attackPlan.target.name) -or
     [bool]$attackPlan.resultHandling.retainAttackPromptsInRepository -or
@@ -123,7 +123,7 @@ if ([string]::IsNullOrWhiteSpace($baselineVersion) -or
 
 & python -c "import azure.ai.projects, azure.identity, openai" 2>$null
 if ($LASTEXITCODE -ne 0) {
-    throw "Install the Session 12 Python dependencies: python -m pip install -r `"$PSScriptRoot\requirements.txt`""
+    throw "Install the Session 11 Python dependencies: python -m pip install -r `"$PSScriptRoot\requirements.txt`""
 }
 $account = Invoke-AzJson -Arguments @("account", "show") -Description "Azure account lookup"
 if ([string]$account.id -ne $ApprovedSubscriptionId) {

@@ -66,20 +66,20 @@ if ($sentinels) {
     $unresolved = @($sentinels.Matches.Value | Sort-Object -Unique)
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
     if ($unknown.Count -gt 0) {
-        throw "Add explicit Session 05 preflight checks for new sentinels: $($unknown -join ', ')."
+        throw "Add explicit Session 04 preflight checks for new sentinels: $($unknown -join ', ')."
     }
-    throw "Resolve every Session 05 customer decision before deployment: $($unresolved -join ', ')."
+    throw "Resolve every Session 04 customer decision before deployment: $($unresolved -join ', ')."
 }
 
 $config = Get-Content -LiteralPath $configPath -Raw | ConvertFrom-Json -ErrorAction Stop
 $toolManifest = Get-Content -LiteralPath $toolPath -Raw | ConvertFrom-Json -ErrorAction Stop
 $instructions = Get-Content -LiteralPath $instructionsPath -Raw
 
-if ([string]$config.implementationSession -ne "05-governed-agent-baseline") {
+if ([string]$config.implementationSession -ne "04-governed-agent-baseline") {
     throw "agent.json has the wrong implementation marker."
 }
 if ([string]$config.agentType -ne "prompt" -or [string]$config.runtimePattern -ne "persistent-prompt-agent") {
-    throw "Session 05 implements one persistent prompt agent."
+    throw "Session 04 implements one persistent prompt agent."
 }
 if ([string]$config.endpoint.versionSelection -ne "pinned") {
     throw "The stable endpoint must pin one explicit agent version."
@@ -168,7 +168,7 @@ $model = & az cognitiveservices account deployment show `
     --only-show-errors `
     --output json | ConvertFrom-Json
 if ($LASTEXITCODE -ne 0 -or [string]$model.properties.provisioningState -ne "Succeeded") {
-    throw "The approved Session 04 model deployment is not ready."
+    throw "The approved Session 03 model deployment is not ready."
 }
 
 $aiResource = & az resource show `
@@ -214,7 +214,7 @@ if ($existing.Count -gt 1) {
 if ($existing.Count -eq 1) {
     $description = [string]$existing[0].agent_card.description
     if ($description -notlike "*$($config.implementationSession)*") {
-        throw "An existing agent uses the configured name but does not carry the Session 05 marker."
+        throw "An existing agent uses the configured name but does not carry the Session 04 marker."
     }
     if ([string]::IsNullOrWhiteSpace([string]$existing[0].instance_identity.principal_id)) {
         throw "The existing agent is a legacy agent without a unique Entra Agent Identity. Create a new named agent instead."
@@ -242,4 +242,4 @@ if ($existing.Count -eq 1) {
 }
 Write-Host "Foundry doesn't expose a what-if operation for data-plane agent version creation. This read-only lookup and exact mutation summary are the preview gate."
 
-Write-Host "PASS: Session 05 files, decisions, live release selector, approved Azure scope, model, Application Insights resource, Foundry project access, read-only tool boundary, unique-identity path, and preview gate are ready."
+Write-Host "PASS: Session 04 files, decisions, live release selector, approved Azure scope, model, Application Insights resource, Foundry project access, read-only tool boundary, unique-identity path, and preview gate are ready."

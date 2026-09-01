@@ -102,7 +102,7 @@ import sys
 query = json.load(open(sys.argv[1], encoding="utf-8"))
 if (
     query.get("schemaVersion") != 1
-    or query.get("implementationSession") != "06-agent-365-access-boundary"
+    or query.get("implementationSession") != "05-agent-365-access-boundary"
     or query.get("microsoftGraphApplicationPermission") != "AuditLogsQuery.Read.All"
     or not isinstance(query.get("lookbackHours"), int)
     or not 1 <= query["lookbackHours"] <= 168
@@ -149,7 +149,7 @@ payload = json.loads(base64.urlsafe_b64decode(parts[1] + '=' * (-len(parts[1]) %
 if sys.argv[2] not in payload.get('roles', []):
     raise SystemExit('The Microsoft Graph application token must include AuditLogsQuery.Read.All with administrator consent.')
 PY
-create_body=$(jq -n --arg start "$start_utc" --arg end "$end_utc" --argjson ops "$(jq -c '.operations' <<<"$query_json")" '{displayName:"Session 06 Agent 365 activity query", filterStartDateTime:$start, filterEndDateTime:$end, operationFilters:$ops}')
+create_body=$(jq -n --arg start "$start_utc" --arg end "$end_utc" --argjson ops "$(jq -c '.operations' <<<"$query_json")" '{displayName:"Session 05 Agent 365 activity query", filterStartDateTime:$start, filterEndDateTime:$end, operationFilters:$ops}')
 graph_request POST 'https://graph.microsoft.com/v1.0/security/auditLog/queries' "$graph_token" "$create_body"
 [[ "$GRAPH_STATUS" == '201' || "$GRAPH_STATUS" == '200' ]] || fail 'Creating the unified audit log query failed.'
 query_id=$(jq -r '.id // empty' <<<"$GRAPH_BODY")

@@ -26,7 +26,7 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
-$marker = "03-private-networking-dns"
+$marker = "02-private-networking-dns"
 
 function Invoke-AzJson {
     param(

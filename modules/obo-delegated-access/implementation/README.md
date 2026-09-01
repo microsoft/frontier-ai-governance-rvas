@@ -40,10 +40,9 @@ The certificate remains in Azure Key Vault and reaches the approved runtime only
 protected certificate integration. This repository stores references, never private keys, bearer
 tokens, tenant values, endpoints, or user data.
 
-[Session 02](../../../sessions/02-identity-privileged-access/) establishes the identity decision.
-[Session 05](../../../sessions/05-governed-agent-baseline/) provides the application-only agent
-baseline, and [Session 10](../../../sessions/10-mcp-tool-security/) provides the application-only
-MCP path.
+The customer must record **signed-in user OBO** as the authority decision before this work starts.
+Use an application-only managed identity for shared or background work instead. That path is
+outside this module.
 
 ## Architecture
 
@@ -84,11 +83,13 @@ application-only authority or change the resource's access model.
 Start with Microsoft’s [OBO flow
 guidance](https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-on-behalf-of-flow).
 It explains the different roles of the inbound audience, user assertion, and downstream scope.
-Session 02 supplies the identity decision: choose this module only if an application-only path
-would erase a real per-user authorization decision. Sessions 05 and 08 retain their
-application-only routes.
+Choose this module only when an application-only path would erase a real per-user authorization
+decision. Record signed-in user OBO before configuration starts.
 
-Once that boundary is agreed, `app-registrations.json` records the applications and exact delegated
+Once that boundary is agreed, `app-registrations.json` records the three existing application
+registrations, both API audiences, the exact delegated scopes, and the named identity owner.
+`control-definition.json` records signed-in user OBO as the authority decision. The module does
+not configure an application-only managed identity. `app-registrations.json` records the exact delegated
 permissions. `token-claim-contract.json` lists the issuer, audience, client, scope, and user claims
 that the middle tier accepts. Preflight compares those definitions with live Microsoft Entra state
 and prints the proposed change because Microsoft Graph has no what-if operation for
@@ -107,12 +108,18 @@ design.
 Confirm these prerequisites:
 
 - The client, middle tier, and downstream API already exist in an approved nonproduction tenant.
+- Microsoft Entra application registrations identify the client, middle tier, and downstream API.
+- The middle tier exposes its own API audience and User `access_as_user` scope. The downstream API
+  exposes a different API audience and the narrow delegated read scope.
 - The client can sign in users and request a token for the middle-tier audience.
-- The downstream API exposes one narrow delegated read scope and enforces resource authorization
-  for each user.
+- The downstream API enforces resource authorization for each user.
 - The middle-tier host can expose the exportable Key Vault certificate in the certificate binding
   as a protected PFX path through its approved certificate integration.
-- The identity owner can approve the exact delegated permission and consent boundary.
+- A named customer identity owner can approve the client-to-middle-tier and
+  middle-tier-to-downstream delegated permissions and consent.
+- The recorded authority decision is **signed-in user OBO**. Use this module only when the
+  downstream API must authorize the signed-in user. Shared or background work requires an
+  application-only managed identity and does not use this module.
 - One permitted user and one user without downstream resource authority are available for the
   delivery checks.
 - Diagnostics can retain correlation, operation, status, error, and duration fields while
@@ -159,7 +166,9 @@ Use OBO only when the downstream API must evaluate the signed-in user. Typical s
 user-owned records, per-user entitlements, or a downstream policy that names the user.
 
 Use application-only authorization when the workload reads shared data, runs in the background, or
-needs the same authority for every caller. OBO carries a different authority from managed identity.
+needs the same authority for every caller. **Record signed-in user OBO in
+`control-definition.json` for this module.** Do not configure an application-only managed identity
+in its place.
 
 ### Keep token audiences separate
 

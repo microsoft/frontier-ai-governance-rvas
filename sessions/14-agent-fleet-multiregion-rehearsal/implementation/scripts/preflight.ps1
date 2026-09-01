@@ -132,7 +132,7 @@ if ($foundSentinels.Count -gt 0) {
 $control = Get-Content -LiteralPath $controlPath -Raw | ConvertFrom-Json -ErrorAction Stop
 $parameterDocument = Get-Content -LiteralPath $parametersPath -Raw | ConvertFrom-Json -ErrorAction Stop
 if ($control.schemaVersion -ne 2 -or
-    [string]$control.implementationSession -cne "15-agent-fleet-multiregion-rehearsal") {
+    [string]$control.implementationSession -cne "14-agent-fleet-multiregion-rehearsal") {
     throw "control-definition.json has an invalid schema or implementationSession marker."
 }
 if ([string]$control.approvedAzureScope -ine $ApprovedTargetScope) {

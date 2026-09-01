@@ -53,11 +53,11 @@ $requiredSentinels = @(
 
 foreach ($path in @($deploymentPath, $handoffPath, $queryPath)) {
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
-        throw "Required Session 06 implementation artifact is missing: $path"
+        throw "Required Session 05 implementation artifact is missing: $path"
     }
 }
 if (-not (Get-Command ConvertFrom-Json -ErrorAction SilentlyContinue)) {
-    throw "PowerShell JSON support is required to validate the Session 06 implementation artifacts."
+    throw "PowerShell JSON support is required to validate the Session 05 implementation artifacts."
 }
 
 $sentinels = @(Get-ChildItem -LiteralPath $artifactRoot -File -Recurse |
@@ -66,13 +66,13 @@ if ($sentinels.Count -gt 0) {
     $unresolved = @($sentinels.Matches.Value | Sort-Object -Unique)
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
     if ($unknown.Count -gt 0) {
-        throw "Add explicit Session 06 preflight checks for new sentinels: $($unknown -join ', ')."
+        throw "Add explicit Session 05 preflight checks for new sentinels: $($unknown -join ', ')."
     }
-    throw "Resolve every Session 06 decision before changing DLP or Microsoft 365 state: $($unresolved -join ', ')."
+    throw "Resolve every Session 05 decision before changing DLP or Microsoft 365 state: $($unresolved -join ', ')."
 }
 
 $deployment = Get-Content -LiteralPath $deploymentPath -Raw | ConvertFrom-Json -ErrorAction Stop
-if ([string]$deployment.implementationSession -ne "06-agent-365-access-boundary") {
+if ([string]$deployment.implementationSession -ne "05-agent-365-access-boundary") {
     throw "agent-deployment.json has the wrong implementationSession marker."
 }
 if ([string]$deployment.targetScope -ne $approvedTargetScope) {
@@ -93,14 +93,14 @@ if ([string]$deployment.deployment.adminConsent -ne "Approved") {
 }
 if ([string]$deployment.deployment.action -ne "InstallAfterDlpPropagation" -or
     [string]$deployment.deployment.restoreAction -ne "RemoveScopedInstallation") {
-    throw "Session 06 requires scoped installation after DLP propagation and a scoped-installation removal route."
+    throw "Session 05 requires scoped installation after DLP propagation and a scoped-installation removal route."
 }
 if ([string]$deployment.dlpGate.requiredInstallState -ne "EnabledAndPropagated") {
     throw "The DLP readiness gate must require EnabledAndPropagated before installation."
 }
 if ([string]$deployment.dataBoundary.allowedData -ne "SyntheticOnly" -or
     [string]$deployment.dataBoundary.userAccess -ne "ScopedAfterDlpPropagation") {
-    throw "Session 06 permits labelled synthetic data and scoped access only after DLP propagation."
+    throw "Session 05 permits labelled synthetic data and scoped access only after DLP propagation."
 }
 if (@($deployment.deployment.hostProducts).Count -ne 1 -or
     [string]::IsNullOrWhiteSpace([string]$deployment.deployment.hostProducts[0])) {
@@ -117,7 +117,7 @@ $expectedOperations = @("AIInvokeAgent", "AIExecuteTool", "AIInferenceCall", "AI
 $expectedFields = @("CreationDate", "Operation", "AgentId", "AgentName", "ResultStatus")
 if (
     [int]$query.schemaVersion -ne 1 -or
-    [string]$query.implementationSession -ne "06-agent-365-access-boundary" -or
+    [string]$query.implementationSession -ne "05-agent-365-access-boundary" -or
     [string]$query.microsoftGraphApplicationPermission -ne "AuditLogsQuery.Read.All" -or
     [int]$query.lookbackHours -lt 1 -or [int]$query.lookbackHours -gt 168 -or
     (@($query.operations) | Sort-Object) -join "|" -ne ($expectedOperations | Sort-Object) -join "|" -or
@@ -132,7 +132,7 @@ if ($Phase -eq "Dlp") {
         [string]$deployment.dlpGate.propagationState -ne "NotStarted") {
         throw "DLP preflight requires ReadyForSimulation and NotStarted. Inspect the approved change before configuring Purview."
     }
-    Write-Host "PASS: Session 06 is ready to configure the scoped DLP policy in TestWithNotifications. This phase does not authorize installation."
+    Write-Host "PASS: Session 05 is ready to configure the scoped DLP policy in TestWithNotifications. This phase does not authorize installation."
     return
 }
 
@@ -155,4 +155,4 @@ if ([string]$claims.tid -ine $ApprovedTenantId) {
     throw "The Microsoft Graph application token does not identify the approved tenant."
 }
 
-Write-Host "PASS: Session 06 accepts the approved scoped installation after recorded DLP propagation and validates the payload-free audit query."
+Write-Host "PASS: Session 05 accepts the approved scoped installation after recorded DLP propagation and validates the payload-free audit query."

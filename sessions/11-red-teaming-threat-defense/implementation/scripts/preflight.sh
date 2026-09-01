@@ -74,7 +74,7 @@ import sys
 
 plan = json.load(open(sys.argv[1], encoding="utf-8"))
 if (
-    plan.get("implementationSession") != "12-red-teaming-threat-defense"
+    plan.get("implementationSession") != "11-red-teaming-threat-defense"
     or plan.get("target", {}).get("type") != "azure_ai_agent"
     or not plan.get("target", {}).get("name")
     or not plan.get("resultHandling", {}).get("retainAggregateOnly")

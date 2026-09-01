@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "08-apim-ai-gateway-implementation",
+  "implementationSession": "07-apim-ai-gateway-implementation",
   "controlObjective": "API Management checks each client token and product subscription, applies limits and Content Safety policies, then uses managed identity to call the pinned Foundry agent.",
   "api": {
     "id": "policy-assistant-responses",

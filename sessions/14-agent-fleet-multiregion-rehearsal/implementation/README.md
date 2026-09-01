@@ -21,7 +21,7 @@ reports gateway configuration. The customer change system records approval and t
 result.
 
 The repository keeps the approved scope and script paths in `control-definition.json`, expected
-regional values in `region.parameters.json`, and restore steps in `failover-runbook.md`. Session 14
+regional values in `region.parameters.json`, and restore steps in `failover-runbook.md`. Session 13
 promotes infrastructure and policy changes. This session moves one approved selector. It does not
 move identity or registry objects, deploy a partial gateway definition, or prove fleet-wide
 lifecycle enforcement.
@@ -54,42 +54,43 @@ parameters.
 
 ## Before you start
 
-Complete Sessions 05 and 07-14. If your team built those controls elsewhere, confirm these states
+Complete Sessions 04 and 06-13. If your team built those controls elsewhere, confirm these states
 before the rehearsal:
 
 | Control | Required state | Owner check |
 |---|---|---|
-| 05 Agent baseline | Foundry project, immutable agent version, model alias, and Entra identity | Platform owner invokes the approved version |
+| 04 Agent baseline | Foundry project, immutable agent version, model alias, and Entra identity | Platform owner invokes the approved version |
 | 07 Gateway | Versioned API Management policy and regional selectors | Gateway owner previews the selectors |
 | 08 Inventory | Exact API, agent, and MCP identifiers with owners | Inventory owner locates every native identifier |
 | 09 Tool security | Workload identity, allowed operations, and egress | Tool owner checks the allowed path and blocked unauthorized action |
-| 10 Data governance | Classification, residency, Purview policy ID, and covered agent | Data owner finds the agent in the policy |
-| 11 Evaluation | Threshold policy, approved baseline, and passing candidate | Quality owner sees the release gate pass |
-| 12 Threat defense | Payload-free comparison and Defender route | Security owner checks the prohibited action and Defender signal |
-| 13 Observability | Telemetry definition, workbook, alerts, and smoke interface | Observability owner traces a safe request with separate failures |
-| 14 Promotion | Protected environments, deployment metadata, and previous-release restore | Release owner sees approval after what-if |
+| 05 Agent 365 data controls | Classification, residency, Purview policy ID, and covered agent | Data owner finds the agent in the policy |
+| 10 Evaluation | Threshold policy, approved baseline, and passing candidate | Quality owner sees the release gate pass |
+| 11 Threat defense | Payload-free comparison and Defender route | Security owner checks the prohibited action and Defender signal |
+| 12 Observability | Telemetry definition, workbook, alerts, and smoke interface | Observability owner traces a safe request with separate failures |
+| 13 Promotion | Protected environments, deployment metadata, and previous-release restore | Release owner sees approval after what-if |
 
 Also confirm:
 
 - Both regions meet the model, quota, residency, data, network, capacity, and tool-path requirements.
 - The customer Bicep entrypoint deploys the complete regional stack. The secondary deployment is ready.
-- The inventory operator has Azure Reader at subscription scope and a time-bound PIM activation for
-  the privileged Entra AI Reader role at tenant scope.
+- The customer-approved temporary-access process gives the inventory operator Azure Reader at
+  subscription scope and the privileged Entra AI Reader role at tenant scope for the rehearsal.
 - The security owner has recorded the Defender Unified RBAC activation state. The security operator
   has Purview Data Security AI Viewer and, when Unified RBAC does not cover the workload, a
   time-bound Entra Security Reader activation at tenant scope.
 - The preview operator has built-in Contributor at the exact regional resource group.
 - The maintenance window, change record, delivery authority, and restore authority are ready.
 
-Use time-bound access. Agent Registry Administrator may add a missing registry record. Agent ID
-Administrator is required only for an identity change. Return either task to pre-work.
+The customer-approved access process ends temporary access after the rehearsal. Agent Registry
+Administrator may add a missing registry record. Agent ID Administrator is required only for an
+identity change. Return either task to pre-work.
 
 ### Implementation files
 
 | Type | File | Consumer |
 |---|---|---|
-| Runtime | [`artifacts/control-definition.json`](artifacts/control-definition.json) | The Session 15 preflight scripts and regional rehearsal operators |
-| Deployment | [`artifacts/regional/region.parameters.json`](artifacts/regional/region.parameters.json) | The customer Bicep deployment, Session 15 preflight scripts, and routing wrappers |
+| Runtime | [`artifacts/control-definition.json`](artifacts/control-definition.json) | The Session 14 preflight scripts and regional rehearsal operators |
+| Deployment | [`artifacts/regional/region.parameters.json`](artifacts/regional/region.parameters.json) | The customer Bicep deployment, Session 14 preflight scripts, and routing wrappers |
 | Record | [`artifacts/regional/failover-runbook.md`](artifacts/regional/failover-runbook.md) | The service continuity and routing operators |
 
 The wrappers call customer-owned paired PowerShell and Bash scripts. The health script accepts
@@ -140,7 +141,7 @@ and change process.
 
 For one multi-region service, use the same API Management resource ID for both paths and Premium
 (classic). Put the secondary region in `additionalLocations`. Separate gateways use different
-resource IDs and receive the same policy revision through Session 14. Internal mode needs
+resource IDs and receive the same policy revision through Session 13. Internal mode needs
 customer-owned cross-region routing and DNS.
 
 Stop before routing when:
@@ -235,4 +236,4 @@ To restore, check primary readiness, preview the secondary-to-primary selector m
 delivery-owner confirmation, and call the routing control in `Restore` mode. Restore only the
 documented selector pair. Then check the active primary path. Keep the secondary deployment.
 
-Expire all temporary human role activations through the approved access process.
+End temporary human access through the customer-approved access process after the rehearsal.

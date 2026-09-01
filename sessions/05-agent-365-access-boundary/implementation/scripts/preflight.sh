@@ -78,7 +78,7 @@ required_sentinels=(
 )
 
 for path in "$deployment_path" "$handoff_path" "$query_path"; do
-  [[ -f "$path" ]] || fail "Required Session 06 implementation artifact is missing: $path"
+  [[ -f "$path" ]] || fail "Required Session 05 implementation artifact is missing: $path"
 done
 mapfile -t unresolved_sentinels < <(grep -R -h -o -E '__REQUIRED_[A-Z0-9_]+__' "$artifact_root" | sort -u || true)
 if ((${#unresolved_sentinels[@]} > 0)); then
@@ -90,11 +90,11 @@ if ((${#unresolved_sentinels[@]} > 0)); then
     done
     $known || unknown+=("$sentinel")
   done
-  ((${#unknown[@]} == 0)) || fail "Add explicit Session 06 preflight checks for new sentinels: ${unknown[*]}"
-  fail "Resolve every Session 06 decision before changing DLP or Microsoft 365 state: ${unresolved_sentinels[*]}"
+  ((${#unknown[@]} == 0)) || fail "Add explicit Session 05 preflight checks for new sentinels: ${unknown[*]}"
+  fail "Resolve every Session 05 decision before changing DLP or Microsoft 365 state: ${unresolved_sentinels[*]}"
 fi
 
-[[ $(jq -r '.implementationSession' "$deployment_path") == "06-agent-365-access-boundary" ]] ||
+[[ $(jq -r '.implementationSession' "$deployment_path") == "05-agent-365-access-boundary" ]] ||
   fail "agent-deployment.json has the wrong implementationSession marker."
 [[ $(jq -r '.targetScope' "$deployment_path") == "$approved_target_scope" ]] ||
   fail "agent-deployment.json must use the approved target scope '$approved_target_scope'."
@@ -112,12 +112,12 @@ $platform_supported || fail "agent.platform must be one of: ${supported_platform
   fail "The Entra owner must approve the requested agent permissions before installation."
 [[ $(jq -r '.deployment.action' "$deployment_path") == "InstallAfterDlpPropagation" &&
    $(jq -r '.deployment.restoreAction' "$deployment_path") == "RemoveScopedInstallation" ]] ||
-  fail "Session 06 requires scoped installation after DLP propagation and a scoped-installation removal route."
+  fail "Session 05 requires scoped installation after DLP propagation and a scoped-installation removal route."
 [[ $(jq -r '.dlpGate.requiredInstallState' "$deployment_path") == "EnabledAndPropagated" ]] ||
   fail "The DLP readiness gate must require EnabledAndPropagated before installation."
 [[ $(jq -r '.dataBoundary.allowedData' "$deployment_path") == "SyntheticOnly" &&
    $(jq -r '.dataBoundary.userAccess' "$deployment_path") == "ScopedAfterDlpPropagation" ]] ||
-  fail "Session 06 permits labelled synthetic data and scoped access only after DLP propagation."
+  fail "Session 05 permits labelled synthetic data and scoped access only after DLP propagation."
 [[ $(jq -r '.deployment.hostProducts | length' "$deployment_path") == "1" &&
    -n $(jq -r '.deployment.hostProducts[0]' "$deployment_path") ]] ||
   fail "Configure exactly one approved host product for the scoped pilot."
@@ -131,7 +131,7 @@ import sys
 query = json.load(open(sys.argv[1], encoding="utf-8"))
 if (
     query.get("schemaVersion") != 1
-    or query.get("implementationSession") != "06-agent-365-access-boundary"
+    or query.get("implementationSession") != "05-agent-365-access-boundary"
     or query.get("microsoftGraphApplicationPermission") != "AuditLogsQuery.Read.All"
     or not isinstance(query.get("lookbackHours"), int)
     or not 1 <= query["lookbackHours"] <= 168
@@ -146,7 +146,7 @@ if [[ "$phase" == "dlp" ]]; then
   [[ $(jq -r '.dlpGate.policyState' "$deployment_path") == "ReadyForSimulation" &&
      $(jq -r '.dlpGate.propagationState' "$deployment_path") == "NotStarted" ]] ||
     fail 'DLP preflight requires ReadyForSimulation and NotStarted. Inspect the approved change before configuring Purview.'
-  echo "PASS: Session 06 is ready to configure the scoped DLP policy in TestWithNotifications. This phase does not authorize installation."
+  echo "PASS: Session 05 is ready to configure the scoped DLP policy in TestWithNotifications. This phase does not authorize installation."
   exit 0
 fi
 
@@ -175,4 +175,4 @@ if str(claims.get("tid", "")).lower() != sys.argv[2].lower():
     raise SystemExit("The Microsoft Graph application token does not identify the approved tenant.")
 PY
 
-echo "PASS: Session 06 accepts the approved scoped installation after recorded DLP propagation and validates the payload-free audit query."
+echo "PASS: Session 05 accepts the approved scoped installation after recorded DLP propagation and validates the payload-free audit query."

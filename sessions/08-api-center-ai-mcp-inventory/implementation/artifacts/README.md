@@ -8,7 +8,7 @@ synchronized APIM entries, and the native MCP server entry. API Management still
 | `api-center/main.bicep` | Defines API Center, its system identity, metadata schemas, workspace, Foundry environment, direct agent API, and scoped APIM reader module |
 | `api-center/apim-reader.bicep` | Assigns API Management Service Reader Role in the existing APIM resource group |
 | `api-center/metadata-schemas.json` | Defines required API metadata and allowed governance values |
-| `api-center/agent-api-definition.json` | Defines the direct Session 05 agent API and its required metadata |
+| `api-center/agent-api-definition.json` | Defines the direct Session 04 agent API and its required metadata |
 | `catalog/specs/policy-assistant-agent.openapi.json` | Supplies the OpenAPI definition for the direct agent endpoint |
 | `environments/sandbox.json` | Names the approved API Center, APIM, Foundry, and integration resources |
 

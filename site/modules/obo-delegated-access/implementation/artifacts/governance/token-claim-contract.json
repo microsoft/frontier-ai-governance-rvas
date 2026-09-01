@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
+  "authorityModel": "signed-in-user-obo",
   "inbound": {
     "issuer": "https://login.microsoftonline.com/__REQUIRED_TENANT_ID__/v2.0",
     "audience": "__REQUIRED_MIDDLE_TIER_AUDIENCE__",

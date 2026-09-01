@@ -10,13 +10,13 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation · Session 08</p>
+<p class="eyebrow">AI Governance Co-implementation · Session 07</p>
 
 # Azure API Management AI gateway implementation
 
 150 minutes · Build the approved Foundry Agent Service route in APIM
 
-<!-- Notes: Session 07 records the design. This session implements its Foundry Agent Service variant. -->
+<!-- Notes: Session 06 records the design. This session implements its Foundry Agent Service variant. -->
 
 ---
 
@@ -34,7 +34,7 @@ This session:
 - sends correlation and token metrics to Application Insights without bodies; and
 - returns `401 Unauthorized` for an invalid bearer identity before Content Safety or Foundry.
 
-This build applies **only** to a Foundry Agent Service policy-assistant endpoint. The Session 07
+This build applies **only** to a Foundry Agent Service policy-assistant endpoint. The Session 06
 design record can cover other approved backend types. Each needs its own implementation variant.
 
 <!-- Notes: This control covers traffic sent through the configured route. -->
@@ -81,7 +81,7 @@ control.
 | Routing | Primary backend with one read-safe retry | Secondary and regional failover remain disabled |
 | Telemetry | Correlation and token metrics; zero body logging | Content is unavailable for debugging |
 
-The retry is safe here because the Session 05 agent has a read-only tool.
+The retry is safe here because the Session 04 agent has a read-only tool.
 
 <!-- Notes: Stop if a retry could repeat a consequential action. -->
 
@@ -91,16 +91,16 @@ The retry is safe here because the Session 05 agent has a read-only tool.
 
 | Control | Required value |
 |---|---|
-| Design record | Session 07 is `ready-for-implementation`, has no open gaps, and names this APIM instance and Foundry Agent Service variant |
+| Design record | Session 06 is `ready-for-implementation`, has no open gaps, and names this APIM instance and Foundry Agent Service variant |
 | Operator access | Time-bound Contributor on the exact APIM resource group |
-| Foundry access | Foundry Agent Consumer on the individual Session 05 agent |
+| Foundry access | Foundry Agent Consumer on the individual Session 04 agent |
 | Content Safety access | Cognitive Services User on the exact Content Safety resource |
 | Token limits | 20,000 TPM and 500,000 tokens/day per subscription |
 | Request and backend | 65,536 bytes; 120-second timeout |
 | Resiliency | One retry; circuit opens after 5 errors in 1 minute for 1 minute |
 | Safety | Prompt Shields; Hate, SelfHarm, Sexual, and Violence at threshold 4 |
 
-APIM counters are gateway-local. Session 15 assigns per-region budgets.
+APIM counters are gateway-local. Session 14 assigns per-region budgets.
 
 <!-- Notes: The Content Safety backend and Application Insights logger must already exist. -->
 
@@ -109,11 +109,11 @@ APIM counters are gateway-local. Session 15 assigns per-region budgets.
 ## Stop before the change when
 
 - A `__REQUIRED_*__` value remains.
-- The Session 07 record is incomplete, has an open gap, selects another backend variant, or names another APIM instance.
+- The Session 06 record is incomplete, has an open gap, selects another backend variant, or names another APIM instance.
 - Azure targets the wrong subscription, resource group, APIM service, agent, or safety resource.
 - APIM lacks its system identity or either scoped role assignment.
 - The client identity, audience, app role, or workload subscription is missing or shared.
-- Content Safety uses a key, is unreachable, or conflicts with the Session 05 RAI policy.
+- Content Safety uses a key, is unreachable, or conflicts with the Session 04 RAI policy.
 - The Application Insights logger differs from the approved input.
 - ARM `what-if` changes APIM itself, unrelated resources, or the approved API or product ID.
 - A live endpoint, key, token, prompt, response, or customer data would enter source control.
@@ -128,7 +128,7 @@ APIM counters are gateway-local. Session 15 assigns per-region budgets.
 
 **Total session: 150 minutes. Guided implementation: about 105 minutes.**
 
-1. Confirm the Session 07 design record and resolve client, ownership, limits, safety, routing, and network inputs.
+1. Confirm the Session 06 design record and resolve client, ownership, limits, safety, routing, and network inputs.
 2. Run paired PowerShell or Bash preflight. It checks the actual backend, identity, network, and ARM `what-if`.
 3. Deploy the marked API, product, named values, backend pool, policy, and diagnostics.
 4. Use the workload subscription issued before the session.
@@ -177,7 +177,7 @@ key, or headers. Test other policy branches separately.
 
 ### Restore safely
 
-Check `implementationSession=08-apim-ai-gateway-implementation`. Then remove only the Session 08
+Check `implementationSession=07-apim-ai-gateway-implementation`. Then remove only the Session 07
 API, product, backends, and four named values.
 
 Leave APIM, Foundry, Content Safety, the logger, role assignments, and repository definitions.
@@ -189,9 +189,9 @@ Leave APIM, Foundry, Content Safety, the logger, role assignments, and repositor
 
 ---
 
-## Handoff to Session 09
+## Handoff to Session 08
 
-Session 08 leaves:
+Session 07 leaves:
 
 - a controlled APIM route to the pinned Foundry agent;
 - separate client and backend identities;
@@ -199,8 +199,8 @@ Session 08 leaves:
 - rerunnable deployment definitions and preflight; and
 - a scoped restore path.
 
-[Session 09](../09-api-center-ai-mcp-inventory/) records the API and runtime location.
-[Session 10](../10-mcp-tool-security/) adds the MCP tool boundary.
+[Session 08](../08-api-center-ai-mcp-inventory/) records the API and runtime location.
+[Session 09](../09-mcp-tool-security/) adds the MCP tool boundary.
 
 <!-- Notes: End on the owned runtime control and the next dependencies. -->
 

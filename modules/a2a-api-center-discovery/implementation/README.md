@@ -20,7 +20,7 @@ A2A interface and definition. The source integration keeps the discovery asset c
 ### Boundaries
 
 Follow the [A2A agent inventory in Microsoft Agent 365](../../a2a-agent-inventory/implementation/README.md)
-module and [Session 09](../../../sessions/09-api-center-ai-mcp-inventory/implementation/README.md).
+module and [Session 08](../../../sessions/08-api-center-ai-mcp-inventory/implementation/README.md).
 
 The runtime owner continues to govern runtime authentication, authorization, and traffic policy.
 

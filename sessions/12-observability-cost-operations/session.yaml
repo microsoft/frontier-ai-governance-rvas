@@ -1,6 +1,6 @@
 schema_version: 2
 session:
-  id: "13"
+  id: "12"
   slug: "observability-cost-operations"
   title: "Observability, cost, and operational controls"
   duration_minutes: 210
@@ -11,9 +11,9 @@ session:
     - "Azure Monitor, API Management, security operations, and FinOps operators"
     - "Observability, AI quality, data-protection, and service owners"
   prerequisites:
-    - "Complete Sessions 05, 08, and 10-12, or verify their runtime, tracing, evaluation, and security controls with the named owners and observable checks in the implementation guide."
+    - "Complete Sessions 04, 07, and 09-11, or verify their runtime, tracing, evaluation, and security controls with the named owners and observable checks in the implementation guide."
     - "Record the agent type's tracing status before implementation. Foundry tracing is generally available for prompt and hosted agents. Workflow and external agents remain preview and need an approved preview-use decision."
-    - "The Session 05 nonproduction policy assistant and Session 08 API Management route support an approved read-only request and a separate handled failure for a nonexistent synthetic policy. The failure route returns a tool failure while the model keeps its own result."
+    - "The Session 04 nonproduction policy assistant and Session 07 API Management route support an approved read-only request and a separate handled failure for a nonexistent synthetic policy. The failure route returns a tool failure while the model keeps its own result."
     - "A workspace-based Application Insights resource, Log Analytics workspace, action group, and approved data-retention boundary exist."
     - "Application instrumentation is deployed. The application, gateway, agent, and tool preserve W3C trace context plus one non-sensitive correlation ID. The gateway owner has merged correlation and bounded token metrics into the customer-owned API Management policy source."
     - "Baseline telemetry has been reviewed before alert thresholds are chosen."
@@ -21,12 +21,12 @@ session:
     - "The same operator has Cost Management Contributor at the exact subscription scope. Human access lasts through preflight, deployment, and confirmation, then expires or is removed through the approved access process."
     - "The observability, application, gateway, tool, security operations, AI quality, data-protection, cost, and service owners are present or have delegated decisions."
   dependencies:
-    - "Session 05 - Governed Microsoft Foundry agent baseline"
-    - "Session 08 - Azure API Management AI gateway implementation"
-    - "Session 10 - MCP and tool security"
-    - "Session 06 - Microsoft Agent 365 secure rollout and data controls"
-    - "Session 11 - Foundry evaluations and release quality gates"
-    - "Session 12 - Red teaming, prompt injection, and Defender"
+    - "Session 04 - Governed Microsoft Foundry agent baseline"
+    - "Session 07 - Azure API Management AI gateway implementation"
+    - "Session 09 - MCP and tool security"
+    - "Session 05 - Microsoft Agent 365 secure rollout and data controls"
+    - "Session 10 - Foundry evaluations and release quality gates"
+    - "Session 11 - Red teaming, prompt injection, and Defender"
   services_in_scope:
     - "azure-monitor"
     - "application-insights"
@@ -41,7 +41,7 @@ implementation_outcomes:
   - "Deploy a workbook and three alert rules over the approved Application Insights scope."
   - "Emit bounded APIM token metrics, keep low-cardinality cost allocation, and deploy subscription budget notifications that do not stop spend."
   - "Keep the retention, content-logging, cost-allocation, and incident records used by their named owners."
-  - "Run the paired Session 13 smoke check from the Session 14 GitHub promotion workflow and keep its payload-free result only in the runner's temporary workspace."
+  - "Run the paired Session 12 smoke check from the Session 13 GitHub promotion workflow and keep its payload-free result only in the runner's temporary workspace."
 deliverables:
   implementation: "implementation/README.md"
   deck: "deck.md"
@@ -110,10 +110,10 @@ retained_files:
     consumer: "The Bash-based observability operator"
     operational_purpose: "Apply the same readiness, privacy, cost, alert, and required decision checks outside Windows."
   - path: "implementation/scripts/smoke.ps1"
-    consumer: "The named Session 14 GitHub promotion workflow"
+    consumer: "The named Session 13 GitHub promotion workflow"
     operational_purpose: "Read live telemetry for the release check and write a payload-free result to the GitHub runner's temporary workspace for immediate workflow consumption."
   - path: "implementation/scripts/smoke.sh"
-    consumer: "The named Session 14 GitHub promotion workflow"
+    consumer: "The named Session 13 GitHub promotion workflow"
     operational_purpose: "Read live telemetry for the release check and write a payload-free result to the GitHub runner's temporary workspace for immediate workflow consumption."
 sources:
   - title: "Observability in Generative AI"

@@ -1,6 +1,6 @@
 targetScope = 'resourceGroup'
 
-@description('Azure region for the Session 03 private endpoints and private DNS resources.')
+@description('Azure region for the Session 02 private endpoints and private DNS resources.')
 param location string = resourceGroup().location
 
 @description('Resource ID of the Session 01-owned virtual network that private DNS zones link to.')
@@ -27,7 +27,7 @@ param keyVaultResourceId string
 @description('Expiry date for the nonproduction implementation in YYYY-MM-DD form.')
 param expiryDate string
 
-var implementationSession = '03-private-networking-dns'
+var implementationSession = '02-private-networking-dns'
 var tags = {
   environment: 'sandbox'
   implementationSession: implementationSession

@@ -6,7 +6,7 @@ usage() {
 Usage:
   preflight.sh [--design-record-path PATH]
 
-Checks the Session 07 gateway design record. This command does not sign in to Azure
+Checks the Session 06 gateway design record. This command does not sign in to Azure
 or change Azure resources.
 EOF
 }
@@ -98,7 +98,7 @@ if unresolved:
     unknown = sorted(set(unresolved) - required_sentinels)
     if unknown:
         raise SystemExit(
-            "ERROR: Add explicit Session 07 preflight checks for new sentinels: "
+            "ERROR: Add explicit Session 06 preflight checks for new sentinels: "
             + ", ".join(unknown)
         )
     raise SystemExit(
@@ -176,5 +176,5 @@ if record["recordStatus"] == "ready-for-implementation" and open_gaps:
 if record["recordStatus"] == "approved-with-gaps" and not open_gaps:
     raise SystemExit("ERROR: approved-with-gaps requires at least one open readiness gap.")
 
-print("PASS: Session 07 gateway design record is complete and its readiness state is inspectable. No Azure resources were changed.")
+print("PASS: Session 06 gateway design record is complete and its readiness state is inspectable. No Azure resources were changed.")
 PY

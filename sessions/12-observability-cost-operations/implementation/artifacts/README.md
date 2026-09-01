@@ -1,6 +1,6 @@
 # Observability and operations control
 
-These artifacts hold the Session 13 source-controlled configuration and retained Markdown records.
+These artifacts hold the Session 12 source-controlled configuration and retained Markdown records.
 
 | Path | Type | Updater and cadence | Consumer and operational purpose |
 |---|---|
@@ -27,6 +27,6 @@ Treat the Application Insights connection string as runtime configuration. The a
 request uses the customer's existing client and agent.
 
 The gateway owner keeps the APIM policy in the customer policy repository. The workbook embeds the
-operator and correlation queries. The named Session 14 GitHub promotion workflow runs the paired
+operator and correlation queries. The named Session 13 GitHub promotion workflow runs the paired
 smoke scripts. They read live telemetry and write a payload-free check result only to the runner's
 temporary workspace for immediate workflow use.

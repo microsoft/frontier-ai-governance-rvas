@@ -28,7 +28,7 @@ $expectedOperations = @("AIInvokeAgent", "AIExecuteTool", "AIInferenceCall", "AI
 $expectedFields = @("CreationDate", "Operation", "AgentId", "AgentName", "ResultStatus")
 if (
     [int]$query.schemaVersion -ne 1 -or
-    [string]$query.implementationSession -ne "06-agent-365-access-boundary" -or
+    [string]$query.implementationSession -ne "05-agent-365-access-boundary" -or
     [string]$query.microsoftGraphApplicationPermission -ne "AuditLogsQuery.Read.All" -or
     [int]$query.lookbackHours -lt 1 -or [int]$query.lookbackHours -gt 168 -or
     (@($query.operations) | Sort-Object) -join "|" -ne ($expectedOperations | Sort-Object) -join "|" -or

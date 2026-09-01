@@ -1,5 +1,5 @@
 schema_version: 1
-implementation_session: 11-foundry-evaluations-quality-gates
+implementation_session: 10-foundry-evaluations-quality-gates
 policy_state: establish_from_approved_baseline
 dataset:
   name: session10-policy-assistant-golden

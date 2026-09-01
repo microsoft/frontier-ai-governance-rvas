@@ -10,7 +10,7 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation · Session 07</p>
+<p class="eyebrow">AI Governance Co-implementation · Session 06</p>
 
 # Azure API Management AI gateway design
 
@@ -122,19 +122,19 @@ record locally. It does not sign in to Azure.
 
 ---
 
-## Session 08 applicability
+## Session 07 applicability
 
-Session 08 implements the existing **Foundry Agent Service policy-assistant** variant. It needs:
+Session 07 implements the existing **Foundry Agent Service policy-assistant** variant. It needs:
 
 - a target agent endpoint;
 - actual backend authorization;
 - approved network connectivity; and
 - this completed design record.
 
-The Session 07 design works for other approved backend types. Those backends need a separately
+The Session 06 design works for other approved backend types. Those backends need a separately
 approved implementation variant.
 
-<!-- Notes: Keep this distinction clear. Session 07 is deliberately backend-flexible. -->
+<!-- Notes: Keep this distinction clear. Session 06 is deliberately backend-flexible. -->
 
 ---
 
@@ -144,7 +144,7 @@ The delivery owner keeps the record with the workload's approved change records.
 source control when the backend, identity, network, APIM tier, safety decision, telemetry
 boundary, limits, routing, restore path, or ownership changes.
 
-The Session 08 preflight process consumes the record before a deployment proposal.
+The Session 07 preflight process consumes the record before a deployment proposal.
 
 <!-- Notes: The design record has no Azure resource to remove. -->
 

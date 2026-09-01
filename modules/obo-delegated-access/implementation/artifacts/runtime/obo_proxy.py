@@ -40,6 +40,7 @@ class Settings:
         )
         values = json.loads(settings_path.read_text(encoding="utf-8"))
         required_values = {
+            "authorityModel",
             "tenantId",
             "middleTierClientId",
             "middleTierAudience",
@@ -64,6 +65,8 @@ class Settings:
 
         if contains_required(values):
             raise ValueError("OBO settings contain unresolved required values")
+        if values["authorityModel"] != "signed-in-user-obo":
+            raise ValueError("authorityModel must be signed-in-user-obo")
         endpoint = urlparse(values["downstreamEndpoint"])
         if endpoint.scheme != "https" or not endpoint.netloc:
             raise ValueError("downstreamEndpoint must be an absolute HTTPS URL")

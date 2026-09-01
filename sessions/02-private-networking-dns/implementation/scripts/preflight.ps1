@@ -82,7 +82,7 @@ $matches = @(Get-ChildItem $artifactRoot -Recurse -File |
 if ($matches.Count -gt 0) {
     $unresolved = @($matches.Matches.Value | Sort-Object -Unique)
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
-    $message = "Resolve all Session 03 decisions before deployment: $($unresolved -join ', ')."
+    $message = "Resolve all Session 02 decisions before deployment: $($unresolved -join ', ')."
     if ($unknown.Count -gt 0) {
         $message += " Add explicit checks for new sentinels: $($unknown -join ', ')."
     }
@@ -292,4 +292,4 @@ if ($LASTEXITCODE -ne 0) {
     throw "Bicep what-if failed.`n$($whatIfOutput | Out-String)"
 }
 
-Write-Host "PASS: Session 03 files, decisions, Azure scope, operator roles, service resources, providers, Bicep syntax, and what-if are ready."
+Write-Host "PASS: Session 02 files, decisions, Azure scope, operator roles, service resources, providers, Bicep syntax, and what-if are ready."

@@ -14,7 +14,7 @@ param(
 
     [Parameter()]
     [ValidateNotNullOrEmpty()]
-    [string]$DesignRecordPath = (Join-Path $PSScriptRoot "..\..\..\07-apim-ai-gateway-design\implementation\artifacts\gateway-design-record.json")
+    [string]$DesignRecordPath = (Join-Path $PSScriptRoot "..\..\..\06-apim-ai-gateway-design\implementation\artifacts\gateway-design-record.json")
 )
 
 Set-StrictMode -Version Latest
@@ -31,11 +31,11 @@ $environment = Get-Content -LiteralPath $environmentPath -Raw | ConvertFrom-Json
     -SecondaryAgentBaseUrl $SecondaryAgentBaseUrl `
     -DesignRecordPath $DesignRecordPath
 if ($LASTEXITCODE -ne 0) {
-    throw "Session 08 preflight failed."
+    throw "Session 07 preflight failed."
 }
 
 $deployment = & az deployment group create `
-    --name "session08-apim-ai-gateway-implementation" `
+    --name "session07-apim-ai-gateway-implementation" `
     --resource-group ([string]$environment.resourceGroupName) `
     --template-file $bicepPath `
     --parameters `
@@ -48,10 +48,10 @@ $deployment = & az deployment group create `
     --only-show-errors `
     --output json
 if ($LASTEXITCODE -ne 0) {
-    throw "Session 08 API Management deployment failed."
+    throw "Session 07 API Management deployment failed."
 }
 
 $result = $deployment | ConvertFrom-Json -ErrorAction Stop
-Write-Host "Deployed Session 08 API Management control."
+Write-Host "Deployed Session 07 API Management control."
 Write-Host "Gateway path: $($result.properties.outputs.gatewayPath.value)"
 Write-Host "The product owner must issue or approve a workload-specific product subscription before client use."

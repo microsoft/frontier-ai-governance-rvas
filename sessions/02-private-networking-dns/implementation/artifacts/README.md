@@ -1,6 +1,6 @@
 # Implementation artifacts
 
-Deploy the Session 03 private-network control and check connectivity with these artifacts.
+Deploy the Session 02 private-network control and check connectivity with these artifacts.
 
 | Path | Operational purpose |
 |---|---|

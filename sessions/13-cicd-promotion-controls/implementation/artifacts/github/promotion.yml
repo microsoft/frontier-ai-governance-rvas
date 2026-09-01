@@ -9,7 +9,7 @@ on:
         required: true
         type: string
       evaluation_record:
-        description: Session 11 evaluation record used by the predeployment gate
+        description: Session 10 evaluation record used by the predeployment gate
         required: true
         type: choice
         default: candidate
@@ -55,7 +55,7 @@ jobs:
           if ($releaseSha -notmatch "^[0-9a-f]{40}$") {
             throw "release_sha must be a lowercase full 40-character commit SHA."
           }
-          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $control = Get-Content -LiteralPath "sessions/13-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
           $approvedBranch = [string]$control.repository.defaultBranch
           $expectedRepository = "$($control.repository.owner)/$($control.repository.name)"
           if ([string]$control.repository.host -cne "github.com" -or
@@ -98,22 +98,22 @@ jobs:
           persist-credentials: false
           ref: ${{ inputs.release_sha }}
 
-      - name: Configure Python for the Session 12 gate
+      - name: Configure Python for the Session 11 gate
         uses: actions/setup-python@__REQUIRED_ACTIONS_SETUP_PYTHON_FULL_SHA__
         with:
           python-version: "3.12"
           cache: pip
-          cache-dependency-path: sessions/11-foundry-evaluations-quality-gates/implementation/scripts/requirements.txt
+          cache-dependency-path: sessions/10-foundry-evaluations-quality-gates/implementation/scripts/requirements.txt
 
-      - name: Install the Session 12 gate dependency
+      - name: Install the Session 11 gate dependency
         shell: pwsh
-        run: python -m pip install --requirement sessions/11-foundry-evaluations-quality-gates/implementation/scripts/requirements.txt
+        run: python -m pip install --requirement sessions/10-foundry-evaluations-quality-gates/implementation/scripts/requirements.txt
 
       - name: Confirm immutable commit and workflow enforcement
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          $root = "sessions/14-cicd-promotion-controls/implementation/artifacts"
+          $root = "sessions/13-cicd-promotion-controls/implementation/artifacts"
           $releaseSha = "${{ inputs.release_sha }}"
           if ($releaseSha -notmatch "^[0-9a-f]{40}$") {
             throw "release_sha must be a lowercase full 40-character commit SHA."
@@ -147,7 +147,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $control = Get-Content -LiteralPath "sessions/13-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
           & $control.sourcePaths.unitTestScript -Mode Ci -CommitSha "${{ inputs.release_sha }}"
           if (-not $?) { throw "Unit checks failed." }
 
@@ -156,36 +156,36 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          $validator = "sessions/14-cicd-promotion-controls/implementation/artifacts/pipeline/validate-release.ps1"
+          $validator = "sessions/13-cicd-promotion-controls/implementation/artifacts/pipeline/validate-release.ps1"
           if ("${{ inputs.evaluation_record }}" -eq "generated-blocked-tool-process-self-test") {
             & $validator -Mode Blocked -ReleaseSha "${{ inputs.release_sha }}"
             if (-not $?) { throw "The generated tool-process self-test did not produce BLOCK." }
             throw "Promotion stopped before Azure preview or deployment after the generated blocked self-test."
           }
-          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
-          $releasePolicy = Get-Content -LiteralPath $control.sourcePaths.session11ReleasePolicy -Raw | ConvertFrom-Json
+          $control = Get-Content -LiteralPath "sessions/13-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $releasePolicy = Get-Content -LiteralPath $control.sourcePaths.session10ReleasePolicy -Raw | ConvertFrom-Json
           $externalRoot = Join-Path $env:RUNNER_TEMP "external-release-inputs"
           New-Item -ItemType Directory -Path $externalRoot -Force | Out-Null
-          $baselineRecordPath = Join-Path $externalRoot "session11-baseline-evaluation-result.json"
-          $candidateRecordPath = Join-Path $externalRoot "session11-candidate-evaluation-result.json"
-          $securityAttestationPath = Join-Path $externalRoot "session12-security-release-attestation.json"
+          $baselineRecordPath = Join-Path $externalRoot "session10-baseline-evaluation-result.json"
+          $candidateRecordPath = Join-Path $externalRoot "session10-candidate-evaluation-result.json"
+          $securityAttestationPath = Join-Path $externalRoot "session11-security-release-attestation.json"
           & $control.sourcePaths.releaseStoreScript `
             -Mode RetrieveEvaluationResult `
             -RunId $releasePolicy.gate.baselineRunId `
             -OutputPath $baselineRecordPath
-          if (-not $?) { throw "Could not retrieve the approved Session 11 baseline result." }
+          if (-not $?) { throw "Could not retrieve the approved Session 10 baseline result." }
           & $control.sourcePaths.releaseStoreScript `
             -Mode RetrieveEvaluationResult `
             -RunId $releasePolicy.gate.candidateRunId `
             -OutputPath $candidateRecordPath
-          if (-not $?) { throw "Could not retrieve the Session 11 candidate result." }
+          if (-not $?) { throw "Could not retrieve the Session 10 candidate result." }
           & $control.sourcePaths.releaseStoreScript `
             -Mode RetrieveSecurityReleaseAttestation `
             -AgentName $control.immutableRelease.agentName `
             -BaselineVersion $releasePolicy.target.approvedVersion `
             -RemediatedVersion $control.immutableRelease.agentVersion `
             -OutputPath $securityAttestationPath
-          if (-not $?) { throw "Could not retrieve the Session 12 security-release attestation." }
+          if (-not $?) { throw "Could not retrieve the Session 11 security-release attestation." }
           & $validator `
             -Mode Dependencies `
             -ReleaseSha "${{ inputs.release_sha }}" `
@@ -202,14 +202,14 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          $root = "sessions/14-cicd-promotion-controls/implementation/artifacts"
+          $root = "sessions/13-cicd-promotion-controls/implementation/artifacts"
           $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
           $compiled = Join-Path $env:RUNNER_TEMP "release-template.json"
           az bicep build --file $control.sourcePaths.bicepEntrypoint --outfile $compiled
           if ($LASTEXITCODE -ne 0) { throw "Bicep build failed." }
           "bicep_sha256=$((Get-FileHash $compiled -Algorithm SHA256).Hash.ToLowerInvariant())" >> $env:GITHUB_OUTPUT
           "apim_sha256=$((Get-FileHash $control.sourcePaths.apimPolicy -Algorithm SHA256).Hash.ToLowerInvariant())" >> $env:GITHUB_OUTPUT
-          "evaluation_policy_sha256=$((Get-FileHash $control.sourcePaths.session11ThresholdPolicy -Algorithm SHA256).Hash.ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+          "evaluation_policy_sha256=$((Get-FileHash $control.sourcePaths.session10ThresholdPolicy -Algorithm SHA256).Hash.ToLowerInvariant())" >> $env:GITHUB_OUTPUT
 
   nonproduction_preview:
     name: Preview nonproduction
@@ -229,7 +229,7 @@ jobs:
       - name: Assert preview coordinates
         shell: pwsh
         run: |
-          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $control = Get-Content -LiteralPath "sessions/13-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
           $scope = "/subscriptions/${{ vars.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ vars.AZURE_RESOURCE_GROUP }}"
           if ([string]$control.targetScopes.nonproduction -ine $scope -or
               [string]$control.azure.nonproductionClientId -ine "${{ vars.AZURE_CLIENT_ID }}" -or
@@ -246,7 +246,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          $root = "sessions/14-cicd-promotion-controls/implementation/artifacts"
+          $root = "sessions/13-cicd-promotion-controls/implementation/artifacts"
           $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
           az bicep lint --file $control.sourcePaths.bicepEntrypoint
           if ($LASTEXITCODE -ne 0) { throw "Bicep lint failed." }
@@ -275,7 +275,7 @@ jobs:
       - name: Assert apply coordinates
         shell: pwsh
         run: |
-          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $control = Get-Content -LiteralPath "sessions/13-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
           $scope = "/subscriptions/${{ vars.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ vars.AZURE_RESOURCE_GROUP }}"
           if ([string]$control.targetScopes.nonproduction -ine $scope -or
               [string]$control.azure.nonproductionClientId -ine "${{ vars.AZURE_CLIENT_ID }}") {
@@ -292,45 +292,45 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          $root = "sessions/14-cicd-promotion-controls/implementation/artifacts"
+          $root = "sessions/13-cicd-promotion-controls/implementation/artifacts"
           $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
           $id = az deployment group create --subscription "${{ vars.AZURE_SUBSCRIPTION_ID }}" --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "s13-nonprod-${{ github.run_id }}" --template-file $control.sourcePaths.bicepEntrypoint --parameters "$root/environments/nonproduction.parameters.json" releaseCommitSha="${{ inputs.release_sha }}" --query id -o tsv
           if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($id)) { throw "Nonproduction deployment failed." }
           "deployment_id=$id" >> $env:GITHUB_OUTPUT
-      - name: Run Session 13 smoke and intended gates
+      - name: Run Session 12 smoke and intended gates
         env:
-          SESSION13_SMOKE_URL: ${{ vars.SESSION13_SMOKE_URL }}
-          SESSION13_SMOKE_FAILURE_URL: ${{ vars.SESSION13_SMOKE_FAILURE_URL }}
-          SESSION13_AI_RESOURCE_ID: ${{ vars.SESSION13_AI_RESOURCE_ID }}
-          SESSION13_LOG_ANALYTICS_WORKSPACE_ID: ${{ vars.SESSION13_LOG_ANALYTICS_WORKSPACE_ID }}
-          SESSION13_SMOKE_TIMEOUT_SECONDS: ${{ vars.SESSION13_SMOKE_TIMEOUT_SECONDS }}
-          SESSION13_SMOKE_RETRY_SECONDS: ${{ vars.SESSION13_SMOKE_RETRY_SECONDS }}
-          SESSION13_SMOKE_BEARER_TOKEN: ${{ secrets.SESSION13_SMOKE_BEARER_TOKEN }}
+          session12_SMOKE_URL: ${{ vars.session12_SMOKE_URL }}
+          session12_SMOKE_FAILURE_URL: ${{ vars.session12_SMOKE_FAILURE_URL }}
+          session12_AI_RESOURCE_ID: ${{ vars.session12_AI_RESOURCE_ID }}
+          session12_LOG_ANALYTICS_WORKSPACE_ID: ${{ vars.session12_LOG_ANALYTICS_WORKSPACE_ID }}
+          session12_SMOKE_TIMEOUT_SECONDS: ${{ vars.session12_SMOKE_TIMEOUT_SECONDS }}
+          session12_SMOKE_RETRY_SECONDS: ${{ vars.session12_SMOKE_RETRY_SECONDS }}
+          session12_SMOKE_BEARER_TOKEN: ${{ secrets.session12_SMOKE_BEARER_TOKEN }}
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          $root = "sessions/14-cicd-promotion-controls/implementation/artifacts"
+          $root = "sessions/13-cicd-promotion-controls/implementation/artifacts"
           $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
-          $result = Join-Path $env:RUNNER_TEMP "session13-smoke.json"
-          & $control.sourcePaths.session13SmokePowerShell -Mode Pipeline -Environment nonproduction -CommitSha "${{ inputs.release_sha }}" -ResultPath $result
-          if (-not $?) { throw "Session 13 smoke command failed." }
-          $releasePolicy = Get-Content -LiteralPath $control.sourcePaths.session11ReleasePolicy -Raw | ConvertFrom-Json
+          $result = Join-Path $env:RUNNER_TEMP "session12-smoke.json"
+          & $control.sourcePaths.session12SmokePowerShell -Mode Pipeline -Environment nonproduction -CommitSha "${{ inputs.release_sha }}" -ResultPath $result
+          if (-not $?) { throw "Session 12 smoke command failed." }
+          $releasePolicy = Get-Content -LiteralPath $control.sourcePaths.session10ReleasePolicy -Raw | ConvertFrom-Json
           $externalRoot = Join-Path $env:RUNNER_TEMP "external-release-inputs"
           New-Item -ItemType Directory -Path $externalRoot -Force | Out-Null
-          $baselineRecordPath = Join-Path $externalRoot "session11-baseline-evaluation-result.json"
-          $candidateRecordPath = Join-Path $externalRoot "session11-candidate-evaluation-result.json"
-          $securityAttestationPath = Join-Path $externalRoot "session12-security-release-attestation.json"
+          $baselineRecordPath = Join-Path $externalRoot "session10-baseline-evaluation-result.json"
+          $candidateRecordPath = Join-Path $externalRoot "session10-candidate-evaluation-result.json"
+          $securityAttestationPath = Join-Path $externalRoot "session11-security-release-attestation.json"
           & $control.sourcePaths.releaseStoreScript -Mode RetrieveEvaluationResult -RunId $releasePolicy.gate.baselineRunId -OutputPath $baselineRecordPath
-          if (-not $?) { throw "Could not retrieve the approved Session 11 baseline result." }
+          if (-not $?) { throw "Could not retrieve the approved Session 10 baseline result." }
           & $control.sourcePaths.releaseStoreScript -Mode RetrieveEvaluationResult -RunId $releasePolicy.gate.candidateRunId -OutputPath $candidateRecordPath
-          if (-not $?) { throw "Could not retrieve the Session 11 candidate result." }
+          if (-not $?) { throw "Could not retrieve the Session 10 candidate result." }
           & $control.sourcePaths.releaseStoreScript `
             -Mode RetrieveSecurityReleaseAttestation `
             -AgentName $control.immutableRelease.agentName `
             -BaselineVersion $releasePolicy.target.approvedVersion `
             -RemediatedVersion $control.immutableRelease.agentVersion `
             -OutputPath $securityAttestationPath
-          if (-not $?) { throw "Could not retrieve the Session 12 security-release attestation." }
+          if (-not $?) { throw "Could not retrieve the Session 11 security-release attestation." }
           & "$root/pipeline/validate-release.ps1" `
             -Mode Intended `
             -ReleaseSha "${{ inputs.release_sha }}" `
@@ -359,7 +359,7 @@ jobs:
       - name: Assert production preview coordinates
         shell: pwsh
         run: |
-          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $control = Get-Content -LiteralPath "sessions/13-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
           $scope = "/subscriptions/${{ vars.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ vars.AZURE_RESOURCE_GROUP }}"
           if ([string]$control.targetScopes.production -ine $scope -or
               [string]$control.azure.productionClientId -ine "${{ vars.AZURE_CLIENT_ID }}" -or
@@ -376,26 +376,26 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          $root = "sessions/14-cicd-promotion-controls/implementation/artifacts"
+          $root = "sessions/13-cicd-promotion-controls/implementation/artifacts"
           $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
           $compiled = Join-Path $env:RUNNER_TEMP "production-template.json"
-          $releasePolicy = Get-Content -LiteralPath $control.sourcePaths.session11ReleasePolicy -Raw | ConvertFrom-Json
+          $releasePolicy = Get-Content -LiteralPath $control.sourcePaths.session10ReleasePolicy -Raw | ConvertFrom-Json
           $externalRoot = Join-Path $env:RUNNER_TEMP "external-release-inputs"
           New-Item -ItemType Directory -Path $externalRoot -Force | Out-Null
-          $baselineRecordPath = Join-Path $externalRoot "session11-baseline-evaluation-result.json"
-          $candidateRecordPath = Join-Path $externalRoot "session11-candidate-evaluation-result.json"
-          $securityAttestationPath = Join-Path $externalRoot "session12-security-release-attestation.json"
+          $baselineRecordPath = Join-Path $externalRoot "session10-baseline-evaluation-result.json"
+          $candidateRecordPath = Join-Path $externalRoot "session10-candidate-evaluation-result.json"
+          $securityAttestationPath = Join-Path $externalRoot "session11-security-release-attestation.json"
           & $control.sourcePaths.releaseStoreScript -Mode RetrieveEvaluationResult -RunId $releasePolicy.gate.baselineRunId -OutputPath $baselineRecordPath
-          if (-not $?) { throw "Could not retrieve the approved Session 11 baseline result." }
+          if (-not $?) { throw "Could not retrieve the approved Session 10 baseline result." }
           & $control.sourcePaths.releaseStoreScript -Mode RetrieveEvaluationResult -RunId $releasePolicy.gate.candidateRunId -OutputPath $candidateRecordPath
-          if (-not $?) { throw "Could not retrieve the Session 11 candidate result." }
+          if (-not $?) { throw "Could not retrieve the Session 10 candidate result." }
           & $control.sourcePaths.releaseStoreScript `
             -Mode RetrieveSecurityReleaseAttestation `
             -AgentName $control.immutableRelease.agentName `
             -BaselineVersion $releasePolicy.target.approvedVersion `
             -RemediatedVersion $control.immutableRelease.agentVersion `
             -OutputPath $securityAttestationPath
-          if (-not $?) { throw "Could not retrieve the Session 12 security-release attestation." }
+          if (-not $?) { throw "Could not retrieve the Session 11 security-release attestation." }
           & "$root/pipeline/validate-release.ps1" `
             -Mode Dependencies `
             -ReleaseSha "${{ inputs.release_sha }}" `
@@ -410,7 +410,7 @@ jobs:
               (Get-FileHash $baselineRecordPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne "${{ needs.validate.outputs.baseline_record_sha256 }}" -or
               (Get-FileHash $candidateRecordPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne "${{ needs.validate.outputs.candidate_record_sha256 }}" -or
               (Get-FileHash $securityAttestationPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne "${{ needs.validate.outputs.security_attestation_sha256 }}" -or
-              (Get-FileHash $control.sourcePaths.session11ThresholdPolicy -Algorithm SHA256).Hash.ToLowerInvariant() -ne "${{ needs.validate.outputs.evaluation_policy_sha256 }}") {
+              (Get-FileHash $control.sourcePaths.session10ThresholdPolicy -Algorithm SHA256).Hash.ToLowerInvariant() -ne "${{ needs.validate.outputs.evaluation_policy_sha256 }}") {
             throw "Production inputs differ from the validated release."
           }
           az deployment group what-if --subscription "${{ vars.AZURE_SUBSCRIPTION_ID }}" --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "s13-prod-${{ github.run_id }}" --template-file $control.sourcePaths.bicepEntrypoint --parameters "$root/environments/production.parameters.json" releaseCommitSha="${{ inputs.release_sha }}" --no-pretty-print
@@ -437,7 +437,7 @@ jobs:
       - name: Assert production apply coordinates
         shell: pwsh
         run: |
-          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $control = Get-Content -LiteralPath "sessions/13-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
           $scope = "/subscriptions/${{ vars.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ vars.AZURE_RESOURCE_GROUP }}"
           if ([string]$control.targetScopes.production -ine $scope -or
               [string]$control.azure.productionClientId -ine "${{ vars.AZURE_CLIENT_ID }}") {
@@ -453,7 +453,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          $root = "sessions/14-cicd-promotion-controls/implementation/artifacts"
+          $root = "sessions/13-cicd-promotion-controls/implementation/artifacts"
           $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
           az deployment group create --subscription "${{ vars.AZURE_SUBSCRIPTION_ID }}" --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "s13-prod-${{ github.run_id }}" --template-file $control.sourcePaths.bicepEntrypoint --parameters "$root/environments/production.parameters.json" releaseCommitSha="${{ inputs.release_sha }}"
           if ($LASTEXITCODE -ne 0) { throw "Production deployment failed." }
@@ -462,12 +462,12 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          $root = "sessions/14-cicd-promotion-controls/implementation/artifacts"
+          $root = "sessions/13-cicd-promotion-controls/implementation/artifacts"
           $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
           $values = Join-Path $env:RUNNER_TEMP "release-values.json"
           $manifest = Join-Path $env:RUNNER_TEMP "release-manifest.json"
           [ordered]@{
-            implementationSession = "14-cicd-promotion-controls"; releaseId = "${{ inputs.release_sha }}-${{ github.run_id }}"; commitSha = "${{ inputs.release_sha }}"
+            implementationSession = "12-cicd-promotion-controls"; releaseId = "${{ inputs.release_sha }}-${{ github.run_id }}"; commitSha = "${{ inputs.release_sha }}"
             nonproductionDeploymentId = "${{ needs.nonproduction.outputs.deployment_id }}"
             routingStrategy = $control.routing.strategy; candidateSelector = $control.routing.candidateSelector
             stableSelector = $control.routing.stableSelector
@@ -480,19 +480,19 @@ jobs:
       - name: Stage the exact manifest before routing
         shell: pwsh
         run: |
-          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $control = Get-Content -LiteralPath "sessions/13-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
           & $control.sourcePaths.releaseStoreScript -Mode Stage -ManifestPath "${{ steps.manifest.outputs.path }}" -ReleaseId "${{ steps.manifest.outputs.release_id }}" -ManifestSha256 "${{ steps.manifest.outputs.sha256 }}"
           if (-not $?) { throw "Manifest staging failed." }
       - name: Move only the approved selector
         shell: pwsh
         run: |
-          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $control = Get-Content -LiteralPath "sessions/13-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
           & $control.sourcePaths.routingControlScript -Mode Promote -Strategy $control.routing.strategy -CandidateSelector $control.routing.candidateSelector -StableSelector $control.routing.stableSelector -ReleaseId "${{ steps.manifest.outputs.release_id }}"
           if (-not $?) { throw "Routing promotion failed; keep the previous selector active." }
       - name: Finalize the routed manifest
         shell: pwsh
         run: |
-          $control = Get-Content -LiteralPath "sessions/14-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $control = Get-Content -LiteralPath "sessions/13-cicd-promotion-controls/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
           & $control.sourcePaths.releaseStoreScript -Mode Approve -ReleaseId "${{ steps.manifest.outputs.release_id }}" -ExpectedSha256 "${{ steps.manifest.outputs.sha256 }}"
           if (-not $?) {
             throw "Release-record finalization failed. Stop and dispatch the manual restore workflow for a selected approved release."

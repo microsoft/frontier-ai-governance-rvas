@@ -14,7 +14,7 @@ param(
 
     [Parameter()]
     [ValidateNotNullOrEmpty()]
-    [string]$DesignRecordPath = (Join-Path $PSScriptRoot "..\..\..\07-apim-ai-gateway-design\implementation\artifacts\gateway-design-record.json")
+    [string]$DesignRecordPath = (Join-Path $PSScriptRoot "..\..\..\06-apim-ai-gateway-design\implementation\artifacts\gateway-design-record.json")
 )
 
 Set-StrictMode -Version Latest
@@ -36,7 +36,7 @@ function Invoke-AzJson {
     return (($raw | Out-String) | ConvertFrom-Json -ErrorAction Stop)
 }
 
-$implementationSession = "08-apim-ai-gateway-implementation"
+$implementationSession = "07-apim-ai-gateway-implementation"
 $foundryAgentConsumerRoleId = "eed3b665-ab3a-47b6-8f48-c9382fb1dad6"
 $cognitiveServicesUserRoleId = "a97b65f3-24c7-4388-baec-2e87135dc908"
 $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
@@ -85,7 +85,7 @@ foreach ($path in $requiredFiles) {
     }
 }
 if (-not (Test-Path -LiteralPath $DesignRecordPath -PathType Leaf)) {
-    throw "The approved Session 07 gateway design record is missing: $DesignRecordPath"
+    throw "The approved Session 06 gateway design record is missing: $DesignRecordPath"
 }
 
 $designRecordRaw = Get-Content -LiteralPath $DesignRecordPath -Raw
@@ -93,24 +93,24 @@ try {
     $designRecord = $designRecordRaw | ConvertFrom-Json -ErrorAction Stop
 }
 catch {
-    throw "The Session 07 gateway design record must be valid JSON."
+    throw "The Session 06 gateway design record must be valid JSON."
 }
 if ($designRecordRaw -match "__REQUIRED_[A-Z0-9_]+__") {
-    throw "Resolve every required Session 07 gateway design decision before the Session 08 deployment."
+    throw "Resolve every required Session 06 gateway design decision before the Session 07 deployment."
 }
 if ([string]$designRecord.recordStatus -ne "ready-for-implementation") {
-    throw "The Session 07 gateway design record must be ready-for-implementation."
+    throw "The Session 06 gateway design record must be ready-for-implementation."
 }
 if ([string]$designRecord.targetBackend.type -ne "foundry-agent-service" -or
     [string]$designRecord.targetBackend.implementationVariant -ne "policy-assistant-responses") {
-    throw "Session 08 implements the foundry-agent-service policy-assistant-responses variant recorded in Session 07."
+    throw "Session 07 implements the foundry-agent-service policy-assistant-responses variant recorded in Session 06."
 }
 if ([string]$designRecord.contentSafety.decision -ne "enabled" -or
     [string]::IsNullOrWhiteSpace([string]$designRecord.contentSafety.backendReference)) {
-    throw "The Session 07 design record must enable Content Safety and name its approved backend reference."
+    throw "The Session 06 design record must enable Content Safety and name its approved backend reference."
 }
 if (@($designRecord.readinessGaps | Where-Object { $_.status -eq "open" }).Count -gt 0) {
-    throw "Resolve the open Session 07 readiness gaps before the Session 08 deployment."
+    throw "Resolve the open Session 06 readiness gaps before the Session 07 deployment."
 }
 
 $sentinels = Get-ChildItem -LiteralPath $artifactRoot -File -Recurse |
@@ -119,9 +119,9 @@ if ($sentinels) {
     $unresolved = @($sentinels.Matches.Value | Sort-Object -Unique)
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
     if ($unknown.Count -gt 0) {
-        throw "Add explicit Session 08 preflight checks for new sentinels: $($unknown -join ', ')."
+        throw "Add explicit Session 07 preflight checks for new sentinels: $($unknown -join ', ')."
     }
-    throw "Resolve every Session 08 customer decision before deployment: $($unresolved -join ', ')."
+    throw "Resolve every Session 07 customer decision before deployment: $($unresolved -join ', ')."
 }
 
 $control = Get-Content -LiteralPath $controlPath -Raw | ConvertFrom-Json -ErrorAction Stop
@@ -130,14 +130,14 @@ $openApi = Get-Content -LiteralPath $openApiPath -Raw | ConvertFrom-Json -ErrorA
 [xml]$policy = Get-Content -LiteralPath $policyPath -Raw
 
 if ([string]$designRecord.apiManagement.instanceName -ne [string]$environment.apiManagementName) {
-    throw "The Session 07 design record APIM instance does not match sandbox.json."
+    throw "The Session 06 design record APIM instance does not match sandbox.json."
 }
 if ([string]::IsNullOrWhiteSpace([string]$designRecord.ingress.clientIdentity) -or
     [string]::IsNullOrWhiteSpace([string]$designRecord.ingress.backendIdentity) -or
     [string]::IsNullOrWhiteSpace([string]$designRecord.network.inboundPath) -or
     [string]::IsNullOrWhiteSpace([string]$designRecord.network.backendPath) -or
     [string]::IsNullOrWhiteSpace([string]$designRecord.network.privateDnsState)) {
-    throw "The Session 07 design record must state the ingress identities and network paths."
+    throw "The Session 06 design record must state the ingress identities and network paths."
 }
 
 if ([string]$control.implementationSession -ne $implementationSession -or
@@ -146,7 +146,7 @@ if ([string]$control.implementationSession -ne $implementationSession -or
 }
 if ([string]$control.api.operationPath -ne "/responses" -or
     $null -eq $openApi.paths."/responses".post) {
-    throw "Session 08 must expose one POST /responses operation."
+    throw "Session 07 must expose one POST /responses operation."
 }
 $includeUsage = $openApi.components.schemas.ResponseRequest.properties.stream_options.properties.include_usage
 if ($null -eq $includeUsage -or [string]$includeUsage.type -ne "boolean") {
@@ -156,7 +156,7 @@ if (-not [bool]$control.product.subscriptionRequired) {
     throw "The governed product must require an APIM subscription."
 }
 if ([bool]$control.semanticCaching.enabled) {
-    throw "Semantic caching is deferred for Session 08."
+    throw "Semantic caching is deferred for Session 07."
 }
 if ([int]$control.telemetry.requestBodyBytesLogged -ne 0 -or
     [int]$control.telemetry.responseBodyBytesLogged -ne 0 -or
@@ -210,7 +210,7 @@ $forbiddenPolicyTerms = @(
 $policyText = Get-Content -LiteralPath $policyPath -Raw
 foreach ($term in $forbiddenPolicyTerms) {
     if ($policyText -match [regex]::Escape($term)) {
-        throw "The Session 08 policy must not contain '$term'."
+        throw "The Session 07 policy must not contain '$term'."
     }
 }
 
@@ -222,7 +222,7 @@ if ($primaryUri.Scheme -ne "https" -or
 }
 $expectedPrimaryBase = "https://$($environment.foundryAccountName).services.ai.azure.com/api/projects/$($environment.foundryProjectName)/agents/$($environment.agentName)/endpoint/protocols/openai"
 if ($PrimaryAgentBaseUrl.TrimEnd("/") -ne $expectedPrimaryBase) {
-    throw "PrimaryAgentBaseUrl does not match the existing Session 05 Foundry agent."
+    throw "PrimaryAgentBaseUrl does not match the existing Session 04 Foundry agent."
 }
 if ([bool]$environment.secondaryBackendEnabled) {
     if ([string]::IsNullOrWhiteSpace($SecondaryAgentBaseUrl)) {
@@ -256,7 +256,7 @@ if ([string]$apim.sku.name -eq "Consumption") {
     throw "The deployed token-limit and content-safety policy set is not supported on the Consumption tier."
 }
 if ([string]$designRecord.apiManagement.tier -ne [string]$apim.sku.name) {
-    throw "The Session 07 design record APIM tier does not match the live APIM instance."
+    throw "The Session 06 design record APIM tier does not match the live APIM instance."
 }
 $expectedApimNetworkMode = [string]$environment.network.apimVirtualNetworkType
 if ([string]$apim.virtualNetworkType -ne $expectedApimNetworkMode) {
@@ -284,7 +284,7 @@ $foundryAssignments = Invoke-AzJson `
     ) `
     -Description "APIM Foundry Agent Consumer assignment lookup"
 if (@($foundryAssignments).Count -eq 0) {
-    throw "Assign Foundry Agent Consumer to the APIM identity at the individual Session 05 agent scope."
+    throw "Assign Foundry Agent Consumer to the APIM identity at the individual Session 04 agent scope."
 }
 
 $contentSafetyResourceId = [string]$environment.contentSafetyResourceId
@@ -338,7 +338,7 @@ $existingApiRaw = & az rest --method get --url $apiUrl --only-show-errors --outp
 if ($LASTEXITCODE -eq 0) {
     $existingApi = $existingApiRaw | ConvertFrom-Json -ErrorAction Stop
     if ([string]$existingApi.properties.description -notlike "*implementationSession=$implementationSession*") {
-        throw "An existing APIM API uses the configured ID without the Session 08 marker."
+        throw "An existing APIM API uses the configured ID without the Session 07 marker."
     }
 }
 
@@ -352,7 +352,7 @@ Write-Host "  Request/response body logging: disabled"
 Write-Host "  Semantic caching: deferred"
 
 & az deployment group what-if `
-    --name "session08-apim-ai-gateway-implementation-preview" `
+    --name "session07-apim-ai-gateway-implementation-preview" `
     --resource-group ([string]$environment.resourceGroupName) `
     --template-file $bicepPath `
     --parameters `
@@ -368,4 +368,4 @@ if ($LASTEXITCODE -ne 0) {
     throw "The API Management deployment preview failed."
 }
 
-Write-Host "PASS: Session 07 design, Session 08 files, actual backend, identities, network, safety backend, logger, and deployment preview are ready."
+Write-Host "PASS: Session 06 design, Session 07 files, actual backend, identities, network, safety backend, logger, and deployment preview are ready."

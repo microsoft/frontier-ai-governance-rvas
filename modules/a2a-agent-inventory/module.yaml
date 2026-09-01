@@ -15,9 +15,9 @@ module:
     - "The delivery team has selected a supported onboarding route: built-in integration, Registry sync from a supported platform, or a runtime-owned Agent 365 SDK integration."
     - "The agent owner, runtime owner, and retirement owner can review the live Agent 365 record."
   related_content:
-    - "Session 05 - Governed Microsoft Foundry agent baseline"
-    - "Session 06 - Microsoft Agent 365 secure rollout and data controls"
-    - "Session 15 - Agent fleet governance, multi-region design, and production rehearsal"
+    - "Session 04 - Governed Microsoft Foundry agent baseline"
+    - "Session 05 - Microsoft Agent 365 secure rollout and data controls"
+    - "Session 14 - Agent fleet governance, multi-region design, and production rehearsal"
   services_in_scope:
     - "agent-365"
     - "microsoft-entra-agent-id"

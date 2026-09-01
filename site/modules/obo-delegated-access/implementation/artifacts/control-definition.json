@@ -2,6 +2,11 @@
   "schemaVersion": 1,
   "implementationSession": "optional-module-obo-delegated-access",
   "controlObjective": "Preserve signed-in user authority across a trusted middle tier without forwarding the inbound token.",
+  "authorityDecision": {
+    "model": "signed-in-user-obo",
+    "applicationOnlyManagedIdentity": "rejected",
+    "reason": "The downstream API must authorize each signed-in user."
+  },
   "tenantId": "__REQUIRED_TENANT_ID__",
   "owners": {
     "identityOwner": "__REQUIRED_IDENTITY_OWNER__",
@@ -21,4 +26,3 @@
     "Grant tenant-wide delegated consent without the named consent owner"
   ]
 }
-

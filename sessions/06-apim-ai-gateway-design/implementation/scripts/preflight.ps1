@@ -67,7 +67,7 @@ if ($matches.Count -gt 0) {
     $unresolved = @($matches.Value | Sort-Object -Unique)
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
     if ($unknown) {
-        throw "Add explicit Session 07 preflight checks for new sentinels: $($unknown -join ', ')."
+        throw "Add explicit Session 06 preflight checks for new sentinels: $($unknown -join ', ')."
     }
     throw "Resolve every required gateway design decision before sharing this record: $($unresolved -join ', ')."
 }
@@ -146,4 +146,4 @@ if ($record.recordStatus -eq "approved-with-gaps" -and
     throw "approved-with-gaps requires at least one open readiness gap."
 }
 
-Write-Host "PASS: Session 07 gateway design record is complete and its readiness state is inspectable. No Azure resources were changed."
+Write-Host "PASS: Session 06 gateway design record is complete and its readiness state is inspectable. No Azure resources were changed."

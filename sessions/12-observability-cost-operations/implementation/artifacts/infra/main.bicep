@@ -30,7 +30,7 @@ param toolFailureThreshold string
 @description('Failed AI quality or safety evaluation count that opens the quality alert.')
 param qualityFailureThreshold string
 
-var implementationSession = '13-observability-cost-operations'
+var implementationSession = '12-observability-cost-operations'
 var commonTags = {
   implementationSession: implementationSession
   service: serviceName

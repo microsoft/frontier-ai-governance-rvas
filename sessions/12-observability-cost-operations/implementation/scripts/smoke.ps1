@@ -84,11 +84,11 @@ function New-SmokeHeaders {
     )
 
     if ($BearerToken.Contains("`r") -or $BearerToken.Contains("`n")) {
-        throw "SESSION13_SMOKE_BEARER_TOKEN cannot contain a line break."
+        throw "session12_SMOKE_BEARER_TOKEN cannot contain a line break."
     }
     $headers = @{
         Authorization = "Bearer $BearerToken"
-        "x-session13-smoke-mode" = $SmokeMode
+        "x-session12-smoke-mode" = $SmokeMode
         "x-release-commit-sha" = $CommitSha
         traceparent = $Traceparent
     }
@@ -241,14 +241,14 @@ function Invoke-TelemetryStability {
 }
 
 $ErrorActionPreference = "Stop"
-$implementationSession = "13-observability-cost-operations"
-$syntheticMarker = "session13-probe-" + (-join ((1..32) | ForEach-Object { "{0:x}" -f (Get-Random -Maximum 16) }))
+$implementationSession = "12-observability-cost-operations"
+$syntheticMarker = "session12-probe-" + (-join ((1..32) | ForEach-Object { "{0:x}" -f (Get-Random -Maximum 16) }))
 $requiredVariables = @(
-    "SESSION13_SMOKE_URL",
-    "SESSION13_SMOKE_FAILURE_URL",
-    "SESSION13_AI_RESOURCE_ID",
-    "SESSION13_LOG_ANALYTICS_WORKSPACE_ID",
-    "SESSION13_SMOKE_BEARER_TOKEN"
+    "session12_SMOKE_URL",
+    "session12_SMOKE_FAILURE_URL",
+    "session12_AI_RESOURCE_ID",
+    "session12_LOG_ANALYTICS_WORKSPACE_ID",
+    "session12_SMOKE_BEARER_TOKEN"
 )
 
 foreach ($name in $requiredVariables) {
@@ -269,31 +269,31 @@ foreach ($name in $requiredVariables) {
     $ResultPath = $resolvedResultPath
 }
 $pollTimeoutSeconds = Get-BoundedIntegerSetting `
-    -Name "SESSION13_SMOKE_TIMEOUT_SECONDS" `
+    -Name "session12_SMOKE_TIMEOUT_SECONDS" `
     -Default 180 `
     -Minimum 30 `
     -Maximum 600
 $pollRetrySeconds = Get-BoundedIntegerSetting `
-    -Name "SESSION13_SMOKE_RETRY_SECONDS" `
+    -Name "session12_SMOKE_RETRY_SECONDS" `
     -Default 15 `
     -Minimum 5 `
     -Maximum 60
 if (-not (Test-PollTimingValid `
     -TimeoutSeconds $pollTimeoutSeconds `
     -RetrySeconds $pollRetrySeconds)) {
-    throw "SESSION13_SMOKE_TIMEOUT_SECONDS must be at least twice SESSION13_SMOKE_RETRY_SECONDS."
+    throw "session12_SMOKE_TIMEOUT_SECONDS must be at least twice session12_SMOKE_RETRY_SECONDS."
 }
 
-if ($env:SESSION13_AI_RESOURCE_ID -notmatch "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Microsoft\.Insights/components/[^/]+$") {
-    throw "SESSION13_AI_RESOURCE_ID must be a full Application Insights resource ID."
+if ($env:session12_AI_RESOURCE_ID -notmatch "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Microsoft\.Insights/components/[^/]+$") {
+    throw "session12_AI_RESOURCE_ID must be a full Application Insights resource ID."
 }
-if ($env:SESSION13_LOG_ANALYTICS_WORKSPACE_ID -notmatch "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Microsoft\.OperationalInsights/workspaces/[^/]+$") {
-    throw "SESSION13_LOG_ANALYTICS_WORKSPACE_ID must be a full Log Analytics workspace resource ID."
+if ($env:session12_LOG_ANALYTICS_WORKSPACE_ID -notmatch "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Microsoft\.OperationalInsights/workspaces/[^/]+$") {
+    throw "session12_LOG_ANALYTICS_WORKSPACE_ID must be a full Log Analytics workspace resource ID."
 }
-if ($env:SESSION13_SMOKE_URL -notmatch "^https://" -or $env:SESSION13_SMOKE_FAILURE_URL -notmatch "^https://") {
+if ($env:session12_SMOKE_URL -notmatch "^https://" -or $env:session12_SMOKE_FAILURE_URL -notmatch "^https://") {
     throw "Both smoke endpoints must use HTTPS."
 }
-if ($env:SESSION13_SMOKE_FAILURE_URL -eq $env:SESSION13_SMOKE_URL) {
+if ($env:session12_SMOKE_FAILURE_URL -eq $env:session12_SMOKE_URL) {
     throw "The synthetic failure endpoint must be separate from the normal smoke endpoint."
 }
 
@@ -302,22 +302,22 @@ if (-not $azAccount.id) {
     throw "Azure CLI is not authenticated."
 }
 $component = az resource show `
-    --ids $env:SESSION13_AI_RESOURCE_ID `
+    --ids $env:session12_AI_RESOURCE_ID `
     --api-version 2020-02-02 `
     --output json | ConvertFrom-Json
 if ($LASTEXITCODE -ne 0 -or
     [string]$component.type -ine "microsoft.insights/components") {
-    throw "SESSION13_AI_RESOURCE_ID could not be resolved as an Application Insights component."
+    throw "session12_AI_RESOURCE_ID could not be resolved as an Application Insights component."
 }
 $componentWorkspaceResourceId = [string]$component.properties.WorkspaceResourceId
 if ([string]::IsNullOrWhiteSpace($componentWorkspaceResourceId) -or
     -not (Test-WorkspaceBinding `
         -ComponentWorkspaceResourceId $componentWorkspaceResourceId `
-    -ExpectedWorkspaceResourceId $env:SESSION13_LOG_ANALYTICS_WORKSPACE_ID)) {
-    throw "The Application Insights component WorkspaceResourceId does not match SESSION13_LOG_ANALYTICS_WORKSPACE_ID."
+    -ExpectedWorkspaceResourceId $env:session12_LOG_ANALYTICS_WORKSPACE_ID)) {
+    throw "The Application Insights component WorkspaceResourceId does not match session12_LOG_ANALYTICS_WORKSPACE_ID."
 }
 $normalizedWorkspaceResourceId = Normalize-ResourceId `
-    $env:SESSION13_LOG_ANALYTICS_WORKSPACE_ID
+    $env:session12_LOG_ANALYTICS_WORKSPACE_ID
 $normalizedCommitSha = $CommitSha.ToLowerInvariant()
 
 $normalTraceId = -join ((1..32) | ForEach-Object { "{0:x}" -f (Get-Random -Maximum 16) })
@@ -325,7 +325,7 @@ $failureTraceId = -join ((1..32) | ForEach-Object { "{0:x}" -f (Get-Random -Maxi
 $normalTraceparent = "00-$normalTraceId-0000000000000001-01"
 $failureTraceparent = "00-$failureTraceId-0000000000000002-01"
 $headers = New-SmokeHeaders `
-    -BearerToken $env:SESSION13_SMOKE_BEARER_TOKEN `
+    -BearerToken $env:session12_SMOKE_BEARER_TOKEN `
     -SmokeMode "normal" `
     -Traceparent $normalTraceparent `
     -CommitSha $normalizedCommitSha
@@ -336,7 +336,7 @@ $body = @{
 } | ConvertTo-Json -Compress
 
 $normalResponse = Invoke-WebRequest `
-    -Uri $env:SESSION13_SMOKE_URL `
+    -Uri $env:session12_SMOKE_URL `
     -Method Post `
     -Headers $headers `
     -ContentType "application/json" `
@@ -347,7 +347,7 @@ if ([int]$normalResponse.StatusCode -lt 200 -or [int]$normalResponse.StatusCode 
 }
 
 $failureHeaders = New-SmokeHeaders `
-    -BearerToken $env:SESSION13_SMOKE_BEARER_TOKEN `
+    -BearerToken $env:session12_SMOKE_BEARER_TOKEN `
     -SmokeMode "expected-tool-failure" `
     -Traceparent $failureTraceparent `
     -CommitSha $normalizedCommitSha
@@ -357,7 +357,7 @@ $failureBody = @{
     releaseCommitSha = $normalizedCommitSha
 } | ConvertTo-Json -Compress
 $failureResponse = Invoke-WebRequest `
-    -Uri $env:SESSION13_SMOKE_FAILURE_URL `
+    -Uri $env:session12_SMOKE_FAILURE_URL `
     -Method Post `
     -Headers $failureHeaders `
     -ContentType "application/json" `
@@ -496,7 +496,7 @@ $sensitiveInputPresent = ([int]$row[9] -gt 0 -or [int]$row[10] -gt 0)
 $result = [ordered]@{
     schemaVersion = 1
     implementationSession = $implementationSession
-    recordType = "session13-smoke-result"
+    recordType = "session12-smoke-result"
     mode = $Mode.ToLowerInvariant()
     environment = $Environment
     commitSha = if ($releaseCommitShaVerified) { $normalizedCommitSha } else { $null }
@@ -539,6 +539,6 @@ New-Item -ItemType Directory -Force -Path $resultDirectory | Out-Null
 $result | ConvertTo-Json -Depth 6 | Set-Content -Path $ResultPath -Encoding utf8
 
 if ($result.status -ne "passed") {
-    throw "Session 13 smoke checks failed. Inspect the payload-free result at $ResultPath."
+    throw "Session 12 smoke checks failed. Inspect the payload-free result at $ResultPath."
 }
-Write-Host "PASS: Session 13 smoke checks passed."
+Write-Host "PASS: Session 12 smoke checks passed."

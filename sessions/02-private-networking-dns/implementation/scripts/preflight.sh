@@ -19,7 +19,7 @@ usage() {
   cat <<'USAGE'
 Usage: ./scripts/preflight.sh --approved-subscription-id <id> --resource-group-name <name> --network-operator-object-id <id> --dns-operator-object-id <id> --dns-scope-resource-id <id> [--dns-scope-resource-id <id> ...]
 
-Validate Session 03 files, __REQUIRED_*__ decisions, approved Azure scope, service resource
+Validate Session 02 files, __REQUIRED_*__ decisions, approved Azure scope, service resource
 identities, operator roles, resource providers, Bicep compilation, and the read-only group what-if preview.
 USAGE
 }
@@ -71,7 +71,7 @@ for path in root.rglob('*'):
 if found:
     unresolved = sorted(found)
     unknown = [item for item in unresolved if item not in allowed]
-    message = f"Resolve all Session 03 decisions before deployment: {', '.join(unresolved)}."
+    message = f"Resolve all Session 02 decisions before deployment: {', '.join(unresolved)}."
     if unknown:
         message += f" Add explicit checks for new sentinels: {', '.join(unknown)}."
     print(message, file=sys.stderr)
@@ -400,4 +400,4 @@ printf '  Approved scope: nonproduction subscription and network resource group\
 printf 'Bicep deployment preview:\n'
 preview_output="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name rvas-s03-preflight --template-file "$artifact_root/infra/network/main.bicep" --parameters "$artifact_root/environments/sandbox.bicepparam" --no-pretty-print --only-show-errors)" || die 'Bicep what-if failed.'
 printf '%s\n' "$preview_output"
-printf 'PASS: Session 03 files, decisions, Azure scope, operator roles, service resources, providers, Bicep syntax, and what-if are ready.\n'
+printf 'PASS: Session 02 files, decisions, Azure scope, operator roles, service resources, providers, Bicep syntax, and what-if are ready.\n'

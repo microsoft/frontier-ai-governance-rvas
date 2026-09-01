@@ -10,7 +10,7 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation · Session 03</p>
+<p class="eyebrow">AI Governance Co-implementation · Session 02</p>
 
 # Private networking, DNS, and controlled egress
 
@@ -32,7 +32,7 @@ By the end of the session:
 - The approved change system holds all five prior public-access states.
 - Public access is disabled and the connectivity check still passes.
 
-<!-- Notes: The result covers the approved client path. Session 05 checks agent-runtime traffic. -->
+<!-- Notes: The result covers the approved client path. Session 04 checks agent-runtime traffic. -->
 
 ---
 
@@ -128,7 +128,7 @@ not recorded, or no restore owner is available.
 The script validates five unique service IDs, displays their current public-access states, and
 requires the approved change reference before it changes anything.
 
-It adds `networkControlSession=03-private-networking-dns`, preserves existing tags, and requests
+It adds `networkControlSession=02-private-networking-dns`, preserves existing tags, and requests
 `Disabled` for Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault.
 
 <!-- Notes: If one update fails, inspect the record and start restore. Do not rerun blindly. -->
@@ -164,7 +164,7 @@ From the approved execution host:
 </div>
 </div>
 
-<!-- Notes: Session 05 checks an agent through the delegated subnet. -->
+<!-- Notes: Session 04 checks an agent through the delegated subnet. -->
 
 ---
 

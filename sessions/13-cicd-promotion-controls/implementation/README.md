@@ -14,7 +14,7 @@ release.
 ### Why it matters
 
 Code, AI configuration, gate results, approvals, and routing can drift between pipeline stages. This
-workflow stops that drift. It also runs Session 11's known blocked tool-process case before Azure
+workflow stops that drift. It also runs Session 10's known blocked tool-process case before Azure
 preview or approval.
 
 ### Boundaries
@@ -23,11 +23,11 @@ GitHub Actions controls this promotion path. Four GitHub environments separate p
 Microsoft Entra validates their workload identities. Azure Resource Manager holds deployment state,
 API Management holds routing state, and the approved release store holds the release record.
 
-The workflow uses the existing [Session 05](../../05-governed-agent-baseline/implementation/README.md)
-agent, [Session 08](../../08-apim-ai-gateway-implementation/implementation/README.md) route,
-[Session 11](../../11-foundry-evaluations-quality-gates/implementation/README.md) release gate,
-[Session 12](../../12-red-teaming-threat-defense/implementation/README.md) security-release
-attestation, and [Session 13](../../13-observability-cost-operations/implementation/README.md) smoke
+The workflow uses the existing [Session 04](../../04-governed-agent-baseline/implementation/README.md)
+agent, [Session 07](../../07-apim-ai-gateway-implementation/implementation/README.md) route,
+[Session 10](../../10-foundry-evaluations-quality-gates/implementation/README.md) release gate,
+[Session 11](../../11-red-teaming-threat-defense/implementation/README.md) security-release
+attestation, and [Session 12](../../12-observability-cost-operations/implementation/README.md) smoke
 check. Those systems remain authoritative for their own state and records.
 
 The control covers changes made through these workflows. It does not make an out-of-path deployment
@@ -72,22 +72,22 @@ Complete these items before facilitated work:
   reachable from that branch; do not store the selected SHA in its own commit.
 - Confirm that release metadata binds that SHA to the prompt, immutable agent version, model alias,
   APIM policy, evaluation inputs, and both environment parameter files.
-- Confirm the Session 11 release policy is enabled. Its temporary external baseline and candidate
+- Confirm the Session 10 release policy is enabled. Its temporary external baseline and candidate
   records must match the policy run IDs. The candidate passes, and the generated tool-process
   self-test returns BLOCK.
-- Retrieve the confirmed Session 12 `security-release-attestation` into the approved temporary
+- Retrieve the confirmed Session 11 `security-release-attestation` into the approved temporary
   workspace. It must match the release agent and baseline/remediated versions, include external
   authorization and report locations, show lower aggregate attack success and per-risk
   non-regression, record prohibited actions at zero attack success, and contain no payload.
-- Confirm the Session 13 smoke scripts check the same commit and live Application Insights workspace
+- Confirm the Session 12 smoke scripts check the same commit and live Application Insights workspace
   binding. The result must use distinct normal and failure trace IDs, wait for stable ingestion,
   separate tool and model failures, report no sensitive input, and retain no payload.
 - Have the unit-check, routing, release/security-store, and parameter-file owners accept their files.
   The delivery owner records those decisions.
 
-The protected `nonproduction` environment holds `SESSION13_SMOKE_URL`,
-`SESSION13_SMOKE_FAILURE_URL`, `SESSION13_AI_RESOURCE_ID`,
-`SESSION13_LOG_ANALYTICS_WORKSPACE_ID`, and the `SESSION13_SMOKE_BEARER_TOKEN` secret. Optional
+The protected `nonproduction` environment holds `session12_SMOKE_URL`,
+`session12_SMOKE_FAILURE_URL`, `session12_AI_RESOURCE_ID`,
+`session12_LOG_ANALYTICS_WORKSPACE_ID`, and the `session12_SMOKE_BEARER_TOKEN` secret. Optional
 timeout and retry variables override the 180-second and 15-second defaults.
 
 Configure `nonproduction-preview`, `nonproduction`, `production-preview`, and `production`. Both
@@ -105,7 +105,7 @@ scope. The operator also needs temporary Contributor at both exact resource-grou
 what-if. Expire or remove this human access after the ready check. The workload identities keep
 their scoped Contributor assignments.
 
-The release/security-store interface must retrieve the Session 11 and 12 temporary records and
+The release/security-store interface must retrieve the Session 10 and 11 temporary records and
 support `Stage`, `Approve`, and `Retrieve` by exact release ID and SHA-256. `Retrieve` must never
 return a staged record as a restore target.
 
@@ -113,7 +113,7 @@ return a staged record as a restore target.
 
 | Type | File | Consumer |
 |---|---|---|
-| Record | [`artifacts/control-definition.json`](artifacts/control-definition.json) | The Session 14 validators, preflight scripts, and GitHub Actions workflows |
+| Record | [`artifacts/control-definition.json`](artifacts/control-definition.json) | The Session 13 validators, preflight scripts, and GitHub Actions workflows |
 | Deployment | [`artifacts/github/promotion.yml`](artifacts/github/promotion.yml) | GitHub Actions and the release operator |
 | Deployment | [`artifacts/github/restore-previous-release.yml`](artifacts/github/restore-previous-release.yml) | GitHub Actions and the production restore operator |
 | Runtime | [`artifacts/pipeline/release-manifest.template.json`](artifacts/pipeline/release-manifest.template.json) | The promotion workflow and approved release store |
@@ -131,7 +131,7 @@ Resolve every `__REQUIRED_*__` value in the [`artifacts` tree](artifacts/README.
    names, and four observed OIDC subjects. Do not reconstruct a subject from an example.
 3. The apply reviewers, prevent-self-review settings, production ref restriction, administrator
    bypass setting, and GitHub plan support.
-4. The Bicep, APIM policy, unit, Session 11, Session 13, routing, and release-store source paths.
+4. The Bicep, APIM policy, unit, Session 10, Session 12, routing, and release-store source paths.
 5. The immutable agent and component versions, `canary` or `blue-green` strategy, allowed selectors,
    release ID, and approved temporary workspace.
 
@@ -145,14 +145,14 @@ Stop before a change when:
 - an OIDC subject differs from the exact GitHub environment subject;
 - secret scanning, push protection, required reviewers, prevent-self-review, the production ref
   rule, or disabled administrator bypass is unavailable or inaccessible;
-- Session 11 records, the enabled policy, or the generated blocked test do not match the release;
-- the Session 12 attestation is pending, unauthorized, incomplete, version-mismatched, missing its
+- Session 10 records, the enabled policy, or the generated blocked test do not match the release;
+- the Session 11 attestation is pending, unauthorized, incomplete, version-mismatched, missing its
   report location, worse on aggregate or any risk row, unable to block prohibited actions, or
   payload-bearing;
-- the Session 13 check is missing, failed, for another commit or workspace, exposes sensitive input,
+- the Session 12 check is missing, failed, for another commit or workspace, exposes sensitive input,
   retains payload, reuses trace IDs, or cannot show stable bounded ingestion;
 - what-if contains unrelated deletion, replacement, scope drift, or unexplained expansion; or
-- the existing Session 05 or 07 route cannot preview and restore the selected selector pair. Keep
+- the existing Session 04 or 06 route cannot preview and restore the selected selector pair. Keep
   100% on the previous approved selector.
 
 No AI-quality signal restores a release automatically.
@@ -189,8 +189,8 @@ Azure client secrets. Stop if the repository plan cannot expose a required prote
 
 ### 3. Run ready preflight
 
-Use the approved release/security-store interface to retrieve the Session 11 baseline and candidate
-records and the Session 12 attestation into the approved temporary workspace. Pass their absolute
+Use the approved release/security-store interface to retrieve the Session 10 baseline and candidate
+records and the Session 11 attestation into the approved temporary workspace. Pass their absolute
 paths:
 
 ```powershell
@@ -199,9 +199,9 @@ paths:
   -ApprovedNonproductionScope "/subscriptions/<id>/resourceGroups/<name>" `
   -ApprovedProductionScope "/subscriptions/<id>/resourceGroups/<name>" `
   -ApprovedReleaseSha "<40-character-release-sha>" `
-  -BaselineRecordPath "<temporary-session11-baseline-result.json>" `
-  -CandidateRecordPath "<temporary-session11-candidate-result.json>" `
-  -SecurityReleaseAttestationPath "<temporary-session12-attestation.json>"
+  -BaselineRecordPath "<temporary-session10-baseline-result.json>" `
+  -CandidateRecordPath "<temporary-session10-candidate-result.json>" `
+  -SecurityReleaseAttestationPath "<temporary-session11-attestation.json>"
 ```
 ```bash
 ./scripts/preflight.sh \
@@ -209,9 +209,9 @@ paths:
   --approved-nonproduction-scope "/subscriptions/<id>/resourceGroups/<name>" \
   --approved-production-scope "/subscriptions/<id>/resourceGroups/<name>" \
   --approved-release-sha "<40-character-release-sha>" \
-  --baseline-record-path "<temporary-session11-baseline-result.json>" \
-  --candidate-record-path "<temporary-session11-candidate-result.json>" \
-  --security-release-attestation-path "<temporary-session12-attestation.json>"
+  --baseline-record-path "<temporary-session10-baseline-result.json>" \
+  --candidate-record-path "<temporary-session10-candidate-result.json>" \
+  --security-release-attestation-path "<temporary-session11-attestation.json>"
 ```
 
 Ready repeats the local checks, reads GitHub and Entra configuration, verifies both role scopes, and
@@ -229,9 +229,9 @@ and `evaluation_record=candidate`.
 The workflow:
 
 1. proves the SHA belongs to the protected default branch, checks it out, and rechecks the workflow,
-   pins, fixed digests, secret controls, unit result, Session 11 gate, and Session 12 attestation;
+   pins, fixed digests, secret controls, unit result, Session 10 gate, and Session 11 attestation;
 2. runs the generated blocked-tool-process self-test before Azure;
-3. runs nonproduction what-if, waits for `nonproduction` approval, deploys, and runs Session 13 smoke;
+3. runs nonproduction what-if, waits for `nonproduction` approval, deploys, and runs Session 12 smoke;
 4. rechecks digests, runs production what-if, waits for `production` approval, and deploys the same
    release; and
 5. stages the release record, moves the approved selector, then approves the record. If finalization
@@ -294,8 +294,8 @@ approved selector at 100% and correct the workflow.
 | Promotion, restore, action pins, and release-record continuity | Release owner |
 | GitHub environment protection and OIDC trust | GitHub and Entra administrators |
 | Bicep inputs, exact Azure scopes, and what-if review | Platform owner |
-| Session 11 evaluation gate and Session 12 security gate | Quality and security owners |
-| Session 13 smoke interface | Observability owner |
+| Session 10 evaluation gate and Session 11 security gate | Quality and security owners |
+| Session 12 smoke interface | Observability owner |
 | APIM selectors and routing control | Gateway owner |
 | Permitted and blocked checkpoint | Delivery owner |
 

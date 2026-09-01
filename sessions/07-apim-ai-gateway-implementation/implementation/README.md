@@ -5,8 +5,8 @@
 ### What we will do
 
 Implement the **Foundry Agent Service policy-assistant variant** designed in
-[Session 07](../../07-apim-ai-gateway-design/implementation/README.md). Configure one Azure API
-Management route for the governed [Session 05](../../05-governed-agent-baseline/implementation/README.md)
+[Session 06](../../06-apim-ai-gateway-design/implementation/README.md). Configure one Azure API
+Management route for the governed [Session 04](../../04-governed-agent-baseline/implementation/README.md)
 policy assistant. APIM validates the client token and product subscription, applies the approved
 limits and Content Safety policy, then uses its managed identity to call the pinned Foundry agent.
 
@@ -25,11 +25,11 @@ The deployment changes child resources in the approved nonproduction APIM instan
 the live route and policy. Foundry stores the agent configuration. This control covers requests
 sent through this route. Owners govern direct Foundry access separately.
 
-The Session 07 design record can describe other approved backend types. This implementation uses a
+The Session 06 design record can describe other approved backend types. This implementation uses a
 Foundry Agent Service target agent endpoint. Production ingress, semantic caching, secondary-region
 routing, and write-capable agents need separate designs.
-[Session 09](../../09-api-center-ai-mcp-inventory/implementation/README.md)
-records the route in API Center. [Session 10](../../10-mcp-tool-security/implementation/README.md)
+[Session 08](../../08-api-center-ai-mcp-inventory/implementation/README.md)
+records the route in API Center. [Session 09](../../09-mcp-tool-security/implementation/README.md)
 adds the MCP tool boundary.
 
 ## Architecture
@@ -39,7 +39,7 @@ adds the MCP tool boundary.
 The caller sends a Microsoft Entra application token and a workload-specific APIM subscription
 key. APIM validates both, rejects oversized bodies, applies token limits, and sends the input to
 Azure AI Content Safety. For a passing request, APIM replaces the caller's authorization with a
-Foundry token from its system-assigned managed identity, then calls the pinned Session 05 agent.
+Foundry token from its system-assigned managed identity, then calls the pinned Session 04 agent.
 
 Application Insights receives correlation and token metrics. Request and response bodies stay out
 of the logs.
@@ -57,7 +57,7 @@ agent.
 | Client access | Entra application token plus one APIM subscription per workload | Identity and usage allocation can be revoked separately | Clients manage two credentials | Entra alone meets quota and revocation needs |
 | Backend identity | APIM managed identity with Foundry Agent Consumer on one agent | APIM stores no backend key | Direct Foundry access remains possible | Another approved control governs the direct endpoint |
 | Safety | APIM Content Safety before the agent's RAI policy | Unsafe input can stop before the agent call | Adds latency, cost, and another data path | Safety owners approve a different split |
-| Routing | Primary backend and one read-safe retry; secondary disabled | Keeps the failure path bounded | No regional failover | Session 15 approves a compatible secondary |
+| Routing | Primary backend and one read-safe retry; secondary disabled | Keeps the failure path bounded | No regional failover | Session 14 approves a compatible secondary |
 | Telemetry | Correlation and token metrics; body logging disabled | Supports operations without retaining content | Logs cannot explain a failed exchange from its content | A data owner approves limited content capture |
 
 ### Architecture guidance
@@ -70,22 +70,23 @@ agent.
 
 Confirm the following:
 
-- The approved [Session 07 gateway design record](../../07-apim-ai-gateway-design/implementation/artifacts/gateway-design-record.json)
-  is complete, uses `ready-for-implementation`, has no open readiness gaps, names this APIM
-  instance, and selects `foundry-agent-service` with the `policy-assistant-responses` variant.
-- Sessions 02, 03, and 05 are complete in the approved nonproduction scope.
+- [Session 06 gateway design](../../06-apim-ai-gateway-design/implementation/README.md) is
+  complete. Its `gateway-design-record.json` uses `ready-for-implementation`, has no open
+  readiness gaps, names this APIM instance, and selects `foundry-agent-service` with the
+  `policy-assistant-responses` variant.
+- Sessions 02, 03, and 04 are complete in the approved nonproduction scope.
 - The operator has time-bound **Contributor** on the exact resource group that contains APIM.
 - APIM uses Developer, Basic, Basic v2, Standard, Standard v2, Premium, or Premium v2 and has a
   system-assigned managed identity.
 - That identity has **Foundry Agent Consumer**
-  (`eed3b665-ab3a-47b6-8f48-c9382fb1dad6`) on the individual Session 05 agent.
+  (`eed3b665-ab3a-47b6-8f48-c9382fb1dad6`) on the individual Session 04 agent.
 - The approved APIM Content Safety backend uses managed identity, and the APIM identity has
   **Cognitive Services User** (`a97b65f3-24c7-4388-baec-2e87135dc908`) on that exact Content Safety
   resource.
 - The named Application Insights logger exists in APIM and uses the approved managed-identity
   connection.
 - `sandbox.json` names the live APIM virtual network type and the live Foundry and Content Safety
-  public-network-access values. The network owner confirms that they agree with the Session 07
+  public-network-access values. The network owner confirms that they agree with the Session 06
   inbound, backend, and private DNS paths.
 - The Entra application, audience, client application, and app role are approved.
 - The product owner has issued one workload-specific APIM subscription and stored its key in the
@@ -95,12 +96,12 @@ Confirm the following:
 
 | Type | File | Consumer |
 |---|---|---|
-| Deployment | [`artifacts/gateway/main.bicep`](artifacts/gateway/main.bicep) | The Session 08 APIM deployment scripts |
+| Deployment | [`artifacts/gateway/main.bicep`](artifacts/gateway/main.bicep) | The Session 07 APIM deployment scripts |
 | Deployment | [`artifacts/gateway/apis/policy-assistant-responses.openapi.json`](artifacts/gateway/apis/policy-assistant-responses.openapi.json) | The API Management API import |
 | Deployment | [`artifacts/gateway/policies/policy.xml`](artifacts/gateway/policies/policy.xml) | The API Management gateway runtime |
-| Deployment | [`artifacts/governance/gateway-control.json`](artifacts/governance/gateway-control.json) | The Session 08 preflight and APIM deployment scripts |
+| Deployment | [`artifacts/governance/gateway-control.json`](artifacts/governance/gateway-control.json) | The Session 07 preflight and APIM deployment scripts |
 | Record | [`artifacts/governance/model-routing-decision.md`](artifacts/governance/model-routing-decision.md) | The API product, platform, safety, and operations owners |
-| Deployment | [`artifacts/environments/sandbox.json`](artifacts/environments/sandbox.json) | The Session 08 preflight and deployment scripts |
+| Deployment | [`artifacts/environments/sandbox.json`](artifacts/environments/sandbox.json) | The Session 07 preflight and deployment scripts |
 
 Keep subscription IDs, backend URLs, keys, bearer tokens, prompts, responses, and customer data out
 of the repository.
@@ -109,7 +110,7 @@ of the repository.
 
 Resolve every `__REQUIRED_*__` value in `gateway-control.json` and `sandbox.json`.
 
-**Design record.** Keep the Session 07 record in `ready-for-implementation` status. Its APIM
+**Design record.** Keep the Session 06 record in `ready-for-implementation` status. Its APIM
 instance must match `sandbox.json`. Its backend type and implementation variant must be
 `foundry-agent-service` and `policy-assistant-responses`. Set its Content Safety decision to
 `enabled` and name the approved backend reference. Preflight reads the record, then checks its APIM
@@ -138,10 +139,10 @@ APIM appends `/responses`. Keep the full runtime URL out of source control.
 | Retry for 429/5xx | 1 |
 | Circuit breaker | 5 errors in 1 minute; open for 1 minute |
 
-The retry is allowed because the Session 05 agent has a read-only tool. Keep the secondary backend
+The retry is allowed because the Session 04 agent has a read-only tool. Keep the secondary backend
 disabled. Enable it after the service and cost owners approve a Responses-compatible endpoint with
 matching model behavior, agent version, data boundary, safety policy, logging dimensions, and
-restore path. APIM counters are gateway-local. Session 15 must assign per-region budgets.
+restore path. APIM counters are gateway-local. Session 14 must assign per-region budgets.
 
 **Safety and telemetry.** APIM enables Prompt Shields and checks Hate, SelfHarm, Sexual, and
 Violence at threshold 4 on the eight-level scale. A nonstreaming violation returns `403`. For a
@@ -161,7 +162,7 @@ Stop when any of these conditions applies:
   Cognitive Services User.
 - The client identity, audience, app role, or workload subscription is missing or shared.
 - Content Safety uses a key, the network cannot reach its endpoint, or its policy conflicts with
-  the Session 05 RAI policy.
+  the Session 04 RAI policy.
 - A retry could repeat a write or other consequential action.
 - ARM `what-if` replaces or removes unrelated resources, changes the APIM service, changes the
   approved API or product ID, or exposes a live endpoint in source.
@@ -174,15 +175,13 @@ Edit `gateway-control.json`, `sandbox.json`, and `model-routing-decision.md`. Se
 
 ```powershell
 $approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
-$designRecordPath = "..\07-apim-ai-gateway-design\implementation\artifacts\gateway-design-record.json"
-$primaryAgentBaseUrl = $env:SESSION08_PRIMARY_AGENT_BASE_URL
-$secondaryAgentBaseUrl = $env:SESSION08_SECONDARY_AGENT_BASE_URL
+$primaryAgentBaseUrl = $env:session07_PRIMARY_AGENT_BASE_URL
+$secondaryAgentBaseUrl = $env:session07_SECONDARY_AGENT_BASE_URL
 ```
 ```bash
 approved_subscription_id="${AZURE_SUBSCRIPTION_ID:?Set AZURE_SUBSCRIPTION_ID.}"
-design_record_path="../07-apim-ai-gateway-design/implementation/artifacts/gateway-design-record.json"
-primary_agent_base_url="${SESSION08_PRIMARY_AGENT_BASE_URL:?Set SESSION08_PRIMARY_AGENT_BASE_URL.}"
-secondary_agent_base_url="${SESSION08_SECONDARY_AGENT_BASE_URL:-}"
+primary_agent_base_url="${session07_PRIMARY_AGENT_BASE_URL:?Set session07_PRIMARY_AGENT_BASE_URL.}"
+secondary_agent_base_url="${session07_SECONDARY_AGENT_BASE_URL:-}"
 ```
 
 Leave the secondary URL empty while `secondaryBackendEnabled` is `false`.
@@ -192,15 +191,14 @@ Leave the secondary URL empty while `secondaryBackendEnabled` is `false`.
 ```powershell
 .\scripts\preflight.ps1 `
   -ApprovedSubscriptionId $approvedSubscriptionId `
-  -DesignRecordPath $designRecordPath `
   -PrimaryAgentBaseUrl $primaryAgentBaseUrl `
   -SecondaryAgentBaseUrl $secondaryAgentBaseUrl
 ```
 ```bash
-./scripts/preflight.sh --approved-subscription-id "$approved_subscription_id" --design-record-path "$design_record_path" --primary-agent-base-url "$primary_agent_base_url" --secondary-agent-base-url "$secondary_agent_base_url"
+./scripts/preflight.sh --approved-subscription-id "$approved_subscription_id" --primary-agent-base-url "$primary_agent_base_url" --secondary-agent-base-url "$secondary_agent_base_url"
 ```
 
-Preflight checks the approved Session 07 record, actual backend URL and authorization, APIM tier
+Preflight checks the approved Session 06 record, actual backend URL and authorization, APIM tier
 and identity, APIM, Foundry, and Content Safety network values, both role assignments, Content
 Safety backend, logger, existing API marker, and ARM `what-if`. Stop on any listed gate.
 
@@ -209,12 +207,11 @@ Safety backend, logger, existing API marker, and ARM `what-if`. Stop on any list
 ```powershell
 .\scripts\deploy.ps1 `
   -ApprovedSubscriptionId $approvedSubscriptionId `
-  -DesignRecordPath $designRecordPath `
   -PrimaryAgentBaseUrl $primaryAgentBaseUrl `
   -SecondaryAgentBaseUrl $secondaryAgentBaseUrl
 ```
 ```bash
-./scripts/deploy.sh --approved-subscription-id "$approved_subscription_id" --design-record-path "$design_record_path" --primary-agent-base-url "$primary_agent_base_url" --secondary-agent-base-url "$secondary_agent_base_url"
+./scripts/deploy.sh --approved-subscription-id "$approved_subscription_id" --primary-agent-base-url "$primary_agent_base_url" --secondary-agent-base-url "$secondary_agent_base_url"
 ```
 
 The script reruns preflight and deploys the marked API, product, named values, backend pool,
@@ -229,7 +226,7 @@ $gatewayUrl = "https://$((Get-Content .\artifacts\environments\sandbox.json -Raw
   ConvertFrom-Json).apiManagementName).azure-api.net/ai/policy-assistant/responses"
 $headers = @{
   Authorization = "******"
-  "Ocp-Apim-Subscription-Key" = $env:SESSION08_APIM_SUBSCRIPTION_KEY
+  "Ocp-Apim-Subscription-Key" = $env:session07_APIM_SUBSCRIPTION_KEY
   "X-Correlation-ID" = [guid]::NewGuid().ToString()
 }
 $body = @{ input = "Return the title of synthetic policy POL-001." } | ConvertTo-Json
@@ -258,9 +255,9 @@ catch {
 ```bash
 gateway_url="https://$(python3 -c 'import json, pathlib; print(json.loads(pathlib.Path("artifacts/environments/sandbox.json").read_text())["apiManagementName"])').azure-api.net/ai/policy-assistant/responses"
 
-export SESSION08_GATEWAY_URL="$gateway_url"
-export SESSION08_APIM_SUBSCRIPTION_KEY="${SESSION08_APIM_SUBSCRIPTION_KEY:?Set SESSION08_APIM_SUBSCRIPTION_KEY.}"
-export SESSION08_CORRELATION_ID="$(python3 -c 'import uuid; print(uuid.uuid4())')"
+export session07_GATEWAY_URL="$gateway_url"
+export session07_APIM_SUBSCRIPTION_KEY="${session07_APIM_SUBSCRIPTION_KEY:?Set session07_APIM_SUBSCRIPTION_KEY.}"
+export session07_CORRELATION_ID="$(python3 -c 'import uuid; print(uuid.uuid4())')"
 python3 - <<'PY'
 import json
 import os
@@ -269,12 +266,12 @@ import urllib.request
 
 body = json.dumps({"input": "Return the title of synthetic policy POL-001."}).encode()
 request = urllib.request.Request(
-    os.environ["SESSION08_GATEWAY_URL"],
+    os.environ["session07_GATEWAY_URL"],
     data=body,
     headers={
         "Authorization": "******",
-        "Ocp-Apim-Subscription-Key": os.environ["SESSION08_APIM_SUBSCRIPTION_KEY"],
-        "X-Correlation-ID": os.environ["SESSION08_CORRELATION_ID"],
+        "Ocp-Apim-Subscription-Key": os.environ["session07_APIM_SUBSCRIPTION_KEY"],
+        "X-Correlation-ID": os.environ["session07_CORRELATION_ID"],
         "Content-Type": "application/json",
     },
     method="POST",
@@ -287,7 +284,7 @@ except urllib.error.HTTPError as error:
         raise SystemExit(f"Expected 401 for the invalid identity; received {error.code}.")
     print("PASS: APIM rejected the invalid identity with 401.")
 PY
-unset SESSION08_GATEWAY_URL SESSION08_APIM_SUBSCRIPTION_KEY SESSION08_CORRELATION_ID
+unset session07_GATEWAY_URL session07_APIM_SUBSCRIPTION_KEY session07_CORRELATION_ID
 ```
 
 APIM must return `401 Unauthorized` before calling Content Safety or Foundry. Do not retain the
@@ -308,11 +305,11 @@ Run this configuration against the nonproduction resources named in the deployme
 routing decision.
 
 To remove the route, first confirm that no approved consumer uses it. Through the approved APIM
-change path, check `implementationSession=08-apim-ai-gateway-implementation`. Remove only the
-Session 08 API, product, backends, and four nonsecret named values. Leave APIM, the logger, Content
+change path, check `implementationSession=07-apim-ai-gateway-implementation`. Remove only the
+Session 07 API, product, backends, and four nonsecret named values. Leave APIM, the logger, Content
 Safety, Foundry, role assignments, and repository definitions in place.
 
 To disable an approved secondary while keeping the primary live, set `secondaryBackendEnabled` to
-`false`, clear `SESSION08_SECONDARY_AGENT_BASE_URL`, rerun preflight, and redeploy. For permanent
+`false`, clear `session07_SECONDARY_AGENT_BASE_URL`, rerun preflight, and redeploy. For permanent
 retirement, identity reviews both role assignments. Remove one only when no other approved APIM
 route uses it.

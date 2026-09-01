@@ -28,8 +28,8 @@ The control covers deployments made through these profiles, preflight scripts, a
 Other templates, the portal, CLI, and APIs can bypass it. The cloud platform team needs a separate
 policy, permission, inventory, or change-control design for those paths.
 
-This session excludes instant-access and managed-compute models. Sessions 01-03 own the Foundry
-baseline, identity, and private path. Session 11 owns release evaluation.
+This session excludes instant-access and managed-compute models. Sessions 01-02 establish the
+Foundry baseline and private path. Session 10 owns release evaluation.
 
 ## Architecture
 
@@ -42,7 +42,7 @@ resource-scoped what-if. A mismatch stops the run.
 
 ![An approved model choice moves through preflight, deployment, review, and a keep, replace, or retire decision.](../assets/diagrams/model-governance-flow.svg)
 
-The deployment profile pins the model version with `NoAutoUpgrade`. Session 05 consumes the
+The deployment profile pins the model version with `NoAutoUpgrade`. Session 04 consumes the
 approved deployment name and model coordinates.
 
 ### Design choices and tradeoffs
@@ -64,11 +64,12 @@ approved deployment name and model coordinates.
 
 Confirm:
 
-- Sessions 01-03 are complete in the approved nonproduction subscription and resource group.
+- Sessions 01-02 are complete in the approved nonproduction subscription and resource group.
 - The existing Foundry resource has `kind: AIServices`.
 - The operator has time-bound **Cognitive Services Contributor** on that exact resource.
-- The normal decision process approved the exact model coordinates, workload purpose,
-  processing-location requirement, and external decision reference.
+- The model decision authority approved the exact model coordinates, workload purpose,
+  processing-location requirement, and external decision reference through the customer
+  model-change process.
 - The platform owner can read model availability and subscription quota.
 - The named Responsible AI policy exists under the exact Foundry resource.
 
@@ -81,7 +82,7 @@ records in the repository.
 |---|---|---|
 | Deployment | [`artifacts/infra/models/main.bicep`](artifacts/infra/models/main.bicep) | The Azure deployment pipeline operated by the Foundry platform team |
 | Deployment | [`artifacts/environments/sandbox.bicepparam`](artifacts/environments/sandbox.bicepparam) | The Azure deployment pipeline operated by the Foundry platform team |
-| Deployment | [`artifacts/models/deployment-profiles.json`](artifacts/models/deployment-profiles.json) | The Session 04 Bicep entrypoint and preflight scripts |
+| Deployment | [`artifacts/models/deployment-profiles.json`](artifacts/models/deployment-profiles.json) | The Session 03 Bicep entrypoint and preflight scripts |
 
 ## Decisions and stop conditions
 
@@ -142,7 +143,7 @@ Set the approved scope and operator identity:
 
 ```powershell
 $approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
-$resourceGroup = "approved-session-04-resource-group"
+$resourceGroup = "approved-session-03-resource-group"
 $foundryAccount = "approved-existing-foundry-resource"
 $operatorObjectId = "00000000-0000-0000-0000-000000000000"
 .\scripts\preflight.ps1 `
@@ -154,7 +155,7 @@ $operatorObjectId = "00000000-0000-0000-0000-000000000000"
 
 ```bash
 approved_subscription_id="${AZURE_SUBSCRIPTION_ID:-}"
-resource_group="approved-session-04-resource-group"
+resource_group="approved-session-03-resource-group"
 foundry_account="approved-existing-foundry-resource"
 operator_object_id="00000000-0000-0000-0000-000000000000"
 ./scripts/preflight.sh \
@@ -236,6 +237,6 @@ Azure Policy can separately deny selected deployment SKU names across other auth
 To restore an earlier approved version, restore its profile through the approved change process,
 rerun preflight, inspect what-if, and redeploy. To remove a deployment, the workload and platform
 owners must first confirm that no consumer uses it. Check for
-`implementationSession=04-model-governance-lifecycle`, then remove that one child deployment
+`implementationSession=03-model-governance-lifecycle`, then remove that one child deployment
 through the approved Foundry or Azure deployment path. Leave the parent Foundry resource and every
 other deployment in place.

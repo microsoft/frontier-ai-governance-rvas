@@ -1,6 +1,12 @@
 # OBO implementation files
 
-These files describe one organization-owned delegated trust chain:
+These files describe one organization-owned delegated trust chain. The customer records
+**signed-in user OBO** in `control-definition.json` because the downstream API authorizes each
+user. An application-only managed identity is outside this module. The existing Microsoft Entra
+application registrations, their separate API audiences, the delegated scopes, and the named
+identity owner are direct prerequisites.
+
+The files are:
 
 - `control-definition.json` identifies the implementation boundary and `implementationSession` marker.
 - `identity/app-registrations.json` defines the application roles and delegated permissions.

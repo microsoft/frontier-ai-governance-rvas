@@ -160,9 +160,9 @@ if ($networkPatternMatch.Groups[1].Value -eq "byo-vnet") {
     $cutoverAccounts = @(($cutoverAccountsRaw | Out-String) | ConvertFrom-Json -ErrorAction Stop)
     if (
         $networkMatch.Groups[1].Value -eq "Enabled" -and
-        @($cutoverAccounts | Where-Object { $_.networkControlSession -eq "03-private-networking-dns" }).Count -gt 0
+        @($cutoverAccounts | Where-Object { $_.networkControlSession -eq "02-private-networking-dns" }).Count -gt 0
     ) {
-        throw "publicNetworkAccess cannot be Enabled after Session 03 records networkControlSession=03-private-networking-dns on the Session 01 Foundry account."
+        throw "publicNetworkAccess cannot be Enabled after Session 02 records networkControlSession=02-private-networking-dns on the Session 01 Foundry account."
     }
 }
 

@@ -30,7 +30,7 @@ By the end of the session:
 - Azure Policy checks approved locations and required tags on the same resource group.
 - The assignment reaches `Default` only after review and approval.
 
-<!-- Notes: Keep the result concrete. Access and private endpoints come in Sessions 02 and 03. -->
+<!-- Notes: Keep the result concrete. Session 02 adds private endpoints. Later sessions request their own scoped access. -->
 
 ---
 
@@ -73,6 +73,10 @@ The Application Insights connection uses the stable `ApiKey` path. A preview aut
 | Enforcement | Policy review owner and promotion authority |
 
 For `byo-vnet`, approve the delegated subnet, private-endpoint subnet, route, firewall next hop, and network owner before creating the Foundry account.
+
+The deployment operator receives time-bound **Contributor** on the exact sandbox resource group and
+**Resource Policy Contributor** on the approved subscription. The cloud platform owner approves
+access through the customer process and removes it after confirmation.
 
 <!-- Notes: These four decisions change what the team deploys. Everything else follows from them. -->
 
@@ -155,7 +159,7 @@ The remaining time covers briefing, customer decisions, and the operating handof
 
 ---
 
-## The handoff to Session 02
+## Session 01 access and handoff
 
 Session 01 leaves:
 
@@ -165,7 +169,8 @@ Session 01 leaves:
 - live inventory owned by operations; and
 - enforced resource-group guardrails with a documented restore path.
 
-[Session 02](../02-identity-privileged-access/) assigns people and workloads narrow, time-bound access to this baseline.
+The cloud platform owner removes the Session 01 deployment assignments after confirmation. Each
+later session requests the scoped access needed for its own control.
 
 <!-- Notes: End on the concrete dependency, not a recap of every implementation detail. -->
 

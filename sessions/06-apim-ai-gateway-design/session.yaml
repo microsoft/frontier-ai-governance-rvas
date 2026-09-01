@@ -1,6 +1,6 @@
 schema_version: 2
 session:
-  id: "07"
+  id: "06"
   slug: "apim-ai-gateway-design"
   title: "Azure API Management AI gateway design"
   duration_minutes: 120
@@ -36,7 +36,7 @@ deliverables:
     - "implementation/artifacts/gateway-design-record.json"
 retained_files:
   - path: "implementation/artifacts/gateway-design-record.json"
-    consumer: "The gateway implementation owner and Session 08 preflight process"
+    consumer: "The gateway implementation owner and Session 07 preflight process"
     operational_purpose: "Supply approved gateway decisions and readiness gaps before the team proposes an implementation change."
 sources:
   - title: "AI gateway capabilities in Azure API Management"

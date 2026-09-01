@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
+  "authorityModel": "signed-in-user-obo",
   "client": {
     "applicationObjectId": "__REQUIRED_CLIENT_APP_OBJECT_ID__",
     "middleTierDelegatedScopeId": "__REQUIRED_MIDDLE_TIER_SCOPE_ID__",
@@ -35,4 +36,3 @@
     "scope": "Policy.Read"
   }
 }
-

@@ -1,6 +1,6 @@
 schema_version: 2
 session:
-  id: "14"
+  id: "13"
   slug: "cicd-promotion-controls"
   title: "CI/CD, policy as code, and controlled promotion"
   duration_minutes: 240
@@ -11,24 +11,24 @@ session:
     - "GitHub, Microsoft Entra, Azure, and API Management administrators"
     - "Quality, security, routing, production-approval, and delivery owners"
   prerequisites:
-    - "Complete Sessions 05, 08, and 10-13, or verify the same immutable-agent, gateway, evaluation, adversarial, and observability control states with their named owners."
+    - "Complete Sessions 04, 07, and 09-12, or verify the same immutable-agent, gateway, evaluation, adversarial, and observability control states with their named owners."
     - "Release metadata binds the prompt, agent, model, APIM policy, evaluation inputs, and Bicep parameters to one commit. Supply the approved full SHA through the protected workflow input, never inside that commit."
-    - "The approved Session 11 release policy is enabled. Its temporary external baseline and candidate records match the policy run IDs, the callable gate passes the candidate, and the generated tool-process self-test returns BLOCK."
-    - "The approved temporary workspace contains a confirmed, payload-free Session 12 security-release attestation for the same immutable agent and versions. It records external authorization and report locations, lower aggregate attack success, per-risk non-regression, and blocked prohibited actions. SOC delivery remains separate."
-    - "The Session 13 PowerShell and Bash smoke executables verify the release commit, live Application Insights workspace binding, distinct normal and failure trace IDs, stable ingestion, separated tool and model failures, no sensitive input, and no retained payload."
+    - "The approved Session 10 release policy is enabled. Its temporary external baseline and candidate records match the policy run IDs, the callable gate passes the candidate, and the generated tool-process self-test returns BLOCK."
+    - "The approved temporary workspace contains a confirmed, payload-free Session 11 security-release attestation for the same immutable agent and versions. It records external authorization and report locations, lower aggregate attack success, per-risk non-regression, and blocked prohibited actions. SOC delivery remains separate."
+    - "The Session 12 PowerShell and Bash smoke executables verify the release commit, live Application Insights workspace binding, distinct normal and failure trace IDs, stable ingestion, separated tool and model failures, no sensitive input, and no retained payload."
     - "The unit-check, routing, release/security-store, and environment-parameter owners have accepted their files. The delivery owner has recorded those decisions."
     - "GitHub environments `nonproduction-preview`, `nonproduction`, `production-preview`, and `production` are configured. Both apply environments require reviewers and prevent self-review; production also restricts deployment refs and disables administrator bypass."
-    - "Native secret scanning and push protection are enabled. The protected `nonproduction` environment holds the Session 13 URLs, Application Insights resource ID, Log Analytics workspace ID, bearer-token secret, and optional timeout and retry overrides."
+    - "Native secret scanning and push protection are enabled. The protected `nonproduction` environment holds the Session 12 URLs, Application Insights resource ID, Log Analytics workspace ID, bearer-token secret, and optional timeout and retry overrides."
     - "The nonproduction and production workload service principals each trust their exact preview and apply GitHub OIDC subjects. Each principal has only Contributor (role ID `b24988ac-6180-42a0-ab88-20f7382dd24c`) at its environment resource-group scope."
     - "GitHub and Entra administrators use temporary access for configuration and preflight. The preflight operator has temporary Directory Readers at tenant scope and Contributor at both exact environment resource-group scopes. Remove or expire human access after the ready check."
-    - "The approved release/security-store interface retrieves temporary Session 11 and 12 records, and stages, approves, or retrieves a release record by exact release ID and SHA-256. Promotion approves the record only after routing; restore consumes an approved record."
+    - "The approved release/security-store interface retrieves temporary Session 10 and 11 records, and stages, approves, or retrieves a release record by exact release ID and SHA-256. Promotion approves the record only after routing; restore consumes an approved record."
     - "Release, quality, security, production-approval, routing, platform, observability, and delivery authorities are named and available for live decisions."
   dependencies:
-    - "Session 05 - Governed Microsoft Foundry agent baseline"
-    - "Session 08 - Azure API Management AI gateway implementation"
-    - "Session 11 - Foundry evaluations and release quality gates"
-    - "Session 12 - Red teaming, prompt injection, and Defender"
-    - "Session 13 - Observability, cost, and operational controls"
+    - "Session 04 - Governed Microsoft Foundry agent baseline"
+    - "Session 07 - Azure API Management AI gateway implementation"
+    - "Session 10 - Foundry evaluations and release quality gates"
+    - "Session 11 - Red teaming, prompt injection, and Defender"
+    - "Session 12 - Observability, cost, and operational controls"
   services_in_scope:
     - "github-actions"
     - "microsoft-entra-workload-id"
@@ -41,7 +41,7 @@ implementation:
   extended_reason: "The delivery owner must observe the permitted promotion path and the blocked evaluation path before accepting the checkpoint."
 implementation_outcomes:
   - "Prove the approved full SHA is reachable from the protected default branch, then deploy that same commit through environment-scoped Azure OIDC."
-  - "Run unit, evaluation, adversarial, and observability gates before deployment, including the generated Session 11 blocked self-test."
+  - "Run unit, evaluation, adversarial, and observability gates before deployment, including the generated Session 10 blocked self-test."
   - "Run Bicep what-if in each preview environment and require approval in the matching apply environment."
   - "Tie approvals, both deployments, routing, the approved release record, and manual restore to one selected release SHA."
   - "Confirm the permitted path and blocked path, then pause for the delivery owner."
@@ -63,7 +63,7 @@ deliverables:
     - "implementation/scripts/verify.sh"
 retained_files:
   - path: "implementation/artifacts/control-definition.json"
-    consumer: "The Session 14 validators, preflight scripts, and GitHub Actions workflows"
+    consumer: "The Session 13 validators, preflight scripts, and GitHub Actions workflows"
     operational_purpose: "Define the GitHub environments, OIDC trust, Azure scopes, gates, routing settings, required fields for temporary external gate artifacts, and release-record lifecycle that the promotion workflows use."
   - path: "implementation/artifacts/github/promotion.yml"
     consumer: "GitHub Actions and the release operator"

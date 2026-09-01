@@ -2,13 +2,13 @@ let lookback = 30m;
 let policyTraces =
     traces
     | where timestamp > ago(lookback)
-    | where message == "MCP request evaluated by Session 10 control."
+    | where message == "MCP request evaluated by Session 09 control."
     | where isnotempty(operation_Id)
     | summarize arg_max(timestamp, *) by operation_Id
     | project
         operation_Id,
-        clientCorrelationId = tostring(customDimensions["session10.correlation_id"]),
-        tracedTool = tostring(customDimensions["session10.tool_name"]);
+        clientCorrelationId = tostring(customDimensions["session09.correlation_id"]),
+        tracedTool = tostring(customDimensions["session09.tool_name"]);
 requests
 | where timestamp > ago(lookback)
 | where customDimensions["api.type"] == "Mcp"

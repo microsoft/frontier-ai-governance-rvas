@@ -1,6 +1,6 @@
 schema_version: 2
 session:
-  id: "05"
+  id: "04"
   slug: "governed-agent-baseline"
   title: "Governed Microsoft Foundry agent baseline"
   duration_minutes: 150
@@ -13,15 +13,14 @@ session:
   prerequisites:
     - "Sessions 01 through 03 are complete in the approved nonproduction subscription, resource group, `AIServices` Foundry resource, and Foundry project. The approved execution host can reach the project."
     - "The agent deployment operator has the time-bound Foundry User role, role ID `53ca6127-db72-4b80-b1b0-d745d6d5456d`, on that exact Foundry project."
-    - "The Session 04 consolidated approval record links the selected deployment name to its exact model coordinates. The live ARM child deployment has provisioning state `Succeeded`. The AI product owner has checked the current Agent Service region-and-model support table for prompt agents and OpenAPI tools in the Foundry project region."
+    - "The Session 03 consolidated approval record links the selected deployment name to its exact model coordinates. The live ARM child deployment has provisioning state `Succeeded`. The AI product owner has checked the current Agent Service region-and-model support table for prompt agents and OpenAPI tools in the Foundry project region."
     - "The downstream API resource scope has an approved read-only HTTPS operation, exact Microsoft Entra audience, authorization owner, and exact built-in or custom read role assignment for the Foundry project managed identity. A custom role names the action required by `get_policy`."
     - "The exact RAI policy name is recorded for the selected model deployment. The safety owner has approved its input and output filtering settings."
     - "Application Insights is connected to the Foundry project. The approved operations group has Log Analytics Reader on that resource and, when its Log Analytics tables are protected, Privileged Monitoring Data Reader."
   dependencies:
     - "Session 01 - Microsoft Foundry platform baseline, inventory, and landing-zone guardrails"
-    - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
-    - "Session 03 - Private networking, DNS, and controlled egress"
-    - "Session 04 - Model governance, data residency, quota, and lifecycle"
+    - "Session 02 - Private networking, DNS, and controlled egress"
+    - "Session 03 - Model governance, data residency, quota, and lifecycle"
   services_in_scope:
     - "azure-ai-foundry"
     - "foundry-agent-service"
@@ -49,13 +48,13 @@ deliverables:
     - "implementation/scripts/deploy.ps1"
 retained_files:
   - path: "implementation/artifacts/agents/policy-assistant/agent.json"
-    consumer: "The Session 05 agent deployment scripts"
+    consumer: "The Session 04 agent deployment scripts"
     operational_purpose: "Create each prompt-agent version with the approved model, RAI policy, endpoint, and identity details."
   - path: "implementation/artifacts/agents/policy-assistant/instructions.md"
     consumer: "The Microsoft Foundry prompt-agent version"
     operational_purpose: "Tell each deployed version how to read policies, which write action to refuse, and how a person can request the change."
   - path: "implementation/artifacts/agents/policy-assistant/tool-manifest.json"
-    consumer: "The Session 05 agent deployment scripts"
+    consumer: "The Session 04 agent deployment scripts"
     operational_purpose: "Register the approved GET operation and bind its runtime endpoint without storing the endpoint."
   - path: "implementation/scripts/preflight.ps1"
     consumer: "The Microsoft Foundry agent deployment operator"

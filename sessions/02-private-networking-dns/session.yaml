@@ -1,6 +1,6 @@
 schema_version: 2
 session:
-  id: "03"
+  id: "02"
   slug: "private-networking-dns"
   title: "Private networking, DNS, and controlled egress"
   duration_minutes: 180
@@ -11,7 +11,7 @@ session:
     - "AI platform engineers"
     - "DNS, firewall, and security reviewers"
   prerequisites:
-    - "Sessions 01 and 02 are complete. Session 01 owns the existing BYO VNet, route table, delegated Agent Service subnet, and private-endpoint subnet."
+    - "Session 01 is complete. It owns the existing BYO VNet, route table, delegated Agent Service subnet, and private-endpoint subnet."
     - "The approved network design names the DNS pattern, customer firewall source, and execution host inside the private network."
     - "The network deployment operator has time-bound Network Contributor on the exact nonproduction resource group used for this session."
     - "The DNS operator has time-bound Private DNS Zone Contributor on the resource group that holds the seven zones, or on every reused zone."
@@ -20,7 +20,6 @@ session:
     - "The approved change record names the cutover owner, restore owner, and location for the five prior public-access states."
   dependencies:
     - "Session 01 - Microsoft Foundry platform baseline, inventory, and landing-zone guardrails"
-    - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
   services_in_scope:
     - "azure-ai-foundry"
     - "azure-key-vault"

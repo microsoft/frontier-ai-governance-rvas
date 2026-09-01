@@ -9,7 +9,7 @@ Usage: ./scripts/preflight.sh --approved-nonproduction-scope <resource-group-id>
   [--candidate-record-path <temporary-json-path>] \
   [--security-release-attestation-path <temporary-json-path>]
 
-Runs the Session 14 Bash preflight. The script validates required files, tools, sentinels, the two
+Runs the Session 13 Bash preflight. The script validates required files, tools, sentinels, the two
 approved scopes, immutable release metadata, fixed file interfaces, static dependencies,
 and the read-only Azure deployment previews for nonproduction and production.
 
@@ -19,10 +19,10 @@ Required options:
   --approved-release-sha <40-character-sha>           Approved release commit held outside that commit.
 
 Ready-phase options:
-  --baseline-record-path <temporary-json-path>         External Session 11 baseline result for Ready preflight.
-  --candidate-record-path <temporary-json-path>        External Session 11 candidate result for Ready preflight.
+  --baseline-record-path <temporary-json-path>         External Session 10 baseline result for Ready preflight.
+  --candidate-record-path <temporary-json-path>        External Session 10 candidate result for Ready preflight.
   --security-release-attestation-path <temporary-json-path>
-                                                       External Session 12 attestation for Ready preflight.
+                                                       External Session 11 attestation for Ready preflight.
 
 Optional options:
   --phase <decisions|ready>                           Preflight phase. Default: ready.
@@ -347,8 +347,8 @@ prod_params = json.loads((artifact_root / 'environments' / 'production.parameter
 promotion_workflow = (artifact_root / 'github' / 'promotion.yml').read_text()
 restore_workflow = (artifact_root / 'github' / 'restore-previous-release.yml').read_text()
 
-if control.get('implementationSession') != '14-cicd-promotion-controls':
-    raise SystemExit('Session 14 implementation files have the wrong implementationSession marker.')
+if control.get('implementationSession') != '13-cicd-promotion-controls':
+    raise SystemExit('Session 13 implementation files have the wrong implementationSession marker.')
 if control['targetScopes']['nonproduction'] != approved_nonproduction_scope or control['targetScopes']['production'] != approved_production_scope:
     raise SystemExit('Approved scopes do not match the operational control definition.')
 if control['azure']['clientSecretAllowed'] is not False or 'OIDC' not in control['azure']['authentication']:
@@ -373,7 +373,7 @@ if control['records']['manifestFinalizationFailureBehavior'] != 'stop-and-requir
 if control['routing']['strategy'] not in {'canary', 'blue-green'}:
     raise SystemExit('Routing strategy must be canary or blue-green.')
 if control['routing']['existingSession05Or06SupportConfirmed'] is not True:
-    raise SystemExit('Existing Session 05 or 07 routing support is not confirmed.')
+    raise SystemExit('Existing Session 04 or 06 routing support is not confirmed.')
 if control.get('releaseCommit') != {
     'source': 'workflow_dispatch.release_sha',
     'format': 'full-40-character-git-sha',
@@ -427,9 +427,9 @@ for fragment in (
 ):
     if fragment not in promotion_workflow:
         raise SystemExit(f'Promotion workflow does not bind the approved release SHA: {fragment}')
-threshold_policy_path = repo_root / control['sourcePaths']['session11ThresholdPolicy']
+threshold_policy_path = repo_root / control['sourcePaths']['session10ThresholdPolicy']
 if hashlib.sha256(threshold_policy_path.read_bytes()).hexdigest() != control['immutableRelease']['evaluationThresholdPolicySha256']:
-    raise SystemExit('The approved Session 11 threshold policy hash does not match immutable release metadata.')
+    raise SystemExit('The approved Session 10 threshold policy hash does not match immutable release metadata.')
 
 def resolve_repo_path(relative_path: str) -> str:
     candidate = (repo_root / relative_path).resolve()
@@ -442,13 +442,13 @@ def resolve_repo_path(relative_path: str) -> str:
 bicep_path = resolve_repo_path(control['sourcePaths']['bicepEntrypoint'])
 apim_policy_path = resolve_repo_path(control['sourcePaths']['apimPolicy'])
 unit_script_path = resolve_repo_path(control['sourcePaths']['unitTestScript'])
-smoke_powershell_path = resolve_repo_path(control['sourcePaths']['session13SmokePowerShell'])
-smoke_bash_path = resolve_repo_path(control['sourcePaths']['session13SmokeBash'])
+smoke_powershell_path = resolve_repo_path(control['sourcePaths']['session12SmokePowerShell'])
+smoke_bash_path = resolve_repo_path(control['sourcePaths']['session12SmokeBash'])
 routing_script_path = resolve_repo_path(control['sourcePaths']['routingControlScript'])
 release_store_script_path = resolve_repo_path(control['sourcePaths']['releaseStoreScript'])
 
 for parameters, environment_name in ((nonprod_params['parameters'], 'nonproduction'), (prod_params['parameters'], 'production')):
-    if parameters['environment']['value'] != environment_name or parameters['implementationSession']['value'] != '14-cicd-promotion-controls':
+    if parameters['environment']['value'] != environment_name or parameters['implementationSession']['value'] != '13-cicd-promotion-controls':
         raise SystemExit(f'{environment_name} parameters have the wrong environment or implementation marker.')
     if 'releaseCommitSha' in parameters:
         raise SystemExit(f'{environment_name} parameters must receive releaseCommitSha at runtime.')
@@ -563,18 +563,18 @@ require_approval('nonproduction', control['githubEnvironments']['nonproduction']
 require_approval('production', control['githubEnvironments']['production']['requiredReviewerTeamSlug'])
 secret_response = command_json('gh', 'api', f'repos/{repository}/environments/nonproduction/secrets?per_page=100')
 nonproduction_secret_names = {item['name'] for item in secret_response.get('secrets', [])}
-for required_name in ('SESSION13_SMOKE_URL', 'SESSION13_SMOKE_FAILURE_URL', 'SESSION13_AI_RESOURCE_ID', 'SESSION13_LOG_ANALYTICS_WORKSPACE_ID'):
+for required_name in ('session12_SMOKE_URL', 'session12_SMOKE_FAILURE_URL', 'session12_AI_RESOURCE_ID', 'session12_LOG_ANALYTICS_WORKSPACE_ID'):
     if not str(variables['nonproduction'].get(required_name, '')).strip():
-        raise SystemExit(f'nonproduction GitHub environment variable {required_name} is required for the Session 13 smoke.')
+        raise SystemExit(f'nonproduction GitHub environment variable {required_name} is required for the Session 12 smoke.')
 try:
-    poll_timeout = int(str(variables['nonproduction'].get('SESSION13_SMOKE_TIMEOUT_SECONDS', '')).strip() or '180')
-    poll_retry = int(str(variables['nonproduction'].get('SESSION13_SMOKE_RETRY_SECONDS', '')).strip() or '15')
+    poll_timeout = int(str(variables['nonproduction'].get('session12_SMOKE_TIMEOUT_SECONDS', '')).strip() or '180')
+    poll_retry = int(str(variables['nonproduction'].get('session12_SMOKE_RETRY_SECONDS', '')).strip() or '15')
 except ValueError as error:
-    raise SystemExit('Session 13 telemetry polling values must be integers.') from error
+    raise SystemExit('Session 12 telemetry polling values must be integers.') from error
 if not 30 <= poll_timeout <= 600 or not 5 <= poll_retry <= 60 or poll_retry > poll_timeout:
-    raise SystemExit('Session 13 telemetry polling must use timeout 30-600 seconds and retry 5-60 seconds.')
-if 'SESSION13_SMOKE_BEARER_TOKEN' not in nonproduction_secret_names:
-    raise SystemExit('nonproduction GitHub environment secret SESSION13_SMOKE_BEARER_TOKEN is required.')
+    raise SystemExit('Session 12 telemetry polling must use timeout 30-600 seconds and retry 5-60 seconds.')
+if 'session12_SMOKE_BEARER_TOKEN' not in nonproduction_secret_names:
+    raise SystemExit('nonproduction GitHub environment secret session12_SMOKE_BEARER_TOKEN is required.')
 production = environments['production']
 if production.get('can_admins_bypass') is not False:
     raise SystemExit('Production administrator bypass must be disabled.')

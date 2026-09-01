@@ -57,19 +57,19 @@ try:
     raw = path.read_text(encoding="utf-8")
     record = json.loads(raw)
 except (OSError, json.JSONDecodeError) as error:
-    raise SystemExit(f"The Session 07 gateway design record is invalid: {error}")
+    raise SystemExit(f"The Session 06 gateway design record is invalid: {error}")
 if re.search(r"__REQUIRED_[A-Z0-9_]+__", raw):
-    raise SystemExit("Resolve every required Session 07 gateway design decision before the Session 08 deployment.")
+    raise SystemExit("Resolve every required Session 06 gateway design decision before the Session 07 deployment.")
 if record.get("recordStatus") != "ready-for-implementation":
-    raise SystemExit("The Session 07 gateway design record must be ready-for-implementation.")
+    raise SystemExit("The Session 06 gateway design record must be ready-for-implementation.")
 backend = record.get("targetBackend", {})
 if backend.get("type") != "foundry-agent-service" or backend.get("implementationVariant") != "policy-assistant-responses":
-    raise SystemExit("Session 08 implements the foundry-agent-service policy-assistant-responses variant recorded in Session 07.")
+    raise SystemExit("Session 07 implements the foundry-agent-service policy-assistant-responses variant recorded in Session 06.")
 content_safety = record.get("contentSafety", {})
 if content_safety.get("decision") != "enabled" or not str(content_safety.get("backendReference", "")).strip():
-    raise SystemExit("The Session 07 design record must enable Content Safety and name its approved backend reference.")
+    raise SystemExit("The Session 06 design record must enable Content Safety and name its approved backend reference.")
 if record.get("apiManagement", {}).get("instanceName") != expected_apim_name:
-    raise SystemExit("The Session 07 design record APIM instance does not match sandbox.json.")
+    raise SystemExit("The Session 06 design record APIM instance does not match sandbox.json.")
 for section, field in (
     ("ingress", "clientIdentity"),
     ("ingress", "backendIdentity"),
@@ -78,9 +78,9 @@ for section, field in (
     ("network", "privateDnsState"),
 ):
     if not str(record.get(section, {}).get(field, "")).strip():
-        raise SystemExit("The Session 07 design record must state the ingress identities and network paths.")
+        raise SystemExit("The Session 06 design record must state the ingress identities and network paths.")
 if any(gap.get("status") == "open" for gap in record.get("readinessGaps", [])):
-    raise SystemExit("Resolve the open Session 07 readiness gaps before the Session 08 deployment.")
+    raise SystemExit("Resolve the open Session 06 readiness gaps before the Session 07 deployment.")
 PY
 }
 
@@ -118,7 +118,7 @@ required_sentinels=(
 approved_subscription_id=""
 primary_agent_base_url=""
 secondary_agent_base_url=""
-design_record_path="$script_dir/../../../07-apim-ai-gateway-design/implementation/artifacts/gateway-design-record.json"
+design_record_path="$script_dir/../../../06-apim-ai-gateway-design/implementation/artifacts/gateway-design-record.json"
 while (($# > 0)); do
   case "$1" in
     --approved-subscription-id)
@@ -163,7 +163,7 @@ require_command python3
 for path in "$control_path" "$environment_path" "$bicep_path" "$openapi_path" "$policy_path"; do
   [[ -f "$path" ]] || fail "Required implementation file is missing: $path"
 done
-[[ -f "$design_record_path" ]] || fail "The approved Session 07 gateway design record is missing: $design_record_path"
+[[ -f "$design_record_path" ]] || fail "The approved Session 06 gateway design record is missing: $design_record_path"
 
 validate_agent_url "$primary_agent_base_url" false || fail "PrimaryAgentBaseUrl must be an HTTPS base URL without a query string or fragment."
 validate_agent_url "$secondary_agent_base_url" true || fail "SecondaryAgentBaseUrl must be an HTTPS base URL without a query string or fragment."
@@ -182,18 +182,18 @@ if ((${#unresolved_sentinels[@]} > 0)); then
     $known || unknown+=("$sentinel")
   done
   if ((${#unknown[@]} > 0)); then
-    fail "Add explicit Session 08 preflight checks for new sentinels: ${unknown[*]}"
+    fail "Add explicit Session 07 preflight checks for new sentinels: ${unknown[*]}"
   fi
-  fail "Resolve every Session 08 customer decision before deployment: ${unresolved_sentinels[*]}"
+  fail "Resolve every Session 07 customer decision before deployment: ${unresolved_sentinels[*]}"
 fi
 
-jq -e '.implementationSession == "08-apim-ai-gateway-implementation"' "$control_path" >/dev/null || fail "gateway-control.json has the wrong implementationSession marker."
-jq -e '.implementationSession == "08-apim-ai-gateway-implementation"' "$environment_path" >/dev/null || fail "sandbox.json has the wrong implementationSession marker."
-jq -e '.api.operationPath == "/responses"' "$control_path" >/dev/null || fail "Session 08 must expose one POST /responses operation."
-jq -e '.paths["/responses"].post != null' "$openapi_path" >/dev/null || fail "Session 08 must expose one POST /responses operation."
+jq -e '.implementationSession == "07-apim-ai-gateway-implementation"' "$control_path" >/dev/null || fail "gateway-control.json has the wrong implementationSession marker."
+jq -e '.implementationSession == "07-apim-ai-gateway-implementation"' "$environment_path" >/dev/null || fail "sandbox.json has the wrong implementationSession marker."
+jq -e '.api.operationPath == "/responses"' "$control_path" >/dev/null || fail "Session 07 must expose one POST /responses operation."
+jq -e '.paths["/responses"].post != null' "$openapi_path" >/dev/null || fail "Session 07 must expose one POST /responses operation."
 jq -e '.components.schemas.ResponseRequest.properties.stream_options.properties.include_usage.type == "boolean"' "$openapi_path" >/dev/null || fail "The Responses contract must document stream_options.include_usage for streaming token metrics."
 jq -e '.product.subscriptionRequired == true' "$control_path" >/dev/null || fail "The governed product must require an APIM subscription."
-jq -e '.semanticCaching.enabled == false' "$control_path" >/dev/null || fail "Semantic caching is deferred for Session 08."
+jq -e '.semanticCaching.enabled == false' "$control_path" >/dev/null || fail "Semantic caching is deferred for Session 07."
 jq -e '.telemetry.requestBodyBytesLogged == 0 and .telemetry.responseBodyBytesLogged == 0 and .telemetry.clientIpLogged == false' "$control_path" >/dev/null || fail "Gateway diagnostics must keep request bodies, response bodies, and client IP logging disabled."
 jq -e '.limits.tokensPerMinute > 0 and .limits.tokenQuota > 0 and .limits.requestMaxBytes > 0 and .limits.requestMaxBytes <= 4194304' "$control_path" >/dev/null || fail "Token and request-size limits must be positive; requestMaxBytes cannot exceed 4 MB."
 jq -e '.limits.retryCount >= 1 and .limits.retryCount <= 3' "$control_path" >/dev/null || fail "Retry count must stay between 1 and 3 for the agent Responses call."
@@ -220,13 +220,13 @@ if 'context.Subscription.Id' not in (token_limit.get('counter-key') or ''):
     raise SystemExit('Token limits must use the controlled APIM subscription as the counter key.')
 for forbidden in ['llm-semantic-cache-lookup', 'llm-semantic-cache-store', 'log-to-eventhub', 'trace']:
     if re.search(re.escape(forbidden), text):
-        raise SystemExit(f"The Session 08 policy must not contain '{forbidden}'.")
+        raise SystemExit(f"The Session 07 policy must not contain '{forbidden}'.")
 PY
 
 environment_json=$(cat "$environment_path")
-validate_design_record "$design_record_path" "$(jq -r '.apiManagementName' <<<"$environment_json")" || fail "Session 07 gateway design record validation failed."
+validate_design_record "$design_record_path" "$(jq -r '.apiManagementName' <<<"$environment_json")" || fail "Session 06 gateway design record validation failed."
 expected_primary_base="https://$(jq -r '.foundryAccountName' <<<"$environment_json").services.ai.azure.com/api/projects/$(jq -r '.foundryProjectName' <<<"$environment_json")/agents/$(jq -r '.agentName' <<<"$environment_json")/endpoint/protocols/openai"
-[[ ${primary_agent_base_url%/} == "$expected_primary_base" ]] || fail "PrimaryAgentBaseUrl does not match the existing Session 05 Foundry agent."
+[[ ${primary_agent_base_url%/} == "$expected_primary_base" ]] || fail "PrimaryAgentBaseUrl does not match the existing Session 04 Foundry agent."
 secondary_enabled=$(jq -r '.secondaryBackendEnabled' <<<"$environment_json")
 if [[ "$secondary_enabled" == 'true' ]]; then
   [[ -n "$secondary_agent_base_url" ]] || fail "SecondaryAgentBaseUrl is required because the approved environment enables secondary routing."
@@ -242,7 +242,7 @@ apim_json=$(az_json 'API Management lookup' apim show --name "$(jq -r '.apiManag
 expected_apim_id="/subscriptions/$approved_subscription_id/resourceGroups/$(jq -r '.resourceGroupName' <<<"$environment_json")/providers/Microsoft.ApiManagement/service/$(jq -r '.apiManagementName' <<<"$environment_json")"
 [[ $(jq -r '.id' <<<"$apim_json") == "$expected_apim_id" ]] || fail "API Management is outside the approved subscription or resource group."
 [[ $(jq -r '.sku.name' <<<"$apim_json") != 'Consumption' ]] || fail "The deployed token-limit and content-safety policy set is not supported on the Consumption tier."
-[[ $(jq -r '.apiManagement.tier' "$design_record_path") == "$(jq -r '.sku.name' <<<"$apim_json")" ]] || fail "The Session 07 design record APIM tier does not match the live APIM instance."
+[[ $(jq -r '.apiManagement.tier' "$design_record_path") == "$(jq -r '.sku.name' <<<"$apim_json")" ]] || fail "The Session 06 design record APIM tier does not match the live APIM instance."
 [[ $(jq -r '.virtualNetworkType // empty' <<<"$apim_json") == "$(jq -r '.network.apimVirtualNetworkType' <<<"$environment_json")" ]] || fail "API Management virtualNetworkType does not match sandbox.json."
 apim_principal_id=$(jq -r '.identity.principalId // empty' <<<"$apim_json")
 [[ -n "$apim_principal_id" ]] || fail "API Management must have a system-assigned managed identity."
@@ -251,7 +251,7 @@ agent_scope="/subscriptions/$approved_subscription_id/resourceGroups/$(jq -r '.r
 role_json=$(az_json 'Foundry Agent Consumer role lookup' role definition list --name eed3b665-ab3a-47b6-8f48-c9382fb1dad6)
 [[ $(jq -r 'length' <<<"$role_json") == '1' && $(jq -r '.[0].roleName' <<<"$role_json") == 'Foundry Agent Consumer' ]] || fail "Role definition eed3b665-ab3a-47b6-8f48-c9382fb1dad6 is not the current Foundry Agent Consumer role."
 assignments_json=$(az_json 'APIM Foundry Agent Consumer assignment lookup' role assignment list --assignee "$apim_principal_id" --role eed3b665-ab3a-47b6-8f48-c9382fb1dad6 --scope "$agent_scope" --include-inherited)
-[[ $(jq -r 'length' <<<"$assignments_json") != '0' ]] || fail "Assign Foundry Agent Consumer to the APIM identity at the individual Session 05 agent scope."
+[[ $(jq -r 'length' <<<"$assignments_json") != '0' ]] || fail "Assign Foundry Agent Consumer to the APIM identity at the individual Session 04 agent scope."
 
 content_safety_resource_id=$(jq -r '.contentSafetyResourceId' <<<"$environment_json")
 [[ "$content_safety_resource_id" == /subscriptions/$approved_subscription_id/* ]] || fail "The Content Safety resource is outside the approved subscription."
@@ -282,7 +282,7 @@ fi
 api_id=$(jq -r '.api.id' "$control_path")
 existing_api_raw=$(az rest --method get --url "https://management.azure.com$expected_apim_id/apis/$api_id?api-version=$api_version" --only-show-errors --output json 2>/dev/null || true)
 if [[ -n "$existing_api_raw" ]]; then
-  [[ $(jq -r '.properties.description // ""' <<<"$existing_api_raw") == *'implementationSession=08-apim-ai-gateway-implementation'* ]] || fail "An existing APIM API uses the configured ID without the Session 08 marker."
+  [[ $(jq -r '.properties.description // ""' <<<"$existing_api_raw") == *'implementationSession=07-apim-ai-gateway-implementation'* ]] || fail "An existing APIM API uses the configured ID without the Session 07 marker."
 fi
 
 echo 'Deployment preview:'
@@ -295,7 +295,7 @@ echo '  Request/response body logging: disabled'
 echo '  Semantic caching: deferred'
 
 az deployment group what-if \
-  --name session08-apim-ai-gateway-implementation-preview \
+  --name session07-apim-ai-gateway-implementation-preview \
   --resource-group "$(jq -r '.resourceGroupName' <<<"$environment_json")" \
   --template-file "$bicep_path" \
   --parameters \
@@ -308,4 +308,4 @@ az deployment group what-if \
   --only-show-errors \
   --no-pretty-print >/dev/null || fail 'The API Management deployment preview failed.'
 
-echo 'PASS: Session 07 design, Session 08 files, actual backend, identities, network, safety backend, logger, and deployment preview are ready.'
+echo 'PASS: Session 06 design, Session 07 files, actual backend, identities, network, safety backend, logger, and deployment preview are ready.'

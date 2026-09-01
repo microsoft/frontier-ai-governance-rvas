@@ -25,7 +25,7 @@ This design applies to the approved nonproduction workload named in the record. 
 authoritative for the design record. Azure API Management and connected Azure services are
 authoritative for live service state.
 
-The session can plan any approved AI backend. Session 08 implements the Foundry Agent Service
+The session can plan any approved AI backend. Session 07 implements the Foundry Agent Service
 policy-assistant variant and requires a target agent endpoint. Another backend needs an approved
 implementation variant. Do not record live endpoint URLs, keys, tokens, prompts, responses,
 tenant IDs, or subscription IDs in this repository.
@@ -39,7 +39,7 @@ identity, applies the request, limit, safety, and routing decisions, then uses t
 identity to call the selected backend. Content Safety and telemetry are separate boundaries. The
 API product, identity, network, safety, and operations owners each own part of the path.
 
-`gateway-design-record.json` hands the design to implementation. Session 08 preflight uses it for
+`gateway-design-record.json` hands the design to implementation. Session 07 preflight uses it for
 the actual backend, identity, and network checks before a deployment proposal. The implementation
 process changes APIM.
 
@@ -74,7 +74,7 @@ readiness gap.
 
 | Type | File | Consumer |
 | --- | --- | --- |
-| Record | [`artifacts/gateway-design-record.json`](artifacts/gateway-design-record.json) | The gateway implementation owner and Session 08 preflight process |
+| Record | [`artifacts/gateway-design-record.json`](artifacts/gateway-design-record.json) | The gateway implementation owner and Session 07 preflight process |
 
 Run the preflight script after completing the record. It reads local JSON and makes no Azure call.
 A **read-only deployment preview is unsupported** because this design session does not deploy a
@@ -145,6 +145,6 @@ implementation owner updates it through the usual source-control review path whe
 identity, network, APIM tier, safety decision, telemetry boundary, limits, routing, restore path,
 or ownership changes.
 
-The Session 08 implementation owner uses this record before proposing the Foundry Agent Service
+The Session 07 implementation owner uses this record before proposing the Foundry Agent Service
 build. Restore or remove a deployed gateway through that approved implementation variant's change
 path. This design record has no Azure resource to remove.

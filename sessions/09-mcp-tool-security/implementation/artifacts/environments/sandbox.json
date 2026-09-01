@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "10-mcp-tool-security",
+  "implementationSession": "09-mcp-tool-security",
   "resourceGroupName": "__REQUIRED_APIM_RESOURCE_GROUP_NAME__",
   "apiManagementName": "__REQUIRED_APIM_NAME__",
   "applicationInsightsLoggerName": "__REQUIRED_APP_INSIGHTS_LOGGER_NAME__",

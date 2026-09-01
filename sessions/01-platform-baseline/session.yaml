@@ -14,8 +14,8 @@ session:
   prerequisites:
     - "Complete engagement pre-work and approve the sandbox subscription, exact resource group, and customer-owned Git repository."
     - "Select `public`, `public-private-inbound`, or `byo-vnet` before creating the Foundry account. For `byo-vnet`, approve the subnet, route, firewall next hop, and network owner."
-    - "Give the deployment operator Contributor on the approved sandbox scope and time-bound Resource Policy Contributor on the approved subscription."
-    - "Allow deployment what-if at resource-group and subscription scope, and let the cloud platform owner review inherited policy assignments and exemptions."
+    - "Give the deployment operator time-bound Contributor on the exact approved sandbox resource group and time-bound Resource Policy Contributor on the approved subscription. The cloud platform owner approves both assignments through the customer access process and removes them after confirmation."
+    - "Allow deployment what-if at resource-group and subscription scope. The cloud platform owner reviews inherited policy assignments and exemptions before the change authority approves enforcement through the approved policy change record."
     - "Register the required resource providers and identify the approved regions, governance tags, control owners, and promotion authority."
   dependencies:
     - "Engagement pre-work complete"
@@ -113,7 +113,7 @@ sources:
   - title: "How to configure network isolation for Microsoft Foundry"
     url: "https://learn.microsoft.com/en-us/azure/foundry/how-to/configure-private-link"
     accessed: "2026-08-28"
-    supports: "Foundry inbound and outbound network boundaries, the account-create BYO VNet decision, and the Session 03 private-access cutover."
+    supports: "Foundry inbound and outbound network boundaries, the account-create BYO VNet decision, and the Session 02 private-access cutover."
   - title: "Bicep What-If: Preview changes before deployment"
     url: "https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-what-if"
     accessed: "2026-08-24"
@@ -161,7 +161,7 @@ sources:
   - title: "Built-in policies for model deployment in Microsoft Foundry portal"
     url: "https://learn.microsoft.com/en-us/azure/foundry/how-to/model-deployment-policy"
     accessed: "2026-08-28"
-    supports: "Generally available model approval and eligibility policy definitions for the Session 04 model-governance control, not this landing-zone initiative."
+    supports: "Generally available model approval and eligibility policy definitions for the Session 03 model-governance control, not this landing-zone initiative."
   - title: "az policy assignment"
     url: "https://learn.microsoft.com/en-us/cli/azure/policy/assignment?view=azure-cli-latest"
     accessed: "2026-08-28"

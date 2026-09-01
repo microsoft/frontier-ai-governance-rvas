@@ -10,7 +10,7 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation · Session 04</p>
+<p class="eyebrow">AI Governance Co-implementation · Session 03</p>
 
 # Model governance, data residency, quota, and lifecycle
 
@@ -151,7 +151,7 @@ The remaining time covers the briefing, required decisions, and restore guidance
 </div>
 </div>
 
-<!-- Notes: Session 05 consumes the approved deployment name and model coordinates. -->
+<!-- Notes: Session 04 consumes the approved deployment name and model coordinates. -->
 
 ---
 
@@ -164,7 +164,7 @@ To restore an earlier approved version:
 3. Redeploy the child resource.
 
 Remove one deployment only after the workload and platform owners confirm that no consumer uses it.
-Check for `implementationSession=04-model-governance-lifecycle`. Leave the parent Foundry resource
+Check for `implementationSession=03-model-governance-lifecycle`. Leave the parent Foundry resource
 and every other deployment in place.
 
 <!-- Notes: Other deployment methods still need a policy, permission, inventory, or change-control design. -->

@@ -218,7 +218,7 @@ python ./scripts/run-red-team.py \
 
 Before this session, the agent owner created a new immutable version. The tool owner kept writes
 absent or denied, the data owner kept synthetic sources read-only, and the release owner reran the
-[Session 11](../../11-foundry-evaluations-quality-gates/implementation/README.md) gate. Do not edit
+[Session 10](../../10-foundry-evaluations-quality-gates/implementation/README.md) gate. Do not edit
 the baseline or change the plan.
 
 ```powershell
@@ -301,9 +301,9 @@ system keeps decisions. The repository retains the plan, exact-title hunt, and p
 
 For unsafe behavior, stop the run and keep the stable endpoint on the previously approved version.
 Disable the affected version or detach its tool binding when needed. Restore the approved agent,
-tool, gateway, content, permission, and data controls through the change paths from Sessions 05, 08,
-09, and 10. Keep Defender and SOC routing active unless their owners find a separate fault. Remove
+tool, gateway, content, permission, and data controls through the change paths from Sessions 04, 07,
+08, and 09. Keep Defender and SOC routing active unless their owners find a separate fault. Remove
 cloud red-team definitions only after the security owner confirms retention needs.
 
 The residual-risk authority decides whether to fix and rerun the unchanged plan, disable the
-version, or accept the remaining risk. **Session 12 does not authorize production promotion.**
+version, or accept the remaining risk. **Session 11 does not authorize production promotion.**

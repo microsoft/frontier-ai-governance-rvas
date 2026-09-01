@@ -103,7 +103,7 @@
           <h2 id="decisions-and-stop-conditions">Decisions and stop conditions<a class="heading-anchor" href="#decisions-and-stop-conditions" aria-label="Link to Decisions and stop conditions">#</a></h2>
 <h3 id="choose-obo-for-the-right-reason">Choose OBO for the right reason<a class="heading-anchor" href="#choose-obo-for-the-right-reason" aria-label="Link to Choose OBO for the right reason">#</a></h3>
 <p>Use OBO only when the downstream API must evaluate the signed-in user. Typical signals include user-owned records, per-user entitlements, or a downstream policy that names the user.</p>
-<p>Use application-only authorization when the workload reads shared data, runs in the background, or needs the same authority for every caller. OBO carries a different authority from managed identity.</p>
+<p>Use application-only authorization when the workload reads shared data, runs in the background, or needs the same authority for every caller. <strong>Record signed-in user OBO in <code>control-definition.json</code> for this module.</strong> Do not configure an application-only managed identity in its place.</p>
 <h3 id="keep-token-audiences-separate">Keep token audiences separate<a class="heading-anchor" href="#keep-token-audiences-separate" aria-label="Link to Keep token audiences separate">#</a></h3>
 <p>The inbound token audience is the middle tier. The exchanged token audience is the downstream API. They must differ.</p>
 <p>The claim examples and Conditional Access claims-challenge boundary contain no token values.</p>

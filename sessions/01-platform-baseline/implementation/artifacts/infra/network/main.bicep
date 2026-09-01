@@ -12,7 +12,7 @@ param virtualNetworkAddressPrefix string
 @description('Dedicated /27-or-larger subnet for Foundry Agent Service network injection.')
 param agentSubnetPrefix string
 
-@description('Dedicated subnet reserved for Session 03 private endpoints.')
+@description('Dedicated subnet reserved for Session 02 private endpoints.')
 param privateEndpointSubnetPrefix string
 
 @description('Private IP of the customer-approved firewall next hop.')

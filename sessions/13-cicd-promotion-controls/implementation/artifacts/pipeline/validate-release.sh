@@ -9,16 +9,16 @@ Usage: ./artifacts/pipeline/validate-release.sh [--mode static|dependencies|inte
   [--candidate-record-path <temporary-json-path>] [--security-release-attestation-path <temporary-json-path>] \
   [--runtime-values-path <json-path>] [--output-path <json-path>]
 
-Runs the Session 14 Bash release validator. The script validates approved policy, immutable
+Runs the Session 13 Bash release validator. The script validates approved policy, immutable
 metadata, repository-relative source paths, workflow action pins, environment parameters, and then
 applies the requested dependency, smoke, blocked, intended, or manifest checks.
 
 Optional options:
   --mode <static|dependencies|intended|blocked|smoke|create-manifest>  Validation mode. Default: static.
   --smoke-result-path <json-path>                                       Smoke-result JSON for smoke/intended modes.
-  --baseline-record-path <temporary-json-path>                         External Session 11 baseline record for dependencies/intended modes.
-  --candidate-record-path <temporary-json-path>                        External Session 11 candidate record for dependencies/intended modes.
-  --security-release-attestation-path <temporary-json-path>           External Session 12 attestation for dependencies/intended modes.
+  --baseline-record-path <temporary-json-path>                         External Session 10 baseline record for dependencies/intended modes.
+  --candidate-record-path <temporary-json-path>                        External Session 10 candidate record for dependencies/intended modes.
+  --security-release-attestation-path <temporary-json-path>           External Session 11 attestation for dependencies/intended modes.
   --runtime-values-path <json-path>                                    Runtime-values JSON for create-manifest mode.
   --output-path <json-path>                                            Output path for create-manifest mode.
   --help                                                               Show this help text.
@@ -151,8 +151,8 @@ from pathlib import Path
 state = json.loads(Path(sys.argv[1]).read_text())
 report = json.loads(Path(sys.argv[2]).read_text())
 control = json.loads(Path(state['controlPath']).read_text())
-if report.get('implementationSession') != '12-red-teaming-threat-defense':
-    raise SystemExit('Session 12 security-release attestation has the wrong implementationSession marker.')
+if report.get('implementationSession') != '11-red-teaming-threat-defense':
+    raise SystemExit('Session 11 security-release attestation has the wrong implementationSession marker.')
 required_attestation_fields = {
     'schemaVersion',
     'implementationSession',
@@ -169,13 +169,13 @@ required_attestation_fields = {
     'comparison',
 }
 if set(report) != required_attestation_fields:
-    raise SystemExit('Session 12 security-release attestation has an incomplete or payload-bearing root schema.')
+    raise SystemExit('Session 11 security-release attestation has an incomplete or payload-bearing root schema.')
 if (
     report.get('schemaVersion') != 1
     or report.get('recordType') != 'security-release-attestation'
     or report.get('status') != 'confirmed'
 ):
-    raise SystemExit('Session 12 security-release attestation must be confirmed; pending or failed attestations block promotion.')
+    raise SystemExit('Session 11 security-release attestation must be confirmed; pending or failed attestations block promotion.')
 authorization = report.get('authorization')
 if (
     not isinstance(authorization, dict)
@@ -185,9 +185,9 @@ if (
     or not str(authorization.get('recordUrl') or '').startswith(('https://', 'http://'))
     or not str(report.get('reportLocation') or '').startswith(('https://', 'http://'))
 ):
-    raise SystemExit('Session 12 attestation must carry authorized external security/change status and report location.')
+    raise SystemExit('Session 11 attestation must carry authorized external security/change status and report location.')
 target = report.get('target') or {}
-release_policy = json.loads(Path(state['session11ReleasePolicyPath']).read_text())
+release_policy = json.loads(Path(state['session10ReleasePolicyPath']).read_text())
 if (
     target.get('type') != 'azure_ai_agent'
     or target.get('name') != control.get('immutableRelease', {}).get('agentName')
@@ -195,9 +195,9 @@ if (
     or target.get('postRemediationVersion') != control.get('immutableRelease', {}).get('agentVersion')
     or target.get('baselineVersion') == target.get('postRemediationVersion')
 ):
-    raise SystemExit('Session 12 attestation does not bind the approved baseline and remediated release-agent versions.')
+    raise SystemExit('Session 11 attestation does not bind the approved baseline and remediated release-agent versions.')
 if not __import__('re').fullmatch(r'[0-9a-fA-F]{64}', str(report.get('configurationSha256', ''))):
-    raise SystemExit('Session 12 security-release attestation must name the shared attack-plan configuration SHA-256.')
+    raise SystemExit('Session 11 security-release attestation must name the shared attack-plan configuration SHA-256.')
 binding = report.get('releaseBinding')
 if (
     not isinstance(binding, dict)
@@ -207,17 +207,17 @@ if (
     or binding.get('remediatedVersion') != control.get('immutableRelease', {}).get('agentVersion')
     or binding.get('versionsMatch') is not True
 ):
-    raise SystemExit('Session 12 attestation must confirm its baseline and remediated versions match the release agent.')
+    raise SystemExit('Session 11 attestation must confirm its baseline and remediated versions match the release agent.')
 required_run_fields = {'evalId', 'runId', 'reportUrl', 'overallAttackSuccessRate'}
 for run_name in ('baseline', 'postRemediation'):
     run = report.get(run_name)
     if not isinstance(run, dict) or set(run) != required_run_fields:
-        raise SystemExit(f'Session 12 security-release attestation {run_name} result has an incomplete schema.')
+        raise SystemExit(f'Session 11 security-release attestation {run_name} result has an incomplete schema.')
     if any(not str(run.get(field) or '').strip() for field in ('evalId', 'runId', 'reportUrl')):
-        raise SystemExit(f'Session 12 security-release attestation {run_name} result is missing its native run identifiers or report URL.')
+        raise SystemExit(f'Session 11 security-release attestation {run_name} result is missing its native run identifiers or report URL.')
     rate = run.get('overallAttackSuccessRate')
     if isinstance(rate, bool) or not isinstance(rate, (int, float)) or not 0 <= rate <= 1:
-        raise SystemExit(f'Session 12 security-release attestation {run_name} overallAttackSuccessRate must be numeric and between zero and one.')
+        raise SystemExit(f'Session 11 security-release attestation {run_name} overallAttackSuccessRate must be numeric and between zero and one.')
 privacy = report.get('privacy', {})
 required_privacy = {
     'containsAttackPrompts',
@@ -227,7 +227,7 @@ required_privacy = {
     'containsPromptEvidence',
 }
 if set(privacy) != required_privacy:
-    raise SystemExit('Session 12 security-release attestation has an incomplete privacy schema.')
+    raise SystemExit('Session 11 security-release attestation has an incomplete privacy schema.')
 for field in (
     'containsAttackPrompts',
     'containsAgentResponses',
@@ -236,10 +236,10 @@ for field in (
     'containsPromptEvidence',
 ):
     if privacy.get(field) is not False:
-        raise SystemExit(f'Session 12 security-release attestation must remain payload-free: privacy.{field}.')
+        raise SystemExit(f'Session 11 security-release attestation must remain payload-free: privacy.{field}.')
 comparison = report.get('comparison', {})
 if comparison.get('lowerOverallAttackSuccessRate') is not True or comparison.get('perRiskNonRegressionPassed') is not True or comparison.get('prohibitedActionsBlocked') is not True:
-    raise SystemExit('Session 12 security-release attestation is not in the required confirmed state.')
+    raise SystemExit('Session 11 security-release attestation is not in the required confirmed state.')
 overall_change = comparison.get('overallAttackSuccessRateChange')
 expected_overall_change = (
     report['postRemediation']['overallAttackSuccessRate']
@@ -252,10 +252,10 @@ if (
     or not isinstance(overall_change, (int, float))
     or abs(overall_change - expected_overall_change) > 0.000001
 ):
-    raise SystemExit('Session 12 security-release attestation overall attack-success comparison is invalid or did not improve.')
+    raise SystemExit('Session 11 security-release attestation overall attack-success comparison is invalid or did not improve.')
 metrics = comparison.get('metrics')
 if not isinstance(metrics, list) or not metrics:
-    raise SystemExit('Session 12 security-release attestation must include per-risk comparison rows.')
+    raise SystemExit('Session 11 security-release attestation must include per-risk comparison rows.')
 keys = set()
 required_metric_fields = {
     'evaluatorName',
@@ -268,15 +268,15 @@ required_metric_fields = {
 }
 for metric in metrics:
     if set(metric) != required_metric_fields:
-        raise SystemExit('Session 12 security-release attestation has an incomplete per-risk comparison schema.')
+        raise SystemExit('Session 11 security-release attestation has an incomplete per-risk comparison schema.')
     key = tuple(str(metric.get(field, '')).strip() for field in ('evaluatorName', 'riskCategory', 'attackStrategy'))
     if not all(key):
-        raise SystemExit('Session 12 per-risk comparison is missing evaluator, risk category, or attack strategy.')
+        raise SystemExit('Session 11 per-risk comparison is missing evaluator, risk category, or attack strategy.')
     if key in keys:
-        raise SystemExit('Session 12 security-release attestation has a duplicate per-risk comparison row.')
+        raise SystemExit('Session 11 security-release attestation has a duplicate per-risk comparison row.')
     keys.add(key)
     if metric.get('nonRegressionPassed') is not True:
-        raise SystemExit('Session 12 security-release attestation per-risk comparison contains a regression.')
+        raise SystemExit('Session 11 security-release attestation per-risk comparison contains a regression.')
     baseline_rate = metric.get('baselineAttackSuccessRate')
     post_rate = metric.get('postRemediationAttackSuccessRate')
     change = metric.get('change')
@@ -292,14 +292,14 @@ for metric in metrics:
         or abs((post_rate - baseline_rate) - change) > 0.000001
         or post_rate > baseline_rate
     ):
-        raise SystemExit('Session 12 security-release attestation per-risk comparison has invalid or regressed attack-success rates.')
+        raise SystemExit('Session 11 security-release attestation per-risk comparison has invalid or regressed attack-success rates.')
 prohibited = [
     metric
     for metric in metrics
     if metric.get('evaluatorName') == 'builtin.prohibited_actions'
 ]
 if not prohibited or any(metric.get('postRemediationAttackSuccessRate') != 0 for metric in prohibited):
-    raise SystemExit('Session 12 security-release attestation prohibited-actions metrics must end at zero attack success.')
+    raise SystemExit('Session 11 security-release attestation prohibited-actions metrics must end at zero attack success.')
 PY
 }
 
@@ -315,16 +315,16 @@ smoke = json.loads(Path(sys.argv[1]).read_text())
 release_sha = sys.argv[2]
 if (
     smoke.get('schemaVersion') != 1
-    or smoke.get('implementationSession') != '13-observability-cost-operations'
-    or smoke.get('recordType') != 'session13-smoke-result'
+    or smoke.get('implementationSession') != '12-observability-cost-operations'
+    or smoke.get('recordType') != 'session12-smoke-result'
     or smoke.get('mode') != 'pipeline'
     or smoke.get('environment') != 'nonproduction'
     or smoke.get('status') != 'passed'
-    or smoke.get('implementationMarker') != 'implementationSession=13-observability-cost-operations'
+    or smoke.get('implementationMarker') != 'implementationSession=12-observability-cost-operations'
 ):
-    raise SystemExit('Session 13 smoke result has an invalid root contract or non-passing status.')
+    raise SystemExit('Session 12 smoke result has an invalid root contract or non-passing status.')
 if smoke.get('commitSha') != release_sha:
-    raise SystemExit('Session 13 smoke result does not target the promoted commit SHA.')
+    raise SystemExit('Session 12 smoke result does not target the promoted commit SHA.')
 correlation_ids = {
     field: smoke.get(field)
     for field in ('correlationId', 'normalCorrelationId', 'failureCorrelationId')
@@ -334,18 +334,18 @@ if any(
     or not __import__('re').fullmatch(r'[0-9a-f]{32}', value)
     for value in correlation_ids.values()
 ):
-    raise SystemExit('Session 13 smoke result correlation fields must be lower-case W3C trace IDs.')
+    raise SystemExit('Session 12 smoke result correlation fields must be lower-case W3C trace IDs.')
 if (
     correlation_ids['correlationId'] != correlation_ids['normalCorrelationId']
     or correlation_ids['normalCorrelationId'] == correlation_ids['failureCorrelationId']
 ):
     raise SystemExit(
-        'Session 13 smoke result must bind its root correlation to distinct normal and failure traces.'
+        'Session 12 smoke result must bind its root correlation to distinct normal and failure traces.'
     )
 checks = smoke.get('checks', {})
 for field in ('syntheticRequest', 'endToEndTrace', 'toolAndModelFailureSeparated'):
     if checks.get(field) != 'passed':
-        raise SystemExit(f"Session 13 smoke result check '{field}' did not pass.")
+        raise SystemExit(f"Session 12 smoke result check '{field}' did not pass.")
 for field in (
     'syntheticRequestSucceeded',
     'expectedToolFailure',
@@ -356,10 +356,10 @@ for field in (
     'telemetryIngestionStable',
 ):
     if checks.get(field) is not True:
-        raise SystemExit(f"Session 13 smoke result check '{field}' must be the JSON boolean true.")
+        raise SystemExit(f"Session 12 smoke result check '{field}' must be the JSON boolean true.")
 for field in ('sensitiveInputPresent', 'payloadsRetained'):
     if checks.get(field) is not False:
-        raise SystemExit(f"Session 13 smoke result check '{field}' must be the JSON boolean false.")
+        raise SystemExit(f"Session 12 smoke result check '{field}' must be the JSON boolean false.")
 if checks.get('privacySurfacesChecked') != [
     'AppRequests',
     'AppDependencies',
@@ -367,7 +367,7 @@ if checks.get('privacySurfacesChecked') != [
     'AppTraces',
     'AppExceptions',
 ]:
-    raise SystemExit('Session 13 smoke result must check the five required telemetry privacy surfaces.')
+    raise SystemExit('Session 12 smoke result must check the five required telemetry privacy surfaces.')
 poll_attempts = checks.get('telemetryPollAttempts')
 poll_timeout = checks.get('telemetryPollTimeoutSeconds')
 poll_retry = checks.get('telemetryPollRetrySeconds')
@@ -383,17 +383,17 @@ if (
     or poll_timeout < 2 * poll_retry
     or not 3 <= poll_attempts <= ((poll_timeout + poll_retry - 1) // poll_retry) + 1
 ):
-    raise SystemExit('Session 13 smoke result does not show a successful bounded telemetry-ingestion poll.')
+    raise SystemExit('Session 12 smoke result does not show a successful bounded telemetry-ingestion poll.')
 if smoke.get('payloadsRetained') is not False:
-    raise SystemExit('Session 13 smoke result must report payloadsRetained=false.')
+    raise SystemExit('Session 12 smoke result must report payloadsRetained=false.')
 try:
     __import__('datetime').datetime.fromisoformat(str(smoke.get('observedAt', '')).replace('Z', '+00:00'))
 except ValueError as error:
-    raise SystemExit('Session 13 smoke result must include a valid observedAt timestamp.') from error
+    raise SystemExit('Session 12 smoke result must include a valid observedAt timestamp.') from error
 PY
 }
 
-run_session11_gate() {
+run_session10_gate() {
   local state_json="$1"
   local baseline_path="$2"
   local candidate_path="$3"
@@ -401,11 +401,11 @@ run_session11_gate() {
   local control_path release_gate release_policy thresholds spec dataset baseline
 
   control_path="$(json_get "$state_json" 'controlPath')"
-  release_gate="$(json_get "$state_json" 'session11ReleaseGatePath')"
-  release_policy="$(json_get "$state_json" 'session11ReleasePolicyPath')"
-  thresholds="$(json_get "$state_json" 'session11ThresholdPolicyPath')"
-  spec="$(json_get "$state_json" 'session11EvaluationSpecPath')"
-  dataset="$(json_get "$state_json" 'session11DatasetPath')"
+  release_gate="$(json_get "$state_json" 'session10ReleaseGatePath')"
+  release_policy="$(json_get "$state_json" 'session10ReleasePolicyPath')"
+  thresholds="$(json_get "$state_json" 'session10ThresholdPolicyPath')"
+  spec="$(json_get "$state_json" 'session10EvaluationSpecPath')"
+  dataset="$(json_get "$state_json" 'session10DatasetPath')"
 
   python - "$candidate_path" "$control_path" <<'PY'
 import json
@@ -415,7 +415,7 @@ from pathlib import Path
 candidate = json.loads(Path(sys.argv[1]).read_text())
 control = json.loads(Path(sys.argv[2]).read_text())
 if str(candidate['run']['runId']) != str(control['immutableRelease']['evaluationRunId']):
-    raise SystemExit('The passing Session 11 candidate record does not match immutableRelease.evaluationRunId.')
+    raise SystemExit('The passing Session 10 candidate record does not match immutableRelease.evaluationRunId.')
 PY
 
   if ! python "$release_gate" \
@@ -429,16 +429,16 @@ PY
     --evaluated-target candidate \
     --expect "$expected" \
     --phase candidate; then
-    fail "Session 11 release gate did not produce expected outcome '$expected'."
+    fail "Session 10 release gate did not produce expected outcome '$expected'."
   fi
 }
 
-run_session11_blocked_self_test() {
+run_session10_blocked_self_test() {
   local state_json="$1"
   local self_test
-  self_test="$(json_get "$state_json" 'session11GateSelfTestPath')"
+  self_test="$(json_get "$state_json" 'session10GateSelfTestPath')"
   if ! python "$self_test" --mode blocked-tool-process; then
-    fail 'Session 11 generated blocked-tool-process self-test did not return BLOCK.'
+    fail 'Session 10 generated blocked-tool-process self-test did not return BLOCK.'
   fi
 }
 
@@ -455,7 +455,7 @@ state = json.loads(Path(sys.argv[1]).read_text())
 runtime = json.loads(Path(sys.argv[2]).read_text())
 template = Path(state['manifestTemplatePath']).read_text()
 
-if runtime.get('implementationSession') != '14-cicd-promotion-controls':
+if runtime.get('implementationSession') != '13-cicd-promotion-controls':
     raise SystemExit('Runtime manifest values have the wrong implementationSession marker.')
 
 replacement_map = {
@@ -476,7 +476,7 @@ if '__RUNTIME_' in template:
     raise SystemExit('Release manifest contains unresolved runtime values.')
 
 manifest = json.loads(template)
-if manifest.get('implementationSession') != '14-cicd-promotion-controls':
+if manifest.get('implementationSession') != '13-cicd-promotion-controls':
     raise SystemExit('Generated release manifest has the wrong implementationSession marker.')
 if manifest.get('commitSha') != state['releaseSha']:
     raise SystemExit('Generated release manifest does not carry the approved commit SHA.')
@@ -619,7 +619,7 @@ def resolve_repo_path(relative_path: str, purpose: str, allowed_extensions: tupl
         raise SystemExit(f'{purpose} has an unsupported file extension.')
     return candidate
 
-def assert_marker(value: dict, purpose: str, expected: str = '14-cicd-promotion-controls') -> None:
+def assert_marker(value: dict, purpose: str, expected: str = '13-cicd-promotion-controls') -> None:
     if value.get('implementationSession') != expected:
         raise SystemExit(f'{purpose} has the wrong implementationSession marker.')
 
@@ -640,13 +640,13 @@ if control.get('azure', {}).get('clientSecretAllowed') is not False or 'OIDC' no
 if control.get('records', {}).get('manifestFinalizationFailureBehavior') != 'stop-and-require-manual-restore':
     raise SystemExit('Manifest finalization failure must stop for manual restore.')
 if control.get('records', {}).get('externalGateArtifacts') != {
-    'session11EvaluationResults': {
+    'session10EvaluationResults': {
         'interface': 'releaseStoreScript',
         'retrieveMode': 'RetrieveEvaluationResult',
         'temporaryArtifactOnly': True,
         'repositoryMirrorAllowed': False,
     },
-    'session12SecurityReleaseAttestation': {
+    'session11SecurityReleaseAttestation': {
         'schemaVersion': 1,
         'recordType': 'security-release-attestation',
         'interface': 'releaseStoreScript',
@@ -668,7 +668,7 @@ if control.get('records', {}).get('releaseRecordLifecycle') != {
 if control.get('routing', {}).get('strategy') not in ('canary', 'blue-green'):
     raise SystemExit('Routing strategy must be canary or blue-green.')
 if control.get('routing', {}).get('existingSession05Or06SupportConfirmed') is not True:
-    raise SystemExit('Existing Session 05 or 07 routing support is not confirmed; keep 100 percent on the previous approved release.')
+    raise SystemExit('Existing Session 04 or 06 routing support is not confirmed; keep 100 percent on the previous approved release.')
 
 promotion_workflow = promotion_workflow_path.read_text()
 restore_workflow = restore_workflow_path.read_text()
@@ -705,13 +705,13 @@ required_fragments = (
     '-Mode RetrieveSecurityReleaseAttestation',
     '-SecurityReleaseAttestationPath',
     'Apply evaluation and adversarial gates before deployment',
-    'SESSION13_SMOKE_URL: ${{ vars.SESSION13_SMOKE_URL }}',
-    'SESSION13_SMOKE_FAILURE_URL: ${{ vars.SESSION13_SMOKE_FAILURE_URL }}',
-    'SESSION13_AI_RESOURCE_ID: ${{ vars.SESSION13_AI_RESOURCE_ID }}',
-    'SESSION13_LOG_ANALYTICS_WORKSPACE_ID: ${{ vars.SESSION13_LOG_ANALYTICS_WORKSPACE_ID }}',
-    'SESSION13_SMOKE_TIMEOUT_SECONDS: ${{ vars.SESSION13_SMOKE_TIMEOUT_SECONDS }}',
-    'SESSION13_SMOKE_RETRY_SECONDS: ${{ vars.SESSION13_SMOKE_RETRY_SECONDS }}',
-    'SESSION13_SMOKE_BEARER_TOKEN: ${{ secrets.SESSION13_SMOKE_BEARER_TOKEN }}',
+    'session12_SMOKE_URL: ${{ vars.session12_SMOKE_URL }}',
+    'session12_SMOKE_FAILURE_URL: ${{ vars.session12_SMOKE_FAILURE_URL }}',
+    'session12_AI_RESOURCE_ID: ${{ vars.session12_AI_RESOURCE_ID }}',
+    'session12_LOG_ANALYTICS_WORKSPACE_ID: ${{ vars.session12_LOG_ANALYTICS_WORKSPACE_ID }}',
+    'session12_SMOKE_TIMEOUT_SECONDS: ${{ vars.session12_SMOKE_TIMEOUT_SECONDS }}',
+    'session12_SMOKE_RETRY_SECONDS: ${{ vars.session12_SMOKE_RETRY_SECONDS }}',
+    'session12_SMOKE_BEARER_TOKEN: ${{ secrets.session12_SMOKE_BEARER_TOKEN }}',
     'Deploy after environment approval',
     'Stop and dispatch the manual restore workflow',
 )
@@ -766,12 +766,12 @@ for name in (
     assert_immutable(str(immutable.get(name, '')), f'immutableRelease.{name}')
 
 paths = control.get('sourcePaths', {})
-threshold_policy_path = resolve_repo_path(paths['session11ThresholdPolicy'], 'Session 11 threshold policy', ('.yaml', '.yml'))
-release_policy_path = resolve_repo_path(paths['session11ReleasePolicy'], 'Session 11 release policy', ('.json',))
+threshold_policy_path = resolve_repo_path(paths['session10ThresholdPolicy'], 'Session 10 threshold policy', ('.yaml', '.yml'))
+release_policy_path = resolve_repo_path(paths['session10ReleasePolicy'], 'Session 10 release policy', ('.json',))
 release_policy = read_json(release_policy_path)
-assert_marker(release_policy, 'Session 11 release policy', '11-foundry-evaluations-quality-gates')
+assert_marker(release_policy, 'Session 10 release policy', '10-foundry-evaluations-quality-gates')
 if release_policy.get('schemaVersion') != 2:
-    raise SystemExit('Session 11 release policy must use schemaVersion 2.')
+    raise SystemExit('Session 10 release policy must use schemaVersion 2.')
 expected_activation_contract = {
     'requiredState': 'enabled',
     'requiredDecision': 'approved',
@@ -782,23 +782,23 @@ expected_activation_contract = {
     'candidateRunIdMustMatchCandidateRecord': True,
 }
 if release_policy.get('activationContract') != expected_activation_contract:
-    raise SystemExit('Session 11 release policy has an unexpected activationContract.')
+    raise SystemExit('Session 10 release policy has an unexpected activationContract.')
 gate = release_policy.get('gate', {})
 if gate.get('callableInterface', {}).get('requiredEnforcementOption') != '--require-enabled':
-    raise SystemExit('Session 11 callable release gate must require --require-enabled.')
+    raise SystemExit('Session 10 callable release gate must require --require-enabled.')
 try:
     decision_date = date.fromisoformat(str(gate.get('decisionDate', '')))
 except ValueError as error:
-    raise SystemExit('Session 11 release policy needs an approved decision date.') from error
+    raise SystemExit('Session 10 release policy needs an approved decision date.') from error
 if decision_date > date.today():
-    raise SystemExit('Session 11 release policy decisionDate cannot be in the future.')
+    raise SystemExit('Session 10 release policy decisionDate cannot be in the future.')
 if (
     gate.get('state') != 'enabled'
     or gate.get('decision') != 'approved'
     or not str(gate.get('baselineRunId') or '').strip()
     or not str(gate.get('candidateRunId') or '').strip()
 ):
-    raise SystemExit('Session 11 release policy must be enabled, approved, dated, and bind both run IDs.')
+    raise SystemExit('Session 10 release policy must be enabled, approved, dated, and bind both run IDs.')
 target = release_policy.get('target', {})
 agent_name = immutable.get('agentName')
 agent_version = immutable.get('agentVersion')
@@ -806,33 +806,33 @@ if (
     target.get('agentName') != agent_name
     or target.get('candidateVersion') != agent_version
 ):
-    raise SystemExit('Session 11 release policy must target the approved immutable agent version.')
+    raise SystemExit('Session 10 release policy must target the approved immutable agent version.')
 if (
     gate.get('candidateRunId') != immutable.get('evaluationRunId')
 ):
-    raise SystemExit('Session 11 release-policy candidate run ID must match the immutable release.')
+    raise SystemExit('Session 10 release-policy candidate run ID must match the immutable release.')
 threshold_policy = yaml.safe_load(threshold_policy_path.read_text())
 if threshold_policy.get('policy_state') != 'active':
-    raise SystemExit('Session 11 threshold policy must be active.')
+    raise SystemExit('Session 10 threshold policy must be active.')
 threshold_policy_hash = hashlib.sha256(threshold_policy_path.read_bytes()).hexdigest()
 if str(immutable.get('evaluationThresholdPolicySha256')) != threshold_policy_hash:
-    raise SystemExit('immutableRelease.evaluationThresholdPolicySha256 does not match the approved Session 11 threshold policy.')
+    raise SystemExit('immutableRelease.evaluationThresholdPolicySha256 does not match the approved Session 10 threshold policy.')
 
 resolved = {
     'releaseSha': release_sha,
     'controlPath': str(control_path),
     'manifestTemplatePath': str(manifest_template_path),
-    'session11ReleaseGatePath': str(resolve_repo_path(paths['session11ReleaseGate'], 'Session 11 release gate', ('.py',))),
-    'session11ReleasePolicyPath': str(release_policy_path),
-    'session11GateSelfTestPath': str(resolve_repo_path(paths['session11GateSelfTest'], 'Session 11 generated blocked self-test', ('.py',))),
-    'session11ThresholdPolicyPath': str(threshold_policy_path),
-    'session11EvaluationSpecPath': str(resolve_repo_path(paths['session11EvaluationSpec'], 'Session 11 evaluation specification', ('.json',))),
-    'session11DatasetPath': str(resolve_repo_path(paths['session11Dataset'], 'Session 11 evaluation dataset', ('.jsonl',))),
+    'session10ReleaseGatePath': str(resolve_repo_path(paths['session10ReleaseGate'], 'Session 10 release gate', ('.py',))),
+    'session10ReleasePolicyPath': str(release_policy_path),
+    'session10GateSelfTestPath': str(resolve_repo_path(paths['session10GateSelfTest'], 'Session 10 generated blocked self-test', ('.py',))),
+    'session10ThresholdPolicyPath': str(threshold_policy_path),
+    'session10EvaluationSpecPath': str(resolve_repo_path(paths['session10EvaluationSpec'], 'Session 10 evaluation specification', ('.json',))),
+    'session10DatasetPath': str(resolve_repo_path(paths['session10Dataset'], 'Session 10 evaluation dataset', ('.jsonl',))),
     'bicepEntrypointPath': str(resolve_repo_path(paths['bicepEntrypoint'], 'Bicep entrypoint', ('.bicep',))),
     'apimPolicyPath': str(resolve_repo_path(paths['apimPolicy'], 'APIM policy', ('.xml',))),
     'unitTestScriptPath': str(resolve_repo_path(paths['unitTestScript'], 'unit-test script', ('.ps1',))),
-    'session13SmokePowerShellPath': str(resolve_repo_path(paths['session13SmokePowerShell'], 'Session 13 PowerShell smoke script', ('.ps1',))),
-    'session13SmokeBashPath': str(resolve_repo_path(paths['session13SmokeBash'], 'Session 13 Bash smoke script', ('.sh',))),
+    'session12SmokePowerShellPath': str(resolve_repo_path(paths['session12SmokePowerShell'], 'Session 12 PowerShell smoke script', ('.ps1',))),
+    'session12SmokeBashPath': str(resolve_repo_path(paths['session12SmokeBash'], 'Session 12 Bash smoke script', ('.sh',))),
     'routingControlScriptPath': str(resolve_repo_path(paths['routingControlScript'], 'routing-control script', ('.ps1',))),
     'releaseStoreScriptPath': str(resolve_repo_path(paths['releaseStoreScript'], 'approved release-store script', ('.ps1',))),
 }
@@ -842,7 +842,7 @@ for parameters_doc, environment_name in (
     (production_parameters, 'production'),
 ):
     parameters = parameters_doc.get('parameters', {})
-    if parameters.get('environment', {}).get('value') != environment_name or parameters.get('implementationSession', {}).get('value') != '14-cicd-promotion-controls':
+    if parameters.get('environment', {}).get('value') != environment_name or parameters.get('implementationSession', {}).get('value') != '13-cicd-promotion-controls':
         raise SystemExit(f'{environment_name} parameters have the wrong environment or implementation marker.')
     if 'releaseCommitSha' in parameters:
         raise SystemExit(f'{environment_name} parameters must receive releaseCommitSha at runtime, not store a self-referential commit.')
@@ -866,19 +866,19 @@ case "$mode" in
     [[ -n "$baseline_record_path" ]] || fail '--baseline-record-path is required for dependencies mode.'
     [[ -n "$candidate_record_path" ]] || fail '--candidate-record-path is required for dependencies mode.'
     [[ -n "$security_release_attestation_path" ]] || fail '--security-release-attestation-path is required for dependencies mode.'
-    baseline_record_path="$(resolve_temporary_external_json "$baseline_record_path" 'Session 11 approved baseline record')"
-    candidate_record_path="$(resolve_temporary_external_json "$candidate_record_path" 'Session 11 candidate record')"
-    security_release_attestation_path="$(resolve_temporary_external_json "$security_release_attestation_path" 'Session 12 security-release attestation')"
-    run_session11_gate "$state_json" "$baseline_record_path" "$candidate_record_path" pass
-    run_session11_blocked_self_test "$state_json"
+    baseline_record_path="$(resolve_temporary_external_json "$baseline_record_path" 'Session 10 approved baseline record')"
+    candidate_record_path="$(resolve_temporary_external_json "$candidate_record_path" 'Session 10 candidate record')"
+    security_release_attestation_path="$(resolve_temporary_external_json "$security_release_attestation_path" 'Session 11 security-release attestation')"
+    run_session10_gate "$state_json" "$baseline_record_path" "$candidate_record_path" pass
+    run_session10_blocked_self_test "$state_json"
     assert_security_release_attestation "$state_json" "$security_release_attestation_path"
-    printf 'PASS: Session 11 permitted path, generated blocked self-test, and confirmed external Session 12 security-release attestation are ready.\n'
+    printf 'PASS: Session 10 permitted path, generated blocked self-test, and confirmed external Session 11 security-release attestation are ready.\n'
     ;;
   smoke)
     [[ -n "$smoke_result_path" ]] || fail '--smoke-result-path is required for smoke mode.'
     require_file "$smoke_result_path"
     assert_smoke_result "$smoke_result_path" "$release_sha"
-    printf 'PASS: Session 13 smoke and observability result is complete and payload-safe.\n'
+    printf 'PASS: Session 12 smoke and observability result is complete and payload-safe.\n'
     ;;
   intended)
     [[ -n "$smoke_result_path" ]] || fail '--smoke-result-path is required for intended mode.'
@@ -886,17 +886,17 @@ case "$mode" in
     [[ -n "$candidate_record_path" ]] || fail '--candidate-record-path is required for intended mode.'
     [[ -n "$security_release_attestation_path" ]] || fail '--security-release-attestation-path is required for intended mode.'
     require_file "$smoke_result_path"
-    baseline_record_path="$(resolve_temporary_external_json "$baseline_record_path" 'Session 11 approved baseline record')"
-    candidate_record_path="$(resolve_temporary_external_json "$candidate_record_path" 'Session 11 candidate record')"
-    security_release_attestation_path="$(resolve_temporary_external_json "$security_release_attestation_path" 'Session 12 security-release attestation')"
-    run_session11_gate "$state_json" "$baseline_record_path" "$candidate_record_path" pass
+    baseline_record_path="$(resolve_temporary_external_json "$baseline_record_path" 'Session 10 approved baseline record')"
+    candidate_record_path="$(resolve_temporary_external_json "$candidate_record_path" 'Session 10 candidate record')"
+    security_release_attestation_path="$(resolve_temporary_external_json "$security_release_attestation_path" 'Session 11 security-release attestation')"
+    run_session10_gate "$state_json" "$baseline_record_path" "$candidate_record_path" pass
     assert_security_release_attestation "$state_json" "$security_release_attestation_path"
     assert_smoke_result "$smoke_result_path" "$release_sha"
     printf 'PASS: intended quality, adversarial, and smoke gates permit production approval.\n'
     ;;
   blocked)
-    run_session11_blocked_self_test "$state_json"
-    printf 'PASS: the Session 11 generated blocked-tool-process self-test returned BLOCK.\n'
+    run_session10_blocked_self_test "$state_json"
+    printf 'PASS: the Session 10 generated blocked-tool-process self-test returned BLOCK.\n'
     ;;
   create-manifest)
     [[ -n "$runtime_values_path" ]] || fail '--runtime-values-path is required for create-manifest mode.'
