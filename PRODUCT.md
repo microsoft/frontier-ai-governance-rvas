@@ -15,11 +15,11 @@ Plain static HTML, CSS, and JavaScript, deployed with GitHub Pages.
 The public site serves two audiences equally:
 
 - Enterprise AI, cloud platform, security, and governance leaders evaluating a practical Microsoft AI governance engagement.
-- Practitioners using the 14-session series as a technical implementation reference.
+- Practitioners using the 13-session series as a technical implementation reference.
 
 ## Product Purpose
 
-Present a modular Microsoft AI governance series that customer teams can execute. The full series produces a working deployment and reusable, version-controlled configuration. The site explains how the work runs, shows all 14 sessions, and helps readers choose the full build or a focused route.
+Present a modular Microsoft AI governance series that customer teams can execute. The full series produces a working deployment and reusable, version-controlled configuration. The site explains how the work runs, shows all 13 sessions, and helps readers choose the full build or a focused route.
 
 ## Positioning
 
@@ -29,7 +29,7 @@ Standard mode is the default. The team implements one explicit control, keeps pr
 
 Extended mode is used only when a control needs both an allowed and a blocked or failure check. The delivery lead records the reason before the session, and the delivery owner confirms the result at a checkpoint. Both modes keep only the records needed for normal operations and use the implementation resources required by the control.
 
-The complete route contains 47 facilitated working hours across 14 published sessions. Each duration uses 30-minute increments and includes briefing and alignment, customer decisions, guided implementation, observable checks, and the operating or restore handoff. It assumes agreed prerequisites, access, and nonproduction capacity are ready before the session; asynchronous approvals, procurement, provisioning waits, and optional deep dives sit outside the published time. Focused routes deliver the selected control area and include its prerequisite sessions; they omit unrelated controls and do not represent the complete deployment. Agent 365 routes use the combined Session 05 secure rollout and data-controls path. The APIM route starts with the Session 06 gateway design record, then uses the Session 07 implementation variant.
+The complete route contains 47 facilitated working hours across 13 published sessions. Each duration uses 30-minute increments and includes briefing and alignment, customer decisions, guided implementation, observable checks, and the operating or restore handoff. It assumes agreed prerequisites, access, and nonproduction capacity are ready before the session; asynchronous approvals, procurement, provisioning waits, and optional deep dives sit outside the published time. Focused routes deliver the selected control area and include its prerequisite sessions; they omit unrelated controls and do not represent the complete deployment. Agent 365 routes use the combined Session 05 secure rollout and data-controls path. Session 06 records the APIM gateway design and deploys the controlled route.
 
 ## Operating Context
 
@@ -38,10 +38,10 @@ The series spans Microsoft Foundry, Foundry Agent Service, Foundry Control Plane
 Readers need an executive overview and enough technical detail to understand session dependencies, practical outcomes, session outputs, and the check that confirms each control.
 
 LLMOps runs through the series as a cross-session thread rather than a single numbered session.
-Session 03 covers model selection, deployment versions, quota, and retirement. Session 10 adds
-repeatable evaluation and release thresholds. Session 12 connects tracing, operational signals,
-cost, and incident response. Session 13 controls promotion and previous-release restore, and
-Session 14 extends ownership and operations across the agent fleet.
+Session 03 covers model selection, deployment versions, quota, and retirement. Session 09 adds
+repeatable evaluation and release thresholds. Session 11 connects tracing, operational signals,
+cost, and incident response. Session 12 controls promotion and previous-release restore. Session 13
+rehearses regional failover for one governed service.
 
 We use LLMOps here to mean operating models, prompts, agents, evaluations, telemetry, cost
 controls, and releases as one managed lifecycle. That's different from AIOps, which keeps its
@@ -53,9 +53,9 @@ scope.
 - The first public surface is a static, responsive reference site with no server-side runtime.
 - The site must deploy from this repository through GitHub Pages.
 - Source material is date-sensitive and must preserve its dated caveats, product distinctions, and citations.
-- The 14 sessions should remain modular so readers can run the complete route or choose a focused route with its prerequisites.
+- The 13 sessions remain modular so readers can run the complete route or choose a focused route with its prerequisites.
 - Optional implementation modules may address architecture-specific needs outside the default
-  sequence. They remain separate from the 14 sessions and do not change session numbering, phases,
+  sequence. They remain separate from the 13 sessions and do not change session numbering, phases,
   or counts.
 - The site must not invent customer claims, testimonials, benchmarks, licensing promises, or deployment guarantees.
 

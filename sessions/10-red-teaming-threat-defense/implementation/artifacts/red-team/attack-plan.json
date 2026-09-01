@@ -76,5 +76,5 @@
     "consumer": "The red-team runner and security review",
     "reviewCadence": "Before each material agent, tool, taxonomy, or evaluator change"
   },
-  "implementationMarker": "implementationSession=11-red-teaming-threat-defense"
+  "implementationMarker": "implementationSession=10-red-teaming-threat-defense"
 }

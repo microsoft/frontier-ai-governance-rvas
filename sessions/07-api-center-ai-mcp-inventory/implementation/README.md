@@ -6,7 +6,7 @@
 
 Add **three selected assets to API Center**: deploy the
 [Session 04](../../04-governed-agent-baseline/implementation/README.md) agent API, synchronize the
-[Session 07](../../07-apim-ai-gateway-implementation/implementation/README.md) APIM API, and register an approved
+[Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM API, and register an approved
 remote MCP server.
 
 The three entries receive owner, lifecycle, classification, risk, review, and runtime-location
@@ -23,7 +23,7 @@ API Center makes missing inventory decisions visible before an asset is treated 
 API Center holds design-time inventory and discovery metadata. Foundry, APIM, and the MCP runtime
 remain authoritative for live service state. API Center does not inspect or block runtime calls.
 APIM owns runtime controls for the synchronized route, and
-[Session 09](../../09-mcp-tool-security/implementation/README.md) governs MCP tool use.
+[Session 08](../../08-mcp-tool-security/implementation/README.md) governs MCP tool use.
 
 The APIM integration is read-only, one-way, and imports every API from the linked instance. Approve
 that full source boundary and assign metadata owners before creating the link. Register the remote
@@ -40,7 +40,7 @@ modules.
 
 Bicep deploys API Center, its metadata schema, the default workspace, the direct agent API, and its
 Foundry runtime location. API Center's system identity receives **API Management Service Reader
-Role** on the exact Session 07 APIM service. The source integration then imports APIM APIs,
+Role** on the exact Session 06 APIM service. The source integration then imports APIM APIs,
 definitions, environments, and deployments.
 
 The API program owner registers the approved remote MCP server in the portal. Asset owners maintain
@@ -48,7 +48,7 @@ metadata on the synchronized and portal-created entries.
 
 ![API Center tracks design-time inventory while API Management remains on the separate runtime request path.](../assets/diagrams/api-center-inventory-flow.svg)
 
-Live requests stay on the APIM path. Session 09 uses the MCP entry and runtime location for
+Live requests stay on the APIM path. Session 08 uses the MCP entry and runtime location for
 tool-security work.
 
 ### Design choices and tradeoffs
@@ -73,7 +73,7 @@ Confirm these requirements:
 
 - The approved nonproduction Foundry agent endpoint and APIM API are available. The platform and
   gateway owners confirm the endpoint, marked `policy-assistant-responses` API, and both resource
-  scopes. (Sessions 02, 04, and 07.)
+  scopes. (Sessions 02, 04, and 06.)
 - The deployment operator has time-bound **Contributor** on the exact API Center resource group.
 - The role-assignment operator has time-bound **User Access Administrator** on the exact APIM
   instance. This permits the API Center identity to receive **API Management Service Reader
@@ -93,12 +93,12 @@ data out of source control.
 
 | Type | File | Consumer |
 |---|---|---|
-| Deployment | [`artifacts/api-center/main.bicep`](artifacts/api-center/main.bicep) | The Session 08 API Center deployment scripts |
-| Deployment | [`artifacts/api-center/apim-reader.bicep`](artifacts/api-center/apim-reader.bicep) | The Session 08 API Center deployment scripts |
+| Deployment | [`artifacts/api-center/main.bicep`](artifacts/api-center/main.bicep) | The Session 07 API Center deployment scripts |
+| Deployment | [`artifacts/api-center/apim-reader.bicep`](artifacts/api-center/apim-reader.bicep) | The Session 07 API Center deployment scripts |
 | Deployment | [`artifacts/api-center/metadata-schemas.json`](artifacts/api-center/metadata-schemas.json) | The API Center metadata-schema resources |
-| Deployment | [`artifacts/api-center/agent-api-definition.json`](artifacts/api-center/agent-api-definition.json) | The Session 08 API Center deployment scripts |
+| Deployment | [`artifacts/api-center/agent-api-definition.json`](artifacts/api-center/agent-api-definition.json) | The Session 07 API Center deployment scripts |
 | Deployment | [`artifacts/catalog/specs/policy-assistant-agent.openapi.json`](artifacts/catalog/specs/policy-assistant-agent.openapi.json) | The API Center definition import |
-| Deployment | [`artifacts/environments/sandbox.json`](artifacts/environments/sandbox.json) | The Session 08 preflight, deployment, and inventory-check scripts |
+| Deployment | [`artifacts/environments/sandbox.json`](artifacts/environments/sandbox.json) | The Session 06 preflight, deployment, and inventory-check scripts |
 
 ## Decisions and stop conditions
 
@@ -110,7 +110,7 @@ Complete `sandbox.json` and `agent-api-definition.json`. Resolve every `__REQUIR
 | Plan and region | The live provider advertises the region, and Free or Standard is approved | The region, support position, eligibility, or cost is unresolved |
 | Access | Contributor targets the API Center resource group; User Access Administrator targets the exact APIM service | Either assignment is broader than approved, or the API Center identity would receive APIM write access |
 | Deployment preview | `what-if` changes the marked API Center scope and exact reader assignment | It replaces or removes unrelated resources, targets another APIM instance, or broadens the role assignment |
-| Synchronization | The source is healthy and the Session 07 API appears once | Initial sync is pending or failed; do not create a duplicate API |
+| Synchronization | The source is healthy and the Session 06 API appears once | Initial sync is pending or failed; do not create a duplicate API |
 | MCP server | The endpoint is approved HTTPS Streamable HTTP, read-only, and owned | It uses `stdio`, embeds credentials, permits writes, or lacks a runtime owner |
 
 Every in-scope entry needs these properties:
@@ -127,7 +127,7 @@ Every in-scope entry needs these properties:
 | Risk tier | `low`, `moderate`, `high`, or `critical` |
 | Evaluation results URL | Owned evaluation record or backlog |
 | Last review and expiry | ISO dates, with expiry after review |
-| Implementation session | `08-api-center-ai-mcp-inventory` |
+| Implementation session | `07-api-center-ai-mcp-inventory` |
 
 The API program owner defines the schema. Business owners approve consumers and lifecycle.
 Technical owners maintain runtime locations and review dates. Data and risk owners maintain
@@ -228,7 +228,7 @@ Run the read-only inventory check:
 ./scripts/check-inventory.sh --approved-subscription-id "$approved_subscription_id" --remote-mcp-server-title "$remote_mcp_server_title"
 ```
 
-The direct agent API, synchronized Session 07 API, and MCP server must each appear once with the
+The direct agent API, synchronized Session 06 API, and MCP server must each appear once with the
 required metadata. The APIM integration must resolve to the approved source. The script checks
 provisioning and source health when the service response exposes them and writes no inventory
 export. The owner checks omitted source health, the native MCP deployment location, and MCP runtime
@@ -249,6 +249,6 @@ deployment files in source control. Maintain synchronized and native MCP metadat
 
 To remove the inventory, the API program owner first confirms that no later session or approved
 consumer relies on it. Through the approved Azure change path, check the live
-`implementationSession=08-api-center-ai-mcp-inventory` tag, remove the exact APIM reader assignment,
+`implementationSession=07-api-center-ai-mcp-inventory` tag, remove the exact APIM reader assignment,
 and delete only the marked API Center. Its child inventory resources are deleted with it. The APIM
 instance, Foundry agent, remote MCP runtime, runtime policies, and repository definitions remain.

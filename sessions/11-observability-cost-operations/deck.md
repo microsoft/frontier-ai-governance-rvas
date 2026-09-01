@@ -10,13 +10,13 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation · Session 12</p>
+<p class="eyebrow">AI Governance Co-implementation · Session 11</p>
 
 # Observability, cost, and operational controls
 
 210 minutes · Trace the service, route alerts, and assign cost
 
-<!-- Notes: Session 11 connected adversarial behavior to detection. This session adds the operating controls for one service. -->
+<!-- Notes: Session 10 connected adversarial behavior to detection. This session adds the operating controls for one service. -->
 
 ---
 
@@ -32,7 +32,7 @@ By the end of the session:
 - A workbook and three alerts show operational, tool, and AI-quality failures.
 - APIM token metrics provide a bounded estimate; Cost Management remains the billed source.
 - Budget thresholds notify owners without stopping spend.
-- The Session 13 workflow can run the paired payload-free smoke check.
+- The Session 12 workflow can run the paired payload-free smoke check.
 
 <!-- Notes: The objective is useful operating context, not maximum logging. -->
 
@@ -70,7 +70,7 @@ Cost Management stores billed cost, normally after an 8-24 hour delay.
 
 Defender and the SOC system keep security and incident records.
 
-The customer APIM repository owns gateway policy. Session 13 consumes the temporary smoke result.
+The customer APIM repository owns gateway policy. Session 12 consumes the temporary smoke result.
 
 </div>
 </div>
@@ -136,7 +136,7 @@ Contributor** on the subscription. Human access expires after confirmation.
 
 ## Confirm once
 
-The Session 13 GitHub workflow runs `smoke.ps1` or `smoke.sh` with:
+The Session 12 GitHub workflow runs `smoke.ps1` or `smoke.sh` with:
 
 - `pipeline`, `nonproduction`, the release commit SHA, and a result path inside `RUNNER_TEMP`;
 - different HTTPS normal and handled-failure routes;
@@ -178,8 +178,8 @@ Default polling is 180 seconds with a 15-second retry.
 ### Restore through owning paths
 
 1. Route to the last approved Session 04 version.
-2. Restore the previous Session 07 APIM policy.
-3. Disable only noisy Session 12 alerts.
+2. Restore the previous Session 06 APIM policy.
+3. Disable only noisy Session 11 alerts.
 4. Remove only previewed, session-tagged resources.
 5. Delete the exact budget with cost-owner approval.
 6. Preserve records under incident or retention obligations.
@@ -189,7 +189,7 @@ Default polling is 180 seconds with a 15-second retry.
 
 Do not disable telemetry, Defender, or SOC routing to silence a real signal.
 
-<!-- Notes: Session 13 promotes these definitions and consumes the smoke result. -->
+<!-- Notes: Session 12 promotes these definitions and consumes the smoke result. -->
 
 ---
 

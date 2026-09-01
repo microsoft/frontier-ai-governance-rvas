@@ -10,7 +10,7 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation · Session 09</p>
+<p class="eyebrow">AI Governance Co-implementation · Session 08</p>
 
 # MCP and tool security
 
@@ -203,7 +203,7 @@ evaluation, threat model, KQL query, and scripts. The security owner reviews the
 1. Pin the prior Session 04 version at 100%.
 2. Confirm no active agent uses the MCP endpoint.
 3. Remove the unused Foundry connection.
-4. Verify the Session 09 marker, then remove only the MCP API and five named values.
+4. Verify the Session 08 marker, then remove only the MCP API and five named values.
 5. Revoke the backend role only when no other operational path uses it.
 
 Never delete the backing API, APIM service, Foundry agent, API Center, Application Insights, or source data.

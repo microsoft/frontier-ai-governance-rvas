@@ -17,7 +17,7 @@ module:
   related_content:
     - "Session 04 - Governed Microsoft Foundry agent baseline"
     - "Session 05 - Microsoft Agent 365 secure rollout and data controls"
-    - "Session 14 - Agent fleet governance, multi-region design, and production rehearsal"
+    - "Session 13 - Regional failover rehearsal for a governed AI service"
   services_in_scope:
     - "agent-365"
     - "microsoft-entra-agent-id"

@@ -1,153 +1,226 @@
-# Azure API Management AI gateway design
+# Azure API Management AI gateway design and implementation
 
 ## Session scope
 
 ### What we will do
 
-Create a **source-controlled APIM gateway design record** for one target AI workload. Record the
-approved scope, backend type, ingress pattern, identities, network path, APIM tier and instance,
-Content Safety decision, telemetry boundary, runtime controls, restore approach, owners, and
-readiness gaps.
+Create the **gateway design record** and use it to deploy one controlled Azure API Management
+route for the [Session 04](../../04-governed-agent-baseline/implementation/README.md) policy
+assistant. APIM validates the client token and product subscription, applies approved limits and
+Content Safety, then uses its managed identity to call the pinned Foundry agent.
 
-The session produces `gateway-design-record.json`. Run preflight to check that the record is
-complete and that its readiness state is inspectable. This session does not create or change Azure
-resources.
+Run design preflight, deployment preflight, and ARM `what-if`. Deploy the marked API and product.
+Then send a synthetic request with an invalid bearer token. APIM must reject it before Content
+Safety or Foundry receives it.
 
 ### Why it matters
 
-The implementation team needs a decision record before it configures an AI gateway. Capturing
-owners and gaps early avoids discovering an unready backend, identity path, or network path during
-deployment.
+The design record gives the deployment team agreed owners and boundaries before it changes APIM.
+The route keeps client access separate from the identity used for the Foundry call.
 
 ### Boundaries
 
-This design applies to the approved nonproduction workload named in the record. The repository is
-authoritative for the design record. Azure API Management and connected Azure services are
-authoritative for live service state.
+This session changes child resources in the approved nonproduction APIM instance. APIM is
+authoritative for the live route, product, backends, and policy. Foundry is authoritative for the
+agent. The repository holds the design record and deployment definitions.
 
-The session can plan any approved AI backend. Session 07 implements the Foundry Agent Service
-policy-assistant variant and requires a target agent endpoint. Another backend needs an approved
-implementation variant. Do not record live endpoint URLs, keys, tokens, prompts, responses,
-tenant IDs, or subscription IDs in this repository.
+The design record describes the Foundry Agent Service policy-assistant variant used here. Production
+ingress, semantic caching, regional failover, and write-capable agents need separate design work.
+[Session 07](../../07-api-center-ai-mcp-inventory/implementation/README.md) records this route in
+API Center. [Session 08](../../08-mcp-tool-security/implementation/README.md) adds the MCP tool
+boundary.
 
 ## Architecture
 
 ### Architecture at a glance
 
-The workload caller reaches APIM through the recorded ingress path. APIM validates the client
-identity, applies the request, limit, safety, and routing decisions, then uses the recorded backend
-identity to call the selected backend. Content Safety and telemetry are separate boundaries. The
-API product, identity, network, safety, and operations owners each own part of the path.
+The caller sends a Microsoft Entra application token and an APIM subscription key. APIM validates
+both, applies limits and Content Safety, then exchanges the caller authority for its
+system-assigned managed-identity token. It calls the pinned Foundry agent through the approved
+backend. Application Insights receives correlation and token metrics without request or response
+bodies.
 
-`gateway-design-record.json` hands the design to implementation. Session 07 preflight uses it for
-the actual backend, identity, and network checks before a deployment proposal. The implementation
-process changes APIM.
+`gateway-design-record.json` records the target scope, backend, identities, network paths, runtime
+controls, restore path, owners, and readiness gaps. The combined preflight runs its local record
+check before it reads Azure or proposes the deployment.
+
+![An approved client passes APIM identity, limit, safety, and routing gates before reaching the Foundry agent.](../assets/diagrams/apim-ai-gateway-flow.svg)
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Benefits | Costs and limitations |
-| --- | --- | --- | --- |
-| Backend | Record the type and approved endpoint reference, not a runtime URL | Keeps the design usable without storing a sensitive coordinate | The implementation team must resolve the endpoint through its approved secret or configuration path |
-| Ingress and identity | Record the caller credential separately from APIM's backend identity | Keeps caller authorization separate from backend access | Two owners may need to coordinate an incident or rotation |
-| Network | Record inbound path, backend path, and private DNS state | Makes connectivity assumptions reviewable before deployment | The record cannot prove live reachability |
-| Safety and telemetry | Record the Content Safety path and body-capture policy before policy authoring | Sets the data boundary | The service policy still needs deployment and live validation |
-| Restore | Record the approved rollback or disable path | Gives operators a bounded response when the route misbehaves | The exact command belongs to the implementation variant |
+| Decision | Chosen approach | Cost and limitation |
+|---|---|---|
+| Client access | Entra application token plus one APIM subscription per workload | Clients manage both credentials |
+| Backend identity | APIM managed identity with Foundry Agent Consumer on one agent | Direct Foundry access needs its own control |
+| Safety | APIM Content Safety before the agent RAI policy | It adds latency and a data path |
+| Routing | Primary backend with one read-safe retry | Secondary routing stays disabled |
+| Telemetry | Correlation and token metrics with body logging disabled | Content is unavailable for debugging |
+
+The retry is safe because the Session 04 agent has a read-only tool.
 
 ### Architecture guidance
 
 - [AI gateway capabilities in Azure API Management](https://learn.microsoft.com/en-us/azure/api-management/genai-gateway-capabilities)
 - [Authenticate and Authorize to LLM APIs](https://learn.microsoft.com/en-us/azure/api-management/api-management-authenticate-authorize-ai-apis)
-- [LLM content safety policy](https://learn.microsoft.com/en-us/azure/api-management/llm-content-safety-policy)
+- [Azure API Management Backends](https://learn.microsoft.com/en-us/azure/api-management/backends)
 
 ## Before you start
 
-Bring:
+Confirm:
 
-- The approved nonproduction scope and change record. Name the delivery owner.
-- The target backend type, its owner, and an approved endpoint reference, such as a secret-store
-  record or service configuration name. Keep the live endpoint out of the design record.
-- The current APIM tier and instance name. If the service does not exist, record the request and
-  its owner as a readiness gap.
-- Decisions for ingress, client identity, backend identity, network path, Content Safety, and
-  telemetry.
-- The API product, identity, network, safety, operations, and delivery owners. They must attend
-  the session or provide their decisions in writing.
+- The approved nonproduction scope and change record name the delivery owner.
+- The pinned Foundry Agent Service policy assistant endpoint and its network path match the
+  approved configuration. The Foundry platform owner confirms both. (Sessions 02 and 04.)
+- The existing supported APIM instance has a system-assigned managed identity. The gateway owner
+  confirms its tier and network path.
+- The API product, identity, network, safety, operations, and delivery owners can record decisions
+  and resolve readiness gaps.
+- The deployment operator has time-bound **Contributor** on the exact APIM resource group.
+- The APIM identity has **Foundry Agent Consumer** (`eed3b665-ab3a-47b6-8f48-c9382fb1dad6`) on the
+  individual Session 04 agent. It has **Cognitive Services User**
+  (`a97b65f3-24c7-4388-baec-2e87135dc908`) on the approved Content Safety resource.
+- The Content Safety backend and Application Insights logger use managed identity. The product owner
+  issued one workload-specific APIM subscription and stored its key in the approved secret store.
 
 ### Implementation files
 
 | Type | File | Consumer |
-| --- | --- | --- |
-| Record | [`artifacts/gateway-design-record.json`](artifacts/gateway-design-record.json) | The gateway implementation owner and Session 07 preflight process |
+|---|---|---|
+| Record | [`artifacts/gateway-design-record.json`](artifacts/gateway-design-record.json) | The gateway deployment operator and preflight scripts |
+| Deployment | [`artifacts/gateway/main.bicep`](artifacts/gateway/main.bicep) | The Session 06 APIM deployment scripts |
+| Deployment | [`artifacts/gateway/apis/policy-assistant-responses.openapi.json`](artifacts/gateway/apis/policy-assistant-responses.openapi.json) | The API Management API import |
+| Deployment | [`artifacts/gateway/policies/policy.xml`](artifacts/gateway/policies/policy.xml) | The API Management gateway runtime |
+| Deployment | [`artifacts/governance/gateway-control.json`](artifacts/governance/gateway-control.json) | The Session 06 preflight and deployment scripts |
+| Record | [`artifacts/governance/model-routing-decision.md`](artifacts/governance/model-routing-decision.md) | The API product, platform, safety, and operations owners |
+| Deployment | [`artifacts/environments/sandbox.json`](artifacts/environments/sandbox.json) | The Session 06 preflight and deployment scripts |
 
-Run the preflight script after completing the record. It reads local JSON and makes no Azure call.
-A **read-only deployment preview is unsupported** because this design session does not deploy a
-resource.
-
-```powershell
-.\scripts\preflight.ps1 -DesignRecordPath .\artifacts\gateway-design-record.json
-```
-
-```bash
-./scripts/preflight.sh --design-record-path artifacts/gateway-design-record.json
-```
+Keep subscription IDs, backend URLs, keys, bearer tokens, prompts, responses, and customer data
+out of the repository.
 
 ## Decisions and stop conditions
 
-Resolve every `__REQUIRED_*__` value in `gateway-design-record.json`. Use an endpoint reference,
-not a live endpoint. Keep real values in the customer-approved configuration or secret system.
+Resolve every `__REQUIRED_*__` value in the design record, `gateway-control.json`, and
+`sandbox.json`. Use an endpoint reference in the design record, never the live endpoint.
 
-Set `recordStatus` to `ready-for-implementation` when no readiness-gap entry has `open` status.
-Use `approved-with-gaps` when a named owner still has work to do. Every gap needs a short
-description, owner, and resolution action. If no gap remains, add a `not-applicable` entry so the
-reader can distinguish that decision from an empty list.
+Set `recordStatus` to `ready-for-implementation` when no readiness gap is open. Each gap needs an
+owner and a resolution action. The record must name `foundry-agent-service` and the
+`policy-assistant-responses` variant. Its APIM instance must match `sandbox.json`.
 
-Stop the design handoff when any of these conditions applies:
+| Control | Approved value |
+|---|---:|
+| Tokens per minute per APIM subscription | 20,000 |
+| Daily token quota per APIM subscription | 500,000 |
+| Request body limit | 65,536 bytes |
+| Backend response-header timeout | 120 seconds |
+| Retry for 429/5xx | 1 |
+| Circuit breaker | 5 errors in 1 minute; open for 1 minute |
 
-- The target workload, APIM instance or request, backend type, or nonproduction scope is unknown.
-- The ingress or backend identity lacks a named owner and a documented authorization path.
-- The network owner cannot state the inbound route, backend route, or private DNS state.
-- The Content Safety, telemetry body-capture, request, token-limit, safety, routing, or restore
-  decision is missing.
-- A readiness gap lacks an owner or resolution action.
-- The record contains a live endpoint, credential, token, prompt, response, tenant ID, or
-  subscription ID.
+APIM enables Prompt Shields and checks Hate, SelfHarm, Sexual, and Violence at threshold 4. It logs
+zero request and response body bytes and no client IP. Keep the secondary backend disabled.
+
+**Stop before deployment** when the design record is incomplete, a resource differs from approved
+inputs, a required role or workload subscription is absent, Content Safety uses a key, or ARM
+`what-if` changes APIM itself or an unrelated resource. Stop if a retry could repeat a
+consequential action. Do not place live endpoint or customer data in source control.
 
 ## Implement
 
-### 1. Record the gateway boundary
+### 1. Record the design
 
-Complete the scope, APIM, backend, ingress, identity, and network sections. State whether the APIM
-instance exists or whether a named delivery owner must request it. The backend can be a Foundry
-Agent Service endpoint, another approved Azure AI endpoint, or another approved backend. Name the
-implementation variant required for that backend type.
+Complete `gateway-design-record.json` with the scope, APIM instance, backend, identities, network
+paths, Content Safety decision, telemetry boundary, runtime controls, restore path, owners, and
+readiness gaps. Complete `gateway-control.json`, `sandbox.json`, and
+`model-routing-decision.md` with the implementation values.
 
-### 2. Record the runtime decisions and owners
+Set the live endpoint values in the shell, not in source control:
 
-Complete the Content Safety, telemetry, and control sections. State the proposed request size,
-token-limit method, safety policy, routing behavior, and restore path. Name the API product,
-identity, network, safety, operations, and delivery owners.
+```powershell
+$approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
+$primaryAgentBaseUrl = $env:session06_PRIMARY_AGENT_BASE_URL
+$secondaryAgentBaseUrl = $env:session06_SECONDARY_AGENT_BASE_URL
+```
 
-### 3. Record readiness and run preflight
+```bash
+approved_subscription_id="${AZURE_SUBSCRIPTION_ID:?Set AZURE_SUBSCRIPTION_ID.}"
+primary_agent_base_url="${session06_PRIMARY_AGENT_BASE_URL:?Set session06_PRIMARY_AGENT_BASE_URL.}"
+secondary_agent_base_url="${session06_SECONDARY_AGENT_BASE_URL:-}"
+```
 
-Write each actual gap under `readinessGaps`, set the correct record status, then run the paired
-preflight command. The check rejects sentinels, empty decisions, invalid gap statuses, and a record
-marked ready while a gap remains open.
+### 2. Run preflight and inspect the preview
+
+```powershell
+.\scripts\preflight.ps1 `
+  -ApprovedSubscriptionId $approvedSubscriptionId `
+  -PrimaryAgentBaseUrl $primaryAgentBaseUrl `
+  -SecondaryAgentBaseUrl $secondaryAgentBaseUrl
+```
+
+```bash
+./scripts/preflight.sh \
+  --approved-subscription-id "$approved_subscription_id" \
+  --primary-agent-base-url "$primary_agent_base_url" \
+  --secondary-agent-base-url "$secondary_agent_base_url"
+```
+
+Preflight validates the local design record first. It then checks the backend, identity, network,
+roles, Content Safety backend, logger, existing marker, and ARM `what-if`.
+
+To run either check by itself, use the paired helper commands:
+
+```powershell
+.\scripts\preflight-design.ps1 -DesignRecordPath .\artifacts\gateway-design-record.json
+```
+
+```bash
+./scripts/preflight-design.sh --design-record-path artifacts/gateway-design-record.json
+```
+
+```powershell
+.\scripts\preflight-implementation.ps1 `
+  -ApprovedSubscriptionId $approvedSubscriptionId `
+  -PrimaryAgentBaseUrl $primaryAgentBaseUrl `
+  -SecondaryAgentBaseUrl $secondaryAgentBaseUrl
+```
+
+```bash
+./scripts/preflight-implementation.sh \
+  --approved-subscription-id "$approved_subscription_id" \
+  --primary-agent-base-url "$primary_agent_base_url" \
+  --secondary-agent-base-url "$secondary_agent_base_url"
+```
+
+### 3. Deploy the controlled route
+
+```powershell
+.\scripts\deploy.ps1 `
+  -ApprovedSubscriptionId $approvedSubscriptionId `
+  -PrimaryAgentBaseUrl $primaryAgentBaseUrl `
+  -SecondaryAgentBaseUrl $secondaryAgentBaseUrl
+```
+
+```bash
+./scripts/deploy.sh \
+  --approved-subscription-id "$approved_subscription_id" \
+  --primary-agent-base-url "$primary_agent_base_url" \
+  --secondary-agent-base-url "$secondary_agent_base_url"
+```
+
+The script reruns preflight and deploys the marked API, product, named values, backend pool,
+policy, and body-free diagnostics.
 
 ## Confirm the result
 
-Run preflight against the completed record. Inspect `recordStatus` and `readinessGaps`.
-
-**Expected result:** the script reports a complete, inspectable design without changing Azure
-resources. A `ready-for-implementation` record has no open gap. An `approved-with-gaps` record
-shows the remaining owner and resolution action.
+Send one synthetic request with the valid workload subscription key and an invalid bearer token.
+APIM must return `401 Unauthorized` before calling Content Safety or Foundry. Do not retain the
+response, key, or headers.
 
 ## After implementation
 
-Keep `gateway-design-record.json` with the target workload's approved change records. The gateway
-implementation owner updates it through the usual source-control review path when the backend,
-identity, network, APIM tier, safety decision, telemetry boundary, limits, routing, restore path,
-or ownership changes.
+The delivery owner keeps the design record with the approved change records. The platform owner
+maintains the deployment definitions. The product owner owns subscriptions and limits. The safety
+owner owns the Content Safety backend and thresholds.
 
-The Session 07 implementation owner uses this record before proposing the Foundry Agent Service
-build. Restore or remove a deployed gateway through that approved implementation variant's change
-path. This design record has no Azure resource to remove.
+To remove the route, first confirm that no approved consumer uses it. Through the approved APIM
+change path, check `implementationSession=06-apim-ai-gateway`. Remove the Session 06 API, product,
+backends, and four nonsecret named values. Leave APIM, Foundry, Content Safety, the logger, role
+assignments, and repository definitions in place.

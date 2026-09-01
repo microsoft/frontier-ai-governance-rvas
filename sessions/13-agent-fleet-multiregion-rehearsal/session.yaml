@@ -1,6 +1,6 @@
 schema_version: 2
 session:
-  id: "14"
+  id: "13"
   slug: "agent-fleet-multiregion-rehearsal"
   title: "Regional failover rehearsal for a governed AI service"
   duration_minutes: 180
@@ -13,7 +13,7 @@ session:
     - "The governed service has deployed primary and secondary paths."
     - "The platform owner confirms the immutable agent version and Entra identity."
     - "The gateway owner confirms the API Management policy version and both endpoints."
-    - "The primary path reports the expected trace fields. (Sessions 04, 07, 09, 12, and 13.)"
+    - "The primary path reports the expected trace fields. (Sessions 04, 06, 08, 11, and 12.)"
     - "The approved change record names the exact resource-group scope and both selectors. It also names the maintenance window, delivery owner, and restore owner."
     - "The approved PowerShell and Bash health controls accept the documented parameters."
     - "The approved PowerShell and Bash routing controls accept the documented parameters. The routing owner confirms that `Preview`, `Failover`, and `Restore` change only the named selector."
@@ -21,10 +21,10 @@ session:
     - "An existing customer-managed runtime directory is available outside the repository for temporary health results."
   dependencies:
     - "Session 04 - Governed Microsoft Foundry agent baseline"
-    - "Session 07 - Azure API Management AI gateway implementation"
-    - "Session 09 - MCP and tool security"
-    - "Session 12 - Observability, cost, and operational controls"
-    - "Session 13 - CI/CD, policy as code, and controlled promotion"
+    - "Session 06 - Azure API Management AI gateway design and implementation"
+    - "Session 08 - MCP and tool security"
+    - "Session 11 - Observability, cost, and operational controls"
+    - "Session 12 - CI/CD, policy as code, and controlled promotion"
   services_in_scope:
     - "azure-ai-foundry"
     - "foundry-agent-service"
@@ -52,10 +52,10 @@ deliverables:
     - "implementation/scripts/rehearse-failover.sh"
 retained_files:
   - path: "implementation/artifacts/control-definition.json"
-    consumer: "The Session 14 preflight scripts and regional rehearsal operators"
+    consumer: "The Session 13 preflight scripts and regional rehearsal operators"
     operational_purpose: "Bind the approved scope to the customer health and routing controls."
   - path: "implementation/artifacts/regional/region.parameters.json"
-    consumer: "The Session 14 preflight scripts and rehearsal wrappers"
+    consumer: "The Session 13 preflight scripts and rehearsal wrappers"
     operational_purpose: "Supply both selectors and the values used to check each path."
   - path: "implementation/artifacts/regional/failover-runbook.md"
     consumer: "The service continuity and routing operators"

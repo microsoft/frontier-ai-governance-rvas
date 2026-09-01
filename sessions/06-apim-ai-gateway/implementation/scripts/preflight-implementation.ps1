@@ -14,7 +14,7 @@ param(
 
     [Parameter()]
     [ValidateNotNullOrEmpty()]
-    [string]$DesignRecordPath = (Join-Path $PSScriptRoot "..\..\..\06-apim-ai-gateway-design\implementation\artifacts\gateway-design-record.json")
+    [string]$DesignRecordPath = (Join-Path $PSScriptRoot "..\artifacts\gateway-design-record.json")
 )
 
 Set-StrictMode -Version Latest
@@ -36,7 +36,7 @@ function Invoke-AzJson {
     return (($raw | Out-String) | ConvertFrom-Json -ErrorAction Stop)
 }
 
-$implementationSession = "07-apim-ai-gateway-implementation"
+$implementationSession = "06-apim-ai-gateway"
 $foundryAgentConsumerRoleId = "eed3b665-ab3a-47b6-8f48-c9382fb1dad6"
 $cognitiveServicesUserRoleId = "a97b65f3-24c7-4388-baec-2e87135dc908"
 $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
@@ -53,29 +53,6 @@ $requiredFiles = @(
     $openApiPath
     $policyPath
 )
-$requiredSentinels = @(
-    "__REQUIRED_AGENT_NAME__"
-    "__REQUIRED_APIM_VIRTUAL_NETWORK_TYPE__"
-    "__REQUIRED_API_AUDIENCE__"
-    "__REQUIRED_APIM_NAME__"
-    "__REQUIRED_APP_INSIGHTS_LOGGER_NAME__"
-    "__REQUIRED_APP_ROLE__"
-    "__REQUIRED_CLIENT_APPLICATION_ID__"
-    "__REQUIRED_CONTENT_SAFETY_BACKEND_ID__"
-    "__REQUIRED_CONTENT_SAFETY_RESOURCE_ID__"
-    "__REQUIRED_CONTENT_SAFETY_PUBLIC_NETWORK_ACCESS__"
-    "__REQUIRED_ENTRA_TENANT_ID__"
-    "__REQUIRED_FOUNDRY_ACCOUNT_NAME__"
-    "__REQUIRED_FOUNDRY_PROJECT_NAME__"
-    "__REQUIRED_FOUNDRY_PUBLIC_NETWORK_ACCESS__"
-    "__REQUIRED_IDENTITY_OWNER__"
-    "__REQUIRED_OPERATIONS_OWNER__"
-    "__REQUIRED_PLATFORM_OWNER__"
-    "__REQUIRED_PRODUCT_OWNER__"
-    "__REQUIRED_RESOURCE_GROUP_NAME__"
-    "__REQUIRED_SAFETY_OWNER__"
-)
-
 if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
     throw "Azure CLI is required."
 }
@@ -95,33 +72,28 @@ try {
 catch {
     throw "The Session 06 gateway design record must be valid JSON."
 }
-if ($designRecordRaw -match "__REQUIRED_[A-Z0-9_]+__") {
-    throw "Resolve every required Session 06 gateway design decision before the Session 07 deployment."
+if ($designRecordRaw -match "_{2}REQUIRED_[A-Z0-9_]+_{2}") {
+    throw "Resolve every required Session 06 gateway design decision before the Session 06 deployment."
 }
 if ([string]$designRecord.recordStatus -ne "ready-for-implementation") {
     throw "The Session 06 gateway design record must be ready-for-implementation."
 }
 if ([string]$designRecord.targetBackend.type -ne "foundry-agent-service" -or
     [string]$designRecord.targetBackend.implementationVariant -ne "policy-assistant-responses") {
-    throw "Session 07 implements the foundry-agent-service policy-assistant-responses variant recorded in Session 06."
+    throw "Session 06 implements the foundry-agent-service policy-assistant-responses variant recorded in Session 06."
 }
 if ([string]$designRecord.contentSafety.decision -ne "enabled" -or
     [string]::IsNullOrWhiteSpace([string]$designRecord.contentSafety.backendReference)) {
     throw "The Session 06 design record must enable Content Safety and name its approved backend reference."
 }
 if (@($designRecord.readinessGaps | Where-Object { $_.status -eq "open" }).Count -gt 0) {
-    throw "Resolve the open Session 06 readiness gaps before the Session 07 deployment."
+    throw "Resolve the open Session 06 readiness gaps before the Session 06 deployment."
 }
 
 $sentinels = Get-ChildItem -LiteralPath $artifactRoot -File -Recurse |
-    Select-String -Pattern "__REQUIRED_[A-Z0-9_]+__"
+    Select-String -Pattern "_{2}REQUIRED_[A-Z0-9_]+_{2}"
 if ($sentinels) {
-    $unresolved = @($sentinels.Matches.Value | Sort-Object -Unique)
-    $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
-    if ($unknown.Count -gt 0) {
-        throw "Add explicit Session 07 preflight checks for new sentinels: $($unknown -join ', ')."
-    }
-    throw "Resolve every Session 07 customer decision before deployment: $($unresolved -join ', ')."
+    throw "Resolve every Session 06 customer decision before deployment."
 }
 
 $control = Get-Content -LiteralPath $controlPath -Raw | ConvertFrom-Json -ErrorAction Stop
@@ -146,7 +118,7 @@ if ([string]$control.implementationSession -ne $implementationSession -or
 }
 if ([string]$control.api.operationPath -ne "/responses" -or
     $null -eq $openApi.paths."/responses".post) {
-    throw "Session 07 must expose one POST /responses operation."
+    throw "Session 06 must expose one POST /responses operation."
 }
 $includeUsage = $openApi.components.schemas.ResponseRequest.properties.stream_options.properties.include_usage
 if ($null -eq $includeUsage -or [string]$includeUsage.type -ne "boolean") {
@@ -156,7 +128,7 @@ if (-not [bool]$control.product.subscriptionRequired) {
     throw "The governed product must require an APIM subscription."
 }
 if ([bool]$control.semanticCaching.enabled) {
-    throw "Semantic caching is deferred for Session 07."
+    throw "Semantic caching is deferred for Session 06."
 }
 if ([int]$control.telemetry.requestBodyBytesLogged -ne 0 -or
     [int]$control.telemetry.responseBodyBytesLogged -ne 0 -or
@@ -210,7 +182,7 @@ $forbiddenPolicyTerms = @(
 $policyText = Get-Content -LiteralPath $policyPath -Raw
 foreach ($term in $forbiddenPolicyTerms) {
     if ($policyText -match [regex]::Escape($term)) {
-        throw "The Session 07 policy must not contain '$term'."
+        throw "The Session 06 policy must not contain '$term'."
     }
 }
 
@@ -338,7 +310,7 @@ $existingApiRaw = & az rest --method get --url $apiUrl --only-show-errors --outp
 if ($LASTEXITCODE -eq 0) {
     $existingApi = $existingApiRaw | ConvertFrom-Json -ErrorAction Stop
     if ([string]$existingApi.properties.description -notlike "*implementationSession=$implementationSession*") {
-        throw "An existing APIM API uses the configured ID without the Session 07 marker."
+        throw "An existing APIM API uses the configured ID without the Session 06 marker."
     }
 }
 
@@ -352,7 +324,7 @@ Write-Host "  Request/response body logging: disabled"
 Write-Host "  Semantic caching: deferred"
 
 & az deployment group what-if `
-    --name "session07-apim-ai-gateway-implementation-preview" `
+    --name "session06-apim-ai-gateway-preview" `
     --resource-group ([string]$environment.resourceGroupName) `
     --template-file $bicepPath `
     --parameters `
@@ -368,4 +340,4 @@ if ($LASTEXITCODE -ne 0) {
     throw "The API Management deployment preview failed."
 }
 
-Write-Host "PASS: Session 06 design, Session 07 files, actual backend, identities, network, safety backend, logger, and deployment preview are ready."
+Write-Host "PASS: Session 06 design, Session 06 files, actual backend, identities, network, safety backend, logger, and deployment preview are ready."

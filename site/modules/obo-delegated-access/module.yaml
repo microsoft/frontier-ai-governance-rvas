@@ -18,7 +18,7 @@ module:
     - "One permitted user and one user without downstream resource authority can run the delivery checks."
   related_content:
     - "Session 04 - Governed Microsoft Foundry agent baseline"
-    - "Session 09 - MCP and tool security"
+    - "Session 08 - MCP and tool security"
   services_in_scope:
     - "microsoft-entra-id"
     - "azure-key-vault"

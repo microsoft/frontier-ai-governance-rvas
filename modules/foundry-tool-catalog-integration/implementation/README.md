@@ -14,7 +14,7 @@ exactly the approved namespaced tool.
 
 ### Why it matters
 
-Session 08 establishes the inventory record. Session 09 sets the MCP security boundary. This module
+Session 06 establishes the inventory record. Session 08 sets the MCP security boundary. This module
 uses those approved records to create a reusable Toolbox endpoint that gives agent teams a shared
 tool configuration.
 
@@ -36,7 +36,7 @@ Toolbox version records the allowed tool and approval setting.
 
 The MCP server and its authorization model exist before this work. The dedicated Toolbox contains
 the approved MCP tool and supplies its endpoint for agent reuse. API Center access controls catalog
-discovery, while [Session 09](../../../sessions/09-mcp-tool-security/) runtime controls authorize
+discovery, while [Session 08](../../../sessions/08-mcp-tool-security/) runtime controls authorize
 each call. Agent owners integrate the endpoint through
 [Session 04](../../../sessions/04-governed-agent-baseline/).
 
@@ -65,10 +65,10 @@ Toolbox payload without storing the endpoint in the governance record.
 
 | Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
 |---|---|---|---|---|
-| Catalog source | The MCP server record in API Center | Reuses the Session 08 inventory and owner metadata | The Foundry Tools private catalog is public preview and portal-led | Microsoft publishes a stable automated catalog-to-project connection API |
+| Catalog source | The MCP server record in API Center | Reuses the Session 07 inventory and owner metadata | The Foundry Tools private catalog is public preview and portal-led | Microsoft publishes a stable automated catalog-to-project connection API |
 | Toolbox scope | A new dedicated Toolbox | Gives agents a stable consumer endpoint and keeps this change isolated | A separate Toolbox adds a managed object and owner | The tool becomes part of an already governed multi-tool Toolbox |
 | Tool exposure | The `allowed_tools` list contains one entry | Limits the Toolbox to the approved tool and makes mismatches visible | A tool rename requires a new Toolbox version | The MCP owner intentionally changes the public tool definition |
-| Approval | `require_approval` set to `always` | Agent runtimes receive the requirement with the tool metadata | The runtime must still present and enforce the approval interaction | Session 09 approves a different action-specific policy and the runtime supports it |
+| Approval | `require_approval` set to `always` | Agent runtimes receive the requirement with the tool metadata | The runtime must still present and enforce the approval interaction | Session 08 approves a different action-specific policy and the runtime supports it |
 | Validation | `tools/list` against the version-specific endpoint | Checks the immutable version before agent reuse | It confirms discovery and approval metadata, not business behavior | A safe, non-mutating operation is approved for an additional runtime check |
 
 ### Architecture guidance
@@ -95,9 +95,9 @@ approved.
 
 Confirm:
 
-- the MCP server record in API Center from Session 08 is approved and identifies the remote MCP
+- the MCP server record in API Center from Session 06 is approved and identifies the remote MCP
   server version and deployment;
-- the Session 09 owner has approved the exact MCP tool name and the server's authentication path;
+- the Session 08 owner has approved the exact MCP tool name and the server's authentication path;
 - the API catalog owner has approved public-preview use in this nonproduction scope;
 - the operator has Azure API Center Data Reader on the exact API Center resource;
 - the operator has Foundry User on the exact project and Foundry Project Manager if the catalog
@@ -154,9 +154,9 @@ Stop if:
 - the API Center lifecycle state is not approved;
 - the deployment has no runtime URL;
 - the endpoint differs between API Center, the project connection, and the Toolbox payload;
-- the authentication method differs from the Session 09 decision;
+- the authentication method differs from the Session 08 decision;
 - the project connection is missing or belongs to another project; or
-- the selected MCP server exposes no exact tool name approved by Session 09.
+- the selected MCP server exposes no exact tool name approved by Session 08.
 
 ### Keep the Toolbox narrow
 
@@ -179,7 +179,7 @@ connection. Do not add API keys, bearer tokens, OAuth client secrets, or authori
 either JSON artifact.
 
 Stop if the catalog flow cannot represent the approved authentication mode. Return the decision to
-the Session 09 identity and security owners instead of storing a credential in the Toolbox
+the Session 08 identity and security owners instead of storing a credential in the Toolbox
 payload.
 
 ## Implement

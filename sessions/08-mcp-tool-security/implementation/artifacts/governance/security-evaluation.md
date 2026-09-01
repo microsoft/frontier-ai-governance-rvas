@@ -1,6 +1,6 @@
 # Security evaluation runbook
 
-Use this runbook for the Session 09 Microsoft Foundry candidate-version security checks. Foundry
+Use this runbook for the Session 08 Microsoft Foundry candidate-version security checks. Foundry
 keeps the candidate version and observed results. This file defines the recurring checks.
 
 ## Lifecycle

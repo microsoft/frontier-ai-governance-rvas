@@ -28,9 +28,9 @@ read authorization constrain the tool path. Instructions add refusal behavior bu
 that boundary.
 
 Session 05 owns Microsoft 365 and Teams distribution.
-[Session 07](../../07-apim-ai-gateway-implementation/implementation/README.md) adds APIM ingress.
-[Session 09](../../09-mcp-tool-security/implementation/README.md) replaces the direct tool path
-with MCP controls. [Session 10](../../10-foundry-evaluations-quality-gates/implementation/README.md)
+[Session 06](../../06-apim-ai-gateway/implementation/README.md) adds APIM ingress.
+[Session 08](../../08-mcp-tool-security/implementation/README.md) replaces the direct tool path
+with MCP controls. [Session 09](../../09-foundry-evaluations-quality-gates/implementation/README.md)
 adds repeatable evaluations. Use a separately approved delegated-access implementation when the
 API must authorize the signed-in user.
 

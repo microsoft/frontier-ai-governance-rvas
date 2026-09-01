@@ -57,7 +57,7 @@ invoke_smoke_request() {
   {
     printf 'header = "Authorization: Bearer %s"\n' "$bearer_token"
     printf 'header = "Content-Type: application/json"\n'
-    printf 'header = "x-session12-smoke-mode: %s"\n' "$smoke_mode"
+    printf 'header = "x-session11-smoke-mode: %s"\n' "$smoke_mode"
     printf 'header = "x-release-commit-sha: %s"\n' "$commit_sha_value"
     printf 'header = "traceparent: %s"\n' "$traceparent_value"
   } | (
@@ -87,7 +87,7 @@ invoke_smoke_request() {
   {
     printf 'header = "Authorization: Bearer %s"\n' "$bearer_token"
     printf 'header = "Content-Type: application/json"\n'
-    printf 'header = "x-session12-smoke-mode: %s"\n' "$smoke_mode"
+    printf 'header = "x-session11-smoke-mode: %s"\n' "$smoke_mode"
     printf 'header = "x-release-commit-sha: %s"\n' "$commit_sha_value"
     printf 'header = "traceparent: %s"\n' "$traceparent_value"
   } | (
@@ -117,7 +117,7 @@ invoke_smoke_request() {
   {
     printf 'header = "Authorization: %s %s"\n' "Bearer" "$bearer_token"
     printf 'header = "Content-Type: application/json"\n'
-    printf 'header = "x-session12-smoke-mode: %s"\n' "$smoke_mode"
+    printf 'header = "x-session11-smoke-mode: %s"\n' "$smoke_mode"
     printf 'header = "x-release-commit-sha: %s"\n' "$commit_sha_value"
     printf 'header = "traceparent: %s"\n' "$traceparent_value"
   } | (
@@ -285,7 +285,7 @@ normal_trace_id="$(python3 -c 'import secrets; print(secrets.token_hex(16))')"
 failure_trace_id="$(python3 -c 'import secrets; print(secrets.token_hex(16))')"
 normal_traceparent="00-${normal_trace_id}-0000000000000001-01"
 failure_traceparent="00-${failure_trace_id}-0000000000000002-01"
-synthetic_marker="session12-probe-$(python3 -c 'import secrets; print(secrets.token_hex(16))')"
+synthetic_marker="session11-probe-$(python3 -c 'import secrets; print(secrets.token_hex(16))')"
 normal_body="$(jq -nc --arg marker "$synthetic_marker" --arg commit "$normalized_commit_sha" '{requestType:"approved-read-only-policy-lookup",syntheticMarker:$marker,releaseCommitSha:$commit}')"
 failure_body="$(jq -nc --arg marker "$synthetic_marker" --arg commit "$normalized_commit_sha" '{requestType:"approved-read-only-nonexistent-policy-lookup",syntheticMarker:$marker,releaseCommitSha:$commit}')"
 
@@ -445,7 +445,7 @@ if [[ "$telemetry_poll_timed_out" == false && "$telemetry_ingestion_stable" == t
 fi
 
 jq -n \
-  --arg implementation_session "12-observability-cost-operations" \
+  --arg implementation_session "11-observability-cost-operations" \
   --arg mode "$mode" \
   --arg environment "$environment" \
   --arg commit_sha "$normalized_commit_sha" \
@@ -468,7 +468,7 @@ jq -n \
   '{
     schemaVersion: 1,
     implementationSession: $implementation_session,
-    recordType: "session12-smoke-result",
+    recordType: "session11-smoke-result",
     mode: $mode,
     environment: $environment,
     commitSha: (if $release_commit_sha_verified then $commit_sha else null end),
@@ -500,8 +500,8 @@ jq -n \
     implementationMarker: ("implementationSession=" + $implementation_session)
   }' > "$result_path"
 
-[[ "$status" == "passed" ]] || { echo "ERROR: Session 12 smoke checks failed. Inspect the payload-free result at $result_path." >&2; exit 1; }
-echo "PASS: Session 12 smoke checks passed."
+[[ "$status" == "passed" ]] || { echo "ERROR: Session 11 smoke checks failed. Inspect the payload-free result at $result_path." >&2; exit 1; }
+echo "PASS: Session 11 smoke checks passed."
 }
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then

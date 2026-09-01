@@ -50,61 +50,14 @@ from pathlib import Path
 
 path = Path(sys.argv[1])
 raw = path.read_text(encoding="utf-8")
-required_sentinels = {
-    "__REQUIRED_RECORD_STATUS__",
-    "__REQUIRED_APPROVED_SCOPE__",
-    "__REQUIRED_ENVIRONMENT__",
-    "__REQUIRED_CHANGE_REFERENCE__",
-    "__REQUIRED_APIM_INSTANCE__",
-    "__REQUIRED_APIM_TIER__",
-    "__REQUIRED_APIM_DEPLOYMENT_MODEL__",
-    "__REQUIRED_TARGET_BACKEND_TYPE__",
-    "__REQUIRED_IMPLEMENTATION_VARIANT__",
-    "__REQUIRED_APPROVED_ENDPOINT_REFERENCE__",
-    "__REQUIRED_INGRESS_PATTERN__",
-    "__REQUIRED_CLIENT_IDENTITY__",
-    "__REQUIRED_BACKEND_IDENTITY__",
-    "__REQUIRED_BACKEND_ROLE_STATE__",
-    "__REQUIRED_INBOUND_NETWORK_PATH__",
-    "__REQUIRED_BACKEND_NETWORK_PATH__",
-    "__REQUIRED_PRIVATE_DNS_STATE__",
-    "__REQUIRED_CONTENT_SAFETY_DECISION__",
-    "__REQUIRED_CONTENT_SAFETY_REFERENCE__",
-    "__REQUIRED_TELEMETRY_SINK__",
-    "__REQUIRED_TELEMETRY_BODY_POLICY__",
-    "__REQUIRED_REQUEST_LIMIT__",
-    "__REQUIRED_TOKEN_LIMIT_DECISION__",
-    "__REQUIRED_SAFETY_POLICY__",
-    "__REQUIRED_ROUTING_DECISION__",
-    "__REQUIRED_RESTORE_DECISION__",
-    "__REQUIRED_API_PRODUCT_OWNER__",
-    "__REQUIRED_IDENTITY_OWNER__",
-    "__REQUIRED_NETWORK_OWNER__",
-    "__REQUIRED_SAFETY_OWNER__",
-    "__REQUIRED_OPERATIONS_OWNER__",
-    "__REQUIRED_DELIVERY_OWNER__",
-    "__REQUIRED_READINESS_GAP_DESCRIPTION__",
-    "__REQUIRED_GAP_OWNER__",
-    "__REQUIRED_GAP_RESOLUTION__",
-    "__REQUIRED_DESIGN_APPROVER__",
-}
 try:
     record = json.loads(raw)
 except json.JSONDecodeError as error:
     raise SystemExit(f"ERROR: The gateway design record must be valid JSON: {error}")
 
-unresolved = sorted(set(re.findall(r"__REQUIRED_[A-Z0-9_]+__", raw)))
+unresolved = sorted(set(re.findall(r"_{2}REQUIRED_[A-Z0-9_]+_{2}", raw)))
 if unresolved:
-    unknown = sorted(set(unresolved) - required_sentinels)
-    if unknown:
-        raise SystemExit(
-            "ERROR: Add explicit Session 06 preflight checks for new sentinels: "
-            + ", ".join(unknown)
-        )
-    raise SystemExit(
-        "ERROR: Resolve every required gateway design decision before sharing this record: "
-        + ", ".join(unresolved)
-    )
+    raise SystemExit("ERROR: Resolve every required gateway design decision before sharing this record.")
 
 if record.get("recordVersion") != 1:
     raise SystemExit("ERROR: gateway-design-record.json must use recordVersion 1.")

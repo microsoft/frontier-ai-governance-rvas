@@ -65,7 +65,7 @@ function Test-HealthResult {
     Require-File -Path $Path
     $result = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json -ErrorAction Stop
     $required = @{
-        implementationSession = "14-agent-fleet-multiregion-rehearsal"
+        implementationSession = "13-agent-fleet-multiregion-rehearsal"
         status = $ExpectedStatus
         region = [string]$PathContract.region
         agentVersion = [string]$Expected.agentVersion
@@ -141,8 +141,8 @@ if ($foundSentinels.Count -gt 0) {
 $control = Get-Content -LiteralPath $controlPath -Raw | ConvertFrom-Json -ErrorAction Stop
 $regional = Get-Content -LiteralPath $parametersPath -Raw | ConvertFrom-Json -ErrorAction Stop
 if ($control.schemaVersion -ne 2 -or $regional.schemaVersion -ne 2 -or
-    [string]$control.implementationSession -cne "14-agent-fleet-multiregion-rehearsal" -or
-    [string]$regional.implementationSession -cne "14-agent-fleet-multiregion-rehearsal") {
+    [string]$control.implementationSession -cne "13-agent-fleet-multiregion-rehearsal" -or
+    [string]$regional.implementationSession -cne "13-agent-fleet-multiregion-rehearsal") {
     throw "The rehearsal contracts have an invalid schema or implementationSession marker."
 }
 if ([string]$control.approvedAzureScope -ine $approvedTargetScope) {

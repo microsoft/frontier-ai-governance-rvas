@@ -10,7 +10,7 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation · Session 10</p>
+<p class="eyebrow">AI Governance Co-implementation · Session 09</p>
 
 # Foundry evaluations and release quality gates
 
@@ -32,7 +32,7 @@ By the end of the session:
 - The approved aggregate returns `PASS`.
 - The tool-process regression returns `BLOCK`.
 
-<!-- Notes: Session 13 later runs the same command before promotion. -->
+<!-- Notes: Session 12 later runs the same command before promotion. -->
 
 ---
 
@@ -188,7 +188,7 @@ Expected:
 
 To disable, mark the gate disabled and keep or restore the approved version at 100%. Remove delivery
 integration only after dependency review. Cancel unnecessary evaluations, but keep the production
-artifacts and current records. Session 13 consumes `PASS` or `BLOCK`; it does not change metric
+artifacts and current records. Session 12 consumes `PASS` or `BLOCK`; it does not change metric
 meaning.
 
 <!-- Notes: Do not delete the project, agent, model, tool path, logs, or customer data as a shortcut. -->

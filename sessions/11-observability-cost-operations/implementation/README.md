@@ -8,7 +8,7 @@ Deploy **privacy-safe operating controls for one governed service**. The team de
 three alert rules, and a subscription budget. It also keeps the telemetry, retention, content
 logging, cost allocation, and incident definitions used in normal operation.
 
-The Session 13 GitHub promotion workflow runs the paired Session 12 smoke check. The check reads
+The Session 12 GitHub promotion workflow runs the paired Session 11 smoke check. The check reads
 live telemetry and writes one payload-free result to the runner's temporary workspace.
 
 ### Why it matters
@@ -44,7 +44,7 @@ result. A tool failure must not become a model failure.
 
 The workbook and alert queries read Application Insights. APIM emits bounded token metrics for a
 faster usage estimate. Cost Management reports the bill later. The customer-owned APIM repository
-remains authoritative for gateway policy, and the Session 13 workflow consumes the temporary smoke
+remains authoritative for gateway policy, and the Session 12 workflow consumes the temporary smoke
 result.
 
 ### Design choices and tradeoffs
@@ -68,8 +68,8 @@ Confirm these requirements:
 - An approved governed runtime can be inspected: the platform owner identifies the immutable agent
   and project, the gateway owner identifies the versioned APIM policy and tool path, the quality
   owner can retrieve the current evaluation result, and the security owner can retrieve the payload-free
-  adversarial result and Defender route check. (Sessions 04, 07, and 09-11.)
-- The Session 04 nonproduction policy assistant and Session 07 APIM route support an approved
+  adversarial result and Defender route check. (Sessions 04, 06, and 08-11.)
+- The Session 04 nonproduction policy assistant and Session 06 APIM route support an approved
   read-only request and a separate handled failure for a nonexistent synthetic policy.
 - A workspace-based Application Insights component, its Log Analytics workspace, an action group,
   and an approved retention boundary exist.
@@ -136,7 +136,7 @@ out of source control.
 | Preview | Both Bicep what-if results contain only the workbook, three alerts, and exact budget | A preview replaces unrelated resources, removes an action route, or targets the wrong subscription |
 
 The gateway owner changes the APIM policy through its own repository. Do not replace an API-scope
-policy that contains Session 07 authentication, safety, routing, quota, token-limit, rate-limit, or
+policy that contains Session 06 authentication, safety, routing, quota, token-limit, rate-limit, or
 backend controls.
 
 ## Implement
@@ -174,7 +174,7 @@ the Application Insights connection string through the deployment environment. I
 agent, model, tool, evaluation, and security signals; propagates `traceparent` and
 `x-correlation-id`; and drops prohibited attributes before export.
 
-The customer-owned APIM policy preserves the Session 07 controls, trace context, and bounded token
+The customer-owned APIM policy preserves the Session 06 controls, trace context, and bounded token
 metrics. Do not use user, email, request, correlation, prompt, response, or free-text values as
 metric dimensions.
 
@@ -238,7 +238,7 @@ to confirm delivery. Do not generate unsafe traffic to force an alert.
 
 ## Confirm the result
 
-Run the paired smoke check from the Session 13 GitHub promotion workflow. The normal and handled
+Run the paired smoke check from the Session 12 GitHub promotion workflow. The normal and handled
 failure routes must be different HTTPS endpoints. The scripts resolve the live Application Insights
 workspace before either request and reject a result path outside `RUNNER_TEMP`.
 
@@ -250,7 +250,7 @@ $env:session12_LOG_ANALYTICS_WORKSPACE_ID = $env:APPROVED_LOG_ANALYTICS_WORKSPAC
 $env:session12_SMOKE_BEARER_TOKEN = $env:APPROVED_SYNTHETIC_SMOKE_TOKEN
 $env:session12_SMOKE_TIMEOUT_SECONDS = "180"
 $env:session12_SMOKE_RETRY_SECONDS = "15"
-$resultPath = Join-Path $env:RUNNER_TEMP "session12-smoke.json"
+$resultPath = Join-Path $env:RUNNER_TEMP "session11-smoke.json"
 
 .\scripts\smoke.ps1 `
   -Mode Pipeline `
@@ -267,7 +267,7 @@ export session12_LOG_ANALYTICS_WORKSPACE_ID="${APPROVED_LOG_ANALYTICS_WORKSPACE_
 export session12_SMOKE_BEARER_TOKEN="${APPROVED_SYNTHETIC_SMOKE_TOKEN}"
 export session12_SMOKE_TIMEOUT_SECONDS="180"
 export session12_SMOKE_RETRY_SECONDS="15"
-result_path="${RUNNER_TEMP}/session12-smoke.json"
+result_path="${RUNNER_TEMP}/session11-smoke.json"
 
 ./scripts/smoke.sh \
   --mode pipeline \
@@ -309,19 +309,19 @@ redaction to make a trace complete.
 | Cost owner | Tags, budget thresholds, and reconciliation with billed cost |
 | Incident commander | Containment and recovery decisions |
 
-Run the control against the approved nonproduction service. Session 13 calls `smoke.ps1` or
+Run the control against the approved nonproduction service. Session 12 calls `smoke.ps1` or
 `smoke.sh` with the fixed pipeline mode, environment, commit SHA, runtime inputs, and runner-temporary
 result path.
 
 Restore through the owning change paths:
 
 1. Route the application to the last approved Session 04 version if instrumentation causes a fault.
-2. Restore the previous Session 07 APIM policy without removing authentication, safety, routing,
+2. Restore the previous Session 06 APIM policy without removing authentication, safety, routing,
    quota, token-limit, rate-limit, or backend controls.
-3. Disable only the noisy Session 12 alert rules while correcting their queries or thresholds.
-4. Remove only resources listed in the approved Session 12 what-if and tagged
-   `implementationSession=12-observability-cost-operations`.
-5. Delete the exact Session 12 budget only after the cost owner confirms that no workflow uses it.
+3. Disable only the noisy Session 11 alert rules while correcting their queries or thresholds.
+4. Remove only resources listed in the approved Session 11 what-if and tagged
+   `implementationSession=11-observability-cost-operations`.
+5. Delete the exact Session 11 budget only after the cost owner confirms that no workflow uses it.
 6. Keep records required by an active incident, legal hold, or retention obligation.
 
 Do not disable telemetry, Defender, or SOC routing to silence a real signal.

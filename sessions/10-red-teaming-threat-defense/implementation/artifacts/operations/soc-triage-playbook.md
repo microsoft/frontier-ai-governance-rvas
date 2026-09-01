@@ -1,4 +1,4 @@
-# SOC triage playbook for Session 11 AI signals
+# SOC triage playbook for Session 10 AI signals
 
 Use this playbook for the nonproduction Foundry project and policy-assistant version authorized in
 the approved change system. Do not copy prompts, responses, tool payloads, prompt evidence, user
@@ -30,7 +30,7 @@ uploaded AI models. Do not replace the title list with a broad `Title has "AI"` 
 
 - For unsafe tool behavior, disable the agent endpoint or remove the tool binding through the
   existing [Session 04](../../../../04-governed-agent-baseline/implementation/README.md) or
-  [Session 09](../../../../09-mcp-tool-security/implementation/README.md) control. Do not depend on a system-prompt edit alone.
+  [Session 08](../../../../08-mcp-tool-security/implementation/README.md) control. Do not depend on a system-prompt edit alone.
 - For suspected leakage, stop the run, disable the affected data or tool path, and follow the
   customer's data incident process.
 - For a false positive, keep the Defender disposition in the SOC system, not as copied evidence in
@@ -42,10 +42,10 @@ The SOC owner coordinates the security decision. The agent owner changes instruc
 The tool owner controls permissions and backend authorization. The Defender owner controls sensor
 coverage. The residual-risk authority decides whether to run remediation again.
 
-Recovery returns only the previously approved agent version and tool boundary. A Session 11 result
+Recovery returns only the previously approved agent version and tool boundary. A Session 10 result
 does not authorize production promotion.
 
 Defender AI model posture and malware scanning cover model and supply-chain risk. They do not
 replace the agent red-team comparison. Defender real-time protection is also a separate control
-surface: supported blocking depends on the agent type and integration. Session 11 does not create
+surface: supported blocking depends on the agent type and integration. Session 10 does not create
 or change those rules.

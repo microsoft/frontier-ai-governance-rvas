@@ -10,7 +10,7 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation · Session 14</p>
+<p class="eyebrow">AI Governance Co-implementation · Session 13</p>
 
 # Regional failover rehearsal for a governed AI service
 
@@ -48,7 +48,7 @@ The health control checks the active path. The routing control previews and chan
 
 The customer change record holds approval and the outcome.
 
-Session 13 remains the path for infrastructure and policy promotion.
+Session 12 remains the path for infrastructure and policy promotion.
 
 </div>
 <div>

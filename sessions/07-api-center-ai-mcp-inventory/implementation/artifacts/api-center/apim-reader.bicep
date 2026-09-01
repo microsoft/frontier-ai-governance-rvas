@@ -1,12 +1,12 @@
 targetScope = 'resourceGroup'
 
-@description('Existing Session 07 API Management service name.')
+@description('Existing Session 06 API Management service name.')
 param apiManagementName string
 
-@description('System-assigned principal ID of the Session 08 API Center.')
+@description('System-assigned principal ID of the Session 07 API Center.')
 param apiCenterPrincipalId string
 
-@description('Resource ID of the Session 08 API Center.')
+@description('Resource ID of the Session 07 API Center.')
 param apiCenterResourceId string
 
 var implementationSession = '07-api-center-ai-mcp-inventory'

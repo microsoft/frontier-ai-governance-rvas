@@ -41,7 +41,7 @@ function Test-HealthResult {
 
     $result = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json -ErrorAction Stop
     $required = @{
-        implementationSession = "14-agent-fleet-multiregion-rehearsal"
+        implementationSession = "13-agent-fleet-multiregion-rehearsal"
         status = $ExpectedStatus
         region = [string]$PathContract.region
         agentVersion = [string]$Expected.agentVersion
@@ -84,7 +84,7 @@ if ($runtimePath -eq $repoRoot -or $runtimePath.StartsWith($repoPrefix, [System.
 if (-not $?) { throw "Ready preflight failed." }
 
 $control = Get-Content -LiteralPath $controlPath -Raw | ConvertFrom-Json -ErrorAction Stop
-if ([string]$control.implementationSession -cne "14-agent-fleet-multiregion-rehearsal" -or
+if ([string]$control.implementationSession -cne "13-agent-fleet-multiregion-rehearsal" -or
     [string]$control.approvedAzureScope -ine $ApprovedScope) {
     throw "Control marker or approved scope differs from the rehearsal request."
 }

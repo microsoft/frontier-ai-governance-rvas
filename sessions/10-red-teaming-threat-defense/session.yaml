@@ -1,6 +1,6 @@
 schema_version: 2
 session:
-  id: "11"
+  id: "10"
   slug: "red-teaming-threat-defense"
   title: "Red teaming, prompt injection, and Defender"
   duration_minutes: 240
@@ -11,20 +11,20 @@ session:
     - "Cloud security and Microsoft Defender administrators"
     - "Security operations and AI application owners"
   prerequisites:
-    - "A governed nonproduction agent is ready for authorized testing: the platform inventory identifies immutable baseline and remediated versions, the gateway and tool owners confirm the read-only path and blocked prohibited write, and the quality owner retrieves a passing release-gate result. (Sessions 01-10.)"
+    - "A governed nonproduction agent is ready for authorized testing: the platform inventory identifies immutable baseline and remediated versions, the gateway and tool owners confirm the read-only path and blocked prohibited write, and the quality owner retrieves a passing release-gate result. (Sessions 01-09.)"
     - "The approved nonproduction policy assistant has immutable baseline and remediated versions. Its stable endpoint stays on the previously approved version."
     - "The `get_policy` path is read-only. The prohibited write is absent from the MCP allowlist and backend role, or the backend denies it."
     - "The project managed identity and red-team operator have Foundry User on the exact Foundry project. That project has an approved judge model and budget."
-    - "The Session 10 gate remains runnable against the remediated version and returns PASS for its approved record."
+    - "The Session 09 gate remains runnable against the remediated version and returns PASS for its approved record."
     - "The security owner has authorized the exact project, agent, versions, attack categories, synthetic-data boundary, run window, stop contact, and same-day region support check."
     - "Defender for Cloud AI services protection and the approved Defender-to-SOC route are operating."
     - "The SOC owner has accepted an authorized event or route-health result with the source, route, destination, references, observed time, and agent or model context."
   dependencies:
     - "Session 04 - Governed Microsoft Foundry agent baseline"
-    - "Session 07 - Azure API Management AI gateway implementation"
-    - "Session 09 - MCP and tool security"
+    - "Session 06 - Azure API Management AI gateway design and implementation"
+    - "Session 08 - MCP and tool security"
     - "Session 05 - Microsoft Agent 365 secure rollout and data controls"
-    - "Session 10 - Foundry evaluations and release quality gates"
+    - "Session 09 - Foundry evaluations and release quality gates"
   services_in_scope:
     - "azure-ai-foundry"
     - "microsoft-defender-for-cloud"
@@ -70,7 +70,7 @@ retained_files:
     consumer: "The red-team operator"
     operational_purpose: "Run the bounded plan and write payload-free aggregates keyed by category, strategy, and evaluator to the approved security record store outside this repository."
   - path: "implementation/scripts/compare-runs.py"
-    consumer: "The security owner, release owner, and Session 13 validators"
+    consumer: "The security owner, release owner, and Session 12 validators"
     operational_purpose: "Reject key-set differences, individual risk regressions, prohibited-action success, and malformed current aggregate inputs without writing a repository report."
   - path: "implementation/scripts/requirements.txt"
     consumer: "The approved Python environment"

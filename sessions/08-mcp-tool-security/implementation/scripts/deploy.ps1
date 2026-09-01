@@ -10,7 +10,7 @@ $ErrorActionPreference = "Stop"
 
 & (Join-Path $PSScriptRoot "preflight.ps1") -ApprovedSubscriptionId $ApprovedSubscriptionId
 if ($LASTEXITCODE -ne 0) {
-    throw "Session 09 preflight failed."
+    throw "Session 08 preflight failed."
 }
 
 $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
@@ -20,18 +20,18 @@ $environment = Get-Content -LiteralPath $environmentPath -Raw |
     ConvertFrom-Json -ErrorAction Stop
 
 $deployment = & az deployment group create `
-    --name "session09-mcp-tool-security" `
+    --name "session07-mcp-tool-security" `
     --resource-group ([string]$environment.resourceGroupName) `
     --template-file $bicepPath `
     --parameters "apiManagementName=$($environment.apiManagementName)" `
     --only-show-errors `
     --output json
 if ($LASTEXITCODE -ne 0) {
-    throw "Session 09 APIM deployment failed."
+    throw "Session 08 APIM deployment failed."
 }
 $result = $deployment | ConvertFrom-Json -ErrorAction Stop
 if ([string]$result.properties.provisioningState -ne "Succeeded") {
-    throw "Session 09 APIM deployment did not reach Succeeded."
+    throw "Session 08 APIM deployment did not reach Succeeded."
 }
 
 Write-Host "PASS: Deployed the marked MCP server, one read tool, identity policy, throttle, correlation trace, and payload-free diagnostic."

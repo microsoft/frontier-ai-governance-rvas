@@ -7,7 +7,7 @@
   "apiCenterPlan": "__REQUIRED_API_CENTER_PLAN__",
   "apiManagementResourceGroupName": "__REQUIRED_APIM_RESOURCE_GROUP_NAME__",
   "apiManagementName": "__REQUIRED_APIM_NAME__",
-  "integrationName": "session08-apim-source",
+  "integrationName": "session07-apim-source",
   "foundryAccountName": "__REQUIRED_FOUNDRY_ACCOUNT_NAME__",
   "foundryProjectName": "__REQUIRED_FOUNDRY_PROJECT_NAME__",
   "agentName": "__REQUIRED_AGENT_NAME__",

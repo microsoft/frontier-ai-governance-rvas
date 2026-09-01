@@ -89,7 +89,7 @@ function Assert-GovernanceRecord {
     if ($expiry -le $lastReview) {
         throw "$Description expiryDate must be later than lastReviewDate."
     }
-    if ([string]$Record.customProperties.implementationSession -ne "08-api-center-ai-mcp-inventory") {
+    if ([string]$Record.customProperties.implementationSession -ne "07-api-center-ai-mcp-inventory") {
         throw "$Description has the wrong implementationSession marker."
     }
 }
@@ -168,9 +168,9 @@ if ($sentinels) {
     $unresolved = @($sentinels.Matches.Value | Sort-Object -Unique)
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
     if ($unknown.Count -gt 0) {
-        throw "Add explicit Session 08 preflight checks for new sentinels: $($unknown -join ', ')."
+        throw "Add explicit Session 06 preflight checks for new sentinels: $($unknown -join ', ')."
     }
-    throw "Resolve every Session 08 customer decision before deployment: $($unresolved -join ', ')."
+    throw "Resolve every Session 06 customer decision before deployment: $($unresolved -join ', ')."
 }
 
 $environment = Get-Content -LiteralPath $environmentPath -Raw | ConvertFrom-Json -ErrorAction Stop
@@ -280,12 +280,12 @@ $session07Api = Invoke-AzJson `
         "--service-name", [string]$environment.apiManagementName,
         "--resource-group", [string]$environment.apiManagementResourceGroupName
     ) `
-    -Description "Session 07 APIM API lookup"
-if ([string]$session07Api.description -notlike "*implementationSession=07-apim-ai-gateway-implementation*") {
-    throw "The APIM source does not contain the marked Session 07 API."
+    -Description "Session 06 APIM API lookup"
+if ([string]$session07Api.description -notlike "*implementationSession=06-apim-ai-gateway*") {
+    throw "The APIM source does not contain the marked Session 06 API."
 }
 if ([string]$session07Api.displayName -ne "Governed policy assistant Responses API") {
-    throw "The Session 07 APIM display name does not match the approved synchronized API."
+    throw "The Session 06 APIM display name does not match the approved synchronized API."
 }
 
 $role = Invoke-AzJson `
@@ -324,7 +324,7 @@ if ($apiCenterExists) {
         }
     }
     if ([string]$marker -ne $implementationSession) {
-        throw "An existing API Center uses the configured name without the Session 08 marker."
+        throw "An existing API Center uses the configured name without the Session 06 marker."
     }
     $existingIntegrationRaw = & az apic integration show `
         --resource-group ([string]$environment.resourceGroupName) `
@@ -352,7 +352,7 @@ if ($LASTEXITCODE -ne 0) {
     throw "The API Center Bicep definition failed to compile."
 }
 & az deployment group what-if `
-    --name "session08-api-center-preview" `
+    --name "session07-api-center-preview" `
     --resource-group ([string]$environment.resourceGroupName) `
     --template-file $bicepPath `
     --parameters `
@@ -367,4 +367,4 @@ if ($LASTEXITCODE -ne 0) {
     throw "The API Center deployment preview failed."
 }
 
-Write-Host "PASS: Session 08 files, direct-agent desired state, APIM boundary, runtime coordinates, CLI integration, and deployment preview are ready."
+Write-Host "PASS: Session 06 files, direct-agent desired state, APIM boundary, runtime coordinates, CLI integration, and deployment preview are ready."

@@ -1,8 +1,8 @@
 schema_version: 1
-implementation_session: 10-foundry-evaluations-quality-gates
+implementation_session: 09-foundry-evaluations-quality-gates
 policy_state: establish_from_approved_baseline
 dataset:
-  name: session10-policy-assistant-golden
+  name: session09-policy-assistant-golden
   version_prefix: "1"
 baseline:
   source_run_id: null

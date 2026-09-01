@@ -88,7 +88,7 @@ function New-SmokeHeaders {
     }
     $headers = @{
         Authorization = "Bearer $BearerToken"
-        "x-session12-smoke-mode" = $SmokeMode
+        "x-session11-smoke-mode" = $SmokeMode
         "x-release-commit-sha" = $CommitSha
         traceparent = $Traceparent
     }
@@ -241,8 +241,8 @@ function Invoke-TelemetryStability {
 }
 
 $ErrorActionPreference = "Stop"
-$implementationSession = "12-observability-cost-operations"
-$syntheticMarker = "session12-probe-" + (-join ((1..32) | ForEach-Object { "{0:x}" -f (Get-Random -Maximum 16) }))
+$implementationSession = "11-observability-cost-operations"
+$syntheticMarker = "session11-probe-" + (-join ((1..32) | ForEach-Object { "{0:x}" -f (Get-Random -Maximum 16) }))
 $requiredVariables = @(
     "session12_SMOKE_URL",
     "session12_SMOKE_FAILURE_URL",
@@ -496,7 +496,7 @@ $sensitiveInputPresent = ([int]$row[9] -gt 0 -or [int]$row[10] -gt 0)
 $result = [ordered]@{
     schemaVersion = 1
     implementationSession = $implementationSession
-    recordType = "session12-smoke-result"
+    recordType = "session11-smoke-result"
     mode = $Mode.ToLowerInvariant()
     environment = $Environment
     commitSha = if ($releaseCommitShaVerified) { $normalizedCommitSha } else { $null }
@@ -539,6 +539,6 @@ New-Item -ItemType Directory -Force -Path $resultDirectory | Out-Null
 $result | ConvertTo-Json -Depth 6 | Set-Content -Path $ResultPath -Encoding utf8
 
 if ($result.status -ne "passed") {
-    throw "Session 12 smoke checks failed. Inspect the payload-free result at $ResultPath."
+    throw "Session 11 smoke checks failed. Inspect the payload-free result at $ResultPath."
 }
-Write-Host "PASS: Session 12 smoke checks passed."
+Write-Host "PASS: Session 11 smoke checks passed."

@@ -63,7 +63,7 @@ def resolve(relative, purpose):
         raise SystemExit(f"{purpose} is missing or outside the repository.")
     return candidate
 
-if control.get("implementationSession") != "14-agent-fleet-multiregion-rehearsal":
+if control.get("implementationSession") != "13-agent-fleet-multiregion-rehearsal":
     raise SystemExit("Control definition has the wrong implementationSession marker.")
 if str(control.get("approvedAzureScope", "")).casefold() != scope.casefold():
     raise SystemExit("The approved scope differs from the requested scope.")
@@ -114,7 +114,7 @@ parameters = json.loads(Path(sys.argv[4]).read_text())
 path = parameters[path_name]
 expected = parameters["expected"]
 fields = {
-    "implementationSession": "14-agent-fleet-multiregion-rehearsal",
+    "implementationSession": "13-agent-fleet-multiregion-rehearsal",
     "status": status,
     "region": path["region"],
     "agentVersion": expected["agentVersion"],

@@ -6,7 +6,7 @@ usage() {
 Usage: ./scripts/preflight.sh --approved-subscription-id <guid> --approved-resource-group-name <name> \
   --approved-application-insights-resource-id <resource-id> --deployment-location <azure-region>
 
-Validates the Session 12 desired-state files and runs read-only previews. Do not pass secrets as
+Validates the Session 11 desired-state files and runs read-only previews. Do not pass secrets as
 arguments.
 USAGE
 }
@@ -121,7 +121,7 @@ for path in root.rglob("*.json"):
     json.loads(path.read_text())
 
 telemetry = json.loads((root / "telemetry" / "telemetry-contract.json").read_text())
-if telemetry.get("schemaVersion") != 1 or telemetry.get("implementationSession") != "12-observability-cost-operations":
+if telemetry.get("schemaVersion") != 1 or telemetry.get("implementationSession") != "11-observability-cost-operations":
     raise SystemExit("Telemetry contract has a stale schema or implementation session marker.")
 if telemetry.get("propagation", {}).get("standard") != "W3C Trace Context" or telemetry["propagation"].get("correlationIdMayContainUserData"):
     raise SystemExit("Telemetry must use W3C Trace Context and reject user data in correlation IDs.")

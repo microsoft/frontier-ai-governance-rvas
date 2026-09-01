@@ -14,11 +14,11 @@ source-controlled definitions and machine contracts used by the validators and G
 | `environments/nonproduction.parameters.json` | Platform owner before a nonproduction configuration change | Nonproduction preview and apply jobs |
 | `environments/production.parameters.json` | Platform owner before a production configuration change | Production preview and apply jobs |
 
-The repository keeps Session 10's evaluation definition, threshold policy, release policy, and
+The repository keeps Session 09's evaluation definition, threshold policy, release policy, and
 generated `blocked-tool-process` self-test as source-controlled controls. The approved release/security-store
 interface retrieves baseline and candidate results into the temporary workspace for each gate check.
 
-The same interface retrieves a version 1 `security-release-attestation` for Session 11. The
+The same interface retrieves a version 1 `security-release-attestation` for Session 10. The
 temporary artifact must show external authorization status `authorized`, a report location, a
 confirmed comparison for the release agent's approved baseline and remediated versions, lower
 aggregate attack success, per-risk non-regression, blocked prohibited actions, and all five privacy
@@ -28,9 +28,9 @@ Keep the approved commit SHA outside the release commit. An authorized operator 
 SHA as `workflow_dispatch.release_sha`. Every promotion checkout uses that ref, and deployment
 commands pass it as the runtime `releaseCommitSha`.
 
-The `nonproduction` GitHub environment provides Session 12's normal and failure URLs, Application
+The `nonproduction` GitHub environment provides Session 11's normal and failure URLs, Application
 Insights and Log Analytics resource IDs, and bounded polling settings. Its bearer token is an
-environment secret. Session 12 owns the retry loop; this session validates the timeout, retry, and
+environment secret. Session 11 owns the retry loop; this session validates the timeout, retry, and
 attempt fields without querying telemetry a second time.
 
 GitHub owns workflow, environment, and deployment metadata. Azure Resource Manager owns deployment

@@ -29,7 +29,7 @@ Other templates, the portal, CLI, and APIs can bypass it. The cloud platform tea
 policy, permission, inventory, or change-control design for those paths.
 
 This session excludes instant-access and managed-compute models. Sessions 01-02 establish the
-Foundry baseline and private path. Session 10 owns release evaluation.
+Foundry baseline and private path. Session 09 owns release evaluation.
 
 ## Architecture
 

@@ -12,7 +12,7 @@
 Use the exact resource-group scope and selector pair in the approved change record. The regional
 contract names the expected values for each path.
 
-Session 13 promotes infrastructure and policy. This runbook moves one selector and restores it.
+Session 12 promotes infrastructure and policy. This runbook moves one selector and restores it.
 
 ## Rehearsal
 

@@ -62,7 +62,7 @@ done
 
 environment_json=$(cat "$environment_path")
 deployment_json=$(az deployment group create \
-  --name session08-api-center-inventory \
+  --name session07-api-center-inventory \
   --resource-group "$(jq -r '.resourceGroupName' <<<"$environment_json")" \
   --template-file "$bicep_path" \
   --parameters \
@@ -72,7 +72,7 @@ deployment_json=$(az deployment group create \
     "location=$(jq -r '.location' <<<"$environment_json")" \
     "session04AgentBaseUrl=$session04_agent_base_url" \
   --only-show-errors \
-  --output json 2>&1) || fail "Session 08 API Center deployment failed.\n$deployment_json"
+  --output json 2>&1) || fail "Session 07 API Center deployment failed.\n$deployment_json"
 
 specification='{"name":"openapi","version":"3.0.3"}'
 import_output=$(az apic api definition import-specification \
@@ -101,10 +101,10 @@ else
     --import-specification always \
     --target-lifecycle-stage testing \
     --only-show-errors \
-    --output none 2>&1) || fail "Creating the Session 07 APIM integration failed.\n$integration_output"
+    --output none 2>&1) || fail "Creating the Session 06 APIM integration failed.\n$integration_output"
 fi
 
-echo 'Deployed the marked Session 08 API Center control.'
+echo 'Deployed the marked Session 07 API Center control.'
 echo "API Center: $(jq -r '.properties.outputs.apiCenterId.value // empty' <<<"$deployment_json")"
 echo 'APIM synchronization can take up to 24 hours.'
 echo "Confirm the current '$(jq -r '.apiCenterPlan' <<<"$environment_json")' plan in the API Center portal; the stable 2024-03-01 Bicep service resource does not expose plan selection."

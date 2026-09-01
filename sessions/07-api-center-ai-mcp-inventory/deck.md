@@ -10,7 +10,7 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation · Session 08</p>
+<p class="eyebrow">AI Governance Co-implementation · Session 06</p>
 
 # Azure API Center and the AI/MCP inventory
 
@@ -20,16 +20,16 @@ html: true
 
 ## Why it matters
 
-> Add the Session 04 agent API, synchronize the Session 07 APIM API, and register an approved remote MCP server in API Center.
+> Add the Session 04 agent API, synchronize the Session 06 APIM API, and register an approved remote MCP server in API Center.
 
 By the end of the session:
 
 - A tagged API Center holds the direct agent definition and required metadata schema.
-- Its managed identity reads the exact Session 07 APIM service.
+- Its managed identity reads the exact Session 06 APIM service.
 - The approved remote MCP server is registered through the native portal flow.
 - The inventory check finds the three entries once, with their required metadata.
 
-API Center supports discovery. APIM and Session 09 control runtime use.
+API Center supports discovery. APIM and Session 08 control runtime use.
 
 <!-- Notes: Keep the boundary clear. This is inventory, not runtime authorization. -->
 
@@ -87,7 +87,7 @@ Every entry records:
 - business and technical owner;
 - asset kind, classification, and permitted consumers;
 - model/provider, residency profile, and risk tier;
-- evaluation destination, review date, expiry date, and Session 08 marker.
+- evaluation destination, review date, expiry date, and Session 06 marker.
 
 Stop for unresolved values, embedded credentials, a write-capable MCP server, local `stdio`, or an
 expiry date with no operating response.
@@ -124,10 +124,10 @@ Initial APIM synchronization can take up to 24 hours. Do not create a duplicate 
 - JSON, OpenAPI, and Bicep parse or compile.
 - Runtime URLs are remote HTTPS values and stay outside source control.
 - Azure CLI targets the approved subscription and resource group.
-- The region, APIM tier, Session 07 marker, reader role, and names match.
+- The region, APIM tier, Session 06 marker, reader role, and names match.
 - The preview changes only the marked API Center scope and exact reader assignment.
 
-The reader role is `71522526-b88f-4d52-b57f-d31fc3546d0d` on the Session 07 APIM service.
+The reader role is `71522526-b88f-4d52-b57f-d31fc3546d0d` on the Session 06 APIM service.
 
 <!-- Notes: Stop on unrelated replacement, removal, or broader access. -->
 
@@ -139,7 +139,7 @@ Run the paired `check-inventory` script after synchronization and MCP registrati
 
 Expected result:
 
-- The direct agent API, synchronized Session 07 API, and MCP server each appear once.
+- The direct agent API, synchronized Session 06 API, and MCP server each appear once.
 - Required metadata is complete.
 - The APIM integration points to the approved source.
 - The script writes no inventory export.
@@ -173,7 +173,7 @@ deployment location and runtime health there too. This is not end-to-end runtime
 
 Confirm no later session or approved consumer relies on the inventory.
 
-Check the Session 08 marker, remove the exact APIM reader assignment, then delete only the marked API Center.
+Check the Session 06 marker, remove the exact APIM reader assignment, then delete only the marked API Center.
 
 APIM, Foundry, the MCP runtime, runtime policies, and repository definitions remain.
 
@@ -184,18 +184,18 @@ APIM, Foundry, the MCP runtime, runtime policies, and repository definitions rem
 
 ---
 
-## Handoff to Session 09
+## Handoff to Session 08
 
-Session 08 leaves:
+Session 06 leaves:
 
 - one searchable design-time inventory;
 - three selected assets with named owners and lifecycle metadata;
 - a read-only APIM source integration; and
 - production-shaped deployment and check scripts.
 
-[Session 09](../09-mcp-tool-security/) constrains MCP identities, tools, arguments, outputs, and side effects.
+[Session 08](../08-mcp-tool-security/) constrains MCP identities, tools, arguments, outputs, and side effects.
 
-<!-- Notes: Inventory says what exists. Session 09 governs what the tools can do. -->
+<!-- Notes: Inventory says what exists. Session 08 governs what the tools can do. -->
 
 ---
 

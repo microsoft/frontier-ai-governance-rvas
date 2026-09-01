@@ -1,6 +1,6 @@
 # APIM model-routing decision
 
-This record defines the Session 07 APIM gateway routing decision. APIM is authoritative for the
+This record defines the Session 06 APIM gateway routing decision. APIM is authoritative for the
 live backend pool and policy. The deployment must preserve this owner-approved boundary.
 
 ## Lifecycle
@@ -9,7 +9,7 @@ live backend pool and policy. The deployment must preserve this owner-approved b
 |---|---|
 | Update owner | `__REQUIRED_PLATFORM_OWNER__` |
 | Review cadence | Every 90 days and before enabling, disabling, or replacing a secondary backend |
-| Consumer | The API product owner approves routing changes with this record. The platform owner applies them through `gateway-control.json` and the Session 07 deployment path. |
+| Consumer | The API product owner approves routing changes with this record. The platform owner applies them through `gateway-control.json` and the Session 06 deployment path. |
 
 | Field | Decision |
 |---|---|
@@ -55,7 +55,7 @@ decision.
 ## Token counter boundary
 
 APIM token counters are local to each gateway. For multi-region routing, the API product owner
-splits the approved workload allowance by region in Session 14. Do not assume a shared global
+splits the approved workload allowance by region in Session 12. Do not assume a shared global
 counter.
 
 ## Streaming token accounting

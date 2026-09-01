@@ -11,7 +11,7 @@ return `PASS`. The in-memory tool-process regression must return `BLOCK`.
 ### Why it matters
 
 The gate gives the release owner one usable decision without averaging away a failed tool path or
-safety metric. Session 13 can run the same command before promotion.
+safety metric. Session 12 can run the same command before promotion.
 
 ### Boundaries
 
@@ -24,7 +24,7 @@ repository stores the evaluation definition, synthetic data, thresholds, release
 and restore runbook.
 
 The gate decides eligibility. It does not promote an agent or change the stable selector. Preview
-task-adherence, prohibited-action, and sensitive-data-leakage evaluators stay advisory. Session 09
+task-adherence, prohibited-action, and sensitive-data-leakage evaluators stay advisory. Session 08
 remains the authorization boundary for prohibited writes.
 
 ## Architecture
@@ -58,7 +58,7 @@ Confirm the following:
 
 - The platform inventory names the exact nonproduction Foundry resource, project, policy-assistant
   agent, approved version, candidate version, and stable-endpoint selector. The platform owner
-  confirms that its stable endpoint selects the approved version. (Sessions 03, 04, 05, and 09.)
+  confirms that its stable endpoint selects the approved version. (Sessions 03, 04, 05, and 08.)
 - The approved and candidate versions are different immutable versions of the policy-assistant
   agent.
 - The operator and project managed identity have **Foundry User** on the exact project.
@@ -73,10 +73,10 @@ Confirm the following:
 
 | Type | File | Consumer |
 |---|---|---|
-| Runtime | [`artifacts/eval/evaluation-spec.json`](artifacts/eval/evaluation-spec.json) | The evaluation runner, release gate, preflight scripts, and Session 13 validators |
+| Runtime | [`artifacts/eval/evaluation-spec.json`](artifacts/eval/evaluation-spec.json) | The evaluation runner, release gate, preflight scripts, and Session 12 validators |
 | Runtime | [`artifacts/eval/data/golden-v1.jsonl`](artifacts/eval/data/golden-v1.jsonl) | The evaluation runner and release gate |
-| Deployment | [`artifacts/eval/thresholds.yaml`](artifacts/eval/thresholds.yaml) | The release gate, preflight scripts, and Session 13 validators |
-| Deployment | [`artifacts/release/release-policy.json`](artifacts/release/release-policy.json) | The release owner, release gate, preflight scripts, and Session 13 promotion workflow |
+| Deployment | [`artifacts/eval/thresholds.yaml`](artifacts/eval/thresholds.yaml) | The release gate, preflight scripts, and Session 12 validators |
+| Deployment | [`artifacts/release/release-policy.json`](artifacts/release/release-policy.json) | The release owner, release gate, preflight scripts, and Session 12 promotion workflow |
 | Record | [`artifacts/operations/disable-and-restore.md`](artifacts/operations/disable-and-restore.md) | The release owner and incident operator |
 
 ## Decisions and stop conditions
@@ -203,7 +203,7 @@ python ./scripts/release-gate.py \
   --expect pass
 ```
 
-`PASS` makes the fixed candidate eligible for the approved Session 13 delivery path. `BLOCK` leaves
+`PASS` makes the fixed candidate eligible for the approved Session 12 delivery path. `BLOCK` leaves
 the approved version pinned. Remediate the failed layer and evaluate a new fixed candidate.
 
 ## Confirm the result
@@ -251,7 +251,7 @@ safety remain passing.
 ### Delivery-owner checkpoint
 
 The release owner reviews both outcomes in the approved release platform. A blocked candidate
-stays unpinned. After a successful checkpoint, the owner may enable the gate for Session 13. The
+stays unpinned. After a successful checkpoint, the owner may enable the gate for Session 12. The
 gate still cannot promote a version.
 
 ## After implementation

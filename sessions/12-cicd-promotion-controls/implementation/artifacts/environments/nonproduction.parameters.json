@@ -6,7 +6,7 @@
       "value": "nonproduction"
     },
     "implementationSession": {
-      "value": "13-cicd-promotion-controls"
+      "value": "12-cicd-promotion-controls"
     },
     "promptVersion": {
       "value": "__REQUIRED_PROMPT_VERSION__"

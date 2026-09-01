@@ -1141,7 +1141,7 @@ const loadSessions = async (serviceRegistry) => {
   }
 
   const expectedIds = Array.from(
-    { length: 14 },
+    { length: 13 },
     (_, index) => String(index + 1).padStart(2, "0"),
   );
   if (
@@ -1149,7 +1149,7 @@ const loadSessions = async (serviceRegistry) => {
     expectedIds.some((id) => !ids.has(id))
   ) {
     throw new Error(
-      `Expected exactly the continuous 01-14 session series. Found: ${[...ids.keys()].join(", ") || "none"}.`,
+      `Expected exactly the continuous 01-13 session series. Found: ${[...ids.keys()].join(", ") || "none"}.`,
     );
   }
 
@@ -1439,7 +1439,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
     },
     {
       key: "operations",
-      range: "13–14",
+      range: "13",
       label: "Operate at scale",
       sessions: sessions.filter(({ phase }) => phase.key === "operations"),
     },
@@ -1455,16 +1455,16 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
     {
       id: "secure-private-platform",
       name: "Secure private platform",
-      sessionNumbers: [1, 2, 3, 4, 6, 7],
-      filterLabel: "01–04 + 06–07",
+      sessionNumbers: [1, 2, 3, 4, 6],
+      filterLabel: "01–04 + 06",
       outcome:
         "The governed agent runs through API Management with identity, limits, and content safety applied at the gateway.",
     },
     {
       id: "api-mcp-governance",
       name: "API and MCP governance",
-      sessionNumbers: [1, 2, 3, 4, 6, 7, 8, 9],
-      filterLabel: "01–04 + 06–09",
+      sessionNumbers: [1, 2, 3, 4, 6, 7, 8],
+      filterLabel: "01–04 + 06–08",
       outcome:
         "API and MCP inventory, authorization, tool scope, and runtime telemetry are connected around the governed agent.",
     },
@@ -1478,16 +1478,16 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
     {
       id: "security-operations",
       name: "Security operations",
-      sessionNumbers: [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12],
-      filterLabel: "01–04 + 06–12",
+      sessionNumbers: [1, 2, 3, 4, 6, 7, 8, 9, 10, 11],
+      filterLabel: "01–04 + 06–11",
       outcome:
         "Evaluation, red-team, telemetry, cost, alerting, and incident controls are operating around the service.",
     },
     {
       id: "llmops-release-operations",
       name: "LLMOps and release operations",
-      sessionNumbers: [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-      filterLabel: "01–04 + 06–14",
+      sessionNumbers: [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13],
+      filterLabel: "01–04 + 06–13",
       outcome:
         "The governed service moves through evaluation, operations, and protected promotion as one managed release path.",
     },
@@ -1581,7 +1581,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="A 14-session guided co-implementation series for practical Microsoft AI governance.">
+    <meta name="description" content="A 13-session guided co-implementation series for practical Microsoft AI governance.">
     <title>Practical Microsoft AI Governance</title>
     <link rel="icon" href="assets/img/logo-mark.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1658,7 +1658,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
       <section class="section program" id="program" aria-labelledby="program-title">
         <div class="section-heading section-heading--program">
           <div><p class="section-kicker">Session catalog</p><h2 id="program-title">Browse all ${sessions.length} sessions.</h2><p>Use a focused route, a service filter, or text search. The selected route or service stays in the URL, so you can share the filtered view.</p></div>
-          <p class="register-instruction">Optional modules stay outside this filter and the 14-session count.</p>
+          <p class="register-instruction">Optional modules stay outside this filter and the 13-session count.</p>
         </div>
         <div class="registry-controls">
           <label class="registry-search"><span>Search sessions</span><span class="registry-search__field"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"></circle><path d="m13 13 4 4"></path></svg><input type="search" autocomplete="off" placeholder="Title, control, outcome…" data-session-search></span></label>
@@ -1692,10 +1692,10 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
         <div class="section">
           <div class="section-heading"><div><h2 id="routes-title">Choose the implementation path you need.</h2><p>Full-platform routes start at Session 01. Agent 365 routes can enter with an approved Foundry, Copilot Studio, or Agent Builder agent.</p></div></div>
           <div class="route-choice">
-            <div class="route-choice__primary"><div><h3>Complete build · ${totalHours} working hours</h3><p>Run all ${sessions.length} sessions, from the platform baseline through controlled release and regional rehearsal.</p></div><ol class="route-choice__sequence"><li><span>1–5</span> Governed foundation</li><li><span>6–12</span> Live AI traffic controls</li><li><span>13–14</span> Operate at scale</li></ol><a class="button button--primary" data-route-clear href="#program">Browse all sessions</a></div>
+            <div class="route-choice__primary"><div><h3>Complete build · ${totalHours} working hours</h3><p>Run all ${sessions.length} sessions, from the platform baseline through controlled release and regional rehearsal.</p></div><ol class="route-choice__sequence"><li><span>1–5</span> Governed foundation</li><li><span>6–12</span> Live AI traffic controls</li><li><span>13</span> Operate at scale</li></ol><a class="button button--primary" data-route-clear href="#program">Browse all sessions</a></div>
             <div class="route-choice__heading"><div><h3>Focused routes</h3></div><div class="route-choice__legend" aria-label="Route phase colors"><span><i class="is-foundation"></i>Foundation</span><span><i class="is-runtime"></i>Live traffic</span><span><i class="is-operations"></i>Operations</span></div></div>
             <div class="route-paths" role="list">${routeCards}</div>
-            <p class="route-choice__note">Sessions 13–14 define substitute baselines for teams that enter the series without every earlier session.</p>
+            <p class="route-choice__note">Sessions 12–13 define substitute baselines for teams that enter the series without every earlier session.</p>
           </div>
         </div>
       </section>

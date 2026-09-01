@@ -30,7 +30,7 @@ $agentRecord = (Get-Content -LiteralPath $agentDefinitionPath -Raw | ConvertFrom
     -RemoteMcpServerUrl $RemoteMcpServerUrl
 
 $deploymentRaw = & az deployment group create `
-    --name "session08-api-center-inventory" `
+    --name "session07-api-center-inventory" `
     --resource-group ([string]$environment.resourceGroupName) `
     --template-file $bicepPath `
     --parameters `
@@ -42,7 +42,7 @@ $deploymentRaw = & az deployment group create `
     --only-show-errors `
     --output json
 if ($LASTEXITCODE -ne 0) {
-    throw "Session 08 API Center deployment failed."
+    throw "Session 07 API Center deployment failed."
 }
 $deployment = $deploymentRaw | ConvertFrom-Json -ErrorAction Stop
 
@@ -86,11 +86,11 @@ else {
         --only-show-errors `
         --output none
     if ($LASTEXITCODE -ne 0) {
-        throw "Creating the Session 07 APIM integration failed."
+        throw "Creating the Session 06 APIM integration failed."
     }
 }
 
-Write-Host "Deployed the marked Session 08 API Center control."
+Write-Host "Deployed the marked Session 07 API Center control."
 Write-Host "API Center: $($deployment.properties.outputs.apiCenterId.value)"
 Write-Host "APIM synchronization can take up to 24 hours."
 Write-Host "Confirm the current '$($environment.apiCenterPlan)' plan in the API Center portal; the stable 2024-03-01 Bicep service resource does not expose plan selection."

@@ -485,7 +485,7 @@ foreach ($requiredName in @(
 )) {
     if (-not $nonproductionVariables.ContainsKey($requiredName) -or
         [string]::IsNullOrWhiteSpace([string]$nonproductionVariables[$requiredName])) {
-        throw "nonproduction GitHub environment variable $requiredName is required for the Session 12 smoke."
+        throw "nonproduction GitHub environment variable $requiredName is required for the Session 11 smoke."
     }
 }
 $pollTimeout = 180
@@ -499,7 +499,7 @@ if ((-not [string]::IsNullOrWhiteSpace($pollTimeoutValue) -and
     $pollTimeout -lt 30 -or $pollTimeout -gt 600 -or
     $pollRetry -lt 5 -or $pollRetry -gt 60 -or
     $pollRetry -gt $pollTimeout) {
-    throw "Session 12 telemetry polling must use timeout 30-600 seconds and retry 5-60 seconds."
+    throw "Session 11 telemetry polling must use timeout 30-600 seconds and retry 5-60 seconds."
 }
 if (@($nonproductionSecretNames) -cnotcontains "session12_SMOKE_BEARER_TOKEN") {
     throw "nonproduction GitHub environment secret session12_SMOKE_BEARER_TOKEN is required."
@@ -572,7 +572,7 @@ if ([string]::IsNullOrWhiteSpace($BaselineRecordPath) -or
     -CandidateRecordPath $CandidateRecordPath `
     -SecurityReleaseAttestationPath $SecurityReleaseAttestationPath
 if (-not $?) {
-    throw "Session 10 evaluation dependencies or the external Session 11 security-release attestation are not ready."
+    throw "Session 09 evaluation dependencies or the external Session 10 security-release attestation are not ready."
 }
 
 Write-Host "Preview 1 of 2: nonproduction at $ApprovedNonproductionScope"

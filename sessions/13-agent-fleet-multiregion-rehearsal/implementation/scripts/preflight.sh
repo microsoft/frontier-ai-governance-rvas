@@ -103,7 +103,7 @@ if control.get("schemaVersion") != 2:
 if parameters.get("schemaVersion") != 2:
     raise SystemExit("region.parameters.json must use schemaVersion 2.")
 for document, name in ((control, "control-definition.json"), (parameters, "region.parameters.json")):
-    if document.get("implementationSession") != "14-agent-fleet-multiregion-rehearsal":
+    if document.get("implementationSession") != "13-agent-fleet-multiregion-rehearsal":
         raise SystemExit(f"{name} has the wrong implementationSession marker.")
 if str(control.get("approvedAzureScope", "")).casefold() != scope.casefold():
     raise SystemExit("Approved scope differs from the rehearsal contract.")
@@ -215,7 +215,7 @@ parameters = json.loads(Path(sys.argv[2]).read_text())
 primary = parameters["primary"]
 expected = parameters["expected"]
 required = {
-    "implementationSession": "14-agent-fleet-multiregion-rehearsal",
+    "implementationSession": "13-agent-fleet-multiregion-rehearsal",
     "status": "active",
     "region": primary["region"],
     "agentVersion": expected["agentVersion"],

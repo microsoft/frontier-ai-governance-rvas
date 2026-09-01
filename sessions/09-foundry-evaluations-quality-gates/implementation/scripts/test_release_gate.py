@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run stable in-memory checks against the Session 10 gate decision code."""
+"""Run stable in-memory checks against the Session 09 gate decision code."""
 
 from __future__ import annotations
 
@@ -70,7 +70,7 @@ def aggregate_record(
         )
     return {
         "schemaVersion": 1,
-        "implementationSession": "10-foundry-evaluations-quality-gates",
+        "implementationSession": "09-foundry-evaluations-quality-gates",
         "recordType": "generated-gate-self-test",
         "run": {
             "runId": run_id,

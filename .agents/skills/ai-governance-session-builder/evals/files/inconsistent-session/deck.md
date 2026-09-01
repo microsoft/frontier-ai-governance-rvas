@@ -8,7 +8,7 @@ style: |
 
 # Azure AI Studio evaluations
 
-Session 11 · 3 hours
+Session 10 · 3 hours
 
 ---
 

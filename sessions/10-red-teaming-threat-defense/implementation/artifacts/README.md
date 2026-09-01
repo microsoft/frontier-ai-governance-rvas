@@ -1,4 +1,4 @@
-# Session 11 implementation artifacts
+# Session 10 implementation artifacts
 
 The repository keeps the definitions that operators reuse:
 

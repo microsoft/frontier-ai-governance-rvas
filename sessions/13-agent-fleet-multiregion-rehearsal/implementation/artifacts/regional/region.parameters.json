@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "implementationSession": "14-agent-fleet-multiregion-rehearsal",
+  "implementationSession": "13-agent-fleet-multiregion-rehearsal",
   "primary": {
     "region": "__REQUIRED_PRIMARY_REGION__",
     "selector": "__REQUIRED_PRIMARY_ROUTING_SELECTOR__",

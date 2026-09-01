@@ -18,7 +18,7 @@ param contentSafetyBackendId string
 @description('Whether to deploy a distinct secondary Foundry agent backend.')
 param secondaryBackendEnabled bool = false
 
-var implementationSession = '07-apim-ai-gateway-implementation'
+var implementationSession = '06-apim-ai-gateway'
 var control = loadJsonContent('../governance/gateway-control.json')
 var openApiDocument = loadTextContent('apis/policy-assistant-responses.openapi.json')
 var rawPolicy = loadTextContent('policies/policy.xml')
@@ -40,16 +40,16 @@ var partiallyResolvedPolicy = replace(
                     replace(
                       rawPolicy,
                       '__NAMED_VALUE_ENTRA_TENANT_ID__',
-                      '${openBrace}${openBrace}session07-entra-tenant-id${closeBrace}${closeBrace}'
+                      '${openBrace}${openBrace}session06-entra-tenant-id${closeBrace}${closeBrace}'
                     ),
                     '__NAMED_VALUE_CLIENT_APPLICATION_ID__',
-                    '${openBrace}${openBrace}session07-client-application-id${closeBrace}${closeBrace}'
+                    '${openBrace}${openBrace}session06-client-application-id${closeBrace}${closeBrace}'
                   ),
                   '__NAMED_VALUE_API_AUDIENCE__',
-                  '${openBrace}${openBrace}session07-api-audience${closeBrace}${closeBrace}'
+                  '${openBrace}${openBrace}session06-api-audience${closeBrace}${closeBrace}'
                 ),
                 '__NAMED_VALUE_REQUIRED_APP_ROLE__',
-                '${openBrace}${openBrace}session07-required-app-role${closeBrace}${closeBrace}'
+                '${openBrace}${openBrace}session06-required-app-role${closeBrace}${closeBrace}'
               ),
               '__REQUEST_MAX_BYTES__',
               string(control.limits.requestMaxBytes)
@@ -109,9 +109,9 @@ resource applicationInsightsLogger 'Microsoft.ApiManagement/service/loggers@2024
 
 resource tenantId 'Microsoft.ApiManagement/service/namedValues@2024-05-01' = {
   parent: apim
-  name: 'session07-entra-tenant-id'
+  name: 'session06-entra-tenant-id'
   properties: {
-    displayName: 'session07-entra-tenant-id'
+    displayName: 'session06-entra-tenant-id'
     secret: false
     tags: [
       implementationSession
@@ -122,9 +122,9 @@ resource tenantId 'Microsoft.ApiManagement/service/namedValues@2024-05-01' = {
 
 resource clientApplicationId 'Microsoft.ApiManagement/service/namedValues@2024-05-01' = {
   parent: apim
-  name: 'session07-client-application-id'
+  name: 'session06-client-application-id'
   properties: {
-    displayName: 'session07-client-application-id'
+    displayName: 'session06-client-application-id'
     secret: false
     tags: [
       implementationSession
@@ -135,9 +135,9 @@ resource clientApplicationId 'Microsoft.ApiManagement/service/namedValues@2024-0
 
 resource apiAudience 'Microsoft.ApiManagement/service/namedValues@2024-05-01' = {
   parent: apim
-  name: 'session07-api-audience'
+  name: 'session06-api-audience'
   properties: {
-    displayName: 'session07-api-audience'
+    displayName: 'session06-api-audience'
     secret: false
     tags: [
       implementationSession
@@ -148,9 +148,9 @@ resource apiAudience 'Microsoft.ApiManagement/service/namedValues@2024-05-01' = 
 
 resource requiredAppRole 'Microsoft.ApiManagement/service/namedValues@2024-05-01' = {
   parent: apim
-  name: 'session07-required-app-role'
+  name: 'session06-required-app-role'
   properties: {
-    displayName: 'session07-required-app-role'
+    displayName: 'session06-required-app-role'
     secret: false
     tags: [
       implementationSession
@@ -166,7 +166,7 @@ resource primaryBackend 'Microsoft.ApiManagement/service/backends@2024-05-01' = 
     type: 'Single'
     protocol: 'http'
     url: primaryAgentBaseUrl
-    title: 'Session 07 primary Foundry agent backend'
+    title: 'Session 06 primary Foundry agent backend'
     description: 'implementationSession=${implementationSession}; priority=${control.routing.primaryPriority}'
     circuitBreaker: {
       rules: [
@@ -205,7 +205,7 @@ resource secondaryBackend 'Microsoft.ApiManagement/service/backends@2024-05-01' 
     type: 'Single'
     protocol: 'http'
     url: secondaryAgentBaseUrl
-    title: 'Session 07 secondary Foundry agent backend'
+    title: 'Session 06 secondary Foundry agent backend'
     description: 'implementationSession=${implementationSession}; priority=${control.routing.secondaryPriority}'
     circuitBreaker: {
       rules: [
@@ -242,7 +242,7 @@ resource backendPool 'Microsoft.ApiManagement/service/backends@2024-05-01' = {
   name: backendPoolId
   properties: {
     type: 'Pool'
-    title: 'Session 07 governed agent backend pool'
+    title: 'Session 06 governed agent backend pool'
     description: 'implementationSession=${implementationSession}; primary-first routing'
     pool: {
       services: backendServices

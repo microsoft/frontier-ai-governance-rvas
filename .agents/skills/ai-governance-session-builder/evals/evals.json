@@ -20,8 +20,8 @@
     },
     {
       "id": 2,
-      "prompt": "Create Session 09, \"MCP and tool security,\" as a complete 210-minute extended guided co-implementation kit. Govern a read-only REST API exposed as an MCP server through Azure API Management. The customer release process explicitly requires observation of an approved read, a blocked unlisted tool or write, and a delivery-owner checkpoint. Record that reason in the manifest. Do not create test fixtures or an evidence package.",
-      "expected_output": "A complete schema-version 2 sessions/09-mcp-tool-security kit with current sources and a justified extended implementation path.",
+      "prompt": "Create Session 08, \"MCP and tool security,\" as a complete 210-minute extended guided co-implementation kit. Govern a read-only REST API exposed as an MCP server through Azure API Management. The customer release process explicitly requires observation of an approved read, a blocked unlisted tool or write, and a delivery-owner checkpoint. Record that reason in the manifest. Do not create test fixtures or an evidence package.",
+      "expected_output": "A complete schema-version 2 sessions/08-mcp-tool-security kit with current sources and a justified extended implementation path.",
       "files": [],
       "expectations": [
         "The session declares extended mode with a specific delivery reason.",
@@ -34,7 +34,7 @@
     },
     {
       "id": 3,
-      "prompt": "Audit and repair the attached inconsistent Session 11 draft. Preserve its four-hour control scope while migrating it to the implementation-first schema-version 2 contract. Justify extended mode because the release owner must observe both passing and blocked promotion behavior. Replace stale terminology and sources, add production-shaped evaluation and release-gate artifacts, repair preflight, restore the RVAP deck, and keep restore guidance proportional to the implemented control. Do not add an evidence tree or lab test fixtures.",
+      "prompt": "Audit and repair the attached inconsistent Session 10 draft. Preserve its four-hour control scope while migrating it to the implementation-first schema-version 2 contract. Justify extended mode because the release owner must observe both passing and blocked promotion behavior. Replace stale terminology and sources, add production-shaped evaluation and release-gate artifacts, repair preflight, restore the RVAP deck, and keep restore guidance proportional to the implemented control. Do not add an evidence tree or lab test fixtures.",
       "expected_output": "A repaired schema-version 2 sessions/11-evaluation-quality-gates kit that validates and renders.",
       "files": [
         "evals/files/inconsistent-session/session.yaml",

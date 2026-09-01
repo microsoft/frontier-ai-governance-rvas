@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any
 
 
-IMPLEMENTATION_SESSION = "11-red-teaming-threat-defense"
+IMPLEMENTATION_SESSION = "10-red-teaming-threat-defense"
 PRIVACY_FIELDS = (
     "containsAttackPrompts",
     "containsAgentResponses",
@@ -256,7 +256,7 @@ def main() -> int:
             "containsPromptEvidence": False,
         },
         "implementationMarker": (
-            "implementationSession=11-red-teaming-threat-defense"
+            "implementationSession=10-red-teaming-threat-defense"
         ),
     }
     write_json(require_external_output(args.output), report)

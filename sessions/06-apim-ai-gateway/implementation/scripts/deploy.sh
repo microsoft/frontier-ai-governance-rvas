@@ -22,7 +22,7 @@ bicep_path="$script_dir/../artifacts/gateway/main.bicep"
 approved_subscription_id=""
 primary_agent_base_url=""
 secondary_agent_base_url=""
-design_record_path="$script_dir/../../../06-apim-ai-gateway-design/implementation/artifacts/gateway-design-record.json"
+design_record_path="$script_dir/../artifacts/gateway-design-record.json"
 while (($# > 0)); do
   case "$1" in
     --approved-subscription-id)
@@ -62,7 +62,7 @@ done
 "$script_dir/preflight.sh" --approved-subscription-id "$approved_subscription_id" --primary-agent-base-url "$primary_agent_base_url" --secondary-agent-base-url "$secondary_agent_base_url" --design-record-path "$design_record_path"
 
 deployment_json=$(az deployment group create \
-  --name session07-apim-ai-gateway-implementation \
+  --name session06-apim-ai-gateway \
   --resource-group "$(jq -r '.resourceGroupName' "$environment_path")" \
   --template-file "$bicep_path" \
   --parameters \
@@ -73,9 +73,9 @@ deployment_json=$(az deployment group create \
     "contentSafetyBackendId=$(jq -r '.contentSafetyBackendId' "$environment_path")" \
     "secondaryBackendEnabled=$(jq -r '.secondaryBackendEnabled' "$environment_path")" \
   --only-show-errors \
-  --output json 2>&1) || fail "Session 07 API Management deployment failed.\n$deployment_json"
+  --output json 2>&1) || fail "Session 06 API Management deployment failed.\n$deployment_json"
 
 gateway_path=$(jq -r '.properties.outputs.gatewayPath.value // empty' <<<"$deployment_json")
-echo 'Deployed Session 07 API Management control.'
+echo 'Deployed Session 06 API Management control.'
 echo "Gateway path: $gateway_path"
 echo 'The product owner must issue or approve a workload-specific product subscription before client use.'

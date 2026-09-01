@@ -10,7 +10,7 @@
 
 ## Scope and first actions
 
-This runbook covers the Session 12 service path: gateway, model, agent, tool, evaluation signals,
+This runbook covers the Session 11 service path: gateway, model, agent, tool, evaluation signals,
 and telemetry. Use the correlation ID and approved configuration references. Do not paste prompts,
 responses, tool payloads, credentials, or personal data into tickets or this repository.
 
@@ -26,8 +26,8 @@ responses, tool payloads, credentials, or personal data into tickets or this rep
 ## Unsafe output
 
 - The service owner disables or routes away from the affected immutable agent/model version.
-- Keep the [Session 09](../../../../09-mcp-tool-security/implementation/README.md) independent tool authorization boundary enforced.
-- Inspect the correlated trace and [Session 10](../../../../10-foundry-evaluations-quality-gates/implementation/README.md)/[Session 11](../../../../11-red-teaming-threat-defense/implementation/README.md) evaluation or red-team records in their governed
+- Keep the [Session 08](../../../../08-mcp-tool-security/implementation/README.md) independent tool authorization boundary enforced.
+- Inspect the correlated trace and [Session 09](../../../../09-foundry-evaluations-quality-gates/implementation/README.md)/[Session 10](../../../../10-red-teaming-threat-defense/implementation/README.md) evaluation or red-team records in their governed
   systems.
 - Notify the AI safety, service, data-protection, and security operations owners.
 - Restore service only through a newly reviewed version and the existing quality gate.
@@ -51,17 +51,17 @@ responses, tool payloads, credentials, or personal data into tickets or this rep
 - The credential owner uses the approved secret-management process; never place credentials in
   incident notes.
 - Before restoring the tool, the identity owner confirms the current scoped access required by
-  [Session 07](../../../../07-apim-ai-gateway-implementation/implementation/README.md) and
-  [Session 09](../../../../09-mcp-tool-security/implementation/README.md). The data, security,
+  [Session 06](../../../../06-apim-ai-gateway/implementation/README.md) and
+  [Session 08](../../../../08-mcp-tool-security/implementation/README.md). The data, security,
   and service owners repeat their applicable
   [Session 05](../../../../05-agent-365-access-boundary/implementation/README.md) and
-  [Session 11](../../../../11-red-teaming-threat-defense/implementation/README.md) checks.
+  [Session 10](../../../../10-red-teaming-threat-defense/implementation/README.md) checks.
 
 ## Model degradation
 
 - The service owner routes to the last approved model deployment or disables the affected route.
 - Compare latency, errors, token behavior, quality, safety, and tool-process metrics separately.
-- Run the approved [Session 10](../../../../10-foundry-evaluations-quality-gates/implementation/README.md) evaluation against the candidate replacement.
+- Run the approved [Session 09](../../../../09-foundry-evaluations-quality-gates/implementation/README.md) evaluation against the candidate replacement.
 - Confirm quota, regional health, model version, content-control, and gateway routing changes.
 - Restore only after the release owner accepts the evaluation result.
 

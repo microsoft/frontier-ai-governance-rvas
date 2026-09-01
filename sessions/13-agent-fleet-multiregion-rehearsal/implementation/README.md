@@ -15,7 +15,7 @@ checks that ability for one service.
 
 ### Boundaries
 
-The selected service already has both regional paths. Session 13 promotes infrastructure and API
+The selected service already has both regional paths. Session 12 promotes infrastructure and API
 Management policy. This session moves one approved selector through the customer routing control.
 It does not deploy infrastructure, change policy, update identity, or review the fleet inventory.
 
@@ -59,7 +59,7 @@ Confirm:
 | Regional paths | The governed service has deployed primary and secondary paths. |
 | Agent | The platform owner confirms the immutable agent version and Entra identity. |
 | Gateway | The gateway owner confirms the API Management policy version and both endpoints. |
-| Trace | The primary path reports the expected trace fields. (Sessions 04, 07, 09, 12, and 13.) |
+| Trace | The primary path reports the expected trace fields. (Sessions 04, 06, 08, 11, and 12.) |
 | Change | The approved change record names the exact resource-group scope, both selectors, maintenance window, delivery owner, and restore owner. |
 | Controls | The approved PowerShell and Bash health and routing controls accept the documented parameters. The routing owner confirms that `Preview`, `Failover`, and `Restore` change only the named selector. |
 | Access | The rehearsal operator has time-bound access for the approved scope. A customer-managed runtime directory exists outside the repository. |
@@ -68,8 +68,8 @@ Confirm:
 
 | Type | File | Consumer |
 |---|---|---|
-| Runtime | [`artifacts/control-definition.json`](artifacts/control-definition.json) | The Session 14 preflight scripts and regional rehearsal operators |
-| Runtime | [`artifacts/regional/region.parameters.json`](artifacts/regional/region.parameters.json) | The Session 14 preflight scripts and rehearsal wrappers |
+| Runtime | [`artifacts/control-definition.json`](artifacts/control-definition.json) | The Session 13 preflight scripts and regional rehearsal operators |
+| Runtime | [`artifacts/regional/region.parameters.json`](artifacts/regional/region.parameters.json) | The Session 13 preflight scripts and rehearsal wrappers |
 | Record | [`artifacts/regional/failover-runbook.md`](artifacts/regional/failover-runbook.md) | The service continuity and routing operators |
 
 `control-definition.json` binds the approved scope to the customer controls. The health control
@@ -165,5 +165,5 @@ The service continuity owner keeps the runbook current. The platform owner maint
 regional contract. The routing owner maintains the customer controls.
 
 Keep the secondary path deployed. End temporary access through the customer process. Record the
-rehearsal outcome in the approved change record. Session 13 remains the path for infrastructure or
+rehearsal outcome in the approved change record. Session 12 remains the path for infrastructure or
 policy promotion.
