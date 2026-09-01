@@ -17,6 +17,15 @@ sandbox:
   agent:
     sudo: false
 
+network:
+  allowed:
+    - learn.microsoft.com
+    - ai.azure.com
+    - modelcontextprotocol.io
+    - owasp.org
+    - nvlpubs.nist.gov
+    - fonts
+
 tools:
   cache-memory: true
   web-fetch:
