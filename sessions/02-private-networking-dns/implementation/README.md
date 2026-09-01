@@ -70,7 +70,7 @@ firewall permits traffic.
 Confirm these requirements:
 
 - The approved nonproduction VNet, route table, delegated Agent Service subnet, and private-endpoint
-  subnet exist in the recorded scope. The landing-zone owner confirms their resource IDs and the
+  subnet exist in the recorded scope. The landing-zone owner checks their resource IDs and the
   approved execution host reaches the VNet. ([Session 01](../../01-platform-baseline/implementation/README.md).)
 - The parameter file has the approved VNet and private-endpoint subnet resource IDs.
 - Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault exist in that exact scope.

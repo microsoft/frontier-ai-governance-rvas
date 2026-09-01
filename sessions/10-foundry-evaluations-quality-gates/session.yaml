@@ -11,7 +11,7 @@ session:
     - "AI safety, quality, and application owners"
     - "Release owners responsible for agent promotion"
   prerequisites:
-    - "The platform inventory names the exact nonproduction Foundry resource, project, policy-assistant agent, approved version, candidate version, and stable-endpoint selector. The platform owner confirms that the stable endpoint selects the approved version. (Sessions 03, 04, 05, and 09.)"
+    - "The platform inventory names the exact nonproduction Foundry resource, project, policy-assistant agent, approved version, candidate version, and stable-endpoint selector. The platform owner confirms that its stable endpoint selects the approved version. (Sessions 03, 04, 05, and 09.)"
     - "The stable endpoint selects the approved version. The Session 09 `get_policy` path reads successfully, and the prohibited write is absent or denied."
     - "The evaluation operator and Foundry project managed identity have Foundry User on the exact Foundry project. A network-isolated project also has an approved delegated evaluation subnet."
     - "The quality owner records a same-day region and evaluator support check in the release policy because no stable support-discovery API is assumed."

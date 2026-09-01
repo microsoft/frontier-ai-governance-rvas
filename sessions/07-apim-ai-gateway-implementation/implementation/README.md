@@ -73,7 +73,7 @@ Confirm the following:
 - The approved [Session 06 gateway design](../../06-apim-ai-gateway-design/implementation/README.md)
   record uses `ready-for-implementation`, has no open readiness gaps, names this APIM instance,
   and selects `foundry-agent-service` with the `policy-assistant-responses` variant. The delivery
-  owner confirms those values. (Session 06.)
+  owner confirms this record. (Session 06.)
 - The target Foundry Agent Service policy assistant exposes a pinned Entra-authorized Responses
   endpoint that matches `sandbox.json`. The Foundry platform owner confirms the endpoint and
   network path. (Sessions 02-04.)

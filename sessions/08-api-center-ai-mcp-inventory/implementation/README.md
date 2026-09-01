@@ -72,8 +72,8 @@ tool-security work.
 Confirm these requirements:
 
 - The approved nonproduction Foundry agent endpoint and APIM API are available. The platform and
-  gateway owners confirm the endpoint, the marked `policy-assistant-responses` API, and their
-  resource scopes. (Sessions 02, 04, and 07.)
+  gateway owners confirm the endpoint, marked `policy-assistant-responses` API, and both resource
+  scopes. (Sessions 02, 04, and 07.)
 - The deployment operator has time-bound **Contributor** on the exact API Center resource group.
 - The role-assignment operator has time-bound **User Access Administrator** on the exact APIM
   instance. This permits the API Center identity to receive **API Management Service Reader

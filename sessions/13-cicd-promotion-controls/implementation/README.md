@@ -70,7 +70,7 @@ Complete these items before facilitated work:
 
 - An approved release control set can be inspected: release metadata binds one commit to the
   immutable agent, APIM policy, evaluation inputs, and Bicep parameters; the quality owner can
-  retrieve a passing gate; the security owner can retrieve the matching adversarial result; and the
+  retrieve a passing release-gate result; the security owner can retrieve the matching adversarial result; and the
   observability owner can run the smoke check. (Sessions 04, 07, and 09-12.)
 - Use the approved repository and protected default branch. Select an approved 40-character SHA
   reachable from that branch; do not store the selected SHA in its own commit.

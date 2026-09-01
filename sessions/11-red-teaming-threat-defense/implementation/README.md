@@ -62,7 +62,7 @@ Confirm these prerequisites:
 
 - A governed nonproduction agent is ready for authorized testing: the platform inventory identifies
   immutable baseline and remediated versions, the gateway and tool owners confirm the read-only
-  path and blocked prohibited write, and the quality owner confirms a passing release gate.
+  path and blocked prohibited write, and the quality owner retrieves a passing release-gate result.
   (Sessions 01-10.)
 - The approved change record names the exact project, agent, immutable versions, attack scope,
   synthetic-data boundary, run window, stop contact, and authorization reference.

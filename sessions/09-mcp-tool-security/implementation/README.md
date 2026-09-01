@@ -66,7 +66,7 @@ Confirm:
 - **An approved nonproduction MCP foundation is in place.** It includes a pinned Foundry policy
   assistant, an APIM-managed `GET` operation over synthetic policy records with no side effects,
   the private network paths required by the approved topology, and an API Center metadata update
-  process. The gateway owner confirms that `GET` returns approved fields without changing state;
+  process. The gateway owner checks that `GET` returns approved fields without changing state;
   the platform, network, and inventory owners confirm the remaining resources and configurations.
   (Sessions 02, 04, 07, and 08.)
 - The Foundry policy assistant is pinned to a known version.

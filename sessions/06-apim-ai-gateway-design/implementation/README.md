@@ -62,7 +62,7 @@ process changes APIM.
 ## Before you start
 
 The approved nonproduction scope and change reference name the delivery owner. That owner confirms
-the record is available for this design session. The owners of the target API product, caller
+the design record is available for the session. The owners of the target API product, caller
 identity, APIM identity, network route, safety policy, and telemetry must join or provide a
 documented decision.
 

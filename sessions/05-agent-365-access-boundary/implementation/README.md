@@ -68,7 +68,7 @@ Confirm the following before opening the portals:
 
 - A supported nonproduction agent appears in Agent Registry with **Available** status and supports
   group installation. The source-platform owner confirms its publication, runtime owner, and
-  approved lifecycle path. (See [Session 04](../../04-governed-agent-baseline/implementation/README.md)
+  approved lifecycle path. The runtime owner is named. (See [Session 04](../../04-governed-agent-baseline/implementation/README.md)
   for a Foundry agent.)
 - The Microsoft 365 administrator can open **Agents > All agents > Registry**, find the agent with
   **Available** status, inspect group installation, and remove that scoped installation.

@@ -5,7 +5,9 @@ param(
 
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string]$ApprovedScope
+    [string]$ApprovedScope,
+
+    [string]$RuntimeDirectory
 )
 
 Set-StrictMode -Version Latest
@@ -16,14 +18,6 @@ function Require-File {
     param([Parameter(Mandatory)][string]$Path)
     if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
         throw "Required file is missing: $Path"
-    }
-}
-
-function Invoke-Az {
-    param([Parameter(Mandatory)][string[]]$Arguments)
-    & az @Arguments
-    if ($LASTEXITCODE -ne 0) {
-        throw "Azure CLI command failed: az $($Arguments -join ' ')"
     }
 }
 
@@ -46,20 +40,56 @@ function Resolve-RepoFile {
     return $candidate
 }
 
-function Get-ParameterValue {
+function Require-Value {
     param(
-        [Parameter(Mandatory)]$Parameters,
-        [Parameter(Mandatory)][string]$Name
+        [Parameter(Mandatory)]$Object,
+        [Parameter(Mandatory)][string]$Name,
+        [Parameter(Mandatory)][string]$Purpose
     )
 
-    $property = $Parameters.PSObject.Properties[$Name]
-    if ($null -eq $property -or [string]::IsNullOrWhiteSpace([string]$property.Value.value)) {
-        throw "region.parameters.json is missing a usable $Name value."
+    $property = $Object.PSObject.Properties[$Name]
+    if ($null -eq $property -or [string]::IsNullOrWhiteSpace([string]$property.Value)) {
+        throw "$Purpose is missing $Name."
     }
-    return [string]$property.Value.value
+    return [string]$property.Value
 }
 
-if ($ApprovedTargetScope -notmatch '^/subscriptions/[0-9a-fA-F-]{36}/resourceGroups/[^/]+$') {
+function Test-HealthResult {
+    param(
+        [Parameter(Mandatory)][string]$Path,
+        [Parameter(Mandatory)][string]$ExpectedStatus,
+        [Parameter(Mandatory)]$PathContract,
+        [Parameter(Mandatory)]$Expected
+    )
+
+    Require-File -Path $Path
+    $result = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json -ErrorAction Stop
+    $required = @{
+        implementationSession = "14-agent-fleet-multiregion-rehearsal"
+        status = $ExpectedStatus
+        region = [string]$PathContract.region
+        agentVersion = [string]$Expected.agentVersion
+        agentIdentityId = [string]$Expected.agentIdentityId
+        gatewayPolicyVersion = [string]$Expected.gatewayPolicyVersion
+        endpoint = [string]$PathContract.endpoint
+    }
+    foreach ($name in $required.Keys) {
+        if ([string]$result.$name -cne $required[$name]) {
+            throw "Health result field $name does not match the rehearsal contract."
+        }
+    }
+    if ($result.sensitiveInputPresent -ne $false) {
+        throw "Health result indicates sensitive input."
+    }
+    $actualTraceFields = @($result.traceFields)
+    foreach ($traceField in @($Expected.requiredTraceFields)) {
+        if ([string]$traceField -notin $actualTraceFields) {
+            throw "Health result is missing required trace field $traceField."
+        }
+    }
+}
+
+if ($approvedTargetScope -notmatch '^/subscriptions/[0-9a-fA-F-]{36}/resourceGroups/[^/]+$') {
     throw "Approved scope must be an exact Azure resource-group resource ID."
 }
 
@@ -69,44 +99,27 @@ $artifactRoot = Join-Path $sessionRoot "implementation\artifacts"
 $controlPath = Join-Path $artifactRoot "control-definition.json"
 $parametersPath = Join-Path $artifactRoot "regional\region.parameters.json"
 $runbookPath = Join-Path $artifactRoot "regional\failover-runbook.md"
-
 foreach ($path in @($controlPath, $parametersPath, $runbookPath, (Join-Path $artifactRoot "README.md"))) {
     Require-File -Path $path
-}
-if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
-    throw "Required command is unavailable: az"
 }
 
 $coveredDecisionSentinels = @(
     "__REQUIRED_AGENT_IDENTITY_ID__",
     "__REQUIRED_AGENT_VERSION__",
-    "__REQUIRED_APPLICATION_INSIGHTS_NAME__",
-    "__REQUIRED_CUSTOMER_BICEP_ENTRYPOINT_PATH__",
     "__REQUIRED_CUSTOMER_HEALTH_CHECK_BASH_PATH__",
     "__REQUIRED_CUSTOMER_HEALTH_CHECK_POWERSHELL_PATH__",
     "__REQUIRED_CUSTOMER_ROUTING_CONTROL_BASH_PATH__",
     "__REQUIRED_CUSTOMER_ROUTING_CONTROL_POWERSHELL_PATH__",
     "__REQUIRED_DELIVERY_OWNER__",
-    "__REQUIRED_FOUNDRY_ACCOUNT_NAME__",
-    "__REQUIRED_FOUNDRY_PROJECT_NAME__",
-    "__REQUIRED_GATEWAY_PATTERN_MULTI_REGION_OR_SEPARATE__",
     "__REQUIRED_GATEWAY_POLICY_VERSION__",
-    "__REQUIRED_PLATFORM_OWNER__",
-    "__REQUIRED_PRIMARY_APIM_SERVICE_NAME__",
-    "__REQUIRED_PRIMARY_APIM_TIER__",
-    "__REQUIRED_PRIMARY_BACKEND_URL__",
-    "__REQUIRED_PRIMARY_GATEWAY_URL__",
+    "__REQUIRED_PRIMARY_GATEWAY_HOST__",
     "__REQUIRED_PRIMARY_REGION__",
     "__REQUIRED_PRIMARY_ROUTING_SELECTOR__",
     "__REQUIRED_RESOURCE_GROUP__",
-    "__REQUIRED_ROUTING_MODE_EXTERNAL_OR_INTERNAL__",
-    "__REQUIRED_SECONDARY_APIM_RESOURCE_ID__",
-    "__REQUIRED_SECONDARY_APIM_TIER__",
-    "__REQUIRED_SECONDARY_BACKEND_URL__",
-    "__REQUIRED_SECONDARY_GATEWAY_URL__",
+    "__REQUIRED_ROUTING_OWNER__",
+    "__REQUIRED_SECONDARY_GATEWAY_HOST__",
     "__REQUIRED_SECONDARY_REGION__",
     "__REQUIRED_SECONDARY_ROUTING_SELECTOR__",
-    "__REQUIRED_SECURITY_OWNER__",
     "__REQUIRED_SERVICE_OWNER__",
     "__REQUIRED_SUBSCRIPTION_ID__"
 )
@@ -118,157 +131,110 @@ $foundSentinels = @(
 )
 foreach ($sentinel in $foundSentinels) {
     if ($sentinel -notin $coveredDecisionSentinels) {
-        throw "Preflight has no named coverage for $sentinel"
+        throw "Preflight has no named coverage for $sentinel."
     }
 }
 if ($foundSentinels.Count -gt 0) {
-    $locations = Get-ChildItem -LiteralPath $artifactRoot -File -Recurse |
-        Select-String -Pattern '__REQUIRED_[A-Z0-9_]+__' -AllMatches |
-        ForEach-Object { "$($_.Path):$($_.LineNumber):$($_.Line.Trim())" }
-    $locations | Write-Error
     throw "Resolve every named customer decision before a state change."
 }
 
 $control = Get-Content -LiteralPath $controlPath -Raw | ConvertFrom-Json -ErrorAction Stop
-$parameterDocument = Get-Content -LiteralPath $parametersPath -Raw | ConvertFrom-Json -ErrorAction Stop
-if ($control.schemaVersion -ne 2 -or
-    [string]$control.implementationSession -cne "14-agent-fleet-multiregion-rehearsal") {
-    throw "control-definition.json has an invalid schema or implementationSession marker."
+$regional = Get-Content -LiteralPath $parametersPath -Raw | ConvertFrom-Json -ErrorAction Stop
+if ($control.schemaVersion -ne 2 -or $regional.schemaVersion -ne 2 -or
+    [string]$control.implementationSession -cne "14-agent-fleet-multiregion-rehearsal" -or
+    [string]$regional.implementationSession -cne "14-agent-fleet-multiregion-rehearsal") {
+    throw "The rehearsal contracts have an invalid schema or implementationSession marker."
 }
-if ([string]$control.approvedAzureScope -ine $ApprovedTargetScope) {
+if ([string]$control.approvedAzureScope -ine $approvedTargetScope) {
     throw "Approved scope differs from the rehearsal contract."
 }
 if ($null -eq $control.sourcePaths) {
     throw "control-definition.json is missing sourcePaths."
 }
 
-$bicepPath = Resolve-RepoFile -RepositoryRoot $repositoryRoot `
-    -RelativePath ([string]$control.sourcePaths.bicepEntrypoint) -Purpose "Customer Bicep entrypoint"
-$healthBashPath = Resolve-RepoFile -RepositoryRoot $repositoryRoot `
-    -RelativePath ([string]$control.sourcePaths.healthCheckBash) -Purpose "Customer Bash health script"
-$routingBashPath = Resolve-RepoFile -RepositoryRoot $repositoryRoot `
-    -RelativePath ([string]$control.sourcePaths.routingControlBash) -Purpose "Customer Bash routing script"
 $healthPowerShellPath = Resolve-RepoFile -RepositoryRoot $repositoryRoot `
-    -RelativePath ([string]$control.sourcePaths.healthCheckPowerShell) -Purpose "Customer PowerShell health script"
+    -RelativePath ([string]$control.sourcePaths.healthCheckPowerShell) -Purpose "Customer PowerShell health control"
 $routingPowerShellPath = Resolve-RepoFile -RepositoryRoot $repositoryRoot `
-    -RelativePath ([string]$control.sourcePaths.routingControlPowerShell) -Purpose "Customer PowerShell routing script"
+    -RelativePath ([string]$control.sourcePaths.routingControlPowerShell) -Purpose "Customer PowerShell routing control"
+$healthBashPath = Resolve-RepoFile -RepositoryRoot $repositoryRoot `
+    -RelativePath ([string]$control.sourcePaths.healthCheckBash) -Purpose "Customer Bash health control"
+$routingBashPath = Resolve-RepoFile -RepositoryRoot $repositoryRoot `
+    -RelativePath ([string]$control.sourcePaths.routingControlBash) -Purpose "Customer Bash routing control"
 $configuredParametersPath = Resolve-RepoFile -RepositoryRoot $repositoryRoot `
     -RelativePath ([string]$control.sourcePaths.regionalParameters) -Purpose "Regional parameter contract"
 if ($configuredParametersPath -ine (Resolve-Path -LiteralPath $parametersPath).Path) {
     throw "regionalParameters must point to region.parameters.json."
 }
 
-$parameters = $parameterDocument.parameters
-$primaryRegion = Get-ParameterValue -Parameters $parameters -Name "primaryRegion"
-$secondaryRegion = Get-ParameterValue -Parameters $parameters -Name "secondaryRegion"
+$primaryRegion = Require-Value -Object $regional.primary -Name "region" -Purpose "Primary path"
+$secondaryRegion = Require-Value -Object $regional.secondary -Name "region" -Purpose "Secondary path"
 if ($primaryRegion -ieq $secondaryRegion) {
     throw "Primary and secondary regions must differ."
 }
-$primarySelector = Get-ParameterValue -Parameters $parameters -Name "primarySelector"
-$secondarySelector = Get-ParameterValue -Parameters $parameters -Name "secondarySelector"
+$primarySelector = Require-Value -Object $regional.primary -Name "selector" -Purpose "Primary path"
+$secondarySelector = Require-Value -Object $regional.secondary -Name "selector" -Purpose "Secondary path"
 if ($primarySelector -ieq $secondarySelector) {
-    throw "Primary and secondary routing selectors must differ."
+    throw "Primary and secondary selectors must differ."
 }
-$gatewayPattern = Get-ParameterValue -Parameters $parameters -Name "gatewayPattern"
-if ($gatewayPattern -notin @("multi-region-instance", "separate-regional-gateways")) {
-    throw "Invalid gatewayPattern."
-}
-$routingMode = Get-ParameterValue -Parameters $parameters -Name "routingMode"
-if ($routingMode -notin @("external", "internal")) {
-    throw "Invalid routingMode."
-}
-$primaryApimResourceId = Get-ParameterValue -Parameters $parameters -Name "primaryApimResourceId"
-$secondaryApimResourceId = Get-ParameterValue -Parameters $parameters -Name "secondaryApimResourceId"
-$apimPrefix = "$($ApprovedTargetScope.ToLowerInvariant())/providers/microsoft.apimanagement/service/"
-foreach ($resourceId in @($primaryApimResourceId, $secondaryApimResourceId)) {
-    if (-not $resourceId.ToLowerInvariant().StartsWith($apimPrefix)) {
-        throw "API Management resource IDs must remain inside the approved scope."
+foreach ($path in @($regional.primary, $regional.secondary)) {
+    $endpoint = Require-Value -Object $path -Name "endpoint" -Purpose "Regional path"
+    if ($endpoint -notmatch '^https://[^\s/]+(?:/.*)?$') {
+        throw "Regional endpoints must be absolute HTTPS URLs."
     }
 }
-if ($gatewayPattern -eq "multi-region-instance" -and
-    ($primaryApimResourceId -ine $secondaryApimResourceId -or
-     (Get-ParameterValue -Parameters $parameters -Name "primaryApimTier") -ine "Premium")) {
-    throw "A multi-region instance requires one Premium API Management resource ID."
+foreach ($name in @("agentVersion", "agentIdentityId", "gatewayPolicyVersion")) {
+    $null = Require-Value -Object $regional.expected -Name $name -Purpose "Expected values"
 }
-if ($gatewayPattern -eq "separate-regional-gateways" -and $primaryApimResourceId -ieq $secondaryApimResourceId) {
-    throw "Separate regional gateways require different resource IDs."
-}
-foreach ($name in @(
-        "foundryProjectResourceId", "applicationInsightsResourceId", "agentVersion",
-        "agentIdentityId", "gatewayPolicyVersion"
-    )) {
-    $null = Get-ParameterValue -Parameters $parameters -Name $name
-}
-foreach ($name in @("primaryGatewayUrl", "secondaryGatewayUrl", "primaryBackendUrl", "secondaryBackendUrl")) {
-    if ((Get-ParameterValue -Parameters $parameters -Name $name) -notmatch '^https://[^\s/]+(?:/.*)?$') {
-        throw "$name must be an absolute HTTPS URL."
-    }
+if ($null -eq $regional.expected.requiredTraceFields -or @($regional.expected.requiredTraceFields).Count -eq 0) {
+    throw "Expected values must list requiredTraceFields."
 }
 
+foreach ($path in @($healthPowerShellPath, $routingPowerShellPath)) {
+    $tokens = $null
+    $errors = $null
+    [System.Management.Automation.Language.Parser]::ParseFile($path, [ref]$tokens, [ref]$errors) | Out-Null
+    if ($errors.Count -gt 0) {
+        throw "Customer PowerShell control syntax is invalid: $path"
+    }
+}
 if (Get-Command bash -ErrorAction SilentlyContinue) {
     & bash -n $healthBashPath
-    if ($LASTEXITCODE -ne 0) { throw "Customer Bash health script syntax is invalid." }
+    if ($LASTEXITCODE -ne 0) { throw "Customer Bash health control syntax is invalid." }
     & bash -n $routingBashPath
-    if ($LASTEXITCODE -ne 0) { throw "Customer Bash routing script syntax is invalid." }
+    if ($LASTEXITCODE -ne 0) { throw "Customer Bash routing control syntax is invalid." }
 }
-foreach ($path in @($healthPowerShellPath, $routingPowerShellPath)) {
-    $parseTokens = $null
-    $parseErrors = $null
-    [System.Management.Automation.Language.Parser]::ParseFile(
-        $path, [ref]$parseTokens, [ref]$parseErrors
-    ) | Out-Null
-    if ($parseErrors.Count -gt 0) {
-        throw "Customer PowerShell script syntax is invalid: $path"
-    }
-}
-
-Invoke-Az -Arguments @("bicep", "lint", "--file", $bicepPath)
-Invoke-Az -Arguments @("bicep", "build", "--file", $bicepPath, "--stdout")
 
 if ($Phase -eq "Decisions") {
-    Write-Host "PASS: the source-controlled contracts, customer script interfaces, and Bicep checks are ready."
+    Write-Host "PASS: scope, regional contract, and customer controls are ready."
     return
 }
 
+if ([string]::IsNullOrWhiteSpace($RuntimeDirectory) -or
+    -not (Test-Path -LiteralPath $RuntimeDirectory -PathType Container)) {
+    throw "Ready phase requires an existing runtime directory."
+}
+$runtimePath = (Resolve-Path -LiteralPath $RuntimeDirectory).Path
+$repoPrefix = "$([System.IO.Path]::GetFullPath($repositoryRoot))$([System.IO.Path]::DirectorySeparatorChar)"
+if ($runtimePath -eq $repositoryRoot -or
+    $runtimePath.StartsWith($repoPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+    throw "Runtime directory must be outside the repository."
+}
+if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
+    throw "Required command is unavailable: az"
+}
 $account = (& az account show -o json | ConvertFrom-Json -ErrorAction Stop)
-if ([string]$account.id -ine $ApprovedTargetScope.Split("/")[2]) {
+if ([string]$account.id -ine $approvedTargetScope.Split("/")[2]) {
     throw "Active Azure subscription differs from the approved scope."
 }
-$foundryProjectResourceId = Get-ParameterValue -Parameters $parameters -Name "foundryProjectResourceId"
-$applicationInsightsResourceId = Get-ParameterValue -Parameters $parameters -Name "applicationInsightsResourceId"
-foreach ($resourceId in @($foundryProjectResourceId, $applicationInsightsResourceId)) {
-    Invoke-Az -Arguments @("resource", "show", "--ids", $resourceId, "-o", "none")
-}
-$primary = (& az resource show --ids $primaryApimResourceId -o json | ConvertFrom-Json -ErrorAction Stop)
-$secondary = if ($secondaryApimResourceId -ieq $primaryApimResourceId) {
-    $primary
-} else {
-    (& az resource show --ids $secondaryApimResourceId -o json | ConvertFrom-Json -ErrorAction Stop)
-}
-if ([string]$primary.location -ine $primaryRegion) {
-    throw "Primary API Management region differs from the parameter contract."
-}
-$primaryTier = Get-ParameterValue -Parameters $parameters -Name "primaryApimTier"
-$secondaryTier = Get-ParameterValue -Parameters $parameters -Name "secondaryApimTier"
-if ([string]$primary.sku.name -ine $primaryTier -or [string]$secondary.sku.name -ine $secondaryTier) {
-    throw "Live API Management tier differs from the parameter contract."
-}
-if ($gatewayPattern -eq "multi-region-instance") {
-    $locations = @($primary.properties.additionalLocations | ForEach-Object { [string]$_.location })
-    if ([string]$primary.sku.name -ine "Premium" -or $secondaryRegion -notin $locations) {
-        throw "The live Premium API Management instance lacks the configured secondary location."
-    }
-} elseif ([string]$secondary.location -ine $secondaryRegion) {
-    throw "Secondary API Management region differs from the parameter contract."
-}
 
-Invoke-Az -Arguments @(
-    "deployment", "group", "what-if",
-    "--subscription", $ApprovedTargetScope.Split("/")[2],
-    "--resource-group", $ApprovedTargetScope.Split("/")[4],
-    "--name", "s14-regional-preflight",
-    "--template-file", $bicepPath,
-    "--parameters", "@$parametersPath",
-    "--no-pretty-print"
-)
-Write-Host "PASS: live Azure resources, API Management topology, and the read-only deployment preview are ready."
+$primaryResultPath = Join-Path $runtimePath "s14-primary-active-$PID.json"
+try {
+    & $healthPowerShellPath -Mode Active -Region $primaryRegion -ResultPath $primaryResultPath
+    if (-not $?) { throw "Primary active-path check failed." }
+    Test-HealthResult -Path $primaryResultPath -ExpectedStatus "active" `
+        -PathContract $regional.primary -Expected $regional.expected
+    Write-Host "PASS: the approved primary path is active and matches the contract."
+}
+finally {
+    Remove-Item -LiteralPath $primaryResultPath -Force -ErrorAction SilentlyContinue
+}

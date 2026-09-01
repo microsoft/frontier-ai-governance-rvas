@@ -58,7 +58,7 @@ Confirm the following:
 
 - The platform inventory names the exact nonproduction Foundry resource, project, policy-assistant
   agent, approved version, candidate version, and stable-endpoint selector. The platform owner
-  confirms that the stable endpoint selects the approved version. (Sessions 03, 04, 05, and 09.)
+  confirms that its stable endpoint selects the approved version. (Sessions 03, 04, 05, and 09.)
 - The approved and candidate versions are different immutable versions of the policy-assistant
   agent.
 - The operator and project managed identity have **Foundry User** on the exact project.

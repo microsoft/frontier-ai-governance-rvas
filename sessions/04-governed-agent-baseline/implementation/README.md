@@ -69,7 +69,7 @@ read API.
 Confirm:
 
 - The approved nonproduction `AIServices` Foundry resource and project are reachable from the
-  approved execution host. The platform owner confirms the subscription, resource group, resource,
+  approved execution host. The platform owner confirms the recorded subscription, resource group, resource,
   project, and private path. (Sessions 01-03.)
 - The recorded model approval matches a live ARM child model deployment in `Succeeded` state. The
   selected region and model

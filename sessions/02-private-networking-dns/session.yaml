@@ -11,7 +11,7 @@ session:
     - "AI platform engineers"
     - "DNS, firewall, and security reviewers"
   prerequisites:
-    - "The approved nonproduction VNet, route table, delegated Agent Service subnet, and private-endpoint subnet exist in the recorded scope. The landing-zone owner confirms their resource IDs and the approved execution host reaches the VNet. (Session 01.)"
+    - "The approved nonproduction VNet, route table, delegated Agent Service subnet, and private-endpoint subnet exist in the recorded scope. The landing-zone owner checks their resource IDs and the approved execution host reaches the VNet. (Session 01.)"
     - "The approved network design names the DNS pattern, customer firewall source, and execution host inside the private network."
     - "The network deployment operator has time-bound Network Contributor on the exact nonproduction resource group used for this session."
     - "The DNS operator has time-bound Private DNS Zone Contributor on the resource group that holds the seven zones, or on every reused zone."

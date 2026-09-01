@@ -12,53 +12,53 @@ html: true
 
 <p class="eyebrow">AI Governance Co-implementation · Session 14</p>
 
-# Agent fleet governance, multi-region design, and production rehearsal
+# Regional failover rehearsal for a governed AI service
 
-180 minutes · Reconcile one governed service, move traffic, and confirm the active path
+180 minutes · Move one approved selector to the secondary path, then restore it
 
-<!-- Notes: The regional deployment already exists. Today the team rehearses one controlled traffic move and restore path. -->
+<!-- Notes: The service already has both regional paths. -->
 
 ---
 
 ## Why it matters
 
-> Locate one governed service's agent and MCP records in their native services. Then rehearse routing to its approved secondary deployment and check the expected identity reference, policy version, and trace fields.
+> Operators must be able to move traffic to the secondary path and return it safely.
 
 By the end of the session:
 
-- Foundry Control Plane, Agent 365, and the API inventory resolve the same governed service.
-- Regional parameters name the expected agent version, identity, policy, endpoints, and selectors.
-- Preflight confirms the Azure resources, API Management topology, customer scripts, and Bicep preview.
-- The approved selector reaches the secondary path, or the team restores the primary selector.
+- Confirm that the primary path is active and that the secondary path is ready.
+- Preview each selector move before it changes traffic.
+- Check the secondary path against the regional contract.
+- Restore and check the primary path.
 
-<!-- Notes: This checks one service. It does not create fleet-wide lifecycle enforcement. -->
+<!-- Notes: The check covers one governed service. It does not deploy or promote anything. -->
 
 ---
 
 <!-- _class: two-column -->
 
-## Architecture and ownership
+## Architecture and boundary
 
 <div class="columns">
 <div>
 
-Native services hold live agent, MCP, identity, policy, security, telemetry, and gateway state.
+The regional contract names both selectors and the expected path values.
 
-The repository holds the approved scope, regional inputs, script interfaces, and restore runbook.
+The health control checks the active path. The routing control previews and changes one selector.
 
-The customer change system holds approval and the rehearsal result.
+The customer change record holds approval and the outcome.
 
 Session 13 remains the path for infrastructure and policy promotion.
 
 </div>
 <div>
 
-![The team checks readiness, moves one named selector to the secondary region, verifies it, and restores the primary selector.](assets/diagrams/regional-failover-sequence.svg)
+![The team checks the primary path, moves one selector to the secondary path, checks it, then restores and checks the primary path.](assets/diagrams/regional-failover-sequence.svg)
 
 </div>
 </div>
 
-<!-- Notes: Identity and registry objects stay in place. Only the traffic selector moves. -->
+<!-- Notes: Foundry, API Management, and Azure Monitor remain authoritative for live service state. -->
 
 ---
 
@@ -68,16 +68,14 @@ Session 13 remains the path for infrastructure and policy promotion.
 
 | Decision | Required answer |
 |---|---|
-| Scope | Exact subscription, regional resource group, change record, and owners |
-| Service | Foundry project, immutable agent version, Entra identity, policy version, and Application Insights |
-| Topology | Premium (classic) multi-region service or separate regional gateways |
-| Routing | External or internal mode, distinct selectors, gateway URLs, and backend URLs |
-| Customer interfaces | Existing Bicep entrypoint plus paired PowerShell and Bash health and routing scripts |
+| Scope | Exact resource group, change record, maintenance window, delivery owner, and restore owner |
+| Selectors | Different primary and secondary traffic selectors |
+| Expected path | Agent version, Entra identity, API Management policy version, endpoint, and trace fields |
+| Customer controls | Paired PowerShell and Bash health and routing controls with documented parameters |
 
-One multi-region service keeps its management plane in the primary region and uses regional
-counters. Internal mode needs customer-owned cross-region routing and DNS.
+**Keep the current selector while any answer is missing.**
 
-<!-- Notes: Premium v2 supports zones, not multi-region deployment. -->
+<!-- Notes: The routing control must expose Preview, Failover, and Restore, and must change only the named selector. -->
 
 ---
 
@@ -87,54 +85,48 @@ counters. Internal mode needs customer-owned cross-region routing and DNS.
 
 **Total session: 180 minutes. Guided work: about 120 minutes.**
 
-1. Reconcile the agent and MCP server in their native systems.
-2. Complete the control definition, regional parameters, and restore runbook.
-3. Run decision preflight.
-4. Run ready preflight and review Bicep what-if.
-5. Check secondary readiness and preview the selector move.
-6. Get delivery-owner approval, move traffic, and check the active path.
+1. Complete the scope, selector, expected-value, and owner entries.
+2. Run decision preflight.
+3. Check the active primary path.
+4. Check secondary readiness and preview the primary-to-secondary move.
+5. Get delivery-owner approval, move the selector, and check the secondary path.
+6. Preview the return move, restore the primary selector, and check the primary path.
 
-The remaining time covers the briefing, final decisions, result check, and operating handoff.
+Reserve time for the briefing, approvals, and handoff.
 
-<!-- Notes: Do not use the maintenance window to resolve missing architecture or access decisions. -->
+<!-- Notes: The team cannot use the maintenance window to resolve missing access or path details. -->
 
 ---
 
 ## Access and safety gates
 
-| Operator | Required access |
-|---|---|
-| Inventory | Customer-approved temporary access: Azure Reader at subscription scope and privileged Entra AI Reader at tenant scope |
-| Security | Purview Data Security AI Viewer; time-bound Entra Security Reader at tenant scope when Defender Unified RBAC does not cover the workload |
-| Preview | Built-in Contributor at the exact regional resource group |
-| Delivery | Authority to approve the production selector move and restore |
+| Gate | Continue when | Stop when |
+|---|---|---|
+| Scope | The requested scope matches the control definition and change record | It reaches an unapproved resource group |
+| Primary path | Active health output matches the regional contract | A required value, endpoint, or trace field differs |
+| Move | The routing preview passes and the delivery owner approves | Approval or the maintenance window is unavailable |
+| Restore | The return preview passes and the delivery owner approves | The secondary check fails or the restore path is not ready |
 
-Stop for an unresolved value, wrong scope, missing or ownerless record, equal selectors,
-unsupported topology, failed customer script, or unrelated what-if deletion, replacement, tier,
-or network change.
+Health output stays outside the repository. The wrappers remove it after each check.
 
-**Keep the current selector while a gate is open.**
-
-<!-- Notes: Agent Registry Administrator and Agent ID Administrator are pre-work roles, not standing rehearsal access. -->
+<!-- Notes: If the secondary check fails after traffic moves, stop and use the approved restore path. -->
 
 ---
 
 <!-- _class: implementation -->
 
-## Controlled failover
+## Rehearse and restore
 
 1. Freeze infrastructure and API Management policy changes.
-2. Rerun ready preflight.
-3. Check secondary readiness with the approved synthetic request.
-4. Preview the primary-to-secondary selector move.
-5. Pause for delivery-owner approval.
-6. Move only the approved selector pair.
-7. Check the active secondary path.
+2. Check secondary readiness with the approved health control.
+3. Preview the selector move. Get delivery-owner approval.
+4. Move the selector. Check the secondary path.
+5. Preview the return. Get delivery-owner approval again.
+6. Restore the primary selector. Check the primary path.
 
-The health script cannot move traffic. The routing script is the sole traffic-changing interface.
-Temporary health output stays outside the repository.
+Only the routing control moves traffic.
 
-<!-- Notes: The wrappers enforce this order and remove their temporary health result. -->
+<!-- Notes: The wrapper checks agent version, Entra identity, policy version, endpoint, required trace fields, and sensitiveInputPresent. -->
 
 ---
 
@@ -147,27 +139,23 @@ Temporary health output stays outside the repository.
 
 ### Confirm once
 
-- Immutable agent version matches.
-- Entra identity reference matches.
-- API Management policy version matches.
-- Endpoint and trace checks pass.
-- `sensitiveInputPresent` is false.
+The wrapper reports matching secondary and restored-primary paths. Both report
+`sensitiveInputPresent: false`.
 
 </div>
 <div>
 
-### Restore and own
+### After the rehearsal
 
-Check primary readiness, preview the return move, get delivery-owner confirmation, restore the
-documented selector, and check the primary path.
+The service continuity owner maintains the runbook. The platform owner maintains the regional
+contract. The routing owner maintains the controls.
 
-The platform owner maintains inputs. The service continuity owner maintains wrappers and the
-runbook. The secondary deployment stays in service.
+Keep the secondary path deployed. End temporary access through the customer process.
 
 </div>
 </div>
 
-<!-- Notes: The customer access process ends temporary access after the rehearsal. -->
+<!-- Notes: Record the outcome in the approved change record. -->
 
 ---
 

@@ -20,41 +20,47 @@ function Resolve-RepoFile {
     param([Parameter(Mandatory)][string]$RelativePath)
 
     if ([System.IO.Path]::IsPathRooted($RelativePath)) {
-        throw "Customer script paths must be repository-relative."
+        throw "Customer control paths must be repository-relative."
     }
     $candidate = [System.IO.Path]::GetFullPath((Join-Path $repoRoot $RelativePath))
     $rootPrefix = "$([System.IO.Path]::GetFullPath($repoRoot))$([System.IO.Path]::DirectorySeparatorChar)"
     if (-not $candidate.StartsWith($rootPrefix, [System.StringComparison]::OrdinalIgnoreCase) -or
         -not (Test-Path -LiteralPath $candidate -PathType Leaf)) {
-        throw "Customer script is missing or resolves outside the repository: $RelativePath"
+        throw "Customer control is missing or resolves outside the repository: $RelativePath"
     }
     return $candidate
 }
 
-function Read-HealthResult {
+function Test-HealthResult {
     param(
         [Parameter(Mandatory)][string]$Path,
         [Parameter(Mandatory)][string]$ExpectedStatus,
-        [Parameter(Mandatory)][string]$ExpectedRegion,
-        [Parameter(Mandatory)][pscustomobject]$Regional
+        [Parameter(Mandatory)]$PathContract,
+        [Parameter(Mandatory)]$Expected
     )
 
-    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
-        throw "Customer health script did not write its required JSON result."
-    }
     $result = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json -ErrorAction Stop
-    if ([string]$result.implementationSession -cne "14-agent-fleet-multiregion-rehearsal" -or
-        [string]$result.status -cne $ExpectedStatus -or
-        [string]$result.region -ine $ExpectedRegion -or
-        [string]$result.agentVersion -cne [string]$Regional.agentVersion -or
-        [string]$result.agentIdentityId -cne [string]$Regional.agentIdentityId -or
-        [string]$result.gatewayPolicyVersion -cne [string]$Regional.gatewayPolicyVersion -or
-        [string]$result.endpointStatus -cne "passed" -or
-        [string]$result.identityStatus -cne "passed" -or
-        [string]$result.policyStatus -cne "passed" -or
-        [string]$result.traceStatus -cne "passed" -or
-        $result.sensitiveInputPresent -ne $false) {
-        throw "Health result does not match the approved regional control contract."
+    $required = @{
+        implementationSession = "14-agent-fleet-multiregion-rehearsal"
+        status = $ExpectedStatus
+        region = [string]$PathContract.region
+        agentVersion = [string]$Expected.agentVersion
+        agentIdentityId = [string]$Expected.agentIdentityId
+        gatewayPolicyVersion = [string]$Expected.gatewayPolicyVersion
+        endpoint = [string]$PathContract.endpoint
+    }
+    foreach ($name in $required.Keys) {
+        if ([string]$result.$name -cne $required[$name]) {
+            throw "Health result field $name does not match the rehearsal contract."
+        }
+    }
+    if ($result.sensitiveInputPresent -ne $false) {
+        throw "Health result indicates sensitive input."
+    }
+    foreach ($traceField in @($Expected.requiredTraceFields)) {
+        if ([string]$traceField -notin @($result.traceFields)) {
+            throw "Health result is missing required trace field $traceField."
+        }
     }
 }
 
@@ -62,7 +68,6 @@ $sessionRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
 $repoRoot = (Resolve-Path (Join-Path $sessionRoot "..\..")).Path
 $controlPath = Join-Path $sessionRoot "implementation\artifacts\control-definition.json"
 $preflightPath = Join-Path $PSScriptRoot "preflight.ps1"
-
 if ($ApprovedScope -notmatch '^/subscriptions/[0-9a-fA-F-]{36}/resourceGroups/[^/]+$') {
     throw "Approved scope must be an exact Azure resource-group resource ID."
 }
@@ -75,10 +80,8 @@ if ($runtimePath -eq $repoRoot -or $runtimePath.StartsWith($repoPrefix, [System.
     throw "Runtime directory must be outside the repository."
 }
 
-& $preflightPath -Phase Ready -ApprovedScope $ApprovedScope
-if (-not $?) {
-    throw "Ready preflight failed."
-}
+& $preflightPath -Phase Ready -ApprovedScope $ApprovedScope -RuntimeDirectory $runtimePath
+if (-not $?) { throw "Ready preflight failed." }
 
 $control = Get-Content -LiteralPath $controlPath -Raw | ConvertFrom-Json -ErrorAction Stop
 if ([string]$control.implementationSession -cne "14-agent-fleet-multiregion-rehearsal" -or
@@ -86,56 +89,58 @@ if ([string]$control.implementationSession -cne "14-agent-fleet-multiregion-rehe
     throw "Control marker or approved scope differs from the rehearsal request."
 }
 $parameterPath = Resolve-RepoFile ([string]$control.sourcePaths.regionalParameters)
-$parameterDocument = Get-Content -LiteralPath $parameterPath -Raw | ConvertFrom-Json -ErrorAction Stop
-$regional = [pscustomobject]@{
-    secondaryRegion = $parameterDocument.parameters.secondaryRegion.value
-    primarySelector = $parameterDocument.parameters.primarySelector.value
-    secondarySelector = $parameterDocument.parameters.secondarySelector.value
-    agentVersion = $parameterDocument.parameters.agentVersion.value
-    agentIdentityId = $parameterDocument.parameters.agentIdentityId.value
-    gatewayPolicyVersion = $parameterDocument.parameters.gatewayPolicyVersion.value
-}
-if ([string]::IsNullOrWhiteSpace([string]$regional.primarySelector) -or
-    [string]::IsNullOrWhiteSpace([string]$regional.secondarySelector) -or
-    [string]$regional.primarySelector -ieq [string]$regional.secondarySelector) {
-    throw "Primary and secondary routing selectors must be nonempty and distinct."
-}
+$regional = Get-Content -LiteralPath $parameterPath -Raw | ConvertFrom-Json -ErrorAction Stop
+$healthControl = Resolve-RepoFile ([string]$control.sourcePaths.healthCheckPowerShell)
+$routingControl = Resolve-RepoFile ([string]$control.sourcePaths.routingControlPowerShell)
 
-$healthScript = Resolve-RepoFile ([string]$control.sourcePaths.healthCheckPowerShell)
-$routingScript = Resolve-RepoFile ([string]$control.sourcePaths.routingControlPowerShell)
-$secondaryReadinessPath = Join-Path $runtimePath "s14-secondary-ready-$PID.json"
+$secondaryReadyPath = Join-Path $runtimePath "s14-secondary-ready-$PID.json"
 $secondaryActivePath = Join-Path $runtimePath "s14-secondary-active-$PID.json"
-
+$primaryRestoredPath = Join-Path $runtimePath "s14-primary-restored-$PID.json"
 try {
-    & $healthScript -Mode Readiness -Region ([string]$regional.secondaryRegion) -ResultPath $secondaryReadinessPath
+    & $healthControl -Mode Readiness -Region ([string]$regional.secondary.region) -ResultPath $secondaryReadyPath
     if (-not $?) { throw "Secondary readiness check failed." }
-    Read-HealthResult -Path $secondaryReadinessPath -ExpectedStatus "ready" `
-        -ExpectedRegion ([string]$regional.secondaryRegion) -Regional $regional
+    Test-HealthResult -Path $secondaryReadyPath -ExpectedStatus "ready" `
+        -PathContract $regional.secondary -Expected $regional.expected
 
-    & $routingScript -Mode Preview -FromSelector ([string]$regional.primarySelector) `
-        -ToSelector ([string]$regional.secondarySelector) -ApprovedScope $ApprovedScope `
+    & $routingControl -Mode Preview -FromSelector ([string]$regional.primary.selector) `
+        -ToSelector ([string]$regional.secondary.selector) -ApprovedScope $ApprovedScope `
         -ChangeRecordId $ChangeRecordId
-    if (-not $?) { throw "Customer routing preview failed." }
-
-    $target = "$([string]$regional.secondarySelector) in $([string]$regional.secondaryRegion)"
-    if (-not $PSCmdlet.ShouldProcess($target, "Move the governed agent traffic selector")) {
+    if (-not $?) { throw "Primary-to-secondary routing preview failed." }
+    if (-not $PSCmdlet.ShouldProcess([string]$regional.secondary.selector, "Move the approved traffic selector")) {
         return
     }
-
-    & $routingScript -Mode Failover -FromSelector ([string]$regional.primarySelector) `
-        -ToSelector ([string]$regional.secondarySelector) -ApprovedScope $ApprovedScope `
+    & $routingControl -Mode Failover -FromSelector ([string]$regional.primary.selector) `
+        -ToSelector ([string]$regional.secondary.selector) -ApprovedScope $ApprovedScope `
         -ChangeRecordId $ChangeRecordId
-    if (-not $?) { throw "Customer routing failover failed. Use the approved routing restore path if traffic moved partially." }
+    if (-not $?) { throw "Selector move failed. Use the approved restore path if traffic moved partially." }
 
-    & $healthScript -Mode Active -Region ([string]$regional.secondaryRegion) -ResultPath $secondaryActivePath
-    if (-not $?) { throw "Secondary active-path check failed. Use the approved routing restore path." }
-    Read-HealthResult -Path $secondaryActivePath -ExpectedStatus "active" `
-        -ExpectedRegion ([string]$regional.secondaryRegion) -Regional $regional
+    & $healthControl -Mode Active -Region ([string]$regional.secondary.region) -ResultPath $secondaryActivePath
+    if (-not $?) { throw "Secondary active-path check failed. Use the approved restore path." }
+    Test-HealthResult -Path $secondaryActivePath -ExpectedStatus "active" `
+        -PathContract $regional.secondary -Expected $regional.expected
 
-    Write-Host "PASS: the governed agent is active through the secondary selector with the expected identity, policy, version, and trace."
+    & $routingControl -Mode Preview -FromSelector ([string]$regional.secondary.selector) `
+        -ToSelector ([string]$regional.primary.selector) -ApprovedScope $ApprovedScope `
+        -ChangeRecordId $ChangeRecordId
+    if (-not $?) { throw "Secondary-to-primary routing preview failed." }
+    if (-not $PSCmdlet.ShouldProcess([string]$regional.primary.selector, "Restore the approved traffic selector")) {
+        return
+    }
+    & $routingControl -Mode Restore -FromSelector ([string]$regional.secondary.selector) `
+        -ToSelector ([string]$regional.primary.selector) -ApprovedScope $ApprovedScope `
+        -ChangeRecordId $ChangeRecordId
+    if (-not $?) { throw "Primary restore failed. Use the approved restore path." }
+
+    & $healthControl -Mode Active -Region ([string]$regional.primary.region) -ResultPath $primaryRestoredPath
+    if (-not $?) { throw "Restored primary active-path check failed." }
+    Test-HealthResult -Path $primaryRestoredPath -ExpectedStatus "active" `
+        -PathContract $regional.primary -Expected $regional.expected
+
+    Write-Host "PASS: secondary matched the contract. Primary was restored and checked."
     Write-Host "Record the result in customer change record $ChangeRecordId."
 }
 finally {
-    Remove-Item -LiteralPath $secondaryReadinessPath -Force -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath $secondaryReadyPath -Force -ErrorAction SilentlyContinue
     Remove-Item -LiteralPath $secondaryActivePath -Force -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath $primaryRestoredPath -Force -ErrorAction SilentlyContinue
 }

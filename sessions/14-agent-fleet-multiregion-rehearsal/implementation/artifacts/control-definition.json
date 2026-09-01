@@ -3,7 +3,6 @@
   "implementationSession": "14-agent-fleet-multiregion-rehearsal",
   "approvedAzureScope": "/subscriptions/__REQUIRED_SUBSCRIPTION_ID__/resourceGroups/__REQUIRED_RESOURCE_GROUP__",
   "sourcePaths": {
-    "bicepEntrypoint": "__REQUIRED_CUSTOMER_BICEP_ENTRYPOINT_PATH__",
     "regionalParameters": "sessions/14-agent-fleet-multiregion-rehearsal/implementation/artifacts/regional/region.parameters.json",
     "healthCheckPowerShell": "__REQUIRED_CUSTOMER_HEALTH_CHECK_POWERSHELL_PATH__",
     "healthCheckBash": "__REQUIRED_CUSTOMER_HEALTH_CHECK_BASH_PATH__",

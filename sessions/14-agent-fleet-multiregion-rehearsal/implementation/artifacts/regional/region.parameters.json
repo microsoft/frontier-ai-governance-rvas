@@ -1,66 +1,24 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-    "implementationSession": {
-      "value": "14-agent-fleet-multiregion-rehearsal"
-    },
-    "primaryRegion": {
-      "value": "__REQUIRED_PRIMARY_REGION__"
-    },
-    "secondaryRegion": {
-      "value": "__REQUIRED_SECONDARY_REGION__"
-    },
-    "gatewayPattern": {
-      "value": "__REQUIRED_GATEWAY_PATTERN_MULTI_REGION_OR_SEPARATE__"
-    },
-    "routingMode": {
-      "value": "__REQUIRED_ROUTING_MODE_EXTERNAL_OR_INTERNAL__"
-    },
-    "foundryProjectResourceId": {
-      "value": "/subscriptions/__REQUIRED_SUBSCRIPTION_ID__/resourceGroups/__REQUIRED_RESOURCE_GROUP__/providers/Microsoft.CognitiveServices/accounts/__REQUIRED_FOUNDRY_ACCOUNT_NAME__/projects/__REQUIRED_FOUNDRY_PROJECT_NAME__"
-    },
-    "primaryApimResourceId": {
-      "value": "/subscriptions/__REQUIRED_SUBSCRIPTION_ID__/resourceGroups/__REQUIRED_RESOURCE_GROUP__/providers/Microsoft.ApiManagement/service/__REQUIRED_PRIMARY_APIM_SERVICE_NAME__"
-    },
-    "secondaryApimResourceId": {
-      "value": "__REQUIRED_SECONDARY_APIM_RESOURCE_ID__"
-    },
-    "primaryApimTier": {
-      "value": "__REQUIRED_PRIMARY_APIM_TIER__"
-    },
-    "secondaryApimTier": {
-      "value": "__REQUIRED_SECONDARY_APIM_TIER__"
-    },
-    "primaryGatewayUrl": {
-      "value": "__REQUIRED_PRIMARY_GATEWAY_URL__"
-    },
-    "secondaryGatewayUrl": {
-      "value": "__REQUIRED_SECONDARY_GATEWAY_URL__"
-    },
-    "primaryBackendUrl": {
-      "value": "__REQUIRED_PRIMARY_BACKEND_URL__"
-    },
-    "secondaryBackendUrl": {
-      "value": "__REQUIRED_SECONDARY_BACKEND_URL__"
-    },
-    "primarySelector": {
-      "value": "__REQUIRED_PRIMARY_ROUTING_SELECTOR__"
-    },
-    "secondarySelector": {
-      "value": "__REQUIRED_SECONDARY_ROUTING_SELECTOR__"
-    },
-    "agentVersion": {
-      "value": "__REQUIRED_AGENT_VERSION__"
-    },
-    "agentIdentityId": {
-      "value": "__REQUIRED_AGENT_IDENTITY_ID__"
-    },
-    "gatewayPolicyVersion": {
-      "value": "__REQUIRED_GATEWAY_POLICY_VERSION__"
-    },
-    "applicationInsightsResourceId": {
-      "value": "/subscriptions/__REQUIRED_SUBSCRIPTION_ID__/resourceGroups/__REQUIRED_RESOURCE_GROUP__/providers/Microsoft.Insights/components/__REQUIRED_APPLICATION_INSIGHTS_NAME__"
-    }
+  "schemaVersion": 2,
+  "implementationSession": "14-agent-fleet-multiregion-rehearsal",
+  "primary": {
+    "region": "__REQUIRED_PRIMARY_REGION__",
+    "selector": "__REQUIRED_PRIMARY_ROUTING_SELECTOR__",
+    "endpoint": "https://__REQUIRED_PRIMARY_GATEWAY_HOST__"
+  },
+  "secondary": {
+    "region": "__REQUIRED_SECONDARY_REGION__",
+    "selector": "__REQUIRED_SECONDARY_ROUTING_SELECTOR__",
+    "endpoint": "https://__REQUIRED_SECONDARY_GATEWAY_HOST__"
+  },
+  "expected": {
+    "agentVersion": "__REQUIRED_AGENT_VERSION__",
+    "agentIdentityId": "__REQUIRED_AGENT_IDENTITY_ID__",
+    "gatewayPolicyVersion": "__REQUIRED_GATEWAY_POLICY_VERSION__",
+    "requiredTraceFields": [
+      "operation_Id",
+      "traceparent",
+      "x-correlation-id"
+    ]
   }
 }

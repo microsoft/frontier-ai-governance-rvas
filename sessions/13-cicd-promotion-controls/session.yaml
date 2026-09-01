@@ -11,7 +11,7 @@ session:
     - "GitHub, Microsoft Entra, Azure, and API Management administrators"
     - "Quality, security, routing, production-approval, and delivery owners"
   prerequisites:
-    - "An approved release control set can be inspected: release metadata binds one commit to the immutable agent, APIM policy, evaluation inputs, and Bicep parameters; the quality owner can retrieve a passing gate; the security owner can retrieve the matching adversarial result; and the observability owner can run the smoke check. (Sessions 04, 07, and 09-12.)"
+    - "An approved release control set can be inspected: release metadata binds one commit to the immutable agent, APIM policy, evaluation inputs, and Bicep parameters; the quality owner can retrieve a passing release-gate result; the security owner can retrieve the matching adversarial result; and the observability owner can run the smoke check. (Sessions 04, 07, and 09-12.)"
     - "Release metadata binds the prompt, agent, model, APIM policy, evaluation inputs, and Bicep parameters to one commit. Supply the approved full SHA through the protected workflow input, never inside that commit."
     - "The approved Session 10 release policy is enabled. Its temporary external baseline and candidate records match the policy run IDs, the callable gate passes the candidate, and the generated tool-process self-test returns BLOCK."
     - "The approved temporary workspace contains a confirmed, payload-free Session 11 security-release attestation for the same immutable agent and versions. It records external authorization and report locations, lower aggregate attack success, per-risk non-regression, and blocked prohibited actions. SOC delivery remains separate."

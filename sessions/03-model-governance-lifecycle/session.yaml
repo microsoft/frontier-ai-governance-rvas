@@ -11,7 +11,7 @@ session:
     - "Cloud engineers who run Microsoft Foundry"
     - "Data, privacy, procurement, and security reviewers"
   prerequisites:
-    - "An `AIServices` Microsoft Foundry resource and project exist in the approved nonproduction subscription and resource group. The platform owner confirms their names and that the approved execution host reaches the project through the recorded private path. (Sessions 01-02.)"
+    - "An `AIServices` Microsoft Foundry resource and project exist in the approved nonproduction subscription and resource group. The platform owner confirms the resource and project names, and that the approved execution host reaches the project through the recorded private path. (Sessions 01-02.)"
     - "Record the existing Microsoft Foundry resource and project names, and confirm that the resource `kind` is `AIServices`."
     - "Give the deployment operator time-bound Cognitive Services Contributor on the exact Microsoft Foundry resource."
     - "The model decision authority approves the exact model coordinates, workload purpose, processing-location requirement, and external decision reference through the customer model-change process."
