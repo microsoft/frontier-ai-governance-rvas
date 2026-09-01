@@ -142,11 +142,11 @@ contract contains the post-propagation values above.
 
 ### 1. Select the agent and configure Agent Registry
 
-Choose one published agent from Foundry, Copilot Studio, or Agent Builder. In **Agents > All agents
-> Registry**, confirm that its registry ID and status match the contract. Set the agent origin,
-registry ID, Agent 365 instance ID, test group, host product, consent decision, validation aliases,
-and DLP pre-change values in `agent-deployment.json`. Confirm that the group has no installation
-before DLP is enabled.
+Choose one published agent from Foundry, Copilot Studio, or Agent Builder. In Microsoft 365 admin
+center, open Agents > All agents > Registry. Confirm that its registry ID and status match the
+contract. Set the agent origin, registry ID, Agent 365 instance ID, test group, host product,
+consent decision, validation aliases, and DLP pre-change values in `agent-deployment.json`.
+Confirm that the group has no installation before DLP is enabled.
 
 Update `coverage-handoff.md` if an owner or product boundary differs from its recorded assignment.
 

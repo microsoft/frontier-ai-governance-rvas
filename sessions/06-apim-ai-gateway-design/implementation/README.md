@@ -61,15 +61,17 @@ process changes APIM.
 
 ## Before you start
 
-The approved nonproduction scope and change reference name the delivery owner. That owner confirms
-the design record is available for the session. The owners of the target API product, caller
-identity, APIM identity, network route, safety policy, and telemetry must join or provide a
-documented decision.
+Bring:
 
-Identify the target backend type and an approved **endpoint reference**, such as a secret-store
-record or service configuration name. Do not put the endpoint in the record. Bring the current APIM
-tier and instance name. If it does not exist, record the service request and its owner as a
-readiness gap.
+- The approved nonproduction scope and change record. Name the delivery owner.
+- The target backend type, its owner, and an approved endpoint reference, such as a secret-store
+  record or service configuration name. Keep the live endpoint out of the design record.
+- The current APIM tier and instance name. If the service does not exist, record the request and
+  its owner as a readiness gap.
+- Decisions for ingress, client identity, backend identity, network path, Content Safety, and
+  telemetry.
+- The API product, identity, network, safety, operations, and delivery owners. They must attend
+  the session or provide their decisions in writing.
 
 ### Implementation files
 
