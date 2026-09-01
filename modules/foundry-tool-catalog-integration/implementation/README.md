@@ -63,13 +63,13 @@ Toolbox payload without storing the endpoint in the governance record.
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
-|---|---|---|---|---|
-| Catalog source | The MCP server record in API Center | Reuses the Session 07 inventory and owner metadata | The Foundry Tools private catalog is public preview and portal-led | Microsoft publishes a stable automated catalog-to-project connection API |
-| Toolbox scope | A new dedicated Toolbox | Gives agents a stable consumer endpoint and keeps this change isolated | A separate Toolbox adds a managed object and owner | The tool becomes part of an already governed multi-tool Toolbox |
-| Tool exposure | The `allowed_tools` list contains one entry | Limits the Toolbox to the approved tool and makes mismatches visible | A tool rename requires a new Toolbox version | The MCP owner intentionally changes the public tool definition |
-| Approval | `require_approval` set to `always` | Agent runtimes receive the requirement with the tool metadata | The runtime must still present and enforce the approval interaction | Session 08 approves a different action-specific policy and the runtime supports it |
-| Validation | `tools/list` against the version-specific endpoint | Checks the immutable version before agent reuse | It confirms discovery and approval metadata, not business behavior | A safe, non-mutating operation is approved for an additional runtime check |
+| Decision | Chosen approach | Benefits | Costs and limitations |
+|---|---|---|---|
+| Catalog source | The MCP server record in API Center | Reuses the Session 07 inventory and owner metadata | The Foundry Tools private catalog is public preview and portal-led |
+| Toolbox scope | A new dedicated Toolbox | Gives agents a stable consumer endpoint and keeps this change isolated | A separate Toolbox adds a managed object and owner |
+| Tool exposure | The `allowed_tools` list contains one entry | Limits the Toolbox to the approved tool and makes mismatches visible | A tool rename requires a new Toolbox version |
+| Approval | `require_approval` set to `always` | Agent runtimes receive the requirement with the tool metadata | The runtime must still present and enforce the approval interaction |
+| Validation | `tools/list` against the version-specific endpoint | Checks the immutable version before agent reuse | It confirms discovery and approval metadata, not business behavior |
 
 ### Architecture guidance
 

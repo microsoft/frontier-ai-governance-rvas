@@ -48,12 +48,12 @@ A portal registration beside that integration creates a competing record.
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Benefit | Limit | Revisit when |
-|---|---|---|---|---|
-| Need for API Center | Add it only for developer discovery | Teams without that need avoid a second catalog entry | Developers need another way to find the interface | Discovery becomes a platform requirement |
-| Source | Runtime-owned Git or API Management integration | The A2A definition has one technical source | Source integration has setup and synchronization behavior | A supported direct runtime integration replaces it |
-| Registration | Source synchronization | Updates flow from the technical owner | Portal fields can be source-owned | The source cannot represent the required A2A metadata |
-| Completion | Live asset review | The API Center owner reviews the current catalog asset | The API Center owner needs access | A supported stable inspection API covers the needed fields |
+| Decision | Chosen approach | Benefit | Limit |
+|---|---|---|---|
+| Need for API Center | Add it only for developer discovery | Teams without that need avoid a second catalog entry | Developers need another way to find the interface |
+| Source | Runtime-owned Git or API Management integration | The A2A definition has one technical source | Source integration has setup and synchronization behavior |
+| Registration | Source synchronization | Updates flow from the technical owner | Portal fields can be source-owned |
+| Completion | Live asset review | The API Center owner reviews the current catalog asset | The API Center owner needs access |
 
 ### Architecture guidance
 

@@ -2,7 +2,7 @@
   "cases": [
     {
       "name": "valid architecture chapter",
-      "text": "## Architecture\n\n### Architecture at a glance\n\nRequests pass through the gateway to the service. The live service is authoritative, and the platform team owns the gateway handoff.\n\n### Design choices and tradeoffs\n\n| Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |\n|---|---|---|---|---|\n| Request control | Route through the gateway | One policy point | Direct service paths remain out of scope | Direct access is removed |\n\n### Architecture guidance\n\n- [Azure API Management documentation](https://learn.microsoft.com/azure/api-management/api-management-key-concepts) supports the gateway boundary.\n\n## Before you start\n",
+      "text": "## Architecture\n\n### Architecture at a glance\n\nRequests pass through the gateway to the service. The live service is authoritative, and the platform team owns the gateway handoff.\n\n### Design choices and tradeoffs\n\n| Decision | Chosen approach | Benefits | Costs and limitations |\n|---|---|---|---|\n| Request control | Route through the gateway | One policy point | Direct service paths remain out of scope |\n\n### Architecture guidance\n\n- [Azure API Management documentation](https://learn.microsoft.com/azure/api-management/api-management-key-concepts) supports the gateway boundary.\n\n## Before you start\n",
       "sourceUrls": [
         "https://learn.microsoft.com/azure/api-management/api-management-key-concepts"
       ],

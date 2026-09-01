@@ -52,12 +52,12 @@ The selected integration carries the A2A agent from its runtime source to Agent 
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Benefit | Limit | Revisit when |
-|---|---|---|---|---|
-| Enterprise inventory | Agent 365 Agent Registry | One live record for inventory and lifecycle | The record has to arrive through a supported integration | The platform adds an approved A2A-specific onboarding route |
-| Runtime onboarding | Use built-in integration or Registry sync before a runtime-owned SDK integration | Avoids custom code when the platform path already covers the need | A route must match the runtime and required Agent 365 capabilities | The runtime changes platform or integration model |
-| A2A technical discovery | Separate API Center add-on when needed | Keeps developer discovery separate from enterprise inventory | It adds a second live platform record | Developers no longer need catalog discovery |
-| Operational record | Agent Registry | The inventory stays with the service that operates it | The facilitator reviews the live service | A platform-supported export becomes an approved operational need |
+| Decision | Chosen approach | Benefit | Limit |
+|---|---|---|---|
+| Enterprise inventory | Agent 365 Agent Registry | One live record for inventory and lifecycle | The record has to arrive through a supported integration |
+| Runtime onboarding | Use built-in integration or Registry sync before a runtime-owned SDK integration | Avoids custom code when the platform path already covers the need | A route must match the runtime and required Agent 365 capabilities |
+| A2A technical discovery | Separate API Center add-on when needed | Keeps developer discovery separate from enterprise inventory | It adds a second live platform record |
+| Operational record | Agent Registry | The inventory stays with the service that operates it | The facilitator reviews the live service |
 
 ### Architecture guidance
 

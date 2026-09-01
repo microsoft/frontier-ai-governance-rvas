@@ -72,13 +72,13 @@ is missing or another name appears.
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
-|---|---|---|---|---|
-| Discovery endpoint | Default-workspace MCP registry endpoint ending in `/v0.1/servers` | Uses the current Microsoft-documented registry path | The page's shortened example is inconsistent; nondefault workspace paths are not documented | Microsoft publishes a new registry version or workspace model |
-| Developer authentication | Microsoft Entra ID with Azure API Center Data Reader at the API Center scope | Avoids anonymous catalog access and uses the documented data-plane role | The role reads every record that matches the global visibility filter | API Center adds per-user registry visibility |
-| Approval signal | Built-in `Production` lifecycle stage plus MCP API type | Works with documented built-in visibility conditions | Lifecycle becomes a release gate and must be governed carefully | A documented immutable approval property becomes available |
-| Client configuration | Client-neutral JSON settings | The same settings can support different approved clients | A client-specific adapter must map them to the current client setting | Microsoft publishes a common managed-client schema |
-| Restore | Portal-led restore using the recorded prior configuration reference | Avoids guessing an unsupported management API | Restore is an owner action rather than one command | A stable API exposes Data API visibility with safe concurrency controls |
+| Decision | Chosen approach | Benefits | Costs and limitations |
+|---|---|---|---|
+| Discovery endpoint | Default-workspace MCP registry endpoint ending in `/v0.1/servers` | Uses the current Microsoft-documented registry path | The page's shortened example is inconsistent; nondefault workspace paths are not documented |
+| Developer authentication | Microsoft Entra ID with Azure API Center Data Reader at the API Center scope | Avoids anonymous catalog access and uses the documented data-plane role | The role reads every record that matches the global visibility filter |
+| Approval signal | Built-in `Production` lifecycle stage plus MCP API type | Works with documented built-in visibility conditions | Lifecycle becomes a release gate and must be governed carefully |
+| Client configuration | Client-neutral JSON settings | The same settings can support different approved clients | A client-specific adapter must map them to the current client setting |
+| Restore | Portal-led restore using the recorded prior configuration reference | Avoids guessing an unsupported management API | Restore is an owner action rather than one command |
 
 ### Architecture guidance
 
