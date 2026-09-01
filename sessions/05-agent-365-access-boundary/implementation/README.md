@@ -66,9 +66,10 @@ simulation result, and propagation decision in Purview and the approved change s
 
 Confirm the following before opening the portals:
 
-- The source-platform owner published one supported agent. A Foundry agent has completed its
-  approved baseline path. A Copilot Studio or Agent Builder owner confirms publication, runtime
-  ownership, and lifecycle path.
+- A supported nonproduction agent appears in Agent Registry with **Available** status and supports
+  group installation. The source-platform owner confirms its publication, runtime owner, and
+  approved lifecycle path. (See [Session 04](../../04-governed-agent-baseline/implementation/README.md)
+  for a Foundry agent.)
 - The Microsoft 365 administrator can open **Agents > All agents > Registry**, find the agent with
   **Available** status, inspect group installation, and remove that scoped installation.
 - The delivery owner approved the nonproduction group, host product, use case, labelled synthetic

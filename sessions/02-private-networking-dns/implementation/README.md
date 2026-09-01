@@ -69,8 +69,10 @@ firewall permits traffic.
 
 Confirm these requirements:
 
-- Session 01 is complete in the approved nonproduction subscription and resource group.
-- The parameter file has the Session 01 VNet and private-endpoint subnet resource IDs.
+- The approved nonproduction VNet, route table, delegated Agent Service subnet, and private-endpoint
+  subnet exist in the recorded scope. The landing-zone owner confirms their resource IDs and the
+  approved execution host reaches the VNet. ([Session 01](../../01-platform-baseline/implementation/README.md).)
+- The parameter file has the approved VNet and private-endpoint subnet resource IDs.
 - Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault exist in that exact scope.
 - `Microsoft.App`, `Microsoft.CognitiveServices`, `Microsoft.DocumentDB`, `Microsoft.KeyVault`,
   `Microsoft.Network`, `Microsoft.Search`, and `Microsoft.Storage` are registered.

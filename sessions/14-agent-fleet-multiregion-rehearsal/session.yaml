@@ -11,7 +11,7 @@ session:
     - "Foundry, Agent 365, Entra, Purview, and Defender administrators"
     - "Service, security, continuity, and delivery owners"
   prerequisites:
-    - "Deploy the governed candidate and its approved secondary path through Sessions 04 and 06-13. Teams that used another path must verify the nine entry controls in the implementation guide."
+    - "A governed candidate and approved secondary path are deployed. The platform owner can locate the immutable agent and identity, the gateway owner can preview regional selectors, and the release owner can inspect the protected promotion and restore path. (Sessions 04 and 06-13.)"
     - "Approve primary and secondary regions for the model, gateway, data, network, quota, residency, and tool path. Complete the secondary deployment before the session."
     - "Use an existing customer Bicep entrypoint that deploys the complete regional stack. A single multi-region API Management service must use Premium (classic), not Premium v2."
     - "Use the customer's approved temporary-access process to give the inventory operator Azure Reader at the selected subscription and the privileged Entra AI Reader role at tenant scope for this rehearsal. Use Agent Registry Administrator only to add a missing registry record and Agent ID Administrator only to change the agent identity."

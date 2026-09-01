@@ -11,7 +11,7 @@ session:
     - "Azure Monitor, API Management, security operations, and FinOps operators"
     - "Observability, AI quality, data-protection, and service owners"
   prerequisites:
-    - "Complete Sessions 04, 07, and 09-11, or verify their runtime, tracing, evaluation, and security controls with the named owners and observable checks in the implementation guide."
+    - "An approved governed runtime can be inspected: the platform owner identifies the immutable agent and project, the gateway owner identifies the versioned APIM policy and tool path, the quality owner can retrieve the evaluation result, and the security owner can retrieve the payload-free adversarial result and Defender route check. (Sessions 04, 07, and 09-11.)"
     - "Record the agent type's tracing status before implementation. Foundry tracing is generally available for prompt and hosted agents. Workflow and external agents remain preview and need an approved preview-use decision."
     - "The Session 04 nonproduction policy assistant and Session 07 API Management route support an approved read-only request and a separate handled failure for a nonexistent synthetic policy. The failure route returns a tool failure while the model keeps its own result."
     - "A workspace-based Application Insights resource, Log Analytics workspace, action group, and approved data-retention boundary exist."

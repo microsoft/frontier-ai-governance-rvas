@@ -61,9 +61,10 @@ process changes APIM.
 
 ## Before you start
 
-Bring the approved nonproduction scope and change reference. The owners of the target API product,
-caller identity, APIM identity, network route, safety policy, telemetry, and delivery decision
-must join or provide a documented decision.
+The approved nonproduction scope and change reference name the delivery owner. That owner confirms
+the record is available for this design session. The owners of the target API product, caller
+identity, APIM identity, network route, safety policy, and telemetry must join or provide a
+documented decision.
 
 Identify the target backend type and an approved **endpoint reference**, such as a secret-store
 record or service configuration name. Do not put the endpoint in the record. Bring the current APIM

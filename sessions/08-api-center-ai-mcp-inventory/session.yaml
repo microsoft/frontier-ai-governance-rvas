@@ -11,7 +11,7 @@ session:
     - "API product, risk, and data owners"
     - "Developers responsible for agent and MCP discovery"
   prerequisites:
-    - "Complete Sessions 02, 04, and 07 in the approved nonproduction scope, with the Session 04 agent endpoint and marked Session 07 API available."
+    - "The approved nonproduction Foundry agent endpoint and APIM API are available. The platform and gateway owners confirm the endpoint, the marked `policy-assistant-responses` API, and their resource scopes. (Sessions 02, 04, and 07.)"
     - "Choose an approved API Center region, Free or Standard plan, and remote read-only MCP server with an HTTPS Streamable HTTP endpoint."
     - "Give the deployment operator a time-bound Contributor role assignment on the exact resource group where this session deploys API Center."
     - "Give the role-assignment operator time-bound User Access Administrator on the exact Session 07 API Management instance."

@@ -11,7 +11,7 @@ session:
     - "Cloud security and Microsoft Defender administrators"
     - "Security operations and AI application owners"
   prerequisites:
-    - "Complete Sessions 01-10. For controls built elsewhere, confirm the same platform inventory, access, network, gateway, tool, data, and evaluation state before this session."
+    - "A governed nonproduction agent is ready for authorized testing: the platform inventory identifies immutable baseline and remediated versions, the gateway and tool owners confirm the read-only path and blocked prohibited write, and the quality owner confirms a passing release gate. (Sessions 01-10.)"
     - "The approved nonproduction policy assistant has immutable baseline and remediated versions. Its stable endpoint stays on the previously approved version."
     - "The `get_policy` path is read-only. The prohibited write is absent from the MCP allowlist and backend role, or the backend denies it."
     - "The project managed identity and red-team operator have Foundry User on the exact Foundry project. That project has an approved judge model and budget."

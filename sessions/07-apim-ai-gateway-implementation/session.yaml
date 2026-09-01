@@ -11,8 +11,8 @@ session:
     - "Identity, application security, and safety engineers"
     - "Operations and service owners"
   prerequisites:
-    - "Use an approved Session 06 gateway design record: recordStatus ready-for-implementation, no open readiness gaps, targetBackend.type foundry-agent-service, implementationVariant policy-assistant-responses, and the APIM instance named in sandbox.json."
-    - "Complete Sessions 02, 03, and 04 in the approved nonproduction scope. The target Foundry Agent Service policy assistant must expose a pinned Entra-authorized Responses endpoint that matches the account, project, and agent values in sandbox.json."
+    - "The approved gateway design record has `recordStatus` `ready-for-implementation`, no open readiness gaps, `targetBackend.type` `foundry-agent-service`, `implementationVariant` `policy-assistant-responses`, and the APIM instance named in `sandbox.json`. The delivery owner confirms those values. (Session 06.)"
+    - "The target Foundry Agent Service policy assistant exposes a pinned Entra-authorized Responses endpoint that matches the account, project, and agent values in `sandbox.json`. The Foundry platform owner confirms the endpoint and network path. (Sessions 02-04.)"
     - "Provide the existing API Management instance named in the design record and sandbox.json with a system-assigned managed identity. Use Developer, Basic, Basic v2, Standard, Standard v2, Premium, or Premium v2."
     - "Give the operator time-bound Contributor on the exact nonproduction resource group that contains API Management."
     - "Assign Foundry Agent Consumer, role ID eed3b665-ab3a-47b6-8f48-c9382fb1dad6, to the API Management identity on the individual Session 04 agent."

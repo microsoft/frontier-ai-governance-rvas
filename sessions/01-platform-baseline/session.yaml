@@ -12,7 +12,7 @@ session:
     - "Azure landing-zone architects"
     - "Security, risk, and operations reviewers"
   prerequisites:
-    - "Complete engagement pre-work and approve the sandbox subscription, exact resource group, and customer-owned Git repository."
+    - "The approved sandbox subscription, exact resource group, customer-owned Git repository, and change record are recorded. The cloud platform owner confirms that each names the same implementation scope."
     - "Select `public`, `public-private-inbound`, or `byo-vnet` before creating the Foundry account. For `byo-vnet`, approve the subnet, route, firewall next hop, and network owner."
     - "Give the deployment operator time-bound Contributor on the exact approved sandbox resource group and time-bound Resource Policy Contributor on the approved subscription. The cloud platform owner approves both assignments through the customer access process and removes them after confirmation."
     - "Allow deployment what-if at resource-group and subscription scope. The cloud platform owner reviews inherited policy assignments and exemptions before the change authority approves enforcement through the approved policy change record."

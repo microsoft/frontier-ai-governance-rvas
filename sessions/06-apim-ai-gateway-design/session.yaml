@@ -11,7 +11,7 @@ session:
     - "Identity, network, safety, and operations owners"
     - "The delivery lead for the target AI workload"
   prerequisites:
-    - "Bring the approved nonproduction implementation scope, change path, and delivery owner to the design session."
+    - "The approved nonproduction implementation scope and change reference name the delivery owner. That owner confirms the record is available for the design session."
     - "Identify the target AI backend type, its owner, and the approved endpoint reference without recording a live endpoint or credential in the repository."
     - "Bring the current ingress, client identity, backend identity, network path, API Management instance or request, telemetry sink, and Content Safety decisions for the target workload."
     - "Include the API product, identity, network, safety, operations, and delivery owners who can record a decision or readiness gap."

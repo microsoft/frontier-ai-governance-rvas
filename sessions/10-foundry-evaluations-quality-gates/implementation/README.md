@@ -56,8 +56,11 @@ results. The release gate reads payload-free aggregates, applies the repository 
 
 Confirm the following:
 
-- The approved and candidate versions are different immutable versions of the Session 04 agent.
-- The stable endpoint is pinned to the approved version.
+- The platform inventory names the exact nonproduction Foundry resource, project, policy-assistant
+  agent, approved version, candidate version, and stable-endpoint selector. The platform owner
+  confirms that the stable endpoint selects the approved version. (Sessions 03, 04, 05, and 09.)
+- The approved and candidate versions are different immutable versions of the policy-assistant
+  agent.
 - The operator and project managed identity have **Foundry User** on the exact project.
 - A network-isolated project has the approved delegated evaluation subnet.
 - The quality owner has confirmed same-day regional and evaluator support.

@@ -77,7 +77,8 @@ the allowed-location and required-tag built-ins. Its resource-group assignment m
 
 Confirm these requirements:
 
-- The approved subscription, resource group, regions, network pattern, tags, and owners are known.
+- The approved subscription, resource group, regions, network pattern, tags, owners, and change
+  record are recorded. The cloud platform owner confirms that they name the same scope.
 - The deployment operator has time-bound **Contributor** on the exact approved sandbox resource
   group and time-bound **Resource Policy Contributor** on the approved subscription.
 - The operator can run deployment what-if at resource-group and subscription scope.

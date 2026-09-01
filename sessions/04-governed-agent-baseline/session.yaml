@@ -11,7 +11,7 @@ session:
     - "Microsoft Foundry platform and identity engineers"
     - "Security, safety, and observability owners"
   prerequisites:
-    - "Sessions 01 through 03 are complete in the approved nonproduction subscription, resource group, `AIServices` Foundry resource, and Foundry project. The approved execution host can reach the project."
+    - "The approved nonproduction `AIServices` Foundry resource and project are reachable from the approved execution host. The platform owner confirms the subscription, resource group, resource, project, and private path. (Sessions 01-03.)"
     - "The agent deployment operator has the time-bound Foundry User role, role ID `53ca6127-db72-4b80-b1b0-d745d6d5456d`, on that exact Foundry project."
     - "The Session 03 consolidated approval record links the selected deployment name to its exact model coordinates. The live ARM child deployment has provisioning state `Succeeded`. The AI product owner has checked the current Agent Service region-and-model support table for prompt agents and OpenAPI tools in the Foundry project region."
     - "The downstream API resource scope has an approved read-only HTTPS operation, exact Microsoft Entra audience, authorization owner, and exact built-in or custom read role assignment for the Foundry project managed identity. A custom role names the action required by `get_policy`."

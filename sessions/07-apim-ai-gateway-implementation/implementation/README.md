@@ -70,11 +70,13 @@ agent.
 
 Confirm the following:
 
-- [Session 06 gateway design](../../06-apim-ai-gateway-design/implementation/README.md) is
-  complete. Its `gateway-design-record.json` uses `ready-for-implementation`, has no open
-  readiness gaps, names this APIM instance, and selects `foundry-agent-service` with the
-  `policy-assistant-responses` variant.
-- Sessions 02, 03, and 04 are complete in the approved nonproduction scope.
+- The approved [Session 06 gateway design](../../06-apim-ai-gateway-design/implementation/README.md)
+  record uses `ready-for-implementation`, has no open readiness gaps, names this APIM instance,
+  and selects `foundry-agent-service` with the `policy-assistant-responses` variant. The delivery
+  owner confirms those values. (Session 06.)
+- The target Foundry Agent Service policy assistant exposes a pinned Entra-authorized Responses
+  endpoint that matches `sandbox.json`. The Foundry platform owner confirms the endpoint and
+  network path. (Sessions 02-04.)
 - The operator has time-bound **Contributor** on the exact resource group that contains APIM.
 - APIM uses Developer, Basic, Basic v2, Standard, Standard v2, Premium, or Premium v2 and has a
   system-assigned managed identity.

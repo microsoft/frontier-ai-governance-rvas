@@ -54,8 +54,9 @@ parameters.
 
 ## Before you start
 
-Complete Sessions 04 and 06-13. If your team built those controls elsewhere, confirm these states
-before the rehearsal:
+A governed candidate and approved secondary path are deployed. The platform owner can locate the
+immutable agent and identity, the gateway owner can preview regional selectors, and the release
+owner can inspect the protected promotion and restore path. (Sessions 04 and 06-13.)
 
 | Control | Required state | Owner check |
 |---|---|---|

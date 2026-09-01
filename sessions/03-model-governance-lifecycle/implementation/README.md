@@ -64,8 +64,9 @@ approved deployment name and model coordinates.
 
 Confirm:
 
-- Sessions 01-02 are complete in the approved nonproduction subscription and resource group.
-- The existing Foundry resource has `kind: AIServices`.
+- An `AIServices` Microsoft Foundry resource and project exist in the approved nonproduction
+  subscription and resource group. The platform owner confirms their names and that the approved
+  execution host reaches the project through the recorded private path. (Sessions 01-02.)
 - The operator has time-bound **Cognitive Services Contributor** on that exact resource.
 - The model decision authority approved the exact model coordinates, workload purpose,
   processing-location requirement, and external decision reference through the customer

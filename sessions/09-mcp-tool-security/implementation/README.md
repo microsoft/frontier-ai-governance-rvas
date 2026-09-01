@@ -63,12 +63,17 @@ client `X-Correlation-ID`. It records no arguments, results, prompts, responses,
 
 Confirm:
 
-- Sessions 02, 04, 07, and 08 are complete in the approved nonproduction scope.
-- The Session 04 policy assistant is pinned to a known version.
-- The Session 07 APIM service has a system-assigned identity, an Application Insights logger, a
+- **An approved nonproduction MCP foundation is in place.** It includes a pinned Foundry policy
+  assistant, an APIM-managed `GET` operation over synthetic policy records with no side effects,
+  the private network paths required by the approved topology, and an API Center metadata update
+  process. The gateway owner confirms that `GET` returns approved fields without changing state;
+  the platform, network, and inventory owners confirm the remaining resources and configurations.
+  (Sessions 02, 04, 07, and 08.)
+- The Foundry policy assistant is pinned to a known version.
+- The approved APIM service has a system-assigned identity, an Application Insights logger, a
   supported tier, and no workspace.
 - The deployment operator has time-bound **Contributor** on the exact APIM resource group.
-- The agent operator has **Foundry User** on the exact Session 04 Foundry project.
+- The agent operator has **Foundry User** on the exact Foundry project.
 - The existing APIM operation uses `GET`, validates `policyId`, returns approved fields, and does
   not change state.
 - Approved-read and adversarial records exist in the synthetic data set.

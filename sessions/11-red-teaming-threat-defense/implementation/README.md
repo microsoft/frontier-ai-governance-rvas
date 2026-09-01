@@ -60,6 +60,10 @@ security delivery. Existing tool and backend controls remain the boundary for pr
 
 Confirm these prerequisites:
 
+- A governed nonproduction agent is ready for authorized testing: the platform inventory identifies
+  immutable baseline and remediated versions, the gateway and tool owners confirm the read-only
+  path and blocked prohibited write, and the quality owner confirms a passing release gate.
+  (Sessions 01-10.)
 - The approved change record names the exact project, agent, immutable versions, attack scope,
   synthetic-data boundary, run window, stop contact, and authorization reference.
 - The security owner confirms cloud red-teaming support for the project region on the run date.

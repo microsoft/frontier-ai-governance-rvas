@@ -71,15 +71,17 @@ tool-security work.
 
 Confirm these requirements:
 
-- Sessions 02, 04, and 07 are complete in the approved nonproduction scope.
+- The approved nonproduction Foundry agent endpoint and APIM API are available. The platform and
+  gateway owners confirm the endpoint, the marked `policy-assistant-responses` API, and their
+  resource scopes. (Sessions 02, 04, and 07.)
 - The deployment operator has time-bound **Contributor** on the exact API Center resource group.
-- The role-assignment operator has time-bound **User Access Administrator** on the exact Session 07
-  APIM instance. This permits the API Center identity to receive **API Management Service Reader
+- The role-assignment operator has time-bound **User Access Administrator** on the exact APIM
+  instance. This permits the API Center identity to receive **API Management Service Reader
   Role** (`71522526-b88f-4d52-b57f-d31fc3546d0d`) at that service scope.
 - The API program owner has approved Free or Standard, the current API Center region, and the full
   APIM source boundary. Free has no Microsoft support. Confirm current eligibility or separate cost
   before relying on a linked Standard-plan benefit.
-- The Session 07 API ID `policy-assistant-responses` exists and carries its implementation marker.
+- The APIM API ID `policy-assistant-responses` exists and carries its implementation marker.
 - The remote MCP server is read-only and has an approved HTTPS Streamable HTTP endpoint.
 - Named owners have completed the metadata decisions for the three selected assets and any other
   API that the APIM link will import.

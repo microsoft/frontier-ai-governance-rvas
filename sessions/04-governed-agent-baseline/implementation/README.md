@@ -68,11 +68,12 @@ read API.
 
 Confirm:
 
-- Sessions 01-02 are complete. The approved execution host reaches the existing `AIServices`
-  Foundry resource and project through the Session 02 private path.
-- The [Session 03](../../03-model-governance-lifecycle/implementation/README.md) approval record
-  matches a live ARM child model deployment in `Succeeded` state. The selected region and model
-  support prompt agents and OpenAPI tools.
+- The approved nonproduction `AIServices` Foundry resource and project are reachable from the
+  approved execution host. The platform owner confirms the subscription, resource group, resource,
+  project, and private path. (Sessions 01-03.)
+- The recorded model approval matches a live ARM child model deployment in `Succeeded` state. The
+  selected region and model
+  support prompt agents and OpenAPI tools. ([Session 03](../../03-model-governance-lifecycle/implementation/README.md).)
 - The operator has time-bound **Foundry User**, role ID
   `53ca6127-db72-4b80-b1b0-d745d6d5456d`, on the exact Foundry project.
 - The downstream API accepts a policy ID over HTTPS and supports managed identity. Its authorization

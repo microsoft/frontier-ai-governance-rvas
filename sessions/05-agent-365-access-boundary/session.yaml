@@ -12,7 +12,7 @@ session:
     - "Microsoft Entra identity, source-platform, and audit owners"
   prerequisites:
     - "An approved nonproduction Microsoft Foundry, Copilot Studio, or Agent Builder agent appears in Agent Registry with Available status and supports group installation through Microsoft 365 admin center."
-    - "For a Foundry agent, complete Session 04. For a Copilot Studio or Agent Builder agent, the source-platform owner confirms publication, runtime ownership, and the approved lifecycle path."
+    - "The source-platform owner confirms the agent's publication, runtime owner, and approved lifecycle path. (Session 04 for a Foundry agent.)"
     - "The delivery owner approves one nonproduction test group, host product, use case, labelled synthetic item, DLP action and locations, and restore route."
     - "The DLP and label operator has Compliance Data Administrator in the approved Microsoft 365 tenant. The audit operator has View-Only Audit Logs in Purview and Exchange admin center."
     - "The Microsoft Graph Audit Search application has AuditLogsQuery.Read.All application permission with administrator consent."

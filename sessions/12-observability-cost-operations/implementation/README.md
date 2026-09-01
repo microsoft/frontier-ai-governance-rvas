@@ -65,7 +65,10 @@ result.
 
 Confirm these requirements:
 
-- Complete Sessions 04, 07, and 09-11, or verify the four entry controls below.
+- An approved governed runtime can be inspected: the platform owner identifies the immutable agent
+  and project, the gateway owner identifies the versioned APIM policy and tool path, the quality
+  owner can retrieve the evaluation result, and the security owner can retrieve the payload-free
+  adversarial result and Defender route check. (Sessions 04, 07, and 09-11.)
 - The Session 04 nonproduction policy assistant and Session 07 APIM route support an approved
   read-only request and a separate handled failure for a nonexistent synthetic policy.
 - A workspace-based Application Insights component, its Log Analytics workspace, an action group,
