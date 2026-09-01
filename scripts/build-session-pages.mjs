@@ -1664,7 +1664,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
           <div class="section-heading"><div><h2 id="routes-title">Choose the implementation path you need.</h2><p>Full-platform routes start at Session 01. Agent 365 routes can enter with an approved Foundry, Copilot Studio, or Agent Builder agent.</p></div></div>
           <div class="route-choice">
             <div class="route-choice__primary"><div><h3>Complete build · ${totalHours} working hours</h3><p>Run all ${sessions.length} sessions, from the platform baseline through controlled release and regional rehearsal.</p></div><ol class="route-choice__sequence"><li><span>1–5</span> Governed foundation</li><li><span>6–12</span> Live AI traffic controls</li><li><span>13–15</span> Operate at scale</li></ol><a class="button button--primary" data-route-clear href="#program">Browse all sessions</a></div>
-            <div class="route-choice__heading"><div><h3>Focused routes</h3><p>Each option shows the control state you reach, the work it includes, and where to stop.</p></div><div class="route-choice__legend" aria-label="Route phase colors"><span><i class="is-foundation"></i>Foundation</span><span><i class="is-runtime"></i>Live traffic</span><span><i class="is-operations"></i>Operations</span></div></div>
+            <div class="route-choice__heading"><div><h3>Focused routes</h3></div><div class="route-choice__legend" aria-label="Route phase colors"><span><i class="is-foundation"></i>Foundation</span><span><i class="is-runtime"></i>Live traffic</span><span><i class="is-operations"></i>Operations</span></div></div>
             <div class="route-paths" role="list">${routeCards}</div>
             <p class="route-choice__note">Sessions 13–15 define substitute baselines for teams that enter the series without every earlier session.</p>
           </div>
@@ -1673,7 +1673,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
 
       <section class="readiness-section" id="readiness" aria-labelledby="readiness-title">
         <div class="section">
-          <div class="section-heading"><div><p class="section-kicker">Pre-work</p><h2 id="readiness-title">Clear the pre-work before Session 1.</h2><p>Each item below blocks hands-on work at the first deployment. Model quota and Purview or Agent 365 entitlements are not needed on day one, but approval lead times can be long. Request them while you complete this list.</p></div></div>
+          <div class="section-heading"><div><p class="section-kicker">Pre-work</p><h2 id="readiness-title">Clear the pre-work before Session 1.</h2></div></div>
           <div class="readiness-grid">
             <article><span>Environment</span><h3>Dedicated sandbox</h3><p>Use an approved subscription and register the required resource providers.</p></article>
             <article><span>Source control</span><h3>Customer-owned repository</h3><p>Prepare the repository that will keep implementation files and decisions.</p></article>
@@ -1685,7 +1685,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
       </section>
 
       <section class="section optional-modules-section" id="optional-modules" aria-labelledby="optional-modules-title">
-        <div class="section-heading"><div><p class="section-kicker">Optional modules</p><h2 id="optional-modules-title">Add architecture-specific work when you need it.</h2><p>These modules have their own chapter flow. They do not change session numbering, phases, or the ${sessions.length}-session count.</p></div></div>
+        <div class="section-heading"><div><p class="section-kicker">Optional modules</p><h2 id="optional-modules-title">Add architecture-specific work when you need it.</h2></div></div>
         <div class="module-register" role="list">${modules.map(renderModuleCard).join("\n")}</div>
       </section>
     </main>
