@@ -1,6 +1,6 @@
 schema_version: 2
 session:
-  id: "09"
+  id: "10"
   slug: "mcp-tool-security"
   title: "MCP and tool security"
   duration_minutes: 210
@@ -11,9 +11,9 @@ session:
     - "Identity and security engineers"
     - "The release owner for agent tool access"
   prerequisites:
-    - "Complete Sessions 02, 05, 07, and 08 in the approved nonproduction scope. Use an existing APIM-managed GET operation that reads synthetic policy records without changing state."
-    - "Use a supported API Management tier, not a workspace. The Session 07 instance must have a system-assigned identity and an Application Insights logger with request and response body logging set to zero bytes."
-    - "Give the deployment operator a time-bound Contributor role assignment on the exact resource group that contains the Session 07 API Management instance."
+    - "Complete Sessions 02, 05, 08, and 09 in the approved nonproduction scope. Use an existing APIM-managed GET operation that reads synthetic policy records without changing state."
+    - "Use a supported API Management tier, not a workspace. The Session 08 instance must have a system-assigned identity and an Application Insights logger with request and response body logging set to zero bytes."
+    - "Give the deployment operator a time-bound Contributor role assignment on the exact resource group that contains the Session 08 API Management instance."
     - "Give the agent operator Foundry User on the exact Session 05 Foundry project."
     - "Approve an Entra application audience and app role for the Foundry agent-to-APIM call."
     - "Assign the approved backend role definition ID to the API Management system-assigned identity at the exact backend resource scope. The role must contain only the read Actions or DataActions required by get_policy. Preflight rejects wildcard, write, delete, and action permissions."
@@ -21,8 +21,8 @@ session:
   dependencies:
     - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
     - "Session 05 - Governed Microsoft Foundry agent baseline"
-    - "Session 07 - Azure API Management as the AI gateway"
-    - "Session 08 - Azure API Center and the AI/MCP inventory"
+    - "Session 08 - Azure API Management AI gateway implementation"
+    - "Session 09 - Azure API Center and the AI/MCP inventory"
   services_in_scope:
     - "azure-api-management"
     - "azure-api-center"
@@ -54,13 +54,13 @@ deliverables:
     - "implementation/scripts/deploy.ps1"
 retained_files:
   - path: "implementation/artifacts/apim/main.bicep"
-    consumer: "The Session 09 APIM deployment scripts"
+    consumer: "The Session 10 APIM deployment scripts"
     operational_purpose: "Deploy and update the MCP server, its only tool, identity settings, policy, and payload-free diagnostic."
   - path: "implementation/artifacts/apim/policies/mcp-policy.xml"
     consumer: "The API Management MCP runtime"
     operational_purpose: "Validate the agent token, throttle tool calls, add correlation, and replace caller authority with managed identity."
   - path: "implementation/artifacts/environments/sandbox.json"
-    consumer: "The Session 09 preflight and deployment scripts"
+    consumer: "The Session 10 preflight and deployment scripts"
     operational_purpose: "Bind APIM, Foundry, identity, backend authorization, telemetry, and synthetic checks to the approved scope."
   - path: "implementation/artifacts/governance/agent-mcp-binding.json"
     consumer: "The Foundry agent release owner"
@@ -79,7 +79,7 @@ retained_files:
     operational_purpose: "Check that only the approved tool is exposed, along with identities, backend read role, payload-free diagnostics, scope, and ARM what-if."
   - path: "implementation/scripts/deploy.ps1"
     consumer: "The APIM MCP deployment operator"
-    operational_purpose: "Deploy the marked Session 09 MCP API, tool, policy, APIM named values, and diagnostic."
+    operational_purpose: "Deploy the marked Session 10 MCP API, tool, policy, APIM named values, and diagnostic."
 sources:
   - title: "Overview of MCP servers in Azure API Management"
     url: "https://learn.microsoft.com/en-us/azure/api-management/mcp-server-overview"

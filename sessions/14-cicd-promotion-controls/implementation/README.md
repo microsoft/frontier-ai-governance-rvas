@@ -24,7 +24,7 @@ Microsoft Entra validates their workload identities. Azure Resource Manager hold
 API Management holds routing state, and the approved release store holds the release record.
 
 The workflow uses the existing [Session 05](../../05-governed-agent-baseline/implementation/README.md)
-agent, [Session 07](../../07-apim-ai-gateway/implementation/README.md) route,
+agent, [Session 08](../../08-apim-ai-gateway-implementation/implementation/README.md) route,
 [Session 11](../../11-foundry-evaluations-quality-gates/implementation/README.md) release gate,
 [Session 12](../../12-red-teaming-threat-defense/implementation/README.md) security-release
 attestation, and [Session 13](../../13-observability-cost-operations/implementation/README.md) smoke

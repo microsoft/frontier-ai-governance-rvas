@@ -16,7 +16,7 @@ module:
     - "The agent owner, runtime owner, and retirement owner can review the live Agent 365 record."
   related_content:
     - "Session 05 - Governed Microsoft Foundry agent baseline"
-    - "Session 10 - Purview data governance and Agent 365 data controls"
+    - "Session 06 - Microsoft Agent 365 secure rollout and data controls"
     - "Session 15 - Agent fleet governance, multi-region design, and production rehearsal"
   services_in_scope:
     - "agent-365"

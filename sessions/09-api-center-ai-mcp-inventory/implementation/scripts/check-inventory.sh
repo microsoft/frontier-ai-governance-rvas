@@ -61,30 +61,30 @@ command -v python3 >/dev/null 2>&1 || fail "python3 is required."
 [[ -f "$environment_path" ]] || fail "Required implementation file is missing: $environment_path"
 [[ -f "$agent_definition_path" ]] || fail "Required implementation file is missing: $agent_definition_path"
 grep -R -q -E '__REQUIRED_[A-Z0-9_]+__' "$artifact_root" &&
-  fail "Resolve every Session 08 deployment decision before checking the live inventory."
+  fail "Resolve every Session 09 deployment decision before checking the live inventory."
 
 environment_json=$(cat "$environment_path")
 account_json=$(az_json "Azure account lookup" account show)
 [[ $(jq -r '.id' <<<"$account_json") == "$approved_subscription_id" ]] ||
   fail "Azure CLI is not using the approved subscription."
-session06_api=$(az_json "Session 07 APIM API lookup" apim api show \
+session08_api=$(az_json "Session 08 APIM API lookup" apim api show \
   --api-id policy-assistant-responses \
   --service-name "$(jq -r '.apiManagementName' <<<"$environment_json")" \
   --resource-group "$(jq -r '.apiManagementResourceGroupName' <<<"$environment_json")")
-[[ $(jq -r '.description // ""' <<<"$session06_api") == *'implementationSession=07-apim-ai-gateway'* ]] ||
-  fail "The Session 07 APIM source does not contain the expected marker."
+[[ $(jq -r '.description // ""' <<<"$session08_api") == *'implementationSession=08-apim-ai-gateway-implementation'* ]] ||
+  fail "The Session 08 APIM source does not contain the expected marker."
 inventory_json=$(az_json "API Center inventory lookup" apic api list \
   --resource-group "$(jq -r '.resourceGroupName' <<<"$environment_json")" \
   --service-name "$(jq -r '.apiCenterName' <<<"$environment_json")" \
   --max-items 500)
 
-python3 - "$inventory_json" "$agent_definition_path" "$(jq -r '.displayName' <<<"$session06_api")" "$remote_mcp_server_title" <<'PY'
+python3 - "$inventory_json" "$agent_definition_path" "$(jq -r '.displayName' <<<"$session08_api")" "$remote_mcp_server_title" <<'PY'
 import json
 import sys
 
 inventory = json.loads(sys.argv[1])
 agent_definition = json.load(open(sys.argv[2], encoding='utf-8'))
-if agent_definition.get('implementationSession') != '08-api-center-ai-mcp-inventory':
+if agent_definition.get('implementationSession') != '09-api-center-ai-mcp-inventory':
     raise SystemExit('The direct agent definition has the wrong implementationSession marker.')
 agent = agent_definition['api']
 titles = [agent['title'], sys.argv[3], sys.argv[4]]

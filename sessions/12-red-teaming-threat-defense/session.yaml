@@ -21,9 +21,9 @@ session:
     - "The SOC owner has accepted an authorized event or route-health result with the source, route, destination, references, observed time, and agent or model context."
   dependencies:
     - "Session 05 - Governed Microsoft Foundry agent baseline"
-    - "Session 07 - Azure API Management as the AI gateway"
-    - "Session 09 - MCP and tool security"
-    - "Session 10 - Purview data governance and Agent 365 data controls"
+    - "Session 08 - Azure API Management AI gateway implementation"
+    - "Session 10 - MCP and tool security"
+    - "Session 06 - Microsoft Agent 365 secure rollout and data controls"
     - "Session 11 - Foundry evaluations and release quality gates"
   services_in_scope:
     - "azure-ai-foundry"

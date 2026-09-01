@@ -89,7 +89,7 @@ function Assert-GovernanceRecord {
     if ($expiry -le $lastReview) {
         throw "$Description expiryDate must be later than lastReviewDate."
     }
-    if ([string]$Record.customProperties.implementationSession -ne "08-api-center-ai-mcp-inventory") {
+    if ([string]$Record.customProperties.implementationSession -ne "09-api-center-ai-mcp-inventory") {
         throw "$Description has the wrong implementationSession marker."
     }
 }
@@ -114,7 +114,7 @@ function Assert-RuntimeUri {
     }
 }
 
-$implementationSession = "08-api-center-ai-mcp-inventory"
+$implementationSession = "09-api-center-ai-mcp-inventory"
 $apiManagementServiceReaderRoleId = "71522526-b88f-4d52-b57f-d31fc3546d0d"
 $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
 $bicepPath = Join-Path $artifactRoot "api-center\main.bicep"
@@ -168,9 +168,9 @@ if ($sentinels) {
     $unresolved = @($sentinels.Matches.Value | Sort-Object -Unique)
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
     if ($unknown.Count -gt 0) {
-        throw "Add explicit Session 08 preflight checks for new sentinels: $($unknown -join ', ')."
+        throw "Add explicit Session 09 preflight checks for new sentinels: $($unknown -join ', ')."
     }
-    throw "Resolve every Session 08 customer decision before deployment: $($unresolved -join ', ')."
+    throw "Resolve every Session 09 customer decision before deployment: $($unresolved -join ', ')."
 }
 
 $environment = Get-Content -LiteralPath $environmentPath -Raw | ConvertFrom-Json -ErrorAction Stop
@@ -273,19 +273,19 @@ if ([string]$environment.apiCenterPlan -eq "Free") {
     Write-Warning "The Free plan has limited features and no Microsoft support. Confirm its limits fit this nonproduction scope."
 }
 
-$session07Api = Invoke-AzJson `
+$session08Api = Invoke-AzJson `
     -Arguments @(
         "apim", "api", "show",
         "--api-id", "policy-assistant-responses",
         "--service-name", [string]$environment.apiManagementName,
         "--resource-group", [string]$environment.apiManagementResourceGroupName
     ) `
-    -Description "Session 07 APIM API lookup"
-if ([string]$session07Api.description -notlike "*implementationSession=07-apim-ai-gateway*") {
-    throw "The APIM source does not contain the marked Session 07 API."
+    -Description "Session 08 APIM API lookup"
+if ([string]$session08Api.description -notlike "*implementationSession=08-apim-ai-gateway-implementation*") {
+    throw "The APIM source does not contain the marked Session 08 API."
 }
-if ([string]$session07Api.displayName -ne "Governed policy assistant Responses API") {
-    throw "The Session 07 APIM display name does not match the approved synchronized API."
+if ([string]$session08Api.displayName -ne "Governed policy assistant Responses API") {
+    throw "The Session 08 APIM display name does not match the approved synchronized API."
 }
 
 $role = Invoke-AzJson `
@@ -324,7 +324,7 @@ if ($apiCenterExists) {
         }
     }
     if ([string]$marker -ne $implementationSession) {
-        throw "An existing API Center uses the configured name without the Session 08 marker."
+        throw "An existing API Center uses the configured name without the Session 09 marker."
     }
     $existingIntegrationRaw = & az apic integration show `
         --resource-group ([string]$environment.resourceGroupName) `
@@ -352,7 +352,7 @@ if ($LASTEXITCODE -ne 0) {
     throw "The API Center Bicep definition failed to compile."
 }
 & az deployment group what-if `
-    --name "session07-api-center-preview" `
+    --name "session09-api-center-preview" `
     --resource-group ([string]$environment.resourceGroupName) `
     --template-file $bicepPath `
     --parameters `
@@ -367,4 +367,4 @@ if ($LASTEXITCODE -ne 0) {
     throw "The API Center deployment preview failed."
 }
 
-Write-Host "PASS: Session 08 files, direct-agent desired state, APIM boundary, runtime coordinates, CLI integration, and deployment preview are ready."
+Write-Host "PASS: Session 09 files, direct-agent desired state, APIM boundary, runtime coordinates, CLI integration, and deployment preview are ready."

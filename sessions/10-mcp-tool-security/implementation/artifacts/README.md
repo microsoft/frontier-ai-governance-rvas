@@ -1,6 +1,6 @@
 # Implementation artifacts
 
-These files define the Session 09 MCP implementation. They configure an APIM MCP server with the
+These files define the Session 10 MCP implementation. They configure an APIM MCP server with the
 allowlisted read tool and record the identity, release, monitoring, and restore decisions.
 
 | Path | Purpose |

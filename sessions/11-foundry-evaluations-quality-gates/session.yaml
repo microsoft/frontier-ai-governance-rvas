@@ -11,16 +11,16 @@ session:
     - "AI safety, quality, and application owners"
     - "Release owners responsible for agent promotion"
   prerequisites:
-    - "Complete Sessions 04, 05, 09, and 10. The platform inventory must name the exact nonproduction Foundry resource, project, policy-assistant agent, approved version, candidate version, and stable-endpoint selector."
-    - "The stable endpoint selects the approved version. The Session 09 `get_policy` path reads successfully, and the prohibited write is absent or denied."
+    - "Complete Sessions 04, 05, 06, and 10. The platform inventory must name the exact nonproduction Foundry resource, project, policy-assistant agent, approved version, candidate version, and stable-endpoint selector."
+    - "The stable endpoint selects the approved version. The Session 10 `get_policy` path reads successfully, and the prohibited write is absent or denied."
     - "The evaluation operator and Foundry project managed identity have Foundry User on the exact Foundry project. A network-isolated project also has an approved delegated evaluation subnet."
     - "The quality owner records a same-day region and evaluator support check in the release policy because no stable support-discovery API is assumed."
     - "The judge-model deployment, evaluation budget, release owner, quality owner, tool owner, safety owner, cost owner, and exception authority are approved."
   dependencies:
     - "Session 04 - Model governance, data residency, quota, and lifecycle"
     - "Session 05 - Governed Microsoft Foundry agent baseline"
-    - "Session 09 - MCP and tool security"
-    - "Session 10 - Purview data governance and Agent 365 data controls"
+    - "Session 10 - MCP and tool security"
+    - "Session 06 - Microsoft Agent 365 secure rollout and data controls"
   services_in_scope:
     - "azure-ai-foundry"
     - "foundry-agent-service"

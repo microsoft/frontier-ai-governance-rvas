@@ -65,8 +65,8 @@ result.
 
 Confirm these requirements:
 
-- Complete Sessions 05, 07, and 09-12, or verify the four entry controls below.
-- The Session 05 nonproduction policy assistant and Session 07 APIM route support an approved
+- Complete Sessions 05, 08, and 10-12, or verify the four entry controls below.
+- The Session 05 nonproduction policy assistant and Session 08 APIM route support an approved
   read-only request and a separate handled failure for a nonexistent synthetic policy.
 - A workspace-based Application Insights component, its Log Analytics workspace, an action group,
   and an approved retention boundary exist.
@@ -133,7 +133,7 @@ out of source control.
 | Preview | Both Bicep what-if results contain only the workbook, three alerts, and exact budget | A preview replaces unrelated resources, removes an action route, or targets the wrong subscription |
 
 The gateway owner changes the APIM policy through its own repository. Do not replace an API-scope
-policy that contains Session 07 authentication, safety, routing, quota, token-limit, rate-limit, or
+policy that contains Session 08 authentication, safety, routing, quota, token-limit, rate-limit, or
 backend controls.
 
 ## Implement
@@ -171,7 +171,7 @@ the Application Insights connection string through the deployment environment. I
 agent, model, tool, evaluation, and security signals; propagates `traceparent` and
 `x-correlation-id`; and drops prohibited attributes before export.
 
-The customer-owned APIM policy preserves the Session 07 controls, trace context, and bounded token
+The customer-owned APIM policy preserves the Session 08 controls, trace context, and bounded token
 metrics. Do not use user, email, request, correlation, prompt, response, or free-text values as
 metric dimensions.
 
@@ -313,7 +313,7 @@ result path.
 Restore through the owning change paths:
 
 1. Route the application to the last approved Session 05 version if instrumentation causes a fault.
-2. Restore the previous Session 07 APIM policy without removing authentication, safety, routing,
+2. Restore the previous Session 08 APIM policy without removing authentication, safety, routing,
    quota, token-limit, rate-limit, or backend controls.
 3. Disable only the noisy Session 13 alert rules while correcting their queries or thresholds.
 4. Remove only resources listed in the approved Session 13 what-if and tagged

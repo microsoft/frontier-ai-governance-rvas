@@ -1,7 +1,12 @@
 # Session diagrams
 
-Store editable or source-controlled diagrams for this session here. Prefer SVG output with
-descriptive filenames and meaningful alt text in the material and deck.
+The `.excalidraw` files are editable sources. Their matching SVG files are the published outputs
+used by the implementation guide and deck.
 
-Use the bundled Microsoft service icons without recoloring, cropping, rotating, or
-distorting them. Keep product names visible near their icons.
+| Source | Published output | Use |
+|---|---|---|
+| `purview-product-coverage-split.excalidraw` | `purview-product-coverage-split.svg` | Compare Agent 365 DLP with the source-platform control boundary. |
+| `purview-dlp-lifecycle.excalidraw` | `purview-dlp-lifecycle.svg` | Show the DLP path from label-rights confirmation through the delivery-owner checkpoint. |
+
+Edit the Excalidraw source, render it, inspect the PNG, then replace the SVG. PNG files are review
+artifacts and do not stay in this directory.

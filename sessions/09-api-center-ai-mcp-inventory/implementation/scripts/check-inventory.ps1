@@ -50,13 +50,13 @@ $environment = Get-Content -LiteralPath (Join-Path $artifactRoot "environments\s
 $agentDefinition = Get-Content -LiteralPath (Join-Path $artifactRoot "api-center\agent-api-definition.json") -Raw |
     ConvertFrom-Json -ErrorAction Stop
 $agentRecord = $agentDefinition.api
-if ([string]$agentDefinition.implementationSession -ne "08-api-center-ai-mcp-inventory") {
+if ([string]$agentDefinition.implementationSession -ne "09-api-center-ai-mcp-inventory") {
     throw "The direct agent definition has the wrong implementationSession marker."
 }
 
 if ((Get-ChildItem -LiteralPath $artifactRoot -File -Recurse |
         Select-String -Pattern "__REQUIRED_[A-Z0-9_]+__")) {
-    throw "Resolve every Session 08 deployment decision before checking the live inventory."
+    throw "Resolve every Session 09 deployment decision before checking the live inventory."
 }
 
 $account = Invoke-AzJson -Arguments @("account", "show") -Description "Azure account lookup"
@@ -64,14 +64,14 @@ if ([string]$account.id -ne $ApprovedSubscriptionId) {
     throw "Azure CLI is not using the approved subscription."
 }
 
-$session06Api = Invoke-AzJson -Arguments @(
+$session08Api = Invoke-AzJson -Arguments @(
     "apim", "api", "show",
     "--api-id", "policy-assistant-responses",
     "--service-name", [string]$environment.apiManagementName,
     "--resource-group", [string]$environment.apiManagementResourceGroupName
-) -Description "Session 07 APIM API lookup"
-if ([string]$session06Api.description -notlike "*implementationSession=07-apim-ai-gateway*") {
-    throw "The Session 07 APIM source does not contain the expected marker."
+) -Description "Session 08 APIM API lookup"
+if ([string]$session08Api.description -notlike "*implementationSession=08-apim-ai-gateway-implementation*") {
+    throw "The Session 08 APIM source does not contain the expected marker."
 }
 
 $result = Invoke-AzJson -Arguments @(
@@ -83,7 +83,7 @@ $result = Invoke-AzJson -Arguments @(
 $apis = if ($null -ne $result.PSObject.Properties["value"]) { @($result.value) } else { @($result) }
 $selectedApis = @(
     Get-OneApiByTitle -Apis $apis -Title ([string]$agentRecord.title)
-    Get-OneApiByTitle -Apis $apis -Title ([string]$session06Api.displayName)
+    Get-OneApiByTitle -Apis $apis -Title ([string]$session08Api.displayName)
     Get-OneApiByTitle -Apis $apis -Title $RemoteMcpServerTitle
 )
 

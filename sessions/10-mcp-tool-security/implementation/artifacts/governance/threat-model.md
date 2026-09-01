@@ -10,8 +10,8 @@
 
 ## Scope
 
-The [Session 05](../../../../05-governed-agent-baseline/implementation/README.md) policy assistant calls the Session 09 MCP endpoint in the
-[Session 07](../../../../07-apim-ai-gateway/implementation/README.md) API Management instance. APIM maps `get_policy` to the existing GET operation. The
+The [Session 05](../../../../05-governed-agent-baseline/implementation/README.md) policy assistant calls the Session 10 MCP endpoint in the
+[Session 08](../../../../08-apim-ai-gateway-implementation/implementation/README.md) API Management instance. APIM maps `get_policy` to the existing GET operation. The
 source API, Foundry project, model, network, and API Center service are existing dependencies.
 
 ## Trust boundaries
@@ -79,7 +79,7 @@ unchanged. If the candidate is already active, restore the previous Session 05 v
 before changing infrastructure.
 
 Then remove the Foundry project connection only when no other governed tool uses it. Preview the
-approved APIM change path and delete the marked Session 09 MCP resources. Revoke the APIM backend
+approved APIM change path and delete the marked Session 10 MCP resources. Revoke the APIM backend
 role only when the identity owner confirms that no other path needs it. Never delete the backing
 API, APIM service, Foundry agent, API Center, Application Insights resource, or source data during
 this restore.

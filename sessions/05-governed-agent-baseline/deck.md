@@ -154,8 +154,8 @@ contains `implementationSession=05-governed-agent-baseline`. Its versions, ident
 are removed. The Foundry project, model, read API, RAI policy, Application Insights resource, and
 repository definitions remain.
 
-[Session 07](../07-apim-ai-gateway/) adds APIM ingress.
-[Session 09](../09-mcp-tool-security/) replaces the direct tool path with MCP controls.
+[Session 08](../08-apim-ai-gateway-implementation/) adds APIM ingress.
+[Session 10](../10-mcp-tool-security/) replaces the direct tool path with MCP controls.
 
 <!-- Notes: Product, platform, identity, and operations owners confirm that no consumer uses the endpoint before removal. -->
 

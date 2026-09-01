@@ -30,7 +30,7 @@ uploaded AI models. Do not replace the title list with a broad `Title has "AI"` 
 
 - For unsafe tool behavior, disable the agent endpoint or remove the tool binding through the
   existing [Session 05](../../../../05-governed-agent-baseline/implementation/README.md) or
-  [Session 09](../../../../09-mcp-tool-security/implementation/README.md) control. Do not depend on a system-prompt edit alone.
+  [Session 10](../../../../10-mcp-tool-security/implementation/README.md) control. Do not depend on a system-prompt edit alone.
 - For suspected leakage, stop the run, disable the affected data or tool path, and follow the
   customer's data incident process.
 - For a false positive, keep the Defender disposition in the SOC system, not as copied evidence in

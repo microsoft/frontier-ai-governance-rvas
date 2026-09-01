@@ -11,7 +11,7 @@ session:
     - "GitHub, Microsoft Entra, Azure, and API Management administrators"
     - "Quality, security, routing, production-approval, and delivery owners"
   prerequisites:
-    - "Complete Sessions 05, 07, and 10-13, or verify the same immutable-agent, gateway, evaluation, adversarial, and observability control states with their named owners."
+    - "Complete Sessions 05, 08, and 10-13, or verify the same immutable-agent, gateway, evaluation, adversarial, and observability control states with their named owners."
     - "Release metadata binds the prompt, agent, model, APIM policy, evaluation inputs, and Bicep parameters to one commit. Supply the approved full SHA through the protected workflow input, never inside that commit."
     - "The approved Session 11 release policy is enabled. Its temporary external baseline and candidate records match the policy run IDs, the callable gate passes the candidate, and the generated tool-process self-test returns BLOCK."
     - "The approved temporary workspace contains a confirmed, payload-free Session 12 security-release attestation for the same immutable agent and versions. It records external authorization and report locations, lower aggregate attack success, per-risk non-regression, and blocked prohibited actions. SOC delivery remains separate."
@@ -25,7 +25,7 @@ session:
     - "Release, quality, security, production-approval, routing, platform, observability, and delivery authorities are named and available for live decisions."
   dependencies:
     - "Session 05 - Governed Microsoft Foundry agent baseline"
-    - "Session 07 - Azure API Management as the AI gateway"
+    - "Session 08 - Azure API Management AI gateway implementation"
     - "Session 11 - Foundry evaluations and release quality gates"
     - "Session 12 - Red teaming, prompt injection, and Defender"
     - "Session 13 - Observability, cost, and operational controls"

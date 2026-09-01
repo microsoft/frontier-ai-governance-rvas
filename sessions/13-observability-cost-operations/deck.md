@@ -178,7 +178,7 @@ Default polling is 180 seconds with a 15-second retry.
 ### Restore through owning paths
 
 1. Route to the last approved Session 05 version.
-2. Restore the previous Session 07 APIM policy.
+2. Restore the previous Session 08 APIM policy.
 3. Disable only noisy Session 13 alerts.
 4. Remove only previewed, session-tagged resources.
 5. Delete the exact budget with cost-owner approval.

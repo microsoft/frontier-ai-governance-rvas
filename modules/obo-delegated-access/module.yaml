@@ -18,7 +18,7 @@ module:
   related_content:
     - "Session 02 - Entra identity, RBAC, PIM, and workload identities"
     - "Session 05 - Governed Microsoft Foundry agent baseline"
-    - "Session 09 - MCP and tool security"
+    - "Session 10 - MCP and tool security"
   services_in_scope:
     - "microsoft-entra-id"
     - "azure-key-vault"

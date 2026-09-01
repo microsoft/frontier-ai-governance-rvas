@@ -228,7 +228,7 @@ function Get-MarkdownField {
     return $value
 }
 
-$implementationSession = "09-mcp-tool-security"
+$implementationSession = "10-mcp-tool-security"
 $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
 $environmentPath = Join-Path $artifactRoot "environments\sandbox.json"
 $bindingPath = Join-Path $artifactRoot "governance\agent-mcp-binding.json"
@@ -293,9 +293,9 @@ if ($sentinels.Count -gt 0) {
     $unresolved = @($sentinels.Matches.Value | Sort-Object -Unique)
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
     if ($unknown.Count -gt 0) {
-        throw "Add explicit Session 09 preflight checks for new sentinels: $($unknown -join ', ')."
+        throw "Add explicit Session 10 preflight checks for new sentinels: $($unknown -join ', ')."
     }
-    throw "Resolve every Session 09 customer decision before deployment: $($unresolved -join ', ')."
+    throw "Resolve every Session 10 customer decision before deployment: $($unresolved -join ', ')."
 }
 
 $environment = Get-Content -LiteralPath $environmentPath -Raw | ConvertFrom-Json -ErrorAction Stop
@@ -436,7 +436,7 @@ foreach ($requiredPolicyElement in @(
         "rate-limit-by-key",
         "authentication-managed-identity",
         "X-Correlation-ID",
-        "session09-mcp-tool-security"
+        "session10-mcp-tool-security"
     )) {
     if ($policyText -notmatch [regex]::Escape($requiredPolicyElement)) {
         throw "The MCP policy is missing required control: $requiredPolicyElement"
@@ -454,7 +454,7 @@ if ($null -eq $forwardRequest -or
 $queryText = Get-Content -LiteralPath $queryPath -Raw
 foreach ($requiredQueryField in @(
         "operation_Id",
-        "session08.correlation_id",
+        "session10.correlation_id",
         "gen_ai.tool.name",
         "error.type"
     )) {
@@ -590,7 +590,7 @@ $existingMcpRaw = & az rest `
 if ($LASTEXITCODE -eq 0) {
     $existingMcp = $existingMcpRaw | ConvertFrom-Json -ErrorAction Stop
     if ([string]$existingMcp.properties.description -notlike "*implementationSession=$implementationSession*") {
-        throw "An APIM API already uses the MCP server ID without the Session 09 marker."
+        throw "An APIM API already uses the MCP server ID without the Session 10 marker."
     }
 }
 
@@ -604,17 +604,17 @@ Write-Host "  Telemetry: correlation and MCP dimensions only; body bytes 0"
 
 & az bicep build --file $bicepPath --stdout *> $null
 if ($LASTEXITCODE -ne 0) {
-    throw "The Session 09 Bicep definition failed to compile."
+    throw "The Session 10 Bicep definition failed to compile."
 }
 & az deployment group what-if `
-    --name "session08-mcp-preview" `
+    --name "session10-mcp-preview" `
     --resource-group ([string]$environment.resourceGroupName) `
     --template-file $bicepPath `
     --parameters "apiManagementName=$($environment.apiManagementName)" `
     --only-show-errors `
     --no-pretty-print
 if ($LASTEXITCODE -ne 0) {
-    throw "The Session 09 deployment preview failed."
+    throw "The Session 10 deployment preview failed."
 }
 
-Write-Host "PASS: Session 09 Markdown security cases, one-tool boundary, identity scopes, payload-free telemetry, approved APIM and backend scopes, and deployment preview are ready."
+Write-Host "PASS: Session 10 Markdown security cases, one-tool boundary, identity scopes, payload-free telemetry, approved APIM and backend scopes, and deployment preview are ready."

@@ -24,7 +24,7 @@ repository stores the evaluation definition, synthetic data, thresholds, release
 and restore runbook.
 
 The gate decides eligibility. It does not promote an agent or change the stable selector. Preview
-task-adherence, prohibited-action, and sensitive-data-leakage evaluators stay advisory. Session 09
+task-adherence, prohibited-action, and sensitive-data-leakage evaluators stay advisory. Session 10
 remains the authorization boundary for prohibited writes.
 
 ## Architecture

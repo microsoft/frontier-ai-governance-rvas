@@ -42,7 +42,7 @@ tokens, tenant values, endpoints, or user data.
 
 [Session 02](../../../sessions/02-identity-privileged-access/) establishes the identity decision.
 [Session 05](../../../sessions/05-governed-agent-baseline/) provides the application-only agent
-baseline, and [Session 09](../../../sessions/09-mcp-tool-security/) provides the application-only
+baseline, and [Session 10](../../../sessions/10-mcp-tool-security/) provides the application-only
 MCP path.
 
 ## Architecture

@@ -218,7 +218,7 @@ No application-only retry. No token or payload logging.
 
 - Session 02 selects human, workload, agent, or delegated authority.
 - Session 05 keeps the direct OpenAPI baseline application-only.
-- Session 09 uses APIM managed identity for inbound authority.
+- Session 10 uses APIM managed identity for inbound authority.
 
 Use this module for a real per-user requirement that needs the downstream API to authorize the
 signed-in user.

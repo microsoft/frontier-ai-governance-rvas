@@ -20,7 +20,7 @@ changes flow through the owner's source and supported integration.
 
 Use the agent baseline in
 [Session 05](../../../sessions/05-governed-agent-baseline/implementation/README.md) and apply data
-controls from [Session 10](../../../sessions/10-purview-data-governance/implementation/README.md).
+controls from [Session 06](../../../sessions/06-agent-365-access-boundary/implementation/README.md).
 Use the separate A2A API Center discovery module when developers need a catalog entry for the
 agent's technical interface.
 

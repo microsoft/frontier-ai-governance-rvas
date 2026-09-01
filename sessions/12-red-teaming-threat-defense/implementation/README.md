@@ -301,7 +301,7 @@ system keeps decisions. The repository retains the plan, exact-title hunt, and p
 
 For unsafe behavior, stop the run and keep the stable endpoint on the previously approved version.
 Disable the affected version or detach its tool binding when needed. Restore the approved agent,
-tool, gateway, content, permission, and data controls through the change paths from Sessions 05, 07,
+tool, gateway, content, permission, and data controls through the change paths from Sessions 05, 08,
 09, and 10. Keep Defender and SOC routing active unless their owners find a separate fault. Remove
 cloud red-team definitions only after the security owner confirms retention needs.
 

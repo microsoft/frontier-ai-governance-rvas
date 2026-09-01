@@ -1,0 +1,57 @@
+schema_version: 2
+session:
+  id: "07"
+  slug: "apim-ai-gateway-design"
+  title: "Azure API Management AI gateway design"
+  duration_minutes: 120
+  status: "draft"
+  last_verified: "2026-08-28"
+  audience:
+    - "API platform and application architects"
+    - "Identity, network, safety, and operations owners"
+    - "The delivery lead for the target AI workload"
+  prerequisites:
+    - "Bring the approved nonproduction implementation scope, change path, and delivery owner to the design session."
+    - "Identify the target AI backend type, its owner, and the approved endpoint reference without recording a live endpoint or credential in the repository."
+    - "Bring the current ingress, client identity, backend identity, network path, API Management instance or request, telemetry sink, and Content Safety decisions for the target workload."
+    - "Include the API product, identity, network, safety, operations, and delivery owners who can record a decision or readiness gap."
+  dependencies:
+    - "The target workload, its owner, and its approved nonproduction scope are identifiable."
+  services_in_scope:
+    - "azure-api-management"
+    - "azure-ai-content-safety"
+    - "application-insights"
+  control_objective: "Create an owned, source-controlled Azure API Management gateway design record so the delivery team can decide whether the target workload is ready for approved implementation."
+implementation:
+  mode: "standard"
+implementation_outcomes:
+  - "Record the target backend, ingress, identities, network path, API Management tier and instance, and approved implementation scope."
+  - "Record Content Safety, telemetry, request limits, safety, routing, and restore decisions with named owners."
+  - "State the actual readiness gaps, their owners, and the action that resolves each gap."
+  - "Run the record preflight check without creating or changing Azure resources."
+deliverables:
+  implementation: "implementation/README.md"
+  deck: "deck.md"
+  leave_behind:
+    - "implementation/artifacts/gateway-design-record.json"
+retained_files:
+  - path: "implementation/artifacts/gateway-design-record.json"
+    consumer: "The gateway implementation owner and Session 08 preflight process"
+    operational_purpose: "Supply approved gateway decisions and readiness gaps before the team proposes an implementation change."
+sources:
+  - title: "AI gateway capabilities in Azure API Management"
+    url: "https://learn.microsoft.com/en-us/azure/api-management/genai-gateway-capabilities"
+    accessed: "2026-08-26"
+    supports: "The AI gateway is an API Management capability set; supported backends, tier-dependent availability, token controls, safety policies, routing, and observability."
+  - title: "Authenticate and Authorize to LLM APIs"
+    url: "https://learn.microsoft.com/en-us/azure/api-management/api-management-authenticate-authorize-ai-apis"
+    accessed: "2026-08-25"
+    supports: "Microsoft Entra ingress authorization, managed-identity backend authentication, and policy ordering."
+  - title: "LLM content safety policy"
+    url: "https://learn.microsoft.com/en-us/azure/api-management/llm-content-safety-policy"
+    accessed: "2026-08-28"
+    supports: "Current Prompt Shields and harm-category policy syntax, required Content Safety backend, managed-identity access, supported tiers, and streaming behavior that stops forwarding later events without returning a normal 403."
+  - title: "Azure API Management Backends"
+    url: "https://learn.microsoft.com/en-us/azure/api-management/backends"
+    accessed: "2026-08-25"
+    supports: "Backend entities, managed-identity authorization, circuit breakers, backend pools, and priority routing."

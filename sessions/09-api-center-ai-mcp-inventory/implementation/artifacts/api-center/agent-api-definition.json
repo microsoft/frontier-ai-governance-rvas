@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "08-api-center-ai-mcp-inventory",
+  "implementationSession": "09-api-center-ai-mcp-inventory",
   "api": {
     "apiId": "policy-assistant-agent-api",
     "title": "Policy assistant agent API",
@@ -26,7 +26,7 @@
       "evaluationResultsUrl": "__REQUIRED_EVALUATION_RESULTS_URL__",
       "lastReviewDate": "__REQUIRED_LAST_REVIEW_DATE__",
       "expiryDate": "__REQUIRED_EXPIRY_DATE__",
-      "implementationSession": "08-api-center-ai-mcp-inventory"
+      "implementationSession": "09-api-center-ai-mcp-inventory"
     }
   }
 }

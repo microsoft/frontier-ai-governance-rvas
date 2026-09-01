@@ -28,8 +28,8 @@ read authorization constrain the tool path. Instructions add refusal behavior bu
 that boundary.
 
 Session 06 owns Microsoft 365 and Teams distribution.
-[Session 07](../../07-apim-ai-gateway/implementation/README.md) adds APIM ingress.
-[Session 09](../../09-mcp-tool-security/implementation/README.md) replaces the direct tool path
+[Session 08](../../08-apim-ai-gateway-implementation/implementation/README.md) adds APIM ingress.
+[Session 10](../../10-mcp-tool-security/implementation/README.md) replaces the direct tool path
 with MCP controls. [Session 11](../../11-foundry-evaluations-quality-gates/implementation/README.md)
 adds repeatable evaluations. Use a separately approved delegated-access implementation when the
 API must authorize the signed-in user.
@@ -55,7 +55,7 @@ read API.
 |---|---|---|---|
 | Runtime and release | Persistent prompt agent with an immutable version and pinned endpoint | Every configuration change creates a version | The workload needs hosted code or application-owned ephemeral definitions |
 | Identities | Agent identity at the endpoint; project managed identity for the OpenAPI call | The API sees the project identity, not the user or agent | The API needs delegated user access or a tool supports agent-identity authentication |
-| Tool | Attach one GET-only OpenAPI definition directly | Reuse and centralized tool lifecycle stay outside this baseline | Several agents need the tool, or Session 09 adds APIM and MCP |
+| Tool | Attach one GET-only OpenAPI definition directly | Reuse and centralized tool lifecycle stay outside this baseline | Several agents need the tool, or Session 10 adds APIM and MCP |
 | Routing | Send 100% of traffic to the new version | Promotion is an explicit deployment step | The release needs tested weighted routing |
 
 ### Architecture guidance

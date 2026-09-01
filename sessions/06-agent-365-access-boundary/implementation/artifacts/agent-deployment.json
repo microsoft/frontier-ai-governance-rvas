@@ -5,6 +5,7 @@
   "targetScope": "nonproduction-agent365-group-pilot",
   "agent": {
     "registryId": "__REQUIRED_AGENT_REGISTRY_ID__",
+    "instanceId": "__REQUIRED_AGENT_INSTANCE_ID__",
     "alias": "__REQUIRED_AGENT_ALIAS__",
     "platform": "__REQUIRED_AGENT_PLATFORM__",
     "requiredStatus": "Available"
@@ -16,12 +17,17 @@
       "__REQUIRED_HOST_PRODUCT__"
     ],
     "adminConsent": "Approved",
-    "action": "PrepareOnly",
-    "restoreAction": "NoInstallationToRemove"
+    "action": "InstallAfterDlpPropagation",
+    "restoreAction": "RemoveScopedInstallation"
+  },
+  "dlpGate": {
+    "policyState": "__REQUIRED_DLP_POLICY_STATE__",
+    "propagationState": "__REQUIRED_DLP_PROPAGATION_STATE__",
+    "requiredInstallState": "EnabledAndPropagated"
   },
   "dataBoundary": {
     "allowedData": "SyntheticOnly",
-    "userAccess": "WithheldPendingSession10DlpConfirmation"
+    "userAccess": "ScopedAfterDlpPropagation"
   },
   "validation": {
     "memberAlias": "__REQUIRED_TEST_GROUP_MEMBER_ALIAS__",

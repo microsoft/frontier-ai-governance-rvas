@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "09-mcp-tool-security",
+  "implementationSession": "10-mcp-tool-security",
   "agentName": "__REQUIRED_AGENT_NAME__",
   "serverLabel": "policy-catalog",
   "serverId": "policy-catalog-mcp",
   "transport": "streamable-http",
   "toolOwner": "__REQUIRED_TOOL_OWNER__",
   "dataClassification": "__REQUIRED_TOOL_DATA_CLASSIFICATION__",
-  "serverUrlEnvironmentVariable": "SESSION08_MCP_SERVER_URL",
+  "serverUrlEnvironmentVariable": "SESSION10_MCP_SERVER_URL",
   "projectConnectionName": "__REQUIRED_FOUNDRY_MCP_CONNECTION_NAME__",
   "connectionAuthentication": {
     "type": "agentic-identity",

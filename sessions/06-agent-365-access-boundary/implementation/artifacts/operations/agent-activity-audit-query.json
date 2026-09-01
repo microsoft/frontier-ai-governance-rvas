@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "10-purview-data-governance",
+  "implementationSession": "06-agent-365-access-boundary",
   "lookbackHours": 24,
   "microsoftGraphApplicationPermission": "AuditLogsQuery.Read.All",
   "operations": [

@@ -94,8 +94,24 @@ require_command curl
 require_command jq
 require_command python3
 
-
 query_json=$(cat "$query_path")
+python3 - "$query_path" <<'PY'
+import json
+import sys
+
+query = json.load(open(sys.argv[1], encoding="utf-8"))
+if (
+    query.get("schemaVersion") != 1
+    or query.get("implementationSession") != "06-agent-365-access-boundary"
+    or query.get("microsoftGraphApplicationPermission") != "AuditLogsQuery.Read.All"
+    or not isinstance(query.get("lookbackHours"), int)
+    or not 1 <= query["lookbackHours"] <= 168
+    or sorted(query.get("operations", [])) != sorted(["AIInvokeAgent", "AIExecuteTool", "AIInferenceCall", "AIGuardrail"])
+    or sorted(query.get("safeOutputFields", [])) != sorted(["CreationDate", "Operation", "AgentId", "AgentName", "ResultStatus"])
+    or not query.get("excludedContent")
+):
+    raise SystemExit("The Agent 365 audit query must retain its approved operations and payload-free output contract.")
+PY
 if [[ -z "$end_utc" ]]; then
   end_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 fi
@@ -109,7 +125,7 @@ print((end - timedelta(hours=lookback)).astimezone(timezone.utc).strftime('%Y-%m
 PY
 )
 fi
-python3 - <<'PY' "$start_utc" "$end_utc"
+if ! python3 - <<'PY' "$start_utc" "$end_utc"
 from datetime import datetime
 import sys
 start = datetime.fromisoformat(sys.argv[1].replace('Z', '+00:00'))
@@ -117,7 +133,7 @@ end = datetime.fromisoformat(sys.argv[2].replace('Z', '+00:00'))
 if start >= end:
     raise SystemExit(1)
 PY
-if [[ $? -ne 0 ]]; then
+then
   fail 'StartUtc must be earlier than EndUtc.'
 fi
 
@@ -133,7 +149,7 @@ payload = json.loads(base64.urlsafe_b64decode(parts[1] + '=' * (-len(parts[1]) %
 if sys.argv[2] not in payload.get('roles', []):
     raise SystemExit('The Microsoft Graph application token must include AuditLogsQuery.Read.All with administrator consent.')
 PY
-create_body=$(jq -n --arg start "$start_utc" --arg end "$end_utc" --argjson ops "$(jq -c '.operations' <<<"$query_json")" '{displayName:"Session 10 Agent 365 activity query", filterStartDateTime:$start, filterEndDateTime:$end, operationFilters:$ops}')
+create_body=$(jq -n --arg start "$start_utc" --arg end "$end_utc" --argjson ops "$(jq -c '.operations' <<<"$query_json")" '{displayName:"Session 06 Agent 365 activity query", filterStartDateTime:$start, filterEndDateTime:$end, operationFilters:$ops}')
 graph_request POST 'https://graph.microsoft.com/v1.0/security/auditLog/queries' "$graph_token" "$create_body"
 [[ "$GRAPH_STATUS" == '201' || "$GRAPH_STATUS" == '200' ]] || fail 'Creating the unified audit log query failed.'
 query_id=$(jq -r '.id // empty' <<<"$GRAPH_BODY")
@@ -158,7 +174,6 @@ graph_request GET "https://graph.microsoft.com/v1.0/security/auditLog/queries/$q
 python3 - "$GRAPH_BODY" "$agent_instance_id" <<'PY'
 import json
 import sys
-from datetime import datetime
 records = json.loads(sys.argv[1]).get('value', [])
 agent_instance_id = sys.argv[2]
 rows = []

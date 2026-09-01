@@ -26,5 +26,5 @@ The Session 11 scripts never change the endpoint selector.
    no release record or comparison uses it.
 
 Do not delete the Foundry project, agent versions, judge-model deployment, Application Insights,
-[Session 09](../../../../09-mcp-tool-security/implementation/README.md) tool path, or customer data as a restore shortcut. A failed candidate stays unpinned
+[Session 10](../../../../10-mcp-tool-security/implementation/README.md) tool path, or customer data as a restore shortcut. A failed candidate stays unpinned
 and is remediated in a new version rather than mutated in place.

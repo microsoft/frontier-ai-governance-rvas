@@ -1,9 +1,9 @@
 targetScope = 'resourceGroup'
 
-@description('Existing Session 06 API Management resource group.')
+@description('Existing Session 08 API Management resource group.')
 param apiManagementResourceGroupName string
 
-@description('Existing Session 06 API Management service name.')
+@description('Existing Session 08 API Management service name.')
 param apiManagementName string
 
 @description('API Center service name.')
@@ -117,7 +117,7 @@ resource agentDeployment 'Microsoft.ApiCenter/services/workspaces/apis/deploymen
 }
 
 module apiManagementReader 'apim-reader.bicep' = {
-  name: 'session07-apim-reader'
+  name: 'session09-apim-reader'
   scope: resourceGroup(apiManagementResourceGroupName)
   params: {
     apiManagementName: apiManagementName

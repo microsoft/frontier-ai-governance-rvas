@@ -26,7 +26,7 @@ responses, tool payloads, credentials, or personal data into tickets or this rep
 ## Unsafe output
 
 - The service owner disables or routes away from the affected immutable agent/model version.
-- Keep the [Session 09](../../../../09-mcp-tool-security/implementation/README.md) independent tool authorization boundary enforced.
+- Keep the [Session 10](../../../../10-mcp-tool-security/implementation/README.md) independent tool authorization boundary enforced.
 - Inspect the correlated trace and [Session 11](../../../../11-foundry-evaluations-quality-gates/implementation/README.md)/[Session 12](../../../../12-red-teaming-threat-defense/implementation/README.md) evaluation or red-team records in their governed
   systems.
 - Notify the AI safety, service, data-protection, and security operations owners.
@@ -51,9 +51,9 @@ responses, tool payloads, credentials, or personal data into tickets or this rep
 - The credential owner uses the approved secret-management process; never place credentials in
   incident notes.
 - Reconcile [Session 02](../../../../02-identity-privileged-access/implementation/README.md),
-  [Session 07](../../../../07-apim-ai-gateway/implementation/README.md),
-  [Session 09](../../../../09-mcp-tool-security/implementation/README.md),
-  [Session 10](../../../../10-purview-data-governance/implementation/README.md), and
+  [Session 08](../../../../08-apim-ai-gateway-implementation/implementation/README.md),
+  [Session 10](../../../../10-mcp-tool-security/implementation/README.md),
+  [Session 06](../../../../06-agent-365-access-boundary/implementation/README.md), and
   [Session 12](../../../../12-red-teaming-threat-defense/implementation/README.md) before restoring the tool.
 
 ## Model degradation

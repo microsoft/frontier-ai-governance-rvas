@@ -23,8 +23,20 @@ if (-not (Test-Path -LiteralPath $queryPath -PathType Leaf)) {
     throw "Audit query definition is missing: $queryPath"
 }
 
-$query = Get-Content -LiteralPath $queryPath -Raw |
-    ConvertFrom-Json -ErrorAction Stop
+$query = Get-Content -LiteralPath $queryPath -Raw | ConvertFrom-Json -ErrorAction Stop
+$expectedOperations = @("AIInvokeAgent", "AIExecuteTool", "AIInferenceCall", "AIGuardrail")
+$expectedFields = @("CreationDate", "Operation", "AgentId", "AgentName", "ResultStatus")
+if (
+    [int]$query.schemaVersion -ne 1 -or
+    [string]$query.implementationSession -ne "06-agent-365-access-boundary" -or
+    [string]$query.microsoftGraphApplicationPermission -ne "AuditLogsQuery.Read.All" -or
+    [int]$query.lookbackHours -lt 1 -or [int]$query.lookbackHours -gt 168 -or
+    (@($query.operations) | Sort-Object) -join "|" -ne ($expectedOperations | Sort-Object) -join "|" -or
+    (@($query.safeOutputFields) | Sort-Object) -join "|" -ne ($expectedFields | Sort-Object) -join "|" -or
+    @($query.excludedContent).Count -eq 0
+) {
+    throw "The Agent 365 audit query must retain its approved operations and payload-free output contract."
+}
 if (-not $PSBoundParameters.ContainsKey("StartUtc")) {
     $StartUtc = $EndUtc.AddHours(-1 * [int]$query.lookbackHours)
 }
