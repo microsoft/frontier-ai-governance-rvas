@@ -44,11 +44,11 @@ security delivery. Existing tool and backend controls remain the boundary for pr
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
-|---|---|---|---|---|
-| Comparison | Same plan, two immutable versions | Isolates the remediation change | Generative results still need human review | The plan or evaluator set changes |
-| Tool safety | Read-only tool; writes independently denied | Model failure cannot produce a write | Does not test real writes | A separate contained test is approved |
-| Route check | Authorized event or route-health result | Avoids manufacturing an attack | Proves delivery, not remediation quality | The SOC route changes |
+| Decision | Chosen approach | Benefits | Costs and limitations |
+|---|---|---|---|
+| Comparison | Same plan, two immutable versions | Isolates the remediation change | Generative results still need human review |
+| Tool safety | Read-only tool; writes independently denied | Model failure cannot produce a write | Does not test real writes |
+| Route check | Authorized event or route-health result | Avoids manufacturing an attack | Proves delivery, not remediation quality |
 
 ### Architecture guidance
 

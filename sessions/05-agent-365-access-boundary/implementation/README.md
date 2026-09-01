@@ -48,13 +48,13 @@ simulation result, and propagation decision in Purview and the approved change s
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
-|---|---|---|---|---|
-| Source agent | A published Foundry, Copilot Studio, or Agent Builder agent | Uses a supported Agent 365 entry path | The source platform still governs its runtime | The agent origin or runtime changes |
-| Rollout scope | One nonproduction Agent Registry agent and Entra group | Limits access while the control is checked | A broader pilot needs another change | The pilot group expands |
-| DLP action | The approved `Block` or `Audit` choice | Follows the data owner's decision | `Audit` records activity but allows it; `Block` can interrupt work | The use case or label changes |
-| Installation gate | Recorded `EnabledAndPropagated` state before group installation | Makes the handoff explicit | The operator must inspect Purview and the change record first | A policy changes, is disabled, or is replaced |
-| Audit output | Five metadata fields, with no export | Supports a quick check | Investigation detail stays in Purview | Purview changes operation names |
+| Decision | Chosen approach | Benefits | Costs and limitations |
+|---|---|---|---|
+| Source agent | A published Foundry, Copilot Studio, or Agent Builder agent | Uses a supported Agent 365 entry path | The source platform still governs its runtime |
+| Rollout scope | One nonproduction Agent Registry agent and Entra group | Limits access while the control is checked | A broader pilot needs another change |
+| DLP action | The approved `Block` or `Audit` choice | Follows the data owner's decision | `Audit` records activity but allows it; `Block` can interrupt work |
+| Installation gate | Recorded `EnabledAndPropagated` state before group installation | Makes the handoff explicit | The operator must inspect Purview and the change record first |
+| Audit output | Five metadata fields, with no export | Supports a quick check | Investigation detail stays in Purview |
 
 ### Architecture guidance
 

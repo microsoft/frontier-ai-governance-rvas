@@ -53,13 +53,13 @@ tool-security work.
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
-|---|---|---|---|---|
-| Inventory scope | Direct agent API, linked APIM instance, and one approved remote MCP server | Gives the three selected assets one searchable inventory | Every API in the APIM instance is imported and needs an owner | A narrower supported source is available |
-| APIM access | One-way sync with API Management Service Reader Role | Keeps definitions aligned without APIM write access | Initial sync can take up to 24 hours | Selective synchronization becomes available |
-| MCP registration | Native portal flow | Uses the supported MCP asset model | A person must maintain the entry | A stable ARM resource exposes the native fields |
-| Authoritative state | Design metadata in API Center; runtime state in each service | Keeps inventory and runtime health separate | Owners must update metadata after service changes | A supported integration can update the same fields safely |
-| Plan | Record Free or Standard, then confirm it in the portal | Keeps support and cost explicit | Stable Bicep does not set the plan | The stable service API supports plan deployment |
+| Decision | Chosen approach | Benefits | Costs and limitations |
+|---|---|---|---|
+| Inventory scope | Direct agent API, linked APIM instance, and one approved remote MCP server | Gives the three selected assets one searchable inventory | Every API in the APIM instance is imported and needs an owner |
+| APIM access | One-way sync with API Management Service Reader Role | Keeps definitions aligned without APIM write access | Initial sync can take up to 24 hours |
+| MCP registration | Native portal flow | Uses the supported MCP asset model | A person must maintain the entry |
+| Authoritative state | Design metadata in API Center; runtime state in each service | Keeps inventory and runtime health separate | Owners must update metadata after service changes |
+| Plan | Record Free or Standard, then confirm it in the portal | Keeps support and cost explicit | Stable Bicep does not set the plan |
 
 ### Architecture guidance
 

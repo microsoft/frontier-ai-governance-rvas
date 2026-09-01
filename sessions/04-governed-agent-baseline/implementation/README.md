@@ -51,12 +51,12 @@ read API.
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Tradeoff | Revisit when |
-|---|---|---|---|
-| Runtime and release | Persistent prompt agent with an immutable version and pinned endpoint | Every configuration change creates a version | The workload needs hosted code or application-owned ephemeral definitions |
-| Identities | Agent identity at the endpoint; project managed identity for the OpenAPI call | The API sees the project identity, not the user or agent | The API needs delegated user access or a tool supports agent-identity authentication |
-| Tool | Attach one GET-only OpenAPI definition directly | Reuse and centralized tool lifecycle stay outside this baseline | Several agents need the tool, or Session 09 adds APIM and MCP |
-| Routing | Send 100% of traffic to the new version | Promotion is an explicit deployment step | The release needs tested weighted routing |
+| Decision | Chosen approach | Tradeoff |
+|---|---|---|
+| Runtime and release | Persistent prompt agent with an immutable version and pinned endpoint | Every configuration change creates a version |
+| Identities | Agent identity at the endpoint; project managed identity for the OpenAPI call | The API sees the project identity, not the user or agent |
+| Tool | Attach one GET-only OpenAPI definition directly | Reuse and centralized tool lifecycle stay outside this baseline |
+| Routing | Send 100% of traffic to the new version | Promotion is an explicit deployment step |
 
 ### Architecture guidance
 

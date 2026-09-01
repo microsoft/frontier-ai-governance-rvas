@@ -39,11 +39,11 @@ selector, and checks the primary path again.
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Benefit | Cost and limitation | Revisit when |
-|---|---|---|---|---|
-| Change boundary | Move one named traffic selector | The rehearsal avoids infrastructure and policy changes | The customer routing control must expose that selector | Routing design changes |
-| Path check | Compare health output with the regional contract | Operators check all required path values together | The health control must return the documented fields | The service adds a required path field |
-| Restore | Preview and approve the return move | The team checks the primary path before closing the rehearsal | The delivery owner approves a second traffic move | Restore authority or process changes |
+| Decision | Chosen approach | Benefit | Cost and limitation |
+|---|---|---|---|
+| Change boundary | Move one named traffic selector | The rehearsal avoids infrastructure and policy changes | The customer routing control must expose that selector |
+| Path check | Compare health output with the regional contract | Operators check all required path values together | The health control must return the documented fields |
+| Restore | Preview and approve the return move | The team checks the primary path before closing the rehearsal | The delivery owner approves a second traffic move |
 
 ### Architecture guidance
 

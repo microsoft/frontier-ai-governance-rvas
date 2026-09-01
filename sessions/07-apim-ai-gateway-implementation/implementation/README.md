@@ -52,13 +52,13 @@ agent.
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
-|---|---|---|---|---|
-| Client access | Entra application token plus one APIM subscription per workload | Identity and usage allocation can be revoked separately | Clients manage two credentials | Entra alone meets quota and revocation needs |
-| Backend identity | APIM managed identity with Foundry Agent Consumer on one agent | APIM stores no backend key | Direct Foundry access remains possible | Another approved control governs the direct endpoint |
-| Safety | APIM Content Safety before the agent's RAI policy | Unsafe input can stop before the agent call | Adds latency, cost, and another data path | Safety owners approve a different split |
-| Routing | Primary backend and one read-safe retry; secondary disabled | Keeps the failure path bounded | No regional failover | Session 14 approves a compatible secondary |
-| Telemetry | Correlation and token metrics; body logging disabled | Supports operations without retaining content | Logs cannot explain a failed exchange from its content | A data owner approves limited content capture |
+| Decision | Chosen approach | Benefits | Costs and limitations |
+|---|---|---|---|
+| Client access | Entra application token plus one APIM subscription per workload | Identity and usage allocation can be revoked separately | Clients manage two credentials |
+| Backend identity | APIM managed identity with Foundry Agent Consumer on one agent | APIM stores no backend key | Direct Foundry access remains possible |
+| Safety | APIM Content Safety before the agent's RAI policy | Unsafe input can stop before the agent call | Adds latency, cost, and another data path |
+| Routing | Primary backend and one read-safe retry; secondary disabled | Keeps the failure path bounded | No regional failover |
+| Telemetry | Correlation and token metrics; body logging disabled | Supports operations without retaining content | Logs cannot explain a failed exchange from its content |
 
 ### Architecture guidance
 

@@ -46,12 +46,12 @@ client `X-Correlation-ID`. It records no arguments, results, prompts, responses,
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Cost or limit | Revisit when |
-|---|---|---|---|
-| Tool surface | One `get_policy` tool | Another action needs review and deployment | A new business action is approved |
-| Backend access | APIM managed identity with the exact read role and scope | Two audiences and role assignments need ownership | The backend must authorize individual users |
-| Release | Test an unpinned candidate | Enablement waits for both checks | Session 13 protects this checkpoint |
-| Telemetry | Correlation and tool metadata; zero body bytes | Content investigations stay in governed source systems | The security owner approves another design |
+| Decision | Chosen approach | Cost or limit |
+|---|---|---|
+| Tool surface | One `get_policy` tool | Another action needs review and deployment |
+| Backend access | APIM managed identity with the exact read role and scope | Two audiences and role assignments need ownership |
+| Release | Test an unpinned candidate | Enablement waits for both checks |
+| Telemetry | Correlation and tool metadata; zero body bytes | Content investigations stay in governed source systems |
 
 ### Architecture guidance
 

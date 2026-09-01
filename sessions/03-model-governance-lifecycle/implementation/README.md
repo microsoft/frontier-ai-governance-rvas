@@ -47,12 +47,12 @@ approved deployment name and model coordinates.
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Cost or limit | Revisit when |
-|---|---|---|---|
-| Approval record | Keep the full review in the decision system and deployment inputs in Git | The approval ID must match both systems | The decision system provides a stable machine interface |
-| Service facts | Read lifecycle, availability, quota, and the named Responsible AI policy during preflight | Missing CLI fields require a named manual check | Azure exposes stable fields for all selected models |
-| Version changes | Pin exact coordinates with `NoAutoUpgrade` | The owner must start replacement before retirement | The owner approves a tested upgrade policy |
-| Control reach | Govern this version-controlled deployment path | Other authorized paths remain open | Preventive policy or narrower deployment rights cover them |
+| Decision | Chosen approach | Cost or limit |
+|---|---|---|
+| Approval record | Keep the full review in the decision system and deployment inputs in Git | The approval ID must match both systems |
+| Service facts | Read lifecycle, availability, quota, and the named Responsible AI policy during preflight | Missing CLI fields require a named manual check |
+| Version changes | Pin exact coordinates with `NoAutoUpgrade` | The owner must start replacement before retirement |
+| Control reach | Govern this version-controlled deployment path | Other authorized paths remain open |
 
 ### Architecture guidance
 

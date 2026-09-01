@@ -26,9 +26,9 @@ Control boundary and handoffs: {{CONTROL_BOUNDARY_AND_HANDOFFS}}.
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
-|---|---|---|---|---|
-| {{ARCHITECTURE_DECISION}} | {{CHOSEN_APPROACH}} | {{BENEFITS}} | {{COSTS_AND_LIMITATIONS}} | {{REVISIT_WHEN}} |
+| Decision | Chosen approach | Benefits | Costs and limitations |
+|---|---|---|---|
+| {{ARCHITECTURE_DECISION}} | {{CHOSEN_APPROACH}} | {{BENEFITS}} | {{COSTS_AND_LIMITATIONS}} |
 
 ### Architecture guidance
 

@@ -45,13 +45,13 @@ process changes APIM.
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
-| --- | --- | --- | --- | --- |
-| Backend | Record the type and approved endpoint reference, not a runtime URL | Keeps the design usable without storing a sensitive coordinate | The implementation team must resolve the endpoint through its approved secret or configuration path | A backend or endpoint contract changes |
-| Ingress and identity | Record the caller credential separately from APIM's backend identity | Keeps caller authorization separate from backend access | Two owners may need to coordinate an incident or rotation | The client type or backend authorization model changes |
-| Network | Record inbound path, backend path, and private DNS state | Makes connectivity assumptions reviewable before deployment | The record cannot prove live reachability | A private endpoint, DNS zone, or egress path changes |
-| Safety and telemetry | Record the Content Safety path and body-capture policy before policy authoring | Sets the data boundary | The service policy still needs deployment and live validation | Safety thresholds, data classification, or logging policy changes |
-| Restore | Record the approved rollback or disable path | Gives operators a bounded response when the route misbehaves | The exact command belongs to the implementation variant | Routing, product, or backend topology changes |
+| Decision | Chosen approach | Benefits | Costs and limitations |
+| --- | --- | --- | --- |
+| Backend | Record the type and approved endpoint reference, not a runtime URL | Keeps the design usable without storing a sensitive coordinate | The implementation team must resolve the endpoint through its approved secret or configuration path |
+| Ingress and identity | Record the caller credential separately from APIM's backend identity | Keeps caller authorization separate from backend access | Two owners may need to coordinate an incident or rotation |
+| Network | Record inbound path, backend path, and private DNS state | Makes connectivity assumptions reviewable before deployment | The record cannot prove live reachability |
+| Safety and telemetry | Record the Content Safety path and body-capture policy before policy authoring | Sets the data boundary | The service policy still needs deployment and live validation |
+| Restore | Record the approved rollback or disable path | Gives operators a bounded response when the route misbehaves | The exact command belongs to the implementation variant |
 
 ### Architecture guidance
 

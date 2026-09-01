@@ -160,7 +160,7 @@ authoritative state, the control boundary, and the handoffs that matter to this 
 Add a diagram when it makes that explanation easier to follow. A diagram is optional.
 
 `Design choices and tradeoffs` contains at least one useful Markdown table. Prefer
-`Decision | Chosen approach | Benefits | Costs and limitations | Revisit when`. A focused table is
+`Decision | Chosen approach | Benefits | Costs and limitations`. A focused table is
 fine when those columns do not fit the decision. Record choices that change the implementation;
 do not build a catalogue of unrelated alternatives.
 

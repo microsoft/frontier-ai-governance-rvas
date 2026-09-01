@@ -52,11 +52,11 @@ release.
 
 ### Design choices and tradeoffs
 
-| Decision | Chosen approach | Benefits | Costs and limitations | Revisit when |
-|---|---|---|---|---|
-| Release identity | Full commit SHA plus fixed component digests | Every stage and restore name one release | Any correction requires a new release | The repository or release-unit boundary changes |
-| Access | Separate preview and apply environments with exact OIDC subjects | What-if runs before approval; apply credentials stay withheld | Four trusts and environment protections must stay aligned | GitHub changes its plan features, environment model, or subject format |
-| Recovery | Manual, production-approved restore from an approved release record | An owner checks the exact release and route before traffic moves | Restore needs an available authority and takes longer than automation | A tested automatic policy can make the same identity, approval, and health checks |
+| Decision | Chosen approach | Benefits | Costs and limitations |
+|---|---|---|---|
+| Release identity | Full commit SHA plus fixed component digests | Every stage and restore name one release | Any correction requires a new release |
+| Access | Separate preview and apply environments with exact OIDC subjects | What-if runs before approval; apply credentials stay withheld | Four trusts and environment protections must stay aligned |
+| Recovery | Manual, production-approved restore from an approved release record | An owner checks the exact release and route before traffic moves | Restore needs an available authority and takes longer than automation |
 
 ### Architecture guidance
 
