@@ -5,7 +5,7 @@ session:
   title: "Microsoft Agent 365 secure rollout and data controls"
   duration_minutes: 270
   status: "draft"
-  last_verified: "2026-08-28"
+  last_verified: "2026-09-02"
   audience:
     - "Microsoft 365 and Microsoft Agent 365 administrators"
     - "Data owners and Microsoft Purview administrators"
@@ -30,7 +30,7 @@ implementation:
   extended_reason: "DLP propagation separates policy configuration from live installation. Before the scoped rollout remains enabled, the delivery owner observes the intended labelled interaction and the out-of-scope non-match."
 implementation_outcomes:
   - "Record the approved agent origin, Agent Registry entry, test group, host product, consent decision, DLP readiness, and restore route."
-  - "Assign owners for the Agent 365 policy, labels, source platform, and audit query. For Foundry, also assign owners for the separate DLP rule and application integration."
+  - "Assign owners for the Agent 365 policy, labels, source platform, runtime instrumentation, inline Purview enforcement when required, and the audit query."
   - "Simulate, enable, and allow time for a nonproduction Agent 365 DLP policy to propagate before installation."
   - "Install the agent for the approved group, confirm included access and excluded-user denial, and run the payload-free activity query."
   - "Confirm the labelled intended result and out-of-scope non-match with the delivery owner."

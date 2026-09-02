@@ -48,6 +48,11 @@ The delegated Agent Service subnet has a separate default route to the customer 
 holds the route; firewall administrators maintain the rules. A route does not prove that the
 firewall permits traffic.
 
+Corporate or on-premises identity providers may authenticate users before traffic reaches Azure
+API Management. They do not replace Microsoft Entra workload identity for agents and Azure
+services. The network owner must keep the user-authentication path separate from the private
+service and agent-token paths.
+
 ![An approved private host reaches Foundry and data services through private DNS and private endpoints while public access is denied.](../assets/diagrams/private-network-flow.svg)
 
 ### Design choices and tradeoffs
@@ -110,6 +115,7 @@ The owners must also settle these points before deployment:
 | Addressing | The Agent subnet is dedicated, at least `/27`, and all ranges are nonoverlapping RFC 1918 | A range overlaps, the subnet is reused, or the design needs a blanket internet rule |
 | DNS | One owner is authoritative for every required zone, with approved links and hybrid forwarding | The deployment would duplicate a central zone or mixed public/private resolution has no fallback path |
 | Egress | The default route points to one approved firewall and its policy source is named | The firewall owner has not approved the Microsoft Entra and feature-specific destinations, or TLS inspection injects an untrusted certificate |
+| Identity-provider boundary | The corporate identity provider terminates at the approved application or APIM boundary, while agents and Azure services use Microsoft Entra workload identities | A user token is reused as an agent identity, or the design assumes network location grants service access |
 | Cutover | Every private endpoint is approved, private DNS and TCP 443 pass, prior states are recorded, and a restore owner is available | Any check fails or the complete restore record is missing |
 
 For central DNS, change `main.bicep` to reference approved zone resource IDs and remove its local

@@ -32,6 +32,10 @@ API Management allows at most five custom dimensions for `llm-emit-token-metric`
 discards new values or series. Production content logging and user-level cost allocation require
 separate approval.
 
+When the customer exports telemetry to Microsoft Sentinel or another SIEM, use an approved Azure
+Event Hubs route or another customer-owned export path. Filter payloads before export. The external
+system receives the same privacy-safe contract, not a second copy of prompts and responses.
+
 ## Architecture
 
 ### Architecture at a glance
@@ -133,6 +137,7 @@ out of source control.
 | Privacy | Filtering and redaction happen before export; standard content logging is disabled | Content capture is the default, cannot be filtered before export, or an exception lacks purpose, scope, owner, retention, expiry, and data-protection approval |
 | Sampling | Metrics remain unsampled; approved error and security signals bypass normal trace sampling | The sampler breaks complete selected traces or a daily cap is treated as normal control |
 | Alerts and cost | Thresholds come from baseline telemetry and approved SLOs; dimensions stay within APIM limits | A threshold lacks an owner, dimensions contain users or free text, or a budget is presented as spend enforcement |
+| External export | Export is disabled, or the customer records the destination, owner, payload filter, and restore reference | A SIEM route receives prompts, responses, credentials, personal data, or an unowned event stream |
 | Preview | Both Bicep what-if results contain only the workbook, three alerts, and exact budget | A preview replaces unrelated resources, removes an action route, or targets the wrong subscription |
 
 The gateway owner changes the APIM policy through its own repository. Do not replace an API-scope
@@ -146,6 +151,11 @@ backend controls.
 Complete the telemetry contract, deployment parameters, budget parameters, retention decision,
 content-logging decision, cost-allocation record, and incident runbook. Keep the service name
 consistent across machine-readable files.
+
+Leave `externalExport.enabled` set to `false` when the customer keeps telemetry in Azure Monitor.
+When export is required, record the destination type, stable alias, owner, and restore reference.
+The export pipeline must remove every prohibited attribute before Azure Event Hubs or another
+customer transport sends the event.
 
 For a disabled content-logging exception, set its detail fields to `N/A`. An approved exception
 needs a bounded purpose, isolated scope, access owner, retention, expiry, and data-protection

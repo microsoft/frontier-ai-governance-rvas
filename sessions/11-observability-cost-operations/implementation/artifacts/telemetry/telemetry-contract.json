@@ -77,5 +77,14 @@
     ],
     "userLevelDimensionAllowed": false,
     "freeTextDimensionAllowed": false
+  },
+  "externalExport": {
+    "enabled": false,
+    "approvedDestinationType": "N/A",
+    "approvedDestinationAlias": "N/A",
+    "transport": "Azure Event Hubs",
+    "payloadFilteringBeforeExportRequired": true,
+    "destinationOwner": "N/A",
+    "restoreReference": "N/A"
   }
 }

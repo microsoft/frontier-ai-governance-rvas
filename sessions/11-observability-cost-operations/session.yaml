@@ -5,7 +5,7 @@ session:
   title: "Observability, cost, and operational controls"
   duration_minutes: 210
   status: "draft"
-  last_verified: "2026-08-28"
+  last_verified: "2026-09-02"
   audience:
     - "Microsoft Foundry agent and platform engineers"
     - "Azure Monitor, API Management, security operations, and FinOps operators"
@@ -37,7 +37,7 @@ session:
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Keep a privacy-safe OpenTelemetry definition that joins supported gateway, agent, model, and tool spans with one non-sensitive correlation ID while excluding prompt and response content by default."
+  - "Keep a privacy-safe OpenTelemetry definition that joins supported gateway, agent, model, and tool spans with one non-sensitive correlation ID, excludes content by default, and records any filtered external export."
   - "Deploy a workbook and three alert rules over the approved Application Insights scope."
   - "Emit bounded APIM token metrics, keep low-cardinality cost allocation, and deploy subscription budget notifications that do not stop spend."
   - "Keep the retention, content-logging, cost-allocation, and incident records used by their named owners."

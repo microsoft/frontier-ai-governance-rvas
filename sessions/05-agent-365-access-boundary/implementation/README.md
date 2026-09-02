@@ -30,6 +30,11 @@ agent's separate Data Security DLP path needs the Entra-app-scoped rule and appl
 of Microsoft Graph `processContent` with signed-in user context. Its named Foundry owners manage
 that path. Do not apply it to Copilot Studio or Agent Builder.
 
+Custom and hosted agents also need the supported Agent 365 SDK integration for their runtime.
+Their developers own OpenTelemetry instrumentation and, when inline data-policy decisions are
+required, the Microsoft Purview API call in the application path. Registry presence alone does not
+add those runtime controls.
+
 ## Architecture
 
 ### Architecture at a glance
@@ -82,6 +87,9 @@ Confirm the following before opening the portals:
 - The Purview operator, Agent 365 owner, information protection owner, source-platform owner,
   data owner, and audit owner accept the responsibilities in `coverage-handoff.md`. For Foundry,
   include the Foundry platform owner and application developer.
+- For a hosted or custom agent, the runtime owner identifies the supported Python or .NET Agent
+  365 integration, token flow, required telemetry attributes, and the application path that acts on
+  a Purview policy result.
 
 ### Implementation files
 
@@ -127,6 +135,11 @@ For a Foundry agent, do not call Foundry DLP active until both the app-scoped ru
 `processContent` with signed-in user context are in place. Do not assign that Foundry extension to
 Copilot Studio or Agent Builder.
 
+For a hosted or custom agent, stop if Agent 365 registration is being treated as runtime
+instrumentation. The source repository must contain the supported Agent 365 observability
+integration. If the application uses Purview inline checks, it must fail closed or follow the
+approved fallback when the policy service does not return a usable decision.
+
 ## Field reference
 
 Complete every `__REQUIRED_*__` value in `agent-deployment.json`. Before the DLP change, set
@@ -149,6 +162,11 @@ consent decision, validation aliases, and DLP pre-change values in `agent-deploy
 Confirm that the group has no installation before DLP is enabled.
 
 Update `coverage-handoff.md` if an owner or product boundary differs from its recorded assignment.
+
+For a hosted or custom agent, the application developer confirms the supported Python or .NET
+Agent 365 SDK path before installation. Validate that agent ID, tenant ID, conversation ID,
+inference calls, tool calls, and exceptions reach the approved telemetry destination. Keep tokens
+and interaction payloads out of the repository.
 
 ### 2. Preflight the DLP change
 

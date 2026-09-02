@@ -20,6 +20,8 @@ products. Do not copy service state, simulation results, findings, or approval r
 | Sensitivity label, publishing, encryption rights, and generated-content handling | Microsoft Purview Information Protection and the approved change record | Information protection owner |
 | DSPM and Insider Risk findings | Microsoft Purview DSPM and Insider Risk Management | Data owner and information protection owner |
 | Foundry Data Security enablement, app-scoped DLP rule, and `processContent` enforcement, when `agent.platform` is `foundry` | Microsoft Foundry, Microsoft Purview, and the application change record | Foundry platform owner, Purview operator, and application developer |
+| Agent 365 SDK registration and OpenTelemetry instrumentation for hosted or custom agents | Source repository, deployment pipeline, and Agent 365 observability service | Runtime owner and application developer |
+| Inline Purview policy evaluation for hosted or custom agents, when required | Source repository, Microsoft Purview API, and application change record | Purview operator, data owner, and application developer |
 | Agent activity | Microsoft Purview Audit | Audit owner |
 
 ## Operating boundary
@@ -31,6 +33,12 @@ When `agent.platform` is `foundry`, the Agent 365 policy does not govern Foundry
 is active when the Purview operator scopes the rule to the Entra-registered application and the
 application developer enforces the Microsoft Graph `processContent` result with signed-in user
 context.
+
+For hosted and custom agents, Agent 365 registration does not instrument the runtime. The
+application developer uses the supported Agent 365 SDK and OpenTelemetry path for the selected
+language. If the agent needs inline data-policy enforcement, the application calls the Microsoft
+Purview API and acts on its result. The source repository and deployment pipeline remain
+authoritative for that code.
 
 Use the approved Purview change path for the DLP policy in the approved nonproduction scope. The
 change record holds the agent instance, group, label, directions, locations, action, simulation

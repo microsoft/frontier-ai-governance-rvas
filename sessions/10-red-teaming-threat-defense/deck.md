@@ -154,6 +154,9 @@ or judge model. It also has Defender and SOC references, or a route-health test 
 Agent 365 detection is public preview. Defender blocking, model posture, malware scanning, and
 Purview data controls remain separate controls.
 
+Package, image, and framework controls remain in the customer software-supply-chain process. A
+material dependency change can trigger another authorized run.
+
 <!-- Notes: Route health proves delivery, not red-team improvement. -->
 
 ---

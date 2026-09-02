@@ -27,6 +27,10 @@ The gate decides eligibility. It does not promote an agent or change the stable 
 task-adherence, prohibited-action, and sensitive-data-leakage evaluators stay advisory. Session 08
 remains the authorization boundary for prohibited writes.
 
+The release baseline is also the reference for later drift review. Session 11 owns production
+signals and alerts. A material quality, latency, token, or tool-process change returns the affected
+version to this evaluation path.
+
 ## Architecture
 
 ### Architecture at a glance
@@ -261,6 +265,10 @@ disable-and-restore runbook in operation. The quality owner maintains data and t
 safety owner maintains safety coverage and the protected-material boundary. The tool owner owns
 Function Tool compatibility. The cost owner approves consumption. The release owner controls gate
 state and the stable selector.
+
+Session 11 compares current aggregate signals with the approved release baseline. It does not reuse
+row-level evaluation content as production telemetry. When the quality owner classifies a change
+as material drift, create a fixed candidate version and rerun this gate.
 
 Use [`artifacts/operations/disable-and-restore.md`](artifacts/operations/disable-and-restore.md) to
 disable the gate, keep or restore the approved version at 100%, remove delivery integration after

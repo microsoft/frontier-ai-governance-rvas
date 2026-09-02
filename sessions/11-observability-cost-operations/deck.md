@@ -72,6 +72,9 @@ Defender and the SOC system keep security and incident records.
 
 The customer APIM repository owns gateway policy. Session 12 consumes the temporary smoke result.
 
+An external SIEM route is optional. It receives the same filtered contract through the
+customer-owned export path.
+
 </div>
 </div>
 
@@ -88,6 +91,7 @@ The customer APIM repository owns gateway policy. Session 12 consumes the tempor
 | Runtime content | Exclude prompts, responses, tool payloads, credentials, query strings, and user data | A diagnostic exception needs bounded scope, retention, expiry, ownership, and data-protection approval |
 | Trace volume | Sample at the source, preserve selected traces, and keep metrics unsampled | Rare failures may need an approved sampling exception |
 | Cost signal | Use low-cardinality APIM token metrics for estimates and Cost Management for billing | Counts can be incomplete; budget notifications do not stop resources |
+| External export | Keep disabled by default; use an owned, filtered Event Hubs or customer export path when required | Another destination adds retention and access decisions |
 
 APIM allows five custom token-metric dimensions, 100 values per dimension, and 1,000 active time
 series per namespace. It silently drops new values or series beyond those limits.

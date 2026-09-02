@@ -5,7 +5,7 @@ session:
   title: "Red teaming, prompt injection, and Defender"
   duration_minutes: 240
   status: "draft"
-  last_verified: "2026-08-28"
+  last_verified: "2026-09-02"
   audience:
     - "Microsoft Foundry agent and AI safety engineers"
     - "Cloud security and Microsoft Defender administrators"
@@ -33,7 +33,7 @@ session:
 implementation:
   mode: "standard"
 implementation_outcomes:
-  - "Validate authorization, same-day region support, exact immutable versions, and the read-only tool boundary."
+  - "Validate authorization, same-day region support, exact immutable versions, the read-only tool boundary, and the customer dependency-policy reference."
   - "Run the approved agent-specific attack plan against the baseline and remediated versions."
   - "Require lower overall attack success, no regression for any evaluator, category, or strategy key, and zero prohibited-action success."
   - "Confirm the authorized Defender event or route-health result at the approved SOC destination."

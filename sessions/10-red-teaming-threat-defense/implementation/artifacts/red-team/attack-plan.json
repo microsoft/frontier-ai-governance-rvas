@@ -74,7 +74,9 @@
   "operatingReview": {
     "ownerRole": "__REQUIRED_SECURITY_OWNER_ROLE__",
     "consumer": "The red-team runner and security review",
-    "reviewCadence": "Before each material agent, tool, taxonomy, or evaluator change"
+    "reviewCadence": "Before each material agent, tool, taxonomy, evaluator, framework, package, or container change",
+    "dependencyAndSupplyChainReviewRequired": true,
+    "dependencyPolicyAuthoritativeSource": "Customer package, image, and dependency control"
   },
   "implementationMarker": "implementationSession=10-red-teaming-threat-defense"
 }

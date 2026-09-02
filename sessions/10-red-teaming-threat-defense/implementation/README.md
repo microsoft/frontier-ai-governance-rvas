@@ -101,6 +101,11 @@ Defender may not alert on an authorized run. Use an already authorized event or 
 do not manufacture an attack. Agent 365 detection is public preview and cannot be the sole control.
 Defender blocking, model posture, malware scanning, and Purview data controls are separate surfaces.
 
+Red teaming does not replace package, container, or dependency controls. The security owner confirms
+that the customer source for approved packages and images covers the tested agent version. A
+framework, package, base-image, or tool-server change triggers a supply-chain review and may require
+a new attack run.
+
 Preflight checks the approved subscription, `AIServices` resource and region, exact agent version,
 plan files, required strategies and evaluators, privacy settings, current support date, authorization
 reference, and SOC-route reference. The red-team API does not support a deployment preview, so
@@ -111,6 +116,9 @@ preflight uses the runner's read-only `--check-only` target resolution as this s
 region, changed plan, widened permissions, a write side effect, missing or errored results, failed
 Defender coverage after the owner's recorded wait window, incomplete SOC context, or any attempt to
 store payloads in this repository.
+
+Also stop when the tested build cannot be tied to the approved dependency and container policy, or
+when a material package change has not passed the customer software-supply-chain process.
 
 ## Implement
 

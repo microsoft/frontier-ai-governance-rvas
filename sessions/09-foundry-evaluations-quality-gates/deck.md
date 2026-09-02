@@ -32,6 +32,8 @@ By the end of the session:
 - The approved aggregate returns `PASS`.
 - The tool-process regression returns `BLOCK`.
 
+The approved aggregate also becomes the reference for Session 11 drift review.
+
 <!-- Notes: Session 12 later runs the same command before promotion. -->
 
 ---
@@ -190,6 +192,9 @@ To disable, mark the gate disabled and keep or restore the approved version at 1
 integration only after dependency review. Cancel unnecessary evaluations, but keep the production
 artifacts and current records. Session 12 consumes `PASS` or `BLOCK`; it does not change metric
 meaning.
+
+Session 11 compares production aggregates with this release baseline. Material drift returns a new
+fixed version to the gate.
 
 <!-- Notes: Do not delete the project, agent, model, tool path, logs, or customer data as a shortcut. -->
 

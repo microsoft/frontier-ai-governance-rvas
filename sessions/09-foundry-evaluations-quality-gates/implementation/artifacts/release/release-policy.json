@@ -92,6 +92,19 @@
     "detailedResultsRemainInFoundry": true,
     "repositoryRecordContainsAggregateMetricsOnly": true
   },
+  "productionDriftHandoff": {
+    "releaseGateIsContinuousMonitoring": false,
+    "baselineMeasureIds": [
+      "quality",
+      "tool-process",
+      "safety",
+      "latency",
+      "token-usage"
+    ],
+    "productionOwnerRole": "__REQUIRED_QUALITY_OWNER_ROLE__",
+    "operationalHandoff": "11-observability-cost-operations",
+    "reevaluationRequiredAfterMaterialDrift": true
+  },
   "exceptionBoundary": {
     "allowedForNonSafetyQualityFailure": true,
     "requiresExpiry": true,

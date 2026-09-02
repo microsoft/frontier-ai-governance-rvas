@@ -51,6 +51,9 @@ The delegated Agent Service subnet keeps its default route to the customer firew
 
 Azure holds live state. The approved change system holds restore settings.
 
+Corporate identity providers may authenticate users at APIM. Agents and Azure services still use
+Microsoft Entra workload identity on the private path.
+
 </div>
 <div>
 

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "implementationModule": "enterprise-agent-portfolio-standards",
+  "implementationSession": "enterprise-agent-portfolio-standards",
+  "portfolioScope": "__REQUIRED_APPROVED_PORTFOLIO_SCOPE__",
+  "authoritativeReferences": {
+    "agentInventory": {
+      "system": "Microsoft Agent 365",
+      "recordReference": "__REQUIRED_AGENT_INVENTORY_REFERENCE__"
+    },
+    "apiAndToolCatalog": {
+      "system": "Azure API Center",
+      "recordReference": "__REQUIRED_API_CATALOG_REFERENCE__"
+    },
+    "sourcePlatform": {
+      "system": "__REQUIRED_SOURCE_PLATFORM__",
+      "recordReference": "__REQUIRED_SOURCE_PLATFORM_REFERENCE__"
+    },
+    "agentIdentity": {
+      "system": "Microsoft Entra ID",
+      "recordReference": "__REQUIRED_AGENT_IDENTITY_REFERENCE__"
+    },
+    "gatewayPolicy": {
+      "system": "Azure API Management",
+      "recordReference": "__REQUIRED_GATEWAY_POLICY_REFERENCE__"
+    }
+  },
+  "classificationDecision": {
+    "agentType": "__REQUIRED_AGENT_TYPE__",
+    "decisionOwnerRole": "__REQUIRED_PORTFOLIO_OWNER_ROLE__"
+  },
+  "duplicateDecision": {
+    "reviewedInventoryReference": "__REQUIRED_DUPLICATE_INVENTORY_REFERENCE__",
+    "possibleMatchesReviewed": true,
+    "decision": "__REQUIRED_DUPLICATE_REVIEW_DECISION__",
+    "decisionOwnerRole": "__REQUIRED_DUPLICATE_DECISION_OWNER_ROLE__"
+  },
+  "frameworkDecision": {
+    "selectedPath": "__REQUIRED_FRAMEWORK_DECISION__",
+    "exceptionApprovalReference": "N/A"
+  },
+  "lifecycleDecision": {
+    "currentState": "design",
+    "requestedState": "__REQUIRED_REQUESTED_LIFECYCLE_STATE__",
+    "approvalReference": "__REQUIRED_LIFECYCLE_APPROVAL_REFERENCE__"
+  },
+  "owners": {
+    "businessSponsor": "__REQUIRED_BUSINESS_SPONSOR_ROLE__",
+    "releaseOwner": "__REQUIRED_RELEASE_OWNER_ROLE__",
+    "retirementCoordinator": "__REQUIRED_RETIREMENT_COORDINATOR_ROLE__"
+  },
+  "retirementCoordination": {
+    "crossPlatformPlanConfirmed": true,
+    "planReference": "__REQUIRED_RETIREMENT_PLAN_REFERENCE__"
+  }
+}

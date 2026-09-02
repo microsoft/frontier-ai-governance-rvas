@@ -56,6 +56,9 @@ enforcement of `processContent` with signed-in user context.
 
 Copilot Studio and Agent Builder retain their runtime controls.
 
+Hosted and custom agents need supported Agent 365 SDK instrumentation. Inline Purview decisions
+also need application code.
+
 </div>
 </div>
 
@@ -113,6 +116,7 @@ Stop when:
 - the deployment contract still has an unresolved `__REQUIRED_*__` value;
 - production data or payload retention enters the path;
 - a Foundry agent lacks its separate app-scoped DLP rule or user-context `processContent` enforcement.
+- a hosted or custom agent is registered but lacks its supported runtime observability integration.
 
 The installation-phase preflight accepts Session 05 installation only when the DLP gate is
 recorded as `EnabledAndPropagated` and `Confirmed`.
