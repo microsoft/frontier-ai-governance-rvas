@@ -54,6 +54,7 @@ $requiredSentinels = @(
     "__REQUIRED_CANDIDATE_AGENT_VERSION__"
     "__REQUIRED_COST_OWNER_ROLE__"
     "__REQUIRED_CURRENT_SUPPORT_STATUS_SUPPORTED__"
+    "__REQUIRED_EVALUATION_DEFINITION_ID__"
     "__REQUIRED_EVALUATION_REGION__"
     "__REQUIRED_EXCEPTION_AUTHORITY_ROLE__"
     "__REQUIRED_FOUNDRY_PROJECT_ALIAS__"
@@ -104,6 +105,10 @@ foreach ($record in @($releasePolicy, $spec)) {
     if ([string]$record.implementationSession -ne $implementationSession) {
         throw "A implementation file has the wrong implementationSession marker."
     }
+}
+if ([string]::IsNullOrWhiteSpace([string]$spec.evaluationDefinitionId) -or
+    [string]$spec.evaluationDefinitionId -like "__REQUIRED_*") {
+    throw "The evaluation specification must record the approved Foundry evaluation definition ID."
 }
 if ([string]$releasePolicy.target.agentName -ne [string]$spec.target.agentName) {
     throw "The release policy and evaluation specification must target the same agent."

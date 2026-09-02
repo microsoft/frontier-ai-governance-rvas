@@ -73,6 +73,7 @@ fi
 
 python3 - "$client_path" "$ownership_path" "$target_scope" <<'PY'
 import json
+import re
 import sys
 from urllib.parse import urlparse
 
@@ -93,9 +94,22 @@ if client.get("targetScope") != target_scope or ownership.get("approvedScope") !
 
 registry = client.get("registry", {})
 endpoint = urlparse(registry.get("endpoint", ""))
-if endpoint.scheme != "https" or endpoint.path != "/workspaces/default/v0.1/servers":
+documented_host = re.compile(
+    r"^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.data\.[a-z0-9]+\.azure-apicenter\.ms$"
+)
+if (
+    endpoint.scheme != "https"
+    or not documented_host.fullmatch(endpoint.hostname or "")
+    or endpoint.username is not None
+    or endpoint.password is not None
+    or endpoint.port is not None
+    or endpoint.path != "/workspaces/default/v0.1/servers"
+    or endpoint.params
+    or endpoint.query
+    or endpoint.fragment
+):
     raise SystemExit(
-        "The registry endpoint must use HTTPS and the documented "
+        "The registry endpoint must use the documented Azure API Center data-plane host and "
         "/workspaces/default/v0.1/servers path."
     )
 if registry.get("workspace") != "default" or registry.get("apiVersion") != "v0.1":

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "03-governed-agent-baseline",
+  "implementationSession": "04-governed-agent-baseline",
   "tools": [
     {
       "type": "openapi",

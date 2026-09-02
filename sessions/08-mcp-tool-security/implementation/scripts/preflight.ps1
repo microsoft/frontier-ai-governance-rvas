@@ -436,7 +436,7 @@ foreach ($requiredPolicyElement in @(
         "rate-limit-by-key",
         "authentication-managed-identity",
         "X-Correlation-ID",
-        "session07-mcp-tool-security"
+        "session08-mcp-tool-security"
     )) {
     if ($policyText -notmatch [regex]::Escape($requiredPolicyElement)) {
         throw "The MCP policy is missing required control: $requiredPolicyElement"

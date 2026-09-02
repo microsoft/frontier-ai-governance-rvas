@@ -112,6 +112,7 @@ covered_decision_sentinels=(
   "__REQUIRED_CANDIDATE_AGENT_VERSION__"
   "__REQUIRED_COST_OWNER_ROLE__"
   "__REQUIRED_CURRENT_SUPPORT_STATUS_SUPPORTED__"
+  "__REQUIRED_EVALUATION_DEFINITION_ID__"
   "__REQUIRED_EVALUATION_REGION__"
   "__REQUIRED_EXCEPTION_AUTHORITY_ROLE__"
   "__REQUIRED_FOUNDRY_PROJECT_ALIAS__"
@@ -177,6 +178,13 @@ gate_path = script_dir / 'release-gate.py'
 for record in (release_policy, spec):
     if record.get('implementationSession') != implementation_session:
         raise SystemExit('A implementation file has the wrong implementationSession marker.')
+evaluation_definition_id = spec.get('evaluationDefinitionId')
+if (
+    not isinstance(evaluation_definition_id, str)
+    or not evaluation_definition_id.strip()
+    or evaluation_definition_id.startswith('__REQUIRED_')
+):
+    raise SystemExit('The evaluation specification must record the approved Foundry evaluation definition ID.')
 if release_policy['target']['agentName'] != spec['target']['agentName']:
     raise SystemExit('The release policy and evaluation specification must target the same agent.')
 if release_policy['target']['approvedVersion'] != spec['target']['approvedVersion']:

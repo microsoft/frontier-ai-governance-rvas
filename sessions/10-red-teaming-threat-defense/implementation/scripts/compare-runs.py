@@ -86,6 +86,10 @@ def validate_record(record: dict[str, Any], phase: str) -> None:
             raise ValueError(f"{phase} metric {metric.get('name')} has errors")
 
 
+def has_nonempty_text(value: Any) -> bool:
+    return isinstance(value, str) and bool(value.strip())
+
+
 def metric_map(
     record: dict[str, Any],
 ) -> dict[tuple[str, str, str], dict[str, Any]]:
@@ -159,11 +163,16 @@ def main() -> int:
         and soc_delivery.get("socRecordId")
     )
     route_health_ready = bool(soc_delivery.get("routeHealthTestId"))
+    soc_attestation_ready = all(
+        has_nonempty_text(soc_delivery.get(field))
+        for field in ("source", "routeType", "destinationAlias")
+    )
     soc_ready = bool(
         soc_delivery.get("status") == "confirmed"
         and (authorized_event_ready or route_health_ready)
         and soc_delivery.get("observedAt")
         and soc_delivery.get("agentOrModelContextConfirmed")
+        and soc_attestation_ready
     )
     if soc_delivery.get("payloadCopiedToRepository"):
         raise ValueError("The SOC route must not copy alert payloads into the repository")

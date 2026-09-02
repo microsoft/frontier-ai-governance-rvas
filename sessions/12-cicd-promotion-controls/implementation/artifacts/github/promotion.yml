@@ -250,7 +250,7 @@ jobs:
           $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
           az bicep lint --file $control.sourcePaths.bicepEntrypoint
           if ($LASTEXITCODE -ne 0) { throw "Bicep lint failed." }
-          az deployment group what-if --subscription "${{ vars.AZURE_SUBSCRIPTION_ID }}" --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "s13-nonprod-${{ github.run_id }}" --template-file $control.sourcePaths.bicepEntrypoint --parameters "$root/environments/nonproduction.parameters.json" releaseCommitSha="${{ inputs.release_sha }}" --no-pretty-print
+          az deployment group what-if --subscription "${{ vars.AZURE_SUBSCRIPTION_ID }}" --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "s12-nonprod-${{ github.run_id }}" --template-file $control.sourcePaths.bicepEntrypoint --parameters "$root/environments/nonproduction.parameters.json" releaseCommitSha="${{ inputs.release_sha }}" --no-pretty-print
           if ($LASTEXITCODE -ne 0) { throw "Nonproduction what-if failed." }
 
   nonproduction:
@@ -294,7 +294,7 @@ jobs:
           $ErrorActionPreference = "Stop"
           $root = "sessions/12-cicd-promotion-controls/implementation/artifacts"
           $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
-          $id = az deployment group create --subscription "${{ vars.AZURE_SUBSCRIPTION_ID }}" --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "s13-nonprod-${{ github.run_id }}" --template-file $control.sourcePaths.bicepEntrypoint --parameters "$root/environments/nonproduction.parameters.json" releaseCommitSha="${{ inputs.release_sha }}" --query id -o tsv
+          $id = az deployment group create --subscription "${{ vars.AZURE_SUBSCRIPTION_ID }}" --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "s12-nonprod-${{ github.run_id }}" --template-file $control.sourcePaths.bicepEntrypoint --parameters "$root/environments/nonproduction.parameters.json" releaseCommitSha="${{ inputs.release_sha }}" --query id -o tsv
           if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($id)) { throw "Nonproduction deployment failed." }
           "deployment_id=$id" >> $env:GITHUB_OUTPUT
       - name: Run Session 11 smoke and intended gates
@@ -413,7 +413,7 @@ jobs:
               (Get-FileHash $control.sourcePaths.session10ThresholdPolicy -Algorithm SHA256).Hash.ToLowerInvariant() -ne "${{ needs.validate.outputs.evaluation_policy_sha256 }}") {
             throw "Production inputs differ from the validated release."
           }
-          az deployment group what-if --subscription "${{ vars.AZURE_SUBSCRIPTION_ID }}" --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "s13-prod-${{ github.run_id }}" --template-file $control.sourcePaths.bicepEntrypoint --parameters "$root/environments/production.parameters.json" releaseCommitSha="${{ inputs.release_sha }}" --no-pretty-print
+          az deployment group what-if --subscription "${{ vars.AZURE_SUBSCRIPTION_ID }}" --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "s12-prod-${{ github.run_id }}" --template-file $control.sourcePaths.bicepEntrypoint --parameters "$root/environments/production.parameters.json" releaseCommitSha="${{ inputs.release_sha }}" --no-pretty-print
           if ($LASTEXITCODE -ne 0) { throw "Production what-if failed." }
 
   production:
@@ -455,7 +455,7 @@ jobs:
           $ErrorActionPreference = "Stop"
           $root = "sessions/12-cicd-promotion-controls/implementation/artifacts"
           $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
-          az deployment group create --subscription "${{ vars.AZURE_SUBSCRIPTION_ID }}" --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "s13-prod-${{ github.run_id }}" --template-file $control.sourcePaths.bicepEntrypoint --parameters "$root/environments/production.parameters.json" releaseCommitSha="${{ inputs.release_sha }}"
+          az deployment group create --subscription "${{ vars.AZURE_SUBSCRIPTION_ID }}" --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "s12-prod-${{ github.run_id }}" --template-file $control.sourcePaths.bicepEntrypoint --parameters "$root/environments/production.parameters.json" releaseCommitSha="${{ inputs.release_sha }}"
           if ($LASTEXITCODE -ne 0) { throw "Production deployment failed." }
       - name: Create the linked release manifest
         id: manifest

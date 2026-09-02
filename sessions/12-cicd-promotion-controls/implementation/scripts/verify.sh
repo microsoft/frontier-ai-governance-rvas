@@ -167,7 +167,7 @@ if check == 'intended':
         raise SystemExit('The intended workflow did not complete the external evaluation and security gate step.')
     if any(job is None or job.get('conclusion') != 'success' for job in (validation_job, nonproduction_preview_job, nonproduction_job, production_preview_job, production_job)):
         raise SystemExit('The intended workflow run did not complete the nonproduction gate successfully.')
-    print('PASS: the immutable release passed temporary external evaluation and security gates, nonproduction, and protected production. GitHub retains workflow and deployment metadata; the approved release store retains the restore record.')
+    print('PASS: the intended GitHub Actions run completed its evaluation and security gate, nonproduction, and protected production jobs successfully.')
 else:
     if validation_job is None:
         raise SystemExit('The blocked workflow run does not identify the generated Session 09 self-test input.')

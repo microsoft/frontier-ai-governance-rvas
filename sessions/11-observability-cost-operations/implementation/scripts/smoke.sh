@@ -43,7 +43,29 @@ poll_timing_valid() {
   (( $1 >= 2 * $2 ))
 }
 
-invoke_smoke_request() {
+: <<'REMOVED_DUPLICATE'
+  [[ "$bearer_token" != *$'\r'* && "$bearer_token" != *$'\n'* ]] || \
+    || { echo "ERROR: session12_SMOKE_BEARER_TOKEN cannot contain a line break." >&2; return 1; }
+  :
+    printf 'header = "Authorization: Bearer %s"\n' "$bearer_token"
+    printf 'header = "Content-Type: application/json"\n'
+    printf 'header = "x-session11-smoke-mode: %s"\n' "$smoke_mode"
+    printf 'header = "x-release-commit-sha: %s"\n' "$commit_sha_value"
+    printf 'header = "traceparent: %s"\n' "$traceparent_value"
+  } | (
+    unset session12_SMOKE_BEARER_TOKEN
+    curl --config - \
+      --silent \
+      --show-error \
+      --request POST "$request_url" \
+      --data "$request_body" \
+      --dump-header "$response_headers_path" \
+      --output /dev/null \
+      --write-out '%{http_code}'
+  )
+REMOVED_DUPLICATE
+
+: <<'REMOVED_DUPLICATE'
   local bearer_token="$1"
   local request_url="$2"
   local smoke_mode="$3"
@@ -71,37 +93,7 @@ invoke_smoke_request() {
       --output /dev/null \
       --write-out '%{http_code}'
   )
-}
-
-invoke_smoke_request() {
-  local bearer_token="$1"
-  local request_url="$2"
-  local smoke_mode="$3"
-  local traceparent_value="$4"
-  local commit_sha_value="$5"
-  local request_body="$6"
-  local response_headers_path="$7"
-
-  [[ "$bearer_token" != *$'\r'* && "$bearer_token" != *$'\n'* ]] \
-    || { echo "ERROR: session12_SMOKE_BEARER_TOKEN cannot contain a line break." >&2; return 1; }
-  {
-    printf 'header = "Authorization: Bearer %s"\n' "$bearer_token"
-    printf 'header = "Content-Type: application/json"\n'
-    printf 'header = "x-session11-smoke-mode: %s"\n' "$smoke_mode"
-    printf 'header = "x-release-commit-sha: %s"\n' "$commit_sha_value"
-    printf 'header = "traceparent: %s"\n' "$traceparent_value"
-  } | (
-    unset session12_SMOKE_BEARER_TOKEN
-    curl --config - \
-      --silent \
-      --show-error \
-      --request POST "$request_url" \
-      --data "$request_body" \
-      --dump-header "$response_headers_path" \
-      --output /dev/null \
-      --write-out '%{http_code}'
-  )
-}
+REMOVED_DUPLICATE
 
 invoke_smoke_request() {
   local bearer_token="$1"
@@ -230,13 +222,28 @@ done
 [[ -n "$result_path" ]] || { echo "ERROR: --result-path is required." >&2; exit 2; }
 [[ -n "${RUNNER_TEMP:-}" ]] || { echo "ERROR: RUNNER_TEMP is required so the release check cannot retain an output in the customer clone." >&2; exit 1; }
 [[ -d "$RUNNER_TEMP" ]] || { echo "ERROR: RUNNER_TEMP must be an existing directory." >&2; exit 1; }
+for command in az curl jq python3; do
+  command -v "$command" >/dev/null 2>&1 || { echo "ERROR: required command '$command' was not found." >&2; exit 1; }
+done
+if ! result_path="$(python3 - "$RUNNER_TEMP" "$result_path" <<'PY'
+import os
+import sys
+
+runner_temp = os.path.realpath(sys.argv[1])
+result_path = os.path.realpath(os.path.abspath(sys.argv[2]))
+try:
+    contained = os.path.commonpath((runner_temp, result_path)) == runner_temp
+except ValueError:
+    contained = False
+if not contained or result_path == runner_temp:
+    raise SystemExit(1)
+print(result_path)
+PY
+)"; then
+  echo "ERROR: --result-path must be inside RUNNER_TEMP." >&2
+  exit 1
+fi
 mkdir -p "$(dirname -- "$result_path")"
-runner_temp="$(cd -- "$RUNNER_TEMP" && pwd)"
-result_directory="$(cd -- "$(dirname -- "$result_path")" && pwd)"
-case "$result_directory/" in
-  "$runner_temp/"*) result_path="$result_directory/$(basename -- "$result_path")" ;;
-  *) echo "ERROR: --result-path must be inside RUNNER_TEMP." >&2; exit 1 ;;
-esac
 
 [[ -n "${session12_SMOKE_URL:-}" ]] || { echo "ERROR: required environment variable 'session12_SMOKE_URL' is missing." >&2; exit 1; }
 [[ -n "${session12_SMOKE_FAILURE_URL:-}" ]] || { echo "ERROR: required environment variable 'session12_SMOKE_FAILURE_URL' is missing." >&2; exit 1; }
@@ -262,10 +269,6 @@ poll_timing_valid "$poll_timeout_seconds" "$poll_retry_seconds" \
   || { echo "ERROR: both smoke endpoints must use HTTPS." >&2; exit 1; }
 [[ "$session12_SMOKE_URL" != "$session12_SMOKE_FAILURE_URL" ]] \
   || { echo "ERROR: the synthetic failure endpoint must be separate from the normal smoke endpoint." >&2; exit 1; }
-for command in az curl jq python3; do
-  command -v "$command" >/dev/null 2>&1 || { echo "ERROR: required command '$command' was not found." >&2; exit 1; }
-done
-
 subscription_id="$(az account show --query id --output tsv)"
 [[ -n "$subscription_id" ]] || { echo "ERROR: Azure CLI is not authenticated." >&2; exit 1; }
 component_json="$(az resource show \

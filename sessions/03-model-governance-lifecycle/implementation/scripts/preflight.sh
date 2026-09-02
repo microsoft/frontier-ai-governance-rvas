@@ -423,7 +423,7 @@ if manual_quota:
 PY
 
 run_capture az bicep build --file "$template_path" --stdout --only-show-errors >/dev/null || die "Bicep build failed: $template_path"
-what_if_json="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name rvas-s04-preflight --template-file "$template_path" --parameters "$parameter_path" --result-format FullResourcePayloads --no-pretty-print --only-show-errors --output json)" || die 'Bicep what-if failed.'
+what_if_json="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name rvas-s03-preflight --template-file "$template_path" --parameters "$parameter_path" --result-format FullResourcePayloads --no-pretty-print --only-show-errors --output json)" || die 'Bicep what-if failed.'
 
 python3 - "$expected_foundry_id" "$profile_path" \
   3< <(printf '%s' "$what_if_json") <<'PY'

@@ -334,7 +334,7 @@ for value in (environment.get('entraTenantId', ''), environment.get('clientAppli
 for field, description in ((environment.get('mcpAudience', ''), 'mcpAudience'), (environment.get('backendAudience', ''), 'backendAudience')):
     if not re.match(r'^(https|api)://', field) or re.search(r'[?#]', field):
         raise SystemExit(f'{description} must be an HTTPS or api:// audience without a query string or fragment.')
-for required in ['validate-azure-ad-token', 'rate-limit-by-key', 'authentication-managed-identity', 'X-Correlation-ID', 'session07-mcp-tool-security']:
+for required in ['validate-azure-ad-token', 'rate-limit-by-key', 'authentication-managed-identity', 'X-Correlation-ID', 'session08-mcp-tool-security']:
     if required not in policy_text:
         raise SystemExit(f'The MCP policy is missing required control: {required}')
 if 'context.Response.Body' in policy_text or re.search(r'gen_ai\.tool\.call\.(arguments|result)', policy_text):

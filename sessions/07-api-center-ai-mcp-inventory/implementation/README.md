@@ -76,10 +76,10 @@ Confirm these requirements:
 - The approved nonproduction Foundry agent endpoint and APIM API are available. The platform and
   gateway owners confirm the endpoint, marked `policy-assistant-responses` API, and both resource
   scopes. (Sessions 02, 04, and 06.)
-- The deployment operator has time-bound **Contributor** on the exact API Center resource group.
-- The role-assignment operator has time-bound **User Access Administrator** on the exact APIM
-  instance. This permits the API Center identity to receive **API Management Service Reader
-  Role** (`71522526-b88f-4d52-b57f-d31fc3546d0d`) at that service scope.
+- The deployment operator has time-bound **Contributor** on the exact API Center resource group
+  and **User Access Administrator** on the exact APIM instance. The deployment assigns the API
+  Center identity **API Management Service Reader Role**
+  (`71522526-b88f-4d52-b57f-d31fc3546d0d`) at that service scope.
 - The API program owner has approved Free or Standard, the current API Center region, and the full
   APIM source boundary. Free has no Microsoft support. Confirm current eligibility or separate cost
   before relying on a linked Standard-plan benefit.
@@ -110,7 +110,7 @@ Complete `sandbox.json` and `agent-api-definition.json`. Resolve every `__REQUIR
 |---|---|---|
 | Inventory and APIM scope | API Center is the approved inventory, and every imported API has a metadata owner | Another inventory is authoritative, or the APIM link would import ownerless assets |
 | Plan and region | The live provider advertises the region, and Free or Standard is approved | The region, support position, eligibility, or cost is unresolved |
-| Access | Contributor targets the API Center resource group; User Access Administrator targets the exact APIM service | Either assignment is broader than approved, or the API Center identity would receive APIM write access |
+| Access | The deployment operator has Contributor on the API Center resource group and User Access Administrator on the exact APIM service | Either assignment is broader than approved, or the API Center identity would receive APIM write access |
 | Deployment preview | `what-if` changes the marked API Center scope and exact reader assignment | It replaces or removes unrelated resources, targets another APIM instance, or broadens the role assignment |
 | Synchronization | The source is healthy and the Session 06 API appears once | Initial sync is pending or failed; do not create a duplicate API |
 | MCP server | The endpoint is approved HTTPS Streamable HTTP, read-only, and owned | It uses `stdio`, embeds credentials, permits writes, or lacks a runtime owner |

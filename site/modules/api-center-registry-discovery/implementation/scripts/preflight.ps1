@@ -70,9 +70,15 @@ if ([string]$client.targetScope -ne $TargetScope -or [string]$ownership.approved
 }
 
 $endpoint = [uri][string]$client.registry.endpoint
+$documentedHostPattern = '^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.data\.[a-z0-9]+\.azure-apicenter\.ms$'
 if ($endpoint.Scheme -ne "https" -or
-    $endpoint.AbsolutePath -ne "/workspaces/default/v0.1/servers") {
-    throw "The registry endpoint must use HTTPS and the documented /workspaces/default/v0.1/servers path."
+    $endpoint.Host -notmatch $documentedHostPattern -or
+    -not [string]::IsNullOrEmpty($endpoint.UserInfo) -or
+    -not $endpoint.IsDefaultPort -or
+    $endpoint.AbsolutePath -ne "/workspaces/default/v0.1/servers" -or
+    -not [string]::IsNullOrEmpty($endpoint.Query) -or
+    -not [string]::IsNullOrEmpty($endpoint.Fragment)) {
+    throw "The registry endpoint must use the documented Azure API Center data-plane host and /workspaces/default/v0.1/servers path."
 }
 if ([string]$client.registry.workspace -ne "default" -or [string]$client.registry.apiVersion -ne "v0.1") {
     throw "The documented API Center registry path uses the default workspace and v0.1."

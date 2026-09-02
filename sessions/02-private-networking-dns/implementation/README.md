@@ -266,9 +266,10 @@ Run the cutover script from the same host:
 ```
 
 The script validates the five unique resource IDs, checks connectivity, and displays the five prior
-public-access states. Copy those states to the approved change record before confirmation. It then
-adds `networkControlSession=02-private-networking-dns` without replacing existing tags and requests
-`Disabled` on every service.
+public-access states. Copy those states to the approved change record before confirmation. It sets
+each service to `Disabled`, confirms that state, then merges
+`networkControlSession=02-private-networking-dns` without replacing existing tags. The marker
+identifies a verified update.
 
 If an update fails, inspect the change record and identify which services changed. Start the manual
 restore procedure instead of rerunning the cutover blindly.

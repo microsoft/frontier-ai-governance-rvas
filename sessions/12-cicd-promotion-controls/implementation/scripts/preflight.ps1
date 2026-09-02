@@ -584,7 +584,7 @@ Write-Host "Preview 1 of 2: nonproduction at $ApprovedNonproductionScope"
 az deployment group what-if `
     --subscription $nonproductionScope.SubscriptionId `
     --resource-group $nonproductionScope.ResourceGroupName `
-    --name "s13-preflight-nonproduction" `
+    --name "s12-preflight-nonproduction" `
     --template-file $bicepPath `
     --parameters $nonproductionParametersPath `
     releaseCommitSha=$ApprovedReleaseSha `
@@ -595,7 +595,7 @@ Write-Host "Preview 2 of 2: production at $ApprovedProductionScope"
 az deployment group what-if `
     --subscription $productionScope.SubscriptionId `
     --resource-group $productionScope.ResourceGroupName `
-    --name "s13-preflight-production" `
+    --name "s12-preflight-production" `
     --template-file $bicepPath `
     --parameters $productionParametersPath `
     releaseCommitSha=$ApprovedReleaseSha `

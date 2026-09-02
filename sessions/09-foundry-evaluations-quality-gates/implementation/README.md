@@ -8,7 +8,7 @@
 would hide.
 
 Run `release-gate.py` against two fixed versions of the Session 04 agent, both scored on the same
-synthetic dataset and Foundry evaluation definition. The approved version must return `PASS`; an
+synthetic dataset and recorded Foundry evaluation definition. The approved version must return `PASS`; an
 injected tool-process regression must return `BLOCK`.
 
 ### Why it matters
@@ -92,6 +92,8 @@ repository.
 
 Before the baseline run:
 
+- Record the approved Foundry evaluation definition ID in `evaluation-spec.json`. The runner
+  retrieves that definition and starts a run; it does not create another definition.
 - The quality owner approves the relevance floor.
 - The tool owner approves the tool-call accuracy and success floors.
 - The safety owner approves safety floors of `1.00`.

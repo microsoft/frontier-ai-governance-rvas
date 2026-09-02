@@ -92,7 +92,7 @@ if ($Check -eq "Intended") {
         $null -eq $productionJob -or [string]$productionJob.conclusion -ne "success") {
         throw "The intended workflow run did not complete both controlled stages successfully."
     }
-    Write-Host "PASS: the immutable release passed temporary external evaluation and security gates, nonproduction, and protected production. GitHub retains workflow and deployment metadata; the approved release store retains the restore record."
+    Write-Host "PASS: the intended GitHub Actions run completed its evaluation and security gate, nonproduction, and protected production jobs successfully."
 }
 else {
     if ($null -eq $validationJob) {

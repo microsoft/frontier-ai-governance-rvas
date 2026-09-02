@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "implementationSession": "09-foundry-evaluations-quality-gates",
   "evaluationName": "session09-policy-assistant-release",
+  "evaluationDefinitionId": "__REQUIRED_EVALUATION_DEFINITION_ID__",
   "dataset": {
     "name": "session09-policy-assistant-golden",
     "versionPrefix": "1",

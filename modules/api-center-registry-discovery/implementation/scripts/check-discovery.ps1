@@ -19,12 +19,23 @@ if ($artifactText -match "__REQUIRED_[A-Z0-9_]+__") {
     throw "Run preflight and resolve every required decision before checking live discovery."
 }
 
+$endpoint = [uri][string]$client.registry.endpoint
+$documentedHostPattern = '^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.data\.[a-z0-9]+\.azure-apicenter\.ms$'
+if ($endpoint.Scheme -ne "https" -or
+    $endpoint.Host -notmatch $documentedHostPattern -or
+    -not [string]::IsNullOrEmpty($endpoint.UserInfo) -or
+    -not $endpoint.IsDefaultPort -or
+    $endpoint.AbsolutePath -ne "/workspaces/default/v0.1/servers" -or
+    -not [string]::IsNullOrEmpty($endpoint.Query) -or
+    -not [string]::IsNullOrEmpty($endpoint.Fragment)) {
+    throw "The registry endpoint must use the documented Azure API Center data-plane host and /workspaces/default/v0.1/servers path."
+}
+
 $token = [Environment]::GetEnvironmentVariable($AccessTokenEnvironmentVariable)
 if ([string]::IsNullOrWhiteSpace($token)) {
     throw "Set $AccessTokenEnvironmentVariable through the approved OAuth credential helper. Do not pass the token as an argument."
 }
 
-$endpoint = [uri][string]$client.registry.endpoint
 $approvedNames = @($ownership.approvedServers |
     ForEach-Object { [string]$_.name } |
     Sort-Object -Unique)
@@ -36,6 +47,7 @@ $headers = @{
     Authorization = "Bearer $token"
     Accept = "application/json"
 }
+$headers.Authorization = "Bearer $token"
 $discoveredNames = [System.Collections.Generic.List[string]]::new()
 $nextUri = $endpoint.AbsoluteUri
 $page = 0
@@ -46,7 +58,7 @@ while ($null -ne $nextUri) {
         throw "Registry pagination exceeded MaxPages=$MaxPages."
     }
 
-    $response = Invoke-RestMethod -Uri $nextUri -Headers $headers -Method Get
+    $response = Invoke-RestMethod -Uri $nextUri -Headers $headers -Method Get -MaximumRedirection 0
     $serversProperty = $response.PSObject.Properties["servers"]
     if ($null -eq $serversProperty -or $null -eq $serversProperty.Value) {
         throw "The registry response does not contain the MCP Registry API v0.1 servers array."

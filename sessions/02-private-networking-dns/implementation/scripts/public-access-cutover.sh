@@ -39,6 +39,30 @@ run_capture() {
   return 1
 }
 
+verify_public_access_disabled() {
+  local alias="$1"
+  local resource_id="$2"
+  local require_marker="${3:-false}"
+  local resource_json
+  resource_json="$(run_capture az resource show --ids "$resource_id" --only-show-errors --output json)" ||
+    die "Post-update lookup failed for $alias."
+  PYTHON_JSON_INPUT="$resource_json" python3 - "$alias" "$require_marker" <<'PY'
+import json
+import os
+import sys
+
+alias, require_marker = sys.argv[1:]
+resource = json.loads(os.environ["PYTHON_JSON_INPUT"])
+state = str((resource.get("properties") or {}).get("publicNetworkAccess") or "")
+if state.casefold() != "disabled":
+    raise SystemExit(f"{alias} still reports publicNetworkAccess={state or '<missing>'}.")
+if require_marker == "true":
+    marker = str((resource.get("tags") or {}).get("networkControlSession") or "")
+    if marker != "02-private-networking-dns":
+        raise SystemExit(f"{alias} is missing the successful cutover marker.")
+PY
+}
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --approved-subscription-id)
@@ -170,8 +194,6 @@ for index in "${!targets[@]}"; do
   IFS=$'\t' read -r alias _ _ <<<"${targets[$index]}"
   resource_id="${resource_ids[$index]}"
   resource_name="${resource_names[$index]}"
-  run_capture az tag update --resource-id "$resource_id" --operation Merge --tags networkControlSession=02-private-networking-dns --only-show-errors >/dev/null ||
-    die "Tag update failed for $alias."
   case "$alias" in
     foundry)
       run_capture az resource update --ids "$resource_id" --set properties.publicNetworkAccess=Disabled --only-show-errors --output none >/dev/null ||
@@ -194,6 +216,10 @@ for index in "${!targets[@]}"; do
         die "Public-access update failed for $alias."
       ;;
   esac
+  verify_public_access_disabled "$alias" "$resource_id"
+  run_capture az tag update --resource-id "$resource_id" --operation Merge --tags networkControlSession=02-private-networking-dns --only-show-errors >/dev/null ||
+    die "Tag update failed for $alias after public access was disabled."
+  verify_public_access_disabled "$alias" "$resource_id" true
 done
 
-printf 'Cutover complete. The change record holds the prior states for the approved restore path.\n'
+printf 'Cutover complete. Each marker confirms a verified Disabled state; the change record holds the prior states for the approved restore path.\n'

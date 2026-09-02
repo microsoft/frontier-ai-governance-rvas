@@ -93,9 +93,9 @@ $regional = Get-Content -LiteralPath $parameterPath -Raw | ConvertFrom-Json -Err
 $healthControl = Resolve-RepoFile ([string]$control.sourcePaths.healthCheckPowerShell)
 $routingControl = Resolve-RepoFile ([string]$control.sourcePaths.routingControlPowerShell)
 
-$secondaryReadyPath = Join-Path $runtimePath "s14-secondary-ready-$PID.json"
-$secondaryActivePath = Join-Path $runtimePath "s14-secondary-active-$PID.json"
-$primaryRestoredPath = Join-Path $runtimePath "s14-primary-restored-$PID.json"
+$secondaryReadyPath = Join-Path $runtimePath "s13-secondary-ready-$PID.json"
+$secondaryActivePath = Join-Path $runtimePath "s13-secondary-active-$PID.json"
+$primaryRestoredPath = Join-Path $runtimePath "s13-primary-restored-$PID.json"
 try {
     & $healthControl -Mode Readiness -Region ([string]$regional.secondary.region) -ResultPath $secondaryReadyPath
     if (-not $?) { throw "Secondary readiness check failed." }

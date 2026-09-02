@@ -62,6 +62,73 @@ $requiredSentinels = @(
     "__REQUIRED_SECONDARY_REGION__"
 )
 
+function Assert-WhatIfChanges {
+    param(
+        [Parameter(Mandatory)][object]$WhatIf,
+        [Parameter(Mandatory)][ValidateSet("baseline", "initiative", "assignment", "network")][string]$Preview,
+        [Parameter(Mandatory)][string]$ScopeId,
+        [string]$NamePrefix,
+        [string]$ProjectName
+    )
+
+    $scope = [regex]::Escape($ScopeId.TrimEnd("/"))
+    switch ($Preview) {
+        "baseline" {
+            $prefix = [regex]::Escape($NamePrefix)
+            $project = [regex]::Escape($ProjectName)
+            $allowedPatterns = @(
+                "^$scope/providers/Microsoft\.CognitiveServices/accounts/$prefix-[^/]+$"
+                "^$scope/providers/Microsoft\.CognitiveServices/accounts/$prefix-[^/]+/projects/$project$"
+                "^$scope/providers/Microsoft\.CognitiveServices/accounts/$prefix-[^/]+/projects/$project/connections/applicationinsights$"
+                "^$scope/providers/Microsoft\.OperationalInsights/workspaces/log-$prefix-[^/]+$"
+                "^$scope/providers/Microsoft\.Insights/components/appi-$prefix-[^/]+$"
+            )
+        }
+        "initiative" {
+            $allowedPatterns = @(
+                "^$scope/providers/Microsoft\.Authorization/policySetDefinitions/$([regex]::Escape($NamePrefix))$"
+            )
+        }
+        "assignment" {
+            $allowedPatterns = @(
+                "^$scope/providers/Microsoft\.Authorization/policyAssignments/$([regex]::Escape($NamePrefix))$"
+            )
+        }
+        "network" {
+            $network = [regex]::Escape($NamePrefix)
+            $allowedPatterns = @(
+                "^$scope/providers/Microsoft\.Network/routeTables/rt-$network-controlled-egress$"
+                "^$scope/providers/Microsoft\.Network/virtualNetworks/$network$"
+                "^$scope/providers/Microsoft\.Network/virtualNetworks/$network/subnets/snet-foundry-agent$"
+                "^$scope/providers/Microsoft\.Network/virtualNetworks/$network/subnets/snet-private-endpoints$"
+            )
+        }
+    }
+
+    foreach ($change in @($WhatIf.changes)) {
+        $resourceId = ([string]$change.resourceId).TrimEnd("/")
+        if (
+            [string]::IsNullOrWhiteSpace($resourceId) -or
+            -not @($allowedPatterns | Where-Object {
+                $resourceId -match $_
+            })
+        ) {
+            throw "What-if includes an unrelated resource: $($resourceId ?? '<missing resource ID>')"
+        }
+
+        $allowedChanges = @("Create", "NoChange")
+        if ($resourceId.EndsWith("/connections/applicationinsights", [System.StringComparison]::OrdinalIgnoreCase)) {
+            $allowedChanges += @("Modify", "Deploy")
+        }
+        elseif ($Preview -in @("initiative", "assignment")) {
+            $allowedChanges += "Modify"
+        }
+        if ([string]$change.changeType -notin $allowedChanges) {
+            throw "What-if change $($change.changeType) is not allowed for $resourceId."
+        }
+    }
+}
+
 foreach ($relative in $requiredFiles) {
     if (-not (Test-Path (Join-Path $ArtifactsPath $relative) -PathType Leaf)) {
         throw "Required implementation file is missing: $relative"
@@ -205,6 +272,25 @@ $targetGroup = ($groupJson | Out-String) | ConvertFrom-Json
 if ([string]$targetGroup.marker -ne $implementationSession) {
     throw "Resource group '$ResourceGroupName' must have implementationSession=$implementationSession."
 }
+$namePrefixMatch = [regex]::Match(
+    $foundryParametersText,
+    "(?m)^\s*param\s+namePrefix\s*=\s*'([^']+)'\s*$"
+)
+$projectNameMatch = [regex]::Match(
+    $foundryParametersText,
+    "(?m)^\s*param\s+projectName\s*=\s*'([^']+)'\s*$"
+)
+if (-not $namePrefixMatch.Success -or -not $projectNameMatch.Success) {
+    throw "sandbox.bicepparam must assign namePrefix and projectName as quoted values."
+}
+$networkFoundationParametersFile = Join-Path $ArtifactsPath "environments\network-foundation.bicepparam"
+$networkNameMatch = [regex]::Match(
+    (Get-Content -LiteralPath $networkFoundationParametersFile -Raw),
+    "(?m)^\s*param\s+virtualNetworkName\s*=\s*'([^']+)'\s*$"
+)
+if ($networkPatternMatch.Groups[1].Value -eq "byo-vnet" -and -not $networkNameMatch.Success) {
+    throw "network-foundation.bicepparam must assign virtualNetworkName as a quoted value."
+}
 
 $policyAssignmentsRaw = & az policy assignment list `
     --scope $targetGroup.id `
@@ -287,18 +373,50 @@ Write-Host "  Location:       $($targetGroup.location)"
 Write-Host "  Marker:         implementationSession=$implementationSession"
 Write-Host "  Deployment:     $DeploymentName"
 Write-Host ""
+if ($networkPatternMatch.Groups[1].Value -eq "byo-vnet") {
+    Write-Host "BYO VNet foundation deployment preview:"
+    $networkPreview = & az deployment group what-if `
+        --resource-group $ResourceGroupName `
+        --name rvas-s01-network-foundation-preflight `
+        --parameters $networkFoundationParametersFile `
+        --result-format FullResourcePayloads `
+        --no-pretty-print `
+        --only-show-errors `
+        --output json 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        throw "Network foundation deployment preview failed.`n$($networkPreview | Out-String)"
+    }
+    $networkWhatIf = ($networkPreview | Out-String) | ConvertFrom-Json -ErrorAction Stop
+    Assert-WhatIfChanges `
+        -WhatIf $networkWhatIf `
+        -Preview network `
+        -ScopeId ([string]$targetGroup.id) `
+        -NamePrefix $networkNameMatch.Groups[1].Value
+    $networkWhatIf | ConvertTo-Json -Depth 20
+    Write-Host ""
+}
+
 Write-Host "Foundry baseline deployment preview:"
 
 $foundryPreview = & az deployment group what-if `
     --resource-group $ResourceGroupName `
     --name $DeploymentName `
     --parameters $foundryParametersFile `
-    --result-format ResourceIdOnly `
-    --only-show-errors 2>&1
+    --result-format FullResourcePayloads `
+    --no-pretty-print `
+    --only-show-errors `
+    --output json 2>&1
 if ($LASTEXITCODE -ne 0) {
     throw "Foundry baseline deployment preview failed.`n$($foundryPreview | Out-String)"
 }
-$foundryPreview | Write-Output
+$foundryWhatIf = ($foundryPreview | Out-String) | ConvertFrom-Json -ErrorAction Stop
+Assert-WhatIfChanges `
+    -WhatIf $foundryWhatIf `
+    -Preview baseline `
+    -ScopeId ([string]$targetGroup.id) `
+    -NamePrefix $namePrefixMatch.Groups[1].Value `
+    -ProjectName $projectNameMatch.Groups[1].Value
+$foundryWhatIf | ConvertTo-Json -Depth 20
 
 Write-Host ""
 Write-Host "Policy initiative deployment preview:"
@@ -306,12 +424,20 @@ $initiativePreview = & az deployment sub what-if `
     --location $DeploymentLocation `
     --name rvas-s01-guardrails-initiative-preflight `
     --parameters (Join-Path $ArtifactsPath "environments\initiative.bicepparam") `
-    --result-format ResourceIdOnly `
-    --only-show-errors 2>&1
+    --result-format FullResourcePayloads `
+    --no-pretty-print `
+    --only-show-errors `
+    --output json 2>&1
 if ($LASTEXITCODE -ne 0) {
     throw "Initiative preview failed.`n$($initiativePreview | Out-String)"
 }
-$initiativePreview | Write-Output
+$initiativeWhatIf = ($initiativePreview | Out-String) | ConvertFrom-Json -ErrorAction Stop
+Assert-WhatIfChanges `
+    -WhatIf $initiativeWhatIf `
+    -Preview initiative `
+    -ScopeId "/subscriptions/$($account.id)" `
+    -NamePrefix "rvas-ai-landing-zone"
+$initiativeWhatIf | ConvertTo-Json -Depth 20
 
 $initiativeDefinitionId = [Environment]::GetEnvironmentVariable("RVAS_INITIATIVE_DEFINITION_ID")
 if ([string]::IsNullOrWhiteSpace($initiativeDefinitionId)) {
@@ -324,12 +450,20 @@ else {
         --resource-group $ResourceGroupName `
         --name rvas-s01-guardrails-assignment-preflight `
         --parameters (Join-Path $ArtifactsPath "environments\policy-assignment.bicepparam") `
-        --result-format ResourceIdOnly `
-        --only-show-errors 2>&1
+        --result-format FullResourcePayloads `
+        --no-pretty-print `
+        --only-show-errors `
+        --output json 2>&1
     if ($LASTEXITCODE -ne 0) {
         throw "Assignment preview failed.`n$($assignmentPreview | Out-String)"
     }
-    $assignmentPreview | Write-Output
+    $assignmentWhatIf = ($assignmentPreview | Out-String) | ConvertFrom-Json -ErrorAction Stop
+    Assert-WhatIfChanges `
+        -WhatIf $assignmentWhatIf `
+        -Preview assignment `
+        -ScopeId ([string]$targetGroup.id) `
+        -NamePrefix "rvas-s01-guardrails"
+    $assignmentWhatIf | ConvertTo-Json -Depth 20
 }
 
 Write-Host ""

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationSession": "04-agent-365-access-boundary",
+  "implementationSession": "05-agent-365-access-boundary",
   "tenantAlias": "__REQUIRED_TENANT_ALIAS__",
   "targetScope": "nonproduction-agent365-group-pilot",
   "agent": {

@@ -24,13 +24,13 @@ session:
   services_in_scope:
     - "azure-ai-foundry"
     - "foundry-agent-service"
-  control_objective: "Create and run `release-gate.py` for fixed agent versions with repeatable evaluation results."
+  control_objective: "Run `release-gate.py` for fixed agent versions with repeatable evaluation results from a recorded Foundry evaluation definition."
 implementation:
   mode: "extended"
   extended_reason: "The release owner must see the approved version pass and a tool-process regression block before enabling the gate."
 implementation_outcomes:
   - "Version a synthetic golden data set that covers normal, edge, refusal, multilingual, sensitive-data, tool-use, indirect-attack, and failure behavior."
-  - "Run one Foundry evaluation definition against fixed approved and candidate agent versions."
+  - "Run the recorded Foundry evaluation definition against fixed approved and candidate agent versions."
   - "Set active thresholds from the approved baseline within the quality, tool, and safety owners' approved floors."
   - "Configure regional support, tool compatibility, advisory evaluators, owners, exclusions, exception rules, and the production-drift handoff in the release policy."
   - "Confirm that `release-gate.py` returns `PASS` for the approved aggregate and `BLOCK` for the tool-process regression before Session 12 uses it."
@@ -52,7 +52,7 @@ deliverables:
 retained_files:
   - path: "implementation/artifacts/eval/evaluation-spec.json"
     consumer: "The evaluation runner, release gate, preflight scripts, and Session 12 validators"
-    operational_purpose: "Bind the approved and candidate agent versions, evaluator layers, dataset mappings, and aggregate-result rules."
+    operational_purpose: "Bind the recorded Foundry evaluation definition, approved and candidate agent versions, evaluator layers, dataset mappings, and aggregate-result rules."
   - path: "implementation/artifacts/eval/data/golden-v1.jsonl"
     consumer: "The evaluation runner and release gate"
     operational_purpose: "Supply the versioned synthetic cases used for both approved and candidate evaluation runs."

@@ -134,9 +134,9 @@ PY
 }
 
 runtime_directory="$(validate_runtime_directory)"
-secondary_ready="$runtime_directory/s14-secondary-ready-$$.json"
-secondary_active="$runtime_directory/s14-secondary-active-$$.json"
-primary_restored="$runtime_directory/s14-primary-restored-$$.json"
+secondary_ready="$runtime_directory/s13-secondary-ready-$$.json"
+secondary_active="$runtime_directory/s13-secondary-active-$$.json"
+primary_restored="$runtime_directory/s13-primary-restored-$$.json"
 trap 'rm -f "$secondary_ready" "$secondary_active" "$primary_restored"' EXIT
 
 bash "$preflight_path" --phase ready --approved-scope "$approved_scope" \

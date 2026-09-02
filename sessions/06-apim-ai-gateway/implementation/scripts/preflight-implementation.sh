@@ -31,6 +31,39 @@ az_json() {
   printf '%s' "$raw"
 }
 
+optional_az_rest_json() {
+  local description=$1
+  local url=$2
+  local raw
+  if raw=$(az rest --method get --url "$url" --only-show-errors --output json 2>&1); then
+    OPTIONAL_RESOURCE_FOUND=true
+    OPTIONAL_RESOURCE_JSON=$raw
+  elif [[ "$raw" =~ (^|[^0-9])404([^0-9]|$) ]]; then
+    OPTIONAL_RESOURCE_FOUND=false
+    OPTIONAL_RESOURCE_JSON=''
+  else
+    fail "$description lookup failed.\n$raw"
+  fi
+}
+
+assert_optional_marked_resource() {
+  local description=$1
+  local url=$2
+  local marker_type=$3
+  optional_az_rest_json "$description" "$url"
+  [[ "$OPTIONAL_RESOURCE_FOUND" == true ]] || return
+
+  local has_marker=false
+  if [[ "$marker_type" == 'description' ]]; then
+    if [[ $(jq -r '.properties.description // ""' <<<"$OPTIONAL_RESOURCE_JSON") == *'implementationSession=06-apim-ai-gateway'* ]]; then
+      has_marker=true
+    fi
+  elif jq -e '.properties.tags | index("06-apim-ai-gateway") != null' <<<"$OPTIONAL_RESOURCE_JSON" >/dev/null; then
+    has_marker=true
+  fi
+  [[ "$has_marker" == true ]] || fail "$description exists without the Session 06 implementation marker."
+}
+
 validate_agent_url() {
   python3 - "$1" "$2" <<'PY'
 import sys
@@ -242,11 +275,24 @@ if [[ $? -ne 0 ]]; then
   fail "The Content Safety backend URL must be an Azure Cognitive Services endpoint."
 fi
 
+management_base_url="https://management.azure.com$expected_apim_id"
 api_id=$(jq -r '.api.id' "$control_path")
-existing_api_raw=$(az rest --method get --url "https://management.azure.com$expected_apim_id/apis/$api_id?api-version=$api_version" --only-show-errors --output json 2>/dev/null || true)
-if [[ -n "$existing_api_raw" ]]; then
-  [[ $(jq -r '.properties.description // ""' <<<"$existing_api_raw") == *'implementationSession=06-apim-ai-gateway'* ]] || fail "An existing APIM API uses the configured ID without the Session 06 marker."
-fi
+product_id=$(jq -r '.product.id' "$control_path")
+marked_resource_checks=(
+  "Session 06 Entra tenant named value|$management_base_url/namedValues/session06-entra-tenant-id?api-version=$api_version|tag"
+  "Session 06 client application named value|$management_base_url/namedValues/session06-client-application-id?api-version=$api_version|tag"
+  "Session 06 API audience named value|$management_base_url/namedValues/session06-api-audience?api-version=$api_version|tag"
+  "Session 06 required app role named value|$management_base_url/namedValues/session06-required-app-role?api-version=$api_version|tag"
+  "Session 06 primary Foundry backend|$management_base_url/backends/$api_id-primary?api-version=$api_version|description"
+  "Session 06 secondary Foundry backend|$management_base_url/backends/$api_id-secondary?api-version=$api_version|description"
+  "Session 06 Foundry backend pool|$management_base_url/backends/$api_id-pool?api-version=$api_version|description"
+  "Session 06 APIM API|$management_base_url/apis/$api_id?api-version=$api_version|description"
+  "Session 06 APIM product|$management_base_url/products/$product_id?api-version=$api_version|description"
+)
+for check in "${marked_resource_checks[@]}"; do
+  IFS='|' read -r description url marker_type <<<"$check"
+  assert_optional_marked_resource "$description" "$url" "$marker_type"
+done
 
 echo 'Deployment preview:'
 echo "  APIM: $expected_apim_id"

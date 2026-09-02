@@ -13,8 +13,8 @@ session:
   prerequisites:
     - "The approved nonproduction Foundry agent endpoint and APIM API are available. The platform and gateway owners confirm the endpoint, marked `policy-assistant-responses` API, and both resource scopes. (Sessions 02, 04, and 06.)"
     - "Choose an approved API Center region, Free or Standard plan, and remote read-only MCP server with an HTTPS Streamable HTTP endpoint."
-    - "Give the deployment operator a time-bound Contributor role assignment on the exact resource group where this session deploys API Center."
-    - "Give the role-assignment operator time-bound User Access Administrator on the exact Session 06 API Management instance."
+    - "Give the deployment operator time-bound Contributor on the exact resource group where this session deploys API Center."
+    - "Give that same deployment operator time-bound User Access Administrator on the exact Session 06 API Management instance. The deployment runs both operations in one Azure deployment."
     - "Approve the full API Management source boundary because the integration imports every API from the linked instance."
     - "Name the owners and complete the required metadata for the direct agent API, synchronized APIs, and MCP server."
   dependencies:

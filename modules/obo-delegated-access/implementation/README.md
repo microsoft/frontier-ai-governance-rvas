@@ -111,6 +111,8 @@ Confirm these prerequisites:
 - The downstream API enforces resource authorization for each user.
 - The middle-tier host can expose the exportable Key Vault certificate in the certificate binding
   as a protected PFX path through its approved certificate integration.
+- The middle-tier host has the Python runtime dependencies needed to read and verify the mounted
+  PFX.
 - A named customer identity owner can approve the client-to-middle-tier and
   middle-tier-to-downstream delegated permissions and consent.
 - The recorded authority decision is **signed-in user OBO**. Use this module only when the
@@ -120,6 +122,7 @@ Confirm these prerequisites:
   delivery checks.
 - Diagnostics can retain correlation, operation, status, error, and duration fields while
   excluding authorization headers, assertions, tokens, and payloads.
+- PowerShell verification requires **PowerShell 7 or later**.
 
 Complete every `__REQUIRED_*__` value under
 [`artifacts/`](artifacts/README.md). Keep organization-specific copies in the approved private

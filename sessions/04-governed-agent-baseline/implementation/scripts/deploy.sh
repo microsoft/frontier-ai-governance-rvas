@@ -57,7 +57,9 @@ api_request() {
   rm -f "$API_BODY_FILE" "$API_HEADER_FILE"
   local -a args=(-sS -D "$API_HEADER_FILE" -o "$API_BODY_FILE" -w '%{http_code}' -X "$method" -H "Authorization: Bearer $token")
   if [[ -n "$body_file" ]]; then
-    args+=(-H 'Content-Type: application/json' --data @"$body_file")
+    local content_type='application/json'
+    [[ "$method" == 'PATCH' ]] && content_type='application/merge-patch+json'
+    args+=(-H "Content-Type: $content_type" --data @"$body_file")
   fi
   if ! API_STATUS=$(curl "${args[@]}" "$url"); then
     fail "Request failed: $method $url"

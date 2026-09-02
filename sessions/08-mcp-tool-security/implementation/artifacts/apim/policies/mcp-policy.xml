@@ -19,7 +19,7 @@
       </required-claims>
     </validate-azure-ad-token>
     <rate-limit-by-key calls="@@TOOL_CALLS_PER_MINUTE@@" renewal-period="60" counter-key="@(((Jwt)context.Variables[&quot;session08-jwt&quot;]).Claims.GetValueOrDefault(&quot;appid&quot;, &quot;unknown&quot;) + &quot;:&quot; + context.Variables.GetValueOrDefault&lt;string&gt;(&quot;gen_ai.tool.name&quot;, &quot;protocol&quot;))" retry-after-header-name="Retry-After" />
-    <trace source="session07-mcp-tool-security" severity="information">
+    <trace source="session08-mcp-tool-security" severity="information">
       <message>MCP request evaluated by Session 08 control.</message>
       <metadata name="session08.correlation_id" value="@((string)context.Variables[&quot;correlation-id&quot;])" />
       <metadata name="session08.tool_name" value="@(context.Variables.GetValueOrDefault&lt;string&gt;(&quot;gen_ai.tool.name&quot;, &quot;protocol&quot;))" />

@@ -299,9 +299,9 @@ Run both paths, then pause for the delivery owner.
   --promotion-run-id <github-actions-run-id>
 ```
 
-The run must show the selected SHA and digests through both deployments. All behavioral gates pass
-before Azure. Each apply identity stays withheld until its preview is approved. Routing succeeds
-before the release record becomes approved.
+The verifier checks the workflow identity and the successful gate, preview, and deployment jobs.
+It does not retrieve or hash the durable release record. The release owner checks that record through
+the approved release/security-store interface before using it for restore.
 
 ### Blocked/failure path
 

@@ -15,10 +15,8 @@ from pathlib import Path
 from typing import Any
 
 from azure.ai.projects import AIProjectClient
-from azure.ai.projects.models import TestingCriterionAzureAIEvaluator
 from azure.core.exceptions import ResourceNotFoundError
 from azure.identity import DefaultAzureCredential
-from openai.types.eval_create_params import DataSourceConfigCustom
 
 
 IMPLEMENTATION_SESSION = "09-foundry-evaluations-quality-gates"
@@ -87,27 +85,6 @@ def dataset_details(spec_path: Path, spec: dict[str, Any]) -> tuple[Path, str, i
     return dataset_path, digest, len(rows)
 
 
-def build_criteria(
-    spec: dict[str, Any],
-    judge_model: str,
-) -> list[TestingCriterionAzureAIEvaluator]:
-    criteria: list[TestingCriterionAzureAIEvaluator] = []
-    for definition in spec["evaluators"]:
-        kwargs: dict[str, Any] = {
-            "type": "azure_ai_evaluator",
-            "name": definition["name"],
-            "evaluator_name": definition["evaluatorName"],
-            "data_mapping": {
-                name: binding(reference)
-                for name, reference in definition["dataMapping"].items()
-            },
-        }
-        if definition["judgeModelRequired"]:
-            kwargs["initialization_parameters"] = {"model": judge_model}
-        criteria.append(TestingCriterionAzureAIEvaluator(**kwargs))
-    return criteria
-
-
 def aggregate_results(
     output_items: list[Any],
     evaluators: list[dict[str, Any]],
@@ -172,9 +149,19 @@ def main() -> int:
     spec = load_json(spec_path)
     if spec.get("implementationSession") != IMPLEMENTATION_SESSION:
         raise ValueError("Evaluation specification has the wrong implementationSession marker")
+    evaluation_definition_id = spec.get("evaluationDefinitionId")
+    if (
+        not isinstance(evaluation_definition_id, str)
+        or not evaluation_definition_id.strip()
+        or evaluation_definition_id.startswith("__REQUIRED_")
+    ):
+        raise ValueError(
+            "Evaluation specification must record the approved Foundry evaluation definition ID"
+        )
+    evaluation_definition_id = evaluation_definition_id.strip()
+    output_path = None if args.check_only else require_external_output(args.output)
 
     endpoint = require_environment("FOUNDRY_PROJECT_ENDPOINT")
-    judge_model = require_environment("FOUNDRY_MODEL_NAME")
     agent_name = str(spec["target"]["agentName"])
     approved_version = str(spec["target"]["approvedVersion"])
     candidate_version = str(spec["target"]["candidateVersion"])
@@ -193,6 +180,9 @@ def main() -> int:
         AIProjectClient(endpoint=endpoint, credential=credential) as project_client,
         project_client.get_openai_client() as openai_client,
     ):
+        evaluation = openai_client.evals.retrieve(eval_id=evaluation_definition_id)
+        if str(evaluation.id) != evaluation_definition_id:
+            raise RuntimeError("Foundry did not return the recorded evaluation definition")
         for version in (approved_version, candidate_version):
             project_client.agents.get_version(
                 agent_name=agent_name,
@@ -219,34 +209,8 @@ def main() -> int:
         if not dataset.id:
             raise RuntimeError("Foundry did not return a dataset ID")
 
-        data_source_config = DataSourceConfigCustom(
-            type="custom",
-            item_schema={
-                "type": "object",
-                "properties": {
-                    "case_id": {"type": "string"},
-                    "category": {"type": "string"},
-                    "query": {"type": "string"},
-                    "expected_behavior": {"type": "string"},
-                    "tool_definitions": {"type": "array"},
-                },
-                "required": [
-                    "case_id",
-                    "category",
-                    "query",
-                    "expected_behavior",
-                    "tool_definitions",
-                ],
-            },
-            include_sample_schema=True,
-        )
-        evaluation = openai_client.evals.create(
-            name=spec["evaluationName"],
-            data_source_config=data_source_config,
-            testing_criteria=build_criteria(spec, judge_model),
-        )
         run = openai_client.evals.runs.create(
-            eval_id=evaluation.id,
+            eval_id=evaluation_definition_id,
             name=f"{spec['evaluationName']}-{args.target}-{target_version}",
             metadata={
                 "implementationSession": IMPLEMENTATION_SESSION,
@@ -281,13 +245,13 @@ def main() -> int:
         while str(run.status).lower() not in TERMINAL_STATUSES:
             if time.monotonic() >= deadline:
                 raise TimeoutError(
-                    f"Evaluation {evaluation.id}/{run.id} did not finish "
+                    f"Evaluation {evaluation_definition_id}/{run.id} did not finish "
                     f"within {args.timeout_minutes} minutes"
                 )
             time.sleep(10)
             run = openai_client.evals.runs.retrieve(
                 run_id=run.id,
-                eval_id=evaluation.id,
+                eval_id=evaluation_definition_id,
             )
 
         if str(run.status).lower() != "completed":
@@ -296,7 +260,7 @@ def main() -> int:
         output_items = list(
             openai_client.evals.runs.output_items.list(
                 run_id=run.id,
-                eval_id=evaluation.id,
+                eval_id=evaluation_definition_id,
             )
         )
         metrics = aggregate_results(output_items, spec["evaluators"])
@@ -332,7 +296,8 @@ def main() -> int:
             },
         }
 
-        output_path = require_external_output(args.output)
+        if output_path is None:
+            raise RuntimeError("An evaluation run requires an external output path")
         write_record(output_path, record)
         by_layer: dict[str, list[str]] = defaultdict(list)
         for metric in metrics:

@@ -198,7 +198,7 @@ account_id="$(az account show --query id --output tsv)"
 [[ "${account_id,,}" == "$(json_value subscriptionId | tr '[:upper:]' '[:lower:]')" ]] ||
   fail 'Active Azure subscription differs from the approved scope.'
 
-primary_result="$runtime_directory/s14-primary-active-$$.json"
+primary_result="$runtime_directory/s13-primary-active-$$.json"
 trap 'rm -f "$primary_result"' EXIT
 "$(json_value healthBash)" \
   --mode active \

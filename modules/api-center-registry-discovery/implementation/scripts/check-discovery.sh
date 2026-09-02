@@ -51,12 +51,16 @@ command -v python3 >/dev/null 2>&1 || fail "python3 is required."
 python3 - "$client_settings_path" "$ownership_path" "$access_token_env" "$max_pages" <<'PY'
 import json
 import os
+import re
 import sys
 import urllib.parse
 import urllib.request
 
 client_path, ownership_path, token_env, max_pages_text = sys.argv[1:]
 max_pages = int(max_pages_text)
+DOCUMENTED_HOST = re.compile(
+    r"^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.data\.[a-z0-9]+\.azure-apicenter\.ms$"
+)
 
 with open(client_path, encoding="utf-8") as handle:
     client_text = handle.read()
@@ -69,8 +73,24 @@ if "__REQUIRED_" in client_text or "__REQUIRED_" in ownership_text:
 
 client = json.loads(client_text)
 ownership = json.loads(ownership_text)
-token = os.environ[token_env]
 endpoint = client["registry"]["endpoint"]
+endpoint_parts = urllib.parse.urlparse(endpoint)
+if (
+    endpoint_parts.scheme != "https"
+    or not DOCUMENTED_HOST.fullmatch(endpoint_parts.hostname or "")
+    or endpoint_parts.username is not None
+    or endpoint_parts.password is not None
+    or endpoint_parts.port is not None
+    or endpoint_parts.path != "/workspaces/default/v0.1/servers"
+    or endpoint_parts.params
+    or endpoint_parts.query
+    or endpoint_parts.fragment
+):
+    raise SystemExit(
+        "The registry endpoint must use the documented Azure API Center data-plane host and "
+        "/workspaces/default/v0.1/servers path."
+    )
+token = os.environ[token_env]
 approved = sorted(
     {
         entry["name"]
@@ -85,9 +105,17 @@ headers = {
     "Authorization": f"Bearer {token}",
     "Accept": "application/json",
 }
+headers["Authorization"] = f"Bearer {token}"
 discovered = set()
 cursor = None
 pages = 0
+
+class NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, request, fp, code, msg, headers, newurl):
+        return None
+
+
+opener = urllib.request.build_opener(NoRedirect)
 
 while True:
     pages += 1
@@ -98,7 +126,7 @@ while True:
     if cursor:
         url = f"{endpoint}?{urllib.parse.urlencode({'cursor': cursor})}"
     request = urllib.request.Request(url, headers=headers, method="GET")
-    with urllib.request.urlopen(request) as response:
+    with opener.open(request) as response:
         payload = json.load(response)
 
     servers = payload.get("servers")

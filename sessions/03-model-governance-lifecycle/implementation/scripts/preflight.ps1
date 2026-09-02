@@ -549,7 +549,7 @@ $whatIf = Invoke-AzJson `
     -Arguments @(
         "deployment", "group", "what-if",
         "--resource-group", $ResourceGroupName,
-        "--name", "rvas-s04-preflight",
+        "--name", "rvas-s03-preflight",
         "--template-file", $templatePath,
         "--parameters", $parameterPath,
         "--result-format", "FullResourcePayloads",

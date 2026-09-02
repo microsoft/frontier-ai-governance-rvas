@@ -442,10 +442,8 @@ from __future__ import annotations
 
 import base64
 import copy
-import hashlib
 import json
 import os
-import ssl
 from pathlib import Path
 
 
@@ -513,35 +511,49 @@ def local_certificate_status(path_value: str, expected_thumbprint: str, required
             ),
         }
     raw = path.read_bytes()
-    text = None
+    if path.suffix.lower() not in {'.pfx', '.p12'}:
+        fail(
+            'The mounted runtime certificate must be a PFX or P12 file so it matches the approved '
+            f'runtime configuration: {path}'
+        )
     try:
-        text = raw.decode('utf-8')
-    except UnicodeDecodeError:
-        text = None
-    thumbprint = None
-    detail = 'Runtime certificate file exists; local thumbprint comparison is unavailable for this container format without extra tooling.'
-    if text and '-----BEGIN CERTIFICATE-----' in text and '-----END CERTIFICATE-----' in text:
-        begin = text.find('-----BEGIN CERTIFICATE-----')
-        end = text.find('-----END CERTIFICATE-----', begin)
-        if begin >= 0 and end > begin:
-            pem_block = text[begin:end + len('-----END CERTIFICATE-----')]
-            der_bytes = ssl.PEM_cert_to_DER_cert(pem_block)
-            thumbprint = hashlib.sha1(der_bytes).hexdigest().upper()
-            detail = 'Runtime certificate file exists and the PEM certificate thumbprint was compared locally.'
-    elif path.suffix.lower() in {'.cer', '.crt', '.der'}:
-        thumbprint = hashlib.sha1(raw).hexdigest().upper()
-        detail = 'Runtime certificate file exists and the DER certificate thumbprint was compared locally.'
-    status = 'not_checked'
-    if thumbprint:
-        if thumbprint != expected_thumbprint:
-            fail('The runtime certificate file does not match the approved certificate thumbprint.')
-        status = 'matched'
-        detail = 'Runtime certificate file exists and matches the approved certificate thumbprint.'
+        from cryptography.hazmat.primitives import hashes
+        from cryptography.hazmat.primitives.serialization import pkcs12
+        private_key, certificate, _ = pkcs12.load_key_and_certificates(raw, password=None)
+    except ImportError:
+        if required:
+            fail(
+                'Cannot verify the mounted PFX certificate because Python cryptography is unavailable. '
+                'Install the runtime dependencies on the middle-tier host before post-binding preflight.'
+            )
+        return {
+            'path': str(path),
+            'status': 'not_checked',
+            'thumbprint': None,
+            'detail': 'Runtime certificate file exists; install Python cryptography to compare its PFX thumbprint locally.',
+        }
+    except ValueError as error:
+        if required:
+            fail(
+                'Cannot verify the mounted PFX certificate. The runtime requires an unencrypted, '
+                f'parseable PFX or P12 with a private key: {path} ({error})'
+            )
+        return {
+            'path': str(path),
+            'status': 'not_checked',
+            'thumbprint': None,
+            'detail': f'Runtime certificate file exists but its PFX thumbprint could not be read: {error}',
+        }
+    if private_key is None or certificate is None:
+        fail('The mounted PFX certificate must contain both the certificate and its private key.')
+    thumbprint = certificate.fingerprint(hashes.SHA1()).hex().upper()
+    if thumbprint != expected_thumbprint:
+        fail('The runtime certificate file does not match the approved certificate thumbprint.')
     return {
         'path': str(path),
-        'status': status,
+        'status': 'matched',
         'thumbprint': thumbprint,
-        'detail': detail,
+        'detail': 'Runtime certificate file exists and matches the approved certificate thumbprint.',
     }
 
 

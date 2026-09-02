@@ -14,6 +14,8 @@ param(
     [string]$ResultPath
 )
 
+Set-StrictMode -Version Latest
+
 function Get-BoundedIntegerSetting {
     param(
         [Parameter(Mandatory = $true)][string]$Name,

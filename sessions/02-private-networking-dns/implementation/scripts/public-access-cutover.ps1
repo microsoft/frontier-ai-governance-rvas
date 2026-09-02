@@ -86,6 +86,24 @@ function Set-PublicNetworkAccess {
     }
 }
 
+function Assert-PublicAccessDisabled {
+    param(
+        [Parameter(Mandatory)][string]$Alias,
+        [Parameter(Mandatory)][string]$ResourceId,
+        [switch]$RequireMarker
+    )
+
+    $resource = Invoke-AzJson `
+        -Arguments @("resource", "show", "--ids", $ResourceId) `
+        -Description "Post-update lookup for $Alias"
+    if ([string]$resource.properties.publicNetworkAccess -ine "Disabled") {
+        throw "$Alias still reports publicNetworkAccess=$($resource.properties.publicNetworkAccess)."
+    }
+    if ($RequireMarker -and [string]$resource.tags.networkControlSession -ne $marker) {
+        throw "$Alias is missing the successful cutover marker."
+    }
+}
+
 if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
     throw "Azure CLI is required and was not found on PATH."
 }
@@ -143,15 +161,20 @@ if (-not $PSCmdlet.ShouldProcess(
 }
 
 foreach ($item in $resources) {
+    Set-PublicNetworkAccess -Alias $item.Alias -Resource $item.Resource
+    Assert-PublicAccessDisabled -Alias $item.Alias -ResourceId ([string]$item.Resource.id)
     $tagOutput = & az tag update `
         --resource-id $item.Resource.id `
         --operation Merge `
         --tags "networkControlSession=$marker" `
         --only-show-errors 2>&1
     if ($LASTEXITCODE -ne 0) {
-        throw "Tag update failed for $($item.Alias).`n$($tagOutput | Out-String)"
+        throw "Tag update failed for $($item.Alias) after public access was disabled.`n$($tagOutput | Out-String)"
     }
-    Set-PublicNetworkAccess -Alias $item.Alias -Resource $item.Resource
+    Assert-PublicAccessDisabled `
+        -Alias $item.Alias `
+        -ResourceId ([string]$item.Resource.id) `
+        -RequireMarker
 }
 
-Write-Host "Cutover complete. The change record holds the prior states for the approved restore path."
+Write-Host "Cutover complete. Each marker confirms a verified Disabled state; the change record holds the prior states for the approved restore path."

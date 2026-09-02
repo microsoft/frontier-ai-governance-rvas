@@ -227,7 +227,7 @@ if ([string]$account.id -ine $approvedTargetScope.Split("/")[2]) {
     throw "Active Azure subscription differs from the approved scope."
 }
 
-$primaryResultPath = Join-Path $runtimePath "s14-primary-active-$PID.json"
+$primaryResultPath = Join-Path $runtimePath "s13-primary-active-$PID.json"
 try {
     & $healthPowerShellPath -Mode Active -Region $primaryRegion -ResultPath $primaryResultPath
     if (-not $?) { throw "Primary active-path check failed." }

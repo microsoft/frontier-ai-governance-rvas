@@ -79,6 +79,53 @@ if found:
 PY
 }
 
+validate_what_if() {
+  local resource_group_id="$1"
+  local preview_json="$2"
+  python3 - "$resource_group_id" 3< <(printf '%s' "$preview_json") <<'PY'
+import json
+import os
+import sys
+
+resource_group_id = sys.argv[1].rstrip("/")
+zones = (
+    "privatelink.cognitiveservices.azure.com",
+    "privatelink.openai.azure.com",
+    "privatelink.services.ai.azure.com",
+    "privatelink.blob.core.windows.net",
+    "privatelink.search.windows.net",
+    "privatelink.documents.azure.com",
+    "privatelink.vaultcore.azure.net",
+)
+endpoints = (
+    "pe-foundry",
+    "pe-storage-blob",
+    "pe-ai-search",
+    "pe-cosmos-sql",
+    "pe-key-vault",
+)
+allowed = {
+    *(f"{resource_group_id}/providers/Microsoft.Network/privateDnsZones/{zone}" for zone in zones),
+    *(f"{resource_group_id}/providers/Microsoft.Network/privateDnsZones/{zone}/virtualNetworkLinks/link-session01-vnet" for zone in zones),
+    *(f"{resource_group_id}/providers/Microsoft.Network/privateEndpoints/{endpoint}" for endpoint in endpoints),
+    *(f"{resource_group_id}/providers/Microsoft.Network/privateEndpoints/{endpoint}/privateDnsZoneGroups/default" for endpoint in endpoints),
+}
+with os.fdopen(3, encoding="utf-8") as stream:
+    result = json.load(stream)
+for change in result.get("changes", []):
+    resource_id = str(change.get("resourceId") or "").rstrip("/")
+    change_type = str(change.get("changeType") or "")
+    if resource_id.casefold() not in {item.casefold() for item in allowed}:
+        raise SystemExit(
+            f"What-if includes an unrelated resource: {resource_id or '<missing resource ID>'}"
+        )
+    if change_type not in {"Create", "Modify", "NoChange"}:
+        raise SystemExit(
+            f"What-if change {change_type or '<missing change type>'} is not allowed for {resource_id}."
+        )
+PY
+}
+
 approved_subscription_id=""
 resource_group_name=""
 network_operator_object_id=""
@@ -398,6 +445,7 @@ printf '  Resource group: %s\n' "$resource_group_name"
 printf '  Location:       %s\n' "$resource_group_location"
 printf '  Approved scope: nonproduction subscription and network resource group\n'
 printf 'Bicep deployment preview:\n'
-preview_output="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name rvas-s03-preflight --template-file "$artifact_root/infra/network/main.bicep" --parameters "$artifact_root/environments/sandbox.bicepparam" --no-pretty-print --only-show-errors)" || die 'Bicep what-if failed.'
+preview_output="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name rvas-s03-preflight --template-file "$artifact_root/infra/network/main.bicep" --parameters "$artifact_root/environments/sandbox.bicepparam" --result-format FullResourcePayloads --no-pretty-print --only-show-errors --output json)" || die 'Bicep what-if failed.'
+validate_what_if "$resource_group_id" "$preview_output" || die 'Bicep what-if contains an unexpected change.'
 printf '%s\n' "$preview_output"
 printf 'PASS: Session 02 files, decisions, Azure scope, operator roles, service resources, providers, Bicep syntax, and what-if are ready.\n'

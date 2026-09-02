@@ -643,7 +643,7 @@ printf 'Preview 1 of 2: nonproduction at %s\n' "$approved_nonproduction_scope"
 az deployment group what-if \
   --subscription "$nonprod_sub" \
   --resource-group "$nonprod_rg" \
-  --name 's13-preflight-nonproduction' \
+  --name 's12-preflight-nonproduction' \
   --template-file "$bicep_path" \
   --parameters "$artifact_root/environments/nonproduction.parameters.json" \
   releaseCommitSha="$approved_release_sha" \
@@ -653,7 +653,7 @@ printf 'Preview 2 of 2: production at %s\n' "$approved_production_scope"
 az deployment group what-if \
   --subscription "$prod_sub" \
   --resource-group "$prod_rg" \
-  --name 's13-preflight-production' \
+  --name 's12-preflight-production' \
   --template-file "$bicep_path" \
   --parameters "$artifact_root/environments/production.parameters.json" \
   releaseCommitSha="$approved_release_sha" \

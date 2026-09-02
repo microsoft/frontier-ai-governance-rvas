@@ -114,6 +114,7 @@ scan_unresolved_sentinels() {
   shift
   python3 - "$artifact_root" "$@" <<'PY'
 from pathlib import Path
+import os
 import re
 import sys
 
@@ -213,6 +214,68 @@ for raw_path in sys.argv[3:]:
         raise SystemExit(
             f'{path.name} must load requiredTagNames from policy/guardrail-settings.json.'
         )
+PY
+}
+
+validate_what_if() {
+  local preview_kind="$1"
+  local scope_id="$2"
+  local name_prefix="${3:-}"
+  local project_name="${4:-}"
+  local preview_json="$5"
+  python3 - "$preview_kind" "$scope_id" "$name_prefix" "$project_name" \
+    3< <(printf '%s' "$preview_json") <<'PY'
+import json
+import os
+import re
+import sys
+
+preview_kind, scope_id, name_prefix, project_name = sys.argv[1:]
+scope_id = scope_id.rstrip("/")
+with os.fdopen(3, encoding="utf-8") as stream:
+    result = json.load(stream)
+
+if preview_kind == "baseline":
+    prefix = re.escape(scope_id)
+    name = re.escape(name_prefix)
+    project = re.escape(project_name)
+    allowed = (
+        rf"{prefix}/providers/Microsoft\.CognitiveServices/accounts/{name}-[^/]+$",
+        rf"{prefix}/providers/Microsoft\.CognitiveServices/accounts/{name}-[^/]+/projects/{project}$",
+        rf"{prefix}/providers/Microsoft\.CognitiveServices/accounts/{name}-[^/]+/projects/{project}/connections/applicationinsights$",
+        rf"{prefix}/providers/Microsoft\.OperationalInsights/workspaces/log-{name}-[^/]+$",
+        rf"{prefix}/providers/Microsoft\.Insights/components/appi-{name}-[^/]+$",
+    )
+elif preview_kind == "initiative":
+    allowed = (rf"{re.escape(scope_id)}/providers/Microsoft\.Authorization/policySetDefinitions/{re.escape(name_prefix)}$",)
+elif preview_kind == "assignment":
+    allowed = (rf"{re.escape(scope_id)}/providers/Microsoft\.Authorization/policyAssignments/{re.escape(name_prefix)}$",)
+elif preview_kind == "network":
+    network = re.escape(name_prefix)
+    allowed = (
+        rf"{re.escape(scope_id)}/providers/Microsoft\.Network/routeTables/rt-{network}-controlled-egress$",
+        rf"{re.escape(scope_id)}/providers/Microsoft\.Network/virtualNetworks/{network}$",
+        rf"{re.escape(scope_id)}/providers/Microsoft\.Network/virtualNetworks/{network}/subnets/snet-foundry-agent$",
+        rf"{re.escape(scope_id)}/providers/Microsoft\.Network/virtualNetworks/{network}/subnets/snet-private-endpoints$",
+    )
+else:
+    raise SystemExit(f"Unsupported what-if preview: {preview_kind}")
+
+for change in result.get("changes", []):
+    resource_id = str(change.get("resourceId") or "").rstrip("/")
+    change_type = str(change.get("changeType") or "")
+    if not resource_id or not any(re.fullmatch(pattern, resource_id, re.IGNORECASE) for pattern in allowed):
+        raise SystemExit(
+            f"What-if includes an unrelated resource: {resource_id or '<missing resource ID>'}"
+        )
+    is_connection = resource_id.lower().endswith("/connections/applicationinsights")
+    allowed_changes = {"Create", "NoChange"}
+    if is_connection:
+        allowed_changes.update({"Modify", "Deploy"})
+    elif preview_kind in {"initiative", "assignment"}:
+        allowed_changes.add("Modify")
+    if change_type not in allowed_changes:
+        raise SystemExit(f"What-if change {change_type or '<missing change type>'} is not allowed for {resource_id}.")
 PY
 }
 
@@ -357,6 +420,45 @@ print((json.loads(os.environ['PYTHON_JSON_INPUT']).get('marker') or '').strip())
 PY
 )"
 [[ "$group_marker" == "$implementation_session" ]] || die "Resource group '$resource_group_name' must have implementationSession=$implementation_session."
+resource_group_id="$(PYTHON_JSON_INPUT="$group_json" python3 - <<'PY'
+import json
+import os
+print(json.loads(os.environ['PYTHON_JSON_INPUT']).get('id', ''))
+PY
+)"
+[[ -n "$resource_group_id" ]] || die "Resource group '$resource_group_name' has no resource ID."
+
+read -r name_prefix project_name < <(python3 - "$foundry_parameters_file" <<'PY'
+from pathlib import Path
+import re
+import sys
+
+text = Path(sys.argv[1]).read_text(encoding="utf-8")
+values = []
+for name in ("namePrefix", "projectName"):
+    match = re.search(rf"(?m)^\s*param\s+{name}\s*=\s*'([^']+)'\s*$", text)
+    if not match:
+        raise SystemExit(f"sandbox.bicepparam must assign {name} as a quoted value.")
+    values.append(match.group(1))
+print(*values)
+PY
+) || die 'Foundry resource-name validation failed.'
+network_foundation_parameters_file="$artifacts_path/environments/network-foundation.bicepparam"
+network_name=''
+if [[ "$network_pattern" == 'byo-vnet' ]]; then
+  network_name="$(python3 - "$network_foundation_parameters_file" <<'PY'
+from pathlib import Path
+import re
+import sys
+
+text = Path(sys.argv[1]).read_text(encoding="utf-8")
+match = re.search(r"(?m)^\s*param\s+virtualNetworkName\s*=\s*'([^']+)'\s*$", text)
+if not match:
+    raise SystemExit("network-foundation.bicepparam must assign virtualNetworkName as a quoted value.")
+print(match.group(1))
+PY
+)" || die 'Network foundation resource-name validation failed.'
+fi
 
 policy_assignments_json="$(run_capture az policy assignment list \
   --scope "$(
@@ -424,6 +526,7 @@ account = json.loads(os.environ['PYTHON_JSON_INPUT'])
 print(account.get('id', ''))
 PY
 )"
+[[ -n "$subscription_id" ]] || die 'Azure account has no subscription ID.'
 group_location="$(PYTHON_JSON_INPUT="$group_json" python3 - <<'PY'
 import json
 import os
@@ -437,20 +540,30 @@ printf '  Resource group: %s\n' "$resource_group_name"
 printf '  Location:       %s\n' "$group_location"
 printf '  Marker:         implementationSession=%s\n' "$implementation_session"
 printf '  Deployment:     %s\n\n' "$deployment_name"
+if [[ "$network_pattern" == 'byo-vnet' ]]; then
+  printf 'BYO VNet foundation deployment preview:\n'
+  network_preview="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name rvas-s01-network-foundation-preflight --parameters "$network_foundation_parameters_file" --result-format FullResourcePayloads --no-pretty-print --only-show-errors --output json)" || die 'Network foundation deployment preview failed.'
+  validate_what_if network "$resource_group_id" "$network_name" '' "$network_preview" || die 'Network foundation deployment preview contains an unexpected change.'
+  printf '%s\n\n' "$network_preview"
+fi
+
 printf 'Foundry baseline deployment preview:\n'
 
-foundry_preview="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name "$deployment_name" --parameters "$foundry_parameters_file" --result-format ResourceIdOnly --only-show-errors)" || die 'Foundry baseline deployment preview failed.'
+foundry_preview="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name "$deployment_name" --parameters "$foundry_parameters_file" --result-format FullResourcePayloads --no-pretty-print --only-show-errors --output json)" || die 'Foundry baseline deployment preview failed.'
+validate_what_if baseline "$resource_group_id" "$name_prefix" "$project_name" "$foundry_preview" || die 'Foundry baseline deployment preview contains an unexpected change.'
 printf '%s\n' "$foundry_preview"
 
 printf '\nPolicy initiative deployment preview:\n'
-initiative_preview="$(run_capture az deployment sub what-if --location "$deployment_location" --name rvas-s01-guardrails-initiative-preflight --parameters "$artifacts_path/environments/initiative.bicepparam" --result-format ResourceIdOnly --only-show-errors)" || die 'Initiative preview failed.'
+initiative_preview="$(run_capture az deployment sub what-if --location "$deployment_location" --name rvas-s01-guardrails-initiative-preflight --parameters "$artifacts_path/environments/initiative.bicepparam" --result-format FullResourcePayloads --no-pretty-print --only-show-errors --output json)" || die 'Initiative preview failed.'
+validate_what_if initiative "/subscriptions/$subscription_id" 'rvas-ai-landing-zone' '' "$initiative_preview" || die 'Initiative preview contains an unexpected change.'
 printf '%s\n' "$initiative_preview"
 
 if [[ -z "${RVAS_INITIATIVE_DEFINITION_ID:-}" ]]; then
   printf 'Assignment preview pending. Set RVAS_INITIATIVE_DEFINITION_ID after the initiative deployment, then rerun preflight.\n'
 else
   printf '\nPolicy assignment deployment preview:\n'
-  assignment_preview="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name rvas-s01-guardrails-assignment-preflight --parameters "$artifacts_path/environments/policy-assignment.bicepparam" --result-format ResourceIdOnly --only-show-errors)" || die 'Assignment preview failed.'
+  assignment_preview="$(run_capture az deployment group what-if --resource-group "$resource_group_name" --name rvas-s01-guardrails-assignment-preflight --parameters "$artifacts_path/environments/policy-assignment.bicepparam" --result-format FullResourcePayloads --no-pretty-print --only-show-errors --output json)" || die 'Assignment preview failed.'
+  validate_what_if assignment "$resource_group_id" 'rvas-s01-guardrails' '' "$assignment_preview" || die 'Assignment preview contains an unexpected change.'
   printf '%s\n' "$assignment_preview"
 fi
 

@@ -68,6 +68,54 @@ function Invoke-AzJson {
     return (($raw | Out-String) | ConvertFrom-Json -ErrorAction Stop)
 }
 
+function Assert-WhatIfChanges {
+    param(
+        [Parameter(Mandatory)][object]$WhatIf,
+        [Parameter(Mandatory)][string]$ResourceGroupId
+    )
+
+    $scope = $ResourceGroupId.TrimEnd("/")
+    $zones = @(
+        "privatelink.cognitiveservices.azure.com"
+        "privatelink.openai.azure.com"
+        "privatelink.services.ai.azure.com"
+        "privatelink.blob.core.windows.net"
+        "privatelink.search.windows.net"
+        "privatelink.documents.azure.com"
+        "privatelink.vaultcore.azure.net"
+    )
+    $endpoints = @(
+        "pe-foundry"
+        "pe-storage-blob"
+        "pe-ai-search"
+        "pe-cosmos-sql"
+        "pe-key-vault"
+    )
+    $allowedResourceIds = [System.Collections.Generic.HashSet[string]]::new(
+        [System.StringComparer]::OrdinalIgnoreCase
+    )
+    foreach ($zone in $zones) {
+        $zoneId = "$scope/providers/Microsoft.Network/privateDnsZones/$zone"
+        [void]$allowedResourceIds.Add($zoneId)
+        [void]$allowedResourceIds.Add("$zoneId/virtualNetworkLinks/link-session01-vnet")
+    }
+    foreach ($endpoint in $endpoints) {
+        $endpointId = "$scope/providers/Microsoft.Network/privateEndpoints/$endpoint"
+        [void]$allowedResourceIds.Add($endpointId)
+        [void]$allowedResourceIds.Add("$endpointId/privateDnsZoneGroups/default")
+    }
+
+    foreach ($change in @($WhatIf.changes)) {
+        $resourceId = ([string]$change.resourceId).TrimEnd("/")
+        if ([string]::IsNullOrWhiteSpace($resourceId) -or -not $allowedResourceIds.Contains($resourceId)) {
+            throw "What-if includes an unrelated resource: $($resourceId ?? '<missing resource ID>')"
+        }
+        if ([string]$change.changeType -notin @("Create", "Modify", "NoChange")) {
+            throw "What-if change $($change.changeType) is not allowed for $resourceId."
+        }
+    }
+}
+
 if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
     throw "Azure CLI is required and was not found on PATH."
 }
@@ -286,10 +334,15 @@ $whatIfOutput = & az deployment group what-if `
     --name "rvas-s03-preflight" `
     --template-file $templatePath `
     --parameters $parameterPath `
+    --result-format FullResourcePayloads `
     --no-pretty-print `
+    --output json `
     --only-show-errors 2>&1
 if ($LASTEXITCODE -ne 0) {
     throw "Bicep what-if failed.`n$($whatIfOutput | Out-String)"
 }
+$whatIf = ($whatIfOutput | Out-String) | ConvertFrom-Json -ErrorAction Stop
+Assert-WhatIfChanges -WhatIf $whatIf -ResourceGroupId ([string]$resourceGroup.id)
 
+$whatIf | ConvertTo-Json -Depth 20
 Write-Host "PASS: Session 02 files, decisions, Azure scope, operator roles, service resources, providers, Bicep syntax, and what-if are ready."

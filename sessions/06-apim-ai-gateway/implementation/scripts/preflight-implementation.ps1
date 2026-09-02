@@ -36,6 +36,56 @@ function Invoke-AzJson {
     return (($raw | Out-String) | ConvertFrom-Json -ErrorAction Stop)
 }
 
+function Get-OptionalAzRestJson {
+    param(
+        [Parameter(Mandatory)]
+        [string]$Url,
+
+        [Parameter(Mandatory)]
+        [string]$Description
+    )
+
+    $raw = & az rest --method get --url $Url --only-show-errors --output json 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        return (($raw | Out-String) | ConvertFrom-Json -ErrorAction Stop)
+    }
+
+    $errorText = $raw | Out-String
+    if ($errorText -match "(?<!\d)404(?!\d)") {
+        return $null
+    }
+    throw "$Description lookup failed.`n$errorText"
+}
+
+function Assert-OptionalMarkedResource {
+    param(
+        [Parameter(Mandatory)]
+        [string]$Url,
+
+        [Parameter(Mandatory)]
+        [string]$Description,
+
+        [Parameter(Mandatory)]
+        [ValidateSet("description", "tag")]
+        [string]$MarkerType
+    )
+
+    $resource = Get-OptionalAzRestJson -Url $Url -Description $Description
+    if ($null -eq $resource) {
+        return
+    }
+
+    $hasMarker = if ($MarkerType -eq "description") {
+        [string]$resource.properties.description -like "*implementationSession=$implementationSession*"
+    }
+    else {
+        @($resource.properties.tags) -contains $implementationSession
+    }
+    if (-not $hasMarker) {
+        throw "$Description exists without the Session 06 implementation marker."
+    }
+}
+
 $implementationSession = "06-apim-ai-gateway"
 $foundryAgentConsumerRoleId = "eed3b665-ab3a-47b6-8f48-c9382fb1dad6"
 $cognitiveServicesUserRoleId = "a97b65f3-24c7-4388-baec-2e87135dc908"
@@ -305,13 +355,20 @@ if ([string]$contentSafetyBackend.properties.url -notmatch "^https://[^/]+\.cogn
     throw "The Content Safety backend URL must be an Azure Cognitive Services endpoint."
 }
 
-$apiUrl = "https://management.azure.com$expectedApimId/apis/$($control.api.id)?api-version=$apiVersion"
-$existingApiRaw = & az rest --method get --url $apiUrl --only-show-errors --output json 2>$null
-if ($LASTEXITCODE -eq 0) {
-    $existingApi = $existingApiRaw | ConvertFrom-Json -ErrorAction Stop
-    if ([string]$existingApi.properties.description -notlike "*implementationSession=$implementationSession*") {
-        throw "An existing APIM API uses the configured ID without the Session 06 marker."
-    }
+$managementBaseUrl = "https://management.azure.com$expectedApimId"
+$markedResourceChecks = @(
+    @{ Description = "Session 06 Entra tenant named value"; Url = "$managementBaseUrl/namedValues/session06-entra-tenant-id?api-version=$apiVersion"; MarkerType = "tag" }
+    @{ Description = "Session 06 client application named value"; Url = "$managementBaseUrl/namedValues/session06-client-application-id?api-version=$apiVersion"; MarkerType = "tag" }
+    @{ Description = "Session 06 API audience named value"; Url = "$managementBaseUrl/namedValues/session06-api-audience?api-version=$apiVersion"; MarkerType = "tag" }
+    @{ Description = "Session 06 required app role named value"; Url = "$managementBaseUrl/namedValues/session06-required-app-role?api-version=$apiVersion"; MarkerType = "tag" }
+    @{ Description = "Session 06 primary Foundry backend"; Url = "$managementBaseUrl/backends/$($control.api.id)-primary?api-version=$apiVersion"; MarkerType = "description" }
+    @{ Description = "Session 06 secondary Foundry backend"; Url = "$managementBaseUrl/backends/$($control.api.id)-secondary?api-version=$apiVersion"; MarkerType = "description" }
+    @{ Description = "Session 06 Foundry backend pool"; Url = "$managementBaseUrl/backends/$($control.api.id)-pool?api-version=$apiVersion"; MarkerType = "description" }
+    @{ Description = "Session 06 APIM API"; Url = "$managementBaseUrl/apis/$($control.api.id)?api-version=$apiVersion"; MarkerType = "description" }
+    @{ Description = "Session 06 APIM product"; Url = "$managementBaseUrl/products/$($control.product.id)?api-version=$apiVersion"; MarkerType = "description" }
+)
+foreach ($check in $markedResourceChecks) {
+    Assert-OptionalMarkedResource @check
 }
 
 Write-Host "Deployment preview:"
