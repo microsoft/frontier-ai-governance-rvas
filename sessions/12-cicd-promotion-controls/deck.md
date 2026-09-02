@@ -42,7 +42,7 @@ production.
 
 **Before Azure**
 
-GitHub verifies branch lineage, fixed digests, action pins, secret controls, and the release gates.
+GitHub verifies branch lineage, fixed digests, action pins, secret controls, the agent portfolio decisions, and the release gates.
 
 **Preview and apply**
 
@@ -77,6 +77,7 @@ A separate production-approved workflow retrieves one approved record and moves 
 | Release identity | Full commit SHA plus fixed component digests | A correction starts a new release |
 | Workload access | Two stage service principals, each with preview and apply OIDC trust | Exact observed GitHub subjects only |
 | Azure role | Contributor `b24988ac-6180-42a0-ab88-20f7382dd24c` | Exact environment resource-group scope; no inherited assignment |
+| Agent portfolio | Approved framework path and a finished duplicate review | A framework exception needs an approval reference and a support owner |
 | Recovery | Manual restore from an approved release record | Production approval and exact ID plus SHA-256 |
 
 Human preflight access is temporary: Directory Readers at tenant scope and Contributor at both exact resource-group scopes. Remove or expire it after the ready check.
@@ -92,6 +93,7 @@ Human preflight access is temporary: Directory Readers at tenant scope and Contr
 - An OIDC subject, role assignment, environment variable, or approved scope does not match.
 - Secret scanning, push protection, reviewers, prevent-self-review, the production ref rule, or disabled administrator bypass cannot be verified.
 - Session 09, 10, or 12 records do not match the immutable release or fail their checks.
+- The framework path sits outside the approved list without an approval reference, or the duplicate review points at an existing agent.
 - What-if shows unrelated deletion, replacement, scope drift, or unexplained expansion.
 - The existing route cannot preview and restore the selected selector pair.
 
@@ -107,7 +109,7 @@ Keep 100% on the previous approved selector when a gate is uncertain.
 
 **Total session: 240 minutes. Guided implementation and checks: about 180 minutes.**
 
-1. Confirm the release unit, owners, source paths, four environments, OIDC subjects, and exact Azure scopes.
+1. Confirm the release unit, owners, framework path, duplicate review, source paths, four environments, OIDC subjects, and exact Azure scopes.
 2. Run decision preflight for repository lineage, pins, fixed versions, JSON, Bicep lint, and build.
 3. Run ready preflight with the temporary Session 09 records and Session 10 attestation.
 4. Review both Bicep what-if results.

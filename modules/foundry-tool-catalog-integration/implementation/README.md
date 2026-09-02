@@ -94,7 +94,7 @@ approved.
 
 Confirm:
 
-- the MCP server record in API Center from Session 06 is approved and identifies the remote MCP
+- the MCP server record in API Center from Session 07 is approved and identifies the remote MCP
   server version and deployment;
 - the Session 08 owner has approved the exact MCP tool name and the server's authentication path;
 - the API catalog owner has approved public-preview use in this nonproduction scope;
@@ -103,7 +103,7 @@ Confirm:
   configuration creates a project connection;
 - the agent release owner understands that Toolbox approval metadata still needs an enforcing
   runtime approval experience;
-- Azure Developer CLI 1.25 or later has the `microsoft.foundry` extension.
+- Azure Developer CLI 1.27.1 or later has the `microsoft.foundry` extension.
 
 Complete every `__REQUIRED_*__` value under
 [`artifacts/`](artifacts/README.md) in an approved private working copy. Do not commit the completed
@@ -249,9 +249,10 @@ Preflight checks the exact scope, preview approval, portal discovery decision, e
 project connection, one-tool allow list, approval setting, implementation marker, and Toolbox name
 collision.
 
-Microsoft Foundry does not provide a read-only deployment preview for Toolbox version creation.
-Preflight records `previewSupported` as false in an explicit message, inspects the existing project
-connection, and requires the dedicated Toolbox name to be absent before the POST.
+Microsoft Foundry has no read-only deployment preview for Toolbox version creation. Preflight says
+so, inspects the existing project connection, and requires the dedicated Toolbox name to be absent
+before the POST. It also names the Python command for the confirmation check: `python`, or the
+Windows `py` launcher when `python` does not resolve.
 
 ### 4. Create the first Toolbox version
 

@@ -121,6 +121,7 @@
   </div>
 </section>
 <p>Preflight reads the current application and service-principal configuration, compares it with the implementation files, and prints the exact change plan. Microsoft Graph does not provide a what-if operation for these application-registration changes, so this read-only plan is the required preview.</p>
+<p>The default <code>pre-change</code> phase runs on the operator workstation before the certificate is bound. It <strong>reports</strong> the certificate state rather than failing on it, because the protected PFX is mounted on the middle-tier host and not on your workstation.</p>
 
         </article>
         <aside class="facts-panel" aria-labelledby="facts-panel-title">

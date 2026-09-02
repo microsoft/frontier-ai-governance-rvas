@@ -26,6 +26,10 @@ done
 [[ -n "$target_scope" ]] || fail "--target-scope is required."
 command -v python3 >/dev/null 2>&1 || fail "python3 is required."
 
+check_script="$script_dir/check-discovery.sh"
+[[ -x "$check_script" ]] || fail \
+  "The live discovery check cannot run because check-discovery.sh is missing or not executable: $check_script"
+
 client_path="$artifact_root/registry-client-settings.json"
 ownership_path="$artifact_root/registry-ownership.json"
 [[ -f "$client_path" ]] || fail "Required module artifact is missing: $client_path"

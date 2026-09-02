@@ -154,6 +154,10 @@ implementation files, and prints the exact change plan. Microsoft Graph does not
 operation for these application-registration changes, so this read-only plan is the required
 preview.
 
+The default `pre-change` phase runs on the operator workstation before the certificate is bound. It
+**reports** the certificate state rather than failing on it, because the protected PFX is mounted on
+the middle-tier host and not on your workstation.
+
 ## Decisions and stop conditions
 
 ### Choose OBO for the right reason
@@ -247,13 +251,24 @@ Register the public certificate on the middle-tier application through the appro
 lifecycle. Configure the hosting platform's Key Vault integration to expose the exportable private
 certificate as a protected PFX at the approved runtime path.
 
-Do not use the configure scripts to upload private key material. Preflight checks the approved
-thumbprint against the middle-tier registration and confirms that the configured path exists on
-the execution host.
+Do not use the configure scripts to upload private key material. Preflight compares the approved
+thumbprint with the Key Vault certificate in both phases.
+
+Once the binding is active, run the `post-binding` phase **on the middle-tier host**, where the
+protected PFX is mounted. That phase requires the approved thumbprint on the middle-tier
+registration and the certificate file at the approved path:
+
+```powershell
+.\scripts\preflight.ps1 -ArtifactRoot (Resolve-Path .\artifacts) -Phase post-binding
+```
+
+```bash
+./scripts/preflight.sh --artifact-root "$(realpath ./artifacts)" --phase post-binding
+```
 
 ### 3. Preview and apply the delegated permissions
 
-Run preflight again after the certificate binding is active. The read-only plan must show only:
+From the operator workstation, run preflight again. The read-only plan must show only:
 
 - the client application's exact middle-tier delegated scope;
 - the middle tier's exact downstream delegated scope; and

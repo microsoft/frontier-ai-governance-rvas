@@ -8,6 +8,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 $artifactRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\artifacts")).Path
+$checkScriptPath = Join-Path $PSScriptRoot "check-discovery.ps1"
 $clientPath = Join-Path $artifactRoot "registry-client-settings.json"
 $ownershipPath = Join-Path $artifactRoot "registry-ownership.json"
 $requiredFiles = @($clientPath, $ownershipPath)
@@ -30,10 +31,8 @@ $requiredSentinels = @(
     "__REQUIRED_TENANT_ID_REFERENCE__"
 )
 
-foreach ($command in @("Invoke-RestMethod")) {
-    if (-not (Get-Command $command -ErrorAction SilentlyContinue)) {
-        throw "$command is required."
-    }
+if (-not (Get-Command -Name $checkScriptPath -CommandType ExternalScript -ErrorAction SilentlyContinue)) {
+    throw "The live discovery check cannot run because check-discovery.ps1 is missing or unreadable: $checkScriptPath"
 }
 
 foreach ($path in $requiredFiles) {
@@ -42,10 +41,13 @@ foreach ($path in $requiredFiles) {
     }
 }
 
-$matches = @(Get-ChildItem -LiteralPath $artifactRoot -File -Recurse |
-    Select-String -Pattern "__REQUIRED_[A-Z0-9_]+__")
-if ($matches.Count -gt 0) {
-    $unresolved = @($matches.Matches.Value | Sort-Object -Unique)
+$sentinelMatches = @(Get-ChildItem -LiteralPath $artifactRoot -File -Recurse |
+    Select-String -Pattern "__REQUIRED_[A-Z0-9_]+__" -AllMatches)
+if ($sentinelMatches.Count -gt 0) {
+    $unresolved = @($sentinelMatches |
+        ForEach-Object { $_.Matches } |
+        ForEach-Object { $_.Value } |
+        Sort-Object -Unique)
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
     if ($unknown.Count -gt 0) {
         throw "Add explicit preflight coverage for new sentinels: $($unknown -join ', ')."

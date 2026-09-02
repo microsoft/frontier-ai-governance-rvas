@@ -160,7 +160,7 @@ approved_target_scope=&quot;&lt;approved-nonproduction-scope&gt;&quot;
   </div>
 </section>
 <p>Preflight checks the exact scope, preview approval, portal discovery decision, endpoint digest, project connection, one-tool allow list, approval setting, implementation marker, and Toolbox name collision.</p>
-<p>Microsoft Foundry does not provide a read-only deployment preview for Toolbox version creation. Preflight records <code>previewSupported</code> as false in an explicit message, inspects the existing project connection, and requires the dedicated Toolbox name to be absent before the POST.</p>
+<p>Microsoft Foundry has no read-only deployment preview for Toolbox version creation. Preflight says so, inspects the existing project connection, and requires the dedicated Toolbox name to be absent before the POST. It also names the Python command for the confirmation check: <code>python</code>, or the Windows <code>py</code> launcher when <code>python</code> does not resolve.</p>
 <h3 id="4-create-the-first-toolbox-version">4. Create the first Toolbox version<a class="heading-anchor" href="#4-create-the-first-toolbox-version" aria-label="Link to 4. Create the first Toolbox version">#</a></h3>
 <p>Use the Microsoft Foundry <code>v1</code> data-plane route. The first version of a new Toolbox becomes the default version.</p>
 <section class="code-tabs" data-code-tabs>

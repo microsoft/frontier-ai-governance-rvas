@@ -44,10 +44,17 @@ $requiredSentinels = @(
     "__REQUIRED_TOOLBOX_NAME__"
 )
 
-foreach ($command in @("az", "azd", "python3")) {
+foreach ($command in @("az", "azd")) {
     if (-not (Get-Command $command -ErrorAction SilentlyContinue)) {
         throw "$command is required."
     }
+}
+
+$pythonCommand = @("python", "python3", "py") |
+    Where-Object { Get-Command $_ -ErrorAction SilentlyContinue } |
+    Select-Object -First 1
+if (-not $pythonCommand) {
+    throw "Python 3 is required. The confirmation step runs check_toolbox.py with 'python', 'python3', or the Windows 'py' launcher, and none resolves on this host."
 }
 
 foreach ($path in $requiredFiles) {
@@ -56,10 +63,13 @@ foreach ($path in $requiredFiles) {
     }
 }
 
-$sentinels = @(Get-ChildItem -LiteralPath $artifactRoot -File -Recurse |
-    Select-String -Pattern "__REQUIRED_[A-Z0-9_]+__")
-if ($sentinels.Count -gt 0) {
-    $unresolved = @($sentinels.Matches.Value | Sort-Object -Unique)
+$sentinelMatches = @(Get-ChildItem -LiteralPath $artifactRoot -File -Recurse |
+    Select-String -Pattern "__REQUIRED_[A-Z0-9_]+__" -AllMatches)
+if ($sentinelMatches.Count -gt 0) {
+    $unresolved = @($sentinelMatches |
+        ForEach-Object { $_.Matches } |
+        ForEach-Object { $_.Value } |
+        Sort-Object -Unique)
     $unknown = @($unresolved | Where-Object { $_ -notin $requiredSentinels })
     if ($unknown.Count -gt 0) {
         throw "Add explicit preflight checks for new sentinels: $($unknown -join ', ')."
@@ -166,4 +176,5 @@ if ($toolboxLookupText -notmatch '(?i)(not found|could not be found|404)') {
 }
 
 Write-Host "No read-only deployment preview is supported for Toolbox version creation."
+Write-Host "Run the confirmation check with '$pythonCommand'."
 Write-Host "PASS: the exact target scope, preview decision, API Center reconciliation, project connection, one-tool payload, and no-collision gate are ready."

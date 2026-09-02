@@ -107,11 +107,8 @@
 <p>The client receives only the middle-tier delegated scope. The middle tier receives only the downstream delegated read scope. The downstream API decides whether the preserved user can read the requested resource.</p>
 <h3 id="2-bind-the-key-vault-certificate">2. Bind the Key Vault certificate<a class="heading-anchor" href="#2-bind-the-key-vault-certificate" aria-label="Link to 2. Bind the Key Vault certificate">#</a></h3>
 <p>Register the public certificate on the middle-tier application through the approved identity lifecycle. Configure the hosting platform's Key Vault integration to expose the exportable private certificate as a protected PFX at the approved runtime path.</p>
-<p>Do not use the configure scripts to upload private key material. Preflight checks the approved thumbprint against the middle-tier registration and confirms that the configured path exists on the execution host.</p>
-<h3 id="3-preview-and-apply-the-delegated-permissions">3. Preview and apply the delegated permissions<a class="heading-anchor" href="#3-preview-and-apply-the-delegated-permissions" aria-label="Link to 3. Preview and apply the delegated permissions">#</a></h3>
-<p>Run preflight again after the certificate binding is active. The read-only plan must show only:</p>
-<ul><li>the client application's exact middle-tier delegated scope;</li><li>the middle tier's exact downstream delegated scope; and</li><li>the approved delegated consent grant.</li></ul>
-<p>Apply the plan:</p>
+<p>Do not use the configure scripts to upload private key material. Preflight compares the approved thumbprint with the Key Vault certificate in both phases.</p>
+<p>Once the binding is active, run the <code>post-binding</code> phase <strong>on the middle-tier host</strong>, where the protected PFX is mounted. That phase requires the approved thumbprint on the middle-tier registration and the certificate file at the approved path:</p>
 <section class="code-tabs" data-code-tabs>
   <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
     <button type="button" role="tab" id="command-shell-1-powershell-tab" aria-controls="command-shell-1-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
@@ -119,9 +116,27 @@
   </div>
   <div class="code-tabs__panel" id="command-shell-1-powershell-panel" role="tabpanel" aria-labelledby="command-shell-1-powershell-tab" tabindex="0" data-shell-panel="powershell">
     <p class="code-tabs__fallback-label">PowerShell</p>
-    <pre><code class="language-powershell">.\scripts\configure.ps1 -ArtifactRoot (Resolve-Path .\artifacts) -Confirm</code></pre>
+    <pre><code class="language-powershell">.\scripts\preflight.ps1 -ArtifactRoot (Resolve-Path .\artifacts) -Phase post-binding</code></pre>
   </div>
   <div class="code-tabs__panel" id="command-shell-1-bash-panel" role="tabpanel" aria-labelledby="command-shell-1-bash-tab" tabindex="0" data-shell-panel="bash">
+    <p class="code-tabs__fallback-label">Bash</p>
+    <pre><code class="language-bash">./scripts/preflight.sh --artifact-root &quot;$(realpath ./artifacts)&quot; --phase post-binding</code></pre>
+  </div>
+</section>
+<h3 id="3-preview-and-apply-the-delegated-permissions">3. Preview and apply the delegated permissions<a class="heading-anchor" href="#3-preview-and-apply-the-delegated-permissions" aria-label="Link to 3. Preview and apply the delegated permissions">#</a></h3>
+<p>From the operator workstation, run preflight again. The read-only plan must show only:</p>
+<ul><li>the client application's exact middle-tier delegated scope;</li><li>the middle tier's exact downstream delegated scope; and</li><li>the approved delegated consent grant.</li></ul>
+<p>Apply the plan:</p>
+<section class="code-tabs" data-code-tabs>
+  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
+    <button type="button" role="tab" id="command-shell-2-powershell-tab" aria-controls="command-shell-2-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
+    <button type="button" role="tab" id="command-shell-2-bash-tab" aria-controls="command-shell-2-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-2-powershell-panel" role="tabpanel" aria-labelledby="command-shell-2-powershell-tab" tabindex="0" data-shell-panel="powershell">
+    <p class="code-tabs__fallback-label">PowerShell</p>
+    <pre><code class="language-powershell">.\scripts\configure.ps1 -ArtifactRoot (Resolve-Path .\artifacts) -Confirm</code></pre>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-2-bash-panel" role="tabpanel" aria-labelledby="command-shell-2-bash-tab" tabindex="0" data-shell-panel="bash">
     <p class="code-tabs__fallback-label">Bash</p>
     <pre><code class="language-bash">./scripts/configure.sh --artifact-root &quot;$(realpath ./artifacts)&quot; --confirm</code></pre>
   </div>

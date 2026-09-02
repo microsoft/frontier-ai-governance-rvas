@@ -7,6 +7,10 @@ Usage: ./scripts/configure.sh [--artifact-root <path>] [--confirm]
 
 Preview or apply the optional OBO module's exact delegated-permission and admin-consent changes
 without overwriting unrelated Microsoft Graph application-registration configuration.
+
+The middle-tier application registration must already carry the approved certificate thumbprint.
+The mounted runtime PFX is checked by ./scripts/preflight.sh --phase post-binding on the
+middle-tier host.
 USAGE
 }
 
@@ -312,7 +316,6 @@ result = {
         'objectId': client_object_id,
         'applicationId': client_application_id,
         'delegatedScopeId': middle_tier_scope_id,
-        'ownerLabel': require_non_empty(owners.get('applicationOwner'), 'control-definition owners.applicationOwner'),
     },
     'middleTier': {
         'objectId': middle_tier_object_id,
@@ -320,7 +323,6 @@ result = {
         'audience': middle_tier_audience,
         'delegatedScopeId': middle_tier_scope_id,
         'delegatedScopeValue': middle_tier_scope_value,
-        'ownerLabel': require_non_empty(owners.get('applicationOwner'), 'control-definition owners.applicationOwner'),
     },
     'downstream': {
         'objectId': downstream_object_id,
@@ -329,11 +331,9 @@ result = {
         'delegatedScopeValue': downstream_scope_value,
         'requestedScope': expected_requested,
         'endpoint': downstream_endpoint,
-        'ownerLabel': require_non_empty(owners.get('downstreamApiOwner'), 'control-definition owners.downstreamApiOwner'),
     },
     'consent': {
         'scope': consent_scope,
-        'ownerLabel': require_non_empty(owners.get('identityOwner'), 'control-definition owners.identityOwner'),
     },
     'keyVault': {
         'certificateUri': key_vault_certificate_uri,
@@ -351,7 +351,7 @@ PY
 
 build_plan_json() {
   local output
-  if ! output=$(CONFIG_JSON="$config_json" ACCOUNT_JSON="$account_json" KEYVAULT_JSON="$keyvault_json" CLIENT_APP_JSON="$client_app_json" MIDDLE_APP_JSON="$middle_tier_app_json" DOWNSTREAM_APP_JSON="$downstream_app_json" CLIENT_OWNERS_JSON="$client_owners_json" MIDDLE_OWNERS_JSON="$middle_tier_owners_json" DOWNSTREAM_OWNERS_JSON="$downstream_owners_json" MIDDLE_SP_JSON="$middle_tier_sp_json" DOWNSTREAM_SP_JSON="$downstream_sp_json" GRANTS_JSON="$grants_json" "$python_cmd" - <<'PY' 2>&1
+  if ! output=$(CONFIG_JSON="$config_json" ACCOUNT_JSON="$account_json" KEYVAULT_JSON="$keyvault_json" CLIENT_APP_JSON="$client_app_json" MIDDLE_APP_JSON="$middle_tier_app_json" DOWNSTREAM_APP_JSON="$downstream_app_json" CLIENT_OWNERS_JSON="$client_owners_json" MIDDLE_OWNERS_JSON="$middle_tier_owners_json" DOWNSTREAM_OWNERS_JSON="$downstream_owners_json" MIDDLE_SP_JSON="$middle_tier_sp_json" DOWNSTREAM_SP_JSON="$downstream_sp_json" GRANTS_JSON="$grants_json" OBO_PHASE=apply "$python_cmd" - <<'PY' 2>&1
 from __future__ import annotations
 
 import base64
@@ -409,10 +409,23 @@ def key_vault_thumbprint(payload: dict[str, object]) -> str:
     fail('Key Vault certificate lookup did not return a usable thumbprint value.')
 
 
-def local_certificate_status(path_value: str, expected_thumbprint: str) -> dict[str, str | None]:
+def local_certificate_status(path_value: str, expected_thumbprint: str, required: bool) -> dict[str, str | None]:
     path = Path(path_value).expanduser().resolve()
     if not path.is_file():
-        fail(f'The configured runtime certificate path does not exist on this host: {path}')
+        if required:
+            fail(
+                'The approved runtime certificate is not mounted at this path on this host: '
+                f'{path}. Run the post-binding phase on the middle-tier host.'
+            )
+        return {
+            'path': str(path),
+            'status': 'deferred',
+            'thumbprint': None,
+            'detail': (
+                f'Runtime certificate path {path} is not mounted on this host. '
+                'The post-binding phase checks it where the protected PFX is mounted.'
+            ),
+        }
     raw = path.read_bytes()
     text = None
     try:
@@ -480,14 +493,16 @@ def ensure_scope(scope: dict[str, object], expected_value: str, expected_type: s
         fail(f'{label} scope is disabled and cannot participate in OBO.')
 
 
-def ensure_key_credential(app: dict[str, object], expected_thumbprint: str) -> None:
+def ensure_key_credential(app: dict[str, object], expected_thumbprint: str, required: bool) -> bool:
     for credential in app.get('keyCredentials') or []:
         if not isinstance(credential, dict):
             continue
         candidate = decode_base64_thumbprint(credential.get('customKeyIdentifier'))
         if candidate == expected_thumbprint:
-            return
-    fail('The middle-tier application registration does not contain the approved certificate credential thumbprint.')
+            return True
+    if required:
+        fail('The middle-tier application registration does not contain the approved certificate credential thumbprint.')
+    return False
 
 
 def ensure_service_principal(service_principal: dict[str, object], expected_app_id: str, label: str) -> None:
@@ -556,6 +571,11 @@ downstream_owners = json.loads(os.environ['DOWNSTREAM_OWNERS_JSON'])
 middle_sp = json.loads(os.environ['MIDDLE_SP_JSON'])
 downstream_sp = json.loads(os.environ['DOWNSTREAM_SP_JSON'])
 grants_payload = json.loads(os.environ['GRANTS_JSON'])
+phase = os.environ.get('OBO_PHASE', 'pre-change')
+if phase not in {'pre-change', 'post-binding', 'apply'}:
+    fail(f'Unsupported phase: {phase}')
+credential_required = phase in {'post-binding', 'apply'}
+certificate_file_required = phase == 'post-binding'
 
 tenant_id = str(account.get('tenantId') or account.get('homeTenantId') or '').lower()
 if tenant_id != config['tenantId']:
@@ -564,7 +584,11 @@ if tenant_id != config['tenantId']:
 expected_thumbprint = config['keyVault']['thumbprint']
 if key_vault_thumbprint(key_vault) != expected_thumbprint:
     fail('The Key Vault certificate reference does not resolve to the approved certificate thumbprint.')
-local_certificate = local_certificate_status(config['keyVault']['runtimePath'], expected_thumbprint)
+local_certificate = local_certificate_status(
+    config['keyVault']['runtimePath'],
+    expected_thumbprint,
+    certificate_file_required,
+)
 
 ensure_application(client_app, config['client']['objectId'], 'Client application')
 ensure_application(middle_app, config['middleTier']['objectId'], 'Middle-tier application')
@@ -579,7 +603,14 @@ ensure_identifier_uri(middle_app, config['middleTier']['audience'], 'Middle-tier
 ensure_identifier_uri(downstream_app, config['downstream']['audience'], 'Downstream application')
 ensure_scope(find_scope(middle_app, config['middleTier']['delegatedScopeId'], 'Middle-tier application'), config['middleTier']['delegatedScopeValue'], 'User', 'Middle-tier application')
 ensure_scope(find_scope(downstream_app, config['downstream']['delegatedScopeId'], 'Downstream application'), config['downstream']['delegatedScopeValue'], 'User', 'Downstream application')
-ensure_key_credential(middle_app, expected_thumbprint)
+credential_registered = ensure_key_credential(middle_app, expected_thumbprint, credential_required)
+if credential_registered:
+    credential_detail = 'The approved certificate thumbprint is registered on the middle-tier application.'
+else:
+    credential_detail = (
+        'The approved certificate thumbprint is not registered on the middle-tier application yet. '
+        'Bind the certificate before the OBO exchange can work.'
+    )
 ensure_service_principal(middle_sp, config['middleTier']['applicationId'], 'Middle-tier')
 ensure_service_principal(downstream_sp, str(downstream_app.get('appId', '')).lower(), 'Downstream')
 
@@ -676,6 +707,7 @@ plan = {
     'summary': {
         'tenantId': config['tenantId'],
         'authorityModel': config['authorityModel'],
+        'phase': phase,
         'previewSupported': False,
         'client': {
             'displayName': client_app['displayName'],
@@ -707,6 +739,8 @@ plan = {
             'runtimePath': local_certificate['path'],
             'runtimeCheckStatus': local_certificate['status'],
             'runtimeCheckDetail': local_certificate['detail'],
+            'credentialRegistered': credential_registered,
+            'credentialDetail': credential_detail,
         },
     },
     'actions': actions,
@@ -746,6 +780,7 @@ for key, label in (('client', 'Client application'), ('middleTier', 'Middle-tier
         print(f"  Delegated scope: {record['delegatedScope']}")
 certificate = summary['certificate']
 print(f"Key Vault certificate thumbprint: {certificate['thumbprint']}")
+print(certificate['credentialDetail'])
 print(certificate['runtimeCheckDetail'])
 print('READ-ONLY PLAN')
 for index, action in enumerate(plan['actions'], start=1):

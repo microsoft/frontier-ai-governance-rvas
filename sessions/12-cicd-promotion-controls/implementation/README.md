@@ -25,6 +25,9 @@ production.
 GitHub Actions controls this promotion path across four environments that separate preview from
 apply; Microsoft Entra validates the workload identities. Azure Resource Manager holds deployment
 state, API Management holds routing state, and the approved release store holds the release record.
+The enterprise agent inventory stays authoritative for agent records. The control definition keeps
+only the framework decision, the duplicate-review outcome, and a reference to the reviewed inventory
+record.
 The workflow consumes the [Session 04](../../04-governed-agent-baseline/implementation/README.md)
 agent, [Session 06](../../06-apim-ai-gateway/implementation/README.md) route,
 [Session 09](../../09-foundry-evaluations-quality-gates/implementation/README.md) release gate,
@@ -45,7 +48,9 @@ alias, APIM policy, evaluation inputs, and Bicep parameters to it. A changed com
 release.
 
 The workflow first proves default-branch lineage and runs the unit, evaluation, adversarial, and
-observability gates. Preview jobs then use environment-scoped OIDC to run Bicep what-if. The apply
+observability gates. The same validation job reads the approved framework path and the duplicate-agent
+review from the control definition, so an unsupported runtime or a rebuilt agent stops the release
+before Azure. Preview jobs then use environment-scoped OIDC to run Bicep what-if. The apply
 environments withhold their OIDC values until a reviewer approves the matching preview.
 
 After both deployments pass, API Management moves the approved selector. The release store marks
@@ -59,6 +64,7 @@ release.
 |---|---|---|---|
 | Release identity | Full commit SHA plus fixed component digests | Every stage and restore name one release | Any correction requires a new release |
 | Access | Separate preview and apply environments with exact OIDC subjects | What-if runs before approval; apply credentials stay withheld | Four trusts and environment protections must stay aligned |
+| Agent portfolio | Framework path and duplicate review recorded in the control definition | The release gate stops an unsupported runtime or a rebuilt agent before Azure | Both decisions need a named owner and go stale unless someone updates them |
 | Recovery | Manual, production-approved restore from an approved release record | An owner checks the exact release and route before traffic moves | Restore needs an available authority and takes longer than automation |
 
 ### Architecture guidance
@@ -91,6 +97,9 @@ Complete these items before facilitated work:
   separate tool and model failures, report no sensitive input, and retain no payload.
 - Have the unit-check, routing, release/security-store, and parameter-file owners accept their files.
   The delivery owner records those decisions.
+- Have the agent owner approve the framework and runtime path for the release agent, and have the
+  portfolio owner finish the duplicate review against the enterprise agent inventory. Bring the
+  reviewed inventory record and the deciding role.
 
 The protected `nonproduction` environment holds `session12_SMOKE_URL`,
 `session12_SMOKE_FAILURE_URL`, `session12_AI_RESOURCE_ID`,
@@ -141,6 +150,8 @@ Resolve every `__REQUIRED_*__` value in the [`artifacts` tree](artifacts/README.
 4. The Bicep, APIM policy, unit, Session 09, Session 11, routing, and release-store source paths.
 5. The immutable agent and component versions, `canary` or `blue-green` strategy, allowed selectors,
    release ID, and approved temporary workspace.
+6. The framework path for the release agent, the duplicate-review outcome, the reviewing role, and
+   the inventory record it compared.
 
 Stop before a change when:
 
@@ -158,11 +169,34 @@ Stop before a change when:
   payload-bearing;
 - the Session 11 check is missing, failed, for another commit or workspace, exposes sensitive input,
   retains payload, reuses trace IDs, or cannot show stable bounded ingestion;
-- what-if contains unrelated deletion, replacement, scope drift, or unexplained expansion; or
+- what-if contains unrelated deletion, replacement, scope drift, or unexplained expansion;
+- the framework path sits outside the approved list without an approval reference, or the duplicate
+  review chose an existing agent; or
 - the existing Session 04 or 06 route cannot preview and restore the selected selector pair. Keep
   100% on the previous approved selector.
 
 No AI-quality signal restores a release automatically.
+
+### Agent portfolio decisions
+
+`control-definition.json` carries two decisions that no pipeline system can reconstruct.
+
+Set `agentPortfolio.frameworkPath` to `native-platform` when the agent runs on its source platform's
+supported path, or to `microsoft-agent-framework` or `semantic-kernel` for a hosted agent or custom
+runtime. `other-by-exception` needs an approval reference in
+`frameworkExceptionApprovalReference`. Record the supporting team or role alias in
+`frameworkExceptionSupportOwnerRole`. Every other path keeps `N/A` in both fields.
+
+Set `agentPortfolio.duplicateReviewDecision` after comparing the release agent's business purpose,
+use cases, tools, data sources, and source platform against the enterprise agent inventory. A search
+or similarity tool can suggest matches; the portfolio owner decides. Use `new-capability` when
+nothing overlaps, `approved-overlap` when the owner accepts a deliberate overlap, and
+`reuse-existing` when an agent in the inventory already does the job. Record the deciding team alias
+in `duplicateReviewOwnerRole` and the compared record in `reviewedAgentInventoryReference`. Keep the
+agent description, tools, data sources, and runtime configuration in their owning systems.
+
+The release gate reads these values on every promotion. `reuse-existing` stops the run: promote the
+existing agent instead.
 
 ## Implement
 
@@ -186,7 +220,8 @@ Set the JSON values, parameter files, workflow paths, full action SHAs, and fixe
 ```
 
 This read-only phase checks unresolved decisions, repository lineage, workflow structure, fixed
-versions, action pins, source paths, JSON, Bicep lint, and Bicep build.
+versions, action pins, source paths, the framework and duplicate-review decisions, JSON, Bicep lint,
+and Bicep build.
 
 ### 2. Confirm the administrative gates
 
@@ -236,7 +271,8 @@ and `evaluation_record=candidate`.
 The workflow:
 
 1. proves the SHA belongs to the protected default branch, checks it out, and rechecks the workflow,
-   pins, fixed digests, secret controls, unit result, Session 09 gate, and Session 10 attestation;
+   pins, fixed digests, secret controls, the framework path and duplicate review, unit result,
+   Session 09 gate, and Session 10 attestation;
 2. runs the generated blocked-tool-process self-test before Azure;
 3. runs nonproduction what-if, waits for `nonproduction` approval, deploys, and runs Session 11 smoke;
 4. rechecks digests, runs production what-if, waits for `production` approval, and deploys the same
@@ -302,6 +338,7 @@ approved selector at 100% and correct the workflow.
 | GitHub environment protection and OIDC trust | GitHub and Entra administrators |
 | Bicep inputs, exact Azure scopes, and what-if review | Platform owner |
 | Session 09 evaluation gate and Session 10 security gate | Quality and security owners |
+| Framework path and duplicate-agent review in the control definition | Agent and portfolio owners |
 | Session 11 smoke interface | Observability owner |
 | APIM selectors and routing control | Gateway owner |
 | Permitted and blocked checkpoint | Delivery owner |

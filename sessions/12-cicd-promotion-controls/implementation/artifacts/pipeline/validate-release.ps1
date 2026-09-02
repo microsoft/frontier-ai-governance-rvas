@@ -517,6 +517,42 @@ if ([string]$control.routing.strategy -notin @("canary", "blue-green")) {
 if ($control.routing.existingSession05Or06SupportConfirmed -ne $true) {
     throw "Existing Session 04 or 06 routing support is not confirmed; keep 100 percent on the previous approved release."
 }
+$portfolio = $control.agentPortfolio
+$frameworkPath = [string]$portfolio.frameworkPath
+$frameworkException = ([string]$portfolio.frameworkExceptionApprovalReference).Trim()
+$frameworkSupportOwner = ([string]$portfolio.frameworkExceptionSupportOwnerRole).Trim()
+$duplicateDecision = [string]$portfolio.duplicateReviewDecision
+$duplicateOwner = ([string]$portfolio.duplicateReviewOwnerRole).Trim()
+$reviewedInventory = ([string]$portfolio.reviewedAgentInventoryReference).Trim()
+if ($frameworkPath -cnotin @("native-platform", "microsoft-agent-framework", "semantic-kernel", "other-by-exception")) {
+    throw "agentPortfolio.frameworkPath must be native-platform, microsoft-agent-framework, semantic-kernel, or other-by-exception."
+}
+if ($frameworkPath -ceq "other-by-exception") {
+    if ([string]::IsNullOrWhiteSpace($frameworkException) -or $frameworkException.ToUpperInvariant() -ceq "N/A") {
+        throw "A framework path outside the approved list needs an approval reference and a named runtime support owner."
+    }
+    if ([string]::IsNullOrWhiteSpace($frameworkSupportOwner) -or
+        $frameworkSupportOwner.ToUpperInvariant() -ceq "N/A" -or
+        $frameworkSupportOwner.Contains("@")) {
+        throw "agentPortfolio.frameworkExceptionSupportOwnerRole must name a team or role alias for an exception."
+    }
+}
+elseif ($frameworkException.ToUpperInvariant() -cne "N/A" -or
+    $frameworkSupportOwner.ToUpperInvariant() -cne "N/A") {
+    throw "Framework exception approval and support owner must be 'N/A' unless the framework path is other-by-exception."
+}
+if ($duplicateDecision -ceq "reuse-existing") {
+    throw "The duplicate review chose an existing agent; promote that agent instead of this candidate."
+}
+if ($duplicateDecision -cnotin @("new-capability", "approved-overlap")) {
+    throw "agentPortfolio.duplicateReviewDecision must be new-capability, approved-overlap, or reuse-existing."
+}
+if ([string]::IsNullOrWhiteSpace($duplicateOwner) -or $duplicateOwner.Contains("@")) {
+    throw "agentPortfolio.duplicateReviewOwnerRole must be a team or role alias, not a personal address."
+}
+if ([string]::IsNullOrWhiteSpace($reviewedInventory)) {
+    throw "agentPortfolio.reviewedAgentInventoryReference must point at the inventory record the duplicate review compared."
+}
 
 $promotionWorkflow = Get-Content -LiteralPath $promotionWorkflowPath -Raw
 $restoreWorkflow = Get-Content -LiteralPath $restoreWorkflowPath -Raw

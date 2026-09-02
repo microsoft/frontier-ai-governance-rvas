@@ -87,6 +87,14 @@
     "evaluationThresholdPolicyVersion": "__REQUIRED_EVALUATION_THRESHOLD_POLICY_VERSION__",
     "evaluationThresholdPolicySha256": "__REQUIRED_EVALUATION_THRESHOLD_POLICY_SHA256__"
   },
+  "agentPortfolio": {
+    "frameworkPath": "__REQUIRED_APPROVED_AGENT_FRAMEWORK_PATH__",
+    "frameworkExceptionApprovalReference": "N/A",
+    "frameworkExceptionSupportOwnerRole": "__REQUIRED_FRAMEWORK_EXCEPTION_SUPPORT_OWNER_ROLE_OR_NA__",
+    "duplicateReviewDecision": "__REQUIRED_DUPLICATE_AGENT_REVIEW_DECISION__",
+    "duplicateReviewOwnerRole": "__REQUIRED_DUPLICATE_REVIEW_OWNER_ROLE__",
+    "reviewedAgentInventoryReference": "__REQUIRED_REVIEWED_AGENT_INVENTORY_REFERENCE__"
+  },
   "routing": {
     "strategy": "__REQUIRED_ROUTING_STRATEGY_CANARY_OR_BLUE_GREEN__",
     "existingSession05Or06SupportConfirmed": "__REQUIRED_EXISTING_ROUTING_SUPPORT_CONFIRMED_TRUE_OR_FALSE__",

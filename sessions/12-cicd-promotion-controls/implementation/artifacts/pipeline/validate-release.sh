@@ -669,6 +669,30 @@ if control.get('routing', {}).get('strategy') not in ('canary', 'blue-green'):
     raise SystemExit('Routing strategy must be canary or blue-green.')
 if control.get('routing', {}).get('existingSession05Or06SupportConfirmed') is not True:
     raise SystemExit('Existing Session 04 or 06 routing support is not confirmed; keep 100 percent on the previous approved release.')
+portfolio = control.get('agentPortfolio', {})
+framework_path = str(portfolio.get('frameworkPath', ''))
+framework_exception = str(portfolio.get('frameworkExceptionApprovalReference', ''))
+framework_support_owner = str(portfolio.get('frameworkExceptionSupportOwnerRole', '')).strip()
+duplicate_decision = str(portfolio.get('duplicateReviewDecision', ''))
+duplicate_owner = str(portfolio.get('duplicateReviewOwnerRole', '')).strip()
+reviewed_inventory = str(portfolio.get('reviewedAgentInventoryReference', '')).strip()
+if framework_path not in ('native-platform', 'microsoft-agent-framework', 'semantic-kernel', 'other-by-exception'):
+    raise SystemExit('agentPortfolio.frameworkPath must be native-platform, microsoft-agent-framework, semantic-kernel, or other-by-exception.')
+if framework_path == 'other-by-exception':
+    if not framework_exception.strip() or framework_exception.strip().upper() == 'N/A':
+        raise SystemExit('A framework path outside the approved list needs an approval reference and a named runtime support owner.')
+    if not framework_support_owner or framework_support_owner.upper() == 'N/A' or '@' in framework_support_owner:
+        raise SystemExit('agentPortfolio.frameworkExceptionSupportOwnerRole must name a team or role alias for an exception.')
+elif framework_exception.strip().upper() != 'N/A' or framework_support_owner.upper() != 'N/A':
+    raise SystemExit("Framework exception approval and support owner must be 'N/A' unless the framework path is other-by-exception.")
+if duplicate_decision == 'reuse-existing':
+    raise SystemExit('The duplicate review chose an existing agent; promote that agent instead of this candidate.')
+if duplicate_decision not in ('new-capability', 'approved-overlap'):
+    raise SystemExit('agentPortfolio.duplicateReviewDecision must be new-capability, approved-overlap, or reuse-existing.')
+if not duplicate_owner or '@' in duplicate_owner:
+    raise SystemExit('agentPortfolio.duplicateReviewOwnerRole must be a team or role alias, not a personal address.')
+if not reviewed_inventory:
+    raise SystemExit('agentPortfolio.reviewedAgentInventoryReference must point at the inventory record the duplicate review compared.')
 
 promotion_workflow = promotion_workflow_path.read_text()
 restore_workflow = restore_workflow_path.read_text()

@@ -2,7 +2,11 @@
 param(
     [Parameter()]
     [ValidateNotNullOrEmpty()]
-    [string]$ArtifactRoot = (Join-Path $PSScriptRoot '..\artifacts')
+    [string]$ArtifactRoot = (Join-Path $PSScriptRoot '..\artifacts'),
+
+    [Parameter()]
+    [ValidateSet('pre-change', 'post-binding')]
+    [string]$Phase = 'pre-change'
 )
 
 Set-StrictMode -Version Latest
@@ -109,7 +113,6 @@ $requiredFiles = @(
 )
 
 Assert-Command -Name 'az'
-Assert-Command -Name 'curl'
 Assert-Command -Name $script:PythonCommand
 foreach ($relativePath in $requiredFiles) {
     if (-not (Test-Path -LiteralPath (Join-Path $resolvedArtifactRoot $relativePath) -PathType Leaf)) {
@@ -135,7 +138,7 @@ REQUIRED_FILES = [
     'runtime/obo_proxy.py',
     'runtime/requirements.txt',
 ]
-REQUIRED_SENTINELS = [
+KNOWN_SENTINELS = frozenset({
     '__REQUIRED_APPLICATION_OWNER__',
     '__REQUIRED_CERTIFICATE_MOUNT_PATH__',
     '__REQUIRED_CERTIFICATE_THUMBPRINT__',
@@ -155,7 +158,7 @@ REQUIRED_SENTINELS = [
     '__REQUIRED_MIDDLE_TIER_AUDIENCE__',
     '__REQUIRED_MIDDLE_TIER_SCOPE_ID__',
     '__REQUIRED_TENANT_ID__',
-]
+})
 SENTINEL_PATTERN = re.compile(r'__REQUIRED_[A-Z0-9_]+__')
 GUID_PATTERN = re.compile(r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$')
 HTTPS_PATTERN = re.compile(r'^https://', re.IGNORECASE)
@@ -231,12 +234,8 @@ for relative in REQUIRED_FILES:
     if not path_value.is_file():
         fail(f'Required implementation artifact is missing: {relative}')
 
-combined_text = '\n'.join(read_text(artifact_root / relative) for relative in REQUIRED_FILES)
-for sentinel in REQUIRED_SENTINELS:
-    if sentinel not in combined_text:
-        fail(f'Required OBO decision sentinel is missing from the implementation files: {sentinel}')
-
 sentinel_locations: list[str] = []
+unknown_sentinels: set[str] = set()
 for path_value in sorted(artifact_root.rglob('*')):
     if not path_value.is_file():
         continue
@@ -247,8 +246,17 @@ for path_value in sorted(artifact_root.rglob('*')):
     for line_number, line in enumerate(text.splitlines(), start=1):
         for sentinel in SENTINEL_PATTERN.findall(line):
             sentinel_locations.append(f'{path_value}:{line_number} {sentinel}')
+            if sentinel not in KNOWN_SENTINELS:
+                unknown_sentinels.add(sentinel)
 if sentinel_locations:
-    fail('Resolve every required module decision before Graph changes:\n' + '\n'.join(sorted(set(sentinel_locations))))
+    lines = ['Resolve every required module decision before Graph changes:']
+    lines.extend(sorted(set(sentinel_locations)))
+    if unknown_sentinels:
+        lines.append(
+            'These decisions are new to the module. Add them to KNOWN_SENTINELS in both preflight '
+            'scripts and document them: ' + ', '.join(sorted(unknown_sentinels))
+        )
+    fail('\n'.join(lines))
 
 control = read_json(artifact_root / 'control-definition.json')
 app_registrations = read_json(artifact_root / 'identity/app-registrations.json')
@@ -291,12 +299,12 @@ for artifact, label in (
     if require_non_empty(artifact.get('authorityModel'), label) != authority_model:
         fail('The authority model must match across the implementation files.')
 
-required_owner_fields = {
-    'identityOwner': '__REQUIRED_IDENTITY_OWNER__',
-    'applicationOwner': '__REQUIRED_APPLICATION_OWNER__',
-    'downstreamApiOwner': '__REQUIRED_DOWNSTREAM_API_OWNER__',
-    'deliveryOwner': '__REQUIRED_DELIVERY_OWNER__',
-}
+required_owner_fields = [
+    'identityOwner',
+    'applicationOwner',
+    'downstreamApiOwner',
+    'deliveryOwner',
+]
 for field_name in required_owner_fields:
     require_non_empty(owners.get(field_name), f'control-definition owners.{field_name}')
 identity_owner = require_non_empty(
@@ -487,10 +495,23 @@ def key_vault_thumbprint(payload: dict[str, object]) -> str:
     fail('Key Vault certificate lookup did not return a usable thumbprint value.')
 
 
-def local_certificate_status(path_value: str, expected_thumbprint: str) -> dict[str, str | None]:
+def local_certificate_status(path_value: str, expected_thumbprint: str, required: bool) -> dict[str, str | None]:
     path = Path(path_value).expanduser().resolve()
     if not path.is_file():
-        fail(f'The configured runtime certificate path does not exist on this host: {path}')
+        if required:
+            fail(
+                'The approved runtime certificate is not mounted at this path on this host: '
+                f'{path}. Run the post-binding phase on the middle-tier host.'
+            )
+        return {
+            'path': str(path),
+            'status': 'deferred',
+            'thumbprint': None,
+            'detail': (
+                f'Runtime certificate path {path} is not mounted on this host. '
+                'The post-binding phase checks it where the protected PFX is mounted.'
+            ),
+        }
     raw = path.read_bytes()
     text = None
     try:
@@ -558,14 +579,16 @@ def ensure_scope(scope: dict[str, object], expected_value: str, expected_type: s
         fail(f'{label} scope is disabled and cannot participate in OBO.')
 
 
-def ensure_key_credential(app: dict[str, object], expected_thumbprint: str) -> None:
+def ensure_key_credential(app: dict[str, object], expected_thumbprint: str, required: bool) -> bool:
     for credential in app.get('keyCredentials') or []:
         if not isinstance(credential, dict):
             continue
         candidate = decode_base64_thumbprint(credential.get('customKeyIdentifier'))
         if candidate == expected_thumbprint:
-            return
-    fail('The middle-tier application registration does not contain the approved certificate credential thumbprint.')
+            return True
+    if required:
+        fail('The middle-tier application registration does not contain the approved certificate credential thumbprint.')
+    return False
 
 
 def ensure_service_principal(service_principal: dict[str, object], expected_app_id: str, label: str) -> None:
@@ -634,6 +657,11 @@ downstream_owners = json.loads(os.environ['DOWNSTREAM_OWNERS_JSON'])
 middle_sp = json.loads(os.environ['MIDDLE_SP_JSON'])
 downstream_sp = json.loads(os.environ['DOWNSTREAM_SP_JSON'])
 grants_payload = json.loads(os.environ['GRANTS_JSON'])
+phase = os.environ.get('OBO_PHASE', 'pre-change')
+if phase not in {'pre-change', 'post-binding', 'apply'}:
+    fail(f'Unsupported phase: {phase}')
+credential_required = phase in {'post-binding', 'apply'}
+certificate_file_required = phase == 'post-binding'
 
 tenant_id = str(account.get('tenantId') or account.get('homeTenantId') or '').lower()
 if tenant_id != config['tenantId']:
@@ -642,7 +670,11 @@ if tenant_id != config['tenantId']:
 expected_thumbprint = config['keyVault']['thumbprint']
 if key_vault_thumbprint(key_vault) != expected_thumbprint:
     fail('The Key Vault certificate reference does not resolve to the approved certificate thumbprint.')
-local_certificate = local_certificate_status(config['keyVault']['runtimePath'], expected_thumbprint)
+local_certificate = local_certificate_status(
+    config['keyVault']['runtimePath'],
+    expected_thumbprint,
+    certificate_file_required,
+)
 
 ensure_application(client_app, config['client']['objectId'], 'Client application')
 ensure_application(middle_app, config['middleTier']['objectId'], 'Middle-tier application')
@@ -657,7 +689,14 @@ ensure_identifier_uri(middle_app, config['middleTier']['audience'], 'Middle-tier
 ensure_identifier_uri(downstream_app, config['downstream']['audience'], 'Downstream application')
 ensure_scope(find_scope(middle_app, config['middleTier']['delegatedScopeId'], 'Middle-tier application'), config['middleTier']['delegatedScopeValue'], 'User', 'Middle-tier application')
 ensure_scope(find_scope(downstream_app, config['downstream']['delegatedScopeId'], 'Downstream application'), config['downstream']['delegatedScopeValue'], 'User', 'Downstream application')
-ensure_key_credential(middle_app, expected_thumbprint)
+credential_registered = ensure_key_credential(middle_app, expected_thumbprint, credential_required)
+if credential_registered:
+    credential_detail = 'The approved certificate thumbprint is registered on the middle-tier application.'
+else:
+    credential_detail = (
+        'The approved certificate thumbprint is not registered on the middle-tier application yet. '
+        'Bind the certificate before the OBO exchange can work.'
+    )
 ensure_service_principal(middle_sp, config['middleTier']['applicationId'], 'Middle-tier')
 ensure_service_principal(downstream_sp, str(downstream_app.get('appId', '')).lower(), 'Downstream')
 
@@ -754,6 +793,7 @@ plan = {
     'summary': {
         'tenantId': config['tenantId'],
         'authorityModel': config['authorityModel'],
+        'phase': phase,
         'previewSupported': False,
         'client': {
             'displayName': client_app['displayName'],
@@ -785,6 +825,8 @@ plan = {
             'runtimePath': local_certificate['path'],
             'runtimeCheckStatus': local_certificate['status'],
             'runtimeCheckDetail': local_certificate['detail'],
+            'credentialRegistered': credential_registered,
+            'credentialDetail': credential_detail,
         },
     },
     'actions': actions,
@@ -801,9 +843,9 @@ $middleTierObjectId = [string]$config.middleTier.objectId
 $downstreamObjectId = [string]$config.downstream.objectId
 $middleTierApplicationId = [string]$config.middleTier.applicationId
 
-$clientAppJson = Invoke-AzRestJson -Method 'GET' -Url "https://graph.microsoft.com/v1.0/applications/$clientObjectId?`$select=id,appId,displayName,identifierUris,signInAudience,requiredResourceAccess,api,keyCredentials" -Description 'Client application lookup'
-$middleTierAppJson = Invoke-AzRestJson -Method 'GET' -Url "https://graph.microsoft.com/v1.0/applications/$middleTierObjectId?`$select=id,appId,displayName,identifierUris,signInAudience,requiredResourceAccess,api,keyCredentials" -Description 'Middle-tier application lookup'
-$downstreamAppJson = Invoke-AzRestJson -Method 'GET' -Url "https://graph.microsoft.com/v1.0/applications/$downstreamObjectId?`$select=id,appId,displayName,identifierUris,signInAudience,requiredResourceAccess,api,keyCredentials" -Description 'Downstream application lookup'
+$clientAppJson = Invoke-AzRestJson -Method 'GET' -Url "https://graph.microsoft.com/v1.0/applications/${clientObjectId}?`$select=id,appId,displayName,identifierUris,signInAudience,requiredResourceAccess,api,keyCredentials" -Description 'Client application lookup'
+$middleTierAppJson = Invoke-AzRestJson -Method 'GET' -Url "https://graph.microsoft.com/v1.0/applications/${middleTierObjectId}?`$select=id,appId,displayName,identifierUris,signInAudience,requiredResourceAccess,api,keyCredentials" -Description 'Middle-tier application lookup'
+$downstreamAppJson = Invoke-AzRestJson -Method 'GET' -Url "https://graph.microsoft.com/v1.0/applications/${downstreamObjectId}?`$select=id,appId,displayName,identifierUris,signInAudience,requiredResourceAccess,api,keyCredentials" -Description 'Downstream application lookup'
 $clientOwnersJson = Invoke-AzRestJson -Method 'GET' -Url "https://graph.microsoft.com/v1.0/applications/$clientObjectId/owners?`$select=id,displayName,userPrincipalName,appId&`$top=50" -Description 'Client application owners lookup'
 $middleTierOwnersJson = Invoke-AzRestJson -Method 'GET' -Url "https://graph.microsoft.com/v1.0/applications/$middleTierObjectId/owners?`$select=id,displayName,userPrincipalName,appId&`$top=50" -Description 'Middle-tier application owners lookup'
 $downstreamOwnersJson = Invoke-AzRestJson -Method 'GET' -Url "https://graph.microsoft.com/v1.0/applications/$downstreamObjectId/owners?`$select=id,displayName,userPrincipalName,appId&`$top=50" -Description 'Downstream application owners lookup'
@@ -827,11 +869,13 @@ $planJson = Invoke-PythonScript -Script $planPython -Environment @{
     MIDDLE_SP_JSON         = $middleTierSpJson
     DOWNSTREAM_SP_JSON     = $downstreamSpJson
     GRANTS_JSON            = $grantsJson
+    OBO_PHASE              = $Phase
 }
 $plan = $planJson | ConvertFrom-Json -Depth 100
 
 Write-Host 'Preflight passed.'
 Write-Host 'previewSupported=false. Microsoft Graph has no native what-if for these application and delegated-consent changes; this read-only plan is exact.'
+Write-Host "Preflight phase: $($plan.summary.phase)"
 Write-Host "Approved tenant: $($plan.summary.tenantId)"
 Write-Host "Authority decision: $($plan.summary.authorityModel); application-only managed identity is rejected."
 Write-Host 'Approved target scope: Microsoft Entra tenant plus the approved application object IDs.'
@@ -850,6 +894,7 @@ foreach ($record in @(
     }
 }
 Write-Host "Key Vault certificate thumbprint: $($plan.summary.certificate.thumbprint)"
+Write-Host ([string]$plan.summary.certificate.credentialDetail)
 Write-Host ([string]$plan.summary.certificate.runtimeCheckDetail)
 Write-Host 'READ-ONLY PLAN'
 $index = 1

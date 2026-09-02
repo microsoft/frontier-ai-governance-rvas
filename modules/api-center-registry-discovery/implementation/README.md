@@ -101,7 +101,7 @@ Confirm these prerequisites:
 
 - The API Center name, region, resource-scope alias, and default workspace belong to the approved
   nonproduction or production discovery boundary.
-- The approved MCP server record exists in Session 06 and has an owner, environment, deployment or
+- The approved MCP server record exists in Session 07 and has an owner, environment, deployment or
   package, transport, and lifecycle decision.
 - Session 08 has completed runtime authentication, authorization, tool, and telemetry decisions.
 - The API Center portal uses Microsoft Entra ID. Anonymous access is off.
