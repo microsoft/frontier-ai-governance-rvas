@@ -22,14 +22,12 @@ html: true
 
 ## Why it matters
 
-> Operators must be able to move traffic to the secondary path and return it safely.
+**Problem.** A failover path that has never been exercised often fails exactly when it's needed,
+during a real regional incident.
 
-By the end of the session:
-
-- Confirm that the primary path is active and that the secondary path is ready.
-- Preview each selector move before it changes traffic.
-- Check the secondary path against the regional contract.
-- Restore and check the primary path.
+**Solution.** This rehearsal moves traffic to the secondary path and back under normal conditions,
+with delivery-owner approval before each move, so the team learns whether it actually works before
+an incident forces it.
 
 <!-- Notes: The check covers one governed service. It does not deploy or promote anything. -->
 

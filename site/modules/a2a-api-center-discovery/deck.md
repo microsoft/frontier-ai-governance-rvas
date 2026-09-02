@@ -31,8 +31,11 @@ supported Git or API Management integration maintained by the runtime owner.
 
 ## Why it matters
 
-Microsoft Agent 365 holds enterprise inventory. Azure API Center holds developer discovery. The
-runtime owner maintains the A2A definition, agent card, endpoint, and source integration.
+**Problem.** Agent 365 tells the enterprise which agents exist, but developers still need the agent's current
+technical interface.
+
+**Solution.** Azure API Center gives them that interface. The runtime owner keeps maintaining the A2A
+definition, agent card, endpoint, and source integration.
 
 ---
 

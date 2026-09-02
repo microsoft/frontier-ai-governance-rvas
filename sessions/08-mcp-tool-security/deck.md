@@ -20,15 +20,17 @@ html: true
 
 ## Why it matters
 
-> Configure an MCP path that exposes only `get_policy`, validates the candidate agent at APIM, uses APIM's read-only managed identity for the backend, and emits payload-free telemetry.
+**Problem.** A model can refuse to call a write tool, but that refusal is not a security boundary.
+Prompt injection or a bug can still make the agent try.
 
-By the end of the session:
+**Solution.**
 
-- APIM exposes one Streamable HTTP tool.
-- The agent and APIM use separate identities.
-- The approved read succeeds with correlation and no payload logging.
-- Indirect prompt injection cannot trigger the prohibited write.
-- The release owner pins the candidate or keeps the prior version.
+- The MCP tool list exposes only `get_policy`. The write action isn't there to call.
+- APIM validates the candidate agent, then calls the backend with its own read-only managed
+  identity.
+- Application Insights records tool and correlation metadata only, with no payloads.
+- The release owner sees an approved read and a blocked prohibited write before pinning the
+  candidate.
 
 <!-- Notes: Tool absence and backend authorization enforce the write boundary. -->
 

@@ -4,18 +4,20 @@
 
 ### What we will do
 
-Define one enterprise standard for agent classification, ownership, architecture, API publication,
-lifecycle, and retirement. Apply the standard to one candidate agent before production.
+**Objective.** Define one enterprise standard for agent classification, ownership, architecture, API publication,
+lifecycle, and retirement.
 
-The module check confirms that the candidate points to the right authoritative records. It then
-checks the classification, framework path, duplicate decision, lifecycle move, owner roles, and
-retirement coordination.
+Apply the standard to one candidate agent before production. The module check confirms that the
+candidate points to the right authoritative records, then checks the classification, framework
+path, duplicate decision, lifecycle move, owner roles, and retirement coordination.
 
 ### Why it matters
 
-Agent 365, Azure API Center, Azure API Management, and source platforms hold different parts of the
-same agent. None of them holds the full business and operating decision. A small cross-platform
-decision closes that gap. It links to live records instead of copying them.
+**Problem.** Agent 365, Azure API Center, Azure API Management, and source platforms hold different
+parts of the same agent. None of them holds the full business and operating decision.
+
+**Solution.** A small cross-platform decision closes that gap. It links to live records instead of
+copying them.
 
 ### Boundaries
 

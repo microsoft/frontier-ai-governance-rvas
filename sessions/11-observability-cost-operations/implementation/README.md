@@ -4,37 +4,33 @@
 
 ### What we will do
 
-Deploy **privacy-safe operating controls for one governed service**. The team deploys a workbook,
-three alert rules, and a subscription budget. It also keeps the telemetry, retention, content
-logging, cost allocation, and incident definitions used in normal operation.
+**Objective.** Give operators a way to find a failing request, and its cost and security context,
+without collecting prompt or tool content.
 
-The Session 12 GitHub promotion workflow runs the paired Session 11 smoke check. The check reads
-live telemetry and writes one payload-free result to the runner's temporary workspace.
+Deploy a workbook, three alert rules, and a subscription budget for one governed service, and keep
+the telemetry, retention, and incident definitions that keep it operating. Session 12's promotion
+workflow runs the paired Session 11 smoke check against this deployment and gets one payload-free
+pass or fail result.
 
 ### Why it matters
 
-Operators need to locate a failure without collecting prompts or tool payloads. Joined runtime
-spans show whether the gateway, agent, model, or tool failed. Alerts route the signal to an owner.
-Cost Management gives the cost owner the billed view, while the runbook assigns containment.
+**Problem.** A gateway, agent, model, or tool failure looks the same from outside the system, and a
+cost or security signal can go unnoticed until it's already an incident.
+
+**Solution.** Joined runtime spans separate where a request failed, alerts route the signal to an
+owner, and the budget and runbook give the cost and incident owners a working signal, all without
+capturing prompts or tool payloads.
 
 ### Boundaries
 
-Application Insights stores supported runtime telemetry. Cost Management stores billed-cost
-records. Defender and the SOC system keep security and incident records. These systems remain
-authoritative for their own data.
+Application Insights stays authoritative for runtime telemetry, Cost Management for billed cost,
+and Defender and the SOC system for security and incident records. Standard telemetry excludes
+prompts, responses, tool payloads, credentials, and personal data; APIM token metrics only estimate
+usage, and a budget notifies rather than stops resources.
 
-Standard telemetry excludes prompts, responses, tool payloads, credentials, query strings, user
-identifiers, and personal data. APIM token metrics estimate usage; billed cost is authoritative and
-normally lags by 8-24 hours. A budget sends notifications but does not stop resources.
-
-API Management allows at most five custom dimensions for `llm-emit-token-metric`. It tracks at most
-100 unique values per dimension and 1,000 active time series per metric namespace, then silently
-discards new values or series. Production content logging and user-level cost allocation require
-separate approval.
-
-When the customer exports telemetry to Microsoft Sentinel or another SIEM, use an approved Azure
-Event Hubs route or another customer-owned export path. Filter payloads before export. The external
-system receives the same privacy-safe contract, not a second copy of prompts and responses.
+Production content logging and user-level cost allocation stay outside this session's default scope
+and need separate approval. Session 12's promotion workflow consumes the paired smoke check's
+payload-free result before it promotes a release.
 
 ## Architecture
 
@@ -136,7 +132,7 @@ out of source control.
 | Telemetry | W3C context is continuous, correlation is non-sensitive, and gateway, agent, model, and tool results remain separate | A hop is missing, a field carries sensitive data, or a dimension is unbounded |
 | Privacy | Filtering and redaction happen before export; standard content logging is disabled | Content capture is the default, cannot be filtered before export, or an exception lacks purpose, scope, owner, retention, expiry, and data-protection approval |
 | Sampling | Metrics remain unsampled; approved error and security signals bypass normal trace sampling | The sampler breaks complete selected traces or a daily cap is treated as normal control |
-| Alerts and cost | Thresholds come from baseline telemetry and approved SLOs; dimensions stay within APIM limits | A threshold lacks an owner, dimensions contain users or free text, or a budget is presented as spend enforcement |
+| Alerts and cost | Thresholds come from baseline telemetry and approved SLOs; dimensions stay within APIM's limit of five custom dimensions, 100 values each, and 1,000 active series per metric | A threshold lacks an owner, dimensions contain users or free text, or a budget is presented as spend enforcement |
 | External export | Export is disabled, or the customer records the destination, owner, payload filter, and restore reference | A SIEM route receives prompts, responses, credentials, personal data, or an unowned event stream |
 | Preview | Both Bicep what-if results contain only the workbook, three alerts, and exact budget | A preview replaces unrelated resources, removes an action route, or targets the wrong subscription |
 

@@ -22,7 +22,12 @@ html: true
 
 ## Why it matters
 
-> Create and pin a versioned prompt agent. Its unique Entra Agent Identity identifies the agent and secures the endpoint. The Foundry project managed identity authorizes the approved read-only OpenAPI tool.
+**Problem.** An agent that drifts after release, or shares its identity with other agents, leaves
+the release owner unable to say what configuration is live or which identity called a given API.
+
+**Solution.** Create and pin a versioned prompt agent. Its unique Entra Agent Identity identifies
+the agent and secures the endpoint; the Foundry project managed identity authorizes the one
+approved read-only OpenAPI tool.
 
 By the end of the session:
 

@@ -40,13 +40,12 @@ By the end of the session:
 
 ## Why it matters
 
-Operators need enough joined context to locate a failure without collecting prompts or tool
-payloads.
+**Problem.** A gateway, agent, model, or tool failure looks the same from outside the system, and a
+cost or security signal can go unnoticed until it's already an incident.
 
-- The trace separates gateway, agent, model, and tool results.
-- Alerts send the selected failure path to a named owner.
-- Cost Management settles the billed view after the faster APIM estimate.
-- The incident runbook assigns containment and recovery.
+**Solution.** Joined runtime spans separate where a request failed, alerts route the signal to an
+owner, and the budget and runbook give the cost and incident owners a working signal, all without
+capturing prompts or tool payloads.
 
 <!-- Notes: Correlation supports diagnosis. It does not replace the source systems. -->
 

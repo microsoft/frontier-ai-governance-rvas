@@ -4,34 +4,37 @@
 
 ### What we will do
 
-Promote **one immutable, gate-passing release** through protected nonproduction and production
-environments. An authorized operator supplies `workflow_dispatch.release_sha`. The workflow proves
-that the full SHA belongs to the protected default branch before it runs release content.
+**Objective.** Move exactly one verified release through nonproduction and production without
+losing track of which commit is actually live.
 
-That SHA ties the gates, approvals, deployments, routing, release record, and manual restore to one
-release.
+An authorized operator supplies `workflow_dispatch.release_sha`. The workflow proves that the full
+SHA belongs to the protected default branch, then ties every gate, approval, deployment, route, and
+release record to that one SHA before promoting it.
 
 ### Why it matters
 
-Code, AI configuration, gate results, approvals, and routing can drift between pipeline stages. This
-workflow stops that drift. It also runs Session 09's known blocked tool-process case before Azure
-preview or approval.
+**Problem.** Code, AI configuration, gate results, approvals, and routing can drift apart across
+pipeline stages, so a gate that passed somewhere doesn't guarantee what's actually running in
+production.
+
+**Solution.** Tying every stage to one commit SHA stops that drift, and the workflow reruns Session
+09's known blocked tool-process case before Azure sees a preview or approval.
 
 ### Boundaries
 
-GitHub Actions controls this promotion path. Four GitHub environments separate preview from apply.
-Microsoft Entra validates their workload identities. Azure Resource Manager holds deployment state,
-API Management holds routing state, and the approved release store holds the release record.
-
-The workflow uses the existing [Session 04](../../04-governed-agent-baseline/implementation/README.md)
+GitHub Actions controls this promotion path across four environments that separate preview from
+apply; Microsoft Entra validates the workload identities. Azure Resource Manager holds deployment
+state, API Management holds routing state, and the approved release store holds the release record.
+The workflow consumes the [Session 04](../../04-governed-agent-baseline/implementation/README.md)
 agent, [Session 06](../../06-apim-ai-gateway/implementation/README.md) route,
 [Session 09](../../09-foundry-evaluations-quality-gates/implementation/README.md) release gate,
 [Session 10](../../10-red-teaming-threat-defense/implementation/README.md) security-release
 attestation, and [Session 11](../../11-observability-cost-operations/implementation/README.md) smoke
-check. Those systems remain authoritative for their own state and records.
+check as inputs, and those systems stay authoritative for their own state.
 
-The control covers changes made through these workflows. It does not make an out-of-path deployment
-safe or trigger automatic restore.
+The control covers changes made through these workflows; it does not make an out-of-path deployment
+safe or trigger automatic restore. Session 13 rehearses moving the resulting selector across
+regions.
 
 ## Architecture
 

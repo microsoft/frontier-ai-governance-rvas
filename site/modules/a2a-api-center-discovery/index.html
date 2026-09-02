@@ -105,13 +105,14 @@
           <p class="implementation-guide__label">Chapter 1 of 6</p>
           <h2 id="module-scope">Module scope<a class="heading-anchor" href="#module-scope" aria-label="Link to Module scope">#</a></h2>
 <h3 id="what-we-will-do">What we will do<a class="heading-anchor" href="#what-we-will-do" aria-label="Link to What we will do">#</a></h3>
-<p>Add or refresh an already-governed A2A agent in Azure API Center when <strong>developers need its technical interface</strong>. The API Center asset comes from a <strong>runtime-owned source integration</strong> in Git or API Management. The delivery team then reviews the live catalog asset.</p>
-<p>Azure API Center owns the developer discovery asset. Microsoft Agent 365 owns enterprise inventory and lifecycle. The runtime owner owns the A2A definition, agent card, endpoint, and source integration.</p>
+<p><strong>Objective.</strong> Give developers a discovery entry for an A2A agent's technical interface in Azure API Center.</p>
+<p>Add or refresh the already-governed agent's catalog asset from a runtime-owned source integration in Git or API Management. The delivery team then reviews the resulting live catalog asset.</p>
 <h3 id="why-it-matters">Why it matters<a class="heading-anchor" href="#why-it-matters" aria-label="Link to Why it matters">#</a></h3>
-<p>Agent 365 records which agents exist for the enterprise. API Center gives developers the current A2A interface and definition. The source integration keeps the discovery asset current.</p>
+<p><strong>Problem.</strong> Agent 365 tells the enterprise which agents exist, but it doesn't give developers the agent's current technical interface.</p>
+<p><strong>Solution.</strong> API Center gives them that interface. The source integration keeps it current with the runtime-owned definition.</p>
 <h3 id="boundaries">Boundaries<a class="heading-anchor" href="#boundaries" aria-label="Link to Boundaries">#</a></h3>
-<p>Follow the <a href="../a2a-agent-inventory/">A2A agent inventory in Microsoft Agent 365</a> module and <a href="../../sessions/07-api-center-ai-mcp-inventory/">Session 06</a>.</p>
-<p>The runtime owner continues to govern runtime authentication, authorization, and traffic policy.</p>
+<p>This module adds only a developer-facing API Center catalog entry; it does not touch enterprise inventory or the A2A runtime. Azure API Center owns the discovery asset. Microsoft Agent 365 owns enterprise inventory and lifecycle. The runtime owner owns the A2A definition, agent card, endpoint, and source integration, and keeps governing runtime authentication, authorization, and traffic policy.</p>
+<p>Follow the <a href="../a2a-agent-inventory/">A2A agent inventory in Microsoft Agent 365</a> module first, then <a href="../../sessions/07-api-center-ai-mcp-inventory/">Session 07</a>.</p>
           <section class="session-brief" aria-labelledby="session-brief-title">
             <h2 id="session-brief-title">Module preparation</h2>
             <div class="session-brief__grid"><div class="session-brief__audience session-brief__list" data-list-layout="stack">

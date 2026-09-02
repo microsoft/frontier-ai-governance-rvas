@@ -20,7 +20,11 @@ html: true
 
 ## Why it matters
 
-> Deploy an owned Microsoft Foundry baseline with workspace-based Application Insights, then stage resource-group guardrails before approved enforcement.
+**Problem.** Later sessions have no shared, tagged Foundry resource to build on, and turning on
+policy enforcement before checking its effect risks blocking changes the team did not anticipate.
+
+**Solution.** Deploy an owned Microsoft Foundry baseline with workspace-based Application Insights,
+then stage resource-group guardrails in `DoNotEnforce` before approved enforcement.
 
 By the end of the session:
 

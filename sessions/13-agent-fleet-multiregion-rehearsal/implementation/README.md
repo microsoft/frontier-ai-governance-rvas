@@ -4,24 +4,32 @@
 
 ### What we will do
 
-Rehearse **one approved traffic-selector move** for a governed AI service. Check the primary path
-and secondary readiness. Preview the move, get delivery-owner approval, move the named selector,
-and check the secondary path. Then restore and check the primary path.
+**Objective.** Confirm that operators can move traffic to the secondary region and back before a
+real regional incident forces that move untested.
+
+The team previews and moves one approved traffic selector to the secondary path, checks it against
+the regional contract, then restores and re-checks the primary path. The round trip must complete
+with a working secondary path and a working restored primary path.
 
 ### Why it matters
 
-Operators must be able to move traffic to a regional path and return it safely. This rehearsal
-checks that ability for one service.
+**Problem.** A failover path that has never been exercised often fails exactly when it's needed,
+during a real regional incident.
+
+**Solution.** This rehearsal moves traffic to the secondary path and back under normal conditions,
+with delivery-owner approval before each move, so the team learns whether it actually works before
+an incident forces it.
 
 ### Boundaries
 
-The selected service already has both regional paths. Session 12 promotes infrastructure and API
-Management policy. This session moves one approved selector through the customer routing control.
-It does not deploy infrastructure, change policy, update identity, or review the fleet inventory.
+The selected service already has both regional paths deployed; infrastructure and API Management
+policy changes belong to Session 12, not this rehearsal. Foundry, API Management, and Azure Monitor
+stay authoritative for live service state; the repository holds the rehearsal contract, and the
+customer change system holds the approval and runtime outcome.
 
-The repository holds the rehearsal contract and runbook. The customer change system holds approval
-and the runtime outcome. Foundry, API Management, and Azure Monitor remain authoritative for their
-live service state.
+This session moves one approved selector through the customer routing control. It does not deploy
+infrastructure, change policy, update identity, or review the fleet inventory. Session 12 remains
+the path for any infrastructure or policy promotion that follows.
 
 ## Architecture
 

@@ -4,32 +4,31 @@
 
 ### What we will do
 
-Create and run `release-gate.py` for two fixed versions of the Session 04 agent. Both versions use
-the same versioned synthetic data and Foundry evaluation definition. The approved aggregate must
-return `PASS`. The in-memory tool-process regression must return `BLOCK`.
+**Objective.** Give the release owner a pass/block decision that an averaged evaluation score
+would hide.
+
+Run `release-gate.py` against two fixed versions of the Session 04 agent, both scored on the same
+synthetic dataset and Foundry evaluation definition. The approved version must return `PASS`; an
+injected tool-process regression must return `BLOCK`.
 
 ### Why it matters
 
-The gate gives the release owner one usable decision without averaging away a failed tool path or
-safety metric. Session 12 can run the same command before promotion.
+**Problem.** An averaged evaluation score can pass a release even when one tool path or safety
+metric has regressed.
+
+**Solution.** The gate scores final-answer quality, tool process, and safety as separate blocking
+layers, so a failure in one layer can't hide behind a good average. Session 12 runs the same command
+before promotion.
 
 ### Boundaries
 
-Use the approved nonproduction Foundry project. The stable endpoint stays pinned to the approved
-version, and the runner targets named versions directly.
+The run stays inside the approved nonproduction Foundry project, with the stable endpoint pinned to
+the approved version throughout. Foundry keeps row-level evaluation detail; the approved release
+platform keeps payload-free aggregates, gate state, and promotion decisions.
 
-Foundry stores queries, responses, tool calls, evaluator reasons, and row-level results. The
-approved release platform stores payload-free aggregates, gate state, and promotion decisions. The
-repository stores the evaluation definition, synthetic data, thresholds, release policy, scripts,
-and restore runbook.
-
-The gate decides eligibility. It does not promote an agent or change the stable selector. Preview
-task-adherence, prohibited-action, and sensitive-data-leakage evaluators stay advisory. Session 08
-remains the authorization boundary for prohibited writes.
-
-The release baseline is also the reference for later drift review. Session 11 owns production
-signals and alerts. A material quality, latency, token, or tool-process change returns the affected
-version to this evaluation path.
+The gate decides release eligibility; it doesn't promote a version, and Session 08 stays the
+authorization boundary for prohibited writes. Session 11 compares production signals against this
+baseline and returns a version here after material drift.
 
 ## Architecture
 

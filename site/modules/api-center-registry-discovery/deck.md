@@ -18,7 +18,7 @@ description: Optional implementation module for Microsoft Entra-protected MCP re
 
 Show approved MCP servers to developer clients.
 
-<!-- Notes: This module stays outside the 13 sessions and follows Sessions 06 and 07. -->
+<!-- Notes: This module stays outside the 13 sessions and follows Sessions 07 and 08. -->
 
 ---
 
@@ -37,10 +37,11 @@ The check must return every approved name and zero unexpected names.
 
 ## Why it matters
 
-Session 06 records MCP servers. Session 08 secures their runtime path.
+**Problem.** Session 07 records MCP servers and Session 08 secures their runtime path, but developer
+clients still need a discovery view that excludes draft, retired, and unreviewed server records.
 
-Developer clients still need a discovery view that excludes draft, retired, and unreviewed server
-records.
+**Solution.** Limit the visible registry to approved `Production` records and require Microsoft
+Entra sign-in.
 
 <!-- Notes: The registry becomes useful when its visible set matches the release decision. -->
 
@@ -50,7 +51,7 @@ records.
 
 | Work | Owner |
 |---|---|
-| Session 06 | Register the MCP server and its inventory metadata |
+| Session 07 | Register the MCP server and its inventory metadata |
 | Session 08 | Set runtime authorization, tool boundaries, and telemetry |
 | Optional module | Publish the approved discovery view to developer clients |
 

@@ -22,14 +22,17 @@ html: true
 
 ## Why it matters
 
-> The design record settles the ownership and route choices before the team changes APIM.
+**Problem.** An unrecorded gateway change can drift from what was approved, and forwarding the
+caller's own credential to Foundry would let a compromised client reach the agent directly.
 
-This session:
+**Solution.**
 
-- records the scope, backend, identities, network, safety, telemetry, and restore decisions;
-- validates the complete design record and deployment inputs;
-- deploys a marked APIM API and product; and
-- confirms that APIM returns `401 Unauthorized` for an invalid bearer token.
+- The design record locks scope, backend, identity, network, safety, and restore decisions before
+  deployment.
+- APIM calls Foundry with its own managed identity, never the caller's credential.
+- Deployment preflight and ARM `what-if` confirm the preview touches only the marked scope.
+- APIM returns `401 Unauthorized` for an invalid bearer token before Content Safety or Foundry ever
+  sees it.
 
 <!-- Notes: The invalid-token check is the one standard-mode result. -->
 

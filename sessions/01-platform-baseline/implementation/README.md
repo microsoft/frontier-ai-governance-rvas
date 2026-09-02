@@ -4,24 +4,24 @@
 
 ### What we will do
 
-Deploy an **owned Microsoft Foundry baseline with workspace-based Application Insights**, then
+**Objective.** Deploy an **owned Microsoft Foundry baseline with workspace-based Application Insights**, then
 stage resource-group guardrails before approved enforcement.
 
-The baseline contains one current `AIServices` Foundry resource, one child project, a Log Analytics
-workspace, Application Insights, and the project connection. Bicep applies the approved ownership,
-risk, cost, environment, and expiry tags.
-
-The guardrails use current Microsoft built-ins for allowed locations and required tags. The
-assignment starts in `DoNotEnforce`. The cloud platform owner reviews current Policy Insights
-results before the change authority approves `Default` enforcement.
+Bicep creates one current `AIServices` Foundry resource, one child project, a Log Analytics
+workspace, Application Insights, and the project connection, tagged with the approved ownership,
+risk, cost, environment, and expiry values. The guardrails assignment starts in `DoNotEnforce`. The
+observable result is a live resource group whose tags, resources, and staged assignment match the
+approved inputs.
 
 ### Why it matters
 
-Later sessions need a Foundry resource and project that the team can redeploy from source. The tags
-name the owners. Application Insights provides the tracing destination used later in the series.
+**Problem.** Without a redeployable baseline, later sessions have no shared Foundry resource to build on, and no
+record of who owns it. Turning on policy enforcement before checking its effect risks blocking
+changes the team did not anticipate.
 
-Staging the policy assignment shows its likely effect before Azure starts denying evaluated
-resource changes.
+**Solution.** This session deploys that reusable, tagged baseline and stages the guardrails in `DoNotEnforce` so
+the cloud platform owner sees the likely effect before the change authority approves `Default`
+enforcement.
 
 ### Boundaries
 
@@ -36,9 +36,6 @@ The Application Insights connection uses the stable `ApiKey` configuration witho
 connection string in parameters or outputs. A future approved change may adopt the preview
 `ProjectManagedIdentity` trace-ingestion path.
 
-For this session, the deployment operator uses time-bound **Contributor** on the approved sandbox
-resource group and **Resource Policy Contributor** on the approved subscription. The cloud platform
-owner approves that access through the customer access process and removes it after confirmation.
 [Session 02](../../02-private-networking-dns/implementation/README.md) adds private endpoints and
 DNS. Existing resources need separate policy remediation.
 

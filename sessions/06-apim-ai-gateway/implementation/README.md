@@ -4,19 +4,22 @@
 
 ### What we will do
 
-Create the **gateway design record** and use it to deploy one controlled Azure API Management
-route for the [Session 04](../../04-governed-agent-baseline/implementation/README.md) policy
-assistant. APIM validates the client token and product subscription, applies approved limits and
-Content Safety, then uses its managed identity to call the pinned Foundry agent.
-
-Run design preflight, deployment preflight, and ARM `what-if`. Deploy the marked API and product.
-Then send a synthetic request with an invalid bearer token. APIM must reject it before Content
-Safety or Foundry receives it.
+**Objective.** Deploy one controlled Azure API Management route to the
+[Session 04](../../04-governed-agent-baseline/implementation/README.md) policy assistant, built from
+an agreed **gateway design record**. APIM validates the client token and product subscription,
+applies approved limits and Content Safety, then uses its own managed identity to call the pinned
+Foundry agent. Confirm the result by sending a synthetic request with an invalid bearer token: APIM
+must reject it before Content Safety or Foundry ever sees it.
 
 ### Why it matters
 
-The design record gives the deployment team agreed owners and boundaries before it changes APIM.
-The route keeps client access separate from the identity used for the Foundry call.
+**Problem.** An AI gateway change that isn't recorded before deployment can drift from what stakeholders
+approved, and forwarding the caller's own credential to Foundry would let a compromised client
+reach the agent directly.
+
+**Solution.** This session locks the design record before any change and routes the
+backend call through APIM's own managed identity, so client access stays separate from the Foundry
+call.
 
 ### Boundaries
 

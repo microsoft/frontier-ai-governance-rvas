@@ -22,15 +22,12 @@ html: true
 
 ## Why it matters
 
-> Promote one immutable, gate-passing release through protected nonproduction and production environments. Tie approval, deployment, routing, and restore to the same commit SHA.
+**Problem.** Code, AI configuration, gate results, approvals, and routing can drift apart across
+pipeline stages, so a gate that passed somewhere doesn't guarantee what's actually running in
+production.
 
-By the end of the session:
-
-- the protected workflow proves the full SHA belongs to the default branch;
-- unit, evaluation, adversarial, and smoke gates run before deployment;
-- preview and apply use separate environment-scoped OIDC identities;
-- both deployments, routing, and the release record use the same SHA; and
-- the delivery owner has seen the permitted and blocked paths.
+**Solution.** Tying every stage to one commit SHA stops that drift, and the workflow reruns Session
+09's known blocked tool-process case before Azure sees a preview or approval.
 
 <!-- Notes: The release is one linked unit. A changed component creates a new release. -->
 

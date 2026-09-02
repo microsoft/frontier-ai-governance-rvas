@@ -4,31 +4,30 @@
 
 ### What we will do
 
-Connect an approved remote MCP server in Azure API Center to a dedicated versioned Toolbox in
-Microsoft Foundry. The team uses the API Center private tool catalog in Foundry Tools to discover
-and configure the server, then creates a Toolbox version that exposes the approved tool and
-requires approval for every call.
+**Objective.** Give agent teams one reusable, approval-gated endpoint for an approved MCP tool.
 
-The check calls `tools/list` on a version-specific Toolbox MCP endpoint. The response contains
-exactly the approved namespaced tool.
+Connect an approved remote MCP server in Azure API Center to a dedicated versioned Toolbox in
+Microsoft Foundry: discover and configure the server through the API Center private tool catalog in
+Foundry Tools, then create a Toolbox version that exposes the approved tool and requires approval
+for every call. The check calls `tools/list` on the version-specific Toolbox MCP endpoint; the
+response contains exactly the approved namespaced tool.
 
 ### Why it matters
 
-Session 06 establishes the inventory record. Session 08 sets the MCP security boundary. This module
-uses those approved records to create a reusable Toolbox endpoint that gives agent teams a shared
-tool configuration.
+**Problem.** Session 07 establishes the inventory record and Session 08 sets the MCP security boundary, but
+agent teams still have no shared, governed way to consume that approved tool. Each team would
+otherwise wire its own connection.
 
-Preflight and the live check stop if the API Center deployment endpoint, Foundry project
-connection, allow list, or Toolbox result differs from the approved record.
+**Solution.** This module turns those approved records into one reusable Toolbox endpoint. Preflight and the live
+check stop if the API Center deployment endpoint, Foundry project connection, allow list, or
+Toolbox result ever differs from the approved record.
 
 ### Boundaries
 
 This work handles the MCP server record in API Center, the related Foundry project connection, a
-new dedicated Toolbox, and the approved MCP tool in an approved nonproduction scope.
-
-The private tool catalog is **public preview**. Its API Center authentication, access, and discovery
-steps run through the portal. Record the preview decision and successful discovery under Build >
-Tools before creating a Toolbox.
+new dedicated Toolbox, and the approved MCP tool in an approved nonproduction scope. It uses the
+public-preview private tool catalog in Foundry Tools; record that preview decision before creating
+a Toolbox.
 
 Azure API Center holds the inventory record and deployment metadata. The MCP server defines tools
 available at runtime. The Foundry project connection stores runtime authentication settings. The

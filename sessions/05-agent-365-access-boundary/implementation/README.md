@@ -4,7 +4,7 @@
 
 ### What we will do
 
-Configure one scoped Microsoft Purview DLP policy for an approved nonproduction Agent Registry
+**Objective.** Configure one scoped Microsoft Purview DLP policy for an approved nonproduction Agent Registry
 agent. After the policy is enabled and propagated, install it for the named test group. The agent
 can originate in **Microsoft Foundry, Copilot Studio, or Agent Builder**. Confirm that the included
 member can use the agent, the excluded user cannot, and the payload-free audit query returns
@@ -12,28 +12,23 @@ current activity for the recorded agent instance.
 
 ### Why it matters
 
-An Agent Registry entry makes an agent discoverable to administrators. Group installation gives
-people access. The inspected DLP gate holds group installation until the control is in place.
+**Problem.** Agent Registry makes an agent discoverable, and group installation gives people access before any
+data-loss check runs.
+
+**Solution.** This session gates installation on an enabled, propagated Purview DLP policy, so
+people get access only after the control is live.
 
 ### Boundaries
 
-The scope covers one approved nonproduction agent, Agent Registry entry, Entra test group, host
-product, labelled synthetic item, label, DLP action, and set of locations. Microsoft 365 admin
-center holds installation and consent state. Microsoft Purview holds DLP, labels, audit,
-simulation, propagation, findings, and the approved change record. The deployment contract records
-installation authorization. Microsoft 365 admin center and Microsoft Purview remain the sources of
-truth.
+The scope covers one nonproduction agent, its Agent Registry entry, Entra test group, host product,
+labelled synthetic item, label, DLP action, and set of locations. Microsoft 365 admin center and
+Microsoft Purview remain the sources of truth for installation, consent, DLP, labels, audit,
+simulation, propagation, findings, and the approved change record.
 
-Microsoft Foundry, Copilot Studio, and Agent Builder own the published agent and runtime. Agent
-365 DLP governs the selected agent's Microsoft 365 use, not Foundry runtime calls. A Foundry
-agent's separate Data Security DLP path needs the Entra-app-scoped rule and application enforcement
-of Microsoft Graph `processContent` with signed-in user context. Its named Foundry owners manage
-that path. Do not apply it to Copilot Studio or Agent Builder.
-
-Custom and hosted agents also need the supported Agent 365 SDK integration for their runtime.
-Their developers own OpenTelemetry instrumentation and, when inline data-policy decisions are
-required, the Microsoft Purview API call in the application path. Registry presence alone does not
-add those runtime controls.
+Agent 365 DLP governs the selected agent's Microsoft 365 use, not the source platform's runtime. A
+Foundry agent's separate Data Security DLP path stays with its named Foundry owners, and a hosted
+or custom agent's SDK instrumentation stays with its developers; see Decisions and stop conditions
+for both paths.
 
 ## Architecture
 

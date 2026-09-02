@@ -4,15 +4,21 @@
 
 ### What we will do
 
-{{WHAT_WE_WILL_DO}}
+**Objective.** {{CONTROL_OBJECTIVE}}
+
+{{IN_SESSION_CHANGE_AND_RESULT}}
 
 ### Why it matters
 
-{{WHY_IT_MATTERS}}
+**Problem.** {{CONTROL_PROBLEM}}
+
+**Solution.** {{CONTROL_SOLUTION}}
 
 ### Boundaries
 
-{{SCOPE_BOUNDARIES}}
+{{CHANGED_SCOPE_AND_AUTHORITY}}
+
+{{MAIN_EXCLUSION_AND_HANDOFF}}
 
 ## Architecture
 
@@ -20,9 +26,7 @@
 
 {{ARCHITECTURE_OVERVIEW}}
 
-Authoritative state: {{AUTHORITATIVE_STATE}}.
-
-Control boundary and handoffs: {{CONTROL_BOUNDARY_AND_HANDOFFS}}.
+{{AUTHORITATIVE_STATE_AND_CONTROL_BOUNDARY}}
 
 ### Design choices and tradeoffs
 

@@ -4,7 +4,7 @@
 
 ### What we will do
 
-Connect the existing Foundry account and its Storage, Azure AI Search, Cosmos DB, and Key Vault
+**Objective.** Connect the existing Foundry account and its Storage, Azure AI Search, Cosmos DB, and Key Vault
 dependencies through private endpoints. Deploy seven private DNS zones and links plus five private
 endpoints against the Session 01 network foundation.
 
@@ -14,11 +14,11 @@ public-access settings in the approved change system, disable public access, and
 
 ### Why it matters
 
-The team tests the private client path before closing the public one. That reduces lockout risk and
-leaves a usable restore record.
+**Problem.** Disabling public access before the private path works risks locking the team out with no way back
+in.
 
-The delegated Agent Service subnet already routes to the customer firewall. Session 04 checks the
-agent-runtime path.
+**Solution.** This session proves the private path first. It deploys the endpoints and DNS, checks resolution and
+TCP 443, records every prior public-access state, and only then disables public access.
 
 ### Boundaries
 
@@ -29,11 +29,10 @@ public-access cutover in the approved nonproduction resource group.
 Azure holds live network and service state. The customer firewall source holds egress rules. The
 approved change system holds cutover and restore details.
 
-These files implement the customer-managed BYO VNet path. Stop if the AI platform owner selected
-Microsoft-managed networking or if the Foundry account was not created with the approved delegated
-subnet. Use a separate approved migration or replacement before continuing.
+These files implement the customer-managed BYO VNet path; Microsoft-managed networking needs a
+separate delivery path.
 
-The connectivity check covers the approved client path. It does not prove agent-runtime traffic.
+The connectivity check covers the approved client path, not agent-runtime traffic.
 [Session 04](../../04-governed-agent-baseline/implementation/README.md) runs that check.
 
 ## Architecture

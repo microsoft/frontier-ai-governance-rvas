@@ -22,7 +22,11 @@ html: true
 
 ## Why it matters
 
-> Connect the existing Foundry account and four dependencies through private endpoints, then disable public access after private DNS and TCP 443 checks succeed.
+**Problem.** Disabling public access before the private path works risks locking the team out with
+no way back in.
+
+**Solution.** Prove the private path first: deploy the endpoints and DNS, check resolution and TCP
+443, record every prior public-access state, and only then disable public access.
 
 By the end of the session:
 

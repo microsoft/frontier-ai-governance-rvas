@@ -20,7 +20,11 @@ html: true
 
 ## Why it matters
 
-> Deploy exact approved serverless API model versions through version-controlled profiles, preflight checks, and Bicep. Meet the workload's processing-location requirement.
+**Problem.** An unreviewed model version or deployment type can move data to the wrong processing
+location, burn quota, or expose the workload to retirement without warning.
+
+**Solution.** Check those choices against live Azure state before deploying exact approved
+serverless API model versions through version-controlled profiles, preflight, and Bicep.
 
 By the end of the session:
 

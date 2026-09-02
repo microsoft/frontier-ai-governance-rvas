@@ -35,11 +35,11 @@ The check shows one allowed call and one denial caused by missing downstream use
 
 ## Why it matters
 
-A workload identity gives every request the same application authority.
+**Problem.** A workload identity gives every request the same application authority. That does not
+work when the downstream API must decide for the signed-in user.
 
-That does not work when the downstream API must decide for the signed-in user.
-
-OBO carries user context across the middle tier without forwarding the original bearer token.
+**Solution.** OBO carries user context across the middle tier without forwarding the original
+bearer token.
 
 <!-- Notes: Use this module only for a real per-user authorization requirement. -->
 

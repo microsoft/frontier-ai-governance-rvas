@@ -139,11 +139,15 @@ Under `## Session scope`, use these level-three headings exactly once and in thi
 2. `### Why it matters`
 3. `### Boundaries`
 
-`What we will do` states the manifest control objective, the concrete in-session state changes, and
-the observable result owned by this session. `Why it matters` names the operational or governance
-decision enabled by that result. `Boundaries` names the exact environment, resources, change path,
-authoritative systems, exclusions, enforcement limits, and downstream handoffs that prevent the
-reader from overreading the control.
+Use the opening to make the control easy to understand before introducing implementation detail:
+
+- `What we will do` starts with one short objective. Follow it with the concrete in-session change
+  and observable result owned by this session. Do not start with files, commands, or caveats.
+- `Why it matters` states the concrete problem first, then the solution this control applies. Keep
+  both short. Name the operational consequence instead of describing a generic benefit.
+- `Boundaries` keeps the opening focused. State the changed scope, authoritative state, main
+  exclusion, and next handoff. Put detailed failure conditions under `Decisions and stop
+  conditions`.
 
 Do not use a later session's check as the current session objective. Do not turn the objective into
 a list of commands, files, or workflow steps. Avoid `each`, `only`, `prevents`, `depends`, or similar
@@ -155,9 +159,9 @@ Under `## Architecture`, use these level-three headings exactly once and in this
 2. `### Design choices and tradeoffs`
 3. `### Architecture guidance`
 
-`Architecture at a glance` explains the components and flow in plain language. Name the
-authoritative state, the control boundary, and the handoffs that matter to this implementation.
-Add a diagram when it makes that explanation easier to follow. A diagram is optional.
+`Architecture at a glance` starts with the main flow in plain language. Add product detail after the
+reader understands how the control works. Name the authoritative state, control boundary, and
+handoffs once. Add a diagram when it makes the flow easier to follow.
 
 `Design choices and tradeoffs` contains at least one useful Markdown table. Prefer
 `Decision | Chosen approach | Benefits | Costs and limitations`. A focused table is
@@ -208,8 +212,9 @@ after all three scope subsections. The chapter names and boundaries stay the sam
 Do not split a workflow across new level-two headings; use level-three headings within the
 appropriate chapter.
 
-Keep the path readable. Decision checkpoints belong immediately before consequential state
-changes. Routine steps do not need a checkpoint.
+Keep the path readable. Do not repeat the same authority, scope, approval, or exclusion in several
+chapters. Put it where the reader uses it. Decision checkpoints belong immediately before
+consequential state changes. Routine steps do not need a checkpoint.
 
 A standard session has one concise observable check. State what to inspect and the expected result.
 Do not require a screenshot, exported log, saved command output, or separate sign-off.
@@ -303,14 +308,15 @@ self-references, implementation markers, filenames, and repeated nearby mentions
 
 ## Deck
 
-Use Marp, the bundled theme, RVAP logos, and official Microsoft icons. Keep the existing briefing
-depth. Include a concise architecture overview and the few tradeoffs that change implementation.
-Cover the control, outcomes, implementation path, safety gates, expected result, operating state,
-recap, and close. Combine material when a separate architecture or tradeoff slide would repeat
-another slide. Do not add proof, evidence, formal acceptance, fixture cleanup, or routine review
-slides. Use the `implementation` slide class. Presenter notes should be short delivery cues. The
-final slide uses the `closing` class and contains only the visible heading `Thank you!`. The theme
-renders it as centered white text on the navy-to-blue gradient.
+Use Marp, the bundled theme, RVAP logos, and official Microsoft icons. Start with a short control
+objective. Use the `Why it matters` slide to state the problem and solution before architecture or
+implementation detail. Then cover the architecture flow, the few tradeoffs that change the
+implementation, outcomes, implementation path, safety gates, expected result, and operating state.
+Combine material when a separate slide would repeat another slide. Do not add proof, evidence,
+formal acceptance, fixture cleanup, or routine review slides. Use the `implementation` slide class.
+Presenter notes should be short delivery cues. The final slide uses the `closing` class and contains
+only the visible heading `Thank you!`. The theme renders it as centered white text on the
+navy-to-blue gradient.
 
 ## Validator boundary
 

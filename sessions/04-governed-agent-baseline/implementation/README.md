@@ -4,7 +4,7 @@
 
 ### What we will do
 
-Create and pin **a versioned prompt agent** in the existing Microsoft Foundry project. Its unique
+**Objective.** Create and pin **a versioned prompt agent** in the existing Microsoft Foundry project. Its unique
 Entra Agent Identity identifies the agent and secures the endpoint. The Foundry project managed
 identity authorizes one approved read-only OpenAPI operation.
 
@@ -13,7 +13,10 @@ write tool. We will call `get_policy` once with synthetic data and confirm that 
 
 ### Why it matters
 
-A pinned version gives the release owner a known configuration to operate. Separate identities
+**Problem.** An agent that drifts after release, or shares its identity with other agents, leaves the release
+owner unable to say what configuration is live or which identity called a given API.
+
+**Solution.** Pinning one version gives the release owner a known configuration to operate. Separate identities
 show which identity protects the endpoint and which one calls the downstream API.
 
 ### Boundaries

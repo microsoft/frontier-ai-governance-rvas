@@ -22,20 +22,12 @@ html: true
 
 ## Why it matters
 
-> Compare authorized adversarial results for the baseline and fixed version remediated before the session, then confirm the Defender-to-SOC route.
+**Problem.** A better average attack-success rate can hide a worse result in one risk category, and
+a broken alert route leaves the security team blind right after remediation.
 
-The result requires:
-
-- the same approved plan against two immutable nonproduction versions;
-- lower overall attack success rate;
-- no regression for any evaluator, risk category, or attack strategy;
-- zero prohibited-action success; and
-- a separate confirmed SOC-delivery result.
-
-Existing tool and backend controls must **independently deny prohibited writes**.
-
-A better average can hide a worse category. The per-risk comparison catches that, while the
-separate route check shows whether Defender can reach the SOC.
+**Solution.** The per-risk comparison catches a category regression that an average would hide, and
+the route check confirms Defender can reach the team that must respond. Existing tool and backend
+controls independently deny prohibited writes.
 
 <!-- Notes: A model refusal is not the write boundary. -->
 

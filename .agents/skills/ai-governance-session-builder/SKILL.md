@@ -116,12 +116,13 @@ Use the shared level-two headings in the contract without adding or renaming any
 generator groups them into six chapter pages: scope and outcomes, architecture, before you start,
 decisions and boundaries, implementation, and validation and operations. Under the scope heading, write
 `What we will do`, `Why it matters`, and `Boundaries` as ordered level-three subsections. The first
-subsection carries the manifest objective and owned result; the second explains the concrete
-operational or governance reason; the third states the exact exclusions, enforcement limits, and
-handoffs. Then write `Architecture at a glance`, `Design choices and tradeoffs`, and `Architecture
-guidance` under the Architecture heading. Explain the flow, authoritative state, control boundary,
-and relevant handoffs. Include a useful decision table and one to three official Microsoft links
-already recorded in the manifest. Diagrams are optional. A referenced diagram needs editable
+subsection starts with one short objective, then states the in-session change and observable result.
+The second states the concrete problem first and the solution second. The third keeps only the
+changed scope, authoritative state, main exclusion, and next handoff; detailed failure conditions
+belong later. Then write `Architecture at a glance`, `Design choices and tradeoffs`, and
+`Architecture guidance` under the Architecture heading. Explain the main flow before product detail.
+Include a useful decision table and one to three official Microsoft links already recorded in the
+manifest. Diagrams are optional. A referenced diagram needs editable
 `.excalidraw` source, rendered `.svg`, and meaningful alt text; keep official Microsoft icons
 unchanged. The generated **Who should join** and **What you need** blocks follow the complete scope
 content. Detailed preparation stays on the Before you start page. A substantial field reference may

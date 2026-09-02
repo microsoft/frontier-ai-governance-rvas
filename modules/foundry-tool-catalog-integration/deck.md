@@ -19,7 +19,7 @@ description: Optional implementation module for connecting an approved remote MC
 Connect an approved remote MCP server in Azure API Center to a dedicated Toolbox, then run a
 read-only check.
 
-<!-- Notes: This module extends Session 06 without changing the numbered sequence. -->
+<!-- Notes: This module extends Session 07 without changing the numbered sequence. -->
 
 ---
 
@@ -42,12 +42,11 @@ Compare the catalog record, project connection, allowed tool, and live Toolbox t
 
 ## Why it matters
 
-Session 06 records the MCP server record in API Center. Session 08 defines its security boundary.
+**Problem.** Session 07 records the MCP server and Session 08 defines its security boundary, but
+agent teams still need a reusable connection path.
 
-Agent teams still need a reusable connection path. They should not copy the endpoint, credentials,
-and tool settings into every agent.
-
-Toolbox provides a stable MCP-compatible endpoint.
+**Solution.** Toolbox provides a stable MCP-compatible endpoint without copying endpoint,
+credential, and tool settings into every agent.
 
 <!-- Notes: Keep this focused on the handoff from governed inventory to reusable consumption. -->
 
@@ -201,7 +200,7 @@ Keep the MCP server record in API Center unless its owner separately retires the
 ## Related sessions and modules
 
 - Session 04 covers agent release and endpoint consumption.
-- Session 06 covers the API Center inventory record.
+- Session 07 covers the API Center inventory record.
 - Session 08 covers MCP authentication, tool safety, and runtime controls.
 
 This module configures only the connection from the catalog to Toolbox.

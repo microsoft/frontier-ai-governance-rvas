@@ -24,10 +24,11 @@ Decide what may enter and remain in the agent estate.
 
 ## Why it matters
 
-Define one standard for classification, ownership, architecture, API publication, lifecycle, and
-retirement.
+**Problem.** Agent 365, API Center, API Management, and source platforms hold separate parts of the
+agent decision.
 
-Apply it to one candidate before production.
+**Solution.** Link those records and retain only the cross-platform decisions needed before
+production.
 
 <!-- Notes: The result links live records to one checked portfolio decision. -->
 

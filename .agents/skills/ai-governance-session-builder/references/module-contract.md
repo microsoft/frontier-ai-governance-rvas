@@ -113,9 +113,11 @@ Under `## Module scope`, use the same three level-three headings required for nu
 2. `### Why it matters`
 3. `### Boundaries`
 
-The module objective belongs in `What we will do`. The reason for selecting the architecture
-module belongs in `Why it matters`. `Boundaries` must keep the module outside the numbered sequence
-and state its exact application, identity, data, and enforcement limits.
+The module objective belongs in `What we will do` and starts with one short sentence. Follow it with
+the concrete change and observable result. In `Why it matters`, state the architecture problem
+first and the module's solution second. Keep `Boundaries` short: place the module outside the
+numbered sequence, then state its changed scope, authoritative state, main exclusion, and handoff.
+Move detailed failure conditions to `Decisions and stop conditions`.
 
 Use the session contract's three required Architecture subsections. Explain the module's
 components, authoritative state, control boundary, flow, and handoffs. Include a useful decision

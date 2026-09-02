@@ -4,7 +4,7 @@
 
 ### What we will do
 
-Configure **one MCP read path for `get_policy`**. APIM validates the candidate Foundry agent, checks
+**Objective.** Configure **one MCP read path for `get_policy`**. APIM validates the candidate Foundry agent, checks
 the input, and calls the backend with its own read-only managed identity. Application Insights keeps
 tool and correlation metadata without payloads.
 
@@ -13,23 +13,26 @@ approved read and a blocked prohibited write.
 
 ### Why it matters
 
-The tool list, inbound authorization, and backend role answer different questions: what the agent
-can request, which agent may call APIM, and what APIM may do at the backend. A model refusal helps,
-but the missing write tool and read-only backend role enforce the boundary.
+**Problem.** A model can refuse to call a write tool, but that refusal is not a security boundary. Prompt
+injection or a bug can still make the agent try.
+
+**Solution.** This session removes the write tool from what the
+agent can request and gives APIM's backend identity read-only access, so the boundary holds even
+when the model's judgment fails.
 
 ### Boundaries
 
 This session adds `policy-catalog-mcp` to the existing
-[Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM service and creates an unpinned
-candidate in the existing [Session 04](../../04-governed-agent-baseline/implementation/README.md)
-Foundry project. APIM owns the live MCP policy and outbound identity. Foundry owns the candidate
-binding and stable version selector. Application Insights holds payload-free telemetry. API Center
-holds the separate design-time inventory entry maintained through
-[Session 06](../../07-api-center-ai-mcp-inventory/implementation/README.md).
+[Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM service and creates an
+unpinned candidate in the existing [Session 04](../../04-governed-agent-baseline/implementation/README.md)
+Foundry project. APIM owns the live MCP policy and outbound identity, Foundry owns the candidate
+binding and stable version selector, and Application Insights holds payload-free telemetry.
+[Session 07](../../07-api-center-ai-mcp-inventory/implementation/README.md) holds the separate
+design-time inventory entry.
 
-The backend call is application-only, not OBO. APIM never forwards the inbound MCP token. Delegated
-user access, write tools, backing-API changes, production release, MCP resources or prompts, APIM
-workspaces, and payload logging need separate approval.
+The backend call is application-only: APIM never forwards the inbound MCP token to the backend.
+Delegated user access, write tools, backing-API changes, production release, MCP resources or
+prompts, APIM workspaces, and payload logging all need separate approval.
 
 ## Architecture
 

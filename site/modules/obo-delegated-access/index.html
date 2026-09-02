@@ -102,17 +102,16 @@
           <p class="implementation-guide__label">Chapter 1 of 6</p>
           <h2 id="module-scope">Module scope<a class="heading-anchor" href="#module-scope" aria-label="Link to Module scope">#</a></h2>
 <h3 id="what-we-will-do">What we will do<a class="heading-anchor" href="#what-we-will-do" aria-label="Link to What we will do">#</a></h3>
-<p>Configure an existing trusted Python middle tier to exchange a signed-in user's token for a delegated token for an existing protected API. Record the approved client, middle tier, downstream audience, delegated scope, and consent boundary. Add only the approved delegated permissions, validate the inbound assertion, and use a protected Azure Key Vault certificate for the OAuth 2.0 on-behalf-of (OBO) exchange.</p>
-<p>Then confirm that a permitted user succeeds and that a user without downstream resource authority is denied.</p>
-<p>The working delegated flow preserves signed-in user authority in the middle tier. The downstream API still makes the resource-authorization decision for that user.</p>
+<p><strong>Objective.</strong> Give a downstream API the signed-in user's identity when a trusted middle tier calls it on the user's behalf.</p>
+<p>Configure an existing trusted Python middle tier to exchange a signed-in user's token for a delegated token for an existing protected API: record the approved client, middle tier, downstream audience, delegated scope, and consent boundary; add only the approved delegated permissions; validate the inbound assertion; and use a protected Azure Key Vault certificate for the OAuth 2.0 on-behalf-of (OBO) exchange. Then confirm that a permitted user succeeds and that a user without downstream resource authority is denied.</p>
 <h3 id="why-it-matters">Why it matters<a class="heading-anchor" href="#why-it-matters" aria-label="Link to Why it matters">#</a></h3>
-<p>A workload identity gives the middle tier the same application authority for every request. It does not fit a downstream resource whose access must change with the signed-in user. OBO carries that user context across the middle tier without forwarding the original bearer token.</p>
+<p><strong>Problem.</strong> A workload identity gives the middle tier the same application authority for every request. It does not fit a downstream resource whose access must change with the signed-in user.</p>
+<p><strong>Solution.</strong> OBO carries that user context across the middle tier without forwarding the original bearer token.</p>
 <p>The permitted-user check confirms that Microsoft Entra ID accepts the delegated trust chain. The denied-user check confirms that the downstream API still enforces its user-specific resource rules.</p>
 <h3 id="boundaries">Boundaries<a class="heading-anchor" href="#boundaries" aria-label="Link to Boundaries">#</a></h3>
-<p>Use this module only when an existing client, confidential middle tier, and protected downstream API already require per-user authorization. If the operation should run with one workload identity regardless of who started it, use managed identity instead.</p>
-<p>The module changes <strong>exact delegated permissions and consent</strong>, the middle-tier OBO implementation, and its payload-free diagnostics. It works with the existing applications and downstream authorization model. The original bearer token stops at the middle tier. No application-only retry may bypass a downstream denial.</p>
+<p>The module changes exact delegated permissions and consent, the middle-tier OBO implementation, and its payload-free diagnostics. It works with the existing applications and downstream authorization model.</p>
 <p>The certificate remains in Azure Key Vault and reaches the approved runtime only through its protected certificate integration. This repository stores references, never private keys, bearer tokens, tenant values, endpoints, or user data.</p>
-<p>The customer must record <strong>signed-in user OBO</strong> as the authority decision before this work starts. Use an application-only managed identity for shared or background work instead. That path is outside this module.</p>
+<p>Use this module only when an existing client, confidential middle tier, and protected downstream API already require per-user authorization, and record signed-in user OBO as the authority decision before starting. If the operation should run with one workload identity regardless of who started it, use managed identity instead. That path is outside this module.</p>
           <section class="session-brief" aria-labelledby="session-brief-title">
             <h2 id="session-brief-title">Module preparation</h2>
             <div class="session-brief__grid"><div class="session-brief__audience session-brief__list" data-list-layout="stack">

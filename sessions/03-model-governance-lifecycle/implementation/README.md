@@ -4,7 +4,7 @@
 
 ### What we will do
 
-Deploy **exact approved serverless API model versions** under the existing nonproduction
+**Objective.** Deploy **exact approved serverless API model versions** under the existing nonproduction
 `AIServices` Microsoft Foundry resource. A version-controlled profile records the deployment
 settings. Preflight compares that profile with current Azure state and a scoped Bicep preview.
 Bicep then creates or updates the listed child deployments.
@@ -14,9 +14,11 @@ tag match the approved profile.
 
 ### Why it matters
 
-The model version and deployment type set the processing location, quota use, and lifecycle
-exposure. This path checks those choices before Azure changes the deployment and gives the
-lifecycle owner a repeatable replacement route.
+**Problem.** An unreviewed model version or deployment type can move data to the wrong processing location, burn
+quota, or expose the workload to retirement without warning.
+
+**Solution.** This session checks those choices against live Azure state before deploying, and gives the
+lifecycle owner a repeatable route to replace a deployment before it retires.
 
 ### Boundaries
 

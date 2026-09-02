@@ -4,30 +4,33 @@
 
 ### What we will do
 
-Run the same approved attack plan against immutable baseline and remediated versions of the
-nonproduction policy assistant. Then confirm the Defender-to-SOC route.
+**Objective.** Confirm that a remediated agent version reduces attack success without hiding a
+regression in any single risk category, and that Defender can route a real alert to the SOC.
 
-The comparison must show lower overall attack success rate (ASR), no regression for any evaluator,
-risk category, or attack strategy, and zero prohibited-action success. SOC delivery remains a
-separate result.
+Run the same approved attack plan against immutable baseline and remediated versions of the
+nonproduction policy assistant, then confirm the Defender-to-SOC route. The comparison must show
+lower overall attack success rate (ASR), no regression in any evaluator, risk category, or attack
+strategy, and zero prohibited-action success. SOC delivery is reported as a separate result.
 
 ### Why it matters
 
-A better average can hide a worse result in one category. The per-risk comparison catches that.
-And the route check tells the security owner whether Defender can reach the team that must respond.
+**Problem.** A better average attack-success rate can hide a worse result in one risk category, and
+a broken alert route leaves the security team blind right after remediation.
+
+**Solution.** The per-risk comparison catches a category regression that an average would hide, and
+the route check confirms Defender can reach the team that must respond.
 
 ### Boundaries
 
-Use the authorized nonproduction Foundry project, synthetic inputs, and read-only `get_policy`
-tool. Existing tool and backend controls must **independently deny prohibited writes**. A model
-refusal is not the write boundary.
+Use the authorized nonproduction Foundry project, synthetic inputs, and the read-only `get_policy`
+tool; existing tool and backend controls must independently deny prohibited writes, and a model
+refusal is not the write boundary. Foundry keeps taxonomy and run detail; Defender and the SOC
+system keep security records; the approved change system keeps the authorization and residual-risk
+decision.
 
-Foundry keeps taxonomy and run detail. Defender and the SOC system keep security records. The
-approved change system keeps authorization, remediation, residual-risk, and release decisions. The
-repository keeps the bounded plan, alert hunt, and triage playbook.
-
-This session does not authorize production promotion, write-capable testing, Defender blocking-rule
-changes, or an attack created to force an alert.
+This session does not authorize production promotion, write-capable testing, or Defender
+blocking-rule changes. Session 12 reads the residual-risk decision this session produces before it
+promotes a version.
 
 ## Architecture
 

@@ -22,17 +22,11 @@ html: true
 
 ## Why it matters
 
-> Create and run `release-gate.py` for fixed agent versions with repeatable evaluation results.
+**Problem.** An averaged evaluation score can pass a release even when one tool path or safety
+metric has regressed.
 
-By the end of the session:
-
-- The approved and candidate versions have used the same synthetic golden set.
-- Active thresholds fit the approved owner floors and baseline.
-- Foundry holds row detail; the release platform holds payload-free aggregates.
-- The approved aggregate returns `PASS`.
-- The tool-process regression returns `BLOCK`.
-
-The approved aggregate also becomes the reference for Session 11 drift review.
+**Solution.** The gate scores final-answer quality, tool process, and safety as separate blocking
+layers. The approved version returns `PASS`; the tool-process regression returns `BLOCK`.
 
 <!-- Notes: Session 12 later runs the same command before promotion. -->
 

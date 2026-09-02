@@ -4,7 +4,7 @@
 
 ### What we will do
 
-Add **three selected assets to API Center**: deploy the
+**Objective.** Add **three selected assets to API Center**: deploy the
 [Session 04](../../04-governed-agent-baseline/implementation/README.md) agent API, synchronize the
 [Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM API, and register an approved
 remote MCP server.
@@ -15,23 +15,25 @@ points to the approved source.
 
 ### Why it matters
 
-Developers need to know what they can use, where it runs, and who owns its review and retirement.
-API Center makes missing inventory decisions visible before an asset is treated as approved.
+**Problem.** Developers need to know what they can use, where it runs, and who owns its review and
+retirement.
+
+**Solution.** API Center makes missing inventory decisions visible before an asset is treated as
+approved.
 
 ### Boundaries
 
 API Center holds design-time inventory and discovery metadata. Foundry, APIM, and the MCP runtime
-remain authoritative for live service state. API Center does not inspect or block runtime calls.
-APIM owns runtime controls for the synchronized route, and
-[Session 08](../../08-mcp-tool-security/implementation/README.md) governs MCP tool use.
+remain authoritative for live service state, and API Center does not inspect or block runtime
+calls. [Session 08](../../08-mcp-tool-security/implementation/README.md) governs MCP tool use on
+the synchronized route.
 
-The APIM integration is read-only, one-way, and imports every API from the linked instance. Approve
-that full source boundary and assign metadata owners before creating the link. Register the remote
-MCP server through the portal because the stable `Microsoft.ApiCenter@2024-03-01` ARM surface does
-not expose the native MCP fields.
-
-Production discovery, write-capable MCP tools, the API Center portal, private discovery, Foundry
-Toolbox reuse, registry discovery, and A2A inventory need separate approval or their optional
+Approving the APIM link approves its full source boundary: the integration is read-only, one-way,
+and imports every API in the linked instance, so assign metadata owners before creating it.
+Register the remote MCP server through the portal, because the stable
+`Microsoft.ApiCenter@2024-03-01` ARM surface has no native MCP fields. Production discovery,
+write-capable MCP tools, the API Center portal, private discovery, Foundry Toolbox reuse, registry
+discovery, and A2A inventory stay out of scope, pending separate approval or their optional
 modules.
 
 ## Architecture

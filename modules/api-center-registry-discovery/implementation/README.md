@@ -4,43 +4,40 @@
 
 ### What we will do
 
-Configure Microsoft Entra-protected registry discovery for MCP servers already governed through
-Sessions 06 and 06. The API Center configuration owner limits Data API visibility to MCP records
-at the approved `Production` lifecycle stage. The client owner then configures supported developer
-clients to use the default-workspace MCP registry endpoint.
+**Objective.** Give developers a controlled way to find MCP servers that already passed governance, without
+exposing draft or retired entries.
 
-The check reads the full registry and finds every approved server name with no unexpected name. It
-prints counts, not unapproved names or server credentials.
+Configure Microsoft Entra-protected registry discovery for MCP servers already governed through
+Sessions 07 and 08. The API Center configuration owner limits Data API visibility to MCP records
+at the approved `Production` lifecycle stage, and the client owner configures supported developer
+clients to use the default-workspace MCP registry endpoint. The check then reads the full registry
+and confirms every approved server name appears with no unexpected name; it prints counts, not
+names or credentials.
 
 ### Why it matters
 
-Session 06 creates the inventory record. Session 08 sets runtime authorization and tool security.
-Developers still need a controlled way to find servers that passed those decisions. Without that
-boundary, a client can place draft or retired entries beside approved servers. The registry then
-looks like an approval system even though it is only an inventory.
+**Problem.** Session 07 creates the inventory record, and Session 08 sets runtime authorization and tool
+security. Developers still need a controlled way to find only the servers that passed those
+decisions. Without that boundary, a client can list draft or retired entries beside approved
+servers, and the registry starts to look like an approval system when it's only an inventory.
+
+**Solution.** This module adds that boundary: Data API visibility limited to `Production`-stage MCP records,
+reached through Microsoft Entra sign-in.
 
 ### Boundaries
 
-Use the Session 07 API Center default workspace after the Session 08 runtime decision before a
-server moves to the discoverable lifecycle stage.
+This module changes only Data API visibility and the developer registry client configuration for
+MCP servers already in the Session 07 inventory. A server becomes discoverable only after it
+passes the Session 08 runtime decision and moves to the `Production` lifecycle stage.
 
 Azure API Center holds the registry contents, lifecycle state, Data API visibility, and portal
 access. Microsoft Entra ID holds sign-in state and the Azure API Center Data Reader assignment. The
-repository stores the client settings and ownership record.
+repository stores only the client settings and ownership record.
 
-The visibility conditions apply to all users and related consumption features that use the API
-Center data plane API. They are not a per-user allowlist. Custom metadata in `_meta` helps clients
-interpret a record, but it is not authorization.
-
-Discovery does not grant access to an MCP server or its tools. Runtime authentication,
-authorization, approval, and telemetry stay with Session 08 and the server platform. This module
-does not use anonymous portal access. The separate API Center MCP server at `/mcp` has its own
-Standard-tier requirement and searches the wider API and AI asset catalog.
-
-Microsoft Learn documents one MCP registry endpoint format and names Visual Studio Code, GitHub
-Copilot, and other tools as consumers. Client configuration-file schemas vary, and Data API
-visibility changes use the portal. The module therefore uses a client-neutral settings file and a
-portal-led visibility change.
+Discovery does not grant access to an MCP server or its tools, and it isn't a per-user allowlist.
+Runtime authentication, authorization, approval, and telemetry stay with Session 08 and the server
+platform. The separate API Center MCP server at `/mcp` (Standard tier, broader catalog search) is
+out of scope.
 
 ## Architecture
 

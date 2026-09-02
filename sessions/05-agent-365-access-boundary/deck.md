@@ -22,10 +22,11 @@ html: true
 
 ## Why it matters
 
-> Configure a scoped Agent 365 DLP policy. Wait for propagation, then install one approved agent
-> for its nonproduction test group.
+**Problem.** Agent Registry makes an agent discoverable, and group installation gives people access
+before any data-loss check runs.
 
-The agent can come from Microsoft Foundry, Copilot Studio, or Agent Builder.
+**Solution.** This session gates installation on an enabled, propagated Purview DLP policy. The agent can come
+from Microsoft Foundry, Copilot Studio, or Agent Builder.
 
 - Agent Registry identifies the agent and group.
 - Purview DLP is simulated before the group gets access.

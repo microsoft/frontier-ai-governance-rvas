@@ -10,7 +10,7 @@ html: true
 
 ![RVAP logo](assets/logos/logo-full.png)
 
-<p class="eyebrow">AI Governance Co-implementation · Session 06</p>
+<p class="eyebrow">AI Governance Co-implementation · Session 07</p>
 
 # Azure API Center and the AI/MCP inventory
 
@@ -20,16 +20,17 @@ html: true
 
 ## Why it matters
 
-> Add the Session 04 agent API, synchronize the Session 06 APIM API, and register an approved remote MCP server in API Center.
+**Problem.** Developers can't tell what's safe to use, where it runs, or who owns its retirement
+without one inventory.
 
-By the end of the session:
+**Solution.**
 
-- A tagged API Center holds the direct agent definition and required metadata schema.
-- Its managed identity reads the exact Session 06 APIM service.
-- The approved remote MCP server is registered through the native portal flow.
-- The inventory check finds the three entries once, with their required metadata.
-
-API Center supports discovery. APIM and Session 08 control runtime use.
+- API Center gives the Session 04 agent API, the Session 06 APIM API, and one approved remote MCP
+  server a single searchable record.
+- Every entry carries owner, lifecycle, classification, risk, review, and runtime-location metadata.
+- API Center supports discovery only. APIM and Session 08 still control runtime use.
+- The read-only check confirms each entry appears once and the APIM integration points to the
+  approved source.
 
 <!-- Notes: Keep the boundary clear. This is inventory, not runtime authorization. -->
 

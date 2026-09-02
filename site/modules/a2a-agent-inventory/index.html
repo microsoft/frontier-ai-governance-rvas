@@ -102,13 +102,14 @@
           <p class="implementation-guide__label">Chapter 1 of 6</p>
           <h2 id="module-scope">Module scope<a class="heading-anchor" href="#module-scope" aria-label="Link to Module scope">#</a></h2>
 <h3 id="what-we-will-do">What we will do<a class="heading-anchor" href="#what-we-will-do" aria-label="Link to What we will do">#</a></h3>
-<p>Connect an approved A2A agent to Microsoft Agent 365 through the supported route for its runtime: built-in integration, Registry sync, or a runtime-owned Agent 365 SDK integration. The delivery team then reviews the live Agent Registry entry with the agent owner.</p>
-<p>Microsoft Agent 365 owns the enterprise inventory record. The runtime owner owns the A2A definition, agent card, endpoint, and integration source.</p>
+<p><strong>Objective.</strong> Give an approved A2A agent a live entry in the Microsoft Agent 365 enterprise inventory.</p>
+<p>Connect it through the supported route for its runtime: built-in integration, Registry sync, or a runtime-owned Agent 365 SDK integration. The delivery team then reviews the resulting entry in the live Agent Registry with the agent owner.</p>
 <h3 id="why-it-matters">Why it matters<a class="heading-anchor" href="#why-it-matters" aria-label="Link to Why it matters">#</a></h3>
-<p>Agent 365 gives the organization a live view of the agent, its lifecycle, and its owners. Runtime changes flow through the owner's source and supported integration.</p>
+<p><strong>Problem.</strong> A2A agents run on separate runtimes, so the enterprise has no single live view of which agents exist, who owns them, or what state they're in.</p>
+<p><strong>Solution.</strong> Registering the agent in Agent 365 gives the organization that view. Runtime changes keep flowing through the owner's existing source and supported integration.</p>
 <h3 id="boundaries">Boundaries<a class="heading-anchor" href="#boundaries" aria-label="Link to Boundaries">#</a></h3>
-<p>Use the agent baseline in <a href="../../sessions/04-governed-agent-baseline/">Session 04</a> and apply data controls from <a href="../../sessions/05-agent-365-access-boundary/">Session 05</a>. Use the separate A2A API Center discovery module when developers need a catalog entry for the agent's technical interface.</p>
-<p>Use the selected integration to keep the Agent 365 record current. The runtime owner continues to govern the A2A runtime, developer discovery, and data controls.</p>
+<p>This module changes only the agent's entry in Agent Registry. Microsoft Agent 365 owns that enterprise inventory record; the runtime owner owns the A2A definition, agent card, endpoint, and integration source. It does not create a developer discovery catalog entry. Use the separate A2A API Center discovery module when developers need one.</p>
+<p>Apply the agent baseline from <a href="../../sessions/04-governed-agent-baseline/">Session 04</a> and the data controls from <a href="../../sessions/05-agent-365-access-boundary/">Session 05</a> before this work. Afterward, the runtime owner keeps the record current through the selected integration.</p>
           <section class="session-brief" aria-labelledby="session-brief-title">
             <h2 id="session-brief-title">Module preparation</h2>
             <div class="session-brief__grid"><div class="session-brief__audience session-brief__list" data-list-layout="stack">

@@ -4,25 +4,31 @@
 
 ### What we will do
 
-Add or refresh an already-governed A2A agent in Azure API Center when **developers need its
-technical interface**. The API Center asset comes from a **runtime-owned source integration** in
-Git or API Management. The delivery team then reviews the live catalog asset.
+**Objective.** Give developers a discovery entry for an A2A agent's technical interface in Azure
+API Center.
 
-Azure API Center owns the developer discovery asset. Microsoft Agent 365 owns enterprise inventory
-and lifecycle. The runtime owner owns the A2A definition, agent card, endpoint, and source
-integration.
+Add or refresh the already-governed agent's catalog asset from a runtime-owned source integration
+in Git or API Management. The delivery team then reviews the resulting live catalog asset.
 
 ### Why it matters
 
-Agent 365 records which agents exist for the enterprise. API Center gives developers the current
-A2A interface and definition. The source integration keeps the discovery asset current.
+**Problem.** Agent 365 tells the enterprise which agents exist, but it doesn't give developers the
+agent's current technical interface.
+
+**Solution.** API Center gives them that interface. The source integration keeps it current with
+the runtime-owned definition.
 
 ### Boundaries
 
-Follow the [A2A agent inventory in Microsoft Agent 365](../../a2a-agent-inventory/implementation/README.md)
-module and [Session 06](../../../sessions/07-api-center-ai-mcp-inventory/implementation/README.md).
+This module adds only a developer-facing API Center catalog entry; it does not touch enterprise
+inventory or the A2A runtime. Azure API Center owns the discovery asset. Microsoft Agent 365 owns
+enterprise inventory and lifecycle. The runtime owner owns the A2A definition, agent card,
+endpoint, and source integration, and keeps governing runtime authentication, authorization, and
+traffic policy.
 
-The runtime owner continues to govern runtime authentication, authorization, and traffic policy.
+Follow the
+[A2A agent inventory in Microsoft Agent 365](../../a2a-agent-inventory/implementation/README.md)
+module first, then [Session 07](../../../sessions/07-api-center-ai-mcp-inventory/implementation/README.md).
 
 ## Architecture
 

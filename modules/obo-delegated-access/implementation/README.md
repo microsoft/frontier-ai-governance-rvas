@@ -4,22 +4,22 @@
 
 ### What we will do
 
+**Objective.** Give a downstream API the signed-in user's identity when a trusted middle tier calls it on the
+user's behalf.
+
 Configure an existing trusted Python middle tier to exchange a signed-in user's token for a
-delegated token for an existing protected API. Record the approved client, middle tier, downstream
-audience, delegated scope, and consent boundary. Add only the approved delegated permissions,
-validate the inbound assertion, and use a protected Azure Key Vault certificate for the OAuth 2.0
-on-behalf-of (OBO) exchange.
-
-Then confirm that a permitted user succeeds and that a user without downstream resource authority
-is denied.
-
-The working delegated flow preserves signed-in user authority in the middle tier. The
-downstream API still makes the resource-authorization decision for that user.
+delegated token for an existing protected API: record the approved client, middle tier, downstream
+audience, delegated scope, and consent boundary; add only the approved delegated permissions;
+validate the inbound assertion; and use a protected Azure Key Vault certificate for the OAuth 2.0
+on-behalf-of (OBO) exchange. Then confirm that a permitted user succeeds and that a user without
+downstream resource authority is denied.
 
 ### Why it matters
 
-A workload identity gives the middle tier the same application authority for every request. It
-does not fit a downstream resource whose access must change with the signed-in user. OBO carries
+**Problem.** A workload identity gives the middle tier the same application authority for every request. It
+does not fit a downstream resource whose access must change with the signed-in user.
+
+**Solution.** OBO carries
 that user context across the middle tier without forwarding the original bearer token.
 
 The permitted-user check confirms that Microsoft Entra ID accepts the delegated trust chain. The
@@ -27,22 +27,18 @@ denied-user check confirms that the downstream API still enforces its user-speci
 
 ### Boundaries
 
-Use this module only when an existing client, confidential middle tier, and protected downstream API
-already require per-user authorization. If the operation should run with one workload identity
-regardless of who started it, use managed identity instead.
-
-The module changes **exact delegated permissions and consent**, the middle-tier OBO implementation,
+The module changes exact delegated permissions and consent, the middle-tier OBO implementation,
 and its payload-free diagnostics. It works with the existing applications and downstream
-authorization model. The original bearer token stops at the middle tier. No application-only retry
-may bypass a downstream denial.
+authorization model.
 
 The certificate remains in Azure Key Vault and reaches the approved runtime only through its
 protected certificate integration. This repository stores references, never private keys, bearer
 tokens, tenant values, endpoints, or user data.
 
-The customer must record **signed-in user OBO** as the authority decision before this work starts.
-Use an application-only managed identity for shared or background work instead. That path is
-outside this module.
+Use this module only when an existing client, confidential middle tier, and protected downstream
+API already require per-user authorization, and record signed-in user OBO as the authority
+decision before starting. If the operation should run with one workload identity regardless of who
+started it, use managed identity instead. That path is outside this module.
 
 ## Architecture
 

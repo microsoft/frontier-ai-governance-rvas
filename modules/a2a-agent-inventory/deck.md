@@ -31,8 +31,11 @@ route, then confirm its live inventory record, owner, and lifecycle state.
 
 ## Why it matters
 
-Microsoft Agent 365 holds the enterprise inventory and lifecycle. The runtime owner maintains the
-A2A definition, agent card, endpoint, behavior, and integration source.
+**Problem.** A2A agents run on separate runtimes, so the enterprise has no single live view of who owns them or
+their lifecycle state.
+
+**Solution.** Registering the agent in Agent 365 gives the organization that view. The runtime owner keeps
+maintaining the A2A definition, agent card, endpoint, and integration source.
 
 ---
 

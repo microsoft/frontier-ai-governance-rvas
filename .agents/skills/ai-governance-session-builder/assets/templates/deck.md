@@ -24,7 +24,9 @@ Session {{SESSION_ID}} · {{DURATION_MINUTES}} minutes
 
 ## Why it matters
 
-{{WHY_IT_MATTERS}}
+**Problem.** {{CONTROL_PROBLEM}}
+
+**Solution.** {{CONTROL_SOLUTION}}
 
 ---
 
