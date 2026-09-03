@@ -1418,7 +1418,6 @@ def main() -> int:
         "control_objective"
     ].strip():
         failures.append(f"{entity_name}.control_objective must be a non-empty string")
-
     implementation = manifest.get("implementation")
     if not isinstance(implementation, dict):
         failures.append("implementation must be a mapping")
@@ -1554,16 +1553,31 @@ def main() -> int:
             in {
                 "implementation/scripts/preflight.ps1",
                 "implementation/scripts/preflight.sh",
+                "implementation/scripts/preflight-model-policy.ps1",
+                "implementation/scripts/preflight-model-policy.sh",
             }
         ):
             failures.append(
                 f"Decision sentinel is only allowed under implementation/artifacts: {relative}"
             )
 
-    preflight_path = root / "implementation" / "scripts" / "preflight.ps1"
+    scripts_root = root / "implementation" / "scripts"
+    preflight_path = scripts_root / "preflight.ps1"
     preflight = validate_script(preflight_path, "preflight", failures)
-    preflight_bash_path = root / "implementation" / "scripts" / "preflight.sh"
-    preflight_bash = validate_bash_script(preflight_bash_path, "preflight", failures)
+    policy_preflight_path = scripts_root / "preflight-model-policy.ps1"
+    if policy_preflight_path.is_file():
+        preflight += "\n" + validate_script(
+            policy_preflight_path, "preflight", failures
+        )
+    preflight_bash_path = scripts_root / "preflight.sh"
+    preflight_bash = validate_bash_script(
+        preflight_bash_path, "preflight", failures
+    )
+    policy_preflight_bash_path = scripts_root / "preflight-model-policy.sh"
+    if policy_preflight_bash_path.is_file():
+        preflight_bash += "\n" + validate_bash_script(
+            policy_preflight_bash_path, "preflight", failures
+        )
     preview_text = f"{implementation_text}\n{preflight}\n{preflight_bash}"
     if not re.search(
         r"\bwhat-if\b|read-only deployment preview|previewSupported",
@@ -1585,7 +1599,6 @@ def main() -> int:
         if sentinel not in preflight_bash:
             failures.append(f"preflight.sh does not name artifact sentinel: {sentinel}")
 
-    scripts_root = root / "implementation" / "scripts"
     script_pairs: list[tuple[str, str]] = []
     for powershell_path in scripts_root.glob("*.ps1"):
         bash_path = powershell_path.with_suffix(".sh")
@@ -1593,7 +1606,13 @@ def main() -> int:
             failures.append(f"{powershell_path.name} is missing Bash counterpart: {bash_path.name}")
             continue
         script_pairs.append((powershell_path.name, bash_path.name))
-        role = powershell_path.stem if powershell_path.stem in {"preflight", "remove", "verify"} else "script"
+        role = (
+            "preflight"
+            if powershell_path.stem in {"preflight", "preflight-model-policy"}
+            else powershell_path.stem
+            if powershell_path.stem in {"remove", "verify"}
+            else "script"
+        )
         validate_bash_script(bash_path, role, failures)
     validate_script_invocations(implementation_text, script_pairs, failures)
     for bash_path in scripts_root.glob("*.sh"):

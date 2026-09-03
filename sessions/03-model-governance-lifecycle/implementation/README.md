@@ -4,10 +4,9 @@
 
 ### What we will do
 
-**Objective.** Deploy **exact approved serverless API model versions** under the existing nonproduction
-`AIServices` Microsoft Foundry resource. A version-controlled profile records the deployment
-settings. Preflight compares that profile with current Azure state and a scoped Bicep preview.
-Bicep then creates or updates the listed child deployments.
+**Objective.** Record approved models, deploy their exact serverless API versions, and apply the
+matching built-in deployment policies. Version-controlled profiles and the approval register hold
+the inputs. Preflight compares them with current Azure state and scoped Bicep previews.
 
 The observable result is a live deployment whose model coordinates, SKU, capacity, and approval
 tag match the approved profile.
@@ -17,8 +16,8 @@ tag match the approved profile.
 **Problem.** An unreviewed model version or deployment type can move data to the wrong processing location, burn
 quota, or expose the workload to retirement without warning.
 
-**Solution.** This session checks those choices against live Azure state before deploying, and gives the
-lifecycle owner a repeatable route to replace a deployment before it retires.
+**Solution.** This session checks those choices against live Azure state before deployment. It then
+uses the approval register to assign Azure Policy controls for approved models and model eligibility.
 
 ### Boundaries
 
@@ -26,9 +25,9 @@ Azure is authoritative for availability, quota, lifecycle data, and live deploym
 customer decision system holds the full approval and review history. This repository owns the
 deployment profile and Bicep definition.
 
-The control covers deployments made through these profiles, preflight scripts, and Bicep files.
-Other templates, the portal, CLI, and APIs can bypass it. The cloud platform team needs a separate
-policy, permission, inventory, or change-control design for those paths.
+The deployment profile governs this Bicep path. The built-in Azure Policy assignments evaluate
+model deployments at the approved resource group. The policy owner reviews Audit findings before
+moving the assignments to Deny.
 
 This session excludes instant-access and managed-compute models. Sessions 01-02 establish the
 Foundry baseline and private path. Session 09 owns release evaluation.
@@ -47,6 +46,10 @@ resource-scoped what-if. A mismatch stops the run.
 The deployment profile pins the model version with `NoAutoUpgrade`. Session 04 consumes the
 approved deployment name and model coordinates.
 
+The approval register records the approved publisher, asset ID, source, hosting route, review
+decision, and processing-location boundary. The policy parameter file reads its allowed values,
+so the policy assignment and approval decision stay aligned.
+
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Cost or limit |
@@ -54,6 +57,7 @@ approved deployment name and model coordinates.
 | Approval record | Keep the full review in the decision system and deployment inputs in Git | The approval ID must match both systems |
 | Service facts | Read lifecycle, availability, quota, and the named Responsible AI policy during preflight | Missing CLI fields require a named manual check |
 | Version changes | Pin exact coordinates with `NoAutoUpgrade` | The owner must start replacement before retirement |
+| Deployment policy | Assign the built-in approved-model and eligibility policies from the approval register | Audit needs review before Deny blocks a deployment |
 | Control reach | Govern this version-controlled deployment path | Other authorized paths remain open |
 
 ### Architecture guidance
@@ -75,6 +79,8 @@ Confirm:
   model-change process.
 - The platform owner can read model availability and subscription quota.
 - The named Responsible AI policy exists under the exact Foundry resource.
+- The policy operator holds **Owner** or **Resource Policy Contributor** on the approved resource
+  group, and the reviewers can read the selected model card in the Foundry model catalog.
 
 Do not store subscription IDs, endpoints, customer data, prompts, responses, or full approval
 records in the repository.
@@ -86,6 +92,9 @@ records in the repository.
 | Deployment | [`artifacts/infra/models/main.bicep`](artifacts/infra/models/main.bicep) | The Azure deployment pipeline operated by the Foundry platform team |
 | Deployment | [`artifacts/environments/sandbox.bicepparam`](artifacts/environments/sandbox.bicepparam) | The Azure deployment pipeline operated by the Foundry platform team |
 | Deployment | [`artifacts/models/deployment-profiles.json`](artifacts/models/deployment-profiles.json) | The Session 03 Bicep entrypoint and preflight scripts |
+| Record | [`artifacts/model-approval-register.json`](artifacts/model-approval-register.json) | The model reviewers, policy owner, and policy parameter file |
+| Deployment | [`artifacts/policy/model-governance.bicep`](artifacts/policy/model-governance.bicep) | The platform deployment pipeline |
+| Deployment | [`artifacts/policy/model-governance.bicepparam`](artifacts/policy/model-governance.bicepparam) | The platform deployment pipeline |
 
 ## Decisions and stop conditions
 
@@ -132,6 +141,16 @@ the matching PowerShell switch or Bash flag:
 
 These switches record the operator's check for that run. They do not turn missing CLI data into an
 Azure-validated result.
+
+### Approval register and policy
+
+Complete one approval-register entry for each model before assigning policy. Use an asset ID ending
+in a trailing slash to approve a model family, or an explicit version to approve one version.
+Preflight rejects an asset ID that could match a successor version.
+
+Deploy the two built-in policies in `Audit`, review the owners of noncompliant deployments, then
+move to `Deny` through the approved change path. Keep `onlyAllowDirectFromAzure` and
+`denyPreviewModels` set to `true` unless the decision authority records an exception.
 
 ## Implement
 
@@ -192,6 +211,25 @@ az deployment group create \
   --only-show-errors
 ```
 
+### 4. Assign model-deployment policy
+
+Resolve the two built-in definition IDs, complete `artifacts/model-approval-register.json`, then
+run the policy preflight:
+
+```powershell
+$env:RVAS_APPROVED_MODELS_POLICY_ID = az policy definition list --query "[?displayName=='Foundry model deployments should only use approved models'].id | [0]" --output tsv
+$env:RVAS_MODEL_ELIGIBILITY_POLICY_ID = az policy definition list --query "[?displayName=='Foundry model deployments should meet eligibility requirements'].id | [0]" --output tsv
+.\scripts\preflight-model-policy.ps1 -TargetScope "approved-model-policy-scope" -ResourceGroup $resourceGroup
+az deployment group create --resource-group $resourceGroup --template-file .\artifacts\policy\model-governance.bicep --parameters .\artifacts\policy\model-governance.bicepparam --only-show-errors
+```
+
+```bash
+export RVAS_APPROVED_MODELS_POLICY_ID="$(az policy definition list --query "[?displayName=='Foundry model deployments should only use approved models'].id | [0]" --output tsv)"
+export RVAS_MODEL_ELIGIBILITY_POLICY_ID="$(az policy definition list --query "[?displayName=='Foundry model deployments should meet eligibility requirements'].id | [0]" --output tsv)"
+./scripts/preflight-model-policy.sh --target-scope "approved-model-policy-scope" --resource-group "$resource_group"
+az deployment group create --resource-group "$resource_group" --template-file ./artifacts/policy/model-governance.bicep --parameters ./artifacts/policy/model-governance.bicepparam --only-show-errors
+```
+
 ## Confirm the result
 
 Inspect each child deployment listed in the profile:
@@ -227,12 +265,23 @@ PY
 Every deployment must report `Succeeded`. Its exact model coordinates, SKU, capacity, and
 `modelApprovalId` must match `deployment-profiles.json`.
 
+```powershell
+.\scripts\check-model-policy.ps1 -ResourceGroup $resourceGroup
+```
+
+```bash
+./scripts/check-model-policy.sh --resource-group "$resource_group"
+```
+
+Both assignments must match the approval register.
+
 ## After implementation
 
 The Foundry platform team owns live capacity and deployment changes. The lifecycle owner keeps the
 review date, replacement work, and notifications current. The decision authority keeps the full
-approval and review history. Platform engineering maintains the Bicep, parameters, profiles, and
-paired preflight scripts.
+approval and review history. The policy owner maintains the approval register and policy
+assignments. Platform engineering maintains the Bicep, parameters, profiles, and paired preflight
+scripts.
 
 Use this path for later version changes. Deployments created elsewhere need their own control.
 Azure Policy can separately deny selected deployment SKU names across other authorized paths.

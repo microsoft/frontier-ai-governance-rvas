@@ -1,7 +1,7 @@
 # Optional implementation module contract
 
 Optional modules are production-shaped implementation kits selected for a specific architecture
-need. They sit outside the numbered 15-session sequence. A module is never Session 16, does not
+need. They sit outside the numbered 14-session sequence. A module is never Session 15, does not
 belong to a program phase, and must not change session counts or dependencies.
 
 ## Required structure

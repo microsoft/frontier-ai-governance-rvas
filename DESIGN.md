@@ -53,7 +53,7 @@ The homepage follows this order:
 6. Pre-work
 7. Optional modules
 
-The program facts remain quiet inside the hero: 13 sessions, 47 facilitated working hours, and three phases.
+The program facts remain quiet inside the hero: 14 sessions, 50 facilitated working hours, and three phases.
 The outcome panel covers the governed deployment, source-controlled implementation, observable
 check, and named restore or removal ownership.
 
@@ -105,7 +105,7 @@ groups and session records remain visible.
 
 The complete route anchors the section. Six focused routes sit below it as selectable paths rather
 than a comparison table. Each path states the control state it reaches, its ending session, session
-count, and calculated working time. A 13-step track shows how far the route travels and uses the
+count, and calculated working time. A 14-step track shows how far the route travels and uses the
 existing foundation, live-traffic, and operations colors. Route definitions and durations come
 from the homepage builder so the cards, URLs, and filter logic stay aligned.
 

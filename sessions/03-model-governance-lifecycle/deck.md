@@ -14,7 +14,7 @@ html: true
 
 # Model governance, data residency, quota, and lifecycle
 
-150 minutes · Check the approved model profile, deploy it, and confirm the live result
+330 minutes · Record the approved model, deploy it, and apply the matching policy controls
 
 ---
 
@@ -23,8 +23,8 @@ html: true
 **Problem.** An unreviewed model version or deployment type can move data to the wrong processing
 location, burn quota, or expose the workload to retirement without warning.
 
-**Solution.** Check those choices against live Azure state before deploying exact approved
-serverless API model versions through version-controlled profiles, preflight, and Bicep.
+**Solution.** Check those choices against live Azure state, deploy the approved version, then
+assign the built-in policy controls from the same approval register.
 
 By the end of the session:
 
@@ -32,6 +32,7 @@ By the end of the session:
 - Preflight checks scope, access, lifecycle, processing location, quota, and what-if.
 - Bicep deploys the listed child resources.
 - The live model coordinates, SKU, capacity, and approval tag match the profile.
+- Azure Policy reads the approved publishers and asset IDs from the approval register.
 
 <!-- Notes: The decision system keeps the full approval and review history. -->
 
@@ -99,14 +100,15 @@ The Foundry resource location alone does not define the inference processing bou
 
 ## Implementation path
 
-**Total session: 150 minutes. Guided implementation: about 105 minutes.**
+**Total session: 330 minutes. Guided implementation: about 255 minutes.**
 
 1. Complete `deployment-profiles.json` and `sandbox.bicepparam`.
 2. Run preflight against the exact Foundry resource and operator.
 3. Complete any named lifecycle, quota, or data-zone manual check.
 4. Inspect the scoped `FullResourcePayloads` what-if.
 5. Deploy the listed child models.
-6. Confirm the live result and hand off lifecycle ownership.
+6. Assign the approved-model and eligibility policies in Audit.
+7. Review results, confirm the live policy assignment, and hand off lifecycle ownership.
 
 The remaining time covers the briefing, required decisions, and restore guidance.
 
@@ -141,6 +143,7 @@ The remaining time covers the briefing, required decisions, and restore guidance
 - Model name, version, and format match.
 - SKU and capacity match.
 - `modelApprovalId` matches the profile.
+- Both policy assignments match the approval register.
 
 </div>
 <div>

@@ -18,7 +18,7 @@ description: Optional implementation module for Microsoft Entra-protected MCP re
 
 Show approved MCP servers to developer clients.
 
-<!-- Notes: This module stays outside the 13 sessions and follows Sessions 07 and 08. -->
+<!-- Notes: This module stays outside the 14 sessions and follows Sessions 07 and 08. -->
 
 ---
 

@@ -16,7 +16,7 @@ description: Optional implementation module for preserving signed-in user author
 
 Preserve signed-in user authority across a trusted middle tier.
 
-<!-- Notes: This module is selected by architecture need. It is not Session 16. -->
+<!-- Notes: This module is selected by architecture need. It is not Session 15. -->
 
 ---
 
