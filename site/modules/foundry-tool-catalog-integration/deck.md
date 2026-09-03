@@ -42,8 +42,7 @@ Compare the catalog record, project connection, allowed tool, and live Toolbox t
 
 ## Why it matters
 
-**Problem.** Session 07 records the MCP server and Session 08 defines its security boundary, but
-agent teams still need a reusable connection path.
+**Problem.** Agent teams need one reusable, governed connection path for an approved MCP tool.
 
 **Solution.** Toolbox provides a stable MCP-compatible endpoint without copying endpoint,
 credential, and tool settings into every agent.

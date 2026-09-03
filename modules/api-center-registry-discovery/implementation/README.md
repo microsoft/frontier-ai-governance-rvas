@@ -16,10 +16,9 @@ names or credentials.
 
 ### Why it matters
 
-**Problem.** Session 07 creates the inventory record, and Session 08 sets runtime authorization and tool
-security. Developers still need a controlled way to find only the servers that passed those
-decisions. Without that boundary, a client can list draft or retired entries beside approved
-servers, and the registry starts to look like an approval system when it's only an inventory.
+**Problem.** Developer clients need a controlled way to find approved MCP servers without listing
+draft or retired entries. Without that boundary, the registry can look like an approval system
+when it is only an inventory.
 
 **Solution.** This module adds that boundary: Data API visibility limited to `Production`-stage MCP records,
 reached through Microsoft Entra sign-in.

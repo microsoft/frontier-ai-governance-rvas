@@ -37,8 +37,8 @@ The check must return every approved name and zero unexpected names.
 
 ## Why it matters
 
-**Problem.** Session 07 records MCP servers and Session 08 secures their runtime path, but developer
-clients still need a discovery view that excludes draft, retired, and unreviewed server records.
+**Problem.** Developer clients need a discovery view that includes approved MCP servers and
+excludes draft, retired, and unreviewed records.
 
 **Solution.** Limit the visible registry to approved `Production` records and require Microsoft
 Entra sign-in.

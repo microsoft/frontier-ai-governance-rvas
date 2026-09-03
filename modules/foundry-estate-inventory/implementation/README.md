@@ -14,10 +14,9 @@ owners.
 
 ### Why it matters
 
-**Problem.** Session 01 tags the accounts it deploys and Session 11 watches one governed service. Neither
-gives the governance team a list of every Foundry and Azure OpenAI account in the tenant. So an
-account created outside the approved path stays invisible until it appears on an invoice or in an
-incident.
+**Problem.** Azure does not provide one governed, tenant-wide inventory of AI accounts, model
+deployments, and retirement signals. An account created outside the approved path can stay
+invisible until it appears on an invoice or in an incident.
 
 **Solution.** One report reads the estate, matches deployed models with the live catalog, and gives
 the lifecycle owner the signals that need a keep, replace, or retire decision.

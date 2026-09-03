@@ -108,7 +108,7 @@
 <p><strong>Objective.</strong> Turn &quot;which models may we use&quot; from a conversation into a record and a policy that reads from it.</p>
 <p>Fill in a model approval register: for each model, its publisher, asset ID, source category, hosting route, approved deployment types, processing location, approvers, and review date. Then assign the two built-in Foundry model-deployment policies at the approved resource group, taking their parameters straight from that register. The check reads both live assignments and confirms their effect and allowed values still match.</p>
 <h3 id="why-it-matters">Why it matters<a class="heading-anchor" href="#why-it-matters" aria-label="Link to Why it matters">#</a></h3>
-<p><strong>Problem.</strong> Session 03 deploys models that someone already approved, but nothing records who approved them or why. So the approved list lives in a spreadsheet or in a conversation, the platform can't read it, and a developer can deploy a partner-hosted preview model that no reviewer ever saw.</p>
+<p><strong>Problem.</strong> A model deployment approval needs an inspectable record of who approved the model, why, and which deployment routes are allowed. When that record lives in a spreadsheet or a conversation, Azure Policy cannot apply it and a developer can deploy a model no reviewer saw.</p>
 <p><strong>Solution.</strong> One register holds the decision, and Azure Policy evaluates the same values at deployment time.</p>
 <h3 id="boundaries">Boundaries<a class="heading-anchor" href="#boundaries" aria-label="Link to Boundaries">#</a></h3>
 <p>This module sits outside the numbered sequence and follows Sessions 01 and 03.</p>

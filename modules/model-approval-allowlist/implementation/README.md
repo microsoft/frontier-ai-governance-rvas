@@ -15,9 +15,9 @@ their effect and allowed values still match.
 
 ### Why it matters
 
-**Problem.** Session 03 deploys models that someone already approved, but nothing records who approved
-them or why. So the approved list lives in a spreadsheet or in a conversation, the platform can't
-read it, and a developer can deploy a partner-hosted preview model that no reviewer ever saw.
+**Problem.** A model deployment approval needs an inspectable record of who approved the model,
+why, and which deployment routes are allowed. When that record lives in a spreadsheet or a
+conversation, Azure Policy cannot apply it and a developer can deploy a model no reviewer saw.
 
 **Solution.** One register holds the decision, and Azure Policy evaluates the same values at deployment
 time.

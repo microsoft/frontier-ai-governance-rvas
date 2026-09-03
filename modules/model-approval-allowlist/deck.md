@@ -35,8 +35,8 @@ built-in Foundry model-deployment policies from that same register.
 
 ## Why it matters
 
-**Problem.** Session 03 deploys models someone already approved, but nothing records who approved
-them or why. The list lives in a spreadsheet the platform can't read.
+**Problem.** A model deployment approval needs an inspectable record of who approved the model,
+why, and which deployment routes are allowed. A spreadsheet cannot drive policy.
 
 **Solution.** One register holds the decision. The parameter file reads it, so the assignment cannot
 drift from the approval.

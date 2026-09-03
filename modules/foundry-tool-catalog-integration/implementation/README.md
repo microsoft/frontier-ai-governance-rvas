@@ -14,9 +14,8 @@ response contains exactly the approved namespaced tool.
 
 ### Why it matters
 
-**Problem.** Session 07 establishes the inventory record and Session 08 sets the MCP security boundary, but
-agent teams still have no shared, governed way to consume that approved tool. Each team would
-otherwise wire its own connection.
+**Problem.** Agent teams need one shared, governed way to consume an approved MCP tool. Without
+one, each team wires its own connection and repeats the same access decisions.
 
 **Solution.** This module turns those approved records into one reusable Toolbox endpoint. Preflight and the live
 check stop if the API Center deployment endpoint, Foundry project connection, allow list, or

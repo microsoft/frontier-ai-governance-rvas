@@ -29,14 +29,14 @@ and report the findings that need an owner.
 
 ![Microsoft Foundry](assets/icons/microsoft/azure-ai-foundry.svg)
 
-<!-- Notes: The module reads live state and changes nothing. -->
+<!-- Notes: The Workbook is the only Azure resource this module deploys. -->
 
 ---
 
 ## Why it matters
 
-**Problem.** Session 01 tags what it deploys and Session 11 watches one service. Neither lists every
-Foundry and Azure OpenAI account in the tenant.
+**Problem.** Azure does not provide one governed, tenant-wide inventory of AI accounts, model
+deployments, and retirement signals.
 
 **Solution.** One report joins estate inventory, deployment lifecycle, Service Health, and Advisor
 signals to the recorded scope.
