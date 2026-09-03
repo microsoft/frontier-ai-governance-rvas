@@ -77,15 +77,15 @@ the retirement plan.
 
 ---
 
-## Sequencing with Session 05
+## Sequencing with Agent 365 access-boundary control
 
-Built-in means the agent is already in Agent Registry, so Session 05 data controls can come first.
+Built-in means the agent is already in Agent Registry, so Agent 365 data controls can come first.
 
-Registry sync and the SDK **create** the registry record here. Session 05 comes after this module
+Registry sync and the SDK **create** the registry record here. The access-boundary control follows this module
 on those routes.
 
 <!--
-Call this out. Session 05 needs an agent with Available status, which does not exist yet on the
+Call this out. The access-boundary control needs an agent with Available status, which does not exist yet on the
 sync and SDK routes.
 -->
 

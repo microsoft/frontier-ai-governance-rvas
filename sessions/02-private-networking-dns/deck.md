@@ -36,7 +36,7 @@ By the end of the session:
 - The approved change system holds all five prior public-access states.
 - Public access is disabled and the connectivity check still passes.
 
-<!-- Notes: The result covers the approved client path. Session 04 checks agent-runtime traffic. -->
+<!-- Notes: The result covers the approved client path. The governed-agent deployment checks agent-runtime traffic. -->
 
 ---
 
@@ -76,7 +76,7 @@ Microsoft Entra workload identity on the private path.
 
 | Decision | Required answer |
 |---|---|
-| Network pattern | Session 01 customer-managed BYO VNet |
+| Network pattern | approved customer-managed BYO VNet |
 | Foundry account | Created with the approved delegated subnet |
 | DNS ownership | Authoritative central zones or approved local zones |
 | Egress | Named customer firewall source and approved destinations |
@@ -117,7 +117,7 @@ Preflight stops on:
 - the wrong subscription, resource group, role, or DNS assignment scope;
 - missing, duplicate, wrong-type, or out-of-scope service IDs;
 - provider, Bicep, or `what-if` failure;
-- a preview that changes the Session 01 VNet, route, subnets, Foundry account, or public access.
+- a preview that changes the approved VNet, route, subnets, Foundry account, or public access.
 
 Cutover stops when a private endpoint is pending, DNS or TCP 443 fails, the five prior states are
 not recorded, or no restore owner is available.
@@ -171,7 +171,7 @@ From the approved execution host:
 </div>
 </div>
 
-<!-- Notes: Session 04 checks an agent through the delegated subnet. -->
+<!-- Notes: The governed-agent deployment checks an agent through the delegated subnet. -->
 
 ---
 

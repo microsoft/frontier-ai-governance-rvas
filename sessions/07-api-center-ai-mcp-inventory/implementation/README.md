@@ -5,8 +5,8 @@
 ### What we will do
 
 **Objective.** Add **three selected assets to API Center**: deploy the
-[Session 04](../../04-governed-agent-baseline/implementation/README.md) agent API, synchronize the
-[Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM API, and register an approved
+[Governed agent baseline guide](../../04-governed-agent-baseline/implementation/README.md) agent API, synchronize the
+[APIM AI gateway guide](../../06-apim-ai-gateway/implementation/README.md) APIM API, and register an approved
 remote MCP server.
 
 The three entries receive owner, lifecycle, classification, risk, review, and runtime-location
@@ -25,7 +25,7 @@ approved.
 
 API Center holds design-time inventory and discovery metadata. Foundry, APIM, and the MCP runtime
 remain authoritative for live service state, and API Center does not inspect or block runtime
-calls. [Session 08](../../08-mcp-tool-security/implementation/README.md) governs MCP tool use on
+calls. [MCP tool security guide](../../08-mcp-tool-security/implementation/README.md) governs MCP tool use on
 the synchronized route.
 
 Approving the APIM link approves its full source boundary: the integration is read-only, one-way,
@@ -42,7 +42,7 @@ modules.
 
 Bicep deploys API Center, its metadata schema, the default workspace, the direct agent API, and its
 Foundry runtime location. API Center's system identity receives **API Management Service Reader
-Role** on the exact Session 06 APIM service. The source integration then imports APIM APIs,
+Role** on the exact APIM gateway service. The source integration then imports APIM APIs,
 definitions, environments, and deployments.
 
 The API program owner registers the approved remote MCP server in the portal. Asset owners maintain
@@ -50,7 +50,7 @@ metadata on the synchronized and portal-created entries.
 
 ![API Center tracks design-time inventory while API Management remains on the separate runtime request path.](../assets/diagrams/api-center-inventory-flow.svg)
 
-Live requests stay on the APIM path. Session 08 uses the MCP entry and runtime location for
+Live requests stay on the APIM path. The MCP security configuration uses the MCP entry and runtime location for
 tool-security work.
 
 ### Design choices and tradeoffs
@@ -75,7 +75,7 @@ Confirm these requirements:
 
 - The approved nonproduction Foundry agent endpoint and APIM API are available. The platform and
   gateway owners confirm the endpoint, marked `policy-assistant-responses` API, and both resource
-  scopes. (Sessions 02, 04, and 06.)
+  scopes. (The private-networking, governed-agent, and APIM controls establish these prerequisites.)
 - The deployment operator has time-bound **Contributor** on the exact API Center resource group
   and **User Access Administrator** on the exact APIM instance. The deployment assigns the API
   Center identity **API Management Service Reader Role**
@@ -112,7 +112,7 @@ Complete `sandbox.json` and `agent-api-definition.json`. Resolve every `__REQUIR
 | Plan and region | The live provider advertises the region, and Free or Standard is approved | The region, support position, eligibility, or cost is unresolved |
 | Access | The deployment operator has Contributor on the API Center resource group and User Access Administrator on the exact APIM service | Either assignment is broader than approved, or the API Center identity would receive APIM write access |
 | Deployment preview | `what-if` changes the marked API Center scope and exact reader assignment | It replaces or removes unrelated resources, targets another APIM instance, or broadens the role assignment |
-| Synchronization | The source is healthy and the Session 06 API appears once | Initial sync is pending or failed; do not create a duplicate API |
+| Synchronization | The source is healthy and the APIM gateway API appears once | Initial sync is pending or failed; do not create a duplicate API |
 | MCP server | The endpoint is approved HTTPS Streamable HTTP, read-only, and owned | It uses `stdio`, embeds credentials, permits writes, or lacks a runtime owner |
 
 Every in-scope entry needs these properties:
@@ -230,7 +230,7 @@ Run the read-only inventory check:
 ./scripts/check-inventory.sh --approved-subscription-id "$approved_subscription_id" --remote-mcp-server-title "$remote_mcp_server_title"
 ```
 
-The direct agent API, synchronized Session 06 API, and MCP server must each appear once with the
+The direct agent API, synchronized APIM gateway API, and MCP server must each appear once with the
 required metadata. The APIM integration must resolve to the approved source. The script checks
 provisioning and source health when the service response exposes them and writes no inventory
 export. The owner checks omitted source health, the native MCP deployment location, and MCP runtime

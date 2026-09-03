@@ -29,7 +29,7 @@ system keep security records; the approved change system keeps the authorization
 decision.
 
 This session does not authorize production promotion, write-capable testing, or Defender
-blocking-rule changes. Session 12 reads the residual-risk decision this session produces before it
+blocking-rule changes. The controlled promotion workflow reads the residual-risk decision the threat-defense control produces before it
 promotes a version.
 
 ## Architecture
@@ -66,7 +66,7 @@ Confirm these prerequisites:
 - A governed nonproduction agent is ready for authorized testing: the platform inventory identifies
   immutable baseline and remediated versions, the gateway and tool owners confirm the read-only
   path and blocked prohibited write, and the quality owner retrieves a passing release-gate result.
-  (Sessions 01-09.)
+  (The platform, private-networking, model-governance, agent, access-boundary, gateway, inventory, MCP security, and evaluation controls establish these prerequisites.)
 - The approved change record names the exact project, agent, immutable versions, attack scope,
   synthetic-data boundary, run window, stop contact, and authorization reference.
 - The security owner confirms cloud red-teaming support for the project region on the run date.
@@ -233,7 +233,7 @@ python ./scripts/run-red-team.py \
 
 Before this session, the agent owner created a new immutable version. The tool owner kept writes
 absent or denied, the data owner kept synthetic sources read-only, and the release owner reran the
-[Session 09](../../09-foundry-evaluations-quality-gates/implementation/README.md) gate. Do not edit
+[Foundry evaluation gate guide](../../09-foundry-evaluations-quality-gates/implementation/README.md) gate. Do not edit
 the baseline or change the plan.
 
 ```powershell
@@ -316,9 +316,8 @@ system keeps decisions. The repository retains the plan, exact-title hunt, and p
 
 For unsafe behavior, stop the run and keep the stable endpoint on the previously approved version.
 Disable the affected version or detach its tool binding when needed. Restore the approved agent,
-tool, gateway, content, permission, and data controls through the change paths from Sessions 04, 06,
-07, and 08. Keep Defender and SOC routing active unless their owners find a separate fault. Remove
+tool, gateway, content, permission, and data controls through the governed-agent, APIM, API Center, and MCP change paths. Keep Defender and SOC routing active unless their owners find a separate fault. Remove
 cloud red-team definitions only after the security owner confirms retention needs.
 
 The residual-risk authority decides whether to fix and rerun the unchanged plan, disable the
-version, or accept the remaining risk. **Session 10 does not authorize production promotion.**
+version, or accept the remaining risk. **The threat-defense control does not authorize production promotion.**

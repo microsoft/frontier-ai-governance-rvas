@@ -142,7 +142,7 @@ The remaining time covers briefing, decisions, and the operating handoff.
 ### Approved read
 
 - Target the visible candidate ID.
-- Confirm the stable selector still points to Session 04.
+- Confirm the stable selector still points to the prior governed agent version.
 - Approve only `policy-catalog / get_policy`.
 - Match one successful APIM event by W3C `operation_Id`.
 - Confirm zero payload logging.
@@ -185,7 +185,7 @@ Pin the stable endpoint 100% to the candidate.
 
 Either check fails.
 
-Leave or restore Session 04 at 100%, keep the candidate unpinned, and route remediation.
+Leave or restore the prior governed agent version at 100%, keep the candidate unpinned, and route remediation.
 
 </div>
 </div>
@@ -202,10 +202,10 @@ evaluation, threat model, KQL query, and scripts. The security owner reviews the
 
 **Restore before removal:**
 
-1. Pin the prior Session 04 version at 100%.
+1. Pin the prior governed agent version at 100%.
 2. Confirm no active agent uses the MCP endpoint.
 3. Remove the unused Foundry connection.
-4. Verify the Session 08 marker, then remove only the MCP API and five named values.
+4. Verify the MCP implementation marker, then remove only the MCP API and five named values.
 5. Revoke the backend role only when no other operational path uses it.
 
 Never delete the backing API, APIM service, Foundry agent, API Center, Application Insights, or source data.

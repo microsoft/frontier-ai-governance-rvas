@@ -30,10 +30,10 @@ identity, not a signed-in user or the agent identity. The missing write operatio
 read authorization constrain the tool path. Instructions add refusal behavior but do not enforce
 that boundary.
 
-Session 05 owns Microsoft 365 and Teams distribution.
-[Session 06](../../06-apim-ai-gateway/implementation/README.md) adds APIM ingress.
-[Session 08](../../08-mcp-tool-security/implementation/README.md) replaces the direct tool path
-with MCP controls. [Session 09](../../09-foundry-evaluations-quality-gates/implementation/README.md)
+The Microsoft 365 and Teams distribution owner manages this boundary.
+[APIM AI gateway guide](../../06-apim-ai-gateway/implementation/README.md) adds APIM ingress.
+[MCP tool security guide](../../08-mcp-tool-security/implementation/README.md) replaces the direct tool path
+with MCP controls. [Foundry evaluation gate guide](../../09-foundry-evaluations-quality-gates/implementation/README.md)
 adds repeatable evaluations. Use a separately approved delegated-access implementation when the
 API must authorize the signed-in user.
 
@@ -73,10 +73,10 @@ Confirm:
 
 - The approved nonproduction `AIServices` Foundry resource and project are reachable from the
   approved execution host. The platform owner confirms the recorded subscription, resource group, resource,
-  project, and private path. (Sessions 01-03.)
+  project, and private path. (The platform baseline, private-networking, and model-governance controls establish these prerequisites.)
 - The recorded model approval matches a live ARM child model deployment in `Succeeded` state. The
   selected region and model
-  support prompt agents and OpenAPI tools. ([Session 03](../../03-model-governance-lifecycle/implementation/README.md).)
+  support prompt agents and OpenAPI tools. ([Model governance and lifecycle guide](../../03-model-governance-lifecycle/implementation/README.md).)
 - The operator has time-bound **Foundry User**, role ID
   `53ca6127-db72-4b80-b1b0-d745d6d5456d`, on the exact Foundry project.
 - The downstream API accepts a policy ID over HTTPS and supports managed identity. Its authorization
@@ -105,7 +105,7 @@ Resolve every `__REQUIRED_*__` value in a working copy before deployment. Keep
 
 | Gate | Continue when | Stop when |
 |---|---|---|
-| Agent and model | The immutable agent name, accountable owner, approved model deployment, named RAI policy, Responses protocol, Entra authorization, and fixed-version routing are set | The model differs from Session 03, the region or model does not support the tool, the name collides with an unmarked agent, or an existing agent has no unique `instance_identity` |
+| Agent and model | The immutable agent name, accountable owner, approved model deployment, named RAI policy, Responses protocol, Entra authorization, and fixed-version routing are set | The selected model differs from the approved deployment profile, the region or model does not support the tool, the name collides with an unmarked agent, or an existing agent has no unique `instance_identity` |
 | Tool authority | `tool-manifest.json` contains one genuine read-only GET operation, the exact Entra audience, role definition ID, assignment scope, authorization owner, and human change route | The API specification contains a credential; `get_policy` can change state; the role can write; the owner, audience, role, or scope is unresolved; or preflight does not find exactly one matching project-identity assignment |
 | Prohibited action | `instructions.md` names the blocked write action and the human approval route | The product owner asks to add a write tool in this session |
 | Safety and tracing | The live RAI policy meets the approved filters and trace ownership is settled | The policy is missing or trace readers, retention, regional handling, sampling, cost, or sensitive-content restrictions are unresolved |

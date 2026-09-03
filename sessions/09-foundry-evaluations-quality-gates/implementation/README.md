@@ -7,7 +7,7 @@
 **Objective.** Give the release owner a pass/block decision that an averaged evaluation score
 would hide.
 
-Run `release-gate.py` against two fixed versions of the Session 04 agent, both scored on the same
+Run `release-gate.py` against two fixed versions of the governed agent, both scored on the same
 synthetic dataset and recorded Foundry evaluation definition. The approved version must return `PASS`; an
 injected tool-process regression must return `BLOCK`.
 
@@ -17,7 +17,7 @@ injected tool-process regression must return `BLOCK`.
 metric has regressed.
 
 **Solution.** The gate scores final-answer quality, tool process, and safety as separate blocking
-layers, so a failure in one layer can't hide behind a good average. Session 12 runs the same command
+layers, so a failure in one layer can't hide behind a good average. The controlled promotion workflow runs the same command
 before promotion.
 
 ### Boundaries
@@ -26,8 +26,8 @@ The run stays inside the approved nonproduction Foundry project, with the stable
 the approved version throughout. Foundry keeps row-level evaluation detail; the approved release
 platform keeps payload-free aggregates, gate state, and promotion decisions.
 
-The gate decides release eligibility; it doesn't promote a version, and Session 08 stays the
-authorization boundary for prohibited writes. Session 11 compares production signals against this
+The gate decides release eligibility; it doesn't promote a version, and the MCP tool security control stays the
+authorization boundary for prohibited writes. The observability and cost controls compare production signals against this
 baseline and returns a version here after material drift.
 
 ## Architecture
@@ -61,7 +61,7 @@ Confirm the following:
 
 - The platform inventory names the exact nonproduction Foundry resource, project, policy-assistant
   agent, approved version, candidate version, and stable-endpoint selector. The platform owner
-  confirms that its stable endpoint selects the approved version. (Sessions 03, 04, 05, and 08.)
+  confirms that its stable endpoint selects the approved version. (The model-governance, governed-agent, Agent 365 access-boundary, and MCP security controls establish these prerequisites.)
 - The approved and candidate versions are different immutable versions of the policy-assistant
   agent.
 - The operator and project managed identity have **Foundry User** on the exact project.
@@ -208,7 +208,7 @@ python ./scripts/release-gate.py \
   --expect pass
 ```
 
-`PASS` makes the fixed candidate eligible for the approved Session 12 delivery path. `BLOCK` leaves
+`PASS` makes the fixed candidate eligible for the approved promotion path. `BLOCK` leaves
 the approved version pinned. Remediate the failed layer and evaluate a new fixed candidate.
 
 ## Confirm the result
@@ -256,7 +256,7 @@ safety remain passing.
 ### Delivery-owner checkpoint
 
 The release owner reviews both outcomes in the approved release platform. A blocked candidate
-stays unpinned. After a successful checkpoint, the owner may enable the gate for Session 12. The
+stays unpinned. After a successful checkpoint, the owner may enable the gate for the controlled promotion workflow. The
 gate still cannot promote a version.
 
 ## After implementation
@@ -267,7 +267,7 @@ safety owner maintains safety coverage and the protected-material boundary. The 
 Function Tool compatibility. The cost owner approves consumption. The release owner controls gate
 state and the stable selector.
 
-Session 11 compares current aggregate signals with the approved release baseline. It does not reuse
+The observability and cost controls compare current aggregate signals with the approved release baseline. It does not reuse
 row-level evaluation content as production telemetry. When the quality owner classifies a change
 as material drift, create a fixed candidate version and rerun this gate.
 

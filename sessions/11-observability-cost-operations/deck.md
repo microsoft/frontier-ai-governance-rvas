@@ -16,7 +16,7 @@ html: true
 
 210 minutes · Trace the service, route alerts, and assign cost
 
-<!-- Notes: Session 10 connected adversarial behavior to detection. This session adds the operating controls for one service. -->
+<!-- Notes: Threat-defense testing connected adversarial behavior to detection. The observability control adds operating controls for one service. -->
 
 ---
 
@@ -32,7 +32,7 @@ By the end of the session:
 - A workbook and three alerts show operational, tool, and AI-quality failures.
 - APIM token metrics provide a bounded estimate; Cost Management remains the billed source.
 - Budget thresholds notify owners without stopping spend.
-- The Session 12 workflow can run the paired payload-free smoke check.
+- The controlled promotion workflow can run the paired payload-free smoke check.
 
 <!-- Notes: The objective is useful operating context, not maximum logging. -->
 
@@ -69,7 +69,7 @@ Cost Management stores billed cost, normally after an 8-24 hour delay.
 
 Defender and the SOC system keep security and incident records.
 
-The customer APIM repository owns gateway policy. Session 12 consumes the temporary smoke result.
+The customer APIM repository owns gateway policy. The controlled promotion workflow consumes the temporary smoke result.
 
 An external SIEM route is optional. It receives the same filtered contract through the
 customer-owned export path.
@@ -139,7 +139,7 @@ Contributor** on the subscription. Human access expires after confirmation.
 
 ## Confirm once
 
-The Session 12 GitHub workflow runs `smoke.ps1` or `smoke.sh` with:
+The GitHub promotion workflow runs `smoke.ps1` or `smoke.sh` with:
 
 - `pipeline`, `nonproduction`, the release commit SHA, and a result path inside `RUNNER_TEMP`;
 - different HTTPS normal and handled-failure routes;
@@ -180,9 +180,9 @@ Default polling is 180 seconds with a 15-second retry.
 
 ### Restore through owning paths
 
-1. Route to the last approved Session 04 version.
-2. Restore the previous Session 06 APIM policy.
-3. Disable only noisy Session 11 alerts.
+1. Route to the last approved governed agent version.
+2. Restore the previous APIM gateway policy.
+3. Disable only noisy observability alert rules.
 4. Remove only previewed, session-tagged resources.
 5. Delete the exact budget with cost-owner approval.
 6. Preserve records under incident or retention obligations.
@@ -192,7 +192,7 @@ Default polling is 180 seconds with a 15-second retry.
 
 Do not disable telemetry, Defender, or SOC routing to silence a real signal.
 
-<!-- Notes: Session 12 promotes these definitions and consumes the smoke result. -->
+<!-- Notes: The controlled promotion workflow promotes these definitions and consumes the smoke result. -->
 
 ---
 

@@ -34,7 +34,7 @@ By the end of the session:
 - Azure Policy checks approved locations and required tags on the same resource group.
 - The assignment reaches `Default` only after review and approval.
 
-<!-- Notes: Keep the result concrete. Session 02 adds private endpoints. Later sessions request their own scoped access. -->
+<!-- Notes: Keep the result concrete. The private-networking and DNS control adds private endpoints. Later sessions request their own scoped access. -->
 
 ---
 
@@ -163,9 +163,9 @@ The remaining time covers briefing, customer decisions, and the operating handof
 
 ---
 
-## Session 01 access and handoff
+## Platform baseline access and handoff
 
-Session 01 leaves:
+This control leaves:
 
 - a tagged Foundry resource and child project;
 - a workspace-based Application Insights connection;
@@ -173,7 +173,7 @@ Session 01 leaves:
 - live inventory owned by operations; and
 - enforced resource-group guardrails with a documented restore path.
 
-The cloud platform owner removes the Session 01 deployment assignments after confirmation. Each
+The cloud platform owner removes the platform baseline deployment assignments after confirmation. Each
 later session requests the scoped access needed for its own control.
 
 <!-- Notes: End on the concrete dependency, not a recap of every implementation detail. -->

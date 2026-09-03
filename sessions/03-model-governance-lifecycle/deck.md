@@ -158,7 +158,7 @@ The remaining time covers the briefing, required decisions, and restore guidance
 </div>
 </div>
 
-<!-- Notes: Session 04 consumes the approved deployment name and model coordinates. -->
+<!-- Notes: The governed-agent deployment consumes the approved deployment name and model coordinates. -->
 
 ---
 

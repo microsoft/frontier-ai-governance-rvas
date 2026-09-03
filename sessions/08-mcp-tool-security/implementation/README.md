@@ -8,7 +8,7 @@
 the input, and calls the backend with its own read-only managed identity. Application Insights keeps
 tool and correlation metadata without payloads.
 
-The stable endpoint stays on the prior Session 04 version until the release owner observes an
+The stable endpoint stays on the prior governed agent version until the release owner observes an
 approved read and a blocked prohibited write.
 
 ### Why it matters
@@ -23,11 +23,11 @@ when the model's judgment fails.
 ### Boundaries
 
 This session adds `policy-catalog-mcp` to the existing
-[Session 06](../../06-apim-ai-gateway/implementation/README.md) APIM service and creates an
-unpinned candidate in the existing [Session 04](../../04-governed-agent-baseline/implementation/README.md)
+[APIM AI gateway guide](../../06-apim-ai-gateway/implementation/README.md) APIM service and creates an
+unpinned candidate in the existing [Governed agent baseline guide](../../04-governed-agent-baseline/implementation/README.md)
 Foundry project. APIM owns the live MCP policy and outbound identity, Foundry owns the candidate
 binding and stable version selector, and Application Insights holds payload-free telemetry.
-[Session 07](../../07-api-center-ai-mcp-inventory/implementation/README.md) holds the separate
+[API Center and MCP inventory guide](../../07-api-center-ai-mcp-inventory/implementation/README.md) holds the separate
 design-time inventory entry.
 
 The backend call is application-only: APIM never forwards the inbound MCP token to the backend.
@@ -71,7 +71,7 @@ Confirm:
   the private network paths required by the approved topology, and an API Center metadata update
   process. The gateway owner checks that `GET` returns approved fields without changing state;
   the platform, network, and inventory owners confirm the remaining resources and configurations.
-  (Sessions 02, 04, 06, and 07.)
+  (The private-networking, governed-agent, APIM, and API Center inventory controls establish these prerequisites.)
 - The Foundry policy assistant is pinned to a known version.
 - The approved APIM service has a system-assigned identity, an Application Insights logger, a
   supported tier, and no workspace.
@@ -168,7 +168,7 @@ Preflight checks the implementation files and sentinels, the approved subscripti
 the supported tier, identities, exact backend read assignment, payload-free diagnostics, Foundry
 project, name collision, Bicep build, and ARM `what-if`.
 
-Continue only when the preview is limited to the five Session 08 named values, MCP API, its one
+Continue only when the preview is limited to the five MCP control values, MCP API, its one
 tool, policy, and diagnostic.
 
 ### 3. Deploy the APIM control
@@ -188,7 +188,7 @@ turn on payload logging.
 ### 4. Update API Center
 
 After APIM synchronization creates one `policy-catalog-mcp` entry, the API program owner applies the
-Session 06 process and records owner, classification, consumer, residency, risk, evaluation, review,
+APIM gateway process and records the owner, classification, consumer, residency, risk, evaluation, review,
 and expiry metadata.
 
 Stop on a duplicate, missing runtime owner, or metadata broader than the threat model. The candidate
@@ -231,7 +231,7 @@ target, agentic identity, and audience. Do not use a key or pasted bearer token.
 
 ### 6. Create an unpinned candidate
 
-Copy the pinned Session 04 definition. Keep its model, RAI policy, instructions, temperature,
+Copy the pinned governed agent definition. Keep its model, RAI policy, instructions, temperature,
 endpoint authorization, and identity behavior. Remove the direct OpenAPI tool, add the MCP
 connection, set `allowed_tools` to `get_policy`, and set `require_approval` to `always`.
 
@@ -241,7 +241,7 @@ selector to the release owner.
 ## Confirm the result
 
 Use the Foundry candidate-version test surface or an approved client that targets the visible
-candidate ID. Keep the stable endpoint on the prior Session 04 version.
+candidate ID. Keep the stable endpoint on the prior governed agent version.
 
 ### Intended path: approved read
 
@@ -278,11 +278,11 @@ At the delivery-owner checkpoint, the release owner:
 Rerun both synthetic checks after a change to the tool description, schema, returned fields,
 backing operation, identity, instructions, model, or approval policy.
 
-**Restore before removal.** Pin the previous Session 04 version at 100%, then confirm that no active
+**Restore before removal.** Pin the previous governed agent version at 100%, then confirm that no active
 agent uses the MCP endpoint. Remove the Foundry connection only when no other governed tool uses it.
-Through the approved APIM change path, verify the Session 08 marker and remove only the MCP API and
-five Session 08 named values. Revoke the backend role only when the identity owner confirms that
-Session 08 introduced it and no other operational path uses it.
+Through the approved APIM change path, verify the MCP implementation marker and remove only the MCP API and
+five MCP control values. Revoke the backend role only when the identity owner confirms that
+the MCP control introduced it and no other operational path uses it.
 
 Do not delete the backing API, APIM service, Foundry agent, API Center, Application Insights,
 source data, or retained implementation files.

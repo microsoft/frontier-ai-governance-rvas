@@ -72,7 +72,7 @@ Foundry owns live state. The repository owns the version definition.
 
 | Decision | Required answer |
 |---|---|
-| Release | Immutable agent name, accountable owner, approved Session 03 model, named RAI policy, and fixed-version routing |
+| Release | Immutable agent name, accountable owner, approved model deployment, named RAI policy, and fixed-version routing |
 | Tool authority | Genuine read-only path, Entra audience, exact role definition ID, downstream API scope, and authorization owner |
 | Prohibited action | Write action kept out of the tool and the human route for requesting it |
 | Tracing | Approved readers, retention, regional handling, sampling, sensitive-content rules, and cost owner |
@@ -86,7 +86,7 @@ Use time-bound **Foundry User**, role ID `53ca6127-db72-4b80-b1b0-d745d6d5456d`,
 ## Stop before deployment
 
 - A `__REQUIRED_*__` value remains, or the runtime API URL appears in source.
-- The model differs from Session 03 or lacks regional OpenAPI support.
+- The selected model differs from the approved deployment profile or lacks regional OpenAPI support.
 - The agent name collides with an unmarked agent or a legacy agent has no unique identity.
 - `get_policy` can change state, another operation is registered, or the assigned role can write.
 - Preflight does not find exactly one approved project-identity assignment at the downstream scope.
@@ -159,8 +159,8 @@ contains `implementationSession=04-governed-agent-baseline`. Its versions, ident
 are removed. The Foundry project, model, read API, RAI policy, Application Insights resource, and
 repository definitions remain.
 
-[Session 06](../06-apim-ai-gateway/) adds APIM ingress.
-[Session 08](../08-mcp-tool-security/) replaces the direct tool path with MCP controls.
+[APIM AI gateway guide](../06-apim-ai-gateway/) adds APIM ingress.
+[MCP tool security guide](../08-mcp-tool-security/) replaces the direct tool path with MCP controls.
 
 <!-- Notes: Product, platform, identity, and operations owners confirm that no consumer uses the endpoint before removal. -->
 

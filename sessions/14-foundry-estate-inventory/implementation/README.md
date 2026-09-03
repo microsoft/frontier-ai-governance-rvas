@@ -23,7 +23,7 @@ the lifecycle owner the signals that need a keep, replace, or retire decision.
 
 ### Boundaries
 
-This session extends the operating model from Sessions 01, 03, and 11 across the approved estate.
+This inventory applies the platform-tagging, model-lifecycle, and observability controls across the approved estate.
 
 Azure Resource Manager stays authoritative for the estate and the shared workbook. The repository
 holds the scope decision, query definitions, workbook definition, and deployment template. The
@@ -32,7 +32,7 @@ report is written to a path the operator chooses outside this repository, or pri
 Resource Graph exposes the account, Service Health, and Advisor records. It does not expose model
 deployments, so the report reads them per account. The report reads the regional Models API to
 check lifecycle status and retirement dates. Billed cost stays with Microsoft Cost Management, and
-runtime telemetry stays with Session 11.
+the observability team owns runtime telemetry.
 
 ## Architecture
 
@@ -103,9 +103,9 @@ Confirm these prerequisites:
 - The operator has the **Reader** role at each of those management groups. Resource Graph returns
   only what the caller can read, so a missing assignment shows up as a smaller estate, not as an
   error.
-- Session 01 has recorded the owner, cost, and environment tag keys used across the AI estate, and
+- The platform baseline records the owner, cost, and environment tag keys used across the AI estate, and
   those exact keys go into `requiredTagKeys`.
-- The approved regions match the processing-location decision recorded in Session 03.
+- The approved regions match the processing-location decision recorded in the model governance and lifecycle control.
 - The Azure CLI is installed and signed in, and the `resource-graph` extension is available:
   `az extension add --name resource-graph`.
 - Python 3 is installed. The paired PowerShell and Bash entry points use the same local report
@@ -155,10 +155,10 @@ accounts.
 
 ### Required tags
 
-Use the exact tag keys from Session 01. The owner tag and the cost tag must both appear in
+Use the exact tag keys set by the platform baseline. The owner tag and the cost tag must both appear in
 `requiredTagKeys`; preflight rejects a record where they do not, because the report depends on both.
 
-Stop if the tag keys differ from the Session 01 policy, since the report would then disagree with
+Stop if the tag keys differ from the platform-baseline policy, since the report would then disagree with
 the guardrail assignment.
 
 ### Lifecycle review
@@ -271,14 +271,14 @@ this repository:
 ### 4. Give every finding an owner
 
 Work through account findings with the platform team. Each one ends in one of four places: the
-account gets its tags, it moves to an approved region, it joins the Session 01 approved path, or it
+account gets its tags, it moves to an approved region, it joins the approved platform path, or it
 becomes a recorded exception with an owner and expiry.
 
 Triage the adjacent list separately. An unexpected account kind is often a team using an Azure AI
 service outside the governed path.
 
 The lifecycle owner handles deployment and service-retirement findings. Assess the suggested or
-available replacement against the workload, use Session 03 to approve and deploy it, then remove
+available replacement against the workload, use the model governance process to approve and deploy it, then remove
 the old deployment only after its consumers have moved. Service Health and Advisor findings close
 through their linked service-owner change path.
 

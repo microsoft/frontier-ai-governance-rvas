@@ -25,10 +25,10 @@ without one inventory.
 
 **Solution.**
 
-- API Center gives the Session 04 agent API, the Session 06 APIM API, and one approved remote MCP
+- API Center gives the governed agent API, the APIM gateway API, and one approved remote MCP
   server a single searchable record.
 - Every entry carries owner, lifecycle, classification, risk, review, and runtime-location metadata.
-- API Center supports discovery only. APIM and Session 08 still control runtime use.
+- API Center supports discovery only. APIM and MCP tool security control still control runtime use.
 - The read-only check confirms each entry appears once and the APIM integration points to the
   approved source.
 
@@ -88,7 +88,7 @@ Every entry records:
 - business and technical owner;
 - asset kind, classification, and permitted consumers;
 - model/provider, residency profile, and risk tier;
-- evaluation destination, review date, expiry date, and Session 06 marker.
+- evaluation destination, review date, expiry date, and gateway implementation marker.
 
 Stop for unresolved values, embedded credentials, a write-capable MCP server, local `stdio`, or an
 expiry date with no operating response.
@@ -125,10 +125,10 @@ Initial APIM synchronization can take up to 24 hours. Do not create a duplicate 
 - JSON, OpenAPI, and Bicep parse or compile.
 - Runtime URLs are remote HTTPS values and stay outside source control.
 - Azure CLI targets the approved subscription and resource group.
-- The region, APIM tier, Session 06 marker, reader role, and names match.
+- The region, APIM tier, gateway implementation marker, reader role, and names match.
 - The preview changes only the marked API Center scope and exact reader assignment.
 
-The reader role is `71522526-b88f-4d52-b57f-d31fc3546d0d` on the Session 06 APIM service.
+The reader role is `71522526-b88f-4d52-b57f-d31fc3546d0d` on the APIM gateway service.
 
 <!-- Notes: Stop on unrelated replacement, removal, or broader access. -->
 
@@ -140,7 +140,7 @@ Run the paired `check-inventory` script after synchronization and MCP registrati
 
 Expected result:
 
-- The direct agent API, synchronized Session 06 API, and MCP server each appear once.
+- The direct agent API, synchronized APIM gateway API, and MCP server each appear once.
 - Required metadata is complete.
 - The APIM integration points to the approved source.
 - The script writes no inventory export.
@@ -174,7 +174,7 @@ deployment location and runtime health there too. This is not end-to-end runtime
 
 Confirm no later session or approved consumer relies on the inventory.
 
-Check the Session 06 marker, remove the exact APIM reader assignment, then delete only the marked API Center.
+Check the gateway implementation marker, remove the exact APIM reader assignment, then delete only the marked API Center.
 
 APIM, Foundry, the MCP runtime, runtime policies, and repository definitions remain.
 
@@ -185,18 +185,18 @@ APIM, Foundry, the MCP runtime, runtime policies, and repository definitions rem
 
 ---
 
-## Handoff to Session 08
+## Handoff to MCP tool security control
 
-Session 06 leaves:
+APIM gateway leaves:
 
 - one searchable design-time inventory;
 - three selected assets with named owners and lifecycle metadata;
 - a read-only APIM source integration; and
 - production-shaped deployment and check scripts.
 
-[Session 08](../08-mcp-tool-security/) constrains MCP identities, tools, arguments, outputs, and side effects.
+[MCP tool security guide](../08-mcp-tool-security/) constrains MCP identities, tools, arguments, outputs, and side effects.
 
-<!-- Notes: Inventory says what exists. Session 08 governs what the tools can do. -->
+<!-- Notes: Inventory says what exists. MCP tool security control governs what the tools can do. -->
 
 ---
 

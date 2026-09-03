@@ -28,7 +28,7 @@ metric has regressed.
 **Solution.** The gate scores final-answer quality, tool process, and safety as separate blocking
 layers. The approved version returns `PASS`; the tool-process regression returns `BLOCK`.
 
-<!-- Notes: Session 12 later runs the same command before promotion. -->
+<!-- Notes: The controlled promotion workflow later runs the same command before promotion. -->
 
 ---
 
@@ -184,10 +184,10 @@ Expected:
 
 To disable, mark the gate disabled and keep or restore the approved version at 100%. Remove delivery
 integration only after dependency review. Cancel unnecessary evaluations, but keep the production
-artifacts and current records. Session 12 consumes `PASS` or `BLOCK`; it does not change metric
+artifacts and current records. The controlled promotion workflow consumes `PASS` or `BLOCK`; it does not change metric
 meaning.
 
-Session 11 compares production aggregates with this release baseline. Material drift returns a new
+The observability and cost controls compare production aggregates with this release baseline. Material drift returns a new
 fixed version to the gate.
 
 <!-- Notes: Do not delete the project, agent, model, tool path, logs, or customer data as a shortcut. -->

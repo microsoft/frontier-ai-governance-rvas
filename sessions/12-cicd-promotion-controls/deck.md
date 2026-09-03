@@ -16,7 +16,7 @@ html: true
 
 240 minutes · Promote one fixed release, test the blocked path, and keep restore ready
 
-<!-- Notes: Session 11 made the service operable. This session controls how a release reaches production. -->
+<!-- Notes: Observability and cost controls made the service operable. This promotion control governs how a release reaches production. -->
 
 ---
 
@@ -92,7 +92,7 @@ Human preflight access is temporary: Directory Readers at tenant scope and Contr
 - The SHA is outside the protected default branch or a digest can change between stages.
 - An OIDC subject, role assignment, environment variable, or approved scope does not match.
 - Secret scanning, push protection, reviewers, prevent-self-review, the production ref rule, or disabled administrator bypass cannot be verified.
-- Session 09, 10, or 12 records do not match the immutable release or fail their checks.
+- evaluation, security, or promotion records do not match the immutable release or fail their checks.
 - The framework path sits outside the approved list without an approval reference, or the duplicate review points at an existing agent.
 - What-if shows unrelated deletion, replacement, scope drift, or unexplained expansion.
 - The existing route cannot preview and restore the selected selector pair.
@@ -111,7 +111,7 @@ Keep 100% on the previous approved selector when a gate is uncertain.
 
 1. Confirm the release unit, owners, framework path, duplicate review, source paths, four environments, OIDC subjects, and exact Azure scopes.
 2. Run decision preflight for repository lineage, pins, fixed versions, JSON, Bicep lint, and build.
-3. Run ready preflight with the temporary Session 09 records and Session 10 attestation.
+3. Run ready preflight with the temporary evaluation records and security attestation.
 4. Review both Bicep what-if results.
 5. Run the permitted promotion through nonproduction and production.
 6. Run the generated blocked tool-process path.
@@ -128,7 +128,7 @@ The remaining time covers the briefing, live decisions, approvals, and operating
 | Path | Dispatch | Expected sequence |
 |---|---|---|
 | Permitted | Approved `release_sha`; `evaluation_record=candidate` | Gates → nonproduction preview and approval → deploy and smoke → production preview and approval → deploy → route → approve release record |
-| Blocked | Same SHA; `evaluation_record=generated-blocked-tool-process-self-test` | Session 09 returns BLOCK in validation; no Azure preview, approval, deployment, route, or record approval |
+| Blocked | Same SHA; `evaluation_record=generated-blocked-tool-process-self-test` | The evaluation gate returns BLOCK in validation; no Azure preview, approval, deployment, route, or record approval |
 
 The permitted path runs the generated blocked self-test before Azure as an internal control. The separate blocked dispatch proves the workflow cannot cross the Azure boundary after that result.
 

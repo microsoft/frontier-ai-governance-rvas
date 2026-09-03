@@ -26,14 +26,14 @@ It changes one thing: the agent's entry in Agent Registry. Microsoft Agent 365 o
 the runtime owner owns the agent definition, endpoint, and source. Agents built with Microsoft
 Foundry, Copilot Studio, or Agent Builder are integrated automatically and do not need this module.
 Developer-facing API discovery stays in Azure API Center
-([Session 07](../../../sessions/07-api-center-ai-mcp-inventory/implementation/README.md)).
+([API Center and MCP inventory guide](../../../sessions/07-api-center-ai-mcp-inventory/implementation/README.md)).
 
 Sequencing depends on the route. **Built-in integration** means the agent is already in Agent
 Registry, so you can apply the
-[Session 05](../../../sessions/05-agent-365-access-boundary/implementation/README.md) data controls
-first. **Registry sync and the SDK create the registry record here**, so Session 05 comes after this
-module for those routes; its prerequisite of an agent with Available status is not met until this
-module finishes.
+[Agent 365 access boundary guide](../../../sessions/05-agent-365-access-boundary/implementation/README.md) data controls
+first. **Registry sync and the SDK create the registry record here**, so the Agent 365 access-boundary control follows this
+module for those routes; its prerequisite of an agent with Available status is not met until the
+registry record exists.
 
 ## Architecture
 

@@ -5,7 +5,7 @@ size: 16:9
 paginate: true
 html: true
 title: Foundry estate and lifecycle operations
-description: Session 14 reads every Azure AI account across the approved management groups and reports the ones that need an owner.
+description: This inventory reads every Azure AI account across the approved management groups and reports the ones that need an owner.
 ---
 
 <!-- _class: cover -->
@@ -18,7 +18,7 @@ description: Session 14 reads every Azure AI account across the approved managem
 
 What AI do we run, where, and who owns it?
 
-<!-- Notes: This operating session extends Sessions 01, 03, and 11 across the approved estate. -->
+<!-- Notes: This inventory applies platform-tagging, model-lifecycle, and observability controls across the approved estate. -->
 
 ---
 
@@ -117,7 +117,7 @@ Widening the kind list to silence the report says those accounts are governed to
 ## Safety gates
 
 - Stop when a listed management group cannot be read; that is a role gap, not an empty estate.
-- Stop when the tag keys differ from the Session 01 guardrail.
+- Stop when the tag keys differ from the platform-baseline guardrail.
 - Stop when an exception has no owner or expiry.
 - Stop when a model is deprecated, retired, near retirement, or absent from the live catalog.
 - Stop when Service Health or Advisor reports a retirement signal for the estate.
@@ -154,7 +154,7 @@ region, a recorded kind, and no lifecycle finding.
 | Account owners | Tags, region, and approved path |
 | Lifecycle owner | Model and service-retirement review and replacement decisions |
 | Cost owner | Cost Management view filtered by the cost tag |
-| Session 11 owner | Runtime telemetry and alerts |
+| observability owner | Runtime telemetry and alerts |
 
 The workbook is Azure state. Delete report files kept outside the
 repository when they are no longer needed.

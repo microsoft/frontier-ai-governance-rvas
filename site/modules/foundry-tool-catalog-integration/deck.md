@@ -19,7 +19,7 @@ description: Optional implementation module for connecting an approved remote MC
 Connect an approved remote MCP server in Azure API Center to a dedicated Toolbox, then run a
 read-only check.
 
-<!-- Notes: This module extends Session 07 without changing the numbered sequence. -->
+<!-- Notes: This module extends API Center and MCP inventory without changing the numbered sequence. -->
 
 ---
 
@@ -145,7 +145,7 @@ No credential, token, tenant ID, endpoint, or tool result belongs in the reposit
 - `require_approval` must be `always`
 - No fallback to an unreviewed custom MCP entry
 
-<!-- Notes: A failed gate sends the issue to the API catalog, identity, or Session 08 owner. -->
+<!-- Notes: A failed gate sends the issue to the API catalog, identity, or MCP control owner. -->
 
 ---
 
@@ -176,7 +176,7 @@ The check lists tools and leaves the remote operation untouched.
 | API catalog owner | MCP server record in API Center, version, deployment, and access |
 | Foundry tool owner | Project connection, Toolbox versions, and default |
 | Agent release owner | Consumer endpoint and approval experience |
-| MCP owner | Runtime tool definition and Session 08 controls |
+| MCP owner | Runtime tool definition and MCP tool security controls |
 
 <!-- Notes: Reconcile after endpoint, authentication, tool-name, connection, or default-version changes. -->
 
@@ -198,9 +198,9 @@ Keep the MCP server record in API Center unless its owner separately retires the
 
 ## Related sessions and modules
 
-- Session 04 covers agent release and endpoint consumption.
-- Session 07 covers the API Center inventory record.
-- Session 08 covers MCP authentication, tool safety, and runtime controls.
+- The governed-agent deployment manages agent release and endpoint consumption.
+- The API Center inventory holds the MCP server record.
+- The MCP security control governs authentication, tool safety, and runtime behavior.
 
 This module configures only the connection from the catalog to Toolbox.
 

@@ -119,7 +119,7 @@ Stop when:
 - a Foundry agent lacks its separate app-scoped DLP rule or user-context `processContent` enforcement.
 - a hosted or custom agent is registered but lacks its supported runtime observability integration.
 
-The installation-phase preflight accepts Session 05 installation only when the DLP gate is
+The installation-phase preflight accepts this installation only when the DLP gate is
 recorded as `EnabledAndPropagated` and `Confirmed`.
 
 <!-- Notes: Do not use the session number as a blanket installation block. -->

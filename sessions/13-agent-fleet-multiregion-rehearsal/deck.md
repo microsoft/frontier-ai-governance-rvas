@@ -46,7 +46,7 @@ The health control checks the active path. The routing control previews and chan
 
 The customer change record holds approval and the outcome.
 
-Session 12 remains the path for infrastructure and policy promotion.
+Infrastructure and policy changes use the approved CI/CD workflow.
 
 </div>
 <div>

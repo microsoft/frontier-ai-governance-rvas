@@ -127,9 +127,9 @@ Content Safety or Foundry receives the request.
 The delivery owner maintains the design record. The platform owner maintains the deployment
 configuration. The product, identity, safety, and operations owners maintain their controls.
 
-[Session 07](../07-api-center-ai-mcp-inventory/) records the route in API Center. [Session 08](../08-mcp-tool-security/) adds the MCP tool boundary.
+[API Center and MCP inventory guide](../07-api-center-ai-mcp-inventory/) records the route in API Center. [MCP tool security guide](../08-mcp-tool-security/) adds the MCP tool boundary.
 
-<!-- Notes: Restore through the approved APIM path. Remove only marked Session 06 child resources. -->
+<!-- Notes: Restore through the approved APIM path. Remove only marked APIM gateway child resources. -->
 
 ---
 

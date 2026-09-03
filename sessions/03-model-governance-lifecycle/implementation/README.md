@@ -29,8 +29,8 @@ The deployment profile governs this Bicep path. The built-in Azure Policy assign
 model deployments at the approved resource group. The policy owner reviews Audit findings before
 moving the assignments to Deny.
 
-This session excludes instant-access and managed-compute models. Sessions 01-02 establish the
-Foundry baseline and private path. Session 09 owns release evaluation.
+This session excludes instant-access and managed-compute models. The platform baseline and private-networking controls establish the
+Foundry baseline and private path. The evaluation gate controls release eligibility.
 
 ## Architecture
 
@@ -43,7 +43,7 @@ resource-scoped what-if. A mismatch stops the run.
 
 ![An approved model choice moves through preflight, deployment, review, and a keep, replace, or retire decision.](../assets/diagrams/model-governance-flow.svg)
 
-The deployment profile pins the model version with `NoAutoUpgrade`. Session 04 consumes the
+The deployment profile pins the model version with `NoAutoUpgrade`. The governed-agent deployment consumes the
 approved deployment name and model coordinates.
 
 The approval register records the approved publisher, asset ID, source, hosting route, review
@@ -72,7 +72,7 @@ Confirm:
 
 - An `AIServices` Microsoft Foundry resource and project exist in the approved nonproduction
   subscription and resource group. The platform owner confirms the resource and project names, and the approved
-  execution host reaches the project through the recorded private path. (Sessions 01-02.)
+  execution host reaches the project through the recorded private path. (the platform baseline and private-networking controls.)
 - The operator has time-bound **Cognitive Services Contributor** on that exact resource.
 - The model decision authority approved the exact model coordinates, workload purpose,
   processing-location requirement, and external decision reference through the customer

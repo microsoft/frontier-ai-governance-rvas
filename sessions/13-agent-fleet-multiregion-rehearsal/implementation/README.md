@@ -23,13 +23,13 @@ an incident forces it.
 ### Boundaries
 
 The selected service already has both regional paths deployed; infrastructure and API Management
-policy changes belong to Session 12, not this rehearsal. Foundry, API Management, and Azure Monitor
+policy changes use the approved CI/CD workflow, outside this rehearsal. Foundry, API Management, and Azure Monitor
 stay authoritative for live service state; the repository holds the rehearsal contract, and the
 customer change system holds the approval and runtime outcome.
 
 This session moves one approved selector through the customer routing control. It does not deploy
-infrastructure, change policy, update identity, or review the fleet inventory. Session 12 remains
-the path for any infrastructure or policy promotion that follows.
+infrastructure, change policy, update identity, or review the fleet inventory. Infrastructure and
+policy changes use the approved CI/CD workflow.
 
 ## Architecture
 
@@ -67,7 +67,7 @@ Confirm:
 | Regional paths | The governed service has deployed primary and secondary paths. |
 | Agent | The platform owner confirms the immutable agent version and Entra identity. |
 | Gateway | The gateway owner confirms the API Management policy version and both endpoints. |
-| Trace | The primary path reports the expected trace fields. (Sessions 04, 06, 08, 11, and 12.) |
+| Trace | The primary path reports the expected trace fields. (The governed-agent, APIM, MCP security, observability, and promotion controls establish these prerequisites.) |
 | Change | The approved change record names the exact resource-group scope, both selectors, maintenance window, delivery owner, and restore owner. |
 | Controls | The approved PowerShell and Bash health and routing controls accept the documented parameters. The routing owner confirms that `Preview`, `Failover`, and `Restore` change only the named selector. |
 | Access | The rehearsal operator has time-bound access for the approved scope. A customer-managed runtime directory exists outside the repository. |
@@ -173,5 +173,5 @@ The service continuity owner keeps the runbook current. The platform owner maint
 regional contract. The routing owner maintains the customer controls.
 
 Keep the secondary path deployed. End temporary access through the customer process. Record the
-rehearsal outcome in the approved change record. Session 12 remains the path for infrastructure or
-policy promotion.
+rehearsal outcome in the approved change record. Infrastructure and policy changes use the approved
+CI/CD workflow.

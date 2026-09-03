@@ -104,7 +104,7 @@ Preflight resolves the exact Foundry target without creating a taxonomy or run.
 1. Confirm authorization, roles, region support, read-only tools, Defender coverage, and SOC route.
 2. Run preflight, create the taxonomy, and review it in Foundry.
 3. Run the approved plan against the immutable baseline.
-4. Check that the pre-session remediation and Session 09 PASS apply to the new version.
+4. Check that the pre-session remediation and evaluation-gate PASS apply to the new version.
 5. Rerun the unchanged plan against the remediated version.
 6. Compare the payload-free aggregates and confirm SOC delivery separately.
 
@@ -198,9 +198,9 @@ For unsafe behavior:
 4. Keep Defender and SOC routing active unless their owners find a separate fault.
 5. Remove red-team definitions only after the security owner confirms retention needs.
 
-**Session 10 does not authorize production promotion.**
+**The threat-defense control does not authorize production promotion.**
 
-Session 11 connects operational logs, cost, and incident response.
+Observability and cost operations connect operational logs, cost, and incident response.
 
 <!-- Notes: Monitoring is not the cause of unsafe behavior. Do not disable it to silence a signal. -->
 

@@ -5,7 +5,7 @@
 ### What we will do
 
 **Objective.** Deploy one controlled Azure API Management route to the
-[Session 04](../../04-governed-agent-baseline/implementation/README.md) policy assistant, built from
+[Governed agent baseline guide](../../04-governed-agent-baseline/implementation/README.md) policy assistant, built from
 an agreed **gateway design record**. APIM validates the client token and product subscription,
 applies approved limits and Content Safety, then uses its own managed identity to call the pinned
 Foundry agent. Confirm the result by sending a synthetic request with an invalid bearer token: APIM
@@ -29,8 +29,8 @@ agent. The repository holds the design record and deployment definitions.
 
 The design record describes the Foundry Agent Service policy-assistant variant used here. Production
 ingress, semantic caching, regional failover, and write-capable agents need separate design work.
-[Session 07](../../07-api-center-ai-mcp-inventory/implementation/README.md) records this route in
-API Center. [Session 08](../../08-mcp-tool-security/implementation/README.md) adds the MCP tool
+[API Center and MCP inventory guide](../../07-api-center-ai-mcp-inventory/implementation/README.md) records this route in
+API Center. [MCP tool security guide](../../08-mcp-tool-security/implementation/README.md) adds the MCP tool
 boundary.
 
 ## Architecture
@@ -59,7 +59,7 @@ check before it reads Azure or proposes the deployment.
 | Routing | Primary backend with one read-safe retry | Secondary routing stays disabled |
 | Telemetry | Correlation and token metrics with body logging disabled | Content is unavailable for debugging |
 
-The retry is safe because the Session 04 agent has a read-only tool.
+The retry is safe because the governed agent has a read-only tool.
 
 ### Architecture guidance
 
@@ -73,14 +73,14 @@ Confirm:
 
 - The approved nonproduction scope and change record name the delivery owner.
 - The pinned Foundry Agent Service policy assistant endpoint and its network path match the
-  approved configuration. The Foundry platform owner confirms both. (Sessions 02 and 04.)
+  approved configuration. The Foundry platform owner confirms both. (The private-networking and governed-agent controls establish these prerequisites.)
 - The existing supported APIM instance has a system-assigned managed identity. The gateway owner
   confirms its tier and network path.
 - The API product, identity, network, safety, operations, and delivery owners can record decisions
   and resolve readiness gaps.
 - The deployment operator has time-bound **Contributor** on the exact APIM resource group.
 - The APIM identity has **Foundry Agent Consumer** (`eed3b665-ab3a-47b6-8f48-c9382fb1dad6`) on the
-  individual Session 04 agent. It has **Cognitive Services User**
+  individual governed agent. It has **Cognitive Services User**
   (`a97b65f3-24c7-4388-baec-2e87135dc908`) on the approved Content Safety resource.
 - The Content Safety backend and Application Insights logger use managed identity. The product owner
   issued one workload-specific APIM subscription and stored its key in the approved secret store.
@@ -224,6 +224,6 @@ maintains the deployment definitions. The product owner owns subscriptions and l
 owner owns the Content Safety backend and thresholds.
 
 To remove the route, first confirm that no approved consumer uses it. Through the approved APIM
-change path, check `implementationSession=06-apim-ai-gateway`. Remove the Session 06 API, product,
+change path, check `implementationSession=06-apim-ai-gateway`. Remove the APIM gateway API, product,
 backends, and four nonsecret named values. Leave APIM, Foundry, Content Safety, the logger, role
 assignments, and repository definitions in place.

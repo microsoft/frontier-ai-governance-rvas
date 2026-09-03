@@ -36,7 +36,7 @@ The Application Insights connection uses the stable `ApiKey` configuration witho
 connection string in parameters or outputs. A future approved change may adopt the preview
 `ProjectManagedIdentity` trace-ingestion path.
 
-[Session 02](../../02-private-networking-dns/implementation/README.md) adds private endpoints and
+[Private networking and DNS guide](../../02-private-networking-dns/implementation/README.md) adds private endpoints and
 DNS. Existing resources need separate policy remediation.
 
 ## Architecture

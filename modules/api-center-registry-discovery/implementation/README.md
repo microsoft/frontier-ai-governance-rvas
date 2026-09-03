@@ -7,8 +7,7 @@
 **Objective.** Give developers a controlled way to find MCP servers that already passed governance, without
 exposing draft or retired entries.
 
-Configure Microsoft Entra-protected registry discovery for MCP servers already governed through
-Sessions 07 and 08. The API Center configuration owner limits Data API visibility to MCP records
+Configure Microsoft Entra-protected registry discovery for MCP servers with an approved API Center inventory record and runtime security decision. The API Center configuration owner limits Data API visibility to MCP records
 at the approved `Production` lifecycle stage, and the client owner configures supported developer
 clients to use the default-workspace MCP registry endpoint. The check then reads the full registry
 and confirms every approved server name appears with no unexpected name; it prints counts, not
@@ -26,15 +25,15 @@ reached through Microsoft Entra sign-in.
 ### Boundaries
 
 This module changes only Data API visibility and the developer registry client configuration for
-MCP servers already in the Session 07 inventory. A server becomes discoverable only after it
-passes the Session 08 runtime decision and moves to the `Production` lifecycle stage.
+MCP servers already in the API Center inventory. A server becomes discoverable only after it
+passes the approved runtime control decision and moves to the `Production` lifecycle stage.
 
 Azure API Center holds the registry contents, lifecycle state, Data API visibility, and portal
 access. Microsoft Entra ID holds sign-in state and the Azure API Center Data Reader assignment. The
 repository stores only the client settings and ownership record.
 
 Discovery does not grant access to an MCP server or its tools, and it isn't a per-user allowlist.
-Runtime authentication, authorization, approval, and telemetry stay with Session 08 and the server
+Runtime authentication, authorization, approval, and telemetry stay with the MCP tool security control and the server
 platform. The separate API Center MCP server at `/mcp` (Standard tier, broader catalog search) is
 out of scope.
 
@@ -42,8 +41,8 @@ out of scope.
 
 ### Architecture at a glance
 
-The flow starts with the MCP server record in the Session 07 inventory. The server owner and
-security owner complete the Session 08 runtime checks. The API Center configuration owner then
+The flow starts with the MCP server record in the API Center inventory. The server owner and
+security owner complete the runtime security checks. The API Center configuration owner then
 sets the record's lifecycle stage to `Production` and configures Data API visibility with two
 built-in conditions: `API type = MCP` and `Lifecycle stage = Production`.
 
@@ -100,9 +99,9 @@ Confirm these prerequisites:
 
 - The API Center name, region, resource-scope alias, and default workspace belong to the approved
   nonproduction or production discovery boundary.
-- The approved MCP server record exists in Session 07 and has an owner, environment, deployment or
+- The approved MCP server record exists in the API Center inventory and has an owner, environment, deployment or
   package, transport, and lifecycle decision.
-- Session 08 has completed runtime authentication, authorization, tool, and telemetry decisions.
+- The MCP tool security control has completed runtime authentication, authorization, tool, and telemetry decisions.
 - The API Center portal uses Microsoft Entra ID. Anonymous access is off.
 - The developer group has Azure API Center Data Reader at the exact API Center resource scope.
 - The client owner knows which supported client or adapter reads `registry-client-settings.json`.
@@ -129,7 +128,7 @@ is unsupported for Data API visibility, so the Azure portal preview is the requi
 
 ### Discovery scope
 
-Choose the API Center that already owns the Session 07 inventory. Record its name and region in the
+Choose the API Center that already owns the API Center inventory. Record its name and region in the
 private copy of `registry-client-settings.json`. The generated endpoint must end with
 `/workspaces/default/v0.1/servers`.
 
@@ -182,7 +181,7 @@ owner decision, or stores an access token in source control.
 ### 1. Complete the client and ownership records
 
 Resolve every `__REQUIRED_*__` value in the approved private configuration path. Add one
-`approvedServers` entry for every server that passed the Session 08 runtime decision. Keep the
+`approvedServers` entry for every server that passed the approved runtime control decision. Keep the
 approved names identical in both JSON files.
 
 Run preflight:
@@ -273,7 +272,7 @@ client configuration until the API Center owner restores the allowlist.
 Restore uses the approved portal change path. First remove or disable the registry entry in the
 client-management system. Then restore the prior Data API visibility configuration referenced in
 `registry-ownership.json`. Return affected MCP records to their previous lifecycle stage only when
-the inventory owner approves that change. Leave the Session 07 inventory and Session 08 runtime
+the inventory owner approves that change. Leave the API Center inventory and MCP tool security runtime
 controls in place.
 
 No removal script is included. Microsoft Learn does not document a stable management API for Data

@@ -6,7 +6,7 @@
 
 **Objective.** Connect the existing Foundry account and its Storage, Azure AI Search, Cosmos DB, and Key Vault
 dependencies through private endpoints. Deploy seven private DNS zones and links plus five private
-endpoints against the Session 01 network foundation.
+endpoints against the approved network foundation.
 
 From the approved nonproduction execution host, check that three Foundry endpoint families and four
 dependency FQDNs resolve to RFC 1918 addresses and accept TCP 443. Record all five prior
@@ -22,7 +22,7 @@ TCP 443, records every prior public-access state, and only then disables public 
 
 ### Boundaries
 
-Session 01 owns the VNet, route table, delegated Agent Service subnet, and private-endpoint subnet.
+The approved network foundation contains the VNet, route table, delegated Agent Service subnet, and private-endpoint subnet.
 Keep them unchanged. This session owns the private endpoints, DNS configuration, and guarded
 public-access cutover in the approved nonproduction resource group.
 
@@ -33,7 +33,7 @@ These files implement the customer-managed BYO VNet path; Microsoft-managed netw
 separate delivery path.
 
 The connectivity check covers the approved client path, not agent-runtime traffic.
-[Session 04](../../04-governed-agent-baseline/implementation/README.md) runs that check.
+[Governed agent baseline guide](../../04-governed-agent-baseline/implementation/README.md) runs that check.
 
 ## Architecture
 
@@ -58,10 +58,10 @@ service and agent-token paths.
 
 | Decision | Chosen approach | Tradeoff |
 |---|---|---|
-| Network foundation | Consume the Session 01 VNet and subnet resource IDs | Microsoft-managed networking needs a different delivery path |
+| Network foundation | Consume the approved VNet and subnet resource IDs | Microsoft-managed networking needs a different delivery path |
 | Foundry account | Use an account created with the approved delegated subnet | An incompatible account needs approved migration or replacement |
 | DNS ownership | Reuse authoritative central zones or deploy approved local zones | Central and hybrid designs need forwarding and Bicep changes |
-| Agent egress | Keep the dedicated subnet route to the customer firewall | Session 04 must still test firewall rules and runtime traffic |
+| Agent egress | Keep the dedicated subnet route to the customer firewall | The governed-agent deployment must still test firewall rules and runtime traffic |
 
 ### Architecture guidance
 
@@ -75,7 +75,7 @@ Confirm these requirements:
 
 - The approved nonproduction VNet, route table, delegated Agent Service subnet, and private-endpoint
   subnet exist in the recorded scope. The landing-zone owner checks their resource IDs and the
-  approved execution host reaches the VNet. ([Session 01](../../01-platform-baseline/implementation/README.md).)
+  approved execution host reaches the VNet. ([Microsoft Foundry platform baseline guide](../../01-platform-baseline/implementation/README.md).)
 - The parameter file has the approved VNet and private-endpoint subnet resource IDs.
 - Foundry, Storage, Azure AI Search, Cosmos DB, and Key Vault exist in that exact scope.
 - `Microsoft.App`, `Microsoft.CognitiveServices`, `Microsoft.DocumentDB`, `Microsoft.KeyVault`,
@@ -110,7 +110,7 @@ The owners must also settle these points before deployment:
 
 | Decision | Continue when | Stop when |
 |---|---|---|
-| Foundry network pattern | The account uses the Session 01 customer-managed delegated subnet | The account uses another subnet, lacks the setting, or Microsoft-managed networking was selected |
+| Foundry network pattern | The account uses the approved customer-managed delegated subnet | The account uses another subnet, lacks the setting, or Microsoft-managed networking was selected |
 | Addressing | The Agent subnet is dedicated, at least `/27`, and all ranges are nonoverlapping RFC 1918 | A range overlaps, the subnet is reused, or the design needs a blanket internet rule |
 | DNS | One owner is authoritative for every required zone, with approved links and hybrid forwarding | The deployment would duplicate a central zone or mixed public/private resolution has no fallback path |
 | Egress | The default route points to one approved firewall and its policy source is named | The firewall owner has not approved the Microsoft Entra and feature-specific destinations, or TLS inspection injects an untrusted certificate |
@@ -132,7 +132,7 @@ public access is disabled or while the Foundry account still uses the injected s
 
 ### 1. Complete the network definition
 
-Set the five service IDs and the Session 01 network IDs in
+Set the five service IDs and the approved network IDs in
 `artifacts/environments/sandbox.bicepparam`. Configure these endpoint subresources and zones:
 
 | Service | Subresource | Private DNS zone |
@@ -191,7 +191,7 @@ Repeat the DNS scope argument for separate zone-level assignments. Preflight rej
 values, wrong scopes, missing roles or providers, mismatched service IDs, Bicep errors, and a failed
 resource-group `what-if`.
 
-The preview must leave the Session 01 VNet, route table, and subnets unchanged. Expect seven zones
+The preview must leave the approved VNet, route table, and subnets unchanged. Expect seven zones
 and links plus five private endpoints. Stop on a delete, replacement, Foundry deployment, hub
 change, unexpected resource group, or public-access change.
 
@@ -294,7 +294,7 @@ prints the result and saves no file.
 
 | What remains | Owner |
 |---|---|
-| Session 01 VNet, subnets, route, and private endpoints | Network owner |
+| approved VNet, subnets, route, and private endpoints | Network owner |
 | Private DNS zones, links, and hybrid forwarding | DNS owner |
 | Customer firewall rules and source reference | Firewall owner |
 | Service private endpoints and public-access settings | Affected service owners |
@@ -302,7 +302,7 @@ prints the result and saves no file.
 | Bicep, parameters, and scripts | Network engineering |
 
 Keep this control in the approved nonproduction scope. Production needs separate address, DNS,
-firewall, service-owner, and change-window decisions. Session 04 must still test agent-runtime
+firewall, service-owner, and change-window decisions. The governed-agent deployment must still test agent-runtime
 traffic.
 
 If access must be restored, the network, DNS, firewall, security, and service owners review the

@@ -18,7 +18,7 @@ description: Optional implementation module for Microsoft Entra-protected MCP re
 
 Show approved MCP servers to developer clients.
 
-<!-- Notes: This module stays outside the 14 sessions and follows Sessions 07 and 08. -->
+<!-- Notes: This module stays outside the numbered sequence. It requires an approved API Center inventory record and runtime security decision. -->
 
 ---
 
@@ -51,8 +51,8 @@ Entra sign-in.
 
 | Work | Owner |
 |---|---|
-| Session 07 | Register the MCP server and its inventory metadata |
-| Session 08 | Set runtime authorization, tool boundaries, and telemetry |
+| API Center and MCP inventory | Register the MCP server and its inventory metadata |
+| MCP tool security control | Set runtime authorization, tool boundaries, and telemetry |
 | Optional module | Publish the approved discovery view to developer clients |
 
 <!-- Notes: The module adds no session number and changes no session dependency. -->
@@ -73,7 +73,7 @@ separate API Center MCP server at `/mcp`.
 
 ## Architecture overview
 
-1. The MCP server passes the Session 08 decision.
+1. The MCP server passes the runtime security decision.
 2. Its API Center lifecycle moves to Production.
 3. Data API visibility selects **MCP + Production**.
 4. A Microsoft Entra-authenticated client reads the registry.
@@ -191,7 +191,7 @@ the client can connect to the MCP server and call a tool.
 | API Center configuration owner | Visibility and registry metadata |
 | MCP server owner | Lifecycle and review date |
 | Client configuration owner | Current client adapter |
-| Runtime and security owners | Session 08 access and tool controls |
+| Runtime and security owners | MCP access and tool controls |
 
 Restore the prior portal visibility setting and remove the registry from managed clients. Keep the
 inventory and runtime controls.
