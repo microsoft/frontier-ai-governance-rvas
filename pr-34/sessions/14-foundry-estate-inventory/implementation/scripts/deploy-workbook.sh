@@ -47,5 +47,5 @@ az deployment group create \
   --subscription "$subscription_id" \
   --resource-group "$resource_group" \
   --name rvas-foundry-estate-lifecycle-workbook \
-  --template-file "$artifact_root/infra/main.bicep" \
+  --template-file "$artifact_root/infra/deploy-workbook.json" \
   --only-show-errors

@@ -23,7 +23,7 @@ az deployment group create `
     --subscription $SubscriptionId `
     --resource-group $ResourceGroup `
     --name rvas-foundry-estate-lifecycle-workbook `
-    --template-file (Join-Path $artifactRoot "infra\main.bicep") `
+    --template-file (Join-Path $artifactRoot "infra\deploy-workbook.json") `
     --only-show-errors
 
 if ($LASTEXITCODE -ne 0) {
