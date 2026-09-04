@@ -34,9 +34,10 @@ enterprise-scale AI governance work. This series is not a smaller Citadel
 engagement. Customers can use its results on their own or decide that Citadel is
 the right next step.
 
-Standard mode is the default. The team implements one explicit control, keeps production-shaped configuration and normal operational records, observes one defined result, and documents restore or removal steps.
-
-Extended mode is used only when a control needs both an allowed and a blocked or failure check. The delivery lead records the reason before the session, and the delivery owner confirms the result at a checkpoint. Both modes keep only the records needed for normal operations and use the implementation resources required by the control.
+Each session implements an explicit control, keeps production-shaped configuration
+and normal operational records, observes a defined result, and documents restore or
+removal steps. When a control must prove an allowed and a denied or failure path,
+the runbook includes both checks and a delivery-owner checkpoint.
 
 The complete route contains 50 facilitated working hours across 14 published sessions. Each duration uses 30-minute increments and includes briefing and alignment, customer decisions, guided implementation, observable checks, and the operating or restore handoff. It assumes agreed prerequisites, access, and nonproduction capacity are ready before the session; asynchronous approvals, procurement, provisioning waits, and optional deep dives sit outside the published time. Focused routes deliver the selected control area and include its prerequisite sessions; they omit unrelated controls and do not represent the complete deployment. Agent 365 routes use the combined Session 05 secure rollout and data-controls path. Session 06 records the APIM gateway design and deploys the controlled route.
 
@@ -91,7 +92,7 @@ scope.
 ## Product Principles
 
 1. Build controls, do not merely describe them.
-2. Confirm each standard-mode control with one observable check.
+2. Confirm each control with an observable check.
 3. Keep implementation modular and dependency-aware.
 4. Prefer customer-native, version-controlled tooling over bespoke governance software.
 5. Document restore or removal, and automate only when it removes repetition or risk.

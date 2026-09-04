@@ -79,9 +79,9 @@ lanes then direct leaders to routes and ownership, while practitioners go to the
 
 ### Method
 
-The method explains standard and extended implementation modes in two working steps: build and
-check. A separate note preserves the governance boundary between Microsoft Foundry, Foundry
-Control Plane, and Microsoft Agent 365. It also keeps the LLMOps and AIOps distinction explicit.
+The method explains the work in two steps: build and check. A separate note preserves
+the governance boundary between Microsoft Foundry, Foundry Control Plane, and
+Microsoft Agent 365. It also keeps the LLMOps and AIOps distinction explicit.
 
 ### Session discovery
 
@@ -137,9 +137,8 @@ Six horizontal chapter tabs sit below the header. They scroll on narrow screens,
 and expose the current page with `aria-current`.
 
 The desktop reading grid has the article on the left. A full labeled service list appears first in
-the right column, followed by facts for identity, phase or status, duration, implementation mode,
-and last verification date. The direct DOM order is services, article, facts. Grid areas preserve
-that order on mobile.
+the right column, followed by facts for identity, phase or status, duration, and last verification
+date. The direct DOM order is services, article, facts. Grid areas preserve that order on mobile.
 
 The implementation guide stays inside one reading card. Scope pages retain the generated audience
 and preparation block. Chapter pager links, slide-deck dialog, shell tabs, diagrams, and source

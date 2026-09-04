@@ -69,7 +69,7 @@
 
       <section class="method-section" id="approach" aria-labelledby="approach-title">
         <div class="section">
-          <div class="section-heading"><div><p class="section-kicker">Guided co-implementation</p><h2 id="approach-title">One control at a time, with its owner in the room.</h2><p>Standard mode implements the control and runs one observable check. Extended mode is reserved for work that needs an allowed path, a blocked or failure path, and a delivery-owner checkpoint.</p></div></div>
+          <div class="section-heading"><div><p class="section-kicker">Guided co-implementation</p><h2 id="approach-title">One control at a time, with its owner in the room.</h2><p>Each session implements a control and checks a defined result. Some controls also prove that an unapproved path is blocked before the delivery owner confirms the result.</p></div></div>
           <div class="method-grid">
             <article><span>Build</span><h3>Use production-shaped configuration.</h3><p>Customer engineers deploy through the approved change path. Reusable configuration and normal operating records stay in the customer repository.</p></article>
             <article><span>Check</span><h3>Observe a defined result.</h3><p>The listed control owner confirms the check. The relevant service, security, data, or release owner approves consequential changes. Checks and evaluation examples run on fictional records, never customer data.</p></article>
@@ -442,7 +442,7 @@
         <div class="section-heading"><div><p class="section-kicker">Optional modules</p><h2 id="optional-modules-title">Add architecture-specific work when you need it.</h2></div></div>
         <div class="module-register" role="list"><a class="module-record" role="listitem" href="modules/api-center-registry-discovery/" aria-label="Open optional module: Azure API Center registry discovery for approved MCP servers">
             <span class="session-core">
-              <span class="session-service-label">Optional module · Standard mode</span>
+              <span class="session-service-label">Optional module</span>
               <span class="session-title">Azure API Center registry discovery for approved MCP servers</span>
               <span class="session-objective">Configure Microsoft Entra-protected Azure API Center MCP registry discovery for MCP servers at the approved `Production` lifecycle stage and check that the registry returns only approved server names.</span>
             </span>
@@ -452,7 +452,7 @@
           </a>
 <a class="module-record" role="listitem" href="modules/external-agent-inventory/" aria-label="Open optional module: External agent inventory in Microsoft Agent 365">
             <span class="session-core">
-              <span class="session-service-label">Optional module · Standard mode</span>
+              <span class="session-service-label">Optional module</span>
               <span class="session-title">External agent inventory in Microsoft Agent 365</span>
               <span class="session-objective">Onboard an existing external agent into Microsoft Agent 365 through one supported integration route, record the route, credential, owner, and retirement decisions, then review the live Agent Registry record.</span>
             </span>
@@ -462,7 +462,7 @@
           </a>
 <a class="module-record" role="listitem" href="modules/foundry-tool-catalog-integration/" aria-label="Open optional module: API Center private tool catalog to Foundry Toolbox">
             <span class="session-core">
-              <span class="session-service-label">Optional module · Standard mode</span>
+              <span class="session-service-label">Optional module</span>
               <span class="session-title">API Center private tool catalog to Foundry Toolbox</span>
               <span class="session-objective">Connect an approved remote MCP server in Azure API Center to a dedicated versioned Toolbox in Microsoft Foundry, then compare the catalog record, project connection, allowed tool, and live Toolbox tool list.</span>
             </span>
@@ -472,7 +472,7 @@
           </a>
 <a class="module-record" role="listitem" href="modules/obo-delegated-access/" aria-label="Open optional module: Delegated API access with OAuth on-behalf-of">
             <span class="session-core">
-              <span class="session-service-label">Optional module · Extended mode</span>
+              <span class="session-service-label">Optional module</span>
               <span class="session-title">Delegated API access with OAuth on-behalf-of</span>
               <span class="session-objective">A trusted middle tier preserves signed-in user authority through an OBO exchange, while the downstream API still authorizes each user.</span>
             </span>

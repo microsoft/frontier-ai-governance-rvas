@@ -881,7 +881,6 @@ const pageTemplate = ({
     ["Identity", context.identity],
     [item.kind === "session" ? "Phase and status" : "Status", context.phaseStatus],
     ["Duration", item.duration],
-    ["Implementation mode", titleCase(item.mode)],
     ["Last verified", item.lastVerified],
   ]
     .map(
@@ -1391,7 +1390,7 @@ const renderSessionCard = (session) => {
 const renderModuleCard = (module) => {
   return `<a class="module-record" role="listitem" href="modules/${module.slug}/" aria-label="Open optional module: ${escapeHtml(module.title)}">
             <span class="session-core">
-              <span class="session-service-label">Optional module · ${escapeHtml(titleCase(module.mode))} mode</span>
+              <span class="session-service-label">Optional module</span>
               <span class="session-title">${escapeHtml(module.title)}</span>
               <span class="session-objective">${escapeHtml(module.controlObjective)}</span>
             </span>
@@ -1646,7 +1645,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
 
       <section class="method-section" id="approach" aria-labelledby="approach-title">
         <div class="section">
-          <div class="section-heading"><div><p class="section-kicker">Guided co-implementation</p><h2 id="approach-title">One control at a time, with its owner in the room.</h2><p>Standard mode implements the control and runs one observable check. Extended mode is reserved for work that needs an allowed path, a blocked or failure path, and a delivery-owner checkpoint.</p><p>The series gives teams a practical starting point. If they need a deeper enterprise governance programme, they can move on to Citadel.</p></div></div>
+          <div class="section-heading"><div><p class="section-kicker">Guided co-implementation</p><h2 id="approach-title">One control at a time, with its owner in the room.</h2><p>Each session implements a control and checks a defined result. Some controls also prove that an unapproved path is blocked before the delivery owner confirms the result.</p><p>The series gives teams a practical starting point. If they need a deeper enterprise governance programme, they can move on to Citadel.</p></div></div>
           <div class="method-grid">
             <article><span>Build</span><h3>Use production-shaped configuration.</h3><p>Customer engineers deploy through the approved change path. Reusable configuration and normal operating records stay in the customer repository.</p></article>
             <article><span>Check</span><h3>Observe a defined result.</h3><p>The listed control owner confirms the check. The relevant service, security, data, or release owner approves consequential changes. Checks and evaluation examples run on fictional records, never customer data.</p></article>
