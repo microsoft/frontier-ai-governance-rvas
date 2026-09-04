@@ -1600,7 +1600,6 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
           <a href="#approach">Method</a>
           <a href="#program">Sessions</a>
           <a href="#routes">Routes</a>
-          <a href="#readiness">Pre-work</a>
           <a href="#optional-modules">Optional modules</a>
           <a href="sources.html">Sources</a>
         </nav>
@@ -1696,19 +1695,6 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
             <div class="route-choice__heading"><div><h3>Focused routes</h3></div><div class="route-choice__legend" aria-label="Route phase colors"><span><i class="is-foundation"></i>Foundation</span><span><i class="is-runtime"></i>Live traffic</span><span><i class="is-operations"></i>Operations</span></div></div>
             <div class="route-paths" role="list">${routeCards}</div>
             <p class="route-choice__note">Sessions 12–13 define substitute baselines for teams that enter the series without every earlier session.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="readiness-section" id="readiness" aria-labelledby="readiness-title">
-        <div class="section">
-          <div class="section-heading"><div><p class="section-kicker">Pre-work</p><h2 id="readiness-title">Clear the pre-work before Session 1.</h2></div></div>
-          <div class="readiness-grid">
-            <article><span>Environment</span><h3>Dedicated sandbox</h3><p>Use an approved subscription and register the required resource providers.</p></article>
-            <article><span>Source control</span><h3>Customer-owned repository</h3><p>Prepare the repository that will keep implementation files and decisions.</p></article>
-            <article><span>Access</span><h3>Roles at the exact scope</h3><p>Session 1 needs Contributor on the sandbox scope plus permission to run deployment what-if there. Later sessions add their own time-bound roles.</p></article>
-            <article><span>Region</span><h3>Delivery region approved</h3><p>Check that the approved region supports the Foundry capabilities required by your planned sessions.</p></article>
-            <article><span>Scenario</span><h3>One bounded use case</h3><p>Start with an internal policy assistant and one read-only API tool. Later sessions add a governed MCP path and a write action that the agent must refuse.</p></article>
           </div>
         </div>
       </section>
