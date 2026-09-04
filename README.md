@@ -85,9 +85,8 @@ It runs on pushes to `master` or `main`, on pull requests, and manually. Each pu
 this repository publishes a preview at `pr-<number>/` and updates one bot comment with its link.
 
 For the first deployment, open **Settings > Pages** in the GitHub repository and
-set **Source** to **Deploy from a branch**, then select the `gh-pages` branch and
-the `/(root)` folder. Push the branch or run **Deploy static site to Pages** from
-the Actions tab.
+set **Source** to **GitHub Actions**. Push `master` or `main`, or run
+**Deploy static site to Pages** from the Actions tab.
 
 ## Content source
 

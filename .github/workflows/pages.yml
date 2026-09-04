@@ -67,8 +67,10 @@ jobs:
     permissions:
       contents: write
       pages: write
-    env:
-      GH_TOKEN: ${{ github.token }}
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -108,27 +110,14 @@ jobs:
             git -C pages-branch push origin HEAD:gh-pages
           fi
 
-          PAGES_BUILD_URL="$(gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds" --jq '.url')"
-          PAGES_BUILD_ENDPOINT="${PAGES_BUILD_URL#https://api.github.com/}"
-          for attempt in $(seq 1 30); do
-            PAGES_BUILD_STATUS="$(gh api "${PAGES_BUILD_ENDPOINT}" --jq '.status')"
-            case "${PAGES_BUILD_STATUS}" in
-              built)
-                echo "Production Pages build completed."
-                break
-                ;;
-              errored)
-                echo "Production Pages build failed." >&2
-                exit 1
-                ;;
-            esac
+      - name: Upload Pages site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages-branch
 
-            if [ "${attempt}" -eq 30 ]; then
-              echo "Timed out waiting for the production Pages build." >&2
-              exit 1
-            fi
-            sleep 10
-          done
+      - name: Deploy Pages site
+        id: deployment
+        uses: actions/deploy-pages@v4
 
   deploy-preview:
     needs: build
@@ -138,10 +127,15 @@ jobs:
       contents: write
       pages: write
       pull-requests: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     env:
       PR_NUMBER: ${{ github.event.pull_request.number }}
       PREVIEW_PREFIX: pr-${{ github.event.pull_request.number }}
       PREVIEW_REVISION: ${{ github.event.pull_request.head.sha }}
+      BASE_REVISION: ${{ github.event.pull_request.base.sha }}
       GH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout repository
@@ -170,6 +164,12 @@ jobs:
             git -C pages-branch rm -rf .
           fi
 
+          if [ ! -f pages-branch/index.html ]; then
+            mkdir production-site
+            git archive "${BASE_REVISION}" site | tar -x -C production-site
+            cp -a production-site/site/. pages-branch/
+          fi
+
           rm -rf "pages-branch/${PREVIEW_PREFIX}"
           mkdir -p "pages-branch/${PREVIEW_PREFIX}"
           cp -a built-site/. "pages-branch/${PREVIEW_PREFIX}/"
@@ -183,32 +183,19 @@ jobs:
             git -C pages-branch push origin HEAD:gh-pages
           fi
 
-          PAGES_BUILD_URL="$(gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds" --jq '.url')"
-          PAGES_BUILD_ENDPOINT="${PAGES_BUILD_URL#https://api.github.com/}"
-          for attempt in $(seq 1 30); do
-            PAGES_BUILD_STATUS="$(gh api "${PAGES_BUILD_ENDPOINT}" --jq '.status')"
-            case "${PAGES_BUILD_STATUS}" in
-              built)
-                echo "Preview Pages build completed."
-                break
-                ;;
-              errored)
-                echo "Preview Pages build failed." >&2
-                exit 1
-                ;;
-            esac
+      - name: Upload Pages site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages-branch
 
-            if [ "${attempt}" -eq 30 ]; then
-              echo "Timed out waiting for the preview Pages build." >&2
-              exit 1
-            fi
-            sleep 10
-          done
+      - name: Deploy Pages site
+        id: deployment
+        uses: actions/deploy-pages@v4
 
       - name: Comment preview URL
         run: |
           set -euo pipefail
-          PAGES_URL="$(gh api "repos/${GITHUB_REPOSITORY}/pages" --jq '.html_url')"
+          PAGES_URL="${{ steps.deployment.outputs.page_url }}"
           PREVIEW_URL="${PAGES_URL%/}/${PREVIEW_PREFIX}/"
           MARKER="<!-- static-site-preview-url -->"
           cat > preview-comment.md <<EOF_COMMENT
@@ -231,9 +218,11 @@ jobs:
     permissions:
       contents: write
       pages: write
+      id-token: write
+    environment:
+      name: github-pages
     env:
       PREVIEW_PREFIX: pr-${{ github.event.pull_request.number }}
-      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -241,6 +230,7 @@ jobs:
           fetch-depth: 0
 
       - name: Remove pull request preview
+        id: prepare
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -248,6 +238,7 @@ jobs:
 
           if ! git ls-remote --exit-code origin gh-pages >/dev/null; then
             echo "No gh-pages branch exists; nothing to clean."
+            echo "deploy=false" >> "${GITHUB_OUTPUT}"
             exit 0
           fi
 
@@ -262,25 +253,15 @@ jobs:
             git -C pages-branch commit -m "Remove preview ${PREVIEW_PREFIX}"
             git -C pages-branch push origin HEAD:gh-pages
           fi
+          echo "deploy=true" >> "${GITHUB_OUTPUT}"
 
-          PAGES_BUILD_URL="$(gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds" --jq '.url')"
-          PAGES_BUILD_ENDPOINT="${PAGES_BUILD_URL#https://api.github.com/}"
-          for attempt in $(seq 1 30); do
-            PAGES_BUILD_STATUS="$(gh api "${PAGES_BUILD_ENDPOINT}" --jq '.status')"
-            case "${PAGES_BUILD_STATUS}" in
-              built)
-                echo "Preview cleanup Pages build completed."
-                break
-                ;;
-              errored)
-                echo "Preview cleanup Pages build failed." >&2
-                exit 1
-                ;;
-            esac
+      - name: Upload Pages site
+        if: steps.prepare.outputs.deploy == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages-branch
 
-            if [ "${attempt}" -eq 30 ]; then
-              echo "Timed out waiting for the preview cleanup Pages build." >&2
-              exit 1
-            fi
-            sleep 10
-          done
+      - name: Deploy Pages site
+        if: steps.prepare.outputs.deploy == 'true'
+        id: deployment
+        uses: actions/deploy-pages@v4
