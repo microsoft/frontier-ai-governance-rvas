@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
     <meta name="description" content="Apply a scoped Purview DLP policy, install one approved agent for a test group, check included and excluded access, and query payload-free Agent 365 activity.">
-    <title>Before you start | Optional module: Microsoft Agent 365 access and data controls | Practical Microsoft AI Governance</title>
+    <title>Before you start | Optional module: Microsoft Agent 365 and Purview controls | Practical Microsoft AI Governance</title>
     <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
     <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,7 +47,7 @@
             <a href="index.html">Optional module</a>
           </nav>
           <p class="chapter-header__label">Chapter 3 of 6 · Before you start</p>
-          <h1 id="before-you-start">Microsoft Agent 365 access and data controls</h1>
+          <h1 id="before-you-start">Microsoft Agent 365 and Purview controls</h1>
           <div class="chapter-header__meta" aria-label="Session details">
             <span>Optional module · Draft</span>
             <span>4.5 hours</span>
@@ -76,7 +76,7 @@
           </button>
           <a
             class="implementation-files-link"
-            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/329d435d761b798b04f73e0c0bd73e1cfea17df1/modules/agent-365-access-boundary/implementation"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/009bea4e6a705008e490c68d861819fe0a3029e7/modules/agent-365-access-boundary/implementation"
             target="_blank"
             rel="noopener"
           >
@@ -110,9 +110,9 @@
         <article class="implementation-guide" id="implementation-guide" aria-label="Before you start">
           <p class="implementation-guide__label">Chapter 3 of 6</p>
           <p>Confirm the following before opening the portals:</p>
-<ul><li>A supported nonproduction agent appears in Agent Registry with <strong>Available</strong> status and supports group installation. The source-platform owner confirms its publication, runtime owner, and approved lifecycle path. The runtime owner is named. Complete Session 03 before this module for a Foundry agent.)</li><li>The Microsoft 365 administrator can open <strong>Agents &gt; All agents &gt; Registry</strong>, find the agent with <strong>Available</strong> status, inspect group installation, and remove that scoped installation.</li><li>The delivery owner approved the nonproduction group, host product, use case, labelled synthetic item, label and encryption rights, DLP action and locations, notification and incident route, output-label control, and restore route.</li><li>The DLP and label operator has <strong>Compliance Data Administrator</strong> in the approved tenant. The audit operator has <strong>View-Only Audit Logs</strong> in Microsoft Purview and Exchange admin center.</li><li>The Microsoft Graph Audit Search application has <code>AuditLogsQuery.Read.All</code> application permission with administrator consent.</li><li>The Purview operator, Agent 365 owner, information protection owner, source-platform owner, data owner, and audit owner accept the responsibilities in <code>coverage-handoff.md</code>. For Foundry, include the Foundry platform owner and application developer.</li><li>For a hosted or custom agent, the runtime owner identifies the supported Python or .NET Agent 365 integration, token flow, required telemetry attributes, and the application path that acts on a Purview policy result.</li></ul>
+<ul><li>A supported nonproduction agent appears in Agent Registry with <strong>Available</strong> status and supports group installation. The source-platform owner confirms its publication, runtime owner, and approved lifecycle path. The runtime owner is named. Complete Session 03 before this module for a Foundry agent.</li><li>The Microsoft 365 administrator can open <strong>Agents &gt; All agents &gt; Registry</strong>, find the agent with <strong>Available</strong> status, inspect group installation, and remove that scoped installation.</li><li>The delivery owner approved the nonproduction group, host product, use case, labelled synthetic item, label and encryption rights, DLP action and locations, notification and incident route, output-label control, and restore route.</li><li>The DLP and label operator has <strong>Compliance Data Administrator</strong> in the approved tenant. The audit operator has <strong>View-Only Audit Logs</strong> in Microsoft Purview and Exchange admin center.</li><li>The Microsoft Graph Audit Search application has <code>AuditLogsQuery.Read.All</code> application permission with administrator consent.</li><li>The Purview operator, Agent 365 owner, information protection owner, source-platform owner, data owner, and audit owner accept the responsibilities in <code>coverage-handoff.md</code>. For Foundry, include the Foundry platform owner and application developer.</li><li>For a hosted or custom agent, the runtime owner identifies the supported Python or .NET Agent 365 integration, token flow, required telemetry attributes, and the application path that acts on a Purview policy result.</li></ul>
 <h3 id="implementation-files">Implementation files<a class="heading-anchor" href="#implementation-files" aria-label="Link to Implementation files">#</a></h3>
-<div class="table-scroll"><table><thead><tr><th scope="col">Type</th><th scope="col">File</th><th scope="col">Consumer</th></tr></thead><tbody><tr><td>Deployment</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/329d435d761b798b04f73e0c0bd73e1cfea17df1/modules/agent-365-access-boundary/implementation/artifacts/agent-deployment.json"><code>artifacts/agent-deployment.json</code></a></td><td>Microsoft 365 administrator and module preflight scripts</td></tr><tr><td>Record</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/329d435d761b798b04f73e0c0bd73e1cfea17df1/modules/agent-365-access-boundary/implementation/artifacts/governance/coverage-handoff.md"><code>artifacts/governance/coverage-handoff.md</code></a></td><td>data, Agent 365, source-platform, and audit owners</td></tr><tr><td>Runtime</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/329d435d761b798b04f73e0c0bd73e1cfea17df1/modules/agent-365-access-boundary/implementation/artifacts/operations/agent-activity-audit-query.json"><code>artifacts/operations/agent-activity-audit-query.json</code></a></td><td>Agent 365 audit-query scripts</td></tr></tbody></table></div>
+<div class="table-scroll"><table><thead><tr><th scope="col">Type</th><th scope="col">File</th><th scope="col">Consumer</th></tr></thead><tbody><tr><td>Deployment</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/009bea4e6a705008e490c68d861819fe0a3029e7/modules/agent-365-access-boundary/implementation/artifacts/agent-deployment.json"><code>artifacts/agent-deployment.json</code></a></td><td>Microsoft 365 administrator and module preflight scripts</td></tr><tr><td>Record</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/009bea4e6a705008e490c68d861819fe0a3029e7/modules/agent-365-access-boundary/implementation/artifacts/governance/coverage-handoff.md"><code>artifacts/governance/coverage-handoff.md</code></a></td><td>data, Agent 365, source-platform, and audit owners</td></tr><tr><td>Runtime</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/009bea4e6a705008e490c68d861819fe0a3029e7/modules/agent-365-access-boundary/implementation/artifacts/operations/agent-activity-audit-query.json"><code>artifacts/operations/agent-activity-audit-query.json</code></a></td><td>Agent 365 audit-query scripts</td></tr></tbody></table></div>
 <p>Keep tenant IDs, group object IDs, user identities, permission-consent records, policy summaries, findings, prompts, responses, audit exports, and portal-state copies in approved customer systems.</p>
 
         </article>
@@ -146,7 +146,7 @@
         <header class="deck-dialog__header">
           <div>
             <p>Optional module</p>
-            <h2 id="session-deck-title">Microsoft Agent 365 access and data controls slide deck</h2>
+            <h2 id="session-deck-title">Microsoft Agent 365 and Purview controls slide deck</h2>
           </div>
           <div class="deck-dialog__actions">
             <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
@@ -159,7 +159,7 @@
         </header>
         <div class="deck-dialog__frame">
           <iframe
-            title="Optional module: Microsoft Agent 365 access and data controls slide deck"
+            title="Optional module: Microsoft Agent 365 and Purview controls slide deck"
             data-deck-frame
             data-src="deck.html"
           ></iframe>

@@ -1,7 +1,7 @@
 schema_version: 2
 module:
   slug: "agent-365-access-boundary"
-  title: "Microsoft Agent 365 access and data controls"
+  title: "Microsoft Agent 365 and Purview controls"
   duration_minutes: 270
   status: "draft"
   last_verified: "2026-09-04"

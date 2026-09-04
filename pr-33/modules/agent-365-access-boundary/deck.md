@@ -12,7 +12,7 @@ html: true
 
 <p class="eyebrow">AI Governance Co-implementation · Agent 365 module</p>
 
-# Microsoft Agent 365 secure rollout and data controls
+# Microsoft Agent 365 and Purview controls
 
 270 minutes · Configure DLP, then make one scoped rollout
 
