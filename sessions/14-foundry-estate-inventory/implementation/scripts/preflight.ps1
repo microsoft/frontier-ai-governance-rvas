@@ -18,7 +18,7 @@ $queryPath = Join-Path $artifactRoot "queries\foundry-accounts.kql"
 $serviceHealthQueryPath = Join-Path $artifactRoot "queries\service-health-retirements.kql"
 $advisorQueryPath = Join-Path $artifactRoot "queries\advisor-retirement-findings.kql"
 $reportPythonPath = Join-Path $PSScriptRoot "build-estate-report.py"
-$workbookTemplatePath = Join-Path $artifactRoot "infra\main.bicep"
+$portalTemplatePath = Join-Path $artifactRoot "infra\deploy-workbook.json"
 $workbookDefinitionPath = Join-Path $artifactRoot "monitoring\estate-lifecycle-workbook.json"
 $requiredSentinels = @(
     "__REQUIRED_APPROVED_ESTATE_SCOPE_ALIAS__",
@@ -45,7 +45,7 @@ if (-not (Get-Command -Name "python" -ErrorAction SilentlyContinue)) {
 if (-not (Test-Path -LiteralPath $reportScriptPath -PathType Leaf)) {
     throw "The estate report cannot run because build-estate-report.ps1 is missing: $reportScriptPath"
 }
-foreach ($path in @($scopePath, $queryPath, $serviceHealthQueryPath, $advisorQueryPath, $reportPythonPath, $workbookTemplatePath, $workbookDefinitionPath)) {
+foreach ($path in @($scopePath, $queryPath, $serviceHealthQueryPath, $advisorQueryPath, $reportPythonPath, $portalTemplatePath, $workbookDefinitionPath)) {
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
         throw "Required Session 14 artifact is missing: $path"
     }
@@ -57,6 +57,18 @@ foreach ($path in @($scopePath, $queryPath, $serviceHealthQueryPath, $advisorQue
             throw "-WorkbookSubscriptionId must be a GUID."
         }
     }
+}
+
+$workbookDefinition = Get-Content -LiteralPath $workbookDefinitionPath -Raw | ConvertFrom-Json
+$portalTemplate = Get-Content -LiteralPath $portalTemplatePath -Raw | ConvertFrom-Json
+$portalWorkbookDefinition = ([string]$portalTemplate.variables.serializedData) | ConvertFrom-Json
+$sourceJson = $workbookDefinition | ConvertTo-Json -Depth 100 -Compress
+$portalJson = $portalWorkbookDefinition | ConvertTo-Json -Depth 100 -Compress
+if ($sourceJson -ne $portalJson) {
+    throw "The portal deployment template does not embed the current workbook definition."
+}
+if ($portalTemplate.resources[0].tags.implementationSession -ne "14-foundry-estate-inventory") {
+    throw "The portal deployment template has the wrong implementationSession marker."
 }
 
 $sentinelMatches = @(Get-ChildItem -LiteralPath $artifactRoot -File -Recurse |
@@ -151,7 +163,7 @@ if ($WorkbookSubscriptionId) {
         --subscription $WorkbookSubscriptionId `
         --resource-group $WorkbookResourceGroup `
         --name rvas-foundry-estate-lifecycle-workbook `
-        --template-file $workbookTemplatePath `
+        --template-file $portalTemplatePath `
         --result-format FullResourcePayloads `
         --only-show-errors `
         --output json

@@ -76,7 +76,7 @@
           </button>
           <a
             class="implementation-files-link"
-            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/2f0625deec1093944ad6dcd50b5b3fef0249dba6/sessions/14-foundry-estate-inventory/implementation"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/6b92e11c31b5a8909dd9432ff99078d08f5be99b/sessions/14-foundry-estate-inventory/implementation"
             target="_blank"
             rel="noopener"
           >
@@ -133,7 +133,7 @@ workbook_resource_group=&quot;approved-estate-workbook-resource-group&quot;
   </div>
 </section>
 <p>Preflight confirms read access to each management group with a counting query and previews the shared workbook. A management group that fails here is a missing role assignment, not a missing estate.</p>
-<h3 id="2-deploy-the-estate-and-lifecycle-workbook">2. Deploy the estate and lifecycle workbook<a class="heading-anchor" href="#2-deploy-the-estate-and-lifecycle-workbook" aria-label="Link to 2. Deploy the estate and lifecycle workbook">#</a></h3>
+<h3 id="2-deploy-the-estate-issues-and-model-retirement-workbook">2. Deploy the estate issues and model retirement workbook<a class="heading-anchor" href="#2-deploy-the-estate-issues-and-model-retirement-workbook" aria-label="Link to 2. Deploy the estate issues and model retirement workbook">#</a></h3>
 <p>After the workbook operator approves the preview:</p>
 <section class="code-tabs" data-code-tabs>
   <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
@@ -155,7 +155,9 @@ workbook_resource_group=&quot;approved-estate-workbook-resource-group&quot;
   --resource-group &quot;$workbook_resource_group&quot;</code></pre>
   </div>
 </section>
-<p>Open <strong>Azure AI estate and lifecycle review</strong> in Azure Workbooks. Select only subscriptions within the approved management groups. The dashboard is for live triage. It does not add a subscription to the governed estate.</p>
+<p>The portal route deploys the same tagged workbook without running preflight. Use it only after the scope and access checks above pass:</p>
+<p><a href="https://aka.ms/deploytoazurebutton">![Deploy to Azure</a>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmicrosoft%2Ffrontier-ai-governance-rvas%2Fmain%2Fsessions%2F14-foundry-estate-inventory%2Fimplementation%2Fartifacts%2Finfra%2Fdeploy-workbook.json)</p>
+<p>Open <strong>Azure AI estate issues and model retirement</strong> in Azure Workbooks. Select only subscriptions within the approved management groups. The dashboard is for live triage. It does not add a subscription to the governed estate.</p>
 <h3 id="3-run-the-estate-report">3. Run the estate report<a class="heading-anchor" href="#3-run-the-estate-report" aria-label="Link to 3. Run the estate report">#</a></h3>
 <section class="code-tabs" data-code-tabs>
   <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
