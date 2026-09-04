@@ -15,23 +15,33 @@ Plain static HTML, CSS, and JavaScript, deployed with GitHub Pages.
 The public site serves two audiences equally:
 
 - Enterprise AI, cloud platform, security, and governance leaders evaluating a practical Microsoft AI governance engagement.
-- Practitioners using the seven-session Citadel program as a technical implementation reference.
+- Practitioners using the seven-session program to adopt Citadel inside an existing enterprise platform.
 
 ## Product Purpose
 
-Present a guided co-implementation program that helps customer teams build and operate Citadel. The
-complete build uses pinned, tested upstream Citadel implementation commits. Customers keep their
-overlays, operational records, and control decisions in their own repository.
+Present an enterprise adoption program around Citadel. Upstream repositories remain authoritative
+for reference architecture, deployable accelerators, supported parameters, and product mechanics.
+The program helps customer teams select a bounded implementation path, apply local controls, and
+establish the ownership needed to operate and upgrade it.
 
 The site explains how the work runs, shows all seven sessions, and helps readers choose the complete
-build or a focused route.
+adoption route or a focused route.
 
 ## Positioning
 
-This is guided co-implementation of Citadel. It is not a fork. Sessions consume tested upstream
-implementations instead of copying their full infrastructure-as-code trees into this repository.
-Customer-owned overlays hold local configuration and policy choices that must survive an upstream
-upgrade.
+This repository is the customer adoption layer around Citadel. It stays outside the upstream source
+trees. Sessions use tested upstream implementations, then add the customer decisions that product
+documentation cannot make: platform fit, permitted scope, identity boundaries, privacy choices,
+operating ownership, and release controls.
+
+Upstream Citadel documentation explains how its architecture and components work. This program
+starts with the customer's environment and asks a different set of questions: which path fits, what
+should remain disabled, who approves each consequential choice, and how the deployed control will
+be checked and restored.
+
+Customer-owned overlays are the interface between those two layers. They hold local configuration
+and policy choices that must survive an upstream upgrade without copying the complete
+infrastructure-as-code implementation.
 
 Customer engineers make bounded changes in a sandbox or nonproduction tenant. The control owner
 listed in the session record confirms the check. The appropriate service, security, data, or release
@@ -66,16 +76,18 @@ Focused routes include only the sessions needed for a useful outcome:
 - **Quality and security:** Sessions 01 through 05.
 - **Operations and release:** Sessions 01, 02, 04, 06, and 07.
 
-The complete Citadel build runs all seven sessions. Focused routes omit unrelated controls and do
-not represent the complete deployment.
+The complete Citadel adoption route runs all seven sessions. Focused routes omit unrelated controls
+and do not represent the complete operating model.
 
 ## Operating Context
 
 The series centers on Citadel and the Microsoft services used by its tested upstream
-implementations. Customer-owned overlays connect those implementations to approved identity,
-network, contract, evaluation, observability, and release controls.
+implementations. Customer-owned overlays connect those implementations to the customer's platform,
+control owners, and approved operating paths.
 
-Readers need an executive overview and enough technical detail to understand session dependencies, practical outcomes, session outputs, and the check that confirms each control.
+Readers need enough architecture detail to make customer decisions without repeating the complete
+upstream product reference. Each session must distinguish the upstream capability, the customer
+decision, the retained overlay, and the operating handoff.
 
 LLMOps runs through the sequence. Sessions 03 and 04 establish the governed workload and its
 contracts. Session 05 applies evaluation and threat gates. Sessions 06 and 07 connect telemetry,
@@ -128,6 +140,7 @@ recovery, and delegated access.
 6. Name the restore or removal owner and the approved change path.
 7. Keep focused routes short. Add a route only when it gives customers a distinct, useful outcome.
 8. State platform, licensing, regional, and lifecycle caveats precisely.
+9. Link to upstream product mechanics instead of rewriting them; explain the customer decision and control added here.
 
 ## Accessibility & Inclusion
 

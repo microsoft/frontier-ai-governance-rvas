@@ -76,6 +76,10 @@ paths.
 
 ## Before you start
 
+Use the [upstream Governance Hub documentation](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/tree/citadel-v1)
+for the full parameter reference and component behavior. This guide owns the customer deployment
+profile, source pin, safety checks, and operating handoff around that implementation.
+
 Clone the Citadel Governance Hub into the customer implementation workspace and check out the commit recorded in `release.json`. Do not modify the upstream checkout during this session. Put customer changes in the deployment profile or in a customer-owned overlay reviewed through source control.
 
 ### Implementation files

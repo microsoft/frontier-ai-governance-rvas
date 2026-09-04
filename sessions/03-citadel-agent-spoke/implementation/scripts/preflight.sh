@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Agent Spoke profile sentinels:
-# __REQUIRED_SPOKE_RESOURCE_GROUP__ __REQUIRED_SPOKE_VNET_NAME__ __REQUIRED_PRIVATE_ENDPOINT_SUBNET_NAME__
-
 usage() {
   cat <<'USAGE'
 Usage:
-  preflight.sh --approved-subscription-id SUBSCRIPTION_ID --resource-group-name RESOURCE_GROUP --foundry-account-name FOUNDRY_ACCOUNT --project-name PROJECT --read-api-base-url HTTPS_URL --application-insights-resource-id RESOURCE_ID
+  preflight.sh --source-path PATH --approved-subscription-id ID --deployment-principal-id ID [--parameters-output PATH]
 USAGE
 }
 
@@ -20,247 +17,226 @@ require_command() {
   command -v "$1" >/dev/null 2>&1 || fail "$1 is required."
 }
 
-validate_https_base_url() {
-  python3 - "$1" <<'PY'
-import sys
-from urllib.parse import urlparse
-value = sys.argv[1]
-uri = urlparse(value)
-if uri.scheme != 'https' or uri.query or uri.fragment or not uri.netloc:
-    raise SystemExit(1)
-PY
+normalize_repo_url() {
+  printf '%s' "$1" | tr '[:upper:]' '[:lower:]' | sed -E 's#^git@github.com:#https://github.com/#; s#\.git/?$##; s#/$##'
 }
 
-az_json() {
-  local description=$1
-  shift
-  local raw
-  if ! raw=$(az "$@" --only-show-errors --output json 2>&1); then
-    fail "$description failed.\n$raw"
-  fi
-  printf '%s' "$raw"
-}
-
-get_ai_token() {
-  local token
-  if ! token=$(az account get-access-token --scope https://ai.azure.com/.default --query accessToken --output tsv --only-show-errors 2>&1); then
-    fail "Unable to acquire a Microsoft Foundry data-plane token.\n$token"
-  fi
-  [[ -n "$token" ]] || fail "Unable to acquire a Microsoft Foundry data-plane token."
-  printf '%s' "$token"
-}
-
-api_request() {
-  local method=$1
-  local url=$2
-  local token=$3
-  local body_file=${4:-}
-  API_BODY_FILE="$temp_dir/api-body.json"
-  API_HEADER_FILE="$temp_dir/api-headers.txt"
-  rm -f "$API_BODY_FILE" "$API_HEADER_FILE"
-  local -a args=(-sS -D "$API_HEADER_FILE" -o "$API_BODY_FILE" -w '%{http_code}' -X "$method" -H "Authorization: Bearer $token")
-  if [[ -n "$body_file" ]]; then
-    args+=(-H 'Content-Type: application/json' --data @"$body_file")
-  fi
-  if ! API_STATUS=$(curl "${args[@]}" "$url"); then
-    fail "Request failed: $method $url"
-  fi
-}
-
-script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
-artifact_root=$(cd -- "$script_dir/../artifacts" && pwd)
-agent_root="$artifact_root/agents/policy-assistant"
-config_path="$agent_root/agent.json"
-instructions_path="$agent_root/instructions.md"
-tool_path="$agent_root/tool-manifest.json"
-required_sentinels=(
-  "__REQUIRED_AGENT_NAME__"
-  "__REQUIRED_DOWNSTREAM_API_AUTHORIZATION_OWNER__"
-  "__REQUIRED_DOWNSTREAM_API_READ_ROLE_ID__"
-  "__REQUIRED_DOWNSTREAM_API_READ_SCOPE__"
-  "__REQUIRED_HUMAN_CHANGE_ROUTE__"
-  "__REQUIRED_MODEL_DEPLOYMENT_NAME__"
-  "__REQUIRED_PROHIBITED_WRITE_ACTION__"
-  "__REQUIRED_RAI_POLICY_NAME__"
-  "__REQUIRED_READ_PATH__"
-  "__REQUIRED_TARGET_AUDIENCE__"
-)
-
+source_path=""
 approved_subscription_id=""
-resource_group_name=""
-foundry_account_name=""
-project_name=""
-read_api_base_url=""
-application_insights_resource_id=""
+deployment_principal_id=""
+parameters_output=""
 
-while (($# > 0)); do
+while (($#)); do
   case "$1" in
-    --approved-subscription-id)
-      [[ $# -ge 2 ]] || fail "--approved-subscription-id requires a value."
-      approved_subscription_id=$2
-      shift 2
-      ;;
-    --resource-group-name)
-      [[ $# -ge 2 ]] || fail "--resource-group-name requires a value."
-      resource_group_name=$2
-      shift 2
-      ;;
-    --foundry-account-name)
-      [[ $# -ge 2 ]] || fail "--foundry-account-name requires a value."
-      foundry_account_name=$2
-      shift 2
-      ;;
-    --project-name)
-      [[ $# -ge 2 ]] || fail "--project-name requires a value."
-      project_name=$2
-      shift 2
-      ;;
-    --read-api-base-url)
-      [[ $# -ge 2 ]] || fail "--read-api-base-url requires a value."
-      read_api_base_url=$2
-      shift 2
-      ;;
-    --application-insights-resource-id)
-      [[ $# -ge 2 ]] || fail "--application-insights-resource-id requires a value."
-      application_insights_resource_id=$2
-      shift 2
-      ;;
-    -h|--help)
-      usage
-      exit 0
-      ;;
-    *)
-      usage >&2
-      fail "Unknown option: $1"
-      ;;
+    --source-path) source_path="${2:-}"; shift 2 ;;
+    --approved-subscription-id) approved_subscription_id="${2:-}"; shift 2 ;;
+    --deployment-principal-id) deployment_principal_id="${2:-}"; shift 2 ;;
+    --parameters-output) parameters_output="${2:-}"; shift 2 ;;
+    -h|--help) usage; exit 0 ;;
+    *) usage >&2; fail "Unknown option: $1" ;;
   esac
 done
 
+[[ -n "$source_path" ]] || fail "--source-path is required."
 [[ -n "$approved_subscription_id" ]] || fail "--approved-subscription-id is required."
-[[ -n "$resource_group_name" ]] || fail "--resource-group-name is required."
-[[ -n "$foundry_account_name" ]] || fail "--foundry-account-name is required."
-[[ -n "$project_name" ]] || fail "--project-name is required."
-[[ -n "$read_api_base_url" ]] || fail "--read-api-base-url is required."
-[[ -n "$application_insights_resource_id" ]] || fail "--application-insights-resource-id is required."
+[[ -n "$deployment_principal_id" ]] || fail "--deployment-principal-id is required."
 
 require_command az
-require_command curl
+require_command git
 require_command jq
 require_command python3
 
-[[ -d "$artifact_root" ]] || fail "Required implementation artifacts folder is missing: $artifact_root"
-for path in "$config_path" "$instructions_path" "$tool_path"; do
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+artifact_root="$(cd -- "$script_dir/../artifacts" && pwd)"
+release_path="$artifact_root/citadel/release.json"
+profile_path="$artifact_root/citadel/spoke-profile.json"
+agent_path="$artifact_root/agents/policy-assistant/agent.json"
+
+for path in "$release_path" "$profile_path" "$agent_path"; do
   [[ -f "$path" ]] || fail "Required implementation file is missing: $path"
 done
+[[ -d "$source_path/.git" ]] || fail "The AI Landing Zones Bicep source must be a Git checkout."
 
-validate_https_base_url "$read_api_base_url" || fail "ReadApiBaseUrl must be an HTTPS base URL without a query string or fragment."
+required_sentinels=(
+  "__REQUIRED_AGENT_NAME__"
+  "__REQUIRED_AGENT_SUBNET_PREFIX__"
+  "__REQUIRED_APPLICATION_INSIGHTS_NAME__"
+  "__REQUIRED_DOWNSTREAM_API_AUTHORIZATION_OWNER__"
+  "__REQUIRED_DOWNSTREAM_API_READ_ROLE_ID__"
+  "__REQUIRED_DOWNSTREAM_API_READ_SCOPE__"
+  "__REQUIRED_FOUNDRY_ACCOUNT_NAME__"
+  "__REQUIRED_FOUNDRY_PROJECT_NAME__"
+  "__REQUIRED_HUMAN_CHANGE_ROUTE__"
+  "__REQUIRED_MODEL_API_VERSION__"
+  "__REQUIRED_MODEL_CAPACITY__"
+  "__REQUIRED_MODEL_DEPLOYMENT_NAME__"
+  "__REQUIRED_MODEL_FORMAT__"
+  "__REQUIRED_MODEL_NAME__"
+  "__REQUIRED_MODEL_SKU__"
+  "__REQUIRED_MODEL_VERSION__"
+  "__REQUIRED_PROHIBITED_WRITE_ACTION__"
+  "__REQUIRED_PRIVATE_ENDPOINT_SUBNET_PREFIX__"
+  "__REQUIRED_RAI_POLICY_NAME__"
+  "__REQUIRED_READ_PATH__"
+  "__REQUIRED_SPOKE_RESOURCE_GROUP__"
+  "__REQUIRED_SPOKE_ROUTE_TABLE_RESOURCE_ID__"
+  "__REQUIRED_SPOKE_VNET_RESOURCE_ID__"
+  "__REQUIRED_TARGET_AUDIENCE__"
+)
 
-export TMPDIR="$script_dir/.tmp"
-mkdir -p "$TMPDIR"
-temp_dir=$(mktemp -d "$TMPDIR/preflight.XXXXXX")
-trap 'rm -rf "$temp_dir"' EXIT
-
-mapfile -t unresolved_sentinels < <(grep -R -h -o -E '__REQUIRED_[A-Z0-9_]+__' "$artifact_root" | sort -u || true)
-if ((${#unresolved_sentinels[@]} > 0)); then
+mapfile -t unresolved < <(grep -R -h -o -E '__REQUIRED_[A-Z0-9_]+__' "$artifact_root" | sort -u || true)
+if ((${#unresolved[@]})); then
   unknown=()
-  for sentinel in "${unresolved_sentinels[@]}"; do
+  for sentinel in "${unresolved[@]}"; do
     known=false
     for required in "${required_sentinels[@]}"; do
-      if [[ "$required" == "$sentinel" ]]; then
-        known=true
-        break
-      fi
+      [[ "$sentinel" == "$required" ]] && known=true && break
     done
     $known || unknown+=("$sentinel")
   done
-  if ((${#unknown[@]} > 0)); then
-    fail "Add explicit Session 03 preflight checks for new sentinels: ${unknown[*]}"
-  fi
-  fail "Resolve every Session 03 customer decision before deployment: ${unresolved_sentinels[*]}"
+  ((${#unknown[@]} == 0)) || fail "Add explicit Session 03 checks for new sentinels: ${unknown[*]}"
+  fail "Resolve every Session 03 customer decision before deployment: ${unresolved[*]}"
 fi
 
-jq -e '.implementationSession == "03-citadel-agent-spoke"' "$config_path" >/dev/null || fail "agent.json has the wrong implementation marker."
-jq -e '.agentType == "prompt" and .runtimePattern == "persistent-prompt-agent"' "$config_path" >/dev/null || fail "Session 03 implements one persistent prompt agent."
-jq -e '.endpoint.versionSelection == "pinned"' "$config_path" >/dev/null || fail "The stable endpoint must pin one explicit agent version."
-jq -e '.endpoint.protocols == ["responses"]' "$config_path" >/dev/null || fail "The governed baseline exposes only the Responses protocol."
-jq -e '.endpoint.authorizationSchemes == ["Entra"]' "$config_path" >/dev/null || fail "The governed endpoint must use Microsoft Entra authorization only."
-jq -e '(.temperature | tonumber) >= 0 and (.temperature | tonumber) <= 2' "$config_path" >/dev/null || fail "Agent temperature must be between 0 and 2."
-jq -e '.raiPolicyName | strings | length > 0' "$config_path" >/dev/null || fail "A named RAI policy is required."
-grep -q 'Refuse requests to create, update, approve, publish, delete' "$instructions_path" &&
-  grep -q '__REQUIRED_PROHIBITED_WRITE_ACTION__' "$instructions_path" &&
-  grep -q '__REQUIRED_HUMAN_CHANGE_ROUTE__' "$instructions_path" ||
-  fail "The approved instructions do not contain the prohibited-write refusal boundary."
+jq -e '
+  .schemaVersion == 1 and
+  .implementationSession == "03-citadel-agent-spoke" and
+  .deploymentEngine == "bicep" and
+  .deploymentMode == "ailz-integrated" and
+  .networkIsolation == true and
+  .foundry.disableLocalAuth == true and
+  .foundry.deployAgentService == true and
+  .components.deployPublicIngress == false and
+  .components.deployAzureFirewall == false
+' "$profile_path" >/dev/null || fail "spoke-profile.json does not match the approved integrated Bicep boundary."
 
-jq -e '.tools | length == 1 and .tools[0].type == "openapi"' "$tool_path" >/dev/null || fail "The baseline must expose exactly one OpenAPI tool."
-jq -e '(.tools[0].openapi.spec.paths | keys | length) == 1' "$tool_path" >/dev/null || fail "The OpenAPI manifest must contain exactly one path."
-jq -e '(.tools[0].openapi.spec.paths | to_entries[0].value | keys) == ["get"]' "$tool_path" >/dev/null || fail "The OpenAPI manifest must expose exactly one GET operation and no write operation."
-jq -e '.tools[0].openapi.spec.paths | to_entries[0].value.get.operationId | test("^[A-Za-z_-]+$")' "$tool_path" >/dev/null || fail "The OpenAPI operationId must contain only letters, hyphens, and underscores."
-jq -e '.tools[0].openapi.spec.servers[0].url == "__RUNTIME_READ_API_BASE_URL__"' "$tool_path" >/dev/null || fail "The authoritative tool manifest must not contain a live API endpoint."
-jq -e '.tools[0].openapi.auth.type == "managed_identity"' "$tool_path" >/dev/null || fail "The read tool must use managed identity authentication."
+expected_repo="$(jq -r '.implementation.repository' "$release_path")"
+expected_commit="$(jq -r '.implementation.commit' "$release_path")"
+entry_point="$(jq -r '.implementation.entryPoint' "$release_path")"
+[[ "$(jq -r '.implementation.engine' "$release_path")" == "bicep" ]] || fail "release.json must select the Bicep implementation."
+[[ -f "$source_path/$entry_point" ]] || fail "Pinned Bicep entry point is missing: $source_path/$entry_point"
+actual_repo="$(git -C "$source_path" remote get-url origin)"
+[[ "$(normalize_repo_url "$actual_repo")" == "$(normalize_repo_url "$expected_repo")" ]] || fail "The source checkout has the wrong Git remote."
+actual_commit="$(git -C "$source_path" rev-parse HEAD)"
+[[ "$actual_commit" == "$expected_commit" ]] || fail "The source checkout is not at the pinned AI Landing Zones Bicep commit."
+[[ -z "$(git -C "$source_path" status --porcelain)" ]] || fail "The pinned upstream checkout contains local changes."
 
-account_json=$(az_json 'Azure account lookup' account show)
-[[ $(jq -r '.id' <<<"$account_json") == "$approved_subscription_id" ]] || fail "Azure CLI is not using the approved subscription."
+account_id="$(az account show --query id --output tsv --only-show-errors)"
+[[ "$account_id" == "$approved_subscription_id" ]] || fail "Azure CLI is not using the approved subscription."
 
-foundry_json=$(az_json 'Microsoft Foundry resource lookup' cognitiveservices account show --name "$foundry_account_name" --resource-group "$resource_group_name")
-[[ $(jq -r '.kind' <<<"$foundry_json") == 'AIServices' ]] || fail "The existing Microsoft Foundry resource must have the Azure resource property kind set to AIServices."
-expected_foundry_id="/subscriptions/$approved_subscription_id/resourceGroups/$resource_group_name/providers/Microsoft.CognitiveServices/accounts/$foundry_account_name"
-[[ $(jq -r '.id' <<<"$foundry_json") == "$expected_foundry_id" ]] || fail "The Foundry resource is outside the approved subscription or resource group."
-project_resource_id="$expected_foundry_id/projects/$project_name"
-project_json=$(az_json 'Foundry project lookup' resource show --ids "$project_resource_id")
-project_principal_id=$(jq -r '.identity.principalId // empty' <<<"$project_json")
-[[ -n "$project_principal_id" ]] || fail "The Foundry project managed identity could not be resolved."
-read_scope=$(jq -r '.tools[0].openapi.auth.assignmentScope' "$tool_path")
-read_role_id=$(jq -r '.tools[0].openapi.auth.requiredRoleDefinitionId' "$tool_path")
-read_assignments=$(az_json 'Downstream read assignment lookup' role assignment list --assignee-object-id "$project_principal_id" --scope "$read_scope" --include-inherited false)
-[[ $(jq --arg scope "$read_scope" --arg role_id "$read_role_id" '[.[] | select(.scope == $scope and (.roleDefinitionId | endswith("/" + $role_id)))] | length' <<<"$read_assignments") == '1' ]] || fail "The exact downstream managed-identity read assignment is not ready."
+resource_group="$(jq -r '.resourceGroupName' "$profile_path")"
+location="$(jq -r '.location' "$profile_path")"
+vnet_id="$(jq -r '.existingVnetResourceId' "$profile_path")"
+route_table_id="$(jq -r '.existingRouteTableResourceId' "$profile_path")"
+az group show --name "$resource_group" --only-show-errors >/dev/null || fail "The approved Agent Spoke resource group does not exist."
+az resource show --ids "$vnet_id" --only-show-errors >/dev/null || fail "The existing Agent Spoke VNet could not be read."
+az resource show --ids "$route_table_id" --only-show-errors >/dev/null || fail "The platform-owned Agent Spoke route table could not be read."
+[[ "${vnet_id,,}" == "/subscriptions/${approved_subscription_id,,}/"* ]] || fail "The existing VNet is outside the approved subscription."
+[[ "${route_table_id,,}" == "/subscriptions/${approved_subscription_id,,}/"* ]] || fail "The existing route table is outside the approved subscription."
 
-model_deployment_name=$(jq -r '.modelDeploymentName' "$config_path")
-model_json=$(az_json 'Model deployment lookup' cognitiveservices account deployment show --name "$foundry_account_name" --resource-group "$resource_group_name" --deployment-name "$model_deployment_name")
-[[ $(jq -r '.properties.provisioningState' <<<"$model_json") == 'Succeeded' ]] || fail "The approved Session 03 model deployment is not ready."
+agent_model="$(jq -r '.modelDeploymentName' "$agent_path")"
+profile_model="$(jq -r '.model.deploymentName' "$profile_path")"
+[[ "$agent_model" == "$profile_model" ]] || fail "The agent and landing-zone profile must use the same model deployment name."
 
-ai_resource_json=$(az_json 'Application Insights lookup' resource show --ids "$application_insights_resource_id")
-[[ $(jq -r '.type | ascii_downcase' <<<"$ai_resource_json") == 'microsoft.insights/components' ]] || fail "The supplied Application Insights resource ID does not identify a Microsoft.Insights/components resource."
-[[ $(jq -r '.id' <<<"$ai_resource_json") == /subscriptions/$approved_subscription_id/* ]] || fail "Application Insights is outside the approved subscription."
-project_endpoint="https://$foundry_account_name.services.ai.azure.com/api/projects/$project_name"
-token=$(get_ai_token)
-api_request GET "$project_endpoint/agents?api-version=v1" "$token"
-[[ "$API_STATUS" == '200' ]] || fail "The approved Foundry project endpoint could not be read."
-agent_name=$(jq -r '.agentName' "$config_path")
-existing_count=$(jq -r --arg name "$agent_name" '[.data[]?, .value[]?] | map(select(.name == $name)) | length' "$API_BODY_FILE")
-if (( existing_count > 1 )); then
-  fail "The project returned more than one agent with the configured name."
-fi
-if (( existing_count == 1 )); then
-  description=$(jq -r --arg name "$agent_name" '[.data[]?, .value[]?] | map(select(.name == $name))[0].agent_card.description // ""' "$API_BODY_FILE")
-  [[ "$description" == *'03-citadel-agent-spoke'* ]] || fail "An existing agent uses the configured name but does not carry the Session 03 marker."
-  principal_id=$(jq -r --arg name "$agent_name" '[.data[]?, .value[]?] | map(select(.name == $name))[0].instance_identity.principal_id // ""' "$API_BODY_FILE")
-  [[ -n "$principal_id" ]] || fail "The existing agent is a legacy agent without a unique Entra Agent Identity. Create a new named agent instead."
-  escaped_agent_name=$(python3 - "$agent_name" <<'PY'
-from urllib.parse import quote
-import sys
-print(quote(sys.argv[1], safe=''))
-PY
-)
-  api_request GET "$project_endpoint/agents/$escaped_agent_name?api-version=v1" "$token"
-  [[ "$API_STATUS" == '200' ]] || fail "The approved agent could not be read for stable-endpoint validation."
-  live_version=$(jq -r '.agent_endpoint.version_selector.version_selection_rules[0].agent_version // ""' "$API_BODY_FILE")
-  [[ -n "$live_version" ]] || fail "The existing marked agent does not expose a pinned stable endpoint version."
-fi
-
-api_path=$(jq -r '.tools[0].openapi.spec.paths | keys[0]' "$tool_path")
-echo 'Read-only preview:'
-echo "  Project: $project_endpoint"
-echo "  Agent: $agent_name"
-echo "  Model deployment: $model_deployment_name"
-echo "  Tool surface: GET $api_path only"
-echo '  Endpoint: Responses, Entra authorization, pinned to the new version'
-if (( existing_count == 1 )); then
-  echo '  Existing marked agent: True'
+if [[ -z "$parameters_output" ]]; then
+  parameters_output="$(mktemp)"
+  trap 'rm -f "$parameters_output"' EXIT
 else
-  echo '  Existing marked agent: False'
+  mkdir -p "$(dirname -- "$parameters_output")"
 fi
-if (( existing_count == 1 )); then
-  echo "  Current/live active version: $live_version"
-fi
-echo "Foundry doesn't expose a what-if operation for data-plane agent version creation. This read-only lookup and exact mutation summary are the preview gate."
-echo 'PASS: Session 03 files, decisions, live release selector, approved Azure scope, model, Application Insights resource, Foundry project access, read-only tool boundary, unique-identity path, and preview gate are ready.'
+
+jq -n \
+  --arg environment_name "$(jq -r '.environmentName' "$profile_path")" \
+  --arg location "$location" \
+  --arg principal_id "$deployment_principal_id" \
+  --arg principal_type "$(jq -r '.deploymentPrincipalType' "$profile_path")" \
+  --arg deployment_mode "$(jq -r '.deploymentMode' "$profile_path")" \
+  --arg vnet_id "$vnet_id" \
+  --arg route_table_id "$route_table_id" \
+  --arg agent_subnet_name "$(jq -r '.agentSubnetName' "$profile_path")" \
+  --arg agent_subnet_prefix "$(jq -r '.agentSubnetPrefix' "$profile_path")" \
+  --arg pe_subnet_name "$(jq -r '.privateEndpointSubnetName' "$profile_path")" \
+  --arg pe_subnet_prefix "$(jq -r '.privateEndpointSubnetPrefix' "$profile_path")" \
+  --arg foundry_account "$(jq -r '.foundry.accountName' "$profile_path")" \
+  --arg foundry_project "$(jq -r '.foundry.projectName' "$profile_path")" \
+  --arg app_insights "$(jq -r '.observability.applicationInsightsName' "$profile_path")" \
+  --arg model_deployment "$(jq -r '.model.deploymentName' "$profile_path")" \
+  --arg model_format "$(jq -r '.model.format' "$profile_path")" \
+  --arg model_name "$(jq -r '.model.name' "$profile_path")" \
+  --arg model_version "$(jq -r '.model.version' "$profile_path")" \
+  --arg model_sku "$(jq -r '.model.sku' "$profile_path")" \
+  --arg model_api_version "$(jq -r '.model.apiVersion' "$profile_path")" \
+  --argjson model_capacity "$(jq -r '.model.capacity | tonumber' "$profile_path")" \
+  --argjson deploy_subnets "$(jq '.deploySubnets' "$profile_path")" \
+  --argjson policy_dns "$(jq '.policyManagedPrivateDns' "$profile_path")" \
+  --argjson deploy_storage "$(jq '.components.deployStorageAccount' "$profile_path")" \
+  --argjson deploy_key_vault "$(jq '.components.deployKeyVault' "$profile_path")" \
+  --argjson deploy_search "$(jq '.components.deploySearchService' "$profile_path")" \
+  --argjson deploy_cosmos "$(jq '.components.deployCosmosDb' "$profile_path")" \
+  --argjson deploy_container_apps "$(jq '.components.deployContainerApps' "$profile_path")" \
+  --argjson deploy_registry "$(jq '.components.deployContainerRegistry' "$profile_path")" \
+  --argjson deploy_app_config "$(jq '.components.deployAppConfiguration' "$profile_path")" \
+  --argjson tags "$(jq '.tags' "$profile_path")" \
+  '{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    contentVersion: "1.0.0.0",
+    parameters: {
+      environmentName: {value: $environment_name},
+      location: {value: $location},
+      principalId: {value: $principal_id},
+      principalType: {value: $principal_type},
+      deploymentTags: {value: $tags},
+      networkIsolation: {value: true},
+      deploymentMode: {value: $deployment_mode},
+      useExistingVNet: {value: true},
+      existingVnetResourceId: {value: $vnet_id},
+      hubIntegrationExistingRouteTableResourceId: {value: $route_table_id},
+      deploySubnets: {value: $deploy_subnets},
+      agentSubnetName: {value: $agent_subnet_name},
+      agentSubnetPrefix: {value: $agent_subnet_prefix},
+      peSubnetName: {value: $pe_subnet_name},
+      peSubnetPrefix: {value: $pe_subnet_prefix},
+      policyManagedPrivateDns: {value: $policy_dns},
+      deployAiFoundry: {value: true},
+      deployAAfAgentSvc: {value: true},
+      aiFoundryDisableLocalAuth: {value: true},
+      aiFoundryAccountName: {value: $foundry_account},
+      aiFoundryProjectName: {value: $foundry_project},
+      deployAppInsights: {value: true},
+      appInsightsName: {value: $app_insights},
+      deployLogAnalytics: {value: true},
+      deployStorageAccount: {value: $deploy_storage},
+      deployKeyVault: {value: $deploy_key_vault},
+      deploySearchService: {value: $deploy_search},
+      deployCosmosDb: {value: $deploy_cosmos},
+      deployContainerApps: {value: $deploy_container_apps},
+      deployContainerRegistry: {value: $deploy_registry},
+      deployContainerEnv: {value: $deploy_container_apps},
+      deployAppConfig: {value: $deploy_app_config},
+      deployNsgs: {value: true},
+      deployAzureFirewall: {value: false},
+      publicIngress: {value: {enabled: false}},
+      deployJumpbox: {value: false},
+      deployBastion: {value: false},
+      deployNatGateway: {value: false},
+      deployVM: {value: false},
+      deploySoftware: {value: false},
+      modelDeploymentList: {value: [{
+        name: $model_deployment,
+        model: {format: $model_format, name: $model_name, version: $model_version},
+        sku: {name: $model_sku, capacity: $model_capacity},
+        canonical_name: "CHAT_DEPLOYMENT_NAME",
+        apiVersion: $model_api_version
+      }]}
+    }
+  }' > "$parameters_output"
+
+az bicep build --file "$source_path/$entry_point" --stdout --only-show-errors >/dev/null
+az deployment group what-if \
+  --name session03-agent-spoke-preview \
+  --resource-group "$resource_group" \
+  --template-file "$source_path/$entry_point" \
+  --parameters "@$parameters_output" \
+  --only-show-errors
+
+echo "PASS: The pinned AI Landing Zones Bicep source, customer profile, Azure scope, generated parameters, and deployment preview are ready."

@@ -1,6 +1,15 @@
 {
-  "repository": "https://github.com/Azure/AI-Landing-Zones.git",
-  "commit": "fb4c288a559f951c4e7729732b4727c72a164d8d",
-  "deploymentMethod": "pinned Bicep or Terraform implementation",
+  "schemaVersion": 1,
+  "architecture": {
+    "repository": "https://github.com/Azure/AI-Landing-Zones.git",
+    "commit": "fb4c288a559f951c4e7729732b4727c72a164d8d"
+  },
+  "implementation": {
+    "engine": "bicep",
+    "repository": "https://github.com/Azure/bicep-ptn-aiml-landing-zone.git",
+    "release": "v2.6.1",
+    "commit": "64195c01b70974fa7256c2f54a0035fb06804139",
+    "entryPoint": "main.bicep"
+  },
   "portalTemplateAllowedFor": "nonproduction exploration only"
 }

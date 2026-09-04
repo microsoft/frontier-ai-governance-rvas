@@ -70,6 +70,11 @@ retirement work, but the owning Azure, Foundry, APIM, and release systems remain
 
 ## Before you start
 
+Use the [upstream Citadel release guidance](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/release-version-management.md)
+for supported deployment and gateway upgrade mechanics. This guide owns the customer release
+identity, protected promotion path, restore decision, and estate lifecycle process across the
+independent components.
+
 Prepare the protected repository, default branch, four GitHub environments, exact Azure OIDC subjects, scoped deployment roles, required reviewers, secret protection, release store, previous approved release, Citadel source pins, overlays, gate records, smoke interface, routing selector, and estate scope.
 
 ### Implementation files

@@ -1542,8 +1542,8 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="A seven-session guided co-implementation of Citadel using pinned upstream implementations and customer-owned overlays.">
-    <title>Citadel guided co-implementation | Practical Microsoft AI Governance</title>
+    <meta name="description" content="A seven-session enterprise adoption program that connects upstream Citadel implementations to customer-owned decisions, controls, and operating paths.">
+    <title>Citadel enterprise adoption | Practical Microsoft AI Governance</title>
     <link rel="icon" href="assets/img/logo-mark.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1576,9 +1576,9 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
       <section class="hero" id="top" aria-labelledby="hero-title">
         <div class="hero__inner">
           <div class="hero__copy">
-            <p class="hero__eyebrow">RVAS · Citadel co-implementation</p>
-            <h1 id="hero-title">Build Citadel. <span>Keep control of your implementation.</span></h1>
-            <p class="hero__lead">Customer engineers use pinned, tested upstream Citadel implementations in a bounded nonproduction scope. Your team owns the overlays, operating records, checks, and restore path.</p>
+            <p class="hero__eyebrow">RVAS · Citadel enterprise adoption</p>
+            <h1 id="hero-title">Adopt Citadel. <span>Make the implementation yours.</span></h1>
+            <p class="hero__lead">Upstream Citadel documentation explains the architecture and deployment mechanics. This program helps your team choose the customer path, apply local controls, and establish who will operate and upgrade it.</p>
             <div class="hero__actions"><a class="button button--primary" href="#program">Browse the sessions <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 6l4 4-4 4"></path></svg></a><a class="button button--secondary" href="#routes">Compare routes</a></div>
             <dl class="program-docket" aria-label="Program facts">
               <div><dd>${sessions.length}</dd><dt>Sessions</dt></div>
@@ -1588,11 +1588,11 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
           </div>
           <aside class="program-outcome program-outcome--compact" aria-label="Customer-owned result">
             <p>Customer-owned result, complete route</p>
-            <h2>A governed Citadel deployment your team can operate and upgrade.</h2>
+            <h2>A Citadel implementation fitted to your platform and operating model.</h2>
             <ul>
               <li>Pinned upstream Citadel implementation commits</li>
-              <li>Customer-owned overlays and operational records</li>
-              <li>Observable checks with restore or removal ownership</li>
+              <li>Customer decisions captured in owned overlays</li>
+              <li>Named checks, operators, and restore paths</li>
             </ul>
           </aside>
         </div>
@@ -1602,16 +1602,16 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
         <div class="section-heading"><div><p class="section-kicker">Two ways into the same work</p><h2 id="audience-title">Read the program at the level you need.</h2></div></div>
         <div class="audience-lanes">
           <article><span>For leaders</span><h3>See the operating model and ownership.</h3><p>Review scope, dependencies, working time, and the decisions that stay with service, security, data, or release owners.</p><a href="#routes">Compare routes</a></article>
-          <article><span>For practitioners</span><h3>Use the implementation as a field reference.</h3><p>Open any session for the guide, source-controlled files, safety gates, observable result, and restore or removal path.</p><a href="#program">Find a session</a></article>
+          <article><span>For practitioners</span><h3>Turn the reference architecture into an owned service.</h3><p>Open a session for the customer decisions, retained overlays, safety checks, and operating handoff around the upstream implementation.</p><a href="#program">Find a session</a></article>
         </div>
       </section>
 
       <section class="method-section" id="approach" aria-labelledby="approach-title">
         <div class="section">
-          <div class="section-heading"><div><p class="section-kicker">Guided co-implementation</p><h2 id="approach-title">One control at a time, with its owner in the room.</h2><p>Standard mode implements the control and runs one observable check. Extended mode is reserved for work that needs an allowed path, a blocked or failure path, and a delivery-owner checkpoint.</p></div></div>
+          <div class="section-heading"><div><p class="section-kicker">Where this program starts</p><h2 id="approach-title">Use upstream for product mechanics. Use this program for customer adoption.</h2><p>Each session separates what Citadel already supplies from the decision, overlay, and operating control the customer must own.</p></div></div>
           <div class="method-grid">
-            <article><span>Build</span><h3>Use upstream Citadel implementations.</h3><p>Pin a tested upstream commit, then apply customer-owned overlays through the approved change path. Do not copy the full upstream infrastructure tree.</p></article>
-            <article><span>Check</span><h3>Observe a defined result.</h3><p>The listed control owner confirms the check. The relevant service, security, data, or release owner approves consequential changes. Checks and evaluation examples run on fictional records, never customer data.</p></article>
+            <article><span>Upstream Citadel</span><h3>Architecture and deployable accelerators.</h3><p>Use the upstream repositories for component behavior, deployment mechanics, and the complete parameter reference.</p></article>
+            <article><span>Customer adoption</span><h3>Platform fit and long-term ownership.</h3><p>Use these sessions to select a tested path, reject unneeded defaults, retain local decisions, and hand each control to its operator.</p></article>
           </div>
         </div>
       </section>
@@ -1653,7 +1653,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
         <div class="section">
           <div class="section-heading"><div><h2 id="routes-title">Choose the Citadel path you need.</h2><p>Every route starts with the platform foundation and Governance Hub. Focused routes then add only the controls needed for their outcome.</p></div></div>
           <div class="route-choice">
-            <div class="route-choice__primary"><div><h3>Complete Citadel build · ${totalHours} working hours</h3><p>Run all ${sessions.length} sessions using pinned upstream implementations and customer-owned overlays.</p></div><ol class="route-choice__sequence"><li><span>1–3</span> Foundation</li><li><span>4–5</span> Runtime governance</li><li><span>6–7</span> Operations</li></ol><a class="button button--primary" data-route-clear href="#program">Browse all sessions</a></div>
+            <div class="route-choice__primary"><div><h3>Complete Citadel adoption · ${totalHours} working hours</h3><p>Run all ${sessions.length} sessions to connect the tested upstream implementations to customer controls and operating ownership.</p></div><ol class="route-choice__sequence"><li><span>1–3</span> Foundation</li><li><span>4–5</span> Runtime governance</li><li><span>6–7</span> Operations</li></ol><a class="button button--primary" data-route-clear href="#program">Browse all sessions</a></div>
             <div class="route-choice__heading"><div><h3>Focused routes</h3></div><div class="route-choice__legend" aria-label="Route phase colors"><span><i class="is-foundation"></i>Foundation</span><span><i class="is-runtime"></i>Runtime governance</span><span><i class="is-operations"></i>Operations</span></div></div>
             <div class="route-paths" role="list">${routeCards}</div>
             <p class="route-choice__note">Agent 365, multi-region recovery, and delegated access remain optional modules outside the numbered sequence.</p>

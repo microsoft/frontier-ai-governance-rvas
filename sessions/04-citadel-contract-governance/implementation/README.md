@@ -80,6 +80,10 @@ Contract grants a workload permission to consume it.
 
 ## Before you start
 
+Use the [upstream Citadel contract guides](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/tree/citadel-v1)
+for module behavior and the complete parameter reference. This guide owns the customer's backend,
+publish, and access choices, plus the workload threat boundary and release binding around them.
+
 The hub must be running. Name the APIM service, APIM managed identity, Foundry backend, model deployment, workload Key Vault, business unit, tool owner, API Center service, MCP endpoint, and MCP audience. Confirm the APIM identity has the exact backend role and the tool supports managed-identity authentication.
 
 This repository does not deploy the backing API or MCP server. The included `get_policy` binding is

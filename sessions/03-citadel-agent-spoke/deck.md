@@ -20,9 +20,9 @@ html: true
 
 ## Why it matters
 
-The complete Agent Spoke can include more infrastructure than a first workload needs.
+The upstream pattern can deploy more infrastructure than this workload needs.
 
-**Start with the runtime, network, identity, and data services that have a current owner.**
+**Pin one Bicep release and disable every component without a current owner.**
 
 ---
 
@@ -79,9 +79,12 @@ Managed identity removes stored credentials. RBAC and the Session 04 contracts s
 
 | Component | Default |
 | --- | --- |
+| Deployment source | AI Landing Zones Bicep `v2.6.1` |
 | Foundry Agent Service | Include |
+| Agent and private-endpoint subnets | Use approved workload ranges |
+| Egress route | Reuse the platform-owned route table |
 | Shared Governance Hub | Use for model and tool traffic |
-| Private workload data | Keep inside the spoke boundary |
+| Separate workload data services | Exclude until the workload needs them |
 | Container Apps | Exclude unless required |
 | Local APIM or Application Gateway | Exclude unless required |
 
@@ -91,17 +94,18 @@ Managed identity removes stored credentials. RBAC and the Session 04 contracts s
 
 ## Working path
 
-1. Pin the AI Landing Zones commit.
-2. Complete the spoke profile.
-3. Deploy or integrate the workload plane.
-4. Run agent preflight.
-5. Create and pin the policy-assistant agent.
+1. Verify the Bicep remote and pinned commit.
+2. Generate parameters from the spoke profile.
+3. Review the resource-group what-if.
+4. Apply and check the workload plane.
+5. Create the fixed policy-assistant version.
 
 ---
 
 ## Safety gates
 
 - Verify the pinned Agent Spoke source.
+- Stop on an unexpected resource or deletion in what-if.
 - Stop when an optional component lacks an owner or current need.
 - Keep the first tool read-only and the agent version fixed.
 
@@ -109,7 +113,8 @@ Managed identity removes stored credentials. RBAC and the Session 04 contracts s
 
 ## Expected result
 
-The workload team can name every deployed component and its owner. The fixed agent version is ready for model and tool access through Citadel contracts.
+The deployed resource group matches the spoke profile. The fixed agent version is ready for model
+and tool access through Citadel contracts.
 
 ---
 

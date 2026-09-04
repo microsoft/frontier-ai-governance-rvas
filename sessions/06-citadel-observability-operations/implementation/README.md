@@ -71,6 +71,10 @@ retaining separate ownership and failure results.
 
 ## Before you start
 
+Use the [upstream Citadel observability guide](https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/platform-observability-guide.md)
+for emitted metrics and built-in processing. This guide owns the customer's retention, privacy,
+alerting, cost, and incident decisions around those signals.
+
 Name the Application Insights component, Log Analytics workspace, action group, budget scope, workload contract, cost owner, incident owner, retention period, sampling choice, export decision, and synthetic normal and failure routes.
 
 ### Implementation files

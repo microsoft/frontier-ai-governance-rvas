@@ -1,14 +1,31 @@
 # Practical Microsoft AI Governance
 
-This repository publishes a seven-session guided co-implementation of Citadel. Customer teams use
-tested upstream Citadel implementation commits, add customer-owned overlays, and keep their
-operational records and control decisions in source control. This is an implementation path, not a
-fork of Citadel.
+This repository publishes a seven-session enterprise adoption program around Citadel. Upstream
+Citadel repositories remain authoritative for the architecture, templates, supported parameters,
+and product deployment mechanics. This program helps customer teams choose a bounded path, apply
+customer-owned overlays, implement the missing governance controls, and hand the result to its
+long-term owners.
 
 The sequence builds the platform foundation, Governance Hub, and Agent Spoke before adding contract
 governance, evaluation and threat gates, observability, and controlled promotion. Each session keeps
 changes bounded to an approved nonproduction scope and ends with an observable check plus a named
 restore or removal owner.
+
+## Where this guide starts
+
+| Upstream Citadel documentation | This program |
+| --- | --- |
+| Explains the reference architecture and supported implementation options | Selects the customer path and records why it fits |
+| Supplies the deployable accelerators and product parameters | Pins a tested version and maps customer decisions into small overlays |
+| Documents component behavior | Adds scope checks, approval points, operating ownership, and restore paths |
+| Describes individual platform capabilities | Connects hub, spoke, contracts, assurance, operations, and promotion into one adoption sequence |
+
+Use the upstream repositories when you need product mechanics or the complete parameter reference.
+Use this program when you need to decide what the customer will deploy, which defaults to reject,
+who approves the change, and how the deployed control will operate.
+
+Start with the [Citadel platform architecture](https://github.com/Azure-Samples/foundry-citadel-platform)
+for the reference design and implementation links. Return here for the customer adoption sequence.
 
 ## Execution environment
 

@@ -4,7 +4,7 @@ set -euo pipefail
 usage() {
   cat <<'USAGE'
 Usage:
-  deploy.sh --approved-subscription-id SUBSCRIPTION_ID --resource-group-name RESOURCE_GROUP --foundry-account-name FOUNDRY_ACCOUNT --project-name PROJECT --read-api-base-url HTTPS_URL
+  deploy-agent.sh --approved-subscription-id SUBSCRIPTION_ID --resource-group-name RESOURCE_GROUP --foundry-account-name FOUNDRY_ACCOUNT --project-name PROJECT --read-api-base-url HTTPS_URL
 USAGE
 }
 
