@@ -61,13 +61,14 @@ the same command, so these generated files should not be edited by hand.
 ## Publish with GitHub Pages
 
 The workflow in `.github/workflows/pages.yml` installs the pinned build dependency, rebuilds the
-homepage, service map, session pages, and module pages, then publishes `site/`.
-It runs on pushes to `master` or `main` and can also be started manually.
+homepage, service map, session pages, and module pages, then publishes `site/` to `gh-pages`.
+It runs on pushes to `master` or `main`, on pull requests, and manually. Each pull request from
+this repository publishes a preview at `pr-<number>/` and updates one bot comment with its link.
 
 For the first deployment, open **Settings > Pages** in the GitHub repository and
-set **Source** to **GitHub Actions**. Push the branch or run **Deploy static site
-to Pages** from the Actions tab. The deployment URL appears in the workflow's
-`github-pages` environment.
+set **Source** to **Deploy from a branch**, then select the `gh-pages` branch and
+the `/(root)` folder. Push the branch or run **Deploy static site to Pages** from
+the Actions tab.
 
 ## Content source
 
