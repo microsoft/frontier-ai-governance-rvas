@@ -57,7 +57,7 @@ Foundry owns live state. The repository owns the version definition.
 </div>
 <div>
 
-![A versioned agent definition becomes an immutable endpoint whose project identity calls one read-only API.](assets/diagrams/governed-agent-flow.svg)
+![A versioned Foundry agent uses its Entra Agent Identity at the endpoint and project managed identity for one read-only API.](assets/diagrams/governed-agent-architecture.svg)
 
 </div>
 </div>

@@ -66,6 +66,16 @@ resource assignments and any new user grants.
 
 ---
 
+<!-- _class: diagram -->
+
+## Certificate custody
+
+![Azure Key Vault supplies the protected certificate that authenticates the middle tier for the Entra OBO exchange.](assets/diagrams/obo-key-vault-custody.svg)
+
+<!-- Notes: Keep the PFX in the approved Key Vault integration. The repository stores references, never the key. -->
+
+---
+
 ## What this means
 
 In the OAuth on-behalf-of (OBO) flow, the inbound token stops at the middle tier. Microsoft Entra

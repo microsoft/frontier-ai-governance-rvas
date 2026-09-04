@@ -50,15 +50,7 @@ everything else.
 
 ## Architecture at a glance
 
-```text
-External agent + runtime-owned source
-             |
-   one supported Agent 365 route
-             |
-             v
-Agent 365 Agent Registry
-  enterprise inventory and lifecycle
-```
+![Built-in integration, Registry sync, and the Agent 365 SDK create a live Agent Registry record for an external agent.](assets/diagrams/external-agent-inventory-architecture.svg)
 
 The decision record holds what the registry does not: the chosen route, the credential owners, and
 the retirement plan.

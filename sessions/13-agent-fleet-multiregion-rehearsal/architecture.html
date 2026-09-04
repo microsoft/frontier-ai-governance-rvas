@@ -76,7 +76,7 @@
           </button>
           <a
             class="implementation-files-link"
-            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/accb08d77b793e4748cb9896c7c202faf30ae51f/sessions/13-agent-fleet-multiregion-rehearsal/implementation"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/2f0625deec1093944ad6dcd50b5b3fef0249dba6/sessions/13-agent-fleet-multiregion-rehearsal/implementation"
             target="_blank"
             rel="noopener"
           >
@@ -110,6 +110,7 @@
 <p>The customer health control checks the active path against the regional contract. It reports agent version, Entra identity, API Management policy version, endpoint, required trace fields, and whether sensitive input appeared.</p>
 <p>The routing control previews the move to the secondary selector. The delivery owner approves the move. The wrapper checks the active secondary path, previews the return, restores the primary selector, and checks the primary path again.</p>
 <figure class="session-diagram"><img src="assets/diagrams/regional-failover-sequence.svg" alt="The team checks the primary path, moves one selector to the secondary path, checks it, then restores and checks the primary path." loading="lazy" decoding="async"></figure>
+<figure class="session-diagram"><img src="assets/diagrams/regional-failover-topology.svg" alt="One approved selector directs traffic between primary and secondary API Management and Foundry paths." loading="lazy" decoding="async"></figure>
 <h3 id="design-choices-and-tradeoffs">Design choices and tradeoffs<a class="heading-anchor" href="#design-choices-and-tradeoffs" aria-label="Link to Design choices and tradeoffs">#</a></h3>
 <div class="table-scroll"><table><thead><tr><th scope="col">Decision</th><th scope="col">Chosen approach</th><th scope="col">Benefit</th><th scope="col">Cost and limitation</th></tr></thead><tbody><tr><td>Change boundary</td><td>Move one named traffic selector</td><td>The rehearsal avoids infrastructure and policy changes</td><td>The customer routing control must expose that selector</td></tr><tr><td>Path check</td><td>Compare health output with the regional contract</td><td>Operators check all required path values together</td><td>The health control must return the documented fields</td></tr><tr><td>Restore</td><td>Preview and approve the return move</td><td>The team checks the primary path before closing the rehearsal</td><td>The delivery owner approves a second traffic move</td></tr></tbody></table></div>
 <h3 id="architecture-guidance">Architecture guidance<a class="heading-anchor" href="#architecture-guidance" aria-label="Link to Architecture guidance">#</a></h3>

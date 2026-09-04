@@ -92,6 +92,16 @@ Toolbox version holds tool exposure.
 
 ---
 
+<!-- _class: diagram -->
+
+## Catalog, Toolbox, and runtime boundary
+
+![Azure API Center discovery feeds a versioned Foundry Toolbox, while runtime tool authorization remains a separate control.](assets/diagrams/foundry-tool-catalog-architecture.svg)
+
+<!-- Notes: Catalog access lets the team find and configure the record. It does not authorize a runtime tool call. -->
+
+---
+
 <!-- _class: decision -->
 
 ## Implementation tradeoffs

@@ -53,7 +53,7 @@ Application Insights receives correlation and token metrics. No request or respo
 </div>
 <div>
 
-![An approved client passes APIM identity, limit, safety, and routing gates before reaching the Foundry agent.](assets/diagrams/apim-ai-gateway-flow.svg)
+![APIM validates the caller and applies limits and safety checks before its managed identity reaches the Foundry agent.](assets/diagrams/apim-ai-gateway-architecture.svg)
 
 </div>
 </div>

@@ -76,7 +76,7 @@
           </button>
           <a
             class="implementation-files-link"
-            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/accb08d77b793e4748cb9896c7c202faf30ae51f/modules/external-agent-inventory/implementation"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/2f0625deec1093944ad6dcd50b5b3fef0249dba6/modules/external-agent-inventory/implementation"
             target="_blank"
             rel="noopener"
           >
@@ -99,15 +99,7 @@
           <p class="implementation-guide__label">Chapter 2 of 6</p>
           <h3 id="architecture-at-a-glance">Architecture at a glance<a class="heading-anchor" href="#architecture-at-a-glance" aria-label="Link to Architecture at a glance">#</a></h3>
 <p>The agent already exists and keeps running where it is. The team picks the Agent 365 integration that matches the runtime, records the decisions, and then reads the live record.</p>
-<pre><code class="language-text">External agent + runtime-owned source
-                |
-     one supported Agent 365 route
-     (built-in | registry sync | SDK)
-                |
-                v
-      Microsoft Agent 365 Agent Registry
-                |
-       live owner and lifecycle review</code></pre>
+<figure class="session-diagram"><img src="assets/diagrams/external-agent-inventory-architecture.svg" alt="Built-in integration, Registry sync, and the Agent 365 SDK create a live Agent Registry record for an external agent." loading="lazy" decoding="async"></figure>
 <p>Registry sync is administrator-led: the Agent 365 administrator connects the external platform in the Microsoft 365 admin center and runs the sync. The SDK route is developer-led: the runtime owner adds the integration in code and releases it. Built-in integration covers agents whose platform is already integrated with Agent 365, where an administrator may still need to enable them.</p>
 <p><code>onboarding-decision.json</code> holds what the registry does not: which route was chosen, who owns the credential behind a platform connection, and how the agent gets retired across both systems.</p>
 <h3 id="design-choices-and-tradeoffs">Design choices and tradeoffs<a class="heading-anchor" href="#design-choices-and-tradeoffs" aria-label="Link to Design choices and tradeoffs">#</a></h3>

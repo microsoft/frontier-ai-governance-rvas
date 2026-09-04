@@ -58,6 +58,16 @@ signals to the recorded scope.
 
 ---
 
+<!-- _class: diagram -->
+
+## Estate operations architecture
+
+![Repository scope and query definitions combine with Azure live-state sources for the estate report, Workbook, and lifecycle-owner handoff.](assets/diagrams/foundry-estate-operations-architecture.svg)
+
+<!-- Notes: The report applies governance rules. The Workbook presents live state. -->
+
+---
+
 ## What Resource Graph does and does not carry
 
 **Carries:** the account, its kind, SKU, region, network setting, tags, and subscription.

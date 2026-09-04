@@ -76,7 +76,7 @@
           </button>
           <a
             class="implementation-files-link"
-            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/accb08d77b793e4748cb9896c7c202faf30ae51f/sessions/02-private-networking-dns/implementation"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/2f0625deec1093944ad6dcd50b5b3fef0249dba6/sessions/02-private-networking-dns/implementation"
             target="_blank"
             rel="noopener"
           >
@@ -116,7 +116,7 @@
 <p>Applications keep using normal service FQDNs. Inside the approved network, DNS follows the CNAME chain into a linked private DNS zone and returns the private endpoint's RFC 1918 address. The client then connects on TCP 443.</p>
 <p>The delegated Agent Service subnet has a separate default route to the customer firewall. Azure holds the route; firewall administrators maintain the rules. A route does not prove that the firewall permits traffic.</p>
 <p>Corporate or on-premises identity providers may authenticate users before traffic reaches Azure API Management. They do not replace Microsoft Entra workload identity for agents and Azure services. The network owner must keep the user-authentication path separate from the private service and agent-token paths.</p>
-<figure class="session-diagram"><img src="assets/diagrams/private-network-flow.svg" alt="An approved private host reaches Foundry and data services through private DNS and private endpoints while public access is denied." loading="lazy" decoding="async"></figure>
+<figure class="session-diagram"><img src="assets/diagrams/private-network-topology.svg" alt="An approved private host resolves service names through private DNS and reaches Foundry and dependencies through private endpoints." loading="lazy" decoding="async"></figure>
 <h3 id="design-choices-and-tradeoffs">Design choices and tradeoffs<a class="heading-anchor" href="#design-choices-and-tradeoffs" aria-label="Link to Design choices and tradeoffs">#</a></h3>
 <div class="table-scroll"><table><thead><tr><th scope="col">Decision</th><th scope="col">Chosen approach</th><th scope="col">Tradeoff</th></tr></thead><tbody><tr><td>Network foundation</td><td>Consume the approved VNet and subnet resource IDs</td><td>Microsoft-managed networking needs a different delivery path</td></tr><tr><td>Foundry account</td><td>Use an account created with the approved delegated subnet</td><td>An incompatible account needs approved migration or replacement</td></tr><tr><td>DNS ownership</td><td>Reuse authoritative central zones or deploy approved local zones</td><td>Central and hybrid designs need forwarding and Bicep changes</td></tr><tr><td>Agent egress</td><td>Keep the dedicated subnet route to the customer firewall</td><td>The governed-agent deployment must still test firewall rules and runtime traffic</td></tr></tbody></table></div>
 <h3 id="architecture-guidance">Architecture guidance<a class="heading-anchor" href="#architecture-guidance" aria-label="Link to Architecture guidance">#</a></h3>

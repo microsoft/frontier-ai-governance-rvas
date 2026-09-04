@@ -76,7 +76,7 @@
           </button>
           <a
             class="implementation-files-link"
-            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/accb08d77b793e4748cb9896c7c202faf30ae51f/sessions/11-observability-cost-operations/implementation"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/2f0625deec1093944ad6dcd50b5b3fef0249dba6/sessions/11-observability-cost-operations/implementation"
             target="_blank"
             rel="noopener"
           >
@@ -110,7 +110,7 @@
         <article class="implementation-guide" id="implementation-guide" aria-label="Architecture">
           <p class="implementation-guide__label">Chapter 2 of 6</p>
           <h3 id="architecture-at-a-glance">Architecture at a glance<a class="heading-anchor" href="#architecture-at-a-glance" aria-label="Link to Architecture at a glance">#</a></h3>
-<figure class="session-diagram"><img src="assets/diagrams/operational-correlation-flow.svg" alt="Model and tool spans join one gateway and agent trace before operations correlates the results." loading="lazy" decoding="async"></figure>
+<figure class="session-diagram"><img src="assets/diagrams/observability-cost-architecture.svg" alt="Gateway, agent, and tool signals feed payload-free observability, alerting, and cost operations." loading="lazy" decoding="async"></figure>
 <p>The approved request carries W3C trace context through API Management, the agent, the model, and the tool. One non-sensitive correlation ID joins the supported spans, while each span keeps its own result. A tool failure must not become a model failure.</p>
 <p>The workbook and alert queries read Application Insights. APIM emits bounded token metrics for a faster usage estimate. Cost Management reports the bill later. The customer-owned APIM repository remains authoritative for gateway policy, and the controlled promotion workflow consumes the temporary smoke result.</p>
 <h3 id="design-choices-and-tradeoffs">Design choices and tradeoffs<a class="heading-anchor" href="#design-choices-and-tradeoffs" aria-label="Link to Design choices and tradeoffs">#</a></h3>

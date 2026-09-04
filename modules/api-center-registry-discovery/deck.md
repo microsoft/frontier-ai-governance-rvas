@@ -83,6 +83,16 @@ separate API Center MCP server at `/mcp`.
 
 ---
 
+<!-- _class: diagram -->
+
+## Registry discovery boundary
+
+![An Entra-authenticated developer client discovers Production-stage MCP records through API Center, while runtime authorization remains separate.](assets/diagrams/api-center-registry-architecture.svg)
+
+<!-- Notes: Discovery controls the visible catalog. The MCP server controls runtime access. -->
+
+---
+
 ## Use the documented registry path
 
 ```text

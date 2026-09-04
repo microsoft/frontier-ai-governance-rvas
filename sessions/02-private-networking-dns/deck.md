@@ -61,7 +61,7 @@ Microsoft Entra workload identity on the private path.
 </div>
 <div>
 
-![An approved private host reaches Foundry and data services through private DNS and private endpoints while public access is denied.](assets/diagrams/private-network-flow.svg)
+![An approved private host resolves service names through private DNS and reaches Foundry and dependencies through private endpoints.](assets/diagrams/private-network-topology.svg)
 
 </div>
 </div>

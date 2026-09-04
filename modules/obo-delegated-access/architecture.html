@@ -76,7 +76,7 @@
           </button>
           <a
             class="implementation-files-link"
-            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/accb08d77b793e4748cb9896c7c202faf30ae51f/modules/obo-delegated-access/implementation"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/2f0625deec1093944ad6dcd50b5b3fef0249dba6/modules/obo-delegated-access/implementation"
             target="_blank"
             rel="noopener"
           >
@@ -102,6 +102,7 @@
           <p class="implementation-guide__label">Chapter 2 of 6</p>
           <h3 id="architecture-at-a-glance">Architecture at a glance<a class="heading-anchor" href="#architecture-at-a-glance" aria-label="Link to Architecture at a glance">#</a></h3>
 <figure class="session-diagram"><img src="assets/diagrams/obo-trust-chain.svg" alt="A signed-in user reaches a protected API through a middle tier and an Entra OBO token exchange." loading="lazy" decoding="async"></figure>
+<figure class="session-diagram"><img src="assets/diagrams/obo-key-vault-custody.svg" alt="Azure Key Vault supplies the protected certificate that authenticates the middle tier for the Entra OBO exchange." loading="lazy" decoding="async"></figure>
 <p>This design preserves the signed-in user's authority across a trusted middle tier. The downstream API can make its decision for that user instead of treating every request as the same application.</p>
 <p>The client first gets a token for the Python middle tier. The middle tier validates it, then sends the user's assertion and its certificate to Microsoft Entra ID. Entra issues a second token for the protected downstream API. That token carries the user's delegated identity. The API checks the delegated scope and the user's access to the requested resource. One user can succeed while another receives a denial through the same middle tier. A workload identity would give every request the same application authority.</p>
 <p>Microsoft Entra ID holds the application registrations, permission grants, and token issuance. Azure Key Vault and the approved host control the certificate and how the runtime receives it. The downstream API decides which resources each user may access. The repository defines the configuration and claim checks, along with the threat model, runtime code, and operational scripts.</p>

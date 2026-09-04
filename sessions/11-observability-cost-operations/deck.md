@@ -58,7 +58,7 @@ capturing prompts or tool payloads.
 <div class="columns">
 <div>
 
-![Model and tool spans join one gateway and agent trace before operations correlates the results.](assets/diagrams/operational-correlation-flow.svg)
+![Gateway, agent, and tool signals feed payload-free observability, alerting, and cost operations.](assets/diagrams/observability-cost-architecture.svg)
 
 </div>
 <div>

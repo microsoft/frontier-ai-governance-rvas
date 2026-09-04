@@ -76,7 +76,7 @@
           </button>
           <a
             class="implementation-files-link"
-            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/accb08d77b793e4748cb9896c7c202faf30ae51f/sessions/12-cicd-promotion-controls/implementation"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/2f0625deec1093944ad6dcd50b5b3fef0249dba6/sessions/12-cicd-promotion-controls/implementation"
             target="_blank"
             rel="noopener"
           >
@@ -113,6 +113,7 @@
 <p>The full commit SHA is the release identity. Fixed digests bind the prompt, agent version, model alias, APIM policy, evaluation inputs, and Bicep parameters to it. A changed component creates a new release.</p>
 <p>The workflow first proves default-branch lineage and runs the unit, evaluation, adversarial, and observability gates. The same validation job reads the approved framework path and the duplicate-agent review from the control definition, so an unsupported runtime or a rebuilt agent stops the release before Azure. Preview jobs then use environment-scoped OIDC to run Bicep what-if. The apply environments withhold their OIDC values until a reviewer approves the matching preview.</p>
 <p>After both deployments pass, API Management moves the approved selector. The release store marks the staged record approved only after routing succeeds. Manual restore reads an approved record, previews the selector change, waits for production approval, and returns traffic to that selected release.</p>
+<figure class="session-diagram"><img src="assets/diagrams/cicd-promotion-architecture.svg" alt="One full commit SHA passes validation, protected previews and applies, routing, release recording, and manual restore." loading="lazy" decoding="async"></figure>
 <h3 id="design-choices-and-tradeoffs">Design choices and tradeoffs<a class="heading-anchor" href="#design-choices-and-tradeoffs" aria-label="Link to Design choices and tradeoffs">#</a></h3>
 <div class="table-scroll"><table><thead><tr><th scope="col">Decision</th><th scope="col">Chosen approach</th><th scope="col">Benefits</th><th scope="col">Costs and limitations</th></tr></thead><tbody><tr><td>Release identity</td><td>Full commit SHA plus fixed component digests</td><td>Every stage and restore name one release</td><td>Any correction requires a new release</td></tr><tr><td>Access</td><td>Separate preview and apply environments with exact OIDC subjects</td><td>What-if runs before approval; apply credentials stay withheld</td><td>Four trusts and environment protections must stay aligned</td></tr><tr><td>Agent portfolio</td><td>Framework path and duplicate review recorded in the control definition</td><td>The release gate stops an unsupported runtime or a rebuilt agent before Azure</td><td>Both decisions need a named owner and go stale unless someone updates them</td></tr><tr><td>Recovery</td><td>Manual, production-approved restore from an approved release record</td><td>An owner checks the exact release and route before traffic moves</td><td>Restore needs an available authority and takes longer than automation</td></tr></tbody></table></div>
 <h3 id="architecture-guidance">Architecture guidance<a class="heading-anchor" href="#architecture-guidance" aria-label="Link to Architecture guidance">#</a></h3>

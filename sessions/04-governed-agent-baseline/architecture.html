@@ -76,7 +76,7 @@
           </button>
           <a
             class="implementation-files-link"
-            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/accb08d77b793e4748cb9896c7c202faf30ae51f/sessions/04-governed-agent-baseline/implementation"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/2f0625deec1093944ad6dcd50b5b3fef0249dba6/sessions/04-governed-agent-baseline/implementation"
             target="_blank"
             rel="noopener"
           >
@@ -114,7 +114,7 @@
           <p class="implementation-guide__label">Chapter 2 of 6</p>
           <h3 id="architecture-at-a-glance">Architecture at a glance<a class="heading-anchor" href="#architecture-at-a-glance" aria-label="Link to Architecture at a glance">#</a></h3>
 <p>A caller reaches the Entra-authorized stable Responses endpoint. Foundry routes the request to the pinned prompt-agent version. That version can call the single GET operation in its OpenAPI tool. The RAI policy handles model input and output, while Foundry sends server-side traces to the connected Application Insights resource.</p>
-<figure class="session-diagram"><img src="assets/diagrams/governed-agent-flow.svg" alt="A versioned agent definition becomes an immutable endpoint whose project identity calls one read-only API." loading="lazy" decoding="async"></figure>
+<figure class="session-diagram"><img src="assets/diagrams/governed-agent-architecture.svg" alt="A versioned Foundry agent uses its Entra Agent Identity at the endpoint and project managed identity for one read-only API." loading="lazy" decoding="async"></figure>
 <p>The deployment scripts read <code>agent.json</code>, <code>instructions.md</code>, and <code>tool-manifest.json</code>, create an immutable version, and route all endpoint traffic to it. The control boundary ends at the direct read API.</p>
 <h3 id="design-choices-and-tradeoffs">Design choices and tradeoffs<a class="heading-anchor" href="#design-choices-and-tradeoffs" aria-label="Link to Design choices and tradeoffs">#</a></h3>
 <div class="table-scroll"><table><thead><tr><th scope="col">Decision</th><th scope="col">Chosen approach</th><th scope="col">Tradeoff</th></tr></thead><tbody><tr><td>Runtime and release</td><td>Persistent prompt agent with an immutable version and pinned endpoint</td><td>Every configuration change creates a version</td></tr><tr><td>Identities</td><td>Agent identity at the endpoint; project managed identity for the OpenAPI call</td><td>The API sees the project identity, not the user or agent</td></tr><tr><td>Tool</td><td>Attach one GET-only OpenAPI definition directly</td><td>Reuse and centralized tool lifecycle stay outside this baseline</td></tr><tr><td>Routing</td><td>Send 100% of traffic to the new version</td><td>Promotion is an explicit deployment step</td></tr></tbody></table></div>
