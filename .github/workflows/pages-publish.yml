@@ -33,10 +33,13 @@ jobs:
           path: pages-branch
           persist-credentials: false
 
-      - name: Reject symbolic links
+      - name: Prepare Pages artifact
         run: |
           set -euo pipefail
-          SYMBOLIC_LINK="$(find pages-branch -path pages-branch/.git -prune -o -type l -print -quit)"
+          mkdir pages-artifact
+          git -C pages-branch archive --format=tar HEAD | tar -x -C pages-artifact
+
+          SYMBOLIC_LINK="$(find pages-artifact -type l -print -quit)"
           if [ -n "${SYMBOLIC_LINK}" ]; then
             echo "The prepared site contains a symbolic link: ${SYMBOLIC_LINK}" >&2
             exit 1
@@ -45,7 +48,7 @@ jobs:
       - name: Upload Pages site
         uses: actions/upload-pages-artifact@v5
         with:
-          path: pages-branch
+          path: pages-artifact
           include-hidden-files: true
 
       - name: Deploy Pages site
