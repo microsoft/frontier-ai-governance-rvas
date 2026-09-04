@@ -788,7 +788,7 @@ const pageContextFor = (item, chapter, chapters) => {
   return {
     bodyClass: "session-page module-page",
     collectionHref: "../../index.html#optional-modules",
-    collectionLabel: "Optional modules",
+    collectionLabel: "Architecture-specific extensions",
     collectionNavCurrent: { sessions: false, modules: true },
     deckLabel: "Optional module",
     footerLabel: "Optional module",
@@ -922,7 +922,7 @@ const pageTemplate = ({
           <a href="../../index.html#approach">Method</a>
           <a href="../../index.html#readiness">Pre-work</a>
           <a href="../../index.html#program"${context.collectionNavCurrent.sessions ? ' aria-current="page"' : ""}>Sessions</a>
-          <a href="../../index.html#optional-modules"${context.collectionNavCurrent.modules ? ' aria-current="page"' : ""}>Optional modules</a>
+          <a href="../../index.html#optional-modules"${context.collectionNavCurrent.modules ? ' aria-current="page"' : ""}>Architecture-specific extensions</a>
           <a href="../../sources.html">Sources</a>
         </nav>
         <div class="nav-actions">
@@ -1269,8 +1269,8 @@ const buildCollection = async ({ items, outputRoot, descriptorFile }) => {
             : null
           : {
               href: "../../index.html#optional-modules",
-              label: "Optional modules",
-              title: "Return to optional modules",
+              label: "Architecture-specific extensions",
+              title: "Return to architecture-specific extensions",
             };
       const nextPage = nextChapter
         ? {
@@ -1292,8 +1292,8 @@ const buildCollection = async ({ items, outputRoot, descriptorFile }) => {
               }
           : {
               href: "../../index.html#optional-modules",
-              label: "Optional modules",
-              title: "Return to optional modules",
+              label: "Architecture-specific extensions",
+              title: "Return to architecture-specific extensions",
             };
 
       await writeFile(
@@ -1599,7 +1599,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
           <a href="#approach">Method</a>
           <a href="#program">Sessions</a>
           <a href="#routes">Routes</a>
-          <a href="#optional-modules">Optional modules</a>
+          <a href="#optional-modules">Architecture-specific extensions</a>
           <a href="sources.html">Sources</a>
         </nav>
         <div class="nav-actions">
@@ -1656,7 +1656,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
       <section class="section program" id="program" aria-labelledby="program-title">
         <div class="section-heading section-heading--program">
           <div><p class="section-kicker">Session catalog</p><h2 id="program-title">Browse all ${sessions.length} sessions.</h2><p>Use a focused route, a service filter, or text search. The selected route or service stays in the URL, so you can share the filtered view.</p></div>
-          <p class="register-instruction">Optional modules stay outside this filter and the 14-session count.</p>
+          <p class="register-instruction">Architecture-specific extensions stay outside this filter and the 14-session count.</p>
         </div>
         <div class="registry-controls">
           <label class="registry-search"><span>Search sessions</span><span class="registry-search__field"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"></circle><path d="m13 13 4 4"></path></svg><input type="search" autocomplete="off" placeholder="Title, control, outcome…" data-session-search></span></label>
@@ -1699,7 +1699,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
       </section>
 
       <section class="section optional-modules-section" id="optional-modules" aria-labelledby="optional-modules-title">
-        <div class="section-heading"><div><p class="section-kicker">Optional modules</p><h2 id="optional-modules-title">Add architecture-specific work when you need it.</h2></div></div>
+        <div class="section-heading"><div><p class="section-kicker">Architecture-specific extensions</p><h2 id="optional-modules-title">Add architecture-specific work when you need it.</h2></div></div>
         <div class="module-register" role="list">${modules.map(renderModuleCard).join("\n")}</div>
       </section>
     </main>

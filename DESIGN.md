@@ -51,7 +51,7 @@ The homepage follows this order:
 4. Session catalog and discovery controls
 5. Complete and focused route guidance
 6. Pre-work
-7. Optional modules
+7. Architecture-specific extensions
 
 The program facts remain quiet inside the hero: 14 sessions, 50 facilitated working hours, and three phases.
 The outcome panel covers the governed deployment, source-controlled implementation, observable
@@ -96,7 +96,7 @@ The route controls sit directly above the service row. Every service button uses
 and keeps its all-program session count, while phase markers update to show counts for the current
 visible set. Route and service choices use `?route=<id>#program` and `?tool=<id>#program`, so a
 filtered view can be shared. The nearby **View service map** link opens the service-first index.
-Optional modules never enter the session filter.
+Architecture-specific extensions never enter the session filter.
 
 JavaScript hides nonmatching records and announces the result count. Without JavaScript, all phase
 groups and session records remain visible.
@@ -109,7 +109,7 @@ count, and calculated working time. A 14-step track shows how far the route trav
 existing foundation, live-traffic, and operations colors. Route definitions and durations come
 from the homepage builder so the cards, URLs, and filter logic stay aligned.
 
-### Optional modules
+### Architecture-specific extensions
 
 Optional-module records keep their own status and duration. Their service strips are generated from
 the module manifest. Modules remain outside the numbered catalog, session discovery controls, and session count.
