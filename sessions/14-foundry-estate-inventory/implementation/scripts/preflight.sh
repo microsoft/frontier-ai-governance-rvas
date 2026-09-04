@@ -54,15 +54,33 @@ query_path="$artifact_root/queries/foundry-accounts.kql"
 service_health_query_path="$artifact_root/queries/service-health-retirements.kql"
 advisor_query_path="$artifact_root/queries/advisor-retirement-findings.kql"
 report_python_path="$script_dir/build-estate-report.py"
-workbook_template_path="$artifact_root/infra/main.bicep"
+portal_template_path="$artifact_root/infra/deploy-workbook.json"
 workbook_definition_path="$artifact_root/monitoring/estate-lifecycle-workbook.json"
 [[ -f "$scope_path" ]] || fail "Required Session 14 artifact is missing: $scope_path"
 [[ -f "$query_path" ]] || fail "Required Session 14 artifact is missing: $query_path"
 [[ -f "$service_health_query_path" ]] || fail "Required Session 14 artifact is missing: $service_health_query_path"
 [[ -f "$advisor_query_path" ]] || fail "Required Session 14 artifact is missing: $advisor_query_path"
 [[ -f "$report_python_path" ]] || fail "The estate report helper is missing: $report_python_path"
-[[ -f "$workbook_template_path" ]] || fail "Workbook deployment template is missing: $workbook_template_path"
+[[ -f "$portal_template_path" ]] || fail "Portal deployment template is missing: $portal_template_path"
 [[ -f "$workbook_definition_path" ]] || fail "Workbook definition is missing: $workbook_definition_path"
+
+python3 - "$workbook_definition_path" "$portal_template_path" <<'PY'
+import json
+import sys
+
+definition_path, template_path = sys.argv[1:]
+with open(definition_path, encoding="utf-8") as handle:
+    definition = json.load(handle)
+with open(template_path, encoding="utf-8") as handle:
+    template = json.load(handle)
+
+if template.get("variables", {}).get("serializedData") is None:
+    raise SystemExit("The portal deployment template has no workbook definition.")
+if json.loads(template["variables"]["serializedData"]) != definition:
+    raise SystemExit("The portal deployment template does not embed the current workbook definition.")
+if template.get("resources", [{}])[0].get("tags", {}).get("implementationSession") != "14-foundry-estate-inventory":
+    raise SystemExit("The portal deployment template has the wrong implementationSession marker.")
+PY
 
 required_sentinels=(
   "__REQUIRED_APPROVED_ESTATE_SCOPE_ALIAS__"
@@ -175,7 +193,7 @@ if [[ -n "$workbook_subscription_id" ]]; then
     --subscription "$workbook_subscription_id" \
     --resource-group "$workbook_resource_group" \
     --name rvas-foundry-estate-lifecycle-workbook \
-    --template-file "$workbook_template_path" \
+    --template-file "$portal_template_path" \
     --result-format FullResourcePayloads \
     --only-show-errors \
     --output json) || fail "The workbook deployment preview failed."
