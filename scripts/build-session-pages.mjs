@@ -1447,7 +1447,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
   const focusedRoutes = [
     {
       id: "citadel-foundation",
-      name: "Citadel foundation",
+      name: "Foundation",
       sessionNumbers: [1, 2, 3],
       outcome:
         "Build the Citadel platform foundation, Governance Hub, and Agent Spoke from pinned upstream implementations.",
