@@ -1616,8 +1616,8 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
         <div class="hero__inner">
           <div class="hero__copy">
             <p class="hero__eyebrow">RVAS · Microsoft AI governance</p>
-            <h1 id="hero-title">Build the control. <span>Keep the implementation.</span></h1>
-            <p class="hero__lead">Customer engineers implement each control in a sandbox or nonproduction tenant. The people who will operate it make the decisions, run the check, and keep the files.</p>
+            <h1 id="hero-title">Build the control. <span>Grow the capability.</span></h1>
+            <p class="hero__lead">Customer engineers learn AI governance by implementing controls in a sandbox or nonproduction tenant. The people who will operate them make the decisions, run the check, and keep the files.</p>
             <div class="hero__actions"><a class="button button--primary" href="#program">Browse the sessions <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 6l4 4-4 4"></path></svg></a><a class="button button--secondary" href="#routes">Compare routes</a></div>
             <dl class="program-docket" aria-label="Program facts">
               <div><dd>${sessions.length}</dd><dt>Sessions</dt></div>
@@ -1627,7 +1627,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
           </div>
           <aside class="program-outcome program-outcome--compact" aria-label="Customer-owned result">
             <p>Customer-owned result, complete route</p>
-            <h2>A governed deployment your team can change with confidence.</h2>
+            <h2>Practical governance your team can operate.</h2>
             <ul>
               <li>A governed Microsoft Foundry deployment</li>
               <li>Source-controlled implementation files</li>
@@ -1640,14 +1640,14 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
       <section class="section audience-section" aria-labelledby="audience-title">
         <div class="section-heading"><div><p class="section-kicker">Two ways into the same work</p><h2 id="audience-title">Read the program at the level you need.</h2></div></div>
         <div class="audience-lanes">
-          <article><span>For leaders</span><h3>See the operating model and ownership.</h3><p>Review scope, dependencies, working time, and the decisions that stay with service, security, data, or release owners.</p><a href="#routes">Compare routes</a></article>
+          <article><span>For leaders</span><h3>Start here, then decide if Citadel fits.</h3><p>Use the series to build working controls and customer capability. Citadel is a separate Microsoft framework for enterprise-scale governance work.</p><a href="#routes">Compare routes</a></article>
           <article><span>For practitioners</span><h3>Use the implementation as a field reference.</h3><p>Open any session for the guide, source-controlled files, safety gates, observable result, and restore or removal path.</p><a href="#program">Find a session</a></article>
         </div>
       </section>
 
       <section class="method-section" id="approach" aria-labelledby="approach-title">
         <div class="section">
-          <div class="section-heading"><div><p class="section-kicker">Guided co-implementation</p><h2 id="approach-title">One control at a time, with its owner in the room.</h2><p>Standard mode implements the control and runs one observable check. Extended mode is reserved for work that needs an allowed path, a blocked or failure path, and a delivery-owner checkpoint.</p></div></div>
+          <div class="section-heading"><div><p class="section-kicker">Guided co-implementation</p><h2 id="approach-title">One control at a time, with its owner in the room.</h2><p>Standard mode implements the control and runs one observable check. Extended mode is reserved for work that needs an allowed path, a blocked or failure path, and a delivery-owner checkpoint.</p><p>The series gives teams a practical starting point. If they need a deeper enterprise governance programme, they can move on to Citadel.</p></div></div>
           <div class="method-grid">
             <article><span>Build</span><h3>Use production-shaped configuration.</h3><p>Customer engineers deploy through the approved change path. Reusable configuration and normal operating records stay in the customer repository.</p></article>
             <article><span>Check</span><h3>Observe a defined result.</h3><p>The listed control owner confirms the check. The relevant service, security, data, or release owner approves consequential changes. Checks and evaluation examples run on fictional records, never customer data.</p></article>

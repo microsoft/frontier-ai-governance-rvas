@@ -25,6 +25,15 @@ Present a modular Microsoft AI governance series that customer teams can execute
 
 This is guided co-implementation. Customer engineers implement each control in a sandbox or nonproduction tenant. The control owner listed in the session record confirms the check, while the appropriate service, security, data, or release owner approves consequential changes. Each runbook identifies the restore or removal owner and the approved change path.
 
+The series helps customer teams learn AI governance by doing the work. They leave
+with practical controls, reusable configuration, and the capability to operate what
+they built.
+
+Citadel is a separate Microsoft framework for customers who need deeper
+enterprise-scale AI governance work. This series is not a smaller Citadel
+engagement. Customers can use its results on their own or decide that Citadel is
+the right next step.
+
 Standard mode is the default. The team implements one explicit control, keeps production-shaped configuration and normal operational records, observes one defined result, and documents restore or removal steps.
 
 Extended mode is used only when a control needs both an allowed and a blocked or failure check. The delivery lead records the reason before the session, and the delivery owner confirms the result at a checkpoint. Both modes keep only the records needed for normal operations and use the implementation resources required by the control.
