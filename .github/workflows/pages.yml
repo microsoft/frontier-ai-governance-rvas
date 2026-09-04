@@ -14,15 +14,11 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 concurrency:
   group: pages
   cancel-in-progress: false
-
-env:
-  SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
 
 jobs:
   build:
@@ -68,6 +64,11 @@ jobs:
     needs: build
     if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -107,10 +108,36 @@ jobs:
             git -C pages-branch push origin HEAD:gh-pages
           fi
 
+          PAGES_BUILD_URL="$(gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds" --jq '.url')"
+          PAGES_BUILD_ENDPOINT="${PAGES_BUILD_URL#https://api.github.com/}"
+          for attempt in $(seq 1 30); do
+            PAGES_BUILD_STATUS="$(gh api "${PAGES_BUILD_ENDPOINT}" --jq '.status')"
+            case "${PAGES_BUILD_STATUS}" in
+              built)
+                echo "Production Pages build completed."
+                break
+                ;;
+              errored)
+                echo "Production Pages build failed." >&2
+                exit 1
+                ;;
+            esac
+
+            if [ "${attempt}" -eq 30 ]; then
+              echo "Timed out waiting for the production Pages build." >&2
+              exit 1
+            fi
+            sleep 10
+          done
+
   deploy-preview:
     needs: build
     if: github.event_name == 'pull_request' && github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      pull-requests: write
     env:
       PR_NUMBER: ${{ github.event.pull_request.number }}
       PREVIEW_PREFIX: pr-${{ github.event.pull_request.number }}
@@ -156,10 +183,33 @@ jobs:
             git -C pages-branch push origin HEAD:gh-pages
           fi
 
+          PAGES_BUILD_URL="$(gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds" --jq '.url')"
+          PAGES_BUILD_ENDPOINT="${PAGES_BUILD_URL#https://api.github.com/}"
+          for attempt in $(seq 1 30); do
+            PAGES_BUILD_STATUS="$(gh api "${PAGES_BUILD_ENDPOINT}" --jq '.status')"
+            case "${PAGES_BUILD_STATUS}" in
+              built)
+                echo "Preview Pages build completed."
+                break
+                ;;
+              errored)
+                echo "Preview Pages build failed." >&2
+                exit 1
+                ;;
+            esac
+
+            if [ "${attempt}" -eq 30 ]; then
+              echo "Timed out waiting for the preview Pages build." >&2
+              exit 1
+            fi
+            sleep 10
+          done
+
       - name: Comment preview URL
         run: |
           set -euo pipefail
-          PREVIEW_URL="${SITE_URL}${PREVIEW_PREFIX}/"
+          PAGES_URL="$(gh api "repos/${GITHUB_REPOSITORY}/pages" --jq '.html_url')"
+          PREVIEW_URL="${PAGES_URL%/}/${PREVIEW_PREFIX}/"
           MARKER="<!-- static-site-preview-url -->"
           cat > preview-comment.md <<EOF_COMMENT
           ${MARKER}
@@ -178,8 +228,12 @@ jobs:
   cleanup-preview:
     if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
     env:
       PREVIEW_PREFIX: pr-${{ github.event.pull_request.number }}
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -208,3 +262,25 @@ jobs:
             git -C pages-branch commit -m "Remove preview ${PREVIEW_PREFIX}"
             git -C pages-branch push origin HEAD:gh-pages
           fi
+
+          PAGES_BUILD_URL="$(gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds" --jq '.url')"
+          PAGES_BUILD_ENDPOINT="${PAGES_BUILD_URL#https://api.github.com/}"
+          for attempt in $(seq 1 30); do
+            PAGES_BUILD_STATUS="$(gh api "${PAGES_BUILD_ENDPOINT}" --jq '.status')"
+            case "${PAGES_BUILD_STATUS}" in
+              built)
+                echo "Preview cleanup Pages build completed."
+                break
+                ;;
+              errored)
+                echo "Preview cleanup Pages build failed." >&2
+                exit 1
+                ;;
+            esac
+
+            if [ "${attempt}" -eq 30 ]; then
+              echo "Timed out waiting for the preview cleanup Pages build." >&2
+              exit 1
+            fi
+            sleep 10
+          done
