@@ -122,7 +122,7 @@ Confirm these prerequisites:
 | Runtime | [`artifacts/queries/foundry-accounts.kql`](artifacts/queries/foundry-accounts.kql) | The estate report scripts and Azure Resource Graph Explorer |
 | Runtime | [`artifacts/queries/service-health-retirements.kql`](artifacts/queries/service-health-retirements.kql) | The estate report scripts and Azure Resource Graph Explorer |
 | Runtime | [`artifacts/queries/advisor-retirement-findings.kql`](artifacts/queries/advisor-retirement-findings.kql) | The estate report scripts and Azure Resource Graph Explorer |
-| Deployment | [`artifacts/infra/main.bicep`](artifacts/infra/main.bicep) | The workbook deployment operator |
+| Deployment | [`artifacts/infra/deploy-workbook.json`](artifacts/infra/deploy-workbook.json) | The workbook deployment operator and Azure portal deployment route |
 | Deployment | [`artifacts/monitoring/estate-lifecycle-workbook.json`](artifacts/monitoring/estate-lifecycle-workbook.json) | The shared Azure Workbook |
 
 Resolve the scope values in the approved private configuration path, then run preflight in
@@ -223,7 +223,7 @@ Preflight confirms read access to each management group with a counting query an
 shared workbook. A management group that fails here is a missing role assignment, not a missing
 estate.
 
-### 2. Deploy the estate and lifecycle workbook
+### 2. Deploy the estate issues and model retirement workbook
 
 After the workbook operator approves the preview:
 
@@ -241,7 +241,12 @@ After the workbook operator approves the preview:
   --resource-group "$workbook_resource_group"
 ```
 
-Open **Azure AI estate and lifecycle review** in Azure Workbooks. Select only subscriptions within
+The portal route deploys the same tagged workbook without running preflight. Use it only after the
+scope and access checks above pass:
+
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmicrosoft%2Ffrontier-ai-governance-rvas%2Fmain%2Fsessions%2F14-foundry-estate-inventory%2Fimplementation%2Fartifacts%2Finfra%2Fdeploy-workbook.json)
+
+Open **Azure AI estate issues and model retirement** in Azure Workbooks. Select only subscriptions within
 the approved management groups. The dashboard is for live triage. It does not add a subscription
 to the governed estate.
 
