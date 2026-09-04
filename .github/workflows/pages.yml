@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: pages
+  group: pages-content
   cancel-in-progress: false
 
 jobs:
@@ -27,18 +27,18 @@ jobs:
     steps:
       - name: Checkout repository
         if: github.event_name != 'pull_request'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Checkout pull request head
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.sha }}
           persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -54,36 +54,31 @@ jobs:
           SOURCE_SERVER_URL: ${{ github.server_url }}
 
       - name: Upload static site
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: static-site
           path: site
           retention-days: 1
 
-  deploy-production:
+  update-production:
     needs: build
     if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Download static site
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: static-site
           path: built-site
 
-      - name: Publish production site
+      - name: Update production content
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -104,52 +99,34 @@ jobs:
 
           git -C pages-branch add -A
           if git -C pages-branch diff --cached --quiet; then
-            echo "Production site unchanged."
+            echo "Production content unchanged."
           else
-            git -C pages-branch commit -m "Deploy production site from ${GITHUB_SHA}"
+            git -C pages-branch commit -m "Update production site from ${GITHUB_SHA}"
             git -C pages-branch push origin HEAD:gh-pages
           fi
 
-      - name: Upload Pages site
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: pages-branch
-
-      - name: Deploy Pages site
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-  deploy-preview:
+  update-preview:
     needs: build
     if: github.event_name == 'pull_request' && github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pages: write
-      pull-requests: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     env:
-      PR_NUMBER: ${{ github.event.pull_request.number }}
       PREVIEW_PREFIX: pr-${{ github.event.pull_request.number }}
-      PREVIEW_REVISION: ${{ github.event.pull_request.head.sha }}
       BASE_REVISION: ${{ github.event.pull_request.base.sha }}
-      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Download static site
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: static-site
           path: built-site
 
-      - name: Publish pull request preview
+      - name: Update pull request preview
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -177,39 +154,10 @@ jobs:
 
           git -C pages-branch add -A
           if git -C pages-branch diff --cached --quiet; then
-            echo "Preview site unchanged."
+            echo "Preview content unchanged."
           else
-            git -C pages-branch commit -m "Deploy preview ${PREVIEW_PREFIX} from ${GITHUB_SHA}"
+            git -C pages-branch commit -m "Update preview ${PREVIEW_PREFIX} from ${GITHUB_SHA}"
             git -C pages-branch push origin HEAD:gh-pages
-          fi
-
-      - name: Upload Pages site
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: pages-branch
-
-      - name: Deploy Pages site
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-      - name: Comment preview URL
-        run: |
-          set -euo pipefail
-          PAGES_URL="${{ steps.deployment.outputs.page_url }}"
-          PREVIEW_URL="${PAGES_URL%/}/${PREVIEW_PREFIX}/"
-          MARKER="<!-- static-site-preview-url -->"
-          cat > preview-comment.md <<EOF_COMMENT
-          ${MARKER}
-          Preview is ready: ${PREVIEW_URL}
-
-          Updated for commit ${PREVIEW_REVISION}.
-          EOF_COMMENT
-
-          COMMENT_ID="$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" --jq ".[] | select(.user.login == \"github-actions[bot]\" and (.body | contains(\"${MARKER}\"))) | .id" | tail -n 1)"
-          if [ -n "${COMMENT_ID}" ]; then
-            gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${COMMENT_ID}" -f body="$(cat preview-comment.md)"
-          else
-            gh api -X POST "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" -f body="$(cat preview-comment.md)"
           fi
 
   cleanup-preview:
@@ -217,20 +165,15 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
     env:
       PREVIEW_PREFIX: pr-${{ github.event.pull_request.number }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Remove pull request preview
-        id: prepare
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -238,7 +181,6 @@ jobs:
 
           if ! git ls-remote --exit-code origin gh-pages >/dev/null; then
             echo "No gh-pages branch exists; nothing to clean."
-            echo "deploy=false" >> "${GITHUB_OUTPUT}"
             exit 0
           fi
 
@@ -253,15 +195,3 @@ jobs:
             git -C pages-branch commit -m "Remove preview ${PREVIEW_PREFIX}"
             git -C pages-branch push origin HEAD:gh-pages
           fi
-          echo "deploy=true" >> "${GITHUB_OUTPUT}"
-
-      - name: Upload Pages site
-        if: steps.prepare.outputs.deploy == 'true'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: pages-branch
-
-      - name: Deploy Pages site
-        if: steps.prepare.outputs.deploy == 'true'
-        id: deployment
-        uses: actions/deploy-pages@v4
