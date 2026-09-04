@@ -65,6 +65,8 @@ names, remotes or packages, transports, and optional `_meta` values. The operati
 each response page, compares `server.name` with the ownership record, and stops if an approved name
 is missing or another name appears.
 
+![An Entra-authenticated developer client discovers Production-stage MCP records through API Center, while runtime authorization remains separate.](../assets/diagrams/api-center-registry-architecture.svg)
+
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Benefits | Costs and limitations |

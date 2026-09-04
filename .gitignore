@@ -9,6 +9,7 @@ Desktop.ini
 *.code-workspace
 
 graphify-out/
+.drawio-tmp/
 
 # Local configuration and secrets
 .env

@@ -70,6 +70,8 @@ deployments, model lifecycle, Foundry projects, retirement advisories, Advisor r
 resource health. It exposes live state only. Use the report to decide whether a row is compliant
 with the recorded estate scope.
 
+![Repository scope and query definitions combine with Azure live-state sources for the estate report, Workbook, and lifecycle-owner handoff.](../assets/diagrams/foundry-estate-operations-architecture.svg)
+
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Benefits | Costs and limitations |

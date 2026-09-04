@@ -52,7 +52,7 @@ API Management. They do not replace Microsoft Entra workload identity for agents
 services. The network owner must keep the user-authentication path separate from the private
 service and agent-token paths.
 
-![An approved private host reaches Foundry and data services through private DNS and private endpoints while public access is denied.](../assets/diagrams/private-network-flow.svg)
+![An approved private host resolves service names through private DNS and reaches Foundry and dependencies through private endpoints.](../assets/diagrams/private-network-topology.svg)
 
 ### Design choices and tradeoffs
 

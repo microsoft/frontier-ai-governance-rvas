@@ -46,7 +46,7 @@ pinned prompt-agent version. That version can call the single GET operation in i
 The RAI policy handles model input and output, while Foundry sends server-side traces to the
 connected Application Insights resource.
 
-![A versioned agent definition becomes an immutable endpoint whose project identity calls one read-only API.](../assets/diagrams/governed-agent-flow.svg)
+![A versioned Foundry agent uses its Entra Agent Identity at the endpoint and project managed identity for one read-only API.](../assets/diagrams/governed-agent-architecture.svg)
 
 The deployment scripts read `agent.json`, `instructions.md`, and `tool-manifest.json`, create an
 immutable version, and route all endpoint traffic to it. The control boundary ends at the direct

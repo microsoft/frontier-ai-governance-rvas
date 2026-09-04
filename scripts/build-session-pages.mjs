@@ -31,6 +31,7 @@ function shouldPublishAsset(source) {
   const normalized = source.replaceAll("\\", "/");
   return (
     !normalized.endsWith(".excalidraw") &&
+    !normalized.endsWith(".drawio") &&
     !normalized.endsWith("/assets/diagrams/README.md")
   );
 }

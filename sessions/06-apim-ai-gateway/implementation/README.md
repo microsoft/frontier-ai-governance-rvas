@@ -47,7 +47,7 @@ bodies.
 controls, restore path, owners, and readiness gaps. The combined preflight runs its local record
 check before it reads Azure or proposes the deployment.
 
-![An approved client passes APIM identity, limit, safety, and routing gates before reaching the Foundry agent.](../assets/diagrams/apim-ai-gateway-flow.svg)
+![APIM validates the caller and applies limits and safety checks before its managed identity reaches the Foundry agent.](../assets/diagrams/apim-ai-gateway-architecture.svg)
 
 ### Design choices and tradeoffs
 

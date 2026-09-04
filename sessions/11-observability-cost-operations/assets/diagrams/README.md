@@ -1,8 +1,8 @@
 # Session diagrams
 
-`operational-correlation-flow.excalidraw` is the authoritative source for the Session 11 trace
-spine. Its SVG export is used in the deck and implementation guide. Edit the Excalidraw JSON by
-hand, render it, inspect the image, and fix any layout defects before replacing the SVG.
+Keep one editable source and its rendered SVG for each diagram. Use either `.drawio` or
+`.excalidraw`, never both for the same SVG. `observability-cost-architecture.drawio` shows the
+runtime signals, operational views, alerts, and cost handoff.
 
 Use the bundled Microsoft service icons without recoloring, cropping, rotating, or
 distorting them. Keep product names visible near their icons.

@@ -66,6 +66,16 @@ A separate production-approved workflow retrieves one approved record and moves 
 
 ---
 
+<!-- _class: diagram -->
+
+## One immutable release path
+
+![One full commit SHA passes validation, protected previews and applies, routing, release recording, and manual restore.](assets/diagrams/cicd-promotion-architecture.svg)
+
+<!-- Notes: Every consequential release action points to the same immutable commit. -->
+
+---
+
 <!-- _class: decision -->
 
 ## Implementation tradeoffs

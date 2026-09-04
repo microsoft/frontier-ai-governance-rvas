@@ -35,7 +35,7 @@ payload-free result before it promotes a release.
 
 ### Architecture at a glance
 
-![Model and tool spans join one gateway and agent trace before operations correlates the results.](../assets/diagrams/operational-correlation-flow.svg)
+![Gateway, agent, and tool signals feed payload-free observability, alerting, and cost operations.](../assets/diagrams/observability-cost-architecture.svg)
 
 The approved request carries W3C trace context through API Management, the agent, the model, and
 the tool. One non-sensitive correlation ID joins the supported spans, while each span keeps its own

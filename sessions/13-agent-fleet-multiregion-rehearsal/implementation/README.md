@@ -45,6 +45,8 @@ selector, and checks the primary path again.
 
 ![The team checks the primary path, moves one selector to the secondary path, checks it, then restores and checks the primary path.](../assets/diagrams/regional-failover-sequence.svg)
 
+![One approved selector directs traffic between primary and secondary API Management and Foundry paths.](../assets/diagrams/regional-failover-topology.svg)
+
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Benefit | Cost and limitation |

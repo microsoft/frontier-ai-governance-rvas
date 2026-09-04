@@ -46,6 +46,8 @@ started it, use managed identity instead. That path is outside this module.
 
 ![A signed-in user reaches a protected API through a middle tier and an Entra OBO token exchange.](../assets/diagrams/obo-trust-chain.svg)
 
+![Azure Key Vault supplies the protected certificate that authenticates the middle tier for the Entra OBO exchange.](../assets/diagrams/obo-key-vault-custody.svg)
+
 This design preserves the signed-in user's authority across a trusted middle tier. The downstream
 API can make its decision for that user instead of treating every request as the same application.
 

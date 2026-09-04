@@ -42,17 +42,7 @@ registry record exists.
 The agent already exists and keeps running where it is. The team picks the Agent 365 integration
 that matches the runtime, records the decisions, and then reads the live record.
 
-```text
-External agent + runtime-owned source
-                |
-     one supported Agent 365 route
-     (built-in | registry sync | SDK)
-                |
-                v
-      Microsoft Agent 365 Agent Registry
-                |
-       live owner and lifecycle review
-```
+![Built-in integration, Registry sync, and the Agent 365 SDK create a live Agent Registry record for an external agent.](../assets/diagrams/external-agent-inventory-architecture.svg)
 
 Registry sync is administrator-led: the Agent 365 administrator connects the external platform in
 the Microsoft 365 admin center and runs the sync. The SDK route is developer-led: the runtime owner

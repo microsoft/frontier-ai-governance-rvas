@@ -58,6 +58,8 @@ the staged record approved only after routing succeeds. Manual restore reads an 
 previews the selector change, waits for production approval, and returns traffic to that selected
 release.
 
+![One full commit SHA passes validation, protected previews and applies, routing, release recording, and manual restore.](../assets/diagrams/cicd-promotion-architecture.svg)
+
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Benefits | Costs and limitations |

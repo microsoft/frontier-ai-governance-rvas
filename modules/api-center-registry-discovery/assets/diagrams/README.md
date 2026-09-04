@@ -1,4 +1,5 @@
 # Diagrams
 
-This module uses a short numbered flow in the guide and deck. No separate architecture diagram is
-needed to explain the registry, visibility, client, and runtime boundaries.
+Keep one editable source and its rendered SVG for each diagram. Use either `.drawio` or
+`.excalidraw`, never both for the same SVG. `api-center-registry-architecture.drawio` shows the
+inventory, discovery, identity, and runtime boundaries.

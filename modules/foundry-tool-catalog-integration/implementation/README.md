@@ -59,6 +59,8 @@ The repository stores the catalog record and Toolbox version payload. API Center
 connection, and Toolbox hold live state. The endpoint hash links the API Center deployment to the
 Toolbox payload without storing the endpoint in the governance record.
 
+![Azure API Center discovery feeds a versioned Foundry Toolbox, while runtime tool authorization remains a separate control.](../assets/diagrams/foundry-tool-catalog-architecture.svg)
+
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Benefits | Costs and limitations |

@@ -450,10 +450,16 @@ def validate_architecture_chapter(
         except ValueError:
             failures.append(f"diagram path must stay inside the kit: {target}")
             continue
-        editable = resolved.with_suffix(".excalidraw")
-        if not resolved.is_file() or not editable.is_file():
+        editable_sources = [
+            resolved.with_suffix(".excalidraw"),
+            resolved.with_suffix(".drawio"),
+        ]
+        present_editable_sources = [
+            editable for editable in editable_sources if editable.is_file()
+        ]
+        if not resolved.is_file() or len(present_editable_sources) != 1:
             failures.append(
-                f"referenced diagram needs paired .svg and .excalidraw files: {target}"
+                f"referenced diagram needs paired .svg and exactly one .excalidraw or .drawio source: {target}"
             )
 
 

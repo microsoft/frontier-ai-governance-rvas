@@ -1,7 +1,5 @@
 # Diagrams
 
-`obo-trust-chain.excalidraw` is the authoritative editable source. It shows the user-preserving
-token exchange from the middle tier to the protected API.
-
-`obo-trust-chain.svg` is the rendered copy used by the guide, deck, and generated site. Edit the
-Excalidraw file, then render the SVG. Do not edit the SVG by hand.
+Keep one editable source and its rendered SVG for each diagram. Use either `.drawio` or
+`.excalidraw`, never both for the same SVG. `obo-trust-chain.excalidraw` shows the user-preserving
+token exchange. `obo-key-vault-custody.drawio` shows certificate custody for that exchange.

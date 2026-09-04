@@ -1,5 +1,8 @@
 # Module diagrams
 
-Store editable diagram sources and rendered SVG files for this module here when a diagram is needed.
-Use meaningful alt text and keep official Microsoft icons unchanged.
+Store one editable source and its rendered SVG for each module diagram here. Use either a `.drawio`
+or `.excalidraw` source, never both for the same SVG. Publish and reference only the SVG with
+meaningful alt text. Keep official Microsoft icons unchanged.
 
+Generate Draw.io sources from YAML in `.drawio-tmp/`, validate the layout, and inspect the SVG
+before adding it here.

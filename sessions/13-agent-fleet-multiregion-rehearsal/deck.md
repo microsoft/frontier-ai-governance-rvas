@@ -60,6 +60,16 @@ Infrastructure and policy changes use the approved CI/CD workflow.
 
 ---
 
+<!-- _class: diagram -->
+
+## Regional topology
+
+![One approved selector directs traffic between primary and secondary API Management and Foundry paths.](assets/diagrams/regional-failover-topology.svg)
+
+<!-- Notes: The topology shows the two deployed paths. The existing sequence still governs the rehearsal order. -->
+
+---
+
 <!-- _class: decision -->
 
 ## Implementation tradeoffs
