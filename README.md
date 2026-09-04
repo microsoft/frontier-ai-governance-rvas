@@ -1,12 +1,31 @@
 # Practical Microsoft AI Governance
 
-This repository publishes a 14-session Microsoft AI governance implementation
-series. Teams deploy controls, check them in a nonproduction environment, and
-keep the reusable configuration in source control.
+This repository publishes a seven-session enterprise adoption program around Citadel. Upstream
+Citadel repositories remain authoritative for the architecture, templates, supported parameters,
+and product deployment mechanics. This program helps customer teams choose a bounded path, apply
+customer-owned overlays, implement the missing governance controls, and hand the result to its
+long-term owners.
 
-LLMOps runs across the series rather than appearing as a separate session. Sessions 03, 09, 11,
-12, and 13 connect model lifecycle, evaluation, observability, controlled release, and fleet
-operations.
+The sequence builds the platform foundation, Governance Hub, and Agent Spoke before adding contract
+governance, evaluation and threat gates, observability, and controlled promotion. Each session keeps
+changes bounded to an approved nonproduction scope and ends with an observable check plus a named
+restore or removal owner.
+
+## Where this guide starts
+
+| Upstream Citadel documentation | This program |
+| --- | --- |
+| Explains the reference architecture and supported implementation options | Selects the customer path and records why it fits |
+| Supplies the deployable accelerators and product parameters | Pins a tested version and maps customer decisions into small overlays |
+| Documents component behavior | Adds scope checks, approval points, operating ownership, and restore paths |
+| Describes individual platform capabilities | Connects hub, spoke, contracts, assurance, operations, and promotion into one adoption sequence |
+
+Use the upstream repositories when you need product mechanics or the complete parameter reference.
+Use this program when you need to decide what the customer will deploy, which defaults to reject,
+who approves the change, and how the deployed control will operate.
+
+Start with the [Citadel platform architecture](https://github.com/Azure-Samples/foundry-citadel-platform)
+for the reference design and implementation links. Return here for the customer adoption sequence.
 
 ## Execution environment
 
@@ -16,8 +35,6 @@ Install the tools required by the commands you plan to run:
 - Azure CLI with Bicep support. Sign in to the approved subscription before Azure work.
 - PowerShell 7 for PowerShell-based implementation steps.
 - Git, GitHub CLI, and Python 3.12 for the controlled-promotion commands.
-- Exchange Online and Security & Compliance PowerShell for the Session 05 audit query.
-- The current `apic-extension` when an API Center integration command requires it.
 
 Preflight checks the session-specific command capability, active scope, and configuration. Keep
 credentials, tenant and subscription IDs, and runtime values out of the repository.
@@ -25,9 +42,11 @@ credentials, tenant and subscription IDs, and runtime values out of the reposito
 ## Preview locally
 
 The files in `sessions/` are the source for the numbered session guides and slide decks.
-Need-based implementation kits live under `modules/` and remain separate from the 14-session
-sequence. Root `services.json` supplies the service labels and categories plus the icon filenames
-used across the generated site.
+Need-based implementation kits live under `modules/` and remain separate from the seven-session
+sequence. These optional modules include Agent 365 with Purview controls, multi-region recovery,
+and delegated access.
+Root `services.json` supplies the service labels and categories plus the icon filenames used across
+the generated site.
 Install the pinned build dependency:
 
 ```powershell
@@ -66,9 +85,8 @@ from the default-branch security context. Each pull request from this repository
 `pr-<number>/` and one bot comment with its link.
 
 For the first deployment, open **Settings > Pages** in the GitHub repository and
-set **Source** to **GitHub Actions**. Push the branch or run **Deploy static site
-to Pages** from the Actions tab. The deployment URL appears in the workflow's
-`github-pages` environment.
+set **Source** to **GitHub Actions**. Push `master` or `main`, or run
+**Deploy static site to Pages** from the Actions tab.
 
 ## Content source
 

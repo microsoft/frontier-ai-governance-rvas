@@ -15,8 +15,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages-content
@@ -60,7 +58,7 @@ jobs:
         with:
           name: static-site
           path: site
-          include-hidden-files: true
+          retention-days: 1
 
   update-production:
     needs: build
