@@ -31,6 +31,12 @@
       "skillPath": "skills/docx/SKILL.md",
       "computedHash": "59c70107f8eae818bdfca7da685a6e4111aa519638b667775b794cb74987ec47"
     },
+    "drawio": {
+      "source": "bahayonghang/drawio-skills",
+      "sourceType": "github",
+      "skillPath": "skills/drawio/SKILL.md",
+      "computedHash": "7136e8aed5e720f5061c6026307d0731d6c271520025de9af6a9a022fbd9969f"
+    },
     "excalidraw-diagram": {
       "source": "coleam00/excalidraw-diagram-skill",
       "sourceType": "github",
