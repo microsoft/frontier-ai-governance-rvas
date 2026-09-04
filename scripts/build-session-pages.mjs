@@ -1656,7 +1656,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
             <div class="route-choice__primary"><div><h3>Complete Citadel adoption · ${totalHours} working hours</h3><p>Run all ${sessions.length} sessions to connect the tested upstream implementations to customer controls and operating ownership.</p></div><ol class="route-choice__sequence"><li><span>1–3</span> Foundation</li><li><span>4–5</span> Runtime governance</li><li><span>6–7</span> Operations</li></ol><a class="button button--primary" data-route-clear href="#program">Browse all sessions</a></div>
             <div class="route-choice__heading"><div><h3>Focused routes</h3></div><div class="route-choice__legend" aria-label="Route phase colors"><span><i class="is-foundation"></i>Foundation</span><span><i class="is-runtime"></i>Runtime governance</span><span><i class="is-operations"></i>Operations</span></div></div>
             <div class="route-paths" role="list">${routeCards}</div>
-            <p class="route-choice__note">Agent 365, multi-region recovery, and delegated access remain optional modules outside the numbered sequence.</p>
+            <p class="route-choice__note">Agent 365 with Purview controls, multi-region recovery, and delegated access remain optional modules outside the numbered sequence.</p>
           </div>
         </div>
       </section>

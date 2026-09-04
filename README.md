@@ -43,7 +43,8 @@ credentials, tenant and subscription IDs, and runtime values out of the reposito
 
 The files in `sessions/` are the source for the numbered session guides and slide decks.
 Need-based implementation kits live under `modules/` and remain separate from the seven-session
-sequence. These optional modules include Agent 365, multi-region recovery, and delegated access.
+sequence. These optional modules include Agent 365 with Purview controls, multi-region recovery,
+and delegated access.
 Root `services.json` supplies the service labels and categories plus the icon filenames used across
 the generated site.
 Install the pinned build dependency:

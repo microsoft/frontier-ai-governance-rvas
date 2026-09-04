@@ -87,13 +87,15 @@ These controls have different owners. A strong quality score cannot cover a tool
 
 - Use fixed baseline and candidate versions.
 - Keep synthetic data and authorized attack scope separate from production content.
+- Stop when the selected Defender signal does not reach the SOC queue with a stable identifier.
 - Block promotion when any quality, tool, or threat layer fails.
 
 ---
 
 ## Expected result
 
-The approved aggregate returns `PASS`. A generated tool regression returns `BLOCK`. No candidate moves to promotion while a blocking layer fails.
+The approved aggregate returns `PASS`. A generated tool regression returns `BLOCK`. The SOC owner
+can locate the selected Defender signal by its alert or incident ID.
 
 ---
 

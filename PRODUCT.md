@@ -93,8 +93,8 @@ LLMOps runs through the sequence. Sessions 03 and 04 establish the governed work
 contracts. Session 05 applies evaluation and threat gates. Sessions 06 and 07 connect telemetry,
 operations, promotion, restore, and lifecycle management.
 
-Optional modules cover needs outside the seven-session count, including Agent 365, multi-region
-recovery, and delegated access.
+Optional modules cover needs outside the seven-session count, including Agent 365 with Purview
+controls, multi-region recovery, and delegated access.
 
 ## Capabilities and Constraints
 

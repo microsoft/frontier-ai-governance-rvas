@@ -135,11 +135,27 @@ python ./scripts/run-red-team.py --plan ./artifacts/red-team/attack-plan.json --
 
 Review the detailed runs in Foundry and the current Defender or SOC record. Keep payloads out of the release store.
 
+### 4. Confirm the Defender-to-SOC route
+
+Open Microsoft Defender XDR Advanced Hunting in the approved tenant and run
+`artifacts/defender/ai-alert-hunt.kql`. Change only the `lookback` value to cover the authorized
+red-team window.
+
+Use a Defender signal from the authorized run when one exists. If the run does not produce a
+signal, use the security owner's approved route-health exercise. Do not generate harmful traffic
+only to create an alert.
+
+Confirm that the same alert or incident ID appears in the customer SOC queue with its severity and
+source intact. Keep investigation details in Defender and the SOC system. Stop when the query
+cannot read the expected security data, the SOC owner cannot locate the routed signal, or the route
+changes the identifier needed for correlation.
+
 ## Confirm the result
 
 ### Intended path
 
 Run `release-gate.py` with the approved aggregate as both baseline and candidate. It returns `PASS`.
+The SOC owner can locate the selected Defender signal by its alert or incident ID.
 
 ### Blocked or failure path
 
