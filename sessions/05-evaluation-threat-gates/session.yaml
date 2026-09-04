@@ -16,7 +16,7 @@ session:
     - "The Defender-to-SOC route is operating, or the security owner has approved a route-health check."
   dependencies:
     - "Session 03 - Deploy a Citadel Agent Spoke and governed agent"
-    - "Session 03 - Govern Citadel backends, access, tools, and agents"
+    - "Session 04 - Govern Citadel backends, access, tools, and agents"
   services_in_scope:
     - "azure-ai-foundry"
     - "microsoft-defender-for-cloud"
