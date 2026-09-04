@@ -1,0 +1,92 @@
+name: Publish static site to Pages
+
+on:
+  workflow_run:
+    workflows:
+      - Deploy static site to Pages
+    types:
+      - completed
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  pull-requests: write
+
+concurrency:
+  group: pages-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout prepared site
+        uses: actions/checkout@v7
+        with:
+          ref: gh-pages
+          path: pages-branch
+          persist-credentials: false
+
+      - name: Prepare Pages artifact
+        run: |
+          set -euo pipefail
+          mkdir pages-artifact
+          git -C pages-branch archive --format=tar HEAD | tar -x -C pages-artifact
+
+          SYMBOLIC_LINK="$(find pages-artifact -type l -print -quit)"
+          if [ -n "${SYMBOLIC_LINK}" ]; then
+            echo "The prepared site contains a symbolic link: ${SYMBOLIC_LINK}" >&2
+            exit 1
+          fi
+
+      - name: Upload Pages site
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: pages-artifact
+          include-hidden-files: true
+
+      - name: Deploy Pages site
+        id: deployment
+        uses: actions/deploy-pages@v5
+
+      - name: Identify pull request preview
+        if: github.event_name == 'workflow_run' && github.event.workflow_run.event == 'pull_request'
+        id: preview
+        env:
+          PR_NUMBER: ${{ github.event.workflow_run.pull_requests[0].number }}
+        run: |
+          set -euo pipefail
+          if [ -n "${PR_NUMBER}" ] && [ -d "pages-branch/pr-${PR_NUMBER}" ]; then
+            echo "number=${PR_NUMBER}" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Comment preview URL
+        if: steps.preview.outputs.number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ steps.preview.outputs.number }}
+          PREVIEW_REVISION: ${{ github.event.workflow_run.head_sha }}
+          PAGES_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          PREVIEW_URL="${PAGES_URL%/}/pr-${PR_NUMBER}/"
+          MARKER="<!-- static-site-preview-url -->"
+          cat > preview-comment.md <<EOF_COMMENT
+          ${MARKER}
+          Preview is ready: ${PREVIEW_URL}
+
+          Updated for commit ${PREVIEW_REVISION}.
+          EOF_COMMENT
+
+          COMMENT_ID="$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" --jq ".[] | select(.user.login == \"github-actions[bot]\" and (.body | contains(\"${MARKER}\"))) | .id" | tail -n 1)"
+          if [ -n "${COMMENT_ID}" ]; then
+            gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${COMMENT_ID}" -f body="$(cat preview-comment.md)"
+          else
+            gh api -X POST "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" -f body="$(cat preview-comment.md)"
+          fi

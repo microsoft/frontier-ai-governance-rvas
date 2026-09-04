@@ -5,6 +5,12 @@ on:
     branches:
       - master
       - main
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - closed
   workflow_dispatch:
 
 permissions:
@@ -13,21 +19,28 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-content
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
+    if: github.event_name != 'pull_request' || github.event.action != 'closed'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        if: github.event_name != 'pull_request'
+        uses: actions/checkout@v7
+
+      - name: Checkout pull request head
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -39,18 +52,148 @@ jobs:
         run: npm run build:site
         env:
           SOURCE_REPOSITORY: ${{ github.repository }}
-          SOURCE_REVISION: ${{ github.sha }}
+          SOURCE_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
           SOURCE_SERVER_URL: ${{ github.server_url }}
 
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
       - name: Upload static site
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
+          name: static-site
           path: site
           include-hidden-files: true
 
-      - name: Deploy
-        id: deployment
-        uses: actions/deploy-pages@v5
+  update-production:
+    needs: build
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Download static site
+        uses: actions/download-artifact@v8
+        with:
+          name: static-site
+          path: built-site
+
+      - name: Update production content
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git ls-remote --exit-code origin gh-pages >/dev/null; then
+            git fetch origin gh-pages
+            git worktree add pages-branch origin/gh-pages
+          else
+            git worktree add --detach pages-branch
+            git -C pages-branch checkout --orphan gh-pages
+            git -C pages-branch rm -rf .
+          fi
+
+          find pages-branch -mindepth 1 -maxdepth 1 ! -name '.git' ! -name 'pr-*' -exec rm -rf {} +
+          cp -a built-site/. pages-branch/
+          touch pages-branch/.nojekyll
+
+          git -C pages-branch add -A
+          if git -C pages-branch diff --cached --quiet; then
+            echo "Production content unchanged."
+          else
+            git -C pages-branch commit -m "Update production site from ${GITHUB_SHA}"
+            git -C pages-branch push origin HEAD:gh-pages
+          fi
+
+  update-preview:
+    needs: build
+    if: github.event_name == 'pull_request' && github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      PREVIEW_PREFIX: pr-${{ github.event.pull_request.number }}
+      BASE_REVISION: ${{ github.event.pull_request.base.sha }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Download static site
+        uses: actions/download-artifact@v8
+        with:
+          name: static-site
+          path: built-site
+
+      - name: Update pull request preview
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git ls-remote --exit-code origin gh-pages >/dev/null; then
+            git fetch origin gh-pages
+            git worktree add pages-branch origin/gh-pages
+          else
+            git worktree add --detach pages-branch
+            git -C pages-branch checkout --orphan gh-pages
+            git -C pages-branch rm -rf .
+          fi
+
+          if [ ! -f pages-branch/index.html ]; then
+            mkdir production-site
+            git archive "${BASE_REVISION}" site | tar -x -C production-site
+            cp -a production-site/site/. pages-branch/
+          fi
+
+          rm -rf "pages-branch/${PREVIEW_PREFIX}"
+          mkdir -p "pages-branch/${PREVIEW_PREFIX}"
+          cp -a built-site/. "pages-branch/${PREVIEW_PREFIX}/"
+          touch pages-branch/.nojekyll
+
+          git -C pages-branch add -A
+          if git -C pages-branch diff --cached --quiet; then
+            echo "Preview content unchanged."
+          else
+            git -C pages-branch commit -m "Update preview ${PREVIEW_PREFIX} from ${GITHUB_SHA}"
+            git -C pages-branch push origin HEAD:gh-pages
+          fi
+
+  cleanup-preview:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      PREVIEW_PREFIX: pr-${{ github.event.pull_request.number }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Remove pull request preview
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if ! git ls-remote --exit-code origin gh-pages >/dev/null; then
+            echo "No gh-pages branch exists; nothing to clean."
+            exit 0
+          fi
+
+          git fetch origin gh-pages
+          git worktree add pages-branch origin/gh-pages
+          rm -rf "pages-branch/${PREVIEW_PREFIX}"
+          git -C pages-branch add -A
+
+          if git -C pages-branch diff --cached --quiet; then
+            echo "Preview ${PREVIEW_PREFIX} already absent."
+          else
+            git -C pages-branch commit -m "Remove preview ${PREVIEW_PREFIX}"
+            git -C pages-branch push origin HEAD:gh-pages
+          fi
