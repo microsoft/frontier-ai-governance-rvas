@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="Record each approved model, deploy its exact serverless API version through version-controlled profiles and Bicep, then assign the built-in Foundry model-deployment policies from the same approval register.">
+    <title>Validation and operations | Session 03: Model governance, data residency, quota, and lifecycle | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page" data-session-phase="foundation">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program" aria-current="page">Sessions</a>
+          <a href="../../index.html#optional-modules">Optional modules</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="validation-and-operations">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#program">All sessions</a>
+            <span aria-hidden="true">/</span>
+            <a href="index.html">Session 03</a>
+          </nav>
+          <p class="chapter-header__label">Chapter 6 of 6 · Validation and operations</p>
+          <h1 id="validation-and-operations">Model governance, data residency, quota, and lifecycle</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Governed foundation · Draft</span>
+            <span>5.5 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Session chapters">
+        <ol class="session-content-width"><li><a href="index.html"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html"><span>2</span>Architecture</a></li><li><a href="before-you-start.html"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html" aria-current="page"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <div class="chapter-actions">
+          <button
+            class="deck-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="session-deck-dialog"
+            data-deck-open
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+              <path d="M8 20h8M12 16.5V20"></path>
+            </svg>
+            <span>Open the deck</span>
+          </button>
+          <a
+            class="implementation-files-link"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/03-model-governance-lifecycle/implementation"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 7.5h6l2-2h9v13h-17z"></path>
+              <path d="m9.5 11-2 2 2 2M14.5 11l2 2-2 2"></path>
+            </svg>
+            <span>View implementation files</span>
+            <span class="visually-hidden"> on GitHub (opens in a new tab)</span>
+          </a>
+        </div>
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/azure-ai-foundry.svg" alt="">
+                <strong>Microsoft Foundry</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-openai.svg" alt="">
+                <strong>Azure OpenAI</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Validation and operations">
+          <p class="implementation-guide__label">Chapter 6 of 6</p>
+          <h2 id="confirm-the-result">Confirm the result<a class="heading-anchor" href="#confirm-the-result" aria-label="Link to Confirm the result">#</a></h2>
+<p>Inspect each child deployment listed in the profile:</p>
+<section class="code-tabs" data-code-tabs>
+  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
+    <button type="button" role="tab" id="command-shell-1-powershell-tab" aria-controls="command-shell-1-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
+    <button type="button" role="tab" id="command-shell-1-bash-tab" aria-controls="command-shell-1-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-1-powershell-panel" role="tabpanel" aria-labelledby="command-shell-1-powershell-tab" tabindex="0" data-shell-panel="powershell">
+    <p class="code-tabs__fallback-label">PowerShell</p>
+    <pre><code class="language-powershell">$profiles = Get-Content .\artifacts\models\deployment-profiles.json -Raw | ConvertFrom-Json
+foreach ($profile in $profiles.deployments) {
+  az cognitiveservices account deployment show `
+    --name $foundryAccount `
+    --resource-group $resourceGroup `
+    --deployment-name $profile.deploymentName `
+    --query &quot;{state:properties.provisioningState,model:properties.model,sku:sku,approvalId:tags.modelApprovalId}&quot; `
+    --output json
+}</code></pre>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-1-bash-panel" role="tabpanel" aria-labelledby="command-shell-1-bash-tab" tabindex="0" data-shell-panel="bash">
+    <p class="code-tabs__fallback-label">Bash</p>
+    <pre><code class="language-bash">python3 - &quot;$foundry_account&quot; &quot;$resource_group&quot; &lt;&lt;'PY'
+import json, subprocess, sys
+with open(&quot;./artifacts/models/deployment-profiles.json&quot;, encoding=&quot;utf-8&quot;) as handle:
+    profiles = json.load(handle)[&quot;deployments&quot;]
+for profile in profiles:
+    subprocess.run([
+        &quot;az&quot;, &quot;cognitiveservices&quot;, &quot;account&quot;, &quot;deployment&quot;, &quot;show&quot;,
+        &quot;--name&quot;, sys.argv[1], &quot;--resource-group&quot;, sys.argv[2],
+        &quot;--deployment-name&quot;, profile[&quot;deploymentName&quot;],
+        &quot;--query&quot;, &quot;{state:properties.provisioningState,model:properties.model,sku:sku,approvalId:tags.modelApprovalId}&quot;,
+        &quot;--output&quot;, &quot;json&quot;, &quot;--only-show-errors&quot;,
+    ], check=True)
+PY</code></pre>
+  </div>
+</section>
+<p>Every deployment must report <code>Succeeded</code>. Its exact model coordinates, SKU, capacity, and <code>modelApprovalId</code> must match <code>deployment-profiles.json</code>.</p>
+<section class="code-tabs" data-code-tabs>
+  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
+    <button type="button" role="tab" id="command-shell-2-powershell-tab" aria-controls="command-shell-2-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
+    <button type="button" role="tab" id="command-shell-2-bash-tab" aria-controls="command-shell-2-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-2-powershell-panel" role="tabpanel" aria-labelledby="command-shell-2-powershell-tab" tabindex="0" data-shell-panel="powershell">
+    <p class="code-tabs__fallback-label">PowerShell</p>
+    <pre><code class="language-powershell">.\scripts\check-model-policy.ps1 -ResourceGroup $resourceGroup</code></pre>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-2-bash-panel" role="tabpanel" aria-labelledby="command-shell-2-bash-tab" tabindex="0" data-shell-panel="bash">
+    <p class="code-tabs__fallback-label">Bash</p>
+    <pre><code class="language-bash">./scripts/check-model-policy.sh --resource-group &quot;$resource_group&quot;</code></pre>
+  </div>
+</section>
+<p>Both assignments must match the approval register.</p>
+<h2 id="after-implementation">After implementation<a class="heading-anchor" href="#after-implementation" aria-label="Link to After implementation">#</a></h2>
+<p>The Foundry platform team owns live capacity and deployment changes. The lifecycle owner keeps the review date, replacement work, and notifications current. The decision authority keeps the full approval and review history. The policy owner maintains the approval register and policy assignments. Platform engineering maintains the Bicep, parameters, profiles, and paired preflight scripts.</p>
+<p>Use this path for later version changes. Deployments created elsewhere need their own control. Azure Policy can separately deny selected deployment SKU names across other authorized paths.</p>
+<p>To restore an earlier approved version, restore its profile through the approved change process, rerun preflight, inspect what-if, and redeploy. To remove a deployment, the workload and platform owners must first confirm that no consumer uses it. Check for <code>implementationSession=03-model-governance-lifecycle</code>, then remove that one child deployment through the approved Foundry or Azure deployment path. Leave the parent Foundry resource and every other deployment in place.</p>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Session 03</dd></div><div><dt>Phase and status</dt><dd>Governed foundation · Draft</dd></div><div><dt>Duration</dt><dd>5.5 hours</dd></div><div><dt>Implementation mode</dt><dd>Standard</dd></div><div><dt>Last verified</dt><dd>2026-08-28</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="implementation.html"><span>Previous chapter</span><strong>Implementation</strong></a>
+        <a href="../04-governed-agent-baseline/"><span>Next session</span><strong>Governed Microsoft Foundry agent baseline</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Session 03 · Validation and operations</p>
+    </footer>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Session 03</p>
+            <h2 id="session-deck-title">Model governance, data residency, quota, and lifecycle slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Session 03: Model governance, data residency, quota, and lifecycle slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>

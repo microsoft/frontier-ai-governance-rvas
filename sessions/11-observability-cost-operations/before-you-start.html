@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="Deploy privacy-safe operating controls for one governed service. Correlate supported runtime spans, route alerts, notify owners at budget thresholds, and follow incident paths with named owners.">
+    <title>Before you start | Session 11: Observability, cost, and operational controls | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page" data-session-phase="runtime">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program" aria-current="page">Sessions</a>
+          <a href="../../index.html#optional-modules">Optional modules</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="before-you-start">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#program">All sessions</a>
+            <span aria-hidden="true">/</span>
+            <a href="index.html">Session 11</a>
+          </nav>
+          <p class="chapter-header__label">Chapter 3 of 6 · Before you start</p>
+          <h1 id="before-you-start">Observability, cost, and operational controls</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Runtime assurance · Draft</span>
+            <span>3.5 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Session chapters">
+        <ol class="session-content-width"><li><a href="index.html"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html"><span>2</span>Architecture</a></li><li><a href="before-you-start.html" aria-current="page"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <div class="chapter-actions">
+          <button
+            class="deck-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="session-deck-dialog"
+            data-deck-open
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+              <path d="M8 20h8M12 16.5V20"></path>
+            </svg>
+            <span>Open the deck</span>
+          </button>
+          <a
+            class="implementation-files-link"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/11-observability-cost-operations/implementation"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 7.5h6l2-2h9v13h-17z"></path>
+              <path d="m9.5 11-2 2 2 2M14.5 11l2 2-2 2"></path>
+            </svg>
+            <span>View implementation files</span>
+            <span class="visually-hidden"> on GitHub (opens in a new tab)</span>
+          </a>
+        </div>
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/azure-monitor.svg" alt="">
+                <strong>Azure Monitor</strong>
+              </li><li>
+                <img src="../../assets/icons/application-insights.svg" alt="">
+                <strong>Application Insights</strong>
+              </li><li>
+                <img src="../../assets/icons/log-analytics.svg" alt="">
+                <strong>Log Analytics</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-cost-management.svg" alt="">
+                <strong>Azure Cost Management</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-defender-xdr.svg" alt="">
+                <strong>Microsoft Defender XDR</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Before you start">
+          <p class="implementation-guide__label">Chapter 3 of 6</p>
+          <p>Confirm these requirements:</p>
+<ul><li>An approved governed runtime can be inspected: the platform owner identifies the immutable agent and project, the gateway owner identifies the versioned APIM policy and tool path, the quality owner can retrieve the current evaluation result, and the security owner can retrieve the payload-free adversarial result and Defender route check. (The governed-agent, APIM, MCP security, threat-defense, and observability controls establish these prerequisites.)</li><li>The nonproduction policy assistant and APIM route support an approved read-only request and a separate handled failure for a nonexistent synthetic policy.</li><li>A workspace-based Application Insights component, its Log Analytics workspace, an action group, and an approved retention boundary exist.</li><li>Application instrumentation is deployed. The customer-owned APIM policy already preserves W3C context and emits bounded token metrics.</li><li>The Foundry agent type is recorded. Prompt and hosted agent tracing is generally available. Workflow and external agent tracing remains preview and requires an approved nonproduction preview-use decision.</li><li>Baseline telemetry has been reviewed before owners set alert thresholds.</li><li>The observability, application, gateway, tool, AI quality, security operations, data-protection, cost, and service owners can make their required decisions.</li></ul>
+<p>When prerequisite sessions were implemented elsewhere, verify:</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Control</th><th scope="col">Required state</th><th scope="col">Owner check</th></tr></thead><tbody><tr><td>Runtime</td><td>The deployment record names the Foundry project, immutable agent version, Microsoft Entra agent identity, network path, versioned APIM policy, tool identities and scopes, and data-policy assignment</td><td>Platform, gateway, tool, and data owners confirm that one approved read-only request reaches the listed backend and tool</td></tr><tr><td>Tracing</td><td>OpenTelemetry and APIM propagate W3C <code>traceparent</code> and one non-sensitive correlation ID</td><td>Observability owner finds joined gateway, agent, model, and tool spans with separate results</td></tr><tr><td>Evaluation</td><td>The evaluation definition, threshold policy, and approved aggregate result name the deployed version</td><td>AI quality owner gets the recorded pass or block result from the release gate</td></tr><tr><td>Security</td><td>The payload-free adversarial summary, Defender onboarding state, and security-event route name the protected version</td><td>Security operations finds blocked prohibited actions and one expected signal in the listed Defender or SOC record</td></tr></tbody></table></div>
+<p>The deployment operator needs:</p>
+<ul><li><strong>Monitoring Contributor</strong> at the exact deployment resource-group scope;</li><li><strong>Log Analytics Reader</strong> at the exact workspace scope;</li><li><strong>Monitoring Reader</strong> at the exact Application Insights and action-group resource scopes when either resource is outside the deployment group; and</li><li><strong>Cost Management Contributor</strong> at the exact subscription scope.</li></ul>
+<p>Human access lasts through preflight, deployment, and confirmation. Remove or expire it through the approved access process afterward.</p>
+<h3 id="implementation-files">Implementation files<a class="heading-anchor" href="#implementation-files" aria-label="Link to Implementation files">#</a></h3>
+<div class="table-scroll"><table><thead><tr><th scope="col">Type</th><th scope="col">File</th><th scope="col">Consumer</th></tr></thead><tbody><tr><td>Runtime</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/11-observability-cost-operations/implementation/artifacts/telemetry/telemetry-contract.json"><code>artifacts/telemetry/telemetry-contract.json</code></a></td><td>Application developers, the observability owner, and preflight scripts</td></tr><tr><td>Deployment</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/11-observability-cost-operations/implementation/artifacts/infra/main.bicep"><code>artifacts/infra/main.bicep</code></a></td><td>The Azure deployment pipeline</td></tr><tr><td>Deployment</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/11-observability-cost-operations/implementation/artifacts/infra/main.bicepparam"><code>artifacts/infra/main.bicepparam</code></a></td><td>The Azure deployment pipeline</td></tr><tr><td>Deployment</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/11-observability-cost-operations/implementation/artifacts/monitoring/workbook.json"><code>artifacts/monitoring/workbook.json</code></a></td><td>Operators and the workbook deployment</td></tr><tr><td>Runtime</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/11-observability-cost-operations/implementation/artifacts/queries/request-error-rate-alert.kql"><code>artifacts/queries/request-error-rate-alert.kql</code></a></td><td>The request-error scheduled-query alert</td></tr><tr><td>Runtime</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/11-observability-cost-operations/implementation/artifacts/queries/tool-failure-alert.kql"><code>artifacts/queries/tool-failure-alert.kql</code></a></td><td>The tool-failure scheduled-query alert</td></tr><tr><td>Runtime</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/11-observability-cost-operations/implementation/artifacts/queries/quality-safety-alert.kql"><code>artifacts/queries/quality-safety-alert.kql</code></a></td><td>The quality and safety scheduled-query alert</td></tr><tr><td>Deployment</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/11-observability-cost-operations/implementation/artifacts/cost/budget.bicep"><code>artifacts/cost/budget.bicep</code></a></td><td>The subscription deployment pipeline and cost owner</td></tr><tr><td>Deployment</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/11-observability-cost-operations/implementation/artifacts/cost/budget.bicepparam"><code>artifacts/cost/budget.bicepparam</code></a></td><td>The subscription deployment pipeline</td></tr><tr><td>Record</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/11-observability-cost-operations/implementation/artifacts/cost/cost-allocation.md"><code>artifacts/cost/cost-allocation.md</code></a></td><td>The cost owner</td></tr><tr><td>Record</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/11-observability-cost-operations/implementation/artifacts/governance/data-retention-decision.md"><code>artifacts/governance/data-retention-decision.md</code></a></td><td>The observability owner</td></tr><tr><td>Record</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/11-observability-cost-operations/implementation/artifacts/governance/prompt-response-logging-decision.md"><code>artifacts/governance/prompt-response-logging-decision.md</code></a></td><td>The privacy and observability owners</td></tr><tr><td>Record</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/11-observability-cost-operations/implementation/artifacts/operations/incident-runbook.md"><code>artifacts/operations/incident-runbook.md</code></a></td><td>The incident commander and service operators</td></tr></tbody></table></div>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Session 11</dd></div><div><dt>Phase and status</dt><dd>Runtime assurance · Draft</dd></div><div><dt>Duration</dt><dd>3.5 hours</dd></div><div><dt>Implementation mode</dt><dd>Standard</dd></div><div><dt>Last verified</dt><dd>2026-09-02</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="architecture.html"><span>Previous chapter</span><strong>Architecture</strong></a>
+        <a href="decisions-and-boundaries.html"><span>Next chapter</span><strong>Decisions and boundaries</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Session 11 · Before you start</p>
+    </footer>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Session 11</p>
+            <h2 id="session-deck-title">Observability, cost, and operational controls slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Session 11: Observability, cost, and operational controls slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>

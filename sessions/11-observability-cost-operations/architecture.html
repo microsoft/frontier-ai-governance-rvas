@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="Deploy privacy-safe operating controls for one governed service. Correlate supported runtime spans, route alerts, notify owners at budget thresholds, and follow incident paths with named owners.">
+    <title>Architecture | Session 11: Observability, cost, and operational controls | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page" data-session-phase="runtime">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program" aria-current="page">Sessions</a>
+          <a href="../../index.html#optional-modules">Optional modules</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="architecture">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#program">All sessions</a>
+            <span aria-hidden="true">/</span>
+            <a href="index.html">Session 11</a>
+          </nav>
+          <p class="chapter-header__label">Chapter 2 of 6 · Architecture</p>
+          <h1 id="architecture">Observability, cost, and operational controls</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Runtime assurance · Draft</span>
+            <span>3.5 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Session chapters">
+        <ol class="session-content-width"><li><a href="index.html"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html" aria-current="page"><span>2</span>Architecture</a></li><li><a href="before-you-start.html"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <div class="chapter-actions">
+          <button
+            class="deck-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="session-deck-dialog"
+            data-deck-open
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+              <path d="M8 20h8M12 16.5V20"></path>
+            </svg>
+            <span>Open the deck</span>
+          </button>
+          <a
+            class="implementation-files-link"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/11-observability-cost-operations/implementation"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 7.5h6l2-2h9v13h-17z"></path>
+              <path d="m9.5 11-2 2 2 2M14.5 11l2 2-2 2"></path>
+            </svg>
+            <span>View implementation files</span>
+            <span class="visually-hidden"> on GitHub (opens in a new tab)</span>
+          </a>
+        </div>
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/azure-monitor.svg" alt="">
+                <strong>Azure Monitor</strong>
+              </li><li>
+                <img src="../../assets/icons/application-insights.svg" alt="">
+                <strong>Application Insights</strong>
+              </li><li>
+                <img src="../../assets/icons/log-analytics.svg" alt="">
+                <strong>Log Analytics</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-cost-management.svg" alt="">
+                <strong>Azure Cost Management</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-defender-xdr.svg" alt="">
+                <strong>Microsoft Defender XDR</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Architecture">
+          <p class="implementation-guide__label">Chapter 2 of 6</p>
+          <h3 id="architecture-at-a-glance">Architecture at a glance<a class="heading-anchor" href="#architecture-at-a-glance" aria-label="Link to Architecture at a glance">#</a></h3>
+<figure class="session-diagram"><img src="assets/diagrams/operational-correlation-flow.svg" alt="Model and tool spans join one gateway and agent trace before operations correlates the results." loading="lazy" decoding="async"></figure>
+<p>The approved request carries W3C trace context through API Management, the agent, the model, and the tool. One non-sensitive correlation ID joins the supported spans, while each span keeps its own result. A tool failure must not become a model failure.</p>
+<p>The workbook and alert queries read Application Insights. APIM emits bounded token metrics for a faster usage estimate. Cost Management reports the bill later. The customer-owned APIM repository remains authoritative for gateway policy, and the controlled promotion workflow consumes the temporary smoke result.</p>
+<h3 id="design-choices-and-tradeoffs">Design choices and tradeoffs<a class="heading-anchor" href="#design-choices-and-tradeoffs" aria-label="Link to Design choices and tradeoffs">#</a></h3>
+<div class="table-scroll"><table><thead><tr><th scope="col">Decision</th><th scope="col">Chosen approach</th><th scope="col">Benefit</th><th scope="col">Limit</th></tr></thead><tbody><tr><td>Runtime content</td><td>Exclude prompts, responses, and tool payloads by default</td><td>Trace service behavior without creating a content archive</td><td>A diagnostic exception needs separate, time-limited approval</td></tr><tr><td>Trace volume</td><td>Sample at the source, preserve selected traces end to end, and do not sample metrics</td><td>Bound ingestion while keeping joined traces</td><td>Sampling can miss rare failures</td></tr><tr><td>Cost signal</td><td>Use low-cardinality APIM token metrics for estimates and Cost Management for billing</td><td>Give operators a fast signal without treating it as an invoice</td><td>Counts can be incomplete; billing normally lags 8-24 hours</td></tr></tbody></table></div>
+<h3 id="architecture-guidance">Architecture guidance<a class="heading-anchor" href="#architecture-guidance" aria-label="Link to Architecture guidance">#</a></h3>
+<ul><li><a href="https://learn.microsoft.com/en-us/azure/foundry/observability/concepts/trace-agent-concept">Trace agent overview</a></li><li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-sampling">Sampling in Azure Application Insights with OpenTelemetry</a></li><li><a href="https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets">Create and manage budgets</a></li></ul>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Session 11</dd></div><div><dt>Phase and status</dt><dd>Runtime assurance · Draft</dd></div><div><dt>Duration</dt><dd>3.5 hours</dd></div><div><dt>Implementation mode</dt><dd>Standard</dd></div><div><dt>Last verified</dt><dd>2026-09-02</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="index.html"><span>Previous chapter</span><strong>Scope and outcomes</strong></a>
+        <a href="before-you-start.html"><span>Next chapter</span><strong>Before you start</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Session 11 · Architecture</p>
+    </footer>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Session 11</p>
+            <h2 id="session-deck-title">Observability, cost, and operational controls slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Session 11: Observability, cost, and operational controls slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>

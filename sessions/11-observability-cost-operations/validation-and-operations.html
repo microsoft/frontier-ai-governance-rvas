@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="Deploy privacy-safe operating controls for one governed service. Correlate supported runtime spans, route alerts, notify owners at budget thresholds, and follow incident paths with named owners.">
+    <title>Validation and operations | Session 11: Observability, cost, and operational controls | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page" data-session-phase="runtime">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program" aria-current="page">Sessions</a>
+          <a href="../../index.html#optional-modules">Optional modules</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="validation-and-operations">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#program">All sessions</a>
+            <span aria-hidden="true">/</span>
+            <a href="index.html">Session 11</a>
+          </nav>
+          <p class="chapter-header__label">Chapter 6 of 6 · Validation and operations</p>
+          <h1 id="validation-and-operations">Observability, cost, and operational controls</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Runtime assurance · Draft</span>
+            <span>3.5 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Session chapters">
+        <ol class="session-content-width"><li><a href="index.html"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html"><span>2</span>Architecture</a></li><li><a href="before-you-start.html"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html" aria-current="page"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <div class="chapter-actions">
+          <button
+            class="deck-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="session-deck-dialog"
+            data-deck-open
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+              <path d="M8 20h8M12 16.5V20"></path>
+            </svg>
+            <span>Open the deck</span>
+          </button>
+          <a
+            class="implementation-files-link"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/11-observability-cost-operations/implementation"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 7.5h6l2-2h9v13h-17z"></path>
+              <path d="m9.5 11-2 2 2 2M14.5 11l2 2-2 2"></path>
+            </svg>
+            <span>View implementation files</span>
+            <span class="visually-hidden"> on GitHub (opens in a new tab)</span>
+          </a>
+        </div>
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/azure-monitor.svg" alt="">
+                <strong>Azure Monitor</strong>
+              </li><li>
+                <img src="../../assets/icons/application-insights.svg" alt="">
+                <strong>Application Insights</strong>
+              </li><li>
+                <img src="../../assets/icons/log-analytics.svg" alt="">
+                <strong>Log Analytics</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-cost-management.svg" alt="">
+                <strong>Azure Cost Management</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-defender-xdr.svg" alt="">
+                <strong>Microsoft Defender XDR</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Validation and operations">
+          <p class="implementation-guide__label">Chapter 6 of 6</p>
+          <h2 id="confirm-the-result">Confirm the result<a class="heading-anchor" href="#confirm-the-result" aria-label="Link to Confirm the result">#</a></h2>
+<p>Run the paired smoke check from the controlled GitHub promotion workflow. The normal and handled failure routes must be different HTTPS endpoints. The scripts resolve the live Application Insights workspace before either request and reject a result path outside <code>RUNNER_TEMP</code>.</p>
+<section class="code-tabs" data-code-tabs>
+  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
+    <button type="button" role="tab" id="command-shell-1-powershell-tab" aria-controls="command-shell-1-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
+    <button type="button" role="tab" id="command-shell-1-bash-tab" aria-controls="command-shell-1-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-1-powershell-panel" role="tabpanel" aria-labelledby="command-shell-1-powershell-tab" tabindex="0" data-shell-panel="powershell">
+    <p class="code-tabs__fallback-label">PowerShell</p>
+    <pre><code class="language-powershell">$env:session12_SMOKE_URL = $env:APPROVED_SYNTHETIC_SMOKE_URL
+$env:session12_SMOKE_FAILURE_URL = $env:APPROVED_SYNTHETIC_FAILURE_URL
+$env:session12_AI_RESOURCE_ID = $env:APPROVED_APPLICATION_INSIGHTS_RESOURCE_ID
+$env:session12_LOG_ANALYTICS_WORKSPACE_ID = $env:APPROVED_LOG_ANALYTICS_WORKSPACE_ID
+$env:session12_SMOKE_BEARER_TOKEN = $env:APPROVED_SYNTHETIC_SMOKE_TOKEN
+$env:session12_SMOKE_TIMEOUT_SECONDS = &quot;180&quot;
+$env:session12_SMOKE_RETRY_SECONDS = &quot;15&quot;
+$resultPath = Join-Path $env:RUNNER_TEMP &quot;session11-smoke.json&quot;
+
+.\scripts\smoke.ps1 `
+  -Mode Pipeline `
+  -Environment nonproduction `
+  -CommitSha $env:RELEASE_COMMIT_SHA `
+  -ResultPath $resultPath</code></pre>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-1-bash-panel" role="tabpanel" aria-labelledby="command-shell-1-bash-tab" tabindex="0" data-shell-panel="bash">
+    <p class="code-tabs__fallback-label">Bash</p>
+    <pre><code class="language-bash">export session12_SMOKE_URL=&quot;${APPROVED_SYNTHETIC_SMOKE_URL}&quot;
+export session12_SMOKE_FAILURE_URL=&quot;${APPROVED_SYNTHETIC_FAILURE_URL}&quot;
+export session12_AI_RESOURCE_ID=&quot;${APPROVED_APPLICATION_INSIGHTS_RESOURCE_ID}&quot;
+export session12_LOG_ANALYTICS_WORKSPACE_ID=&quot;${APPROVED_LOG_ANALYTICS_WORKSPACE_ID}&quot;
+export session12_SMOKE_BEARER_TOKEN=&quot;${APPROVED_SYNTHETIC_SMOKE_TOKEN}&quot;
+export session12_SMOKE_TIMEOUT_SECONDS=&quot;180&quot;
+export session12_SMOKE_RETRY_SECONDS=&quot;15&quot;
+result_path=&quot;${RUNNER_TEMP}/session11-smoke.json&quot;
+
+./scripts/smoke.sh \
+  --mode pipeline \
+  --environment nonproduction \
+  --commit-sha &quot;${RELEASE_COMMIT_SHA}&quot; \
+  --result-path &quot;$result_path&quot;</code></pre>
+  </div>
+</section>
+<p>The scripts discard response bodies and keep only safe correlation IDs. They poll Application Insights until the normal and failure traces are complete and three consecutive queries have the same counts and latest <code>TimeGenerated</code> value. The default wait is 180 seconds with a 15-second retry.</p>
+<p>The result must show:</p>
+<ul><li><code>status: passed</code>, the exact release commit SHA on both request records, and the live workspace binding;</li><li>successful model and tool results for the normal route;</li><li>a failed tool dependency and independent successful model result for the failure route;</li><li>distinct safe correlation IDs, stable ingestion, and <code>telemetryPollTimedOut: false</code>;</li><li>the expected request, error, latency, model, token, agent, tool, and quality fields; and</li><li>no probe marker or prohibited payload property in requests, dependencies, events, traces, or exceptions.</li></ul>
+<p>Stop on a missing hop, matching correlation IDs, commit mismatch, unstable ingestion, workspace mismatch, sensitive content, or a tool failure without an independent model result. Do not weaken redaction to make a trace complete.</p>
+<h2 id="after-implementation">After implementation<a class="heading-anchor" href="#after-implementation" aria-label="Link to After implementation">#</a></h2>
+<div class="table-scroll"><table><thead><tr><th scope="col">Owner</th><th scope="col">What remains</th></tr></thead><tbody><tr><td>Service owner</td><td>SLO and service operating decision</td></tr><tr><td>Observability owner</td><td>Instrumentation, sampling, retention, workbook, and alerts</td></tr><tr><td>Gateway owner</td><td>APIM correlation and token metrics in the customer policy repository</td></tr><tr><td>Tool owner</td><td>Tool-span accuracy and independent authorization</td></tr><tr><td>AI quality owner</td><td>Evaluation signals and thresholds</td></tr><tr><td>Security operations</td><td>Security-event routing and incident handling</td></tr><tr><td>Cost owner</td><td>Tags, budget thresholds, and reconciliation with billed cost</td></tr><tr><td>Incident commander</td><td>Containment and recovery decisions</td></tr></tbody></table></div>
+<p>Run the control against the approved nonproduction service. The controlled promotion workflow calls <code>smoke.ps1</code> or <code>smoke.sh</code> with the fixed pipeline mode, environment, commit SHA, runtime inputs, and runner-temporary result path.</p>
+<p>Restore through the owning change paths:</p>
+<ol><li>Route the application to the last approved governed agent version if instrumentation causes a fault.</li><li>Restore the previous APIM gateway policy without removing authentication, safety, routing, quota, token-limit, rate-limit, or backend controls.</li><li>Disable only the noisy observability alert rules while correcting their queries or thresholds.</li><li>Remove only resources listed in the approved observability-control what-if and tagged <code>implementationSession=11-observability-cost-operations</code>.</li><li>Delete the exact observability budget only after the cost owner confirms that no workflow uses it.</li><li>Keep records required by an active incident, legal hold, or retention obligation.</li></ol>
+<p>Do not disable telemetry, Defender, or SOC routing to silence a real signal.</p>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Session 11</dd></div><div><dt>Phase and status</dt><dd>Runtime assurance · Draft</dd></div><div><dt>Duration</dt><dd>3.5 hours</dd></div><div><dt>Implementation mode</dt><dd>Standard</dd></div><div><dt>Last verified</dt><dd>2026-09-02</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="implementation.html"><span>Previous chapter</span><strong>Implementation</strong></a>
+        <a href="../12-cicd-promotion-controls/"><span>Next session</span><strong>CI/CD, policy as code, and controlled promotion</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Session 11 · Validation and operations</p>
+    </footer>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Session 11</p>
+            <h2 id="session-deck-title">Observability, cost, and operational controls slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Session 11: Observability, cost, and operational controls slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>

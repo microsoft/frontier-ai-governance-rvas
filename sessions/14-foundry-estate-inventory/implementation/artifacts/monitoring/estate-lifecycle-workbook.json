@@ -1,0 +1,402 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "content": {
+        "json": "# Azure AI estate and lifecycle review\n\nInspect Azure AI accounts, deployments, model lifecycle data, Foundry projects, and retirement signals across selected subscriptions. Use the estate report to apply the approved scope, tags, regions, and exceptions."
+      },
+      "name": "title"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "crossComponentResources": [
+          "{Subscriptions}"
+        ],
+        "parameters": [
+          {
+            "id": "subscriptions",
+            "version": "KqlParameterItem/1.0",
+            "name": "Subscriptions",
+            "label": "Subscriptions",
+            "type": 2,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "isRequired": true,
+            "query": "ResourceContainers | where type =~ 'microsoft.resources/subscriptions' | where properties.state =~ 'Enabled' | project value = subscriptionId, label = name, selected = true | order by label asc",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "crossComponentResources": [
+              "value::all"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "value": [
+              "value::all"
+            ]
+          },
+          {
+            "id": "resource-groups",
+            "version": "KqlParameterItem/1.0",
+            "name": "ResourceGroups",
+            "label": "Resource groups",
+            "type": 2,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "Resources | where type in~ ('microsoft.cognitiveservices/accounts', 'microsoft.machinelearningservices/workspaces') | summarize count() by resourceGroup | project value = resourceGroup, label = resourceGroup, selected = false | order by label asc",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "crossComponentResources": [
+              "{Subscriptions}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "value": [
+              "value::all"
+            ]
+          },
+          {
+            "id": "model-account",
+            "version": "KqlParameterItem/1.0",
+            "name": "ModelAccount",
+            "label": "Model account",
+            "type": 5,
+            "multiSelect": false,
+            "query": "Resources | where type =~ 'microsoft.cognitiveservices/accounts' | where kind in~ ('OpenAI', 'AIServices') | extend groups = dynamic([{ResourceGroups}]) | where array_length(groups) == 0 or set_has_element(groups, '*') or set_has_element(groups, resourceGroup) | project value = id, label = strcat(name, ' [', kind, ']'), selected = false | order by label asc",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "crossComponentResources": [
+              "{Subscriptions}"
+            ],
+            "typeSettings": {
+              "showDefault": false
+            }
+          },
+          {
+            "id": "account-subscription",
+            "version": "KqlParameterItem/1.0",
+            "name": "AccountSubscription",
+            "label": "Account subscription",
+            "type": 1,
+            "query": "Resources | where tolower(id) == tolower('{ModelAccount}') | project value = subscriptionId, label = subscriptionId, selected = true",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "crossComponentResources": [
+              "{Subscriptions}"
+            ],
+            "isHiddenWhenLocked": true
+          },
+          {
+            "id": "account-region",
+            "version": "KqlParameterItem/1.0",
+            "name": "AccountRegion",
+            "label": "Account region",
+            "type": 1,
+            "query": "Resources | where tolower(id) == tolower('{ModelAccount}') | project value = location, label = location, selected = true",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "crossComponentResources": [
+              "{Subscriptions}"
+            ],
+            "isHiddenWhenLocked": true
+          },
+          {
+            "id": "account-kind",
+            "version": "KqlParameterItem/1.0",
+            "name": "AccountKind",
+            "label": "Account kind",
+            "type": 1,
+            "query": "Resources | where tolower(id) == tolower('{ModelAccount}') | project value = tostring(kind), label = tostring(kind), selected = true",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "crossComponentResources": [
+              "{Subscriptions}"
+            ],
+            "isHiddenWhenLocked": true
+          }
+        ],
+        "style": "pills",
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources"
+      },
+      "name": "parameters"
+    },
+    {
+      "type": 12,
+      "content": {
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "items": [
+          {
+            "type": 1,
+            "content": {
+              "json": "## Estate overview"
+            },
+            "name": "overview-heading"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "Resources | where type =~ 'microsoft.cognitiveservices/accounts' | extend groups = dynamic([{ResourceGroups}]) | where array_length(groups) == 0 or set_has_element(groups, '*') or set_has_element(groups, resourceGroup) | summarize Accounts = count(), ModelHosts = countif(kind in~ ('OpenAI', 'AIServices')), PublicAccessEnabled = countif(tostring(properties.publicNetworkAccess) =~ 'Enabled'), LocalAuthEnabled = countif(tobool(properties.disableLocalAuth) != true) by Kind = tostring(kind) | order by Accounts desc",
+              "title": "Azure AI accounts by kind",
+              "queryType": 1,
+              "resourceType": "microsoft.resourcegraph/resources",
+              "crossComponentResources": [
+                "{Subscriptions}"
+              ],
+              "visualization": "table"
+            },
+            "name": "account-summary"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "Resources | where type =~ 'microsoft.cognitiveservices/accounts' | extend groups = dynamic([{ResourceGroups}]) | where array_length(groups) == 0 or set_has_element(groups, '*') or set_has_element(groups, resourceGroup) | join kind=leftouter (ResourceContainers | where type =~ 'microsoft.resources/subscriptions' | project subscriptionId, Subscription = name) on subscriptionId | project Account = name, Subscription, ResourceGroup = resourceGroup, Kind = tostring(kind), Region = location, SKU = tostring(sku.name), State = tostring(properties.provisioningState), PublicNetworkAccess = tostring(properties.publicNetworkAccess), LocalAuthDisabled = tostring(properties.disableLocalAuth), Identity = tostring(identity.type), Tags = tostring(tags) | order by Subscription asc, Account asc",
+              "title": "Accounts and current posture",
+              "queryType": 1,
+              "resourceType": "microsoft.resourcegraph/resources",
+              "crossComponentResources": [
+                "{Subscriptions}"
+              ],
+              "visualization": "table"
+            },
+            "name": "account-posture"
+          },
+          {
+            "type": 1,
+            "content": {
+              "json": "## Deployments and model lifecycle\n\nChoose a model account above. Deployment data comes from the Azure Resource Manager control plane because Resource Graph does not expose model deployments."
+            },
+            "name": "deployments-heading"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "Resources | where tolower(id) == tolower('{ModelAccount}') | project Account = name, SubscriptionId = subscriptionId, ResourceGroup = resourceGroup, Region = location, Kind = tostring(kind), ResourceId = id",
+              "title": "Selected model account",
+              "queryType": 1,
+              "resourceType": "microsoft.resourcegraph/resources",
+              "crossComponentResources": [
+                "{Subscriptions}"
+              ],
+              "visualization": "table"
+            },
+            "name": "selected-account"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "ARMEndpoint/1.0",
+              "method": "GET",
+              "path": "{ModelAccount}/deployments",
+              "urlParams": [
+                {
+                  "key": "api-version",
+                  "value": "2024-10-01"
+                }
+              ],
+              "transformers": [
+                {
+                  "type": "jsonpath",
+                  "settings": {
+                    "tablePath": "$.value[*]",
+                    "columns": [
+                      {
+                        "path": "name",
+                        "columnid": "Deployment",
+                        "columnType": "string"
+                      },
+                      {
+                        "path": "properties.model.name",
+                        "columnid": "Model",
+                        "columnType": "string"
+                      },
+                      {
+                        "path": "properties.model.version",
+                        "columnid": "Version",
+                        "columnType": "string"
+                      },
+                      {
+                        "path": "properties.model.format",
+                        "columnid": "Format",
+                        "columnType": "string"
+                      },
+                      {
+                        "path": "sku.name",
+                        "columnid": "SKU",
+                        "columnType": "string"
+                      },
+                      {
+                        "path": "sku.capacity",
+                        "columnid": "Capacity",
+                        "columnType": "number"
+                      },
+                      {
+                        "path": "properties.versionUpgradeOption",
+                        "columnid": "Upgrade policy",
+                        "columnType": "string"
+                      },
+                      {
+                        "path": "properties.provisioningState",
+                        "columnid": "State",
+                        "columnType": "string"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "name": "model-deployments"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "ARMEndpoint/1.0",
+              "method": "GET",
+              "path": "subscriptions/{AccountSubscription}/providers/Microsoft.CognitiveServices/locations/{AccountRegion}/models",
+              "urlParams": [
+                {
+                  "key": "api-version",
+                  "value": "2024-10-01"
+                }
+              ],
+              "transformers": [
+                {
+                  "type": "jsonpath",
+                  "settings": {
+                    "tablePath": "$.value[?(@.kind == '{AccountKind}')]",
+                    "columns": [
+                      {
+                        "path": "model.name",
+                        "columnid": "Model",
+                        "columnType": "string"
+                      },
+                      {
+                        "path": "model.version",
+                        "columnid": "Version",
+                        "columnType": "string"
+                      },
+                      {
+                        "path": "model.format",
+                        "columnid": "Format",
+                        "columnType": "string"
+                      },
+                      {
+                        "path": "model.lifecycleStatus",
+                        "columnid": "Lifecycle",
+                        "columnType": "string"
+                      },
+                      {
+                        "path": "model.deprecation.inference",
+                        "columnid": "Inference retirement",
+                        "columnType": "datetime"
+                      },
+                      {
+                        "path": "model.deprecation.fineTune",
+                        "columnid": "Fine-tune retirement",
+                        "columnType": "datetime"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "name": "model-catalog"
+          },
+          {
+            "type": 1,
+            "content": {
+              "json": "## Foundry projects and related workspaces"
+            },
+            "name": "workspaces-heading"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "Resources | where type =~ 'microsoft.machinelearningservices/workspaces' | extend groups = dynamic([{ResourceGroups}]) | where array_length(groups) == 0 or set_has_element(groups, '*') or set_has_element(groups, resourceGroup) | join kind=leftouter (ResourceContainers | where type =~ 'microsoft.resources/subscriptions' | project subscriptionId, Subscription = name) on subscriptionId | project Workspace = name, Subscription, ResourceGroup = resourceGroup, Kind = tostring(kind), Region = location, HubResourceId = tostring(properties.hubResourceId), PublicNetworkAccess = tostring(properties.publicNetworkAccess), ManagedNetwork = tostring(properties.managedNetwork.isolationMode), Identity = tostring(identity.type), State = tostring(properties.provisioningState) | order by Subscription asc, Workspace asc",
+              "title": "Foundry projects, hubs, and Azure Machine Learning workspaces",
+              "queryType": 1,
+              "resourceType": "microsoft.resourcegraph/resources",
+              "crossComponentResources": [
+                "{Subscriptions}"
+              ],
+              "visualization": "table"
+            },
+            "name": "workspaces"
+          },
+          {
+            "type": 1,
+            "content": {
+              "json": "## Service retirements, Advisor, and resource health\n\nService Health announces change. Azure Advisor identifies affected resources and suggested actions. Resource Health shows the current availability state."
+            },
+            "name": "retirement-heading"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "ServiceHealthResources | where type =~ 'microsoft.resourcehealth/events' | extend EventType = tostring(properties.EventType), EventSubType = tostring(properties.EventSubType), Status = tostring(properties.Status), TrackingId = tostring(properties.TrackingId), Title = tostring(properties.Title), Summary = tostring(properties.Summary), EventDate = todatetime(tolong(properties.ImpactMitigationTime)) | where EventType == 'HealthAdvisory' and EventSubType == 'Retirement' | extend SearchText = tolower(strcat(Title, ' ', Summary)) | where SearchText has_any ('azure openai', 'microsoft foundry', 'cognitive services', 'ai services', 'machine learning') | project TrackingId, Title, Summary, Status, EventDate, SubscriptionId = subscriptionId | order by EventDate asc",
+              "title": "Azure AI service retirement advisories",
+              "queryType": 1,
+              "resourceType": "microsoft.resourcegraph/resources",
+              "crossComponentResources": [
+                "{Subscriptions}"
+              ],
+              "visualization": "table"
+            },
+            "name": "service-health-retirements"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AdvisorResources | where type =~ 'microsoft.advisor/recommendations' | extend RecommendationSubCategory = tostring(properties.extendedProperties.recommendationSubCategory), State = tostring(properties.platformState), ResourceId = tolower(tostring(properties.resourceMetadata.resourceId)), Impact = tostring(properties.impact), Problem = tostring(properties.shortDescription.problem), Solution = tostring(properties.shortDescription.solution) | where RecommendationSubCategory == 'ServiceUpgradeAndRetirement' and State == 'New' | join kind=inner (Resources | where type in~ ('microsoft.cognitiveservices/accounts', 'microsoft.machinelearningservices/workspaces') | extend groups = dynamic([{ResourceGroups}]) | where array_length(groups) == 0 or set_has_element(groups, '*') or set_has_element(groups, resourceGroup) | project ResourceId = tolower(id), Resource = name, ResourceGroup = resourceGroup, Region = location) on ResourceId | project Resource, ResourceGroup, Region, Impact, Problem, Solution | order by Impact asc, Resource asc",
+              "title": "Open retirement recommendations for Azure AI resources",
+              "queryType": 1,
+              "resourceType": "microsoft.resourcegraph/resources",
+              "crossComponentResources": [
+                "{Subscriptions}"
+              ],
+              "visualization": "table"
+            },
+            "name": "advisor-retirements"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "HealthResources | where type =~ 'microsoft.resourcehealth/availabilitystatuses' | extend ResourceId = tolower(tostring(properties.targetResourceId)), Availability = tostring(properties.availabilityState), Summary = tostring(properties.summary), Occurred = todatetime(properties.occurredTime) | join kind=inner (Resources | where type in~ ('microsoft.cognitiveservices/accounts', 'microsoft.machinelearningservices/workspaces') | extend groups = dynamic([{ResourceGroups}]) | where array_length(groups) == 0 or set_has_element(groups, '*') or set_has_element(groups, resourceGroup) | project ResourceId = tolower(id), Resource = name, ResourceGroup = resourceGroup) on ResourceId | project Resource, ResourceGroup, Availability, Summary, Occurred | order by Availability asc, Resource asc",
+              "title": "Resource health",
+              "queryType": 1,
+              "resourceType": "microsoft.resourcegraph/resources",
+              "crossComponentResources": [
+                "{Subscriptions}"
+              ],
+              "visualization": "table"
+            },
+            "name": "resource-health"
+          }
+        ]
+      },
+      "name": "estate-lifecycle-dashboard"
+    }
+  ],
+  "fallbackResourceIds": [],
+  "fromTemplateId": "rvas-foundry-estate-lifecycle"
+}

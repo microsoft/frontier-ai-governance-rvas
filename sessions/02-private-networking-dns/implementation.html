@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="Connect the existing Foundry account and four customer-provided dependencies through private endpoints, then disable public access after private DNS and TCP 443 checks succeed from the approved nonproduction execution host.">
+    <title>Implementation | Session 02: Private networking, DNS, and controlled egress | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page" data-session-phase="foundation">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program" aria-current="page">Sessions</a>
+          <a href="../../index.html#optional-modules">Optional modules</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="implementation">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#program">All sessions</a>
+            <span aria-hidden="true">/</span>
+            <a href="index.html">Session 02</a>
+          </nav>
+          <p class="chapter-header__label">Chapter 5 of 6 · Implementation</p>
+          <h1 id="implementation">Private networking, DNS, and controlled egress</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Governed foundation · Draft</span>
+            <span>3 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Session chapters">
+        <ol class="session-content-width"><li><a href="index.html"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html"><span>2</span>Architecture</a></li><li><a href="before-you-start.html"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html" aria-current="page"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <div class="chapter-actions">
+          <button
+            class="deck-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="session-deck-dialog"
+            data-deck-open
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+              <path d="M8 20h8M12 16.5V20"></path>
+            </svg>
+            <span>Open the deck</span>
+          </button>
+          <a
+            class="implementation-files-link"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/3c21d17731e18b09b7af63bb0720d76018bd32a8/sessions/02-private-networking-dns/implementation"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 7.5h6l2-2h9v13h-17z"></path>
+              <path d="m9.5 11-2 2 2 2M14.5 11l2 2-2 2"></path>
+            </svg>
+            <span>View implementation files</span>
+            <span class="visually-hidden"> on GitHub (opens in a new tab)</span>
+          </a>
+        </div>
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/azure-ai-foundry.svg" alt="">
+                <strong>Microsoft Foundry</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-key-vault.svg" alt="">
+                <strong>Azure Key Vault</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-ai-search.svg" alt="">
+                <strong>Azure AI Search</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-monitor.svg" alt="">
+                <strong>Azure Monitor</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-private-link.svg" alt="">
+                <strong>Azure Private Link</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-private-dns.svg" alt="">
+                <strong>Azure Private DNS</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Implementation">
+          <p class="implementation-guide__label">Chapter 5 of 6</p>
+          <h2 id="implement">Implement<a class="heading-anchor" href="#implement" aria-label="Link to Implement">#</a></h2>
+<h3 id="1-complete-the-network-definition">1. Complete the network definition<a class="heading-anchor" href="#1-complete-the-network-definition" aria-label="Link to 1. Complete the network definition">#</a></h3>
+<p>Set the five service IDs and the approved network IDs in <code>artifacts/environments/sandbox.bicepparam</code>. Configure these endpoint subresources and zones:</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Service</th><th scope="col">Subresource</th><th scope="col">Private DNS zone</th></tr></thead><tbody><tr><td>Foundry</td><td><code>account</code></td><td><code>privatelink.cognitiveservices.azure.com</code></td></tr><tr><td>Foundry</td><td><code>account</code></td><td><code>privatelink.openai.azure.com</code></td></tr><tr><td>Foundry</td><td><code>account</code></td><td><code>privatelink.services.ai.azure.com</code></td></tr><tr><td>Storage</td><td><code>blob</code></td><td><code>privatelink.blob.core.windows.net</code></td></tr><tr><td>Azure AI Search</td><td><code>searchService</code></td><td><code>privatelink.search.windows.net</code></td></tr><tr><td>Cosmos DB</td><td><code>Sql</code></td><td><code>privatelink.documents.azure.com</code></td></tr><tr><td>Key Vault</td><td><code>vault</code></td><td><code>privatelink.vaultcore.azure.net</code></td></tr></tbody></table></div>
+<p>Record the customer firewall repository or policy reference in the approved network design.</p>
+<h3 id="2-run-preflight-and-review-what-if">2. Run preflight and review <code>what-if</code><a class="heading-anchor" href="#2-run-preflight-and-review-what-if" aria-label="Link to 2. Run preflight and review what-if">#</a></h3>
+<p>Set the approved scope and operator IDs:</p>
+<section class="code-tabs" data-code-tabs>
+  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
+    <button type="button" role="tab" id="command-shell-1-powershell-tab" aria-controls="command-shell-1-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
+    <button type="button" role="tab" id="command-shell-1-bash-tab" aria-controls="command-shell-1-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-1-powershell-panel" role="tabpanel" aria-labelledby="command-shell-1-powershell-tab" tabindex="0" data-shell-panel="powershell">
+    <p class="code-tabs__fallback-label">PowerShell</p>
+    <pre><code class="language-powershell">$approvedSubscriptionId = $env:AZURE_SUBSCRIPTION_ID
+$resourceGroup = &quot;approved-session-02-resource-group&quot;
+$networkOperatorObjectId = &quot;network-operator-object-id&quot;
+$dnsOperatorObjectId = &quot;dns-operator-object-id&quot;
+$dnsScopeResourceIds = @(
+  &quot;/subscriptions/$approvedSubscriptionId/resourceGroups/approved-dns-resource-group&quot;
+)
+$cutoverChangeReference = &quot;approved-change-reference&quot;</code></pre>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-1-bash-panel" role="tabpanel" aria-labelledby="command-shell-1-bash-tab" tabindex="0" data-shell-panel="bash">
+    <p class="code-tabs__fallback-label">Bash</p>
+    <pre><code class="language-bash">approved_subscription_id=&quot;${AZURE_SUBSCRIPTION_ID:-}&quot;
+resource_group=&quot;approved-session-02-resource-group&quot;
+network_operator_object_id=&quot;network-operator-object-id&quot;
+dns_operator_object_id=&quot;dns-operator-object-id&quot;
+dns_scope_resource_id=&quot;/subscriptions/$approved_subscription_id/resourceGroups/approved-dns-resource-group&quot;
+cutover_change_reference=&quot;approved-change-reference&quot;</code></pre>
+  </div>
+</section>
+<section class="code-tabs" data-code-tabs>
+  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
+    <button type="button" role="tab" id="command-shell-2-powershell-tab" aria-controls="command-shell-2-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
+    <button type="button" role="tab" id="command-shell-2-bash-tab" aria-controls="command-shell-2-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-2-powershell-panel" role="tabpanel" aria-labelledby="command-shell-2-powershell-tab" tabindex="0" data-shell-panel="powershell">
+    <p class="code-tabs__fallback-label">PowerShell</p>
+    <pre><code class="language-powershell">.\scripts\preflight.ps1 `
+  -ApprovedSubscriptionId $approvedSubscriptionId `
+  -ResourceGroupName $resourceGroup `
+  -NetworkOperatorObjectId $networkOperatorObjectId `
+  -DnsOperatorObjectId $dnsOperatorObjectId `
+  -DnsScopeResourceId $dnsScopeResourceIds</code></pre>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-2-bash-panel" role="tabpanel" aria-labelledby="command-shell-2-bash-tab" tabindex="0" data-shell-panel="bash">
+    <p class="code-tabs__fallback-label">Bash</p>
+    <pre><code class="language-bash">./scripts/preflight.sh \
+  --approved-subscription-id &quot;$approved_subscription_id&quot; \
+  --resource-group-name &quot;$resource_group&quot; \
+  --network-operator-object-id &quot;$network_operator_object_id&quot; \
+  --dns-operator-object-id &quot;$dns_operator_object_id&quot; \
+  --dns-scope-resource-id &quot;$dns_scope_resource_id&quot;</code></pre>
+  </div>
+</section>
+<p>Repeat the DNS scope argument for separate zone-level assignments. Preflight rejects unresolved values, wrong scopes, missing roles or providers, mismatched service IDs, Bicep errors, and a failed resource-group <code>what-if</code>.</p>
+<p>The preview must leave the approved VNet, route table, and subnets unchanged. Expect seven zones and links plus five private endpoints. Stop on a delete, replacement, Foundry deployment, hub change, unexpected resource group, or public-access change.</p>
+<h3 id="3-deploy-private-endpoints-and-dns">3. Deploy private endpoints and DNS<a class="heading-anchor" href="#3-deploy-private-endpoints-and-dns" aria-label="Link to 3. Deploy private endpoints and DNS">#</a></h3>
+<section class="code-tabs" data-code-tabs>
+  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
+    <button type="button" role="tab" id="command-shell-3-powershell-tab" aria-controls="command-shell-3-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
+    <button type="button" role="tab" id="command-shell-3-bash-tab" aria-controls="command-shell-3-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-3-powershell-panel" role="tabpanel" aria-labelledby="command-shell-3-powershell-tab" tabindex="0" data-shell-panel="powershell">
+    <p class="code-tabs__fallback-label">PowerShell</p>
+    <pre><code class="language-powershell">$artifacts = Resolve-Path .\artifacts
+
+az deployment group create `
+  --resource-group $resourceGroup `
+  --name rvas-s03-private-network `
+  --template-file &quot;$artifacts\infra\network\main.bicep&quot; `
+  --parameters &quot;$artifacts\environments\sandbox.bicepparam&quot; `
+  --only-show-errors</code></pre>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-3-bash-panel" role="tabpanel" aria-labelledby="command-shell-3-bash-tab" tabindex="0" data-shell-panel="bash">
+    <p class="code-tabs__fallback-label">Bash</p>
+    <pre><code class="language-bash">artifacts_dir=&quot;$(cd ./artifacts &amp;&amp; pwd)&quot;
+
+az deployment group create \
+  --resource-group &quot;$resource_group&quot; \
+  --name rvas-s03-private-network \
+  --template-file &quot;$artifacts_dir/infra/network/main.bicep&quot; \
+  --parameters &quot;$artifacts_dir/environments/sandbox.bicepparam&quot; \
+  --only-show-errors</code></pre>
+  </div>
+</section>
+<p>Service owners approve pending private endpoint connections. Public access stays unchanged.</p>
+<p>Link the authoritative zones to approved client or resolver VNets. For hybrid DNS, forward the public service zones through an Azure-side DNS forwarder or Azure Private Resolver.</p>
+<p>Firewall administrators update the named customer firewall source. Include the Microsoft Entra access rule required by Agent Service and the approved feature-specific destinations. Do not add a blanket internet rule. Bing Grounding, Websearch, and SharePoint Grounding still use public endpoints in an isolated Foundry environment; use other approved tools when every tool call must stay private.</p>
+<h3 id="4-check-the-private-path-and-cut-over">4. Check the private path and cut over<a class="heading-anchor" href="#4-check-the-private-path-and-cut-over" aria-label="Link to 4. Check the private path and cut over">#</a></h3>
+<p>Run the connectivity check from the approved execution host:</p>
+<section class="code-tabs" data-code-tabs>
+  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
+    <button type="button" role="tab" id="command-shell-4-powershell-tab" aria-controls="command-shell-4-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
+    <button type="button" role="tab" id="command-shell-4-bash-tab" aria-controls="command-shell-4-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-4-powershell-panel" role="tabpanel" aria-labelledby="command-shell-4-powershell-tab" tabindex="0" data-shell-panel="powershell">
+    <p class="code-tabs__fallback-label">PowerShell</p>
+    <pre><code class="language-powershell">.\scripts\connectivity-check.ps1 `
+  -ParameterPath .\artifacts\environments\sandbox.bicepparam</code></pre>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-4-bash-panel" role="tabpanel" aria-labelledby="command-shell-4-bash-tab" tabindex="0" data-shell-panel="bash">
+    <p class="code-tabs__fallback-label">Bash</p>
+    <pre><code class="language-bash">./scripts/connectivity-check.sh \
+  --parameter-path ./artifacts/environments/sandbox.bicepparam</code></pre>
+  </div>
+</section>
+<p>Continue only when all configured FQDNs resolve to RFC 1918 addresses and accept TCP 443.</p>
+<figure class="session-diagram"><img src="assets/diagrams/public-access-cutover.svg" alt="The team verifies the private path, saves prior state, disables public access, and then rechecks or restores." loading="lazy" decoding="async"></figure>
+<p>Run the cutover script from the same host:</p>
+<section class="code-tabs" data-code-tabs>
+  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
+    <button type="button" role="tab" id="command-shell-5-powershell-tab" aria-controls="command-shell-5-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
+    <button type="button" role="tab" id="command-shell-5-bash-tab" aria-controls="command-shell-5-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-5-powershell-panel" role="tabpanel" aria-labelledby="command-shell-5-powershell-tab" tabindex="0" data-shell-panel="powershell">
+    <p class="code-tabs__fallback-label">PowerShell</p>
+    <pre><code class="language-powershell">.\scripts\public-access-cutover.ps1 `
+  -ApprovedSubscriptionId $approvedSubscriptionId `
+  -ResourceGroupName $resourceGroup `
+  -CutoverChangeReference $cutoverChangeReference `
+  -ConfirmPriorStateRecorded `
+  -Confirm</code></pre>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-5-bash-panel" role="tabpanel" aria-labelledby="command-shell-5-bash-tab" tabindex="0" data-shell-panel="bash">
+    <p class="code-tabs__fallback-label">Bash</p>
+    <pre><code class="language-bash">./scripts/public-access-cutover.sh \
+  --approved-subscription-id &quot;$approved_subscription_id&quot; \
+  --resource-group-name &quot;$resource_group&quot; \
+  --cutover-change-reference &quot;$cutover_change_reference&quot; \
+  --confirm-prior-state-recorded \
+  --confirm</code></pre>
+  </div>
+</section>
+<p>The script validates the five unique resource IDs, checks connectivity, and displays the five prior public-access states. Copy those states to the approved change record before confirmation. It sets each service to <code>Disabled</code>, confirms that state, then merges <code>networkControlSession=02-private-networking-dns</code> without replacing existing tags. The marker identifies a verified update.</p>
+<p>If an update fails, inspect the change record and identify which services changed. Start the manual restore procedure instead of rerunning the cutover blindly.</p>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Session 02</dd></div><div><dt>Phase and status</dt><dd>Governed foundation · Draft</dd></div><div><dt>Duration</dt><dd>3 hours</dd></div><div><dt>Implementation mode</dt><dd>Standard</dd></div><div><dt>Last verified</dt><dd>2026-09-02</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="decisions-and-boundaries.html"><span>Previous chapter</span><strong>Decisions and boundaries</strong></a>
+        <a href="validation-and-operations.html"><span>Next chapter</span><strong>Validation and operations</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Session 02 · Implementation</p>
+    </footer>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Session 02</p>
+            <h2 id="session-deck-title">Private networking, DNS, and controlled egress slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Session 02: Private networking, DNS, and controlled egress slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>
