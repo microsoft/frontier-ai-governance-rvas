@@ -27,7 +27,7 @@
           <a href="../../index.html#approach">Method</a>
           <a href="../../index.html#readiness">Pre-work</a>
           <a href="../../index.html#program" aria-current="page">Sessions</a>
-          <a href="../../index.html#optional-modules">Optional modules</a>
+          <a href="../../index.html#optional-modules">Architecture-specific extensions</a>
           <a href="../../sources.html">Sources</a>
         </nav>
         <div class="nav-actions">
@@ -76,7 +76,7 @@
           </button>
           <a
             class="implementation-files-link"
-            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/9dcdf676ab06941b431f0b9e156ceb08f8bdad97/sessions/09-foundry-evaluations-quality-gates/implementation"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/accb08d77b793e4748cb9896c7c202faf30ae51f/sessions/09-foundry-evaluations-quality-gates/implementation"
             target="_blank"
             rel="noopener"
           >
@@ -152,12 +152,12 @@
 <h2 id="after-implementation">After implementation<a class="heading-anchor" href="#after-implementation" aria-label="Link to After implementation">#</a></h2>
 <p>Keep the golden data, evaluation specification, thresholds, release policy, scripts, and disable-and-restore runbook in operation. The quality owner maintains data and thresholds. The safety owner maintains safety coverage and the protected-material boundary. The tool owner owns Function Tool compatibility. The cost owner approves consumption. The release owner controls gate state and the stable selector.</p>
 <p>The observability and cost controls compare current aggregate signals with the approved release baseline. It does not reuse row-level evaluation content as production telemetry. When the quality owner classifies a change as material drift, create a fixed candidate version and rerun this gate.</p>
-<p>Use <a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/9dcdf676ab06941b431f0b9e156ceb08f8bdad97/sessions/09-foundry-evaluations-quality-gates/implementation/artifacts/operations/disable-and-restore.md"><code>artifacts/operations/disable-and-restore.md</code></a> to disable the gate, keep or restore the approved version at 100%, remove delivery integration after dependency review, and cancel unnecessary evaluations. Do not delete the Foundry project, agent, model, tool path, logs, or customer data as a shortcut. The scripts never change the stable endpoint or delete cloud state.</p>
+<p>Use <a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/accb08d77b793e4748cb9896c7c202faf30ae51f/sessions/09-foundry-evaluations-quality-gates/implementation/artifacts/operations/disable-and-restore.md"><code>artifacts/operations/disable-and-restore.md</code></a> to disable the gate, keep or restore the approved version at 100%, remove delivery integration after dependency review, and cancel unnecessary evaluations. Do not delete the Foundry project, agent, model, tool path, logs, or customer data as a shortcut. The scripts never change the stable endpoint or delete cloud state.</p>
 
         </article>
         <aside class="facts-panel" aria-labelledby="facts-panel-title">
           <h2 id="facts-panel-title">Facts</h2>
-          <dl><div><dt>Identity</dt><dd>Session 09</dd></div><div><dt>Phase and status</dt><dd>Runtime assurance · Draft</dd></div><div><dt>Duration</dt><dd>4 hours</dd></div><div><dt>Implementation mode</dt><dd>Extended</dd></div><div><dt>Last verified</dt><dd>2026-09-02</dd></div></dl>
+          <dl><div><dt>Identity</dt><dd>Session 09</dd></div><div><dt>Phase and status</dt><dd>Runtime assurance · Draft</dd></div><div><dt>Duration</dt><dd>4 hours</dd></div><div><dt>Last verified</dt><dd>2026-09-02</dd></div></dl>
         </aside>
       </div>
 

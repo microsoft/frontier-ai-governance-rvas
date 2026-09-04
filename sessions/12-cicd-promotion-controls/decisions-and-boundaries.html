@@ -27,7 +27,7 @@
           <a href="../../index.html#approach">Method</a>
           <a href="../../index.html#readiness">Pre-work</a>
           <a href="../../index.html#program" aria-current="page">Sessions</a>
-          <a href="../../index.html#optional-modules">Optional modules</a>
+          <a href="../../index.html#optional-modules">Architecture-specific extensions</a>
           <a href="../../sources.html">Sources</a>
         </nav>
         <div class="nav-actions">
@@ -76,7 +76,7 @@
           </button>
           <a
             class="implementation-files-link"
-            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/9dcdf676ab06941b431f0b9e156ceb08f8bdad97/sessions/12-cicd-promotion-controls/implementation"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/accb08d77b793e4748cb9896c7c202faf30ae51f/sessions/12-cicd-promotion-controls/implementation"
             target="_blank"
             rel="noopener"
           >
@@ -110,7 +110,7 @@
         <article class="implementation-guide" id="implementation-guide" aria-label="Decisions and boundaries">
           <p class="implementation-guide__label">Chapter 4 of 6</p>
           <h2 id="decisions-and-stop-conditions">Decisions and stop conditions<a class="heading-anchor" href="#decisions-and-stop-conditions" aria-label="Link to Decisions and stop conditions">#</a></h2>
-<p>Resolve every <code>__REQUIRED_*__</code> value in the <a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/9dcdf676ab06941b431f0b9e156ceb08f8bdad97/sessions/12-cicd-promotion-controls/implementation/artifacts/README.md"><code>artifacts</code> tree</a>. Decide:</p>
+<p>Resolve every <code>__REQUIRED_*__</code> value in the <a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/accb08d77b793e4748cb9896c7c202faf30ae51f/sessions/12-cicd-promotion-controls/implementation/artifacts/README.md"><code>artifacts</code> tree</a>. Decide:</p>
 <ol><li>The repository, protected default branch, approved full SHA, and full-SHA action revisions.</li><li>The tenant, stage workload client IDs, exact resource-group scopes, four federated credential names, and four observed OIDC subjects. Do not reconstruct a subject from an example.</li><li>The apply reviewers, prevent-self-review settings, production ref restriction, administrator bypass setting, and GitHub plan support.</li><li>The Bicep, APIM policy, unit-test, evaluation, smoke-check, routing, and release-store source paths.</li><li>The immutable agent and component versions, <code>canary</code> or <code>blue-green</code> strategy, allowed selectors, release ID, and approved temporary workspace.</li><li>The framework path for the release agent, the duplicate-review outcome, the reviewing role, and the inventory record it compared.</li></ol>
 <p>Stop before a change when:</p>
 <ul><li>a sentinel remains; an action uses a floating tag; or a component uses <code>latest</code> or <code>current</code>;</li><li>the SHA is outside the protected default branch, workflow content comes from another ref, or a digest can change between stages;</li><li>a client secret, broad repository permission, inherited Azure assignment, or wider-than-resource- group workload role is present;</li><li>an OIDC subject differs from the exact GitHub environment subject;</li><li>secret scanning, push protection, required reviewers, prevent-self-review, the production ref rule, or disabled administrator bypass is unavailable or inaccessible;</li><li>evaluation records, the enabled policy, or the generated blocked test do not match the release;</li><li>the security attestation is pending, unauthorized, incomplete, version-mismatched, missing its report location, worse on aggregate or any risk row, unable to block prohibited actions, or payload-bearing;</li><li>the smoke check is missing, failed, for another commit or workspace, exposes sensitive input, retains payload, reuses trace IDs, or cannot show stable bounded ingestion;</li><li>what-if contains unrelated deletion, replacement, scope drift, or unexplained expansion;</li><li>the framework path sits outside the approved list without an approval reference, or the duplicate review chose an existing agent; or</li><li>the existing governed-agent or APIM route cannot preview and restore the selected selector pair. Keep 100% on the previous approved selector.</li></ul>
@@ -124,7 +124,7 @@
         </article>
         <aside class="facts-panel" aria-labelledby="facts-panel-title">
           <h2 id="facts-panel-title">Facts</h2>
-          <dl><div><dt>Identity</dt><dd>Session 12</dd></div><div><dt>Phase and status</dt><dd>Runtime assurance · Draft</dd></div><div><dt>Duration</dt><dd>4 hours</dd></div><div><dt>Implementation mode</dt><dd>Extended</dd></div><div><dt>Last verified</dt><dd>2026-09-02</dd></div></dl>
+          <dl><div><dt>Identity</dt><dd>Session 12</dd></div><div><dt>Phase and status</dt><dd>Runtime assurance · Draft</dd></div><div><dt>Duration</dt><dd>4 hours</dd></div><div><dt>Last verified</dt><dd>2026-09-02</dd></div></dl>
         </aside>
       </div>
 

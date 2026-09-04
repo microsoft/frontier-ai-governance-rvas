@@ -27,7 +27,7 @@
           <a href="../../index.html#approach">Method</a>
           <a href="../../index.html#readiness">Pre-work</a>
           <a href="../../index.html#program" aria-current="page">Sessions</a>
-          <a href="../../index.html#optional-modules">Optional modules</a>
+          <a href="../../index.html#optional-modules">Architecture-specific extensions</a>
           <a href="../../sources.html">Sources</a>
         </nav>
         <div class="nav-actions">
@@ -76,7 +76,7 @@
           </button>
           <a
             class="implementation-files-link"
-            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/9dcdf676ab06941b431f0b9e156ceb08f8bdad97/sessions/05-agent-365-access-boundary/implementation"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/accb08d77b793e4748cb9896c7c202faf30ae51f/sessions/05-agent-365-access-boundary/implementation"
             target="_blank"
             rel="noopener"
           >
@@ -112,13 +112,13 @@
           <p>Confirm the following before opening the portals:</p>
 <ul><li>A supported nonproduction agent appears in Agent Registry with <strong>Available</strong> status and supports group installation. The source-platform owner confirms its publication, runtime owner, and approved lifecycle path. The runtime owner is named. (See <a href="../04-governed-agent-baseline/">Governed agent baseline guide</a> for a Foundry agent.)</li><li>The Microsoft 365 administrator can open <strong>Agents &gt; All agents &gt; Registry</strong>, find the agent with <strong>Available</strong> status, inspect group installation, and remove that scoped installation.</li><li>The delivery owner approved the nonproduction group, host product, use case, labelled synthetic item, label and encryption rights, DLP action and locations, notification and incident route, output-label control, and restore route.</li><li>The DLP and label operator has <strong>Compliance Data Administrator</strong> in the approved tenant. The audit operator has <strong>View-Only Audit Logs</strong> in Microsoft Purview and Exchange admin center.</li><li>The Microsoft Graph Audit Search application has <code>AuditLogsQuery.Read.All</code> application permission with administrator consent.</li><li>The Purview operator, Agent 365 owner, information protection owner, source-platform owner, data owner, and audit owner accept the responsibilities in <code>coverage-handoff.md</code>. For Foundry, include the Foundry platform owner and application developer.</li><li>For a hosted or custom agent, the runtime owner identifies the supported Python or .NET Agent 365 integration, token flow, required telemetry attributes, and the application path that acts on a Purview policy result.</li></ul>
 <h3 id="implementation-files">Implementation files<a class="heading-anchor" href="#implementation-files" aria-label="Link to Implementation files">#</a></h3>
-<div class="table-scroll"><table><thead><tr><th scope="col">Type</th><th scope="col">File</th><th scope="col">Consumer</th></tr></thead><tbody><tr><td>Deployment</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/9dcdf676ab06941b431f0b9e156ceb08f8bdad97/sessions/05-agent-365-access-boundary/implementation/artifacts/agent-deployment.json"><code>artifacts/agent-deployment.json</code></a></td><td>The Microsoft 365 administrator and Session 05 preflight scripts</td></tr><tr><td>Record</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/9dcdf676ab06941b431f0b9e156ceb08f8bdad97/sessions/05-agent-365-access-boundary/implementation/artifacts/governance/coverage-handoff.md"><code>artifacts/governance/coverage-handoff.md</code></a></td><td>The data, information protection, Agent 365, source-platform, and audit owners</td></tr><tr><td>Runtime</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/9dcdf676ab06941b431f0b9e156ceb08f8bdad97/sessions/05-agent-365-access-boundary/implementation/artifacts/operations/agent-activity-audit-query.json"><code>artifacts/operations/agent-activity-audit-query.json</code></a></td><td>The Agent 365 audit-query scripts</td></tr></tbody></table></div>
+<div class="table-scroll"><table><thead><tr><th scope="col">Type</th><th scope="col">File</th><th scope="col">Consumer</th></tr></thead><tbody><tr><td>Deployment</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/accb08d77b793e4748cb9896c7c202faf30ae51f/sessions/05-agent-365-access-boundary/implementation/artifacts/agent-deployment.json"><code>artifacts/agent-deployment.json</code></a></td><td>The Microsoft 365 administrator and Session 05 preflight scripts</td></tr><tr><td>Record</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/accb08d77b793e4748cb9896c7c202faf30ae51f/sessions/05-agent-365-access-boundary/implementation/artifacts/governance/coverage-handoff.md"><code>artifacts/governance/coverage-handoff.md</code></a></td><td>The data, information protection, Agent 365, source-platform, and audit owners</td></tr><tr><td>Runtime</td><td><a href="https://github.com/microsoft/frontier-ai-governance-rvas/blob/accb08d77b793e4748cb9896c7c202faf30ae51f/sessions/05-agent-365-access-boundary/implementation/artifacts/operations/agent-activity-audit-query.json"><code>artifacts/operations/agent-activity-audit-query.json</code></a></td><td>The Agent 365 audit-query scripts</td></tr></tbody></table></div>
 <p>Keep tenant IDs, group object IDs, user identities, permission-consent records, policy summaries, findings, prompts, responses, audit exports, and portal-state copies in approved customer systems.</p>
 
         </article>
         <aside class="facts-panel" aria-labelledby="facts-panel-title">
           <h2 id="facts-panel-title">Facts</h2>
-          <dl><div><dt>Identity</dt><dd>Session 05</dd></div><div><dt>Phase and status</dt><dd>Governed foundation · Draft</dd></div><div><dt>Duration</dt><dd>4.5 hours</dd></div><div><dt>Implementation mode</dt><dd>Extended</dd></div><div><dt>Last verified</dt><dd>2026-09-02</dd></div></dl>
+          <dl><div><dt>Identity</dt><dd>Session 05</dd></div><div><dt>Phase and status</dt><dd>Governed foundation · Draft</dd></div><div><dt>Duration</dt><dd>4.5 hours</dd></div><div><dt>Last verified</dt><dd>2026-09-02</dd></div></dl>
         </aside>
       </div>
 
