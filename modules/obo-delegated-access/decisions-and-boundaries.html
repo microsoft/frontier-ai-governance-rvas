@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="A trusted middle tier preserves signed-in user authority through an OBO exchange, while the downstream API still authorizes each user.">
+    <title>Decisions and boundaries | Optional module: Delegated API access with OAuth on-behalf-of | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page module-page">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program">Sessions</a>
+          <a href="../../index.html#optional-modules" aria-current="page">Optional modules</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="decisions-and-boundaries">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#optional-modules">Optional modules</a>
+            <span aria-hidden="true">/</span>
+            <a href="index.html">Optional module</a>
+          </nav>
+          <p class="chapter-header__label">Chapter 4 of 6 · Decisions and boundaries</p>
+          <h1 id="decisions-and-boundaries">Delegated API access with OAuth on-behalf-of</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Optional module · Draft</span>
+            <span>4.5 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Module chapters">
+        <ol class="session-content-width"><li><a href="index.html"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html"><span>2</span>Architecture</a></li><li><a href="before-you-start.html"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html" aria-current="page"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <div class="chapter-actions">
+          <button
+            class="deck-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="session-deck-dialog"
+            data-deck-open
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+              <path d="M8 20h8M12 16.5V20"></path>
+            </svg>
+            <span>Open the deck</span>
+          </button>
+          <a
+            class="implementation-files-link"
+            href="implementation/"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 7.5h6l2-2h9v13h-17z"></path>
+              <path d="m9.5 11-2 2 2 2M14.5 11l2 2-2 2"></path>
+            </svg>
+            <span>View implementation files</span>
+            <span class="visually-hidden"> on GitHub (opens in a new tab)</span>
+          </a>
+        </div>
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/microsoft-entra-id.svg" alt="">
+                <strong>Microsoft Entra ID</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-key-vault.svg" alt="">
+                <strong>Azure Key Vault</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Decisions and boundaries">
+          <p class="implementation-guide__label">Chapter 4 of 6</p>
+          <h2 id="decisions-and-stop-conditions">Decisions and stop conditions<a class="heading-anchor" href="#decisions-and-stop-conditions" aria-label="Link to Decisions and stop conditions">#</a></h2>
+<h3 id="choose-obo-for-the-right-reason">Choose OBO for the right reason<a class="heading-anchor" href="#choose-obo-for-the-right-reason" aria-label="Link to Choose OBO for the right reason">#</a></h3>
+<p>Use OBO only when the downstream API must evaluate the signed-in user. Typical signals include user-owned records, per-user entitlements, or a downstream policy that names the user.</p>
+<p>Use application-only authorization when the workload reads shared data, runs in the background, or needs the same authority for every caller. <strong>Record signed-in user OBO in <code>control-definition.json</code> for this module.</strong> Do not configure an application-only managed identity in its place.</p>
+<h3 id="keep-token-audiences-separate">Keep token audiences separate<a class="heading-anchor" href="#keep-token-audiences-separate" aria-label="Link to Keep token audiences separate">#</a></h3>
+<p>The inbound token audience is the middle tier. The exchanged token audience is the downstream API. They must differ.</p>
+<p>The claim examples and Conditional Access claims-challenge boundary contain no token values.</p>
+<p>Stop if any design forwards the inbound bearer token to the downstream API. Also stop when:</p>
+<ul><li>the client requests a token directly for the downstream API and sends it through the middle tier;</li><li>the middle tier accepts tokens issued for another audience;</li><li>the downstream scope is broader than the implemented read operation;</li><li>an application-only token can enter the OBO path;</li><li>the middle-tier API uses a custom signing key that the downstream trust chain cannot validate;</li><li>the middle tier falls back to an application permission after delegated exchange fails; or</li><li>the downstream API trusts exchange success without checking user access to the resource.</li></ul>
+<h3 id="assign-consent-ownership">Assign consent ownership<a class="heading-anchor" href="#assign-consent-ownership" aria-label="Link to Assign consent ownership">#</a></h3>
+<p>The identity owner approves the client-to-middle-tier and middle-tier-to-downstream delegated permissions. Record the exact scope IDs and consent type in <a href="implementation/artifacts/identity/app-registrations.json"><code>identity/app-registrations.json</code></a>.</p>
+<p>Stop when the consent owner is unnamed, a requested scope is unresolved, or an existing tenant-wide grant would be broadened without an explicit decision. The configure scripts preserve unrelated permissions. They must not replace a complete permission collection with the module's entries. Obtain downstream delegated consent before runtime; the middle tier has no interactive surface where it can ask the user.</p>
+<h3 id="protect-the-confidential-client">Protect the confidential client<a class="heading-anchor" href="#protect-the-confidential-client" aria-label="Link to Protect the confidential client">#</a></h3>
+<p>The middle tier authenticates with the certificate described in <a href="implementation/artifacts/identity/key-vault-certificate-binding.json"><code>identity/key-vault-certificate-binding.json</code></a>. MSAL reads the protected PFX path. Only the middle-tier workload may read the private key.</p>
+<p>Stop if the certificate is committed, passed as a command argument, printed, copied into a build artifact, or mounted where another workload can read it. Stop if the registered thumbprint differs from the certificate exposed to the middle tier. This path requires an exportable Key Vault certificate. An HSM-backed, nonexportable key cannot be mounted as a PFX and needs a different client-authentication design.</p>
+<h3 id="validate-before-exchange">Validate before exchange<a class="heading-anchor" href="#validate-before-exchange" aria-label="Link to Validate before exchange">#</a></h3>
+<p>The middle tier validates the issuer, middle-tier audience, tenant, calling client, delegated scope, token lifetime, and signed-in user claims before using the token as a user assertion. The authoritative configuration file is <a href="implementation/artifacts/governance/token-claim-contract.json"><code>governance/token-claim-contract.json</code></a>.</p>
+<p>An OBO exchange does not remove Conditional Access. Return a supported claims challenge or authorization failure to the approved client flow. Never turn it into an anonymous retry or an application-only call.</p>
+<h3 id="keep-telemetry-payload-free">Keep telemetry payload-free<a class="heading-anchor" href="#keep-telemetry-payload-free" aria-label="Link to Keep telemetry payload-free">#</a></h3>
+<p>Use the allowlist in the token-claim contract. Do not log the inbound authorization header, user assertion, exchanged token, request body, downstream body, or certificate material. The threat model in <a href="implementation/artifacts/governance/threat-model.md"><code>governance/threat-model.md</code></a> treats any such capture as a stop condition.</p>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Optional module</dd></div><div><dt>Status</dt><dd>Optional module · Draft</dd></div><div><dt>Duration</dt><dd>4.5 hours</dd></div><div><dt>Implementation mode</dt><dd>Extended</dd></div><div><dt>Last verified</dt><dd>2026-08-25</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="before-you-start.html"><span>Previous chapter</span><strong>Before you start</strong></a>
+        <a href="implementation.html"><span>Next chapter</span><strong>Implementation</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Optional module · Decisions and boundaries</p>
+    </footer>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Optional module</p>
+            <h2 id="session-deck-title">Delegated API access with OAuth on-behalf-of slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Optional module: Delegated API access with OAuth on-behalf-of slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>
