@@ -1,12 +1,14 @@
 # Practical Microsoft AI Governance
 
-This repository publishes a 14-session Microsoft AI governance implementation
-series. Teams deploy controls, check them in a nonproduction environment, and
-keep the reusable configuration in source control.
+This repository publishes a seven-session guided co-implementation of Citadel. Customer teams use
+tested upstream Citadel implementation commits, add customer-owned overlays, and keep their
+operational records and control decisions in source control. This is an implementation path, not a
+fork of Citadel.
 
-LLMOps runs across the series rather than appearing as a separate session. Sessions 03, 09, 11,
-12, and 13 connect model lifecycle, evaluation, observability, controlled release, and fleet
-operations.
+The sequence builds the platform foundation, Governance Hub, and Agent Spoke before adding contract
+governance, evaluation and threat gates, observability, and controlled promotion. Each session keeps
+changes bounded to an approved nonproduction scope and ends with an observable check plus a named
+restore or removal owner.
 
 ## Execution environment
 
@@ -16,8 +18,6 @@ Install the tools required by the commands you plan to run:
 - Azure CLI with Bicep support. Sign in to the approved subscription before Azure work.
 - PowerShell 7 for PowerShell-based implementation steps.
 - Git, GitHub CLI, and Python 3.12 for the controlled-promotion commands.
-- Exchange Online and Security & Compliance PowerShell for the Session 05 audit query.
-- The current `apic-extension` when an API Center integration command requires it.
 
 Preflight checks the session-specific command capability, active scope, and configuration. Keep
 credentials, tenant and subscription IDs, and runtime values out of the repository.
@@ -25,9 +25,10 @@ credentials, tenant and subscription IDs, and runtime values out of the reposito
 ## Preview locally
 
 The files in `sessions/` are the source for the numbered session guides and slide decks.
-Need-based implementation kits live under `modules/` and remain separate from the 14-session
-sequence. Root `services.json` supplies the service labels and categories plus the icon filenames
-used across the generated site.
+Need-based implementation kits live under `modules/` and remain separate from the seven-session
+sequence. These optional modules include Agent 365, multi-region recovery, and delegated access.
+Root `services.json` supplies the service labels and categories plus the icon filenames used across
+the generated site.
 Install the pinned build dependency:
 
 ```powershell

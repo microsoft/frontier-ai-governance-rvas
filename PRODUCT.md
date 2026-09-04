@@ -15,49 +15,88 @@ Plain static HTML, CSS, and JavaScript, deployed with GitHub Pages.
 The public site serves two audiences equally:
 
 - Enterprise AI, cloud platform, security, and governance leaders evaluating a practical Microsoft AI governance engagement.
-- Practitioners using the 14-session series as a technical implementation reference.
+- Practitioners using the seven-session Citadel program as a technical implementation reference.
 
 ## Product Purpose
 
-Present a modular Microsoft AI governance series that customer teams can execute. The full series produces a working deployment and reusable, version-controlled configuration. The site explains how the work runs, shows all 14 sessions, and helps readers choose the full build or a focused route.
+Present a guided co-implementation program that helps customer teams build and operate Citadel. The
+complete build uses pinned, tested upstream Citadel implementation commits. Customers keep their
+overlays, operational records, and control decisions in their own repository.
+
+The site explains how the work runs, shows all seven sessions, and helps readers choose the complete
+build or a focused route.
 
 ## Positioning
 
-This is guided co-implementation. Customer engineers implement each control in a sandbox or nonproduction tenant. The control owner listed in the session record confirms the check, while the appropriate service, security, data, or release owner approves consequential changes. Each runbook identifies the restore or removal owner and the approved change path.
+This is guided co-implementation of Citadel. It is not a fork. Sessions consume tested upstream
+implementations instead of copying their full infrastructure-as-code trees into this repository.
+Customer-owned overlays hold local configuration and policy choices that must survive an upstream
+upgrade.
 
-Standard mode is the default. The team implements one explicit control, keeps production-shaped configuration and normal operational records, observes one defined result, and documents restore or removal steps.
+Customer engineers make bounded changes in a sandbox or nonproduction tenant. The control owner
+listed in the session record confirms the check. The appropriate service, security, data, or release
+owner approves consequential changes. Each runbook names the restore or removal owner and the
+approved change path.
+
+Standard mode is the default. The team implements one explicit control, keeps production-shaped
+customer overlays and normal operational records, observes one defined result, and documents the
+restore or removal path.
 
 Extended mode is used only when a control needs both an allowed and a blocked or failure check. The delivery lead records the reason before the session, and the delivery owner confirms the result at a checkpoint. Both modes keep only the records needed for normal operations and use the implementation resources required by the control.
 
-The complete route contains 50 facilitated working hours across 14 published sessions. Each duration uses 30-minute increments and includes briefing and alignment, customer decisions, guided implementation, observable checks, and the operating or restore handoff. It assumes agreed prerequisites, access, and nonproduction capacity are ready before the session; asynchronous approvals, procurement, provisioning waits, and optional deep dives sit outside the published time. Focused routes deliver the selected control area and include its prerequisite sessions; they omit unrelated controls and do not represent the complete deployment. Agent 365 routes use the combined Session 05 secure rollout and data-controls path. Session 06 records the APIM gateway design and deploys the controlled route.
+The complete route contains seven published sessions. The site calculates working time from the
+session manifests. Each duration uses 30-minute increments and includes briefing, customer
+decisions, guided implementation, observable checks, and the operating or restore handoff. Agreed
+prerequisites, access, and nonproduction capacity must be ready before each session. Approval waits,
+procurement, provisioning delays, and optional deep dives sit outside the published time.
+
+The program has three phases:
+
+1. **Foundation, Sessions 01-03:** Citadel platform foundation, Citadel Governance Hub, and Citadel
+   Agent Spoke.
+2. **Runtime governance, Sessions 04-05:** Citadel contract governance, then evaluation and threat
+   gates.
+3. **Operations, Sessions 06-07:** Citadel observability and operations, then controlled promotion
+   and lifecycle.
+
+Focused routes include only the sessions needed for a useful outcome:
+
+- **Citadel foundation:** Sessions 01, 02, and 03.
+- **Govern an existing workload:** Sessions 01, 02, and 04.
+- **Quality and security:** Sessions 01 through 05.
+- **Operations and release:** Sessions 01, 02, 04, 06, and 07.
+
+The complete Citadel build runs all seven sessions. Focused routes omit unrelated controls and do
+not represent the complete deployment.
 
 ## Operating Context
 
-The series spans Microsoft Foundry, Foundry Agent Service, Foundry Control Plane, Microsoft Agent 365, Azure Policy, Entra ID, API Management, API Center, Purview, Defender, Azure Monitor, GitHub or Azure DevOps, Bicep, evaluations, and customer-owned implementation outputs.
+The series centers on Citadel and the Microsoft services used by its tested upstream
+implementations. Customer-owned overlays connect those implementations to approved identity,
+network, contract, evaluation, observability, and release controls.
 
 Readers need an executive overview and enough technical detail to understand session dependencies, practical outcomes, session outputs, and the check that confirms each control.
 
-LLMOps runs through the series as a cross-session thread rather than a single numbered session.
-Session 03 covers model selection, deployment versions, quota, and retirement. Session 09 adds
-repeatable evaluation and release thresholds. Session 11 connects tracing, operational signals,
-cost, and incident response. Session 12 controls promotion and previous-release restore. Session 13
-rehearses regional failover for one governed service.
+LLMOps runs through the sequence. Sessions 03 and 04 establish the governed workload and its
+contracts. Session 05 applies evaluation and threat gates. Sessions 06 and 07 connect telemetry,
+operations, promotion, restore, and lifecycle management.
 
-We use LLMOps here to mean operating models, prompts, agents, evaluations, telemetry, cost
-controls, and releases as one managed lifecycle. Session 14 extends those controls across the approved
-estate through inventory, lifecycle, and retirement operations. That's different from AIOps, which keeps its
-narrower industry meaning of using AI to operate IT systems, and sits outside this course's default
-scope.
+Optional modules cover needs outside the seven-session count, including Agent 365, multi-region
+recovery, and delegated access.
 
 ## Capabilities and Constraints
 
 - The first public surface is a static, responsive reference site with no server-side runtime.
 - The site must deploy from this repository through GitHub Pages.
 - Source material is date-sensitive and must preserve its dated caveats, product distinctions, and citations.
-- The 14 sessions remain modular so readers can run the complete route or choose a focused route with its prerequisites.
+- The seven sessions remain modular so readers can run the complete route or choose a focused route with its prerequisites.
 - Optional implementation modules may address architecture-specific needs outside the default
-  sequence. They remain separate from the 14 sessions and do not change session numbering, phases,
+  sequence. They remain separate from the seven sessions and do not change session numbering, phases,
   or counts.
+- Upstream Citadel implementation commits must be pinned and tested before use.
+- Customer overlays and operational records remain customer-owned and version-controlled.
+- Do not copy a full upstream infrastructure-as-code implementation when the session can consume the
+  pinned upstream implementation directly.
 - The site must not invent customer claims, testimonials, benchmarks, licensing promises, or deployment guarantees.
 
 ## Content Foundation
@@ -83,10 +122,12 @@ scope.
 
 1. Build controls, do not merely describe them.
 2. Confirm each standard-mode control with one observable check.
-3. Keep implementation modular and dependency-aware.
-4. Prefer customer-native, version-controlled tooling over bespoke governance software.
-5. Document restore or removal, and automate only when it removes repetition or risk.
-6. State platform, licensing, regional, and lifecycle caveats precisely.
+3. Keep every change bounded to an approved nonproduction scope.
+4. Pin tested upstream Citadel implementations and keep customer changes in overlays.
+5. Keep controls and normal operational records in customer-owned source control.
+6. Name the restore or removal owner and the approved change path.
+7. Keep focused routes short. Add a route only when it gives customers a distinct, useful outcome.
+8. State platform, licensing, regional, and lifecycle caveats precisely.
 
 ## Accessibility & Inclusion
 

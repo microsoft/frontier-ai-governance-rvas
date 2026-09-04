@@ -701,9 +701,9 @@ const formatDuration = (minutes) => {
 };
 
 const phaseFor = (number) => {
-  if (number <= 5) return { name: "Governed foundation", key: "foundation" };
-  if (number <= 12) return { name: "Runtime assurance", key: "runtime" };
-  return { name: "Operate at scale", key: "operations" };
+  if (number <= 3) return { name: "Foundation", key: "foundation" };
+  if (number <= 5) return { name: "Runtime governance", key: "runtime" };
+  return { name: "Operations", key: "operations" };
 };
 
 const linkSessionReferences = (references, sessionLinks, sourceKind = "session") => {
@@ -1141,7 +1141,7 @@ const loadSessions = async (serviceRegistry) => {
   }
 
   const expectedIds = Array.from(
-    { length: 14 },
+    { length: 7 },
     (_, index) => String(index + 1).padStart(2, "0"),
   );
   if (
@@ -1149,7 +1149,7 @@ const loadSessions = async (serviceRegistry) => {
     expectedIds.some((id) => !ids.has(id))
   ) {
     throw new Error(
-      `Expected exactly the continuous 01-14 session series. Found: ${[...ids.keys()].join(", ") || "none"}.`,
+      `Expected exactly the continuous 01-07 session series. Found: ${[...ids.keys()].join(", ") || "none"}.`,
     );
   }
 
@@ -1427,90 +1427,51 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
   const phases = [
     {
       key: "foundation",
-      range: "1–5",
-      label: "Governed foundation",
+      range: "1–3",
+      label: "Foundation",
       sessions: sessions.filter(({ phase }) => phase.key === "foundation"),
     },
     {
       key: "runtime",
-      range: "6–12",
-      label: "Control live AI traffic",
+      range: "4–5",
+      label: "Runtime governance",
       sessions: sessions.filter(({ phase }) => phase.key === "runtime"),
     },
     {
       key: "operations",
-      range: "13–14",
-      label: "Operate at scale",
+      range: "6–7",
+      label: "Operations",
       sessions: sessions.filter(({ phase }) => phase.key === "operations"),
     },
   ];
   const focusedRoutes = [
     {
-      id: "governed-pilot",
-      name: "Governed pilot",
-      sessionNumbers: [1, 2, 3, 4],
+      id: "citadel-foundation",
+      name: "Citadel foundation",
+      sessionNumbers: [1, 2, 3],
       outcome:
-        "A versioned Foundry agent with its platform, identity, networking, and model controls in place.",
+        "Build the Citadel platform foundation, Governance Hub, and Agent Spoke from pinned upstream implementations.",
     },
     {
-      id: "secure-private-platform",
-      name: "Secure private platform",
-      sessionNumbers: [1, 2, 3, 4, 6],
-      filterLabel: "01–04 + 06",
+      id: "govern-existing-workload",
+      name: "Govern an existing workload",
+      sessionNumbers: [1, 2, 4],
       outcome:
-        "The governed agent runs through API Management with identity, limits, and content safety applied at the gateway.",
+        "Apply Citadel governance and contract controls to an existing workload without rebuilding the Agent Spoke.",
     },
     {
-      id: "api-mcp-governance",
-      name: "API and MCP governance",
-      sessionNumbers: [1, 2, 3, 4, 6, 7, 8],
-      filterLabel: "01–04 + 06–08",
-      outcome:
-        "API and MCP inventory, authorization, tool scope, and runtime telemetry are connected around the governed agent.",
-    },
-    {
-      id: "data-compliance",
-      name: "Data and compliance",
+      id: "quality-security",
+      name: "Quality and security",
       sessionNumbers: [1, 2, 3, 4, 5],
       outcome:
-        "The governed runtime adds Purview data controls and an owned handoff for Agent 365 and Foundry coverage.",
+        "Build the governed Citadel runtime, then apply contract, evaluation, and threat gates.",
     },
     {
-      id: "security-operations",
-      name: "Security operations",
-      sessionNumbers: [1, 2, 3, 4, 6, 7, 8, 9, 10, 11],
-      filterLabel: "01–04 + 06–11",
+      id: "operations-release",
+      name: "Operations and release",
+      sessionNumbers: [1, 2, 4, 6, 7],
       outcome:
-        "Evaluation, red-team, telemetry, cost, alerting, and incident controls are operating around the service.",
-    },
-    {
-      id: "llmops-release-operations",
-      name: "LLMOps and release operations",
-      sessionNumbers: [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-      filterLabel: "01–04 + 06–13",
-      outcome:
-        "The governed service moves through evaluation, operations, and protected promotion as one managed release path.",
-    },
-    {
-      id: "foundry-agent365",
-      name: "Foundry + Agent 365",
-      sessionNumbers: [1, 2, 3, 4, 5],
-      outcome:
-        "Build a governed Foundry agent, register it with Agent 365, then apply the shared Purview data-control path.",
-    },
-    {
-      id: "copilot-studio-agent365",
-      name: "Copilot Studio + Agent 365",
-      sessionNumbers: [5],
-      outcome:
-        "Start with an approved published Copilot Studio agent, register its access boundary, then apply Agent 365 data controls.",
-    },
-    {
-      id: "agent-builder-agent365",
-      name: "Agent Builder + Agent 365",
-      sessionNumbers: [5],
-      outcome:
-        "Start with an approved published Agent Builder agent, register its access boundary, then apply Agent 365 data controls.",
+        "Add Citadel contract controls, observability, controlled promotion, restore, and lifecycle operations.",
     },
   ].map((route) => {
     const unknownSessionNumbers = route.sessionNumbers.filter(
@@ -1581,8 +1542,8 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="A 14-session guided co-implementation series for practical Microsoft AI governance.">
-    <title>Practical Microsoft AI Governance</title>
+    <meta name="description" content="A seven-session guided co-implementation of Citadel using pinned upstream implementations and customer-owned overlays.">
+    <title>Citadel guided co-implementation | Practical Microsoft AI Governance</title>
     <link rel="icon" href="assets/img/logo-mark.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1615,9 +1576,9 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
       <section class="hero" id="top" aria-labelledby="hero-title">
         <div class="hero__inner">
           <div class="hero__copy">
-            <p class="hero__eyebrow">RVAS · Microsoft AI governance</p>
-            <h1 id="hero-title">Build the control. <span>Keep the implementation.</span></h1>
-            <p class="hero__lead">Customer engineers implement each control in a sandbox or nonproduction tenant. The people who will operate it make the decisions, run the check, and keep the files.</p>
+            <p class="hero__eyebrow">RVAS · Citadel co-implementation</p>
+            <h1 id="hero-title">Build Citadel. <span>Keep control of your implementation.</span></h1>
+            <p class="hero__lead">Customer engineers use pinned, tested upstream Citadel implementations in a bounded nonproduction scope. Your team owns the overlays, operating records, checks, and restore path.</p>
             <div class="hero__actions"><a class="button button--primary" href="#program">Browse the sessions <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 6l4 4-4 4"></path></svg></a><a class="button button--secondary" href="#routes">Compare routes</a></div>
             <dl class="program-docket" aria-label="Program facts">
               <div><dd>${sessions.length}</dd><dt>Sessions</dt></div>
@@ -1627,11 +1588,11 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
           </div>
           <aside class="program-outcome program-outcome--compact" aria-label="Customer-owned result">
             <p>Customer-owned result, complete route</p>
-            <h2>A governed deployment your team can change with confidence.</h2>
+            <h2>A governed Citadel deployment your team can operate and upgrade.</h2>
             <ul>
-              <li>A governed Microsoft Foundry deployment</li>
-              <li>Source-controlled implementation files</li>
-              <li>An observable check, with restore or removal ownership named in the runbook</li>
+              <li>Pinned upstream Citadel implementation commits</li>
+              <li>Customer-owned overlays and operational records</li>
+              <li>Observable checks with restore or removal ownership</li>
             </ul>
           </aside>
         </div>
@@ -1649,7 +1610,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
         <div class="section">
           <div class="section-heading"><div><p class="section-kicker">Guided co-implementation</p><h2 id="approach-title">One control at a time, with its owner in the room.</h2><p>Standard mode implements the control and runs one observable check. Extended mode is reserved for work that needs an allowed path, a blocked or failure path, and a delivery-owner checkpoint.</p></div></div>
           <div class="method-grid">
-            <article><span>Build</span><h3>Use production-shaped configuration.</h3><p>Customer engineers deploy through the approved change path. Reusable configuration and normal operating records stay in the customer repository.</p></article>
+            <article><span>Build</span><h3>Use upstream Citadel implementations.</h3><p>Pin a tested upstream commit, then apply customer-owned overlays through the approved change path. Do not copy the full upstream infrastructure tree.</p></article>
             <article><span>Check</span><h3>Observe a defined result.</h3><p>The listed control owner confirms the check. The relevant service, security, data, or release owner approves consequential changes. Checks and evaluation examples run on fictional records, never customer data.</p></article>
           </div>
         </div>
@@ -1658,13 +1619,13 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
       <section class="section program" id="program" aria-labelledby="program-title">
         <div class="section-heading section-heading--program">
           <div><p class="section-kicker">Session catalog</p><h2 id="program-title">Browse all ${sessions.length} sessions.</h2><p>Use a focused route, a service filter, or text search. The selected route or service stays in the URL, so you can share the filtered view.</p></div>
-          <p class="register-instruction">Optional modules stay outside this filter and the 14-session count.</p>
+          <p class="register-instruction">Optional modules stay outside this filter and the seven-session count.</p>
         </div>
         <div class="registry-controls">
           <label class="registry-search"><span>Search sessions</span><span class="registry-search__field"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"></circle><path d="m13 13 4 4"></path></svg><input type="search" autocomplete="off" placeholder="Title, control, outcome…" data-session-search></span></label>
         </div>
         <div class="route-filter-row">
-          <div class="route-filter-row__head"><div><h3>Filter by focused route</h3><p>Choose the control path you need. Agent 365 routes can start with an existing approved agent.</p></div><a href="#routes">Compare routes</a></div>
+          <div class="route-filter-row__head"><div><h3>Filter by focused route</h3><p>Choose the shortest path that delivers the Citadel controls you need.</p></div><a href="#routes">Compare routes</a></div>
           <div class="route-filters" role="group" aria-label="Filter by focused route">
             <button type="button" class="route-filter" data-route-filter="all" data-route-name="All sessions" data-route-sessions="${sessions.map(({ number }) => number).join(",")}" aria-pressed="true">All sessions</button>
             ${focusedRoutes
@@ -1690,12 +1651,12 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
 
       <section class="routes-section" id="routes" aria-labelledby="routes-title">
         <div class="section">
-          <div class="section-heading"><div><h2 id="routes-title">Choose the implementation path you need.</h2><p>Full-platform routes start at Session 01. Agent 365 routes can enter with an approved Foundry, Copilot Studio, or Agent Builder agent.</p></div></div>
+          <div class="section-heading"><div><h2 id="routes-title">Choose the Citadel path you need.</h2><p>Every route starts with the platform foundation and Governance Hub. Focused routes then add only the controls needed for their outcome.</p></div></div>
           <div class="route-choice">
-            <div class="route-choice__primary"><div><h3>Complete build · ${totalHours} working hours</h3><p>Run all ${sessions.length} sessions, from the platform baseline through fleet estate and lifecycle operations.</p></div><ol class="route-choice__sequence"><li><span>1–5</span> Governed foundation</li><li><span>6–12</span> Live AI traffic controls</li><li><span>13–14</span> Operate at scale</li></ol><a class="button button--primary" data-route-clear href="#program">Browse all sessions</a></div>
-            <div class="route-choice__heading"><div><h3>Focused routes</h3></div><div class="route-choice__legend" aria-label="Route phase colors"><span><i class="is-foundation"></i>Foundation</span><span><i class="is-runtime"></i>Live traffic</span><span><i class="is-operations"></i>Operations</span></div></div>
+            <div class="route-choice__primary"><div><h3>Complete Citadel build · ${totalHours} working hours</h3><p>Run all ${sessions.length} sessions using pinned upstream implementations and customer-owned overlays.</p></div><ol class="route-choice__sequence"><li><span>1–3</span> Foundation</li><li><span>4–5</span> Runtime governance</li><li><span>6–7</span> Operations</li></ol><a class="button button--primary" data-route-clear href="#program">Browse all sessions</a></div>
+            <div class="route-choice__heading"><div><h3>Focused routes</h3></div><div class="route-choice__legend" aria-label="Route phase colors"><span><i class="is-foundation"></i>Foundation</span><span><i class="is-runtime"></i>Runtime governance</span><span><i class="is-operations"></i>Operations</span></div></div>
             <div class="route-paths" role="list">${routeCards}</div>
-            <p class="route-choice__note">Sessions 12–13 define substitute baselines for teams that enter the series without every earlier session.</p>
+            <p class="route-choice__note">Agent 365, multi-region recovery, and delegated access remain optional modules outside the numbered sequence.</p>
           </div>
         </div>
       </section>
@@ -1705,7 +1666,7 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
           <div class="section-heading"><div><p class="section-kicker">Pre-work</p><h2 id="readiness-title">Clear the pre-work before Session 1.</h2></div></div>
           <div class="readiness-grid">
             <article><span>Environment</span><h3>Dedicated sandbox</h3><p>Use an approved subscription and register the required resource providers.</p></article>
-            <article><span>Source control</span><h3>Customer-owned repository</h3><p>Prepare the repository that will keep implementation files and decisions.</p></article>
+            <article><span>Source control</span><h3>Customer-owned repository</h3><p>Prepare the repository for pinned Citadel commit references, overlays, operational records, and control decisions.</p></article>
             <article><span>Access</span><h3>Roles at the exact scope</h3><p>Session 1 needs Contributor on the sandbox scope plus permission to run deployment what-if there. Later sessions add their own time-bound roles.</p></article>
             <article><span>Region</span><h3>Delivery region approved</h3><p>Check that the approved region supports the Foundry capabilities required by your planned sessions.</p></article>
             <article><span>Scenario</span><h3>One bounded use case</h3><p>Start with an internal policy assistant and one read-only API tool. Later sessions add a governed MCP path and a write action that the agent must refuse.</p></article>
@@ -1779,8 +1740,8 @@ const renderServiceMap = ({ sessions, modules, serviceRegistry }) => {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#032254">
-    <meta name="description" content="Service-first map of the Practical Microsoft AI Governance sessions and optional modules.">
-    <title>Service map | Practical Microsoft AI Governance</title>
+    <meta name="description" content="Service-first map of the seven-session Citadel co-implementation program and its optional modules.">
+    <title>Citadel service map | Practical Microsoft AI Governance</title>
     <link rel="icon" href="assets/img/logo-mark.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

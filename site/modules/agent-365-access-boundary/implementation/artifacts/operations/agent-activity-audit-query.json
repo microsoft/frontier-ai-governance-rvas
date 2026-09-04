@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "optional-module-agent-365-access-boundary",
+  "lookbackHours": 24,
+  "microsoftGraphApplicationPermission": "AuditLogsQuery.Read.All",
+  "operations": [
+    "AIInvokeAgent",
+    "AIExecuteTool",
+    "AIInferenceCall",
+    "AIGuardrail"
+  ],
+  "safeOutputFields": [
+    "CreationDate",
+    "Operation",
+    "AgentId",
+    "AgentName",
+    "ResultStatus"
+  ],
+  "excludedContent": [
+    "Prompts",
+    "Responses",
+    "Tool arguments",
+    "Tool results",
+    "User identities",
+    "File names",
+    "Resource URLs"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "repository": "https://github.com/Azure/AI-Landing-Zones.git",
+  "commit": "fb4c288a559f951c4e7729732b4727c72a164d8d",
+  "deploymentMethod": "pinned Bicep or Terraform implementation",
+  "portalTemplateAllowedFor": "nonproduction exploration only"
+}

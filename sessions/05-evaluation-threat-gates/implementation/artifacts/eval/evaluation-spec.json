@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "05-evaluation-threat-gates",
+  "evaluationName": "citadel-policy-assistant-release",
+  "evaluationDefinitionId": "__REQUIRED_EVALUATION_DEFINITION_ID__",
+  "dataset": {
+    "name": "citadel-policy-assistant-golden",
+    "versionPrefix": "1",
+    "path": "data/golden-v1.jsonl",
+    "minimumCases": 8,
+    "maximumCases": 100000,
+    "maximumBytesPerRow": 2097152,
+    "requiredCategories": [
+      "normal",
+      "edge",
+      "refusal",
+      "multilingual",
+      "sensitive-data",
+      "tool-use",
+      "indirect-attack",
+      "failure"
+    ]
+  },
+  "target": {
+    "type": "azure_ai_agent",
+    "agentName": "__REQUIRED_AGENT_NAME__",
+    "approvedVersion": "__REQUIRED_APPROVED_AGENT_VERSION__",
+    "candidateVersion": "__REQUIRED_CANDIDATE_AGENT_VERSION__"
+  },
+  "evaluators": [
+    {
+      "name": "relevance",
+      "evaluatorName": "builtin.relevance",
+      "layer": "final-answer-quality",
+      "preview": false,
+      "blockingEligible": true,
+      "judgeModelRequired": true,
+      "dataMapping": {
+        "query": "item.query",
+        "response": "sample.output_text"
+      }
+    },
+    {
+      "name": "tool_call_accuracy",
+      "evaluatorName": "builtin.tool_call_accuracy",
+      "layer": "tool-process",
+      "preview": false,
+      "blockingEligible": true,
+      "judgeModelRequired": true,
+      "dataMapping": {
+        "query": "item.query",
+        "response": "sample.output_items",
+        "tool_definitions": "item.tool_definitions"
+      }
+    },
+    {
+      "name": "tool_call_success",
+      "evaluatorName": "builtin.tool_call_success",
+      "layer": "tool-process",
+      "preview": false,
+      "blockingEligible": true,
+      "judgeModelRequired": true,
+      "dataMapping": {
+        "response": "sample.output_items"
+      }
+    },
+    {
+      "name": "violence",
+      "evaluatorName": "builtin.violence",
+      "layer": "safety",
+      "preview": false,
+      "blockingEligible": true,
+      "judgeModelRequired": false,
+      "dataMapping": {
+        "query": "item.query",
+        "response": "sample.output_text"
+      }
+    },
+    {
+      "name": "hate_unfairness",
+      "evaluatorName": "builtin.hate_unfairness",
+      "layer": "safety",
+      "preview": false,
+      "blockingEligible": true,
+      "judgeModelRequired": false,
+      "dataMapping": {
+        "query": "item.query",
+        "response": "sample.output_text"
+      }
+    },
+    {
+      "name": "protected_material",
+      "evaluatorName": "builtin.protected_material",
+      "layer": "safety",
+      "preview": false,
+      "blockingEligible": true,
+      "judgeModelRequired": false,
+      "dataMapping": {
+        "query": "item.query",
+        "response": "sample.output_text"
+      }
+    },
+    {
+      "name": "task_adherence",
+      "evaluatorName": "builtin.task_adherence",
+      "layer": "final-answer-quality",
+      "preview": true,
+      "blockingEligible": false,
+      "judgeModelRequired": true,
+      "dataMapping": {
+        "query": "item.query",
+        "response": "sample.output_items"
+      }
+    },
+    {
+      "name": "sensitive_data_leakage",
+      "evaluatorName": "builtin.sensitive_data_leakage",
+      "layer": "safety",
+      "preview": true,
+      "blockingEligible": false,
+      "judgeModelRequired": false,
+      "dataMapping": {
+        "query": "item.query",
+        "response": "sample.output_items",
+        "tool_calls": "sample.tool_calls"
+      }
+    },
+    {
+      "name": "prohibited_actions",
+      "evaluatorName": "builtin.prohibited_actions",
+      "layer": "safety",
+      "preview": true,
+      "blockingEligible": false,
+      "judgeModelRequired": false,
+      "dataMapping": {
+        "query": "item.query",
+        "response": "sample.output_items",
+        "tool_calls": "sample.tool_calls"
+      }
+    }
+  ],
+  "resultHandling": {
+    "retainAggregateOnly": true,
+    "retainOutputItemsInRepository": false,
+    "retainEvaluatorReasonsInRepository": false,
+    "retainFoundryReportUrl": true
+  }
+}

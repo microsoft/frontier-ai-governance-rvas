@@ -1,0 +1,7 @@
+{
+  "repository": "https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator.git",
+  "ref": "citadel-v1",
+  "commit": "23fbc8fe7f2f068de3ed3c80da2344760faac1e6",
+  "templatePath": "bicep/infra/main.bicep",
+  "parameterPath": "bicep/infra/main.bicepparam"
+}

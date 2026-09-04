@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="Apply a scoped Purview DLP policy, install one approved agent for a test group, check included and excluded access, and query payload-free Agent 365 activity.">
+    <title>Validation and operations | Optional module: Microsoft Agent 365 access and data controls | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page module-page">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program">Sessions</a>
+          <a href="../../index.html#optional-modules" aria-current="page">Optional modules</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="validation-and-operations">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#optional-modules">Optional modules</a>
+            <span aria-hidden="true">/</span>
+            <a href="index.html">Optional module</a>
+          </nav>
+          <p class="chapter-header__label">Chapter 6 of 6 · Validation and operations</p>
+          <h1 id="validation-and-operations">Microsoft Agent 365 access and data controls</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Optional module · Draft</span>
+            <span>4.5 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Module chapters">
+        <ol class="session-content-width"><li><a href="index.html"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html"><span>2</span>Architecture</a></li><li><a href="before-you-start.html"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html" aria-current="page"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <div class="chapter-actions">
+          <button
+            class="deck-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="session-deck-dialog"
+            data-deck-open
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+              <path d="M8 20h8M12 16.5V20"></path>
+            </svg>
+            <span>Open the deck</span>
+          </button>
+          <a
+            class="implementation-files-link"
+            href="implementation/"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 7.5h6l2-2h9v13h-17z"></path>
+              <path d="m9.5 11-2 2 2 2M14.5 11l2 2-2 2"></path>
+            </svg>
+            <span>View implementation files</span>
+            <span class="visually-hidden"> on GitHub (opens in a new tab)</span>
+          </a>
+        </div>
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/agent-365.svg" alt="">
+                <strong>Microsoft Agent 365</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-purview.svg" alt="">
+                <strong>Microsoft Purview</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-entra-id.svg" alt="">
+                <strong>Microsoft Entra ID</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-365-copilot.svg" alt="">
+                <strong>Microsoft 365 Copilot</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-ai-foundry.svg" alt="">
+                <strong>Microsoft Foundry</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Validation and operations">
+          <p class="implementation-guide__label">Chapter 6 of 6</p>
+          <h2 id="confirm-the-result">Confirm the result<a class="heading-anchor" href="#confirm-the-result" aria-label="Link to Confirm the result">#</a></h2>
+<h3 id="intended-path">Intended path<a class="heading-anchor" href="#intended-path" aria-label="Link to Intended path">#</a></h3>
+<p>After propagation, run the labelled synthetic interaction through the approved path. <code>Block</code> stops the matched interaction. <code>Audit</code> allows it and records the match. Inspect the DLP result, scoped audit activity, and generated-content label behavior in Purview.</p>
+<h3 id="blocked-or-failure-path">Blocked or failure path<a class="heading-anchor" href="#blocked-or-failure-path" aria-label="Link to Blocked or failure path">#</a></h3>
+<p>Repeat the interaction with the approved excluded-user alias. Keep the agent, source, label, direction, location, and action unchanged. The policy must not report a match.</p>
+<p>Stop if the policy reaches a wider scope, the action differs, the output is treated as protected without the chosen output control, the excluded user finds the agent, the included member cannot find it, or audit activity remains absent after the recorded ingestion allowance.</p>
+<h3 id="delivery-owner-checkpoint">Delivery-owner checkpoint<a class="heading-anchor" href="#delivery-owner-checkpoint" aria-label="Link to Delivery-owner checkpoint">#</a></h3>
+<p>The delivery owner observes the propagation wait, included-user availability, excluded-user denial, intended policy result, non-match, and scoped audit activity. Keep the policy in simulation or disable it if a check fails. Record the result in Purview and the approved change system.</p>
+<h2 id="after-implementation">After implementation<a class="heading-anchor" href="#after-implementation" aria-label="Link to After implementation">#</a></h2>
+<div class="table-scroll"><table><thead><tr><th scope="col">What remains</th><th scope="col">Owner</th></tr></thead><tbody><tr><td>DLP policy, simulation and enablement state, findings, and change history</td><td>Purview operator and Agent 365 owner</td></tr><tr><td>Label, encryption rights, and generated-content control</td><td>Information protection owner</td></tr><tr><td>Agent Registry installation and deployment contract</td><td>Microsoft 365 administrator</td></tr><tr><td>Product-boundary ownership record</td><td>Data governance owner</td></tr><tr><td>Published agent and native runtime controls</td><td>Source-platform owner</td></tr><tr><td>Payload-free query definition and audit operation</td><td>Audit owner</td></tr><tr><td>Conditional Foundry Data Security rule and <code>processContent</code> integration</td><td>Foundry platform owner, Purview operator, and application developer</td></tr></tbody></table></div>
+<p>Restore through the approved Purview and Microsoft 365 change paths:</p>
+<ol><li>Return the policy to <code>TestWithNotifications</code>.</li><li>Disable it after reviewing dependencies.</li><li>Remove the scoped agent installation and group assignment before deleting a policy created for this session.</li><li>Remove label rights or source sharing after the data owner confirms that no Agent 365 dependency remains.</li></ol>
+<p>Do not delete a reused label, audit records, or source data. For a Foundry agent, use its separate dependency review to change Foundry coverage or billing. The data governance owner reviews <code>coverage-handoff.md</code> quarterly and after an owner or product-boundary change.</p>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Optional module</dd></div><div><dt>Status</dt><dd>Optional module · Draft</dd></div><div><dt>Duration</dt><dd>4.5 hours</dd></div><div><dt>Implementation mode</dt><dd>Extended</dd></div><div><dt>Last verified</dt><dd>2026-09-04</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="implementation.html"><span>Previous chapter</span><strong>Implementation</strong></a>
+        <a href="../../index.html#optional-modules"><span>Optional modules</span><strong>Return to optional modules</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Optional module · Validation and operations</p>
+    </footer>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Optional module</p>
+            <h2 id="session-deck-title">Microsoft Agent 365 access and data controls slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Optional module: Microsoft Agent 365 access and data controls slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>

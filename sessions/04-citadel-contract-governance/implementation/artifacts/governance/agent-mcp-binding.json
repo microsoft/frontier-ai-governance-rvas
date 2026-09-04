@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "04-citadel-contract-governance",
+  "agentName": "__REQUIRED_AGENT_NAME__",
+  "serverLabel": "policy-catalog",
+  "serverId": "policy-catalog-mcp",
+  "transport": "streamable-http",
+  "toolOwner": "__REQUIRED_TOOL_OWNER__",
+  "dataClassification": "__REQUIRED_TOOL_DATA_CLASSIFICATION__",
+  "serverUrlEnvironmentVariable": "CITADEL_MCP_SERVER_URL",
+  "projectConnectionName": "__REQUIRED_FOUNDRY_MCP_CONNECTION_NAME__",
+  "connectionAuthentication": {
+    "type": "agentic-identity",
+    "audience": "__REQUIRED_MCP_AUDIENCE__"
+  },
+  "allowedTools": [
+    "get_policy"
+  ],
+  "tool": {
+    "id": "get_policy",
+    "httpMethod": "GET",
+    "backingApiId": "__REQUIRED_BACKING_API_ID__",
+    "backingOperationId": "__REQUIRED_BACKING_READ_OPERATION_ID__",
+    "sideEffects": "none",
+    "risk": "read-only",
+    "policyId": {
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    }
+  },
+  "prohibitedAction": {
+    "action": "__REQUIRED_PROHIBITED_WRITE_ACTION__",
+    "effect": "deny",
+    "humanRoute": "__REQUIRED_HUMAN_CHANGE_ROUTE__"
+  },
+  "requireApproval": "always",
+  "removeDirectOpenApiTool": true,
+  "releaseOwner": "__REQUIRED_RELEASE_OWNER__",
+  "releaseGate": "Pin the candidate version only after the intended read and blocked prohibited-write checks both pass."
+}

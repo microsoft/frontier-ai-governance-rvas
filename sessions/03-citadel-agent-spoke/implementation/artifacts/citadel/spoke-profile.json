@@ -1,0 +1,14 @@
+{
+  "workloadName": "policy-assistant",
+  "environment": "nonproduction",
+  "resourceGroupName": "__REQUIRED_SPOKE_RESOURCE_GROUP__",
+  "location": "swedencentral",
+  "networkMode": "existing-platform-network",
+  "virtualNetworkName": "__REQUIRED_SPOKE_VNET_NAME__",
+  "privateEndpointSubnetName": "__REQUIRED_PRIVATE_ENDPOINT_SUBNET_NAME__",
+  "agentRuntime": "foundry-agent-service",
+  "deployContainerApps": false,
+  "deployApplicationGateway": false,
+  "deployJumpVm": false,
+  "deployBuildVm": false
+}

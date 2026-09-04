@@ -1,4 +1,0 @@
-*.token
-*.response.json
-.env
-.tmp/

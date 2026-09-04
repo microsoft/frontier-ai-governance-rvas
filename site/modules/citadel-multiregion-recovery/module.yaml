@@ -1,0 +1,72 @@
+schema_version: 2
+module:
+  slug: "citadel-multiregion-recovery"
+  title: "Citadel multiregion recovery rehearsal"
+  duration_minutes: 180
+  status: "draft"
+  last_verified: "2026-09-04"
+  audience:
+    - "AI platform, continuity, API Management, and service owners"
+  prerequisites:
+    - "The Citadel service has deployed primary and secondary paths with fixed agent, model, contract, policy, and monitoring versions."
+    - "The approved change record names the selectors, scope, maintenance window, health controls, routing controls, delivery owner, and restore owner."
+  related_content:
+    - "Session 02 - Deploy the Citadel Governance Hub"
+    - "Session 04 - Govern Citadel backends, access, tools, and agents"
+    - "Session 06 - Operate Citadel telemetry, cost, and incidents"
+    - "Session 07 - Promote and operate the Citadel platform lifecycle"
+  services_in_scope:
+    - "azure-ai-foundry"
+    - "foundry-agent-service"
+    - "azure-api-management"
+    - "azure-monitor"
+  control_objective: "Preview and rehearse one Citadel selector move to the secondary path, check it, then restore and check the primary path."
+implementation:
+  mode: "standard"
+implementation_outcomes:
+  - "Record the approved scope, selectors, expected versions, identities, policies, endpoints, and trace fields."
+  - "Confirm the primary is active and the secondary is ready before traffic moves."
+  - "Preview and approve the selector move, check the secondary path, then restore the primary."
+  - "Leave the recovery runbook with the service and routing owners."
+deliverables:
+  implementation: "implementation/README.md"
+  deck: "deck.md"
+  leave_behind:
+    - "implementation/artifacts/control-definition.json"
+    - "implementation/artifacts/regional/region.parameters.json"
+    - "implementation/artifacts/regional/failover-runbook.md"
+    - "implementation/scripts/preflight.ps1"
+    - "implementation/scripts/preflight.sh"
+    - "implementation/scripts/rehearse-failover.ps1"
+    - "implementation/scripts/rehearse-failover.sh"
+retained_files:
+  - path: "implementation/artifacts/control-definition.json"
+    consumer: "recovery preflight scripts and routing operators"
+    operational_purpose: "Bind the approved Citadel scope to the customer health and routing controls."
+  - path: "implementation/artifacts/regional/region.parameters.json"
+    consumer: "recovery scripts"
+    operational_purpose: "Supply both selectors and the expected values checked on each path."
+  - path: "implementation/artifacts/regional/failover-runbook.md"
+    consumer: "service continuity and routing operators"
+    operational_purpose: "Direct the preview, selector move, path check, and restore."
+  - path: "implementation/scripts/preflight.ps1"
+    consumer: "PowerShell-based recovery operator"
+    operational_purpose: "Check scope, controls, secondary readiness, and the active primary path."
+  - path: "implementation/scripts/preflight.sh"
+    consumer: "Bash-based recovery operator"
+    operational_purpose: "Apply the same recovery readiness checks outside Windows."
+  - path: "implementation/scripts/rehearse-failover.ps1"
+    consumer: "PowerShell-based failover operator"
+    operational_purpose: "Preview the move, check the secondary, restore the primary, and check it."
+  - path: "implementation/scripts/rehearse-failover.sh"
+    consumer: "Bash-based failover operator"
+    operational_purpose: "Run the same selector move and restore outside Windows."
+sources:
+  - title: "Citadel business continuity and disaster recovery guide"
+    url: "https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/business-continuity-dr-guide.md"
+    accessed: "2026-09-04"
+    supports: "Citadel recovery components, dependencies, and operating guidance."
+  - title: "Deploy Azure API Management to multiple regions"
+    url: "https://learn.microsoft.com/azure/api-management/api-management-howto-deploy-multi-region"
+    accessed: "2026-09-04"
+    supports: "Current APIM multiregion capabilities and limits."
