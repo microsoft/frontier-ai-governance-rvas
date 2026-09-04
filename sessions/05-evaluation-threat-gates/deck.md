@@ -31,14 +31,29 @@ An average score can hide a failed tool path or safety regression.
 ![Azure AI Content Safety](assets/icons/microsoft/azure-ai-content-safety.svg)
 
 ```text
-fixed versions -> evaluation -> quality gate
-       |                         |
-       +------> red team --------+-> PASS or BLOCK
-                                 |
-                          Defender and SOC
+governed APIM endpoint -> fixed agent and tools
+                              |
+                  +-----------+-----------+
+                  |                       |
+          Foundry evaluation       red-team comparison
+                  +-----------+-----------+
+                              |
+                    customer release gate
 ```
 
-Detailed results stay in Foundry and security systems.
+The gate tests a release. It does not run inside APIM.
+
+---
+
+## Runtime controls and release signals
+
+| Runtime path | Release and security path |
+| --- | --- |
+| APIM authorization, safety, rate limits | Foundry evaluation results |
+| Fixed agent and tool versions | Authorized red-team findings |
+| Correlated operational telemetry | Defender posture and SOC incidents |
+
+These controls have different owners. A strong quality score cannot cover a tool or security failure.
 
 ---
 
@@ -46,11 +61,13 @@ Detailed results stay in Foundry and security systems.
 
 ## Implementation tradeoffs
 
-- Synthetic dataset and fixed versions
-- Blocking evaluators and thresholds
-- Authorized attack plan and prohibited actions
-- Judge model, region, budget, and run window
-- Payload-free release and security stores
+| Decision | Session position |
+| --- | --- |
+| Test endpoint | Use the governed APIM route |
+| Gate layers | Keep quality, tool, safety, and adversarial results separate |
+| Red team | Same authorized plan against fixed versions |
+| Defender | Keep posture and incidents in the SOC process |
+| Release record | Store aggregates and hashes, not prompts |
 
 ---
 

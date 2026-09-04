@@ -12,31 +12,66 @@ A shared gateway becomes another manual bottleneck if model, tool, and access ch
 
 ### Boundaries
 
-This session changes the Citadel hub and the workload's access material. Citadel's upstream Bicep modules own the resource implementation. The three parameter files are the customer-owned desired state. The publish contract is preview; backend and access contracts remain useful without it.
+This session changes the Citadel hub and the workload's access material. Citadel's upstream Bicep modules own the resource implementation. The three parameter files hold the customer-owned contract configuration. The publish contract is preview; backend and access contracts remain useful without it.
 
 ## Architecture
 
 ### Architecture at a glance
 
-The backend contract defines what the gateway can route to. The publish contract defines which MCP tools or agents the gateway exposes. The access contract grants a workload a bounded product and supplies its approved endpoints and access material.
+Citadel separates supply, publication, and consumption so one owner does not need to edit every
+APIM object manually. The contracts are deployment modules that create or reconcile live APIM and
+API Center state. They are not documentation records.
 
 ```text
-Backend contract ----\
-                      -> Citadel APIM -> Access contract -> workload
-Publish contract ----/         |
-                         API Center inventory
+1. Backend contract
+   model endpoints + identity + routing
+          |
+          v
+   APIM backends, pools, aliases, routing fragments
+
+2. Publish contract
+   existing MCP server or A2A agent
+          |
+          v
+   APIM API + baseline policy + optional API Center record
+
+3. Access contract
+   use case + environment + approved assets + limits
+          |
+          v
+   APIM product + API attachments + policy + subscription
+          |
+          +-> optional key and asset endpoints in workload Key Vault
 ```
 
-Deploy in that order. Publishing an asset does not grant a workload access to it.
+The Backend Contract defines model supply. It creates APIM backends and pools, routing fragments,
+model metadata, aliases, and the live backend-contract fragment. Priority, weight, circuit-breaker,
+and session-affinity settings belong here.
+
+The Publish Contract exposes an existing MCP server or A2A agent. It creates the APIM API, remote
+backend where the asset type needs one, baseline policy, usage metrics, and optional API Center
+registration. It does not create the backing tool or agent, and it does not create a product or
+consumer subscription.
+
+The Access Contract creates the consumer boundary. It creates an APIM product, attaches approved
+LLM, MCP, or A2A APIs, applies product policy, and creates a subscription. It can place the
+subscription key and per-asset endpoints in the workload Key Vault or create supported Foundry
+connections.
+
+Deploy backend, then publish, then access. Access resolves the published API paths, so rerun it after
+a published path changes. Publishing makes an asset available to the gateway; only the Access
+Contract grants a workload permission to consume it.
 
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Benefits | Costs and limitations |
 | --- | --- | --- | --- |
-| Contract unit | One access contract per use case and environment | Clear quota, policy, ownership, and telemetry boundary | More contract files to operate |
-| Backend auth | Managed identity | Avoids backend keys in workload configuration | Requires exact role assignments |
-| Access material | Store in workload Key Vault | Keeps generated keys outside source control | Needs Key Vault access and rotation ownership |
-| Tool publishing | Optional preview contract | Gives one governed MCP and API Center path | Contract surface may change before general availability |
+| Contract ownership | Platform owns backend, asset owner owns publish, workload owns access | Separates supply from consumption | Changes sometimes need coordinated releases |
+| Access unit | One product per use case and environment | Gives quota, policy, ownership, and telemetry a clear boundary | More products and subscriptions to operate |
+| Backend auth | Managed identity for Azure backends | Avoids backend keys in workload configuration | Requires exact role assignments |
+| Access material | Access Contract writes to workload Key Vault when supported | Keeps generated keys outside source control and logs | Needs Key Vault access and rotation ownership |
+| Tool publishing | Optional preview contract | Gives one governed MCP or A2A exposure path | Preview behavior and clients need nonproduction testing |
+| API-to-MCP sources | Test subscription-key handling end to end | Detects a common invocation failure before release | Initialization can succeed while calls still return `401` |
 
 ### Architecture guidance
 

@@ -31,16 +31,36 @@ One safe correlation ID separates the failing component and connects it to cost,
 ![Azure Monitor](assets/icons/microsoft/azure-monitor.svg)
 
 ```text
-APIM -> agent -> model/tool
-  \       |        /
-   correlated telemetry
-        |       |
-     alerts   cost
-        |
-   incident route
+APIM diagnostics -> Application Insights -> alerts
+LLM diagnostics  -> Log Analytics -> operational queries
+usage metrics    -> scheduled workflow -> Cosmos DB
+Azure billing    -> Cost Management
 ```
 
-Prompts, responses, credentials, and tool payloads stay out of standard logging.
+The four paths have different latency, retention, and authority.
+
+---
+
+## Correlation without content capture
+
+```text
+gateway span -> agent span -> model or tool span
+       \________ safe correlation ID ________/
+```
+
+Keep prompts, responses, credentials, and tool payloads out of standard logging. Metadata remains enough to locate the failing component and owner.
+
+---
+
+## Cost is two signals
+
+| Operational allocation | Authoritative bill |
+| --- | --- |
+| Scheduled usage processing into Cosmos DB | Azure Cost Management |
+| Product, model, backend, and application views | Billed Azure cost |
+| Useful for showback | Arrives later |
+
+Budgets notify. They do not stop consumption.
 
 ---
 
@@ -52,7 +72,8 @@ Prompts, responses, credentials, and tool payloads stay out of standard logging.
 | --- | --- |
 | Content logging | Disabled |
 | External export | Disabled |
-| Cost signal | APIM estimate plus Cost Management |
+| Alert source | Application Insights metrics |
+| Allocation | Scheduled usage records in Cosmos DB |
 | Alert dimensions | Bounded service and contract fields |
 
 ---

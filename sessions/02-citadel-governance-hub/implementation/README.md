@@ -18,29 +18,56 @@ This session deploys the central hub. It does not onboard workload access, model
 
 ### Architecture at a glance
 
-The Governance Hub is the shared runtime control point. APIM fronts approved AI backends and published assets. Foundry supplies models and control-plane functions. API Center catalogs approved assets. Application Insights, Log Analytics, Event Hubs, Cosmos DB, and Logic Apps support operations and usage processing.
+The Governance Hub separates the runtime request path from Azure and Foundry management. APIM is
+the shared runtime boundary. Foundry projects, Azure Resource Manager, and the contract deployment
+modules remain control-plane paths and should not carry application traffic.
 
 ```text
-Agent Spokes and existing workloads
-                 |
-        Citadel Governance Hub
-  APIM -> safety and routing -> Foundry
-    |          |                |
- API Center  identity       model backends
-    |
-monitoring and usage processing
+Runtime data path
+Agent Spoke or workload
+        |
+   APIM API and product policy
+        |
+ shared policy fragments
+ safety | authorization | limits | routing
+        |
+ backend or backend pool -> Foundry / Azure OpenAI / approved provider
+
+Control and operations
+contract deployments -> APIM configuration
+APIM diagnostics -> Application Insights and Log Analytics
+usage workflows -> Cosmos DB pricing and allocation records
 ```
 
-Azure is authoritative for the deployed resources. The pinned upstream commit defines the implementation. `deployment-profile.json` records the customer choices mapped into that implementation.
+The pinned deployment creates or binds the hub network and private DNS, then deploys APIM, Foundry,
+Key Vault, monitoring, storage, Event Hubs, Cosmos DB, a usage-processing Logic App, and managed
+identities. API Center and Managed Redis are optional. Other optional switches cover Foundry
+network injection, dashboards, Realtime API, AI Search exposure, and PII processing.
+
+Identity duties are split. The APIM user-assigned identity calls AI backends. APIM's system identity
+resolves Key Vault-backed named values. A separate usage identity writes processed usage records to
+Cosmos DB. Keep these roles separate; one broad hub identity makes access review and incident
+containment harder.
+
+APIM diagnostics and usage processing are also separate. Application Insights and Log Analytics
+support runtime health and request analysis. Scheduled workflows create delayed usage and cost
+allocation records in Cosmos DB. Neither path is the Foundry control plane.
+
+Azure is authoritative for deployed state. The pinned upstream commit defines the implementation,
+and `deployment-profile.json` records the customer choices mapped into it. The gateway governs only
+workloads that use its endpoints and cannot bypass it through direct backend credentials or network
+paths.
 
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Benefits | Costs and limitations |
 | --- | --- | --- | --- |
-| Source | Exact upstream commit | Repeatable review and deployment | Upgrades require an explicit pull and test |
-| Network | Existing customer VNet by default | Reuses approved routing and DNS | Needs prepared subnets from Session 01 |
-| Optional services | Disabled until required | Avoids cost and operating work with no current use | Later enablement needs another preview and approval |
-| Prompt bodies | Disabled by default | Reduces sensitive-data retention | Troubleshooting relies on metadata and bounded exceptions |
+| APIM tier and ingress | Production-capable tier with private inbound access for production-shaped use | Supports scale and removes direct public ingress | Costs more and needs prepared networking |
+| Backend identity | APIM user-assigned identity | Gives backend access a stable, reviewable principal | Requires exact backend role assignments |
+| Secrets | Key Vault-backed APIM named values | Keeps provider keys out of policies and source | APIM system identity needs Key Vault access |
+| Optional services | Disabled until required | Avoids cost and operating work with no owner | Later enablement needs another preview and approval |
+| Message capture | Override upstream message capture to `none` by default | Avoids retaining prompts and completions | Troubleshooting uses metadata unless privacy approves an exception |
+| API Center | Enable only with a catalog owner and lifecycle process | Makes published assets discoverable | Unowned metadata becomes stale |
 
 ### Architecture guidance
 

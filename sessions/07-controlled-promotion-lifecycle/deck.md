@@ -28,15 +28,46 @@ Citadel spans upstream source, customer overlays, agents, contracts, gates, and 
 
 ## Architecture overview
 
-![Azure Container Apps](assets/icons/microsoft/azure-container-apps.svg)
+![Azure API Management](assets/icons/microsoft/azure-api-management.svg)
 
 ```text
-release SHA -> gates -> nonproduction -> production -> APIM selector
-                                                  |
-                                      release and estate records
+customer release manifest
+hub | spoke | gateway | contracts | agent | gates
+                    |
+          protected promotion workflow
+                    |
+ nonproduction preview/apply/smoke
+                    |
+ production preview/approval/apply
 ```
 
-Every apply follows its matching preview and protected approval.
+One manifest binds several independent Citadel release tracks.
+
+---
+
+## Choose the correct release path
+
+| Change | Deployment path |
+| --- | --- |
+| Initial hub | Hub landing-zone deployment |
+| APIM APIs, policies, fragments, backends | Pinned Gateway Upgrade path |
+| Model supply | Backend Contract |
+| MCP or A2A publication | Publish Contract |
+| Workload access | Access Contract |
+| Agent runtime | Spoke or agent deployment |
+
+Do not reprovision the landing zone for an APIM policy change.
+
+---
+
+## Restore boundaries
+
+```text
+application revision | gateway configuration
+infrastructure       | data
+```
+
+A previous APIM configuration does not restore deleted data, networking, identities, model capacity, or regional services.
 
 ---
 
@@ -44,11 +75,13 @@ Every apply follows its matching preview and protected approval.
 
 ## Implementation tradeoffs
 
-- Full commit SHA and fixed component digests
-- Environment-scoped Azure OIDC
-- Required reviewers and no self-approval
-- Manual restore to an approved release
-- Live estate, lifecycle, and retirement review
+| Decision | Session position |
+| --- | --- |
+| Release identity | Full SHA plus every changed track |
+| Azure access | Environment-scoped OIDC |
+| Approval | Protected environments and no self-approval |
+| Restore | Previous approved manifest through the same workflow |
+| Recovery | Keep application, gateway, infrastructure, and data recovery separate |
 
 ---
 

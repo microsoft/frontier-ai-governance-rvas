@@ -18,26 +18,44 @@ This session changes the approved nonproduction foundation and policy scope. Azu
 
 ### Architecture at a glance
 
-The customer landing zone provides subscription governance, connectivity, identity, and monitoring ownership. Citadel adds one shared Governance Hub and one or more workload Agent Spokes. This session prepares the network and policy boundary both deployment types inherit.
+Citadel is an application landing-zone pattern. It consumes the customer's platform landing zone;
+it does not create the management-group hierarchy, vend subscriptions, or replace central
+connectivity and identity services. The platform team keeps those controls. Citadel adds a shared
+Governance Hub and workload Agent Spokes inside the approved application subscriptions.
 
 ```text
-Management group and subscription guardrails
-                    |
-         customer platform network
-          /                     \
-Governance Hub subnets      Agent Spoke subnets
-          \                     /
-       private DNS and controlled egress
+Platform landing zone
+  management groups, subscription vending, policy inheritance
+  central connectivity, DNS, firewall, identity, monitoring
+                              |
+             approved Citadel application subscriptions
+                    /                         \
+       Governance Hub network             Agent Spoke network
+   APIM | private endpoints | apps    runtime | data | private endpoints
+                    \                         /
+                 central DNS and controlled egress
 ```
 
-The live Azure resources are authoritative. The parameter files record the desired network and policy configuration used by the approved deployment pipeline.
+The Governance Hub deployment runs at subscription scope and creates its resources inside a
+resource group. Session 01 prepares the subscription, routing, DNS, and policy conditions it needs.
+The target network must account for APIM, private endpoints, Logic Apps, and any optional agent
+network-injection subnet selected later.
+
+For an existing platform network, prefer centrally managed private DNS zones referenced by full
+resource ID. A private endpoint alone does not create a working private path. The VNet links or
+resolver rules, firewall route, and deployment host must all resolve and reach the endpoint.
+
+Azure is authoritative for live network and policy state. The parameter files record the
+customer-owned configuration used by the deployment pipeline. Session 01 does not deploy a
+management hierarchy, central firewall, DNS resolver, or subscription-vending process.
 
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Benefits | Costs and limitations |
 | --- | --- | --- | --- |
-| Network | Reuse the customer platform network when it already meets Citadel requirements | Keeps routing, DNS, and inspection with the platform team | Requires clear subnet delegation and ownership |
-| Public access | Private paths for production-shaped work | Reduces direct service exposure | Needs DNS, execution-host, and egress preparation |
+| Subscription boundary | Separate environments when quota, ownership, or change authority differs | Keeps blast radius and access clear | Adds subscription and connectivity operations |
+| Network | Reuse the customer platform network when it meets Citadel requirements | Keeps routing, DNS, and inspection with the platform team | Requires reserved subnets and explicit ownership |
+| Private DNS | Reference centrally owned zones by resource ID | Avoids duplicate zones and split resolution | Central DNS owners must create links or resolver rules |
 | Policy rollout | Preview, then assign in `DoNotEnforce` before enforcement | Shows scope and conflicts before blocking deployments | Requires a later owner-approved enforcement change |
 | Upstream source | Pin reviewed Citadel commits | Makes deployments repeatable | The platform owner must plan upgrades |
 

@@ -18,23 +18,48 @@ GitHub Actions controls the approved promotion path. Azure owns live deployment 
 
 ### Architecture at a glance
 
-The full commit SHA identifies one release. Fixed digests bind the Citadel hub and spoke commits, customer overlays, agent version, contracts, evaluation and security results, and environment parameters. Protected preview and apply environments deploy the same release. The estate workbook then tracks live resources and retirement signals.
+Citadel has independent release tracks. The hub landing zone, APIM gateway configuration, backend
+contract, publish contract, access contracts, usage processing, Agent Spoke, and agent version do not
+all change through one upstream deployment command. The release manifest binds the exact versions
+that must move together for a customer change.
 
 ```text
-release SHA -> gates -> nonproduction preview/apply -> production preview/apply
-                                                       |
-                                                 APIM selector
-                                                       |
-                                      release record and estate lifecycle
+Customer release manifest
+  hub commit | spoke commit | gateway release
+  backend contract | publish contract | access contracts
+  agent version | evaluation gate | environment parameters
+                              |
+                    protected promotion workflow
+                              |
+             nonproduction preview -> apply -> smoke
+                              |
+                production preview -> approval -> apply
+                              |
+             APIM route / agent revision / release record
 ```
 
+The initial hub template provisions the landing zone. Later APIM configuration releases should use
+the pinned Gateway Upgrade path when it supports the required change, rather than reprovisioning the
+whole hub. Gateway Upgrade changes APIs, policies, fragments, backend definitions, named values, and
+diagnostics in place. It does not change the APIM tier, VNet, private endpoints, identities, or the
+wider landing-zone infrastructure.
+
+Restore follows the same protected workflow with a previous approved manifest. An APIM
+configuration restore does not restore deleted data, network resources, identities, model capacity,
+or regional services. Workload revision rollback, gateway rollback, infrastructure recovery, and
+data recovery remain separate operations.
+
+The estate workbook reads live Azure state after promotion. It identifies ownership, drift, and
+retirement work, but the owning Azure, Foundry, APIM, and release systems remain authoritative.
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Benefits | Costs and limitations |
 | --- | --- | --- | --- |
-| Release identity | Full SHA and fixed component digests | Every stage names the same change | Corrections require a new release |
+| Release identity | Full SHA and fixed component digests for every changed track | Every stage names the same customer change | Corrections require a new release |
+| Hub lifecycle | Initial deployment and later gateway upgrades use separate paths | Avoids reprovisioning the landing zone for policy changes | Operators must choose the correct release track |
 | Azure access | Environment-scoped OIDC | No stored Azure client secret | Trust and environment rules need maintenance |
 | Restore | Manual protected workflow | Owner sees the selected release and route | Slower than automatic rollback |
+| Recovery boundary | Separate application, gateway, infrastructure, and data recovery | Avoids false rollback expectations | Several owners maintain different procedures |
 | Estate | Live query plus shared workbook | Finds drift and retirement signals | Owners must resolve findings in source systems |
 
 ### Architecture guidance

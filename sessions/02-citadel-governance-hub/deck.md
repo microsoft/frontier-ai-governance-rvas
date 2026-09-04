@@ -31,14 +31,43 @@ Citadel's quick start can create services, capacity, telemetry stores, and netwo
 ![Azure API Management](assets/icons/microsoft/azure-api-management.svg)
 
 ```text
-workloads -> APIM -> safety and routing -> Foundry backends
-              |
-          API Center
-              |
- monitoring and usage processing
+workload -> APIM API and product policy
+                |
+        shared policy fragments
+  authorization | safety | limits | routing
+                |
+      backend or pool -> AI provider
 ```
 
-The upstream commit owns the implementation. Customer overlays own the deployment choice.
+APIM is the runtime boundary. Azure and Foundry management remain separate control-plane paths.
+
+---
+
+## Hub resource topology
+
+```text
+VNet and private DNS
+  |
+  +-- APIM + managed identities + Key Vault
+  +-- Foundry and configured model backends
+  +-- Application Insights + Log Analytics
+  +-- Event Hubs + Logic App + Cosmos DB
+  +-- API Center and Managed Redis when enabled
+```
+
+Backend access, Key Vault lookup, and usage processing use separate identities.
+
+---
+
+## Two operating pipelines
+
+| Runtime diagnostics | Usage allocation |
+| --- | --- |
+| APIM to Application Insights and Log Analytics | Scheduled processing into Cosmos DB |
+| Health, latency, failures, tokens, correlation | Product, model, backend, and application allocation |
+| Near-real-time operations | Delayed showback data |
+
+Neither pipeline is the Foundry control plane.
 
 ---
 
@@ -46,13 +75,13 @@ The upstream commit owns the implementation. Customer overlays own the deploymen
 
 ## Implementation tradeoffs
 
-| Enable now | Enable when needed |
+| Decision | Session position |
 | --- | --- |
-| APIM, Foundry, identities, monitoring | AI Search, Document Intelligence |
-| API Center and PII handling | Managed Redis and extra models |
-| Existing VNet and Log Analytics | New shared services |
-
-Prompt and response bodies stay disabled by default.
+| APIM | Production-capable tier and private ingress for production |
+| Backend auth | APIM user-assigned identity |
+| Secrets | Key Vault-backed named values |
+| API Center | Enable only with a catalog owner |
+| Message capture | Override the upstream default to `none` |
 
 ---
 

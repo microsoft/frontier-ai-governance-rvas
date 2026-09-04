@@ -31,13 +31,45 @@ The complete Agent Spoke can include more infrastructure than a first workload n
 ![Microsoft Foundry Agent Service](assets/icons/microsoft/foundry-agent-service.svg)
 
 ```text
-users -> workload entry -> Foundry agent
-                            |       |
-                       workload   Citadel hub
-                         data     models/tools
+users or application
+        |
+workload entry point
+        |
+versioned agent or orchestrator
+   |                      |
+private workload data   Citadel access contract
+                          |
+                    Governance Hub APIM
 ```
 
-The agent has one fixed version, Entra authorization, and one read-only tool.
+The spoke owns workload runtime and data. The shared hub owns model and published-asset access.
+
+---
+
+## Choose the spoke boundary
+
+Use one spoke per **workload ownership and data boundary**, not automatically one per agent.
+
+Split when any of these differ:
+
+- subscription or network;
+- data owner or classification;
+- release authority;
+- recovery requirement.
+
+Container Apps, Application Gateway, jump VMs, and local APIM remain optional.
+
+---
+
+## Identity and traffic
+
+```text
+agent identity -> workload data roles
+agent or project identity -> Citadel product
+Citadel APIM identity -> model or tool backend
+```
+
+Managed identity removes stored credentials. RBAC and the Session 04 contracts still define what each hop may do.
 
 ---
 
@@ -48,9 +80,10 @@ The agent has one fixed version, Entra authorization, and one read-only tool.
 | Component | Default |
 | --- | --- |
 | Foundry Agent Service | Include |
-| Existing network and Key Vault | Reuse |
+| Shared Governance Hub | Use for model and tool traffic |
+| Private workload data | Keep inside the spoke boundary |
 | Container Apps | Exclude unless required |
-| Application Gateway, build VM, jump VM | Exclude unless required |
+| Local APIM or Application Gateway | Exclude unless required |
 
 ---
 

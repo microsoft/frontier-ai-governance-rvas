@@ -18,25 +18,49 @@ This session owns one nonproduction workload environment and agent. The pinned A
 
 ### Architecture at a glance
 
-The Agent Spoke isolates workload data, runtime, identity, and optional application compute. The governed agent uses its workload identity and calls approved dependencies through the Citadel hub after Session 04.
+AI Landing Zones provides separate Foundry and AI gateway landing-zone implementations. A Citadel
+Agent Spoke normally consumes the Foundry and workload side and uses the shared Governance Hub. It
+does not need another APIM gateway unless the workload has a separate ingress or east-west
+mediation requirement.
 
 ```text
-Users -> workload entry point -> Foundry agent
-                                  |       |
-                              workload  Citadel hub
-                                data    models/tools
+Approved users or application
+              |
+      workload entry point
+              |
+   versioned agent or orchestrator
+       |                    |
+workload data plane     Citadel access contract
+Storage | Cosmos DB          |
+Search | Key Vault      Governance Hub APIM
+                            /       \
+                     model route   MCP/A2A route
 ```
 
-`spoke-profile.json` records the selected workload shape. The live landing-zone resources and Foundry agent remain authoritative.
+Use one spoke for a workload ownership and data boundary, not automatically one spoke per agent.
+Split spokes when subscriptions, networks, data owners, or release authority differ. When Container
+Apps is selected, its environment is the administrative and network boundary; individual agents
+remain separately versioned applications or revisions inside it.
+
+Private workload data uses VNet integration and private endpoints for services such as Storage,
+Cosmos DB, Search, and Key Vault. User-assigned managed identities handle service-to-service
+access. Those identities do not constrain tool behavior by themselves. Session 04 still defines
+the gateway product, published assets, and backend authorization.
+
+`spoke-profile.json` records the selected workload shape. Azure owns live infrastructure state, and
+Foundry owns live agent versions and endpoints. The customer pipeline owns reconciliation from the
+pinned source and profile.
 
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Benefits | Costs and limitations |
 | --- | --- | --- | --- |
-| Deployment | Pinned Bicep or Terraform source | Supports review and repeatable promotion | Requires customer pipeline integration |
-| Optional components | Off unless the workload needs them | Smaller cost and attack surface | Later requirements need another change |
-| Agent endpoint | Fixed approved version | Stable evaluation and release target | Version changes require promotion |
-| Tool scope | One read-only operation | Easy to reason about and test | Write actions need a separate design |
+| Spoke boundary | One per workload ownership and data boundary | Keeps access, cost, and lifecycle ownership coherent | Large workloads may need further isolation |
+| Gateway | Use the shared Governance Hub | Avoids a second policy and routing plane | Requires reliable hub connectivity |
+| Runtime | Foundry Agent Service or the selected workload runtime | Keeps the agent close to its data and owner | Runtime choice changes network and release operations |
+| Optional infrastructure | Exclude Application Gateway, jump/build VMs, self-hosted models, and local APIM unless required | Reduces cost and attack surface | Later requirements need another reviewed deployment |
+| Agent endpoint | Fixed approved version | Gives evaluation and promotion a stable target | Version changes require promotion |
+| Tool scope | One customer-supplied read-only operation | Keeps the first authorization path understandable | Write actions need a separate threat model and approval path |
 
 ### Architecture guidance
 

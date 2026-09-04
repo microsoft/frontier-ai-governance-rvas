@@ -133,6 +133,10 @@ retained_files:
     consumer: "Bash-based estate operator"
     operational_purpose: "Run the same workbook deployment outside Windows."
 sources:
+  - title: "Citadel release version management"
+    url: "https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator/blob/citadel-v1/guides/release-version-management.md"
+    accessed: "2026-09-04"
+    supports: "Citadel release tracks, version endpoints, gateway upgrade scope, and rollback boundaries."
   - title: "Authenticate to Azure from GitHub Actions by OpenID Connect"
     url: "https://learn.microsoft.com/azure/developer/github/connect-from-azure-openid-connect"
     accessed: "2026-09-04"

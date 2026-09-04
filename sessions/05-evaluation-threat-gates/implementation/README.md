@@ -18,23 +18,48 @@ The work stays in the approved nonproduction Foundry project and Citadel access 
 
 ### Architecture at a glance
 
-The same synthetic cases run against fixed approved and candidate versions. The quality gate checks separate metric groups. The red-team comparison rejects any risk regression or prohibited-action success. Defender confirms the operational signal path.
+Evaluation attaches to the versioned agent or application target. It does not run inside an APIM
+policy. APIM supplies the governed endpoint and runtime controls; Foundry runs the evaluation and
+red-team jobs; the customer-owned gate turns their results into a release decision.
 
 ```text
-fixed agent versions -> Foundry evaluation -> quality gate
-          |                                  |
-          +----------> red team comparison --+-> PASS or BLOCK
-                                             |
-                                      Defender and SOC route
+Governed Citadel endpoint
+APIM runtime controls -> fixed agent + fixed tools
+                              |
+                 +------------+------------+
+                 |                         |
+          Foundry evaluation       authorized red-team run
+                 |                         |
+        metric-group results       risk-by-risk comparison
+                 +------------+------------+
+                              |
+                 customer release gate -> PASS or BLOCK
+
+Defender posture and incidents -----------------> SOC process
 ```
+
+The same synthetic cases run against the approved and candidate versions. Quality, tool-process,
+safety, and adversarial results remain separate blocking layers. The gate consumes aggregate
+records and fixed configuration hashes; detailed prompts and responses stay in Foundry or the
+approved security system.
+
+APIM Content Safety, Prompt Shields, authorization, and rate limits remain runtime controls.
+Preproduction evaluation and red teaming test the release. Defender inventory, posture findings,
+and incidents follow a separate SOC path. None of those signals should be described as the same
+control.
+
+Citadel does not provide the `PASS` or `BLOCK` workflow in this session. The thresholds, policy, and
+release integration are customer-owned artifacts built on Foundry results.
 
 ### Design choices and tradeoffs
 
 | Decision | Chosen approach | Benefits | Costs and limitations |
 | --- | --- | --- | --- |
 | Test data | Versioned synthetic cases | Repeatable and safe to retain | New behavior needs a new baseline |
-| Gate | Separate quality, tool, and safety layers | Averages cannot hide a failed layer | Several owners maintain explicit floors |
-| Red team | Compare fixed versions with the same plan | Shows whether remediation helped | Human review remains required |
+| Test endpoint | Use the same governed APIM path intended for release | Includes gateway, identity, and tool boundaries in the test | Requires stable nonproduction routing |
+| Gate | Separate quality, tool, safety, and adversarial layers | Averages cannot hide a failed layer | Several owners maintain explicit floors |
+| Red team | Compare fixed versions with the same authorized plan | Shows whether remediation helped | Human review remains required; this is not an inline filter |
+| Defender | Keep posture and incidents in the SOC path | Uses existing security ownership and retention | Does not replace release evaluation |
 | Records | Payload-free aggregates outside this repository | Supports promotion without retaining content | Detailed investigation stays in Foundry and security systems |
 
 ### Architecture guidance

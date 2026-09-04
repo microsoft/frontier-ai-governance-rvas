@@ -18,15 +18,40 @@ Application Insights and Log Analytics own runtime telemetry. Cost Management ow
 
 ### Architecture at a glance
 
-APIM, Foundry, the agent, and the tool propagate one safe correlation identifier while keeping separate results. Citadel's usage-processing path can export approved metadata after filtering. The workbook and alerts read the approved monitoring stores.
+Citadel has several observability pipelines with different purposes and timing. Do not collapse them
+into one generic log stream.
 
 ```text
-APIM -> agent -> model/tool
-  \       |        /
-   correlated telemetry -> workbook, alerts, incident route
-                |
-          budget and cost view
+Runtime health and tracing
+APIM diagnostics -> Application Insights -> alerts and workbook
+
+Request and LLM diagnostics
+APIM LLM diagnostics -> Log Analytics -> bounded operational queries
+
+Usage allocation
+Application Insights metrics -> scheduled workflow -> Cosmos DB + pricing
+                                                   -> Power BI or allocation report
+
+Optional non-LLM export
+approved events -> Event Hub -> customer-owned destination
 ```
+
+Application Insights carries gateway health, correlation, latency, failures, and token metrics.
+Because it is workspace-based, operators can join those signals with approved Log Analytics data.
+Log Analytics can also store per-request LLM metadata and, when enabled, message content. Message
+capture is a separate privacy decision. The pinned upstream template enables message capture unless
+the deployment profile overrides it, so Session 02 must set it to `none` for the default path.
+
+Usage processing is delayed. Scheduled workflows read metrics and write allocation records to
+Cosmos DB, where pricing data supports product, model, backend, and application views. This is
+showback data, not a real-time billing ledger. Azure Cost Management remains authoritative for the
+bill, and the budget created here notifies owners rather than blocking spend.
+
+MCP and A2A usage have their own metrics and scheduled processing. Event Hub is an optional export
+path for other approved events; it is not the MCP or A2A ingestion mechanism.
+
+Across these paths, APIM, the agent, model, and tool propagate one safe correlation identifier while
+retaining separate ownership and failure results.
 
 ### Design choices and tradeoffs
 
@@ -34,7 +59,9 @@ APIM -> agent -> model/tool
 | --- | --- | --- | --- |
 | Content logging | Off by default | Avoids a prompt and response archive | Debugging uses metadata unless an exception is approved |
 | Correlation | W3C trace context plus one safe ID | Joins the path without user identifiers | Every component must propagate it |
-| Cost | APIM estimates plus Cost Management billing | Fast operational signal and authoritative bill | Billing data arrives later |
+| Alert source | Application Insights metrics | Supports near-real-time gateway and backend alerts | Requires stable dimensions and thresholds |
+| Cost allocation | Scheduled usage processing into Cosmos DB | Supports product and application allocation | Delayed and dependent on maintained pricing data |
+| Authoritative bill | Azure Cost Management | Uses billed Azure cost | Arrives later than runtime metrics |
 | Export | Disabled unless filtered and owned | Reduces duplicate sensitive stores | External SIEM use needs a separate decision |
 
 ### Architecture guidance

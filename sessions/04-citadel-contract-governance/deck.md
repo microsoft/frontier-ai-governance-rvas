@@ -31,13 +31,37 @@ Citadel contracts separate **model supply**, **asset publishing**, and **workloa
 ![Azure API Center](assets/icons/microsoft/azure-api-center.svg)
 
 ```text
-backend contract ----\
-                      -> APIM -> access contract -> workload
-publish contract ----/    |
-                      API Center
+Backend contract -> model supply and routing
+Publish contract -> MCP or A2A exposure
+Access contract  -> workload product and subscription
 ```
 
-Publishing an asset does not grant access to it.
+The contracts create or reconcile live APIM state. They are not inventory documents.
+
+---
+
+## What each contract changes
+
+| Contract | Creates or updates |
+| --- | --- |
+| Backend | Backends, pools, aliases, routing fragments, model metadata |
+| Publish | API, baseline policy, usage metrics, optional API Center record |
+| Access | Product, API attachments, product policy, subscription, access material |
+
+The Publish Contract does not create the backing MCP server or grant consumer access.
+
+---
+
+## Deployment order
+
+```text
+backend -> publish -> access -> workload
+```
+
+- Access resolves the published API paths.
+- Re-run access after a published path changes.
+- Store generated access material in the workload Key Vault.
+- Publishing and consumption remain separate approvals.
 
 ---
 
@@ -47,11 +71,10 @@ Publishing an asset does not grant access to it.
 
 | Contract | Scope |
 | --- | --- |
-| Backend | One approved model and managed identity |
-| Publish | One read-only MCP tool, when preview is accepted |
-| Access | One use case, environment, product, and Key Vault |
-
-The prohibited write is absent or denied by backend authorization.
+| Backend | Model endpoints, identity, priority, weight, and routing behavior |
+| Publish | Existing MCP or A2A asset; preview adoption is optional |
+| Access | One use case and environment with explicit APIs and limits |
+| API-to-MCP | Test subscription-key behavior through a real invocation |
 
 ---
 

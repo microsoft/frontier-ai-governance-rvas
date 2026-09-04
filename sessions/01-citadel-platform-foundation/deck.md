@@ -31,14 +31,30 @@ This session fixes the subscription, network, DNS, ownership, tag, policy, and u
 ![Azure Policy](assets/icons/microsoft/azure-policy.svg)
 
 ```text
-customer landing zone
-       |
-network, DNS, identity, policy
-       |
-Citadel Governance Hub + Agent Spokes
+platform landing zone
+management groups | subscriptions | connectivity | identity
+                         |
+             Citadel application subscriptions
+                  /                     \
+          Governance Hub            Agent Spokes
 ```
 
-Azure owns live state. The customer repository owns the reviewed Bicep and parameter files.
+Citadel consumes the platform landing zone. It does not create the enterprise hierarchy or central connectivity.
+
+---
+
+## Network and DNS boundary
+
+```text
+central DNS and firewall
+          |
+  approved VNet or peering
+    /                 \
+APIM + private      workload runtime
+endpoints           + private data
+```
+
+A private endpoint is not enough. Routing, DNS links, firewall rules, and the deployment host must all work.
 
 ---
 
@@ -48,8 +64,9 @@ Azure owns live state. The customer repository owns the reviewed Bicep and param
 
 | Decision | Session answer |
 | --- | --- |
-| Network | Existing platform network or dedicated Citadel network |
-| Access | Private paths and approved execution host |
+| Subscription | Split when ownership, quota, or authority differs |
+| Network | Existing platform network or dedicated Citadel VNet |
+| DNS | Reference central private zones by resource ID |
 | Governance | Required tags and initial policy mode |
 | Release | Tested Citadel commits and upgrade owner |
 
