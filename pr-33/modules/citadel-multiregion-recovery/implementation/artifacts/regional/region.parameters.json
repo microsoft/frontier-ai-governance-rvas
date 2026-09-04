@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 2,
+  "implementationSession": "optional-module-citadel-multiregion-recovery",
+  "primary": {
+    "region": "__REQUIRED_PRIMARY_REGION__",
+    "selector": "__REQUIRED_PRIMARY_ROUTING_SELECTOR__",
+    "endpoint": "https://__REQUIRED_PRIMARY_GATEWAY_HOST__"
+  },
+  "secondary": {
+    "region": "__REQUIRED_SECONDARY_REGION__",
+    "selector": "__REQUIRED_SECONDARY_ROUTING_SELECTOR__",
+    "endpoint": "https://__REQUIRED_SECONDARY_GATEWAY_HOST__"
+  },
+  "expected": {
+    "agentVersion": "__REQUIRED_AGENT_VERSION__",
+    "agentIdentityId": "__REQUIRED_AGENT_IDENTITY_ID__",
+    "gatewayPolicyVersion": "__REQUIRED_GATEWAY_POLICY_VERSION__",
+    "requiredTraceFields": [
+      "operation_Id",
+      "traceparent",
+      "x-correlation-id"
+    ]
+  }
+}

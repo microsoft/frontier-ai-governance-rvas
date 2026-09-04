@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="Run repeatable quality and adversarial checks against fixed agent versions and return one release decision consumed by the promotion workflow.">
+    <title>Architecture | Session 05: Evaluation, red-team, and threat release gates | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page" data-session-phase="runtime">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program" aria-current="page">Sessions</a>
+          <a href="../../index.html#optional-modules">Optional modules</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="architecture">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#program">All sessions</a>
+            <span aria-hidden="true">/</span>
+            <a href="index.html">Session 05</a>
+          </nav>
+          <p class="chapter-header__label">Chapter 2 of 6 · Architecture</p>
+          <h1 id="architecture">Evaluation, red-team, and threat release gates</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Runtime governance · Draft</span>
+            <span>5.5 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Session chapters">
+        <ol class="session-content-width"><li><a href="index.html"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html" aria-current="page"><span>2</span>Architecture</a></li><li><a href="before-you-start.html"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <div class="chapter-actions">
+          <button
+            class="deck-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="session-deck-dialog"
+            data-deck-open
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+              <path d="M8 20h8M12 16.5V20"></path>
+            </svg>
+            <span>Open the deck</span>
+          </button>
+          <a
+            class="implementation-files-link"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/329d435d761b798b04f73e0c0bd73e1cfea17df1/sessions/05-evaluation-threat-gates/implementation"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 7.5h6l2-2h9v13h-17z"></path>
+              <path d="m9.5 11-2 2 2 2M14.5 11l2 2-2 2"></path>
+            </svg>
+            <span>View implementation files</span>
+            <span class="visually-hidden"> on GitHub (opens in a new tab)</span>
+          </a>
+        </div>
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/azure-ai-foundry.svg" alt="">
+                <strong>Microsoft Foundry</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-defender-for-cloud.svg" alt="">
+                <strong>Microsoft Defender for Cloud</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-defender-xdr.svg" alt="">
+                <strong>Microsoft Defender XDR</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Architecture">
+          <p class="implementation-guide__label">Chapter 2 of 6</p>
+          <h3 id="architecture-at-a-glance">Architecture at a glance<a class="heading-anchor" href="#architecture-at-a-glance" aria-label="Link to Architecture at a glance">#</a></h3>
+<p>Evaluation attaches to the versioned agent or application target. It does not run inside an APIM policy. APIM supplies the governed endpoint and runtime controls; Foundry runs the evaluation and red-team jobs; the customer-owned gate turns their results into a release decision.</p>
+<pre><code class="language-text">Governed Citadel endpoint
+APIM runtime controls -&gt; fixed agent + fixed tools
+                              |
+                 +------------+------------+
+                 |                         |
+          Foundry evaluation       authorized red-team run
+                 |                         |
+        metric-group results       risk-by-risk comparison
+                 +------------+------------+
+                              |
+                 customer release gate -&gt; PASS or BLOCK
+
+Defender posture and incidents -----------------&gt; SOC process</code></pre>
+<p>The same synthetic cases run against the approved and candidate versions. Quality, tool-process, safety, and adversarial results remain separate blocking layers. The gate consumes aggregate records and fixed configuration hashes; detailed prompts and responses stay in Foundry or the approved security system.</p>
+<p>APIM Content Safety, Prompt Shields, authorization, and rate limits remain runtime controls. Preproduction evaluation and red teaming test the release. Defender inventory, posture findings, and incidents follow a separate SOC path. None of those signals should be described as the same control.</p>
+<p>Citadel does not provide the <code>PASS</code> or <code>BLOCK</code> workflow in this session. The thresholds, policy, and release integration are customer-owned artifacts built on Foundry results.</p>
+<h3 id="design-choices-and-tradeoffs">Design choices and tradeoffs<a class="heading-anchor" href="#design-choices-and-tradeoffs" aria-label="Link to Design choices and tradeoffs">#</a></h3>
+<div class="table-scroll"><table><thead><tr><th scope="col">Decision</th><th scope="col">Chosen approach</th><th scope="col">Benefits</th><th scope="col">Costs and limitations</th></tr></thead><tbody><tr><td>Test data</td><td>Versioned synthetic cases</td><td>Repeatable and safe to retain</td><td>New behavior needs a new baseline</td></tr><tr><td>Test endpoint</td><td>Use the same governed APIM path intended for release</td><td>Includes gateway, identity, and tool boundaries in the test</td><td>Requires stable nonproduction routing</td></tr><tr><td>Gate</td><td>Separate quality, tool, safety, and adversarial layers</td><td>Averages cannot hide a failed layer</td><td>Several owners maintain explicit floors</td></tr><tr><td>Red team</td><td>Compare fixed versions with the same authorized plan</td><td>Shows whether remediation helped</td><td>Human review remains required; this is not an inline filter</td></tr><tr><td>Defender</td><td>Keep posture and incidents in the SOC path</td><td>Uses existing security ownership and retention</td><td>Does not replace release evaluation</td></tr><tr><td>Records</td><td>Payload-free aggregates outside this repository</td><td>Supports promotion without retaining content</td><td>Detailed investigation stays in Foundry and security systems</td></tr></tbody></table></div>
+<h3 id="architecture-guidance">Architecture guidance<a class="heading-anchor" href="#architecture-guidance" aria-label="Link to Architecture guidance">#</a></h3>
+<ul><li><a href="https://learn.microsoft.com/azure/foundry/observability/how-to/evaluate-agent">Evaluate your AI agents</a></li><li><a href="https://learn.microsoft.com/azure/foundry/concepts/ai-red-teaming-agent">AI Red Teaming Agent</a></li><li><a href="https://learn.microsoft.com/defender-xdr/security-for-ai/defender-security-for-ai">Protect AI assets using Microsoft Defender</a></li></ul>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Session 05</dd></div><div><dt>Phase and status</dt><dd>Runtime governance · Draft</dd></div><div><dt>Duration</dt><dd>5.5 hours</dd></div><div><dt>Implementation mode</dt><dd>Extended</dd></div><div><dt>Last verified</dt><dd>2026-09-04</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="index.html"><span>Previous chapter</span><strong>Scope and outcomes</strong></a>
+        <a href="before-you-start.html"><span>Next chapter</span><strong>Before you start</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Session 05 · Architecture</p>
+    </footer>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Session 05</p>
+            <h2 id="session-deck-title">Evaluation, red-team, and threat release gates slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Session 05: Evaluation, red-team, and threat release gates slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>

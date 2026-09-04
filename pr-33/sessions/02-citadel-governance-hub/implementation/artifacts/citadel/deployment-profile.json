@@ -1,0 +1,28 @@
+{
+  "environmentName": "citadel-nonproduction",
+  "location": "swedencentral",
+  "resourceGroupName": "__REQUIRED_HUB_RESOURCE_GROUP__",
+  "network": {
+    "useExistingVnet": true,
+    "existingVnetResourceGroup": "__REQUIRED_NETWORK_RESOURCE_GROUP__",
+    "vnetName": "__REQUIRED_VNET_NAME__",
+    "apimSubnetName": "__REQUIRED_APIM_SUBNET_NAME__",
+    "privateEndpointSubnetName": "__REQUIRED_PRIVATE_ENDPOINT_SUBNET_NAME__"
+  },
+  "monitoring": {
+    "useExistingLogAnalytics": true,
+    "workspaceResourceGroup": "__REQUIRED_LOG_ANALYTICS_RESOURCE_GROUP__",
+    "workspaceName": "__REQUIRED_LOG_ANALYTICS_NAME__"
+  },
+  "features": {
+    "enableApiCenter": true,
+    "enablePiiRedaction": true,
+    "enableManagedRedis": false,
+    "enableAzureAiSearch": false,
+    "enableDocumentIntelligence": false
+  },
+  "logging": {
+    "capturePromptBodies": false,
+    "captureResponseBodies": false
+  }
+}

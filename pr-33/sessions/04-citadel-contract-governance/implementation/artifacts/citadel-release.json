@@ -1,0 +1,8 @@
+{
+  "repository": "https://github.com/Azure-Samples/ai-hub-gateway-solution-accelerator.git",
+  "commit": "23fbc8fe7f2f068de3ed3c80da2344760faac1e6",
+  "backendTemplate": "bicep/infra/llm-backend-onboarding/main.bicep",
+  "accessTemplate": "bicep/infra/citadel-access-contracts/main.bicep",
+  "publishTemplate": "bicep/infra/citadel-publish-contracts/main.bicep",
+  "publishContractStatus": "preview"
+}

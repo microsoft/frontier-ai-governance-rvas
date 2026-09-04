@@ -1,0 +1,499 @@
+name: Controlled AI release promotion
+run-name: Controlled AI release ${{ inputs.release_sha }} (${{ inputs.evaluation_record }})
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_sha:
+        description: Approved immutable release commit (full 40-character SHA)
+        required: true
+        type: string
+      evaluation_record:
+        description: Session 05 evaluation record used by the predeployment gate
+        required: true
+        type: choice
+        default: candidate
+        options:
+          - candidate
+          - generated-blocked-tool-process-self-test
+
+concurrency:
+  group: controlled-ai-promotion-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  security-events: read
+
+jobs:
+  validate:
+    name: Validate release and gate evaluation (${{ inputs.evaluation_record }})
+    runs-on: windows-latest
+    timeout-minutes: 25
+    outputs:
+      bicep_sha256: ${{ steps.digests.outputs.bicep_sha256 }}
+      apim_sha256: ${{ steps.digests.outputs.apim_sha256 }}
+      evaluation_policy_sha256: ${{ steps.digests.outputs.evaluation_policy_sha256 }}
+      baseline_record_sha256: ${{ steps.gates.outputs.baseline_record_sha256 }}
+      candidate_record_sha256: ${{ steps.gates.outputs.candidate_record_sha256 }}
+      security_attestation_sha256: ${{ steps.gates.outputs.security_attestation_sha256 }}
+    steps:
+      - name: Check out the protected release branch for lineage validation
+        uses: actions/checkout@__REQUIRED_ACTIONS_CHECKOUT_FULL_SHA__
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Prove the release commit belongs to the protected branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $releaseSha = "${{ inputs.release_sha }}"
+          if ($releaseSha -notmatch "^[0-9a-f]{40}$") {
+            throw "release_sha must be a lowercase full 40-character commit SHA."
+          }
+          $control = Get-Content -LiteralPath "sessions/07-controlled-promotion-lifecycle/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $approvedBranch = [string]$control.repository.defaultBranch
+          $expectedRepository = "$($control.repository.owner)/$($control.repository.name)"
+          if ([string]$control.repository.host -cne "github.com" -or
+              $env:GITHUB_SERVER_URL -cne "https://github.com" -or
+              $env:GITHUB_REPOSITORY -cne $expectedRepository -or
+              [string]::IsNullOrWhiteSpace($approvedBranch) -or
+              $approvedBranch -cne "${{ github.event.repository.default_branch }}" -or
+              $env:GITHUB_REF -cne "refs/heads/$approvedBranch") {
+            throw "The workflow must run from the exact protected release branch defined in the control."
+          }
+          git check-ref-format "refs/heads/$approvedBranch"
+          if ($LASTEXITCODE -ne 0) {
+            throw "The configured protected release branch is not a valid Git branch."
+          }
+          $encodedBranch = [uri]::EscapeDataString($approvedBranch)
+          $branch = gh api "repos/$env:GITHUB_REPOSITORY/branches/$encodedBranch" |
+            ConvertFrom-Json
+          if ($LASTEXITCODE -ne 0 -or
+              $branch.protected -isnot [bool] -or
+              $branch.protected -ne $true) {
+            throw "The protected release branch is missing or not protected."
+          }
+          $trustedFetchUrl = "https://github.com/$expectedRepository.git"
+          git fetch --no-tags $trustedFetchUrl "+refs/heads/${approvedBranch}:refs/remotes/trusted-release/$approvedBranch"
+          if ($LASTEXITCODE -ne 0) {
+            throw "Could not fetch the protected release branch from the approved GitHub repository."
+          }
+          git cat-file -e "$releaseSha^{commit}"
+          if ($LASTEXITCODE -ne 0) {
+            throw "The approved release SHA is not available in the fetched repository history."
+          }
+          git merge-base --is-ancestor $releaseSha "refs/remotes/trusted-release/$approvedBranch"
+          if ($LASTEXITCODE -ne 0) {
+            throw "The approved release SHA is not reachable from the protected release branch."
+          }
+
+      - name: Check out the exact release commit after lineage validation
+        uses: actions/checkout@__REQUIRED_ACTIONS_CHECKOUT_FULL_SHA__
+        with:
+          persist-credentials: false
+          ref: ${{ inputs.release_sha }}
+
+      - name: Configure Python for the Session 05 gate
+        uses: actions/setup-python@__REQUIRED_ACTIONS_SETUP_PYTHON_FULL_SHA__
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: sessions/05-evaluation-threat-gates/implementation/scripts/requirements.txt
+
+      - name: Install the Session 05 gate dependency
+        shell: pwsh
+        run: python -m pip install --requirement sessions/05-evaluation-threat-gates/implementation/scripts/requirements.txt
+
+      - name: Confirm immutable commit and workflow enforcement
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $root = "sessions/07-controlled-promotion-lifecycle/implementation/artifacts"
+          $releaseSha = "${{ inputs.release_sha }}"
+          if ($releaseSha -notmatch "^[0-9a-f]{40}$") {
+            throw "release_sha must be a lowercase full 40-character commit SHA."
+          }
+          $checkedOutSha = [string](git rev-parse HEAD)
+          if ($LASTEXITCODE -ne 0 -or $checkedOutSha -cne $releaseSha) {
+            throw "Checked-out commit does not match the approved release_sha input."
+          }
+          & "$root/pipeline/validate-release.ps1" -Mode Static -ReleaseSha $releaseSha
+
+      - name: Require native secret scanning and push protection
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $repository = gh api "repos/$env:GITHUB_REPOSITORY" | ConvertFrom-Json
+          if ($LASTEXITCODE -ne 0 -or $null -eq $repository.security_and_analysis) {
+            throw "Native secret settings are not accessible."
+          }
+          if ([string]$repository.security_and_analysis.secret_scanning.status -ne "enabled" -or
+              [string]$repository.security_and_analysis.secret_scanning_push_protection.status -ne "enabled") {
+            throw "Native secret scanning and push protection must be enabled."
+          }
+          $alerts = gh api "repos/$env:GITHUB_REPOSITORY/secret-scanning/alerts?state=open&per_page=100"
+          if ($LASTEXITCODE -ne 0 -or @($alerts | ConvertFrom-Json).Count -gt 0) {
+            throw "Open or inaccessible secret alerts block promotion."
+          }
+
+      - name: Run customer unit checks
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $control = Get-Content -LiteralPath "sessions/07-controlled-promotion-lifecycle/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          & $control.sourcePaths.unitTestScript -Mode Ci -CommitSha "${{ inputs.release_sha }}"
+          if (-not $?) { throw "Unit checks failed." }
+
+      - name: Apply evaluation and adversarial gates before deployment
+        id: gates
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $validator = "sessions/07-controlled-promotion-lifecycle/implementation/artifacts/pipeline/validate-release.ps1"
+          if ("${{ inputs.evaluation_record }}" -eq "generated-blocked-tool-process-self-test") {
+            & $validator -Mode Blocked -ReleaseSha "${{ inputs.release_sha }}"
+            if (-not $?) { throw "The generated tool-process self-test did not produce BLOCK." }
+            throw "Promotion stopped before Azure preview or deployment after the generated blocked self-test."
+          }
+          $control = Get-Content -LiteralPath "sessions/07-controlled-promotion-lifecycle/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $releasePolicy = Get-Content -LiteralPath $control.sourcePaths.evaluationReleasePolicy -Raw | ConvertFrom-Json
+          $externalRoot = Join-Path $env:RUNNER_TEMP "external-release-inputs"
+          New-Item -ItemType Directory -Path $externalRoot -Force | Out-Null
+          $baselineRecordPath = Join-Path $externalRoot "baseline-evaluation-result.json"
+          $candidateRecordPath = Join-Path $externalRoot "candidate-evaluation-result.json"
+          $securityAttestationPath = Join-Path $externalRoot "security-release-attestation.json"
+          & $control.sourcePaths.releaseStoreScript `
+            -Mode RetrieveEvaluationResult `
+            -RunId $releasePolicy.gate.baselineRunId `
+            -OutputPath $baselineRecordPath
+          if (-not $?) { throw "Could not retrieve the approved Session 05 baseline result." }
+          & $control.sourcePaths.releaseStoreScript `
+            -Mode RetrieveEvaluationResult `
+            -RunId $releasePolicy.gate.candidateRunId `
+            -OutputPath $candidateRecordPath
+          if (-not $?) { throw "Could not retrieve the Session 05 candidate result." }
+          & $control.sourcePaths.releaseStoreScript `
+            -Mode RetrieveSecurityReleaseAttestation `
+            -AgentName $control.immutableRelease.agentName `
+            -BaselineVersion $releasePolicy.target.approvedVersion `
+            -RemediatedVersion $control.immutableRelease.agentVersion `
+            -OutputPath $securityAttestationPath
+          if (-not $?) { throw "Could not retrieve the Session 05 security-release attestation." }
+          & $validator `
+            -Mode Dependencies `
+            -ReleaseSha "${{ inputs.release_sha }}" `
+            -BaselineRecordPath $baselineRecordPath `
+            -CandidateRecordPath $candidateRecordPath `
+            -SecurityReleaseAttestationPath $securityAttestationPath
+          if (-not $?) { throw "External release and security gate validation failed." }
+          "baseline_record_sha256=$((Get-FileHash $baselineRecordPath -Algorithm SHA256).Hash.ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+          "candidate_record_sha256=$((Get-FileHash $candidateRecordPath -Algorithm SHA256).Hash.ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+          "security_attestation_sha256=$((Get-FileHash $securityAttestationPath -Algorithm SHA256).Hash.ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+
+      - name: Calculate immutable release digests
+        id: digests
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $root = "sessions/07-controlled-promotion-lifecycle/implementation/artifacts"
+          $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
+          $compiled = Join-Path $env:RUNNER_TEMP "release-template.json"
+          az bicep build --file $control.sourcePaths.bicepEntrypoint --outfile $compiled
+          if ($LASTEXITCODE -ne 0) { throw "Bicep build failed." }
+          "bicep_sha256=$((Get-FileHash $compiled -Algorithm SHA256).Hash.ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+          "apim_sha256=$((Get-FileHash $control.sourcePaths.apimPolicy -Algorithm SHA256).Hash.ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+          "evaluation_policy_sha256=$((Get-FileHash $control.sourcePaths.evaluationThresholdPolicy -Algorithm SHA256).Hash.ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+
+  nonproduction_preview:
+    name: Preview nonproduction
+    needs: validate
+    runs-on: windows-latest
+    timeout-minutes: 25
+    environment: nonproduction-preview
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Check out the same release commit
+        uses: actions/checkout@__REQUIRED_ACTIONS_CHECKOUT_FULL_SHA__
+        with:
+          persist-credentials: false
+          ref: ${{ inputs.release_sha }}
+      - name: Assert preview coordinates
+        shell: pwsh
+        run: |
+          $control = Get-Content -LiteralPath "sessions/07-controlled-promotion-lifecycle/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $scope = "/subscriptions/${{ vars.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ vars.AZURE_RESOURCE_GROUP }}"
+          if ([string]$control.targetScopes.nonproduction -ine $scope -or
+              [string]$control.azure.nonproductionClientId -ine "${{ vars.AZURE_CLIENT_ID }}" -or
+              [string]$control.azure.tenantId -ine "${{ vars.AZURE_TENANT_ID }}") {
+            throw "Nonproduction preview identity or scope differs from the operational control."
+          }
+      - name: Sign in through nonproduction-preview OIDC
+        uses: azure/login@__REQUIRED_AZURE_LOGIN_FULL_SHA__
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Lint, build, and what-if nonproduction
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $root = "sessions/07-controlled-promotion-lifecycle/implementation/artifacts"
+          $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
+          az bicep lint --file $control.sourcePaths.bicepEntrypoint
+          if ($LASTEXITCODE -ne 0) { throw "Bicep lint failed." }
+          az deployment group what-if --subscription "${{ vars.AZURE_SUBSCRIPTION_ID }}" --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "s12-nonprod-${{ github.run_id }}" --template-file $control.sourcePaths.bicepEntrypoint --parameters "$root/environments/nonproduction.parameters.json" releaseCommitSha="${{ inputs.release_sha }}" --no-pretty-print
+          if ($LASTEXITCODE -ne 0) { throw "Nonproduction what-if failed." }
+
+  nonproduction:
+    name: Approve and deploy nonproduction
+    needs:
+      - validate
+      - nonproduction_preview
+    runs-on: windows-latest
+    timeout-minutes: 70
+    environment: nonproduction
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      deployment_id: ${{ steps.deploy.outputs.deployment_id }}
+    steps:
+      - name: Check out the same release commit
+        uses: actions/checkout@__REQUIRED_ACTIONS_CHECKOUT_FULL_SHA__
+        with:
+          persist-credentials: false
+          ref: ${{ inputs.release_sha }}
+      - name: Assert apply coordinates
+        shell: pwsh
+        run: |
+          $control = Get-Content -LiteralPath "sessions/07-controlled-promotion-lifecycle/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $scope = "/subscriptions/${{ vars.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ vars.AZURE_RESOURCE_GROUP }}"
+          if ([string]$control.targetScopes.nonproduction -ine $scope -or
+              [string]$control.azure.nonproductionClientId -ine "${{ vars.AZURE_CLIENT_ID }}") {
+            throw "Nonproduction apply identity or scope differs from the approved preview."
+          }
+      - name: Sign in through approved nonproduction OIDC
+        uses: azure/login@__REQUIRED_AZURE_LOGIN_FULL_SHA__
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Deploy after environment approval
+        id: deploy
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $root = "sessions/07-controlled-promotion-lifecycle/implementation/artifacts"
+          $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
+          $id = az deployment group create --subscription "${{ vars.AZURE_SUBSCRIPTION_ID }}" --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "s12-nonprod-${{ github.run_id }}" --template-file $control.sourcePaths.bicepEntrypoint --parameters "$root/environments/nonproduction.parameters.json" releaseCommitSha="${{ inputs.release_sha }}" --query id -o tsv
+          if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($id)) { throw "Nonproduction deployment failed." }
+          "deployment_id=$id" >> $env:GITHUB_OUTPUT
+      - name: Run Session 06 smoke and intended gates
+        env:
+          CITADEL_SMOKE_URL: ${{ vars.CITADEL_SMOKE_URL }}
+          CITADEL_SMOKE_FAILURE_URL: ${{ vars.CITADEL_SMOKE_FAILURE_URL }}
+          CITADEL_AI_RESOURCE_ID: ${{ vars.CITADEL_AI_RESOURCE_ID }}
+          CITADEL_LOG_ANALYTICS_WORKSPACE_ID: ${{ vars.CITADEL_LOG_ANALYTICS_WORKSPACE_ID }}
+          CITADEL_SMOKE_TIMEOUT_SECONDS: ${{ vars.CITADEL_SMOKE_TIMEOUT_SECONDS }}
+          CITADEL_SMOKE_RETRY_SECONDS: ${{ vars.CITADEL_SMOKE_RETRY_SECONDS }}
+          CITADEL_SMOKE_BEARER_TOKEN: ${{ secrets.CITADEL_SMOKE_BEARER_TOKEN }}
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $root = "sessions/07-controlled-promotion-lifecycle/implementation/artifacts"
+          $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
+          $result = Join-Path $env:RUNNER_TEMP "citadel-smoke.json"
+          & $control.sourcePaths.observabilitySmokePowerShell -Mode Pipeline -Environment nonproduction -CommitSha "${{ inputs.release_sha }}" -ResultPath $result
+          if (-not $?) { throw "Session 06 smoke command failed." }
+          $releasePolicy = Get-Content -LiteralPath $control.sourcePaths.evaluationReleasePolicy -Raw | ConvertFrom-Json
+          $externalRoot = Join-Path $env:RUNNER_TEMP "external-release-inputs"
+          New-Item -ItemType Directory -Path $externalRoot -Force | Out-Null
+          $baselineRecordPath = Join-Path $externalRoot "baseline-evaluation-result.json"
+          $candidateRecordPath = Join-Path $externalRoot "candidate-evaluation-result.json"
+          $securityAttestationPath = Join-Path $externalRoot "security-release-attestation.json"
+          & $control.sourcePaths.releaseStoreScript -Mode RetrieveEvaluationResult -RunId $releasePolicy.gate.baselineRunId -OutputPath $baselineRecordPath
+          if (-not $?) { throw "Could not retrieve the approved Session 05 baseline result." }
+          & $control.sourcePaths.releaseStoreScript -Mode RetrieveEvaluationResult -RunId $releasePolicy.gate.candidateRunId -OutputPath $candidateRecordPath
+          if (-not $?) { throw "Could not retrieve the Session 05 candidate result." }
+          & $control.sourcePaths.releaseStoreScript `
+            -Mode RetrieveSecurityReleaseAttestation `
+            -AgentName $control.immutableRelease.agentName `
+            -BaselineVersion $releasePolicy.target.approvedVersion `
+            -RemediatedVersion $control.immutableRelease.agentVersion `
+            -OutputPath $securityAttestationPath
+          if (-not $?) { throw "Could not retrieve the Session 05 security-release attestation." }
+          & "$root/pipeline/validate-release.ps1" `
+            -Mode Intended `
+            -ReleaseSha "${{ inputs.release_sha }}" `
+            -SmokeResultPath $result `
+            -BaselineRecordPath $baselineRecordPath `
+            -CandidateRecordPath $candidateRecordPath `
+            -SecurityReleaseAttestationPath $securityAttestationPath
+
+  production_preview:
+    name: Preview production
+    needs:
+      - validate
+      - nonproduction
+    runs-on: windows-latest
+    timeout-minutes: 25
+    environment: production-preview
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Check out the same release commit
+        uses: actions/checkout@__REQUIRED_ACTIONS_CHECKOUT_FULL_SHA__
+        with:
+          persist-credentials: false
+          ref: ${{ inputs.release_sha }}
+      - name: Assert production preview coordinates
+        shell: pwsh
+        run: |
+          $control = Get-Content -LiteralPath "sessions/07-controlled-promotion-lifecycle/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $scope = "/subscriptions/${{ vars.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ vars.AZURE_RESOURCE_GROUP }}"
+          if ([string]$control.targetScopes.production -ine $scope -or
+              [string]$control.azure.productionClientId -ine "${{ vars.AZURE_CLIENT_ID }}" -or
+              [string]$control.azure.tenantId -ine "${{ vars.AZURE_TENANT_ID }}") {
+            throw "Production preview identity or scope differs from the operational control."
+          }
+      - name: Sign in through production-preview OIDC
+        uses: azure/login@__REQUIRED_AZURE_LOGIN_FULL_SHA__
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Recheck digests and what-if production
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $root = "sessions/07-controlled-promotion-lifecycle/implementation/artifacts"
+          $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
+          $compiled = Join-Path $env:RUNNER_TEMP "production-template.json"
+          $releasePolicy = Get-Content -LiteralPath $control.sourcePaths.evaluationReleasePolicy -Raw | ConvertFrom-Json
+          $externalRoot = Join-Path $env:RUNNER_TEMP "external-release-inputs"
+          New-Item -ItemType Directory -Path $externalRoot -Force | Out-Null
+          $baselineRecordPath = Join-Path $externalRoot "baseline-evaluation-result.json"
+          $candidateRecordPath = Join-Path $externalRoot "candidate-evaluation-result.json"
+          $securityAttestationPath = Join-Path $externalRoot "security-release-attestation.json"
+          & $control.sourcePaths.releaseStoreScript -Mode RetrieveEvaluationResult -RunId $releasePolicy.gate.baselineRunId -OutputPath $baselineRecordPath
+          if (-not $?) { throw "Could not retrieve the approved Session 05 baseline result." }
+          & $control.sourcePaths.releaseStoreScript -Mode RetrieveEvaluationResult -RunId $releasePolicy.gate.candidateRunId -OutputPath $candidateRecordPath
+          if (-not $?) { throw "Could not retrieve the Session 05 candidate result." }
+          & $control.sourcePaths.releaseStoreScript `
+            -Mode RetrieveSecurityReleaseAttestation `
+            -AgentName $control.immutableRelease.agentName `
+            -BaselineVersion $releasePolicy.target.approvedVersion `
+            -RemediatedVersion $control.immutableRelease.agentVersion `
+            -OutputPath $securityAttestationPath
+          if (-not $?) { throw "Could not retrieve the Session 05 security-release attestation." }
+          & "$root/pipeline/validate-release.ps1" `
+            -Mode Dependencies `
+            -ReleaseSha "${{ inputs.release_sha }}" `
+            -BaselineRecordPath $baselineRecordPath `
+            -CandidateRecordPath $candidateRecordPath `
+            -SecurityReleaseAttestationPath $securityAttestationPath
+          if (-not $?) { throw "External release and security gate revalidation failed." }
+          az bicep build --file $control.sourcePaths.bicepEntrypoint --outfile $compiled
+          if ($LASTEXITCODE -ne 0 -or
+              (Get-FileHash $compiled -Algorithm SHA256).Hash.ToLowerInvariant() -ne "${{ needs.validate.outputs.bicep_sha256 }}" -or
+              (Get-FileHash $control.sourcePaths.apimPolicy -Algorithm SHA256).Hash.ToLowerInvariant() -ne "${{ needs.validate.outputs.apim_sha256 }}" -or
+              (Get-FileHash $baselineRecordPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne "${{ needs.validate.outputs.baseline_record_sha256 }}" -or
+              (Get-FileHash $candidateRecordPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne "${{ needs.validate.outputs.candidate_record_sha256 }}" -or
+              (Get-FileHash $securityAttestationPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne "${{ needs.validate.outputs.security_attestation_sha256 }}" -or
+              (Get-FileHash $control.sourcePaths.evaluationThresholdPolicy -Algorithm SHA256).Hash.ToLowerInvariant() -ne "${{ needs.validate.outputs.evaluation_policy_sha256 }}") {
+            throw "Production inputs differ from the validated release."
+          }
+          az deployment group what-if --subscription "${{ vars.AZURE_SUBSCRIPTION_ID }}" --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "s12-prod-${{ github.run_id }}" --template-file $control.sourcePaths.bicepEntrypoint --parameters "$root/environments/production.parameters.json" releaseCommitSha="${{ inputs.release_sha }}" --no-pretty-print
+          if ($LASTEXITCODE -ne 0) { throw "Production what-if failed." }
+
+  production:
+    name: Approve and deploy production
+    needs:
+      - validate
+      - nonproduction
+      - production_preview
+    runs-on: windows-latest
+    timeout-minutes: 60
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Check out the same release commit
+        uses: actions/checkout@__REQUIRED_ACTIONS_CHECKOUT_FULL_SHA__
+        with:
+          persist-credentials: false
+          ref: ${{ inputs.release_sha }}
+      - name: Assert production apply coordinates
+        shell: pwsh
+        run: |
+          $control = Get-Content -LiteralPath "sessions/07-controlled-promotion-lifecycle/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          $scope = "/subscriptions/${{ vars.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ vars.AZURE_RESOURCE_GROUP }}"
+          if ([string]$control.targetScopes.production -ine $scope -or
+              [string]$control.azure.productionClientId -ine "${{ vars.AZURE_CLIENT_ID }}") {
+            throw "Production apply identity or scope differs from the approved preview."
+          }
+      - name: Sign in through approved production OIDC
+        uses: azure/login@__REQUIRED_AZURE_LOGIN_FULL_SHA__
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Deploy after environment approval
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $root = "sessions/07-controlled-promotion-lifecycle/implementation/artifacts"
+          $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
+          az deployment group create --subscription "${{ vars.AZURE_SUBSCRIPTION_ID }}" --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "s12-prod-${{ github.run_id }}" --template-file $control.sourcePaths.bicepEntrypoint --parameters "$root/environments/production.parameters.json" releaseCommitSha="${{ inputs.release_sha }}"
+          if ($LASTEXITCODE -ne 0) { throw "Production deployment failed." }
+      - name: Create the linked release manifest
+        id: manifest
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $root = "sessions/07-controlled-promotion-lifecycle/implementation/artifacts"
+          $control = Get-Content -LiteralPath "$root/control-definition.json" -Raw | ConvertFrom-Json
+          $values = Join-Path $env:RUNNER_TEMP "release-values.json"
+          $manifest = Join-Path $env:RUNNER_TEMP "release-manifest.json"
+          [ordered]@{
+            implementationSession = "07-controlled-promotion-lifecycle"; releaseId = "${{ inputs.release_sha }}-${{ github.run_id }}"; commitSha = "${{ inputs.release_sha }}"
+            nonproductionDeploymentId = "${{ needs.nonproduction.outputs.deployment_id }}"
+            routingStrategy = $control.routing.strategy; candidateSelector = $control.routing.candidateSelector
+            stableSelector = $control.routing.stableSelector
+            githubActionsRunUrl = "https://github.com/$env:GITHUB_REPOSITORY/actions/runs/${{ github.run_id }}"
+          } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $values -Encoding utf8NoBOM
+          & "$root/pipeline/validate-release.ps1" -Mode CreateManifest -ReleaseSha "${{ inputs.release_sha }}" -RuntimeValuesPath $values -OutputPath $manifest
+          "path=$manifest" >> $env:GITHUB_OUTPUT
+          "release_id=${{ inputs.release_sha }}-${{ github.run_id }}" >> $env:GITHUB_OUTPUT
+          "sha256=$((Get-FileHash $manifest -Algorithm SHA256).Hash.ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+      - name: Stage the exact manifest before routing
+        shell: pwsh
+        run: |
+          $control = Get-Content -LiteralPath "sessions/07-controlled-promotion-lifecycle/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          & $control.sourcePaths.releaseStoreScript -Mode Stage -ManifestPath "${{ steps.manifest.outputs.path }}" -ReleaseId "${{ steps.manifest.outputs.release_id }}" -ManifestSha256 "${{ steps.manifest.outputs.sha256 }}"
+          if (-not $?) { throw "Manifest staging failed." }
+      - name: Move only the approved selector
+        shell: pwsh
+        run: |
+          $control = Get-Content -LiteralPath "sessions/07-controlled-promotion-lifecycle/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          & $control.sourcePaths.routingControlScript -Mode Promote -Strategy $control.routing.strategy -CandidateSelector $control.routing.candidateSelector -StableSelector $control.routing.stableSelector -ReleaseId "${{ steps.manifest.outputs.release_id }}"
+          if (-not $?) { throw "Routing promotion failed; keep the previous selector active." }
+      - name: Finalize the routed manifest
+        shell: pwsh
+        run: |
+          $control = Get-Content -LiteralPath "sessions/07-controlled-promotion-lifecycle/implementation/artifacts/control-definition.json" -Raw | ConvertFrom-Json
+          & $control.sourcePaths.releaseStoreScript -Mode Approve -ReleaseId "${{ steps.manifest.outputs.release_id }}" -ExpectedSha256 "${{ steps.manifest.outputs.sha256 }}"
+          if (-not $?) {
+            throw "Release-record finalization failed. Stop and dispatch the manual restore workflow for a selected approved release."
+          }

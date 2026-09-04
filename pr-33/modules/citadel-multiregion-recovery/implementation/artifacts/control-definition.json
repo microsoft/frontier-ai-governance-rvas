@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 2,
+  "implementationSession": "optional-module-citadel-multiregion-recovery",
+  "approvedAzureScope": "/subscriptions/__REQUIRED_SUBSCRIPTION_ID__/resourceGroups/__REQUIRED_RESOURCE_GROUP__",
+  "sourcePaths": {
+    "regionalParameters": "sessions/optional-module-citadel-multiregion-recovery/implementation/artifacts/regional/region.parameters.json",
+    "healthCheckPowerShell": "__REQUIRED_CUSTOMER_HEALTH_CHECK_POWERSHELL_PATH__",
+    "healthCheckBash": "__REQUIRED_CUSTOMER_HEALTH_CHECK_BASH_PATH__",
+    "routingControlPowerShell": "__REQUIRED_CUSTOMER_ROUTING_CONTROL_POWERSHELL_PATH__",
+    "routingControlBash": "__REQUIRED_CUSTOMER_ROUTING_CONTROL_BASH_PATH__"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "03-citadel-agent-spoke",
+  "deploymentEngine": "bicep",
+  "workloadName": "policy-assistant",
+  "environmentName": "nonproduction",
+  "resourceGroupName": "__REQUIRED_SPOKE_RESOURCE_GROUP__",
+  "location": "swedencentral",
+  "deploymentPrincipalType": "ServicePrincipal",
+  "deploymentMode": "ailz-integrated",
+  "networkIsolation": true,
+  "existingVnetResourceId": "__REQUIRED_SPOKE_VNET_RESOURCE_ID__",
+  "existingRouteTableResourceId": "__REQUIRED_SPOKE_ROUTE_TABLE_RESOURCE_ID__",
+  "deploySubnets": true,
+  "agentSubnetName": "agent-subnet",
+  "agentSubnetPrefix": "__REQUIRED_AGENT_SUBNET_PREFIX__",
+  "privateEndpointSubnetName": "pe-subnet",
+  "privateEndpointSubnetPrefix": "__REQUIRED_PRIVATE_ENDPOINT_SUBNET_PREFIX__",
+  "policyManagedPrivateDns": true,
+  "foundry": {
+    "accountName": "__REQUIRED_FOUNDRY_ACCOUNT_NAME__",
+    "projectName": "__REQUIRED_FOUNDRY_PROJECT_NAME__",
+    "disableLocalAuth": true,
+    "deployAgentService": true
+  },
+  "model": {
+    "deploymentName": "__REQUIRED_MODEL_DEPLOYMENT_NAME__",
+    "format": "__REQUIRED_MODEL_FORMAT__",
+    "name": "__REQUIRED_MODEL_NAME__",
+    "version": "__REQUIRED_MODEL_VERSION__",
+    "sku": "__REQUIRED_MODEL_SKU__",
+    "capacity": "__REQUIRED_MODEL_CAPACITY__",
+    "apiVersion": "__REQUIRED_MODEL_API_VERSION__"
+  },
+  "observability": {
+    "applicationInsightsName": "__REQUIRED_APPLICATION_INSIGHTS_NAME__",
+    "deployLogAnalytics": true
+  },
+  "components": {
+    "deployStorageAccount": false,
+    "deployKeyVault": false,
+    "deploySearchService": false,
+    "deployCosmosDb": false,
+    "deployContainerApps": false,
+    "deployContainerRegistry": false,
+    "deployAppConfiguration": false,
+    "deployPublicIngress": false,
+    "deployJumpbox": false,
+    "deployBuildVm": false,
+    "deployAzureFirewall": false
+  },
+  "tags": {
+    "implementationSession": "03-citadel-agent-spoke",
+    "workload": "policy-assistant",
+    "environment": "nonproduction"
+  }
+}
