@@ -1,6 +1,0 @@
-AppEvents
-| where TimeGenerated >= ago(30m)
-| where Name == "ai.evaluation"
-| extend Passed = tobool(Properties["ai.evaluation.passed"])
-| summarize EvaluationFailures = countif(Passed == false)
-| project EvaluationFailures
