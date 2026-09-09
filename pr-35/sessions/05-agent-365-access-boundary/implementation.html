@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="Configure a scoped Microsoft Purview DLP policy. After it is enabled and propagated, install one approved nonproduction Agent Registry agent for its test group, check included and excluded access, and query payload-free Agent 365 audit activity.">
+    <title>Implementation | Session 05: Microsoft Agent 365 secure rollout and data controls | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page" data-session-phase="foundation">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program" aria-current="page">Sessions</a>
+          <a href="../../index.html#optional-modules">Architecture-specific extensions</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="implementation">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#program">All sessions</a>
+            <span aria-hidden="true">/</span>
+            <a href="index.html">Session 05</a>
+          </nav>
+          <p class="chapter-header__label">Chapter 5 of 6 · Implementation</p>
+          <h1 id="implementation">Microsoft Agent 365 secure rollout and data controls</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Governed foundation · Draft</span>
+            <span>4.5 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Session chapters">
+        <ol class="session-content-width"><li><a href="index.html"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html"><span>2</span>Architecture</a></li><li><a href="before-you-start.html"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html" aria-current="page"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <div class="chapter-actions">
+          <button
+            class="deck-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="session-deck-dialog"
+            data-deck-open
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+              <path d="M8 20h8M12 16.5V20"></path>
+            </svg>
+            <span>Open the deck</span>
+          </button>
+          <a
+            class="implementation-files-link"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/960e570762c3d54b51f612773009ce181bebbe01/sessions/05-agent-365-access-boundary/implementation"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 7.5h6l2-2h9v13h-17z"></path>
+              <path d="m9.5 11-2 2 2 2M14.5 11l2 2-2 2"></path>
+            </svg>
+            <span>View implementation files</span>
+            <span class="visually-hidden"> on GitHub (opens in a new tab)</span>
+          </a>
+        </div>
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/agent-365.svg" alt="">
+                <strong>Microsoft Agent 365</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-purview.svg" alt="">
+                <strong>Microsoft Purview</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-entra-id.svg" alt="">
+                <strong>Microsoft Entra ID</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-365-copilot.svg" alt="">
+                <strong>Microsoft 365 Copilot</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-ai-foundry.svg" alt="">
+                <strong>Microsoft Foundry</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Implementation">
+          <p class="implementation-guide__label">Chapter 5 of 6</p>
+          <h2 id="implement">Implement<a class="heading-anchor" href="#implement" aria-label="Link to Implement">#</a></h2>
+<h3 id="1-select-the-agent-and-configure-agent-registry">1. Select the agent and configure Agent Registry<a class="heading-anchor" href="#1-select-the-agent-and-configure-agent-registry" aria-label="Link to 1. Select the agent and configure Agent Registry">#</a></h3>
+<p>Choose one published agent from Foundry, Copilot Studio, or Agent Builder. In Microsoft 365 admin center, open Agents &gt; All agents &gt; Registry. Confirm that its registry ID and status match the contract. Set the agent origin, registry ID, Agent 365 instance ID, test group, host product, consent decision, validation aliases, and DLP pre-change values in <code>agent-deployment.json</code>. Confirm that the group has no installation before DLP is enabled.</p>
+<p>Update <code>coverage-handoff.md</code> if an owner or product boundary differs from its recorded assignment.</p>
+<p>For a hosted or custom agent, the application developer confirms the supported Python or .NET Agent 365 SDK path before installation. Validate that agent ID, tenant ID, conversation ID, inference calls, tool calls, and exceptions reach the approved telemetry destination. Keep tokens and interaction payloads out of the repository.</p>
+<h3 id="2-preflight-the-dlp-change">2. Preflight the DLP change<a class="heading-anchor" href="#2-preflight-the-dlp-change" aria-label="Link to 2. Preflight the DLP change">#</a></h3>
+<p>Set the values from the approved tenant and registry entry:</p>
+<section class="code-tabs" data-code-tabs>
+  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
+    <button type="button" role="tab" id="command-shell-1-powershell-tab" aria-controls="command-shell-1-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
+    <button type="button" role="tab" id="command-shell-1-bash-tab" aria-controls="command-shell-1-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-1-powershell-panel" role="tabpanel" aria-labelledby="command-shell-1-powershell-tab" tabindex="0" data-shell-panel="powershell">
+    <p class="code-tabs__fallback-label">PowerShell</p>
+    <pre><code class="language-powershell">$approvedTenantId = $env:MICROSOFT365_TENANT_ID
+$agentInstanceId = $env:AGENT365_INSTANCE_ID
+
+.\scripts\preflight.ps1 `
+  -Phase Dlp `
+  -ApprovedTenantId $approvedTenantId `
+  -AgentInstanceId $agentInstanceId</code></pre>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-1-bash-panel" role="tabpanel" aria-labelledby="command-shell-1-bash-tab" tabindex="0" data-shell-panel="bash">
+    <p class="code-tabs__fallback-label">Bash</p>
+    <pre><code class="language-bash">approved_tenant_id=&quot;${MICROSOFT365_TENANT_ID:?Set MICROSOFT365_TENANT_ID.}&quot;
+agent_instance_id=&quot;${AGENT365_INSTANCE_ID:?Set AGENT365_INSTANCE_ID.}&quot;
+
+./scripts/preflight.sh \
+  --phase dlp \
+  --approved-tenant-id &quot;$approved_tenant_id&quot; \
+  --agent-instance-id &quot;$agent_instance_id&quot;</code></pre>
+  </div>
+</section>
+<p>The portal has no read-only deployment preview. Use the policy summary and <code>TestWithNotifications</code> simulation as the safety check. The DLP preflight does not authorize installation.</p>
+<h3 id="3-configure-simulate-and-enable-the-dlp-policy">3. Configure, simulate, and enable the DLP policy<a class="heading-anchor" href="#3-configure-simulate-and-enable-the-dlp-policy" aria-label="Link to 3. Configure, simulate, and enable the DLP policy">#</a></h3>
+<p>Create a custom Purview DLP policy from the approved change. Enter the recorded agent, group, label, directions, locations, action, notification route, incident route, output-label control, and restore path. Start in <code>TestWithNotifications</code>.</p>
+<p>Inspect the policy summary and simulation. It must contain the selected agent, group, label, directions, and locations only. Enable it through the approved change and wait for the recorded propagation allowance. Keep the policy in simulation or restore it if the inspected scope differs.</p>
+<h3 id="4-authorize-and-install-the-scoped-rollout">4. Authorize and install the scoped rollout<a class="heading-anchor" href="#4-authorize-and-install-the-scoped-rollout" aria-label="Link to 4. Authorize and install the scoped rollout">#</a></h3>
+<p>After the delivery owner observes the propagation allowance, update the DLP gate values in the field reference. Run the installation-phase preflight:</p>
+<section class="code-tabs" data-code-tabs>
+  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
+    <button type="button" role="tab" id="command-shell-2-powershell-tab" aria-controls="command-shell-2-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
+    <button type="button" role="tab" id="command-shell-2-bash-tab" aria-controls="command-shell-2-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-2-powershell-panel" role="tabpanel" aria-labelledby="command-shell-2-powershell-tab" tabindex="0" data-shell-panel="powershell">
+    <p class="code-tabs__fallback-label">PowerShell</p>
+    <pre><code class="language-powershell">.\scripts\preflight.ps1 `
+  -Phase Install `
+  -ApprovedTenantId $approvedTenantId `
+  -AgentInstanceId $agentInstanceId</code></pre>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-2-bash-panel" role="tabpanel" aria-labelledby="command-shell-2-bash-tab" tabindex="0" data-shell-panel="bash">
+    <p class="code-tabs__fallback-label">Bash</p>
+    <pre><code class="language-bash">./scripts/preflight.sh \
+  --phase install \
+  --approved-tenant-id &quot;$approved_tenant_id&quot; \
+  --agent-instance-id &quot;$agent_instance_id&quot;</code></pre>
+  </div>
+</section>
+<p>Open the recorded registry entry and install the agent for its named test group and one host product. Use the recorded consent. Do not select an organization-wide deployment.</p>
+<h3 id="5-check-included-and-excluded-access">5. Check included and excluded access<a class="heading-anchor" href="#5-check-included-and-excluded-access" aria-label="Link to 5. Check included and excluded access">#</a></h3>
+<p>The included member must find the agent in the recorded host product. The excluded user must not. Remove the scoped installation and stop if either result differs. Use the labelled synthetic source for the DLP interaction.</p>
+<p>For a Foundry agent, the Foundry platform owner confirms the separate app-scoped rule and user-context <code>processContent</code> enforcement path. For Copilot Studio and Agent Builder, keep native runtime controls with the source-platform owner.</p>
+<h3 id="6-query-current-agent-365-activity">6. Query current Agent 365 activity<a class="heading-anchor" href="#6-query-current-agent-365-activity" aria-label="Link to 6. Query current Agent 365 activity">#</a></h3>
+<p>For PowerShell, connect Exchange Online and Security &amp; Compliance PowerShell to the approved tenant. For Bash, sign in to Azure CLI as the approved Microsoft Graph application.</p>
+<section class="code-tabs" data-code-tabs>
+  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
+    <button type="button" role="tab" id="command-shell-3-powershell-tab" aria-controls="command-shell-3-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
+    <button type="button" role="tab" id="command-shell-3-bash-tab" aria-controls="command-shell-3-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-3-powershell-panel" role="tabpanel" aria-labelledby="command-shell-3-powershell-tab" tabindex="0" data-shell-panel="powershell">
+    <p class="code-tabs__fallback-label">PowerShell</p>
+    <pre><code class="language-powershell">.\scripts\query-agent-activity.ps1 -AgentInstanceId $agentInstanceId</code></pre>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-3-bash-panel" role="tabpanel" aria-labelledby="command-shell-3-bash-tab" tabindex="0" data-shell-panel="bash">
+    <p class="code-tabs__fallback-label">Bash</p>
+    <pre><code class="language-bash">./scripts/query-agent-activity.sh --agent-instance-id &quot;$agent_instance_id&quot;</code></pre>
+  </div>
+</section>
+<p>The scripts filter current Agent 365 operations to one instance and display creation time, operation, agent ID, agent name, and result status. They do not write an audit export.</p>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Session 05</dd></div><div><dt>Phase and status</dt><dd>Governed foundation · Draft</dd></div><div><dt>Duration</dt><dd>4.5 hours</dd></div><div><dt>Last verified</dt><dd>2026-09-02</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="decisions-and-boundaries.html"><span>Previous chapter</span><strong>Decisions and boundaries</strong></a>
+        <a href="validation-and-operations.html"><span>Next chapter</span><strong>Validation and operations</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Session 05 · Implementation</p>
+    </footer>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Session 05</p>
+            <h2 id="session-deck-title">Microsoft Agent 365 secure rollout and data controls slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Session 05: Microsoft Agent 365 secure rollout and data controls slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>

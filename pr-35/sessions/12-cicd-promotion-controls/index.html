@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="Promote one immutable, gate-passing release through protected nonproduction and production environments. Tie approval, deployment, routing, and restore to the same commit SHA.">
+    <title>Scope and outcomes | Session 12: CI/CD, policy as code, and controlled promotion | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page" data-session-phase="runtime">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program" aria-current="page">Sessions</a>
+          <a href="../../index.html#optional-modules">Architecture-specific extensions</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="scope-and-outcomes">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#program">All sessions</a>
+            <span aria-hidden="true">/</span>
+            <span>Session 12</span>
+          </nav>
+          <p class="chapter-header__label">Chapter 1 of 6 · Scope and outcomes</p>
+          <h1 id="scope-and-outcomes">CI/CD, policy as code, and controlled promotion</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Runtime assurance · Draft</span>
+            <span>4 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Session chapters">
+        <ol class="session-content-width"><li><a href="index.html" aria-current="page"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html"><span>2</span>Architecture</a></li><li><a href="before-you-start.html"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <div class="chapter-actions">
+          <button
+            class="deck-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="session-deck-dialog"
+            data-deck-open
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+              <path d="M8 20h8M12 16.5V20"></path>
+            </svg>
+            <span>Open the deck</span>
+          </button>
+          <a
+            class="implementation-files-link"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/960e570762c3d54b51f612773009ce181bebbe01/sessions/12-cicd-promotion-controls/implementation"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 7.5h6l2-2h9v13h-17z"></path>
+              <path d="m9.5 11-2 2 2 2M14.5 11l2 2-2 2"></path>
+            </svg>
+            <span>View implementation files</span>
+            <span class="visually-hidden"> on GitHub (opens in a new tab)</span>
+          </a>
+        </div>
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/github-actions.svg" alt="">
+                <strong>GitHub Actions</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-entra-workload-id.svg" alt="">
+                <strong>Microsoft Entra Workload ID</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-ai-foundry.svg" alt="">
+                <strong>Microsoft Foundry</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-api-management.svg" alt="">
+                <strong>Azure API Management</strong>
+              </li><li>
+                <img src="../../assets/icons/application-insights.svg" alt="">
+                <strong>Application Insights</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Scope and outcomes">
+          <p class="implementation-guide__label">Chapter 1 of 6</p>
+          <h2 id="session-scope">Session scope<a class="heading-anchor" href="#session-scope" aria-label="Link to Session scope">#</a></h2>
+<h3 id="what-we-will-do">What we will do<a class="heading-anchor" href="#what-we-will-do" aria-label="Link to What we will do">#</a></h3>
+<p><strong>Objective.</strong> Move exactly one verified release through nonproduction and production without losing track of which commit is actually live.</p>
+<p>An authorized operator supplies <code>workflow_dispatch.release_sha</code>. The workflow proves that the full SHA belongs to the protected default branch, then ties every gate, approval, deployment, route, and release record to that one SHA before promoting it.</p>
+<h3 id="why-it-matters">Why it matters<a class="heading-anchor" href="#why-it-matters" aria-label="Link to Why it matters">#</a></h3>
+<p><strong>Problem.</strong> Code, AI configuration, gate results, approvals, and routing can drift apart across pipeline stages, so a gate that passed somewhere doesn't guarantee what's actually running in production.</p>
+<p><strong>Solution.</strong> Tying every stage to one commit SHA stops that drift, and the workflow reruns Session 09's known blocked tool-process case before Azure sees a preview or approval.</p>
+<h3 id="boundaries">Boundaries<a class="heading-anchor" href="#boundaries" aria-label="Link to Boundaries">#</a></h3>
+<p>GitHub Actions controls this promotion path across four environments that separate preview from apply; Microsoft Entra validates the workload identities. Azure Resource Manager holds deployment state, API Management holds routing state, and the approved release store holds the release record. The enterprise agent inventory stays authoritative for agent records. The control definition keeps only the framework decision, the duplicate-review outcome, and a reference to the reviewed inventory record. The workflow consumes the <a href="../04-governed-agent-baseline/">Governed agent baseline guide</a> agent, <a href="../06-apim-ai-gateway/">APIM AI gateway guide</a> route, <a href="../09-foundry-evaluations-quality-gates/">Foundry evaluation gate guide</a> release gate, <a href="../10-red-teaming-threat-defense/">Threat-defense guide</a> security-release attestation, and <a href="../11-observability-cost-operations/">Observability and cost operations guide</a> smoke check as inputs, and those systems stay authoritative for their own state.</p>
+<p>The control covers changes made through these workflows; it does not make an out-of-path deployment safe or trigger automatic restore. The multiregion rehearsal tests moving the resulting selector across regions.</p>
+          <section class="session-brief" aria-labelledby="session-brief-title">
+            <h2 id="session-brief-title">Session preparation</h2>
+            <div class="session-brief__grid"><div class="session-brief__audience session-brief__list" data-list-layout="stack">
+              <h3>Who should join</h3>
+              <ul><li>AI application, platform, and release engineers</li><li>GitHub, Microsoft Entra, Azure, and API Management administrators</li><li>Quality, security, routing, production-approval, and delivery owners</li></ul>
+            </div><div class="session-brief__requirements session-brief__list" data-list-layout="stack">
+              <h3>What you need</h3>
+              <ul><li>An approved release control set can be inspected: release metadata binds one commit to the immutable agent, APIM policy, evaluation inputs, and Bicep parameters; the quality owner can retrieve a passing release-gate result; the security owner can retrieve the matching adversarial result; and the observability owner can run the smoke check. (Sessions <a href="../04-governed-agent-baseline/">04</a>, <a href="../06-apim-ai-gateway/">06</a>, and <a href="../08-mcp-tool-security/">08</a>-<a href="../12-cicd-promotion-controls/">12</a>.)</li><li>Release metadata binds the prompt, agent, model, APIM policy, evaluation inputs, and Bicep parameters to one commit. Supply the approved full SHA through the protected workflow input, never inside that commit.</li><li>The approved Session <a href="../09-foundry-evaluations-quality-gates/">09</a> release policy is enabled. Its temporary external baseline and candidate records match the policy run IDs, the callable gate passes the candidate, and the generated tool-process self-test returns BLOCK.</li><li>The approved temporary workspace contains a confirmed, payload-free Session <a href="../10-red-teaming-threat-defense/">10</a> security-release attestation for the same immutable agent and versions. It records external authorization and report locations, lower aggregate attack success, per-risk non-regression, and blocked prohibited actions. SOC delivery remains separate.</li><li>The Session <a href="../11-observability-cost-operations/">11</a> PowerShell and Bash smoke executables verify the release commit, live Application Insights workspace binding, distinct normal and failure trace IDs, stable ingestion, separated tool and model failures, no sensitive input, and no retained payload.</li><li>The unit-check, routing, release/security-store, and environment-parameter owners have accepted their files. The delivery owner has recorded those decisions.</li><li>GitHub environments <code>nonproduction-preview</code>, <code>nonproduction</code>, <code>production-preview</code>, and <code>production</code> are configured. Both apply environments require reviewers and prevent self-review; production also restricts deployment refs and disables administrator bypass.</li><li>Native secret scanning and push protection are enabled. The protected <code>nonproduction</code> environment holds the Session <a href="../11-observability-cost-operations/">11</a> URLs, Application Insights resource ID, Log Analytics workspace ID, bearer-token secret, and optional timeout and retry overrides.</li><li>The nonproduction and production workload service principals each trust their exact preview and apply GitHub OIDC subjects. Each principal has only Contributor (role ID <code>b24988ac-6180-42a0-ab88-20f7382dd24c</code>) at its environment resource-group scope.</li><li>GitHub and Entra administrators use temporary access for configuration and preflight. The preflight operator has temporary Directory Readers at tenant scope and Contributor at both exact environment resource-group scopes. Remove or expire human access after the ready check.</li><li>The approved release/security-store interface retrieves temporary Session <a href="../09-foundry-evaluations-quality-gates/">09</a> and <a href="../10-red-teaming-threat-defense/">10</a> records, and stages, approves, or retrieves a release record by exact release ID and SHA-256. Promotion approves the record only after routing; restore consumes an approved record.</li><li>The agent owner has approved the framework and runtime path for the release agent: its native platform path, Microsoft Agent Framework, Semantic Kernel, or another framework with an approval reference and a named runtime support owner.</li><li>The portfolio owner has compared the release agent against the enterprise agent inventory and decided whether it is a new capability, an approved overlap, or a duplicate of an agent that should be promoted instead. Record the reviewed inventory record and the deciding role.</li><li>Release, quality, security, production-approval, routing, platform, observability, and delivery authorities are named and available for live decisions.</li></ul>
+            </div></div>
+          </section>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Session 12</dd></div><div><dt>Phase and status</dt><dd>Runtime assurance · Draft</dd></div><div><dt>Duration</dt><dd>4 hours</dd></div><div><dt>Last verified</dt><dd>2026-09-02</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="../11-observability-cost-operations/"><span>Previous session</span><strong>Observability, cost, and operational controls</strong></a>
+        <a href="architecture.html"><span>Next chapter</span><strong>Architecture</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Session 12 · Scope and outcomes</p>
+    </footer>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Session 12</p>
+            <h2 id="session-deck-title">CI/CD, policy as code, and controlled promotion slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Session 12: CI/CD, policy as code, and controlled promotion slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="Onboard an existing external agent into Microsoft Agent 365 through one supported integration route, record the route, credential, owner, and retirement decisions, then review the live Agent Registry record.">
+    <title>Architecture | Optional module: External agent inventory in Microsoft Agent 365 | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page module-page">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program">Sessions</a>
+          <a href="../../index.html#optional-modules" aria-current="page">Architecture-specific extensions</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="architecture">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#optional-modules">Architecture-specific extensions</a>
+            <span aria-hidden="true">/</span>
+            <a href="index.html">Optional module</a>
+          </nav>
+          <p class="chapter-header__label">Chapter 2 of 6 · Architecture</p>
+          <h1 id="architecture">External agent inventory in Microsoft Agent 365</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Optional module · Draft</span>
+            <span>2.5 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Module chapters">
+        <ol class="session-content-width"><li><a href="index.html"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html" aria-current="page"><span>2</span>Architecture</a></li><li><a href="before-you-start.html"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <div class="chapter-actions">
+          <button
+            class="deck-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="session-deck-dialog"
+            data-deck-open
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+              <path d="M8 20h8M12 16.5V20"></path>
+            </svg>
+            <span>Open the deck</span>
+          </button>
+          <a
+            class="implementation-files-link"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/960e570762c3d54b51f612773009ce181bebbe01/modules/external-agent-inventory/implementation"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 7.5h6l2-2h9v13h-17z"></path>
+              <path d="m9.5 11-2 2 2 2M14.5 11l2 2-2 2"></path>
+            </svg>
+            <span>View implementation files</span>
+            <span class="visually-hidden"> on GitHub (opens in a new tab)</span>
+          </a>
+        </div>
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/agent-365.svg" alt="">
+                <strong>Microsoft Agent 365</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Architecture">
+          <p class="implementation-guide__label">Chapter 2 of 6</p>
+          <h3 id="architecture-at-a-glance">Architecture at a glance<a class="heading-anchor" href="#architecture-at-a-glance" aria-label="Link to Architecture at a glance">#</a></h3>
+<p>The agent already exists and keeps running where it is. The team picks the Agent 365 integration that matches the runtime, records the decisions, and then reads the live record.</p>
+<figure class="session-diagram"><img src="assets/diagrams/external-agent-inventory-architecture.svg" alt="Built-in integration, Registry sync, and the Agent 365 SDK create a live Agent Registry record for an external agent." loading="lazy" decoding="async"></figure>
+<p>Registry sync is administrator-led: the Agent 365 administrator connects the external platform in the Microsoft 365 admin center and runs the sync. The SDK route is developer-led: the runtime owner adds the integration in code and releases it. Built-in integration covers agents whose platform is already integrated with Agent 365, where an administrator may still need to enable them.</p>
+<p><code>onboarding-decision.json</code> holds what the registry does not: which route was chosen, who owns the credential behind a platform connection, and how the agent gets retired across both systems.</p>
+<h3 id="design-choices-and-tradeoffs">Design choices and tradeoffs<a class="heading-anchor" href="#design-choices-and-tradeoffs" aria-label="Link to Design choices and tradeoffs">#</a></h3>
+<div class="table-scroll"><table><thead><tr><th scope="col">Decision</th><th scope="col">Chosen approach</th><th scope="col">Benefit</th><th scope="col">Limit</th></tr></thead><tbody><tr><td>Enterprise inventory</td><td>Agent 365 Agent Registry</td><td>One live record for inventory and lifecycle</td><td>The record only arrives through a supported route</td></tr><tr><td>Route preference</td><td>Try built-in and Registry sync before the SDK</td><td>No code change when a platform path already covers the need</td><td>Registry sync is in preview and its platform list changes</td></tr><tr><td>Credential handling</td><td>Record the issuer, scope, store, and revocation path; keep the secret in the platform's own store</td><td>The connection has a named owner who can revoke it</td><td>The record is only as good as the review behind it</td></tr><tr><td>Retirement</td><td>One coordinator and one cross-platform plan</td><td>Removing the agent covers both the runtime and the registry</td><td>Retirement stays a human process across two organizations</td></tr></tbody></table></div>
+<h3 id="architecture-guidance">Architecture guidance<a class="heading-anchor" href="#architecture-guidance" aria-label="Link to Architecture guidance">#</a></h3>
+<p>Use <a href="https://learn.microsoft.com/microsoft-agent-365/connect-existing-agents">Connect existing agents to Microsoft Agent 365</a> to see which onboarding paths apply to agents built outside the Microsoft ecosystem.</p>
+<p>Use <a href="https://learn.microsoft.com/microsoft-agent-365/developer/choose-integration-option">Choose an Agent 365 integration option</a> to decide between built-in integration, Registry sync, and the Agent 365 SDK.</p>
+<p>Use <a href="https://learn.microsoft.com/microsoft-agent-365/admin/connected-platforms">Connected platforms in the Microsoft 365 agent registry</a> for the supported platforms, the connection flow, and the credentials and permissions each platform requires.</p>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Optional module</dd></div><div><dt>Status</dt><dd>Optional module · Draft</dd></div><div><dt>Duration</dt><dd>2.5 hours</dd></div><div><dt>Last verified</dt><dd>2026-09-02</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="index.html"><span>Previous chapter</span><strong>Scope and outcomes</strong></a>
+        <a href="before-you-start.html"><span>Next chapter</span><strong>Before you start</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Optional module · Architecture</p>
+    </footer>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Optional module</p>
+            <h2 id="session-deck-title">External agent inventory in Microsoft Agent 365 slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Optional module: External agent inventory in Microsoft Agent 365 slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>

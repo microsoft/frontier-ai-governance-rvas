@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environment": {
+      "value": "nonproduction"
+    },
+    "implementationSession": {
+      "value": "12-cicd-promotion-controls"
+    },
+    "promptVersion": {
+      "value": "__REQUIRED_PROMPT_VERSION__"
+    },
+    "agentVersion": {
+      "value": "__REQUIRED_AGENT_VERSION__"
+    },
+    "modelDeploymentAlias": {
+      "value": "__REQUIRED_MODEL_DEPLOYMENT_VERSION_ALIAS__"
+    },
+    "apimPolicyVersion": {
+      "value": "__REQUIRED_APIM_POLICY_VERSION__"
+    }
+  }
+}
