@@ -13,10 +13,6 @@ permissions:
   issues: read
   actions: read
 
-sandbox:
-  agent:
-    sudo: false
-
 network:
   allowed:
     - learn.microsoft.com
