@@ -778,7 +778,7 @@ const pageContextFor = (item, chapter, chapters) => {
       deckLabel: `Session ${numberLabel}`,
       footerLabel: `Session ${numberLabel}`,
       chapterLabel: `Chapter ${chapter.index + 1} of ${chapters.length}`,
-      phaseStatus: `${item.phase.name} · ${titleCase(item.status)}`,
+      phaseStatus: item.phase.name,
       itemLabel: `Session ${numberLabel}`,
       identity: `Session ${numberLabel}`,
       pageTitle: `Session ${numberLabel}: ${item.title}`,
@@ -880,8 +880,8 @@ const pageTemplate = ({
     .join("");
   const facts = [
     ["Identity", context.identity],
-    [item.kind === "session" ? "Phase and status" : "Status", context.phaseStatus],
-    ["Duration", item.duration],
+    [item.kind === "session" ? "Phase" : "Status", context.phaseStatus],
+    [item.kind === "session" ? "Estimated non-production POC time" : "Duration", item.duration],
     ["Last verified", item.lastVerified],
   ]
     .map(
@@ -946,7 +946,7 @@ const pageTemplate = ({
           <h1 id="${chapter.id}">${escapeHtml(title)}</h1>
           <div class="chapter-header__meta" aria-label="Session details">
             <span>${escapeHtml(context.phaseStatus)}</span>
-            <span>${escapeHtml(item.duration)}</span>
+            <span>${escapeHtml(item.duration)}${item.kind === "session" ? " in a non-production POC" : ""}</span>
           </div>
         </div>
       </section>
@@ -1383,7 +1383,7 @@ const renderSessionCard = (session) => {
               <span class="session-objective">${escapeHtml(session.controlObjective)}</span>
             </span>
             ${renderServiceStrip(session.services)}
-            <span class="session-duration">${escapeHtml(session.durationShort)}</span>
+            <span class="session-duration">${escapeHtml(session.duration)} in a non-production POC</span>
             ${arrowIcon}
           </a>`;
 };
@@ -1636,27 +1636,9 @@ const renderHomepage = ({ sessions, modules, serviceRegistry }) => {
         </div>
       </section>
 
-      <section class="section audience-section" aria-labelledby="audience-title">
-        <div class="section-heading"><div><p class="section-kicker">Two ways into the same work</p><h2 id="audience-title">Read the program at the level you need.</h2></div></div>
-        <div class="audience-lanes">
-          <article><span>For leaders</span><h3>Start here, then decide if Citadel fits.</h3><p>Use the series to build working controls and customer capability. Citadel is a separate Microsoft framework for enterprise-scale governance work.</p><a href="#routes">Compare routes</a></article>
-          <article><span>For practitioners</span><h3>Use the implementation as a field reference.</h3><p>Open any session for the guide, source-controlled files, safety gates, observable result, and restore or removal path.</p><a href="#program">Find a session</a></article>
-        </div>
-      </section>
-
-      <section class="method-section" id="approach" aria-labelledby="approach-title">
-        <div class="section">
-          <div class="section-heading"><div><p class="section-kicker">Guided co-implementation</p><h2 id="approach-title">One control at a time, with its owner in the room.</h2><p>Each session implements a control and checks a defined result. Some controls also prove that an unapproved path is blocked before the delivery owner confirms the result.</p><p>The series gives teams a practical starting point. If they need a deeper enterprise governance programme, they can move on to Citadel.</p></div></div>
-          <div class="method-grid">
-            <article><span>Build</span><h3>Use production-shaped configuration.</h3><p>Customer engineers deploy through the approved change path. Reusable configuration and normal operating records stay in the customer repository.</p></article>
-            <article><span>Check</span><h3>Observe a defined result.</h3><p>The listed control owner confirms the check. The relevant service, security, data, or release owner approves consequential changes. Checks and evaluation examples run on fictional records, never customer data.</p></article>
-          </div>
-        </div>
-      </section>
-
       <section class="section program" id="program" aria-labelledby="program-title">
         <div class="section-heading section-heading--program">
-          <div><p class="section-kicker">Session catalog</p><h2 id="program-title">Browse all ${sessions.length} sessions.</h2><p>Use a focused route, a service filter, or text search. The selected route or service stays in the URL, so you can share the filtered view.</p></div>
+          <div><p class="section-kicker">Session catalog</p><h2 id="program-title">Browse all ${sessions.length} sessions.</h2><p>Use a focused route, a service filter, or text search. The selected route or service stays in the URL, so you can share the filtered view.</p><p>Times cover hands-on work in a sandbox or non-production tenant. They exclude production rollout, approvals, procurement, and customer-specific integration.</p></div>
           <p class="register-instruction">Architecture-specific extensions stay outside this filter and the 14-session count.</p>
         </div>
         <div class="registry-controls">
