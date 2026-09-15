@@ -1,0 +1,62 @@
+<policies>
+  <inbound>
+    <base />
+    <set-variable name="correlation-id" value="@(context.Request.Headers.GetValueOrDefault(&quot;X-Correlation-ID&quot;, context.RequestId.ToString()))" />
+    <set-header name="X-Correlation-ID" exists-action="override">
+      <value>@((string)context.Variables["correlation-id"])</value>
+    </set-header>
+    <validate-azure-ad-token tenant-id="__NAMED_VALUE_ENTRA_TENANT_ID__" header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. A valid Microsoft Entra access token is required.">
+      <client-application-ids>
+        <application-id>__NAMED_VALUE_CLIENT_APPLICATION_ID__</application-id>
+      </client-application-ids>
+      <audiences>
+        <audience>__NAMED_VALUE_API_AUDIENCE__</audience>
+      </audiences>
+      <required-claims>
+        <claim name="roles" match="any">
+          <value>__NAMED_VALUE_REQUIRED_APP_ROLE__</value>
+        </claim>
+      </required-claims>
+    </validate-azure-ad-token>
+    <validate-content unspecified-content-type-action="prevent" max-size="__REQUEST_MAX_BYTES__" size-exceeded-action="prevent" errors-variable-name="requestValidationErrors" />
+    <llm-token-limit counter-key="@(context.Subscription.Id)" tokens-per-minute="__TOKENS_PER_MINUTE__" token-quota="__TOKEN_QUOTA__" token-quota-period="Daily" estimate-prompt-tokens="true" />
+    <llm-content-safety backend-id="__CONTENT_SAFETY_BACKEND_ID__" shield-prompt="true" enforce-on-completions="true">
+      <categories output-type="EightSeverityLevels">
+        <category name="Hate" threshold="__HARM_THRESHOLD__" />
+        <category name="SelfHarm" threshold="__HARM_THRESHOLD__" />
+        <category name="Sexual" threshold="__HARM_THRESHOLD__" />
+        <category name="Violence" threshold="__HARM_THRESHOLD__" />
+      </categories>
+    </llm-content-safety>
+    <llm-emit-token-metric namespace="RVAS.AIGateway">
+      <dimension name="API ID" />
+      <dimension name="Product ID" />
+      <dimension name="Subscription ID" />
+    </llm-emit-token-metric>
+    <set-backend-service backend-id="__BACKEND_POOL_ID__" />
+    <authentication-managed-identity resource="https://ai.azure.com" ignore-error="false" />
+  </inbound>
+  <backend>
+    <retry condition="@(context.Response != null &amp;&amp; (context.Response.StatusCode == 429 || context.Response.StatusCode == 500 || context.Response.StatusCode == 502 || context.Response.StatusCode == 503 || context.Response.StatusCode == 504))" count="__RETRY_COUNT__" interval="1" first-fast-retry="false">
+      <forward-request timeout="__BACKEND_TIMEOUT_SECONDS__" buffer-request-body="true" buffer-response="false" fail-on-error-status-code="false" />
+    </retry>
+  </backend>
+  <outbound>
+    <base />
+    <set-header name="X-Correlation-ID" exists-action="override">
+      <value>@((string)context.Variables["correlation-id"])</value>
+    </set-header>
+    <set-header name="Cache-Control" exists-action="override">
+      <value>no-store</value>
+    </set-header>
+    <set-header name="X-Content-Type-Options" exists-action="override">
+      <value>nosniff</value>
+    </set-header>
+  </outbound>
+  <on-error>
+    <set-header name="X-Correlation-ID" exists-action="override">
+      <value>@(context.Variables.ContainsKey("correlation-id") ? (string)context.Variables["correlation-id"] : context.RequestId.ToString())</value>
+    </set-header>
+    <base />
+  </on-error>
+</policies>

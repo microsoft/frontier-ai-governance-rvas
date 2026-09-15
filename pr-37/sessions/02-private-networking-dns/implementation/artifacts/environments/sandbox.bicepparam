@@ -1,0 +1,11 @@
+using '../infra/network/main.bicep'
+
+param location = '__REQUIRED_LOCATION__'
+param virtualNetworkResourceId = '__REQUIRED_SESSION01_VNET_RESOURCE_ID__'
+param privateEndpointSubnetResourceId = '__REQUIRED_SESSION01_PRIVATE_ENDPOINT_SUBNET_RESOURCE_ID__'
+param foundryResourceId = '__REQUIRED_FOUNDRY_RESOURCE_ID__'
+param storageResourceId = '__REQUIRED_STORAGE_RESOURCE_ID__'
+param searchResourceId = '__REQUIRED_SEARCH_RESOURCE_ID__'
+param cosmosResourceId = '__REQUIRED_COSMOS_RESOURCE_ID__'
+param keyVaultResourceId = '__REQUIRED_KEY_VAULT_RESOURCE_ID__'
+param expiryDate = '__REQUIRED_EXPIRY_DATE__'

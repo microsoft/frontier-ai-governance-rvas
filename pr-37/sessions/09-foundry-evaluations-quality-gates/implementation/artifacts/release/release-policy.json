@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 2,
+  "implementationSession": "09-foundry-evaluations-quality-gates",
+  "gateName": "policy-assistant-evaluation-release-gate",
+  "target": {
+    "environment": "nonproduction",
+    "foundryProjectAlias": "__REQUIRED_FOUNDRY_PROJECT_ALIAS__",
+    "agentName": "__REQUIRED_AGENT_NAME__",
+    "approvedVersion": "__REQUIRED_APPROVED_AGENT_VERSION__",
+    "candidateVersion": "__REQUIRED_CANDIDATE_AGENT_VERSION__",
+    "judgeModelDeploymentAlias": "__REQUIRED_JUDGE_MODEL_DEPLOYMENT_ALIAS__",
+    "evaluationRegion": "__REQUIRED_EVALUATION_REGION__",
+    "networkMode": "__REQUIRED_NETWORK_MODE_PUBLIC_OR_ISOLATED__"
+  },
+  "currentSupportGate": {
+    "manualGateRequired": true,
+    "stableDiscoveryApiAvailable": false,
+    "documentationUrl": "https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-regions-limits-virtual-network",
+    "checkedOn": "__REQUIRED_SUPPORT_CHECK_DATE__",
+    "checkedBy": "__REQUIRED_QUALITY_OWNER_ROLE__",
+    "status": "__REQUIRED_CURRENT_SUPPORT_STATUS_SUPPORTED__",
+    "confirmedCapabilities": {
+      "batchEvaluation": false,
+      "selectedRiskAndSafetyEvaluators": false,
+      "protectedMaterialEvaluator": false
+    },
+    "protectedMaterialDecision": {
+      "blocking": true,
+      "requiredRegion": "East US 2",
+      "ifUnavailable": "stop-and-relocate-or-revise-policy",
+      "approvedBy": "__REQUIRED_SAFETY_OWNER_ROLE__"
+    }
+  },
+  "capability": {
+    "subnetDelegationConfirmed": false,
+    "projectManagedIdentityFoundryUserConfirmed": false,
+    "evaluationBudgetApproved": false,
+    "toolEvaluatorCompatibility": {
+      "evaluatedToolTypes": [
+        "Function Tool"
+      ],
+      "limitedSupportToolPresent": false,
+      "status": "__REQUIRED_TOOL_EVALUATOR_COMPATIBILITY_STATUS__",
+      "checkedBy": "__REQUIRED_TOOL_OWNER_ROLE__"
+    },
+    "previewEvaluators": {
+      "taskAdherence": "advisory-only",
+      "sensitiveDataLeakage": "advisory-only",
+      "prohibitedActions": "advisory-only",
+      "allowedAsSoleBlockingControl": false
+    }
+  },
+  "owners": {
+    "releaseOwner": "__REQUIRED_RELEASE_OWNER_ROLE__",
+    "qualityOwner": "__REQUIRED_QUALITY_OWNER_ROLE__",
+    "toolOwner": "__REQUIRED_TOOL_OWNER_ROLE__",
+    "safetyOwner": "__REQUIRED_SAFETY_OWNER_ROLE__",
+    "exceptionAuthority": "__REQUIRED_EXCEPTION_AUTHORITY_ROLE__",
+    "costOwner": "__REQUIRED_COST_OWNER_ROLE__"
+  },
+  "gate": {
+    "state": "disabled-pending-session-checkpoint",
+    "baselineRunId": null,
+    "candidateRunId": null,
+    "decision": "pending",
+    "decisionDate": null,
+    "decisionReason": "Awaiting the intended-path and blocked-path observations.",
+    "callableInterface": {
+      "executable": "implementation/scripts/release-gate.py",
+      "requiredEnforcementOption": "--require-enabled",
+      "outcomes": [
+        "PASS",
+        "BLOCK"
+      ],
+      "automaticPromotion": false,
+      "enforcedBy": "12-cicd-promotion-controls"
+    }
+  },
+  "activationContract": {
+    "requiredState": "enabled",
+    "requiredDecision": "approved",
+    "decisionDateRequired": true,
+    "thresholdPolicyState": "active",
+    "thresholdPolicyPath": "implementation/artifacts/eval/thresholds.yaml",
+    "baselineRunIdMustMatchThresholdPolicyAndBaselineRecord": true,
+    "candidateRunIdMustMatchCandidateRecord": true
+  },
+  "releaseBoundary": {
+    "stableVersionRemainsPinnedDuringEvaluation": true,
+    "automaticPromotion": false,
+    "productionScopeApproved": false,
+    "detailedResultsRemainInFoundry": true,
+    "repositoryRecordContainsAggregateMetricsOnly": true
+  },
+  "productionDriftHandoff": {
+    "releaseGateIsContinuousMonitoring": false,
+    "baselineMeasureIds": [
+      "quality",
+      "tool-process",
+      "safety",
+      "latency",
+      "token-usage"
+    ],
+    "productionOwnerRole": "__REQUIRED_QUALITY_OWNER_ROLE__",
+    "operationalHandoff": "11-observability-cost-operations",
+    "reevaluationRequiredAfterMaterialDrift": true
+  },
+  "exceptionBoundary": {
+    "allowedForNonSafetyQualityFailure": true,
+    "requiresExpiry": true,
+    "requiresCompensatingControl": true,
+    "requiresExceptionAuthority": true,
+    "mayOverrideSafetyFailure": false,
+    "mayOverrideToolProcessFailure": false,
+    "automaticPromotionAllowed": false
+  },
+  "implementationMarker": "implementationSession=09-foundry-evaluations-quality-gates"
+}

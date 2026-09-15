@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "05-agent-365-access-boundary",
+  "tenantAlias": "__REQUIRED_TENANT_ALIAS__",
+  "targetScope": "nonproduction-agent365-group-pilot",
+  "agent": {
+    "registryId": "__REQUIRED_AGENT_REGISTRY_ID__",
+    "instanceId": "__REQUIRED_AGENT_INSTANCE_ID__",
+    "alias": "__REQUIRED_AGENT_ALIAS__",
+    "platform": "__REQUIRED_AGENT_PLATFORM__",
+    "requiredStatus": "Available"
+  },
+  "deployment": {
+    "targetGroupAlias": "__REQUIRED_TEST_GROUP_ALIAS__",
+    "targetGroupObjectId": "__REQUIRED_TEST_GROUP_OBJECT_ID__",
+    "hostProducts": [
+      "__REQUIRED_HOST_PRODUCT__"
+    ],
+    "adminConsent": "Approved",
+    "action": "InstallAfterDlpPropagation",
+    "restoreAction": "RemoveScopedInstallation"
+  },
+  "dlpGate": {
+    "policyState": "__REQUIRED_DLP_POLICY_STATE__",
+    "propagationState": "__REQUIRED_DLP_PROPAGATION_STATE__",
+    "requiredInstallState": "EnabledAndPropagated"
+  },
+  "dataBoundary": {
+    "allowedData": "SyntheticOnly",
+    "userAccess": "ScopedAfterDlpPropagation"
+  },
+  "validation": {
+    "memberAlias": "__REQUIRED_TEST_GROUP_MEMBER_ALIAS__",
+    "excludedUserAlias": "__REQUIRED_EXCLUDED_USER_ALIAS__",
+    "approvedUseCase": "__REQUIRED_APPROVED_USE_CASE__"
+  }
+}

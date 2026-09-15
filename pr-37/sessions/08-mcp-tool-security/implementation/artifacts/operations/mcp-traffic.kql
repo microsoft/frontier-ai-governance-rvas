@@ -1,0 +1,40 @@
+let lookback = 30m;
+let policyTraces =
+    traces
+    | where timestamp > ago(lookback)
+    | where message == "MCP request evaluated by Session 08 control."
+    | where isnotempty(operation_Id)
+    | summarize arg_max(timestamp, *) by operation_Id
+    | project
+        operation_Id,
+        clientCorrelationId = tostring(customDimensions["session08.correlation_id"]),
+        tracedTool = tostring(customDimensions["session08.tool_name"]);
+requests
+| where timestamp > ago(lookback)
+| where customDimensions["api.type"] == "Mcp"
+| where customDimensions["service.name"] == "policy-catalog-mcp"
+| extend
+    operation = tostring(customDimensions["gen_ai.operation.name"]),
+    requestTool = tostring(customDimensions["gen_ai.tool.name"])
+| join kind=leftouter policyTraces on operation_Id
+| extend tool = iff(isnotempty(requestTool), requestTool, tracedTool)
+| project
+    timestamp,
+    traceId = operation_Id,
+    requestSpanId = id,
+    clientCorrelationId,
+    operation,
+    tool,
+    conversation = tostring(customDimensions["gen_ai.conversation.id"]),
+    client = strcat(
+        tostring(customDimensions["user_agent.name"]),
+        "/",
+        tostring(customDimensions["user_agent.version"])
+    ),
+    authType = tostring(customDimensions["auth.type"]),
+    duration,
+    success,
+    resultCode,
+    errorType = tostring(customDimensions["error.type"]),
+    errorMessage = tostring(customDimensions["error.message"])
+| order by timestamp desc

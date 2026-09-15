@@ -1,0 +1,5 @@
+AppRequests
+| where TimeGenerated >= ago(15m)
+| summarize TotalRequests = count(), FailedRequests = countif(Success == false)
+| extend ErrorRate = iff(TotalRequests == 0, 0.0, 100.0 * todouble(FailedRequests) / todouble(TotalRequests))
+| project ErrorRate
