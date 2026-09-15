@@ -17,6 +17,8 @@ network:
   allowed:
     - learn.microsoft.com
     - ai.azure.com
+    - github
+    - aka.ms
     - modelcontextprotocol.io
     - owasp.org
     - nvlpubs.nist.gov
