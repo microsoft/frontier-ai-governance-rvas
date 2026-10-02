@@ -1,0 +1,34 @@
+{
+  "implementationSession": "14-foundry-estate-inventory",
+  "approvedScope": "__REQUIRED_APPROVED_ESTATE_SCOPE_ALIAS__",
+  "managementGroups": [
+    "__REQUIRED_APPROVED_MANAGEMENT_GROUP_ID__"
+  ],
+  "inScopeAccountKinds": [
+    "AIServices",
+    "OpenAI"
+  ],
+  "approvedRegions": [
+    "__REQUIRED_APPROVED_PRIMARY_REGION__"
+  ],
+  "requiredTagKeys": [
+    "__REQUIRED_OWNER_TAG_KEY__",
+    "__REQUIRED_COST_TAG_KEY__",
+    "__REQUIRED_ENVIRONMENT_TAG_KEY__"
+  ],
+  "ownerTagKey": "__REQUIRED_OWNER_TAG_KEY__",
+  "costTagKey": "__REQUIRED_COST_TAG_KEY__",
+  "recordedExceptions": [
+    {
+      "accountName": "__REQUIRED_EXCEPTION_ACCOUNT_NAME__",
+      "reason": "__REQUIRED_EXCEPTION_REASON__",
+      "owner": "__REQUIRED_EXCEPTION_OWNER_ROLE__",
+      "expiryDate": "__REQUIRED_EXCEPTION_EXPIRY_DATE__"
+    }
+  ],
+  "inventoryOwner": "__REQUIRED_INVENTORY_OWNER_ROLE__",
+  "lifecycleOwner": "__REQUIRED_LIFECYCLE_OWNER_ROLE__",
+  "modelRetirementWarningDays": 90,
+  "reviewCadenceDays": 30,
+  "reviewDate": "__REQUIRED_ESTATE_REVIEW_DATE__"
+}
