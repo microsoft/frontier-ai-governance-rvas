@@ -1,0 +1,71 @@
+{
+  "name": "rvas-restrict-foundry-deployment-sku",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Custom: Microsoft Foundry deployments should not use disallowed deployment SKUs",
+    "policyType": "Custom",
+    "mode": "All",
+    "description": "Audits or denies Microsoft.CognitiveServices/accounts/deployments resources whose SKU name is in the disallowed list.",
+    "metadata": {
+      "category": "AI Governance",
+      "version": "1.0.0",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types",
+      "implementationSession": "optional-module-ai-services-guardrail-policy"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit first; switch to Deny only after the owner reviews policy states."
+        }
+      },
+      "disallowedDeploymentSkus": {
+        "type": "Array",
+        "defaultValue": [
+          "GlobalStandard",
+          "GlobalProvisionedManaged",
+          "GlobalBatch"
+        ],
+        "allowedValues": [
+          "GlobalStandard",
+          "GlobalProvisionedManaged",
+          "GlobalBatch",
+          "DataZoneStandard",
+          "DataZoneProvisionedManaged",
+          "DataZoneBatch",
+          "Standard",
+          "ProvisionedManaged",
+          "DeveloperTier"
+        ],
+        "metadata": {
+          "displayName": "Disallowed deployment SKUs",
+          "description": "Deployment SKU names that the approved data-residency decision excludes."
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.CognitiveServices/accounts/deployments"
+          },
+          {
+            "field": "Microsoft.CognitiveServices/accounts/deployments/sku.name",
+            "in": "[parameters('disallowedDeploymentSkus')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

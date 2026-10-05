@@ -169,6 +169,12 @@
       "icon": "microsoft-entra-workload-id.svg"
     },
     {
+      "id": "microsoft-fabric",
+      "label": "Microsoft Fabric",
+      "category": "Data platform",
+      "icon": "microsoft-fabric.svg"
+    },
+    {
       "id": "microsoft-purview",
       "label": "Microsoft Purview",
       "category": "Data governance",

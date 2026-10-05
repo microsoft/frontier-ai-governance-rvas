@@ -1,0 +1,8 @@
+// Source: https://github.com/Azure/Azure-Sentinel/blob/master/Solutions/Microsoft%20Copilot/Analytic%20Rules/CopilotJailbreakAttempt.yaml
+CopilotActivity
+| where RecordType == "CopilotInteraction"
+| where LLMEventData has "JailbreakDetected"
+| extend Data = parse_json(LLMEventData)
+| extend Jailbreak = tostring(Data.Messages[0].JailbreakDetected)
+| where Jailbreak == "true"
+| project TimeGenerated, ActorName, AIModelName, Jailbreak

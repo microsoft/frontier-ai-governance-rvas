@@ -1,0 +1,37 @@
+{
+  "implementationSession": "optional-module-responsible-ai-impact-oversight",
+  "targetScope": "one-approved-foundry-agent",
+  "approvalPattern": "foundry-hosted-agent-pause-resume",
+  "gatedTool": {
+    "toolName": "__REQUIRED_CONSEQUENTIAL_TOOL_NAME__",
+    "actionClass": "__REQUIRED_TOOL_ACTION_CLASS__",
+    "approvalMode": "always_require",
+    "approverRole": "__REQUIRED_APPROVER_ROLE__",
+    "approvalSla": "__REQUIRED_APPROVAL_SLA__",
+    "executionRouteReference": "__REQUIRED_TOOL_EXECUTION_ROUTE_REFERENCE__",
+    "rejectionBehavior": "do-not-execute-tool"
+  },
+  "authentication": {
+    "principalSource": "app-service-authentication-headers",
+    "requiredHeaders": [
+      "X-MS-CLIENT-PRINCIPAL",
+      "X-MS-CLIENT-PRINCIPAL-ID",
+      "X-MS-CLIENT-PRINCIPAL-NAME"
+    ],
+    "approverClaim": {
+      "claimType": "roles",
+      "claimValue": "__REQUIRED_APPROVER_APP_ROLE_OR_GROUP__"
+    }
+  },
+  "records": {
+    "approvalRecordStore": "__REQUIRED_APPROVAL_RECORD_STORE__",
+    "pendingRequestStore": "in-memory-nonproduction",
+    "decisionRetention": "__REQUIRED_DECISION_RETENTION__",
+    "stopMechanism": "__REQUIRED_STOP_MECHANISM__"
+  },
+  "verification": {
+    "approvedDecision": "approved-executed",
+    "rejectedDecision": "rejected-not-executed",
+    "requiresCorrelationId": true
+  }
+}
