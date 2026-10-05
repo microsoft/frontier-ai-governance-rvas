@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "implementationModule": "continuous-evaluation-platform-alerts",
+  "implementationSession": "optional-module-continuous-evaluation-platform-alerts",
+  "targetScope": "__REQUIRED_APPROVED_FOUNDRY_SCOPE_ALIAS__",
+  "foundry": {
+    "accountName": "__REQUIRED_FOUNDRY_ACCOUNT_NAME__",
+    "projectName": "__REQUIRED_FOUNDRY_PROJECT_NAME__",
+    "projectEndpointEnvironmentVariable": "AZURE_AI_PROJECT_ENDPOINT",
+    "agentName": "__REQUIRED_AGENT_NAME__",
+    "agentVersion": "__REQUIRED_AGENT_VERSION__",
+    "projectManagedIdentityRole": "Foundry User"
+  },
+  "continuousEvaluation": {
+    "ruleId": "__REQUIRED_EVALUATION_RULE_ID__",
+    "displayName": "__REQUIRED_EVALUATION_RULE_DISPLAY_NAME__",
+    "description": "Continuous evaluation for sampled governed-agent response completions.",
+    "enabled": true,
+    "eventType": "RESPONSE_COMPLETED",
+    "sampling": {
+      "mode": "maxHourlyRuns",
+      "maxHourlyRuns": "__REQUIRED_MAX_HOURLY_RUNS__"
+    },
+    "evaluationName": "__REQUIRED_EVALUATION_NAME__",
+    "evaluators": [
+      {
+        "name": "task_adherence",
+        "evaluatorName": "builtin.task_adherence",
+        "threshold": "__REQUIRED_TASK_ADHERENCE_THRESHOLD__",
+        "ownerRole": "__REQUIRED_AI_QUALITY_OWNER_ROLE__"
+      },
+      {
+        "name": "violence_detection",
+        "evaluatorName": "builtin.violence",
+        "threshold": "__REQUIRED_SAFETY_THRESHOLD__",
+        "ownerRole": "__REQUIRED_SAFETY_OWNER_ROLE__"
+      }
+    ]
+  },
+  "operations": {
+    "alertOwnerRole": "__REQUIRED_ALERT_OWNER_ROLE__",
+    "evaluationOwnerRole": "__REQUIRED_AI_QUALITY_OWNER_ROLE__",
+    "incidentRoute": "__REQUIRED_INCIDENT_ROUTE_ALIAS__",
+    "restoreReference": "__REQUIRED_RESTORE_CHANGE_REFERENCE__",
+    "statusCodeDimensionValueConfirmed": "__REQUIRED_STATUS_CODE_DIMENSION_VALUE_CONFIRMED__"
+  }
+}

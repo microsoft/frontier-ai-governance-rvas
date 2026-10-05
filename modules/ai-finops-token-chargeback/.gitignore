@@ -1,0 +1,6 @@
+*.html
+*.pdf
+.marp/
+.tokens/
+.local/
+rendered/

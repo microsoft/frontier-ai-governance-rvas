@@ -1,0 +1,8 @@
+dist/
+out/
+*.pdf
+*.html
+*.pptx
+*.log
+.tokens/
+node_modules/
