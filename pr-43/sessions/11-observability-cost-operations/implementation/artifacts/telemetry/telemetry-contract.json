@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "11-observability-cost-operations",
+  "serviceName": "__REQUIRED_SERVICE_NAME__",
+  "environment": "nonproduction",
+  "propagation": {
+    "standard": "W3C Trace Context",
+    "traceHeader": "traceparent",
+    "correlationHeader": "x-correlation-id",
+    "correlationIdGeneratedAt": "API Management when absent",
+    "correlationIdMayContainUserData": false
+  },
+  "requiredSpanKinds": [
+    "gateway.request",
+    "agent.invoke",
+    "model.invoke",
+    "tool.invoke",
+    "evaluation.result",
+    "security.signal"
+  ],
+  "requiredAttributes": [
+    "service.name",
+    "deployment.environment",
+    "ai.operation.type",
+    "ai.operation.name",
+    "ai.operation.success",
+    "ai.model.deployment",
+    "ai.agent.version",
+    "release.commit.sha",
+    "ai.tool.name",
+    "ai.evaluation.name",
+    "ai.evaluation.passed"
+  ],
+  "releaseCommitBinding": {
+    "requestHeader": "x-release-commit-sha",
+    "requestBodyField": "releaseCommitSha",
+    "telemetryProperty": "release.commit.sha",
+    "requiredOnRequestSpans": [
+      "normal",
+      "expected-tool-failure"
+    ],
+    "valueType": "lower-case hexadecimal commit SHA",
+    "containsSensitiveData": false
+  },
+  "prohibitedAttributes": [
+    "gen_ai.prompt",
+    "gen_ai.completion",
+    "ai.input.content",
+    "ai.output.content",
+    "tool.input",
+    "tool.output",
+    "http.request.header.authorization",
+    "http.request.header.cookie",
+    "url.query",
+    "enduser.id",
+    "user.email"
+  ],
+  "sampling": {
+    "strategy": "__REQUIRED_SAMPLING_STRATEGY_FIXED_OR_RATE_LIMITED__",
+    "value": "__REQUIRED_SAMPLING_VALUE__",
+    "errorsAndSecuritySignalsAlwaysRetained": true,
+    "metricsSampled": false,
+    "owner": "__REQUIRED_OBSERVABILITY_OWNER__"
+  },
+  "logs": {
+    "minimumLevel": "ERROR",
+    "warningEvents": "actionable-only",
+    "traceBasedSampling": "__REQUIRED_TRACE_BASED_LOG_SAMPLING_DECISION__"
+  },
+  "cardinality": {
+    "approvedDimensions": [
+      "environment",
+      "service",
+      "modelDeployment",
+      "agentVersion",
+      "toolName"
+    ],
+    "userLevelDimensionAllowed": false,
+    "freeTextDimensionAllowed": false
+  },
+  "externalExport": {
+    "enabled": false,
+    "approvedDestinationType": "N/A",
+    "approvedDestinationAlias": "N/A",
+    "transport": "Azure Event Hubs",
+    "payloadFilteringBeforeExportRequired": true,
+    "destinationOwner": "N/A",
+    "restoreReference": "N/A"
+  }
+}

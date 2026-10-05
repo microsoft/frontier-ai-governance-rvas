@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "optional-module-foundry-tool-catalog-integration",
+  "targetScope": "__REQUIRED_APPROVED_TARGET_SCOPE__",
+  "previewDecision": {
+    "privateToolCatalog": "__REQUIRED_PREVIEW_DECISION__",
+    "decisionOwnerRole": "__REQUIRED_PREVIEW_DECISION_OWNER_ROLE__",
+    "catalogDiscovery": "__REQUIRED_CATALOG_DISCOVERY_CONFIRMATION__"
+  },
+  "sourceRecord": {
+    "catalogType": "Azure API Center private tool catalog",
+    "apiCenterName": "__REQUIRED_API_CENTER_NAME__",
+    "workspaceName": "__REQUIRED_API_CENTER_WORKSPACE_NAME__",
+    "assetName": "__REQUIRED_MCP_ASSET_NAME__",
+    "versionName": "__REQUIRED_MCP_ASSET_VERSION__",
+    "deploymentName": "__REQUIRED_MCP_DEPLOYMENT_NAME__",
+    "lifecycleState": "approved",
+    "authenticationMode": "__REQUIRED_SOURCE_AUTHENTICATION_MODE__",
+    "approvalReference": "__REQUIRED_APPROVAL_REFERENCE__",
+    "mcpEndpointSha256": "__REQUIRED_MCP_ENDPOINT_SHA256__"
+  },
+  "foundryBinding": {
+    "projectName": "__REQUIRED_FOUNDRY_PROJECT_NAME__",
+    "projectConnectionName": "__REQUIRED_PROJECT_CONNECTION_NAME__",
+    "connectionAuthenticationMode": "__REQUIRED_CONNECTION_AUTHENTICATION_MODE__",
+    "toolboxName": "__REQUIRED_TOOLBOX_NAME__",
+    "serverLabel": "__REQUIRED_SERVER_LABEL__",
+    "allowedToolName": "__REQUIRED_ALLOWED_TOOL_NAME__",
+    "expectedNamespacedTool": "__REQUIRED_NAMESPACED_TOOL_NAME__",
+    "requireApproval": "always",
+    "initialToolboxState": "absent",
+    "consumerEndpointMode": "default-version",
+    "validationEndpointMode": "version-specific"
+  },
+  "ownership": {
+    "apiCatalogOwnerRole": "__REQUIRED_API_CATALOG_OWNER_ROLE__",
+    "foundryToolOwnerRole": "__REQUIRED_FOUNDRY_TOOL_OWNER_ROLE__",
+    "agentReleaseOwnerRole": "__REQUIRED_AGENT_RELEASE_OWNER_ROLE__"
+  },
+  "restore": {
+    "route": "detach-consumers-then-delete-dedicated-toolbox",
+    "ownerRole": "__REQUIRED_RESTORE_OWNER_ROLE__"
+  },
+  "observedState": {
+    "toolboxVersion": null,
+    "checkedAtUtc": null
+  }
+}
