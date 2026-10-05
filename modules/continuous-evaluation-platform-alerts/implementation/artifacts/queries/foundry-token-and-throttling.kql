@@ -1,0 +1,31 @@
+// Validate diagnostic data, token volume, throttling, and latency for one Foundry account.
+// Source: https://learn.microsoft.com/en-us/azure/foundry/openai/monitor-openai-reference
+
+// 1. Check that resource logs arrive.
+AzureDiagnostics
+| where TimeGenerated > ago(1d)
+| where ResourceProvider == "MICROSOFT.COGNITIVESERVICES"
+| summarize Rows = count() by _ResourceId, Category
+| order by Rows desc
+
+// 2. Check exported token metrics.
+AzureMetrics
+| where TimeGenerated > ago(1d)
+| where MetricName in ("TokenTransaction", "ProcessedPromptTokens", "GeneratedTokens")
+| summarize Tokens = sum(Total) by bin(TimeGenerated, 1h), _ResourceId, MetricName
+| order by TimeGenerated asc
+
+// 3. Confirm throttling signal shape before operators tune the alert.
+AzureDiagnostics
+| where TimeGenerated > ago(1d)
+| where Category == "RequestResponse"
+| summarize Calls = count() by _ResourceId, OperationName, ResultSignature
+| order by Calls desc
+
+// 4. Inspect latency from request logs. Use AzureOpenAITTLTInMS for platform metric alerts.
+AzureDiagnostics
+| where TimeGenerated > ago(1d)
+| where Category == "RequestResponse"
+| summarize p50 = percentile(DurationMs, 50), p95 = percentile(DurationMs, 95), Calls = count()
+    by bin(TimeGenerated, 1h), _ResourceId, OperationName
+| order by TimeGenerated asc

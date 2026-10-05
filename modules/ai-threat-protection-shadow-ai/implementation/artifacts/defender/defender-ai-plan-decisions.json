@@ -1,0 +1,24 @@
+{
+  "implementationSession": "optional-module-ai-threat-protection-shadow-ai",
+  "targetScopeAlias": "__REQUIRED_TARGET_SCOPE_ALIAS__",
+  "defenderPlan": {
+    "pricingResourceName": "AI",
+    "pricingTier": "Standard",
+    "promptEvidence": "__REQUIRED_PROMPT_EVIDENCE_TRUE_OR_FALSE__",
+    "purviewSharing": "__REQUIRED_PURVIEW_SHARING_TRUE_OR_FALSE__",
+    "privacyDecisionReference": "__REQUIRED_PROMPT_EVIDENCE_PRIVACY_DECISION_REFERENCE__",
+    "restoreReference": "__REQUIRED_DEFENDER_PLAN_RESTORE_REFERENCE__"
+  },
+  "socRouting": {
+    "defenderXdrQueueOwner": "__REQUIRED_DEFENDER_XDR_QUEUE_OWNER__",
+    "sentinelWorkspaceName": "__REQUIRED_SENTINEL_WORKSPACE_NAME__",
+    "sentinelResourceGroupName": "__REQUIRED_SENTINEL_RESOURCE_GROUP_NAME__",
+    "runbookReference": "__REQUIRED_SOC_RUNBOOK_REFERENCE__"
+  },
+  "owners": {
+    "defenderForCloudOwner": "__REQUIRED_DEFENDER_FOR_CLOUD_OWNER__",
+    "sentinelOwner": "__REQUIRED_SENTINEL_OWNER__",
+    "privacyOwner": "__REQUIRED_PRIVACY_OWNER__",
+    "aiPlatformOwner": "__REQUIRED_AI_PLATFORM_OWNER__"
+  }
+}
