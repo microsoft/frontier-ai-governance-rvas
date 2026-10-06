@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="Route Claude Code and Desktop inference through API Management with assigned Entra identities, per-user model budgets, and managed-identity access to Foundry.">
+    <title>Implementation | Optional module: Claude Code and Desktop through a Foundry AI gateway | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page module-page">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program">Sessions</a>
+          <a href="../../index.html#optional-modules" aria-current="page">Architecture-specific extensions</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="implementation">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#optional-modules">Architecture-specific extensions</a>
+            <span aria-hidden="true">/</span>
+            <a href="index.html">Optional module</a>
+          </nav>
+          <p class="chapter-header__label">Chapter 5 of 6 · Implementation</p>
+          <h1 id="implementation">Claude Code and Desktop through a Foundry AI gateway</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Optional module · Draft</span>
+            <span>4.5 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Module chapters">
+        <ol class="session-content-width"><li><a href="index.html"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html"><span>2</span>Architecture</a></li><li><a href="before-you-start.html"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html" aria-current="page"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <div class="chapter-actions">
+          <button
+            class="deck-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="session-deck-dialog"
+            data-deck-open
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+              <path d="M8 20h8M12 16.5V20"></path>
+            </svg>
+            <span>Open the deck</span>
+          </button>
+          <a
+            class="implementation-files-link"
+            href="implementation/"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 7.5h6l2-2h9v13h-17z"></path>
+              <path d="m9.5 11-2 2 2 2M14.5 11l2 2-2 2"></path>
+            </svg>
+            <span>View implementation files</span>
+            <span class="visually-hidden"> on GitHub (opens in a new tab)</span>
+          </a>
+        </div>
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/azure-api-management.svg" alt="">
+                <strong>Azure API Management</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-ai-foundry.svg" alt="">
+                <strong>Microsoft Foundry</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-entra-id.svg" alt="">
+                <strong>Microsoft Entra ID</strong>
+              </li><li>
+                <img src="../../assets/icons/application-insights.svg" alt="">
+                <strong>Application Insights</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Implementation">
+          <p class="implementation-guide__label">Chapter 5 of 6</p>
+          <h2 id="implement">Implement<a class="heading-anchor" href="#implement" aria-label="Link to Implement">#</a></h2>
+<h3 id="1-prepare-foundry-and-the-approved-network-path">1. Prepare Foundry and the approved network path<a class="heading-anchor" href="#1-prepare-foundry-and-the-approved-network-path" aria-label="Link to 1. Prepare Foundry and the approved network path">#</a></h3>
+<p>In Foundry, confirm that each selected Claude deployment is <strong>Succeeded</strong>. Record its deployment name, hosting option, and model version in the approved change record. Test a small Messages request through the platform owner's existing Entra-authorized path before configuring APIM.</p>
+<p>Enable APIM's system-assigned managed identity if it is not already enabled. In Foundry <strong>Access control (IAM)</strong>, grant that identity <strong>Cognitive Services User</strong> on the resource. Allow role propagation before diagnosing a failed backend call. Developers do not need their own Foundry role for this route.</p>
+<p>If using Application Gateway WAF, use an approved WAF_v2 listener and TLS certificate. Route to APIM with the correct backend hostname, preserve the API suffix, and confirm probe health. Restrict APIM to that gateway using the approved private path or an IP filter with the gateway's observed egress IP. An unrestricted public APIM endpoint bypasses WAF inspection even though the API's identity and budget policy still applies.</p>
+<p>Start WAF rule tuning in Detection mode with representative non-sensitive code prompts. Check body-inspection limits and oversized-body behavior. Use narrow, logged exclusions for demonstrated false positives before Prevention mode. WAF is not a model safety filter and does not inspect streamed responses as a prompt/response moderation service.</p>
+<h3 id="2-configure-the-two-entra-applications">2. Configure the two Entra applications<a class="heading-anchor" href="#2-configure-the-two-entra-applications" aria-label="Link to 2. Configure the two Entra applications">#</a></h3>
+<p>Create a single-tenant <strong>Gateway API</strong> registration. Set Application ID URI to <code>api://&lt;gateway-api-client-id&gt;</code>, expose admin-consented delegated scope <code>AiGateway.Invoke</code>, and preauthorize Microsoft Azure CLI client <code>04b07795-8ddb-461a-bbee-02f9e1bf7b46</code> for that scope. Define app role <code>Gateway.Invoke</code> for Users/Groups. On the Enterprise application, enable <strong>Assignment required</strong> and assign approved users or groups to that role. The identity owner grants the delegated consent required by the tenant; a noninteractive token helper cannot complete consent.</p>
+<p>Create a separate single-tenant <strong>Claude Desktop Gateway</strong> public-client registration. Under <strong>Mobile and desktop applications</strong>, add exactly <code>http://127.0.0.1/callback</code>, with no fixed port. Create no secret or certificate. Add optional ID-token claim <code>upn</code>, define Users/Groups app role <code>Gateway.Invoke</code>, enable <strong>Assignment required</strong>, and assign the approved cohort to that role.</p>
+<p>Inspect token claims locally without sending tokens to a web decoder or retaining them. Confirm the following contract before setting <code>identityApproved</code>.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Claim</th><th scope="col">Code access token</th><th scope="col">Desktop ID token</th></tr></thead><tbody><tr><td><code>iss</code></td><td><code>https://sts.windows.net/&lt;tenant-id&gt;/</code></td><td><code>https://login.microsoftonline.com/&lt;tenant-id&gt;/v2.0</code></td></tr><tr><td><code>aud</code></td><td><code>api://&lt;gateway-api-client-id&gt;</code></td><td>Bare Desktop client ID</td></tr><tr><td><code>tid</code></td><td>Approved tenant ID</td><td>Same tenant ID</td></tr><tr><td><code>roles</code></td><td>Contains <code>Gateway.Invoke</code></td><td>Contains <code>Gateway.Invoke</code></td></tr><tr><td><code>upn</code></td><td>Nonempty user UPN</td><td>Nonempty optional user UPN</td></tr></tbody></table></div>
+<p>APIM's Developer Portal OAuth configuration does not establish this trust. The two <code>validate-jwt</code> branches in the API policy establish it.</p>
+<h3 id="3-complete-the-files-and-run-preflight">3. Complete the files and run preflight<a class="heading-anchor" href="#3-complete-the-files-and-run-preflight" aria-label="Link to 3. Complete the files and run preflight">#</a></h3>
+<p>In the customer copies, replace the tenant and app IDs in the policy and both helpers. Set Code's base URL to the approved route including its API suffix. Map each default model alias to an exact lowercase Foundry deployment name. Set the same names in the budget fragment and approve the token allowances. Add normalized UPN overrides when needed, using model-to-integer JSON objects.</p>
+<p>Set <code>apiKeyHelper</code> to the installed command: an executable Bash helper on macOS/Linux, or <code>pwsh -NoProfile -File</code> followed by the quoted installed PowerShell helper path on Windows. Preserve unrelated device settings when merging the supplied JSON.</p>
+<p>From this module's <code>implementation</code> directory, pass the customer copy's artifact directory directly to preflight:</p>
+<section class="code-tabs" data-code-tabs>
+  <div class="code-tabs__tabs" role="tablist" aria-label="Command shell">
+    <button type="button" role="tab" id="command-shell-1-powershell-tab" aria-controls="command-shell-1-powershell-panel" aria-selected="true" data-shell-tab="powershell">PowerShell</button>
+    <button type="button" role="tab" id="command-shell-1-bash-tab" aria-controls="command-shell-1-bash-panel" aria-selected="false" tabindex="-1" data-shell-tab="bash">Bash</button>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-1-powershell-panel" role="tabpanel" aria-labelledby="command-shell-1-powershell-tab" tabindex="0" data-shell-panel="powershell">
+    <p class="code-tabs__fallback-label">PowerShell</p>
+    <pre><code class="language-powershell">.\scripts\preflight.ps1 -ArtifactsDir &quot;C:\approved-work\claude-gateway&quot;</code></pre>
+  </div>
+  <div class="code-tabs__panel" id="command-shell-1-bash-panel" role="tabpanel" aria-labelledby="command-shell-1-bash-tab" tabindex="0" data-shell-panel="bash">
+    <p class="code-tabs__fallback-label">Bash</p>
+    <pre><code class="language-bash">bash scripts/preflight.sh --artifacts-dir &quot;$HOME/approved-work/claude-gateway&quot;</code></pre>
+  </div>
+</section>
+<p>Preflight rejects unresolved decisions, unapproved flags, a different active Azure subscription or tenant, a classic APIM tier, a missing managed identity, a missing Foundry resource role, and missing deployments. It checks file syntax and alignment, not APIM's C# policy compilation.</p>
+<p><strong>Portal policy edits have no ARM what-if preview.</strong> Before saving, the gateway owner reviews the exact change against the stored prior policy and uses the portal's effective-policy view to inspect inherited controls. The supplied backend section sets one nonbuffering <code>forward-request</code> instead of inheriting another forwarding policy. Retain any required inherited backend behavior explicitly, without introducing a second forward.</p>
+<h3 id="4-configure-apim">4. Configure APIM<a class="heading-anchor" href="#4-configure-apim" aria-label="Link to 4. Configure APIM">#</a></h3>
+<p>Create backend <code>claude-foundry-backend</code>, protocol HTTPS, with runtime URL <code>https://&lt;foundry-resource&gt;.services.ai.azure.com/anthropic</code>. Create a <strong>Language Model API / passthrough API</strong>, not an OpenAI-compatible API. Use API suffix <code>foundry</code> or the suffix already approved in the base URL. Disable <strong>Subscription required</strong>. A product can group the API, but must not be the identity or budget authority.</p>
+<p>Expose <code>POST /v1/messages</code> and <code>POST /v1/messages/count_tokens</code>. If the wizard created wildcard operations, remove them and add these two explicit POST operations with the same paths. Do not open unrelated endpoints. The <code>?beta=true</code> query on Messages must still route normally. Desktop model discovery is configured explicitly, so this route does not require <code>GET /v1/models</code>; Code's optional <code>HEAD /api/hello</code> probe can return 404.</p>
+<p>Under <strong>Policy fragments</strong>, import the customer copy of <code>budget-fragment.xml</code> as <code>claude-foundry-budgets</code>. Apply the customer copy of <code>api-policy.xml</code> at <strong>API / All operations</strong> scope. Save only after the portal accepts its policy expressions. The included fragment supplies budgets for every API call regardless of product context.</p>
+<p>Review the full inherited policy. Keep <code>anthropic-version</code> and <code>anthropic-beta</code> unchanged, preserve new Anthropic headers and all body fields, including <code>cache_control</code>. Remove transformations that reconstruct Messages bodies or strip unfamiliar beta values. <code>preserveContent: true</code> lets the policy read the model without consuming the request body.</p>
+<p>The token and metric policies run on Messages, not on count_tokens. Both operations still require an authorized identity and a positive model budget. The backend <code>forward-request</code> disables response buffering. Keep SSE events, including pings and final usage events, in order through every proxy.</p>
+<p>Configure an approved Application Insights logger and API diagnostics. Set request and response body logging to <strong>0 bytes</strong> and diagnostic verbosity to <strong>information</strong> for the identity trace. Do not log <code>Authorization</code>, <code>x-api-key</code>, cookies, or subscription keys. UPN and object ID are personal data: approve access and retention. Token metrics are operational estimates; do not treat them as the invoice.</p>
+<p>Enable Application Insights custom metrics with dimensions for the token policy. APIM limits each dimension to 100 unique values and each namespace to 1,000 active time series; new values beyond those limits are discarded. The per-user metric is suitable for a bounded pilot. Before a larger rollout, use a bounded metric dimension and an approved attribution pipeline rather than treating the UPN metric as a complete chargeback record.</p>
+<h3 id="5-connect-claude-code">5. Connect Claude Code<a class="heading-anchor" href="#5-connect-claude-code" aria-label="Link to 5. Connect Claude Code">#</a></h3>
+<p>Install the configured helper with the device's normal managed-file permissions. Merge the configured settings into the approved Claude Code configuration. The helper prints only a token to stdout and sends errors to stderr. It retries once after interactive sign-in to the configured tenant.</p>
+<p>Remove conflicting <code>ANTHROPIC_API_KEY</code>, <code>ANTHROPIC_AUTH_TOKEN</code>, and direct Foundry/provider-mode variables from the managed configuration and launch environment. This is the generic Messages gateway path selected by <code>ANTHROPIC_BASE_URL</code>, not direct Foundry mode.</p>
+<p>Start Code and inspect <code>/status</code>: the API base URL must be the gateway. Confirm <code>/model</code> resolves to the managed deployment names. Reopen the client after changing settings. If the token helper needs initial consent or browser sign-in, complete it interactively before unattended use.</p>
+<h3 id="6-connect-claude-desktop">6. Connect Claude Desktop<a class="heading-anchor" href="#6-connect-claude-desktop" aria-label="Link to 6. Connect Claude Desktop">#</a></h3>
+<p>Follow <a href="https://claude.com/docs/third-party/claude-desktop/gateway">Desktop's gateway configuration</a> for the installed supported build. Open <strong>Developer / Configure Third-Party Inference</strong> and set:</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Setting</th><th scope="col">Value</th></tr></thead><tbody><tr><td>Inference provider</td><td>Gateway</td></tr><tr><td>Gateway base URL</td><td>Same approved URL as Code, including <code>/foundry</code></td></tr><tr><td>Credential kind</td><td>Interactive sign-in</td></tr><tr><td>Gateway auth scheme</td><td>Bearer</td></tr><tr><td>OIDC client ID</td><td>Desktop public-client ID</td></tr><tr><td>OIDC issuer URL</td><td><code>https://login.microsoftonline.com/&lt;tenant-id&gt;/v2.0</code></td></tr><tr><td>OIDC scopes</td><td>Leave unset to use the documented defaults including <code>offline_access</code></td></tr><tr><td>Redirect port</td><td>Leave unset</td></tr><tr><td>Models</td><td>Explicit approved Foundry deployment names</td></tr></tbody></table></div>
+<p>Use the configuration window's <strong>Export</strong> command for the MDM <code>.mobileconfig</code> or <code>.reg</code> payload. The profile needs both <code>inferenceCredentialKind: &quot;interactive&quot;</code> and <code>inferenceGatewayOidc</code>. In MDM, the latter is a JSON-encoded string; do not recreate it as nested plist or registry keys. If scopes are set explicitly with the default ID-token mode, include <code>offline_access</code> to support silent refresh. Distribute the profile through the approved device-management path and restart Desktop.</p>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Optional module</dd></div><div><dt>Status</dt><dd>Optional module · Draft</dd></div><div><dt>Duration</dt><dd>4.5 hours</dd></div><div><dt>Last verified</dt><dd>2026-10-05</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="decisions-and-boundaries.html"><span>Previous chapter</span><strong>Decisions and boundaries</strong></a>
+        <a href="validation-and-operations.html"><span>Next chapter</span><strong>Validation and operations</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Optional module · Implementation</p>
+    </footer>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Optional module</p>
+            <h2 id="session-deck-title">Claude Code and Desktop through a Foundry AI gateway slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Optional module: Claude Code and Desktop through a Foundry AI gateway slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>
