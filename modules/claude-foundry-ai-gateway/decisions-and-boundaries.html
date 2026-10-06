@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="Route Claude Code and Desktop inference through API Management with assigned Entra identities, per-user model budgets, and managed-identity access to Foundry.">
+    <title>Decisions and boundaries | Optional module: Claude Code and Desktop through a Foundry AI gateway | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page module-page">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program">Sessions</a>
+          <a href="../../index.html#optional-modules" aria-current="page">Architecture-specific extensions</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="decisions-and-boundaries">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#optional-modules">Architecture-specific extensions</a>
+            <span aria-hidden="true">/</span>
+            <a href="index.html">Optional module</a>
+          </nav>
+          <p class="chapter-header__label">Chapter 4 of 6 · Decisions and boundaries</p>
+          <h1 id="decisions-and-boundaries">Claude Code and Desktop through a Foundry AI gateway</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Optional module · Draft</span>
+            <span>4.5 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Module chapters">
+        <ol class="session-content-width"><li><a href="index.html"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html"><span>2</span>Architecture</a></li><li><a href="before-you-start.html"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html" aria-current="page"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <div class="chapter-actions">
+          <button
+            class="deck-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="session-deck-dialog"
+            data-deck-open
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+              <path d="M8 20h8M12 16.5V20"></path>
+            </svg>
+            <span>Open the deck</span>
+          </button>
+          <a
+            class="implementation-files-link"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/a3d5579d545328746f1a599b45ed7814474b2c79/modules/claude-foundry-ai-gateway/implementation"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 7.5h6l2-2h9v13h-17z"></path>
+              <path d="m9.5 11-2 2 2 2M14.5 11l2 2-2 2"></path>
+            </svg>
+            <span>View implementation files</span>
+            <span class="visually-hidden"> on GitHub (opens in a new tab)</span>
+          </a>
+        </div>
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/azure-api-management.svg" alt="">
+                <strong>Azure API Management</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-ai-foundry.svg" alt="">
+                <strong>Microsoft Foundry</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-entra-id.svg" alt="">
+                <strong>Microsoft Entra ID</strong>
+              </li><li>
+                <img src="../../assets/icons/application-insights.svg" alt="">
+                <strong>Application Insights</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Decisions and boundaries">
+          <p class="implementation-guide__label">Chapter 4 of 6</p>
+          <h2 id="decisions-and-stop-conditions">Decisions and stop conditions<a class="heading-anchor" href="#decisions-and-stop-conditions" aria-label="Link to Decisions and stop conditions">#</a></h2>
+<p>Record the named owners and approved resources in the customer copy of <code>gateway-inputs.json</code>. The approval flags record decisions Azure cannot infer; set them to true after the responsible owner has checked the corresponding item below. Preflight performs read-only resource and file checks. It does not approve the identity design, WAF rules, or data-handling policy.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Owner decision</th><th scope="col">Inspect before approving</th><th scope="col">Stop when</th></tr></thead><tbody><tr><td>Foundry hosting</td><td>Model deployment details, Marketplace terms, region scope</td><td>Hosting or processing location differs from the residency approval</td></tr><tr><td>Identity</td><td>Two single-tenant apps, token claims, consent, assigned roles</td><td>Audience, issuer, or role differs from the policy</td></tr><tr><td>Budget</td><td>Exact lowercase deployment names and monthly allowances</td><td>A default or override lacks finance approval</td></tr><tr><td>Telemetry</td><td>Application Insights logger, body bytes, allowed headers, access and retention</td><td>A token, prompt, or response body would be logged</td></tr><tr><td>Network</td><td>APIM-to-Foundry reachability and approved client entry point</td><td>Clients can bypass a required WAF, or a private backend is unreachable</td></tr><tr><td>Restore</td><td>Prior API policy/settings and client configuration in the approved change store</td><td>Restoring the route would remove an unrelated control</td></tr></tbody></table></div>
+<p>Budget precedence is <strong>explicit user-model override, then model default, then zero</strong>. An explicit zero blocks that pair. A user absent from the override map receives defaults only after identity authorization succeeds. To block all access, remove the user's app-role assignment or set every enabled model to zero. These examples are token allowances, not recommended spending limits.</p>
+<p>UPN is readable but mutable. A rename starts a different counter unless you plan the transition. For durable identity, change the maps and counter consistently to <code>tid:oid</code> before rollout; do not mix identity schemes between clients or change schemes mid-period without a budget decision.</p>
+<p>The shipped Code validator expects a <strong>v1 access token</strong> with audience <code>api://&lt;gateway-api-client-id&gt;</code>. Configure the API registration to issue v1 tokens and verify the actual result locally. Azure CLI does not determine the resource's token version. If the API issues v2 access tokens, update that validator's issuer, discovery URL, audience, and identity claim contract together. Do not add a broad audience fallback.</p>
+<p>The backend policy requests <code>https://ai.azure.com</code>, following the current Foundry Claude guidance. It does not reuse the client's gateway audience. If that resource token is rejected by the selected deployment, stop and resolve the hosting/authentication contract with the platform owner.</p>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Optional module</dd></div><div><dt>Status</dt><dd>Optional module · Draft</dd></div><div><dt>Duration</dt><dd>4.5 hours</dd></div><div><dt>Last verified</dt><dd>2026-10-05</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="before-you-start.html"><span>Previous chapter</span><strong>Before you start</strong></a>
+        <a href="implementation.html"><span>Next chapter</span><strong>Implementation</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Optional module · Decisions and boundaries</p>
+    </footer>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Optional module</p>
+            <h2 id="session-deck-title">Claude Code and Desktop through a Foundry AI gateway slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Optional module: Claude Code and Desktop through a Foundry AI gateway slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>
