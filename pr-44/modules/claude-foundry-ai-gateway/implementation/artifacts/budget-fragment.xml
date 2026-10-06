@@ -1,8 +1,0 @@
-<fragment>
-    <set-variable name="defaultModelTokenQuotasJson" value='{
-        "__REQUIRED_SONNET_DEPLOYMENT__": 250000,
-        "__REQUIRED_OPUS_DEPLOYMENT__": 100000,
-        "__REQUIRED_HAIKU_DEPLOYMENT__": 1000000
-    }' />
-    <set-variable name="userModelTokenQuotasJson" value="{}" />
-</fragment>
