@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="Route Claude Code and Desktop inference through API Management with assigned Entra identities, per-user model budgets, and managed-identity access to Foundry.">
+    <title>Architecture | Optional module: Claude Code and Desktop through a Foundry AI gateway | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page module-page">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program">Sessions</a>
+          <a href="../../index.html#optional-modules" aria-current="page">Architecture-specific extensions</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="architecture">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#optional-modules">Architecture-specific extensions</a>
+            <span aria-hidden="true">/</span>
+            <a href="index.html">Optional module</a>
+          </nav>
+          <p class="chapter-header__label">Chapter 2 of 6 · Architecture</p>
+          <h1 id="architecture">Claude Code and Desktop through a Foundry AI gateway</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Optional module · Draft</span>
+            <span>4.5 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Module chapters">
+        <ol class="session-content-width"><li><a href="index.html"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html" aria-current="page"><span>2</span>Architecture</a></li><li><a href="before-you-start.html"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <div class="chapter-actions">
+          <button
+            class="deck-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="session-deck-dialog"
+            data-deck-open
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+              <path d="M8 20h8M12 16.5V20"></path>
+            </svg>
+            <span>Open the deck</span>
+          </button>
+          <a
+            class="implementation-files-link"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/f17af6e11723a83483bd3d113996a1629c8bcf91/modules/claude-foundry-ai-gateway/implementation"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 7.5h6l2-2h9v13h-17z"></path>
+              <path d="m9.5 11-2 2 2 2M14.5 11l2 2-2 2"></path>
+            </svg>
+            <span>View implementation files</span>
+            <span class="visually-hidden"> on GitHub (opens in a new tab)</span>
+          </a>
+        </div>
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/azure-api-management.svg" alt="">
+                <strong>Azure API Management</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-ai-foundry.svg" alt="">
+                <strong>Microsoft Foundry</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-entra-id.svg" alt="">
+                <strong>Microsoft Entra ID</strong>
+              </li><li>
+                <img src="../../assets/icons/application-insights.svg" alt="">
+                <strong>Application Insights</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Architecture">
+          <p class="implementation-guide__label">Chapter 2 of 6</p>
+          <h3 id="architecture-at-a-glance">Architecture at a glance<a class="heading-anchor" href="#architecture-at-a-glance" aria-label="Link to Architecture at a glance">#</a></h3>
+<p>Claude Code obtains an Entra access token through an Azure CLI helper. Desktop signs in through the browser with authorization code and PKCE, then sends an Entra ID token. Both clients call the same HTTPS gateway base URL.</p>
+<pre><code class="language-text">Claude Code / Claude Desktop
+  -&gt; optional Application Gateway WAF
+  -&gt; APIM: validate client -&gt; resolve budget -&gt; enforce token quota
+  -&gt; Foundry /anthropic/v1/messages, authenticated with APIM managed identity</code></pre>
+<p>Entra authenticates the user. APIM validates the issued token against the exact tenant and application, requires <code>Gateway.Invoke</code>, and uses normalized <code>upn</code> plus model as the monthly counter key. The policy removes client key headers and replaces <code>Authorization</code> before forwarding to Foundry.</p>
+<p>The backend is <code>https://&lt;foundry-resource&gt;.services.ai.azure.com/anthropic</code>. If the APIM API suffix is <code>foundry</code>, both clients use <code>https://&lt;gateway-hostname&gt;/foundry</code>. APIM removes its API suffix when it builds the backend path, so <code>/foundry/v1/messages</code> reaches <code>/anthropic/v1/messages</code>. Application Gateway, when used, must preserve that mapping and the query string.</p>
+<h3 id="design-choices-and-tradeoffs">Design choices and tradeoffs<a class="heading-anchor" href="#design-choices-and-tradeoffs" aria-label="Link to Design choices and tradeoffs">#</a></h3>
+<div class="table-scroll"><table><thead><tr><th scope="col">Decision</th><th scope="col">Chosen approach</th><th scope="col">Benefits</th><th scope="col">Costs and limitations</th></tr></thead><tbody><tr><td>Protocol</td><td>Native Anthropic Messages passthrough</td><td>Preserves tools, beta fields, and streaming</td><td>OpenAI-compatible import is a different protocol</td></tr><tr><td>Caller tokens</td><td>Separate Code access-token and Desktop ID-token validators</td><td>Each audience has its own claim contract</td><td>Desktop ID-token acceptance is specific to this documented gateway integration</td></tr><tr><td>Backend identity</td><td>APIM managed identity</td><td>No provider keys on developer devices</td><td>APIM acts as a shared principal; Foundry does not authorize the end user</td></tr><tr><td>Budgets</td><td>API-included fragment with defaults and UPN overrides</td><td>Applies without relying on product policy selection</td><td>UPN changes can create a new balance; counters are gateway-local</td></tr><tr><td>Network</td><td>Existing approved path, optional WAF</td><td>Avoids deploying a second gateway just for this module</td><td>Public APIM must be restricted if WAF is the approved sole entry point</td></tr></tbody></table></div>
+<p>The token policy limits prompt and completion usage. Streaming counts are estimated, and concurrent calls can exceed a quota before their responses are processed. <strong>A token quota is not a hard currency budget.</strong> Cache-related usage and billed Claude Consumption Units need separate cost reconciliation.</p>
+<h3 id="architecture-guidance">Architecture guidance<a class="heading-anchor" href="#architecture-guidance" aria-label="Link to Architecture guidance">#</a></h3>
+<ul><li><a href="https://learn.microsoft.com/azure/foundry/foundry-models/how-to/use-foundry-models-claude">Deploy Claude models in Foundry</a> defines the hosting choices, deployment names, endpoint, and Entra authentication.</li><li><a href="https://learn.microsoft.com/en-us/azure/api-management/llm-token-limit-policy">APIM token limits</a> explains Anthropic support on v2 tiers and counter limits.</li><li><a href="https://learn.microsoft.com/en-us/azure/api-management/api-management-subscriptions">APIM subscriptions and policy context</a> explains why these budgets are included at API scope.</li></ul>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Optional module</dd></div><div><dt>Status</dt><dd>Optional module · Draft</dd></div><div><dt>Duration</dt><dd>4.5 hours</dd></div><div><dt>Last verified</dt><dd>2026-10-05</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="index.html"><span>Previous chapter</span><strong>Scope and outcomes</strong></a>
+        <a href="before-you-start.html"><span>Next chapter</span><strong>Before you start</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Optional module · Architecture</p>
+    </footer>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Optional module</p>
+            <h2 id="session-deck-title">Claude Code and Desktop through a Foundry AI gateway slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Optional module: Claude Code and Desktop through a Foundry AI gateway slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>

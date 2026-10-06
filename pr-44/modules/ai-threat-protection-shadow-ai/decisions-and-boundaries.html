@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#032254">
+    <meta name="description" content="Enable Defender for Cloud threat protection for AI services, deploy one Sentinel Copilot jailbreak detection and one hunting query, and record the monitor-first shadow AI sanction decisions.">
+    <title>Decisions and boundaries | Optional module: Defender for AI services, Sentinel detections, and shadow AI discovery | Practical Microsoft AI Governance</title>
+    <link rel="icon" href="../../assets/img/logo-mark.png" type="image/png">
+    <!-- impeccable-disable overused-font -- Inter is required by the RVAS visual reference. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../script.js" defer></script>
+  </head>
+  <body class="session-page module-page">
+    <!-- impeccable-disable em-dash-overuse -- The implementation guide is generated from the technical session source. -->
+    <a class="skip-link" href="#implementation-guide">Skip to implementation guide</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="../../index.html" aria-label="RVAS AI Governance home">
+          <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        </a>
+        <nav class="site-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#approach">Method</a>
+          <a href="../../index.html#readiness">Pre-work</a>
+          <a href="../../index.html#program">Sessions</a>
+          <a href="../../index.html#optional-modules" aria-current="page">Architecture-specific extensions</a>
+          <a href="../../sources.html">Sources</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" data-nav-toggle>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="chapter-header" aria-labelledby="decisions-and-boundaries">
+        <div class="session-content-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../../index.html#optional-modules">Architecture-specific extensions</a>
+            <span aria-hidden="true">/</span>
+            <a href="index.html">Optional module</a>
+          </nav>
+          <p class="chapter-header__label">Chapter 4 of 6 · Decisions and boundaries</p>
+          <h1 id="decisions-and-boundaries">Defender for AI services, Sentinel detections, and shadow AI discovery</h1>
+          <div class="chapter-header__meta" aria-label="Session details">
+            <span>Optional module · Draft</span>
+            <span>4.5 hours</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="chapter-tabs" aria-label="Module chapters">
+        <ol class="session-content-width"><li><a href="index.html"><span>1</span>Scope and outcomes</a></li><li><a href="architecture.html"><span>2</span>Architecture</a></li><li><a href="before-you-start.html"><span>3</span>Before you start</a></li><li><a href="decisions-and-boundaries.html" aria-current="page"><span>4</span>Decisions and boundaries</a></li><li><a href="implementation.html"><span>5</span>Implementation</a></li><li><a href="validation-and-operations.html"><span>6</span>Validation and operations</a></li></ol>
+      </nav>
+
+      <div class="session-reading-layout session-content-width">
+        <div class="chapter-actions">
+          <button
+            class="deck-launcher"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="session-deck-dialog"
+            data-deck-open
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="12" rx="1.5"></rect>
+              <path d="M8 20h8M12 16.5V20"></path>
+            </svg>
+            <span>Open the deck</span>
+          </button>
+          <a
+            class="implementation-files-link"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/f17af6e11723a83483bd3d113996a1629c8bcf91/modules/ai-threat-protection-shadow-ai/implementation"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.5 7.5h6l2-2h9v13h-17z"></path>
+              <path d="m9.5 11-2 2 2 2M14.5 11l2 2-2 2"></path>
+            </svg>
+            <span>View implementation files</span>
+            <span class="visually-hidden"> on GitHub (opens in a new tab)</span>
+          </a>
+        </div>
+        <aside class="service-panel" aria-labelledby="service-panel-title">
+          <h2 id="service-panel-title">Services in scope</h2>
+          <ul><li>
+                <img src="../../assets/icons/microsoft-defender-for-cloud.svg" alt="">
+                <strong>Microsoft Defender for Cloud</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-sentinel.svg" alt="">
+                <strong>Microsoft Sentinel</strong>
+              </li><li>
+                <img src="../../assets/icons/microsoft-defender-xdr.svg" alt="">
+                <strong>Microsoft Defender XDR</strong>
+              </li><li>
+                <img src="../../assets/icons/azure-ai-foundry.svg" alt="">
+                <strong>Microsoft Foundry</strong>
+              </li></ul>
+        </aside>
+        <article class="implementation-guide" id="implementation-guide" aria-label="Decisions and boundaries">
+          <p class="implementation-guide__label">Chapter 4 of 6</p>
+          <h2 id="decisions-and-stop-conditions">Decisions and stop conditions<a class="heading-anchor" href="#decisions-and-stop-conditions" aria-label="Link to Decisions and stop conditions">#</a></h2>
+<h3 id="defender-for-cloud-ai-plan">Defender for Cloud AI plan<a class="heading-anchor" href="#defender-for-cloud-ai-plan" aria-label="Link to Defender for Cloud AI plan">#</a></h3>
+<p>Decide whether to enable suspicious prompt evidence and Purview sharing. Prompt evidence helps triage alerts, but it can include redacted snippets of suspicious prompts or responses. Purview sharing requires the right Purview capability and does not cover Foundry agents through this Defender setting.</p>
+<p><strong>Stop</strong> if the privacy decision is missing, if the target subscription is wrong, if the plan is being enabled in an unsupported cloud, or if the owner treats Purview sharing as Foundry agent DLP.</p>
+<h3 id="sentinel-detections">Sentinel detections<a class="heading-anchor" href="#sentinel-detections" aria-label="Link to Sentinel detections">#</a></h3>
+<p>Deploy the Copilot jailbreak analytics rule only to the approved Sentinel workspace. The Microsoft Copilot connector must produce <code>CopilotActivity</code>. Defender for Cloud alerts need the Defender for Cloud connector or Defender XDR route before <code>defender-ai-alerts.kql</code> returns AI alert rows.</p>
+<p><strong>Stop</strong> if the workspace is not the approved workspace, if the connector path is not accepted by the SOC owner, or if the analytics rule would create incidents in a queue nobody owns.</p>
+<h3 id="shadow-ai-decisions">Shadow AI decisions<a class="heading-anchor" href="#shadow-ai-decisions" aria-label="Link to Shadow AI decisions">#</a></h3>
+<p>Use Defender for Cloud Apps Cloud Discovery. Filter <strong>Category = Generative AI</strong>, review risk, record the decision, and start with <code>enforcementMode</code> set to <code>monitor</code>. Apply Unsanctioned tags in the portal only after the owner accepts the recorded app list.</p>
+<p><strong>Stop</strong> if the app list is an export from an unmanaged source, if an app is blocked without a restore reference, or if business-critical apps are moved straight to block mode.</p>
+
+        </article>
+        <aside class="facts-panel" aria-labelledby="facts-panel-title">
+          <h2 id="facts-panel-title">Facts</h2>
+          <dl><div><dt>Identity</dt><dd>Optional module</dd></div><div><dt>Status</dt><dd>Optional module · Draft</dd></div><div><dt>Duration</dt><dd>4.5 hours</dd></div><div><dt>Last verified</dt><dd>2026-10-05</dd></div></dl>
+        </aside>
+      </div>
+
+      <nav class="session-pager session-content-width" aria-label="Chapter navigation">
+        <a href="before-you-start.html"><span>Previous chapter</span><strong>Before you start</strong></a>
+        <a href="implementation.html"><span>Next chapter</span><strong>Implementation</strong></a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <img src="../../assets/img/logo-full.png" width="90" height="32" alt="RVAP, Real Value Acceleration Program">
+        <span>Practical Microsoft AI Governance</span>
+      </div>
+      <p>Optional module · Decisions and boundaries</p>
+    </footer>
+
+    <dialog
+      class="deck-dialog"
+      id="session-deck-dialog"
+      aria-labelledby="session-deck-title"
+      data-deck-dialog
+    >
+      <div class="deck-dialog__shell">
+        <header class="deck-dialog__header">
+          <div>
+            <p>Optional module</p>
+            <h2 id="session-deck-title">Defender for AI services, Sentinel detections, and shadow AI discovery slide deck</h2>
+          </div>
+          <div class="deck-dialog__actions">
+            <a href="deck.html" target="_blank" rel="noopener">Open in a new tab</a>
+            <button type="button" aria-label="Close slide deck" data-deck-close>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="deck-dialog__frame">
+          <iframe
+            title="Optional module: Defender for AI services, Sentinel detections, and shadow AI discovery slide deck"
+            data-deck-frame
+            data-src="deck.html"
+          ></iframe>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>

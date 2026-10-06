@@ -1,0 +1,5 @@
+AppDependencies
+| where TimeGenerated >= ago(15m)
+| where tostring(Properties["ai.operation.type"]) == "tool"
+| summarize ToolFailures = countif(Success == false)
+| project ToolFailures
