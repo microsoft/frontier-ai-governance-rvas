@@ -85,8 +85,8 @@ retained_files:
     operational_purpose: "Install bounded dependencies needed by preflight, the runner, and the gate."
 sources:
   - title: "Cloud Evaluation with the Microsoft Foundry SDK"
-    url: "https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/cloud-evaluation"
-    accessed: "2026-08-26"
+    url: "https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/cloud-evaluation"
+    accessed: "2026-10-13"
     supports: "Cloud evaluations use the Foundry OpenAI-compatible Evals API, support agent targets and versioned datasets, store results in the Foundry project, and expose run and output-item results through the SDK."
   - title: "Evaluate your AI agents"
     url: "https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/evaluate-agent"

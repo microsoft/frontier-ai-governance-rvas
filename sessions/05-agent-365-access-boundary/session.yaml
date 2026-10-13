@@ -129,6 +129,6 @@ sources:
     accessed: "2026-08-28"
     supports: "Agent 365 general availability from 1 May 2026, per-user licensing, the qualifying-license prerequisite, and Microsoft's E5 recommendation."
   - title: "Search-UnifiedAuditLog"
-    url: "https://learn.microsoft.com/en-us/powershell/module/exchange/search-unifiedauditlog"
-    accessed: "2026-08-25"
+    url: "https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/search-unifiedauditlog?view=exchange-ps"
+    accessed: "2026-10-13"
     supports: "Security and Compliance PowerShell search parameters used by the saved read-only operational query."
