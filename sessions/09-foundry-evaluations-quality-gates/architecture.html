@@ -76,7 +76,7 @@
           </button>
           <a
             class="implementation-files-link"
-            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/a3d5579d545328746f1a599b45ed7814474b2c79/sessions/09-foundry-evaluations-quality-gates/implementation"
+            href="https://github.com/microsoft/frontier-ai-governance-rvas/tree/06293821c8cf9cb44c3f77dab329692db1f08c22/sessions/09-foundry-evaluations-quality-gates/implementation"
             target="_blank"
             rel="noopener"
           >
@@ -106,7 +106,7 @@
 <h3 id="design-choices-and-tradeoffs">Design choices and tradeoffs<a class="heading-anchor" href="#design-choices-and-tradeoffs" aria-label="Link to Design choices and tradeoffs">#</a></h3>
 <div class="table-scroll"><table><thead><tr><th scope="col">Decision</th><th scope="col">Chosen approach</th><th scope="col">Tradeoff</th></tr></thead><tbody><tr><td>Test data</td><td>Versioned synthetic golden set</td><td>A changed use case or risk needs a new baseline</td></tr><tr><td>Gate structure</td><td>Separate final-answer, tool-process, and safety layers</td><td>Several owners must maintain explicit floors</td></tr><tr><td>Protected material</td><td>Blocking in East US 2</td><td>The run stops if that supported path is unavailable</td></tr><tr><td>Authoritative state</td><td>Foundry keeps detail; the release platform keeps gate and promotion state</td><td>The gate reads external result records</td></tr></tbody></table></div>
 <h3 id="architecture-guidance">Architecture guidance<a class="heading-anchor" href="#architecture-guidance" aria-label="Link to Architecture guidance">#</a></h3>
-<ul><li><a href="https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/cloud-evaluation">Cloud Evaluation with the Microsoft Foundry SDK</a></li><li><a href="https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/evaluate-agent">Evaluate your AI agents</a></li><li><a href="https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-regions-limits-virtual-network">Evaluation regions, limits, and virtual networks</a></li></ul>
+<ul><li><a href="https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/cloud-evaluation">Cloud Evaluation with the Microsoft Foundry SDK</a></li><li><a href="https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/evaluate-agent">Evaluate your AI agents</a></li><li><a href="https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-regions-limits-virtual-network">Evaluation regions, limits, and virtual networks</a></li></ul>
 
         </article>
         <aside class="facts-panel" aria-labelledby="facts-panel-title">
