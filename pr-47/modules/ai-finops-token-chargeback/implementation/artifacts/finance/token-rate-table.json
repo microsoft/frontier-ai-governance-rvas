@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "implementationModule": "ai-finops-token-chargeback",
+  "implementationSession": "optional-module-ai-finops-token-chargeback",
+  "currency": "__REQUIRED_BILLING_CURRENCY__",
+  "rateBasis": "per-1000-tokens",
+  "effectiveDate": "__REQUIRED_RATE_EFFECTIVE_DATE__",
+  "financeApprovalReference": "__REQUIRED_FINANCE_APPROVED_RATE_SOURCE__",
+  "owner": "__REQUIRED_RATE_OWNER_ROLE__",
+  "modelRates": [
+    {
+      "modelAlias": "__REQUIRED_MODEL_ALIAS__",
+      "inputPerThousand": "__REQUIRED_INPUT_TOKEN_RATE__",
+      "outputPerThousand": "__REQUIRED_OUTPUT_TOKEN_RATE__",
+      "cachedInputPerThousand": "__REQUIRED_CACHED_INPUT_TOKEN_RATE_OR_NA__",
+      "notes": "__REQUIRED_RATE_NOTES_OR_NA__"
+    }
+  ],
+  "reconciliation": {
+    "billedCostSource": "Microsoft Cost Management",
+    "tokenUsageSource": "API Management gateway logs and Application Insights token metrics",
+    "cadence": "__REQUIRED_RECONCILIATION_CADENCE__"
+  }
+}

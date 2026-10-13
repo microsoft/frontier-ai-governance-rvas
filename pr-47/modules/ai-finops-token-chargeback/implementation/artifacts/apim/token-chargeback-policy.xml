@@ -1,0 +1,41 @@
+<!--
+Source: https://learn.microsoft.com/en-us/azure/api-management/llm-emit-token-metric-policy
+Source: https://learn.microsoft.com/en-us/azure/api-management/llm-token-limit-policy
+Purpose: Emit low-cardinality token metrics for chargeback and apply a per-product token quota.
+-->
+<policies>
+  <inbound>
+    <base />
+    <set-variable name="chargebackCostCenter" value="unmapped-product" />
+    <set-variable name="chargebackConsumer" value="@(context.Subscription != null ? context.Subscription.Id : &quot;no-subscription&quot;)" />
+    <set-variable name="chargebackModelRoute" value="__REQUIRED_MODEL_ROUTE_ALIAS__" />
+    <choose>
+      <when condition="@(context.Product != null &amp;&amp; context.Product.Id == &quot;__REQUIRED_APIM_PRODUCT_ID__&quot;)">
+        <set-variable name="chargebackCostCenter" value="__REQUIRED_COST_CENTER__" />
+        <llm-token-limit counter-key="@(context.Product.Id)"
+          tokens-per-minute="__REQUIRED_TOKENS_PER_MINUTE__"
+          token-quota="__REQUIRED_MONTHLY_TOKEN_QUOTA__"
+          token-quota-period="Monthly"
+          estimate-prompt-tokens="false"
+          remaining-quota-tokens-header-name="x-ai-finops-remaining-token-quota"
+          retry-after-header-name="Retry-After" />
+      </when>
+    </choose>
+    <llm-emit-token-metric namespace="ai-finops-chargeback">
+      <dimension name="CostCenter" value="@((string)context.Variables[&quot;chargebackCostCenter&quot;])" />
+      <dimension name="Consumer" value="@((string)context.Variables[&quot;chargebackConsumer&quot;])" />
+      <dimension name="Product" value="@(context.Product != null ? context.Product.Id : &quot;no-product&quot;)" />
+      <dimension name="API" value="@(context.Api.Id)" />
+      <dimension name="ModelRoute" value="@((string)context.Variables[&quot;chargebackModelRoute&quot;])" />
+    </llm-emit-token-metric>
+  </inbound>
+  <backend>
+    <base />
+  </backend>
+  <outbound>
+    <base />
+  </outbound>
+  <on-error>
+    <base />
+  </on-error>
+</policies>

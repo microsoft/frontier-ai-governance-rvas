@@ -1,0 +1,66 @@
+{
+  "recordVersion": 1,
+  "recordStatus": "__REQUIRED_RECORD_STATUS__",
+  "approvedImplementationScope": {
+    "scopeReference": "__REQUIRED_APPROVED_SCOPE__",
+    "environment": "__REQUIRED_ENVIRONMENT__",
+    "changeReference": "__REQUIRED_CHANGE_REFERENCE__"
+  },
+  "apiManagement": {
+    "instanceName": "__REQUIRED_APIM_INSTANCE__",
+    "tier": "__REQUIRED_APIM_TIER__",
+    "deploymentModel": "__REQUIRED_APIM_DEPLOYMENT_MODEL__"
+  },
+  "targetBackend": {
+    "type": "__REQUIRED_TARGET_BACKEND_TYPE__",
+    "implementationVariant": "__REQUIRED_IMPLEMENTATION_VARIANT__",
+    "endpointReference": "__REQUIRED_APPROVED_ENDPOINT_REFERENCE__"
+  },
+  "ingress": {
+    "pattern": "__REQUIRED_INGRESS_PATTERN__",
+    "clientIdentity": "__REQUIRED_CLIENT_IDENTITY__",
+    "backendIdentity": "__REQUIRED_BACKEND_IDENTITY__",
+    "backendRoleState": "__REQUIRED_BACKEND_ROLE_STATE__"
+  },
+  "network": {
+    "inboundPath": "__REQUIRED_INBOUND_NETWORK_PATH__",
+    "backendPath": "__REQUIRED_BACKEND_NETWORK_PATH__",
+    "privateDnsState": "__REQUIRED_PRIVATE_DNS_STATE__"
+  },
+  "contentSafety": {
+    "decision": "__REQUIRED_CONTENT_SAFETY_DECISION__",
+    "backendReference": "__REQUIRED_CONTENT_SAFETY_REFERENCE__"
+  },
+  "telemetry": {
+    "sink": "__REQUIRED_TELEMETRY_SINK__",
+    "bodyCapturePolicy": "__REQUIRED_TELEMETRY_BODY_POLICY__"
+  },
+  "controls": {
+    "requestLimit": "__REQUIRED_REQUEST_LIMIT__",
+    "tokenLimitDecision": "__REQUIRED_TOKEN_LIMIT_DECISION__",
+    "safetyPolicy": "__REQUIRED_SAFETY_POLICY__",
+    "routingDecision": "__REQUIRED_ROUTING_DECISION__",
+    "restoreDecision": "__REQUIRED_RESTORE_DECISION__"
+  },
+  "owners": {
+    "apiProduct": "__REQUIRED_API_PRODUCT_OWNER__",
+    "identity": "__REQUIRED_IDENTITY_OWNER__",
+    "network": "__REQUIRED_NETWORK_OWNER__",
+    "safety": "__REQUIRED_SAFETY_OWNER__",
+    "operations": "__REQUIRED_OPERATIONS_OWNER__",
+    "delivery": "__REQUIRED_DELIVERY_OWNER__"
+  },
+  "readinessGaps": [
+    {
+      "id": "complete-design-record",
+      "status": "open",
+      "description": "__REQUIRED_READINESS_GAP_DESCRIPTION__",
+      "owner": "__REQUIRED_GAP_OWNER__",
+      "resolution": "__REQUIRED_GAP_RESOLUTION__"
+    }
+  ],
+  "approval": {
+    "designApprover": "__REQUIRED_DESIGN_APPROVER__",
+    "approvalReference": "__REQUIRED_CHANGE_REFERENCE__"
+  }
+}

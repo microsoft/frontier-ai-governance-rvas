@@ -1,0 +1,28 @@
+{
+  "implementationSession": "optional-module-ai-threat-protection-shadow-ai",
+  "targetScopeAlias": "__REQUIRED_TARGET_SCOPE_ALIAS__",
+  "sourceSystem": "Microsoft Defender for Cloud Apps",
+  "category": "Generative AI",
+  "changeMode": "monitor-first",
+  "discoveryPolicy": {
+    "policyName": "__REQUIRED_SHADOW_AI_DISCOVERY_POLICY_NAME__",
+    "policyOwner": "__REQUIRED_SHADOW_AI_MONITORING_OWNER__",
+    "appliesTo": "All continuous reports",
+    "reviewCadence": "monthly"
+  },
+  "sanctionDecisions": [
+    {
+      "appName": "__REQUIRED_GENERATIVE_AI_APP_NAME__",
+      "riskReviewReference": "__REQUIRED_RISK_REVIEW_REFERENCE__",
+      "decision": "__REQUIRED_SANCTION_OR_UNSANCTION__",
+      "tagToApply": "__REQUIRED_SANCTION_TAG__",
+      "enforcementMode": "monitor",
+      "blockingOwner": "__REQUIRED_BLOCKING_OWNER__",
+      "restoreReference": "__REQUIRED_SHADOW_AI_RESTORE_REFERENCE__"
+    }
+  ],
+  "allowedTags": [
+    "Sanctioned",
+    "Unsanctioned"
+  ]
+}
