@@ -19,9 +19,21 @@ network:
     - ai.azure.com
     - github
     - aka.ms
+    - api.fabric.microsoft.com
+    - approvedhost
+    - azureapicenter.net
+    - claude.com
+    - code.claude.com
+    - eurlex.europa.eu
+    - eur-lex.europa.eu
+    - login.microsoftonline.com
+    - management.azure.com
+    - msblogs.thesourcemediaassets.com
     - modelcontextprotocol.io
     - owasp.org
     - nvlpubs.nist.gov
+    - portal.azure.com
+    - sts.windows.net
     - fonts
 
 tools:
