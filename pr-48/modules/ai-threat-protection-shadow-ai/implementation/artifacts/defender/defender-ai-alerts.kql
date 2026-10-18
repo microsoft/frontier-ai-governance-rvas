@@ -1,0 +1,26 @@
+// Source: https://learn.microsoft.com/en-us/azure/defender-for-cloud/alerts-ai-workloads
+// Use this query for reporting after Defender for Cloud AI alerts flow to the Sentinel workspace.
+let DefenderAIAlertTypes = dynamic([
+  "AI.Azure_CredentialTheftAttempt",
+  "AI.Azure_Jailbreak.ContentFiltering.BlockedAttempt",
+  "AI.Azure_Jailbreak.ContentFiltering.DetectedAttempt",
+  "AI.Azure_MaliciousUrl.ModelResponse",
+  "AI.Azure_MaliciousUrl.UnknownSource",
+  "AI.Azure_MaliciousUrl.UserPrompt",
+  "AI.Azure_AccessFromSuspiciousUserAgent",
+  "AI.Azure_ASCIISmuggling",
+  "AI.Azure_AccessFromAnonymizedIP",
+  "AI.Azure_AccessFromSuspiciousIP",
+  "AI.Azure_DOWDuplicateRequests",
+  "AI.Azure_DOWVolumeAnomaly",
+  "AI.Azure_AccessAnomaly",
+  "AI.Azure_AnomalousOperation.InitialAccess",
+  "AI.Azure_AnomalousToolInvocation",
+  "AI.Azure_LLMReconnaissance",
+  "AI.AIModelScan_MalwareDetected"
+]);
+SecurityAlert
+| where TimeGenerated >= ago(30d)
+| where AlertType in (DefenderAIAlertTypes) or AlertType startswith "AI.Azure_"
+| summarize Alerts = count(), LatestAlert = max(TimeGenerated), Resources = make_set(ResourceId, 25) by AlertType, AlertName, AlertSeverity
+| order by Alerts desc, LatestAlert desc
