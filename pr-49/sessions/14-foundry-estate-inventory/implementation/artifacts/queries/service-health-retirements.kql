@@ -1,0 +1,21 @@
+ServiceHealthResources
+| where type =~ "microsoft.resourcehealth/events"
+| extend
+    eventType = tostring(properties.EventType),
+    eventSubType = tostring(properties.EventSubType),
+    status = tostring(properties.Status),
+    trackingId = tostring(properties.TrackingId),
+    title = tostring(properties.Title),
+    summary = tostring(properties.Summary),
+    eventDate = todatetime(tolong(properties.ImpactMitigationTime))
+| where eventType == "HealthAdvisory" and eventSubType == "Retirement"
+| extend searchText = tolower(strcat(title, " ", summary))
+| where searchText has_any (
+    "azure openai",
+    "microsoft foundry",
+    "cognitive services",
+    "ai services",
+    "machine learning"
+  )
+| project trackingId, title, summary, status, eventDate, subscriptionId
+| order by eventDate asc

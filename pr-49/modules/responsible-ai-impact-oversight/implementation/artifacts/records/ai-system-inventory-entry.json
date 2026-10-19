@@ -1,0 +1,40 @@
+{
+  "implementationSession": "optional-module-responsible-ai-impact-oversight",
+  "targetScope": "one-approved-foundry-agent",
+  "system": {
+    "systemId": "__REQUIRED_AI_SYSTEM_ID__",
+    "systemName": "__REQUIRED_AI_SYSTEM_NAME__",
+    "businessUnit": "__REQUIRED_BUSINESS_UNIT__",
+    "systemType": "agent",
+    "autonomyLevel": "approval-required",
+    "foundryProjectReference": "__REQUIRED_FOUNDRY_PROJECT_REFERENCE__",
+    "foundryAgentReference": "__REQUIRED_FOUNDRY_AGENT_REFERENCE__",
+    "agentVersionReference": "__REQUIRED_AGENT_VERSION_REFERENCE__",
+    "useCaseSummary": "__REQUIRED_USE_CASE_SUMMARY__"
+  },
+  "euAiAct": {
+    "role": "__REQUIRED_AI_ACT_ROLE__",
+    "riskClass": "__REQUIRED_AI_ACT_RISK_CLASS__",
+    "annexIIIArea": "__REQUIRED_ANNEX_III_AREA__",
+    "article5Screening": {
+      "outcome": "__REQUIRED_ARTICLE_5_SCREENING_OUTCOME__",
+      "reviewerRole": "__REQUIRED_ARTICLE_5_REVIEWER_ROLE__"
+    },
+    "article50Obligations": [
+      "__REQUIRED_ARTICLE_50_OBLIGATIONS__"
+    ],
+    "friaRequired": false
+  },
+  "owners": {
+    "productOwner": "__REQUIRED_PRODUCT_OWNER_ROLE__",
+    "technicalOwner": "__REQUIRED_TECHNICAL_OWNER_ROLE__",
+    "raiChampion": "__REQUIRED_RAI_CHAMPION_ROLE__"
+  },
+  "records": {
+    "impactAssessment": "records/impact-assessment.md",
+    "transparencyNote": "records/transparency-note.md",
+    "oversightDecision": "oversight/oversight-decision.json",
+    "nextReviewDate": "__REQUIRED_REVIEW_DATE__"
+  }
+}
+

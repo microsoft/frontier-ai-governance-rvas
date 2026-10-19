@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Responsible AI system inventory entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "implementationSession",
+    "targetScope",
+    "system",
+    "euAiAct",
+    "owners",
+    "records"
+  ],
+  "properties": {
+    "implementationSession": {
+      "const": "optional-module-responsible-ai-impact-oversight"
+    },
+    "targetScope": {
+      "const": "one-approved-foundry-agent"
+    },
+    "system": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "systemId",
+        "systemName",
+        "businessUnit",
+        "systemType",
+        "autonomyLevel",
+        "foundryProjectReference",
+        "foundryAgentReference",
+        "agentVersionReference",
+        "useCaseSummary"
+      ],
+      "properties": {
+        "systemId": { "type": "string", "minLength": 1 },
+        "systemName": { "type": "string", "minLength": 1 },
+        "businessUnit": { "type": "string", "minLength": 1 },
+        "systemType": {
+          "enum": [
+            "predictive-ml",
+            "generative-app",
+            "agent",
+            "multi-agent",
+            "copilot-extension",
+            "embedded-third-party"
+          ]
+        },
+        "autonomyLevel": {
+          "enum": [
+            "alert-only",
+            "hand-off-supported",
+            "hand-off-required",
+            "review-before-effect",
+            "approval-required"
+          ]
+        },
+        "foundryProjectReference": { "type": "string", "minLength": 1 },
+        "foundryAgentReference": { "type": "string", "minLength": 1 },
+        "agentVersionReference": { "type": "string", "minLength": 1 },
+        "useCaseSummary": { "type": "string", "minLength": 1 }
+      }
+    },
+    "euAiAct": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "riskClass",
+        "annexIIIArea",
+        "article5Screening",
+        "article50Obligations",
+        "friaRequired"
+      ],
+      "properties": {
+        "role": {
+          "enum": [
+            "provider",
+            "deployer",
+            "provider-and-deployer",
+            "distributor-importer",
+            "downstream-provider"
+          ]
+        },
+        "riskClass": {
+          "enum": [
+            "prohibited",
+            "high-risk-annex-I",
+            "high-risk-annex-III",
+            "annex-III-exempt-art-6-3",
+            "transparency-art-50",
+            "gpai-based-system",
+            "minimal"
+          ]
+        },
+        "annexIIIArea": {
+          "enum": [
+            "biometrics",
+            "critical-infrastructure",
+            "education",
+            "employment",
+            "essential-services",
+            "law-enforcement",
+            "migration",
+            "justice-democracy",
+            "n/a"
+          ]
+        },
+        "article5Screening": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [ "outcome", "reviewerRole" ],
+          "properties": {
+            "outcome": {
+              "enum": [ "passed", "flagged-resolved", "blocked" ]
+            },
+            "reviewerRole": { "type": "string", "minLength": 1 }
+          }
+        },
+        "article50Obligations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "interaction-disclosure",
+              "synthetic-content-marking",
+              "emotion-biometric-notice",
+              "deepfake-label",
+              "ai-text-public-interest-label",
+              "none"
+            ]
+          }
+        },
+        "friaRequired": { "type": "boolean" }
+      }
+    },
+    "owners": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "productOwner",
+        "technicalOwner",
+        "raiChampion"
+      ],
+      "properties": {
+        "productOwner": { "type": "string", "minLength": 1 },
+        "technicalOwner": { "type": "string", "minLength": 1 },
+        "raiChampion": { "type": "string", "minLength": 1 }
+      }
+    },
+    "records": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "impactAssessment",
+        "transparencyNote",
+        "oversightDecision",
+        "nextReviewDate"
+      ],
+      "properties": {
+        "impactAssessment": { "const": "records/impact-assessment.md" },
+        "transparencyNote": { "const": "records/transparency-note.md" },
+        "oversightDecision": { "const": "oversight/oversight-decision.json" },
+        "nextReviewDate": {
+          "type": "string",
+          "pattern": "^20[0-9]{2}-[0-9]{2}-[0-9]{2}$"
+        }
+      }
+    }
+  }
+}
+

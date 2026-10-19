@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "implementationSession": "optional-module-ai-services-guardrail-policy",
+  "targetScopeResourceId": "__REQUIRED_TARGET_SCOPE_RESOURCE_ID__",
+  "deploymentLocation": "__REQUIRED_DEPLOYMENT_LOCATION__",
+  "initiativeName": "rvas-ai-services-guardrails",
+  "assignmentName": "rvas-ai-services-guardrails",
+  "owners": {
+    "platformPolicyOwner": "__REQUIRED_PLATFORM_POLICY_OWNER__",
+    "complianceReviewOwner": "__REQUIRED_COMPLIANCE_REVIEW_OWNER__",
+    "promotionAuthority": "__REQUIRED_PROMOTION_AUTHORITY__"
+  },
+  "changeControl": {
+    "changeRecordReference": "__REQUIRED_CHANGE_RECORD_REFERENCE__",
+    "restoreReference": "__REQUIRED_RESTORE_REFERENCE__"
+  },
+  "effects": {
+    "networkAccess": "Audit",
+    "localAuthentication": "Audit",
+    "deploymentSku": "Audit",
+    "contentFilterMinimum": "Audit",
+    "diagnosticLogs": "AuditIfNotExists",
+    "enforcementMode": "DoNotEnforce"
+  },
+  "dataResidency": {
+    "disallowedDeploymentSkus": [
+      "GlobalStandard",
+      "GlobalProvisionedManaged",
+      "GlobalBatch"
+    ],
+    "decisionOwner": "__REQUIRED_DATA_RESIDENCY_OWNER__"
+  },
+  "contentFilters": {
+    "minimumPromptSeverities": [
+      "Medium",
+      "High"
+    ],
+    "minimumCompletionSeverities": [
+      "Medium",
+      "High"
+    ],
+    "promptMustBeEnabled": [
+      "true"
+    ],
+    "promptMustBlock": [
+      "true"
+    ],
+    "completionMustBeEnabled": [
+      "true"
+    ],
+    "completionMustBlock": [
+      "true"
+    ]
+  },
+  "diagnosticLogs": {
+    "logAnalyticsWorkspaceResourceId": "__REQUIRED_LOG_ANALYTICS_WORKSPACE_RESOURCE_ID__",
+    "diagnosticSettingName": "setByPolicy-LogAnalytics",
+    "categoryGroup": "audit",
+    "resourceLocationList": [
+      "__REQUIRED_ALLOWED_RESOURCE_LOCATION__"
+    ],
+    "remediationRoleStatus": "__REQUIRED_DIAGNOSTIC_REMEDIATION_ROLE_STATUS__"
+  },
+  "promotion": {
+    "approvedPromotionState": "audit-stage",
+    "sameAssignmentRequired": true,
+    "policyStateReviewStatus": "__REQUIRED_POLICY_STATE_REVIEW_STATUS__"
+  }
+}

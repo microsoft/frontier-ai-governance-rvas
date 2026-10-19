@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "implementationModule": "ai-finops-token-chargeback",
+  "implementationSession": "optional-module-ai-finops-token-chargeback",
+  "targetScope": "__REQUIRED_AI_FINOPS_TARGET_SCOPE_RESOURCE_ID__",
+  "approvedSubscriptionId": "__REQUIRED_AZURE_SUBSCRIPTION_ID__",
+  "costOwner": "__REQUIRED_COST_OWNER_ROLE__",
+  "policy": {
+    "assignmentPrefix": "__REQUIRED_POLICY_ASSIGNMENT_PREFIX__",
+    "assignmentIdentityLocation": "__REQUIRED_POLICY_ASSIGNMENT_IDENTITY_LOCATION__",
+    "requiredTags": [
+      "CostCenter",
+      "AIUseCase",
+      "Environment",
+      "Owner"
+    ],
+    "remediationPlanReference": "__REQUIRED_POLICY_REMEDIATION_PLAN_REFERENCE__"
+  },
+  "budget": {
+    "budgetName": "__REQUIRED_AI_BUDGET_NAME__",
+    "resourceGroupFilters": [
+      "__REQUIRED_AI_RESOURCE_GROUP_NAME__"
+    ],
+    "meterCategoryFilters": [
+      "__REQUIRED_AI_METER_CATEGORY__"
+    ],
+    "actionGroupResourceId": "__REQUIRED_BUDGET_ACTION_GROUP_RESOURCE_ID__",
+    "budgetDoesNotStopResources": true
+  },
+  "gateway": {
+    "apimServiceName": "__REQUIRED_APIM_SERVICE_NAME__",
+    "gatewayPolicyOwner": "__REQUIRED_GATEWAY_POLICY_OWNER_ROLE__",
+    "applicationInsightsResourceId": "__REQUIRED_APPLICATION_INSIGHTS_RESOURCE_ID__",
+    "logAnalyticsWorkspaceResourceId": "__REQUIRED_LOG_ANALYTICS_WORKSPACE_RESOURCE_ID__",
+    "customMetricNamespace": "ai-finops-chargeback",
+    "customMetricDimensionCount": 5,
+    "userLevelMetricDimensionAllowed": false,
+    "clientSuppliedChargebackDimensionsAllowed": false,
+    "dimensionMapping": {
+      "costCenterSource": "approvedProductMapping",
+      "consumerSource": "context.Subscription.Id",
+      "modelRouteSource": "approvedStaticAlias",
+      "unknownCostCenter": "__REQUIRED_COST_CENTER_FALLBACK__",
+      "modelRouteAlias": "__REQUIRED_MODEL_ROUTE_ALIAS__"
+    },
+    "products": [
+      {
+        "productId": "__REQUIRED_APIM_PRODUCT_ID__",
+        "costCenter": "__REQUIRED_COST_CENTER__",
+        "monthlyTokenQuota": "__REQUIRED_MONTHLY_TOKEN_QUOTA__",
+        "tokensPerMinute": "__REQUIRED_TOKENS_PER_MINUTE__"
+      }
+    ]
+  },
+  "chargeback": {
+    "queryOwner": "__REQUIRED_CHARGEBACK_QUERY_OWNER_ROLE__",
+    "rateTablePath": "finance/token-rate-table.json",
+    "queryPath": "queries/token-chargeback.kql",
+    "reconciliationCadence": "__REQUIRED_RECONCILIATION_CADENCE__",
+    "restoreReference": "__REQUIRED_RESTORE_REFERENCE__"
+  }
+}

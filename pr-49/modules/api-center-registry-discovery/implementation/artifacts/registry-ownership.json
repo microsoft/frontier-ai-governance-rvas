@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "implementationModule": "api-center-registry-discovery",
+  "implementationSession": "api-center-registry-discovery",
+  "approvedScope": "__REQUIRED_APPROVED_API_CENTER_SCOPE__",
+  "developerAccess": {
+    "groupAlias": "__REQUIRED_DEVELOPER_GROUP_ALIAS__",
+    "authenticationMode": "MicrosoftEntraID",
+    "azureRole": "Azure API Center Data Reader",
+    "roleAssignmentScopeAlias": "__REQUIRED_API_CENTER_RESOURCE_SCOPE_ALIAS__",
+    "anonymousAccess": false
+  },
+  "visibility": {
+    "configurationSurface": "Azure portal > API Center > Consumption > Data API settings",
+    "appliesTo": "All portal users and related consumption features that use the API Center data plane API",
+    "builtInConditions": [
+      {
+        "property": "API type",
+        "operator": "equals",
+        "value": "MCP"
+      },
+      {
+        "property": "Lifecycle stage",
+        "operator": "equals",
+        "value": "Production"
+      }
+    ],
+    "customMetadataIsAuthorization": false,
+    "perUserVisibility": false
+  },
+  "approvedServers": [
+    {
+      "name": "__REQUIRED_APPROVED_MCP_SERVER_NAME__",
+      "expectedTransport": "__REQUIRED_MCP_TRANSPORT__",
+      "lifecycleStage": "Production",
+      "serverOwnerRole": "__REQUIRED_SERVER_OWNER_ROLE__",
+      "runtimeOwnerRole": "__REQUIRED_RUNTIME_OWNER_ROLE__",
+      "securityOwnerRole": "__REQUIRED_SECURITY_OWNER_ROLE__",
+      "reviewDate": "__REQUIRED_DISCOVERY_REVIEW_DATE__"
+    }
+  ],
+  "restore": {
+    "changeOwnerRole": "__REQUIRED_API_CENTER_CONFIGURATION_OWNER_ROLE__",
+    "previousVisibilityConfigurationReference": "__REQUIRED_PREVIOUS_VISIBILITY_CONFIG_REFERENCE__",
+    "clientConfigurationOwnerRole": "__REQUIRED_CLIENT_CONFIGURATION_OWNER_ROLE__"
+  }
+}
