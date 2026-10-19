@@ -1,8 +1,0 @@
-// Source: https://github.com/Azure/Azure-Sentinel/blob/master/Solutions/Microsoft%20Copilot/Hunting%20Queries/CopilotExternalIPAccess.yaml
-// Tune the starter private-range filter to the customer's approved egress ranges before enabling recurring use.
-CopilotActivity
-| where isnotempty(SrcIpAddr)
-| where SrcIpAddr !startswith "10."
-  and SrcIpAddr !startswith "172."
-  and SrcIpAddr !startswith "192.168"
-| project TimeGenerated, ActorName, ActorUserId, SrcIpAddr, RecordType
