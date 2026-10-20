@@ -20,7 +20,6 @@ network:
     - github
     - aka.ms
     - api.fabric.microsoft.com
-    - approvedhost
     - azureapicenter.net
     - claude.com
     - code.claude.com
