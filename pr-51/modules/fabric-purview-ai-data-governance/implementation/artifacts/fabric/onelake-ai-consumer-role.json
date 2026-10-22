@@ -1,0 +1,78 @@
+{
+  "implementationSession": "optional-module-fabric-purview-ai-data-governance",
+  "targetScope": "one-approved-fabric-ai-grounding-lakehouse",
+  "tenantId": "__REQUIRED_TARGET_TENANT_ID__",
+  "fabric": {
+    "workspaceId": "__REQUIRED_FABRIC_WORKSPACE_ID__",
+    "lakehouseItemId": "__REQUIRED_FABRIC_LAKEHOUSE_ITEM_ID__",
+    "lakehouseName": "__REQUIRED_GOLD_LAKEHOUSE_NAME__",
+    "currentDataAccessRoleEtag": "__REQUIRED_CURRENT_DATA_ACCESS_ROLE_ETAG__"
+  },
+  "accessBoundary": {
+    "dataAccessOwner": "__REQUIRED_DATA_ACCESS_OWNER__",
+    "aiConsumerGroupObjectId": "__REQUIRED_AI_CONSUMER_GROUP_OBJECT_ID__",
+    "aiConsumerGroupName": "__REQUIRED_AI_CONSUMER_GROUP_NAME__",
+    "restrictedConsumerGroupObjectId": "__REQUIRED_RESTRICTED_CONSUMER_GROUP_OBJECT_ID__",
+    "restrictedPrincipalsRemovedFromDefaultReader": [
+      "__REQUIRED_RESTRICTED_CONSUMER_GROUP_OBJECT_ID__"
+    ],
+    "permittedConsumerAlias": "__REQUIRED_PERMITTED_CONSUMER_ALIAS__",
+    "restrictedConsumerAlias": "__REQUIRED_RESTRICTED_CONSUMER_ALIAS__"
+  },
+  "rolePayload": {
+    "value": [
+      {
+        "name": "AiGroundingConsumerRead",
+        "decisionRules": [
+          {
+            "effect": "Permit",
+            "permission": [
+              {
+                "attributeName": "Path",
+                "attributeValueIncludedIn": [
+                  "/Tables/__REQUIRED_GOLD_TABLE_NAME__"
+                ]
+              },
+              {
+                "attributeName": "Action",
+                "attributeValueIncludedIn": [
+                  "Read"
+                ]
+              }
+            ],
+            "constraints": {
+              "columns": [
+                {
+                  "tablePath": "/Tables/__REQUIRED_GOLD_TABLE_NAME__",
+                  "columnNames": [
+                    "__REQUIRED_ALLOWED_COLUMN_NAME__"
+                  ],
+                  "columnEffect": "Permit",
+                  "columnAction": [
+                    "Read"
+                  ]
+                }
+              ],
+              "rows": [
+                {
+                  "tablePath": "/Tables/__REQUIRED_GOLD_TABLE_NAME__",
+                  "value": "__REQUIRED_RLS_PREDICATE__"
+                }
+              ]
+            }
+          }
+        ],
+        "members": {
+          "microsoftEntraMembers": [
+            {
+              "objectId": "__REQUIRED_AI_CONSUMER_GROUP_OBJECT_ID__",
+              "objectType": "Group",
+              "tenantId": "__REQUIRED_TARGET_TENANT_ID__"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+

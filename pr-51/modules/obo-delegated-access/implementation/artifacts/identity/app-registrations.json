@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "authorityModel": "signed-in-user-obo",
+  "client": {
+    "applicationObjectId": "__REQUIRED_CLIENT_APP_OBJECT_ID__",
+    "middleTierDelegatedScopeId": "__REQUIRED_MIDDLE_TIER_SCOPE_ID__",
+    "purpose": "Obtain a user-delegated token for the middle-tier audience."
+  },
+  "middleTier": {
+    "applicationObjectId": "__REQUIRED_MIDDLE_TIER_APP_OBJECT_ID__",
+    "identifierUri": "__REQUIRED_MIDDLE_TIER_AUDIENCE__",
+    "delegatedScope": {
+      "id": "__REQUIRED_MIDDLE_TIER_SCOPE_ID__",
+      "value": "access_as_user",
+      "adminConsentDisplayName": "Access the middle tier as the signed-in user",
+      "adminConsentDescription": "Allows the approved client to call the middle tier as the signed-in user.",
+      "userConsentDisplayName": "Access the middle tier",
+      "userConsentDescription": "Allows this application to call the middle tier as you.",
+      "type": "User"
+    },
+    "downstreamDelegatedScopeId": "__REQUIRED_DOWNSTREAM_SCOPE_ID__",
+    "certificateBinding": "../identity/key-vault-certificate-binding.json"
+  },
+  "downstreamApi": {
+    "applicationObjectId": "__REQUIRED_DOWNSTREAM_APP_OBJECT_ID__",
+    "identifierUri": "__REQUIRED_DOWNSTREAM_AUDIENCE__",
+    "delegatedScope": {
+      "id": "__REQUIRED_DOWNSTREAM_SCOPE_ID__",
+      "value": "Policy.Read",
+      "purpose": "Read the approved resource within the signed-in user's downstream authority."
+    }
+  },
+  "consent": {
+    "owner": "__REQUIRED_IDENTITY_OWNER__",
+    "grantType": "delegated",
+    "scope": "Policy.Read"
+  }
+}
